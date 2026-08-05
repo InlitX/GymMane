@@ -4,7 +4,7 @@
 
 <br/>
 
-<img src="assets/icon/ic_1024.png" width="94" alt="GymMane" />
+<img src="screenshots/icon.png" width="94" alt="GymMane" />
 
 # GymMane
 
