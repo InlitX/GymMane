@@ -1,10 +1,10 @@
 <div align="center">
 
-<img src="screenshots/banner-en.png" alt="GymMane — Lift. Log it. Grow." width="860" />
+<img src="docs/screenshots/banner-en.png" alt="GymMane — Lift. Log it. Grow." width="860" />
 
 <br/>
 
-<img src="screenshots/icon.png" width="94" alt="GymMane" />
+<img src="docs/screenshots/icon.png" width="94" alt="GymMane" />
 
 # GymMane
 
@@ -21,7 +21,7 @@ and watch your numbers move.
   <img alt="Android 7.0+" src="https://img.shields.io/badge/Android-7.0%2B-3DDC84?style=flat&logo=android&logoColor=white" />
   <img alt="License GPLv3" src="https://img.shields.io/badge/License-GPLv3-C2410C?style=flat&logo=gnu&logoColor=white" />
   <img alt="No ads, no tracking" src="https://img.shields.io/badge/No%20ads%20%C2%B7%20No%20tracking-22C55E?style=flat&logo=shield&logoColor=white" />
-  <a href="https://github.com/InlitX/GymMan/stargazers"><img alt="Stars" src="https://img.shields.io/github/stars/InlitX/GymMan?style=flat&color=D9A184&labelColor=181717&logo=github" /></a>
+  <a href="https://github.com/InlitX/GymMane/stargazers"><img alt="Stars" src="https://img.shields.io/github/stars/InlitX/GymMane?style=flat&color=D9A184&labelColor=181717&logo=github" /></a>
 </p>
 
 <sub>
@@ -43,13 +43,13 @@ and watch your numbers move.
 
 <div align="center">
 
-<img src="screenshots/store/en/01-hero.jpg" width="250" alt="Lift. Log it. Grow." />
-<img src="screenshots/store/en/02-train.jpg" width="250" alt="Tap the muscle, get the session" />
-<img src="screenshots/store/en/03-rest.jpg" width="250" alt="Tick the set, rest rings itself" />
+<img src="docs/screenshots/store/en/01-hero.jpg" width="250" alt="Lift. Log it. Grow." />
+<img src="docs/screenshots/store/en/02-train.jpg" width="250" alt="Tap the muscle, get the session" />
+<img src="docs/screenshots/store/en/03-rest.jpg" width="250" alt="Tick the set, rest rings itself" />
 
-<img src="screenshots/store/en/04-progress.jpg" width="250" alt="Progress from your own sets" />
-<img src="screenshots/store/en/05-library.jpg" width="250" alt="360+ exercises with animations" />
-<img src="screenshots/store/en/06-privacy.jpg" width="250" alt="No account. No internet. No smoke." />
+<img src="docs/screenshots/store/en/04-progress.jpg" width="250" alt="Progress from your own sets" />
+<img src="docs/screenshots/store/en/05-library.jpg" width="250" alt="360+ exercises with animations" />
+<img src="docs/screenshots/store/en/06-privacy.jpg" width="250" alt="No account. No internet. No smoke." />
 
 <br/>
 
@@ -57,20 +57,20 @@ and watch your numbers move.
 <summary><sub><b>Plain screenshots</b> — every screen, straight off the phone</sub></summary>
 <br/>
 
-<img src="screenshots/mock/01-home.png" width="215" alt="Today" />
-<img src="screenshots/mock/03-train.png" width="215" alt="Body map" />
-<img src="screenshots/mock/04-session.png" width="215" alt="Live session" />
-<img src="screenshots/mock/02-progress.png" width="215" alt="Progress" />
+<img src="docs/screenshots/mock/01-home.png" width="215" alt="Today" />
+<img src="docs/screenshots/mock/03-train.png" width="215" alt="Body map" />
+<img src="docs/screenshots/mock/04-session.png" width="215" alt="Live session" />
+<img src="docs/screenshots/mock/02-progress.png" width="215" alt="Progress" />
 
 <sub><b>Today</b> &nbsp;·&nbsp; <b>Body map</b> &nbsp;·&nbsp; <b>Live session</b> &nbsp;·&nbsp; <b>Progress</b></sub>
 
 <br/>
 <br/>
 
-<img src="screenshots/mock/05-history.png" width="215" alt="History" />
-<img src="screenshots/mock/06-library.png" width="215" alt="Library" />
-<img src="screenshots/mock/07-routines.png" width="215" alt="Routines" />
-<img src="screenshots/mock/08-settings.png" width="215" alt="Settings" />
+<img src="docs/screenshots/mock/05-history.png" width="215" alt="History" />
+<img src="docs/screenshots/mock/06-library.png" width="215" alt="Library" />
+<img src="docs/screenshots/mock/07-routines.png" width="215" alt="Routines" />
+<img src="docs/screenshots/mock/08-settings.png" width="215" alt="Settings" />
 
 <sub><b>History</b> &nbsp;·&nbsp; <b>Library</b> &nbsp;·&nbsp; <b>Routines</b> &nbsp;·&nbsp; <b>Settings</b></sub>
 
@@ -200,8 +200,8 @@ The full guide lives in **TRANSLATING.md**.
 ## Building
 
 ```bash
-git clone https://github.com/InlitX/GymMan.git
-cd GymMan
+git clone https://github.com/InlitX/GymMane.git
+cd GymMane
 flutter pub get
 flutter test
 flutter build apk --release
@@ -219,7 +219,7 @@ issue first so we can agree on the direction.
 
 <div align="center">
 
-<a href="https://github.com/InlitX/GymMan"><img src="https://img.shields.io/badge/Star%20on%20GitHub-181717?style=for-the-badge&logo=github&logoColor=white" alt="Star on GitHub" height="38" /></a>
+<a href="https://github.com/InlitX/GymMane"><img src="https://img.shields.io/badge/Star%20on%20GitHub-181717?style=for-the-badge&logo=github&logoColor=white" alt="Star on GitHub" height="38" /></a>
 &nbsp;&nbsp;
 <a href="https://ko-fi.com/inlitx"><img src="https://ko-fi.com/img/githubbutton_sm.svg" alt="Support me on Ko-fi" height="38" /></a>
 

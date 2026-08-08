@@ -1,0 +1,8 @@
+🦁 GymMane 1.0.0 — the first release
+🏋️ Interactive body map: tap a muscle, get the session
+⏱️ Rest timer with your own alarm sound, and it survives a reboot
+📊 Volume, streak, PRs, strength curves and a GitHub-style heatmap
+📚 360+ exercises with animations, plus your own
+🧮 Six calculators — 1RM, plates, BMI, macros, body fat, warm-up
+📥 Import your history from Hevy, Strong or FitNotes
+🔒 100% offline: no account, no ads, no INTERNET permission

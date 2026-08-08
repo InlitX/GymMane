@@ -1,0 +1,34 @@
+GymMane is a strength log built for the gym floor, not for a dashboard. Tap the muscles you want to train on an interactive body map, log reps and weight set by set, rest with an alarm that actually gets your attention, and read progress that comes from your own sets. Dark, fast, and completely offline.
+
+Yours, completely. No account, no ads, no subscription — and no Android INTERNET permission at all, so the app physically cannot send your training anywhere.
+
+🏋️ TRAINING
+• Interactive body map, front and back — tap what you want to train
+• A session picked for you, then edited set by set
+• Reps, weight and a rest timer with your own alarm sound
+• A live session survives a reboot — carry on where you left off
+• Routines you can reorder and schedule per weekday
+
+📊 PROGRESS
+• Volume, streak, weekly goal ring and personal records, all from your own sets
+• GitHub-style activity heatmap with per-day detail
+• Strength curves with estimated 1RM per exercise
+• Muscle split across the last 30 days
+• Bodyweight tracking with history
+
+📚 EXERCISES & TOOLS
+• 360+ exercises with animations and step-by-step instructions
+• Search, filters, favourites and your own exercises (photo, GIF or video)
+• Six calculators — 1RM, plates, BMI, calories & macros, body fat, warm-up
+• Two home-screen widgets — activity and stats
+
+💾 YOUR DATA
+• Export to CSV or a full JSON backup, and import it back
+• Import your history from Hevy, Strong or FitNotes — workouts and bodyweight
+• Delete everything in one tap
+• Dark and light themes, kg or lb, English and Spanish
+
+🔒 PRIVACY
+GymMane has no analytics, no advertising SDK and no network code. It never asks for the INTERNET permission, so there is no way for your data to leave the phone. The only outbound actions are links you tap yourself.
+
+The permissions it does ask for, and why: notifications and exact alarms for the rest timer, vibration so the alarm buzzes, and wake lock so it fires with the screen off.

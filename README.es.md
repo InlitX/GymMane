@@ -1,10 +1,10 @@
 <div align="center">
 
-<img src="screenshots/banner-es.png" alt="GymMane — Levanta. Anota. Mejora." width="860" />
+<img src="docs/screenshots/banner-es.png" alt="GymMane — Levanta. Anota. Mejora." width="860" />
 
 <br/>
 
-<img src="screenshots/icon.png" width="94" alt="GymMane" />
+<img src="docs/screenshots/icon.png" width="94" alt="GymMane" />
 
 # GymMane
 
@@ -21,7 +21,7 @@ y mira cómo se mueven tus números.
   <img alt="Android 7.0+" src="https://img.shields.io/badge/Android-7.0%2B-3DDC84?style=flat&logo=android&logoColor=white" />
   <img alt="Licencia GPLv3" src="https://img.shields.io/badge/Licencia-GPLv3-C2410C?style=flat&logo=gnu&logoColor=white" />
   <img alt="Sin anuncios, sin rastreo" src="https://img.shields.io/badge/Sin%20anuncios%20%C2%B7%20Sin%20rastreo-22C55E?style=flat&logo=shield&logoColor=white" />
-  <a href="https://github.com/InlitX/GymMan/stargazers"><img alt="Estrellas" src="https://img.shields.io/github/stars/InlitX/GymMan?style=flat&color=D9A184&labelColor=181717&logo=github" /></a>
+  <a href="https://github.com/InlitX/GymMane/stargazers"><img alt="Estrellas" src="https://img.shields.io/github/stars/InlitX/GymMane?style=flat&color=D9A184&labelColor=181717&logo=github" /></a>
 </p>
 
 <sub>
@@ -43,13 +43,13 @@ y mira cómo se mueven tus números.
 
 <div align="center">
 
-<img src="screenshots/store/es/01-hero.jpg" width="250" alt="Levanta. Anota. Mejora." />
-<img src="screenshots/store/es/02-train.jpg" width="250" alt="Toca el músculo y tienes la sesión" />
-<img src="screenshots/store/es/03-rest.jpg" width="250" alt="Marca la serie y el descanso suena solo" />
+<img src="docs/screenshots/store/es/01-hero.jpg" width="250" alt="Levanta. Anota. Mejora." />
+<img src="docs/screenshots/store/es/02-train.jpg" width="250" alt="Toca el músculo y tienes la sesión" />
+<img src="docs/screenshots/store/es/03-rest.jpg" width="250" alt="Marca la serie y el descanso suena solo" />
 
-<img src="screenshots/store/es/04-progress.jpg" width="250" alt="Progreso salido de tus propias series" />
-<img src="screenshots/store/es/05-library.jpg" width="250" alt="+360 ejercicios con animación" />
-<img src="screenshots/store/es/06-privacy.jpg" width="250" alt="Sin cuenta. Sin internet. Sin humo." />
+<img src="docs/screenshots/store/es/04-progress.jpg" width="250" alt="Progreso salido de tus propias series" />
+<img src="docs/screenshots/store/es/05-library.jpg" width="250" alt="+360 ejercicios con animación" />
+<img src="docs/screenshots/store/es/06-privacy.jpg" width="250" alt="Sin cuenta. Sin internet. Sin humo." />
 
 <br/>
 
@@ -57,20 +57,20 @@ y mira cómo se mueven tus números.
 <summary><sub><b>Capturas a pelo</b> — todas las pantallas, directas del móvil</sub></summary>
 <br/>
 
-<img src="screenshots/mock/01-home.png" width="215" alt="Inicio" />
-<img src="screenshots/mock/03-train.png" width="215" alt="Mapa del cuerpo" />
-<img src="screenshots/mock/04-session.png" width="215" alt="Sesión en directo" />
-<img src="screenshots/mock/02-progress.png" width="215" alt="Progreso" />
+<img src="docs/screenshots/mock/01-home.png" width="215" alt="Inicio" />
+<img src="docs/screenshots/mock/03-train.png" width="215" alt="Mapa del cuerpo" />
+<img src="docs/screenshots/mock/04-session.png" width="215" alt="Sesión en directo" />
+<img src="docs/screenshots/mock/02-progress.png" width="215" alt="Progreso" />
 
 <sub><b>Inicio</b> &nbsp;·&nbsp; <b>Mapa del cuerpo</b> &nbsp;·&nbsp; <b>Sesión en directo</b> &nbsp;·&nbsp; <b>Progreso</b></sub>
 
 <br/>
 <br/>
 
-<img src="screenshots/mock/05-history.png" width="215" alt="Historial" />
-<img src="screenshots/mock/06-library.png" width="215" alt="Biblioteca" />
-<img src="screenshots/mock/07-routines.png" width="215" alt="Rutinas" />
-<img src="screenshots/mock/08-settings.png" width="215" alt="Ajustes" />
+<img src="docs/screenshots/mock/05-history.png" width="215" alt="Historial" />
+<img src="docs/screenshots/mock/06-library.png" width="215" alt="Biblioteca" />
+<img src="docs/screenshots/mock/07-routines.png" width="215" alt="Rutinas" />
+<img src="docs/screenshots/mock/08-settings.png" width="215" alt="Ajustes" />
 
 <sub><b>Historial</b> &nbsp;·&nbsp; <b>Biblioteca</b> &nbsp;·&nbsp; <b>Rutinas</b> &nbsp;·&nbsp; <b>Ajustes</b></sub>
 
@@ -201,8 +201,8 @@ La guía entera está en **TRANSLATING.md**.
 ## Compilar
 
 ```bash
-git clone https://github.com/InlitX/GymMan.git
-cd GymMan
+git clone https://github.com/InlitX/GymMane.git
+cd GymMane
 flutter pub get
 flutter test
 flutter build apk --release
@@ -220,7 +220,7 @@ abre antes una issue y lo hablamos.
 
 <div align="center">
 
-<a href="https://github.com/InlitX/GymMan"><img src="https://img.shields.io/badge/Dale%20una%20estrella-181717?style=for-the-badge&logo=github&logoColor=white" alt="Dale una estrella en GitHub" height="38" /></a>
+<a href="https://github.com/InlitX/GymMane"><img src="https://img.shields.io/badge/Dale%20una%20estrella-181717?style=for-the-badge&logo=github&logoColor=white" alt="Dale una estrella en GitHub" height="38" /></a>
 &nbsp;&nbsp;
 <a href="https://ko-fi.com/inlitx"><img src="https://ko-fi.com/img/githubbutton_sm.svg" alt="Invítame a un café en Ko-fi" height="38" /></a>
 

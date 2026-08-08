@@ -1,0 +1,159 @@
+name: Build & Release
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Release tag / version, e.g. v1.0.0'
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+# Pinned Flutter version. F-Droid extracts this exact value from the recipe so
+# its build matches upstream. Defined once here and reused by both jobs.
+env:
+  FLUTTER_VERSION: '3.41.9'
+
+jobs:
+  build:
+    name: Build split APKs
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          cache: true
+
+      - name: Show versions
+        run: flutter --version
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Analyze
+        run: flutter analyze --no-fatal-infos
+
+      - name: Test
+        run: flutter test
+
+      # ABI splits keep each APK small instead of one fat APK.
+      - name: Build split APKs
+        run: flutter build apk --release --split-per-abi
+
+      - name: Rename APKs
+        run: |
+          cd build/app/outputs/flutter-apk
+          mv app-arm64-v8a-release.apk     GymMane-arm64-v8a.apk
+          mv app-armeabi-v7a-release.apk   GymMane-armeabi-v7a.apk
+          mv app-x86_64-release.apk        GymMane-x86_64.apk
+
+      - name: Upload APK artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: gymmane-apks
+          path: build/app/outputs/flutter-apk/GymMane-*.apk
+          if-no-files-found: error
+
+  release:
+    name: Publish release
+    needs: build
+    runs-on: ubuntu-latest
+    # Only when manually dispatched with a tag. The release body is left empty
+    # on purpose so it can be filled in by hand after publishing.
+    if: github.event_name == 'workflow_dispatch'
+
+    # Reproducible build: keep the pub cache at a fixed path inside the workspace
+    # (/home/runner/work/GymMane/GymMane/.pub-cache). F-Droid relocates its build
+    # to this exact same path and uses the same PUB_CACHE, so the embedded paths
+    # match.
+    env:
+      PUB_CACHE: ${{ github.workspace }}/.pub-cache
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          cache: true
+
+      - name: Install dependencies
+        run: flutter pub get --enforce-lockfile
+
+      # Reproducibility: the jni package bakes a unique build-id into libdartjni.so.
+      # Force --build-id=none so the native lib is deterministic. F-Droid applies
+      # this exact same patch in its recipe.
+      - name: Patch jni build-id
+        run: sed -i -e 's/-Wl,/-Wl,--build-id=none,/' "$PUB_CACHE"/hosted/pub.dev/jni-*/src/CMakeLists.txt
+
+      # Sign the release APKs with the release keystore (kept in GitHub Secrets)
+      # so the published binaries match F-Droid's reproducible build.
+      - name: Set up signing
+        env:
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+        run: |
+          echo "$KEYSTORE_BASE64" | base64 -d > android/app/gymmane-release.jks
+          cat > android/key.properties <<EOF
+          storePassword=$KEYSTORE_PASSWORD
+          keyPassword=$KEY_PASSWORD
+          keyAlias=$KEY_ALIAS
+          storeFile=gymmane-release.jks
+          EOF
+
+      # Reproducible build: version name AND code come entirely from pubspec.yaml
+      # (1.0.0+1), exactly like F-Droid builds it. Do NOT pass --build-name or
+      # --build-number here, or the APK won't match F-Droid's.
+      # --split-debug-info moves the path-laden debug symbols out of libapp.so so
+      # it builds deterministically. F-Droid uses the same flag.
+      - name: Build split APKs
+        run: flutter build apk --release --split-per-abi --split-debug-info=build/symbols
+
+      - name: Rename APKs
+        run: |
+          cd build/app/outputs/flutter-apk
+          mv app-arm64-v8a-release.apk     GymMane-arm64-v8a.apk
+          mv app-armeabi-v7a-release.apk   GymMane-armeabi-v7a.apk
+          mv app-x86_64-release.apk        GymMane-x86_64.apk
+
+      # Clean source archive straight from the git tree (no build artifacts).
+      - name: Package source code
+        run: git archive --format=zip --prefix=gymmane-${{ inputs.tag }}/ -o GymMane-source-${{ inputs.tag }}.zip HEAD
+
+      - name: Publish GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ inputs.tag }}
+          name: GymMane ${{ inputs.tag }}
+          files: |
+            build/app/outputs/flutter-apk/GymMane-arm64-v8a.apk
+            build/app/outputs/flutter-apk/GymMane-armeabi-v7a.apk
+            build/app/outputs/flutter-apk/GymMane-x86_64.apk
+            GymMane-source-${{ inputs.tag }}.zip

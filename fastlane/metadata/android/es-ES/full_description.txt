@@ -1,0 +1,34 @@
+GymMane es un diario de fuerza hecho para el gimnasio, no para un panel de control. Toca en un mapa corporal interactivo los músculos que quieres entrenar, anota repeticiones y peso serie a serie, descansa con una alarma que de verdad se hace oír, y lee un progreso que sale de tus propias series. Oscuro, rápido y totalmente sin conexión.
+
+Tuyo del todo. Sin cuenta, sin anuncios, sin suscripción — y sin el permiso INTERNET de Android, así que la app no puede enviar tu entrenamiento a ninguna parte.
+
+🏋️ ENTRENAR
+• Mapa corporal interactivo, delante y detrás — toca lo que quieras entrenar
+• Una sesión elegida para ti, y luego editada serie a serie
+• Repeticiones, peso y un temporizador de descanso con tu propio sonido de alarma
+• La sesión en curso sobrevive a un reinicio — sigues donde lo dejaste
+• Rutinas que puedes reordenar y programar por día de la semana
+
+📊 PROGRESO
+• Volumen, racha, anillo de objetivo semanal y récords, todo de tus propias series
+• Mapa de actividad estilo GitHub con el detalle de cada día
+• Curvas de fuerza con 1RM estimado por ejercicio
+• Reparto muscular de los últimos 30 días
+• Seguimiento del peso corporal con su histórico
+
+📚 EJERCICIOS Y HERRAMIENTAS
+• Más de 360 ejercicios con animaciones e instrucciones paso a paso
+• Buscador, filtros, favoritos y tus propios ejercicios (foto, GIF o vídeo)
+• Seis calculadoras — 1RM, discos, IMC, calorías y macros, grasa corporal, calentamiento
+• Dos widgets de pantalla de inicio — actividad y estadísticas
+
+💾 TUS DATOS
+• Exporta a CSV o a una copia completa en JSON, y vuelve a importarla
+• Importa tu histórico de Hevy, Strong o FitNotes — entrenamientos y peso corporal
+• Borra todo de un toque
+• Temas claro y oscuro, kg o lb, español e inglés
+
+🔒 PRIVACIDAD
+GymMane no lleva analítica, ni SDK de publicidad, ni código de red. Nunca pide el permiso INTERNET, así que no hay forma de que tus datos salgan del móvil. Lo único que sale fuera son los enlaces que tocas tú.
+
+Los permisos que sí pide, y para qué: notificaciones y alarmas exactas para el temporizador de descanso, vibración para que la alarma zumbe, y wake lock para que suene con la pantalla apagada.

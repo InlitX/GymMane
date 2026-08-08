@@ -1,0 +1,96 @@
+name: gymmane
+description: "GymMane — an offline, ad-free gym log for Android."
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.11.5
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+
+  audioplayers: ^6.1.0
+  cupertino_icons: ^1.0.8
+  file_picker: ^8.1.7
+  flutter_local_notifications: ^22.0.1
+  home_widget: ^0.7.0
+  image_picker: ^1.2.3
+  intl: ^0.20.2
+  path_drawing: ^1.0.1
+  path_provider: ^2.1.6
+  phosphor_flutter: ^2.1.0
+  share_plus: ^12.0.2
+  shared_preferences: ^2.3.2
+  timezone: ^0.11.1
+  url_launcher: ^6.3.2
+  video_player: ^2.9.2
+  archive: ^4.0.9
+  app_settings: ^8.0.3
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+  flutter_launcher_icons: ^0.14.1
+
+flutter_launcher_icons:
+  android: true
+  ios: false
+  image_path: "assets/icon/ic_1024.png"
+  adaptive_icon_background: "#0C0B0A"
+  adaptive_icon_foreground: "assets/icon/ic_fg_1024.png"
+  min_sdk_android: 21
+
+flutter:
+  uses-material-design: true
+  generate: true
+
+  assets:
+    - assets/img/
+    - assets/gifs/
+    - assets/audio/
+
+  fonts:
+    - family: Oswald
+      fonts:
+        - asset: assets/fonts/Oswald-500.ttf
+          weight: 500
+        - asset: assets/fonts/Oswald-600.ttf
+          weight: 600
+        - asset: assets/fonts/Oswald-700.ttf
+          weight: 700
+    - family: IBM Plex Sans
+      fonts:
+        - asset: assets/fonts/IBMPlexSans-400.ttf
+          weight: 400
+        - asset: assets/fonts/IBMPlexSans-500.ttf
+          weight: 500
+        - asset: assets/fonts/IBMPlexSans-600.ttf
+          weight: 600
+        - asset: assets/fonts/IBMPlexSans-700.ttf
+          weight: 700
+    - family: Figtree
+      fonts:
+        - asset: assets/fonts/Figtree-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Figtree-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Figtree-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/Figtree-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Figtree-ExtraBold.ttf
+          weight: 800
+    - family: Barlow
+      fonts:
+        - asset: assets/fonts/BarlowSemiCondensed-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/BarlowSemiCondensed-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/BarlowSemiCondensed-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/BarlowSemiCondensed-ExtraBold.ttf
+          weight: 800
