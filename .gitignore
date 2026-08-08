@@ -59,6 +59,7 @@ doc-personal/
 tool/
 fdroid/
 test/fixtures/
+site/
 
 # OS junk
 Thumbs.db
