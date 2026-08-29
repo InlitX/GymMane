@@ -3,29 +3,48 @@ import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:gymmane/catalog/exercise_catalog.dart';
 import 'package:gymmane/models/exercise.dart';
+import 'package:path_drawing/path_drawing.dart';
 
 void main() {
-  test('every exercise points at a gif that exists and matches its id', () {
+  test('every exercise points at art that exists and can be drawn', () {
     final broken = <String>[];
     for (final e in kExercises) {
-      if (e.gif != 'assets/gifs/${e.id}.gif') {
-        broken.add('${e.name}: gif "${e.gif}" no cuadra con el id "${e.id}"');
-      } else if (!File(e.gif).existsSync()) {
-        broken.add('${e.name}: falta ${e.gif}');
+      if (e.art.isEmpty) continue;
+      final file = File('assets/art/${e.art}.txt');
+      if (!file.existsSync()) {
+        broken.add('${e.name}: falta assets/art/${e.art}.txt');
+        continue;
+      }
+      final frames = file.readAsLinesSync().where((l) => l.trim().isNotEmpty).toList();
+      if (frames.length != 3) broken.add('${e.name}: ${frames.length} frames, esperaba 3');
+      for (final d in frames) {
+        try {
+          parseSvgPathData(d);
+        } catch (err) {
+          broken.add('${e.name}: frame ilegible ($err)');
+        }
       }
     }
     expect(broken, isEmpty);
   });
 
-  test('no orphan gifs sitting unused in assets', () {
-    final referenced = kExercises.map((e) => 'assets/gifs/${e.id}.gif').toSet();
-    final onDisk = Directory('assets/gifs')
+  test('almost every exercise ships an illustration', () {
+    final sinArte = kExercises.where((e) => e.art.isEmpty).map((e) => e.name).toList();
+    expect(sinArte.length, lessThan(kExercises.length ~/ 20),
+        reason: 'demasiados ejercicios sin ilustración: $sinArte');
+  });
+
+  test('no orphan art sitting unused in assets', () {
+    final referenced = kExercises.map((e) => e.art).where((a) => a.isNotEmpty).toSet();
+    final onDisk = Directory('assets/art')
         .listSync()
         .whereType<File>()
-        .map((f) => f.path.replaceAll(r'\', '/'))
-        .where((p) => p.endsWith('.gif'))
+        .map((f) => f.uri.pathSegments.last)
+        .where((n) => n.endsWith('.txt'))
+        .map((n) => n.substring(0, n.length - 4))
         .toSet();
     expect(onDisk.difference(referenced), isEmpty);
+    expect(referenced.difference(onDisk), isEmpty);
   });
 
   test('ids and names are unique', () {

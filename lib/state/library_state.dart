@@ -127,7 +127,7 @@ mixin LibraryState on FitCore {
       secondary: const [],
       equipment: equipment,
       difficulty: difficulty,
-      gif: '',
+      art: '',
       steps: const [],
     ));
     _persist();

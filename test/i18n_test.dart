@@ -172,7 +172,7 @@ void main() {
     test("a user's own exercise is never translated away", () {
       final mine = Exercise(
         id: 'c123', name: 'Mi invento', primary: 'chest', secondary: const [],
-        equipment: 'Other', difficulty: 'Beginner', gif: '', steps: const [],
+        equipment: 'Other', difficulty: 'Beginner', art: '', steps: const [],
       );
       setAppLanguage('es');
       expect(exerciseName(mine), 'Mi invento');
@@ -220,7 +220,7 @@ void main() {
     test("a user's own exercise keeps its own steps", () {
       final mine = Exercise(
         id: 'c999', name: 'Mío', primary: 'chest', secondary: const [],
-        equipment: 'Other', difficulty: 'Beginner', gif: '', steps: const ['Mi paso'],
+        equipment: 'Other', difficulty: 'Beginner', art: '', steps: const ['Mi paso'],
       );
       setAppLanguage('es');
       expect(exerciseSteps(mine), const ['Mi paso']);

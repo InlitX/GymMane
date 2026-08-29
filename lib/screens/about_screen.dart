@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../catalog/exercise_catalog.dart';
 import '../l10n/l10n.dart';
@@ -8,6 +9,9 @@ import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
 import '../widgets/svg_icon.dart';
 import '../widgets/ui_kit.dart';
+
+const _kArtSourceUrl = 'https://github.com/bryllim/workout-guide';
+const _kArtLicenseUrl = 'https://creativecommons.org/licenses/by-sa/4.0/';
 
 class AboutScreen extends StatelessWidget {
   const AboutScreen({super.key});
@@ -61,10 +65,37 @@ class AboutScreen extends StatelessWidget {
             ],
             Text(t.aboutBlurb,
                 textAlign: TextAlign.center, style: AppTheme.s(12, color: gc.textTertiary, height: 1.6)),
+            const SizedBox(height: 16),
+            _artCredit(gc),
           ],
         ),
       ),
     );
+  }
+
+  Widget _artCredit(GymColors gc) => Column(
+        children: [
+          Text(t.artCredit,
+              textAlign: TextAlign.center, style: AppTheme.s(11, color: gc.textTertiary, height: 1.5)),
+          const SizedBox(height: 3),
+          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+            _link(gc, 'Workout Guide', _kArtSourceUrl),
+            Text('  ·  ', style: AppTheme.s(11, color: gc.textTertiary)),
+            _link(gc, 'CC BY-SA 4.0', _kArtLicenseUrl),
+          ]),
+        ],
+      );
+
+  Widget _link(GymColors gc, String label, String url) => GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: () => _open(url),
+        child: Text(label, style: AppTheme.s(11, weight: FontWeight.w600, color: gc.accent)),
+      );
+
+  Future<void> _open(String url) async {
+    try {
+      await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
+    } catch (_) {}
   }
 
   double get _allTimeVolume => fit.sessions.fold(0.0, (a, s) => a + s.volume);

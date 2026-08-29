@@ -8,7 +8,7 @@ const List<Exercise> kExercises = [
     secondary: ['triceps'],
     equipment: 'Barbell',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/EIeI8Vf.gif',
+    art: 'bench-press',
     steps: [
       'Lie flat on a bench with your feet flat on the ground and your back pressed against the bench.',
       'Grasp the barbell with an overhand grip slightly wider than shoulder-width apart.',
@@ -24,7 +24,7 @@ const List<Exercise> kExercises = [
     secondary: ['triceps'],
     equipment: 'Dumbbell',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/SpYC0Kp.gif',
+    art: 'dumbbell-bench-press',
     steps: [
       'Lie flat on a bench with your feet flat on the ground and your back pressed against the bench.',
       'Hold a dumbbell in each hand, with your palms facing forward and your arms extended above your chest.',
@@ -40,7 +40,7 @@ const List<Exercise> kExercises = [
     secondary: ['triceps'],
     equipment: 'Barbell',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/3TZduzM.gif',
+    art: 'incline-bench-press',
     steps: [
       'Set up an incline bench at a 45-degree angle.',
       'Lie down on the bench with your feet flat on the ground.',
@@ -56,7 +56,7 @@ const List<Exercise> kExercises = [
     secondary: ['triceps'],
     equipment: 'Dumbbell',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/ns0SIbU.gif',
+    art: 'incline-dumbbell-press',
     steps: [
       'Set up an incline bench at a 45-degree angle.',
       'Sit on the bench with your feet flat on the ground and your back pressed firmly against the bench.',
@@ -72,7 +72,7 @@ const List<Exercise> kExercises = [
     secondary: ['triceps'],
     equipment: 'Barbell',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/GrO65fd.gif',
+    art: 'decline-bench-press',
     steps: [
       'Lie on a decline bench with your feet secured and your head lower than your hips.',
       'Grasp the barbell with an overhand grip slightly wider than shoulder-width apart.',
@@ -88,7 +88,7 @@ const List<Exercise> kExercises = [
     secondary: [],
     equipment: 'Dumbbell',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/yz9nUhF.gif',
+    art: 'dumbbell-fly',
     steps: [
       'Lie flat on a bench with a dumbbell in each hand, palms facing each other.',
       'Extend your arms straight up over your chest, with a slight bend in your elbows.',
@@ -104,7 +104,7 @@ const List<Exercise> kExercises = [
     secondary: ['triceps'],
     equipment: 'Bodyweight',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/I4hDWkc.gif',
+    art: 'push-up',
     steps: [
       'Start in a high plank position with your hands slightly wider than shoulder-width apart and your feet together.',
       'Engage your core and lower your body towards the ground by bending your elbows, keeping your body in a straight line.',
@@ -119,7 +119,7 @@ const List<Exercise> kExercises = [
     secondary: ['triceps'],
     equipment: 'Bodyweight',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/9WTm7dq.gif',
+    art: 'chest-dip',
     steps: [
       'Position yourself on parallel bars with your arms fully extended and your body straight.',
       'Lower your body by bending your elbows until your shoulders are below your elbows.',
@@ -134,7 +134,7 @@ const List<Exercise> kExercises = [
     secondary: ['triceps'],
     equipment: 'Dumbbell',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/9XjtHvS.gif',
+    art: 'dumbbell-fly',
     steps: [
       'Lie flat on a bench with your head at one end and your feet on the floor.',
       'Hold a dumbbell with both hands and extend your arms straight above your chest.',
@@ -150,7 +150,7 @@ const List<Exercise> kExercises = [
     secondary: ['triceps', 'back'],
     equipment: 'Barbell',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/Kyd9Rz5.gif',
+    art: 'overhead-press',
     steps: [
       'Stand with your feet shoulder-width apart and hold the barbell with an overhand grip, slightly wider than shoulder-width.',
       'Lift the barbell to shoulder height, keeping your elbows slightly in front of the bar.',
@@ -165,7 +165,7 @@ const List<Exercise> kExercises = [
     secondary: ['triceps', 'back'],
     equipment: 'Dumbbell',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/A6wtbuL.gif',
+    art: 'standing-dumbbell-press',
     steps: [
       'Stand with your feet shoulder-width apart, holding a dumbbell in each hand at shoulder level with your palms facing forward.',
       'Press the dumbbells upward until your arms are fully extended overhead.',
@@ -180,7 +180,7 @@ const List<Exercise> kExercises = [
     secondary: ['triceps'],
     equipment: 'Dumbbell',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/Xy4jlWA.gif',
+    art: 'arnold-press',
     steps: [
       'Sit on a bench with back support and hold a dumbbell in each hand at shoulder level, palms facing your body and elbows bent.',
       'Press the dumbbells upward until your arms are fully extended and your palms are facing forward.',
@@ -196,7 +196,7 @@ const List<Exercise> kExercises = [
     secondary: ['trapezius'],
     equipment: 'Dumbbell',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/DsgkuIt.gif',
+    art: 'lateral-raise',
     steps: [
       'Stand with your feet shoulder-width apart and hold a dumbbell in each hand, palms facing your body.',
       'Keep your back straight and engage your core.',
@@ -212,7 +212,7 @@ const List<Exercise> kExercises = [
     secondary: ['trapezius', 'triceps'],
     equipment: 'Cable',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/goJ6ezq.gif',
+    art: 'cable-lateral-raise',
     steps: [
       'Stand with your feet shoulder-width apart and grasp the cable handles with an overhand grip.',
       'Keep your arms straight and your core engaged.',
@@ -228,7 +228,7 @@ const List<Exercise> kExercises = [
     secondary: ['biceps'],
     equipment: 'Dumbbell',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/3eGE2JC.gif',
+    art: 'front-raise',
     steps: [
       'Stand with your feet shoulder-width apart, holding a dumbbell in each hand with your palms facing your thighs.',
       'Keeping your arms straight, exhale and lift the dumbbells in front of you until they are at shoulder level.',
@@ -243,7 +243,7 @@ const List<Exercise> kExercises = [
     secondary: ['trapezius'],
     equipment: 'Dumbbell',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/v1qBec9.gif',
+    art: 'rear-delt-fly',
     steps: [
       'Stand with your feet shoulder-width apart and hold a dumbbell in each hand, palms facing your body.',
       'Bend your knees slightly and hinge forward at the hips, keeping your back straight and core engaged.',
@@ -259,7 +259,7 @@ const List<Exercise> kExercises = [
     secondary: [],
     equipment: 'Dumbbell',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/NJzBsGJ.gif',
+    art: 'dumbbell-shrug',
     steps: [
       'Stand with your feet shoulder-width apart and hold a dumbbell in each hand with your palms facing your body.',
       'Keep your arms straight and let the dumbbells hang by your sides.',
@@ -275,7 +275,7 @@ const List<Exercise> kExercises = [
     secondary: [],
     equipment: 'Barbell',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/dG7tG5y.gif',
+    art: 'shrug',
     steps: [
       'Stand with your feet shoulder-width apart and hold a barbell in front of you with an overhand grip.',
       'Keep your arms straight and your back straight throughout the exercise.',
@@ -291,7 +291,7 @@ const List<Exercise> kExercises = [
     secondary: ['hamstrings'],
     equipment: 'Barbell',
     difficulty: 'Advanced',
-    gif: 'assets/gifs/ila4NZS.gif',
+    art: 'deadlift',
     steps: [
       'Stand with your feet shoulder-width apart and the barbell on the ground in front of you.',
       'Bend your knees and hinge at the hips to lower your torso and grip the barbell with an overhand grip, hands slightly wider than shoulder-width apart.',
@@ -307,7 +307,7 @@ const List<Exercise> kExercises = [
     secondary: ['hamstrings'],
     equipment: 'Barbell',
     difficulty: 'Advanced',
-    gif: 'assets/gifs/wQ2c4XD.gif',
+    art: 'romanian-deadlift',
     steps: [
       'Stand with your feet shoulder-width apart and your toes pointing forward.',
       'Hold the barbell with an overhand grip, hands slightly wider than shoulder-width apart.',
@@ -323,7 +323,7 @@ const List<Exercise> kExercises = [
     secondary: ['hamstrings'],
     equipment: 'Barbell',
     difficulty: 'Advanced',
-    gif: 'assets/gifs/KgI0tqW.gif',
+    art: 'sumo-deadlift',
     steps: [
       'Stand with your feet wider than shoulder-width apart, toes pointing outwards.',
       'Place a barbell on the ground in front of you, centered between your feet.',
@@ -339,7 +339,7 @@ const List<Exercise> kExercises = [
     secondary: ['biceps', 'forearm'],
     equipment: 'Barbell',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/eZyBC3j.gif',
+    art: 'barbell-row',
     steps: [
       'Stand with your feet shoulder-width apart and knees slightly bent.',
       'Bend forward at the hips while keeping your back straight and chest up.',
@@ -355,7 +355,7 @@ const List<Exercise> kExercises = [
     secondary: ['biceps', 'forearm'],
     equipment: 'Dumbbell',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/BJ0Hz5L.gif',
+    art: 'dumbbell-bent-over-row',
     steps: [
       'Stand with your feet shoulder-width apart, knees slightly bent, and hold a dumbbell in each hand with your palms facing your body.',
       'Bend forward at the hips, keeping your back straight and your core engaged.',
@@ -371,7 +371,7 @@ const List<Exercise> kExercises = [
     secondary: ['biceps', 'forearm'],
     equipment: 'Barbell',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/r0z6xzQ.gif',
+    art: 'pendlay-row',
     steps: [
       'Stand with your feet shoulder-width apart and your knees slightly bent.',
       'Bend forward at the hips, keeping your back straight and your chest up.',
@@ -387,7 +387,7 @@ const List<Exercise> kExercises = [
     secondary: ['biceps', 'forearm'],
     equipment: 'Cable',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/fUBheHs.gif',
+    art: 'seated-row',
     steps: [
       'Sit on the cable row machine with your feet flat on the footrests and your knees slightly bent.',
       'Grasp the handles with an overhand grip, keeping your back straight and your shoulders relaxed.',
@@ -403,7 +403,7 @@ const List<Exercise> kExercises = [
     secondary: ['biceps', 'forearm'],
     equipment: 'Cable',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/RVwzP10.gif',
+    art: 'lat-pulldown',
     steps: [
       'Adjust the cable pulldown machine so that the seat is at a comfortable height and the knee pad is secured.',
       'Sit on the seat with your back straight and your feet flat on the ground.',
@@ -419,7 +419,7 @@ const List<Exercise> kExercises = [
     secondary: ['biceps', 'forearm'],
     equipment: 'Bodyweight',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/lBDjFxJ.gif',
+    art: 'pull-up',
     steps: [
       'Hang from a pull-up bar with your palms facing away from you and your arms fully extended.',
       'Engage your core and squeeze your shoulder blades together.',
@@ -435,7 +435,7 @@ const List<Exercise> kExercises = [
     secondary: ['biceps', 'forearm'],
     equipment: 'Bodyweight',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/T2mxWqc.gif',
+    art: 'chin-up',
     steps: [
       'Hang from a pull-up bar with your palms facing towards you and your hands shoulder-width apart.',
       'Engage your core and pull your body up towards the bar, leading with your chest.',
@@ -451,7 +451,7 @@ const List<Exercise> kExercises = [
     secondary: [],
     equipment: 'Dumbbell',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/EAs3xL9.gif',
+    art: 'rear-delt-fly',
     steps: [
       'Stand with your feet shoulder-width apart and hold a dumbbell in each hand.',
       'Bend your knees slightly and hinge forward at the hips, keeping your back straight.',
@@ -467,7 +467,7 @@ const List<Exercise> kExercises = [
     secondary: ['hamstrings', 'calves'],
     equipment: 'Barbell',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/qXTaZnJ.gif',
+    art: 'squat',
     steps: [
       'Stand with your feet shoulder-width apart, toes slightly turned out.',
       'Hold the barbell across your upper back, resting it on your traps or rear delts.',
@@ -483,7 +483,7 @@ const List<Exercise> kExercises = [
     secondary: ['hamstrings', 'calves'],
     equipment: 'Barbell',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/zG0zs85.gif',
+    art: 'front-squat',
     steps: [
       'Start by standing with your feet shoulder-width apart, toes slightly turned out.',
       'Hold the barbell in front of your shoulders, resting it on your collarbone and shoulders.',
@@ -499,7 +499,7 @@ const List<Exercise> kExercises = [
     secondary: ['glutes', 'hamstrings', 'calves'],
     equipment: 'Dumbbell',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/yn8yg1r.gif',
+    art: 'goblet-squat',
     steps: [
       'Stand with your feet shoulder-width apart, holding a dumbbell vertically against your chest with both hands.',
       'Keeping your chest up and core engaged, lower your body down into a squat position by pushing your hips back and bending your knees.',
@@ -515,7 +515,7 @@ const List<Exercise> kExercises = [
     secondary: ['hamstrings', 'calves'],
     equipment: 'Machine',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/7zdxRTl.gif',
+    art: 'leg-press',
     steps: [
       'Adjust the seat and footplate of the smith machine to a comfortable position.',
       'Sit on the machine with your back against the backrest and your feet shoulder-width apart on the footplate.',
@@ -531,7 +531,7 @@ const List<Exercise> kExercises = [
     secondary: ['hamstrings', 'calves'],
     equipment: 'Dumbbell',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/RRWFUcw.gif',
+    art: 'walking-lunge',
     steps: [
       'Stand with your feet shoulder-width apart, holding a dumbbell in each hand.',
       'Take a step forward with your right foot, lowering your body into a lunge position.',
@@ -547,7 +547,7 @@ const List<Exercise> kExercises = [
     secondary: ['glutes', 'hamstrings', 'calves'],
     equipment: 'Dumbbell',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/qx4fgX7.gif',
+    art: 'split-squat',
     steps: [
       'Stand with your feet shoulder-width apart, holding a dumbbell in each hand.',
       'Take a step forward with one foot and position your feet so that your front foot is flat on the ground and your back foot is elevated on a bench or step.',
@@ -563,7 +563,7 @@ const List<Exercise> kExercises = [
     secondary: [],
     equipment: 'Barbell',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/XlZ4lAC.gif',
+    art: 'good-morning',
     steps: [
       'Start by standing with your feet shoulder-width apart and the barbell resting on your upper back.',
       'Keeping your back straight and your core engaged, hinge forward at the hips, pushing your buttocks back as if you were trying to touch the wall behind you with your glutes.',
@@ -579,7 +579,7 @@ const List<Exercise> kExercises = [
     secondary: ['hamstrings'],
     equipment: 'Barbell',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/qKBpF7I.gif',
+    art: 'barbell-glute-bridge',
     steps: [
       'Start by lying flat on your back on the ground with your knees bent and feet flat on the floor.',
       'Place a barbell across your hips, holding it securely with both hands.',
@@ -595,7 +595,7 @@ const List<Exercise> kExercises = [
     secondary: ['hamstrings'],
     equipment: 'Cable',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/OM46QHm.gif',
+    art: 'cable-pull-through',
     steps: [
       'Stand facing away from the cable machine with your feet shoulder-width apart.',
       'Grab the rope attachment with both hands and step forward, creating tension in the cable.',
@@ -611,7 +611,7 @@ const List<Exercise> kExercises = [
     secondary: ['hamstrings', 'glutes'],
     equipment: 'Barbell',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/8ozhUIZ.gif',
+    art: 'standing-calf-raise',
     steps: [
       'Stand with your feet shoulder-width apart and place a barbell across your upper back.',
       'Raise your heels off the ground as high as possible, using only your toes.',
@@ -626,7 +626,7 @@ const List<Exercise> kExercises = [
     secondary: ['hamstrings'],
     equipment: 'Barbell',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/ktsFQAZ.gif',
+    art: 'seated-calf-raise',
     steps: [
       'Sit on a bench with your feet flat on the floor and a barbell resting on your thighs.',
       'Place the balls of your feet on a raised platform, such as a block or step.',
@@ -642,7 +642,7 @@ const List<Exercise> kExercises = [
     secondary: ['hamstrings'],
     equipment: 'Band',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/Y1MsI1l.gif',
+    art: 'leg-extension',
     steps: [
       'Attach the resistance band to a sturdy anchor point and secure it around your ankle.',
       'Stand facing the anchor point with your feet shoulder-width apart.',
@@ -658,7 +658,7 @@ const List<Exercise> kExercises = [
     secondary: ['glutes', 'calves'],
     equipment: 'Cable',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/zHEpuuc.gif',
+    art: 'nordic-hamstring-curl',
     steps: [
       'Adjust the cable machine so that the ankle attachment is at the lowest setting.',
       'Lie face down on the bench with your legs straight and the ankle attachment secured to your ankles.',
@@ -674,7 +674,7 @@ const List<Exercise> kExercises = [
     secondary: ['forearm'],
     equipment: 'Barbell',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/25GPyDY.gif',
+    art: 'ez-bar-curl',
     steps: [
       'Stand up straight with your feet shoulder-width apart and hold a barbell with an underhand grip, palms facing forward.',
       'Keep your elbows close to your torso and exhale as you curl the weights while contracting your biceps.',
@@ -690,7 +690,7 @@ const List<Exercise> kExercises = [
     secondary: ['forearm'],
     equipment: 'Dumbbell',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/NbVPDMW.gif',
+    art: 'bicep-curl',
     steps: [
       'Stand up straight with a dumbbell in each hand, palms facing forward and arms fully extended.',
       'Keeping your upper arms stationary, exhale and curl the weights while contracting your biceps.',
@@ -706,7 +706,7 @@ const List<Exercise> kExercises = [
     secondary: ['forearm'],
     equipment: 'Dumbbell',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/slDvUAU.gif',
+    art: 'hammer-curl',
     steps: [
       'Stand up straight with a dumbbell in each hand, palms facing your torso.',
       'Keep your elbows close to your torso and rotate the palms of your hands until they are facing forward.',
@@ -722,7 +722,7 @@ const List<Exercise> kExercises = [
     secondary: ['forearm'],
     equipment: 'Barbell',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/qOgPVf6.gif',
+    art: 'preacher-curl',
     steps: [
       'Sit on a preacher bench with your upper arms resting on the pad and your chest against the support.',
       'Grasp the barbell with an underhand grip, slightly wider than shoulder-width apart.',
@@ -738,7 +738,7 @@ const List<Exercise> kExercises = [
     secondary: ['forearm'],
     equipment: 'Dumbbell',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/gvsWLQw.gif',
+    art: 'concentration-curl',
     steps: [
       'Sit on a bench with your legs spread apart and a dumbbell in one hand, resting your elbow on the inside of your thigh.',
       'Fully extend your arm and hold the dumbbell with an underhand grip.',
@@ -754,7 +754,7 @@ const List<Exercise> kExercises = [
     secondary: ['forearm'],
     equipment: 'Cable',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/3ZflifB.gif',
+    art: 'tricep-pushdown',
     steps: [
       'Attach a straight bar to a high pulley cable machine.',
       'Stand facing the machine with your feet shoulder-width apart and a slight bend in your knees.',
@@ -770,7 +770,7 @@ const List<Exercise> kExercises = [
     secondary: [],
     equipment: 'Barbell',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/iZop9xO.gif',
+    art: 'skull-crusher',
     steps: [
       'Lie flat on a bench with your feet flat on the ground and your head at the end of the bench.',
       'Hold the barbell with an overhand grip, hands shoulder-width apart, and extend your arms straight up over your chest.',
@@ -786,7 +786,7 @@ const List<Exercise> kExercises = [
     secondary: [],
     equipment: 'Dumbbell',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/PdmaD0N.gif',
+    art: 'dumbbell-overhead-tricep-extension',
     steps: [
       'Stand with your feet shoulder-width apart and hold a dumbbell in one hand.',
       'Raise the dumbbell overhead, keeping your arm straight.',
@@ -802,7 +802,7 @@ const List<Exercise> kExercises = [
     secondary: [],
     equipment: 'Cable',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/2IxROQ1.gif',
+    art: 'overhead-tricep-extension',
     steps: [
       'Attach a rope to a cable machine at a high position.',
       'Stand facing away from the machine with your feet shoulder-width apart.',
@@ -818,7 +818,7 @@ const List<Exercise> kExercises = [
     secondary: [],
     equipment: 'Bodyweight',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/X6C6i5Y.gif',
+    art: 'dip',
     steps: [
       'Sit on the edge of a bench or chair with your hands gripping the edge, fingers pointing forward.',
       'Slide your butt off the bench, supporting your weight with your hands.',
@@ -834,7 +834,7 @@ const List<Exercise> kExercises = [
     secondary: [],
     equipment: 'Weighted',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/VBAWRPG.gif',
+    art: 'plank',
     steps: [
       'Start by lying face down on the floor.',
       'Place your forearms on the ground, with your elbows directly under your shoulders.',
@@ -850,7 +850,7 @@ const List<Exercise> kExercises = [
     secondary: [],
     equipment: 'Bodyweight',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/TFqbd8t.gif',
+    art: 'crunch',
     steps: [
       'Lie flat on your back with your knees bent and feet flat on the ground.',
       'Place your hands behind your head with your elbows pointing outwards.',
@@ -866,7 +866,7 @@ const List<Exercise> kExercises = [
     secondary: ['obliques'],
     equipment: 'Cable',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/jpgqxiS.gif',
+    art: 'cable-crunch',
     steps: [
       'Attach a cable handle to a high pulley and stand facing away from the machine.',
       'Hold the handle with both hands and place it behind your head, keeping your elbows bent.',
@@ -882,7 +882,7 @@ const List<Exercise> kExercises = [
     secondary: [],
     equipment: 'Weighted',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/QOA0FD0.gif',
+    art: 'hanging-leg-raise',
     steps: [
       'Hang from a pull-up bar with your arms fully extended and your palms facing away from you.',
       'Engage your core and lift your legs up in front of you, keeping them straight.',
@@ -898,7 +898,7 @@ const List<Exercise> kExercises = [
     secondary: ['obliques'],
     equipment: 'Bodyweight',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/XVDdcoj.gif',
+    art: 'russian-twist',
     steps: [
       'Sit on the ground with your knees bent and feet flat on the floor.',
       'Lean back slightly while keeping your back straight and your core engaged.',
@@ -914,7 +914,7 @@ const List<Exercise> kExercises = [
     secondary: ['triceps'],
     equipment: 'Barbell',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/cA9FuWG.gif',
+    art: 'straight-arm-pulldown',
     steps: [
       'Lie flat on a bench with your head at one end and your feet on the floor.',
       'Hold a barbell with a shoulder-width grip and extend your arms straight above your chest.',
@@ -930,7 +930,7 @@ const List<Exercise> kExercises = [
     secondary: ['biceps'],
     equipment: 'Dumbbell',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/7vG5o25.gif',
+    art: 'chest-supported-row',
     steps: [
       'Set up an incline bench at a 45-degree angle.',
       'Grab a dumbbell in each hand and sit on the bench with your chest against the incline.',
@@ -946,7 +946,7 @@ const List<Exercise> kExercises = [
     secondary: ['biceps'],
     equipment: 'Cable',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/4IKbhHV.gif',
+    art: 'lat-pulldown',
     steps: [
       'Sit on the cable machine with your back straight and feet flat on the ground.',
       'Grasp the handles with an overhand grip, slightly wider than shoulder-width apart.',
@@ -962,7 +962,7 @@ const List<Exercise> kExercises = [
     secondary: ['biceps', 'forearm'],
     equipment: 'Machine',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/vrhHa6D.gif',
+    art: 'assisted-pull-up',
     steps: [
       'Adjust the machine to your desired weight and height.',
       'Place your hands on the parallel bars with a close grip, palms facing each other.',
@@ -978,7 +978,7 @@ const List<Exercise> kExercises = [
     secondary: ['biceps', 'forearm'],
     equipment: 'Bodyweight',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/72BC5Za.gif',
+    art: 'pull-up',
     steps: [
       'Start by hanging from a pull-up bar with an overhand grip, slightly wider than shoulder-width apart.',
       'Engage your core and pull your shoulder blades down and back.',
@@ -994,7 +994,7 @@ const List<Exercise> kExercises = [
     secondary: ['biceps', 'forearm'],
     equipment: 'Weighted',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/Gk1r408.gif',
+    art: 'weighted-chin-up',
     steps: [
       'Stand in front of the dip cage and grab the parallel bars with an underhand grip, hands shoulder-width apart.',
       'Hang from the bars with your arms fully extended, feet off the ground, and body straight.',
@@ -1010,7 +1010,7 @@ const List<Exercise> kExercises = [
     secondary: ['triceps'],
     equipment: 'Barbell',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/hMEptv0.gif',
+    art: 'straight-arm-pulldown',
     steps: [
       'Lie down on a decline bench with your head lower than your hips and your feet secured.',
       'Hold a barbell with a pronated grip (palms facing away from you) and extend your arms straight above your chest.',
@@ -1026,7 +1026,7 @@ const List<Exercise> kExercises = [
     secondary: [],
     equipment: 'Dumbbell',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/PbzNu7c.gif',
+    art: 'prone-y-raise',
     steps: [
       'Set an incline bench to a 45-degree angle and sit on it with a dumbbell in each hand, palms facing inwards.',
       'Lean forward slightly and let your arms hang straight down, keeping a slight bend in your elbows.',
@@ -1042,7 +1042,7 @@ const List<Exercise> kExercises = [
     secondary: ['biceps'],
     equipment: 'Cable',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/eYnzaCm.gif',
+    art: 'lat-pulldown',
     steps: [
       'Adjust the cable pulley to a high position and attach a straight bar.',
       'Sit facing the cable machine with your feet flat on the ground and your knees slightly bent.',
@@ -1058,7 +1058,7 @@ const List<Exercise> kExercises = [
     secondary: ['biceps', 'forearm'],
     equipment: 'Machine',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/kiJ4Z2K.gif',
+    art: 'assisted-pull-up',
     steps: [
       'Adjust the machine to your desired weight and height settings.',
       'Grasp the handles with an overhand grip, slightly wider than shoulder-width apart.',
@@ -1074,7 +1074,7 @@ const List<Exercise> kExercises = [
     secondary: ['biceps', 'forearm'],
     equipment: 'Bodyweight',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/GaSzzuh.gif',
+    art: 'dead-hang',
     steps: [
       'Start by hanging from a pull-up bar with an overhand grip, hands slightly wider than shoulder-width apart.',
       'Engage your core and pull your shoulder blades down and back.',
@@ -1090,7 +1090,7 @@ const List<Exercise> kExercises = [
     secondary: ['glutes', 'hamstrings'],
     equipment: 'Weighted',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/8urJS9b.gif',
+    art: 'back-extension',
     steps: [
       'Position yourself face down on a stability ball with your hips resting on the ball and your feet against a wall for stability.',
       'Place your hands behind your head or cross them over your chest.',
@@ -1106,7 +1106,7 @@ const List<Exercise> kExercises = [
     secondary: ['triceps'],
     equipment: 'Barbell',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/Hj4FOCd.gif',
+    art: 'straight-arm-pulldown',
     steps: [
       'Lie on a decline bench with your head lower than your hips and your feet secured.',
       'Hold a barbell with a wide grip and extend your arms straight above your chest.',
@@ -1122,7 +1122,7 @@ const List<Exercise> kExercises = [
     secondary: ['biceps'],
     equipment: 'Dumbbell',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/XUUD0Fs.gif',
+    art: 'chest-supported-row',
     steps: [
       'Lie face down on a flat bench with a dumbbell in each hand, palms facing inwards.',
       'Extend your arms straight down towards the floor, keeping a slight bend in your elbows.',
@@ -1138,7 +1138,7 @@ const List<Exercise> kExercises = [
     secondary: ['biceps'],
     equipment: 'Cable',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/OQ1otBN.gif',
+    art: 'lat-pulldown',
     steps: [
       'Attach a cable handle to each side of a cable machine at shoulder height.',
       'Stand in the middle of the machine with your feet shoulder-width apart.',
@@ -1154,7 +1154,7 @@ const List<Exercise> kExercises = [
     secondary: ['biceps', 'forearm'],
     equipment: 'Machine',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/7OeHptV.gif',
+    art: 'assisted-chin-up',
     steps: [
       'Adjust the machine to your desired assistance level.',
       'Stand on the foot platform and grip the handles with an overhand grip, slightly wider than shoulder-width apart.',
@@ -1170,7 +1170,7 @@ const List<Exercise> kExercises = [
     secondary: ['biceps', 'forearm'],
     equipment: 'Bodyweight',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/mExgrF9.gif',
+    art: 'inverted-row',
     steps: [
       'Position yourself under a bar or a sturdy horizontal surface that is at chest height.',
       'Grab the bar or surface with an overhand grip, slightly wider than shoulder-width apart.',
@@ -1186,7 +1186,7 @@ const List<Exercise> kExercises = [
     secondary: ['biceps', 'triceps'],
     equipment: 'Weighted',
     difficulty: 'Advanced',
-    gif: 'assets/gifs/JsOV1SU.gif',
+    art: 'pull-up',
     steps: [
       'Start by hanging from a pull-up bar with your palms facing away from you and your hands slightly wider than shoulder-width apart.',
       'Engage your core and pull your body up towards the bar, leading with your chest.',
@@ -1202,7 +1202,7 @@ const List<Exercise> kExercises = [
     secondary: ['biceps', 'forearm'],
     equipment: 'Barbell',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/dmgMp3n.gif',
+    art: 'chest-supported-row',
     steps: [
       'Set up an incline bench at a 45-degree angle.',
       'Lie face down on the bench with your chest against the pad and your feet flat on the ground.',
@@ -1218,7 +1218,7 @@ const List<Exercise> kExercises = [
     secondary: ['biceps', 'forearm'],
     equipment: 'Cable',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/kesXOpB.gif',
+    art: 'seated-row',
     steps: [
       'Sit on the decline bench facing the cable machine with your feet securely placed on the footrests.',
       'Grasp the cable attachment with a wide overhand grip, palms facing down.',
@@ -1234,7 +1234,7 @@ const List<Exercise> kExercises = [
     secondary: ['biceps', 'forearm'],
     equipment: 'Machine',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/f4xtKBj.gif',
+    art: 'assisted-pull-up',
     steps: [
       'Adjust the machine to your desired weight and height settings.',
       'Stand facing the machine with your feet shoulder-width apart.',
@@ -1250,7 +1250,7 @@ const List<Exercise> kExercises = [
     secondary: ['biceps'],
     equipment: 'Bodyweight',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/3xK09Sk.gif',
+    art: 'inverted-row',
     steps: [
       'Stand with your feet shoulder-width apart, holding onto a sturdy object or suspension trainer with your arms extended.',
       'Lower your body into a squat position, keeping your back straight and your knees behind your toes.',
@@ -1266,7 +1266,7 @@ const List<Exercise> kExercises = [
     secondary: ['biceps', 'forearm'],
     equipment: 'Weighted',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/fXfqg1E.gif',
+    art: 'weighted-pull-up',
     steps: [
       'Grab the pull-up bar with an overhand grip, slightly wider than shoulder-width apart.',
       'Hang from the bar with your arm fully extended and your body straight.',
@@ -1282,7 +1282,7 @@ const List<Exercise> kExercises = [
     secondary: ['biceps', 'forearm'],
     equipment: 'Dumbbell',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/wt6rwjk.gif',
+    art: 'dumbbell-bent-over-row',
     steps: [
       'Stand with your feet shoulder-width apart, holding a dumbbell in each hand with an overhand grip.',
       'Bend forward at the hips, keeping your back straight and your knees slightly bent.',
@@ -1298,7 +1298,7 @@ const List<Exercise> kExercises = [
     secondary: ['biceps', 'forearm'],
     equipment: 'Cable',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/veXwo0D.gif',
+    art: 'seated-row',
     steps: [
       'Sit on the floor with your legs extended and your back straight.',
       'Attach a cable handle to a low pulley and position the cable machine behind you.',
@@ -1314,7 +1314,7 @@ const List<Exercise> kExercises = [
     secondary: ['biceps', 'forearm'],
     equipment: 'Machine',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/7I6LNUG.gif',
+    art: 'machine-row',
     steps: [
       'Adjust the seat height and footrests to a comfortable position.',
       'Sit on the machine with your chest against the pad and your feet on the footrests.',
@@ -1330,7 +1330,7 @@ const List<Exercise> kExercises = [
     secondary: ['biceps', 'forearm'],
     equipment: 'Bodyweight',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/v2DfH14.gif',
+    art: 'doorway-row',
     steps: [
       'Stand with your feet shoulder-width apart, knees slightly bent, and hold a dumbbell in one hand with a neutral grip.',
       'Bend forward at the hips, keeping your back straight and your core engaged.',
@@ -1346,7 +1346,7 @@ const List<Exercise> kExercises = [
     secondary: ['biceps', 'forearm'],
     equipment: 'Weighted',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/HMzLjXx.gif',
+    art: 'weighted-pull-up',
     steps: [
       'Grab the pull-up bar with an overhand grip, slightly wider than shoulder-width apart.',
       'Hang from the bar with your arms fully extended and your body straight.',
@@ -1362,7 +1362,7 @@ const List<Exercise> kExercises = [
     secondary: ['triceps'],
     equipment: 'Barbell',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/i6LWjok.gif',
+    art: 'straight-arm-pulldown',
     steps: [
       'Lie flat on a bench with your head at one end and your feet on the floor.',
       'Hold a barbell with a shoulder-width grip and extend your arms straight above your chest.',
@@ -1378,7 +1378,7 @@ const List<Exercise> kExercises = [
     secondary: ['biceps'],
     equipment: 'Dumbbell',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/ZIViNh1.gif',
+    art: 'chest-supported-row',
     steps: [
       'Set up an incline bench at a 45-degree angle.',
       'Place a dumbbell on the floor next to the bench.',
@@ -1394,7 +1394,7 @@ const List<Exercise> kExercises = [
     secondary: ['biceps'],
     equipment: 'Cable',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/ZSJNetl.gif',
+    art: 'seated-row',
     steps: [
       'Attach a straight bar to a cable machine at chest height.',
       'Kneel down in front of the cable machine and grab the bar with an overhand grip, hands shoulder-width apart.',
@@ -1410,7 +1410,7 @@ const List<Exercise> kExercises = [
     secondary: ['biceps', 'forearm'],
     equipment: 'Machine',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/aaXr7ld.gif',
+    art: 't-bar-row',
     steps: [
       'Adjust the seat height and footplate position to ensure proper alignment.',
       'Sit on the machine with your chest against the pad and your feet flat on the footplate.',
@@ -1426,7 +1426,7 @@ const List<Exercise> kExercises = [
     secondary: ['biceps', 'forearm'],
     equipment: 'Bodyweight',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/tig3PXb.gif',
+    art: 'doorway-row',
     steps: [
       'Stand with your feet shoulder-width apart and knees slightly bent.',
       'Bend forward at the waist, keeping your back straight and your core engaged.',
@@ -1442,7 +1442,7 @@ const List<Exercise> kExercises = [
     secondary: ['triceps'],
     equipment: 'Barbell',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/znLogoF.gif',
+    art: 'straight-arm-pulldown',
     steps: [
       'Lie flat on a bench with your head at one end and your feet on the ground.',
       'Hold the barbell with a pronated grip (palms facing away from you) and extend your arms straight above your chest.',
@@ -1458,7 +1458,7 @@ const List<Exercise> kExercises = [
     secondary: ['biceps', 'forearm'],
     equipment: 'Dumbbell',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/9pQSkH8.gif',
+    art: 'chest-supported-row',
     steps: [
       'Set up an incline bench at a 45-degree angle.',
       'Sit on the bench with your chest against the backrest and your feet flat on the ground.',
@@ -1474,7 +1474,7 @@ const List<Exercise> kExercises = [
     secondary: ['biceps'],
     equipment: 'Cable',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/yaMIo4D.gif',
+    art: 'chest-supported-row',
     steps: [
       'Set up an incline bench at a 45-degree angle and attach a cable handle to the low pulley.',
       'Sit on the bench facing the cable machine with your feet flat on the floor and your knees slightly bent.',
@@ -1490,7 +1490,7 @@ const List<Exercise> kExercises = [
     secondary: ['biceps', 'forearm'],
     equipment: 'Bodyweight',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/xbkPfaw.gif',
+    art: 'doorway-row',
     steps: [
       'Stand with your feet shoulder-width apart, knees slightly bent, and hold a dumbbell in one hand.',
       'Bend forward at the hips, keeping your back straight and your core engaged.',
@@ -1506,7 +1506,7 @@ const List<Exercise> kExercises = [
     secondary: ['triceps'],
     equipment: 'Barbell',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/9sgNE2O.gif',
+    art: 'dumbbell-fly',
     steps: [
       'Lie down on a decline bench with your head lower than your hips and your feet secured.',
       'Hold the barbell with a pronated grip (palms facing away from you) and your hands slightly wider than shoulder-width apart.',
@@ -1522,7 +1522,7 @@ const List<Exercise> kExercises = [
     secondary: ['triceps'],
     equipment: 'Dumbbell',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/vptOQ4N.gif',
+    art: 'push-up',
     steps: [
       'Start in a high plank position with your hands slightly wider than shoulder-width apart and your body in a straight line.',
       'Lower your chest towards the ground by bending your elbows, keeping them close to your body.',
@@ -1537,7 +1537,7 @@ const List<Exercise> kExercises = [
     secondary: ['triceps'],
     equipment: 'Cable',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/7xI5MXA.gif',
+    art: 'bench-press',
     steps: [
       'Adjust the cable machine to chest height and attach the handles.',
       'Stand facing away from the machine with your feet shoulder-width apart.',
@@ -1553,7 +1553,7 @@ const List<Exercise> kExercises = [
     secondary: ['triceps'],
     equipment: 'Machine',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/PAgTVaK.gif',
+    art: 'assisted-dip',
     steps: [
       'Adjust the machine to your desired height and secure your knees on the pad.',
       'Grasp the handles with your palms facing down and your arms fully extended.',
@@ -1569,7 +1569,7 @@ const List<Exercise> kExercises = [
     secondary: ['triceps'],
     equipment: 'Bodyweight',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/A9qxk2F.gif',
+    art: 'archer-push-up',
     steps: [
       'Start in a push-up position with your hands slightly wider than shoulder-width apart.',
       'Extend one arm straight out to the side, parallel to the ground.',
@@ -1585,7 +1585,7 @@ const List<Exercise> kExercises = [
     secondary: ['triceps'],
     equipment: 'Weighted',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/PSlvNMs.gif',
+    art: 'weighted-push-up',
     steps: [
       'Start in a high plank position with your hands slightly wider than shoulder-width apart and your feet together.',
       'Lower your chest towards the ground, keeping your elbows close to your body.',
@@ -1601,7 +1601,7 @@ const List<Exercise> kExercises = [
     secondary: ['triceps'],
     equipment: 'Barbell',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/hl8DUh8.gif',
+    art: 'decline-bench-press',
     steps: [
       'Lie on a decline bench with your feet secured and your head lower than your hips.',
       'Grasp the barbell with a wide grip, slightly wider than shoulder-width apart.',
@@ -1617,7 +1617,7 @@ const List<Exercise> kExercises = [
     secondary: ['triceps'],
     equipment: 'Dumbbell',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/vi8EhoE.gif',
+    art: 'dumbbell-fly',
     steps: [
       'Lie flat on a bench with your head at one end and your feet firmly on the ground.',
       'Hold a dumbbell with both hands and extend your arms straight above your chest.',
@@ -1633,7 +1633,7 @@ const List<Exercise> kExercises = [
     secondary: ['triceps'],
     equipment: 'Cable',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/0CXGHya.gif',
+    art: 'cable-fly',
     steps: [
       'Adjust the cable pulleys to chest height.',
       'Stand in the center of the cable machine with one foot in front of the other.',
@@ -1649,7 +1649,7 @@ const List<Exercise> kExercises = [
     secondary: ['triceps'],
     equipment: 'Bodyweight',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/XgWyAiA.gif',
+    art: 'chest-dip',
     steps: [
       'Adjust the dip bars to a height that allows you to comfortably grip them.',
       'Stand between the bars and place your hands on each bar, slightly wider than shoulder-width apart.',
@@ -1665,7 +1665,7 @@ const List<Exercise> kExercises = [
     secondary: ['triceps'],
     equipment: 'Weighted',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/Ff18ItA.gif',
+    art: 'weighted-dip',
     steps: [
       'Position yourself between parallel bars with your arms fully extended and your body straight.',
       'Lower your body by bending your elbows until your upper arms are parallel to the ground.',
@@ -1680,7 +1680,7 @@ const List<Exercise> kExercises = [
     secondary: ['triceps'],
     equipment: 'Barbell',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/33AzZeV.gif',
+    art: 'front-raise',
     steps: [
       'Stand with your feet shoulder-width apart and hold a barbell with an overhand grip, palms facing down.',
       'Keep your arms straight and raise the barbell in front of you until it reaches shoulder height.',
@@ -1696,7 +1696,7 @@ const List<Exercise> kExercises = [
     secondary: ['triceps'],
     equipment: 'Dumbbell',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/DwhEmmE.gif',
+    art: 'decline-dumbbell-press',
     steps: [
       'Lie down on a decline bench with your feet secured and your head lower than your hips.',
       'Hold a dumbbell in each hand and extend your arms straight up above your chest, palms facing forward.',
@@ -1712,7 +1712,7 @@ const List<Exercise> kExercises = [
     secondary: ['triceps'],
     equipment: 'Cable',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/7saC5zz.gif',
+    art: 'cable-fly',
     steps: [
       'Adjust the cable machine to a decline position.',
       'Stand facing away from the machine with your feet shoulder-width apart.',
@@ -1728,7 +1728,7 @@ const List<Exercise> kExercises = [
     secondary: ['triceps'],
     equipment: 'Machine',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/WbNq5Xu.gif',
+    art: 'machine-chest-press',
     steps: [
       'Adjust the seat height and position yourself on the machine with your feet flat on the ground.',
       'Grasp the handles with an overhand grip and position your hands at chest level.',
@@ -1744,7 +1744,7 @@ const List<Exercise> kExercises = [
     secondary: ['triceps'],
     equipment: 'Bodyweight',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/LQFOrMn.gif',
+    art: 'chest-dip',
     steps: [
       'Grab the parallel bars with your palms facing down and your arms fully extended.',
       'Bend your knees and cross your ankles.',
@@ -1760,7 +1760,7 @@ const List<Exercise> kExercises = [
     secondary: ['triceps'],
     equipment: 'Barbell',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/GXoaSgn.gif',
+    art: 'bench-press',
     steps: [
       'Lie flat on a bench with your feet flat on the ground and your back pressed against the bench.',
       'Grasp the barbell with an overhand grip, slightly wider than shoulder-width apart.',
@@ -1776,7 +1776,7 @@ const List<Exercise> kExercises = [
     secondary: [],
     equipment: 'Dumbbell',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/xXm4nYq.gif',
+    art: 'dumbbell-fly',
     steps: [
       'Lie on a decline bench with your feet secured and your head lower than your hips.',
       'Hold a dumbbell in each hand with your palms facing each other and your arms extended above your chest.',
@@ -1792,7 +1792,7 @@ const List<Exercise> kExercises = [
     secondary: ['triceps'],
     equipment: 'Machine',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/wDN97Ca.gif',
+    art: 'machine-chest-press',
     steps: [
       'Adjust the seat height and position yourself on the machine with your back flat against the pad.',
       'Grasp the handles with an overhand grip and position your elbows at a 90-degree angle.',
@@ -1808,7 +1808,7 @@ const List<Exercise> kExercises = [
     secondary: ['triceps'],
     equipment: 'Bodyweight',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/7E06s6d.gif',
+    art: 'push-up-shoulder-tap',
     steps: [
       'Start in a high plank position with your hands slightly wider than shoulder-width apart and your body in a straight line.',
       'Lower your body towards the ground by bending your elbows, keeping them close to your sides.',
@@ -1824,7 +1824,7 @@ const List<Exercise> kExercises = [
     secondary: ['triceps'],
     equipment: 'Dumbbell',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/1qrWgZ2.gif',
+    art: 'decline-dumbbell-press',
     steps: [
       'Lie on a decline bench with your feet secured and your head lower than your hips.',
       'Hold a dumbbell in each hand with your palms facing each other and your arms extended above your chest.',
@@ -1840,7 +1840,7 @@ const List<Exercise> kExercises = [
     secondary: ['triceps'],
     equipment: 'Cable',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/2Pya1cP.gif',
+    art: 'decline-dumbbell-press',
     steps: [
       'Adjust the cable machine to a decline position.',
       'Sit on the decline bench facing the cable machine.',
@@ -1856,7 +1856,7 @@ const List<Exercise> kExercises = [
     secondary: ['triceps'],
     equipment: 'Machine',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/trqKQv2.gif',
+    art: 'smith-machine-bench-press',
     steps: [
       'Adjust the height of the smith machine bar to chest level.',
       'Lie flat on the bench with your feet firmly planted on the ground.',
@@ -1872,7 +1872,7 @@ const List<Exercise> kExercises = [
     secondary: ['triceps'],
     equipment: 'Bodyweight',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/wigSg76.gif',
+    art: 'explosive-push-up',
     steps: [
       'Start in a high plank position with your hands slightly wider than shoulder-width apart.',
       'Lower your body towards the ground by bending your elbows, keeping your core engaged.',
@@ -1888,7 +1888,7 @@ const List<Exercise> kExercises = [
     secondary: ['triceps'],
     equipment: 'Cable',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/Vh0GsK4.gif',
+    art: 'incline-bench-press',
     steps: [
       'Adjust the bench to a 45-degree incline.',
       'Attach the cable handles to the high pulleys.',
@@ -1904,7 +1904,7 @@ const List<Exercise> kExercises = [
     secondary: ['triceps'],
     equipment: 'Machine',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/ETZfAbZ.gif',
+    art: 'smith-machine-bench-press',
     steps: [
       'Adjust the decline bench to the desired angle.',
       'Lie down on the bench with your feet secured under the foot pads.',
@@ -1920,7 +1920,7 @@ const List<Exercise> kExercises = [
     secondary: ['triceps'],
     equipment: 'Bodyweight',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/CMAxnsG.gif',
+    art: 'push-up',
     steps: [
       'Start in a high plank position with your hands directly under your shoulders and your body in a straight line.',
       'Lower your body towards the ground by bending your elbows, keeping them close to your sides.',
@@ -1936,7 +1936,7 @@ const List<Exercise> kExercises = [
     secondary: ['triceps'],
     equipment: 'Barbell',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/JsKq9so.gif',
+    art: 'bench-press',
     steps: [
       'Lie flat on a bench with your feet flat on the ground and your back pressed against the bench.',
       'Grasp the barbell with a wide grip, slightly wider than shoulder-width apart.',
@@ -1952,7 +1952,7 @@ const List<Exercise> kExercises = [
     secondary: ['triceps'],
     equipment: 'Dumbbell',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/reFHapa.gif',
+    art: 'dumbbell-fly',
     steps: [
       'Lie down on a decline bench with your head lower than your hips.',
       'Hold a dumbbell in each hand with your palms facing each other and your arms extended straight up over your chest.',
@@ -1968,7 +1968,7 @@ const List<Exercise> kExercises = [
     secondary: ['triceps'],
     equipment: 'Cable',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/tBWXbIT.gif',
+    art: 'incline-cable-fly',
     steps: [
       'Adjust the cable machine to a low position and attach the handles.',
       'Sit on an incline bench with your back against the pad and feet flat on the floor.',
@@ -1984,7 +1984,7 @@ const List<Exercise> kExercises = [
     secondary: ['triceps'],
     equipment: 'Machine',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/MY9P1WA.gif',
+    art: 'smith-machine-bench-press',
     steps: [
       'Adjust the smith machine to a decline position.',
       'Lie down on the bench with your feet secured under the foot pads.',
@@ -2000,7 +2000,7 @@ const List<Exercise> kExercises = [
     secondary: ['biceps', 'triceps'],
     equipment: 'Barbell',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/b2Uoz54.gif',
+    art: 'front-raise',
     steps: [
       'Stand with your feet shoulder-width apart and hold a barbell in front of your thighs with an overhand grip.',
       'Keep your arms straight and lift the barbell forward and upward until it reaches shoulder level.',
@@ -2015,7 +2015,7 @@ const List<Exercise> kExercises = [
     secondary: ['triceps'],
     equipment: 'Dumbbell',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/izMnLqz.gif',
+    art: 'standing-dumbbell-press',
     steps: [
       'Stand with your feet shoulder-width apart, holding a dumbbell in each hand at shoulder height.',
       'Press one dumbbell overhead while keeping the other dumbbell at shoulder height.',
@@ -2030,7 +2030,7 @@ const List<Exercise> kExercises = [
     secondary: ['triceps', 'back'],
     equipment: 'Cable',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/KHPZL0b.gif',
+    art: 'machine-shoulder-press',
     steps: [
       'Stand with your feet shoulder-width apart and grasp the handles of the cable machine with an overhand grip.',
       'Position your hands at shoulder height, with your palms facing forward.',
@@ -2046,7 +2046,7 @@ const List<Exercise> kExercises = [
     secondary: [],
     equipment: 'Machine',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/myfUsKf.gif',
+    art: 'reverse-pec-deck',
     steps: [
       'Adjust the seat height and position yourself on the machine with your chest against the pad and your feet flat on the floor.',
       'Grasp the handles with an overhand grip and keep your arms slightly bent.',
@@ -2062,7 +2062,7 @@ const List<Exercise> kExercises = [
     secondary: ['biceps', 'forearm'],
     equipment: 'Weighted',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/e4aFmFY.gif',
+    art: 'plate-front-raise',
     steps: [
       'Stand with your feet shoulder-width apart, holding a dumbbell in each hand with your palms facing your thighs.',
       'Keeping your arms straight, exhale and lift the dumbbells in front of you until they are at shoulder level.',
@@ -2077,7 +2077,7 @@ const List<Exercise> kExercises = [
     secondary: ['trapezius', 'forearm'],
     equipment: 'Barbell',
     difficulty: 'Advanced',
-    gif: 'assets/gifs/xHKN2s8.gif',
+    art: 'kettlebell-swing',
     steps: [
       'Stand with your feet shoulder-width apart, toes pointing slightly outwards.',
       'Hold the barbell with an overhand grip, hands slightly wider than shoulder-width apart.',
@@ -2093,7 +2093,7 @@ const List<Exercise> kExercises = [
     secondary: ['triceps'],
     equipment: 'Dumbbell',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/eOrFCnx.gif',
+    art: 'arnold-press',
     steps: [
       'Sit on a bench with back support and hold a dumbbell in each hand at shoulder level, palms facing your body and elbows bent.',
       'Press the dumbbells upward until your arms are fully extended and your palms are facing forward.',
@@ -2109,7 +2109,7 @@ const List<Exercise> kExercises = [
     secondary: [],
     equipment: 'Cable',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/aqvSOQE.gif',
+    art: 'cable-rear-delt-fly',
     steps: [
       'Attach a D-handle to each low pulley cable and stand in the middle of the cable crossover machine.',
       'Grasp the handles with a pronated grip (palms facing down) and take a step forward, positioning your feet shoulder-width apart.',
@@ -2125,7 +2125,7 @@ const List<Exercise> kExercises = [
     secondary: ['triceps'],
     equipment: 'Machine',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/67n3r98.gif',
+    art: 'machine-shoulder-press',
     steps: [
       'Adjust the seat height and position yourself on the machine with your back against the backrest.',
       'Grasp the handles with an overhand grip and position your hands at shoulder level.',
@@ -2141,7 +2141,7 @@ const List<Exercise> kExercises = [
     secondary: ['triceps'],
     equipment: 'Weighted',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/7uFJuXp.gif',
+    art: 'kettlebell-swing',
     steps: [
       'Start in a kneeling position with your knees hip-width apart and your back straight.',
       'Hold a weight in each hand, with your arms extended straight down in front of you.',
@@ -2156,7 +2156,7 @@ const List<Exercise> kExercises = [
     secondary: ['trapezius'],
     equipment: 'Barbell',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/Ln9iTbU.gif',
+    art: 'bent-over-rear-delt-raise',
     steps: [
       'Stand with your feet shoulder-width apart and hold a barbell with an overhand grip, palms facing down.',
       'Bend your knees slightly and hinge forward at the hips, keeping your back straight.',
@@ -2172,7 +2172,7 @@ const List<Exercise> kExercises = [
     secondary: ['triceps'],
     equipment: 'Dumbbell',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/3d7wHyd.gif',
+    art: 'seated-dumbbell-press',
     steps: [
       'Sit on a bench with a dumbbell in each hand, resting on your thighs.',
       'Lean back and position the dumbbells to the sides of your chest, palms facing forward.',
@@ -2188,7 +2188,7 @@ const List<Exercise> kExercises = [
     secondary: ['triceps', 'forearm'],
     equipment: 'Cable',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/hvHhCv8.gif',
+    art: 'cable-front-raise',
     steps: [
       'Stand with your feet shoulder-width apart and your knees slightly bent.',
       'Hold the cable handle with an overhand grip, palms facing down, and your arms fully extended in front of you.',
@@ -2204,7 +2204,7 @@ const List<Exercise> kExercises = [
     secondary: ['triceps', 'back'],
     equipment: 'Machine',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/Gpn4ADc.gif',
+    art: 'machine-shoulder-press',
     steps: [
       'Adjust the seat height of the smith machine so that the bar is at shoulder level.',
       'Stand with your feet shoulder-width apart and your knees slightly bent.',
@@ -2220,7 +2220,7 @@ const List<Exercise> kExercises = [
     secondary: ['triceps', 'back'],
     equipment: 'Weighted',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/VLYXo8S.gif',
+    art: 'arm-circles',
     steps: [
       'Stand with your feet shoulder-width apart and hold a dumbbell in each hand.',
       'Bend your knees slightly and hinge forward at the hips, keeping your back straight.',
@@ -2236,7 +2236,7 @@ const List<Exercise> kExercises = [
     secondary: ['biceps'],
     equipment: 'Barbell',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/S9zHIvU.gif',
+    art: 'barbell-row',
     steps: [
       'Stand with your feet shoulder-width apart and knees slightly bent.',
       'Hold a barbell with an overhand grip, hands slightly wider than shoulder-width apart.',
@@ -2252,7 +2252,7 @@ const List<Exercise> kExercises = [
     secondary: ['triceps', 'back'],
     equipment: 'Dumbbell',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/QfAKy1G.gif',
+    art: 'arnold-press',
     steps: [
       'Stand with your feet shoulder-width apart, holding a dumbbell in each hand at shoulder height with your palms facing down.',
       'Keeping your core engaged and your elbows slightly bent, press the dumbbells up and overhead until your arms are fully extended.',
@@ -2268,7 +2268,7 @@ const List<Exercise> kExercises = [
     secondary: ['triceps', 'forearm'],
     equipment: 'Cable',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/u2X71Np.gif',
+    art: 'cable-front-raise',
     steps: [
       'Stand with your feet shoulder-width apart and grasp the cable handle with an overhand grip.',
       'Keep your back straight and your core engaged.',
@@ -2284,7 +2284,7 @@ const List<Exercise> kExercises = [
     secondary: ['biceps'],
     equipment: 'Machine',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/nFUwqG6.gif',
+    art: 'bent-over-rear-delt-raise',
     steps: [
       'Adjust the seat height and position yourself on the machine with your chest against the pad and your feet flat on the ground.',
       'Grasp the handles with an overhand grip, slightly wider than shoulder-width apart.',
@@ -2300,7 +2300,7 @@ const List<Exercise> kExercises = [
     secondary: ['triceps', 'back'],
     equipment: 'Barbell',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/ngPpyRS.gif',
+    art: 'overhead-press',
     steps: [
       'Sit on a bench with your back straight and feet flat on the ground.',
       'Hold the barbell with an overhand grip, slightly wider than shoulder-width apart.',
@@ -2316,7 +2316,7 @@ const List<Exercise> kExercises = [
     secondary: ['biceps'],
     equipment: 'Dumbbell',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/Rr7S3yg.gif',
+    art: 'front-raise',
     steps: [
       'Stand with your feet shoulder-width apart, holding a dumbbell in each hand with your palms facing your thighs.',
       'Keep your back straight and engage your core.',
@@ -2332,7 +2332,7 @@ const List<Exercise> kExercises = [
     secondary: ['biceps'],
     equipment: 'Cable',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/mTT3KLn.gif',
+    art: 'cable-front-raise',
     steps: [
       'Stand with your feet shoulder-width apart and grasp the cable handle with an overhand grip.',
       'Keep your back straight and your core engaged.',
@@ -2348,7 +2348,7 @@ const List<Exercise> kExercises = [
     secondary: ['triceps', 'back'],
     equipment: 'Machine',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/xUwnBMT.gif',
+    art: 'machine-shoulder-press',
     steps: [
       'Adjust the seat height so that the handles are at shoulder level.',
       'Sit on the machine with your back against the pad and your feet flat on the floor.',
@@ -2364,7 +2364,7 @@ const List<Exercise> kExercises = [
     secondary: ['triceps', 'back'],
     equipment: 'Barbell',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/0dCyly0.gif',
+    art: 'overhead-press',
     steps: [
       'Sit on a bench with your back straight and feet flat on the ground.',
       'Hold the barbell with an overhand grip, slightly wider than shoulder-width apart.',
@@ -2380,7 +2380,7 @@ const List<Exercise> kExercises = [
     secondary: ['trapezius'],
     equipment: 'Dumbbell',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/AQ0mC4Y.gif',
+    art: 'lateral-raise',
     steps: [
       'Stand with your feet shoulder-width apart, holding a dumbbell in each hand with your palms facing your body.',
       'Keep your back straight and engage your core.',
@@ -2396,7 +2396,7 @@ const List<Exercise> kExercises = [
     secondary: ['biceps'],
     equipment: 'Cable',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/G61cXLk.gif',
+    art: 'cable-rear-delt-fly',
     steps: [
       'Attach a rope handle to a low cable pulley and kneel down facing the machine.',
       'Grasp the rope with a neutral grip (palms facing each other) and extend your arms fully in front of you.',
@@ -2412,7 +2412,7 @@ const List<Exercise> kExercises = [
     secondary: ['triceps', 'back'],
     equipment: 'Machine',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/903mzG8.gif',
+    art: 'machine-shoulder-press',
     steps: [
       'Adjust the seat height and position yourself on the smith machine with your feet shoulder-width apart.',
       'Grasp the bar with an overhand grip, slightly wider than shoulder-width apart.',
@@ -2428,7 +2428,7 @@ const List<Exercise> kExercises = [
     secondary: ['triceps', 'back'],
     equipment: 'Barbell',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/kTbSH9h.gif',
+    art: 'overhead-press',
     steps: [
       'Sit on a bench with your back straight and feet flat on the ground.',
       'Hold the barbell with an overhand grip, slightly wider than shoulder-width apart.',
@@ -2444,7 +2444,7 @@ const List<Exercise> kExercises = [
     secondary: ['triceps'],
     equipment: 'Dumbbell',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/aTNKZiC.gif',
+    art: 'lateral-raise',
     steps: [
       'Sit on an incline bench with a dumbbell in one hand, resting it on your thigh.',
       'Lean forward and position your upper arm against the inside of your thigh.',
@@ -2460,7 +2460,7 @@ const List<Exercise> kExercises = [
     secondary: ['triceps', 'back'],
     equipment: 'Machine',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/ht8xDrP.gif',
+    art: 'overhead-press',
     steps: [
       'Adjust the seat height of the smith machine so that the bar is at shoulder level.',
       'Stand with your feet shoulder-width apart and your knees slightly bent.',
@@ -2476,7 +2476,7 @@ const List<Exercise> kExercises = [
     secondary: ['triceps'],
     equipment: 'Barbell',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/4Leypho.gif',
+    art: '',
     steps: [
       'Stand with your feet shoulder-width apart and hold a barbell in front of your thighs with an overhand grip.',
       'Bend your knees slightly and hinge forward at the hips, keeping your back straight and chest up.',
@@ -2492,7 +2492,7 @@ const List<Exercise> kExercises = [
     secondary: ['triceps'],
     equipment: 'Dumbbell',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/nxW6BkN.gif',
+    art: 'lateral-raise',
     steps: [
       'Sit on an incline bench with a dumbbell in each hand, resting on your thighs.',
       'Lean back on the bench and raise the dumbbells to shoulder height, palms facing forward.',
@@ -2508,7 +2508,7 @@ const List<Exercise> kExercises = [
     secondary: ['biceps'],
     equipment: 'Cable',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/yUdIGNs.gif',
+    art: 'cable-rear-delt-fly',
     steps: [
       'Attach a stirrup handle to a low cable pulley and stand facing the machine.',
       'Grasp the handle with your left hand and take a step back with your right foot, positioning your body at a slight angle.',
@@ -2524,7 +2524,7 @@ const List<Exercise> kExercises = [
     secondary: [],
     equipment: 'Barbell',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/xi0yckC.gif',
+    art: 'shrug',
     steps: [
       'Set up an incline bench at a 45-degree angle.',
       'Sit on the bench with your back against the pad and feet flat on the ground.',
@@ -2540,7 +2540,7 @@ const List<Exercise> kExercises = [
     secondary: [],
     equipment: 'Dumbbell',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/6e2DcYX.gif',
+    art: 'dumbbell-shrug',
     steps: [
       'Set an incline bench to a 45-degree angle and sit on it with a dumbbell in each hand, palms facing down.',
       'Rest the dumbbells on your thighs and lean back onto the bench.',
@@ -2556,7 +2556,7 @@ const List<Exercise> kExercises = [
     secondary: ['obliques'],
     equipment: 'Cable',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/MvQPqVW.gif',
+    art: 'cable-woodchop',
     steps: [
       'Stand facing the cable machine with your feet shoulder-width apart.',
       'Hold the cable handle with both hands at chest level, palms facing down.',
@@ -2572,7 +2572,7 @@ const List<Exercise> kExercises = [
     secondary: ['glutes', 'hamstrings'],
     equipment: 'Machine',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/CqhoytW.gif',
+    art: 'smith-machine-hip-thrust',
     steps: [
       'Position yourself on the smith machine with your back against the pad and your feet shoulder-width apart.',
       'Place your hands on the barbell, slightly wider than shoulder-width apart.',
@@ -2588,7 +2588,7 @@ const List<Exercise> kExercises = [
     secondary: [],
     equipment: 'Bodyweight',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/2gPfomN.gif',
+    art: 'crunch',
     steps: [
       'Lie flat on your back with your knees bent and feet flat on the ground.',
       'Place your hands behind your head with your elbows pointing outwards.',
@@ -2604,7 +2604,7 @@ const List<Exercise> kExercises = [
     secondary: [],
     equipment: 'Barbell',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/wnEscH8.gif',
+    art: 'decline-sit-up',
     steps: [
       'Lie flat on your back on a mat with your knees bent and feet flat on the ground.',
       'Hold the barbell with an overhand grip, resting it on your chest.',
@@ -2620,7 +2620,7 @@ const List<Exercise> kExercises = [
     secondary: ['obliques'],
     equipment: 'Dumbbell',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/IpONWYv.gif',
+    art: 'dumbbell-side-bend',
     steps: [
       'Stand up straight with your feet shoulder-width apart and hold a dumbbell in one hand, letting it hang down by your side.',
       'Keeping your back straight and your core engaged, slowly bend sideways at the waist towards the opposite side of the dumbbell, lowering the weight as far as you comfortably can.',
@@ -2635,7 +2635,7 @@ const List<Exercise> kExercises = [
     secondary: ['obliques'],
     equipment: 'Cable',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/WW95auq.gif',
+    art: 'cable-crunch',
     steps: [
       'Attach a rope handle to a high pulley and kneel down facing away from the machine.',
       'Hold the rope handle with both hands and place it behind your head, keeping your elbows out to the sides.',
@@ -2651,7 +2651,7 @@ const List<Exercise> kExercises = [
     secondary: [],
     equipment: 'Machine',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/ayAHcEm.gif',
+    art: 'shrug',
     steps: [
       'Adjust the smith machine to an incline position.',
       'Stand facing the machine with your feet shoulder-width apart.',
@@ -2667,7 +2667,7 @@ const List<Exercise> kExercises = [
     secondary: ['obliques'],
     equipment: 'Bodyweight',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/Hy9D21L.gif',
+    art: 'dumbbell-side-bend',
     steps: [
       'Stand with your feet shoulder-width apart and your arms extended straight down by your sides.',
       'Keeping your back straight and your core engaged, slowly bend your torso to one side, lowering your hand towards your knee.',
@@ -2683,7 +2683,7 @@ const List<Exercise> kExercises = [
     secondary: ['obliques'],
     equipment: 'Weighted',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/s8nrDXF.gif',
+    art: 'weighted-crunch',
     steps: [
       'Lie flat on your back with your knees bent and feet flat on the ground.',
       'Hold a weight plate or dumbbell on your chest.',
@@ -2699,7 +2699,7 @@ const List<Exercise> kExercises = [
     secondary: [],
     equipment: 'Barbell',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/7M66AVi.gif',
+    art: 'ab-wheel',
     steps: [
       'Kneel on the floor and hold a barbell with both hands, shoulder-width apart.',
       'Roll the barbell forward, extending your arms and keeping your core engaged.',
@@ -2715,7 +2715,7 @@ const List<Exercise> kExercises = [
     secondary: [],
     equipment: 'Cable',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/RqOtqD7.gif',
+    art: 'reverse-crunch',
     steps: [
       'Attach a cable to a low pulley and lie down facing up on a mat.',
       'Hold the cable with both hands and extend your arms straight up towards the ceiling.',
@@ -2731,7 +2731,7 @@ const List<Exercise> kExercises = [
     secondary: ['obliques'],
     equipment: 'Bodyweight',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/qaZVsGk.gif',
+    art: 'heel-tap',
     steps: [
       'Lie flat on your back with your knees bent and feet flat on the ground.',
       'Extend your arms straight out to the sides, parallel to the ground.',
@@ -2747,7 +2747,7 @@ const List<Exercise> kExercises = [
     secondary: [],
     equipment: 'Weighted',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/EZeDVzO.gif',
+    art: 'decline-sit-up',
     steps: [
       'Lie flat on a decline bench with your feet secured under the foot pads.',
       'Place your hands behind your head or across your chest.',
@@ -2763,7 +2763,7 @@ const List<Exercise> kExercises = [
     secondary: ['triceps'],
     equipment: 'Barbell',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/Gxg9lDc.gif',
+    art: 'ab-wheel',
     steps: [
       'Start by kneeling on the floor with a barbell placed on a bench in front of you.',
       'Grasp the barbell with an overhand grip, slightly wider than shoulder-width apart.',
@@ -2779,7 +2779,7 @@ const List<Exercise> kExercises = [
     secondary: ['obliques'],
     equipment: 'Cable',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/d9Xaxq6.gif',
+    art: 'russian-twist',
     steps: [
       'Sit on a stability ball with your feet flat on the ground and your knees bent at a 90-degree angle.',
       'Hold the cable handle with both hands and extend your arms straight out in front of you.',
@@ -2795,7 +2795,7 @@ const List<Exercise> kExercises = [
     secondary: [],
     equipment: 'Bodyweight',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/uWpxD4v.gif',
+    art: 'hanging-knee-raise',
     steps: [
       'Hang from a pull-up bar with your arms fully extended and your knees bent at a 90-degree angle.',
       'Engage your core and lift your knees towards your chest, bringing them as close to your elbows as possible.',
@@ -2810,7 +2810,7 @@ const List<Exercise> kExercises = [
     secondary: ['obliques'],
     equipment: 'Weighted',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/xmM75XG.gif',
+    art: 'weighted-crunch',
     steps: [
       'Sit on a stability ball with your feet flat on the ground and your knees bent at a 90-degree angle.',
       'Hold a weight plate or dumbbell with both hands and extend your arms overhead.',
@@ -2826,7 +2826,7 @@ const List<Exercise> kExercises = [
     secondary: ['obliques'],
     equipment: 'Barbell',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/dFSNDOA.gif',
+    art: 'russian-twist',
     steps: [
       'Sit on a flat bench with your feet flat on the ground and your knees bent.',
       'Hold a barbell with both hands in front of your chest, keeping your elbows slightly bent.',
@@ -2842,7 +2842,7 @@ const List<Exercise> kExercises = [
     secondary: ['obliques'],
     equipment: 'Cable',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/8xUv4J7.gif',
+    art: 'cable-crunch',
     steps: [
       'Sit on a cable machine with your feet flat on the ground and your knees bent.',
       'Hold the cable handle with both hands and position it behind your head.',
@@ -2858,7 +2858,7 @@ const List<Exercise> kExercises = [
     secondary: [],
     equipment: 'Bodyweight',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/PXTIwgu.gif',
+    art: 'hanging-leg-raise',
     steps: [
       'Hang from a pull-up bar with your arms fully extended and your legs straight down.',
       'Engage your core and lift your legs up in front of you until they are parallel to the ground.',
@@ -2873,7 +2873,7 @@ const List<Exercise> kExercises = [
     secondary: ['obliques'],
     equipment: 'Weighted',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/fZFZ704.gif',
+    art: 'weighted-russian-twist',
     steps: [
       'Sit on the ground with your knees bent and your feet flat on the floor.',
       'Hold a weight or medicine ball with both hands in front of your chest.',
@@ -2889,7 +2889,7 @@ const List<Exercise> kExercises = [
     secondary: ['obliques'],
     equipment: 'Barbell',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/i4JkUaL.gif',
+    art: 'dumbbell-side-bend',
     steps: [
       'Stand with your feet shoulder-width apart and hold a barbell with both hands, palms facing down.',
       'Keep your back straight and core engaged throughout the exercise.',
@@ -2905,7 +2905,7 @@ const List<Exercise> kExercises = [
     secondary: ['obliques'],
     equipment: 'Cable',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/UEjSrKI.gif',
+    art: 'cable-woodchop',
     steps: [
       'Sit on a cable machine with your feet flat on the ground and your knees slightly bent.',
       'Hold the cable handle with both hands and extend your arms straight in front of you.',
@@ -2921,7 +2921,7 @@ const List<Exercise> kExercises = [
     secondary: [],
     equipment: 'Bodyweight',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/NAkmgdx.gif',
+    art: 'crunch',
     steps: [
       'Lie flat on your back with your knees bent and feet flat on the ground.',
       'Extend your arms overhead, keeping them straight.',
@@ -2937,7 +2937,7 @@ const List<Exercise> kExercises = [
     secondary: ['obliques'],
     equipment: 'Weighted',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/s34Y4LR.gif',
+    art: 'weighted-russian-twist',
     steps: [
       'Sit on a stability ball with your feet flat on the ground and your knees bent at a 90-degree angle.',
       'Hold a weight plate or dumbbell with both hands close to your chest.',
@@ -2953,7 +2953,7 @@ const List<Exercise> kExercises = [
     secondary: [],
     equipment: 'Barbell',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/G7xoEzr.gif',
+    art: 'seated-knee-tuck',
     steps: [
       'Sit on a bench with your back straight and hold a barbell across your thighs.',
       'Keeping your legs straight, lift one leg up as high as possible while keeping the other leg on the ground.',
@@ -2968,7 +2968,7 @@ const List<Exercise> kExercises = [
     secondary: ['obliques'],
     equipment: 'Cable',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/wPypxFY.gif',
+    art: 'dumbbell-side-bend',
     steps: [
       'Stand with your feet shoulder-width apart and grasp the cable handle with one hand.',
       'Keep your back straight and your core engaged.',
@@ -2984,7 +2984,7 @@ const List<Exercise> kExercises = [
     secondary: ['obliques'],
     equipment: 'Bodyweight',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/5VXmnV5.gif',
+    art: 'side-plank',
     steps: [
       'Start by lying on your side with your legs extended and stacked on top of each other.',
       'Place your forearm on the ground directly below your shoulder, with your elbow bent at a 90-degree angle.',
@@ -3000,7 +3000,7 @@ const List<Exercise> kExercises = [
     secondary: ['obliques'],
     equipment: 'Weighted',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/6bOA1Oi.gif',
+    art: 'dumbbell-side-bend',
     steps: [
       'Sit on a stability ball with your feet shoulder-width apart and flat on the ground.',
       'Hold a weight in one hand and place your other hand on your hip.',
@@ -3016,7 +3016,7 @@ const List<Exercise> kExercises = [
     secondary: [],
     equipment: 'Barbell',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/xnInPfE.gif',
+    art: 'ab-wheel',
     steps: [
       'Stand upright with your feet shoulder-width apart and hold the barbell with both hands in front of your thighs.',
       'Engage your core and slowly roll the barbell down towards the ground, keeping your back straight and your arms extended.',
@@ -3032,7 +3032,7 @@ const List<Exercise> kExercises = [
     secondary: ['hamstrings', 'glutes', 'calves'],
     equipment: 'Barbell',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/Y7YcmIJ.gif',
+    art: 'front-squat',
     steps: [
       'Start by standing with your feet shoulder-width apart and the barbell resting on your upper chest, just below your collarbone.',
       'Hold the barbell with an overhand grip, keeping your elbows up and your upper arms parallel to the ground.',
@@ -3048,7 +3048,7 @@ const List<Exercise> kExercises = [
     secondary: ['glutes', 'hamstrings', 'calves'],
     equipment: 'Dumbbell',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/gFyFj9z.gif',
+    art: 'step-up',
     steps: [
       'Stand in front of a step or platform with a dumbbell in each hand, palms facing your sides.',
       'Place your right foot on the step, ensuring your entire foot is on the surface.',
@@ -3064,7 +3064,7 @@ const List<Exercise> kExercises = [
     secondary: ['glutes'],
     equipment: 'Cable',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/hBGWILP.gif',
+    art: 'cable-standing-hip-adduction',
     steps: [
       'Attach the ankle cuff to your ankle and stand facing the cable machine.',
       'Position yourself far enough away from the machine so that there is tension on the cable.',
@@ -3080,7 +3080,7 @@ const List<Exercise> kExercises = [
     secondary: ['glutes', 'hamstrings', 'calves'],
     equipment: 'Machine',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/Gu2rNJd.gif',
+    art: 'smith-machine-squat',
     steps: [
       'Adjust the height of the smith machine bar to a comfortable position.',
       'Stand with your feet shoulder-width apart, toes slightly turned out.',
@@ -3096,7 +3096,7 @@ const List<Exercise> kExercises = [
     secondary: ['hamstrings', 'glutes', 'calves'],
     equipment: 'Bodyweight',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/SaDOwk7.gif',
+    art: 'jump-squat',
     steps: [
       'Stand with your feet shoulder-width apart.',
       'Bend your knees slightly and jump backwards, pushing off with both feet.',
@@ -3111,7 +3111,7 @@ const List<Exercise> kExercises = [
     secondary: ['glutes', 'hamstrings', 'calves'],
     equipment: 'Weighted',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/0lQnxMZ.gif',
+    art: 'sissy-squat',
     steps: [
       'Stand with your feet shoulder-width apart and your toes pointing slightly outward.',
       'Hold a weight in front of your chest with both hands, or place a barbell across your upper back.',
@@ -3127,7 +3127,7 @@ const List<Exercise> kExercises = [
     secondary: ['glutes', 'hamstrings', 'calves'],
     equipment: 'Barbell',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/W9pFVv1.gif',
+    art: 'squat',
     steps: [
       'Set up a barbell on a squat rack at chest height.',
       'Stand facing away from the rack, with your feet shoulder-width apart.',
@@ -3143,7 +3143,7 @@ const List<Exercise> kExercises = [
     secondary: ['glutes', 'hamstrings', 'calves'],
     equipment: 'Dumbbell',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/QjE2DcA.gif',
+    art: 'step-up',
     steps: [
       'Stand in front of a bench or step with a dumbbell in each hand, palms facing your body.',
       'Place your right foot on the bench or step, ensuring your entire foot is in contact with the surface.',
@@ -3159,7 +3159,7 @@ const List<Exercise> kExercises = [
     secondary: ['glutes', 'hamstrings'],
     equipment: 'Machine',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/wWFspEi.gif',
+    art: 'smith-machine-split-squat',
     steps: [
       'Stand in front of the smith machine with your feet shoulder-width apart.',
       'Place one foot behind you on a bench or step, with your toes pointing forward.',
@@ -3175,7 +3175,7 @@ const List<Exercise> kExercises = [
     secondary: ['calves', 'hamstrings', 'glutes'],
     equipment: 'Bodyweight',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/xAySMB0.gif',
+    art: '',
     steps: [
       'Place the balance board on a flat surface.',
       'Step onto the balance board with one foot, ensuring it is centered.',
@@ -3191,7 +3191,7 @@ const List<Exercise> kExercises = [
     secondary: ['hamstrings', 'glutes', 'triceps'],
     equipment: 'Barbell',
     difficulty: 'Advanced',
-    gif: 'assets/gifs/SGY8Zui.gif',
+    art: 'push-press',
     steps: [
       'Stand with your feet shoulder-width apart and the barbell on the floor in front of you.',
       'Bend your knees and hinge at the hips to lower down and grip the barbell with an overhand grip, hands slightly wider than shoulder-width apart.',
@@ -3207,7 +3207,7 @@ const List<Exercise> kExercises = [
     secondary: ['glutes', 'hamstrings', 'calves'],
     equipment: 'Dumbbell',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/r5DgrW9.gif',
+    art: 'goblet-squat',
     steps: [
       'Stand with your feet shoulder-width apart, holding a dumbbell in each hand at your sides.',
       'Keeping your chest up and core engaged, slowly lower your body down by bending your knees and pushing your hips back.',
@@ -3223,7 +3223,7 @@ const List<Exercise> kExercises = [
     secondary: ['hamstrings', 'glutes'],
     equipment: 'Bodyweight',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/6YUfHPL.gif',
+    art: 'bodyweight-squat',
     steps: [
       'Stand with your feet shoulder-width apart.',
       'Lower your body by bending your knees and pushing your hips back as if sitting on a chair.',
@@ -3239,7 +3239,7 @@ const List<Exercise> kExercises = [
     secondary: ['glutes', 'hamstrings', 'calves'],
     equipment: 'Barbell',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/uKyN64F.gif',
+    art: 'split-squat',
     steps: [
       'Stand with your feet shoulder-width apart and hold a barbell across your upper back.',
       'Lift one foot off the ground and extend it forward, keeping it parallel to the ground.',
@@ -3255,7 +3255,7 @@ const List<Exercise> kExercises = [
     secondary: ['calves', 'hamstrings'],
     equipment: 'Bodyweight',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/mweqJin.gif',
+    art: 'fast-feet',
     steps: [
       'Stand with your feet shoulder-width apart and your arms by your sides.',
       'Begin by rapidly moving your feet up and down, as if you were running in place.',
@@ -3270,7 +3270,7 @@ const List<Exercise> kExercises = [
     secondary: ['glutes', 'hamstrings', 'calves'],
     equipment: 'Barbell',
     difficulty: 'Advanced',
-    gif: 'assets/gifs/gfk9kD4.gif',
+    art: 'squat',
     steps: [
       'Stand with your feet shoulder-width apart and toes slightly turned out.',
       'Hold the barbell with a wide grip, positioning it overhead with your arms fully extended.',
@@ -3286,7 +3286,7 @@ const List<Exercise> kExercises = [
     secondary: ['glutes', 'hamstrings'],
     equipment: 'Bodyweight',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/c8f5cSY.gif',
+    art: 'side-lying-hip-abduction',
     steps: [
       'Lie on your side with your legs straight and stacked on top of each other.',
       'Place your bottom arm under your head for support.',
@@ -3302,7 +3302,7 @@ const List<Exercise> kExercises = [
     secondary: ['glutes', 'hamstrings', 'calves'],
     equipment: 'Barbell',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/W31mMjd.gif',
+    art: 'lateral-lunge',
     steps: [
       'Stand with your feet wider than shoulder-width apart, toes pointing slightly outward.',
       'Hold a barbell across your upper back, resting it on your traps.',
@@ -3318,7 +3318,7 @@ const List<Exercise> kExercises = [
     secondary: ['glutes', 'quads'],
     equipment: 'Bodyweight',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/VO2qeJg.gif',
+    art: 'copenhagen-plank',
     steps: [
       'Start by lying on your side with your legs extended and stacked on top of each other.',
       'Prop yourself up on your forearm, keeping your elbow directly below your shoulder.',
@@ -3334,7 +3334,7 @@ const List<Exercise> kExercises = [
     secondary: ['glutes', 'hamstrings', 'calves'],
     equipment: 'Barbell',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/gGNQmVt.gif',
+    art: 'bulgarian-split-squat',
     steps: [
       'Stand with your feet shoulder-width apart, holding a barbell across your upper back.',
       'Take a large step forward with one leg, keeping your torso upright.',
@@ -3350,7 +3350,7 @@ const List<Exercise> kExercises = [
     secondary: ['calves', 'glutes'],
     equipment: 'Bodyweight',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/xdYPUtE.gif',
+    art: 'sissy-squat',
     steps: [
       'Stand with your feet shoulder-width apart and your toes pointing slightly outward.',
       'Hold onto a stable object for balance if needed.',
@@ -3366,7 +3366,7 @@ const List<Exercise> kExercises = [
     secondary: ['glutes', 'hamstrings', 'calves'],
     equipment: 'Barbell',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/HBYyX94.gif',
+    art: 'split-squat',
     steps: [
       'Start by standing with your feet shoulder-width apart, holding a barbell across your upper back.',
       'Take a large step forward with your right foot, keeping your torso upright.',
@@ -3382,7 +3382,7 @@ const List<Exercise> kExercises = [
     secondary: ['glutes', 'hamstrings', 'calves'],
     equipment: 'Bodyweight',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/9E25EOx.gif',
+    art: 'split-squat',
     steps: [
       'Stand with your feet shoulder-width apart.',
       'Take a step forward with one foot and place it about two feet in front of the other foot.',
@@ -3398,7 +3398,7 @@ const List<Exercise> kExercises = [
     secondary: ['glutes', 'hamstrings', 'calves'],
     equipment: 'Barbell',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/oR7O9LW.gif',
+    art: 'squat',
     steps: [
       'Start by kneeling on the ground with your knees hip-width apart and your toes pointing forward.',
       'Place a barbell across your shoulders, gripping it with an overhand grip and your hands slightly wider than shoulder-width apart.',
@@ -3414,7 +3414,7 @@ const List<Exercise> kExercises = [
     secondary: ['glutes', 'hamstrings'],
     equipment: 'Bodyweight',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/QChZi3x.gif',
+    art: 'bodyweight-squat',
     steps: [
       'Stand with your feet shoulder-width apart and toes slightly turned out.',
       'Lower your body down into a squat position by bending your knees and pushing your hips back.',
@@ -3430,7 +3430,7 @@ const List<Exercise> kExercises = [
     secondary: ['glutes', 'hamstrings', 'calves'],
     equipment: 'Barbell',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/RYcV1kH.gif',
+    art: 'jump-squat',
     steps: [
       'Start by standing with your feet shoulder-width apart, holding a barbell across your upper back.',
       'Lower your body into a squat position by bending your knees and pushing your hips back.',
@@ -3446,7 +3446,7 @@ const List<Exercise> kExercises = [
     secondary: ['glutes', 'hamstrings'],
     equipment: 'Bodyweight',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/5BZHW9s.gif',
+    art: 'bodyweight-squat',
     steps: [
       'Stand with your feet shoulder-width apart and toes slightly turned out.',
       'Lower your body into a squat position by bending your knees and pushing your hips back.',
@@ -3462,7 +3462,7 @@ const List<Exercise> kExercises = [
     secondary: ['glutes', 'hamstrings', 'calves'],
     equipment: 'Barbell',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/s7HX1BY.gif',
+    art: 'squat',
     steps: [
       'Stand with your feet wider than shoulder-width apart, toes pointing slightly outward.',
       'Hold the barbell across your upper back, resting it on your traps or rear delts.',
@@ -3478,7 +3478,7 @@ const List<Exercise> kExercises = [
     secondary: ['glutes', 'hamstrings', 'calves'],
     equipment: 'Bodyweight',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/QpXqiq8.gif',
+    art: 'split-squat',
     steps: [
       'Stand facing away from a suspension trainer with your feet shoulder-width apart.',
       'Extend one leg forward and place the top of your foot in the foot cradle of the suspension trainer.',
@@ -3494,7 +3494,7 @@ const List<Exercise> kExercises = [
     secondary: ['hamstrings', 'glutes', 'calves'],
     equipment: 'Barbell',
     difficulty: 'Advanced',
-    gif: 'assets/gifs/dG5Smob.gif',
+    art: 'rack-pull',
     steps: [
       'Stand with your feet shoulder-width apart and the barbell on the ground in front of you.',
       'Bend your knees and hinge at the hips to lower into a squat position, gripping the barbell with an overhand grip.',
@@ -3510,7 +3510,7 @@ const List<Exercise> kExercises = [
     secondary: ['glutes', 'hamstrings', 'calves'],
     equipment: 'Barbell',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/IMRsOCn.gif',
+    art: 'squat',
     steps: [
       'Start with the barbell resting on your shoulders, with your feet shoulder-width apart.',
       'Lower your body into a squat position, keeping your chest up and your knees tracking over your toes.',
@@ -3526,7 +3526,7 @@ const List<Exercise> kExercises = [
     secondary: ['forearm'],
     equipment: 'Barbell',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/Yza7XrQ.gif',
+    art: 'ez-bar-curl',
     steps: [
       'Stand up straight with your feet shoulder-width apart and hold a barbell in each hand, palms facing forward.',
       'Keep your upper arms stationary and exhale as you curl the weights while contracting your biceps.',
@@ -3542,7 +3542,7 @@ const List<Exercise> kExercises = [
     secondary: ['forearm'],
     equipment: 'Machine',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/zILLZ98.gif',
+    art: 'bicep-curl',
     steps: [
       'Adjust the height of the smith machine bar to be at waist level.',
       'Stand facing the smith machine with your feet shoulder-width apart.',
@@ -3558,7 +3558,7 @@ const List<Exercise> kExercises = [
     secondary: ['forearm'],
     equipment: 'Bodyweight',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/sJFIDIp.gif',
+    art: 'concentration-curl',
     steps: [
       'Sit on a bench with your legs spread apart and your feet flat on the ground.',
       'Hold a dumbbell in one hand and place your elbow on the inside of your thigh, just above the knee.',
@@ -3574,7 +3574,7 @@ const List<Exercise> kExercises = [
     secondary: ['forearm'],
     equipment: 'Weighted',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/M5Y7GPg.gif',
+    art: 'bicep-curl',
     steps: [
       'Stand with your feet shoulder-width apart and hold a dumbbell in each hand, palms facing forward.',
       'Keep your elbows close to your torso and exhale as you curl the weights up to shoulder level.',
@@ -3589,7 +3589,7 @@ const List<Exercise> kExercises = [
     secondary: ['forearm'],
     equipment: 'Barbell',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/aee2Fcj.gif',
+    art: 'ez-bar-curl',
     steps: [
       'Stand up straight with your feet shoulder-width apart and hold a barbell with an underhand grip, palms facing up.',
       'Place your upper arms against the arm blaster, keeping your elbows close to your torso.',
@@ -3605,7 +3605,7 @@ const List<Exercise> kExercises = [
     secondary: ['forearm'],
     equipment: 'Dumbbell',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/fy7Tgy4.gif',
+    art: 'preacher-curl',
     steps: [
       'Sit on a preacher bench with a dumbbell in each hand, palms facing your torso and arms fully extended.',
       'Keep your upper arms stationary and exhale as you curl the weights while contracting your biceps.',
@@ -3621,7 +3621,7 @@ const List<Exercise> kExercises = [
     secondary: ['forearm'],
     equipment: 'Cable',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/NvfE43H.gif',
+    art: 'concentration-curl',
     steps: [
       'Sit on a bench or chair with your feet flat on the floor and your knees slightly bent.',
       'Hold the cable handle with an underhand grip and rest your elbow against the inside of your thigh.',
@@ -3637,7 +3637,7 @@ const List<Exercise> kExercises = [
     secondary: ['forearm'],
     equipment: 'Bodyweight',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/50BETrz.gif',
+    art: 'chin-up',
     steps: [
       'Hang from a pull-up bar with your palms facing towards you and your hands shoulder-width apart.',
       'Engage your core and pull yourself up towards the bar, focusing on using your biceps to lift your body.',
@@ -3652,7 +3652,7 @@ const List<Exercise> kExercises = [
     secondary: ['forearm'],
     equipment: 'Barbell',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/IENzBdA.gif',
+    art: 'drag-curl',
     steps: [
       'Stand with your feet shoulder-width apart and hold a barbell with an underhand grip, palms facing up.',
       'Let the barbell hang at arm\'s length in front of your thighs.',
@@ -3668,7 +3668,7 @@ const List<Exercise> kExercises = [
     secondary: ['forearm'],
     equipment: 'Dumbbell',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/NlfIbzq.gif',
+    art: 'preacher-curl',
     steps: [
       'Sit on a preacher bench with a dumbbell in each hand, palms facing up.',
       'Rest your upper arms on the pad of the preacher bench, allowing your arms to fully extend.',
@@ -3684,7 +3684,7 @@ const List<Exercise> kExercises = [
     secondary: ['forearm'],
     equipment: 'Cable',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/G08RZcQ.gif',
+    art: 'cable-curl',
     steps: [
       'Stand facing the cable machine with your feet shoulder-width apart.',
       'Grasp the cable attachment with an underhand grip, palms facing up.',
@@ -3700,7 +3700,7 @@ const List<Exercise> kExercises = [
     secondary: ['forearm'],
     equipment: 'Bodyweight',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/guT8YnS.gif',
+    art: 'chin-up',
     steps: [
       'Hang from a pull-up bar with your palms facing away from you and your hands shoulder-width apart.',
       'Engage your core and pull yourself up by bending your elbows, bringing your chest towards the bar.',
@@ -3715,7 +3715,7 @@ const List<Exercise> kExercises = [
     secondary: ['forearm'],
     equipment: 'Barbell',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/SYJ4Bkt.gif',
+    art: 'preacher-curl',
     steps: [
       'Sit on a preacher bench with your chest against the pad and your arms extended over the edge, holding a barbell with an underhand grip.',
       'Keeping your upper arms stationary, exhale and curl the weights while contracting your biceps.',
@@ -3731,7 +3731,7 @@ const List<Exercise> kExercises = [
     secondary: ['forearm'],
     equipment: 'Dumbbell',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/6em2Dxj.gif',
+    art: 'hammer-curl',
     steps: [
       'Sit on a bench with a dumbbell in each hand, palms facing your torso and arms extended down.',
       'Keep your back straight and your elbows close to your torso.',
@@ -3747,7 +3747,7 @@ const List<Exercise> kExercises = [
     secondary: ['forearm'],
     equipment: 'Cable',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/dXz8zjF.gif',
+    art: 'drag-curl',
     steps: [
       'Stand facing a cable machine with your feet shoulder-width apart.',
       'Grasp the cable attachment with an underhand grip, palms facing up, and arms fully extended.',
@@ -3763,7 +3763,7 @@ const List<Exercise> kExercises = [
     secondary: ['forearm'],
     equipment: 'Bodyweight',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/gscGLOU.gif',
+    art: 'bicep-curl',
     steps: [
       'Lie on your side with your legs extended and your head supported by your arm.',
       'Hold your upper arm against your side and bend your elbow to curl your forearm towards your shoulder.',
@@ -3778,7 +3778,7 @@ const List<Exercise> kExercises = [
     secondary: ['forearm'],
     equipment: 'Barbell',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/WLvTAv5.gif',
+    art: 'spider-curl',
     steps: [
       'Set up an incline bench at a 45-degree angle.',
       'Lie face down on the bench with your chest and stomach resting against it.',
@@ -3794,7 +3794,7 @@ const List<Exercise> kExercises = [
     secondary: ['forearm'],
     equipment: 'Dumbbell',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/Zwiw7XR.gif',
+    art: 'bicep-curl',
     steps: [
       'Stand with your feet shoulder-width apart and hold a dumbbell in each hand, palms facing forward.',
       'Place an exercise ball behind you and position one foot on top of it, keeping your balance.',
@@ -3810,7 +3810,7 @@ const List<Exercise> kExercises = [
     secondary: ['forearm'],
     equipment: 'Cable',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/HPlPoQA.gif',
+    art: 'rope-hammer-curl',
     steps: [
       'Stand upright with your feet shoulder-width apart and a slight bend in your knees.',
       'Hold the cable rope attachment with an underhand grip, palms facing each other, and your arms fully extended.',
@@ -3826,7 +3826,7 @@ const List<Exercise> kExercises = [
     secondary: ['forearm'],
     equipment: 'Barbell',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/xNrS20v.gif',
+    art: 'reverse-curl',
     steps: [
       'Stand up straight with your feet shoulder-width apart and hold a barbell with an overhand grip, palms facing down.',
       'Keep your upper arms stationary and exhale as you curl the barbell upward, contracting your biceps.',
@@ -3842,7 +3842,7 @@ const List<Exercise> kExercises = [
     secondary: ['forearm'],
     equipment: 'Dumbbell',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/J74XlNf.gif',
+    art: 'bicep-curl',
     steps: [
       'Sit on an exercise ball with your feet flat on the ground and your back straight.',
       'Hold a dumbbell in each hand with your palms facing forward and your arms fully extended.',
@@ -3858,7 +3858,7 @@ const List<Exercise> kExercises = [
     secondary: ['forearm'],
     equipment: 'Cable',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/otqIxU4.gif',
+    art: 'cable-curl',
     steps: [
       'Attach a straight bar to a low pulley cable machine.',
       'Lie face up on a flat bench with your feet flat on the ground.',
@@ -3874,7 +3874,7 @@ const List<Exercise> kExercises = [
     secondary: ['forearm'],
     equipment: 'Barbell',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/4LIG9xr.gif',
+    art: 'reverse-curl',
     steps: [
       'Sit on a preacher bench with your chest against the pad and your arms extended straight down, holding a barbell with an overhand grip.',
       'Keeping your upper arms stationary, exhale and curl the barbell upward while contracting your biceps.',
@@ -3890,7 +3890,7 @@ const List<Exercise> kExercises = [
     secondary: ['forearm'],
     equipment: 'Dumbbell',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/1VpF8db.gif',
+    art: 'bicep-curl',
     steps: [
       'Stand with your feet shoulder-width apart, holding a dumbbell in each hand with your palms facing forward.',
       'Take a step forward with your right foot, bending your right knee and lowering your body into a lunge position.',
@@ -3906,7 +3906,7 @@ const List<Exercise> kExercises = [
     secondary: ['forearm'],
     equipment: 'Cable',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/61GrD55.gif',
+    art: 'cable-curl',
     steps: [
       'Attach a straight bar to a low pulley cable machine.',
       'Lie face up on a flat bench with your feet flat on the ground.',
@@ -3922,7 +3922,7 @@ const List<Exercise> kExercises = [
     secondary: ['forearm'],
     equipment: 'Barbell',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/1V1gj1u.gif',
+    art: 'concentration-curl',
     steps: [
       'Sit on a bench with your feet flat on the floor and hold a barbell with an underhand grip, hands shoulder-width apart.',
       'Rest your upper arms against your inner thighs, just above your knees, and let the barbell hang down in front of you.',
@@ -3938,7 +3938,7 @@ const List<Exercise> kExercises = [
     secondary: ['forearm'],
     equipment: 'Dumbbell',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/2NImIAG.gif',
+    art: 'bicep-curl',
     steps: [
       'Sit on an exercise ball with your feet flat on the ground and your back straight.',
       'Hold a dumbbell in each hand with your palms facing forward and your arms fully extended.',
@@ -3954,7 +3954,7 @@ const List<Exercise> kExercises = [
     secondary: ['forearm'],
     equipment: 'Barbell',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/4dUn2iv.gif',
+    art: 'ez-bar-curl',
     steps: [
       'Stand up straight with your feet shoulder-width apart and hold a barbell with an underhand grip, hands close together.',
       'Keep your elbows close to your torso and your upper arms stationary throughout the movement.',
@@ -3970,7 +3970,7 @@ const List<Exercise> kExercises = [
     secondary: [],
     equipment: 'Barbell',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/J6Dx1Mu.gif',
+    art: 'close-grip-bench-press',
     steps: [
       'Lie flat on a bench with your feet flat on the ground and your back pressed against the bench.',
       'Grasp the barbell with a close grip, slightly narrower than shoulder-width apart.',
@@ -3986,7 +3986,7 @@ const List<Exercise> kExercises = [
     secondary: [],
     equipment: 'Dumbbell',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/7jGOBF3.gif',
+    art: 'close-grip-bench-press',
     steps: [
       'Sit on a flat bench with a dumbbell in each hand, resting on your thighs.',
       'Using your thighs to help raise the dumbbells, lift the dumbbells one at a time so that you can hold them in front of you at shoulder width.',
@@ -4002,7 +4002,7 @@ const List<Exercise> kExercises = [
     secondary: [],
     equipment: 'Cable',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/Gchi5Tr.gif',
+    art: 'overhead-tricep-extension',
     steps: [
       'Stand facing the cable machine with your feet shoulder-width apart.',
       'Hold the cable handle with your right hand and bring your arm up so that your upper arm is parallel to the ground and your elbow is bent at a 90-degree angle.',
@@ -4018,7 +4018,7 @@ const List<Exercise> kExercises = [
     secondary: [],
     equipment: 'Machine',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/J60bN17.gif',
+    art: 'assisted-dip',
     steps: [
       'Adjust the machine to your desired weight and height.',
       'Kneel down on the pad facing the machine, with your hands gripping the handles.',
@@ -4034,7 +4034,7 @@ const List<Exercise> kExercises = [
     secondary: [],
     equipment: 'Bodyweight',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/RrLske5.gif',
+    art: 'bench-dip',
     steps: [
       'Sit on the edge of a bench or chair with your hands gripping the edge next to your hips.',
       'Slide your butt off the bench and straighten your legs in front of you, keeping your heels on the ground.',
@@ -4050,7 +4050,7 @@ const List<Exercise> kExercises = [
     secondary: [],
     equipment: 'Weighted',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/MU9HnE7.gif',
+    art: 'bench-dip',
     steps: [
       'Sit on a bench with your hands gripping the edge, fingers pointing forward.',
       'Slide your butt off the bench, supporting your weight with your hands.',
@@ -4066,7 +4066,7 @@ const List<Exercise> kExercises = [
     secondary: [],
     equipment: 'Barbell',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/LMGXZn8.gif',
+    art: 'skull-crusher',
     steps: [
       'Lie on a decline bench with your head lower than your feet and hold a barbell with a close grip.',
       'Lower the barbell towards your forehead by bending your elbows, keeping your upper arms stationary.',
@@ -4081,7 +4081,7 @@ const List<Exercise> kExercises = [
     secondary: ['forearm'],
     equipment: 'Cable',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/Db7eEgw.gif',
+    art: 'overhead-tricep-extension',
     steps: [
       'Sit on a bench or chair with your knees bent and feet flat on the ground.',
       'Hold the cable handle with your right hand and place your elbow on the inside of your right knee.',
@@ -4097,7 +4097,7 @@ const List<Exercise> kExercises = [
     secondary: [],
     equipment: 'Machine',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/Ser9eQp.gif',
+    art: 'overhead-tricep-extension',
     steps: [
       'Adjust the seat height and position yourself on the machine with your back against the pad.',
       'Grasp the handles with an overhand grip and fully extend your arms in front of you.',
@@ -4113,7 +4113,7 @@ const List<Exercise> kExercises = [
     secondary: [],
     equipment: 'Bodyweight',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/9RT8oQW.gif',
+    art: 'bench-dip',
     steps: [
       'Sit on the edge of a bench or chair with your hands gripping the edge, fingers pointing forward.',
       'Slide your butt off the bench, supporting your weight with your hands.',
@@ -4129,7 +4129,7 @@ const List<Exercise> kExercises = [
     secondary: [],
     equipment: 'Weighted',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/gtO1ErP.gif',
+    art: 'bench-dip',
     steps: [
       'Sit on the edge of a bench with your hands gripping the edge, fingers pointing forward.',
       'Walk your feet forward, sliding your butt off the bench and supporting your weight with your arms.',
@@ -4145,7 +4145,7 @@ const List<Exercise> kExercises = [
     secondary: [],
     equipment: 'Barbell',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/gx7s7uF.gif',
+    art: 'close-grip-bench-press',
     steps: [
       'Set up an incline bench at a 45-degree angle.',
       'Lie down on the bench with your feet flat on the ground.',
@@ -4161,7 +4161,7 @@ const List<Exercise> kExercises = [
     secondary: [],
     equipment: 'Dumbbell',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/SHUMp5H.gif',
+    art: 'decline-dumbbell-press',
     steps: [
       'Lie on a decline bench with a dumbbell in one hand, resting on your chest.',
       'Extend your arm straight up, keeping your elbow slightly bent.',
@@ -4177,7 +4177,7 @@ const List<Exercise> kExercises = [
     secondary: [],
     equipment: 'Cable',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/1xHyxys.gif',
+    art: 'overhead-tricep-extension',
     steps: [
       'Attach a rope to a high pulley and stand facing away from the machine.',
       'Grasp the rope with both hands and extend your arms overhead.',
@@ -4193,7 +4193,7 @@ const List<Exercise> kExercises = [
     secondary: [],
     equipment: 'Machine',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/WcHl7ru.gif',
+    art: 'close-grip-bench-press',
     steps: [
       'Adjust the seat height and position yourself on the bench with your feet flat on the ground.',
       'Grasp the barbell with a close grip, slightly narrower than shoulder-width apart.',
@@ -4209,7 +4209,7 @@ const List<Exercise> kExercises = [
     secondary: [],
     equipment: 'Bodyweight',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/U6G2gk9.gif',
+    art: 'push-up',
     steps: [
       'Start by placing your hands on a raised surface, such as a bench or parallel bars, with your palms facing down and fingers pointing forward.',
       'Extend your legs out in front of you, keeping your heels on the ground and your body straight.',
@@ -4225,7 +4225,7 @@ const List<Exercise> kExercises = [
     secondary: [],
     equipment: 'Weighted',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/bZq4bwK.gif',
+    art: 'weighted-dip',
     steps: [
       'Sit on the edge of a bench or chair with your hands gripping the edge next to your hips.',
       'Slide your butt off the front of the bench with your legs extended in front of you.',
@@ -4241,7 +4241,7 @@ const List<Exercise> kExercises = [
     secondary: [],
     equipment: 'Barbell',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/641mIfk.gif',
+    art: 'incline-bench-press',
     steps: [
       'Set up an incline bench at a 45-degree angle.',
       'Lie back on the bench and grasp the barbell with a reverse grip, hands slightly wider than shoulder-width apart.',
@@ -4257,7 +4257,7 @@ const List<Exercise> kExercises = [
     secondary: [],
     equipment: 'Dumbbell',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/OTgkHwR.gif',
+    art: 'dumbbell-skull-crusher',
     steps: [
       'Lie on a decline bench with your head lower than your feet and hold a dumbbell in each hand, palms facing each other.',
       'Extend your arms fully, keeping your elbows close to your head.',
@@ -4273,7 +4273,7 @@ const List<Exercise> kExercises = [
     secondary: [],
     equipment: 'Cable',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/Hx1WC8I.gif',
+    art: 'overhead-tricep-extension',
     steps: [
       'Adjust the cable machine to a low pulley position.',
       'Attach a straight bar to the cable.',
@@ -4289,7 +4289,7 @@ const List<Exercise> kExercises = [
     secondary: [],
     equipment: 'Machine',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/yB9SvIF.gif',
+    art: 'close-grip-bench-press',
     steps: [
       'Adjust the bench on the smith machine to a decline position.',
       'Lie down on the bench with your feet firmly planted on the ground.',
@@ -4305,7 +4305,7 @@ const List<Exercise> kExercises = [
     secondary: [],
     equipment: 'Bodyweight',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/s0HKO2I.gif',
+    art: 'overhead-tricep-extension',
     steps: [
       'Kneel down on the ground with your knees hip-width apart.',
       'Place your hands on the ground in front of you, shoulder-width apart, fingers pointing forward.',
@@ -4321,7 +4321,7 @@ const List<Exercise> kExercises = [
     secondary: [],
     equipment: 'Weighted',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/K1vlode.gif',
+    art: 'weighted-dip',
     steps: [
       'Position yourself between two parallel bars with your hands gripping the bars and your arms fully extended.',
       'Bend your elbows and lower your body until your upper arms are parallel to the ground.',
@@ -4336,7 +4336,7 @@ const List<Exercise> kExercises = [
     secondary: [],
     equipment: 'Barbell',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/ZsiqXYa.gif',
+    art: 'close-grip-bench-press',
     steps: [
       'Lie flat on a bench with your feet flat on the ground and your back pressed against the bench.',
       'Grasp the barbell with an overhand grip, slightly wider than shoulder-width apart.',
@@ -4352,7 +4352,7 @@ const List<Exercise> kExercises = [
     secondary: [],
     equipment: 'Dumbbell',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/XalXcvM.gif',
+    art: 'dumbbell-overhead-tricep-extension',
     steps: [
       'Stand with your feet shoulder-width apart, holding a dumbbell in each hand.',
       'Take a step forward with your right foot, lowering your body into a lunge position.',
@@ -4368,7 +4368,7 @@ const List<Exercise> kExercises = [
     secondary: [],
     equipment: 'Cable',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/HEJ6DIX.gif',
+    art: 'tricep-kickback',
     steps: [
       'Stand facing a cable machine with your feet shoulder-width apart.',
       'Hold the cable handle with your right hand and step back to create tension in the cable.',
@@ -4384,7 +4384,7 @@ const List<Exercise> kExercises = [
     secondary: [],
     equipment: 'Machine',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/o8aOcrz.gif',
+    art: 'skull-crusher',
     steps: [
       'Adjust the seat of the smith machine so that the bar is at shoulder height.',
       'Sit on the bench with your back against the pad and your feet flat on the ground.',
@@ -4400,7 +4400,7 @@ const List<Exercise> kExercises = [
     secondary: [],
     equipment: 'Bodyweight',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/x6KpKpq.gif',
+    art: 'diamond-push-up',
     steps: [
       'Start in a high plank position with your hands placed close together, directly under your shoulders.',
       'Engage your core and lower your body towards the ground, keeping your elbows close to your sides.',
@@ -4415,7 +4415,7 @@ const List<Exercise> kExercises = [
     secondary: [],
     equipment: 'Barbell',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/yg8Totb.gif',
+    art: 'skull-crusher',
     steps: [
       'Lie flat on a bench with your feet flat on the ground and your head at the end of the bench.',
       'Hold a barbell with an overhand grip, hands shoulder-width apart, and extend your arms straight up over your chest.',
@@ -4431,7 +4431,7 @@ const List<Exercise> kExercises = [
     secondary: [],
     equipment: 'Dumbbell',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/wkgnGfb.gif',
+    art: 'incline-dumbbell-press',
     steps: [
       'Sit on an exercise ball with a dumbbell in each hand, palms facing each other.',
       'Walk your feet forward and roll your body down the ball until your head, neck, and upper back are supported on the ball.',
@@ -4447,7 +4447,7 @@ const List<Exercise> kExercises = [
     secondary: ['hamstrings', 'calves'],
     equipment: 'Barbell',
     difficulty: 'Advanced',
-    gif: 'assets/gifs/qi996YS.gif',
+    art: 'front-squat',
     steps: [
       'Start by standing with your feet shoulder-width apart and the barbell resting on your upper chest, with your elbows pointing forward.',
       'Lower your body by bending your knees and pushing your hips back, as if you are sitting back into a chair.',
@@ -4463,7 +4463,7 @@ const List<Exercise> kExercises = [
     secondary: ['hamstrings', 'calves'],
     equipment: 'Dumbbell',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/mnzcrIB.gif',
+    art: 'goblet-squat',
     steps: [
       'Place a dumbbell on the ground in front of a bench.',
       'Stand facing away from the bench with your feet shoulder-width apart.',
@@ -4479,7 +4479,7 @@ const List<Exercise> kExercises = [
     secondary: ['hamstrings'],
     equipment: 'Cable',
     difficulty: 'Advanced',
-    gif: 'assets/gifs/eGDudUV.gif',
+    art: 'deadlift',
     steps: [
       'Stand facing the cable machine with your feet shoulder-width apart.',
       'Bend at the hips and knees, lowering your torso until your back is parallel to the ground.',
@@ -4495,7 +4495,7 @@ const List<Exercise> kExercises = [
     secondary: ['hamstrings'],
     equipment: 'Machine',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/1bQkKZK.gif',
+    art: 'good-morning',
     steps: [
       'Start by standing with your feet shoulder-width apart, toes pointing forward.',
       'Place the barbell across your upper back, resting it on your traps.',
@@ -4511,7 +4511,7 @@ const List<Exercise> kExercises = [
     secondary: ['hamstrings', 'calves'],
     equipment: 'Bodyweight',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/RtyAsy1.gif',
+    art: 'toe-touch',
     steps: [
       'Stand with your feet shoulder-width apart and arms extended to the sides.',
       'Keeping your legs straight, bend forward at the waist and reach down towards your toes with your right hand.',
@@ -4527,7 +4527,7 @@ const List<Exercise> kExercises = [
     secondary: ['hamstrings', 'calves'],
     equipment: 'Weighted',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/GWoKnIm.gif',
+    art: 'cossack-squat',
     steps: [
       'Stand with your feet wider than shoulder-width apart and toes pointing slightly outward.',
       'Hold a weight in front of your chest with both hands.',
@@ -4543,7 +4543,7 @@ const List<Exercise> kExercises = [
     secondary: ['hamstrings', 'calves'],
     equipment: 'Barbell',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/IeTIEqg.gif',
+    art: 'front-squat',
     steps: [
       'Start by standing with your feet shoulder-width apart, toes slightly turned out.',
       'Hold the barbell in front of your chest with your hands shoulder-width apart, elbows pointing forward.',
@@ -4559,7 +4559,7 @@ const List<Exercise> kExercises = [
     secondary: ['hamstrings', 'calves'],
     equipment: 'Dumbbell',
     difficulty: 'Advanced',
-    gif: 'assets/gifs/7Hg55JG.gif',
+    art: 'kettlebell-swing',
     steps: [
       'Stand with your feet shoulder-width apart, holding a dumbbell in each hand with an overhand grip.',
       'Bend your knees and lower your hips into a squat position, keeping your back straight and chest up.',
@@ -4575,7 +4575,7 @@ const List<Exercise> kExercises = [
     secondary: ['hamstrings'],
     equipment: 'Cable',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/Kpajagk.gif',
+    art: 'cable-kickback',
     steps: [
       'Attach a cable to a low pulley and stand facing away from the machine.',
       'Place the cable around your ankle and stand with your feet shoulder-width apart.',
@@ -4591,7 +4591,7 @@ const List<Exercise> kExercises = [
     secondary: ['hamstrings'],
     equipment: 'Machine',
     difficulty: 'Advanced',
-    gif: 'assets/gifs/UfePqpx.gif',
+    art: 'smith-machine-romanian-deadlift',
     steps: [
       'Set up the smith machine with the bar at hip height.',
       'Stand with your feet shoulder-width apart, toes pointing slightly outward.',
@@ -4607,7 +4607,7 @@ const List<Exercise> kExercises = [
     secondary: ['hamstrings', 'calves'],
     equipment: 'Bodyweight',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/BbfB8Gb.gif',
+    art: 'toe-touch',
     steps: [
       'Stand with your feet shoulder-width apart and your arms by your sides.',
       'Bend forward at the waist, keeping your back straight and your knees slightly bent.',
@@ -4623,7 +4623,7 @@ const List<Exercise> kExercises = [
     secondary: ['hamstrings', 'calves'],
     equipment: 'Weighted',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/5WiFcYk.gif',
+    art: 'walking-lunge',
     steps: [
       'Stand with your feet shoulder-width apart, holding a weight in each hand.',
       'Take a step forward with your right foot, lowering your body into a lunge position.',
@@ -4639,7 +4639,7 @@ const List<Exercise> kExercises = [
     secondary: ['hamstrings', 'calves'],
     equipment: 'Barbell',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/DhMl549.gif',
+    art: 'squat',
     steps: [
       'Stand with your feet shoulder-width apart, toes slightly turned out.',
       'Hold the barbell across your upper back, resting it on your traps or rear delts.',
@@ -4655,7 +4655,7 @@ const List<Exercise> kExercises = [
     secondary: ['hamstrings', 'calves'],
     equipment: 'Dumbbell',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/ecl28tP.gif',
+    art: 'forward-lunge',
     steps: [
       'Stand with your feet shoulder-width apart, holding a dumbbell in each hand.',
       'Take a step forward with your right foot, keeping your back straight and core engaged.',
@@ -4671,7 +4671,7 @@ const List<Exercise> kExercises = [
     secondary: ['hamstrings', 'calves'],
     equipment: 'Machine',
     difficulty: 'Advanced',
-    gif: 'assets/gifs/lFhb2Rw.gif',
+    art: 'smith-machine-squat',
     steps: [
       'Set up the smith machine with the barbell at shoulder height.',
       'Stand facing the barbell with your feet shoulder-width apart.',
@@ -4687,7 +4687,7 @@ const List<Exercise> kExercises = [
     secondary: ['hamstrings'],
     equipment: 'Bodyweight',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/u27Kcdz.gif',
+    art: 'glute-focused-back-extension',
     steps: [
       'Sit on a bench with your back against the bench and your feet flat on the ground.',
       'Place your hands on the bench for support.',
@@ -4703,7 +4703,7 @@ const List<Exercise> kExercises = [
     secondary: ['hamstrings', 'calves'],
     equipment: 'Weighted',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/JZuApnB.gif',
+    art: 'goblet-squat',
     steps: [
       'Stand with your feet shoulder-width apart, toes pointing slightly outward.',
       'Hold a weight in front of your chest or on your shoulders.',
@@ -4719,7 +4719,7 @@ const List<Exercise> kExercises = [
     secondary: ['hamstrings', 'calves'],
     equipment: 'Barbell',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/vR1vold.gif',
+    art: 'front-squat',
     steps: [
       'Stand with your feet shoulder-width apart and toes slightly turned out.',
       'Hold the barbell in the crooks of your elbows, with your hands gripping the barbell for stability.',
@@ -4735,7 +4735,7 @@ const List<Exercise> kExercises = [
     secondary: ['hamstrings'],
     equipment: 'Dumbbell',
     difficulty: 'Advanced',
-    gif: 'assets/gifs/nUwVh7b.gif',
+    art: 'dumbbell-romanian-deadlift',
     steps: [
       'Stand with your feet shoulder-width apart, toes pointing forward.',
       'Hold a dumbbell in each hand, palms facing your body, arms extended downwards.',
@@ -4751,7 +4751,7 @@ const List<Exercise> kExercises = [
     secondary: ['hamstrings', 'calves'],
     equipment: 'Machine',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/NNoHCEA.gif',
+    art: 'smith-machine-squat',
     steps: [
       'Set up the smith machine with the barbell at shoulder height.',
       'Stand with your feet shoulder-width apart, toes slightly turned out.',
@@ -4767,7 +4767,7 @@ const List<Exercise> kExercises = [
     secondary: ['obliques'],
     equipment: 'Bodyweight',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/6sYyrRX.gif',
+    art: 'torso-twist-stretch',
     steps: [
       'Lie flat on your back with your knees bent and feet flat on the ground.',
       'Extend your arms out to the sides, perpendicular to your body.',
@@ -4783,7 +4783,7 @@ const List<Exercise> kExercises = [
     secondary: ['hamstrings'],
     equipment: 'Barbell',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/qg2PGl6.gif',
+    art: 'barbell-glute-bridge',
     steps: [
       'Start by sitting on the edge of a bench with your upper back resting against it and your feet flat on the ground, hip-width apart.',
       'Place a barbell across your hips, holding it securely with both hands.',
@@ -4799,7 +4799,7 @@ const List<Exercise> kExercises = [
     secondary: ['hamstrings'],
     equipment: 'Dumbbell',
     difficulty: 'Advanced',
-    gif: 'assets/gifs/6pTkI99.gif',
+    art: 'kettlebell-swing',
     steps: [
       'Stand with your feet shoulder-width apart, holding a dumbbell in one hand with an overhand grip.',
       'Bend your knees slightly and hinge forward at the hips, keeping your back straight and chest up.',
@@ -4815,7 +4815,7 @@ const List<Exercise> kExercises = [
     secondary: ['hamstrings', 'calves'],
     equipment: 'Machine',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/ZuPXtCK.gif',
+    art: 'hack-squat',
     steps: [
       'Adjust the barbell on the smith machine to an appropriate height for your body.',
       'Stand with your feet shoulder-width apart, toes slightly pointed outwards.',
@@ -4831,7 +4831,7 @@ const List<Exercise> kExercises = [
     secondary: ['hamstrings', 'calves'],
     equipment: 'Bodyweight',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/wfotm7S.gif',
+    art: 'jump-squat',
     steps: [
       'Stand with your feet shoulder-width apart.',
       'Lower your body into a squat position by bending your knees and pushing your hips back.',
@@ -4847,7 +4847,7 @@ const List<Exercise> kExercises = [
     secondary: ['hamstrings', 'calves'],
     equipment: 'Barbell',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/5VCj6iH.gif',
+    art: 'hack-squat',
     steps: [
       'Start by standing with your feet shoulder-width apart and your toes slightly turned out.',
       'Hold the barbell behind your legs, resting it on your upper thighs.',
@@ -4863,7 +4863,7 @@ const List<Exercise> kExercises = [
     secondary: ['hamstrings', 'calves'],
     equipment: 'Dumbbell',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/S4pwGlc.gif',
+    art: 'jump-squat',
     steps: [
       'Stand with your feet shoulder-width apart, holding a dumbbell in each hand at your sides.',
       'Lower your body into a squat position by bending your knees and pushing your hips back.',
@@ -4879,7 +4879,7 @@ const List<Exercise> kExercises = [
     secondary: ['hamstrings'],
     equipment: 'Barbell',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/2IHEa2T.gif',
+    art: 'standing-calf-raise',
     steps: [
       'Place a barbell on the floor in front of you.',
       'Stand with the balls of your feet on the edge of the barbell, with your heels hanging off.',
@@ -4895,7 +4895,7 @@ const List<Exercise> kExercises = [
     secondary: ['hamstrings'],
     equipment: 'Dumbbell',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/r29jP7S.gif',
+    art: 'seated-calf-raise',
     steps: [
       'Sit on a bench or chair with your feet flat on the ground and a dumbbell resting on your thighs.',
       'Place the balls of your feet on a raised surface such as a step or block, with your heels hanging off the edge.',
@@ -4911,7 +4911,7 @@ const List<Exercise> kExercises = [
     secondary: ['hamstrings', 'glutes'],
     equipment: 'Cable',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/yl2IYyy.gif',
+    art: 'standing-calf-raise',
     steps: [
       'Stand facing a cable machine with your feet shoulder-width apart.',
       'Hold onto the cable machine handles or attach a cable ankle strap to your ankles.',
@@ -4927,7 +4927,7 @@ const List<Exercise> kExercises = [
     secondary: ['hamstrings', 'glutes'],
     equipment: 'Machine',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/IeDEXTe.gif',
+    art: 'leg-press-calf-raise',
     steps: [
       'Adjust the seat of the leg press machine so that your knees are slightly bent when your feet are on the footplate.',
       'Sit on the machine with your back against the backrest and your feet flat on the footplate, shoulder-width apart.',
@@ -4943,7 +4943,7 @@ const List<Exercise> kExercises = [
     secondary: [],
     equipment: 'Bodyweight',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/uL9CsKm.gif',
+    art: '',
     steps: [
       'Sit on the ground with your legs extended in front of you.',
       'Lift one leg off the ground and rotate your ankle in a circular motion.',
@@ -4958,7 +4958,7 @@ const List<Exercise> kExercises = [
     secondary: ['hamstrings', 'glutes'],
     equipment: 'Weighted',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/LmaFNZS.gif',
+    art: 'donkey-calf-raise',
     steps: [
       'Stand on a raised platform with your toes on the edge and your heels hanging off.',
       'Hold onto a stable object for support.',
@@ -4974,7 +4974,7 @@ const List<Exercise> kExercises = [
     secondary: ['hamstrings', 'glutes'],
     equipment: 'Barbell',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/rGwhJ5o.gif',
+    art: 'standing-calf-raise',
     steps: [
       'Stand with your feet shoulder-width apart and place a barbell across your upper back.',
       'Raise your heels off the ground as high as possible, using your calves.',
@@ -4989,7 +4989,7 @@ const List<Exercise> kExercises = [
     secondary: [],
     equipment: 'Machine',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/ykUOVze.gif',
+    art: 'standing-calf-raise',
     steps: [
       'Adjust the machine to your height and stand with your feet shoulder-width apart.',
       'Place your shoulders under the pads and hold onto the handles for stability.',
@@ -5005,7 +5005,7 @@ const List<Exercise> kExercises = [
     secondary: [],
     equipment: 'Bodyweight',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/bJYHBIN.gif',
+    art: 'calf-raise',
     steps: [
       'Stand with your feet shoulder-width apart, toes pointing forward.',
       'Place your hands on a wall or stable surface for balance.',
@@ -5021,7 +5021,7 @@ const List<Exercise> kExercises = [
     secondary: ['hamstrings'],
     equipment: 'Barbell',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/6HiHHe0.gif',
+    art: 'standing-calf-raise',
     steps: [
       'Stand with your feet shoulder-width apart and hold a barbell across your upper back.',
       'Raise your heels off the ground as high as possible, balancing on the balls of your feet.',
@@ -5036,7 +5036,7 @@ const List<Exercise> kExercises = [
     secondary: ['hamstrings', 'glutes'],
     equipment: 'Dumbbell',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/FxhcxUW.gif',
+    art: 'seated-calf-raise',
     steps: [
       'Sit on a bench or chair with your feet flat on the ground and a dumbbell resting on your thighs.',
       'Place one foot on a raised surface, such as a step or block, with your heel hanging off the edge.',
@@ -5052,7 +5052,7 @@ const List<Exercise> kExercises = [
     secondary: ['hamstrings', 'glutes'],
     equipment: 'Machine',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/9GXrTE6.gif',
+    art: 'single-leg-calf-raise',
     steps: [
       'Position yourself on the floor under the smith machine bar, facing away from the machine.',
       'Place the balls of your feet on a raised surface, such as a weight plate or block.',
@@ -5068,7 +5068,7 @@ const List<Exercise> kExercises = [
     secondary: ['hamstrings', 'glutes'],
     equipment: 'Bodyweight',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/iPm26QU.gif',
+    art: 'step-down',
     steps: [
       'Stand in front of a box or platform with your feet shoulder-width apart.',
       'Bend your knees and jump onto the box, landing softly with one foot on the box and the other foot hanging off the edge.',
@@ -5084,7 +5084,7 @@ const List<Exercise> kExercises = [
     secondary: ['hamstrings', 'glutes'],
     equipment: 'Dumbbell',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/VW88JNd.gif',
+    art: 'seated-calf-raise',
     steps: [
       'Sit on a bench or chair with your back straight and your feet flat on the ground.',
       'Hold a dumbbell in one hand and place it on top of your thigh, palm facing up.',
@@ -5100,7 +5100,7 @@ const List<Exercise> kExercises = [
     secondary: ['hamstrings'],
     equipment: 'Machine',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/ywaNfuh.gif',
+    art: 'standing-calf-raise',
     steps: [
       'Adjust the smith machine bar to a height just below your shoulders.',
       'Stand facing the bar with your feet hip-width apart and toes pointing forward.',
@@ -5116,7 +5116,7 @@ const List<Exercise> kExercises = [
     secondary: ['hamstrings', 'glutes'],
     equipment: 'Bodyweight',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/u5ESqzH.gif',
+    art: 'donkey-calf-raise',
     steps: [
       'Stand with your toes on an elevated surface, such as a step or block.',
       'Place your hands on a stable support, such as a wall or railing, for balance.',
@@ -5132,7 +5132,7 @@ const List<Exercise> kExercises = [
     secondary: [],
     equipment: 'Dumbbell',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/1kB3Wmk.gif',
+    art: 'single-leg-calf-raise',
     steps: [
       'Stand on the edge of a step or platform with your heels hanging off and your toes on the step.',
       'Hold a dumbbell in one hand and place your other hand on a wall or railing for support.',
@@ -5148,7 +5148,7 @@ const List<Exercise> kExercises = [
     secondary: ['hamstrings'],
     equipment: 'Machine',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/0S75mYG.gif',
+    art: 'seated-calf-raise',
     steps: [
       'Sit on the machine with your back against the pad and your feet on the footrest.',
       'Place one leg on the footrest and keep the other leg off the footrest.',
@@ -5164,7 +5164,7 @@ const List<Exercise> kExercises = [
     secondary: [],
     equipment: 'Dumbbell',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/dPmaUaU.gif',
+    art: 'standing-calf-raise',
     steps: [
       'Stand with your feet shoulder-width apart, holding a dumbbell in each hand.',
       'Raise your heels off the ground as high as possible, using your calves.',
@@ -5179,7 +5179,7 @@ const List<Exercise> kExercises = [
     secondary: ['hamstrings', 'glutes'],
     equipment: 'Machine',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/6MaEjVA.gif',
+    art: 'standing-calf-raise',
     steps: [
       'Adjust the smith machine bar to a height that allows you to stand with your feet flat on the ground and your shoulders under the bar.',
       'Position yourself under the bar with your feet shoulder-width apart and your toes pointing forward.',
@@ -5195,7 +5195,7 @@ const List<Exercise> kExercises = [
     secondary: [],
     equipment: 'Bodyweight',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/0jp9Rlz.gif',
+    art: 'single-leg-calf-raise',
     steps: [
       'Stand with your feet hip-width apart and place your hands on a wall or sturdy object for balance.',
       'Lift one foot off the ground and balance on the other foot.',
@@ -5211,7 +5211,7 @@ const List<Exercise> kExercises = [
     secondary: ['biceps'],
     equipment: 'Barbell',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/yzYH9pI.gif',
+    art: 'wrist-extension',
     steps: [
       'Sit on a bench with your feet flat on the ground and your forearms resting on your thighs, palms facing down.',
       'Hold a barbell with an overhand grip, hands shoulder-width apart.',
@@ -5227,7 +5227,7 @@ const List<Exercise> kExercises = [
     secondary: [],
     equipment: 'Dumbbell',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/mtXengz.gif',
+    art: 'wrist-curl',
     steps: [
       'Sit on a bench or chair with your feet flat on the ground and your back straight.',
       'Hold a dumbbell in one hand with an underhand grip, resting your forearm on your thigh, palm facing up.',
@@ -5242,7 +5242,7 @@ const List<Exercise> kExercises = [
     secondary: [],
     equipment: 'Cable',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/eYmsEPR.gif',
+    art: 'wrist-extension',
     steps: [
       'Attach a cable to a low pulley and sit on a bench facing the cable machine.',
       'Grasp the cable handle with an overhand grip, palms facing down.',
@@ -5258,7 +5258,7 @@ const List<Exercise> kExercises = [
     secondary: ['biceps'],
     equipment: 'Machine',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/B6dAO1t.gif',
+    art: 'wrist-curl',
     steps: [
       'Sit on a bench in front of a Smith machine with your feet flat on the ground.',
       'Grasp the barbell with an underhand grip, hands shoulder-width apart.',
@@ -5274,7 +5274,7 @@ const List<Exercise> kExercises = [
     secondary: ['triceps'],
     equipment: 'Bodyweight',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/arvaszz.gif',
+    art: 'push-up',
     steps: [
       'Start in a push-up position with your hands directly under your shoulders and your body in a straight line.',
       'Lower your body down towards the ground by bending your elbows, keeping them close to your sides.',
@@ -5290,7 +5290,7 @@ const List<Exercise> kExercises = [
     secondary: ['biceps', 'triceps'],
     equipment: 'Weighted',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/bjqbauy.gif',
+    art: 'farmer-carry',
     steps: [
       'Stand with your feet shoulder-width apart and hold a weight in each hand.',
       'Extend your arms straight in front of you, palms facing each other.',
@@ -5306,7 +5306,7 @@ const List<Exercise> kExercises = [
     secondary: ['biceps'],
     equipment: 'Barbell',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/SJAA2IQ.gif',
+    art: 'wrist-curl',
     steps: [
       'Sit on a bench with your feet flat on the ground and hold a barbell with an underhand grip, palms facing up.',
       'Rest your forearms on the bench, allowing your wrists to hang off the edge.',
@@ -5322,7 +5322,7 @@ const List<Exercise> kExercises = [
     secondary: ['biceps'],
     equipment: 'Dumbbell',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/mym4hJo.gif',
+    art: 'wrist-extension',
     steps: [
       'Lie flat on a bench with your chest facing down and your arms extended straight down, holding a dumbbell in each hand.',
       'Rotate your palms so they are facing up.',
@@ -5338,7 +5338,7 @@ const List<Exercise> kExercises = [
     secondary: ['biceps'],
     equipment: 'Cable',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/VhX2JdE.gif',
+    art: 'wrist-extension',
     steps: [
       'Stand facing a cable machine with your feet shoulder-width apart.',
       'Hold the cable handle with an overhand grip, palms facing down.',
@@ -5354,7 +5354,7 @@ const List<Exercise> kExercises = [
     secondary: ['biceps', 'triceps'],
     equipment: 'Machine',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/hfmQ0Tz.gif',
+    art: 'wrist-extension',
     steps: [
       'Stand facing the smith machine with your feet shoulder-width apart.',
       'Grasp the barbell with an overhand grip, hands shoulder-width apart.',
@@ -5370,7 +5370,7 @@ const List<Exercise> kExercises = [
     secondary: [],
     equipment: 'Bodyweight',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/2zNKRUB.gif',
+    art: '',
     steps: [
       'Extend your arms straight out in front of you.',
       'Make a fist with both hands.',
@@ -5385,7 +5385,7 @@ const List<Exercise> kExercises = [
     secondary: ['biceps', 'triceps'],
     equipment: 'Weighted',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/bd5b860.gif',
+    art: 'wrist-curl',
     steps: [
       'Attach a weight to one end of a rope or bar.',
       'Hold the other end of the rope or bar with both hands, palms facing down.',
@@ -5401,7 +5401,7 @@ const List<Exercise> kExercises = [
     secondary: ['biceps'],
     equipment: 'Barbell',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/qDnGfDb.gif',
+    art: 'wrist-extension',
     steps: [
       'Sit on a bench with your feet flat on the ground and your knees bent.',
       'Hold a barbell with an overhand grip, palms facing down, and your hands shoulder-width apart.',
@@ -5417,7 +5417,7 @@ const List<Exercise> kExercises = [
     secondary: ['biceps', 'triceps'],
     equipment: 'Dumbbell',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/7RWNjiB.gif',
+    art: 'wrist-extension',
     steps: [
       'Lie flat on the floor with your face down and your arms extended straight out in front of you, holding a dumbbell in each hand.',
       'Rotate your palms so they are facing down towards the floor.',
@@ -5433,7 +5433,7 @@ const List<Exercise> kExercises = [
     secondary: ['biceps'],
     equipment: 'Cable',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/LrV4s90.gif',
+    art: 'wrist-curl',
     steps: [
       'Attach a straight bar to a low pulley cable machine.',
       'Stand facing the machine with your feet shoulder-width apart.',
@@ -5449,7 +5449,7 @@ const List<Exercise> kExercises = [
     secondary: ['biceps'],
     equipment: 'Barbell',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/LsZkfU6.gif',
+    art: 'wrist-extension',
     steps: [
       'Sit on a bench with your feet flat on the ground and hold a barbell with an overhand grip, palms facing down.',
       'Rest your forearms on your thighs, allowing your wrists to hang off the edge.',
@@ -5465,7 +5465,7 @@ const List<Exercise> kExercises = [
     secondary: ['biceps'],
     equipment: 'Dumbbell',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/M2Pm3zj.gif',
+    art: 'wrist-curl',
     steps: [
       'Lie flat on a bench with your feet flat on the ground.',
       'Hold a dumbbell in each hand with your palms facing up and your arms fully extended.',
@@ -5481,7 +5481,7 @@ const List<Exercise> kExercises = [
     secondary: ['biceps'],
     equipment: 'Barbell',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/2qTvJAZ.gif',
+    art: 'wrist-extension',
     steps: [
       'Stand up straight with your feet shoulder-width apart and hold a barbell with an overhand grip.',
       'Rest the barbell on the back of your hands with your palms facing down and your fingers pointing towards your body.',
@@ -5497,7 +5497,7 @@ const List<Exercise> kExercises = [
     secondary: ['biceps'],
     equipment: 'Dumbbell',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/rEhi2o5.gif',
+    art: 'wrist-curl',
     steps: [
       'Lie flat on your back on the floor with your legs extended and your arms by your sides, holding a dumbbell in each hand.',
       'Rotate your palms to face up, keeping your elbows close to your sides.',
@@ -5513,7 +5513,7 @@ const List<Exercise> kExercises = [
     secondary: ['biceps'],
     equipment: 'Barbell',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/82LxxkW.gif',
+    art: 'wrist-curl',
     steps: [
       'Sit on a bench with your feet flat on the ground and your forearms resting on your thighs, holding a barbell with an underhand grip.',
       'Allow the barbell to roll down to your fingertips, keeping your wrists straight.',
@@ -5529,7 +5529,7 @@ const List<Exercise> kExercises = [
     secondary: [],
     equipment: 'Dumbbell',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/cwsAI4G.gif',
+    art: 'dumbbell-shrug',
     steps: [
       'Set up a decline bench at a 45-degree angle.',
       'Lie face down on the bench with your chest and stomach resting against it.',
@@ -5545,7 +5545,7 @@ const List<Exercise> kExercises = [
     secondary: [],
     equipment: 'Cable',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/Eg98Ft9.gif',
+    art: 'shrug',
     steps: [
       'Stand facing the cable machine with your feet shoulder-width apart.',
       'Grasp the cable handles with an overhand grip and let your arms hang down in front of you.',
@@ -5561,7 +5561,7 @@ const List<Exercise> kExercises = [
     secondary: [],
     equipment: 'Machine',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/ZZKbeMw.gif',
+    art: 'shrug',
     steps: [
       'Adjust the seat height and position yourself on the leverage machine with your back against the pad.',
       'Grasp the handles with an overhand grip and keep your arms straight.',
@@ -5577,7 +5577,7 @@ const List<Exercise> kExercises = [
     secondary: [],
     equipment: 'Bodyweight',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/7xeukSt.gif',
+    art: 'dip',
     steps: [
       'Start by standing with your feet shoulder-width apart and your arms extended in front of you.',
       'Bend your knees slightly and hinge forward at the hips, keeping your back straight.',
@@ -5593,7 +5593,7 @@ const List<Exercise> kExercises = [
     secondary: [],
     equipment: 'Dumbbell',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/JymLInS.gif',
+    art: 'dumbbell-shrug',
     steps: [
       'Set an incline bench to a 45-degree angle and sit on it with a dumbbell in each hand.',
       'Place your feet flat on the ground and let your arms hang straight down with your palms facing your body.',
@@ -5609,7 +5609,7 @@ const List<Exercise> kExercises = [
     secondary: [],
     equipment: 'Machine',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/MzNnwx9.gif',
+    art: 'shrug',
     steps: [
       'Stand with your feet shoulder-width apart and your knees slightly bent.',
       'Grasp the barbell with an overhand grip, hands slightly wider than shoulder-width apart.',
@@ -5625,7 +5625,7 @@ const List<Exercise> kExercises = [
     secondary: ['biceps'],
     equipment: 'Bodyweight',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/uTBt1HV.gif',
+    art: 'scapular-pull-up',
     steps: [
       'Start by hanging from a pull-up bar with your palms facing away from you and your arms fully extended.',
       'Retract your shoulder blades by pulling them down and back.',
@@ -5641,7 +5641,7 @@ const List<Exercise> kExercises = [
     secondary: [],
     equipment: 'Machine',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/OUQ0ZyW.gif',
+    art: 'shrug',
     steps: [
       'Stand with your feet shoulder-width apart and your knees slightly bent.',
       'Grasp the barbell with an overhand grip, hands slightly wider than shoulder-width apart.',
@@ -5657,7 +5657,7 @@ const List<Exercise> kExercises = [
     secondary: ['glutes'],
     equipment: 'Barbell',
     difficulty: 'Advanced',
-    gif: 'assets/gifs/hrVQWvE.gif',
+    art: 'romanian-deadlift',
     steps: [
       'Stand with your feet shoulder-width apart and your toes pointing forward.',
       'Hold the barbell with an overhand grip, hands slightly wider than shoulder-width apart.',
@@ -5673,7 +5673,7 @@ const List<Exercise> kExercises = [
     secondary: ['glutes'],
     equipment: 'Dumbbell',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/FkBIE6a.gif',
+    art: 'lying-leg-curl',
     steps: [
       'Lie flat on your back with your legs extended and a dumbbell resting on your lower abdomen.',
       'Bend your knees and bring the dumbbell towards your glutes, keeping your feet flat on the ground.',
@@ -5688,7 +5688,7 @@ const List<Exercise> kExercises = [
     secondary: ['glutes', 'calves'],
     equipment: 'Bodyweight',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/GwYwElT.gif',
+    art: 'nordic-hamstring-curl',
     steps: [
       'Lie flat on your back on a mat or bench with your legs extended.',
       'Place your hands by your sides or under your glutes for support.',
@@ -5704,7 +5704,7 @@ const List<Exercise> kExercises = [
     secondary: ['glutes', 'calves'],
     equipment: 'Barbell',
     difficulty: 'Advanced',
-    gif: 'assets/gifs/SiWCcTN.gif',
+    art: 'deadlift',
     steps: [
       'Start with the barbell on the ground in front of you, with your feet shoulder-width apart.',
       'Bend down and grip the barbell with an overhand grip, slightly wider than shoulder-width apart.',
@@ -5720,7 +5720,7 @@ const List<Exercise> kExercises = [
     secondary: ['glutes'],
     equipment: 'Bodyweight',
     difficulty: 'Intermediate',
-    gif: 'assets/gifs/LNE3wfo.gif',
+    art: 'towel-hamstring-curl',
     steps: [
       'Start by standing with one foot on a platform or slide board.',
       'Bend your knee slightly and slide the foot on the platform backward, extending your leg.',
@@ -5736,7 +5736,7 @@ const List<Exercise> kExercises = [
     secondary: ['glutes'],
     equipment: 'Bodyweight',
     difficulty: 'Beginner',
-    gif: 'assets/gifs/C5jncD2.gif',
+    art: 'leg-curl',
     steps: [
       'Stand with your feet hip-width apart and your hands on your hips.',
       'Shift your weight onto your left leg and lift your right foot off the ground, bending your knee.',

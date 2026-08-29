@@ -2165,7 +2165,7 @@ abstract class AppLocalizations {
   /// No description provided for @exercisesInsideWhy.
   ///
   /// In en, this message translates to:
-  /// **'Every one with an animation and step-by-step instructions.'**
+  /// **'With animations and step-by-step instructions.'**
   String get exercisesInsideWhy;
 
   /// No description provided for @calculatorsInside.
@@ -2335,6 +2335,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Skip'**
   String get skip2;
+
+  /// No description provided for @artCredit.
+  ///
+  /// In en, this message translates to:
+  /// **'Exercise illustrations by Bryl Lim and Everkinetic'**
+  String get artCredit;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

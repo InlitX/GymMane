@@ -410,7 +410,7 @@
   "whatsInside": "WHAT'S INSIDE",
   "exercisesInside": "{n} exercises",
   "@exercisesInside": { "placeholders": { "n": { "type": "int" } } },
-  "exercisesInsideWhy": "Every one with an animation and step-by-step instructions.",
+  "exercisesInsideWhy": "With animations and step-by-step instructions.",
   "calculatorsInside": "6 calculators",
   "calculatorsInsideWhy": "1RM, plates, BMI, calories, body fat and warm-up — all with published formulas.",
   "mathInside": "Honest maths",
@@ -443,5 +443,6 @@
   "onbUnitsTitle": "Kilos or pounds?",
   "next": "NEXT",
   "back": "BACK",
-  "skip2": "Skip"
+  "skip2": "Skip",
+  "artCredit": "Exercise illustrations by Bryl Lim and Everkinetic"
 }

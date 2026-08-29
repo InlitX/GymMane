@@ -1155,7 +1155,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get exercisesInsideWhy => 'Every one with an animation and step-by-step instructions.';
+  String get exercisesInsideWhy => 'With animations and step-by-step instructions.';
 
   @override
   String get calculatorsInside => '6 calculators';
@@ -1257,4 +1257,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get skip2 => 'Skip';
+
+  @override
+  String get artCredit => 'Exercise illustrations by Bryl Lim and Everkinetic';
 }

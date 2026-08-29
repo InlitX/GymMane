@@ -15,7 +15,7 @@ class Exercise {
     required this.secondary,
     required this.equipment,
     required this.difficulty,
-    required this.gif,
+    required this.art,
     required this.steps,
     this.media = '',
   });
@@ -25,7 +25,7 @@ class Exercise {
   final List<String> secondary;
   final String equipment;
   final String difficulty;
-  final String gif;
+  final String art;
   final List<String> steps;
   final String media;
 
@@ -36,7 +36,7 @@ class Exercise {
         secondary: secondary,
         equipment: equipment,
         difficulty: difficulty,
-        gif: gif,
+        art: art,
         steps: steps,
         media: media ?? this.media,
       );
@@ -56,7 +56,7 @@ class Exercise {
         secondary: const [],
         equipment: (j['e'] as String?) ?? 'Other',
         difficulty: (j['d'] as String?) ?? 'Beginner',
-        gif: '',
+        art: '',
         steps: const [],
         media: (j['m'] as String?) ?? '',
       );
