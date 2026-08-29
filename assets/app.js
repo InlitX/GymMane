@@ -9,14 +9,10 @@
       navShots: 'Capturas', navDownload: 'Descargar',
       skip: 'Saltar al contenido',
       relNote: 'Ya disponible para Android',
-      lsStar: 'estrella', lsStars: 'estrellas', lsDl1: 'descarga', lsDl: 'descargas', lsEx: 'ejercicios', lsLic: 'para siempre',
-      heroKicker: 'Diario de gimnasio · Android',
       heroL1: 'Levanta.', heroL2: 'Anota.', heroL3: 'Mejora.',
       heroLead: 'La app de gimnasio sin humo: registra tus series y mira tu progreso <em>de verdad</em>. Todo en tu móvil.',
       ctaGithub: 'Ver en GitHub', ctaTry: 'Ver capturas',
       promiseFree: 'Gratis y sin anuncios', promiseNoAcc: 'Sin cuenta', promiseOffline: '100% offline',
-      tick1: 'Cuerpo interactivo', tick2: 'Heatmap de rachas', tick3: '6 calculadoras',
-      tick4: 'Rutinas por día', tick5: 'Tus datos, tuyos', tick6: '+360 ejercicios', tick7: 'Sin anuncios',
       featKicker: 'Lo que llevas dentro',
       featTitle: 'Todo lo del gimnasio.<br>Nada de relleno.',
       featLead: 'Cada número sale de tus propias series. Si está en pantalla, lo has levantado tú.',
@@ -31,50 +27,30 @@
       shotsLead: 'Nada de maquetas inventadas: estas pantallas salen de la app corriendo en un teléfono. Toca cualquiera para verla grande.',
       sHome: 'Inicio', sProgress: 'Progreso', sTrain: 'Entrenar', sSession: 'Sesión',
       sHistory: 'Historial', sLibrary: 'Ejercicios', sRoutines: 'Rutinas', sSettings: 'Ajustes',
-      n1: 'Ejercicios', n2: 'Calculadoras', n3: 'Offline', n4: 'Permisos de internet',
-      restKicker: 'Descanso', restTitle: 'El descanso<br>también cuenta',
-      restLead: 'Marca la serie y el temporizador arranca solo. Suena aunque tengas el móvil bloqueado, y puedes ponerle tu propio sonido. Pruébalo aquí al lado.',
-      rest1t: 'Alarma real', rest1d: 'Notificación a pantalla completa con vibración, no un aviso silencioso.',
-      rest2t: 'Tu sonido', rest2d: 'Sube el audio que quieras (hasta 15 s) y esa será tu campana.',
-      restReady: 'Listo', restStart: 'Empezar', restSkip: 'Saltar',
-      restSound: 'Suena con la pantalla bloqueada · sonido personalizable', restGoing: 'Descansando', restDone: '¡A la barra!',
+      restReady: 'Listo',
       privKicker: 'Tus datos son tuyos', privTitle: 'Sin humo,<br>sin letra pequeña',
-      p1t: 'Gratis y abierta', p1d: 'Sin anuncios, sin muros de pago y con el código a la vista: GPL-3.0.',
-      p2t: 'Totalmente offline', p2d: 'Sin cuenta y sin servidores: la app ni siquiera pide permiso de internet.',
-      p3t: 'Portable', p3d: 'Exporta a CSV o copia JSON cuando quieras. Impórtala en otro móvil en segundos.',
       manifestNote: 'Sin permiso de internet, la app no puede mandar tus datos a ningún sitio. No es una promesa: es el sistema quien lo impide.',
       impKicker: 'Vienes de otra app', impTitle: 'Tráete<br>tu historial',
-      impLead: 'Exporta la copia desde tu app de siempre e impórtala en GymMane: CSV, el zip de medidas o la copia entera de FitNotes. Cada ejercicio se empareja con la biblioteca y lo repetido se descarta.',
-      imp1t: 'Exporta', imp1d: 'Saca la copia desde tu app de siempre.',
-      imp2t: 'Importa', imp2d: 'Ajustes → Importar y elige el fichero.',
-      imp3t: 'Listo', imp3d: 'Cada ejercicio se empareja y lo repetido se descarta.',
+      impLead: 'CSV de Hevy o Strong, o la copia entera de FitNotes. Cada ejercicio se empareja solo y lo repetido se descarta.',
       whyKicker: 'Por qué existe',
       whyTitle: 'Me cansé de pagar<br>por ver mis propias series.',
       whyP1: 'Todas las apps de gimnasio acaban igual: una cuenta, un plan mensual y tu historial secuestrado detrás de un botón dorado. Así que hice la que yo quería usar — rápida, oscura, sin internet y gratis de verdad.',
       whyP2: 'GymMane es código abierto con licencia GPL-3.0: nadie puede cerrarla ni revenderla. Si le falta algo que necesitas, el repositorio está abierto y las incidencias también.',
       whySign: 'Autor de GymMane · un dev, sin empresa detrás',
-      s1t: 'Invítame a un café', s1d: 'Un pago único, sin suscripciones. Paga las tardes de sábado que van a la app.',
-      s2t: 'Dale una estrella', s2d: 'No cuesta nada y es así como la mayoría acaba encontrando la app.',
-      s3t: 'Cuéntame qué falla', s3d: 'Un fallo, una idea, una errata en tu idioma. Todo se lee.',
       dlBtn: 'Descargar el APK',
       dl1: 'APK directo · Android 7+',
       dl2: 'Sin cuenta, sin anuncios, sin telemetría',
       dl3: 'F-Droid e IzzyOnDroid: en camino',
-      trKicker: 'Comunidad', trTitle: 'Traduce GymMane',
-      trLead: 'Los textos viven en ficheros <b style="color:var(--text)">ARB</b> estándar. Añadir un idioma es copiar un archivo y abrir un <em>pull request</em>.',
-      trYou: '+ tú',
       endKicker: 'Se acabaron las notas sueltas', endTitle: 'Empieza a<br>llevar la cuenta',
       endLead: 'Descárgala, registra tu primera sesión y deja que los números hablen.',
-      endBtn1: 'Descargar / GitHub', endBtn2: 'Invítame a un café',
+      endBtn2: 'Invítame a un café',
       footFine: 'GymMane — hecha con Flutter para Android.',
       footTagline: 'Un diario de gimnasio que no pide nada: ni cuenta, ni internet, ni permisos.',
       footBadgeOffline: '100% offline',
-      footApp: 'La app', footProject: 'Proyecto', footHelp: 'Ayuda',
-      footCode: 'Código', footImport: 'Importar', footReleases: 'Descargar APK', footContribute: 'Contribuir',
-      footIssues: 'Reportar un fallo', footLicense: 'Licencia', footCoffee: 'Invítame a un café',
+      footCode: 'Código', footReleases: 'Descargar APK',
+      footIssues: 'Reportar un fallo', footCoffee: 'Invítame a un café',
       footNoCookies: 'sin cookies ni analítica',
       liveNote: 'Demo real — tócala',
-      liveSub: 'Demo limitada: unos pocos ejercicios de ejemplo. La app tiene más de 360 con animación, rutinas, historial y calculadoras.',
       app: {
         navhome: 'INICIO', navprogress: 'PROGRESO', navexercises: 'EJERCICIOS', navsettings: 'AJUSTES',
         today: 'Hoy', routine: 'RUTINA DE HOY', focus: 'FOCO DE HOY', pullDay: 'DÍA DE TIRÓN', exs: 'ejercicios',
@@ -114,14 +90,10 @@
       navShots: 'Screens', navDownload: 'Download',
       skip: 'Skip to content',
       relNote: 'Out now for Android',
-      lsStar: 'star', lsStars: 'stars', lsDl1: 'download', lsDl: 'downloads', lsEx: 'exercises', lsLic: 'forever',
-      heroKicker: 'Gym log · Android',
       heroL1: 'Lift.', heroL2: 'Log it.', heroL3: 'Grow.',
       heroLead: 'The gym app with no nonsense: log your sets and watch your progress <em>for real</em>. All on your phone.',
       ctaGithub: 'View on GitHub', ctaTry: 'See the screens',
       promiseFree: 'Free, no ads', promiseNoAcc: 'No account', promiseOffline: '100% offline',
-      tick1: 'Interactive body', tick2: 'Streak heatmap', tick3: '6 calculators',
-      tick4: 'Routines per day', tick5: 'Your data, yours', tick6: '+360 exercises', tick7: 'No ads',
       featKicker: 'What you get',
       featTitle: 'Everything from the gym.<br>None of the filler.',
       featLead: 'Every number comes from your own sets. If it is on screen, you lifted it.',
@@ -136,50 +108,30 @@
       shotsLead: 'No invented mockups: every screen here comes from the app running on a real phone. Tap any of them to see it big.',
       sHome: 'Home', sProgress: 'Progress', sTrain: 'Train', sSession: 'Session',
       sHistory: 'History', sLibrary: 'Exercises', sRoutines: 'Routines', sSettings: 'Settings',
-      n1: 'Exercises', n2: 'Calculators', n3: 'Offline', n4: 'Internet permissions',
-      restKicker: 'Rest', restTitle: 'Rest counts<br>too',
-      restLead: 'Tick the set and the timer starts on its own. It rings even with the phone locked, and you can use your own sound. Give it a go.',
-      rest1t: 'A real alarm', rest1d: 'Full-screen notification with vibration, not a silent little banner.',
-      rest2t: 'Your sound', rest2d: 'Upload any audio you like (up to 15 s) and that becomes your bell.',
-      restReady: 'Ready', restStart: 'Start', restSkip: 'Skip',
-      restSound: 'Rings with the screen locked · your own sound', restGoing: 'Resting', restDone: 'Back to it!',
+      restReady: 'Ready',
       privKicker: 'Your data is yours', privTitle: 'No smoke,<br>no small print',
-      p1t: 'Free and open', p1d: 'No ads, no paywalls, and the code is right there: GPL-3.0.',
-      p2t: 'Fully offline', p2d: 'No account and no servers — the app does not even ask for internet permission.',
-      p3t: 'Portable', p3d: 'Export to CSV or a JSON backup whenever you like. Import it on another phone in seconds.',
       manifestNote: 'With no internet permission the app cannot send your data anywhere. It is not a promise — the system enforces it.',
       impKicker: 'Coming from another app', impTitle: 'Bring your<br>history along',
-      impLead: 'Export the backup from your old app and import it into GymMane: a CSV, the measurements zip or the whole FitNotes database. Every exercise is matched against the library and anything already logged is skipped.',
-      imp1t: 'Export', imp1d: 'Get the backup out of your old app.',
-      imp2t: 'Import', imp2d: 'Settings → Import, then pick the file.',
-      imp3t: 'Done', imp3d: 'Exercises are matched and duplicates are skipped.',
+      impLead: 'A CSV from Hevy or Strong, or the whole FitNotes backup. Every exercise is matched for you and anything you already logged is skipped.',
       whyKicker: 'Why it exists',
       whyTitle: 'I got tired of paying<br>to look at my own sets.',
       whyP1: 'Every gym app ends up the same: an account, a monthly plan and your history locked behind a golden button. So I built the one I wanted to use — fast, dark, offline and actually free.',
       whyP2: 'GymMane is open source under GPL-3.0, so nobody can close it up and resell it. If it is missing something you need, the repo is open and so is the issue tracker.',
       whySign: 'Author of GymMane · one dev, no company behind it',
-      s1t: 'Buy me a coffee', s1d: 'A one-off tip, no subscription. It pays for the Saturday afternoons that go into the app.',
-      s2t: 'Star the repo', s2d: 'It costs nothing and it is how most people end up finding the app.',
-      s3t: 'Tell me what breaks', s3d: 'A bug, an idea, a typo in your language. It all gets read.',
       dlBtn: 'Download the APK',
       dl1: 'Direct APK · Android 7+',
       dl2: 'No account, no ads, no telemetry',
       dl3: 'F-Droid and IzzyOnDroid: on the way',
-      trKicker: 'Community', trTitle: 'Translate GymMane',
-      trLead: 'All the text lives in standard <b style="color:var(--text)">ARB</b> files. Adding a language means copying one file and opening a <em>pull request</em>.',
-      trYou: '+ you',
       endKicker: 'No more notes app', endTitle: 'Start keeping<br>the count',
       endLead: 'Download it, log your first session and let the numbers do the talking.',
-      endBtn1: 'Download / GitHub', endBtn2: 'Buy me a coffee',
+      endBtn2: 'Buy me a coffee',
       footFine: 'GymMane — built with Flutter for Android.',
       footTagline: 'A gym log that asks for nothing: no account, no internet, no permissions.',
       footBadgeOffline: '100% offline',
-      footApp: 'The app', footProject: 'Project', footHelp: 'Help',
-      footCode: 'Source', footImport: 'Import', footReleases: 'Download APK', footContribute: 'Contribute',
-      footIssues: 'Report a bug', footLicense: 'License', footCoffee: 'Buy me a coffee',
+      footCode: 'Source', footReleases: 'Download APK',
+      footIssues: 'Report a bug', footCoffee: 'Buy me a coffee',
       footNoCookies: 'no cookies, no analytics',
       liveNote: 'Live demo — tap it',
-      liveSub: 'Limited demo with a handful of sample exercises. The app ships more than 360 animated ones, plus routines, history and calculators.',
       app: {
         navhome: 'HOME', navprogress: 'PROGRESS', navexercises: 'EXERCISES', navsettings: 'SETTINGS',
         today: 'Today', routine: "TODAY'S ROUTINE", focus: "TODAY'S FOCUS", pullDay: 'PULL DAY', exs: 'exercises',
@@ -242,7 +194,6 @@
     document.querySelectorAll('.lang button').forEach(function (b) {
       b.setAttribute('aria-pressed', String(b.dataset.lang === lang));
     });
-    buildTicker();
     buildShots();
     aRender(true);
     document.querySelectorAll('#bodySvg .muscle').forEach(function (g) {
@@ -263,26 +214,6 @@
     });
   });
 
-  var TICK_ICONS = [
-    '<path d="M4 12h16M4 12l4-4M4 12l4 4"/>',
-    '<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/>',
-    '<rect x="4" y="3" width="16" height="18" rx="2.5"/><path d="M8 8h8M8 13h3M13 13h3"/>',
-    '<path d="M7 3v4M17 3v4M4 9h16M5 5h14v16H5z"/>',
-    '<path d="M12 3l7 3v6c0 4-3 7.4-7 8.6C8 19.4 5 16 5 12V6z"/>',
-    '<path d="M6.5 8v8M3.5 10v4M17.5 8v8M20.5 10v4M6.5 12h11"/>',
-    '<path d="M6 6l12 12M18 6L6 18"/>'
-  ];
-  function buildTicker() {
-    var row = document.getElementById('ticker');
-    var keys = ['tick1', 'tick2', 'tick3', 'tick4', 'tick5', 'tick6', 'tick7'];
-    var html = '<div>';
-    keys.forEach(function (k, i) {
-      html += '<span><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">' +
-        TICK_ICONS[i] + '</svg>' + t(k) + '</span>';
-    });
-    html += '</div>';
-    row.innerHTML = html + html;
-  }
 
   var SHOTS = [
     { f: 'home', k: 'sHome' }, { f: 'train', k: 'sTrain' }, { f: 'session', k: 'sSession' },
@@ -885,87 +816,12 @@
   var bodyTpl = document.getElementById('bodyTpl');
   var BODY_SVG = bodyTpl ? bodyTpl.innerHTML : '';
 
-  var RING = 603;
-  var timer = { left: 90, total: 90, running: false, id: null };
-  var tVal = document.getElementById('tVal');
-  var tState = document.getElementById('tState');
-  var ringFg = document.getElementById('ringFg');
-  var ringWrap = document.getElementById('ringWrap');
-
-  function setState(text) { tState.textContent = text; }
-  function paint() {
-    tVal.textContent = timer.left;
-    ringFg.style.strokeDashoffset = String(RING * (1 - timer.left / timer.total));
-  }
-  function tick() {
-    timer.left -= 1;
-    if (timer.left <= 0) {
-      timer.left = 0; paint(); stopTimer();
-      ringWrap.classList.add('done', 'beat');
-      setState(t('restDone'));
-      setTimeout(function () { ringWrap.classList.remove('beat'); }, 2600);
-      return;
-    }
-    paint();
-  }
-  function stopTimer() {
-    clearInterval(timer.id); timer.id = null; timer.running = false;
-    document.getElementById('tStart').textContent = t('restStart');
-  }
-  document.getElementById('tStart').addEventListener('click', function () {
-    ringWrap.classList.remove('done', 'beat');
-    if (timer.running) { stopTimer(); setState(t('restReady')); return; }
-    if (timer.left <= 0) { timer.left = timer.total = 90; }
-    timer.running = true;
-    this.textContent = '⏸';
-    setState(t('restGoing'));
-    paint();
-    timer.id = setInterval(tick, 1000);
-  });
-  document.getElementById('tPlus').addEventListener('click', function () {
-    ringWrap.classList.remove('done', 'beat');
-    timer.left += 15; timer.total = Math.max(timer.total, timer.left); paint();
-  });
-  document.getElementById('tMinus').addEventListener('click', function () {
-    ringWrap.classList.remove('done', 'beat');
-    timer.left = Math.max(0, timer.left - 15); paint();
-  });
-  document.querySelectorAll('#tPresets button').forEach(function (b) {
-    b.addEventListener('click', function () {
-      document.querySelectorAll('#tPresets button').forEach(function (o) {
-        o.setAttribute('aria-pressed', String(o === b));
-      });
-      stopTimer();
-      ringWrap.classList.remove('done', 'beat');
-      timer.left = timer.total = +b.dataset.preset;
-      paint(); setState(t('restReady'));
-    });
-  });
-  document.getElementById('tSkip').addEventListener('click', function () {
-    stopTimer(); ringWrap.classList.remove('done', 'beat');
-    timer.left = timer.total = 90; paint(); setState(t('restReady'));
-  });
-  paint();
-
   var slowMo = matchMedia('(prefers-reduced-motion: reduce)').matches;
   var io = new IntersectionObserver(function (es) {
     es.forEach(function (e) {
       if (!e.isIntersecting) return;
       e.target.classList.add('in');
 
-      var n = e.target.querySelector('[data-count]');
-      var target = n ? parseInt(n.dataset.count, 10) : 0;
-      if (n && !n.dataset.done && target && !slowMo) {
-        n.dataset.done = '1';
-        var prefix = n.dataset.prefix || '', suffix = n.dataset.suffix || '';
-        var start = performance.now();
-        (function run(now) {
-          var p = Math.max(0, Math.min(1, ((now || performance.now()) - start) / 1100));
-          var e2 = 1 - Math.pow(1 - p, 3);
-          n.textContent = prefix + Math.round(target * e2) + suffix;
-          if (p < 1) requestAnimationFrame(run);
-        })();
-      }
       io.unobserve(e.target);
     });
   }, { threshold: 0.14 });
@@ -978,52 +834,6 @@
       c.style.setProperty('--my', (e.clientY - r.top) + 'px');
     });
   });
-
-  var REPO = 'https://api.github.com/repos/InlitX/GymMan';
-  var LIVE = { stars: 0, dl: 0 };
-  var LIVE_LBL = { stars: ['lsStar', 'lsStars'], dl: ['lsDl1', 'lsDl'] };
-
-  function paintLive(name, animate) {
-    var v = LIVE[name];
-    document.querySelectorAll('[data-live="' + name + '"]').forEach(function (n) {
-      var host = n.parentNode;
-      if (!v) { host.hidden = true; return; }
-      host.hidden = false;
-      var lbl = host.querySelector('small');
-      if (lbl) lbl.textContent = t(LIVE_LBL[name][v === 1 ? 0 : 1]);
-      if (!animate || slowMo) { n.textContent = v.toLocaleString(); return; }
-      var start = performance.now();
-      (function run(now) {
-        var p = Math.max(0, Math.min(1, ((now || performance.now()) - start) / 1200));
-        n.textContent = Math.round(v * (1 - Math.pow(1 - p, 3))).toLocaleString();
-        if (p < 1) requestAnimationFrame(run);
-      })();
-    });
-  }
-
-  function live(name, value) {
-    if (typeof value !== 'number' || value === LIVE[name]) return;
-    LIVE[name] = value;
-    localStorage.setItem('gm-' + name, String(value));
-    paintLive(name, true);
-  }
-
-  Object.keys(LIVE).forEach(function (k) { LIVE[k] = Number(localStorage.getItem('gm-' + k)) || 0; });
-
-  fetch(REPO).then(function (r) { return r.ok ? r.json() : null; })
-    .then(function (repo) { if (repo) live('stars', repo.stargazers_count); })
-    .catch(function () {});
-
-  fetch(REPO + '/releases?per_page=100').then(function (r) { return r.ok ? r.json() : null; })
-    .then(function (rels) {
-      if (!Array.isArray(rels)) return;
-      var total = 0;
-      rels.forEach(function (rel) {
-        (rel.assets || []).forEach(function (a) { total += a.download_count || 0; });
-      });
-      live('dl', total);
-    })
-    .catch(function () {});
 
   var bar = document.getElementById('bar');
   var head = document.querySelector('header');
