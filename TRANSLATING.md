@@ -5,6 +5,9 @@
 Every word in the app lives in one small file per language.
 No Dart, no build tools — just text.
 
+There is no Weblate or Crowdin yet, so translating means editing that file on
+GitHub and opening a pull request.
+
 </div>
 
 ---

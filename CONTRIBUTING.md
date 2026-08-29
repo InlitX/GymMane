@@ -11,7 +11,8 @@
 - **Bugs and small fixes:** open a pull request straight away.
 - **Anything bigger:** open an issue first so we can agree on the direction
   before you spend an evening on it.
-- **Translations:** see [TRANSLATING.md](TRANSLATING.md) — no code needed.
+- **Translations:** see [TRANSLATING.md](TRANSLATING.md) — one text file and a
+  pull request. No Dart, but no translation website either: it all happens here.
 
 ## Two rules that never bend
 
