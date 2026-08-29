@@ -410,7 +410,7 @@
   "whatsInside": "WHAT'S INSIDE",
   "exercisesInside": "{n} exercises",
   "@exercisesInside": { "placeholders": { "n": { "type": "int" } } },
-  "exercisesInsideWhy": "With animations and step-by-step instructions.",
+  "exercisesInsideWhy": "Every one with an animation and step-by-step instructions.",
   "calculatorsInside": "6 calculators",
   "calculatorsInsideWhy": "1RM, plates, BMI, calories, body fat and warm-up — all with published formulas.",
   "mathInside": "Honest maths",

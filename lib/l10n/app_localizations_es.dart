@@ -1156,7 +1156,7 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
-  String get exercisesInsideWhy => 'Con animaciones e instrucciones paso a paso.';
+  String get exercisesInsideWhy => 'Cada uno con su animación y sus instrucciones paso a paso.';
 
   @override
   String get calculatorsInside => '6 calculadoras';
