@@ -2165,7 +2165,7 @@ abstract class AppLocalizations {
   /// No description provided for @exercisesInsideWhy.
   ///
   /// In en, this message translates to:
-  /// **'With animations and step-by-step instructions.'**
+  /// **'Every one with an animation and step-by-step instructions.'**
   String get exercisesInsideWhy;
 
   /// No description provided for @calculatorsInside.
