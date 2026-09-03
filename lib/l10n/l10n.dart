@@ -4,11 +4,12 @@ import 'package:intl/intl.dart';
 
 import 'app_localizations.dart';
 import 'catalog_es.dart';
+import 'catalog_zh.dart';
 
 export 'app_localizations.dart';
 
-const Map<String, Map<String, String>> _catalogNames = {'es': kExerciseNameEs};
-const Map<String, Map<String, List<String>>> _catalogSteps = {'es': kExerciseStepsEs};
+const Map<String, Map<String, String>> _catalogNames = {'es': kExerciseNameEs, 'zh': kExerciseNameZh};
+const Map<String, Map<String, List<String>>> _catalogSteps = {'es': kExerciseStepsEs, 'zh': kExerciseStepsZh};
 
 String appLanguage = 'en';
 AppLocalizations t = lookupAppLocalizations(const Locale('en'));
@@ -91,6 +92,24 @@ extension GymL10n on AppLocalizations {
         'bf' => toolDescBf,
         'plate' => toolDescPlate,
         _ => toolDescWarmup,
+      };
+
+  String get macroProtein => switch (appLanguage) {
+        'zh' => '蛋白质',
+        'es' => 'PROTEÍNA',
+        _ => 'PROTEIN',
+      };
+
+  String get macroCarbs => switch (appLanguage) {
+        'zh' => '碳水',
+        'es' => 'CARBOS',
+        _ => 'CARBS',
+      };
+
+  String get macroFat => switch (appLanguage) {
+        'zh' => '脂肪',
+        'es' => 'GRASA',
+        _ => 'FAT',
       };
 
   String bmiCategory(String key) => switch (key) {

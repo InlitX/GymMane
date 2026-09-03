@@ -203,7 +203,7 @@ class _RoutineEditScreenState extends State<RoutineEditScreen> {
         ReorderableDragStartListener(
           index: index,
           child: Semantics(
-            label: t.reorderHandle(ex.name),
+            label: t.reorderHandle(exerciseName(ex)),
             child: SizedBox(
               width: 34,
               height: 44,

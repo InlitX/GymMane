@@ -97,7 +97,7 @@ class SessionScreen extends StatelessWidget {
             Text(fit.sessionProgressLabel,
                 style: AppTheme.s(12, weight: FontWeight.w600, color: gc.textSecondary, letterSpacing: 1)),
             const SizedBox(height: 4),
-            Text(ex?.name ?? '', style: AppTheme.d(26, weight: FontWeight.w700, color: gc.text)),
+            Text(ex != null ? t.catalogName(ex.id, ex.name) : '', style: AppTheme.d(26, weight: FontWeight.w700, color: gc.text)),
             const SizedBox(height: 8),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
@@ -196,7 +196,7 @@ class SessionScreen extends StatelessWidget {
               button: true,
               child: GestureDetector(
                 behavior: HitTestBehavior.opaque,
-                onTap: () => _confirmDrop(context, exIdx, ex.name),
+                onTap: () => _confirmDrop(context, exIdx, t.catalogName(ex.id, ex.name)),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                   child: Text(t.dropExercise,

@@ -418,9 +418,9 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(s.name, style: AppTheme.s(14, weight: FontWeight.w600, color: gc.text)),
+                  Text(exerciseName(s), style: AppTheme.s(14, weight: FontWeight.w600, color: gc.text)),
                   const SizedBox(height: 2),
-                  Text(s.equipment, style: AppTheme.s(12, color: gc.textSecondary)),
+                  Text(t.equipment(s.equipment), style: AppTheme.s(12, color: gc.textSecondary)),
                 ],
               ),
             ),

@@ -164,7 +164,8 @@ mixin StatsState on FitCore, ToolsState, LibraryState {
     final names = <String>[];
     for (final s in ofDay) {
       for (final e in s.exercises) {
-        if (!names.contains(e.name)) names.add(e.name);
+        final n = t.catalogName(e.id, e.name);
+        if (!names.contains(n)) names.add(n);
       }
     }
     return (
@@ -259,7 +260,7 @@ mixin StatsState on FitCore, ToolsState, LibraryState {
         for (final st in e.sets) {
           final c = best[e.id];
           best[e.id] = (
-            name: e.name,
+            name: t.catalogName(e.id, e.name),
             topWeight: c == null ? st.weight : math.max(c.topWeight, st.weight),
             oneRm: c == null ? st.oneRm : math.max(c.oneRm, st.oneRm),
           );
@@ -391,7 +392,7 @@ mixin StatsState on FitCore, ToolsState, LibraryState {
     for (final s in sessions) {
       for (final e in s.exercises) {
         count[e.id] = (count[e.id] ?? 0) + 1;
-        names[e.id] = e.name;
+        names[e.id] = t.catalogName(e.id, e.name);
       }
     }
     final list = count.entries
