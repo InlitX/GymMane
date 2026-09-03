@@ -1,4 +1,5 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
     <!-- Aviso de fin de descanso con la pantalla apagada. USE_EXACT_ALARM es
          legítimo aquí: un temporizador de descanso ES un temporizador, y un
          aviso inexacto que llega dos minutos tarde no sirve de nada. -->
@@ -11,6 +12,7 @@
     <!-- MIUI y otras capas matan la app al bloquear; el aviso debe sobrevivir. -->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" tools:node="remove"/>
 
     <application
         android:label="GymMane"
