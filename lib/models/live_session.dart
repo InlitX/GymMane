@@ -1,14 +1,25 @@
+import 'workout.dart';
+
 class SessionSet {
-  SessionSet(this.reps, this.weight, this.done);
+  SessionSet(this.reps, this.weight, this.done, {this.kind = SetKind.normal});
   int reps;
   double weight;
   bool done;
+  SetKind kind;
 
-  Map<String, dynamic> toJson() => {'r': reps, 'w': weight, 'd': done};
+  bool get counts => kind != SetKind.warmup;
+
+  Map<String, dynamic> toJson() => {
+        'r': reps,
+        'w': weight,
+        'd': done,
+        if (kind != SetKind.normal) 'k': kind.index,
+      };
   factory SessionSet.fromJson(Map<String, dynamic> j) => SessionSet(
         (j['r'] as num).toInt(),
         (j['w'] as num).toDouble(),
         j['d'] as bool? ?? false,
+        kind: setKindFrom(j['k']),
       );
 }
 
@@ -39,6 +50,7 @@ class WorkoutSession {
   List<SessionExercise> exercises = [];
   int currentIndex = 0;
   bool complete = false;
+  DateTime? loggedAt;
   int? restRemaining;
   int? summaryVolume;
   int? summarySets;
@@ -48,6 +60,7 @@ class WorkoutSession {
         'ex': exercises.map((e) => e.toJson()).toList(),
         'i': currentIndex,
         'c': complete,
+        'at': loggedAt?.toIso8601String(),
         'sv': summaryVolume,
         'ss': summarySets,
         'sd': summaryDuration,
@@ -58,6 +71,7 @@ class WorkoutSession {
         (j['ex'] as List).map((e) => SessionExercise.fromJson((e as Map).cast<String, dynamic>())).toList()
     ..currentIndex = (j['i'] as num?)?.toInt() ?? 0
     ..complete = j['c'] as bool? ?? false
+    ..loggedAt = DateTime.tryParse((j['at'] as String?) ?? '')
     ..summaryVolume = (j['sv'] as num?)?.toInt()
     ..summarySets = (j['ss'] as num?)?.toInt()
     ..summaryDuration = (j['sd'] as num?)?.toInt();
