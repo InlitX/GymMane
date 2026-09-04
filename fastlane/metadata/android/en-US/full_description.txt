@@ -6,24 +6,31 @@ Yours, completely. No account, no ads, no subscription — and no Android INTERN
 • Interactive body map, front and back — tap what you want to train
 • A session picked for you, then edited set by set
 • Reps, weight and a rest timer with your own alarm sound
+• Set types — warm-up, working, drop set, to failure — and the plates per side worked out while you load the bar
 • A live session survives a reboot — carry on where you left off
 • Routines you can reorder and schedule per weekday
+• Places — say what kit you have at home, at the gym or in the park and you only get offered what you can actually do there
 
 📊 PROGRESS
 • Volume, streak, weekly goal ring and personal records, all from your own sets
 • GitHub-style activity heatmap with per-day detail
 • Strength curves with estimated 1RM per exercise
 • Muscle split across the last 30 days
-• Bodyweight tracking with history
+• Progress photo timeline — front, side and back, with a before-and-after view and a reminder when the next one is due
+• Rather not photograph yourself? The same timeline drawn as a muscle map, built from your own sets
+• Bodyweight and ten body measurements, each with its own history and curve
+• A share card you can post — streak, muscles worked or your before/after
 
 📚 EXERCISES & TOOLS
 • 500+ exercises with animations and step-by-step instructions
-• Search, filters, favourites and your own exercises (photo, GIF or video)
+• Search, filters by muscle, equipment and level, favourites and your own exercises
+• Swap the art of any exercise for your own photo, GIF or video
+• A training journal on a calendar — notes tagged as note, plan, win or niggle, with photos and video
 • Six calculators — 1RM, plates, BMI, calories & macros, body fat, warm-up
-• Two home-screen widgets — activity and stats
+• Three home-screen widgets — activity, stats and muscle map
 
 💾 YOUR DATA
-• Export to CSV or a full JSON backup, and import it back
+• Export to CSV or a full ZIP backup — your data plus the media you uploaded — and import it back
 • Import your history from Hevy, Strong or FitNotes — workouts and bodyweight
 • Delete everything in one tap
 • Dark and light themes, kg or lb, English and Spanish
@@ -31,4 +38,4 @@ Yours, completely. No account, no ads, no subscription — and no Android INTERN
 🔒 PRIVACY
 GymMane has no analytics, no advertising SDK and no network code. It never asks for the INTERNET permission, so there is no way for your data to leave the phone. The only outbound actions are links you tap yourself.
 
-The permissions it does ask for, and why: notifications and exact alarms for the rest timer, vibration so the alarm buzzes, and wake lock so it fires with the screen off.
+The permissions it does ask for, and why: notifications and exact alarms for the rest timer, vibration so the alarm buzzes and wake lock so it fires with the screen off.

@@ -6,24 +6,31 @@ Tuyo del todo. Sin cuenta, sin anuncios, sin suscripción — y sin el permiso I
 • Mapa corporal interactivo, delante y detrás — toca lo que quieras entrenar
 • Una sesión elegida para ti, y luego editada serie a serie
 • Repeticiones, peso y un temporizador de descanso con tu propio sonido de alarma
+• Tipos de serie — calentamiento, efectiva, drop set, al fallo — y los discos por lado calculados mientras cargas la barra
 • La sesión en curso sobrevive a un reinicio — sigues donde lo dejaste
 • Rutinas que puedes reordenar y programar por día de la semana
+• Sitios — di qué material tienes en casa, en el gimnasio o en el parque y solo te ofrece lo que puedes hacer ahí
 
 📊 PROGRESO
 • Volumen, racha, anillo de objetivo semanal y récords, todo de tus propias series
 • Mapa de actividad estilo GitHub con el detalle de cada día
 • Curvas de fuerza con 1RM estimado por ejercicio
 • Reparto muscular de los últimos 30 días
-• Seguimiento del peso corporal con su histórico
+• Evolución en fotos — frente, perfil y espalda, con vista de antes y después y un aviso cuando toca la siguiente
+• ¿Prefieres no hacerte fotos? La misma evolución dibujada como mapa muscular, sacada de tus series
+• Peso corporal y diez medidas del cuerpo, cada una con su historial y su curva
+• Una lámina para compartir — racha, músculos trabajados o tu antes y después
 
 📚 EJERCICIOS Y HERRAMIENTAS
 • Más de 500 ejercicios con animaciones e instrucciones paso a paso
-• Buscador, filtros, favoritos y tus propios ejercicios (foto, GIF o vídeo)
+• Buscador, filtros por músculo, material y nivel, favoritos y tus propios ejercicios
+• Cambia el dibujo de cualquier ejercicio por tu foto, GIF o vídeo
+• Un diario de entrenamiento en un calendario — notas marcadas como nota, plan, logro o molestia, con fotos y vídeo
 • Seis calculadoras — 1RM, discos, IMC, calorías y macros, grasa corporal, calentamiento
-• Dos widgets de pantalla de inicio — actividad y estadísticas
+• Tres widgets de pantalla de inicio — actividad, estadísticas y mapa muscular
 
 💾 TUS DATOS
-• Exporta a CSV o a una copia completa en JSON, y vuelve a importarla
+• Exporta a CSV o a una copia completa en ZIP — tus datos y la media que hayas subido — y vuelve a importarla
 • Importa tu histórico de Hevy, Strong o FitNotes — entrenamientos y peso corporal
 • Borra todo de un toque
 • Temas claro y oscuro, kg o lb, español e inglés
@@ -31,4 +38,4 @@ Tuyo del todo. Sin cuenta, sin anuncios, sin suscripción — y sin el permiso I
 🔒 PRIVACIDAD
 GymMane no lleva analítica, ni SDK de publicidad, ni código de red. Nunca pide el permiso INTERNET, así que no hay forma de que tus datos salgan del móvil. Lo único que sale fuera son los enlaces que tocas tú.
 
-Los permisos que sí pide, y para qué: notificaciones y alarmas exactas para el temporizador de descanso, vibración para que la alarma zumbe, y wake lock para que suene con la pantalla apagada.
+Los permisos que sí pide, y para qué: notificaciones y alarmas exactas para el temporizador de descanso, vibración para que la alarma zumbe y wake lock para que suene con la pantalla apagada.
