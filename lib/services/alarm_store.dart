@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:path_provider/path_provider.dart';
 
@@ -40,6 +41,18 @@ class AlarmStore {
 
       final base = 'alarm-${DateTime.now().millisecondsSinceEpoch}.$ext';
       await File(srcPath).copy('$_dir/$base');
+      return base;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  static Future<String?> saveBytes(String name, Uint8List bytes) async {
+    if (_dir == null) return null;
+    try {
+      await _clear();
+      final base = 'alarm-${DateTime.now().millisecondsSinceEpoch}.${_ext(name)}';
+      await File('$_dir/$base').writeAsBytes(bytes, flush: true);
       return base;
     } catch (_) {
       return null;
