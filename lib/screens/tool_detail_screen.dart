@@ -91,8 +91,8 @@ class ToolDetailScreen extends StatelessWidget {
           ToolRow(
             label: t.sexLabel,
             control: SegToggle([
-              SegOption('M', fit.calSex == 'male', () => fit.setCalSex('male')),
-              SegOption('F', fit.calSex == 'female', () => fit.setCalSex('female')),
+              SegOption(t.male, fit.calSex == 'male', () => fit.setCalSex('male')),
+              SegOption(t.female, fit.calSex == 'female', () => fit.setCalSex('female')),
             ]),
           ),
           const SizedBox(height: 10),
@@ -230,11 +230,11 @@ class ToolDetailScreen extends StatelessWidget {
           ),
         );
     return Row(children: [
-      card('PROTEIN', '${fit.calProtein}g'),
+      card(t.macroProtein, '${fit.calProtein}g'),
       const SizedBox(width: 10),
-      card('CARBS', '${fit.calCarbs}g'),
+      card(t.macroCarbs, '${fit.calCarbs}g'),
       const SizedBox(width: 10),
-      card('FAT', '${fit.calFat}g'),
+      card(t.macroFat, '${fit.calFat}g'),
     ]);
   }
 
