@@ -35,7 +35,10 @@ class _RoutineEditScreenState extends State<RoutineEditScreen> {
   List<Exercise> get _filtered {
     final q = _q.trim().toLowerCase();
     if (q.isEmpty) return kExercises;
-    return kExercises.where((e) => e.name.toLowerCase().contains(q)).toList();
+    return kExercises
+        .where((e) =>
+            e.name.toLowerCase().contains(q) || exerciseName(e).toLowerCase().contains(q))
+        .toList();
   }
 
   @override

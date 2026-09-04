@@ -82,7 +82,7 @@ class ToolDetailScreen extends StatelessWidget {
         ];
       case 'bmi':
         return [
-          ToolRow(label: t.heightLabel, control: StepperControl(value: '${fmt(fit.bmiHeight)} cm', onDec: () => fit.bumpBmiHeight(-1), onInc: () => fit.bumpBmiHeight(1), onEdit: () => _editNumber(context, title: t.heightLabel, current: fit.bmiHeight, decimal: true, apply: (v) => fit.bumpBmiHeight(v - fit.bmiHeight)))),
+          ToolRow(label: t.heightLabel, control: StepperControl(value: fit.cmLabel(fit.bmiHeight), onDec: () => fit.bumpBmiHeight(-fit.cmStep), onInc: () => fit.bumpBmiHeight(fit.cmStep), onEdit: () => _editNumber(context, title: t.heightLabel, current: fit.toDisplayCm(fit.bmiHeight), decimal: true, apply: (v) => fit.bumpBmiHeight(fit.fromDisplayCm(v) - fit.bmiHeight)))),
           const SizedBox(height: 10),
           ToolRow(label: t.weightLabel, control: StepperControl(value: '${fit.weightValue(fit.bmiWeight)} ${fit.units}', onDec: () => fit.bumpBmiWeight(-fit.fromDisplayWeight(fit.isLb ? 1 : 0.5)), onInc: () => fit.bumpBmiWeight(fit.fromDisplayWeight(fit.isLb ? 1 : 0.5)), onEdit: () => _editNumber(context, title: t.weightLabel, current: fit.toDisplayWeight(fit.bmiWeight), decimal: true, apply: (v) => fit.bumpBmiWeight(fit.fromDisplayWeight(v) - fit.bmiWeight)))),
         ];
@@ -98,7 +98,7 @@ class ToolDetailScreen extends StatelessWidget {
           const SizedBox(height: 10),
           ToolRow(label: t.ageLabel, control: StepperControl(value: '${fit.calAge}', minWidth: 40, onDec: () => fit.bumpCalAge(-1), onInc: () => fit.bumpCalAge(1), onEdit: () => _editNumber(context, title: t.ageLabel, current: fit.calAge.toDouble(), decimal: false, apply: (v) => fit.bumpCalAge(v.round() - fit.calAge)))),
           const SizedBox(height: 10),
-          ToolRow(label: t.heightLabel, control: StepperControl(value: '${fmt(fit.calHeight)} cm', onDec: () => fit.bumpCalHeight(-1), onInc: () => fit.bumpCalHeight(1), onEdit: () => _editNumber(context, title: t.heightLabel, current: fit.calHeight, decimal: true, apply: (v) => fit.bumpCalHeight(v - fit.calHeight)))),
+          ToolRow(label: t.heightLabel, control: StepperControl(value: fit.cmLabel(fit.calHeight), onDec: () => fit.bumpCalHeight(-fit.cmStep), onInc: () => fit.bumpCalHeight(fit.cmStep), onEdit: () => _editNumber(context, title: t.heightLabel, current: fit.toDisplayCm(fit.calHeight), decimal: true, apply: (v) => fit.bumpCalHeight(fit.fromDisplayCm(v) - fit.calHeight)))),
           const SizedBox(height: 10),
           ToolRow(label: t.weightLabel, control: StepperControl(value: '${fit.weightValue(fit.calWeight)} ${fit.units}', onDec: () => fit.bumpCalWeight(-fit.fromDisplayWeight(fit.isLb ? 1 : 0.5)), onInc: () => fit.bumpCalWeight(fit.fromDisplayWeight(fit.isLb ? 1 : 0.5)), onEdit: () => _editNumber(context, title: t.weightLabel, current: fit.toDisplayWeight(fit.calWeight), decimal: true, apply: (v) => fit.bumpCalWeight(fit.fromDisplayWeight(v) - fit.calWeight)))),
           const SizedBox(height: 10),
@@ -108,13 +108,13 @@ class ToolDetailScreen extends StatelessWidget {
         ];
       case 'bf':
         return [
-          ToolRow(label: t.heightLabel, control: StepperControl(value: '${fmt(fit.bfHeight)} cm', onDec: () => fit.bumpBfHeight(-1), onInc: () => fit.bumpBfHeight(1), onEdit: () => _editNumber(context, title: t.heightLabel, current: fit.bfHeight, decimal: true, apply: (v) => fit.bumpBfHeight(v - fit.bfHeight)))),
+          ToolRow(label: t.heightLabel, control: StepperControl(value: fit.cmLabel(fit.bfHeight), onDec: () => fit.bumpBfHeight(-fit.cmStep), onInc: () => fit.bumpBfHeight(fit.cmStep), onEdit: () => _editNumber(context, title: t.heightLabel, current: fit.toDisplayCm(fit.bfHeight), decimal: true, apply: (v) => fit.bumpBfHeight(fit.fromDisplayCm(v) - fit.bfHeight)))),
           const SizedBox(height: 10),
-          ToolRow(label: t.neck, control: StepperControl(value: '${fmt(fit.bfNeck)} cm', onDec: () => fit.bumpBfNeck(-0.5), onInc: () => fit.bumpBfNeck(0.5), onEdit: () => _editNumber(context, title: t.neck, current: fit.bfNeck, decimal: true, apply: (v) => fit.bumpBfNeck(v - fit.bfNeck)))),
+          ToolRow(label: t.neck, control: StepperControl(value: fit.cmLabel(fit.bfNeck), onDec: () => fit.bumpBfNeck(-fit.girthStep), onInc: () => fit.bumpBfNeck(fit.girthStep), onEdit: () => _editNumber(context, title: t.neck, current: fit.toDisplayCm(fit.bfNeck), decimal: true, apply: (v) => fit.bumpBfNeck(fit.fromDisplayCm(v) - fit.bfNeck)))),
           const SizedBox(height: 10),
-          ToolRow(label: t.waist, control: StepperControl(value: '${fmt(fit.bfWaist)} cm', onDec: () => fit.bumpBfWaist(-0.5), onInc: () => fit.bumpBfWaist(0.5), onEdit: () => _editNumber(context, title: t.waist, current: fit.bfWaist, decimal: true, apply: (v) => fit.bumpBfWaist(v - fit.bfWaist)))),
+          ToolRow(label: t.waist, control: StepperControl(value: fit.cmLabel(fit.bfWaist), onDec: () => fit.bumpBfWaist(-fit.girthStep), onInc: () => fit.bumpBfWaist(fit.girthStep), onEdit: () => _editNumber(context, title: t.waist, current: fit.toDisplayCm(fit.bfWaist), decimal: true, apply: (v) => fit.bumpBfWaist(fit.fromDisplayCm(v) - fit.bfWaist)))),
           const SizedBox(height: 10),
-          ToolRow(label: t.hip, control: StepperControl(value: '${fmt(fit.bfHip)} cm', onDec: () => fit.bumpBfHip(-0.5), onInc: () => fit.bumpBfHip(0.5), onEdit: () => _editNumber(context, title: t.hip, current: fit.bfHip, decimal: true, apply: (v) => fit.bumpBfHip(v - fit.bfHip)))),
+          ToolRow(label: t.hip, control: StepperControl(value: fit.cmLabel(fit.bfHip), onDec: () => fit.bumpBfHip(-fit.girthStep), onInc: () => fit.bumpBfHip(fit.girthStep), onEdit: () => _editNumber(context, title: t.hip, current: fit.toDisplayCm(fit.bfHip), decimal: true, apply: (v) => fit.bumpBfHip(fit.fromDisplayCm(v) - fit.bfHip)))),
         ];
       case 'plate':
         return [
