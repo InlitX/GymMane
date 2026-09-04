@@ -7,6 +7,7 @@ import 'package:intl/intl.dart' as intl;
 
 import 'app_localizations_en.dart';
 import 'app_localizations_es.dart';
+import 'app_localizations_pt.dart';
 import 'app_localizations_zh.dart';
 
 // ignore_for_file: type=lint
@@ -91,7 +92,12 @@ abstract class AppLocalizations {
   ];
 
   /// A list of this localizations delegate's supported locales.
-  static const List<Locale> supportedLocales = <Locale>[Locale('en'), Locale('es'), Locale('zh')];
+  static const List<Locale> supportedLocales = <Locale>[
+    Locale('en'),
+    Locale('es'),
+    Locale('pt'),
+    Locale('zh'),
+  ];
 
   /// This language, written in itself. Shown in the language picker.
   ///
@@ -651,6 +657,84 @@ abstract class AppLocalizations {
   /// **'TOTAL VOLUME · 30 DAYS'**
   String get totalVolume30d;
 
+  /// No description provided for @volumeCumulative.
+  ///
+  /// In en, this message translates to:
+  /// **'Running total of every kilo you moved'**
+  String get volumeCumulative;
+
+  /// No description provided for @volumeChartEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Log a session and the curve starts here'**
+  String get volumeChartEmpty;
+
+  /// No description provided for @weekRhythm.
+  ///
+  /// In en, this message translates to:
+  /// **'WEEK RHYTHM'**
+  String get weekRhythm;
+
+  /// No description provided for @weekRhythmHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Which days you actually show up.'**
+  String get weekRhythmHint;
+
+  /// No description provided for @weekRhythmBest.
+  ///
+  /// In en, this message translates to:
+  /// **'{day} is your day'**
+  String weekRhythmBest(String day);
+
+  /// No description provided for @weekRhythmEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Log a session and your week takes shape here.'**
+  String get weekRhythmEmpty;
+
+  /// No description provided for @allTime.
+  ///
+  /// In en, this message translates to:
+  /// **'ALL TIME'**
+  String get allTime;
+
+  /// No description provided for @allTimeSessions.
+  ///
+  /// In en, this message translates to:
+  /// **'SESSIONS'**
+  String get allTimeSessions;
+
+  /// No description provided for @allTimeTime.
+  ///
+  /// In en, this message translates to:
+  /// **'TIME'**
+  String get allTimeTime;
+
+  /// No description provided for @allTimeVolume.
+  ///
+  /// In en, this message translates to:
+  /// **'LIFTED'**
+  String get allTimeVolume;
+
+  /// No description provided for @allTimeSets.
+  ///
+  /// In en, this message translates to:
+  /// **'SETS'**
+  String get allTimeSets;
+
+  /// No description provided for @allTimeAvg.
+  ///
+  /// In en, this message translates to:
+  /// **'{time} a session on average'**
+  String allTimeAvg(String time);
+
+  /// No description provided for @hoursShort.
+  ///
+  /// In en, this message translates to:
+  /// **'{n}h'**
+  String hoursShort(int n);
+
   /// No description provided for @consistency.
   ///
   /// In en, this message translates to:
@@ -806,12 +890,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Rest day — nothing logged.'**
   String get restDay;
-
-  /// No description provided for @tapToDelete.
-  ///
-  /// In en, this message translates to:
-  /// **'Tap the bin to remove a mis-logged entry.'**
-  String get tapToDelete;
 
   /// No description provided for @delete.
   ///
@@ -1011,17 +1089,755 @@ abstract class AppLocalizations {
   /// **'Show all {n} notes'**
   String showAllNotes(int n);
 
-  /// No description provided for @showFewerNotes.
+  /// No description provided for @notHere.
   ///
   /// In en, this message translates to:
-  /// **'Show fewer'**
-  String get showFewerNotes;
+  /// **'No {gear} at {place}'**
+  String notHere(String gear, String place);
 
-  /// No description provided for @moreNotes.
+  /// No description provided for @notHereWhy.
   ///
   /// In en, this message translates to:
-  /// **'{n, plural, =1{{n} more note} other{{n} more notes}}'**
-  String moreNotes(int n);
+  /// **'Swap it for something you can actually load today.'**
+  String get notHereWhy;
+
+  /// No description provided for @altHere.
+  ///
+  /// In en, this message translates to:
+  /// **'WHAT YOU CAN DO HERE'**
+  String get altHere;
+
+  /// No description provided for @places.
+  ///
+  /// In en, this message translates to:
+  /// **'MY PLACES'**
+  String get places;
+
+  /// No description provided for @placesShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Places'**
+  String get placesShort;
+
+  /// No description provided for @placesHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Say what you have in each place and the library only shows what you can actually do there.'**
+  String get placesHint;
+
+  /// No description provided for @placeAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Anywhere'**
+  String get placeAll;
+
+  /// No description provided for @placeNew.
+  ///
+  /// In en, this message translates to:
+  /// **'New place'**
+  String get placeNew;
+
+  /// No description provided for @placeNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'NAME'**
+  String get placeNameLabel;
+
+  /// No description provided for @placeNamePlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'Home, gym, the park…'**
+  String get placeNamePlaceholder;
+
+  /// No description provided for @placeGearLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'WHAT IS THERE'**
+  String get placeGearLabel;
+
+  /// No description provided for @placeGearCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{n, plural, =0{Nothing ticked} =1{1 kind of kit} other{{n} kinds of kit}}'**
+  String placeGearCount(int n);
+
+  /// No description provided for @placeExercises.
+  ///
+  /// In en, this message translates to:
+  /// **'{n} exercises here'**
+  String placeExercises(int n);
+
+  /// No description provided for @placeEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Train wherever you are'**
+  String get placeEmptyTitle;
+
+  /// No description provided for @placeEmptyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'A place is a list of the kit you have there. Pick one to start and edit it later.'**
+  String get placeEmptyBody;
+
+  /// No description provided for @placeDeleteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete place'**
+  String get placeDeleteTitle;
+
+  /// No description provided for @placeDeleteBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Only the place goes — your exercises and sessions stay.'**
+  String get placeDeleteBody;
+
+  /// No description provided for @placeGym.
+  ///
+  /// In en, this message translates to:
+  /// **'Gym'**
+  String get placeGym;
+
+  /// No description provided for @placeHome.
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
+  String get placeHome;
+
+  /// No description provided for @placeOutdoors.
+  ///
+  /// In en, this message translates to:
+  /// **'Outdoors'**
+  String get placeOutdoors;
+
+  /// No description provided for @placeFilterLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'PLACE'**
+  String get placeFilterLabel;
+
+  /// No description provided for @noGearOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'No kit'**
+  String get noGearOnly;
+
+  /// No description provided for @placeActive.
+  ///
+  /// In en, this message translates to:
+  /// **'Training at {name}'**
+  String placeActive(String name);
+
+  /// No description provided for @journal.
+  ///
+  /// In en, this message translates to:
+  /// **'JOURNAL'**
+  String get journal;
+
+  /// No description provided for @noteCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{n, plural, =0{No notes} =1{1 note} other{{n} notes}}'**
+  String noteCount(int n);
+
+  /// No description provided for @noteKindNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Note'**
+  String get noteKindNote;
+
+  /// No description provided for @noteKindPlan.
+  ///
+  /// In en, this message translates to:
+  /// **'Plan'**
+  String get noteKindPlan;
+
+  /// No description provided for @noteKindDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Win'**
+  String get noteKindDone;
+
+  /// No description provided for @noteKindPain.
+  ///
+  /// In en, this message translates to:
+  /// **'Niggle'**
+  String get noteKindPain;
+
+  /// No description provided for @noteFilterAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get noteFilterAll;
+
+  /// No description provided for @newNote.
+  ///
+  /// In en, this message translates to:
+  /// **'New note'**
+  String get newNote;
+
+  /// No description provided for @editNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit note'**
+  String get editNote;
+
+  /// No description provided for @addNote.
+  ///
+  /// In en, this message translates to:
+  /// **'ADD NOTE'**
+  String get addNote;
+
+  /// No description provided for @noteEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing written down yet'**
+  String get noteEmptyTitle;
+
+  /// No description provided for @noteEmptyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Cues, plans for next time, how a session felt — with photos or video if you want.'**
+  String get noteEmptyBody;
+
+  /// No description provided for @noteNoneForExercise.
+  ///
+  /// In en, this message translates to:
+  /// **'No notes on this exercise yet.'**
+  String get noteNoneForExercise;
+
+  /// No description provided for @noteKindLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'TYPE'**
+  String get noteKindLabel;
+
+  /// No description provided for @noteTextLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'NOTE'**
+  String get noteTextLabel;
+
+  /// No description provided for @noteDateLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'DATE'**
+  String get noteDateLabel;
+
+  /// No description provided for @noteExerciseLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'EXERCISE'**
+  String get noteExerciseLabel;
+
+  /// No description provided for @noteMediaLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'PHOTOS & VIDEO'**
+  String get noteMediaLabel;
+
+  /// No description provided for @noteGeneral.
+  ///
+  /// In en, this message translates to:
+  /// **'No exercise'**
+  String get noteGeneral;
+
+  /// No description provided for @noteAttach.
+  ///
+  /// In en, this message translates to:
+  /// **'Attach'**
+  String get noteAttach;
+
+  /// No description provided for @noteRemoveMedia.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove attachment'**
+  String get noteRemoveMedia;
+
+  /// No description provided for @deleteNoteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete note'**
+  String get deleteNoteTitle;
+
+  /// No description provided for @deleteNoteBody.
+  ///
+  /// In en, this message translates to:
+  /// **'The note and anything attached to it go for good.'**
+  String get deleteNoteBody;
+
+  /// No description provided for @noteToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get noteToday;
+
+  /// No description provided for @noteYesterday.
+  ///
+  /// In en, this message translates to:
+  /// **'Yesterday'**
+  String get noteYesterday;
+
+  /// No description provided for @noteAllNotes.
+  ///
+  /// In en, this message translates to:
+  /// **'All notes'**
+  String get noteAllNotes;
+
+  /// No description provided for @noteCalendar.
+  ///
+  /// In en, this message translates to:
+  /// **'Calendar'**
+  String get noteCalendar;
+
+  /// No description provided for @noteNoneOnDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing written on this day'**
+  String get noteNoneOnDay;
+
+  /// No description provided for @noteAddOnDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Note on this day'**
+  String get noteAddOnDay;
+
+  /// No description provided for @notePrevMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'Previous month'**
+  String get notePrevMonth;
+
+  /// No description provided for @noteNextMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'Next month'**
+  String get noteNextMonth;
+
+  /// No description provided for @noteMonthCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{n, plural, =0{No notes this month} =1{1 note this month} other{{n} notes this month}}'**
+  String noteMonthCount(int n);
+
+  /// No description provided for @measures.
+  ///
+  /// In en, this message translates to:
+  /// **'MEASUREMENTS'**
+  String get measures;
+
+  /// No description provided for @measuresHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Neck to calf — watch your body change, not just the bar.'**
+  String get measuresHint;
+
+  /// No description provided for @measureCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{n, plural, =0{Nothing logged} =1{1 reading} other{{n} readings}}'**
+  String measureCount(int n);
+
+  /// No description provided for @measureNoneYet.
+  ///
+  /// In en, this message translates to:
+  /// **'Not logged yet'**
+  String get measureNoneYet;
+
+  /// No description provided for @measureHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'HISTORY'**
+  String get measureHistory;
+
+  /// No description provided for @measureNeck.
+  ///
+  /// In en, this message translates to:
+  /// **'Neck'**
+  String get measureNeck;
+
+  /// No description provided for @measureShoulders.
+  ///
+  /// In en, this message translates to:
+  /// **'Shoulders'**
+  String get measureShoulders;
+
+  /// No description provided for @measureChest.
+  ///
+  /// In en, this message translates to:
+  /// **'Chest'**
+  String get measureChest;
+
+  /// No description provided for @measureArm.
+  ///
+  /// In en, this message translates to:
+  /// **'Arm'**
+  String get measureArm;
+
+  /// No description provided for @measureForearm.
+  ///
+  /// In en, this message translates to:
+  /// **'Forearm'**
+  String get measureForearm;
+
+  /// No description provided for @measureWaist.
+  ///
+  /// In en, this message translates to:
+  /// **'Waist'**
+  String get measureWaist;
+
+  /// No description provided for @measureHips.
+  ///
+  /// In en, this message translates to:
+  /// **'Hips'**
+  String get measureHips;
+
+  /// No description provided for @measureThigh.
+  ///
+  /// In en, this message translates to:
+  /// **'Thigh'**
+  String get measureThigh;
+
+  /// No description provided for @measureCalf.
+  ///
+  /// In en, this message translates to:
+  /// **'Calf'**
+  String get measureCalf;
+
+  /// No description provided for @measureBodyfat.
+  ///
+  /// In en, this message translates to:
+  /// **'Body fat'**
+  String get measureBodyfat;
+
+  /// No description provided for @timeline.
+  ///
+  /// In en, this message translates to:
+  /// **'TIMELINE'**
+  String get timeline;
+
+  /// No description provided for @timelineHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Same pose, same spot, same light. In a year you will not believe it.'**
+  String get timelineHint;
+
+  /// No description provided for @timelineEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your first photo starts the clock'**
+  String get timelineEmptyTitle;
+
+  /// No description provided for @photoCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{n, plural, =0{No photos} =1{1 photo} other{{n} photos}}'**
+  String photoCount(int n);
+
+  /// No description provided for @poseFront.
+  ///
+  /// In en, this message translates to:
+  /// **'Front'**
+  String get poseFront;
+
+  /// No description provided for @poseSide.
+  ///
+  /// In en, this message translates to:
+  /// **'Side'**
+  String get poseSide;
+
+  /// No description provided for @poseBack.
+  ///
+  /// In en, this message translates to:
+  /// **'Back'**
+  String get poseBack;
+
+  /// No description provided for @photoEvery.
+  ///
+  /// In en, this message translates to:
+  /// **'REMIND ME'**
+  String get photoEvery;
+
+  /// No description provided for @photoEveryDays.
+  ///
+  /// In en, this message translates to:
+  /// **'Every {n} days'**
+  String photoEveryDays(int n);
+
+  /// No description provided for @photoEveryOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Never'**
+  String get photoEveryOff;
+
+  /// No description provided for @photoNextIn.
+  ///
+  /// In en, this message translates to:
+  /// **'{n, plural, =1{Next photo tomorrow} other{Next photo in {n} days}}'**
+  String photoNextIn(int n);
+
+  /// No description provided for @photoDueNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Photo due — grab it today'**
+  String get photoDueNow;
+
+  /// No description provided for @addTodayPhotos.
+  ///
+  /// In en, this message translates to:
+  /// **'ADD TODAY\'S PHOTOS'**
+  String get addTodayPhotos;
+
+  /// No description provided for @posePhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'{pose} photo'**
+  String posePhoto(String pose);
+
+  /// No description provided for @compare.
+  ///
+  /// In en, this message translates to:
+  /// **'COMPARE'**
+  String get compare;
+
+  /// No description provided for @compareNeedTwo.
+  ///
+  /// In en, this message translates to:
+  /// **'Shoot the same pose on two different days and you can compare them here.'**
+  String get compareNeedTwo;
+
+  /// No description provided for @dayNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Day {n}'**
+  String dayNumber(int n);
+
+  /// No description provided for @daysApart.
+  ///
+  /// In en, this message translates to:
+  /// **'{n, plural, =0{Same day} =1{1 day apart} other{{n} days apart}}'**
+  String daysApart(int n);
+
+  /// No description provided for @deleteEntryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete this day'**
+  String get deleteEntryTitle;
+
+  /// No description provided for @deleteDayBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Its photos go with it, for good.'**
+  String get deleteDayBody;
+
+  /// No description provided for @timelinePhotos.
+  ///
+  /// In en, this message translates to:
+  /// **'Photos'**
+  String get timelinePhotos;
+
+  /// No description provided for @timelineBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Muscle map'**
+  String get timelineBody;
+
+  /// No description provided for @timelineBodyEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Log a session and your muscle map starts filling in here, no photos needed.'**
+  String get timelineBodyEmpty;
+
+  /// No description provided for @timelineBodyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Built from your own sets — nothing to upload.'**
+  String get timelineBodyHint;
+
+  /// No description provided for @timelineWindow.
+  ///
+  /// In en, this message translates to:
+  /// **'{from} – {to}'**
+  String timelineWindow(String from, String to);
+
+  /// No description provided for @sessionCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{n, plural, =0{No sessions} =1{1 session} other{{n} sessions}}'**
+  String sessionCount(int n);
+
+  /// No description provided for @notifPhotoChannel.
+  ///
+  /// In en, this message translates to:
+  /// **'Progress photos'**
+  String get notifPhotoChannel;
+
+  /// No description provided for @notifPhotoChannelWhy.
+  ///
+  /// In en, this message translates to:
+  /// **'A nudge when your next progress photo is due.'**
+  String get notifPhotoChannelWhy;
+
+  /// No description provided for @notifPhotoTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Time for your progress photo'**
+  String get notifPhotoTitle;
+
+  /// No description provided for @notifPhotoBody.
+  ///
+  /// In en, this message translates to:
+  /// **'{n} days since the last one. Same pose, same light.'**
+  String notifPhotoBody(int n);
+
+  /// No description provided for @share.
+  ///
+  /// In en, this message translates to:
+  /// **'SHARE'**
+  String get share;
+
+  /// No description provided for @sharePick.
+  ///
+  /// In en, this message translates to:
+  /// **'What do you want to show?'**
+  String get sharePick;
+
+  /// No description provided for @shareSession.
+  ///
+  /// In en, this message translates to:
+  /// **'Last session'**
+  String get shareSession;
+
+  /// No description provided for @shareStreak.
+  ///
+  /// In en, this message translates to:
+  /// **'Streak and consistency'**
+  String get shareStreak;
+
+  /// No description provided for @shareBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Muscles worked'**
+  String get shareBody;
+
+  /// No description provided for @shareCompare.
+  ///
+  /// In en, this message translates to:
+  /// **'Before and after'**
+  String get shareCompare;
+
+  /// No description provided for @shareHint.
+  ///
+  /// In en, this message translates to:
+  /// **'The card is built on your phone. Nothing leaves until you pick where it goes.'**
+  String get shareHint;
+
+  /// No description provided for @shareFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'The card could not be built'**
+  String get shareFailed;
+
+  /// No description provided for @shareWeekOf.
+  ///
+  /// In en, this message translates to:
+  /// **'LAST 7 DAYS'**
+  String get shareWeekOf;
+
+  /// No description provided for @shareStreakLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'DAY STREAK'**
+  String get shareStreakLabel;
+
+  /// No description provided for @shareSessionsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'SESSIONS'**
+  String get shareSessionsLabel;
+
+  /// No description provided for @shareVolumeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'VOLUME'**
+  String get shareVolumeLabel;
+
+  /// No description provided for @shareSetsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'SETS'**
+  String get shareSetsLabel;
+
+  /// No description provided for @shareNothing.
+  ///
+  /// In en, this message translates to:
+  /// **'Log a session first — there is nothing to show yet'**
+  String get shareNothing;
+
+  /// No description provided for @restForExercise.
+  ///
+  /// In en, this message translates to:
+  /// **'REST FOR THIS EXERCISE'**
+  String get restForExercise;
+
+  /// No description provided for @restUsingDefault.
+  ///
+  /// In en, this message translates to:
+  /// **'Using your default'**
+  String get restUsingDefault;
+
+  /// No description provided for @restCustom.
+  ///
+  /// In en, this message translates to:
+  /// **'Only for this one'**
+  String get restCustom;
+
+  /// No description provided for @setType.
+  ///
+  /// In en, this message translates to:
+  /// **'SET TYPE'**
+  String get setType;
+
+  /// No description provided for @setTypeNormal.
+  ///
+  /// In en, this message translates to:
+  /// **'Working'**
+  String get setTypeNormal;
+
+  /// No description provided for @setTypeWarmup.
+  ///
+  /// In en, this message translates to:
+  /// **'Warm-up'**
+  String get setTypeWarmup;
+
+  /// No description provided for @setTypeDrop.
+  ///
+  /// In en, this message translates to:
+  /// **'Drop set'**
+  String get setTypeDrop;
+
+  /// No description provided for @setTypeFailure.
+  ///
+  /// In en, this message translates to:
+  /// **'To failure'**
+  String get setTypeFailure;
+
+  /// No description provided for @setTypeHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Warm-ups stay out of your volume and your records.'**
+  String get setTypeHint;
+
+  /// No description provided for @addWarmup.
+  ///
+  /// In en, this message translates to:
+  /// **'WARM-UP'**
+  String get addWarmup;
+
+  /// No description provided for @platesPerSide.
+  ///
+  /// In en, this message translates to:
+  /// **'Per side: {plates}'**
+  String platesPerSide(String plates);
 
   /// No description provided for @howTo.
   ///
@@ -1428,7 +2244,7 @@ abstract class AppLocalizations {
   /// No description provided for @exportBackup.
   ///
   /// In en, this message translates to:
-  /// **'Export backup (JSON)'**
+  /// **'Export backup (ZIP)'**
   String get exportBackup;
 
   /// No description provided for @importBackup.
@@ -1440,7 +2256,7 @@ abstract class AppLocalizations {
   /// No description provided for @importHint.
   ///
   /// In en, this message translates to:
-  /// **'Choose a .json backup exported from GymMane. This replaces your current data.'**
+  /// **'Choose a .zip (or older .json) backup exported from GymMane. This replaces your current data, media included.'**
   String get importHint;
 
   /// No description provided for @import.
@@ -1538,6 +2354,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'SEX'**
   String get sexLabel;
+
+  /// No description provided for @macroProtein.
+  ///
+  /// In en, this message translates to:
+  /// **'PROTEIN'**
+  String get macroProtein;
+
+  /// No description provided for @macroCarbs.
+  ///
+  /// In en, this message translates to:
+  /// **'CARBS'**
+  String get macroCarbs;
+
+  /// No description provided for @macroFat.
+  ///
+  /// In en, this message translates to:
+  /// **'FAT'**
+  String get macroFat;
 
   /// No description provided for @male.
   ///
@@ -2337,11 +3171,101 @@ abstract class AppLocalizations {
   /// **'Skip'**
   String get skip2;
 
-  /// No description provided for @artCredit.
+  /// No description provided for @madeWithLoveBy.
   ///
   /// In en, this message translates to:
-  /// **'Exercise illustrations by Bryl Lim and Everkinetic'**
-  String get artCredit;
+  /// **'MADE WITH LOVE BY'**
+  String get madeWithLoveBy;
+
+  /// No description provided for @sourceCode.
+  ///
+  /// In en, this message translates to:
+  /// **'SOURCE CODE'**
+  String get sourceCode;
+
+  /// No description provided for @suggested.
+  ///
+  /// In en, this message translates to:
+  /// **'SUGGESTED'**
+  String get suggested;
+
+  /// No description provided for @results.
+  ///
+  /// In en, this message translates to:
+  /// **'RESULTS'**
+  String get results;
+
+  /// No description provided for @noMatches.
+  ///
+  /// In en, this message translates to:
+  /// **'No exercise matches that search.'**
+  String get noMatches;
+
+  /// No description provided for @tapToEdit.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap the pencil to fix an entry, or the bin to remove it.'**
+  String get tapToEdit;
+
+  /// No description provided for @editEntry.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get editEntry;
+
+  /// No description provided for @editEntryHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Fix the reps or the weight of any set.'**
+  String get editEntryHint;
+
+  /// No description provided for @removeSet.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove set'**
+  String get removeSet;
+
+  /// No description provided for @continueWorkout.
+  ///
+  /// In en, this message translates to:
+  /// **'CONTINUE'**
+  String get continueWorkout;
+
+  /// No description provided for @continueWorkoutBody.
+  ///
+  /// In en, this message translates to:
+  /// **'The workout goes back to being in progress, with its sets already ticked. Finishing it again saves it on its original day.'**
+  String get continueWorkoutBody;
+
+  /// No description provided for @addBodyWidget.
+  ///
+  /// In en, this message translates to:
+  /// **'Add muscle map widget'**
+  String get addBodyWidget;
+
+  /// No description provided for @repsOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'Reps only'**
+  String get repsOnly;
+
+  /// No description provided for @repsOnlyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Log this exercise without weight.'**
+  String get repsOnlyHint;
+
+  /// No description provided for @useDefaultArt.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to the default art'**
+  String get useDefaultArt;
+
+  /// No description provided for @daysShort.
+  ///
+  /// In en, this message translates to:
+  /// **'{n}d'**
+  String daysShort(int n);
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
@@ -2353,7 +3277,7 @@ class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> 
   }
 
   @override
-  bool isSupported(Locale locale) => <String>['en', 'es', 'zh'].contains(locale.languageCode);
+  bool isSupported(Locale locale) => <String>['en', 'es', 'pt', 'zh'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
@@ -2366,6 +3290,8 @@ AppLocalizations lookupAppLocalizations(Locale locale) {
       return AppLocalizationsEn();
     case 'es':
       return AppLocalizationsEs();
+    case 'pt':
+      return AppLocalizationsPt();
     case 'zh':
       return AppLocalizationsZh();
   }

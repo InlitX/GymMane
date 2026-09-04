@@ -94,24 +94,6 @@ extension GymL10n on AppLocalizations {
         _ => toolDescWarmup,
       };
 
-  String get macroProtein => switch (appLanguage) {
-        'zh' => '蛋白质',
-        'es' => 'PROTEÍNA',
-        _ => 'PROTEIN',
-      };
-
-  String get macroCarbs => switch (appLanguage) {
-        'zh' => '碳水',
-        'es' => 'CARBOS',
-        _ => 'CARBS',
-      };
-
-  String get macroFat => switch (appLanguage) {
-        'zh' => '脂肪',
-        'es' => 'GRASA',
-        _ => 'FAT',
-      };
-
   String bmiCategory(String key) => switch (key) {
         'Underweight' => bmiUnderweight,
         'Normal' => bmiNormal,
@@ -141,6 +123,33 @@ extension GymL10n on AppLocalizations {
         'glutes' => muscleGlutes,
         'calves' => muscleCalves,
         _ => id,
+      };
+
+  String poseName(String pose) => switch (pose) {
+        'front' => poseFront,
+        'side' => poseSide,
+        _ => poseBack,
+      };
+
+  String placePresetName(String preset) => switch (preset) {
+        'gym' => placeGym,
+        'home' => placeHome,
+        _ => placeOutdoors,
+      };
+
+  String photoInterval(int days) => days <= 0 ? photoEveryOff : photoEveryDays(days);
+
+  String measureName(String key) => switch (key) {
+        'neck' => measureNeck,
+        'shoulders' => measureShoulders,
+        'chest' => measureChest,
+        'arm' => measureArm,
+        'forearm' => measureForearm,
+        'waist' => measureWaist,
+        'hips' => measureHips,
+        'thigh' => measureThigh,
+        'calf' => measureCalf,
+        _ => measureBodyfat,
       };
 
   String muscleGroupName(String key) => switch (key) {
@@ -176,6 +185,13 @@ extension GymL10n on AppLocalizations {
 
   String weekdayInitial(int w) =>
       _dates((l) => DateFormat('', l)).dateSymbols.NARROWWEEKDAYS[w % 7];
+
+  int get firstWeekday =>
+      _dates((l) => DateFormat('', l)).dateSymbols.FIRSTDAYOFWEEK + 1;
+
+  String monthYear(DateTime d) => _capitalize(_dates(DateFormat.yMMMM).format(d));
+
+  String fullDate(DateTime d) => '${weekday(d.weekday)}, ${shortDateYear(d)}';
 
   String longDate(DateTime d) => '${weekday(d.weekday)}, ${shortDate(d)}';
 
