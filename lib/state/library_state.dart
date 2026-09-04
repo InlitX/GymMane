@@ -4,6 +4,7 @@ mixin LibraryState on FitCore {
   String exSearch = '';
   String? exMuscleFilter;
   String? exDifficultyFilter;
+  String? exEquipmentFilter;
   String? activeExerciseId;
   List<Exercise> get allExercises => [...kExercises, ...customExercises];
 
@@ -15,16 +16,11 @@ mixin LibraryState on FitCore {
   }
 
   void openExercise(String id) {
-    if (route != 'exercise-detail') prevRoute = route;
-    route = 'exercise-detail';
     activeExerciseId = id;
-    notifyListeners();
+    pushRoute('exercise-detail');
   }
 
-  void closeExerciseDetail() {
-    route = prevRoute;
-    notifyListeners();
-  }
+  void closeExerciseDetail() => popRoute(fallback: 'exercises');
 
   void toggleFavorite(String id) {
     favorites[id] = !(favorites[id] ?? false);
@@ -41,6 +37,7 @@ mixin LibraryState on FitCore {
     exSearch = '';
     exMuscleFilter = null;
     exDifficultyFilter = null;
+    exEquipmentFilter = null;
     exFavouritesOnly = false;
     notifyListeners();
   }
@@ -52,6 +49,11 @@ mixin LibraryState on FitCore {
 
   void setDifficultyFilter(String d) {
     exDifficultyFilter = exDifficultyFilter == d ? null : d;
+    notifyListeners();
+  }
+
+  void setEquipmentFilter(String e) {
+    exEquipmentFilter = exEquipmentFilter == e ? null : e;
     notifyListeners();
   }
 
@@ -80,6 +82,7 @@ mixin LibraryState on FitCore {
         return false;
       }
       if (exDifficultyFilter != null && ex.difficulty != exDifficultyFilter) return false;
+      if (exEquipmentFilter != null && ex.equipment != exEquipmentFilter) return false;
       return true;
     }).toList();
   }
@@ -88,25 +91,6 @@ mixin LibraryState on FitCore {
       exerciseById(activeExerciseId ?? '') ?? kExercises.first;
 
   List<String> activeExerciseSteps(Exercise ex) => exerciseSteps(ex);
-
-  List<ExerciseNote> notesFor(String id) => exNotes[id] ?? const [];
-
-  void addNote(String id, String text) {
-    final t = text.trim();
-    if (t.isEmpty) return;
-    (exNotes[id] ??= []).insert(0, ExerciseNote(DateTime.now(), t));
-    _persist();
-    notifyListeners();
-  }
-
-  void deleteNote(String id, int index) {
-    final list = exNotes[id];
-    if (list == null || index < 0 || index >= list.length) return;
-    list.removeAt(index);
-    if (list.isEmpty) exNotes.remove(id);
-    _persist();
-    notifyListeners();
-  }
 
   List<Exercise> similarExercises(Exercise ex, int n) => allExercises
       .where((e) => e.id != ex.id && e.primary == ex.primary)
@@ -136,8 +120,7 @@ mixin LibraryState on FitCore {
   }
 
   void deleteCustomExercise(String id) {
-    final ex = exerciseById(id);
-    if (ex != null && ex.media.isNotEmpty) MediaStore.delete(ex.media);
+    clearExerciseMedia(id);
     customExercises.removeWhere((e) => e.id == id);
     for (final r in routines) {
       r.exerciseIds.remove(id);
@@ -147,24 +130,53 @@ mixin LibraryState on FitCore {
     notifyListeners();
   }
 
+  String mediaFor(String id) => exerciseMedia[id] ?? '';
+
+  bool hasCustomMedia(String id) => mediaFor(id).isNotEmpty;
+
   Future<void> attachExerciseMedia(String id, String srcPath) async {
-    final i = customExercises.indexWhere((e) => e.id == id);
-    if (i < 0) return;
-    final old = customExercises[i].media;
     final base = await MediaStore.importFor(id, srcPath);
     if (base == null) return;
+    final old = mediaFor(id);
     if (old.isNotEmpty && old != base) await MediaStore.delete(old);
-    customExercises[i] = customExercises[i].copyWith(media: base);
+    exerciseMedia[id] = base;
     _persist();
     notifyListeners();
   }
 
   void clearExerciseMedia(String id) {
-    final i = customExercises.indexWhere((e) => e.id == id);
-    if (i < 0) return;
-    final old = customExercises[i].media;
-    if (old.isNotEmpty) MediaStore.delete(old);
-    customExercises[i] = customExercises[i].copyWith(media: '');
+    final old = exerciseMedia.remove(id);
+    if (old != null && old.isNotEmpty) MediaStore.delete(old);
+    _persist();
+    notifyListeners();
+  }
+
+  /// Sin peso: o lo ha marcado el usuario, o es de peso corporal y nunca lo
+  /// ha cargado con lastre.
+  bool isRepsOnly(String id) {
+    if (repsOnly.contains(id)) return true;
+    if (repsOnlyOff.contains(id)) return false;
+    if (exerciseById(id)?.equipment != 'Bodyweight') return false;
+    return !_hasLoadedHistory(id);
+  }
+
+  bool _hasLoadedHistory(String id) {
+    for (final s in sessions) {
+      for (final e in s.exercises) {
+        if (e.id == id && e.sets.any((st) => st.weight > 0)) return true;
+      }
+    }
+    return false;
+  }
+
+  void toggleRepsOnly(String id) {
+    if (isRepsOnly(id)) {
+      repsOnly.remove(id);
+      repsOnlyOff.add(id);
+    } else {
+      repsOnlyOff.remove(id);
+      repsOnly.add(id);
+    }
     _persist();
     notifyListeners();
   }

@@ -22,6 +22,7 @@ Future<void> main() async {
   await AlarmStore.init();
   fit.loadFromStore();
   await RestAlarm.instance.init();
+  fit.syncPhotoReminder();
 
   fit.onWidgetsShouldUpdate = HomeWidgetBridge.update;
   runApp(const GymManeApp());

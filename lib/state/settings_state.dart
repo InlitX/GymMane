@@ -9,7 +9,7 @@ mixin SettingsState on FitCore, ToolsState {
 
   String? get alarmSoundPath => AlarmStore.pathFor(alarmSound);
 
-  String bgPattern = 'none';
+  String bgPattern = 'dots';
   bool onboarded = false;
   bool alarmAllowed = true;
   int? alarmAskedAt;
@@ -111,6 +111,20 @@ mixin SettingsState on FitCore, ToolsState {
 
   void setRestSeconds(int v) {
     restSeconds = v.clamp(15, 600);
+    _persist();
+    notifyListeners();
+  }
+
+  int restFor(String exerciseId) => exerciseRest[exerciseId] ?? restSeconds;
+
+  bool hasCustomRest(String exerciseId) => exerciseRest.containsKey(exerciseId);
+
+  void setExerciseRest(String exerciseId, int? seconds) {
+    if (seconds == null) {
+      exerciseRest.remove(exerciseId);
+    } else {
+      exerciseRest[exerciseId] = seconds.clamp(15, 600);
+    }
     _persist();
     notifyListeners();
   }

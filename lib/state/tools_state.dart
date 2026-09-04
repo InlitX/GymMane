@@ -32,28 +32,16 @@ mixin ToolsState on FitCore {
     bfSex = profile.sex;
   }
 
-  void goTools() {
-    if (route != 'tools') prevRoute = route;
-    route = 'tools';
-    notifyListeners();
-  }
+  void goTools() => pushRoute('tools');
 
   void openTool(String id) {
-    if (route != 'tools-detail') prevRoute = route;
-    route = 'tools-detail';
     activeToolId = id;
-    notifyListeners();
+    pushRoute('tools-detail');
   }
 
-  void closeTool() {
-    route = 'tools';
-    notifyListeners();
-  }
+  void closeTool() => popRoute(fallback: 'tools');
 
-  void backFromTools() {
-    route = prevRoute == 'tools' ? 'home' : prevRoute;
-    notifyListeners();
-  }
+  void backFromTools() => popRoute();
 
   double get rmResult => _round1(rmWeight * (1 + rmReps / 30));
 
@@ -119,6 +107,33 @@ mixin ToolsState on FitCore {
       }
     }
     return out;
+  }
+
+  double get defaultBar => isLb ? 45 : 20;
+
+  /// Discos por lado para una barra, en las unidades que se estén enseñando.
+  List<({double weight, int count})> platesPerSide(double displayTarget, double displayBar) {
+    double perSide = math.max(0, (displayTarget - displayBar) / 2);
+    final out = <({double weight, int count})>[];
+    for (final p in _plateSteps) {
+      final count = (perSide / p + 1e-6).floor();
+      if (count > 0) {
+        out.add((weight: p, count: count));
+        perSide = _round1(perSide - count * p);
+      }
+    }
+    return out;
+  }
+
+  String? plateHint(String equipment, double weightKg) {
+    if (equipment != 'Barbell') return null;
+    final target = _round1(toDisplayWeight(weightKg));
+    if (target <= defaultBar) return null;
+    final parts = platesPerSide(target, defaultBar);
+    if (parts.isEmpty) return null;
+    return parts
+        .map((p) => p.count == 1 ? fmt(p.weight) : '${fmt(p.weight)}×${p.count}')
+        .join(' · ');
   }
 
   List<({String pct, int reps, double weight})> get warmupSets {

@@ -3,16 +3,9 @@ part of 'fit_state.dart';
 mixin RoutinesState on FitCore, LibraryState {
   String? activeRoutineId;
 
-  void goRoutines() {
-    if (route != 'routines') prevRoute = route;
-    route = 'routines';
-    notifyListeners();
-  }
+  void goRoutines() => pushRoute('routines');
 
-  void backFromRoutines() {
-    route = prevRoute == 'routines' || prevRoute == 'routine-edit' ? 'home' : prevRoute;
-    notifyListeners();
-  }
+  void backFromRoutines() => popRoute();
 
   Routine? _routine(String id) {
     for (final r in routines) {
