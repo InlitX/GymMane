@@ -1,0 +1,15 @@
+🦁 GymMane 1.1.0
+📝 Training journal on a calendar — a dot on every day you wrote on, notes with photos and video
+📍 Places — say what kit you have and the library only offers what you can do there
+🏋️ 15 kettlebell exercises and a "no kit" filter
+📸 Progress photo timeline with before/after and a reminder — or the same timeline drawn on the muscle map
+📊 Week rhythm, all-time totals and a clearer volume chart with its own axis
+📐 Ten body measurements, each with its own history and curve
+🏷️ Set types: warm-up, working, drop set, to failure — warm-ups stay out of your numbers
+🥏 Plates per side worked out while you load the bar
+⏱️ Rest length per exercise
+🖼️ Swap the art of any exercise for your own photo, GIF or video
+🧲 A third home-screen widget: your muscle map
+💾 Backups are now a ZIP that carries your media with it
+📤 Share cards for your muscles or your streak
+🔒 Still 100% offline: no account, no ads, no INTERNET permission

@@ -1,0 +1,15 @@
+🦁 GymMane 1.1.0
+📝 Diario en calendario — un punto en cada día que escribiste, con fotos y vídeo
+📍 Sitios — di qué material tienes y la biblioteca solo te ofrece lo que puedes hacer ahí
+🏋️ 15 ejercicios de kettlebell y filtro de "sin material"
+📸 Evolución en fotos con antes/después y aviso — o la misma evolución dibujada en el muñeco
+📊 Ritmo semanal, totales de siempre y una gráfica de volumen con sus números
+📐 Diez medidas del cuerpo, cada una con su historial y su curva
+🏷️ Tipos de serie: calentamiento, efectiva, drop set, al fallo — el calentamiento no cuenta
+🥏 Los discos por lado calculados mientras cargas la barra
+⏱️ Descanso propio para cada ejercicio
+🖼️ Cambia el dibujo de cualquier ejercicio por tu foto, GIF o vídeo
+🧲 Un tercer widget de pantalla de inicio: tu mapa muscular
+💾 La copia de seguridad ahora es un ZIP que se lleva tu media dentro
+📤 Láminas para compartir: músculos o racha
+🔒 Sigue 100% sin conexión: sin cuenta, sin anuncios, sin permiso de INTERNET
