@@ -24,6 +24,9 @@ class GymColors extends ThemeExtension<GymColors> {
     required this.sageSoft,
     required this.mutedFill,
     required this.heatEmpty,
+    required this.info,
+    required this.warn,
+    required this.danger,
   });
 
   final Color pageBg;
@@ -47,6 +50,9 @@ class GymColors extends ThemeExtension<GymColors> {
   final Color sageSoft;
   final Color mutedFill;
   final Color heatEmpty;
+  final Color info;
+  final Color warn;
+  final Color danger;
 
   static const dark = GymColors(
     pageBg: Color(0xFF0A0908),
@@ -70,6 +76,9 @@ class GymColors extends ThemeExtension<GymColors> {
     sageSoft: Color(0x298FA377),
     mutedFill: Color(0xFF2A2A2A),
     heatEmpty: Color(0xFF181818),
+    info: Color(0xFF7FA8C9),
+    warn: Color(0xFFE0B15A),
+    danger: Color(0xFFE5674C),
   );
 
   static const light = GymColors(
@@ -94,6 +103,9 @@ class GymColors extends ThemeExtension<GymColors> {
     sageSoft: Color(0x235F7A50),
     mutedFill: Color(0xFFDCCFB8),
     heatEmpty: Color(0xFFE8DFD0),
+    info: Color(0xFF37648B),
+    warn: Color(0xFF8A6218),
+    danger: Color(0xFFB0341C),
   );
 
   @override
@@ -119,6 +131,9 @@ class GymColors extends ThemeExtension<GymColors> {
     Color? sageSoft,
     Color? mutedFill,
     Color? heatEmpty,
+    Color? info,
+    Color? warn,
+    Color? danger,
   }) {
     return GymColors(
       pageBg: pageBg ?? this.pageBg,
@@ -142,6 +157,9 @@ class GymColors extends ThemeExtension<GymColors> {
       sageSoft: sageSoft ?? this.sageSoft,
       mutedFill: mutedFill ?? this.mutedFill,
       heatEmpty: heatEmpty ?? this.heatEmpty,
+      info: info ?? this.info,
+      warn: warn ?? this.warn,
+      danger: danger ?? this.danger,
     );
   }
 
@@ -171,6 +189,9 @@ class GymColors extends ThemeExtension<GymColors> {
       sageSoft: c(sageSoft, other.sageSoft),
       mutedFill: c(mutedFill, other.mutedFill),
       heatEmpty: c(heatEmpty, other.heatEmpty),
+      info: c(info, other.info),
+      warn: c(warn, other.warn),
+      danger: c(danger, other.danger),
     );
   }
 }

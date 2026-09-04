@@ -94,4 +94,5 @@ class Ic {
   static const layers = [IconPath('M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5', strokeWidth: 2)];
   static const clock = [IconPath('M12 2a10 10 0 100 20 10 10 0 000-20zM12 6v6l4 2', strokeWidth: 2)];
   static const noAds = [IconPath('M4.9 4.9l14.2 14.2M12 2v2M12 20v2M2 12h2M20 12h2', strokeWidth: 2)];
+  static const plus = [IconPath('M12 5v14M5 12h14', strokeWidth: 2.5)];
 }

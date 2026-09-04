@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 
 import '../theme/app_colors.dart';
@@ -206,6 +208,50 @@ class SegToggle extends StatelessWidget {
   }
 }
 
+class DashedRail extends StatelessWidget {
+  const DashedRail({super.key, required this.color, this.dash = 4, this.gap = 5, this.thickness = 1.6});
+
+  final Color color;
+  final double dash;
+  final double gap;
+  final double thickness;
+
+  @override
+  Widget build(BuildContext context) => Center(
+        child: SizedBox(
+          width: thickness,
+          child: CustomPaint(
+            size: Size.infinite,
+            painter: _DashPainter(color, dash, gap, thickness),
+          ),
+        ),
+      );
+}
+
+class _DashPainter extends CustomPainter {
+  _DashPainter(this.color, this.dash, this.gap, this.thickness);
+  final Color color;
+  final double dash, gap, thickness;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final p = Paint()
+      ..color = color
+      ..strokeWidth = thickness
+      ..strokeCap = StrokeCap.round;
+    for (double y = 0; y < size.height; y += dash + gap) {
+      canvas.drawLine(
+        Offset(size.width / 2, y),
+        Offset(size.width / 2, math.min(y + dash, size.height)),
+        p,
+      );
+    }
+  }
+
+  @override
+  bool shouldRepaint(_DashPainter o) => o.color != color || o.dash != dash || o.gap != gap;
+}
+
 class Pill extends StatelessWidget {
   const Pill({
     super.key,
@@ -265,11 +311,19 @@ class PrimaryButton extends StatelessWidget {
         width: double.infinity,
         height: height,
         decoration: BoxDecoration(color: bg ?? gc.ember, borderRadius: BorderRadius.circular(100)),
+        padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             if (icon != null) ...[SvgPathIcon(icon!, size: 18, color: f), const SizedBox(width: 10)],
-            Text(label, style: AppTheme.d(16, weight: FontWeight.w600, color: f, letterSpacing: 2)),
+            Flexible(
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text(label,
+                    maxLines: 1,
+                    style: AppTheme.d(16, weight: FontWeight.w600, color: f, letterSpacing: 2)),
+              ),
+            ),
           ],
         ),
       ),
