@@ -8,6 +8,7 @@ import '../models/workout.dart';
 import '../state/fit_state.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
+import '../widgets/charts.dart';
 import '../widgets/exercise_media.dart';
 import '../widgets/stopwatch_card.dart';
 import '../widgets/svg_icon.dart';
@@ -22,19 +23,8 @@ class ExerciseDetailScreen extends StatefulWidget {
 
 class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
   late final String _exId = fit.activeExerciseId ?? fit.activeExercise.id;
-  final TextEditingController _notes = TextEditingController();
-  bool _allNotes = false;
 
   String _fmtDate(DateTime d) => t.shortDate(d);
-  String _fmtDateYear(DateTime d) => t.shortDateYear(d);
-
-  void _saveNote() {
-    final t = _notes.text.trim();
-    if (t.isEmpty) return;
-    fit.addNote(_exId, t);
-    _notes.clear();
-    FocusScope.of(context).unfocus();
-  }
 
   Future<void> _pickMedia() async {
     try {
@@ -42,12 +32,6 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
       final path = res?.files.single.path;
       if (path != null) await fit.attachExerciseMedia(_exId, path);
     } catch (_) {}
-  }
-
-  @override
-  void dispose() {
-    _notes.dispose();
-    super.dispose();
   }
 
   @override
@@ -59,7 +43,10 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
         ex.secondary.map(muscleLabel).join(', ').isEmpty ? t.none : ex.secondary.map(muscleLabel).join(', ');
     final steps = fit.activeExerciseSteps(ex);
     final pr = fit.exercisePr(ex.id);
+    final oneRm = fit.oneRmSeries(ex.id);
     final history = fit.exerciseHistory(ex.id);
+    final hasMedia = fit.hasCustomMedia(ex.id);
+    final repsOnly = fit.isRepsOnly(ex.id);
 
     return SafeArea(
       bottom: false,
@@ -119,24 +106,25 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
                     width: double.infinity,
                     child: ExerciseMedia(ex: ex, height: 210, live: true),
                   ),
-                  if (fit.isCustom(ex.id))
-                    Positioned(
-                      bottom: 10,
-                      right: 10,
-                      child: Row(
-                        children: [
-                          if (ex.media.isNotEmpty) ...[
-                            _mediaBtn(gc, PhosphorIconsRegular.trash, () => fit.clearExerciseMedia(ex.id)),
-                            const SizedBox(width: 8),
-                          ],
-                          _mediaBtn(
-                            gc,
-                            ex.media.isEmpty ? PhosphorIconsRegular.uploadSimple : PhosphorIconsRegular.pencilSimple,
-                            _pickMedia,
-                          ),
+                  Positioned(
+                    bottom: 10,
+                    right: 10,
+                    child: Row(
+                      children: [
+                        if (hasMedia) ...[
+                          _mediaBtn(gc, PhosphorIconsRegular.arrowCounterClockwise, t.useDefaultArt,
+                              () => fit.clearExerciseMedia(ex.id)),
+                          const SizedBox(width: 8),
                         ],
-                      ),
+                        _mediaBtn(
+                          gc,
+                          hasMedia ? PhosphorIconsRegular.pencilSimple : PhosphorIconsRegular.uploadSimple,
+                          hasMedia ? t.changeMedia : t.addMedia,
+                          _pickMedia,
+                        ),
+                      ],
                     ),
+                  ),
                 ],
               ),
             ),
@@ -157,6 +145,10 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
                       _meta(gc, t.equipmentLabel, t.equipment(ex.equipment), gc.text),
                     ],
                   ),
+                  const SizedBox(height: 16),
+                  _repsOnlyRow(gc, ex.id, repsOnly),
+                  const SizedBox(height: 10),
+                  _restRow(gc, ex.id),
                   const SizedBox(height: 20),
                   const StopwatchCard(),
                   const SizedBox(height: 20),
@@ -168,23 +160,31 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
                         border: Border.all(color: gc.border),
                         borderRadius: BorderRadius.circular(16),
                       ),
-                      child: Row(
+                      child: Column(
                         children: [
-                          SvgPathIcon(Ic.trendUp, size: 18, color: gc.accent),
-                          const SizedBox(width: 12),
-                          Expanded(
-                            child: Text(t.personalRecord,
-                                style: AppTheme.d(13, weight: FontWeight.w600, color: gc.text, letterSpacing: 1)),
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
+                          Row(
                             children: [
-                              Text(fit.weightLabel(pr.topWeight),
-                                  style: AppTheme.d(18, weight: FontWeight.w700, color: gc.text)),
-                              Text(t.oneRmEst(fit.weightLabel(pr.oneRm)),
-                                  style: AppTheme.s(11, color: gc.textSecondary)),
+                              SvgPathIcon(Ic.trendUp, size: 18, color: gc.accent),
+                              const SizedBox(width: 12),
+                              Expanded(
+                                child: Text(t.personalRecord,
+                                    style: AppTheme.d(13, weight: FontWeight.w600, color: gc.text, letterSpacing: 1)),
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Text(fit.weightLabel(pr.topWeight),
+                                      style: AppTheme.d(18, weight: FontWeight.w700, color: gc.text)),
+                                  Text(t.oneRmEst(fit.weightLabel(pr.oneRm)),
+                                      style: AppTheme.s(11, color: gc.textSecondary)),
+                                ],
+                              ),
                             ],
                           ),
+                          if (oneRm.length > 2) ...[
+                            const SizedBox(height: 14),
+                            Sparkline(values: oneRm, height: 52, color: gc.accent),
+                          ],
                         ],
                       ),
                     ),
@@ -199,54 +199,7 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
                     for (int i = 0; i < history.length && i < 8; i++)
                       _historyRow(gc, history[i], i < history.length - 1 && i < 7),
                   const SizedBox(height: 24),
-                  Text(t.notes, style: AppTheme.d(14, weight: FontWeight.w600, color: gc.text, letterSpacing: 1)),
-                  const SizedBox(height: 12),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Expanded(
-                        child: TextField(
-                          controller: _notes,
-                          maxLines: null,
-                          minLines: 1,
-                          style: AppTheme.s(14, color: gc.text, height: 1.4),
-                          cursorColor: gc.accent,
-                          textInputAction: TextInputAction.newline,
-                          decoration: InputDecoration(
-                            hintText: t.notePlaceholder,
-                            hintStyle: AppTheme.s(14, color: gc.textTertiary),
-                            hintMaxLines: 1,
-                            filled: true,
-                            fillColor: gc.bgRaised,
-                            contentPadding: const EdgeInsets.all(14),
-                            enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(14), borderSide: BorderSide(color: gc.border)),
-                            focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(14), borderSide: BorderSide(color: gc.accent)),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      Semantics(
-                        button: true,
-                        label: t.save,
-                        child: GestureDetector(
-                          behavior: HitTestBehavior.opaque,
-                          onTap: _saveNote,
-                          child: Container(
-                            width: 48,
-                            height: 48,
-                            alignment: Alignment.center,
-                            decoration:
-                                BoxDecoration(color: gc.ember, borderRadius: BorderRadius.circular(14)),
-                            child: Icon(PhosphorIconsFill.paperPlaneRight, size: 18, color: gc.onEmber),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 12),
-                  _notesList(gc, ex.id),
+                  _notesRow(gc, ex.id),
                   const SizedBox(height: 24),
                   if (steps.isNotEmpty) ...[
                     Text(t.howTo, style: AppTheme.d(14, weight: FontWeight.w600, color: gc.text, letterSpacing: 1)),
@@ -255,6 +208,10 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
                       _step(gc, i + 1, steps[i]),
                       if (i < steps.length - 1) const SizedBox(height: 14),
                     ],
+                  ],
+                  if (fit.alternativesHere(ex, 3).isNotEmpty) ...[
+                    const SizedBox(height: 24),
+                    _notHere(gc, ex),
                   ],
                   if (fit.similarExercises(ex, 4).isNotEmpty) ...[
                     const SizedBox(height: 24),
@@ -267,6 +224,44 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _notHere(GymColors gc, Exercise ex) {
+    final place = fit.activePlace!;
+    return Container(
+      padding: const EdgeInsets.fromLTRB(16, 14, 16, 16),
+      decoration: BoxDecoration(
+        color: gc.bgRaised,
+        border: Border.all(color: gc.warn.withValues(alpha: 0.5)),
+        borderRadius: BorderRadius.circular(18),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(PhosphorIconsRegular.mapPin, size: 16, color: gc.warn),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Text(t.notHere(t.equipment(ex.equipment).toLowerCase(), place.name),
+                    style: AppTheme.s(13.5, weight: FontWeight.w600, color: gc.text)),
+              ),
+            ],
+          ),
+          const SizedBox(height: 4),
+          Padding(
+            padding: const EdgeInsets.only(left: 26),
+            child: Text(t.notHereWhy, style: AppTheme.s(12.5, color: gc.textSecondary, height: 1.4)),
+          ),
+          const SizedBox(height: 14),
+          Text(t.altHere,
+              style: AppTheme.s(10,
+                  weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.5)),
+          const SizedBox(height: 6),
+          for (final alt in fit.alternativesHere(ex, 3)) _similarRow(gc, alt),
+        ],
       ),
     );
   }
@@ -302,98 +297,42 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
     );
   }
 
-  static const _notesPreview = 3;
-  static const _notesMaxHeight = 260.0;
-
-  Widget _notesList(GymColors gc, String exId) {
-    final notes = fit.notesFor(exId);
-    if (notes.isEmpty) return const SizedBox.shrink();
-
-    final overflow = notes.length - _notesPreview;
-    if (overflow <= 0 || _allNotes) {
-      final rows = [for (int i = 0; i < notes.length; i++) _noteRow(gc, exId, i, notes[i])];
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          if (_allNotes && notes.length > _notesPreview)
-
-            ConstrainedBox(
-              constraints: const BoxConstraints(maxHeight: _notesMaxHeight),
-              child: Scrollbar(
-                child: SingleChildScrollView(
-                  child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: rows),
+  Widget _notesRow(GymColors gc, String exId) {
+    final n = fit.notesFor(exId).length;
+    return Semantics(
+      button: true,
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: () => fit.goNotes(exerciseId: exId),
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+          decoration: BoxDecoration(
+            color: gc.bgRaised,
+            border: Border.all(color: n > 0 ? gc.ember : gc.border),
+            borderRadius: BorderRadius.circular(16),
+          ),
+          child: Row(
+            children: [
+              Icon(PhosphorIconsRegular.notebook,
+                  size: 18, color: n > 0 ? gc.ember : gc.textSecondary),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(t.notes,
+                        style: AppTheme.s(12,
+                            weight: FontWeight.w600, color: gc.text, letterSpacing: 0.5)),
+                    const SizedBox(height: 2),
+                    Text(n == 0 ? t.noteNoneForExercise : t.noteCount(n),
+                        style: AppTheme.s(11, color: gc.textSecondary)),
+                  ],
                 ),
               ),
-            )
-          else
-            ...rows,
-          if (notes.length > _notesPreview) _notesToggle(gc, notes.length, expanded: true),
-        ],
-      );
-    }
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        for (int i = 0; i < _notesPreview; i++) _noteRow(gc, exId, i, notes[i]),
-        _notesToggle(gc, notes.length, expanded: false),
-      ],
-    );
-  }
-
-  Widget _notesToggle(GymColors gc, int total, {required bool expanded}) {
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      onTap: () => setState(() => _allNotes = !_allNotes),
-      child: Container(
-        margin: const EdgeInsets.only(top: 4),
-        padding: const EdgeInsets.symmetric(vertical: 12),
-        alignment: Alignment.center,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(expanded ? t.showFewerNotes : t.showAllNotes(total),
-                style: AppTheme.s(13, weight: FontWeight.w600, color: gc.accent)),
-            const SizedBox(width: 6),
-            Icon(expanded ? PhosphorIconsRegular.caretUp : PhosphorIconsRegular.caretDown,
-                size: 13, color: gc.accent),
-          ],
+              Icon(PhosphorIconsRegular.caretRight, size: 16, color: gc.textSecondary),
+            ],
+          ),
         ),
-      ),
-    );
-  }
-
-  Widget _noteRow(GymColors gc, String exId, int i, ExerciseNote n) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 8),
-      padding: const EdgeInsets.fromLTRB(14, 12, 8, 12),
-      decoration: BoxDecoration(
-        color: gc.bgRaised,
-        border: Border.all(color: gc.border),
-        borderRadius: BorderRadius.circular(14),
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(_fmtDateYear(n.date),
-                    style: AppTheme.s(11, weight: FontWeight.w600, color: gc.textTertiary, letterSpacing: 0.5)),
-                const SizedBox(height: 4),
-                Text(n.text, style: AppTheme.s(14, color: gc.text, height: 1.4)),
-              ],
-            ),
-          ),
-          GestureDetector(
-            onTap: () => fit.deleteNote(exId, i),
-            child: Padding(
-              padding: const EdgeInsets.all(6),
-              child: SvgPathIcon(Ic.close, size: 14, color: gc.textTertiary),
-            ),
-          ),
-        ],
       ),
     );
   }
@@ -473,17 +412,123 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
     );
   }
 
-  Widget _mediaBtn(GymColors gc, IconData icon, VoidCallback onTap) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.all(9),
-        decoration: BoxDecoration(
-          color: gc.bg.withValues(alpha: 0.82),
-          shape: BoxShape.circle,
-          border: Border.all(color: gc.border),
+  Widget _restRow(GymColors gc, String id) {
+    final custom = fit.hasCustomRest(id);
+    final seconds = fit.restFor(id);
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+      decoration: BoxDecoration(
+        color: gc.bgRaised,
+        border: Border.all(color: custom ? gc.ember : gc.border),
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: Row(
+        children: [
+          Icon(PhosphorIconsRegular.timer, size: 18, color: custom ? gc.ember : gc.textSecondary),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(t.restForExercise,
+                    style: AppTheme.s(12, weight: FontWeight.w600, color: gc.text, letterSpacing: 0.5)),
+                const SizedBox(height: 2),
+                GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTap: custom ? () => fit.setExerciseRest(id, null) : null,
+                  child: Text(custom ? t.restCustom : t.restUsingDefault,
+                      style: AppTheme.s(11, color: custom ? gc.accent : gc.textSecondary)),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(width: 12),
+          StepperControl(
+            value: '${seconds}s',
+            minWidth: 44,
+            btnSize: 30,
+            gap: 3,
+            fontSize: 14,
+            btnRadius: 10,
+            onDec: () => fit.setExerciseRest(id, seconds - 15),
+            onInc: () => fit.setExerciseRest(id, seconds + 15),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _repsOnlyRow(GymColors gc, String id, bool on) {
+    return Semantics(
+      button: true,
+      toggled: on,
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: () => fit.toggleRepsOnly(id),
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+          decoration: BoxDecoration(
+            color: gc.bgRaised,
+            border: Border.all(color: on ? gc.ember : gc.border),
+            borderRadius: BorderRadius.circular(16),
+          ),
+          child: Row(
+            children: [
+              Icon(PhosphorIconsRegular.scales, size: 18, color: on ? gc.ember : gc.textSecondary),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(t.repsOnly, style: AppTheme.s(13.5, weight: FontWeight.w600, color: gc.text)),
+                    const SizedBox(height: 2),
+                    Text(t.repsOnlyHint, style: AppTheme.s(11, color: gc.textSecondary)),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 10),
+              AnimatedContainer(
+                duration: const Duration(milliseconds: 140),
+                width: 44,
+                height: 26,
+                padding: const EdgeInsets.all(3),
+                alignment: on ? Alignment.centerRight : Alignment.centerLeft,
+                decoration: BoxDecoration(
+                  color: on ? gc.ember : gc.bgRaised2,
+                  borderRadius: BorderRadius.circular(100),
+                  border: Border.all(color: on ? gc.ember : gc.border),
+                ),
+                child: Container(
+                  width: 20,
+                  height: 20,
+                  decoration: BoxDecoration(
+                    color: on ? gc.onEmber : gc.textTertiary,
+                    shape: BoxShape.circle,
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
-        child: Icon(icon, size: 16, color: gc.text),
+      ),
+    );
+  }
+
+  Widget _mediaBtn(GymColors gc, IconData icon, String semantic, VoidCallback onTap) {
+    return Semantics(
+      button: true,
+      label: semantic,
+      child: GestureDetector(
+        onTap: onTap,
+        child: Container(
+          padding: const EdgeInsets.all(9),
+          decoration: BoxDecoration(
+            color: gc.bg.withValues(alpha: 0.82),
+            shape: BoxShape.circle,
+            border: Border.all(color: gc.border),
+          ),
+          child: Icon(icon, size: 16, color: gc.text),
+        ),
       ),
     );
   }
