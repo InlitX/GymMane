@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:path_provider/path_provider.dart';
 
 class MediaStore {
@@ -20,18 +21,40 @@ class MediaStore {
 
   static bool get ready => _dir != null;
 
+  @visibleForTesting
+  static set directory(String? path) => _dir = path;
+
   static String? pathFor(String basename) =>
       (_dir == null || basename.isEmpty) ? null : '$_dir/$basename';
 
   static Future<String?> importFor(String exerciseId, String srcPath) async {
     if (_dir == null) return null;
     try {
-      final ext = _ext(srcPath);
-
-      final base = '$exerciseId-${DateTime.now().millisecondsSinceEpoch}.$ext';
-      final dst = File('$_dir/$base');
-      await File(srcPath).copy(dst.path);
+      final base = _newName(exerciseId, extOf(srcPath));
+      await File(srcPath).copy('$_dir/$base');
       return base;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  static Future<String?> saveBytes(String exerciseId, String ext, Uint8List bytes) async {
+    if (_dir == null) return null;
+    try {
+      final base = _newName(exerciseId, ext);
+      await File('$_dir/$base').writeAsBytes(bytes, flush: true);
+      return base;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  static Future<Uint8List?> readBytes(String basename) async {
+    final p = pathFor(basename);
+    if (p == null) return null;
+    try {
+      final f = File(p);
+      return await f.exists() ? await f.readAsBytes() : null;
     } catch (_) {
       return null;
     }
@@ -45,14 +68,27 @@ class MediaStore {
     } catch (_) {}
   }
 
-  static String _ext(String path) {
+  static Future<void> clearAll() async {
+    if (_dir == null) return;
+    try {
+      for (final f in Directory(_dir!).listSync()) {
+        if (f is File) await f.delete();
+      }
+    } catch (_) {}
+  }
+
+  static int _seq = 0;
+
+  static String _newName(String exerciseId, String ext) =>
+      '$exerciseId-${DateTime.now().microsecondsSinceEpoch}-${_seq++}.$ext';
+
+  static String extOf(String path) {
     final dot = path.lastIndexOf('.');
     if (dot < 0 || dot == path.length - 1) return 'dat';
     return path.substring(dot + 1).toLowerCase();
   }
 
-  static bool isVideo(String basename) {
-    const vids = {'mp4', 'mov', 'm4v', 'webm', 'mkv', '3gp', 'avi'};
-    return vids.contains(_ext(basename));
-  }
+  static const videoExtensions = {'mp4', 'mov', 'm4v', 'webm', 'mkv', '3gp', 'avi'};
+
+  static bool isVideo(String basename) => videoExtensions.contains(extOf(basename));
 }

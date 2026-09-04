@@ -6,6 +6,7 @@ import 'package:video_player/video_player.dart';
 
 import '../models/exercise.dart';
 import '../services/media_store.dart';
+import '../state/fit_state.dart';
 import '../theme/app_colors.dart';
 import 'exercise_art.dart';
 
@@ -25,11 +26,12 @@ class ExerciseMedia extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final path = ex.media.isEmpty ? null : MediaStore.pathFor(ex.media);
+    final media = fit.mediaFor(ex.id);
+    final path = media.isEmpty ? null : MediaStore.pathFor(media);
     if (path == null) {
       return ExerciseArt(slug: ex.art, height: height, radius: radius, live: live);
     }
-    final isVideo = MediaStore.isVideo(ex.media);
+    final isVideo = MediaStore.isVideo(media);
     if (isVideo && live) {
       return _VideoTile(key: ValueKey(path), path: path, height: height, radius: radius);
     }
@@ -41,7 +43,7 @@ class ExerciseMedia extends StatelessWidget {
           : Center(
               child: Image.file(
                 File(path),
-                key: ValueKey(ex.media),
+                key: ValueKey(media),
                 fit: BoxFit.contain,
                 alignment: Alignment.center,
                 gaplessPlayback: true,

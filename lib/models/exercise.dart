@@ -17,7 +17,6 @@ class Exercise {
     required this.difficulty,
     required this.art,
     required this.steps,
-    this.media = '',
   });
   final String id;
   final String name;
@@ -27,19 +26,6 @@ class Exercise {
   final String difficulty;
   final String art;
   final List<String> steps;
-  final String media;
-
-  Exercise copyWith({String? media}) => Exercise(
-        id: id,
-        name: name,
-        primary: primary,
-        secondary: secondary,
-        equipment: equipment,
-        difficulty: difficulty,
-        art: art,
-        steps: steps,
-        media: media ?? this.media,
-      );
 
   Map<String, dynamic> toJson() => {
         'id': id,
@@ -47,7 +33,6 @@ class Exercise {
         'p': primary,
         'e': equipment,
         'd': difficulty,
-        if (media.isNotEmpty) 'm': media,
       };
   factory Exercise.fromJson(Map<String, dynamic> j) => Exercise(
         id: j['id'] as String,
@@ -58,7 +43,6 @@ class Exercise {
         difficulty: (j['d'] as String?) ?? 'Beginner',
         art: '',
         steps: const [],
-        media: (j['m'] as String?) ?? '',
       );
 }
 
