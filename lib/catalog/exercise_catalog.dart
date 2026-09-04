@@ -4644,7 +4644,7 @@ const List<Exercise> kExercises = [
     name: 'Suspended Split Squat',
     primary: 'quads',
     secondary: ['glutes', 'hamstrings', 'calves'],
-    equipment: 'Bodyweight',
+    equipment: 'Other',
     difficulty: 'Intermediate',
     art: 'split-squat',
     steps: [
@@ -5967,7 +5967,7 @@ const List<Exercise> kExercises = [
     name: 'Bodyweight Kneeling Triceps Extension',
     primary: 'triceps',
     secondary: [],
-    equipment: 'Bodyweight',
+    equipment: 'Cable',
     difficulty: 'Beginner',
     art: 'overhead-tricep-extension',
     steps: [
@@ -8152,7 +8152,7 @@ const List<Exercise> kExercises = [
     name: 'Stability Ball Hamstring Curl',
     primary: 'hamstrings',
     secondary: ['glutes', 'abdomen'],
-    equipment: 'Bodyweight',
+    equipment: 'Other',
     difficulty: 'Intermediate',
     art: 'stability-ball-hamstring-curl',
     steps: [
