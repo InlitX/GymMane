@@ -14,6 +14,8 @@ class HomeWidgetBridge {
   static const _pkg = 'com.gymmane.app';
   static const heatmapKey = 'heatmap_img';
   static const statsKey = 'stats_img';
+  static const bodyKey = 'body_img';
+  static const bodyDays = 7;
   static bool get _supported => !kIsWeb && Platform.isAndroid;
 
   static Future<void> update() async {
@@ -43,8 +45,21 @@ class HomeWidgetBridge {
         logicalSize: const Size(155, 155),
         pixelRatio: 3,
       );
+      await HomeWidget.renderFlutterWidget(
+        BodyWidgetView(
+          gc: gc,
+          intensity: fit.muscleHeatOver(bodyDays),
+          days: bodyDays,
+          size: const Size(320, 220),
+        ),
+        key: bodyKey,
+        logicalSize: const Size(320, 220),
+        pixelRatio: 3,
+      );
       await HomeWidget.updateWidget(
           qualifiedAndroidName: '$_pkg.HeatmapWidgetProvider');
+      await HomeWidget.updateWidget(
+          qualifiedAndroidName: '$_pkg.BodyWidgetProvider');
       await HomeWidget.updateWidget(
           qualifiedAndroidName: '$_pkg.StatsWidgetProvider');
     } catch (e) {

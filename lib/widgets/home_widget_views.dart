@@ -3,23 +3,16 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 import '../l10n/l10n.dart';
+import '../state/fit_state.dart';
 import '../theme/app_colors.dart';
+import 'body_map.dart';
 
 const _kDisplay = 'Oswald';
 const _kBody = 'IBM Plex Sans';
+const _kBorder = 1.0;
 
-Color _heat(int level, GymColors gc) {
-  switch (level) {
-    case 3:
-      return gc.accent;
-    case 2:
-      return gc.brass;
-    case 1:
-      return gc.mutedFill;
-    default:
-      return gc.heatEmpty;
-  }
-}
+Color _heat(int level, GymColors gc) =>
+    level <= 0 ? gc.heatEmpty : heatLevelColor(gc, level);
 
 class HeatmapWidgetView extends StatelessWidget {
   const HeatmapWidgetView({
@@ -41,8 +34,8 @@ class HeatmapWidgetView extends StatelessWidget {
     const vgap = 3.0;
     const pad = 16.0;
     const headerH = 30.0;
-    final gridW = size.width - pad * 2;
-    final gridH = size.height - pad * 2 - headerH;
+    final gridW = size.width - pad * 2 - _kBorder * 2;
+    final gridH = size.height - pad * 2 - headerH - _kBorder * 2;
     final cell = ((gridH - (rows - 1) * vgap) / rows).clamp(4.0, 40.0);
     final cols = math.max(1, ((gridW + vgap) / (cell + vgap)).floor());
 
@@ -65,20 +58,25 @@ class HeatmapWidgetView extends StatelessWidget {
       decoration: BoxDecoration(
         color: gc.bgRaised,
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: gc.border),
+        border: Border.all(color: gc.border, width: _kBorder),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
-              Text('GYMMANE',
-                  style: TextStyle(
-                      fontFamily: _kDisplay,
-                      fontSize: 13,
-                      fontWeight: FontWeight.w600,
-                      letterSpacing: 2,
-                      color: gc.text)),
+              Flexible(
+                child: Text('GYMMANE',
+                    maxLines: 1,
+                    overflow: TextOverflow.clip,
+                    softWrap: false,
+                    style: TextStyle(
+                        fontFamily: _kDisplay,
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
+                        letterSpacing: 2,
+                        color: gc.text)),
+              ),
               const Spacer(),
               Icon(Icons.local_fire_department_rounded, size: 15, color: gc.accent),
               const SizedBox(width: 3),
@@ -147,7 +145,7 @@ class StatsWidgetView extends StatelessWidget {
       decoration: BoxDecoration(
         color: gc.bgRaised,
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: gc.border),
+        border: Border.all(color: gc.border, width: _kBorder),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -231,6 +229,87 @@ class StatsWidgetView extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class BodyWidgetView extends StatelessWidget {
+  const BodyWidgetView({
+    super.key,
+    required this.gc,
+    required this.intensity,
+    required this.days,
+    this.size = const Size(320, 220),
+  });
+
+  final GymColors gc;
+  final Map<String, double> intensity;
+  final int days;
+  final Size size;
+
+  @override
+  Widget build(BuildContext context) {
+    const pad = 16.0;
+    const headerH = 28.0;
+    final artW = math.min(
+      size.width - pad * 2 - _kBorder * 2,
+      (size.height - pad * 2 - headerH - _kBorder * 2) / kBodyAspect,
+    );
+
+    return Container(
+      width: size.width,
+      height: size.height,
+      padding: const EdgeInsets.all(pad),
+      decoration: BoxDecoration(
+        color: gc.bgRaised,
+        borderRadius: BorderRadius.circular(24),
+        border: Border.all(color: gc.border, width: _kBorder),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            height: headerH - 8,
+            child: Row(
+              children: [
+                Flexible(
+                  child: Text(t.muscleMap,
+                      maxLines: 1,
+                      overflow: TextOverflow.clip,
+                      softWrap: false,
+                      style: TextStyle(
+                          fontFamily: _kDisplay,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                          letterSpacing: 2,
+                          color: gc.text)),
+                ),
+                const Spacer(),
+                for (int i = 1; i <= heatLevels; i++) ...[
+                  if (i > 1) const SizedBox(width: 3),
+                  Container(
+                    width: 12,
+                    height: 6,
+                    decoration: BoxDecoration(
+                      color: heatLevelColor(gc, i),
+                      borderRadius: BorderRadius.circular(2),
+                    ),
+                  ),
+                ],
+                const SizedBox(width: 8),
+                Text(t.daysShort(days),
+                    style: TextStyle(fontFamily: _kBody, fontSize: 10.5, color: gc.textSecondary)),
+              ],
+            ),
+          ),
+          const SizedBox(height: 8),
+          Expanded(
+            child: Center(
+              child: BodyHeatArt(gc: gc, intensity: intensity, width: artW),
+            ),
+          ),
+        ],
       ),
     );
   }
