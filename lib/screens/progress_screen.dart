@@ -445,7 +445,7 @@ class _StrengthCard extends StatelessWidget {
         child: Row(children: [
           for (final e in tracked.take(8)) ...[
             Pill(
-              label: e.name,
+              label: t.catalogName(e.id, e.name),
               bg: e.id == id ? gc.ember : gc.bgRaised2,
               fg: e.id == id ? gc.onEmber : gc.textSecondary,
               onTap: () => fit.setStrengthExercise(e.id),
@@ -542,7 +542,7 @@ class _DaySheet extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(e.name, style: AppTheme.s(13, weight: FontWeight.w600, color: gc.text)),
+                Text(t.catalogName(e.id, e.name), style: AppTheme.s(13, weight: FontWeight.w600, color: gc.text)),
                 const SizedBox(height: 2),
                 Text(detail, style: AppTheme.s(11, color: gc.textSecondary)),
               ],
@@ -550,7 +550,7 @@ class _DaySheet extends StatelessWidget {
           ),
           Semantics(
             button: true,
-            label: '${t.deleteCaps} ${e.name}',
+            label: '${t.deleteCaps} ${t.catalogName(e.id, e.name)}',
             child: GestureDetector(
               behavior: HitTestBehavior.opaque,
               onTap: () => _confirmDelete(context, s, e),
@@ -574,7 +574,7 @@ class _DaySheet extends StatelessWidget {
         backgroundColor: gc.bgRaised,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         title: Text(t.deleteEntry, style: AppTheme.d(18, weight: FontWeight.w700, color: gc.text)),
-        content: Text(t.deleteEntryBody(e.name), style: AppTheme.s(13, color: gc.textSecondary)),
+        content: Text(t.deleteEntryBody(t.catalogName(e.id, e.name)), style: AppTheme.s(13, color: gc.textSecondary)),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(dctx).pop(false),
