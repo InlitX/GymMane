@@ -316,6 +316,51 @@ class AppLocalizationsZh extends AppLocalizations {
   String get totalVolume30d => '30天总容量';
 
   @override
+  String get volumeCumulative => 'Running total of every kilo you moved';
+
+  @override
+  String get volumeChartEmpty => 'Log a session and the curve starts here';
+
+  @override
+  String get weekRhythm => 'WEEK RHYTHM';
+
+  @override
+  String get weekRhythmHint => 'Which days you actually show up.';
+
+  @override
+  String weekRhythmBest(String day) {
+    return '$day is your day';
+  }
+
+  @override
+  String get weekRhythmEmpty => 'Log a session and your week takes shape here.';
+
+  @override
+  String get allTime => 'ALL TIME';
+
+  @override
+  String get allTimeSessions => 'SESSIONS';
+
+  @override
+  String get allTimeTime => 'TIME';
+
+  @override
+  String get allTimeVolume => 'LIFTED';
+
+  @override
+  String get allTimeSets => 'SETS';
+
+  @override
+  String allTimeAvg(String time) {
+    return '$time a session on average';
+  }
+
+  @override
+  String hoursShort(int n) {
+    return '${n}h';
+  }
+
+  @override
   String get consistency => '出勤与坚持';
 
   @override
@@ -403,9 +448,6 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get restDay => '休息日 — 未记录训练。';
-
-  @override
-  String get tapToDelete => '点击垃圾桶图标可删除误记的记录。';
 
   @override
   String get delete => '删除';
@@ -514,12 +556,471 @@ class AppLocalizationsZh extends AppLocalizations {
   }
 
   @override
-  String get showFewerNotes => '收起';
+  String notHere(String gear, String place) {
+    return 'No $gear at $place';
+  }
 
   @override
-  String moreNotes(int n) {
-    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '还有 $n 条笔记', one: '还有 $n 条笔记');
+  String get notHereWhy => 'Swap it for something you can actually load today.';
+
+  @override
+  String get altHere => 'WHAT YOU CAN DO HERE';
+
+  @override
+  String get places => 'MY PLACES';
+
+  @override
+  String get placesShort => 'Places';
+
+  @override
+  String get placesHint =>
+      'Say what you have in each place and the library only shows what you can actually do there.';
+
+  @override
+  String get placeAll => 'Anywhere';
+
+  @override
+  String get placeNew => 'New place';
+
+  @override
+  String get placeNameLabel => 'NAME';
+
+  @override
+  String get placeNamePlaceholder => 'Home, gym, the park…';
+
+  @override
+  String get placeGearLabel => 'WHAT IS THERE';
+
+  @override
+  String placeGearCount(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n kinds of kit',
+      one: '1 kind of kit',
+      zero: 'Nothing ticked',
+    );
     return '$_temp0';
+  }
+
+  @override
+  String placeExercises(int n) {
+    return '$n exercises here';
+  }
+
+  @override
+  String get placeEmptyTitle => 'Train wherever you are';
+
+  @override
+  String get placeEmptyBody =>
+      'A place is a list of the kit you have there. Pick one to start and edit it later.';
+
+  @override
+  String get placeDeleteTitle => 'Delete place';
+
+  @override
+  String get placeDeleteBody => 'Only the place goes — your exercises and sessions stay.';
+
+  @override
+  String get placeGym => 'Gym';
+
+  @override
+  String get placeHome => 'Home';
+
+  @override
+  String get placeOutdoors => 'Outdoors';
+
+  @override
+  String get placeFilterLabel => 'PLACE';
+
+  @override
+  String get noGearOnly => 'No kit';
+
+  @override
+  String placeActive(String name) {
+    return 'Training at $name';
+  }
+
+  @override
+  String get journal => 'JOURNAL';
+
+  @override
+  String noteCount(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n notes',
+      one: '1 note',
+      zero: 'No notes',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get noteKindNote => 'Note';
+
+  @override
+  String get noteKindPlan => 'Plan';
+
+  @override
+  String get noteKindDone => 'Win';
+
+  @override
+  String get noteKindPain => 'Niggle';
+
+  @override
+  String get noteFilterAll => 'All';
+
+  @override
+  String get newNote => 'New note';
+
+  @override
+  String get editNote => 'Edit note';
+
+  @override
+  String get addNote => 'ADD NOTE';
+
+  @override
+  String get noteEmptyTitle => 'Nothing written down yet';
+
+  @override
+  String get noteEmptyBody =>
+      'Cues, plans for next time, how a session felt — with photos or video if you want.';
+
+  @override
+  String get noteNoneForExercise => 'No notes on this exercise yet.';
+
+  @override
+  String get noteKindLabel => 'TYPE';
+
+  @override
+  String get noteTextLabel => 'NOTE';
+
+  @override
+  String get noteDateLabel => 'DATE';
+
+  @override
+  String get noteExerciseLabel => 'EXERCISE';
+
+  @override
+  String get noteMediaLabel => 'PHOTOS & VIDEO';
+
+  @override
+  String get noteGeneral => 'No exercise';
+
+  @override
+  String get noteAttach => 'Attach';
+
+  @override
+  String get noteRemoveMedia => 'Remove attachment';
+
+  @override
+  String get deleteNoteTitle => 'Delete note';
+
+  @override
+  String get deleteNoteBody => 'The note and anything attached to it go for good.';
+
+  @override
+  String get noteToday => 'Today';
+
+  @override
+  String get noteYesterday => 'Yesterday';
+
+  @override
+  String get noteAllNotes => 'All notes';
+
+  @override
+  String get noteCalendar => 'Calendar';
+
+  @override
+  String get noteNoneOnDay => 'Nothing written on this day';
+
+  @override
+  String get noteAddOnDay => 'Note on this day';
+
+  @override
+  String get notePrevMonth => 'Previous month';
+
+  @override
+  String get noteNextMonth => 'Next month';
+
+  @override
+  String noteMonthCount(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n notes this month',
+      one: '1 note this month',
+      zero: 'No notes this month',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get measures => 'MEASUREMENTS';
+
+  @override
+  String get measuresHint => 'Neck to calf — watch your body change, not just the bar.';
+
+  @override
+  String measureCount(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n readings',
+      one: '1 reading',
+      zero: 'Nothing logged',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get measureNoneYet => 'Not logged yet';
+
+  @override
+  String get measureHistory => 'HISTORY';
+
+  @override
+  String get measureNeck => 'Neck';
+
+  @override
+  String get measureShoulders => 'Shoulders';
+
+  @override
+  String get measureChest => 'Chest';
+
+  @override
+  String get measureArm => 'Arm';
+
+  @override
+  String get measureForearm => 'Forearm';
+
+  @override
+  String get measureWaist => 'Waist';
+
+  @override
+  String get measureHips => 'Hips';
+
+  @override
+  String get measureThigh => 'Thigh';
+
+  @override
+  String get measureCalf => 'Calf';
+
+  @override
+  String get measureBodyfat => 'Body fat';
+
+  @override
+  String get timeline => 'TIMELINE';
+
+  @override
+  String get timelineHint => 'Same pose, same spot, same light. In a year you will not believe it.';
+
+  @override
+  String get timelineEmptyTitle => 'Your first photo starts the clock';
+
+  @override
+  String photoCount(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n photos',
+      one: '1 photo',
+      zero: 'No photos',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get poseFront => 'Front';
+
+  @override
+  String get poseSide => 'Side';
+
+  @override
+  String get poseBack => 'Back';
+
+  @override
+  String get photoEvery => 'REMIND ME';
+
+  @override
+  String photoEveryDays(int n) {
+    return 'Every $n days';
+  }
+
+  @override
+  String get photoEveryOff => 'Never';
+
+  @override
+  String photoNextIn(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: 'Next photo in $n days',
+      one: 'Next photo tomorrow',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get photoDueNow => 'Photo due — grab it today';
+
+  @override
+  String get addTodayPhotos => 'ADD TODAY\'S PHOTOS';
+
+  @override
+  String posePhoto(String pose) {
+    return '$pose photo';
+  }
+
+  @override
+  String get compare => 'COMPARE';
+
+  @override
+  String get compareNeedTwo => 'Shoot the same pose on two different days and you can compare them here.';
+
+  @override
+  String dayNumber(int n) {
+    return 'Day $n';
+  }
+
+  @override
+  String daysApart(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n days apart',
+      one: '1 day apart',
+      zero: 'Same day',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get deleteEntryTitle => 'Delete this day';
+
+  @override
+  String get deleteDayBody => 'Its photos go with it, for good.';
+
+  @override
+  String get timelinePhotos => 'Photos';
+
+  @override
+  String get timelineBody => 'Muscle map';
+
+  @override
+  String get timelineBodyEmpty =>
+      'Log a session and your muscle map starts filling in here, no photos needed.';
+
+  @override
+  String get timelineBodyHint => 'Built from your own sets — nothing to upload.';
+
+  @override
+  String timelineWindow(String from, String to) {
+    return '$from – $to';
+  }
+
+  @override
+  String sessionCount(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n sessions',
+      one: '1 session',
+      zero: 'No sessions',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get notifPhotoChannel => 'Progress photos';
+
+  @override
+  String get notifPhotoChannelWhy => 'A nudge when your next progress photo is due.';
+
+  @override
+  String get notifPhotoTitle => 'Time for your progress photo';
+
+  @override
+  String notifPhotoBody(int n) {
+    return '$n days since the last one. Same pose, same light.';
+  }
+
+  @override
+  String get share => 'SHARE';
+
+  @override
+  String get sharePick => 'What do you want to show?';
+
+  @override
+  String get shareSession => 'Last session';
+
+  @override
+  String get shareStreak => 'Streak and consistency';
+
+  @override
+  String get shareBody => 'Muscles worked';
+
+  @override
+  String get shareCompare => 'Before and after';
+
+  @override
+  String get shareHint => 'The card is built on your phone. Nothing leaves until you pick where it goes.';
+
+  @override
+  String get shareFailed => 'The card could not be built';
+
+  @override
+  String get shareWeekOf => 'LAST 7 DAYS';
+
+  @override
+  String get shareStreakLabel => 'DAY STREAK';
+
+  @override
+  String get shareSessionsLabel => 'SESSIONS';
+
+  @override
+  String get shareVolumeLabel => 'VOLUME';
+
+  @override
+  String get shareSetsLabel => 'SETS';
+
+  @override
+  String get shareNothing => 'Log a session first — there is nothing to show yet';
+
+  @override
+  String get restForExercise => 'REST FOR THIS EXERCISE';
+
+  @override
+  String get restUsingDefault => 'Using your default';
+
+  @override
+  String get restCustom => 'Only for this one';
+
+  @override
+  String get setType => 'SET TYPE';
+
+  @override
+  String get setTypeNormal => 'Working';
+
+  @override
+  String get setTypeWarmup => 'Warm-up';
+
+  @override
+  String get setTypeDrop => 'Drop set';
+
+  @override
+  String get setTypeFailure => 'To failure';
+
+  @override
+  String get setTypeHint => 'Warm-ups stay out of your volume and your records.';
+
+  @override
+  String get addWarmup => 'WARM-UP';
+
+  @override
+  String platesPerSide(String plates) {
+    return 'Per side: $plates';
   }
 
   @override
@@ -800,6 +1301,15 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get sexLabel => '生理性别';
+
+  @override
+  String get macroProtein => 'PROTEIN';
+
+  @override
+  String get macroCarbs => 'CARBS';
+
+  @override
+  String get macroFat => 'FAT';
 
   @override
   String get male => '男';
@@ -1221,5 +1731,53 @@ class AppLocalizationsZh extends AppLocalizations {
   String get skip2 => '跳过';
 
   @override
-  String get artCredit => '动作插图由 Bryl Lim 与 Everkinetic 提供';
+  String get madeWithLoveBy => 'MADE WITH LOVE BY';
+
+  @override
+  String get sourceCode => 'SOURCE CODE';
+
+  @override
+  String get suggested => 'SUGGESTED';
+
+  @override
+  String get results => 'RESULTS';
+
+  @override
+  String get noMatches => 'No exercise matches that search.';
+
+  @override
+  String get tapToEdit => 'Tap the pencil to fix an entry, or the bin to remove it.';
+
+  @override
+  String get editEntry => 'Edit';
+
+  @override
+  String get editEntryHint => 'Fix the reps or the weight of any set.';
+
+  @override
+  String get removeSet => 'Remove set';
+
+  @override
+  String get continueWorkout => 'CONTINUE';
+
+  @override
+  String get continueWorkoutBody =>
+      'The workout goes back to being in progress, with its sets already ticked. Finishing it again saves it on its original day.';
+
+  @override
+  String get addBodyWidget => 'Add muscle map widget';
+
+  @override
+  String get repsOnly => 'Reps only';
+
+  @override
+  String get repsOnlyHint => 'Log this exercise without weight.';
+
+  @override
+  String get useDefaultArt => 'Back to the default art';
+
+  @override
+  String daysShort(int n) {
+    return '${n}d';
+  }
 }
