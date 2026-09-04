@@ -1,8 +1,12 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:gymmane/app/gymmane_app.dart';
 import 'package:gymmane/l10n/l10n.dart';
 import 'package:gymmane/models/workout.dart';
 import 'package:gymmane/state/fit_state.dart';
+import 'package:gymmane/theme/app_colors.dart';
+import 'package:gymmane/theme/app_theme.dart';
+import 'package:gymmane/widgets/share_cards.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -36,11 +40,26 @@ void main() {
     'tools',
     'train',
     'about',
+    'notes',
+    'note-edit',
+    'measures',
+    'timeline',
   ]) {
     testWidgets('$route draws without blowing up', (tester) async {
       await visit(tester, route);
     });
   }
+
+  testWidgets('the share sheet builds a card for every kind', (tester) async {
+    for (final kind in ShareKind.values) {
+      await tester.pumpWidget(MaterialApp(
+        theme: AppTheme.dark,
+        home: Scaffold(body: Center(child: ShareCard(kind: kind, gc: GymColors.dark))),
+      ));
+      await tester.pump(const Duration(milliseconds: 200));
+      expect(tester.takeException(), isNull, reason: 'la lámina $kind reventó');
+    }
+  });
 
   testWidgets('every tool screen opens', (tester) async {
     for (final id in const ['rm', 'bmi', 'cal', 'bf', 'plate', 'warmup']) {

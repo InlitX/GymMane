@@ -7,6 +7,33 @@ import 'package:gymmane/services/local_store.dart';
 import 'package:gymmane/state/fit_state.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+/// El fixture tiene fechas fijas; se desplaza entero para que el último
+/// entreno caiga ayer y las ventanas de 30 días sigan teniendo sentido.
+String _slideToToday(String text) {
+  final data = jsonDecode(text) as Map<String, dynamic>;
+  final sessions = (data['sessions'] as List).cast<Map<String, dynamic>>();
+  final newest = sessions
+      .map((s) => DateTime.parse(s['d'] as String))
+      .reduce((a, b) => a.isAfter(b) ? a : b);
+  final target = DateTime.now().subtract(const Duration(days: 1));
+  final shift = Duration(days: target.difference(newest).inDays);
+
+  String slide(String iso) => DateTime.parse(iso).add(shift).toIso8601String();
+
+  for (final s in sessions) {
+    s['d'] = slide(s['d'] as String);
+  }
+  for (final b in (data['bodyweight'] as List).cast<Map<String, dynamic>>()) {
+    b['d'] = slide(b['d'] as String);
+  }
+  ((data['exNotes'] as Map?) ?? {}).forEach((_, v) {
+    for (final n in (v as List).cast<Map<String, dynamic>>()) {
+      n['d'] = slide(n['d'] as String);
+    }
+  });
+  return jsonEncode(data);
+}
+
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
@@ -39,7 +66,7 @@ void main() {
   setUp(() async {
     SharedPreferences.setMockInitialValues({});
     await Store.instance.init();
-    final text = fixture.readAsStringSync();
+    final text = _slideToToday(fixture.readAsStringSync());
     raw = jsonDecode(text) as Map<String, dynamic>;
     expect(fit.importJson(text), true, reason: 'el backup de prueba debe ser válido');
   });
@@ -93,7 +120,7 @@ void main() {
 
     expect(trained, greaterThan(15));
     expect(trained, lessThanOrEqualTo(29));
-    expect(levels.every((l) => l >= 0 && l <= 3), true);
+    expect(levels.every((l) => l >= 0 && l <= heatLevels), true);
   });
 
   test('the muscle split adds up to roughly 100%', () {

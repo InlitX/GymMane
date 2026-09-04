@@ -89,7 +89,8 @@ void main() {
       final logged = fit.sessions.single.exercises;
       expect(logged.length, 6);
       expect(logged.every((e) => e.primary != 'other'), true);
-      expect(fit.muscleSetsOver(30)['abdomen'], greaterThan(0));
+      final window = DateTime.now().difference(DateTime(2026, 7, 26)).inDays + 1;
+      expect(fit.muscleSetsOver(window)['abdomen'], greaterThan(0));
     });
   });
 }

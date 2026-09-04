@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:gymmane/models/note.dart';
 import 'package:gymmane/models/profile.dart';
 import 'package:gymmane/services/local_store.dart';
 import 'package:gymmane/state/fit_state.dart';
@@ -14,7 +15,7 @@ void main() {
     fit.sessions.clear();
     fit.bodyweight.clear();
     fit.favorites.clear();
-    fit.exNotes.clear();
+    fit.notes.clear();
     fit.checkins.clear();
     fit.routines.clear();
     fit.weeklyPlan.clear();
@@ -29,7 +30,11 @@ void main() {
     fit.setUnits('lb');
     fit.setLanguage('es');
     fit.toggleFavorite(kFirstId);
-    fit.addNote(kFirstId, 'Subir 2.5 kg la próxima');
+    fit.saveNote(
+        exerciseId: kFirstId,
+        date: DateTime.now(),
+        kind: NoteKind.plan,
+        text: 'Subir 2.5 kg la próxima');
     fit.addBodyweight(74.5);
     final r = fit.createRoutine('Empuje');
     fit.toggleRoutineExercise(r, kFirstId);
@@ -54,6 +59,7 @@ void main() {
     expect(fit.language, 'es');
     expect(fit.favorites[kFirstId], true);
     expect(fit.notesFor(kFirstId).first.text, 'Subir 2.5 kg la próxima');
+    expect(fit.notesFor(kFirstId).first.kind, NoteKind.plan);
     expect(fit.latestBodyweight!.kg, closeTo(74.5, 0.001));
     expect(fit.routines.single.name, 'Empuje');
     expect(fit.routines.single.exerciseIds, [kFirstId]);

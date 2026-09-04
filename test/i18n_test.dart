@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'dart:ui' show PlatformDispatcher;
 
@@ -27,6 +28,29 @@ void main() {
     for (final code in appLanguages) {
       expect(languageNameOf(code).trim(), isNotEmpty, reason: 'falta languageName en $code');
     }
+  });
+
+  test('no key is left untranslated in any shipped language', () {
+    Map<String, dynamic> arb(String code) =>
+        jsonDecode(File('lib/l10n/app_$code.arb').readAsStringSync()) as Map<String, dynamic>;
+
+    final template = arb('en').keys.where((k) => !k.startsWith('@')).toSet();
+    for (final code in appLanguages.where((c) => c != 'en')) {
+      final keys = arb(code).keys.where((k) => !k.startsWith('@')).toSet();
+      expect(template.difference(keys), isEmpty, reason: 'faltan claves en $code');
+      expect(keys.difference(template), isEmpty, reason: 'claves de más en $code');
+    }
+  });
+
+  test('the screens that show an exercise ask the catalogue for its name', () {
+    setAppLanguage('es');
+    final logged = kExercises.take(30).where((e) => kExerciseNameEs.containsKey(e.id)).toList();
+    expect(logged, isNotEmpty);
+    for (final e in logged) {
+      expect(t.catalogName(e.id, e.name), kExerciseNameEs[e.id],
+          reason: 'catalogName es lo que tienen que llamar las pantallas, no e.name');
+    }
+    expect(fit.personalRecords, isA<List<({String id, String name, double topWeight, double oneRm})>>());
   });
 
   test('an unknown language falls back to English instead of crashing', () {
