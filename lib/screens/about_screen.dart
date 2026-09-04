@@ -10,8 +10,11 @@ import '../theme/app_theme.dart';
 import '../widgets/svg_icon.dart';
 import '../widgets/ui_kit.dart';
 
-const _kArtSourceUrl = 'https://github.com/bryllim/workout-guide';
-const _kArtLicenseUrl = 'https://creativecommons.org/licenses/by-sa/4.0/';
+const _kVersion = '1.1.0';
+const _kAuthor = 'InlitX';
+const _kAuthorUrl = 'https://github.com/InlitX';
+const _kRepoUrl = 'https://github.com/InlitX/GymMane';
+const _kKofiUrl = 'https://ko-fi.com/inlitx';
 
 class AboutScreen extends StatelessWidget {
   const AboutScreen({super.key});
@@ -50,55 +53,64 @@ class AboutScreen extends StatelessWidget {
             const SizedBox(height: 10),
             _principle(gc, PhosphorIconsRegular.chartLineUp, t.mathInside, t.mathInsideWhy),
             const SizedBox(height: 24),
-            if (fit.hasData) ...[
-              Text(t.yourNumbers,
-                  style: AppTheme.d(12, weight: FontWeight.w600, color: gc.textSecondary, letterSpacing: 3)),
-              const SizedBox(height: 10),
-              Row(children: [
-                Expanded(child: _stat(gc, t.sessionsCaps, '${fit.totalSessions}')),
-                const SizedBox(width: 10),
-                Expanded(child: _stat(gc, t.liftedCaps, fit.volumeLabel(_allTimeVolume))),
-                const SizedBox(width: 10),
-                Expanded(child: _stat(gc, t.streakCaps, '${fit.currentStreak} ${t.daysUnit(fit.currentStreak)}')),
-              ]),
-              const SizedBox(height: 24),
-            ],
             Text(t.aboutBlurb,
                 textAlign: TextAlign.center, style: AppTheme.s(12, color: gc.textTertiary, height: 1.6)),
-            const SizedBox(height: 16),
-            _artCredit(gc),
+            const SizedBox(height: 20),
+            _credit(gc, PhosphorIconsFill.heart, t.madeWithLoveBy, _kAuthor, _kAuthorUrl),
+            const SizedBox(height: 10),
+            _credit(gc, PhosphorIconsRegular.githubLogo, t.sourceCode, 'InlitX/GymMane', _kRepoUrl),
+            const SizedBox(height: 10),
+            _credit(gc, PhosphorIconsRegular.coffee, t.buyCoffee, 'ko-fi.com/inlitx', _kKofiUrl),
           ],
         ),
       ),
     );
   }
 
-  Widget _artCredit(GymColors gc) => Column(
-        children: [
-          Text(t.artCredit,
-              textAlign: TextAlign.center, style: AppTheme.s(11, color: gc.textTertiary, height: 1.5)),
-          const SizedBox(height: 3),
-          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            _link(gc, 'Workout Guide', _kArtSourceUrl),
-            Text('  ·  ', style: AppTheme.s(11, color: gc.textTertiary)),
-            _link(gc, 'CC BY-SA 4.0', _kArtLicenseUrl),
-          ]),
-        ],
-      );
-
-  Widget _link(GymColors gc, String label, String url) => GestureDetector(
+  Widget _credit(GymColors gc, IconData icon, String label, String value, String url) {
+    return Semantics(
+      button: true,
+      link: true,
+      child: GestureDetector(
         behavior: HitTestBehavior.opaque,
         onTap: () => _open(url),
-        child: Text(label, style: AppTheme.s(11, weight: FontWeight.w600, color: gc.accent)),
-      );
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+          decoration: BoxDecoration(
+            color: gc.bgRaised,
+            border: Border.all(color: gc.border),
+            borderRadius: BorderRadius.circular(16),
+          ),
+          child: Row(
+            children: [
+              Icon(icon, size: 18, color: gc.accent),
+              const SizedBox(width: 14),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(label,
+                        style: AppTheme.d(10.5,
+                            weight: FontWeight.w600, color: gc.textTertiary, letterSpacing: 2)),
+                    const SizedBox(height: 4),
+                    Text(value,
+                        style: AppTheme.d(17, weight: FontWeight.w700, color: gc.text)),
+                  ],
+                ),
+              ),
+              Icon(PhosphorIconsRegular.arrowUpRight, size: 15, color: gc.textTertiary),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 
   Future<void> _open(String url) async {
     try {
       await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
     } catch (_) {}
   }
-
-  double get _allTimeVolume => fit.sessions.fold(0.0, (a, s) => a + s.volume);
 
   Widget _hero(GymColors gc) {
     return ClipRRect(
@@ -139,7 +151,7 @@ class AboutScreen extends StatelessWidget {
                   Text('GYMMANE',
                       style: AppTheme.d(34, weight: FontWeight.w700, color: gc.text, letterSpacing: 1)),
                   const SizedBox(height: 4),
-                  Text(t.version('1.0.0'), style: AppTheme.s(12, color: gc.textSecondary)),
+                  Text(t.version(_kVersion), style: AppTheme.s(12, color: gc.textSecondary)),
                 ],
               ),
             ),
@@ -175,27 +187,6 @@ class AboutScreen extends StatelessWidget {
               ],
             ),
           ),
-        ],
-      ),
-    );
-  }
-
-  Widget _stat(GymColors gc, String label, String value) {
-    Widget fit1(Widget child) =>
-        FittedBox(fit: BoxFit.scaleDown, alignment: Alignment.centerLeft, child: child);
-    return SoftCard(
-      radius: 14,
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          fit1(Text(label,
-              maxLines: 1,
-              softWrap: false,
-              style: AppTheme.s(9, weight: FontWeight.w600, color: gc.textSecondary, letterSpacing: 1))),
-          const SizedBox(height: 4),
-          fit1(Text(value,
-              maxLines: 1, softWrap: false, style: AppTheme.d(17, weight: FontWeight.w700, color: gc.text))),
         ],
       ),
     );

@@ -13,6 +13,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../l10n/l10n.dart';
 import '../services/alarm_store.dart';
+import '../services/backup_zip.dart';
 import '../services/fitnotes_backup.dart';
 import '../services/home_widget_bridge.dart';
 import '../services/rest_alarm.dart';
@@ -161,9 +162,14 @@ class SettingsScreen extends StatelessWidget {
               _linkGroup(gc, [
                 (PhosphorIconsRegular.squaresFour, t.addActivityWidget, () => _addWidget(context, 'HeatmapWidgetProvider')),
                 (PhosphorIconsRegular.chartBar, t.addStatsWidget, () => _addWidget(context, 'StatsWidgetProvider')),
+                (PhosphorIconsRegular.person, t.addBodyWidget, () => _addWidget(context, 'BodyWidgetProvider')),
               ]),
               const SizedBox(height: 22),
             ],
+            _linkGroup(gc, [
+              (PhosphorIconsRegular.mapPin, t.places, fit.goPlaces),
+            ]),
+            const SizedBox(height: 22),
             _sectionLabel(gc, t.data),
             const SizedBox(height: 10),
             _linkGroup(gc, [
@@ -296,8 +302,8 @@ class SettingsScreen extends StatelessWidget {
   Future<void> _exportBackup(BuildContext context) async {
     final dir = await getTemporaryDirectory();
     final stamp = DateTime.now().toIso8601String().split('T').first;
-    final file = File('${dir.path}/gymmane-backup-$stamp.json');
-    await file.writeAsString(fit.exportJson());
+    final file = File('${dir.path}/gymmane-backup-$stamp.zip');
+    await file.writeAsBytes(await buildBackupZip(), flush: true);
     if (!context.mounted) return;
     await SharePlus.instance.share(
       ShareParams(files: [XFile(file.path)], subject: 'GymMane backup'),
@@ -327,30 +333,28 @@ class SettingsScreen extends StatelessWidget {
     );
     if (ok != true) return;
 
-    String? raw;
+    Uint8List? bytes;
     try {
       final result = await FilePicker.platform.pickFiles(
         type: FileType.custom,
-        allowedExtensions: ['json'],
+        allowedExtensions: ['zip', 'json'],
         withData: true,
       );
       if (result == null) return;
       final picked = result.files.single;
-      if (picked.bytes != null) {
-        raw = utf8.decode(picked.bytes!);
-      } else if (picked.path != null) {
-        raw = await File(picked.path!).readAsString();
-      }
+      bytes = picked.bytes ?? (picked.path == null ? null : await File(picked.path!).readAsBytes());
     } catch (_) {
-      raw = null;
+      bytes = null;
     }
 
     if (!context.mounted) return;
-    if (raw == null) {
+    if (bytes == null) {
       _snack(context, t.backupFailed);
       return;
     }
-    final success = fit.importJson(raw);
+    final success = looksLikeZip(bytes)
+        ? await restoreBackupZip(bytes)
+        : fit.importJson(utf8.decode(bytes, allowMalformed: true));
     if (context.mounted) {
       _snack(context, success ? t.backupImported : t.backupFailed);
     }
