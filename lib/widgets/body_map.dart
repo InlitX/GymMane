@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 
 import '../catalog/body_svg.dart';
+import '../state/fit_state.dart';
 import '../theme/app_colors.dart';
 import 'svg_icon.dart';
 
-const double _bodyAspect = bodyViewH / bodyViewW;
+const double kBodyAspect = bodyViewH / bodyViewW;
 
 String? muscleAt(Offset p) {
   for (final id in muscleFills.keys) {
@@ -33,17 +34,6 @@ const List<Color> _heatLight = [
   Color(0xFF6E2A16),
 ];
 
-const int heatLevels = 4;
-
-/// 0 = untouched, 4 = at or over the target volume for the period.
-int heatLevel(double v) {
-  if (v <= 0) return 0;
-  if (v < 0.25) return 1;
-  if (v < 0.5) return 2;
-  if (v < 0.75) return 3;
-  return 4;
-}
-
 Color heatLevelColor(GymColors gc, int level) {
   if (level <= 0) return idleMuscle(gc);
   final ramp = gc.bg.computeLuminance() < 0.5 ? _heatDark : _heatLight;
@@ -51,6 +41,11 @@ Color heatLevelColor(GymColors gc, int level) {
 }
 
 Color heatColor(GymColors gc, double v) => heatLevelColor(gc, heatLevel(v));
+
+String heatToken(Map<String, double> intensity) {
+  final keys = intensity.keys.toList()..sort();
+  return keys.map((k) => '$k${(intensity[k]! * 100).round()}').join(',');
+}
 
 class BodyMap extends StatelessWidget {
   const BodyMap({super.key, required this.selected, required this.onToggle});
@@ -64,7 +59,7 @@ class BodyMap extends StatelessWidget {
     final muscle = idleMuscle(gc);
     return _BodyCanvas(
       onTap: onToggle,
-      painter: _BodyPainter(
+      painter: BodyPainter(
         gc: gc,
         token: (selected.toList()..sort()).join(','),
         color: (id) => selected.contains(id) ? gc.ember : muscle,
@@ -80,17 +75,14 @@ class BodyHeatMap extends StatelessWidget {
   final String? focus;
   final ValueChanged<String>? onTap;
 
-  String get _token {
-    final keys = intensity.keys.toList()..sort();
-    return keys.map((k) => '$k${(intensity[k]! * 100).round()}').join(',');
-  }
+  String get _token => heatToken(intensity);
 
   @override
   Widget build(BuildContext context) {
     final gc = context.gc;
     return _BodyCanvas(
       onTap: onTap,
-      painter: _BodyPainter(
+      painter: BodyPainter(
         gc: gc,
         token: _token,
         color: (id) => heatColor(gc, intensity[id] ?? 0),
@@ -100,10 +92,31 @@ class BodyHeatMap extends StatelessWidget {
   }
 }
 
+/// El mismo dibujo sin gestos ni Theme, para el widget de la pantalla de inicio.
+class BodyHeatArt extends StatelessWidget {
+  const BodyHeatArt({super.key, required this.gc, required this.intensity, required this.width});
+
+  final GymColors gc;
+  final Map<String, double> intensity;
+  final double width;
+
+  @override
+  Widget build(BuildContext context) {
+    return CustomPaint(
+      size: Size(width, width * kBodyAspect),
+      painter: BodyPainter(
+        gc: gc,
+        token: heatToken(intensity),
+        color: (id) => heatColor(gc, intensity[id] ?? 0),
+      ),
+    );
+  }
+}
+
 class _BodyCanvas extends StatelessWidget {
   const _BodyCanvas({required this.painter, this.onTap});
 
-  final _BodyPainter painter;
+  final BodyPainter painter;
   final ValueChanged<String>? onTap;
 
   @override
@@ -120,14 +133,14 @@ class _BodyCanvas extends StatelessWidget {
                 final id = muscleAt(p);
                 if (id != null) onTap!(id);
               },
-        child: CustomPaint(size: Size(w, w * _bodyAspect), painter: painter),
+        child: CustomPaint(size: Size(w, w * kBodyAspect), painter: painter),
       );
     });
   }
 }
 
-class _BodyPainter extends CustomPainter {
-  _BodyPainter({required this.gc, required this.color, required this.token, this.outline});
+class BodyPainter extends CustomPainter {
+  BodyPainter({required this.gc, required this.color, required this.token, this.outline});
 
   final GymColors gc;
   final Color Function(String id) color;
@@ -171,6 +184,6 @@ class _BodyPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(_BodyPainter old) =>
+  bool shouldRepaint(BodyPainter old) =>
       old.gc != gc || old.token != token || old.outline != outline;
 }

@@ -62,6 +62,10 @@ class HomeScreen extends StatelessWidget {
               _todayRoutine(gc),
               const SizedBox(height: 22),
             ],
+            if (fit.photoDue) ...[
+              _photoNudge(gc),
+              const SizedBox(height: 22),
+            ],
             SoftCard(
               radius: 20,
               padding: const EdgeInsets.all(18),
@@ -104,8 +108,14 @@ class HomeScreen extends StatelessWidget {
               Expanded(child: _quick(gc, Icon(PhosphorIconsRegular.listChecks, size: 22, color: gc.ember), t.routines, fit.goRoutines)),
               const SizedBox(width: 12),
               Expanded(child: _quick(gc, Icon(PhosphorIconsRegular.barbell, size: 22, color: gc.ember), t.exercises, fit.goExercises)),
-              const SizedBox(width: 12),
+            ]),
+            const SizedBox(height: 12),
+            Row(children: [
               Expanded(child: _quick(gc, SvgPathIcon(Ic.wrench, size: 20, color: gc.ember), t.tools, fit.goTools)),
+              const SizedBox(width: 12),
+              Expanded(
+                  child: _quick(gc, Icon(PhosphorIconsRegular.notebook, size: 22, color: gc.ember),
+                      t.journal, fit.goNotes, badge: fit.notes.length)),
             ]),
           ],
         ),
@@ -242,7 +252,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _quick(GymColors gc, Widget iconWidget, String label, VoidCallback onTap) {
+  Widget _quick(GymColors gc, Widget iconWidget, String label, VoidCallback onTap, {int badge = 0}) {
     return GestureDetector(
       onTap: onTap,
       child: SoftCard(
@@ -251,7 +261,15 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 22, child: iconWidget),
+            Row(
+              children: [
+                SizedBox(height: 22, child: iconWidget),
+                const Spacer(),
+                if (badge > 0)
+                  Text('$badge',
+                      style: AppTheme.d(13, weight: FontWeight.w600, color: gc.textTertiary)),
+              ],
+            ),
             const SizedBox(height: 10),
             FittedBox(
               fit: BoxFit.scaleDown,
@@ -259,6 +277,37 @@ class HomeScreen extends StatelessWidget {
               child: Text(label,
                   maxLines: 1, style: AppTheme.d(14, weight: FontWeight.w600, color: gc.text, letterSpacing: 1)),
             ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _photoNudge(GymColors gc) {
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: fit.goTimeline,
+      child: SoftCard(
+        radius: 20,
+        padding: const EdgeInsets.all(18),
+        borderColor: gc.accent,
+        child: Row(
+          children: [
+            Icon(PhosphorIconsRegular.camera, size: 20, color: gc.accent),
+            const SizedBox(width: 14),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(t.photoDueNow,
+                      style: AppTheme.d(15, weight: FontWeight.w700, color: gc.text)),
+                  const SizedBox(height: 2),
+                  Text(t.photoInterval(fit.photoIntervalDays),
+                      style: AppTheme.s(12, color: gc.textSecondary)),
+                ],
+              ),
+            ),
+            Icon(PhosphorIconsRegular.caretRight, size: 15, color: gc.textTertiary),
           ],
         ),
       ),
