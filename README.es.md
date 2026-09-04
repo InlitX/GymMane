@@ -79,6 +79,10 @@ y mira cómo se mueven tus números.
 <img src="docs/screenshots/mock/07-routines.png" width="215" alt="Rutinas" />
 <img src="docs/screenshots/mock/08-settings.png" width="215" alt="Ajustes" />
 
+<img src="docs/screenshots/mock/09-notes.png" width="215" alt="Diario" />
+<img src="docs/screenshots/mock/10-places.png" width="215" alt="Sitios" />
+<img src="docs/screenshots/mock/11-body.png" width="215" alt="Evolución en el muñeco" />
+
 <sub><b>Historial</b> &nbsp;·&nbsp; <b>Biblioteca</b> &nbsp;·&nbsp; <b>Rutinas</b> &nbsp;·&nbsp; <b>Ajustes</b></sub>
 
 </details>
@@ -116,7 +120,11 @@ volumen, récords, racha y reparto muscular. Nada decorativo.
 
 - **Mapa del cuerpo interactivo**, frente y espalda — toca lo que quieras entrenar
 - Una sesión elegida por ti, y luego editada serie a serie
-- Repeticiones, peso y un **cronómetro de descanso** con tu propio sonido de alarma
+- Repeticiones, peso y un **cronómetro de descanso** con tu sonido de alarma,
+  y su propia duración por ejercicio
+- **Tipos de serie** — calentamiento, efectiva, drop set, al fallo. El
+  calentamiento no cuenta para el volumen
+- Los **discos por lado** calculados mientras cargas la barra
 - La sesión en directo sobrevive a un reinicio — sigues donde lo dejaste
 - **Rutinas** que puedes reordenar y asignar a cada día de la semana
 
@@ -126,10 +134,13 @@ volumen, récords, racha y reparto muscular. Nada decorativo.
 ### 📊 Progreso
 
 - Volumen, racha, anillo de objetivo semanal y **récords**, todo de tus series
-- **Mapa de constancia** estilo GitHub, con el detalle de cada día
-- **Curvas de fuerza** con 1RM estimado por ejercicio
-- Reparto muscular de los últimos 30 días
-- Seguimiento del peso corporal con su historial
+- **Mapa de constancia** estilo GitHub, ritmo semanal y totales de siempre
+- **Curvas de fuerza** con 1RM estimado y tu reparto muscular de 30 días
+- **Evolución en fotos** — frente, perfil y espalda cada 15/30/60/90 días,
+  con vista de antes y después y un aviso cuando toca
+- ¿No te apetece fotografiarte? La misma evolución **dibujada en el muñeco**
+- Peso corporal y **diez medidas del cuerpo**, cada una con su curva
+- Una **lámina para compartir** — racha, músculos trabajados o tu antes y después
 
 </td>
 </tr>
@@ -139,23 +150,44 @@ volumen, récords, racha y reparto muscular. Nada decorativo.
 ### 📚 Ejercicios y herramientas
 
 - **+500 ejercicios** con animaciones e instrucciones paso a paso
-- Búsqueda, filtros, favoritos y **tus propios ejercicios** (foto, GIF o vídeo)
-- **Seis calculadoras** — 1RM, discos, IMC, calorías y macros, grasa corporal, calentamiento
-- Dos widgets de pantalla de inicio — actividad y estadísticas
+- Búsqueda, filtros por músculo, material y nivel, favoritos y **tus propios
+  ejercicios**
+- Cambia el dibujo de **cualquier ejercicio** por tu foto, GIF o vídeo
+- **Sitios** — di qué material tienes y solo te ofrece lo que de verdad
+  puedes hacer ahí
+- Un **diario de entrenamiento** en calendario — notas de tipo nota, plan,
+  logro o molestia, con fotos y vídeo
+- **Seis calculadoras** — 1RM, discos, IMC, calorías y macros, grasa, calentamiento
+- **Tres widgets** de pantalla de inicio — actividad, números y mapa muscular
 
 </td>
 <td width="50%" valign="top">
 
 ### 🔒 Tus datos
 
-- Exporta a **CSV** o a una **copia de seguridad JSON** completa, y vuelve a importarla
-- Trae tu historial de **Hevy**, **Strong** o **FitNotes** — entrenos *y* peso corporal
+- Exporta a **CSV** o a una **copia ZIP** completa, con tu media dentro, y reimpórtala
+- Trae tu historial de **Hevy**, **Strong** o **FitNotes** — entrenos *y* peso
+  corporal
+- Sin cuenta, sin anuncios, sin analítica — y sin **permiso de INTERNET**
+- Cada foto, vídeo y nota que añades se queda en el almacén de la app
 - Borra todo de un toque
-- Tema oscuro y claro, kg o lb, español e inglés
+- Tema claro y oscuro, kg o lb
+- Español e inglés, y un idioma nuevo es solo un pull request
 
 </td>
 </tr>
 </table>
+
+---
+
+## 📱 Plataformas
+
+| Plataforma | Estado |
+|------------|--------|
+| Android | ✅ Soportada |
+| Wear OS | 📅 Planeada |
+| iOS | 📅 Planeada |
+| Escritorio | 📅 Planeada |
 
 ---
 
@@ -282,12 +314,19 @@ como vectores y las tiñe con el tema; los detalles están en **CREDITS.md**.
 
 <div align="center">
 
-<a href="https://github.com/InlitX/GymMane"><img src="https://img.shields.io/badge/Dale%20una%20estrella-181717?style=for-the-badge&logo=github&logoColor=white" alt="Dale una estrella en GitHub" height="38" /></a>
-
-<br/>
-<br/>
-
 Código bajo <b>GNU GPL v3</b>, ilustraciones bajo <b>CC BY-SA 4.0</b>
 (Bryl Lim · Everkinetic). Gratis para siempre, y nadie puede cerrarla y revenderla.
 
 </div>
+
+---
+
+## Historial de estrellas
+
+<a href="https://www.star-history.com/?repos=inlitx%2Fgymmane&type=date&legend=top-left">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=inlitx/gymmane&type=date&theme=dark&legend=top-left" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=inlitx/gymmane&type=date&legend=top-left" />
+   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=inlitx/gymmane&type=date&legend=top-left" />
+ </picture>
+</a>

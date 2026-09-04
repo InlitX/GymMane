@@ -79,6 +79,10 @@ and watch your numbers move.
 <img src="docs/screenshots/mock/07-routines.png" width="215" alt="Routines" />
 <img src="docs/screenshots/mock/08-settings.png" width="215" alt="Settings" />
 
+<img src="docs/screenshots/mock/09-notes.png" width="215" alt="Journal" />
+<img src="docs/screenshots/mock/10-places.png" width="215" alt="Places" />
+<img src="docs/screenshots/mock/11-body.png" width="215" alt="Muscle timeline" />
+
 <sub><b>History</b> &nbsp;·&nbsp; <b>Library</b> &nbsp;·&nbsp; <b>Routines</b> &nbsp;·&nbsp; <b>Settings</b></sub>
 
 </details>
@@ -116,7 +120,11 @@ decorative.
 
 - **Interactive body map**, front and back — tap what you want to train
 - A session picked for you, then edited set by set
-- Reps, weight and a **rest timer** with your own alarm sound
+- Reps, weight and a **rest timer** with your own alarm sound, and its own
+  length per exercise
+- **Set types** — warm-up, working, drop set, to failure. Warm-ups stay out
+  of your volume
+- **Plates per side** worked out for you as you load the bar
 - A live session survives a reboot — carry on where you left off
 - **Routines** you can reorder and schedule per weekday
 
@@ -126,10 +134,13 @@ decorative.
 ### 📊 Progress
 
 - Volume, streak, weekly goal ring and **PRs**, all from your own sets
-- GitHub-style **activity heatmap** with per-day detail
-- **Strength curves** with estimated 1RM per exercise
-- Muscle split across the last 30 days
-- Bodyweight tracking with history
+- GitHub-style **activity heatmap**, week rhythm and all-time totals
+- **Strength curves** with estimated 1RM, and your muscle split over 30 days
+- **Progress photo timeline** — front, side and back every 15/30/60/90 days,
+  with a before-and-after view and a reminder
+- Rather not photograph yourself? The same timeline **drawn as a muscle map**
+- Bodyweight and **ten body measurements**, each with its own history and curve
+- A **share card** you can post — streak, muscles worked or your before/after
 
 </td>
 </tr>
@@ -139,23 +150,44 @@ decorative.
 ### 📚 Exercises & tools
 
 - **500+ exercises** with animations and step-by-step instructions
-- Search, filters, favourites and **your own exercises** (photo, GIF or video)
+- Search, filters by muscle, equipment and level, favourites and **your own
+  exercises**
+- Swap the art of **any exercise** for your own photo, GIF or video
+- **Places** — say what kit you have and you only get offered what you can
+  actually do there
+- A **training journal** on a calendar — notes tagged as note, plan, win or
+  niggle, with photos and video
 - **Six calculators** — 1RM, plates, BMI, calories & macros, body fat, warm-up
-- Two home-screen widgets — activity and stats
+- **Three home-screen widgets** — activity, stats and muscle map
 
 </td>
 <td width="50%" valign="top">
 
 ### 🔒 Your data
 
-- Export to **CSV** or a full **JSON backup**, and import it back
-- Import your history from **Hevy**, **Strong** or **FitNotes** — workouts *and* bodyweight
+- Export to **CSV** or a full **ZIP backup**, media and all, and import it back
+- Bring your history from **Hevy**, **Strong** or **FitNotes** — workouts
+  *and* bodyweight
+- No account, no ads, no analytics — and no **INTERNET permission** at all
+- Every photo, video and note you add stays in the app's own storage
 - Delete everything in one tap
-- Dark and light themes, kg or lb, English and Spanish
+- Light and dark themes, kg or lb
+- English and Spanish, and a new language is just a pull request
 
 </td>
 </tr>
 </table>
+
+---
+
+## 📱 Platforms
+
+| Platform | Status |
+|----------|--------|
+| Android | ✅ Supported |
+| Wear OS | 📅 Planned |
+| iOS | 📅 Planned |
+| Desktop | 📅 Planned |
 
 ---
 
@@ -281,12 +313,19 @@ the theme; **CREDITS.md** has the details.
 
 <div align="center">
 
-<a href="https://github.com/InlitX/GymMane"><img src="https://img.shields.io/badge/Star%20on%20GitHub-181717?style=for-the-badge&logo=github&logoColor=white" alt="Star on GitHub" height="38" /></a>
-
-<br/>
-<br/>
-
 Code released under the <b>GNU GPL v3</b>, exercise art under <b>CC BY-SA 4.0</b>
 (Bryl Lim · Everkinetic). Free forever, and nobody can close it up and resell it.
 
 </div>
+
+---
+
+## Star History
+
+<a href="https://www.star-history.com/?repos=inlitx%2Fgymmane&type=date&legend=top-left">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=inlitx/gymmane&type=date&theme=dark&legend=top-left" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=inlitx/gymmane&type=date&legend=top-left" />
+   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=inlitx/gymmane&type=date&legend=top-left" />
+ </picture>
+</a>
