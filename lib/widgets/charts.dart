@@ -3,6 +3,8 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 import '../theme/app_colors.dart';
+import '../theme/app_theme.dart';
+import 'body_map.dart';
 import 'svg_icon.dart';
 
 class GoalRing extends StatelessWidget {
@@ -44,44 +46,98 @@ class _RingPainter extends CustomPainter {
 }
 
 class VolumeChart extends StatelessWidget {
-  const VolumeChart({super.key, required this.points, this.height = 100});
+  const VolumeChart({
+    super.key,
+    required this.points,
+    required this.label,
+    this.unit = '',
+    this.xLabels = const [],
+    this.height = 116,
+  });
+
   final List<double> points;
+  final String Function(double value) label;
+  final String unit;
+  final List<String> xLabels;
   final double height;
+
+  static const double _pad = 7;
+
   @override
   Widget build(BuildContext context) {
     final gc = context.gc;
-    return SizedBox(
-      height: height,
-      width: double.infinity,
-      child: CustomPaint(painter: _VolumePainter(gc, points)),
+    final top = points.isEmpty ? 0.0 : points.reduce(math.max);
+    final style = AppTheme.d(10, weight: FontWeight.w600, color: gc.textTertiary);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        SizedBox(
+          height: height,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              SizedBox(
+                width: 34,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    for (final f in [1.0, 0.5, 0.0])
+                      FittedBox(
+                        fit: BoxFit.scaleDown,
+                        alignment: Alignment.centerLeft,
+                        child: Text(f == 1 ? '${label(top)} $unit'.trim() : label(top * f),
+                            maxLines: 1, style: style),
+                      ),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 6),
+              Expanded(child: CustomPaint(painter: _VolumePainter(gc, points, _pad))),
+            ],
+          ),
+        ),
+        if (xLabels.isNotEmpty) ...[
+          const SizedBox(height: 6),
+          Padding(
+            padding: const EdgeInsets.only(left: 40),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [for (final x in xLabels) Text(x, style: style)],
+            ),
+          ),
+        ],
+      ],
     );
   }
 }
 
 class _VolumePainter extends CustomPainter {
-  _VolumePainter(this.gc, this.points);
+  _VolumePainter(this.gc, this.points, this.pad);
   final GymColors gc;
   final List<double> points;
+  final double pad;
 
   @override
   void paint(Canvas canvas, Size size) {
-    final sy = size.height / 100;
-    final grid = Paint()..color = gc.border..strokeWidth = 1;
-    for (final y in [20.0, 50.0, 80.0]) {
-      canvas.drawLine(Offset(0, y * sy), Offset(size.width, y * sy), grid);
+    final top = pad, bottom = size.height - pad;
+    final grid = Paint()
+      ..color = gc.border
+      ..strokeWidth = 1;
+    for (final f in [0.0, 0.5, 1.0]) {
+      final y = bottom - (bottom - top) * f;
+      canvas.drawLine(Offset(0, y), Offset(size.width, y), grid);
     }
 
     if (points.length < 2) return;
     final maxV = points.reduce(math.max);
-
     if (maxV <= 0) return;
 
-    Offset m(int i) {
-      final x = size.width * i / (points.length - 1);
-      final norm = points[i] / maxV;
-      final y = size.height * (0.9 - norm * 0.8);
-      return Offset(x, y);
-    }
+    Offset m(int i) => Offset(
+          size.width * i / (points.length - 1),
+          bottom - (bottom - top) * (points[i] / maxV),
+        );
 
     final line = Path()..moveTo(m(0).dx, m(0).dy);
     for (var i = 1; i < points.length; i++) {
@@ -173,18 +229,8 @@ class Heatmap extends StatelessWidget {
   final List<int> levels;
   final void Function(int index)? onTapDay;
 
-  Color _color(int level, GymColors gc) {
-    switch (level) {
-      case 3:
-        return gc.accent;
-      case 2:
-        return gc.brass;
-      case 1:
-        return gc.mutedFill;
-      default:
-        return gc.heatEmpty;
-    }
-  }
+  Color _color(int level, GymColors gc) =>
+      level <= 0 ? gc.heatEmpty : heatLevelColor(gc, level);
 
   @override
   Widget build(BuildContext context) {
