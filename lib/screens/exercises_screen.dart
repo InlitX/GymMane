@@ -122,12 +122,32 @@ class _ExercisesScreenState extends State<ExercisesScreen> {
           ),
         ),
         const SizedBox(height: 14),
+        _filterLabel(gc, t.placeFilterLabel),
+        const SizedBox(height: 8),
+        _chipRow([
+          _FilterChipData(t.placeAll, fit.activePlaceId.isEmpty,
+              () => fit.setActivePlace('')),
+          for (final place in fit.places)
+            _FilterChipData(place.name, fit.activePlaceId == place.id,
+                () => fit.setActivePlace(place.id)),
+          _FilterChipData(fit.places.isEmpty ? t.placeNew : '+', false, fit.goPlaces),
+        ], gc, hPad: 14, vPad: 8, fontSize: 13),
+        const SizedBox(height: 14),
         _filterLabel(gc, t.muscleFilter),
         const SizedBox(height: 8),
         _chipRow([
           for (final id in kFilterMuscles)
             _FilterChipData(muscleLabel(id), fit.exMuscleFilter == id, () => fit.setMuscleFilter(id)),
         ], gc, hPad: 14, vPad: 8, fontSize: 13),
+        const SizedBox(height: 14),
+        _filterLabel(gc, t.equipmentLabel),
+        const SizedBox(height: 8),
+        _chipRow([
+          _FilterChipData(t.noGearOnly, fit.exNoGearOnly, fit.toggleNoGearFilter),
+          for (final e in kFilterEquipment)
+            _FilterChipData(
+                t.equipment(e), fit.exEquipmentFilter == e, () => fit.setEquipmentFilter(e)),
+        ], gc, hPad: 12, vPad: 6, fontSize: 12),
         const SizedBox(height: 14),
         _filterLabel(gc, t.levelFilter),
         const SizedBox(height: 8),
