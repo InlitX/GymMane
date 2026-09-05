@@ -143,10 +143,6 @@ jobs:
           mv app-armeabi-v7a-release.apk   GymMane-armeabi-v7a.apk
           mv app-x86_64-release.apk        GymMane-x86_64.apk
 
-      # Clean source archive straight from the git tree (no build artifacts).
-      - name: Package source code
-        run: git archive --format=zip --prefix=gymmane-${{ inputs.tag }}/ -o GymMane-source-${{ inputs.tag }}.zip HEAD
-
       - name: Publish GitHub Release
         uses: softprops/action-gh-release@v2
         with:
@@ -156,4 +152,3 @@ jobs:
             build/app/outputs/flutter-apk/GymMane-arm64-v8a.apk
             build/app/outputs/flutter-apk/GymMane-armeabi-v7a.apk
             build/app/outputs/flutter-apk/GymMane-x86_64.apk
-            GymMane-source-${{ inputs.tag }}.zip
