@@ -10,7 +10,6 @@ import '../state/fit_state.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
 import '../widgets/share_cards.dart';
-import '../widgets/svg_icon.dart';
 import '../widgets/ui_kit.dart';
 import 'share_sheet.dart';
 
@@ -34,27 +33,14 @@ class CompareScreen extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.fromLTRB(20, 12, 20, 8),
-            child: Row(
-              children: [
-                RoundBtn(icon: Ic.chevronLeft, onTap: fit.backFromCompare),
-                const SizedBox(width: 12),
-                Expanded(child: ScreenTitle(t.compare, size: 20)),
-                Semantics(
-                  button: true,
+            child: ScreenHeader(
+              title: t.compare,
+              onBack: fit.backFromCompare,
+              actions: [
+                RoundAction(
                   label: t.share,
-                  child: GestureDetector(
-                    onTap: () => showShareSheet(context, initial: ShareKind.compare),
-                    child: Container(
-                      width: 36,
-                      height: 36,
-                      decoration: BoxDecoration(
-                        color: gc.bgRaised,
-                        shape: BoxShape.circle,
-                        border: Border.all(color: gc.border),
-                      ),
-                      child: Icon(PhosphorIconsRegular.shareNetwork, size: 16, color: gc.text),
-                    ),
-                  ),
+                  onTap: () => showShareSheet(context, initial: ShareKind.compare),
+                  child: Icon(PhosphorIconsRegular.shareNetwork, size: 16, color: gc.text),
                 ),
               ],
             ),

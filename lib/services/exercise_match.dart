@@ -1,7 +1,5 @@
+import '../catalog/exercise_aliases.dart';
 import '../models/exercise.dart';
-
-/// Hevy y Strong nombran «Movimiento (Material)» y el catálogo «Material Movimiento».
-/// Comparar cadenas enteras no encuentra nada: hay que comparar palabras.
 
 const _stop = {'the', 'a', 'an', 'with', 'on', 'to', 'and', 'or', 'in', 'for', 'v', 'var'};
 
@@ -20,7 +18,6 @@ const _syn = {
   'flyes': 'fly', 'flies': 'fly', 'flys': 'fly',
   'deadlifts': 'deadlift', 'lunges': 'lunge', 'dips': 'dip', 'pulldowns': 'pulldown',
   'legs': 'leg', 'arms': 'arm', 'abs': 'abdominal', 'delts': 'deltoid',
-  // el catálogo llama «Lever» a lo que las otras apps llaman «Machine»
   'lever': 'machine', 'smith': 'machine', 'skullcrusher': 'lying triceps extension',
   'skullcrushers': 'lying triceps extension',
   'rdl': 'romanian deadlift', 'sldl': 'stiff leg deadlift',
@@ -29,28 +26,6 @@ const _syn = {
 const _equipment = {
   'barbell', 'dumbbell', 'cable', 'machine', 'smith', 'kettlebell', 'band',
   'bodyweight', 'lever', 'sled', 'weighted', 'assisted', 'ez',
-};
-
-/// Nombres de otras apps que a palabras sueltas quedarían ambiguos.
-const _aliases = {
-  'squat barbell': 'Barbell Full Squat',
-  'barbell squat': 'Barbell Full Squat',
-  'back squat barbell': 'Barbell Full Squat',
-  'squat': 'Bodyweight Squat',
-  'bench press barbell': 'Barbell Bench Press',
-  'deadlift barbell': 'Barbell Deadlift',
-  'overhead press barbell': 'Barbell Standing Wide Military Press',
-  'military press barbell': 'Barbell Standing Wide Military Press',
-  'shoulder press dumbbell': 'Dumbbell Standing Overhead Press',
-  'bicep curl barbell': 'Barbell Curl',
-  'bicep curl dumbbell': 'Dumbbell Biceps Curl',
-  'hammer curl dumbbell': 'Dumbbell Hammer Curl',
-  'lat pulldown cable': 'Cable Pulldown',
-  'seated row cable': 'Cable Seated Row',
-  'bent over row barbell': 'Barbell Bent Over Row',
-  'romanian deadlift barbell': 'Barbell Romanian Deadlift',
-  'incline bench press barbell': 'Barbell Incline Bench Press',
-  'incline bench press dumbbell': 'Dumbbell Incline Bench Press',
 };
 
 List<String> nameTokens(String raw) {
@@ -71,9 +46,33 @@ List<String> nameTokens(String raw) {
   return out;
 }
 
-String _aliasKey(String raw) => nameTokens(raw).join(' ');
+String searchKey(String raw) => nameTokens(raw).join(' ');
 
-// Un press de barra no es el mismo ejercicio que uno de mancuerna.
+final Map<String, String> _keyCache = {};
+
+String _keyOf(String name) => _keyCache.putIfAbsent(name, () => searchKey(name));
+
+final Map<String, String> _aliasIndex = {
+  for (final entry in kExerciseAliases.entries)
+    for (final alias in entry.value) searchKey(alias): entry.key,
+};
+
+typedef ExerciseFilter = bool Function(Exercise);
+
+ExerciseFilter exerciseSearch(String query) {
+  final plain = query.trim().toLowerCase();
+  if (plain.isEmpty) return (_) => true;
+  final key = searchKey(query);
+
+  return (e) {
+    final label = exerciseName(e);
+    if (e.name.toLowerCase().contains(plain) || label.toLowerCase().contains(plain)) return true;
+    if (key.isEmpty) return false;
+    if (_keyOf(e.name).contains(key) || _keyOf(label).contains(key)) return true;
+    return kExerciseAliases[e.name]?.any((a) => _keyOf(a).contains(key)) ?? false;
+  };
+}
+
 bool _sameEquipment(Set<String> q, Set<String> c) {
   final qe = q.intersection(_equipment);
   final ce = c.intersection(_equipment);
@@ -87,12 +86,6 @@ int _score(Set<String> q, Set<String> c) {
   return shared.length * 3 - c.difference(q).length - q.difference(c).length;
 }
 
-final Map<String, String> _aliasIndex = {
-  for (final e in _aliases.entries) _aliasKey(e.key): e.value,
-};
-
-/// Si el ejercicio importado no está en el catálogo, al menos sabemos a qué
-/// músculo va: así sigue contando en el mapa muscular y en el reparto.
 const _muscleHints = <List<String>, String>{
   ['calf', 'calves', 'soleus']: 'calves',
   ['hamstring', 'leg curl', 'good morning', 'nordic']: 'hamstrings',
@@ -121,14 +114,14 @@ String? guessMuscle(String name) {
 }
 
 Exercise? matchExercise(String name, Iterable<Exercise> pool) {
-  final key = _aliasKey(name);
+  final key = searchKey(name);
   if (key.isEmpty) return null;
 
   final alias = _aliasIndex[key];
   if (alias != null) {
-    final wanted = _aliasKey(alias);
+    final wanted = searchKey(alias);
     for (final e in pool) {
-      if (_aliasKey(e.name) == wanted) return e;
+      if (searchKey(e.name) == wanted) return e;
     }
   }
 

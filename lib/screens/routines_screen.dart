@@ -22,11 +22,7 @@ class RoutinesScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Row(children: [
-              RoundBtn(icon: Ic.chevronLeft, onTap: fit.backFromRoutines),
-              const SizedBox(width: 12),
-              ScreenTitle(t.routines),
-            ]),
+            ScreenHeader(title: t.routines, onBack: fit.backFromRoutines, titleSize: 22),
             const SizedBox(height: 22),
             Text(t.weeklyPlan, style: AppTheme.d(12, weight: FontWeight.w600, color: gc.textSecondary, letterSpacing: 3)),
             const SizedBox(height: 10),

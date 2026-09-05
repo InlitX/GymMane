@@ -19,7 +19,6 @@ mixin PlacesState on FitCore, LibraryState {
     return null;
   }
 
-  /// Sin sitio elegido cabe todo; el peso corporal nunca necesita material.
   Set<String> get gearHere {
     final place = activePlace;
     return place == null ? kEquipment.toSet() : {...place.equipment, 'Bodyweight'};

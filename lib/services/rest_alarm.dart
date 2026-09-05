@@ -91,7 +91,6 @@ class RestAlarm {
   AndroidFlutterLocalNotificationsPlugin? get _androidPlugin =>
       _plugin.resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>();
 
-  /// Sin este permiso la alarma no suena con la pantalla apagada.
   Future<bool> notificationsAllowed() async {
     if (!_ready) return true;
     try {
@@ -101,8 +100,6 @@ class RestAlarm {
     }
   }
 
-  /// Devuelve si quedó concedido. Android solo enseña el diálogo un par de
-  /// veces; a partir de ahí hay que mandar al usuario a los ajustes.
   Future<bool> requestPermission() async {
     if (!_ready) return true;
     try {

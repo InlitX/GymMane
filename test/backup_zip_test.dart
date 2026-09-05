@@ -7,10 +7,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:gymmane/catalog/exercise_catalog.dart';
 import 'package:gymmane/models/exercise.dart';
 import 'package:gymmane/models/note.dart';
-import 'package:gymmane/services/progress_reminder.dart';
 import 'package:gymmane/services/backup_zip.dart';
 import 'package:gymmane/services/local_store.dart';
 import 'package:gymmane/services/media_store.dart';
+import 'package:gymmane/services/progress_reminder.dart';
 import 'package:gymmane/state/fit_state.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

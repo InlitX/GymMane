@@ -9,8 +9,6 @@ import android.graphics.BitmapFactory
 import android.widget.RemoteViews
 import es.antonborri.home_widget.HomeWidgetProvider
 
-/// Widget cuadrado de estadísticas (racha + semana + objetivo). Muestra el PNG
-/// que renderiza Flutter. Al tocarlo abre la app.
 class StatsWidgetProvider : HomeWidgetProvider() {
     override fun onUpdate(
         context: Context,

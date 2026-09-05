@@ -67,15 +67,10 @@ mixin LibraryState on FitCore {
   int get favouriteCount => favorites.values.where((v) => v).length;
 
   List<Exercise> get exercisesFiltered {
-    final q = exSearch.trim().toLowerCase();
+    final matchesSearch = exerciseSearch(exSearch);
     return allExercises.where((ex) {
       if (exFavouritesOnly && favorites[ex.id] != true) return false;
-
-      if (q.isNotEmpty &&
-          !ex.name.toLowerCase().contains(q) &&
-          !exerciseName(ex).toLowerCase().contains(q)) {
-        return false;
-      }
+      if (!matchesSearch(ex)) return false;
       if (exMuscleFilter != null &&
           ex.primary != exMuscleFilter &&
           !ex.secondary.contains(exMuscleFilter)) {
@@ -151,8 +146,6 @@ mixin LibraryState on FitCore {
     notifyListeners();
   }
 
-  /// Sin peso: o lo ha marcado el usuario, o es de peso corporal y nunca lo
-  /// ha cargado con lastre.
   bool isRepsOnly(String id) {
     if (repsOnly.contains(id)) return true;
     if (repsOnlyOff.contains(id)) return false;

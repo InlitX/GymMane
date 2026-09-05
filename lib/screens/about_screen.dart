@@ -7,7 +7,6 @@ import '../l10n/l10n.dart';
 import '../state/fit_state.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
-import '../widgets/svg_icon.dart';
 import '../widgets/ui_kit.dart';
 
 const _kVersion = '1.1.0';
@@ -29,11 +28,12 @@ class AboutScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Row(children: [
-              RoundBtn(icon: Ic.chevronLeft, onTap: fit.backFromAbout),
-              const SizedBox(width: 12),
-              Text(t.about, style: AppTheme.d(18, weight: FontWeight.w700, color: gc.text, letterSpacing: 1)),
-            ]),
+            ScreenHeader(
+              title: t.about,
+              onBack: fit.backFromAbout,
+              titleSize: 18,
+              titleSpacing: 1,
+            ),
             const SizedBox(height: 20),
             _hero(gc),
             const SizedBox(height: 24),

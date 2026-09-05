@@ -1,11 +1,6 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-/// Lector de SQLite de solo lectura, en Dart puro.
-///
-/// FitNotes no exporta un CSV: su copia de seguridad es una base de datos
-/// SQLite entera. Con esto se lee sin plugins nativos, así que sigue
-/// funcionando en los tests y en la web.
 class SqliteDb {
   SqliteDb._(this._bytes, this._pageSize, this._usable, this._tables);
 
@@ -53,7 +48,6 @@ class SqliteDb {
     }
   }
 
-  /// Filas de una tabla, ya con el nombre de cada columna.
   List<Map<String, Object?>> rows(String table) {
     final t = _tables[table.toLowerCase()];
     if (t == null) return const [];
@@ -62,7 +56,6 @@ class SqliteDb {
       final row = <String, Object?>{};
       for (var i = 0; i < t.columns.length; i++) {
         final value = i < rec.values.length ? rec.values[i] : null;
-        // Una columna INTEGER PRIMARY KEY no se guarda: es el rowid.
         row[t.columns[i].name] = value == null && t.columns[i].isRowId ? rec.rowId : value;
       }
       out.add(row);
@@ -70,7 +63,6 @@ class SqliteDb {
     return out;
   }
 
-  // ── árbol B ──────────────────────────────────────────────────
   List<_Record> _readTree(int page) {
     final out = <_Record>[];
     _walk(page, out, 0);
@@ -110,7 +102,6 @@ class SqliteDb {
     }
   }
 
-  /// Cuando la fila no cabe en la página, el resto va en páginas de desbordamiento.
   Uint8List? _payload(int at, int total) {
     final maxLocal = _usable - 35;
     if (total <= maxLocal) {

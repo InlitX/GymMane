@@ -8,7 +8,6 @@ import '../state/fit_state.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
 import '../widgets/note_kit.dart';
-import '../widgets/svg_icon.dart';
 import '../widgets/ui_kit.dart';
 
 class NotesScreen extends StatelessWidget {
@@ -26,27 +25,11 @@ class NotesScreen extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.fromLTRB(20, 12, 20, 0),
-            child: Row(
-              children: [
-                RoundBtn(icon: Ic.chevronLeft, onTap: fit.backFromNotes),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      ScreenTitle(
-                        scoped == null ? t.journal : exerciseName(scoped).toUpperCase(),
-                        size: 20,
-                      ),
-                      const SizedBox(height: 2),
-                      Text(
-                          all
-                              ? t.noteCount(fit.notesInScope.length)
-                              : t.noteMonthCount(fit.notesInMonth),
-                          style: AppTheme.s(12.5, color: gc.textSecondary)),
-                    ],
-                  ),
-                ),
+            child: ScreenHeader(
+              title: scoped == null ? t.journal : exerciseName(scoped).toUpperCase(),
+              subtitle: all ? t.noteCount(fit.notesInScope.length) : t.noteMonthCount(fit.notesInMonth),
+              onBack: fit.backFromNotes,
+              actions: [
                 _action(
                   gc,
                   icon: PhosphorIconsBold.plus,
@@ -84,23 +67,12 @@ class NotesScreen extends StatelessWidget {
     required VoidCallback onTap,
     bool filled = false,
   }) =>
-      Semantics(
-        button: true,
+      RoundAction(
         label: label,
-        child: GestureDetector(
-          behavior: HitTestBehavior.opaque,
-          onTap: onTap,
-          child: Container(
-            width: 38,
-            height: 38,
-            decoration: BoxDecoration(
-              color: filled ? gc.ember : gc.bgRaised,
-              shape: BoxShape.circle,
-              border: Border.all(color: filled ? gc.ember : gc.border),
-            ),
-            child: Icon(icon, size: 16, color: filled ? gc.onEmber : gc.text),
-          ),
-        ),
+        onTap: onTap,
+        size: 38,
+        filled: filled,
+        child: Icon(icon, size: 16, color: filled ? gc.onEmber : gc.text),
       );
 
   Widget _calendar(BuildContext context, GymColors gc, bool showExercise) {

@@ -12,6 +12,7 @@ import '../state/fit_state.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
 import '../widgets/body_map.dart';
+import '../widgets/dialogs.dart';
 import '../widgets/note_kit.dart';
 import '../widgets/photo_source_sheet.dart';
 import '../widgets/svg_icon.dart';
@@ -49,52 +50,25 @@ class _TimelineScreenState extends State<TimelineScreen> {
   }
 
   Future<void> _confirmDelete(ProgressEntry entry) async {
-    final gc = context.gc;
-    final ok = await showDialog<bool>(
-      context: context,
-      builder: (dctx) => AlertDialog(
-        backgroundColor: gc.bgRaised,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        title: Text(t.deleteEntryTitle, style: AppTheme.d(18, weight: FontWeight.w700, color: gc.text)),
-        content: Text(t.deleteDayBody, style: AppTheme.s(13, color: gc.textSecondary)),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(dctx).pop(false),
-            child: Text(t.cancel, style: AppTheme.s(14, color: gc.textSecondary)),
-          ),
-          TextButton(
-            onPressed: () => Navigator.of(dctx).pop(true),
-            child: Text(t.delete, style: AppTheme.s(14, weight: FontWeight.w700, color: gc.danger)),
-          ),
-        ],
-      ),
+    final ok = await askConfirm(
+      context,
+      title: t.deleteEntryTitle,
+      body: t.deleteDayBody,
+      confirmLabel: t.delete,
+      danger: true,
     );
-    if (ok == true) fit.deleteEntry(entry.id);
+    if (ok) fit.deleteEntry(entry.id);
   }
 
   Future<void> _confirmRemove(ProgressEntry entry, String pose) async {
-    final gc = context.gc;
-    final ok = await showDialog<bool>(
-      context: context,
-      builder: (dctx) => AlertDialog(
-        backgroundColor: gc.bgRaised,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        title: Text(t.delete, style: AppTheme.d(18, weight: FontWeight.w700, color: gc.text)),
-        content: Text(t.posePhoto(t.poseName(pose).toLowerCase()),
-            style: AppTheme.s(13, color: gc.textSecondary)),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(dctx).pop(false),
-            child: Text(t.cancel, style: AppTheme.s(14, color: gc.textSecondary)),
-          ),
-          TextButton(
-            onPressed: () => Navigator.of(dctx).pop(true),
-            child: Text(t.delete, style: AppTheme.s(14, weight: FontWeight.w700, color: gc.danger)),
-          ),
-        ],
-      ),
+    final ok = await askConfirm(
+      context,
+      title: t.delete,
+      body: t.posePhoto(t.poseName(pose).toLowerCase()),
+      confirmLabel: t.delete,
+      danger: true,
     );
-    if (ok == true) fit.removeShot(entry.id, pose);
+    if (ok) fit.removeShot(entry.id, pose);
   }
 
   @override
@@ -111,25 +85,10 @@ class _TimelineScreenState extends State<TimelineScreen> {
         children: [
           Padding(
             padding: const EdgeInsets.fromLTRB(20, 12, 20, 0),
-            child: Row(
-              children: [
-                RoundBtn(icon: Ic.chevronLeft, onTap: fit.backFromTimeline),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      ScreenTitle(t.timeline, size: 20),
-                      const SizedBox(height: 2),
-                      Text(
-                          body
-                              ? t.sessionsLogged(fit.totalSessions)
-                              : t.photoCount(fit.shotCount),
-                          style: AppTheme.s(12.5, color: gc.textSecondary)),
-                    ],
-                  ),
-                ),
-              ],
+            child: ScreenHeader(
+              title: t.timeline,
+              subtitle: body ? t.sessionsLogged(fit.totalSessions) : t.photoCount(fit.shotCount),
+              onBack: fit.backFromTimeline,
             ),
           ),
           const SizedBox(height: 16),
@@ -702,11 +661,7 @@ class _TimelineScreenState extends State<TimelineScreen> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Container(
-              width: 40,
-              height: 4,
-              decoration: BoxDecoration(color: gc.bgRaised2, borderRadius: BorderRadius.circular(2)),
-            ),
+            const SheetHandle(),
             const SizedBox(height: 18),
             for (final p in kPoses) ...[
               if (p != kPoses.first) const SizedBox(height: 10),

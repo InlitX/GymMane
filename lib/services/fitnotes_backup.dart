@@ -1,9 +1,6 @@
 import 'sqlite_reader.dart';
 import 'workout_import.dart';
 
-/// La copia de seguridad de FitNotes (.fitnotes) es una base SQLite.
-/// De ella salen las series (training_log) y el peso corporal
-/// (MeasurementRecord), que es lo único que esta app guarda.
 const _categoryMuscle = {
   'shoulders': 'shoulders',
   'chest': 'chest',
@@ -43,7 +40,7 @@ ImportResult? parseFitNotes(List<int> bytes) {
 
   for (final log in db.rows('training_log')) {
     final reps = _int(log['reps']);
-    if (reps <= 0) continue; // planchas y demás: sin repeticiones no hay serie
+    if (reps <= 0) continue;
     final date = _date(_text(log['date']));
     if (date == null) continue;
     final exercise = exercises[_int(log['exercise_id'])];

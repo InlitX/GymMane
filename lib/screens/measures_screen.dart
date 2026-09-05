@@ -25,22 +25,10 @@ class MeasuresScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Row(
-              children: [
-                RoundBtn(icon: Ic.chevronLeft, onTap: fit.backFromMeasures),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      ScreenTitle(t.measures, size: 20),
-                      const SizedBox(height: 2),
-                      Text(t.measureCount(fit.measures.length),
-                          style: AppTheme.s(12.5, color: gc.textSecondary)),
-                    ],
-                  ),
-                ),
-              ],
+            ScreenHeader(
+              title: t.measures,
+              subtitle: t.measureCount(fit.measures.length),
+              onBack: fit.backFromMeasures,
             ),
             const SizedBox(height: 14),
             Text(t.measuresHint, style: AppTheme.s(13, color: gc.textSecondary, height: 1.5)),
@@ -186,12 +174,7 @@ class _MeasureSheetState extends State<_MeasureSheet> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Container(
-                width: 40,
-                height: 4,
-                margin: const EdgeInsets.symmetric(vertical: 12),
-                decoration: BoxDecoration(color: gc.border, borderRadius: BorderRadius.circular(2)),
-              ),
+              SheetHandle(color: gc.border, margin: const EdgeInsets.symmetric(vertical: 12)),
               Padding(
                 padding: const EdgeInsets.fromLTRB(20, 4, 20, 20),
                 child: Column(

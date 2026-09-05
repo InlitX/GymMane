@@ -21,8 +21,6 @@ const String _alarmDir = 'alarm';
 bool looksLikeZip(Uint8List b) =>
     b.length > 4 && b[0] == 0x50 && b[1] == 0x4B && (b[2] == 0x03 || b[2] == 0x05 || b[2] == 0x07);
 
-/// Copia completa: el JSON de datos más el media propio del usuario,
-/// repartido en carpetas y renombrado con el ejercicio al que pertenece.
 Future<Uint8List> buildBackupZip() async {
   final data = fit.toJson();
   final archive = Archive();
@@ -82,8 +80,6 @@ Future<Uint8List> buildBackupZip() async {
   return ZipEncoder().encodeBytes(archive);
 }
 
-/// Restaura una copia en zip: vuelca el media a disco con nombres internos y
-/// deja el JSON apuntando a los ficheros ya restaurados.
 Future<bool> restoreBackupZip(Uint8List zipBytes) async {
   final Archive archive;
   try {

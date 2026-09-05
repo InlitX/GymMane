@@ -63,36 +63,18 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
                   RoundBtn(icon: Ic.chevronLeft, onTap: fit.closeExerciseDetail),
                   Row(children: [
                     if (fit.isCustom(ex.id)) ...[
-                      GestureDetector(
+                      RoundAction(
                         onTap: () {
                           fit.closeExerciseDetail();
                           fit.deleteCustomExercise(ex.id);
                         },
-                        child: Container(
-                          width: 36,
-                          height: 36,
-                          decoration: BoxDecoration(
-                            color: gc.bgRaised,
-                            shape: BoxShape.circle,
-                            border: Border.all(color: gc.border),
-                          ),
-                          child: Icon(PhosphorIconsRegular.trash, size: 16, color: gc.textSecondary),
-                        ),
+                        child: Icon(PhosphorIconsRegular.trash, size: 16, color: gc.textSecondary),
                       ),
                       const SizedBox(width: 10),
                     ],
-                    GestureDetector(
+                    RoundAction(
                       onTap: () => fit.toggleFavorite(ex.id),
-                      child: Container(
-                        width: 36,
-                        height: 36,
-                        decoration: BoxDecoration(
-                          color: gc.bgRaised,
-                          shape: BoxShape.circle,
-                          border: Border.all(color: gc.border),
-                        ),
-                        child: Center(child: _star(gc, fav)),
-                      ),
+                      child: _star(gc, fav),
                     ),
                   ]),
                 ],

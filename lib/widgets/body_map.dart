@@ -92,7 +92,6 @@ class BodyHeatMap extends StatelessWidget {
   }
 }
 
-/// El mismo dibujo sin gestos ni Theme, para el widget de la pantalla de inicio.
 class BodyHeatArt extends StatelessWidget {
   const BodyHeatArt({super.key, required this.gc, required this.intensity, required this.width});
 

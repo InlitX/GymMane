@@ -2,6 +2,7 @@
 📝 Diario en calendario — un punto en cada día que escribiste, con fotos y vídeo
 📍 Sitios — di qué material tienes y la biblioteca solo te ofrece lo que puedes hacer ahí
 🏋️ 15 ejercicios de kettlebell y filtro de "sin material"
+🔎 ¿Vienes de Hevy o Strong? Busca con los nombres de ejercicio que ya te sabes
 📸 Evolución en fotos con antes/después y aviso — o la misma evolución dibujada en el muñeco
 📊 Ritmo semanal, totales de siempre y una gráfica de volumen con sus números
 📐 Diez medidas del cuerpo, cada una con su historial y su curva

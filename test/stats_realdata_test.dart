@@ -7,8 +7,6 @@ import 'package:gymmane/services/local_store.dart';
 import 'package:gymmane/state/fit_state.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-/// El fixture tiene fechas fijas; se desplaza entero para que el último
-/// entreno caiga ayer y las ventanas de 30 días sigan teniendo sentido.
 String _slideToToday(String text) {
   final data = jsonDecode(text) as Map<String, dynamic>;
   final sessions = (data['sessions'] as List).cast<Map<String, dynamic>>();

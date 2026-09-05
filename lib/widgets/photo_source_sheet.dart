@@ -29,11 +29,7 @@ class PhotoSourceSheet extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Container(
-            width: 40,
-            height: 4,
-            decoration: BoxDecoration(color: gc.bgRaised2, borderRadius: BorderRadius.circular(2)),
-          ),
+          const SheetHandle(),
           const SizedBox(height: 18),
           _option(context, PhosphorIconsRegular.camera, t.takePhoto, ImageSource.camera),
           const SizedBox(height: 10),

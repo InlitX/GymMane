@@ -153,8 +153,6 @@ mixin SettingsState on FitCore, ToolsState {
     notifyListeners();
   }
 
-  /// Si dice que no, no se insiste en el momento: se vuelve a preguntar en
-  /// otra sesión, pasados unos días. Mientras tanto se avisa en Ajustes.
   static const _askAgainAfter = Duration(days: 3);
 
   Future<void> refreshAlarmPermission() async {

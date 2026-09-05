@@ -26,7 +26,7 @@ Anything that keeps working on a phone in flight mode is fair game.
 
 ```bash
 flutter pub get
-flutter test          # 220+ tests, all of them should pass
+flutter test          # 350+ tests, all of them should pass
 flutter run
 ```
 
@@ -47,14 +47,18 @@ lib/
 └── widgets/      shared UI pieces
 ```
 
+The exercise catalogue is `catalog/exercise_catalog.dart`, and
+`catalog/exercise_aliases.dart` is the plain list that lets people search an
+exercise by the name another app gives it — one line per exercise, add yours there.
+
 `FitState` is the single source of truth. It lives in `state/fit_state.dart` and
 is split across `part` files by area, so you can work on statistics without
 scrolling past the rest of the app. `fit` is its one global instance.
 
 ## House style
 
-- **Almost no comments.** Names and structure carry the meaning; a short comment
-  is only for the rare line that genuinely fought back.
+- **No comments.** Names and structure carry the meaning; the reason for a
+  change goes in the commit message, not in the file.
 - Text the user can read **always** goes through `t.<key>` and an ARB entry —
   never a literal in a widget. A test enforces this.
 - Prefer small widgets and pure functions. Statistics must be computed from real

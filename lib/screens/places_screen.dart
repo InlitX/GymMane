@@ -7,7 +7,7 @@ import '../models/place.dart';
 import '../state/fit_state.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
-import '../widgets/svg_icon.dart';
+import '../widgets/dialogs.dart';
 import '../widgets/ui_kit.dart';
 
 class PlacesScreen extends StatelessWidget {
@@ -24,25 +24,10 @@ class PlacesScreen extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.fromLTRB(20, 12, 20, 0),
-            child: Row(
-              children: [
-                RoundBtn(icon: Ic.chevronLeft, onTap: fit.backFromPlaces),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      ScreenTitle(t.places, size: 20),
-                      const SizedBox(height: 2),
-                      Text(
-                          fit.activePlace == null
-                              ? t.placeAll
-                              : t.placeActive(fit.activePlace!.name),
-                          style: AppTheme.s(12.5, color: gc.textSecondary)),
-                    ],
-                  ),
-                ),
-              ],
+            child: ScreenHeader(
+              title: t.places,
+              subtitle: fit.activePlace == null ? t.placeAll : t.placeActive(fit.activePlace!.name),
+              onBack: fit.backFromPlaces,
             ),
           ),
           Expanded(
@@ -284,9 +269,8 @@ class PlacesScreen extends StatelessWidget {
     final controller = TextEditingController(text: place?.name ?? '');
     final name = await showDialog<String>(
       context: context,
-      builder: (dctx) => AlertDialog(
-        backgroundColor: gc.bgRaised,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      builder: (dctx) => appDialog(
+        gc,
         title: Text(place == null ? t.placeNew : t.editEntry,
             style: AppTheme.d(18, weight: FontWeight.w700, color: gc.text)),
         content: TextField(
@@ -304,14 +288,8 @@ class PlacesScreen extends StatelessWidget {
           onSubmitted: (v) => Navigator.of(dctx).pop(v),
         ),
         actions: [
-          TextButton(
-            onPressed: () => Navigator.of(dctx).pop(),
-            child: Text(t.cancel, style: AppTheme.s(14, color: gc.textSecondary)),
-          ),
-          TextButton(
-            onPressed: () => Navigator.of(dctx).pop(controller.text),
-            child: Text(t.save, style: AppTheme.s(14, weight: FontWeight.w700, color: gc.accent)),
-          ),
+          dialogAction(t.cancel, gc.textSecondary, () => Navigator.of(dctx).pop(), strong: false),
+          dialogAction(t.save, gc.accent, () => Navigator.of(dctx).pop(controller.text)),
         ],
       ),
     );
@@ -325,27 +303,13 @@ class PlacesScreen extends StatelessWidget {
   }
 
   Future<void> _confirmDelete(BuildContext context, GymPlace place) async {
-    final gc = context.gc;
-    final ok = await showDialog<bool>(
-      context: context,
-      builder: (dctx) => AlertDialog(
-        backgroundColor: gc.bgRaised,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        title: Text(t.placeDeleteTitle,
-            style: AppTheme.d(18, weight: FontWeight.w700, color: gc.text)),
-        content: Text(t.placeDeleteBody, style: AppTheme.s(13, color: gc.textSecondary)),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(dctx).pop(false),
-            child: Text(t.cancel, style: AppTheme.s(14, color: gc.textSecondary)),
-          ),
-          TextButton(
-            onPressed: () => Navigator.of(dctx).pop(true),
-            child: Text(t.delete, style: AppTheme.s(14, weight: FontWeight.w700, color: gc.danger)),
-          ),
-        ],
-      ),
+    final ok = await askConfirm(
+      context,
+      title: t.placeDeleteTitle,
+      body: t.placeDeleteBody,
+      confirmLabel: t.delete,
+      danger: true,
     );
-    if (ok == true) fit.deletePlace(place.id);
+    if (ok) fit.deletePlace(place.id);
   }
 }

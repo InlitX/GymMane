@@ -111,7 +111,6 @@ mixin ToolsState on FitCore {
 
   double get defaultBar => isLb ? 45 : 20;
 
-  /// Discos por lado para una barra, en las unidades que se estén enseñando.
   List<({double weight, int count})> platesPerSide(double displayTarget, double displayBar) {
     double perSide = math.max(0, (displayTarget - displayBar) / 2);
     final out = <({double weight, int count})>[];

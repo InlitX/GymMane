@@ -91,12 +91,7 @@ class _ShareSheetState extends State<_ShareSheet> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Container(
-              width: 40,
-              height: 4,
-              margin: const EdgeInsets.symmetric(vertical: 12),
-              decoration: BoxDecoration(color: gc.border, borderRadius: BorderRadius.circular(2)),
-            ),
+            SheetHandle(color: gc.border, margin: const EdgeInsets.symmetric(vertical: 12)),
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 4, 20, 12),
               child: Row(

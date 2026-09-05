@@ -36,7 +36,6 @@ void main() {
 
       final sets = s.exercises.single.sets;
       expect(sets.map((x) => x.reps), [5, 8, 6]);
-      // 15 lb = 6.8 kg
       expect(sets.first.weightKg, closeTo(6.804, 0.001));
     });
 
@@ -84,7 +83,6 @@ void main() {
       expect(csv, isNotNull, reason: 'weight.csv está dentro del zip');
       expect(csv!.contains('Weight (lb)'), true);
       expect(detectFormat(csv), ImportFormat.strongWeights);
-      // este export venía sin pesajes anotados: no debe reventar
       expect(parseImport(csv).weights, isEmpty);
     });
 

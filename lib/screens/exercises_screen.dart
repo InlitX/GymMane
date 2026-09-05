@@ -60,33 +60,7 @@ class _ExercisesScreenState extends State<ExercisesScreen> {
         const SizedBox(height: 4),
         Text(t.libraryCount(count), style: AppTheme.s(13, color: gc.textSecondary)),
         const SizedBox(height: 14),
-        Container(
-          height: 48,
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          decoration: BoxDecoration(
-            color: gc.bgRaised,
-            border: Border.all(color: gc.border),
-            borderRadius: BorderRadius.circular(100),
-          ),
-          child: Row(children: [
-            SvgPathIcon(Ic.search, size: 16, color: gc.textSecondary),
-            const SizedBox(width: 10),
-            Expanded(
-              child: TextField(
-                controller: _c,
-                onChanged: fit.setExSearch,
-                style: AppTheme.s(14, color: gc.text),
-                cursorColor: gc.accent,
-                decoration: InputDecoration(
-                  isCollapsed: true,
-                  border: InputBorder.none,
-                  hintText: t.searchExercises,
-                  hintStyle: AppTheme.s(14, color: gc.textSecondary),
-                ),
-              ),
-            ),
-          ]),
-        ),
+        SearchField(controller: _c, hint: t.searchExercises, onChanged: fit.setExSearch),
         const SizedBox(height: 14),
         GestureDetector(
           behavior: HitTestBehavior.opaque,
@@ -156,25 +130,10 @@ class _ExercisesScreenState extends State<ExercisesScreen> {
             _FilterChipData(t.difficulty(d), fit.exDifficultyFilter == d, () => fit.setDifficultyFilter(d)),
         ], gc, hPad: 12, vPad: 6, fontSize: 12),
         const SizedBox(height: 14),
-        GestureDetector(
+        GhostButton(
+          label: t.newExercise,
+          icon: PhosphorIconsRegular.plus,
           onTap: () => showCreateExerciseSheet(context),
-          child: Container(
-            height: 46,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              border: Border.all(color: gc.border),
-              borderRadius: BorderRadius.circular(14),
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(PhosphorIconsRegular.plus, size: 16, color: gc.ember),
-                const SizedBox(width: 8),
-                Text(t.newExercise,
-                    style: AppTheme.d(13, weight: FontWeight.w600, color: gc.text, letterSpacing: 1)),
-              ],
-            ),
-          ),
         ),
         const SizedBox(height: 14),
       ],

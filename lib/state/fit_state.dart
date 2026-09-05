@@ -14,15 +14,15 @@ import '../models/live_session.dart';
 import '../models/measure.dart';
 import '../models/note.dart';
 import '../models/place.dart';
-import '../models/progress_shot.dart';
 import '../models/profile.dart';
+import '../models/progress_shot.dart';
 import '../models/workout.dart';
 import '../services/alarm_store.dart';
+import '../services/exercise_match.dart';
 import '../services/local_store.dart';
 import '../services/media_store.dart';
 import '../services/progress_reminder.dart';
 import '../services/rest_alarm.dart';
-import '../services/exercise_match.dart';
 import '../services/workout_import.dart';
 
 part 'fit_core.dart';
@@ -321,8 +321,6 @@ class FitState extends FitCore
     return true;
   }
 
-  /// [restoredMedia] llega de una copia en zip: los ficheros ya están en
-  /// MediaStore con nombres nuevos y sustituyen al mapa del JSON.
   void applyBackup(Map<String, dynamic> map,
       {Map<String, String>? restoredMedia,
       Map<String, String>? restoredNoteMedia,

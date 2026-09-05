@@ -133,7 +133,6 @@ ImportFormat detectFormat(String csv) {
   if (cols.contains('exercise') && cols.contains('category') && _pick(cols, _anyWeight) != null) {
     return ImportFormat.fitnotes;
   }
-  // Medidas corporales: llevan fecha y peso, pero ningún ejercicio.
   final hasExercise = cols.any((c) => c.contains('exercise') || c.contains('ejercicio'));
   final dateCol = _pick(cols, _dateCols);
   final weightCol = _pick(cols, [..._weightKgCols, ..._weightLbCols, 'weight', 'peso']);
@@ -160,8 +159,6 @@ bool needsUnitChoice(String csv) {
   return _pick(cols, fmt.weightPlain ?? const []) != null;
 }
 
-/// El export de medidas de Strong es un zip con un csv por medida.
-/// De todos ellos solo nos sirve el peso.
 String? weightCsvFromZip(List<int> bytes) {
   Archive archive;
   try {
@@ -422,7 +419,6 @@ List<List<String>> _rows(String text, String delim) {
 
   while (i < n) {
     final c = text[i];
-    // Dentro de comillas un campo puede llevar saltos de línea: no cortar la fila aquí.
     if (quoted) {
       if (c == '"') {
         if (i + 1 < n && text[i + 1] == '"') {

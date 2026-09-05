@@ -3,16 +3,9 @@ part of 'fit_state.dart';
 mixin StatsState on FitCore, ToolsState, LibraryState, TimelineState {
   List<Exercise> recommendedExercises(int n) {
     final muscles = suggestedFocus.muscles;
-    final picks = <Exercise>[];
-    final usedMuscle = <String>{};
-
-    for (final m in muscles) {
-      final ex = kExercises.firstWhere(
-        (e) => e.primary == m && !picks.contains(e),
-        orElse: () => kExercises.first,
-      );
-      if (ex.primary == m && usedMuscle.add(m)) picks.add(ex);
-    }
+    final picks = [
+      for (final m in muscles) ...kExercises.where((e) => e.primary == m).take(1),
+    ];
 
     for (final e in kExercises) {
       if (picks.length >= n) break;
@@ -85,7 +78,6 @@ mixin StatsState on FitCore, ToolsState, LibraryState, TimelineState {
       ? Duration.zero
       : Duration(seconds: totalTime.inSeconds ~/ sessions.length);
 
-  /// Sesiones por día de la semana (1 = lunes … 7 = domingo).
   Map<int, int> get sessionsByWeekday {
     final out = {for (int w = 1; w <= 7; w++) w: 0};
     for (final s in sessions) {
@@ -94,7 +86,6 @@ mixin StatsState on FitCore, ToolsState, LibraryState, TimelineState {
     return out;
   }
 
-  /// 0 si no hay entrenos o si hay empate: entonces no hay "tu día".
   int get busiestWeekday {
     final by = sessionsByWeekday;
     final top = by.values.fold(0, (m, v) => v > m ? v : m);

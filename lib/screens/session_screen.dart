@@ -9,10 +9,11 @@ import '../models/workout.dart';
 import '../state/fit_state.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
+import '../widgets/dialogs.dart';
 import '../widgets/exercise_media.dart';
+import '../widgets/share_cards.dart';
 import '../widgets/svg_icon.dart';
 import '../widgets/ui_kit.dart';
-import '../widgets/share_cards.dart';
 import 'exercises_screen.dart';
 import 'share_sheet.dart';
 
@@ -199,26 +200,10 @@ class SessionScreen extends StatelessWidget {
         Row(
           children: [
             Expanded(
-              child: GestureDetector(
-                behavior: HitTestBehavior.opaque,
+              child: GhostButton(
+                label: t.addExercise,
+                icon: PhosphorIconsRegular.plus,
                 onTap: () => showAddToSessionSheet(context),
-                child: Container(
-                  height: 46,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    border: Border.all(color: gc.border),
-                    borderRadius: BorderRadius.circular(14),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(PhosphorIconsRegular.plus, size: 16, color: gc.ember),
-                      const SizedBox(width: 8),
-                      Text(t.addExercise,
-                          style: AppTheme.d(13, weight: FontWeight.w600, color: gc.text, letterSpacing: 1)),
-                    ],
-                  ),
-                ),
               ),
             ),
             const SizedBox(width: 10),
@@ -293,27 +278,13 @@ class SessionScreen extends StatelessWidget {
   }
 
   Future<void> _confirmDrop(BuildContext context, int exIdx, String name) async {
-    final gc = context.gc;
-    final ok = await showDialog<bool>(
-      context: context,
-      builder: (dctx) => AlertDialog(
-        backgroundColor: gc.bgRaised,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        title: Text(t.dropExercise, style: AppTheme.d(18, weight: FontWeight.w700, color: gc.text)),
-        content: Text(t.dropExerciseBody(name), style: AppTheme.s(13, color: gc.textSecondary)),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(dctx).pop(false),
-            child: Text(t.cancel, style: AppTheme.s(14, color: gc.textSecondary)),
-          ),
-          TextButton(
-            onPressed: () => Navigator.of(dctx).pop(true),
-            child: Text(t.drop, style: AppTheme.s(14, weight: FontWeight.w700, color: gc.accent)),
-          ),
-        ],
-      ),
+    final ok = await askConfirm(
+      context,
+      title: t.dropExercise,
+      body: t.dropExerciseBody(name),
+      confirmLabel: t.drop,
     );
-    if (ok == true) fit.removeSessionExercise(exIdx);
+    if (ok) fit.removeSessionExercise(exIdx);
   }
 
   static const _numCol = 24.0;
@@ -530,14 +501,7 @@ class SessionScreen extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Center(
-              child: Container(
-                width: 40,
-                height: 4,
-                decoration:
-                    BoxDecoration(color: gc.bgRaised2, borderRadius: BorderRadius.circular(2)),
-              ),
-            ),
+            const SheetHandle(),
             const SizedBox(height: 18),
             Text(t.setType,
                 style: AppTheme.d(12,
@@ -643,44 +607,7 @@ class SessionScreen extends StatelessWidget {
     required bool decimal,
     required void Function(double) onSave,
   }) async {
-    final gc = context.gc;
-    final controller = TextEditingController(text: initial)
-      ..selection = TextSelection(baseOffset: 0, extentOffset: initial.length);
-
-    final raw = await showDialog<String>(
-      context: context,
-      builder: (dctx) => AlertDialog(
-        backgroundColor: gc.bgRaised,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        title: Text(title, style: AppTheme.d(14, weight: FontWeight.w700, color: gc.text, letterSpacing: 2)),
-        content: TextField(
-          controller: controller,
-          autofocus: true,
-          keyboardType: TextInputType.numberWithOptions(decimal: decimal),
-          textAlign: TextAlign.center,
-          style: AppTheme.d(32, weight: FontWeight.w700, color: gc.text),
-          cursorColor: gc.accent,
-          onSubmitted: (v) => Navigator.of(dctx).pop(v),
-          decoration: InputDecoration(
-            filled: true,
-            fillColor: gc.bgRaised2,
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(14), borderSide: BorderSide.none),
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(dctx).pop(),
-            child: Text(t.cancel, style: AppTheme.s(14, color: gc.textSecondary)),
-          ),
-          TextButton(
-            onPressed: () => Navigator.of(dctx).pop(controller.text),
-            child: Text(t.set, style: AppTheme.s(14, weight: FontWeight.w700, color: gc.accent)),
-          ),
-        ],
-      ),
-    );
-
-    final parsed = double.tryParse((raw ?? '').trim().replaceAll(',', '.'));
+    final parsed = await askNumber(context, title: title, initial: initial, decimal: decimal);
     if (parsed != null) onSave(parsed);
   }
 
@@ -896,33 +823,11 @@ void showAddToSessionSheet(BuildContext context) {
                         Text(t.addExercise,
                             style: AppTheme.d(15, weight: FontWeight.w700, color: gc.text, letterSpacing: 2)),
                         const SizedBox(height: 14),
-                        Container(
-                          height: 48,
-                          padding: const EdgeInsets.symmetric(horizontal: 16),
-                          decoration: BoxDecoration(
-                            color: gc.bgRaised2,
-                            border: Border.all(color: gc.border),
-                            borderRadius: BorderRadius.circular(100),
-                          ),
-                          child: Row(children: [
-                            SvgPathIcon(Ic.search, size: 16, color: gc.textSecondary),
-                            const SizedBox(width: 10),
-                            Expanded(
-                              child: TextField(
-                                controller: search,
-                                autofocus: false,
-                                onChanged: (_) => setSheet(() {}),
-                                style: AppTheme.s(14, color: gc.text),
-                                cursorColor: gc.accent,
-                                decoration: InputDecoration(
-                                  isCollapsed: true,
-                                  border: InputBorder.none,
-                                  hintText: t.searchExercises,
-                                  hintStyle: AppTheme.s(14, color: gc.textSecondary),
-                                ),
-                              ),
-                            ),
-                          ]),
+                        SearchField(
+                          controller: search,
+                          hint: t.searchExercises,
+                          color: gc.bgRaised2,
+                          onChanged: (_) => setSheet(() {}),
                         ),
                         const SizedBox(height: 12),
                         Text(q.isEmpty ? t.suggested.toUpperCase() : t.results.toUpperCase(),
@@ -947,30 +852,13 @@ void showAddToSessionSheet(BuildContext context) {
                   ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(20, 4, 20, 18),
-                    child: GestureDetector(
-                      behavior: HitTestBehavior.opaque,
+                    child: GhostButton(
+                      label: t.newExercise,
+                      icon: PhosphorIconsRegular.plus,
                       onTap: () {
                         Navigator.pop(sheetCtx);
                         showCreateExerciseSheet(context, onCreated: fit.addExerciseToSession);
                       },
-                      child: Container(
-                        height: 46,
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          border: Border.all(color: gc.border),
-                          borderRadius: BorderRadius.circular(14),
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(PhosphorIconsRegular.plus, size: 16, color: gc.ember),
-                            const SizedBox(width: 8),
-                            Text(t.newExercise,
-                                style: AppTheme.d(13,
-                                    weight: FontWeight.w600, color: gc.text, letterSpacing: 1)),
-                          ],
-                        ),
-                      ),
                     ),
                   ),
                 ],

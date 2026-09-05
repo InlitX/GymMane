@@ -18,14 +18,15 @@ import '../screens/routine_edit_screen.dart';
 import '../screens/routines_screen.dart';
 import '../screens/session_screen.dart';
 import '../screens/settings_screen.dart';
-import '../screens/tool_detail_screen.dart';
 import '../screens/timeline_screen.dart';
+import '../screens/tool_detail_screen.dart';
 import '../screens/tools_screen.dart';
 import '../screens/train_screen.dart';
 import '../state/fit_state.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
 import '../widgets/app_background.dart';
+import '../widgets/dialogs.dart';
 
 class AppShell extends StatefulWidget {
   const AppShell({super.key});
@@ -55,7 +56,6 @@ class _AppShellState extends State<AppShell> with WidgetsBindingObserver {
         state == AppLifecycleState.detached) {
       fit.persistNow();
     }
-    // al volver de los ajustes del sistema el permiso puede haber cambiado
     if (state == AppLifecycleState.resumed) fit.refreshAlarmPermission();
   }
 
@@ -96,30 +96,13 @@ class _AppShellState extends State<AppShell> with WidgetsBindingObserver {
     );
   }
 
-  Future<bool> _confirmDiscard(BuildContext context) async {
-    final gc = context.gc;
-    final ok = await showDialog<bool>(
-      context: context,
-      builder: (dctx) => AlertDialog(
-        backgroundColor: gc.bgRaised,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        title: Text(t.discardTitle, style: AppTheme.d(18, weight: FontWeight.w700, color: gc.text)),
-        content: Text(t.discardBody,
-            style: AppTheme.s(13, color: gc.textSecondary)),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(dctx).pop(false),
-            child: Text(t.keepTraining, style: AppTheme.s(14, color: gc.textSecondary)),
-          ),
-          TextButton(
-            onPressed: () => Navigator.of(dctx).pop(true),
-            child: Text(t.discard, style: AppTheme.s(14, weight: FontWeight.w700, color: gc.accent)),
-          ),
-        ],
-      ),
-    );
-    return ok ?? false;
-  }
+  Future<bool> _confirmDiscard(BuildContext context) => askConfirm(
+        context,
+        title: t.discardTitle,
+        body: t.discardBody,
+        cancelLabel: t.keepTraining,
+        confirmLabel: t.discard,
+      );
 
   Widget _animatedScreen() {
     return AnimatedSwitcher(

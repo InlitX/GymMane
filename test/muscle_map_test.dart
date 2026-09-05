@@ -13,7 +13,6 @@ void main() {
   tearDown(() => fit.sessions.clear());
 
   test('sets land on the primary muscle and half on the secondary ones', () {
-    // barbell-bench-press: chest primary, triceps secondary.
     final ex = fit.allExercises.firstWhere((e) => e.primary == 'chest' && e.secondary.contains('triceps'));
     fit.sessions.add(session(1, ex.id, 'chest', 4));
 

@@ -50,12 +50,8 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
   }
 
   List<Exercise> trainSearchResults(String query) {
-    final q = query.trim().toLowerCase();
-    if (q.isEmpty) return const [];
-    return allExercises
-        .where((e) => exerciseName(e).toLowerCase().contains(q) || e.name.toLowerCase().contains(q))
-        .take(40)
-        .toList();
+    if (query.trim().isEmpty) return const [];
+    return allExercises.where(exerciseSearch(query)).take(40).toList();
   }
 
   static const _pickTarget = 6;
@@ -331,7 +327,6 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
     notifyListeners();
   }
 
-  /// Para añadir sobre la marcha: favoritos y usados hace poco, sin repetir.
   List<Exercise> sessionSuggestions() {
     final inSession = session?.exercises.map((e) => e.id).toSet() ?? <String>{};
     final ids = <String>[];
@@ -441,7 +436,6 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
     summaryVsLast = previous?.volume;
   }
 
-  /// Reabre un entreno ya guardado para seguir donde se dejó.
   void resumeLoggedSession(LoggedSession ls) {
     if (session != null && !session!.complete) return;
     sessions.remove(ls);

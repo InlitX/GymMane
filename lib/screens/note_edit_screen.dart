@@ -5,12 +5,13 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 import '../l10n/l10n.dart';
 import '../models/exercise.dart';
 import '../models/note.dart';
+import '../services/exercise_match.dart';
 import '../services/media_store.dart';
 import '../state/fit_state.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
+import '../widgets/dialogs.dart';
 import '../widgets/note_kit.dart';
-import '../widgets/svg_icon.dart';
 import '../widgets/ui_kit.dart';
 
 const int _kNoteMaxLength = 1000;
@@ -84,27 +85,14 @@ class _NoteEditScreenState extends State<NoteEditScreen> {
   Future<void> _confirmDelete() async {
     final note = _note;
     if (note == null) return;
-    final gc = context.gc;
-    final ok = await showDialog<bool>(
-      context: context,
-      builder: (dctx) => AlertDialog(
-        backgroundColor: gc.bgRaised,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        title: Text(t.deleteNoteTitle, style: AppTheme.d(18, weight: FontWeight.w700, color: gc.text)),
-        content: Text(t.deleteNoteBody, style: AppTheme.s(13, color: gc.textSecondary)),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(dctx).pop(false),
-            child: Text(t.cancel, style: AppTheme.s(14, color: gc.textSecondary)),
-          ),
-          TextButton(
-            onPressed: () => Navigator.of(dctx).pop(true),
-            child: Text(t.delete, style: AppTheme.s(14, weight: FontWeight.w700, color: gc.danger)),
-          ),
-        ],
-      ),
+    final ok = await askConfirm(
+      context,
+      title: t.deleteNoteTitle,
+      body: t.deleteNoteBody,
+      confirmLabel: t.delete,
+      danger: true,
     );
-    if (ok != true) return;
+    if (!ok) return;
     fit.deleteNote(note.id);
     fit.closeNoteEditor();
   }
@@ -123,28 +111,15 @@ class _NoteEditScreenState extends State<NoteEditScreen> {
           children: [
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 12, 20, 8),
-              child: Row(
-                children: [
-                  RoundBtn(icon: Ic.chevronLeft, onTap: fit.closeNoteEditor),
-                  const SizedBox(width: 12),
-                  Expanded(child: ScreenTitle(_note == null ? t.newNote : t.editNote, size: 20)),
+              child: ScreenHeader(
+                title: _note == null ? t.newNote : t.editNote,
+                onBack: fit.closeNoteEditor,
+                actions: [
                   if (_note != null)
-                    Semantics(
-                      button: true,
+                    RoundAction(
                       label: t.delete,
-                      child: GestureDetector(
-                        onTap: _confirmDelete,
-                        child: Container(
-                          width: 36,
-                          height: 36,
-                          decoration: BoxDecoration(
-                            color: gc.bgRaised,
-                            shape: BoxShape.circle,
-                            border: Border.all(color: gc.border),
-                          ),
-                          child: Icon(PhosphorIconsRegular.trash, size: 16, color: gc.danger),
-                        ),
-                      ),
+                      onTap: _confirmDelete,
+                      child: Icon(PhosphorIconsRegular.trash, size: 16, color: gc.danger),
                     ),
                 ],
               ),
@@ -339,14 +314,9 @@ class _ExercisePickerSheetState extends State<_ExercisePickerSheet> {
   }
 
   List<Exercise> get _results {
-    final q = _q.text.trim().toLowerCase();
     final all = fit.allExercises;
-    if (q.isEmpty) return all.take(40).toList();
-    return all
-        .where((e) =>
-            e.name.toLowerCase().contains(q) || exerciseName(e).toLowerCase().contains(q))
-        .take(60)
-        .toList();
+    if (_q.text.trim().isEmpty) return all.take(40).toList();
+    return all.where(exerciseSearch(_q.text)).take(60).toList();
   }
 
   @override
@@ -366,12 +336,7 @@ class _ExercisePickerSheetState extends State<_ExercisePickerSheet> {
         clipBehavior: Clip.antiAlias,
         child: Column(
           children: [
-            Container(
-              width: 40,
-              height: 4,
-              margin: const EdgeInsets.symmetric(vertical: 12),
-              decoration: BoxDecoration(color: gc.border, borderRadius: BorderRadius.circular(2)),
-            ),
+            SheetHandle(color: gc.border, margin: const EdgeInsets.symmetric(vertical: 12)),
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 0, 20, 12),
               child: TextField(

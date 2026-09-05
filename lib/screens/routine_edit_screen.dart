@@ -4,6 +4,7 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 import '../catalog/exercise_catalog.dart';
 import '../l10n/l10n.dart';
 import '../models/exercise.dart';
+import '../services/exercise_match.dart';
 import '../state/fit_state.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
@@ -33,12 +34,8 @@ class _RoutineEditScreenState extends State<RoutineEditScreen> {
   }
 
   List<Exercise> get _filtered {
-    final q = _q.trim().toLowerCase();
-    if (q.isEmpty) return kExercises;
-    return kExercises
-        .where((e) =>
-            e.name.toLowerCase().contains(q) || exerciseName(e).toLowerCase().contains(q))
-        .toList();
+    if (_q.trim().isEmpty) return kExercises;
+    return kExercises.where(exerciseSearch(_q)).toList();
   }
 
   @override
@@ -141,32 +138,10 @@ class _RoutineEditScreenState extends State<RoutineEditScreen> {
           ),
         ],
         const SizedBox(height: 20),
-        Container(
-          height: 48,
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          decoration: BoxDecoration(
-            color: gc.bgRaised,
-            border: Border.all(color: gc.border),
-            borderRadius: BorderRadius.circular(100),
-          ),
-          child: Row(children: [
-            SvgPathIcon(Ic.search, size: 16, color: gc.textSecondary),
-            const SizedBox(width: 10),
-            Expanded(
-              child: TextField(
-                controller: _search,
-                onChanged: (v) => setState(() => _q = v),
-                style: AppTheme.s(14, color: gc.text),
-                cursorColor: gc.accent,
-                decoration: InputDecoration(
-                  isCollapsed: true,
-                  border: InputBorder.none,
-                  hintText: t.addExercises,
-                  hintStyle: AppTheme.s(14, color: gc.textSecondary),
-                ),
-              ),
-            ),
-          ]),
+        SearchField(
+          controller: _search,
+          hint: t.addExercises,
+          onChanged: (v) => setState(() => _q = v),
         ),
         const SizedBox(height: 12),
       ],

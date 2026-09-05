@@ -9,8 +9,6 @@ import android.graphics.BitmapFactory
 import android.widget.RemoteViews
 import es.antonborri.home_widget.HomeWidgetProvider
 
-/// Widget del mapa muscular: solo muestra el PNG que renderiza Flutter
-/// (WidgetBridge -> home_widget). Al tocarlo abre la app.
 class BodyWidgetProvider : HomeWidgetProvider() {
     override fun onUpdate(
         context: Context,

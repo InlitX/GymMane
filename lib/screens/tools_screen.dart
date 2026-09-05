@@ -7,7 +7,6 @@ import '../models/exercise.dart';
 import '../state/fit_state.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
-import '../widgets/svg_icon.dart';
 import '../widgets/ui_kit.dart';
 
 IconData _toolIcon(String id) => switch (id) {
@@ -32,13 +31,7 @@ class ToolsScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Row(
-              children: [
-                RoundBtn(icon: Ic.chevronLeft, onTap: fit.backFromTools),
-                const SizedBox(width: 12),
-                ScreenTitle(t.tools),
-              ],
-            ),
+            ScreenHeader(title: t.tools, onBack: fit.backFromTools, titleSize: 22),
             const SizedBox(height: 6),
             Padding(
               padding: const EdgeInsets.only(left: 48),

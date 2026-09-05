@@ -4,6 +4,7 @@ import '../l10n/l10n.dart';
 import '../state/fit_state.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
+import '../widgets/dialogs.dart';
 import '../widgets/svg_icon.dart';
 import '../widgets/ui_kit.dart';
 
@@ -142,45 +143,7 @@ class ToolDetailScreen extends StatelessWidget {
     required bool decimal,
     required void Function(double) apply,
   }) async {
-    final gc = context.gc;
-    final initial = fmt(current);
-    final controller = TextEditingController(text: initial)
-      ..selection = TextSelection(baseOffset: 0, extentOffset: initial.length);
-
-    final raw = await showDialog<String>(
-      context: context,
-      builder: (dctx) => AlertDialog(
-        backgroundColor: gc.bgRaised,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        title: Text(title, style: AppTheme.d(14, weight: FontWeight.w700, color: gc.text, letterSpacing: 2)),
-        content: TextField(
-          controller: controller,
-          autofocus: true,
-          keyboardType: TextInputType.numberWithOptions(decimal: decimal),
-          textAlign: TextAlign.center,
-          style: AppTheme.d(32, weight: FontWeight.w700, color: gc.text),
-          cursorColor: gc.accent,
-          onSubmitted: (v) => Navigator.of(dctx).pop(v),
-          decoration: InputDecoration(
-            filled: true,
-            fillColor: gc.bgRaised2,
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(14), borderSide: BorderSide.none),
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(dctx).pop(),
-            child: Text(t.cancel, style: AppTheme.s(14, color: gc.textSecondary)),
-          ),
-          TextButton(
-            onPressed: () => Navigator.of(dctx).pop(controller.text),
-            child: Text(t.set, style: AppTheme.s(14, weight: FontWeight.w700, color: gc.accent)),
-          ),
-        ],
-      ),
-    );
-
-    final parsed = double.tryParse((raw ?? '').trim().replaceAll(',', '.'));
+    final parsed = await askNumber(context, title: title, initial: fmt(current), decimal: decimal);
     if (parsed != null) apply(parsed);
   }
 

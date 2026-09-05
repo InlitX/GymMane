@@ -12,6 +12,7 @@ import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
 import '../widgets/body_map.dart';
 import '../widgets/charts.dart';
+import '../widgets/dialogs.dart';
 import '../widgets/svg_icon.dart';
 import '../widgets/ui_kit.dart';
 import 'share_sheet.dart';
@@ -809,13 +810,7 @@ class _DaySheet extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Center(
-              child: Container(
-                width: 40,
-                height: 4,
-                decoration: BoxDecoration(color: gc.bgRaised2, borderRadius: BorderRadius.circular(2)),
-              ),
-            ),
+            const SheetHandle(),
             const SizedBox(height: 18),
             Text(t.longDate(date),
                 style: AppTheme.d(20, weight: FontWeight.w700, color: gc.text)),
@@ -884,28 +879,13 @@ class _DaySheet extends StatelessWidget {
   }
 
   Future<void> _confirmResume(BuildContext context, LoggedSession s) async {
-    final gc = context.gc;
-    final ok = await showDialog<bool>(
-      context: context,
-      builder: (dctx) => AlertDialog(
-        backgroundColor: gc.bgRaised,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        title: Text(t.continueWorkout, style: AppTheme.d(18, weight: FontWeight.w700, color: gc.text)),
-        content: Text(t.continueWorkoutBody, style: AppTheme.s(13, color: gc.textSecondary)),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(dctx).pop(false),
-            child: Text(t.cancel, style: AppTheme.s(14, color: gc.textSecondary)),
-          ),
-          TextButton(
-            onPressed: () => Navigator.of(dctx).pop(true),
-            child: Text(t.continueWorkout,
-                style: AppTheme.s(14, weight: FontWeight.w700, color: gc.accent)),
-          ),
-        ],
-      ),
+    final ok = await askConfirm(
+      context,
+      title: t.continueWorkout,
+      body: t.continueWorkoutBody,
+      confirmLabel: t.continueWorkout,
     );
-    if (ok != true || !context.mounted) return;
+    if (!ok || !context.mounted) return;
     Navigator.of(context).pop();
     fit.resumeLoggedSession(s);
   }
@@ -968,27 +948,13 @@ class _DaySheet extends StatelessWidget {
   }
 
   Future<void> _confirmDelete(BuildContext context, LoggedSession s, LoggedExercise e) async {
-    final gc = context.gc;
-    final ok = await showDialog<bool>(
-      context: context,
-      builder: (dctx) => AlertDialog(
-        backgroundColor: gc.bgRaised,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        title: Text(t.deleteEntry, style: AppTheme.d(18, weight: FontWeight.w700, color: gc.text)),
-        content: Text(t.deleteEntryBody(t.catalogName(e.id, e.name)), style: AppTheme.s(13, color: gc.textSecondary)),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(dctx).pop(false),
-            child: Text(t.cancel, style: AppTheme.s(14, color: gc.textSecondary)),
-          ),
-          TextButton(
-            onPressed: () => Navigator.of(dctx).pop(true),
-            child: Text(t.delete, style: AppTheme.s(14, weight: FontWeight.w700, color: gc.accent)),
-          ),
-        ],
-      ),
+    final ok = await askConfirm(
+      context,
+      title: t.deleteEntry,
+      body: t.deleteEntryBody(t.catalogName(e.id, e.name)),
+      confirmLabel: t.delete,
     );
-    if (ok == true) fit.deleteLoggedExercise(s, e);
+    if (ok) fit.deleteLoggedExercise(s, e);
   }
 
   Widget _stat(GymColors gc, String label, String value) {
@@ -1038,11 +1004,7 @@ class _LogBodyweightSheetState extends State<_LogBodyweightSheet> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Container(
-            width: 40,
-            height: 4,
-            decoration: BoxDecoration(color: gc.bgRaised2, borderRadius: BorderRadius.circular(2)),
-          ),
+          const SheetHandle(),
           const SizedBox(height: 18),
           Text(t.logBodyweight,
               style: AppTheme.d(14, weight: FontWeight.w600, color: gc.text, letterSpacing: 2)),
@@ -1120,14 +1082,7 @@ void showEditLoggedSheet(BuildContext context, LoggedSession s, LoggedExercise e
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Center(
-                    child: Container(
-                      width: 40,
-                      height: 4,
-                      decoration:
-                          BoxDecoration(color: gc.bgRaised2, borderRadius: BorderRadius.circular(2)),
-                    ),
-                  ),
+                  const SheetHandle(),
                   const SizedBox(height: 18),
                   Text(t.catalogName(e.id, e.name), style: AppTheme.d(20, weight: FontWeight.w700, color: gc.text)),
                   const SizedBox(height: 4),

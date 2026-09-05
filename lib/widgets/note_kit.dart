@@ -10,6 +10,7 @@ import '../services/media_store.dart';
 import '../state/fit_state.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
+import 'ui_kit.dart';
 
 Color noteKindColor(GymColors gc, NoteKind k) => switch (k) {
       NoteKind.note => gc.info,
@@ -200,14 +201,7 @@ Future<void> showNoteDaySheet(BuildContext context, DateTime day) async {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Center(
-            child: Container(
-              width: 40,
-              height: 4,
-              decoration:
-                  BoxDecoration(color: gc.bgRaised2, borderRadius: BorderRadius.circular(2)),
-            ),
-          ),
+          const SheetHandle(),
           const SizedBox(height: 18),
           Text(noteDayLabel(day).toUpperCase(),
               style: AppTheme.d(13, weight: FontWeight.w700, color: gc.text, letterSpacing: 2)),

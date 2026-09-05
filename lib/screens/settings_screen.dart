@@ -22,6 +22,8 @@ import '../services/workout_import.dart';
 import '../state/fit_state.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
+import '../widgets/dialogs.dart';
+import '../widgets/photo_source_sheet.dart';
 import '../widgets/profile_avatar.dart';
 import '../widgets/ui_kit.dart';
 
@@ -274,27 +276,13 @@ class SettingsScreen extends StatelessWidget {
   }
 
   Future<void> _resetAll(BuildContext context) async {
-    final gc = context.gc;
-    final ok = await showDialog<bool>(
-      context: context,
-      builder: (dctx) => AlertDialog(
-        backgroundColor: gc.bgRaised,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        title: Text(t.resetTitle, style: AppTheme.d(18, weight: FontWeight.w700, color: gc.text)),
-        content: Text(t.resetBody, style: AppTheme.s(13, color: gc.textSecondary)),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(dctx).pop(false),
-            child: Text(t.cancel, style: AppTheme.s(14, color: gc.textSecondary)),
-          ),
-          TextButton(
-            onPressed: () => Navigator.of(dctx).pop(true),
-            child: Text(t.resetConfirm, style: AppTheme.s(14, weight: FontWeight.w700, color: gc.accent)),
-          ),
-        ],
-      ),
+    final ok = await askConfirm(
+      context,
+      title: t.resetTitle,
+      body: t.resetBody,
+      confirmLabel: t.resetConfirm,
     );
-    if (ok != true) return;
+    if (!ok) return;
     fit.resetAllData();
     if (context.mounted) _snack(context, t.resetDone);
   }
@@ -311,27 +299,13 @@ class SettingsScreen extends StatelessWidget {
   }
 
   Future<void> _importBackup(BuildContext context) async {
-    final gc = context.gc;
-    final ok = await showDialog<bool>(
-      context: context,
-      builder: (dctx) => AlertDialog(
-        backgroundColor: gc.bgRaised,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        title: Text(t.importBackup, style: AppTheme.d(18, weight: FontWeight.w700, color: gc.text)),
-        content: Text(t.importHint, style: AppTheme.s(13, color: gc.textSecondary)),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(dctx).pop(false),
-            child: Text(t.cancel, style: AppTheme.s(14, color: gc.textSecondary)),
-          ),
-          TextButton(
-            onPressed: () => Navigator.of(dctx).pop(true),
-            child: Text(t.chooseFile, style: AppTheme.s(14, weight: FontWeight.w700, color: gc.accent)),
-          ),
-        ],
-      ),
+    final ok = await askConfirm(
+      context,
+      title: t.importBackup,
+      body: t.importHint,
+      confirmLabel: t.chooseFile,
     );
-    if (ok != true) return;
+    if (!ok) return;
 
     Uint8List? bytes;
     try {
@@ -394,8 +368,6 @@ class SettingsScreen extends StatelessWidget {
   }
 
   Future<void> _importFromApp(BuildContext context) async {
-    // Se aceptan todos los ficheros y se mira el contenido: la copia de
-    // FitNotes lleva una extensión rara y el selector de Android la escondería.
     Uint8List? bytes;
     try {
       final result = await FilePicker.platform.pickFiles(withData: true);
@@ -411,7 +383,6 @@ class SettingsScreen extends StatelessWidget {
       return;
     }
 
-    // FitNotes: base de datos SQLite entera.
     if (SqliteDb.looksLikeSqlite(bytes)) {
       final parsed = parseFitNotes(bytes);
       if (parsed == null) {
@@ -425,7 +396,6 @@ class SettingsScreen extends StatelessWidget {
     String? raw;
     try {
       if (bytes.length > 2 && bytes[0] == 0x50 && bytes[1] == 0x4B) {
-        // Strong exporta las medidas en un zip con un csv por medida.
         raw = weightCsvFromZip(bytes);
         if (raw == null) {
           _snack(context, t.importZipNoWeights);
@@ -475,20 +445,13 @@ class SettingsScreen extends StatelessWidget {
     final gc = context.gc;
     return showDialog<bool>(
       context: context,
-      builder: (dctx) => AlertDialog(
-        backgroundColor: gc.bgRaised,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      builder: (dctx) => appDialog(
+        gc,
         title: Text(t.importUnitTitle, style: AppTheme.d(18, weight: FontWeight.w700, color: gc.text)),
         content: Text(t.importUnitBody, style: AppTheme.s(13, color: gc.textSecondary)),
         actions: [
-          TextButton(
-            onPressed: () => Navigator.of(dctx).pop(false),
-            child: Text('kg', style: AppTheme.s(14, weight: FontWeight.w700, color: gc.accent)),
-          ),
-          TextButton(
-            onPressed: () => Navigator.of(dctx).pop(true),
-            child: Text('lb', style: AppTheme.s(14, weight: FontWeight.w700, color: gc.accent)),
-          ),
+          dialogAction('kg', gc.accent, () => Navigator.of(dctx).pop(false)),
+          dialogAction('lb', gc.accent, () => Navigator.of(dctx).pop(true)),
         ],
       ),
     );
@@ -620,52 +583,6 @@ class SettingsScreen extends StatelessWidget {
   }
 }
 
-class _SourceSheet extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    final gc = context.gc;
-    return Container(
-      padding: const EdgeInsets.fromLTRB(20, 12, 20, 28),
-      decoration: BoxDecoration(
-        color: gc.bgRaised,
-        border: Border.all(color: gc.border),
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
-            width: 40,
-            height: 4,
-            decoration: BoxDecoration(color: gc.bgRaised2, borderRadius: BorderRadius.circular(2)),
-          ),
-          const SizedBox(height: 18),
-          _option(context, PhosphorIconsRegular.camera, t.takePhoto, ImageSource.camera),
-          const SizedBox(height: 10),
-          _option(context, PhosphorIconsRegular.image, t.chooseGallery, ImageSource.gallery),
-        ],
-      ),
-    );
-  }
-
-  Widget _option(BuildContext context, IconData icon, String label, ImageSource source) {
-    final gc = context.gc;
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      onTap: () => Navigator.of(context).pop(source),
-      child: SoftCard(
-        radius: 16,
-        padding: const EdgeInsets.all(16),
-        child: Row(children: [
-          Icon(icon, size: 20, color: gc.textSecondary),
-          const SizedBox(width: 14),
-          Expanded(child: Text(label, style: AppTheme.s(14, weight: FontWeight.w600, color: gc.text))),
-        ]),
-      ),
-    );
-  }
-}
-
 class _LanguageSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -681,13 +598,7 @@ class _LanguageSheet extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Center(
-            child: Container(
-              width: 40,
-              height: 4,
-              decoration: BoxDecoration(color: gc.bgRaised2, borderRadius: BorderRadius.circular(2)),
-            ),
-          ),
+          const SheetHandle(),
           const SizedBox(height: 18),
           Text(t.languageLabel,
               textAlign: TextAlign.center,
@@ -749,13 +660,7 @@ class _AlarmSoundSheet extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Center(
-            child: Container(
-              width: 40,
-              height: 4,
-              decoration: BoxDecoration(color: gc.bgRaised2, borderRadius: BorderRadius.circular(2)),
-            ),
-          ),
+          const SheetHandle(),
           const SizedBox(height: 18),
           Text(t.alarmSound,
               textAlign: TextAlign.center,
@@ -825,13 +730,7 @@ class _ProfileSheetState extends State<_ProfileSheet> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Center(
-              child: Container(
-                width: 40,
-                height: 4,
-                decoration: BoxDecoration(color: gc.bgRaised2, borderRadius: BorderRadius.circular(2)),
-              ),
-            ),
+            const SheetHandle(),
             const SizedBox(height: 18),
             Text(t.yourProfile,
                 textAlign: TextAlign.center,
@@ -928,11 +827,7 @@ class _ProfileSheetState extends State<_ProfileSheet> {
   }
 
   Future<void> _pickPhoto() async {
-    final source = await showModalBottomSheet<ImageSource>(
-      context: context,
-      backgroundColor: Colors.transparent,
-      builder: (sheetCtx) => _SourceSheet(),
-    );
+    final source = await pickPhotoSource(context);
     if (source == null) return;
 
     final shot = await ImagePicker().pickImage(

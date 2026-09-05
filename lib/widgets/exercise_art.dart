@@ -178,7 +178,6 @@ class _ArtPainter extends CustomPainter {
     canvas.translate(-b.center.dx, -b.center.dy);
 
     final n = art.frames.length;
-    // Un ciclo va 1-2-3-2 y vuelve: cada tramo aguanta la pose y funde al final.
     final steps = (n - 1) * 2;
     final pos = t * steps;
     final step = pos.floor() % steps;
