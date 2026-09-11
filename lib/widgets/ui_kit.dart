@@ -40,6 +40,9 @@ class SoftCard extends StatelessWidget {
   }
 }
 
+EdgeInsets sheetPad(BuildContext context, {double bottom = 28}) =>
+    EdgeInsets.fromLTRB(20, 12, 20, bottom + MediaQuery.paddingOf(context).bottom);
+
 class SearchField extends StatelessWidget {
   const SearchField({
     super.key,
@@ -59,7 +62,7 @@ class SearchField extends StatelessWidget {
     final gc = context.gc;
     return Container(
       height: 48,
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: const EdgeInsets.only(left: 16, right: 6),
       decoration: BoxDecoration(
         color: color ?? gc.bgRaised,
         border: Border.all(color: gc.border),
@@ -82,7 +85,66 @@ class SearchField extends StatelessWidget {
             ),
           ),
         ),
+        ValueListenableBuilder<TextEditingValue>(
+          valueListenable: controller,
+          builder: (context, value, _) => value.text.isEmpty
+              ? const SizedBox(width: 10)
+              : Semantics(
+                  button: true,
+                  label: MaterialLocalizations.of(context).deleteButtonTooltip,
+                  child: GestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    onTap: () {
+                      controller.clear();
+                      onChanged('');
+                    },
+                    child: SizedBox(
+                      width: 40,
+                      height: 48,
+                      child: Center(
+                        child: Container(
+                          width: 20,
+                          height: 20,
+                          decoration: BoxDecoration(color: gc.bgRaised2, shape: BoxShape.circle),
+                          child: Center(child: SvgPathIcon(Ic.close, size: 10, color: gc.textSecondary)),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+        ),
       ]),
+    );
+  }
+}
+
+class TinySwitch extends StatelessWidget {
+  const TinySwitch({super.key, required this.on});
+
+  final bool on;
+
+  @override
+  Widget build(BuildContext context) {
+    final gc = context.gc;
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 140),
+      width: 44,
+      height: 26,
+      padding: const EdgeInsets.all(3),
+      alignment: on ? Alignment.centerRight : Alignment.centerLeft,
+      decoration: BoxDecoration(
+        color: on ? gc.ember : gc.bgRaised2,
+        borderRadius: BorderRadius.circular(100),
+        border: Border.all(color: on ? gc.ember : gc.border),
+      ),
+      child: Container(
+        width: 20,
+        height: 20,
+        decoration: BoxDecoration(
+          color: on ? gc.onEmber : gc.textTertiary,
+          shape: BoxShape.circle,
+        ),
+      ),
     );
   }
 }
