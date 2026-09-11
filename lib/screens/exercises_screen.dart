@@ -37,106 +37,212 @@ class _ExercisesScreenState extends State<ExercisesScreen> {
 
     return SafeArea(
       bottom: false,
-      child: ListView.builder(
-        padding: const EdgeInsets.fromLTRB(20, 12, 20, 110),
-        itemCount: (list.isEmpty ? 1 : list.length) + 1,
-        itemBuilder: (context, i) {
-          if (i == 0) return _header(gc, list.length);
-          if (list.isEmpty) return _empty(gc);
-          return Padding(
-            padding: const EdgeInsets.only(bottom: 10),
-            child: _card(gc, list[i - 1]),
-          );
-        },
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20, 12, 20, 12),
+            child: _header(context, gc, list.length),
+          ),
+          Expanded(
+            child: ListView.builder(
+              padding: const EdgeInsets.fromLTRB(20, 0, 20, 110),
+              itemCount: list.isEmpty ? 1 : list.length,
+              itemBuilder: (context, i) {
+                if (list.isEmpty) return _empty(gc);
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 10),
+                  child: _card(gc, list[i]),
+                );
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
 
-  Widget _header(GymColors gc, int count) {
+  int get _activeFilters =>
+      (fit.activePlaceId.isEmpty ? 0 : 1) +
+      (fit.exMuscleFilter == null ? 0 : 1) +
+      (fit.exEquipmentFilter == null ? 0 : 1) +
+      (fit.exDifficultyFilter == null ? 0 : 1);
+
+  void _clearAll() {
+    _c.clear();
+    fit.clearExFilters();
+  }
+
+  Widget _header(BuildContext context, GymColors gc, int count) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        ScreenTitle(t.exercises),
-        const SizedBox(height: 4),
-        Text(t.libraryCount(count), style: AppTheme.s(13, color: gc.textSecondary)),
-        const SizedBox(height: 14),
-        SearchField(controller: _c, hint: t.searchExercises, onChanged: fit.setExSearch),
-        const SizedBox(height: 14),
-        GestureDetector(
-          behavior: HitTestBehavior.opaque,
-          onTap: fit.toggleFavouritesFilter,
-          child: Semantics(
-            button: true,
-            selected: fit.exFavouritesOnly,
-            child: Container(
-              height: 46,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                color: fit.exFavouritesOnly ? gc.accentSoft : Colors.transparent,
-                border: Border.all(color: fit.exFavouritesOnly ? gc.accent : gc.border),
-                borderRadius: BorderRadius.circular(14),
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
+        Row(
+          children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _star(gc, fit.exFavouritesOnly),
-                  const SizedBox(width: 8),
-                  Text(
-                    fit.favouriteCount > 0
-                        ? '${t.favouritesOnly.toUpperCase()} · ${fit.favouriteCount}'
-                        : t.favouritesOnly.toUpperCase(),
-                    style: AppTheme.d(13,
-                        weight: FontWeight.w600,
-                        color: fit.exFavouritesOnly ? gc.accent : gc.text,
-                        letterSpacing: 1),
-                  ),
+                  ScreenTitle(t.exercises),
+                  const SizedBox(height: 4),
+                  Text(t.libraryCount(count), style: AppTheme.s(13, color: gc.textSecondary)),
                 ],
               ),
             ),
+            RoundAction(
+              size: 40,
+              label: t.newExercise,
+              onTap: () => showCreateExerciseSheet(context),
+              child: Icon(PhosphorIconsRegular.plus, size: 17, color: gc.text),
+            ),
+          ],
+        ),
+        const SizedBox(height: 14),
+        SearchField(controller: _c, hint: t.searchExercises, onChanged: fit.setExSearch),
+        const SizedBox(height: 10),
+        _quickChips(context, gc),
+      ],
+    );
+  }
+
+  Widget _quickChips(BuildContext context, GymColors gc) {
+    final active = _activeFilters;
+    final anyOn = active > 0 || fit.exNoGearOnly || fit.exFavouritesOnly;
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(children: [
+        Pill(
+          label: active > 0 ? '${t.filters} · $active' : t.filters,
+          bg: active > 0 ? gc.ember : gc.bgRaised2,
+          fg: active > 0 ? gc.onEmber : gc.textSecondary,
+          onTap: () => _openFilters(context),
+          hPad: 14,
+          vPad: 7,
+          fontSize: 12.5,
+        ),
+        const SizedBox(width: 8),
+        Pill(
+          label: fit.favouriteCount > 0
+              ? '${t.favouritesOnly} · ${fit.favouriteCount}'
+              : t.favouritesOnly,
+          bg: fit.exFavouritesOnly ? gc.ember : gc.bgRaised2,
+          fg: fit.exFavouritesOnly ? gc.onEmber : gc.textSecondary,
+          onTap: fit.toggleFavouritesFilter,
+          hPad: 14,
+          vPad: 7,
+          fontSize: 12.5,
+        ),
+        const SizedBox(width: 8),
+        Pill(
+          label: t.noGearOnly,
+          bg: fit.exNoGearOnly ? gc.ember : gc.bgRaised2,
+          fg: fit.exNoGearOnly ? gc.onEmber : gc.textSecondary,
+          onTap: fit.toggleNoGearFilter,
+          hPad: 14,
+          vPad: 7,
+          fontSize: 12.5,
+        ),
+        if (anyOn) ...[
+          const SizedBox(width: 8),
+          Pill(
+            label: t.clearFilters,
+            bg: Colors.transparent,
+            fg: gc.accent,
+            onTap: _clearAll,
+            hPad: 10,
+            vPad: 7,
+            fontSize: 12.5,
+          ),
+        ],
+      ]),
+    );
+  }
+
+  void _openFilters(BuildContext context) {
+    final gc = context.gc;
+    showModalBottomSheet<void>(
+      context: context,
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
+      builder: (sheet) => StatefulBuilder(
+        builder: (sheet, setSheet) => Container(
+          padding: sheetPad(sheet),
+          constraints: BoxConstraints(maxHeight: MediaQuery.sizeOf(sheet).height * 0.85),
+          decoration: BoxDecoration(
+            color: gc.bgRaised,
+            border: Border.all(color: gc.border),
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
+          ),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const SheetHandle(),
+                const SizedBox(height: 18),
+                Text(t.filters,
+                    textAlign: TextAlign.center,
+                    style: AppTheme.d(14, weight: FontWeight.w700, color: gc.text, letterSpacing: 2)),
+                const SizedBox(height: 18),
+                _filterLabel(gc, t.placeFilterLabel),
+                const SizedBox(height: 8),
+                _chipRow([
+                  _FilterChipData(t.placeAll, fit.activePlaceId.isEmpty,
+                      () => setSheet(() => fit.setActivePlace(''))),
+                  for (final place in fit.places)
+                    _FilterChipData(place.name, fit.activePlaceId == place.id,
+                        () => setSheet(() => fit.setActivePlace(place.id))),
+                  _FilterChipData(fit.places.isEmpty ? t.placeNew : '+', false, () {
+                    Navigator.pop(sheet);
+                    fit.goPlaces();
+                  }),
+                ], gc, hPad: 14, vPad: 8, fontSize: 13),
+                const SizedBox(height: 16),
+                _filterLabel(gc, t.muscleFilter),
+                const SizedBox(height: 8),
+                _chipRow([
+                  for (final id in kFilterMuscles)
+                    _FilterChipData(muscleLabel(id), fit.exMuscleFilter == id,
+                        () => setSheet(() => fit.setMuscleFilter(id))),
+                ], gc, hPad: 14, vPad: 8, fontSize: 13),
+                const SizedBox(height: 16),
+                _filterLabel(gc, t.equipmentLabel),
+                const SizedBox(height: 8),
+                _chipRow([
+                  _FilterChipData(
+                      t.noGearOnly, fit.exNoGearOnly, () => setSheet(fit.toggleNoGearFilter)),
+                  for (final e in kFilterEquipment)
+                    _FilterChipData(t.equipment(e), fit.exEquipmentFilter == e,
+                        () => setSheet(() => fit.setEquipmentFilter(e))),
+                ], gc, hPad: 12, vPad: 6, fontSize: 12),
+                const SizedBox(height: 16),
+                _filterLabel(gc, t.levelFilter),
+                const SizedBox(height: 8),
+                _chipRow([
+                  for (final d in kDifficulties)
+                    _FilterChipData(t.difficulty(d), fit.exDifficultyFilter == d,
+                        () => setSheet(() => fit.setDifficultyFilter(d))),
+                ], gc, hPad: 12, vPad: 6, fontSize: 12),
+                const SizedBox(height: 22),
+                PrimaryButton(
+                    label: t.libraryCount(fit.exercisesFiltered.length),
+                    onTap: () => Navigator.pop(sheet)),
+                const SizedBox(height: 6),
+                GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTap: () => setSheet(_clearAll),
+                  child: Container(
+                    height: 44,
+                    alignment: Alignment.center,
+                    child: Text(t.clearFilters,
+                        style: AppTheme.s(13, weight: FontWeight.w600, color: gc.accent)),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
-        const SizedBox(height: 14),
-        _filterLabel(gc, t.placeFilterLabel),
-        const SizedBox(height: 8),
-        _chipRow([
-          _FilterChipData(t.placeAll, fit.activePlaceId.isEmpty,
-              () => fit.setActivePlace('')),
-          for (final place in fit.places)
-            _FilterChipData(place.name, fit.activePlaceId == place.id,
-                () => fit.setActivePlace(place.id)),
-          _FilterChipData(fit.places.isEmpty ? t.placeNew : '+', false, fit.goPlaces),
-        ], gc, hPad: 14, vPad: 8, fontSize: 13),
-        const SizedBox(height: 14),
-        _filterLabel(gc, t.muscleFilter),
-        const SizedBox(height: 8),
-        _chipRow([
-          for (final id in kFilterMuscles)
-            _FilterChipData(muscleLabel(id), fit.exMuscleFilter == id, () => fit.setMuscleFilter(id)),
-        ], gc, hPad: 14, vPad: 8, fontSize: 13),
-        const SizedBox(height: 14),
-        _filterLabel(gc, t.equipmentLabel),
-        const SizedBox(height: 8),
-        _chipRow([
-          _FilterChipData(t.noGearOnly, fit.exNoGearOnly, fit.toggleNoGearFilter),
-          for (final e in kFilterEquipment)
-            _FilterChipData(
-                t.equipment(e), fit.exEquipmentFilter == e, () => fit.setEquipmentFilter(e)),
-        ], gc, hPad: 12, vPad: 6, fontSize: 12),
-        const SizedBox(height: 14),
-        _filterLabel(gc, t.levelFilter),
-        const SizedBox(height: 8),
-        _chipRow([
-          for (final d in kDifficulties)
-            _FilterChipData(t.difficulty(d), fit.exDifficultyFilter == d, () => fit.setDifficultyFilter(d)),
-        ], gc, hPad: 12, vPad: 6, fontSize: 12),
-        const SizedBox(height: 14),
-        GhostButton(
-          label: t.newExercise,
-          icon: PhosphorIconsRegular.plus,
-          onTap: () => showCreateExerciseSheet(context),
-        ),
-        const SizedBox(height: 14),
-      ],
+      ),
     );
   }
 
@@ -183,7 +289,7 @@ class _ExercisesScreenState extends State<ExercisesScreen> {
           const SizedBox(height: 16),
           GestureDetector(
             behavior: HitTestBehavior.opaque,
-            onTap: fit.clearExFilters,
+            onTap: _clearAll,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
               child: Text(t.clearFilters,
