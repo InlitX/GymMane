@@ -203,6 +203,26 @@ class AppLocalizationsRu extends AppLocalizations {
   String get finishSession => 'ЗАВЕРШИТЬ';
 
   @override
+  String get setDone => 'SET DONE';
+
+  @override
+  String get nextExercise => 'NEXT EXERCISE';
+
+  @override
+  String get skipExercise => 'Skip this exercise?';
+
+  @override
+  String skipExerciseBody(String name) {
+    return 'You haven\'t marked any set as done, so nothing gets logged for \"$name\".';
+  }
+
+  @override
+  String get dropExerciseAction => 'Drop exercise';
+
+  @override
+  String get restOff => 'Off';
+
+  @override
   String get setCol => '№';
 
   @override
@@ -1876,4 +1896,278 @@ class AppLocalizationsRu extends AppLocalizations {
   String daysShort(int n) {
     return '$n д';
   }
+
+  @override
+  String get focusCard => 'Today’s focus';
+
+  @override
+  String get autoAdvance => 'Move on automatically';
+
+  @override
+  String get autoAdvanceHint => 'When the last set of an exercise is ticked, the workout moves on.';
+
+  @override
+  String get autoProgress => 'Add weight next time';
+
+  @override
+  String autoProgressHint(String w) {
+    return 'Hit every rep and the next session starts $w heavier.';
+  }
+
+  @override
+  String get placePlates => 'Plates and bar';
+
+  @override
+  String get platesAll => 'Everything available';
+
+  @override
+  String platesOwned(int n) {
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n sizes', one: '$n size');
+    return '$_temp0';
+  }
+
+  @override
+  String get platePairs => 'PAIRS';
+
+  @override
+  String plateAchievable(String w) {
+    return 'Closest you can load: $w';
+  }
+
+  @override
+  String get autoWarmup => 'Start with warm-up sets';
+
+  @override
+  String get autoWarmupHint => 'Adds the ramp-up sets when the workout opens.';
+
+  @override
+  String get trainReminder => 'Training reminder';
+
+  @override
+  String get trainReminderHint => 'A nudge at this time, only on the days your routine is planned.';
+
+  @override
+  String get notifTrainChannel => 'Training reminder';
+
+  @override
+  String get notifTrainChannelWhy => 'A nudge to train on the days you planned.';
+
+  @override
+  String get notifTrainTitle => 'Time to train';
+
+  @override
+  String get notifTrainBody => 'Your routine is waiting.';
+
+  @override
+  String get exportCatalog => 'Export exercise list';
+
+  @override
+  String get importRoutine => 'Import a routine (JSON)';
+
+  @override
+  String get planIntro => 'Build me a training routine using only the exercises in this list.';
+
+  @override
+  String get planFormat => 'Answer with JSON only, in this shape:';
+
+  @override
+  String planImported(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n exercises added to the routine',
+      one: '$n exercise added to the routine',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get planNothing => 'No exercise in that file matched your library';
+
+  @override
+  String get planFailed => 'That file is not a routine we can read';
+
+  @override
+  String get routineGroup => 'Group';
+
+  @override
+  String get newGroup => 'New group';
+
+  @override
+  String get noGroup => 'No group';
+
+  @override
+  String get groupNameHint => 'Push / Pull / Legs, 5×5…';
+
+  @override
+  String get filters => 'Filters';
+
+  @override
+  String get setsPlannedHint => 'Pick how many sets you want of each one. The workout opens with them ready.';
+
+  @override
+  String get nextTime => 'NEXT';
+
+  @override
+  String get nextHold => 'same weight until you hit every rep';
+
+  @override
+  String get bgPhoto => 'Your photo';
+
+  @override
+  String get bgPhotoPick => 'Choose a photo';
+
+  @override
+  String get bgPhotoChange => 'Change photo';
+
+  @override
+  String get bgPhotoRemove => 'Remove photo';
+
+  @override
+  String get bgDim => 'HOW DARK';
+
+  @override
+  String get dimSoft => 'Soft';
+
+  @override
+  String get dimMedium => 'Medium';
+
+  @override
+  String get dimStrong => 'Strong';
+
+  @override
+  String get bgPhotoHint => 'It sits behind everything, dimmed so the app stays readable.';
+
+  @override
+  String get reminderSmart => 'Smart';
+
+  @override
+  String get reminderFixed => 'Fixed time';
+
+  @override
+  String get reminderSmartHint =>
+      'It uses the days and the time you actually train, and stays quiet on a day you already trained.';
+
+  @override
+  String get reminderSmartEmpty => 'Log a few more sessions and it will learn your days.';
+
+  @override
+  String habitFocus(String day) {
+    return 'what you usually train on $day';
+  }
+
+  @override
+  String get duplicateRoutine => 'Duplicate routine';
+
+  @override
+  String copySuffix(String name) {
+    return '$name (copy)';
+  }
+
+  @override
+  String get saveAsRoutine => 'SAVE AS A ROUTINE';
+
+  @override
+  String get savedAsRoutine => 'Saved as a routine';
+
+  @override
+  String get templates => 'Ready-made plans';
+
+  @override
+  String get templatesHint =>
+      'Classic programmes, built from your own library. You can change anything afterwards.';
+
+  @override
+  String templateAdded(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n routines added',
+      one: '$n routine added',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get tplFullbody => 'Three full-body days a week. The one to start with.';
+
+  @override
+  String get tplPpl => 'Push, pull and legs. Three or six days a week.';
+
+  @override
+  String get tplUpperlower => 'Upper and lower body, four days a week.';
+
+  @override
+  String get tplStronglifts => 'Two workouts, five sets of five, alternating.';
+
+  @override
+  String get tplStartingstrength => 'Squat every session, two alternating workouts.';
+
+  @override
+  String get tplHome => 'Nothing but a bar to hang from and the floor.';
+
+  @override
+  String dayCount(int n) {
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n days', one: '$n day');
+    return '$_temp0';
+  }
+
+  @override
+  String get logRpe => 'Log effort (RPE)';
+
+  @override
+  String get rpeTitle => 'EFFORT (RPE)';
+
+  @override
+  String get rpeHint => '10 is nothing left in the tank, 8 is two reps to spare.';
+
+  @override
+  String get superset => 'Superset';
+
+  @override
+  String get supersetLink => 'Chain with the next one';
+
+  @override
+  String get supersetHint => 'No rest between chained exercises — you go straight to the next one.';
+
+  @override
+  String get aiRoutine => 'Routine with AI';
+
+  @override
+  String get aiIntro =>
+      'GymMane never talks to an AI. You take your exercise list out, you paste it into whatever assistant you already use, and you bring its answer back in. Nothing leaves the phone on its own.';
+
+  @override
+  String get aiStep1 =>
+      'Export your exercise list. If you picked a place, it only includes what you can do there.';
+
+  @override
+  String get aiStep2 => 'Hand that file to any AI and ask it for a routine.';
+
+  @override
+  String get aiStep3 => 'Save its answer as a file — JSON or plain text, either works.';
+
+  @override
+  String get aiStep4 =>
+      'Import it here. The names are matched against your library and the routine is built.';
+
+  @override
+  String aiMissing(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n names were not in your library',
+      one: '1 name was not in your library',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get importApps => 'Which apps it reads';
+
+  @override
+  String get importOtherCsv => 'Any other CSV with date, exercise, reps and weight';
+
+  @override
+  String get importAskApp => 'Need another app? Ask for it';
 }

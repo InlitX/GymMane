@@ -189,6 +189,26 @@ class AppLocalizationsZh extends AppLocalizations {
   String get finishSession => '完成训练';
 
   @override
+  String get setDone => '完成一组';
+
+  @override
+  String get nextExercise => '下一个动作';
+
+  @override
+  String get skipExercise => '跳过这个动作？';
+
+  @override
+  String skipExerciseBody(String name) {
+    return '你还没有标记任何一组，所以「$name」不会被记录。';
+  }
+
+  @override
+  String get dropExerciseAction => '移除动作';
+
+  @override
+  String get restOff => '关闭';
+
+  @override
   String get setCol => '#';
 
   @override
@@ -1225,7 +1245,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get importFromApp => '从其他应用导入';
 
   @override
-  String get importUnknownFormat => '不支持的文件格式。仅支持 Hevy、Strong 或 FitNotes 的导出文件';
+  String get importUnknownFormat => '该文件需要日期、动作、次数和重量这几列';
 
   @override
   String get importZipNoWeights => '该 zip 压缩包中未包含体重数据文件';
@@ -1746,4 +1766,253 @@ class AppLocalizationsZh extends AppLocalizations {
   String daysShort(int n) {
     return '${n}d';
   }
+
+  @override
+  String get focusCard => '今日重点';
+
+  @override
+  String get autoAdvance => '自动进入下一个动作';
+
+  @override
+  String get autoAdvanceHint => '勾选一个动作的最后一组后，训练会自动进入下一个动作。';
+
+  @override
+  String get autoProgress => '下次自动加重';
+
+  @override
+  String autoProgressHint(String w) {
+    return '完成全部次数后，下次训练自动增加 $w。';
+  }
+
+  @override
+  String get placePlates => '杠铃片和杠铃杆';
+
+  @override
+  String get platesAll => '全部可用';
+
+  @override
+  String platesOwned(int n) {
+    return '$n 种';
+  }
+
+  @override
+  String get platePairs => '对数';
+
+  @override
+  String plateAchievable(String w) {
+    return '最接近可加到：$w';
+  }
+
+  @override
+  String get autoWarmup => '先做热身组';
+
+  @override
+  String get autoWarmupHint => '开始训练时自动加入热身组。';
+
+  @override
+  String get trainReminder => '训练提醒';
+
+  @override
+  String get trainReminderHint => '在你安排了计划的日子，按这个时间提醒你。';
+
+  @override
+  String get notifTrainChannel => '训练提醒';
+
+  @override
+  String get notifTrainChannelWhy => '在你安排训练的日子提醒你。';
+
+  @override
+  String get notifTrainTitle => '该训练了';
+
+  @override
+  String get notifTrainBody => '你的训练计划在等你。';
+
+  @override
+  String get exportCatalog => '导出动作清单';
+
+  @override
+  String get importRoutine => '导入训练计划（JSON）';
+
+  @override
+  String get planIntro => '只用这份清单里的动作，帮我做一份训练计划。';
+
+  @override
+  String get planFormat => '只用 JSON 回答，格式如下：';
+
+  @override
+  String planImported(int n) {
+    return '已向训练计划加入 $n 个动作';
+  }
+
+  @override
+  String get planNothing => '该文件中的动作都不在你的动作库里';
+
+  @override
+  String get planFailed => '无法读取该训练计划文件';
+
+  @override
+  String get routineGroup => '分组';
+
+  @override
+  String get newGroup => '新建分组';
+
+  @override
+  String get noGroup => '不分组';
+
+  @override
+  String get groupNameHint => '推 / 拉 / 腿，5×5…';
+
+  @override
+  String get filters => '筛选';
+
+  @override
+  String get setsPlannedHint => '为每个动作选好组数，训练开始时就已经排好。';
+
+  @override
+  String get nextTime => '下次';
+
+  @override
+  String get nextHold => '保持重量，直到完成全部次数';
+
+  @override
+  String get bgPhoto => '你的照片';
+
+  @override
+  String get bgPhotoPick => '选择照片';
+
+  @override
+  String get bgPhotoChange => '更换照片';
+
+  @override
+  String get bgPhotoRemove => '移除照片';
+
+  @override
+  String get bgDim => '变暗程度';
+
+  @override
+  String get dimSoft => '轻';
+
+  @override
+  String get dimMedium => '中';
+
+  @override
+  String get dimStrong => '重';
+
+  @override
+  String get bgPhotoHint => '照片在最底层，会调暗以保证界面清晰。';
+
+  @override
+  String get reminderSmart => '智能';
+
+  @override
+  String get reminderFixed => '固定时间';
+
+  @override
+  String get reminderSmartHint => '按你实际训练的日子和时间提醒；当天已经练过就不再打扰。';
+
+  @override
+  String get reminderSmartEmpty => '再多记录几次训练，它就会学到你的规律。';
+
+  @override
+  String habitFocus(String day) {
+    return '你在$day常练的';
+  }
+
+  @override
+  String get duplicateRoutine => '复制训练计划';
+
+  @override
+  String copySuffix(String name) {
+    return '$name（副本）';
+  }
+
+  @override
+  String get saveAsRoutine => '保存为训练计划';
+
+  @override
+  String get savedAsRoutine => '已保存为训练计划';
+
+  @override
+  String get templates => '现成计划';
+
+  @override
+  String get templatesHint => '经典训练计划，用你自己的动作库拼成。之后都能改。';
+
+  @override
+  String templateAdded(int n) {
+    return '已加入 $n 个训练计划';
+  }
+
+  @override
+  String get tplFullbody => '每周三次全身训练，新手从这里开始。';
+
+  @override
+  String get tplPpl => '推、拉、腿，每周三天或六天。';
+
+  @override
+  String get tplUpperlower => '上肢和下肢，每周四天。';
+
+  @override
+  String get tplStronglifts => '两个训练日，五组五次，交替进行。';
+
+  @override
+  String get tplStartingstrength => '每次都练深蹲，两个训练日交替。';
+
+  @override
+  String get tplHome => '只需要一根单杠和地板。';
+
+  @override
+  String dayCount(int n) {
+    return '$n 天';
+  }
+
+  @override
+  String get logRpe => '记录用力程度（RPE）';
+
+  @override
+  String get rpeTitle => '用力程度（RPE）';
+
+  @override
+  String get rpeHint => '10 表示一次也做不动了，8 表示还能再做两次。';
+
+  @override
+  String get superset => '超级组';
+
+  @override
+  String get supersetLink => '与下一个动作相连';
+
+  @override
+  String get supersetHint => '相连的动作之间不休息，直接进入下一个。';
+
+  @override
+  String get aiRoutine => '用 AI 生成计划';
+
+  @override
+  String get aiIntro => 'GymMane 不会和任何 AI 通信。你把动作清单导出，粘贴给你惯用的助手，再把它的回答导回来。手机不会自己往外发任何东西。';
+
+  @override
+  String get aiStep1 => '导出你的动作清单。如果选了场地，只会包含你在那里能做的动作。';
+
+  @override
+  String get aiStep2 => '把这个文件交给任意 AI，请它给你一份训练计划。';
+
+  @override
+  String get aiStep3 => '把它的回答存成文件，JSON 或纯文本都可以。';
+
+  @override
+  String get aiStep4 => '在这里导入。名称会和你的动作库对上，计划就建好了。';
+
+  @override
+  String aiMissing(int n) {
+    return '有 $n 个名称不在你的动作库里';
+  }
+
+  @override
+  String get importApps => '支持哪些 app';
+
+  @override
+  String get importOtherCsv => '任何含日期、动作、次数和重量的 CSV';
+
+  @override
+  String get importAskApp => '需要其他 app？告诉我';
 }

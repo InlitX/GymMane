@@ -86,6 +86,15 @@ extension GymL10n on AppLocalizations {
         _ => toolHintWarmup,
       };
 
+  String templateBlurb(String id) => switch (id) {
+        'fullbody' => tplFullbody,
+        'ppl' => tplPpl,
+        'upperlower' => tplUpperlower,
+        'stronglifts' => tplStronglifts,
+        'startingstrength' => tplStartingstrength,
+        _ => tplHome,
+      };
+
   String toolDesc(String id) => switch (id) {
         'rm' => toolDescRm,
         'bmi' => toolDescBmi,

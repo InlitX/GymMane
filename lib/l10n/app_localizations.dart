@@ -439,6 +439,42 @@ abstract class AppLocalizations {
   /// **'FINISH SESSION'**
   String get finishSession;
 
+  /// No description provided for @setDone.
+  ///
+  /// In en, this message translates to:
+  /// **'SET DONE'**
+  String get setDone;
+
+  /// No description provided for @nextExercise.
+  ///
+  /// In en, this message translates to:
+  /// **'NEXT EXERCISE'**
+  String get nextExercise;
+
+  /// No description provided for @skipExercise.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip this exercise?'**
+  String get skipExercise;
+
+  /// No description provided for @skipExerciseBody.
+  ///
+  /// In en, this message translates to:
+  /// **'You haven\'t marked any set as done, so nothing gets logged for \"{name}\".'**
+  String skipExerciseBody(String name);
+
+  /// No description provided for @dropExerciseAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Drop exercise'**
+  String get dropExerciseAction;
+
+  /// No description provided for @restOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Off'**
+  String get restOff;
+
   /// No description provided for @setCol.
   ///
   /// In en, this message translates to:
@@ -2284,7 +2320,7 @@ abstract class AppLocalizations {
   /// No description provided for @importUnknownFormat.
   ///
   /// In en, this message translates to:
-  /// **'That file isn\'t an export from Hevy, Strong or FitNotes'**
+  /// **'That file needs date, exercise, reps and weight columns'**
   String get importUnknownFormat;
 
   /// No description provided for @importZipNoWeights.
@@ -3270,6 +3306,468 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{n}d'**
   String daysShort(int n);
+
+  /// No description provided for @focusCard.
+  ///
+  /// In en, this message translates to:
+  /// **'Today’s focus'**
+  String get focusCard;
+
+  /// No description provided for @autoAdvance.
+  ///
+  /// In en, this message translates to:
+  /// **'Move on automatically'**
+  String get autoAdvance;
+
+  /// No description provided for @autoAdvanceHint.
+  ///
+  /// In en, this message translates to:
+  /// **'When the last set of an exercise is ticked, the workout moves on.'**
+  String get autoAdvanceHint;
+
+  /// No description provided for @autoProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'Add weight next time'**
+  String get autoProgress;
+
+  /// No description provided for @autoProgressHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Hit every rep and the next session starts {w} heavier.'**
+  String autoProgressHint(String w);
+
+  /// No description provided for @placePlates.
+  ///
+  /// In en, this message translates to:
+  /// **'Plates and bar'**
+  String get placePlates;
+
+  /// No description provided for @platesAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Everything available'**
+  String get platesAll;
+
+  /// No description provided for @platesOwned.
+  ///
+  /// In en, this message translates to:
+  /// **'{n, plural, =1{{n} size} other{{n} sizes}}'**
+  String platesOwned(int n);
+
+  /// No description provided for @platePairs.
+  ///
+  /// In en, this message translates to:
+  /// **'PAIRS'**
+  String get platePairs;
+
+  /// No description provided for @plateAchievable.
+  ///
+  /// In en, this message translates to:
+  /// **'Closest you can load: {w}'**
+  String plateAchievable(String w);
+
+  /// No description provided for @autoWarmup.
+  ///
+  /// In en, this message translates to:
+  /// **'Start with warm-up sets'**
+  String get autoWarmup;
+
+  /// No description provided for @autoWarmupHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Adds the ramp-up sets when the workout opens.'**
+  String get autoWarmupHint;
+
+  /// No description provided for @trainReminder.
+  ///
+  /// In en, this message translates to:
+  /// **'Training reminder'**
+  String get trainReminder;
+
+  /// No description provided for @trainReminderHint.
+  ///
+  /// In en, this message translates to:
+  /// **'A nudge at this time, only on the days your routine is planned.'**
+  String get trainReminderHint;
+
+  /// No description provided for @notifTrainChannel.
+  ///
+  /// In en, this message translates to:
+  /// **'Training reminder'**
+  String get notifTrainChannel;
+
+  /// No description provided for @notifTrainChannelWhy.
+  ///
+  /// In en, this message translates to:
+  /// **'A nudge to train on the days you planned.'**
+  String get notifTrainChannelWhy;
+
+  /// No description provided for @notifTrainTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Time to train'**
+  String get notifTrainTitle;
+
+  /// No description provided for @notifTrainBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Your routine is waiting.'**
+  String get notifTrainBody;
+
+  /// No description provided for @exportCatalog.
+  ///
+  /// In en, this message translates to:
+  /// **'Export exercise list'**
+  String get exportCatalog;
+
+  /// No description provided for @importRoutine.
+  ///
+  /// In en, this message translates to:
+  /// **'Import a routine (JSON)'**
+  String get importRoutine;
+
+  /// No description provided for @planIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'Build me a training routine using only the exercises in this list.'**
+  String get planIntro;
+
+  /// No description provided for @planFormat.
+  ///
+  /// In en, this message translates to:
+  /// **'Answer with JSON only, in this shape:'**
+  String get planFormat;
+
+  /// No description provided for @planImported.
+  ///
+  /// In en, this message translates to:
+  /// **'{n, plural, =1{{n} exercise added to the routine} other{{n} exercises added to the routine}}'**
+  String planImported(int n);
+
+  /// No description provided for @planNothing.
+  ///
+  /// In en, this message translates to:
+  /// **'No exercise in that file matched your library'**
+  String get planNothing;
+
+  /// No description provided for @planFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'That file is not a routine we can read'**
+  String get planFailed;
+
+  /// No description provided for @routineGroup.
+  ///
+  /// In en, this message translates to:
+  /// **'Group'**
+  String get routineGroup;
+
+  /// No description provided for @newGroup.
+  ///
+  /// In en, this message translates to:
+  /// **'New group'**
+  String get newGroup;
+
+  /// No description provided for @noGroup.
+  ///
+  /// In en, this message translates to:
+  /// **'No group'**
+  String get noGroup;
+
+  /// No description provided for @groupNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Push / Pull / Legs, 5×5…'**
+  String get groupNameHint;
+
+  /// No description provided for @filters.
+  ///
+  /// In en, this message translates to:
+  /// **'Filters'**
+  String get filters;
+
+  /// No description provided for @setsPlannedHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick how many sets you want of each one. The workout opens with them ready.'**
+  String get setsPlannedHint;
+
+  /// No description provided for @nextTime.
+  ///
+  /// In en, this message translates to:
+  /// **'NEXT'**
+  String get nextTime;
+
+  /// No description provided for @nextHold.
+  ///
+  /// In en, this message translates to:
+  /// **'same weight until you hit every rep'**
+  String get nextHold;
+
+  /// No description provided for @bgPhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Your photo'**
+  String get bgPhoto;
+
+  /// No description provided for @bgPhotoPick.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a photo'**
+  String get bgPhotoPick;
+
+  /// No description provided for @bgPhotoChange.
+  ///
+  /// In en, this message translates to:
+  /// **'Change photo'**
+  String get bgPhotoChange;
+
+  /// No description provided for @bgPhotoRemove.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove photo'**
+  String get bgPhotoRemove;
+
+  /// No description provided for @bgDim.
+  ///
+  /// In en, this message translates to:
+  /// **'HOW DARK'**
+  String get bgDim;
+
+  /// No description provided for @dimSoft.
+  ///
+  /// In en, this message translates to:
+  /// **'Soft'**
+  String get dimSoft;
+
+  /// No description provided for @dimMedium.
+  ///
+  /// In en, this message translates to:
+  /// **'Medium'**
+  String get dimMedium;
+
+  /// No description provided for @dimStrong.
+  ///
+  /// In en, this message translates to:
+  /// **'Strong'**
+  String get dimStrong;
+
+  /// No description provided for @bgPhotoHint.
+  ///
+  /// In en, this message translates to:
+  /// **'It sits behind everything, dimmed so the app stays readable.'**
+  String get bgPhotoHint;
+
+  /// No description provided for @reminderSmart.
+  ///
+  /// In en, this message translates to:
+  /// **'Smart'**
+  String get reminderSmart;
+
+  /// No description provided for @reminderFixed.
+  ///
+  /// In en, this message translates to:
+  /// **'Fixed time'**
+  String get reminderFixed;
+
+  /// No description provided for @reminderSmartHint.
+  ///
+  /// In en, this message translates to:
+  /// **'It uses the days and the time you actually train, and stays quiet on a day you already trained.'**
+  String get reminderSmartHint;
+
+  /// No description provided for @reminderSmartEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Log a few more sessions and it will learn your days.'**
+  String get reminderSmartEmpty;
+
+  /// No description provided for @habitFocus.
+  ///
+  /// In en, this message translates to:
+  /// **'what you usually train on {day}'**
+  String habitFocus(String day);
+
+  /// No description provided for @duplicateRoutine.
+  ///
+  /// In en, this message translates to:
+  /// **'Duplicate routine'**
+  String get duplicateRoutine;
+
+  /// No description provided for @copySuffix.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} (copy)'**
+  String copySuffix(String name);
+
+  /// No description provided for @saveAsRoutine.
+  ///
+  /// In en, this message translates to:
+  /// **'SAVE AS A ROUTINE'**
+  String get saveAsRoutine;
+
+  /// No description provided for @savedAsRoutine.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved as a routine'**
+  String get savedAsRoutine;
+
+  /// No description provided for @templates.
+  ///
+  /// In en, this message translates to:
+  /// **'Ready-made plans'**
+  String get templates;
+
+  /// No description provided for @templatesHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Classic programmes, built from your own library. You can change anything afterwards.'**
+  String get templatesHint;
+
+  /// No description provided for @templateAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'{n, plural, =1{{n} routine added} other{{n} routines added}}'**
+  String templateAdded(int n);
+
+  /// No description provided for @tplFullbody.
+  ///
+  /// In en, this message translates to:
+  /// **'Three full-body days a week. The one to start with.'**
+  String get tplFullbody;
+
+  /// No description provided for @tplPpl.
+  ///
+  /// In en, this message translates to:
+  /// **'Push, pull and legs. Three or six days a week.'**
+  String get tplPpl;
+
+  /// No description provided for @tplUpperlower.
+  ///
+  /// In en, this message translates to:
+  /// **'Upper and lower body, four days a week.'**
+  String get tplUpperlower;
+
+  /// No description provided for @tplStronglifts.
+  ///
+  /// In en, this message translates to:
+  /// **'Two workouts, five sets of five, alternating.'**
+  String get tplStronglifts;
+
+  /// No description provided for @tplStartingstrength.
+  ///
+  /// In en, this message translates to:
+  /// **'Squat every session, two alternating workouts.'**
+  String get tplStartingstrength;
+
+  /// No description provided for @tplHome.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing but a bar to hang from and the floor.'**
+  String get tplHome;
+
+  /// No description provided for @dayCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{n, plural, =1{{n} day} other{{n} days}}'**
+  String dayCount(int n);
+
+  /// No description provided for @logRpe.
+  ///
+  /// In en, this message translates to:
+  /// **'Log effort (RPE)'**
+  String get logRpe;
+
+  /// No description provided for @rpeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'EFFORT (RPE)'**
+  String get rpeTitle;
+
+  /// No description provided for @rpeHint.
+  ///
+  /// In en, this message translates to:
+  /// **'10 is nothing left in the tank, 8 is two reps to spare.'**
+  String get rpeHint;
+
+  /// No description provided for @superset.
+  ///
+  /// In en, this message translates to:
+  /// **'Superset'**
+  String get superset;
+
+  /// No description provided for @supersetLink.
+  ///
+  /// In en, this message translates to:
+  /// **'Chain with the next one'**
+  String get supersetLink;
+
+  /// No description provided for @supersetHint.
+  ///
+  /// In en, this message translates to:
+  /// **'No rest between chained exercises — you go straight to the next one.'**
+  String get supersetHint;
+
+  /// No description provided for @aiRoutine.
+  ///
+  /// In en, this message translates to:
+  /// **'Routine with AI'**
+  String get aiRoutine;
+
+  /// No description provided for @aiIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'GymMane never talks to an AI. You take your exercise list out, you paste it into whatever assistant you already use, and you bring its answer back in. Nothing leaves the phone on its own.'**
+  String get aiIntro;
+
+  /// No description provided for @aiStep1.
+  ///
+  /// In en, this message translates to:
+  /// **'Export your exercise list. If you picked a place, it only includes what you can do there.'**
+  String get aiStep1;
+
+  /// No description provided for @aiStep2.
+  ///
+  /// In en, this message translates to:
+  /// **'Hand that file to any AI and ask it for a routine.'**
+  String get aiStep2;
+
+  /// No description provided for @aiStep3.
+  ///
+  /// In en, this message translates to:
+  /// **'Save its answer as a file — JSON or plain text, either works.'**
+  String get aiStep3;
+
+  /// No description provided for @aiStep4.
+  ///
+  /// In en, this message translates to:
+  /// **'Import it here. The names are matched against your library and the routine is built.'**
+  String get aiStep4;
+
+  /// No description provided for @aiMissing.
+  ///
+  /// In en, this message translates to:
+  /// **'{n, plural, =1{1 name was not in your library} other{{n} names were not in your library}}'**
+  String aiMissing(int n);
+
+  /// No description provided for @importApps.
+  ///
+  /// In en, this message translates to:
+  /// **'Which apps it reads'**
+  String get importApps;
+
+  /// No description provided for @importOtherCsv.
+  ///
+  /// In en, this message translates to:
+  /// **'Any other CSV with date, exercise, reps and weight'**
+  String get importOtherCsv;
+
+  /// No description provided for @importAskApp.
+  ///
+  /// In en, this message translates to:
+  /// **'Need another app? Ask for it'**
+  String get importAskApp;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

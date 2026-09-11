@@ -189,6 +189,26 @@ class AppLocalizationsPt extends AppLocalizations {
   String get finishSession => 'ENCERRAR SESSÃO';
 
   @override
+  String get setDone => 'SÉRIE FEITA';
+
+  @override
+  String get nextExercise => 'PRÓXIMO';
+
+  @override
+  String get skipExercise => 'Pular este exercício?';
+
+  @override
+  String skipExerciseBody(String name) {
+    return 'Você não marcou nenhuma série, então nada será registrado de \"$name\".';
+  }
+
+  @override
+  String get dropExerciseAction => 'Remover exercício';
+
+  @override
+  String get restOff => 'Desligado';
+
+  @override
   String get setCol => '#';
 
   @override
@@ -1282,7 +1302,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get importFromApp => 'Importar de outro aplicativo';
 
   @override
-  String get importUnknownFormat => 'Esse arquivo não é uma exportação do Hevy, Strong ou FitNotes';
+  String get importUnknownFormat => 'Esse ficheiro precisa de colunas de data, exercício, repetições e peso';
 
   @override
   String get importZipNoWeights => 'Esse zip não contém nenhum arquivo de peso';
@@ -1822,4 +1842,276 @@ class AppLocalizationsPt extends AppLocalizations {
   String daysShort(int n) {
     return '${n}d';
   }
+
+  @override
+  String get focusCard => 'O foco de hoje';
+
+  @override
+  String get autoAdvance => 'Passar ao seguinte sozinho';
+
+  @override
+  String get autoAdvanceHint => 'Ao marcar a última série de um exercício, o treino passa ao seguinte.';
+
+  @override
+  String get autoProgress => 'Subir o peso sozinho';
+
+  @override
+  String autoProgressHint(String w) {
+    return 'Se cumprires todas as repetições, o próximo treino começa $w acima.';
+  }
+
+  @override
+  String get placePlates => 'Discos e barra';
+
+  @override
+  String get platesAll => 'Tudo disponível';
+
+  @override
+  String platesOwned(int n) {
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n medidas', one: '$n medida');
+    return '$_temp0';
+  }
+
+  @override
+  String get platePairs => 'PARES';
+
+  @override
+  String plateAchievable(String w) {
+    return 'O mais perto que consegues carregar: $w';
+  }
+
+  @override
+  String get autoWarmup => 'Começar com aquecimento';
+
+  @override
+  String get autoWarmupHint => 'Adiciona as séries de aquecimento ao abrir o treino.';
+
+  @override
+  String get trainReminder => 'Aviso para treinar';
+
+  @override
+  String get trainReminderHint => 'Um aviso a esta hora, só nos dias com rotina planeada.';
+
+  @override
+  String get notifTrainChannel => 'Aviso para treinar';
+
+  @override
+  String get notifTrainChannelWhy => 'Um toque para treinar nos dias que planeaste.';
+
+  @override
+  String get notifTrainTitle => 'Hora de treinar';
+
+  @override
+  String get notifTrainBody => 'A tua rotina está à espera.';
+
+  @override
+  String get exportCatalog => 'Exportar lista de exercícios';
+
+  @override
+  String get importRoutine => 'Importar uma rotina (JSON)';
+
+  @override
+  String get planIntro => 'Faz-me uma rotina de treino usando só os exercícios desta lista.';
+
+  @override
+  String get planFormat => 'Responde só com JSON, com esta forma:';
+
+  @override
+  String planImported(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n exercícios adicionados à rotina',
+      one: '$n exercício adicionado à rotina',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get planNothing => 'Nenhum exercício desse ficheiro está na tua biblioteca';
+
+  @override
+  String get planFailed => 'Esse ficheiro não é uma rotina que se consiga ler';
+
+  @override
+  String get routineGroup => 'Grupo';
+
+  @override
+  String get newGroup => 'Grupo novo';
+
+  @override
+  String get noGroup => 'Sem grupo';
+
+  @override
+  String get groupNameHint => 'Empurrar / Puxar / Pernas, 5×5…';
+
+  @override
+  String get filters => 'Filtros';
+
+  @override
+  String get setsPlannedHint => 'Escolhe quantas séries queres de cada um. O treino abre com elas prontas.';
+
+  @override
+  String get nextTime => 'PRÓXIMO';
+
+  @override
+  String get nextHold => 'o mesmo peso até cumprires todas as repetições';
+
+  @override
+  String get bgPhoto => 'A tua foto';
+
+  @override
+  String get bgPhotoPick => 'Escolher uma foto';
+
+  @override
+  String get bgPhotoChange => 'Mudar a foto';
+
+  @override
+  String get bgPhotoRemove => 'Tirar a foto';
+
+  @override
+  String get bgDim => 'QUANTO ESCURECE';
+
+  @override
+  String get dimSoft => 'Suave';
+
+  @override
+  String get dimMedium => 'Média';
+
+  @override
+  String get dimStrong => 'Forte';
+
+  @override
+  String get bgPhotoHint => 'Fica atrás de tudo, escurecida para a app continuar legível.';
+
+  @override
+  String get reminderSmart => 'Inteligente';
+
+  @override
+  String get reminderFixed => 'Hora fixa';
+
+  @override
+  String get reminderSmartHint =>
+      'Usa os dias e a hora a que costumas treinar, e cala-se se já treinaste nesse dia.';
+
+  @override
+  String get reminderSmartEmpty => 'Treina mais umas quantas vezes e vai aprender os teus dias.';
+
+  @override
+  String habitFocus(String day) {
+    return 'o que costumas fazer às $day';
+  }
+
+  @override
+  String get duplicateRoutine => 'Duplicar a rotina';
+
+  @override
+  String copySuffix(String name) {
+    return '$name (cópia)';
+  }
+
+  @override
+  String get saveAsRoutine => 'GUARDAR COMO ROTINA';
+
+  @override
+  String get savedAsRoutine => 'Guardada como rotina';
+
+  @override
+  String get templates => 'Planos prontos';
+
+  @override
+  String get templatesHint => 'Programas clássicos, montados com a tua biblioteca. Depois podes mudar tudo.';
+
+  @override
+  String templateAdded(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n rotinas adicionadas',
+      one: '$n rotina adicionada',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get tplFullbody => 'Três dias de corpo inteiro por semana. Por onde se começa.';
+
+  @override
+  String get tplPpl => 'Empurrar, puxar e pernas. Três ou seis dias por semana.';
+
+  @override
+  String get tplUpperlower => 'Tronco e pernas, quatro dias por semana.';
+
+  @override
+  String get tplStronglifts => 'Dois treinos, cinco séries de cinco, a alternar.';
+
+  @override
+  String get tplStartingstrength => 'Agachamento em todos, dois treinos que se alternam.';
+
+  @override
+  String get tplHome => 'Só uma barra para te pendurares e o chão.';
+
+  @override
+  String dayCount(int n) {
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n dias', one: '$n dia');
+    return '$_temp0';
+  }
+
+  @override
+  String get logRpe => 'Registar o esforço (RPE)';
+
+  @override
+  String get rpeTitle => 'ESFORÇO (RPE)';
+
+  @override
+  String get rpeHint => '10 é não conseguires mais nenhuma; 8, que sobravam duas.';
+
+  @override
+  String get superset => 'Supersérie';
+
+  @override
+  String get supersetLink => 'Encadear com o seguinte';
+
+  @override
+  String get supersetHint => 'Sem descanso entre exercícios encadeados: passas logo ao seguinte.';
+
+  @override
+  String get aiRoutine => 'Rotina com IA';
+
+  @override
+  String get aiIntro =>
+      'O GymMane não fala com nenhuma IA. Tu tiras a tua lista de exercícios, colas no assistente que já usas e trazes a resposta de volta. Do telemóvel não sai nada sozinho.';
+
+  @override
+  String get aiStep1 =>
+      'Exporta a tua lista de exercícios. Se escolheste um sítio, só leva o que podes fazer lá.';
+
+  @override
+  String get aiStep2 => 'Dá esse ficheiro à IA que quiseres e pede-lhe uma rotina.';
+
+  @override
+  String get aiStep3 => 'Guarda a resposta num ficheiro: JSON ou texto simples, tanto faz.';
+
+  @override
+  String get aiStep4 => 'Importa-o aqui. Os nomes são cruzados com a tua biblioteca e a rotina fica montada.';
+
+  @override
+  String aiMissing(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n nomes não estavam na tua biblioteca',
+      one: '1 nome não estava na tua biblioteca',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get importApps => 'Que apps lê';
+
+  @override
+  String get importOtherCsv => 'Qualquer outro CSV com data, exercício, repetições e peso';
+
+  @override
+  String get importAskApp => 'Precisas de outra app? Pede-ma';
 }
