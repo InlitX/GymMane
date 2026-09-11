@@ -3,6 +3,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/timezone.dart' as tz;
 
 import '../l10n/l10n.dart';
+import 'train_reminder.dart';
 
 class ProgressReminder {
   ProgressReminder._();
@@ -28,7 +29,7 @@ class ProgressReminder {
     if (intervalDays <= 0) return;
 
     try {
-      final when = tz.TZDateTime(tz.local, day.year, day.month, day.day, 10);
+      final when = atLocal(DateTime(day.year, day.month, day.day, 10));
       if (!when.isAfter(tz.TZDateTime.now(tz.local))) return;
       await _plugin.zonedSchedule(
         id: _id,
