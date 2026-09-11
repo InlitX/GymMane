@@ -361,7 +361,7 @@ class _ExercisePickerSheetState extends State<_ExercisePickerSheet> {
             ),
             Expanded(
               child: ListView.builder(
-                padding: const EdgeInsets.fromLTRB(20, 0, 20, 24),
+                padding: EdgeInsets.fromLTRB(20, 0, 20, 24 + MediaQuery.paddingOf(context).bottom),
                 itemCount: results.length + 1,
                 itemBuilder: (context, i) {
                   if (i == 0) {

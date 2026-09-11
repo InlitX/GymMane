@@ -20,7 +20,7 @@ class PhotoSourceSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     final gc = context.gc;
     return Container(
-      padding: const EdgeInsets.fromLTRB(20, 12, 20, 28),
+      padding: sheetPad(context),
       decoration: BoxDecoration(
         color: gc.bgRaised,
         border: Border.all(color: gc.border),

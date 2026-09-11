@@ -4,6 +4,7 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 import '../l10n/l10n.dart';
 import '../screens/about_screen.dart';
+import '../screens/ai_plan_screen.dart';
 import '../screens/compare_screen.dart';
 import '../screens/exercise_detail_screen.dart';
 import '../screens/exercises_screen.dart';
@@ -80,15 +81,34 @@ class _AppShellState extends State<AppShell> with WidgetsBindingObserver {
             }
             if (!fit.handleBack()) await SystemNavigator.pop();
           },
-          child: Scaffold(
-            backgroundColor: context.gc.bg,
-            body: Stack(
-              children: [
-                Positioned.fill(child: AppBackground(pattern: fit.bgPattern)),
-                Positioned.fill(child: _animatedScreen()),
-                if (fit.showNav)
-                  Positioned(left: 18, right: 18, bottom: 18, child: _NavBar()),
-              ],
+          child: AnnotatedRegion<SystemUiOverlayStyle>(
+            value: fit.dark ? _overlayDark : _overlayLight,
+            child: Scaffold(
+              backgroundColor: context.gc.bg,
+              body: Builder(
+                builder: (context) {
+                  final gap = MediaQuery.paddingOf(context).bottom;
+                  return Stack(
+                    children: [
+                      Positioned.fill(
+                        child: AppBackground(
+                          pattern: fit.bgPattern,
+                          photo: fit.bgPhotoPath,
+                          dim: fit.bgDim,
+                        ),
+                      ),
+                      Positioned.fill(
+                        child: Padding(
+                          padding: EdgeInsets.only(bottom: gap),
+                          child: _animatedScreen(),
+                        ),
+                      ),
+                      if (fit.showNav)
+                        Positioned(left: 18, right: 18, bottom: 18 + gap, child: _NavBar()),
+                    ],
+                  );
+                },
+              ),
             ),
           ),
         );
@@ -148,8 +168,10 @@ class _AppShellState extends State<AppShell> with WidgetsBindingObserver {
         return AboutScreen();
       case 'routines':
         return RoutinesScreen();
+      case 'ai-plan':
+        return AiPlanScreen();
       case 'routine-edit':
-        return RoutineEditScreen();
+        return RoutineEditScreen(key: ValueKey(fit.activeRoutineId));
       case 'measures':
         return MeasuresScreen();
       case 'places':
@@ -168,6 +190,26 @@ class _AppShellState extends State<AppShell> with WidgetsBindingObserver {
     }
   }
 }
+
+const _overlayBase = SystemUiOverlayStyle(
+  statusBarColor: Colors.transparent,
+  systemNavigationBarColor: Colors.transparent,
+  systemNavigationBarDividerColor: Colors.transparent,
+  systemNavigationBarContrastEnforced: false,
+  systemStatusBarContrastEnforced: false,
+);
+
+final _overlayDark = _overlayBase.copyWith(
+  statusBarIconBrightness: Brightness.light,
+  statusBarBrightness: Brightness.dark,
+  systemNavigationBarIconBrightness: Brightness.light,
+);
+
+final _overlayLight = _overlayBase.copyWith(
+  statusBarIconBrightness: Brightness.dark,
+  statusBarBrightness: Brightness.light,
+  systemNavigationBarIconBrightness: Brightness.dark,
+);
 
 class _NavBar extends StatelessWidget {
   const _NavBar();

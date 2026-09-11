@@ -652,7 +652,7 @@ class _TimelineScreenState extends State<TimelineScreen> {
       context: context,
       backgroundColor: Colors.transparent,
       builder: (sheet) => Container(
-        padding: const EdgeInsets.fromLTRB(20, 12, 20, 28),
+        padding: sheetPad(context),
         decoration: BoxDecoration(
           color: gc.bgRaised,
           border: Border.all(color: gc.border),

@@ -1,16 +1,54 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 import '../theme/app_colors.dart';
 
 class AppBackground extends StatelessWidget {
-  const AppBackground({super.key, required this.pattern});
+  const AppBackground({super.key, required this.pattern, this.photo, this.dim = 0.55});
 
   final String pattern;
+  final String? photo;
+  final double dim;
 
   @override
   Widget build(BuildContext context) {
-    if (pattern != 'dots' && pattern != 'grid') return const SizedBox.shrink();
     final gc = context.gc;
+    if (pattern == 'photo') {
+      final path = photo;
+      if (path == null) return const SizedBox.shrink();
+      final media = MediaQuery.of(context);
+      final cacheWidth = (media.size.width * media.devicePixelRatio).round();
+      return IgnorePointer(
+        child: RepaintBoundary(
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
+              Image.file(
+                File(path),
+                fit: BoxFit.cover,
+                cacheWidth: cacheWidth,
+                filterQuality: FilterQuality.medium,
+                errorBuilder: (_, _, _) => const SizedBox.shrink(),
+              ),
+              DecoratedBox(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      gc.bg.withValues(alpha: dim),
+                      gc.bg.withValues(alpha: (dim + 0.18).clamp(0.0, 1.0)),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+    if (pattern != 'dots' && pattern != 'grid') return const SizedBox.shrink();
     return IgnorePointer(
       child: RepaintBoundary(
         child: CustomPaint(
