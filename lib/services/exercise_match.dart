@@ -14,6 +14,7 @@ const _syn = {
   'pushup': 'push up', 'pushups': 'push up', 'pullup': 'pull up', 'pullups': 'pull up',
   'chinup': 'chin up', 'chinups': 'chin up', 'situp': 'sit up', 'situps': 'sit up',
   'curls': 'curl', 'rows': 'row', 'presses': 'press',
+  'ups': 'up', 'downs': 'down', 'climbers': 'climber', 'crushers': 'crusher',
   'squats': 'squat', 'raises': 'raise', 'extensions': 'extension',
   'flyes': 'fly', 'flies': 'fly', 'flys': 'fly',
   'deadlifts': 'deadlift', 'lunges': 'lunge', 'dips': 'dip', 'pulldowns': 'pulldown',
@@ -48,13 +49,15 @@ List<String> nameTokens(String raw) {
 
 String searchKey(String raw) => nameTokens(raw).join(' ');
 
+String sortedKey(String raw) => (nameTokens(raw)..sort()).join(' ');
+
 final Map<String, String> _keyCache = {};
 
 String _keyOf(String name) => _keyCache.putIfAbsent(name, () => searchKey(name));
 
 final Map<String, String> _aliasIndex = {
   for (final entry in kExerciseAliases.entries)
-    for (final alias in entry.value) searchKey(alias): entry.key,
+    for (final alias in entry.value) sortedKey(alias): entry.key,
 };
 
 typedef ExerciseFilter = bool Function(Exercise);
@@ -117,12 +120,17 @@ Exercise? matchExercise(String name, Iterable<Exercise> pool) {
   final key = searchKey(name);
   if (key.isEmpty) return null;
 
-  final alias = _aliasIndex[key];
+  final alias = _aliasIndex[sortedKey(name)];
   if (alias != null) {
     final wanted = searchKey(alias);
     for (final e in pool) {
       if (searchKey(e.name) == wanted) return e;
     }
+  }
+
+  for (final e in pool) {
+    final label = exerciseName(e);
+    if (label != e.name && _keyOf(label) == key) return e;
   }
 
   final q = key.split(' ').toSet();

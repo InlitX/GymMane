@@ -73,6 +73,27 @@ void main() {
     expect(_search('pec deck').single.name, 'Pec Deck');
   });
 
+  test('the names an AI writes land on a real exercise', () {
+    const written = [
+      'Bench Press', 'Squat', 'Deadlift', 'Overhead Press', 'Barbell Row',
+      'Lat Pulldown', 'Bicep Curl', 'Tricep Pushdown', 'Leg Press',
+      'Romanian Deadlift', 'Plank', 'Face Pull', 'Pull-ups', 'Push-ups',
+      'Dumbbell Shoulder Press', 'Incline Bench Press', 'Leg Curl',
+      'Calf Raises', 'Lateral Raises', 'Hip Thrust', 'Cable Fly',
+      'Seated Row', 'Hammer Curls', 'Skull Crushers', 'Bulgarian Split Squat',
+      'Goblet Squat', 'Russian Twist', 'Mountain Climbers',
+    ];
+    final missed = [for (final n in written) if (matchExercise(n, kExercises) == null) n];
+    expect(missed, isEmpty, reason: 'sin emparejar: ${missed.join(", ")}');
+  });
+
+  test('the order of the words does not matter for an alias', () {
+    expect(matchExercise('Dumbbell Shoulder Press', kExercises)?.name,
+        'Dumbbell Standing Overhead Press');
+    expect(matchExercise('Shoulder Press (Dumbbell)', kExercises)?.name,
+        'Dumbbell Standing Overhead Press');
+  });
+
   test('an empty search keeps the whole catalog', () {
     expect(_search('   ').length, kExercises.length);
   });
