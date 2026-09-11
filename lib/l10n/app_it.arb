@@ -97,6 +97,19 @@
   "skip": "SKIP",
   "addSet": "+ ADD SET",
   "finishSession": "FINISH SESSION",
+  "setDone": "SET DONE",
+  "nextExercise": "NEXT EXERCISE",
+  "skipExercise": "Skip this exercise?",
+  "skipExerciseBody": "You haven't marked any set as done, so nothing gets logged for \"{name}\".",
+  "@skipExerciseBody": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "dropExerciseAction": "Drop exercise",
+  "restOff": "Off",
   "setCol": "#",
   "repsCol": "REPS",
   "weightCol": "WEIGHT ({unit})",
@@ -707,7 +720,7 @@
   "import": "Import",
   "chooseFile": "Choose file",
   "importFromApp": "Import from another app",
-  "importUnknownFormat": "That file isn't an export from Hevy, Strong or FitNotes",
+  "importUnknownFormat": "That file needs date, exercise, reps and weight columns",
   "importZipNoWeights": "That zip has no weight file in it",
   "importWeights": "{n, plural, =1{Imported {n} weigh-in} other{Imported {n} weigh-ins}}",
   "@importWeights": {
@@ -961,5 +974,145 @@
         "type": "int"
       }
     }
-  }
+  },
+  "focusCard": "Today’s focus",
+  "autoAdvance": "Move on automatically",
+  "autoAdvanceHint": "When the last set of an exercise is ticked, the workout moves on.",
+  "autoProgress": "Add weight next time",
+  "autoProgressHint": "Hit every rep and the next session starts {w} heavier.",
+  "@autoProgressHint": {
+    "placeholders": {
+      "w": {
+        "type": "String"
+      }
+    }
+  },
+  "placePlates": "Plates and bar",
+  "platesAll": "Everything available",
+  "platesOwned": "{n, plural, =1{{n} size} other{{n} sizes}}",
+  "@platesOwned": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "platePairs": "PAIRS",
+  "plateAchievable": "Closest you can load: {w}",
+  "@plateAchievable": {
+    "placeholders": {
+      "w": {
+        "type": "String"
+      }
+    }
+  },
+  "autoWarmup": "Start with warm-up sets",
+  "autoWarmupHint": "Adds the ramp-up sets when the workout opens.",
+  "trainReminder": "Training reminder",
+  "trainReminderHint": "A nudge at this time, only on the days your routine is planned.",
+  "notifTrainChannel": "Training reminder",
+  "notifTrainChannelWhy": "A nudge to train on the days you planned.",
+  "notifTrainTitle": "Time to train",
+  "notifTrainBody": "Your routine is waiting.",
+  "exportCatalog": "Export exercise list",
+  "importRoutine": "Import a routine (JSON)",
+  "planIntro": "Build me a training routine using only the exercises in this list.",
+  "planFormat": "Answer with JSON only, in this shape:",
+  "planImported": "{n, plural, =1{{n} exercise added to the routine} other{{n} exercises added to the routine}}",
+  "@planImported": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "planNothing": "No exercise in that file matched your library",
+  "planFailed": "That file is not a routine we can read",
+  "routineGroup": "Group",
+  "newGroup": "New group",
+  "noGroup": "No group",
+  "groupNameHint": "Push / Pull / Legs, 5×5…",
+  "filters": "Filters",
+  "setsPlannedHint": "Pick how many sets you want of each one. The workout opens with them ready.",
+  "nextTime": "NEXT",
+  "nextHold": "same weight until you hit every rep",
+  "bgPhoto": "Your photo",
+  "bgPhotoPick": "Choose a photo",
+  "bgPhotoChange": "Change photo",
+  "bgPhotoRemove": "Remove photo",
+  "bgDim": "HOW DARK",
+  "dimSoft": "Soft",
+  "dimMedium": "Medium",
+  "dimStrong": "Strong",
+  "bgPhotoHint": "It sits behind everything, dimmed so the app stays readable.",
+  "reminderSmart": "Smart",
+  "reminderFixed": "Fixed time",
+  "reminderSmartHint": "It uses the days and the time you actually train, and stays quiet on a day you already trained.",
+  "reminderSmartEmpty": "Log a few more sessions and it will learn your days.",
+  "habitFocus": "what you usually train on {day}",
+  "@habitFocus": {
+    "placeholders": {
+      "day": {
+        "type": "String"
+      }
+    }
+  },
+  "duplicateRoutine": "Duplicate routine",
+  "copySuffix": "{name} (copy)",
+  "@copySuffix": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "saveAsRoutine": "SAVE AS A ROUTINE",
+  "savedAsRoutine": "Saved as a routine",
+  "templates": "Ready-made plans",
+  "templatesHint": "Classic programmes, built from your own library. You can change anything afterwards.",
+  "templateAdded": "{n, plural, =1{{n} routine added} other{{n} routines added}}",
+  "@templateAdded": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "tplFullbody": "Three full-body days a week. The one to start with.",
+  "tplPpl": "Push, pull and legs. Three or six days a week.",
+  "tplUpperlower": "Upper and lower body, four days a week.",
+  "tplStronglifts": "Two workouts, five sets of five, alternating.",
+  "tplStartingstrength": "Squat every session, two alternating workouts.",
+  "tplHome": "Nothing but a bar to hang from and the floor.",
+  "dayCount": "{n, plural, =1{{n} day} other{{n} days}}",
+  "@dayCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "logRpe": "Log effort (RPE)",
+  "rpeTitle": "EFFORT (RPE)",
+  "rpeHint": "10 is nothing left in the tank, 8 is two reps to spare.",
+  "superset": "Superset",
+  "supersetLink": "Chain with the next one",
+  "supersetHint": "No rest between chained exercises — you go straight to the next one.",
+  "aiRoutine": "Routine with AI",
+  "aiIntro": "GymMane never talks to an AI. You take your exercise list out, you paste it into whatever assistant you already use, and you bring its answer back in. Nothing leaves the phone on its own.",
+  "aiStep1": "Export your exercise list. If you picked a place, it only includes what you can do there.",
+  "aiStep2": "Hand that file to any AI and ask it for a routine.",
+  "aiStep3": "Save its answer as a file — JSON or plain text, either works.",
+  "aiStep4": "Import it here. The names are matched against your library and the routine is built.",
+  "aiMissing": "{n, plural, =1{1 name was not in your library} other{{n} names were not in your library}}",
+  "@aiMissing": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "importApps": "Which apps it reads",
+  "importOtherCsv": "Any other CSV with date, exercise, reps and weight",
+  "importAskApp": "Need another app? Ask for it"
 }
