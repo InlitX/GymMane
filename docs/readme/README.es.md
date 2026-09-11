@@ -1,10 +1,10 @@
 <div align="center">
 
-<img src="docs/screenshots/banner-es.png" alt="GymMane — Levanta. Anota. Mejora." width="860" />
+<img src="../screenshots/banner-es.png" alt="GymMane — Levanta. Anota. Mejora." width="860" />
 
 <br/>
 
-<img src="docs/screenshots/icon.png" width="94" alt="GymMane" />
+<img src="../screenshots/icon.png" width="94" alt="GymMane" />
 
 # GymMane
 
@@ -29,7 +29,18 @@ y mira cómo se mueven tus números.
   <a href="https://trendshift.io/repositories/107197?utm_source=trendshift-badge&amp;utm_medium=badge&amp;utm_campaign=badge-trendshift-107197" target="_blank" rel="noopener noreferrer"><img src="https://trendshift.io/api/badge/trendshift/repositories/107197/daily?language=Dart" alt="InlitX%2FGymMane | Trendshift" width="250" height="55"/></a>
 </p>
 
+<br/>
+
+<a href="https://f-droid.org/packages/com.gymmane.app/"><img alt="Get it on F-Droid" src="../badges/get-it-on-fdroid.png" height="60" /></a>
+&nbsp;
+<a href="https://apt.izzysoft.de/fdroid/index/apk/com.gymmane.app?repo=main"><img alt="Get it on IzzyOnDroid" src="../badges/get-it-on-izzyondroid.png" height="60" /></a>
+&nbsp;
+<a href="https://github.com/InlitX/GymMane/releases"><img alt="Get it on GitHub" src="../badges/get-it-on-github.png" height="60" /></a>
+&nbsp;
+<a href="https://apps.obtainium.imranr.dev/redirect?r=obtainium://app/%7B%22id%22%3A%22com.gymmane.app%22%2C%22url%22%3A%22https%3A%2F%2Fgithub.com%2FInlitX%2FGymMane%22%2C%22author%22%3A%22InlitX%22%2C%22name%22%3A%22GymMane%22%2C%22preferredApkIndex%22%3A0%2C%22additionalSettings%22%3A%22%7B%5C%22includePrereleases%5C%22%3Afalse%2C%5C%22fallbackToOlderReleases%5C%22%3Atrue%2C%5C%22filterReleaseTitlesByRegEx%5C%22%3A%5C%22%5C%22%2C%5C%22filterReleaseNotesByRegEx%5C%22%3A%5C%22%5C%22%2C%5C%22verifyLatestTag%5C%22%3Afalse%2C%5C%22dontSortReleasesList%5C%22%3Afalse%2C%5C%22useLatestAssetDateAsReleaseDate%5C%22%3Afalse%2C%5C%22trackOnly%5C%22%3Afalse%2C%5C%22versionExtractionRegEx%5C%22%3A%5C%22%5C%22%2C%5C%22matchGroupToUse%5C%22%3A%5C%22%5C%22%2C%5C%22versionDetection%5C%22%3Atrue%2C%5C%22releaseDateAsVersion%5C%22%3Afalse%2C%5C%22useVersionCodeAsOSVersion%5C%22%3Afalse%2C%5C%22apkFilterRegEx%5C%22%3A%5C%22%5C%22%2C%5C%22invertAPKFilter%5C%22%3Afalse%2C%5C%22autoApkFilterByArch%5C%22%3Atrue%2C%5C%22appName%5C%22%3A%5C%22%5C%22%2C%5C%22shizukuPretendToBeGooglePlay%5C%22%3Afalse%2C%5C%22allowInsecure%5C%22%3Afalse%2C%5C%22exemptFromBackgroundUpdates%5C%22%3Afalse%2C%5C%22skipUpdateNotifications%5C%22%3Afalse%2C%5C%22about%5C%22%3A%5C%22GymMane%20is%20an%20open%20source%20gym%20log%20for%20Android.%20Pick%20your%20muscles%20on%20a%20body%20map%2C%20log%20your%20sets%2C%20and%20watch%20your%20numbers%20grow.%20No%20accounts%2C%20no%20ads%2C%20no%20tracking%2C%20no%20internet%20permission.%5C%22%7D%22%2C%22overrideSource%22%3Anull%7D"><img alt="Get it on Obtainium" src="../badges/get-it-on-obtainium.png" height="60" /></a>
+
 <sub>
+  <a href="#-descargar">📥 Descargar</a> ·
   <a href="#-qué-hace">✨ Qué hace</a> ·
   <a href="#-vienes-de-otra-app">📦 Importar</a> ·
   <a href="#-privacidad">🔒 Privacidad</a> ·
@@ -42,7 +53,7 @@ y mira cómo se mueven tus números.
 <br/>
 <br/>
 
-<sub><a href="README.md">English</a> · <b>Español</b> · <a href="README.it.md">Italiano</a> · <a href="README.zh.md">简体中文</a></sub>
+<sub><a href="../../README.md">English</a> · <b>Español</b> · <a href="README.it.md">Italiano</a> · <a href="README.zh.md">简体中文</a></sub>
 
 </div>
 
@@ -50,13 +61,13 @@ y mira cómo se mueven tus números.
 
 <div align="center">
 
-<img src="docs/screenshots/store/es/01-hero.jpg" width="250" alt="Levanta. Anota. Mejora." />
-<img src="docs/screenshots/store/es/02-train.jpg" width="250" alt="Toca el músculo y tienes la sesión" />
-<img src="docs/screenshots/store/es/03-rest.jpg" width="250" alt="Marca la serie y el descanso suena solo" />
+<img src="../screenshots/store/es/01-hero.jpg" width="250" alt="Levanta. Anota. Mejora." />
+<img src="../screenshots/store/es/02-train.jpg" width="250" alt="Toca el músculo y tienes la sesión" />
+<img src="../screenshots/store/es/03-rest.jpg" width="250" alt="Marca la serie y el descanso suena solo" />
 
-<img src="docs/screenshots/store/es/04-progress.jpg" width="250" alt="Progreso salido de tus propias series" />
-<img src="docs/screenshots/store/es/05-library.jpg" width="250" alt="+500 ejercicios con animación" />
-<img src="docs/screenshots/store/es/06-privacy.jpg" width="250" alt="Sin cuenta. Sin internet. Sin humo." />
+<img src="../screenshots/store/es/04-progress.jpg" width="250" alt="Progreso salido de tus propias series" />
+<img src="../screenshots/store/es/05-library.jpg" width="250" alt="+500 ejercicios con animación" />
+<img src="../screenshots/store/es/06-privacy.jpg" width="250" alt="Sin cuenta. Sin internet. Sin humo." />
 
 <br/>
 
@@ -64,30 +75,42 @@ y mira cómo se mueven tus números.
 <summary><sub><b>Capturas a pelo</b> — todas las pantallas, directas del móvil</sub></summary>
 <br/>
 
-<img src="docs/screenshots/mock/01-home.png" width="215" alt="Inicio" />
-<img src="docs/screenshots/mock/03-train.png" width="215" alt="Mapa del cuerpo" />
-<img src="docs/screenshots/mock/04-session.png" width="215" alt="Sesión en directo" />
-<img src="docs/screenshots/mock/02-progress.png" width="215" alt="Progreso" />
+<img src="../screenshots/mock/01-home.png" width="215" alt="Inicio" />
+<img src="../screenshots/mock/03-train.png" width="215" alt="Mapa del cuerpo" />
+<img src="../screenshots/mock/04-session.png" width="215" alt="Sesión en directo" />
+<img src="../screenshots/mock/02-progress.png" width="215" alt="Progreso" />
 
 <sub><b>Inicio</b> &nbsp;·&nbsp; <b>Mapa del cuerpo</b> &nbsp;·&nbsp; <b>Sesión en directo</b> &nbsp;·&nbsp; <b>Progreso</b></sub>
 
 <br/>
 <br/>
 
-<img src="docs/screenshots/mock/05-history.png" width="215" alt="Historial" />
-<img src="docs/screenshots/mock/06-library.png" width="215" alt="Biblioteca" />
-<img src="docs/screenshots/mock/07-routines.png" width="215" alt="Rutinas" />
-<img src="docs/screenshots/mock/08-settings.png" width="215" alt="Ajustes" />
+<img src="../screenshots/mock/05-history.png" width="215" alt="Historial" />
+<img src="../screenshots/mock/06-library.png" width="215" alt="Biblioteca" />
+<img src="../screenshots/mock/07-routines.png" width="215" alt="Rutinas" />
+<img src="../screenshots/mock/08-settings.png" width="215" alt="Ajustes" />
 
-<img src="docs/screenshots/mock/09-notes.png" width="215" alt="Diario" />
-<img src="docs/screenshots/mock/10-places.png" width="215" alt="Sitios" />
-<img src="docs/screenshots/mock/11-body.png" width="215" alt="Evolución en el muñeco" />
+<img src="../screenshots/mock/09-notes.png" width="215" alt="Diario" />
+<img src="../screenshots/mock/10-places.png" width="215" alt="Sitios" />
+<img src="../screenshots/mock/11-body.png" width="215" alt="Evolución en el muñeco" />
 
 <sub><b>Historial</b> &nbsp;·&nbsp; <b>Biblioteca</b> &nbsp;·&nbsp; <b>Rutinas</b> &nbsp;·&nbsp; <b>Ajustes</b></sub>
 
 </details>
 
 </div>
+
+---
+
+## 📥 Descargar
+
+| Dónde | |
+|---|---|
+| **GitHub** | [Última versión](https://github.com/InlitX/GymMane/releases/latest) — si dudas, coge el APK `arm64-v8a` |
+| **F-Droid** | [GymMane en F-Droid](https://f-droid.org/packages/com.gymmane.app/) — las actualizaciones llegan unos días después que aquí |
+| **[Obtainium](https://github.com/ImranR98/Obtainium)** | Pega ahí `https://github.com/InlitX/GymMane` y él vigila las versiones por ti |
+
+<div align="center"><sub>La app nunca busca actualizaciones sola: no tiene permiso de internet.</sub></div>
 
 ---
 
@@ -274,19 +297,19 @@ ayudan tanto como un café.
 
 <table align="center">
   <tr>
-    <td align="center" width="130"><img src="docs/crypto/bitcoin.svg" width="22" alt="Bitcoin" /><br/><sub><b>Bitcoin</b></sub></td>
+    <td align="center" width="130"><img src="../crypto/bitcoin.svg" width="22" alt="Bitcoin" /><br/><sub><b>Bitcoin</b></sub></td>
     <td><code>bc1qm0r4pg8nknnjh3a7n2t63ckafhsz8jdd6qer29</code></td>
   </tr>
   <tr>
-    <td align="center" width="130"><img src="docs/crypto/ethereum.svg" width="22" alt="Ethereum" /><br/><sub><b>Ethereum</b></sub></td>
+    <td align="center" width="130"><img src="../crypto/ethereum.svg" width="22" alt="Ethereum" /><br/><sub><b>Ethereum</b></sub></td>
     <td><code>0x34b7A5552132cBca150Ae29c1E632faA49430e1a</code></td>
   </tr>
   <tr>
-    <td align="center" width="130"><img src="docs/crypto/solana.svg" width="22" alt="Solana" /><br/><sub><b>Solana</b></sub></td>
+    <td align="center" width="130"><img src="../crypto/solana.svg" width="22" alt="Solana" /><br/><sub><b>Solana</b></sub></td>
     <td><code>DC8dNEUNJhWdtBHBZAn4FTheVC3W4PtkGhbazvtk17Jo</code></td>
   </tr>
   <tr>
-    <td align="center" width="130"><img src="docs/crypto/monero.svg" width="22" alt="Monero" /><br/><sub><b>Monero</b></sub></td>
+    <td align="center" width="130"><img src="../crypto/monero.svg" width="22" alt="Monero" /><br/><sub><b>Monero</b></sub></td>
     <td><code>44SECMEf3rfV228kpy3Gs48wLmLXnq231gAMG7ULYoCWBWLYLHdwYV7YFkhMk31DR5P7SRAyRPyhkYaehtgEoajASz7qubq</code></td>
   </tr>
 </table>
