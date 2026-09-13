@@ -82,7 +82,7 @@ class _ShareSheetState extends State<_ShareSheet> {
       constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.9),
       decoration: BoxDecoration(
         color: gc.bg,
-        border: Border.all(color: gc.border),
+
         borderRadius: const BorderRadius.vertical(top: Radius.circular(26)),
       ),
       clipBehavior: Clip.antiAlias,
@@ -91,20 +91,20 @@ class _ShareSheetState extends State<_ShareSheet> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            SheetHandle(color: gc.border, margin: const EdgeInsets.symmetric(vertical: 12)),
+            const SheetHandle(margin: EdgeInsets.symmetric(vertical: 14)),
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 4, 20, 12),
               child: Row(
                 children: [
                   Expanded(
                     child: Text(t.sharePick,
-                        style: AppTheme.d(17, weight: FontWeight.w700, color: gc.text)),
+                        style: AppTheme.f(20, weight: FontWeight.w800, color: gc.text)),
                   ),
                 ],
               ),
             ),
             SizedBox(
-              height: 38,
+              height: 44,
               child: ListView(
                 scrollDirection: Axis.horizontal,
                 padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -112,12 +112,14 @@ class _ShareSheetState extends State<_ShareSheet> {
                   for (final k in kinds)
                     Padding(
                       padding: const EdgeInsets.only(right: 8),
-                      child: Pill(
-                        label: _label(k),
-                        bg: k == kind ? gc.emberSoft : gc.bgRaised,
-                        fg: k == kind ? gc.text : gc.textSecondary,
-                        fontSize: 12.5,
-                        onTap: () => setState(() => _kind = k),
+                      child: Center(
+                        child: Pill(
+                          label: _label(k),
+                          bg: k == kind ? gc.emberSoft : gc.bgRaised,
+                          fg: k == kind ? gc.text : gc.textSecondary,
+                          fontSize: 12.5,
+                          onTap: () => setState(() => _kind = k),
+                        ),
                       ),
                     ),
                 ],
@@ -140,7 +142,7 @@ class _ShareSheetState extends State<_ShareSheet> {
               padding: const EdgeInsets.fromLTRB(20, 10, 20, 6),
               child: Text(t.shareHint,
                   textAlign: TextAlign.center,
-                  style: AppTheme.s(11.5, color: gc.textTertiary, height: 1.4)),
+                  style: AppTheme.f(11.5, weight: FontWeight.w500, color: gc.textTertiary, height: 1.4)),
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 6, 20, 16),
