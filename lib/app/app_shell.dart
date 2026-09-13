@@ -1,6 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 import '../l10n/l10n.dart';
 import '../screens/about_screen.dart';
@@ -18,6 +20,10 @@ import '../screens/progress_screen.dart';
 import '../screens/routine_edit_screen.dart';
 import '../screens/routines_screen.dart';
 import '../screens/session_screen.dart';
+import '../screens/start_sheet.dart';
+import '../screens/awards_screen.dart';
+import '../screens/moments_screen.dart';
+import '../screens/profile_screen.dart';
 import '../screens/settings_screen.dart';
 import '../screens/timeline_screen.dart';
 import '../screens/tool_detail_screen.dart';
@@ -27,6 +33,7 @@ import '../state/fit_state.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
 import '../widgets/app_background.dart';
+import '../widgets/award_celebration.dart';
 import '../widgets/dialogs.dart';
 
 class AppShell extends StatefulWidget {
@@ -37,17 +44,52 @@ class AppShell extends StatefulWidget {
 }
 
 class _AppShellState extends State<AppShell> with WidgetsBindingObserver {
+  static const _firstAwardWait = Duration(milliseconds: 2500);
+  static const _nextAwardWait = Duration(milliseconds: 3500);
+
+  String _lastRoute = fit.route;
+  int _lastDepth = fit.routeDepth;
+  bool _sideways = false;
+  bool _forward = true;
+  AwardId? _celebrating;
+  bool _celebratedOne = false;
+  Timer? _awardWait;
+
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     fit.refreshAlarmPermission();
+    fit.addListener(_queueCelebration);
+    _queueCelebration();
   }
 
   @override
   void dispose() {
+    fit.removeListener(_queueCelebration);
+    _awardWait?.cancel();
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
+  }
+
+  void _queueCelebration() {
+    if (fit.nextCelebration == null) {
+      _celebratedOne = false;
+      return;
+    }
+    if (_celebrating != null || _awardWait != null || fit.route == 'session') return;
+    _awardWait = Timer(_celebratedOne ? _nextAwardWait : _firstAwardWait, () {
+      _awardWait = null;
+      final next = fit.nextCelebration;
+      if (!mounted || next == null || fit.route == 'session') return;
+      setState(() => _celebrating = next);
+    });
+  }
+
+  void _closeCelebration() {
+    setState(() => _celebrating = null);
+    _celebratedOne = true;
+    fit.celebrationShown();
   }
 
   @override
@@ -57,7 +99,11 @@ class _AppShellState extends State<AppShell> with WidgetsBindingObserver {
         state == AppLifecycleState.detached) {
       fit.persistNow();
     }
-    if (state == AppLifecycleState.resumed) fit.refreshAlarmPermission();
+    if (state == AppLifecycleState.resumed) {
+      fit.refreshAlarmPermission();
+      fit.syncRest();
+      fit.refreshWidgets();
+    }
   }
 
   @override
@@ -83,32 +129,39 @@ class _AppShellState extends State<AppShell> with WidgetsBindingObserver {
           },
           child: AnnotatedRegion<SystemUiOverlayStyle>(
             value: fit.dark ? _overlayDark : _overlayLight,
-            child: Scaffold(
-              backgroundColor: context.gc.bg,
-              body: Builder(
-                builder: (context) {
-                  final gap = MediaQuery.paddingOf(context).bottom;
-                  return Stack(
-                    children: [
-                      Positioned.fill(
-                        child: AppBackground(
-                          pattern: fit.bgPattern,
-                          photo: fit.bgPhotoPath,
-                          dim: fit.bgDim,
-                        ),
-                      ),
-                      Positioned.fill(
-                        child: Padding(
-                          padding: EdgeInsets.only(bottom: gap),
-                          child: _animatedScreen(),
-                        ),
-                      ),
-                      if (fit.showNav)
-                        Positioned(left: 18, right: 18, bottom: 18 + gap, child: _NavBar()),
-                    ],
-                  );
-                },
-              ),
+            child: Stack(
+              children: [
+                Positioned.fill(child: ColoredBox(color: context.gc.bg)),
+                Positioned.fill(
+                  child: AppBackground(
+                    pattern: fit.bgPattern,
+                    photo: fit.bgPhotoPath,
+                    dim: fit.bgDim,
+                  ),
+                ),
+                Scaffold(
+                  backgroundColor: Colors.transparent,
+                  body: Padding(
+                    padding: EdgeInsets.only(bottom: MediaQuery.viewPaddingOf(context).bottom),
+                    child: _animatedScreen(),
+                  ),
+                ),
+                if (fit.showNav && MediaQuery.viewInsetsOf(context).bottom < 60)
+                  Positioned(
+                    left: 18,
+                    right: 18,
+                    bottom: 18 + MediaQuery.viewPaddingOf(context).bottom,
+                    child: _NavBar(),
+                  ),
+                if (fit.route != 'session' && _celebrating != null)
+                  Positioned.fill(
+                    child: AwardCelebration(
+                      key: ValueKey(_celebrating),
+                      id: _celebrating!,
+                      onClose: _closeCelebration,
+                    ),
+                  ),
+              ],
             ),
           ),
         );
@@ -125,17 +178,43 @@ class _AppShellState extends State<AppShell> with WidgetsBindingObserver {
       );
 
   Widget _animatedScreen() {
+    final route = fit.route;
+    if (route != _lastRoute) {
+      final from = _NavBar._routes.indexOf(_lastRoute);
+      final to = _NavBar._routes.indexOf(route);
+      _sideways = from >= 0 && to >= 0;
+      _forward = _sideways ? to > from : fit.routeDepth >= _lastDepth;
+      _lastRoute = route;
+      _lastDepth = fit.routeDepth;
+    }
+    final sideways = _sideways;
+    final dir = _forward ? 1.0 : -1.0;
+
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 260),
-      switchInCurve: const Interval(0.35, 1, curve: Curves.easeOutCubic),
-      switchOutCurve: const Interval(0.6, 1, curve: Curves.easeOut),
-      transitionBuilder: (child, animation) => FadeTransition(
-        opacity: animation,
-        child: ScaleTransition(
-          scale: Tween<double>(begin: 0.97, end: 1).animate(animation),
-          child: child,
-        ),
-      ),
+      switchInCurve: const Interval(0.3, 1, curve: Curves.easeOutCubic),
+      switchOutCurve: const Interval(0.6, 1, curve: Curves.easeOutCubic),
+      transitionBuilder: (child, animation) {
+        final incoming = (child.key as ValueKey?)?.value == fit.route;
+        final Offset begin;
+        if (sideways) {
+          begin = Offset(incoming ? 30 * dir : -30 * dir, 0);
+        } else if (incoming) {
+          begin = Offset(0, 30 * dir);
+        } else {
+          begin = Offset.zero;
+        }
+        final slide = Tween<Offset>(begin: begin, end: Offset.zero)
+            .animate(CurvedAnimation(parent: animation, curve: Curves.easeOutCubic));
+        return FadeTransition(
+          opacity: animation,
+          child: AnimatedBuilder(
+            animation: slide,
+            builder: (_, inner) => Transform.translate(offset: slide.value, child: inner),
+            child: child,
+          ),
+        );
+      },
       layoutBuilder: (currentChild, previousChildren) => Stack(
         children: <Widget>[
           for (final c in previousChildren) Positioned.fill(child: c),
@@ -163,7 +242,13 @@ class _AppShellState extends State<AppShell> with WidgetsBindingObserver {
       case 'tools-detail':
         return ToolDetailScreen();
       case 'settings':
+        return ProfileScreen();
+      case 'preferences':
         return SettingsScreen();
+      case 'moments':
+        return MomentsScreen();
+      case 'awards':
+        return AwardsScreen();
       case 'about':
         return AboutScreen();
       case 'routines':
@@ -279,7 +364,7 @@ class _NavBar extends StatelessWidget {
                     _item(context, 1, PhosphorIconsRegular.chartLineUp, PhosphorIconsFill.chartLineUp, t.progress, fit.goProgress),
                     _fab(context),
                     _item(context, 2, PhosphorIconsRegular.barbell, PhosphorIconsFill.barbell, t.exercises, fit.goExercises),
-                    _item(context, 3, PhosphorIconsRegular.gearSix, PhosphorIconsFill.gearSix, t.settings, fit.goSettings),
+                    _item(context, 3, PhosphorIconsRegular.userCircle, PhosphorIconsFill.userCircle, t.profile, fit.goSettings),
                   ],
                 ),
               ],
@@ -333,10 +418,20 @@ class _NavBar extends StatelessWidget {
     );
   }
 
+  void _play(BuildContext context) {
+    final planned = fit.todayRoutine;
+    if (planned != null && planned.exerciseIds.isNotEmpty) {
+      fit.startRoutine(planned);
+      return;
+    }
+    showStartSheet(context);
+  }
+
   Widget _fab(BuildContext context) {
     final gc = context.gc;
     return GestureDetector(
-      onTap: fit.startWorkout,
+      onTap: () => _play(context),
+      onLongPress: () => showStartSheet(context),
       child: Container(
         width: 54,
         height: 54,
