@@ -6,10 +6,11 @@ SetKind setKindFrom(Object? raw) {
 }
 
 class LoggedSet {
-  LoggedSet(this.reps, this.weight, {this.kind = SetKind.normal});
+  LoggedSet(this.reps, this.weight, {this.kind = SetKind.normal, this.rpe});
   final int reps;
   final double weight;
   final SetKind kind;
+  final double? rpe;
 
   bool get counts => kind != SetKind.warmup;
   double get volume => reps * weight;
@@ -20,11 +21,13 @@ class LoggedSet {
         'r': reps,
         'w': weight,
         if (kind != SetKind.normal) 'k': kind.index,
+        if (rpe != null) 'e': rpe,
       };
   factory LoggedSet.fromJson(Map<String, dynamic> j) => LoggedSet(
         (j['r'] as num).toInt(),
         (j['w'] as num).toDouble(),
         kind: setKindFrom(j['k']),
+        rpe: (j['e'] as num?)?.toDouble(),
       );
 }
 
@@ -94,15 +97,32 @@ class BodyweightEntry {
 }
 
 class Routine {
-  Routine(this.id, this.name, this.exerciseIds);
+  Routine(this.id, this.name, this.exerciseIds,
+      {Map<String, int>? sets, Set<String>? chained, this.group = ''})
+      : sets = sets ?? {},
+        chained = chained ?? {};
   final String id;
   String name;
+  String group;
   final List<String> exerciseIds;
+  final Map<String, int> sets;
+  final Set<String> chained;
 
-  Map<String, dynamic> toJson() => {'id': id, 'n': name, 'ex': exerciseIds};
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'n': name,
+        'ex': exerciseIds,
+        if (sets.isNotEmpty) 's': sets,
+        if (chained.isNotEmpty) 'c': chained.toList(),
+        if (group.isNotEmpty) 'g': group,
+      };
   factory Routine.fromJson(Map<String, dynamic> j) => Routine(
         j['id'] as String,
         j['n'] as String,
         ((j['ex'] as List?) ?? []).cast<String>(),
+        sets: ((j['s'] as Map?) ?? const {})
+            .map((k, v) => MapEntry(k as String, (v as num).toInt())),
+        chained: ((j['c'] as List?) ?? const []).cast<String>().toSet(),
+        group: (j['g'] as String?) ?? '',
       );
 }

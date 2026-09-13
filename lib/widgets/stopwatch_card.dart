@@ -1,11 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 import '../l10n/l10n.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
+import 'ui_kit.dart';
 
 class StopwatchCard extends StatefulWidget {
   const StopwatchCard({super.key});
@@ -55,22 +56,22 @@ class _StopwatchCardState extends State<StopwatchCard> {
       padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
       decoration: BoxDecoration(
         color: gc.bgRaised,
-        border: Border.all(color: running ? gc.ember : gc.border),
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(20),
       ),
       child: Row(
         children: [
-          Icon(PhosphorIconsRegular.timer, size: 20, color: running ? gc.ember : gc.textSecondary),
-          const SizedBox(width: 12),
-          Text(label, style: AppTheme.d(28, weight: FontWeight.w700, color: gc.text)),
+          Icon(PhosphorIconsRegular.timer, size: 20, color: running ? gc.text : gc.textSecondary),
+          const SizedBox(width: 14),
+          Text(label,
+              style: AppTheme.f(28, weight: FontWeight.w800, color: gc.text, height: 1)),
           const Spacer(),
           if (s > 0)
             GestureDetector(
               onTap: _reset,
               child: Padding(
                 padding: const EdgeInsets.only(right: 14),
-                child: Text(t.reset,
-                    style: AppTheme.s(12, weight: FontWeight.w600, color: gc.textSecondary, letterSpacing: 1)),
+                child: Text(titleCase(t.reset),
+                    style: AppTheme.f(12.5, weight: FontWeight.w600, color: gc.textSecondary)),
               ),
             ),
           GestureDetector(
