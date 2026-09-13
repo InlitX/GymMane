@@ -53,10 +53,16 @@ abstract class FitCore extends ChangeNotifier {
 
   final Map<String, int> exerciseRest = {};
 
+  final Map<String, double> progressStep = {};
+
+  final Set<String> autoWarmup = {};
+
   final Set<String> repsOnly = {};
 
   final Set<String> repsOnlyOff = {};
   VoidCallback? onWidgetsShouldUpdate;
+
+  void refreshWidgets() => _refreshWidgets();
 
   void _refreshWidgets() {
     try {
@@ -64,9 +70,17 @@ abstract class FitCore extends ChangeNotifier {
     } catch (_) {}
   }
 
+  void syncTrainReminder() {}
+
+  Map<double, int>? get plateStockKg => null;
+
+  double? get placeBarKg => null;
+
   String units = 'kg';
   bool _loading = false;
   Timer? _saveDebounce;
+
+  void refreshAwards({bool silent = false}) {}
 
   void _persist() {
     if (_loading) return;
@@ -88,6 +102,10 @@ abstract class FitCore extends ChangeNotifier {
   void goExercises() => _setRoute('exercises', reset: true);
 
   void goSettings() => _setRoute('settings', reset: true);
+
+  void goPreferences() => pushRoute('preferences');
+
+  void backFromPreferences() => popRoute(fallback: 'settings');
 
   void _setRoute(String r, {bool reset = false}) {
     if (reset) _routeStack.clear();
@@ -118,6 +136,8 @@ abstract class FitCore extends ChangeNotifier {
     route = fallback == route ? 'home' : fallback;
     notifyListeners();
   }
+
+  int get routeDepth => _routeStack.length;
 
   bool get showNav => const ['home', 'progress', 'exercises', 'settings'].contains(route);
 

@@ -10,8 +10,10 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
   DateTime? _runningSince;
   int _elapsedBefore = 0;
   bool sessionPaused = false;
+  DateTime? logDay;
 
-  void startWorkout([List<String>? initialMuscles]) {
+  void startWorkout([List<String>? initialMuscles, DateTime? on]) {
+    logDay = on;
     selectedMuscles
       ..clear()
       ..addAll(initialMuscles ?? const []);
@@ -20,6 +22,14 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
   }
 
   void startFocusWorkout() => startWorkout(suggestedFocus.muscles);
+
+  void startPicking({DateTime? on}) {
+    logDay = on;
+    selectedMuscles.clear();
+    sessionPicks.clear();
+    trainStep = 'review';
+    pushRoute('train');
+  }
 
   List<Exercise> getFilteredExercises(List<String> sel) {
     if (sel.isEmpty) return const [];
@@ -103,31 +113,94 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
     trainStep = 'select';
     selectedMuscles.clear();
     sessionPicks.clear();
+    logDay = null;
     popRoute();
   }
 
-  void startRoutine(Routine r) {
+  void startRoutine(Routine r, {DateTime? on}) {
     final exs = routineExercises(r);
     if (exs.isEmpty) return;
-    _beginSession(exs);
+    _beginSession(exs,
+        plan: {for (final ex in exs) ex.id: routineSets(r, ex.id)},
+        chained: {for (final ex in exs) if (chainsToNext(r, ex.id)) ex.id},
+        on: on);
   }
 
   void startSession() {
     final exs = allExercises.where((e) => sessionPicks.contains(e.id)).toList();
-    if (exs.isNotEmpty) _beginSession(exs);
+    if (exs.isNotEmpty) _beginSession(exs, on: logDay);
   }
 
-  List<SessionSet> _openingSets(String id) {
-    final last = lastSetsFor(id);
-    if (last.isNotEmpty) return last.map((l) => SessionSet(l.reps, l.weight, false)).toList();
-    final w = isRepsOnly(id) ? 0.0 : 20.0;
-    return [SessionSet(10, w, false), SessionSet(10, w, false), SessionSet(10, w, false)];
+  List<SessionSet> _openingSets(String id, {int? count}) {
+    final sets = _workingOpeners(id, count: count);
+    if (!warmsUp(id) || isRepsOnly(id)) return sets;
+    return [..._warmupFor(sets), ...sets];
   }
 
-  void _beginSession(List<Exercise> exs) {
+  List<SessionSet> _workingOpeners(String id, {int? count}) {
+    final last = lastSetsFor(id).where((l) => l.counts).toList();
+    final List<SessionSet> base;
+    if (last.isNotEmpty) {
+      final bump = _progressBump(id, last);
+      base = last.map((l) => SessionSet(l.reps, l.weight + bump, false)).toList();
+    } else {
+      final w = isRepsOnly(id) ? 0.0 : 20.0;
+      base = [for (var i = 0; i < kDefaultRoutineSets; i++) SessionSet(10, w, false)];
+    }
+    if (count == null || count == base.length) return base;
+    if (count < base.length) return base.take(count).toList();
+    final fill = base.last;
+    return [
+      ...base,
+      for (var i = base.length; i < count; i++) SessionSet(fill.reps, fill.weight, false),
+    ];
+  }
+
+  ({double weightKg, int reps, bool up})? nextTarget(String id) {
+    final last = lastSetsFor(id).where((l) => l.counts).toList();
+    if (last.isEmpty) return null;
+    final reps = last.first.reps;
+    if (reps <= 0) return null;
+    final hit = last.every((l) => l.reps >= reps);
+    if (isRepsOnly(id)) return (weightKg: 0, reps: hit ? reps + 1 : reps, up: hit);
+    final top = last.map((l) => l.weight).reduce(math.max);
+    final step = progressStep[id] ?? fromDisplayWeight(weightStep);
+    return (weightKg: hit ? top + step : top, reps: reps, up: hit);
+  }
+
+  String? nextTargetLabel(String id) {
+    final target = nextTarget(id);
+    if (target == null) return null;
+    if (isRepsOnly(id)) return '${target.reps} ${t.repsCol.toLowerCase()}';
+    return '${weightLabel(target.weightKg)} × ${target.reps}';
+  }
+
+  double _progressBump(String id, List<LoggedSet> last) {
+    final step = progressStep[id] ?? 0;
+    if (step <= 0) return 0;
+    final working = last.where((l) => l.counts).toList();
+    if (working.isEmpty) return 0;
+    final target = working.first.reps;
+    if (working.any((l) => l.reps < target)) return 0;
+    return step;
+  }
+
+  void _beginSession(List<Exercise> exs,
+      {Map<String, int>? plan, Set<String> chained = const {}, DateTime? on}) {
     final s = WorkoutSession();
+    if (on != null) {
+      s.loggedAt = DateTime(on.year, on.month, on.day, 12);
+      s.manual = true;
+    }
+    logDay = null;
     s.exercises = exs
-        .map((ex) => SessionExercise(ex.id, ex.name, ex.primary, _openingSets(ex.id)))
+        .map((ex) => SessionExercise(
+              ex.id,
+              ex.name,
+              ex.primary,
+              _openingSets(ex.id, count: plan?[ex.id]),
+              linkedNext: chained.contains(ex.id),
+            ))
         .toList();
     _restTimer?.cancel();
     _elapsedBefore = 0;
@@ -150,15 +223,22 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
       : _elapsedBefore + DateTime.now().difference(_runningSince!).inSeconds;
 
   void toggleSessionPause() {
+    final s = session;
     if (sessionPaused) {
       _startTicking();
       sessionPaused = false;
+      final frozen = s?.restFrozen;
+      if (frozen != null) _armRest(frozen);
     } else {
       _elapsedBefore = sessionElapsed;
       _runningSince = null;
       _sessionTimer?.cancel();
       _restTimer?.cancel();
       RestAlarm.instance.cancel();
+      if (s != null) {
+        s.restFrozen = s.restRemaining;
+        s.restEndsAt = null;
+      }
       sessionPaused = true;
     }
     persistNow();
@@ -184,47 +264,137 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
 
   void toggleSet(int exIdx, int setIdx) {
     final st = session!.exercises[exIdx].sets[setIdx];
+    _advanceTimer?.cancel();
     st.done = !st.done;
     _persist();
     notifyListeners();
-    if (st.done) startRest();
+    if (!st.done) return;
+    final chain = chainAt(exIdx);
+    if (chain.length > 1) {
+      _advanceChain(chain, exIdx);
+      return;
+    }
+    startRest();
+    if (autoAdvance) _advanceWhenDone(exIdx);
+  }
+
+  List<int> chainAt(int exIdx) {
+    final s = session;
+    if (s == null || exIdx < 0 || exIdx >= s.exercises.length) return const [];
+    var start = exIdx;
+    while (start > 0 && s.exercises[start - 1].linkedNext) {
+      start--;
+    }
+    final chain = <int>[start];
+    var i = start;
+    while (i < s.exercises.length - 1 && s.exercises[i].linkedNext) {
+      chain.add(++i);
+    }
+    return chain;
+  }
+
+  bool get inSuperset => chainAt(session?.currentIndex ?? -1).length > 1;
+
+  void _advanceChain(List<int> chain, int exIdx) {
+    final s = session!;
+    final after = chain.where((i) => i > exIdx && s.exercises[i].hasUndone).toList();
+    if (after.isNotEmpty) {
+      s.currentIndex = after.first;
+      _persist();
+      notifyListeners();
+      return;
+    }
+    startRest();
+    final left = chain.where((i) => s.exercises[i].hasUndone).toList();
+    if (left.isNotEmpty) {
+      s.currentIndex = left.first;
+    } else if (autoAdvance && chain.last < s.exercises.length - 1) {
+      s.currentIndex = chain.last + 1;
+    }
+    _persist();
+    notifyListeners();
+  }
+
+  static const advanceDelay = Duration(milliseconds: 900);
+
+  Timer? _advanceTimer;
+
+  void _advanceWhenDone(int exIdx) {
+    final s = session;
+    if (s == null || exIdx != s.currentIndex || exIdx >= s.exercises.length - 1) return;
+    if (s.exercises[exIdx].sets.any((st) => !st.done)) return;
+    _advanceTimer?.cancel();
+    _advanceTimer = Timer(advanceDelay, () {
+      final live = session;
+      if (live == null || live.currentIndex != exIdx) return;
+      if (live.exercises[exIdx].sets.any((st) => !st.done)) return;
+      live.currentIndex = exIdx + 1;
+      _persist();
+      notifyListeners();
+    });
   }
 
   void startRest() {
-    if (sessionPaused) return;
+    if (sessionPaused || session?.manual == true) return;
     _restTimer?.cancel();
     RestAlarm.instance.stopSound();
     final seconds = restFor(session!.exercises.isEmpty
         ? ''
         : session!.exercises[session!.currentIndex.clamp(0, session!.exercises.length - 1)].id);
-    session!.restRemaining = seconds;
+    if (seconds <= 0) {
+      session!.clearRest();
+      notifyListeners();
+      return;
+    }
 
-    RestAlarm.instance.schedule(Duration(seconds: seconds));
+    _armRest(seconds);
     askAlarmPermission();
     notifyListeners();
+  }
+
+  void _armRest(int seconds) {
+    final s = session;
+    if (s == null) return;
+    _restTimer?.cancel();
+    s.restFrozen = null;
+    s.restEndsAt = DateTime.now().add(Duration(seconds: seconds));
+    RestAlarm.instance.schedule(Duration(seconds: seconds));
     _restTimer = Timer.periodic(const Duration(seconds: 1), (t) {
-      final s = session;
-      if (s == null || s.restRemaining == null) {
+      final live = session;
+      if (live == null || live.restEndsAt == null) {
         t.cancel();
         return;
       }
-      final next = s.restRemaining! - 1;
-      s.restRemaining = next <= 0 ? null : next;
-      if (next <= 0) {
+      if (live.restRemaining == null) {
+        live.clearRest();
         t.cancel();
-
         RestAlarm.instance.fireNow();
       }
       notifyListeners();
     });
   }
 
+  void syncRest() {
+    final s = session;
+    if (s == null || s.restEndsAt == null) return;
+    final left = s.restRemaining;
+    if (left == null) {
+      _restTimer?.cancel();
+      s.clearRest();
+      RestAlarm.instance.cancel();
+    } else if (!(_restTimer?.isActive ?? false)) {
+      _armRest(left);
+    } else {
+      return;
+    }
+    notifyListeners();
+  }
+
   void nudgeRest(int seconds) {
     final s = session;
-    if (s == null || s.restRemaining == null) return;
-    final left = (s.restRemaining! + seconds).clamp(5, 600);
-    s.restRemaining = left;
-    RestAlarm.instance.schedule(Duration(seconds: left));
+    final left = s?.restRemaining;
+    if (s == null || left == null) return;
+    _armRest((left + seconds).clamp(5, 600));
     notifyListeners();
   }
 
@@ -232,7 +402,7 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
     _restTimer?.cancel();
     RestAlarm.instance.cancel();
     RestAlarm.instance.stopSound();
-    session?.restRemaining = null;
+    session?.clearRest();
     notifyListeners();
   }
 
@@ -255,6 +425,21 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
 
   static const _warmupSpec = [(0.4, 10), (0.6, 5), (0.8, 3)];
 
+  List<SessionSet> _warmupFor(List<SessionSet> sets) {
+    if (sets.isEmpty) return const [];
+    final target = sets.map((st) => st.weight).reduce(math.max);
+    if (target <= 0) return const [];
+    return [
+      for (final spec in _warmupSpec)
+        SessionSet(
+          spec.$2,
+          fromDisplayWeight(_roundTo(toDisplayWeight(target * spec.$1), weightStep)),
+          false,
+          kind: SetKind.warmup,
+        ),
+    ];
+  }
+
   bool hasWarmup(int exIdx) {
     final s = session;
     if (s == null || exIdx >= s.exercises.length) return false;
@@ -265,21 +450,20 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
     final s = session;
     if (s == null || exIdx >= s.exercises.length) return;
     final sets = s.exercises[exIdx].sets;
-    if (sets.isEmpty || hasWarmup(exIdx)) return;
-
-    final target = sets.map((st) => st.weight).reduce(math.max);
-    if (target <= 0) return;
-
-    final warm = [
-      for (final spec in _warmupSpec)
-        SessionSet(
-          spec.$2,
-          fromDisplayWeight(_roundTo(toDisplayWeight(target * spec.$1), weightStep)),
-          false,
-          kind: SetKind.warmup,
-        ),
-    ];
+    if (hasWarmup(exIdx)) return;
+    final warm = _warmupFor(sets);
+    if (warm.isEmpty) return;
     sets.insertAll(0, warm);
+    _persist();
+    notifyListeners();
+  }
+
+  void setSessionRpe(int exIdx, int setIdx, double? rpe) {
+    final s = session;
+    if (s == null || exIdx >= s.exercises.length) return;
+    final sets = s.exercises[exIdx].sets;
+    if (setIdx >= sets.length) return;
+    sets[setIdx].rpe = rpe;
     _persist();
     notifyListeners();
   }
@@ -369,6 +553,7 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
   }
 
   void finishSession() {
+    _advanceTimer?.cancel();
     _sessionTimer?.cancel();
     _restTimer?.cancel();
     RestAlarm.instance.cancel();
@@ -384,16 +569,16 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
     }
     s.summaryVolume = working.fold<double>(0, (sum, st) => sum + st.reps * st.weight).round();
     s.summarySets = working.length;
-    s.summaryDuration = sessionElapsed;
+    s.summaryDuration = s.manual ? _elapsedBefore : sessionElapsed;
     s.complete = true;
-    s.restRemaining = null;
+    s.clearRest();
 
     if (done.isNotEmpty) {
       final logged = <LoggedExercise>[];
       for (final e in s.exercises) {
         final doneSets = e.sets
             .where((st) => st.done)
-            .map((st) => LoggedSet(st.reps, st.weight, kind: st.kind))
+            .map((st) => LoggedSet(st.reps, st.weight, kind: st.kind, rpe: st.rpe))
             .toList();
         if (doneSets.isNotEmpty) {
           logged.add(LoggedExercise(e.id, e.name, e.primary, doneSets));
@@ -409,7 +594,24 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
     }
     persistNow();
     _refreshWidgets();
+    syncTrainReminder();
+    refreshAwards();
     notifyListeners();
+  }
+
+  String saveSessionAsRoutine() {
+    final s = session;
+    if (s == null || s.exercises.isEmpty) return '';
+    final id = createRoutine(t.newRoutineName);
+    for (final ex in s.exercises) {
+      if (exerciseById(ex.id) == null) continue;
+      toggleRoutineExercise(id, ex.id);
+      final working = ex.sets.where((st) => st.kind != SetKind.warmup).length;
+      bumpRoutineSets(id, ex.id, working - kDefaultRoutineSets);
+    }
+    persistNow();
+    notifyListeners();
+    return id;
   }
 
   double get summaryVolumeKg => (session?.summaryVolume ?? 0).toDouble();
@@ -446,6 +648,7 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
     sessions.remove(ls);
     final s = WorkoutSession()
       ..loggedAt = ls.date
+      ..manual = _dayKey(ls.date) != _dayKey(DateTime.now())
       ..exercises = ls.exercises
           .map((e) => SessionExercise(e.id, e.name, e.primary,
               e.sets.map((x) => SessionSet(x.reps, x.weight, true)).toList()))
@@ -467,6 +670,7 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
   }
 
   void saveAndExit() {
+    _advanceTimer?.cancel();
     _sessionTimer?.cancel();
     _restTimer?.cancel();
     RestAlarm.instance.cancel();
@@ -477,6 +681,7 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
     selectedMuscles.clear();
     sessionPicks.clear();
     trainStep = 'select';
+    logDay = null;
     resetRoute('home');
     persistNow();
     notifyListeners();

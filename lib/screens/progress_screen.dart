@@ -13,9 +13,9 @@ import '../theme/app_theme.dart';
 import '../widgets/body_map.dart';
 import '../widgets/charts.dart';
 import '../widgets/dialogs.dart';
-import '../widgets/svg_icon.dart';
 import '../widgets/ui_kit.dart';
 import 'share_sheet.dart';
+import 'start_sheet.dart';
 
 class ProgressScreen extends StatelessWidget {
   const ProgressScreen({super.key});
@@ -37,7 +37,10 @@ class ProgressScreen extends StatelessWidget {
           children: [
             Row(
               children: [
-                Expanded(child: ScreenTitle(t.progress)),
+                Expanded(
+                  child: Text(t.progressTitle,
+                      style: AppTheme.f(27, weight: FontWeight.w800, color: gc.text)),
+                ),
                 Semantics(
                   button: true,
                   label: t.share,
@@ -46,329 +49,416 @@ class ProgressScreen extends StatelessWidget {
                     child: Container(
                       width: 38,
                       height: 38,
-                      decoration: BoxDecoration(
-                        color: gc.bgRaised,
-                        shape: BoxShape.circle,
-                        border: Border.all(color: gc.border),
-                      ),
+                      decoration: BoxDecoration(color: gc.bgRaised, shape: BoxShape.circle),
                       child: Icon(PhosphorIconsRegular.shareNetwork, size: 17, color: gc.text),
                     ),
                   ),
                 ),
               ],
             ),
-            const SizedBox(height: 22),
-            SoftCard(
-              radius: 24,
-              padding: const EdgeInsets.all(24),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(t.totalVolume30d,
-                      style: AppTheme.d(12, weight: FontWeight.w600, color: gc.brass, letterSpacing: 3)),
-                  const SizedBox(height: 8),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      RichText(
-                        text: TextSpan(
-                          text: fit.volumeValue(fit.volume30dKg),
-                          style: AppTheme.d(44, weight: FontWeight.w700, color: gc.text),
-                          children: [
-                            TextSpan(text: ' ${fit.volumeUnit}', style: AppTheme.d(20, weight: FontWeight.w700, color: gc.textSecondary)),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      if (change != null)
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 6),
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                            decoration: BoxDecoration(
-                                color: change >= 0 ? gc.sageSoft : gc.accentSoft,
-                                borderRadius: BorderRadius.circular(8)),
-                            child: Row(mainAxisSize: MainAxisSize.min, children: [
-                              SvgPathIcon(Ic.trendUp, size: 12, color: change >= 0 ? gc.sage : gc.accent),
-                              const SizedBox(width: 4),
-                              Text(t.vsLastMonth(change),
-                                  style: AppTheme.s(11, weight: FontWeight.w600, color: change >= 0 ? gc.sage : gc.accent)),
-                            ]),
-                          ),
-                        ),
-                    ],
-                  ),
-                  const SizedBox(height: 4),
-                  Text(t.volumeCumulative,
-                      style: AppTheme.s(12, color: gc.textSecondary, height: 1.4)),
-                  const SizedBox(height: 18),
-                  VolumeChart(
-                    points: fit.volumeChartPoints,
-                    label: fit.volumeValue,
-                    unit: fit.volumeUnit,
-                    xLabels: ['-30 d', '-15 d', t.noteToday.toLowerCase()],
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 22),
-            SoftCard(
-              radius: 20,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(t.consistency,
-                          style: AppTheme.d(14, weight: FontWeight.w600, color: gc.text, letterSpacing: 1)),
-                      Text(t.sessionsLogged(fit.totalSessions),
-                          style: AppTheme.s(12, color: gc.textSecondary)),
-                    ],
-                  ),
-                  const SizedBox(height: 14),
-                  Heatmap(levels: fit.heatmapLevels, onTapDay: (i) => _showDay(context, i)),
-                  const SizedBox(height: 14),
-                  Row(children: [
-                    SvgPathIcon(Ic.flame, size: 14, color: gc.accent),
-                    const SizedBox(width: 6),
-                    Text(t.streakDays(fit.currentStreak),
-                        style: AppTheme.s(13, weight: FontWeight.w600, color: gc.text)),
-                  ]),
-                ],
-              ),
-            ),
-            const SizedBox(height: 22),
-            _weekRhythm(gc),
-            const SizedBox(height: 22),
-            SoftCard(
-              radius: 20,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(t.bodyweight,
-                              style: AppTheme.d(14, weight: FontWeight.w600, color: gc.text, letterSpacing: 1)),
-                          const SizedBox(height: 4),
-                          if (fit.latestBodyweight != null)
-                            RichText(
-                              text: TextSpan(
-                                text: fit.weightValue(fit.latestBodyweight!.kg),
-                                style: AppTheme.d(26, weight: FontWeight.w700, color: gc.text),
-                                children: [
-                                  TextSpan(
-                                      text: ' ${fit.units}',
-                                      style: AppTheme.d(14, weight: FontWeight.w700, color: gc.textSecondary)),
-                                ],
-                              ),
-                            )
-                          else
-                            Text(t.notLoggedYet, style: AppTheme.s(13, color: gc.textSecondary)),
-                        ],
-                      ),
-                      GestureDetector(
-                        onTap: () => _logBodyweight(context),
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 9),
-                          decoration: BoxDecoration(color: gc.emberSoft, borderRadius: BorderRadius.circular(100)),
-                          child: Text(t.logShort,
-                              style: AppTheme.d(13, weight: FontWeight.w600, color: gc.ember, letterSpacing: 1)),
-                        ),
-                      ),
-                    ],
-                  ),
-                  if (bw.length >= 2) ...[
-                    const SizedBox(height: 14),
-                    Sparkline(values: bw),
-                  ],
-                  if (fit.bodyweight.isNotEmpty) ...[
-                    const SizedBox(height: 12),
-                    for (final e in fit.bodyweightHistory.take(5)) _bwRow(context, gc, e),
-                  ],
-                ],
-              ),
-            ),
-            const SizedBox(height: 22),
-            _timelineCard(gc),
-            const SizedBox(height: 22),
-            _measuresCard(gc),
-            const SizedBox(height: 22),
-            _StrengthCard(),
-            const SizedBox(height: 22),
+            const SizedBox(height: 20),
+            if (fit.sessions.isEmpty) ...[
+              _setupCard(context, gc),
+              const SizedBox(height: 12),
+            ],
+            _heroRow(context, gc, change, bw),
+            if (fit.sessions.isNotEmpty) ...[
+              const SizedBox(height: 12),
+              _consistency(context, gc),
+            ],
+            const SizedBox(height: 12),
+            _totals(gc),
+            const SizedBox(height: 12),
             const _MuscleMapCard(),
-            const SizedBox(height: 22),
-            SoftCard(
-              radius: 20,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(t.muscleSplit,
-                      style: AppTheme.d(14, weight: FontWeight.w600, color: gc.text, letterSpacing: 1)),
-                  const SizedBox(height: 14),
-                  if (split.isEmpty)
-                    Text(t.splitEmpty,
-                        style: AppTheme.s(13, color: gc.textSecondary))
-                  else
-                    SplitBars(entries: split),
-                ],
-              ),
-            ),
-            const SizedBox(height: 22),
-            SoftCard(
-              radius: 20,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(t.personalRecords,
-                      style: AppTheme.d(14, weight: FontWeight.w600, color: gc.text, letterSpacing: 1)),
-                  const SizedBox(height: 14),
-                  if (prs.isEmpty)
-                    Text(t.prEmpty,
-                        style: AppTheme.s(13, color: gc.textSecondary))
-                  else
-                    for (int i = 0; i < prs.length; i++) _prRow(gc, prs[i], i < prs.length - 1),
-                ],
-              ),
-            ),
-            const SizedBox(height: 22),
-            _allTime(gc),
+            for (final block in _blocks(context, gc, bw, split, prs)) ...[
+              const SizedBox(height: 12),
+              block,
+            ],
+            if (fit.sessions.isNotEmpty && _missing.isNotEmpty) ...[
+              const SizedBox(height: 12),
+              _setupCard(context, gc),
+            ],
           ],
         ),
       ),
     );
   }
 
-  Widget _weekRhythm(GymColors gc) {
-    final by = fit.sessionsByWeekday;
-    final best = fit.busiestWeekday;
-    final top = by.values.fold(0, (m, v) => v > m ? v : m);
-    final today = DateTime.now().weekday;
-    final bar = gc.accent;
-
-    return SoftCard(
-      radius: 20,
+  Widget _tile(
+    GymColors gc, {
+    required String label,
+    required String value,
+    String unit = '',
+    String? note,
+    Widget? chart,
+    Widget? badge,
+    VoidCallback? onTap,
+  }) {
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: onTap,
+      child: Container(
+      padding: const EdgeInsets.fromLTRB(18, 16, 18, 16),
+      decoration: BoxDecoration(color: gc.bgRaised, borderRadius: BorderRadius.circular(22)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(t.weekRhythm,
-                  style: AppTheme.d(14, weight: FontWeight.w600, color: gc.text, letterSpacing: 1)),
-              Text(best == 0 ? t.weekRhythmHint : t.weekRhythmBest(t.weekday(best).toLowerCase()),
-                  style: AppTheme.s(12, color: gc.textSecondary)),
-            ],
-          ),
-          const SizedBox(height: 16),
-          SizedBox(
-            height: 96,
+          Row(children: [
+            Expanded(
+              child: Text(label.toUpperCase(),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: AppTheme.f(10,
+                      weight: FontWeight.w600, color: gc.textTertiary, letterSpacing: 0.9)),
+            ),
+            ?badge,
+          ]),
+          const SizedBox(height: 10),
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            alignment: Alignment.centerLeft,
             child: Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.baseline,
+              textBaseline: TextBaseline.alphabetic,
               children: [
-                for (int i = 0; i < 7; i++) ...[
-                  if (i > 0) const SizedBox(width: 8),
-                  Expanded(
-                    child: () {
-                      final w = (t.firstWeekday + i - 1) % 7 + 1;
-                      final n = by[w] ?? 0;
-                      final h = top == 0 ? 0.0 : 62 * n / top;
-                      final on = n == top && n > 0;
-                      return Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Text(n == 0 ? '' : '$n',
-                              style: AppTheme.d(11,
-                                  weight: FontWeight.w700,
-                                  color: on ? gc.accent : gc.textTertiary)),
-                          const SizedBox(height: 4),
-                          Container(
-                            height: h < 4 ? 4 : h,
-                            decoration: BoxDecoration(
-                              color: n == 0
-                                  ? gc.heatEmpty
-                                  : bar.withValues(alpha: on ? 1 : 0.3 + 0.4 * n / top),
-                              borderRadius: BorderRadius.circular(6),
-                            ),
-                          ),
-                          const SizedBox(height: 8),
-                          Text(t.weekdayInitial(w).toUpperCase(),
-                              style: AppTheme.d(11,
-                                  weight: FontWeight.w600,
-                                  color: w == today ? gc.text : gc.textTertiary)),
-                        ],
-                      );
-                    }(),
-                  ),
+                Text(value, style: AppTheme.f(28, weight: FontWeight.w800, color: gc.text)),
+                if (unit.isNotEmpty) ...[
+                  const SizedBox(width: 5),
+                  Text(unit, style: AppTheme.f(13, weight: FontWeight.w500, color: gc.textSecondary)),
                 ],
               ],
             ),
           ),
-          if (fit.sessions.isEmpty) ...[
+          if (note != null) ...[
+            const SizedBox(height: 4),
+            Text(note,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: AppTheme.f(11.5, weight: FontWeight.w500, color: gc.textTertiary)),
+          ],
+          if (chart != null) ...[
             const SizedBox(height: 12),
-            Text(t.weekRhythmEmpty, style: AppTheme.s(13, color: gc.textSecondary)),
+            chart,
+          ],
+        ],
+      ),
+      ),
+    );
+  }
+
+  Widget _delta(GymColors gc, int pct) {
+    final up = pct >= 0;
+    final color = up ? gc.sage : gc.accent;
+    return Row(mainAxisSize: MainAxisSize.min, children: [
+      Icon(up ? PhosphorIconsBold.trendUp : PhosphorIconsBold.trendDown, size: 11, color: color),
+      const SizedBox(width: 3),
+      Text('${pct.abs()}%', style: AppTheme.f(11, weight: FontWeight.w700, color: color)),
+    ]);
+  }
+
+  Widget _heroRow(BuildContext context, GymColors gc, int? change, List<double> bw) {
+    final weight = fit.latestBodyweight;
+    return IntrinsicHeight(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Expanded(
+            child: _tile(
+              gc,
+              label: t.tileVolume30,
+              value: fit.volumeValue(fit.volume30dKg),
+              unit: fit.volumeUnit,
+              badge: change == null ? null : _delta(gc, change),
+              chart: fit.sessions.isEmpty
+                  ? const SizedBox(height: 40)
+                  : Sparkline(values: fit.volumeChartPoints, height: 40, color: gc.textSecondary),
+            ),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: weight == null
+                ? _tile(gc,
+                    label: t.weightLabel,
+                    value: '—',
+                    note: t.tileAddWeight,
+                    onTap: () => _logBodyweight(context))
+                : _tile(
+                    gc,
+                    label: t.weightLabel,
+                    value: fit.weightValue(weight.kg),
+                    unit: fit.units,
+                    note: t.shortDate(weight.date),
+                    chart: bw.length < 2
+                        ? const SizedBox(height: 40)
+                        : Sparkline(values: bw, height: 40, color: gc.textSecondary),
+                    onTap: () => _logBodyweight(context),
+                  ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _consistency(BuildContext context, GymColors gc) {
+    return Container(
+      padding: const EdgeInsets.fromLTRB(18, 16, 18, 18),
+      decoration: BoxDecoration(color: gc.bgRaised, borderRadius: BorderRadius.circular(22)),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Text(t.consistency.toUpperCase(),
+                  style: AppTheme.f(10,
+                      weight: FontWeight.w600, color: gc.textTertiary, letterSpacing: 0.9)),
+              const Spacer(),
+              GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: () => showHeatToneSheet(context),
+                child: Semantics(
+                  button: true,
+                  label: t.heatToneTitle,
+                  child: Row(children: [
+                    for (final c in heatRamp(gc, fit.heatTone).skip(1))
+                      Container(
+                        width: 9,
+                        height: 9,
+                        margin: const EdgeInsets.only(left: 3),
+                        decoration:
+                            BoxDecoration(color: c, borderRadius: BorderRadius.circular(3)),
+                      ),
+                    const SizedBox(width: 7),
+                    Icon(PhosphorIconsRegular.caretDown, size: 11, color: gc.textTertiary),
+                  ]),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 14),
+          Heatmap(levels: fit.heatmapLevels, onTapDay: (i) => _showDay(context, i)),
+          const SizedBox(height: 14),
+          Row(children: [
+            Icon(PhosphorIconsFill.fire, size: 14, color: gc.accent),
+            const SizedBox(width: 7),
+            Text(t.streakDays(fit.currentStreak),
+                style: AppTheme.f(12.5, weight: FontWeight.w600, color: gc.text)),
+            const Spacer(),
+            Text(t.weekOfGoal(fit.sessionsThisWeek, fit.weeklyTarget),
+                style: AppTheme.f(12, weight: FontWeight.w500, color: gc.textTertiary)),
+          ]),
+        ],
+      ),
+    );
+  }
+
+  Widget _totals(GymColors gc) {
+    final hours = fit.totalTime.inHours;
+    final cells = <(String, String, String)>[
+      (t.allTimeSessions, '${fit.totalSessions}', ''),
+      (t.allTimeSets, '${fit.totalSets}', ''),
+      (
+        t.allTimeTime,
+        hours >= 1 ? '$hours' : '${fit.totalTime.inMinutes}',
+        hours >= 1 ? t.unitHours : 'min'
+      ),
+    ];
+    return IntrinsicHeight(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          for (var i = 0; i < cells.length; i++) ...[
+            Expanded(child: _tile(gc, label: cells[i].$1, value: cells[i].$2, unit: cells[i].$3)),
+            if (i < cells.length - 1) const SizedBox(width: 12),
           ],
         ],
       ),
     );
   }
 
-  Widget _allTime(GymColors gc) {
-    final time = fit.totalTime;
-    final hours = time.inHours;
-    final avg = fit.averageSession;
+  Widget _thisWeek(GymColors gc) {
+    final start = fit.weekStartDate;
+    final sets = List<int>.filled(7, 0);
+    for (final session in fit.sessions) {
+      final day = DateTime(session.date.year, session.date.month, session.date.day);
+      final i = day.difference(start).inDays;
+      if (i >= 0 && i < 7) sets[i] += session.setCount;
+    }
+    final top = sets.fold(0, (m, v) => v > m ? v : m);
+    final todayIndex = fit.todayIndex;
 
-    Widget cell(String label, String value) => Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+    return Container(
+      padding: const EdgeInsets.fromLTRB(18, 16, 18, 16),
+      decoration: BoxDecoration(color: gc.bgRaised, borderRadius: BorderRadius.circular(22)),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(children: [
+            Text(t.thisWeekTitle.toUpperCase(),
+                style: AppTheme.f(10,
+                    weight: FontWeight.w600, color: gc.textTertiary, letterSpacing: 0.9)),
+            const Spacer(),
+            Text(t.setsThisWeek(sets.fold(0, (a, b) => a + b)),
+                style: AppTheme.f(11.5, weight: FontWeight.w600, color: gc.textSecondary)),
+          ]),
+          const SizedBox(height: 18),
+          SizedBox(
+            height: 92,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                for (var i = 0; i < 7; i++) ...[
+                  Expanded(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(sets[i] > 0 ? '${sets[i]}' : '',
+                            style: AppTheme.f(11,
+                                weight: FontWeight.w700,
+                                color: i == todayIndex ? gc.text : gc.textSecondary)),
+                        const SizedBox(height: 6),
+                        Container(
+                          height: top == 0 ? 6 : (8 + 52 * sets[i] / top),
+                          decoration: BoxDecoration(
+                            color: sets[i] == 0
+                                ? gc.bgRaised2
+                                : (i == todayIndex ? gc.text : gc.text.withValues(alpha: 0.32)),
+                            borderRadius: BorderRadius.circular(7),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  if (i < 6) const SizedBox(width: 8),
+                ],
+              ],
+            ),
+          ),
+          const SizedBox(height: 10),
+          Row(
             children: [
-              Text(label,
-                  maxLines: 1,
-                  style: AppTheme.s(9.5,
-                      weight: FontWeight.w600, color: gc.textTertiary, letterSpacing: 1)),
-              const SizedBox(height: 4),
-              FittedBox(
-                fit: BoxFit.scaleDown,
-                alignment: Alignment.centerLeft,
-                child: Text(value,
-                    maxLines: 1,
-                    style: AppTheme.d(20, weight: FontWeight.w700, color: gc.text)),
-              ),
+              for (var i = 0; i < 7; i++) ...[
+                Expanded(
+                  child: Text(
+                    t.weekdayInitial((t.firstWeekday - 1 + i) % 7 + 1),
+                    textAlign: TextAlign.center,
+                    style: AppTheme.f(11,
+                        weight: i == todayIndex ? FontWeight.w700 : FontWeight.w500,
+                        color: i == todayIndex ? gc.text : gc.textTertiary),
+                  ),
+                ),
+                if (i < 6) const SizedBox(width: 8),
+              ],
             ],
           ),
-        );
+        ],
+      ),
+    );
+  }
 
+  List<({String label, bool done, String route})> _steps() => [
+        (label: t.setupWorkout, done: fit.sessions.isNotEmpty, route: 'train'),
+        (label: t.setupWeight, done: fit.bodyweight.isNotEmpty, route: 'weight'),
+        (label: t.setupMeasures, done: fit.measures.isNotEmpty, route: 'measures'),
+        (label: t.setupPhoto, done: fit.shotCount > 0, route: 'timeline'),
+      ];
+
+  List<String> get _missing =>
+      [for (final s in _steps()) if (!s.done) s.label];
+
+  void _goStep(BuildContext context, String route) {
+    switch (route) {
+      case 'train':
+        fit.startWorkout();
+      case 'weight':
+        _logBodyweight(context);
+      case 'measures':
+        fit.goMeasures();
+      case 'timeline':
+        fit.goTimeline();
+    }
+  }
+
+  Widget _setupCard(BuildContext context, GymColors gc) {
+    return Container(
+      padding: const EdgeInsets.fromLTRB(18, 16, 18, 8),
+      decoration: BoxDecoration(
+        color: gc.bgRaised,
+        borderRadius: BorderRadius.circular(22),
+        border: Border.all(color: gc.border),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(t.setupTitle, style: AppTheme.f(15.5, color: gc.text)),
+          const SizedBox(height: 4),
+          Text(t.setupHint,
+              style: AppTheme.f(12, weight: FontWeight.w500, color: gc.textTertiary, height: 1.4)),
+          const SizedBox(height: 14),
+          for (final step in _steps())
+            GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onTap: step.done ? null : () => _goStep(context, step.route),
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 13),
+                child: Row(children: [
+                  Icon(
+                    step.done ? PhosphorIconsFill.checkCircle : PhosphorIconsRegular.circleDashed,
+                    size: 17,
+                    color: step.done ? gc.sage : gc.textTertiary,
+                  ),
+                  const SizedBox(width: 11),
+                  Expanded(
+                    child: Text(step.label,
+                        style: AppTheme.f(13,
+                            weight: FontWeight.w500,
+                            color: step.done ? gc.textTertiary : gc.text)),
+                  ),
+                  if (!step.done)
+                    Icon(PhosphorIconsBold.caretRight, size: 13, color: gc.textTertiary),
+                ]),
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+
+  List<Widget> _blocks(
+    BuildContext context,
+    GymColors gc,
+    List<double> bw,
+    List<({String name, int pct})> split,
+    List<({String id, String name, double topWeight, double oneRm})> prs,
+  ) {
+    return [
+      if (fit.sessions.isNotEmpty) _thisWeek(gc),
+      if (fit.trackedExercises.isNotEmpty) _StrengthCard(),
+      if (prs.isNotEmpty) _prCard(gc, prs),
+      if (fit.shotCount > 0) _timelineCard(gc),
+      if (fit.measures.isNotEmpty) _measuresCard(gc),
+    ];
+  }
+
+  Widget _prCard(
+      GymColors gc, List<({String id, String name, double topWeight, double oneRm})> prs) {
     return SoftCard(
       radius: 20,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(t.allTime,
-              style: AppTheme.d(14, weight: FontWeight.w600, color: gc.text, letterSpacing: 1)),
-          const SizedBox(height: 16),
-          Row(children: [
-            cell(t.allTimeSessions, '${fit.totalSessions}'),
-            cell(t.allTimeTime, hours >= 1 ? t.hoursShort(hours) : '${time.inMinutes} min'),
-          ]),
-          const SizedBox(height: 16),
-          Row(children: [
-            cell(t.allTimeVolume, fit.volumeLabel(fit.totalVolumeKg)),
-            cell(t.allTimeSets, '${fit.totalSets}'),
-          ]),
-          if (fit.sessions.isNotEmpty) ...[
-            const SizedBox(height: 14),
-            Text(t.allTimeAvg('${avg.inMinutes} min'),
-                style: AppTheme.s(12.5, color: gc.textSecondary)),
-          ],
+          Text(t.personalRecords,
+              style: AppTheme.f(10, weight: FontWeight.w600, color: gc.textTertiary, letterSpacing: 0.9)),
+          const SizedBox(height: 14),
+          if (prs.isEmpty)
+            Text(t.prEmpty,
+                style: AppTheme.s(13, color: gc.textSecondary))
+          else
+            for (int i = 0; i < prs.length; i++) _prRow(gc, prs[i], i < prs.length - 1),
         ],
       ),
     );
   }
+
 
   Widget _timelineCard(GymColors gc) {
     final pair = fit.comparePair;
@@ -546,7 +636,7 @@ class ProgressScreen extends StatelessWidget {
     );
   }
 
-  Widget _bwRow(BuildContext context, GymColors gc, BodyweightEntry e) {
+  Widget bwRow(BuildContext context, GymColors gc, BodyweightEntry e) {
     return Row(
       children: [
         Expanded(child: Text(t.shortDateYear(e.date), style: AppTheme.s(12, color: gc.textSecondary))),
@@ -621,7 +711,7 @@ class _MuscleMapCardState extends State<_MuscleMapCard> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(t.muscleMap,
-                  style: AppTheme.d(14, weight: FontWeight.w600, color: gc.text, letterSpacing: 1)),
+                  style: AppTheme.f(10, weight: FontWeight.w600, color: gc.textTertiary, letterSpacing: 0.9)),
               SegToggle(
                 [
                   SegOption(t.days7, _days == 7, () => _setDays(7)),
@@ -709,7 +799,7 @@ class _StrengthCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(t.strength1rm,
-              style: AppTheme.d(14, weight: FontWeight.w600, color: gc.text, letterSpacing: 1)),
+              style: AppTheme.f(10, weight: FontWeight.w600, color: gc.textTertiary, letterSpacing: 0.9)),
           const SizedBox(height: 14),
           if (id == null)
             Text(t.strengthEmpty,
@@ -761,7 +851,7 @@ class _StrengthCard extends StatelessWidget {
         ],
       ),
       const SizedBox(height: 12),
-      Sparkline(values: series, height: 56, color: up ? gc.sage : gc.accent),
+      Sparkline(values: series, height: 56, color: gc.textSecondary),
       const SizedBox(height: 12),
       SingleChildScrollView(
         scrollDirection: Axis.horizontal,
@@ -805,7 +895,7 @@ class _DaySheet extends StatelessWidget {
       ),
       clipBehavior: Clip.antiAlias,
       child: SingleChildScrollView(
-        padding: const EdgeInsets.fromLTRB(20, 12, 20, 28),
+        padding: sheetPad(context),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -838,10 +928,26 @@ class _DaySheet extends StatelessWidget {
                 const SizedBox(height: 6),
               ],
             ],
+            if (!fit.isSessionActive && !_isFuture) ...[
+              const SizedBox(height: 14),
+              GhostButton(
+                label: t.logWorkoutAction,
+                icon: PhosphorIconsRegular.plus,
+                onTap: () {
+                  Navigator.of(context).pop();
+                  showStartSheet(context, day: date);
+                },
+              ),
+            ],
           ],
         ),
       ),
     );
+  }
+
+  bool get _isFuture {
+    final now = DateTime.now();
+    return date.isAfter(DateTime(now.year, now.month, now.day, 23, 59));
   }
 
   Widget _sessionHeader(BuildContext context, GymColors gc, LoggedSession s) {
@@ -995,7 +1101,7 @@ class _LogBodyweightSheetState extends State<_LogBodyweightSheet> {
   Widget build(BuildContext context) {
     final gc = context.gc;
     return Container(
-      padding: EdgeInsets.fromLTRB(20, 12, 20, 20 + MediaQuery.of(context).viewInsets.bottom),
+      padding: EdgeInsets.fromLTRB(20, 12, 20, 20 + MediaQuery.of(context).viewInsets.bottom + MediaQuery.paddingOf(context).bottom),
       decoration: BoxDecoration(
         color: gc.bgRaised,
         border: Border.all(color: gc.border),
@@ -1185,4 +1291,77 @@ Widget _editSetRow(GymColors gc, LoggedSession s, LoggedExercise e, int i, bool 
       ],
     ),
   );
+}
+
+void showHeatToneSheet(BuildContext context) {
+  showModalBottomSheet<void>(
+    context: context,
+    backgroundColor: Colors.transparent,
+    builder: (_) => const _HeatToneSheet(),
+  );
+}
+
+class _HeatToneSheet extends StatefulWidget {
+  const _HeatToneSheet();
+
+  @override
+  State<_HeatToneSheet> createState() => _HeatToneSheetState();
+}
+
+class _HeatToneSheetState extends State<_HeatToneSheet> {
+  @override
+  Widget build(BuildContext context) {
+    final gc = context.gc;
+    return Container(
+      padding: sheetPad(context),
+      decoration: BoxDecoration(
+        color: gc.bgRaised,
+        border: Border.all(color: gc.border),
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const SheetHandle(),
+          const SizedBox(height: 16),
+          Text(t.heatToneTitle, style: AppTheme.f(19, color: gc.text)),
+          const SizedBox(height: 8),
+          Text(t.heatToneHint,
+              textAlign: TextAlign.center,
+              style: AppTheme.f(12.5, weight: FontWeight.w500, color: gc.textSecondary)),
+          const SizedBox(height: 20),
+          for (final tone in kHeatTones)
+            GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onTap: () => setState(() => fit.setHeatTone(tone)),
+              child: Container(
+                margin: const EdgeInsets.only(bottom: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                decoration: BoxDecoration(
+                  color: gc.bgRaised2,
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(
+                      color: fit.heatTone == tone ? gc.text : Colors.transparent, width: 1.4),
+                ),
+                child: Row(children: [
+                  for (final c in heatRamp(gc, tone))
+                    Container(
+                      width: 20,
+                      height: 20,
+                      margin: const EdgeInsets.only(right: 6),
+                      decoration: BoxDecoration(color: c, borderRadius: BorderRadius.circular(6)),
+                    ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(t.heatToneName(tone),
+                        style: AppTheme.f(14, weight: FontWeight.w600, color: gc.text)),
+                  ),
+                  if (fit.heatTone == tone) Icon(PhosphorIconsBold.check, size: 16, color: gc.text),
+                ]),
+              ),
+            ),
+        ],
+      ),
+    );
+  }
 }

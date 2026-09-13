@@ -156,7 +156,7 @@ mixin TimelineState on FitCore {
   }
 
   void setPhotoInterval(int days) {
-    photoIntervalDays = kPhotoIntervals.contains(days) ? days : 30;
+    photoIntervalDays = days <= 0 ? 0 : days.clamp(1, 365);
     _syncPhotoReminder();
     _persist();
     notifyListeners();

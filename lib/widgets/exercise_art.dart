@@ -53,12 +53,14 @@ class ExerciseArt extends StatefulWidget {
     this.height = 210,
     this.radius = 20,
     this.live = false,
+    this.bordered = true,
   });
 
   final String slug;
   final double height;
   final double radius;
   final bool live;
+  final bool bordered;
 
   @override
   State<ExerciseArt> createState() => _ExerciseArtState();
@@ -145,7 +147,7 @@ class _ExerciseArtState extends State<ExerciseArt> with SingleTickerProviderStat
       decoration: BoxDecoration(
         color: gc.bgRaised2,
         borderRadius: BorderRadius.circular(widget.radius),
-        border: Border.all(color: gc.border),
+        border: widget.bordered ? Border.all(color: gc.border) : null,
       ),
       clipBehavior: Clip.antiAlias,
       child: child,

@@ -75,7 +75,7 @@ class NoteCalendar extends StatelessWidget {
             Expanded(
               child: Text(t.monthYear(month),
                   textAlign: TextAlign.center,
-                  style: AppTheme.d(15, weight: FontWeight.w700, color: gc.text)),
+                  style: AppTheme.f(15, weight: FontWeight.w700, color: gc.text)),
             ),
             _arrow(gc, PhosphorIconsBold.caretRight, t.noteNextMonth, () => onMonth(1)),
           ],
@@ -87,7 +87,7 @@ class NoteCalendar extends StatelessWidget {
               Expanded(
                 child: Text(t.weekdayInitial((t.firstWeekday + i - 1) % 7 + 1).toUpperCase(),
                     textAlign: TextAlign.center,
-                    style: AppTheme.d(10.5,
+                    style: AppTheme.f(10.5,
                         weight: FontWeight.w600, color: gc.textTertiary, letterSpacing: 1)),
               ),
           ],
@@ -150,7 +150,7 @@ class NoteCalendar extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text('${day.day}',
-                  style: AppTheme.d(13.5,
+                  style: AppTheme.f(13.5,
                       weight: isToday || on ? FontWeight.w700 : FontWeight.w500,
                       color: on
                           ? gc.text
@@ -194,7 +194,6 @@ Future<void> showNoteDaySheet(BuildContext context, DateTime day) async {
       padding: sheetPad(context, bottom: 26),
       decoration: BoxDecoration(
         color: gc.bgRaised,
-        border: Border.all(color: gc.border),
         borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
       ),
       child: Column(
@@ -204,9 +203,9 @@ Future<void> showNoteDaySheet(BuildContext context, DateTime day) async {
           const SheetHandle(),
           const SizedBox(height: 18),
           Text(noteDayLabel(day).toUpperCase(),
-              style: AppTheme.d(13, weight: FontWeight.w700, color: gc.text, letterSpacing: 2)),
+              style: AppTheme.f(13, weight: FontWeight.w700, color: gc.text, letterSpacing: 0.4)),
           const SizedBox(height: 3),
-          Text(t.fullDate(day), style: AppTheme.s(12.5, color: gc.textTertiary)),
+          Text(t.fullDate(day), style: AppTheme.f(12.5, weight: FontWeight.w500, color: gc.textTertiary)),
           const SizedBox(height: 18),
           for (final k in NoteKind.values) ...[
             if (k != NoteKind.values.first) const SizedBox(height: 8),
@@ -218,7 +217,6 @@ Future<void> showNoteDaySheet(BuildContext context, DateTime day) async {
                 decoration: BoxDecoration(
                   color: gc.bgRaised2,
                   borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: gc.border),
                 ),
                 child: Row(
                   children: [
@@ -226,7 +224,7 @@ Future<void> showNoteDaySheet(BuildContext context, DateTime day) async {
                     const SizedBox(width: 14),
                     Expanded(
                       child: Text(noteKindLabel(k),
-                          style: AppTheme.s(14, weight: FontWeight.w600, color: gc.text)),
+                          style: AppTheme.f(14, weight: FontWeight.w600, color: gc.text)),
                     ),
                     Icon(PhosphorIconsRegular.caretRight, size: 14, color: gc.textTertiary),
                   ],
@@ -262,7 +260,7 @@ class NoteKindBadge extends StatelessWidget {
           Icon(noteKindIcon(kind), size: compact ? 10 : 12, color: color),
           SizedBox(width: compact ? 4 : 5),
           Text(noteKindLabel(kind).toUpperCase(),
-              style: AppTheme.d(compact ? 9.5 : 10.5,
+              style: AppTheme.f(compact ? 9.5 : 10.5,
                   weight: FontWeight.w600, color: color, letterSpacing: 1)),
         ],
       ),
@@ -297,7 +295,7 @@ class NoteKindPicker extends StatelessWidget {
                     color: selected == kind
                         ? noteKindColor(gc, kind).withValues(alpha: 0.14)
                         : gc.bgRaised,
-                    borderRadius: BorderRadius.circular(14),
+                    borderRadius: BorderRadius.circular(18),
                     border: Border.all(
                       color: selected == kind ? noteKindColor(gc, kind) : gc.border,
                       width: selected == kind ? 1.4 : 1,
@@ -314,7 +312,7 @@ class NoteKindPicker extends StatelessWidget {
                         child: Text(
                           noteKindLabel(kind),
                           maxLines: 1,
-                          style: AppTheme.s(11.5,
+                          style: AppTheme.f(11.5,
                               weight: FontWeight.w600,
                               color: selected == kind
                                   ? noteKindColor(gc, kind)
@@ -368,7 +366,7 @@ class NoteFilterBar extends StatelessWidget {
             ),
             child: Center(
               child: Text(label,
-                  style: AppTheme.s(12.5,
+                  style: AppTheme.f(12.5,
                       weight: FontWeight.w600, color: on ? color : gc.textSecondary)),
             ),
           ),
@@ -429,7 +427,6 @@ class NoteCard extends StatelessWidget {
         clipBehavior: Clip.antiAlias,
         decoration: BoxDecoration(
           color: gc.bgRaised,
-          border: Border.all(color: gc.border),
           borderRadius: BorderRadius.circular(18),
         ),
         child: Stack(
@@ -450,7 +447,7 @@ class NoteCard extends StatelessWidget {
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           textAlign: TextAlign.right,
-                          style: AppTheme.s(11.5, color: gc.textTertiary),
+                          style: AppTheme.f(11.5, weight: FontWeight.w500, color: gc.textTertiary),
                         ),
                       ),
                     ],
@@ -459,13 +456,13 @@ class NoteCard extends StatelessWidget {
                   Text(note.title,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
-                      style: AppTheme.s(15, weight: FontWeight.w600, color: gc.text, height: 1.3)),
+                      style: AppTheme.f(15, weight: FontWeight.w600, color: gc.text, height: 1.3)),
                   if (note.body.isNotEmpty) ...[
                     const SizedBox(height: 4),
                     Text(note.body,
                         maxLines: 3,
                         overflow: TextOverflow.ellipsis,
-                        style: AppTheme.s(13, color: gc.textSecondary, height: 1.4)),
+                        style: AppTheme.f(13, weight: FontWeight.w500, color: gc.textSecondary, height: 1.4)),
                   ],
                   if (note.media.isNotEmpty) ...[
                     const SizedBox(height: 12),
@@ -585,8 +582,7 @@ class NoteThumb extends StatelessWidget {
             child: Container(
               decoration: BoxDecoration(
                 color: gc.bgRaised2,
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: gc.border),
+                borderRadius: BorderRadius.circular(16),
               ),
               clipBehavior: Clip.antiAlias,
               child: Center(child: inner),
@@ -597,11 +593,11 @@ class NoteThumb extends StatelessWidget {
               child: Container(
                 decoration: BoxDecoration(
                   color: const Color(0xA6000000),
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(16),
                 ),
                 alignment: Alignment.center,
                 child: Text(badge!,
-                    style: AppTheme.d(14, weight: FontWeight.w700, color: Colors.white)),
+                    style: AppTheme.f(14, weight: FontWeight.w700, color: Colors.white)),
               ),
             ),
           if (onRemove != null)
@@ -619,7 +615,6 @@ class NoteThumb extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: gc.bgRaised2,
                       shape: BoxShape.circle,
-                      border: Border.all(color: gc.border),
                     ),
                     child: Icon(PhosphorIconsBold.x, size: 11, color: gc.text),
                   ),
@@ -705,7 +700,7 @@ class _MediaViewerState extends State<_MediaViewer> {
                     const Spacer(),
                     if (widget.media.length > 1)
                       Text('${_index + 1}/${widget.media.length}',
-                          style: AppTheme.d(14, weight: FontWeight.w600, color: Colors.white)),
+                          style: AppTheme.f(14, weight: FontWeight.w600, color: Colors.white)),
                     const SizedBox(width: 10),
                   ],
                 ),

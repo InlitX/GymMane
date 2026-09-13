@@ -16,6 +16,8 @@ mixin StatsState on FitCore, ToolsState, LibraryState, TimelineState {
 
   int get athleteLevel => 1 + totalSessions ~/ 10;
 
+  int get sessionsToNextLevel => 10 - totalSessions % 10;
+
   BodyweightEntry? get latestBodyweight =>
       bodyweight.isEmpty ? null : bodyweight.reduce((a, b) => a.date.isAfter(b.date) ? a : b);
 
@@ -33,6 +35,8 @@ mixin StatsState on FitCore, ToolsState, LibraryState, TimelineState {
   }
 
   int get todayIndex => DateTime.now().weekday - 1;
+
+  DateTime get weekStartDate => _weekStart;
 
   DateTime get _weekStart {
     final t = _dayKey(DateTime.now());
@@ -68,6 +72,21 @@ mixin StatsState on FitCore, ToolsState, LibraryState, TimelineState {
   bool get hasData => sessions.isNotEmpty;
   int get totalSessions => sessions.length;
 
+  (String, String) get trainedSpan {
+    final secs = sessions.fold<int>(0, (n, s) => n + s.durationSec);
+    final hours = secs ~/ 3600;
+    if (hours < 48) return ('$hours', t.unitHours);
+    return ('${hours ~/ 24}', t.unitDays);
+  }
+
+  (String, String) liftedSpanOf(double kg) {
+    final shown = toDisplayWeight(kg);
+    if (shown < 1000) return (shown.round().toString(), units);
+    final k = shown / 1000;
+    return (k >= 10 ? k.round().toString() : k.toStringAsFixed(1), units == 'kg' ? 't' : 'k $units');
+  }
+
+  (String, String) get liftedSpan => liftedSpanOf(totalVolumeKg);
   int get totalSets => sessions.fold(0, (n, s) => n + s.setCount);
 
   double get totalVolumeKg => sessions.fold(0.0, (a, s) => a + s.volume);
@@ -77,6 +96,33 @@ mixin StatsState on FitCore, ToolsState, LibraryState, TimelineState {
   Duration get averageSession => sessions.isEmpty
       ? Duration.zero
       : Duration(seconds: totalTime.inSeconds ~/ sessions.length);
+
+  int get statsYear => DateTime.now().year;
+
+  List<int> get sessionsByMonth {
+    final out = List.filled(12, 0);
+    for (final s in sessions) {
+      if (s.date.year == statsYear) out[s.date.month - 1]++;
+    }
+    return out;
+  }
+
+  double get volumeThisYearKg => sessions
+      .where((s) => s.date.year == statsYear)
+      .fold(0.0, (a, s) => a + s.volume);
+
+  int get sessionsThisYear => sessionsByMonth.fold(0, (a, b) => a + b);
+
+  int get monthsTrainedThisYear => sessionsByMonth.where((n) => n > 0).length;
+
+  int get bestMonthThisYear {
+    final months = sessionsByMonth;
+    var best = 0;
+    for (var i = 1; i < 12; i++) {
+      if (months[i] > months[best]) best = i;
+    }
+    return months[best] == 0 ? 0 : best + 1;
+  }
 
   Map<int, int> get sessionsByWeekday {
     final out = {for (int w = 1; w <= 7; w++) w: 0};
@@ -296,6 +342,7 @@ mixin StatsState on FitCore, ToolsState, LibraryState, TimelineState {
     }
     _persist();
     _refreshWidgets();
+    refreshAwards();
     notifyListeners();
   }
 
@@ -308,10 +355,9 @@ mixin StatsState on FitCore, ToolsState, LibraryState, TimelineState {
     return sessions.where((s) => _dayKey(s.date) == t).fold(0, (a, s) => a + s.setCount);
   }
 
-  int get goalPct {
-    final g = profile.weeklyGoal <= 0 ? 4 : profile.weeklyGoal;
-    return ((sessionsThisWeek / g) * 100).round().clamp(0, 100);
-  }
+  int get weeklyTarget => profile.weeklyGoal <= 0 ? 4 : profile.weeklyGoal;
+
+  int get goalPct => ((sessionsThisWeek / weeklyTarget) * 100).round().clamp(0, 100);
 
   List<({String id, String name, double topWeight, double oneRm})> get personalRecords {
     final best = <String, ({String id, String name, double topWeight, double oneRm})>{};
@@ -542,6 +588,63 @@ mixin StatsState on FitCore, ToolsState, LibraryState, TimelineState {
     return h.map((r) => _round1(r.ex.bestOneRm)).toList();
   }
 
+  static const _habitWindowDays = 120;
+
+  Iterable<LoggedSession> get _recentSessions {
+    final now = DateTime.now();
+    return sessions.where((s) => now.difference(s.date).inDays <= _habitWindowDays);
+  }
+
+  Map<int, int> get _recentByWeekday {
+    final out = <int, int>{};
+    for (final s in _recentSessions) {
+      out[s.date.weekday] = (out[s.date.weekday] ?? 0) + 1;
+    }
+    return out;
+  }
+
+  List<int> get usualWeekdays {
+    final counts = _recentByWeekday;
+    if (counts.isEmpty) return const [];
+    final best = counts.values.reduce(math.max);
+    if (best < 2) return const [];
+    final cut = (best * 0.6).ceil();
+    final days = counts.entries.where((e) => e.value >= cut).map((e) => e.key).toList()..sort();
+    return days.length > 6 ? days.sublist(0, 6) : days;
+  }
+
+  int? get usualStartMinute {
+    final starts = <int>[];
+    for (final s in _recentSessions) {
+      final start = s.date.subtract(Duration(seconds: s.durationSec));
+      starts.add(start.hour * 60 + start.minute);
+    }
+    if (starts.length < 3) return null;
+    starts.sort();
+    return (starts[starts.length ~/ 2] ~/ 15) * 15;
+  }
+
+  bool get hasTrainingHabit => usualWeekdays.isNotEmpty && usualStartMinute != null;
+
+  String? familyOnWeekday(int weekday) {
+    final onDay = _recentSessions.where((s) => s.date.weekday == weekday).toList();
+    if (onDay.length < 2) return null;
+    final volume = <String, double>{};
+    for (final s in onDay) {
+      for (final e in s.exercises) {
+        final f = muscleFamily(e.primary);
+        volume[f] = (volume[f] ?? 0) + e.volume;
+      }
+    }
+    if (volume.isEmpty) return null;
+    return volume.entries.reduce((a, b) => a.value >= b.value ? a : b).key;
+  }
+
+  bool get trainedToday {
+    final today = _dayKey(DateTime.now());
+    return sessions.any((s) => _dayKey(s.date) == today);
+  }
+
   ({String title, String subtitle, List<String> muscles}) get suggestedFocus {
     final table = {
       'push': (title: t.pushDay, subtitle: t.pushFocus, muscles: ['chest', 'shoulders', 'triceps']),
@@ -549,8 +652,10 @@ mixin StatsState on FitCore, ToolsState, LibraryState, TimelineState {
       'legs': (title: t.legDay, subtitle: t.legFocus, muscles: ['quads', 'hamstrings', 'glutes']),
     };
     var last = '';
+    var lastWasRecent = false;
     if (sessions.isNotEmpty) {
       final s = sessions.reduce((a, b) => a.date.isAfter(b.date) ? a : b);
+      lastWasRecent = daysBetween(s.date, DateTime.now()) <= 1;
       final fam = <String, double>{};
       for (final e in s.exercises) {
         final f = muscleFamily(e.primary);
@@ -561,9 +666,19 @@ mixin StatsState on FitCore, ToolsState, LibraryState, TimelineState {
       }
     }
     const order = ['push', 'pull', 'legs'];
+    final today = DateTime.now().weekday;
+    final habit = familyOnWeekday(today);
+    if (habit != null && order.contains(habit) && !(lastWasRecent && habit == last)) {
+      final picked = table[habit]!;
+      return (
+        title: picked.title,
+        subtitle: t.habitFocus(t.weekday(today)),
+        muscles: picked.muscles,
+      );
+    }
     final idx = order.indexOf(last);
 
-    final next = idx >= 0 ? order[(idx + 1) % order.length] : order[DateTime.now().weekday % 3];
+    final next = idx >= 0 ? order[(idx + 1) % order.length] : order[today % 3];
     return table[next]!;
   }
 }

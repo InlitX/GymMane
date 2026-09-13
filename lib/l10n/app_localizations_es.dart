@@ -892,6 +892,12 @@ class AppLocalizationsEs extends AppLocalizations {
   String get photoEveryOff => 'Nunca';
 
   @override
+  String get timelineEvery => 'AGRUPAR CADA';
+
+  @override
+  String get custom => 'Otro';
+
+  @override
   String photoNextIn(int n) {
     String _temp0 = intl.Intl.pluralLogic(
       n,
@@ -1636,6 +1642,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get equipKettlebell => 'Kettlebell';
 
   @override
+  String get equipRings => 'Anillas';
+
+  @override
   String get equipOther => 'Otro';
 
   @override
@@ -2112,4 +2121,410 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get importAskApp => '¿Necesitas otra app? Pídemela';
+
+  @override
+  String get awardFirstStepName => 'Primer paso';
+
+  @override
+  String get awardFirstStepLine => 'Bienvenido a GymMane. Esta te la regala la casa.';
+
+  @override
+  String get awardFirstWorkoutName => 'Primer entreno';
+
+  @override
+  String get awardFirstWorkoutLine => 'El primero ya está guardado. Ese es el difícil.';
+
+  @override
+  String get awardFirstRoutineName => 'Primera rutina';
+
+  @override
+  String get awardFirstRoutineLine => 'Ya tienes un plan al que volver.';
+
+  @override
+  String get awardFirstRecordName => 'Primer récord';
+
+  @override
+  String get awardFirstRecordLine => 'Has superado tu mejor marca en un ejercicio.';
+
+  @override
+  String get awardStreak3Name => 'Tres seguidos';
+
+  @override
+  String get awardStreak3Line => 'Tres días seguidos. Así empieza todo.';
+
+  @override
+  String get awardTonne1Name => 'Una tonelada';
+
+  @override
+  String get awardTonne1Line => 'Mil kilos levantados entre todas tus series.';
+
+  @override
+  String get awardSets100Name => 'Cien series';
+
+  @override
+  String get awardSets100Line => 'Cien series completadas, una a una.';
+
+  @override
+  String get awardHours10Name => 'Diez horas';
+
+  @override
+  String get awardHours10Line => 'Diez horas de entreno con el cronómetro en marcha.';
+
+  @override
+  String get awardWorkouts50Name => 'Cincuenta entrenos';
+
+  @override
+  String get awardWorkouts50Line => 'Cincuenta sesiones a tus espaldas.';
+
+  @override
+  String get awardHours50Name => 'Cincuenta horas';
+
+  @override
+  String get awardHours50Line => 'Cincuenta horas dentro del gimnasio.';
+
+  @override
+  String get awardsTitle => 'Medallas';
+
+  @override
+  String get awardWon => 'Conseguida';
+
+  @override
+  String get yearTitle => 'Tu año';
+
+  @override
+  String get yearBestMonth => 'Mejor mes';
+
+  @override
+  String get yearMonths => 'meses';
+
+  @override
+  String get awardSpinHint => 'Arrastra la medalla para girarla';
+
+  @override
+  String get awardUnlocked => 'Nuevo logro desbloqueado';
+
+  @override
+  String get awardNice => '¡Genial!';
+
+  @override
+  String get awardSaveImage => 'Guardar imagen';
+
+  @override
+  String get awardSaved => 'Guardada en tu galería';
+
+  @override
+  String get awardStreakBottom => 'de racha';
+
+  @override
+  String get awardStreak7Top => 'siete días';
+
+  @override
+  String get awardStreak7Name => 'Siete días';
+
+  @override
+  String get awardStreak7Line => 'Una semana entera sin fallar un día.';
+
+  @override
+  String get awardStreak30Top => 'treinta días';
+
+  @override
+  String get awardStreak30Name => 'Treinta días';
+
+  @override
+  String get awardStreak30Line => 'Un mes seguido. Esto ya es costumbre.';
+
+  @override
+  String get awardWorkouts100Top => 'cien';
+
+  @override
+  String get awardWorkouts100Bottom => 'entrenos';
+
+  @override
+  String get awardWorkouts100Name => 'Cien entrenos';
+
+  @override
+  String get awardWorkouts100Line => 'Cien sesiones registradas de principio a fin.';
+
+  @override
+  String get awardTonnes100Top => 'cien';
+
+  @override
+  String get awardTonnes100Bottom => 'toneladas';
+
+  @override
+  String get awardTonnes100Name => 'Cien toneladas';
+
+  @override
+  String get awardTonnes100Line => 'Todo lo que has levantado suma 100.000 kg.';
+
+  @override
+  String get awardSets1000Top => 'mil';
+
+  @override
+  String get awardSets1000Bottom => 'series';
+
+  @override
+  String get awardSets1000Name => 'Mil series';
+
+  @override
+  String get awardSets1000Line => 'Serie a serie, hasta mil.';
+
+  @override
+  String get profile => 'Perfil';
+
+  @override
+  String get editProfile => 'Editar perfil';
+
+  @override
+  String get pickBadge => 'Insignia';
+
+  @override
+  String get badgeTitle => 'Tu insignia';
+
+  @override
+  String get statWorkouts => 'Entrenos';
+
+  @override
+  String get statTrained => 'Entrenado';
+
+  @override
+  String get statSets => 'Series';
+
+  @override
+  String get statLifted => 'Levantado';
+
+  @override
+  String get statStreak => 'Racha';
+
+  @override
+  String get statDays => 'días';
+
+  @override
+  String get unitHours => 'h';
+
+  @override
+  String get unitDays => 'días';
+
+  @override
+  String get snapshots => 'Fotos';
+
+  @override
+  String get snapNow => 'Hacer una';
+
+  @override
+  String get calendarLegend => 'Entrenos · fotos';
+
+  @override
+  String get addCover => 'Pon una portada';
+
+  @override
+  String get addTodayWidget => 'Hoy: hecho o no';
+
+  @override
+  String get monthTitle => 'Este mes';
+
+  @override
+  String get photosCard => 'Tus fotos';
+
+  @override
+  String get handleLabel => 'Nombre de usuario';
+
+  @override
+  String get setupTitle => 'Rellena esto y el resto de la página se llena sola';
+
+  @override
+  String get setupHint => 'Cada número de aquí sale de lo que registras. Nada se envía a ningún sitio.';
+
+  @override
+  String get setupWorkout => 'Registra tu primer entreno';
+
+  @override
+  String get setupWeight => 'Apunta tu peso';
+
+  @override
+  String get setupMeasures => 'Tómate las medidas';
+
+  @override
+  String get setupPhoto => 'Hazte la primera foto de progreso';
+
+  @override
+  String get progressTitle => 'Progreso';
+
+  @override
+  String get tileVolume30 => 'Volumen · 30d';
+
+  @override
+  String get tileAddWeight => 'Apúntalo';
+
+  @override
+  String get heatToneTitle => 'Color del mapa';
+
+  @override
+  String get heatToneHint => 'Solo cambia cómo se pintan la rejilla y el cuerpo.';
+
+  @override
+  String get thisWeekTitle => 'Esta semana';
+
+  @override
+  String get momentsEmptyTitle => 'Aquí no hay nada todavía';
+
+  @override
+  String get deletePhotoTitle => '¿Borrar esta foto?';
+
+  @override
+  String get deletePhotoBody => 'Se va para siempre.';
+
+  @override
+  String get awardsEarned => 'Conseguidas';
+
+  @override
+  String get awardsLocked => 'Por conseguir';
+
+  @override
+  String get awardStreak100Name => 'Cien días';
+
+  @override
+  String get awardWorkouts10Name => 'Diez entrenos';
+
+  @override
+  String get awardWorkouts10Line => 'Los diez primeros son los que deciden.';
+
+  @override
+  String get awardWorkouts365Name => 'Trescientos sesenta y cinco';
+
+  @override
+  String get awardWorkouts365Line => 'Un entreno por cada día del año, registrados uno a uno.';
+
+  @override
+  String get awardTonnes10Name => 'Diez toneladas';
+
+  @override
+  String get awardTonnes10Line => 'Diez mil kilos te han pasado por las manos.';
+
+  @override
+  String get awardHours100Name => 'Cien horas';
+
+  @override
+  String get awardHours100Line => 'Cien horas bajo la barra, cronómetro en mano.';
+
+  @override
+  String awardWonOn(String date) {
+    return 'Conseguida el $date';
+  }
+
+  @override
+  String awardProgressLabel(String value, String goal) {
+    return '$value de $goal';
+  }
+
+  @override
+  String badgeName(String id) {
+    String _temp0 = intl.Intl.selectLogic(id, {
+      'gold': 'Dorada',
+      'blue': 'Azul',
+      'green': 'Verde',
+      'other': 'Insignia',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String memberSince(String date) {
+    return 'Desde $date';
+  }
+
+  @override
+  String levelShort(int n) {
+    return 'Nivel $n';
+  }
+
+  @override
+  String levelToNext(int n, int next) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n entrenos para el nivel $next',
+      one: '1 entreno para el nivel $next',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String heightCm(int n) {
+    return '$n cm';
+  }
+
+  @override
+  String heatToneName(String id) {
+    String _temp0 = intl.Intl.selectLogic(id, {
+      'ember': 'Brasa',
+      'green': 'Verde',
+      'blue': 'Azul',
+      'mono': 'Gris',
+      'other': 'Color',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String setsThisWeek(int n) {
+    return '$n series';
+  }
+
+  @override
+  String weekOfGoal(int n, int goal) {
+    return '$n de $goal esta semana';
+  }
+
+  @override
+  String momentCount(int n) {
+    return '$n fotos';
+  }
+
+  @override
+  String get badgeHint =>
+      'Elige un color, o toca el que tengas para quitarlo. Es solo tuya: no se comprueba nada ni se paga nada.';
+
+  @override
+  String get momentsEmptyHint =>
+      'Hazle una foto al gimnasio, a la pizarra, a cómo cargaste la barra… lo que quieras recordar. Se quedan en el móvil y solo las ves tú.';
+
+  @override
+  String get awardStreak100Line => 'Cien días seguidos. Eso ya no es motivación, eres tú.';
+
+  @override
+  String get coverLabel => 'PORTADA';
+
+  @override
+  String get removeCover => 'Quitar portada';
+
+  @override
+  String get startTitle => 'Empezar entreno';
+
+  @override
+  String get logTitle => 'Apuntar un entreno';
+
+  @override
+  String get logHint => 'Sin cronómetro: solo rellenas lo que hiciste.';
+
+  @override
+  String get orStartFrom => 'O empieza por';
+
+  @override
+  String get pickExercisesOption => 'Elegir ejercicios';
+
+  @override
+  String get chooseFocusOption => 'Elegir por músculos';
+
+  @override
+  String get plannedRoutine => 'PREVISTA';
+
+  @override
+  String get logWorkoutAction => 'APUNTAR UN ENTRENO';
+
+  @override
+  String get logging => 'APUNTANDO';
+
+  @override
+  String get placesLabel => 'Mis sitios';
 }

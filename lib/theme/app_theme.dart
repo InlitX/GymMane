@@ -7,6 +7,7 @@ class AppTheme {
 
   static const String disp = 'Oswald';
   static const String sans = 'IBM Plex Sans';
+  static const String round = 'Figtree';
 
   static ThemeData get dark => _build(Brightness.dark, GymColors.dark);
   static ThemeData get light => _build(Brightness.light, GymColors.light);
@@ -43,6 +44,22 @@ class AppTheme {
   }) =>
       TextStyle(
         fontFamily: disp,
+        fontSize: size,
+        fontWeight: weight,
+        color: color,
+        letterSpacing: letterSpacing,
+        height: height,
+      );
+
+  static TextStyle f(
+    double size, {
+    FontWeight weight = FontWeight.w700,
+    Color? color,
+    double? letterSpacing,
+    double height = 1.15,
+  }) =>
+      TextStyle(
+        fontFamily: round,
         fontSize: size,
         fontWeight: weight,
         color: color,

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../l10n/l10n.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
+import 'ui_kit.dart';
 
 AlertDialog appDialog(
   GymColors gc, {
@@ -12,7 +13,11 @@ AlertDialog appDialog(
 }) =>
     AlertDialog(
       backgroundColor: gc.bgRaised,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      insetPadding: const EdgeInsets.symmetric(horizontal: 28),
+      titlePadding: const EdgeInsets.fromLTRB(24, 24, 24, 10),
+      contentPadding: const EdgeInsets.fromLTRB(24, 0, 24, 8),
+      actionsPadding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(26)),
       title: title,
       content: content,
       actions: actions,
@@ -21,8 +26,13 @@ AlertDialog appDialog(
 Widget dialogAction(String label, Color color, VoidCallback onPressed, {bool strong = true}) =>
     TextButton(
       onPressed: onPressed,
-      child: Text(label,
-          style: AppTheme.s(14, weight: strong ? FontWeight.w700 : FontWeight.w400, color: color)),
+      style: TextButton.styleFrom(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
+      ),
+      child: Text(titleCase(label),
+          style: AppTheme.f(14,
+              weight: strong ? FontWeight.w700 : FontWeight.w600, color: color)),
     );
 
 Future<bool> askConfirm(
@@ -38,8 +48,10 @@ Future<bool> askConfirm(
     context: context,
     builder: (dctx) => appDialog(
       gc,
-      title: Text(title, style: AppTheme.d(18, weight: FontWeight.w700, color: gc.text)),
-      content: Text(body, style: AppTheme.s(13, color: gc.textSecondary)),
+      title: Text(title, style: AppTheme.f(19, weight: FontWeight.w800, color: gc.text)),
+      content: Text(body,
+          style: AppTheme.f(13.5,
+              weight: FontWeight.w500, color: gc.textSecondary, height: 1.45)),
       actions: [
         dialogAction(cancelLabel ?? t.cancel, gc.textSecondary, () => Navigator.of(dctx).pop(false),
             strong: false),
@@ -64,19 +76,20 @@ Future<double?> askNumber(
     context: context,
     builder: (dctx) => appDialog(
       gc,
-      title: Text(title, style: AppTheme.d(14, weight: FontWeight.w700, color: gc.text, letterSpacing: 2)),
+      title: Text(titleCase(title), style: AppTheme.f(19, weight: FontWeight.w800, color: gc.text)),
       content: TextField(
         controller: controller,
         autofocus: true,
         keyboardType: TextInputType.numberWithOptions(decimal: decimal),
         textAlign: TextAlign.center,
-        style: AppTheme.d(32, weight: FontWeight.w700, color: gc.text),
+        style: AppTheme.f(34, weight: FontWeight.w800, color: gc.text, height: 1.1),
         cursorColor: gc.accent,
         onSubmitted: (v) => Navigator.of(dctx).pop(v),
         decoration: InputDecoration(
           filled: true,
           fillColor: gc.bgRaised2,
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(14), borderSide: BorderSide.none),
+          contentPadding: const EdgeInsets.symmetric(vertical: 18, horizontal: 16),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(18), borderSide: BorderSide.none),
         ),
       ),
       actions: [

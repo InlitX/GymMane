@@ -851,6 +851,12 @@ class AppLocalizationsZh extends AppLocalizations {
   String get photoEveryOff => '从不提醒';
 
   @override
+  String get timelineEvery => '分组间隔';
+
+  @override
+  String get custom => '自定';
+
+  @override
   String photoNextIn(int n) {
     String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n 天后拍摄身材照', one: '明天该拍照啦');
     return '$_temp0';
@@ -1572,6 +1578,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get equipKettlebell => '壶铃';
 
   @override
+  String get equipRings => '吊环';
+
+  @override
   String get equipOther => '其他';
 
   @override
@@ -2015,4 +2024,397 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get importAskApp => '需要其他 app？告诉我';
+
+  @override
+  String get awardFirstStepName => '第一步';
+
+  @override
+  String get awardFirstStepLine => '欢迎来到 GymMane，这枚是送你的。';
+
+  @override
+  String get awardFirstWorkoutName => '第一次训练';
+
+  @override
+  String get awardFirstWorkoutLine => '第一次已经记录好了，最难的就是这一步。';
+
+  @override
+  String get awardFirstRoutineName => '第一个计划';
+
+  @override
+  String get awardFirstRoutineLine => '你已经有了可以回头再练的计划。';
+
+  @override
+  String get awardFirstRecordName => '第一个纪录';
+
+  @override
+  String get awardFirstRecordLine => '你刷新了某个动作的最好成绩。';
+
+  @override
+  String get awardStreak3Name => '连续三天';
+
+  @override
+  String get awardStreak3Line => '连续三天，一切都是这样开始的。';
+
+  @override
+  String get awardTonne1Name => '一吨';
+
+  @override
+  String get awardTonne1Line => '所有组加起来举起了一千公斤。';
+
+  @override
+  String get awardSets100Name => '一百组';
+
+  @override
+  String get awardSets100Line => '一组一组，练满了一百组。';
+
+  @override
+  String get awardHours10Name => '十小时';
+
+  @override
+  String get awardHours10Line => '十个小时的训练时间。';
+
+  @override
+  String get awardWorkouts50Name => '五十次训练';
+
+  @override
+  String get awardWorkouts50Line => '五十次训练已经完成。';
+
+  @override
+  String get awardHours50Name => '五十小时';
+
+  @override
+  String get awardHours50Line => '在健身房里度过了五十个小时。';
+
+  @override
+  String get awardsTitle => '勋章';
+
+  @override
+  String get awardWon => '已获得';
+
+  @override
+  String get yearTitle => '你的一年';
+
+  @override
+  String get yearBestMonth => '最佳月份';
+
+  @override
+  String get yearMonths => '月';
+
+  @override
+  String get awardSpinHint => '拖动勋章即可旋转';
+
+  @override
+  String get awardUnlocked => '解锁新成就';
+
+  @override
+  String get awardNice => '太棒了！';
+
+  @override
+  String get awardSaveImage => '保存图片';
+
+  @override
+  String get awardSaved => '已保存到相册';
+
+  @override
+  String get awardStreakBottom => '连续';
+
+  @override
+  String get awardStreak7Top => '七天';
+
+  @override
+  String get awardStreak7Name => '七天';
+
+  @override
+  String get awardStreak7Line => '整整一周，一天都没落下。';
+
+  @override
+  String get awardStreak30Top => '三十天';
+
+  @override
+  String get awardStreak30Name => '三十天';
+
+  @override
+  String get awardStreak30Line => '连续一个月，已经成为习惯。';
+
+  @override
+  String get awardWorkouts100Top => '一百次';
+
+  @override
+  String get awardWorkouts100Bottom => '训练';
+
+  @override
+  String get awardWorkouts100Name => '一百次训练';
+
+  @override
+  String get awardWorkouts100Line => '完整记录了一百次训练。';
+
+  @override
+  String get awardTonnes100Top => '一百';
+
+  @override
+  String get awardTonnes100Bottom => '吨';
+
+  @override
+  String get awardTonnes100Name => '一百吨';
+
+  @override
+  String get awardTonnes100Line => '你举起的总重量达到 100,000 公斤。';
+
+  @override
+  String get awardSets1000Top => '一千';
+
+  @override
+  String get awardSets1000Bottom => '组';
+
+  @override
+  String get awardSets1000Name => '一千组';
+
+  @override
+  String get awardSets1000Line => '一组一组，累积到一千组。';
+
+  @override
+  String get profile => '个人资料';
+
+  @override
+  String get editProfile => '编辑资料';
+
+  @override
+  String get pickBadge => '徽章';
+
+  @override
+  String get badgeTitle => '你的徽章';
+
+  @override
+  String get statWorkouts => '训练次数';
+
+  @override
+  String get statTrained => '训练时长';
+
+  @override
+  String get statSets => '组数';
+
+  @override
+  String get statLifted => '总重量';
+
+  @override
+  String get statStreak => '连续';
+
+  @override
+  String get statDays => '天';
+
+  @override
+  String get unitHours => '小时';
+
+  @override
+  String get unitDays => '天';
+
+  @override
+  String get snapshots => '照片';
+
+  @override
+  String get snapNow => '拍一张';
+
+  @override
+  String get calendarLegend => '训练 · 照片';
+
+  @override
+  String get addCover => '添加封面';
+
+  @override
+  String get addTodayWidget => '今天是否完成';
+
+  @override
+  String get monthTitle => '本月';
+
+  @override
+  String get photosCard => '你的照片';
+
+  @override
+  String get handleLabel => '用户名';
+
+  @override
+  String get setupTitle => '填好这些，页面其余部分会自动补全';
+
+  @override
+  String get setupHint => '这里的每个数字都来自你的记录，不会发送到任何地方。';
+
+  @override
+  String get setupWorkout => '记录第一次训练';
+
+  @override
+  String get setupWeight => '记下你的体重';
+
+  @override
+  String get setupMeasures => '量一下围度';
+
+  @override
+  String get setupPhoto => '拍第一张进度照片';
+
+  @override
+  String get progressTitle => '进度';
+
+  @override
+  String get tileVolume30 => '容量 · 30天';
+
+  @override
+  String get tileAddWeight => '记一下';
+
+  @override
+  String get heatToneTitle => '热力图颜色';
+
+  @override
+  String get heatToneHint => '只改变网格和人体的配色。';
+
+  @override
+  String get thisWeekTitle => '本周';
+
+  @override
+  String get momentsEmptyTitle => '这里还什么都没有';
+
+  @override
+  String get deletePhotoTitle => '删除这张照片？';
+
+  @override
+  String get deletePhotoBody => '删除后无法恢复。';
+
+  @override
+  String get awardsEarned => '已获得';
+
+  @override
+  String get awardsLocked => '未解锁';
+
+  @override
+  String get awardStreak100Name => '一百天';
+
+  @override
+  String get awardWorkouts10Name => '十次训练';
+
+  @override
+  String get awardWorkouts10Line => '最初的十次最难，也最关键。';
+
+  @override
+  String get awardWorkouts365Name => '三百六十五';
+
+  @override
+  String get awardWorkouts365Line => '一年中每一天都有一次训练，一次次记录下来。';
+
+  @override
+  String get awardTonnes10Name => '十吨';
+
+  @override
+  String get awardTonnes10Line => '一万公斤已经从你手中经过。';
+
+  @override
+  String get awardHours100Name => '一百小时';
+
+  @override
+  String get awardHours100Line => '杠铃之下的一百个小时。';
+
+  @override
+  String awardWonOn(String date) {
+    return '$date 获得';
+  }
+
+  @override
+  String awardProgressLabel(String value, String goal) {
+    return '$value / $goal';
+  }
+
+  @override
+  String badgeName(String id) {
+    String _temp0 = intl.Intl.selectLogic(id, {'gold': '金色', 'blue': '蓝色', 'green': '绿色', 'other': '徽章'});
+    return '$_temp0';
+  }
+
+  @override
+  String memberSince(String date) {
+    return '自 $date';
+  }
+
+  @override
+  String levelShort(int n) {
+    return '等级 $n';
+  }
+
+  @override
+  String levelToNext(int n, int next) {
+    return '再练 $n 次升到 $next 级';
+  }
+
+  @override
+  String heightCm(int n) {
+    return '$n 厘米';
+  }
+
+  @override
+  String heatToneName(String id) {
+    String _temp0 = intl.Intl.selectLogic(id, {
+      'ember': '炭橙',
+      'green': '绿色',
+      'blue': '蓝色',
+      'mono': '灰色',
+      'other': '颜色',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String setsThisWeek(int n) {
+    return '$n 组';
+  }
+
+  @override
+  String weekOfGoal(int n, int goal) {
+    return '本周 $n/$goal';
+  }
+
+  @override
+  String momentCount(int n) {
+    return '$n 张照片';
+  }
+
+  @override
+  String get badgeHint => '选一个颜色，再次点击已选的即可取消。仅供自己使用：无需验证，也无需付费。';
+
+  @override
+  String get momentsEmptyHint => '拍下健身房、白板、杠铃的配重……任何你想记住的东西。照片只留在手机里，只有你能看到。';
+
+  @override
+  String get awardStreak100Line => '连续一百天。这已经不是靠动力，而是你本来的样子。';
+
+  @override
+  String get coverLabel => '封面';
+
+  @override
+  String get removeCover => '移除封面';
+
+  @override
+  String get startTitle => '开始训练';
+
+  @override
+  String get logTitle => '记录训练';
+
+  @override
+  String get logHint => '没有计时器，只要填上你做过的内容。';
+
+  @override
+  String get orStartFrom => '或者从这里开始';
+
+  @override
+  String get pickExercisesOption => '挑选动作';
+
+  @override
+  String get chooseFocusOption => '选择训练重点';
+
+  @override
+  String get plannedRoutine => '已安排';
+
+  @override
+  String get logWorkoutAction => '记录一次训练';
+
+  @override
+  String get logging => '记录中';
+
+  @override
+  String get placesLabel => '我的场所';
 }
