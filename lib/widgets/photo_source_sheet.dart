@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 import '../l10n/l10n.dart';
 import '../theme/app_colors.dart';
@@ -50,7 +50,7 @@ class PhotoSourceSheet extends StatelessWidget {
         child: Row(children: [
           Icon(icon, size: 20, color: gc.textSecondary),
           const SizedBox(width: 14),
-          Expanded(child: Text(label, style: AppTheme.s(14, weight: FontWeight.w600, color: gc.text))),
+          Expanded(child: Text(label, style: AppTheme.f(14, weight: FontWeight.w600, color: gc.text))),
         ]),
       ),
     );

@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import '../state/fit_state.dart';
 import '../theme/app_colors.dart';
 
+const kDefaultBanner = AssetImage('assets/img/banner_default.jpg');
+
 class ProfileAvatar extends StatelessWidget {
   const ProfileAvatar({super.key, this.size = 52});
 
