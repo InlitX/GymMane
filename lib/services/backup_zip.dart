@@ -15,7 +15,8 @@ const String kBackupJsonEntry = 'gymmane.json';
 const String _imagesDir = 'media/images';
 const String _videosDir = 'media/videos';
 const String _notesDir = 'media/notes';
-const String _progressDir = 'media/progress';
+const String _timelineDir = 'timeline';
+const String _momentsDir = 'moments';
 const String _alarmDir = 'alarm';
 
 bool looksLikeZip(Uint8List b) =>
@@ -59,12 +60,26 @@ Future<Uint8List> buildBackupZip() async {
       if (name == null || shotMedia.containsKey(name)) continue;
       final bytes = await MediaStore.readBytes(name);
       if (bytes == null || bytes.isEmpty) continue;
-      final file = _uniqueName(used, '${_day(entry.date)}-$pose', MediaStore.extOf(name));
-      archive.addFile(ArchiveFile.noCompress('$_progressDir/$file', bytes.length, bytes));
-      shotMedia[name] = '$_progressDir/$file';
+      final path = '$_timelineDir/${_day(entry.date)}/$pose.${MediaStore.extOf(name)}';
+      used.add(path);
+      archive.addFile(ArchiveFile.noCompress(path, bytes.length, bytes));
+      shotMedia[name] = path;
     }
   }
   data['shotMedia'] = shotMedia;
+
+  final momentMedia = <String, String>{};
+  for (final moment in fit.moments) {
+    if (momentMedia.containsKey(moment.file)) continue;
+    final bytes = await MediaStore.readBytes(moment.file);
+    if (bytes == null || bytes.isEmpty) continue;
+    final path = '$_momentsDir/${_day(moment.date)}-${momentMedia.length + 1}'
+        '.${MediaStore.extOf(moment.file)}';
+    used.add(path);
+    archive.addFile(ArchiveFile.noCompress(path, bytes.length, bytes));
+    momentMedia[moment.file] = path;
+  }
+  data['momentMedia'] = momentMedia;
 
   final alarm = fit.alarmSound;
   final alarmPath = alarm == null ? null : AlarmStore.pathFor(alarm);
@@ -136,6 +151,18 @@ Future<bool> restoreBackupZip(Uint8List zipBytes) async {
     if (base != null) restoredShots[e.key] = base;
   }
 
+  final wantedMoments = <String, String>{};
+  ((data['momentMedia'] as Map?) ?? {}).forEach((k, v) {
+    if (k is String && v is String && v.isNotEmpty) wantedMoments[k] = v;
+  });
+  final restoredMoments = <String, String>{};
+  for (final e in wantedMoments.entries) {
+    final bytes = archive.findFile(e.value)?.readBytes();
+    if (bytes == null) continue;
+    final base = await MediaStore.saveBytes('moment', MediaStore.extOf(e.value), bytes);
+    if (base != null) restoredMoments[e.key] = base;
+  }
+
   final alarmName = data['alarmSound'] as String?;
   String? alarmBase;
   if (alarmName != null && alarmName.isNotEmpty) {
@@ -146,7 +173,8 @@ Future<bool> restoreBackupZip(Uint8List zipBytes) async {
   fit.applyBackup(data,
       restoredMedia: restored,
       restoredNoteMedia: restoredNotes,
-      restoredShots: restoredShots);
+      restoredShots: restoredShots,
+      restoredMoments: restoredMoments);
   if (alarmBase != null) {
     fit.setAlarmSound(alarmBase, (data['alarmSoundName'] as String?) ?? alarmBase);
   } else {

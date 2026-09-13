@@ -8,6 +8,7 @@ import 'package:app_settings/app_settings.dart';
 import 'package:flutter/material.dart';
 
 import '../catalog/exercise_catalog.dart';
+import '../catalog/program_templates.dart';
 import '../l10n/l10n.dart';
 import '../models/exercise.dart';
 import '../models/live_session.dart';
@@ -22,12 +23,16 @@ import '../services/exercise_match.dart';
 import '../services/local_store.dart';
 import '../services/media_store.dart';
 import '../services/progress_reminder.dart';
+import '../services/plan_share.dart';
 import '../services/rest_alarm.dart';
+import '../services/train_reminder.dart';
 import '../services/workout_import.dart';
 
+part 'awards_state.dart';
 part 'fit_core.dart';
 part 'library_state.dart';
 part 'measures_state.dart';
+part 'moments_state.dart';
 part 'notes_state.dart';
 part 'places_state.dart';
 part 'routines_state.dart';
@@ -38,15 +43,17 @@ part 'tools_state.dart';
 part 'workout_state.dart';
 
 class FitState extends FitCore
-    with ToolsState, SettingsState, LibraryState, NotesState, PlacesState, MeasuresState, TimelineState, StatsState, RoutinesState, WorkoutState {
+    with ToolsState, LibraryState, SettingsState, NotesState, PlacesState, MeasuresState, MomentsState, TimelineState, StatsState, AwardsState, RoutinesState, WorkoutState {
   void loadFromStore() {
     final data = Store.instance.load();
     _loading = true;
     if (data['language'] == null) _adoptDeviceLanguage();
     if (data.isNotEmpty) {
       profile = Profile.fromJson((data['profile'] as Map?)?.cast<String, dynamic>() ?? {});
+      if (const {'Athlete', 'Atleta', 'Name'}.contains(profile.name)) {
+        profile.name = kDefaultName;
+      }
 
-      if (const {'Athlete', 'Atleta', 'Name'}.contains(profile.name)) profile.name = 'InlitX';
       dark = data['dark'] as bool? ?? true;
       units = data['units'] as String? ?? 'kg';
 
@@ -61,6 +68,8 @@ class FitState extends FitCore
         alarmSoundName = null;
       }
       bgPattern = data['bg'] as String? ?? 'dots';
+      heatTone = data['heatTone'] as String? ?? 'ember';
+      _loadToggles(data);
       alarmAskedAt = (data['alarmAskedAt'] as num?)?.toInt();
       onboarded = data['onboarded'] as bool? ?? false;
       favorites
@@ -96,13 +105,51 @@ class FitState extends FitCore
             .map((e) => BodyweightEntry.fromJson((e as Map).cast<String, dynamic>())));
       _loadMeasures(data);
       _loadShots(data);
+      awards
+        ..clear()
+        ..addAll(((data['awards'] as Map?) ?? const {}).map((k, v) =>
+            MapEntry(k as String, DateTime.tryParse(v as String? ?? '') ?? DateTime.now())));
+      awardsSeen
+        ..clear()
+        ..addAll(((data['awardsSeen'] as List?) ?? const []).cast<String>());
+      moments
+        ..clear()
+        ..addAll(((data['moments'] as List?) ?? const [])
+            .map((e) => Moment.fromJson((e as Map).cast<String, dynamic>())));
       photoIntervalDays = (data['photoEvery'] as num?)?.toInt() ?? 30;
       bodyTimeline = data['bodyTl'] as bool? ?? false;
       _restoreLiveSession(data);
     }
+    _stampMemberSince();
     _seedCalculatorsFromProfile();
     _loading = false;
+    refreshAwards(silent: true);
     notifyListeners();
+  }
+
+  void _stampMemberSince() {
+    if (profile.since != null) return;
+    var first = DateTime.now();
+    for (final s in sessions) {
+      if (s.date.isBefore(first)) first = s.date;
+    }
+    profile.since = DateTime(first.year, first.month, first.day);
+  }
+
+  void _loadToggles(Map<String, dynamic> data) {
+    bgDim = (data['bgDim'] as num?)?.toDouble() ?? 0.55;
+    showFocus = data['showFocus'] as bool? ?? true;
+    autoAdvance = data['autoAdvance'] as bool? ?? true;
+    logRpe = data['rpe'] as bool? ?? false;
+    trainReminderMin = (data['trainAt'] as num?)?.toInt();
+    smartReminder = data['trainSmart'] as bool? ?? false;
+    progressStep
+      ..clear()
+      ..addAll(((data['progress'] as Map?) ?? const {})
+          .map((k, v) => MapEntry(k as String, (v as num).toDouble())));
+    autoWarmup
+      ..clear()
+      ..addAll(((data['warmup'] as List?) ?? const []).cast<String>());
   }
 
   void _restoreLiveSession(Map<String, dynamic> data) {
@@ -118,6 +165,7 @@ class FitState extends FitCore
       _runningSince = DateTime.tryParse(started);
       _startTicking(from: _runningSince);
     }
+    if (!sessionPaused) syncRest();
     resetRoute('session');
   }
 
@@ -238,6 +286,13 @@ class FitState extends FitCore
         'alarmSound': alarmSound,
         'alarmSoundName': alarmSoundName,
         'bg': bgPattern,
+        'heatTone': heatTone,
+        'bgDim': bgDim,
+        'showFocus': showFocus,
+        'autoAdvance': autoAdvance,
+        'rpe': logRpe,
+        'trainAt': trainReminderMin,
+        'trainSmart': smartReminder,
         'alarmAskedAt': alarmAskedAt,
         'onboarded': onboarded,
         'favorites': favorites,
@@ -250,12 +305,17 @@ class FitState extends FitCore
         'custom': customExercises.map((e) => e.toJson()).toList(),
         'media': exerciseMedia,
         'exRest': exerciseRest,
+        'progress': progressStep,
+        'warmup': autoWarmup.toList(),
         'repsOnly': repsOnly.toList(),
         'repsOnlyOff': repsOnlyOff.toList(),
         'sessions': sessions.map((s) => s.toJson()).toList(),
         'bodyweight': bodyweight.map((b) => b.toJson()).toList(),
         'measures': measures.map((m) => m.toJson()).toList(),
         'shots': shots.map((s) => s.toJson()).toList(),
+        'awards': awards.map((k, v) => MapEntry(k, v.toIso8601String())),
+        'awardsSeen': awardsSeen.toList(),
+        'moments': moments.map((m) => m.toJson()).toList(),
         'photoEvery': photoIntervalDays,
         'bodyTl': bodyTimeline,
         if (session != null && !session!.complete) ...{
@@ -283,6 +343,10 @@ class FitState extends FitCore
     compareFromId = null;
     compareToId = null;
     notes.clear();
+    moments.clear();
+    awards.clear();
+    awardsSeen.clear();
+    pendingAwards.clear();
     places.clear();
     activePlaceId = '';
     checkins.clear();
@@ -293,15 +357,25 @@ class FitState extends FitCore
     repsOnly.clear();
     repsOnlyOff.clear();
     exerciseRest.clear();
+    progressStep.clear();
+    autoWarmup.clear();
     MediaStore.clearAll();
     favorites.clear();
     sessionPicks.clear();
     selectedMuscles.clear();
     profile = Profile();
+    showFocus = true;
+    autoAdvance = true;
+    logRpe = false;
+    trainReminderMin = null;
+    smartReminder = false;
+    TrainReminder.instance.cancel();
     onboarded = false;
     strengthExerciseId = null;
     _photoBytes = null;
     _photoCacheKey = null;
+    _bannerBytes = null;
+    _bannerCacheKey = null;
     _seedCalculatorsFromProfile();
     resetRoute('home');
     trainStep = 'select';
@@ -324,7 +398,8 @@ class FitState extends FitCore
   void applyBackup(Map<String, dynamic> map,
       {Map<String, String>? restoredMedia,
       Map<String, String>? restoredNoteMedia,
-      Map<String, String>? restoredShots}) {
+      Map<String, String>? restoredShots,
+      Map<String, String>? restoredMoments}) {
     _loading = true;
     profile = Profile.fromJson((map['profile'] as Map?)?.cast<String, dynamic>() ?? {});
     dark = map['dark'] as bool? ?? dark;
@@ -332,6 +407,7 @@ class FitState extends FitCore
     _applyLanguage(map['language'] as String? ?? language);
     restSeconds = (map['rest'] as num?)?.toInt() ?? restSeconds;
     bgPattern = map['bg'] as String? ?? bgPattern;
+    _loadToggles(map);
     onboarded = map['onboarded'] as bool? ?? onboarded;
     favorites
       ..clear()
@@ -367,6 +443,8 @@ class FitState extends FitCore
           .map((e) => BodyweightEntry.fromJson((e as Map).cast<String, dynamic>())));
     _loadMeasures(map);
     _loadShots(map, restored: restoredShots);
+    _loadAwards(map);
+    _loadMoments(map, restored: restoredMoments);
     photoIntervalDays = (map['photoEvery'] as num?)?.toInt() ?? photoIntervalDays;
     bodyTimeline = map['bodyTl'] as bool? ?? bodyTimeline;
     _seedCalculatorsFromProfile();
@@ -374,6 +452,28 @@ class FitState extends FitCore
     _persist();
     _refreshWidgets();
     notifyListeners();
+  }
+
+  void _loadAwards(Map<String, dynamic> map) {
+    awards
+      ..clear()
+      ..addAll(((map['awards'] as Map?) ?? const {}).map((k, v) =>
+          MapEntry(k as String, DateTime.tryParse(v as String? ?? '') ?? DateTime.now())));
+    awardsSeen
+      ..clear()
+      ..addAll(((map['awardsSeen'] as List?) ?? const []).cast<String>());
+    pendingAwards.clear();
+  }
+
+  void _loadMoments(Map<String, dynamic> map, {Map<String, String>? restored}) {
+    moments
+      ..clear()
+      ..addAll(((map['moments'] as List?) ?? const [])
+          .map((e) => Moment.fromJson((e as Map).cast<String, dynamic>()))
+          .map((m) => restored == null
+              ? m
+              : Moment(m.date, restored[m.file] ?? m.file, note: m.note))
+          .where((m) => m.file.isNotEmpty));
   }
 
   void _remapNoteMedia(Map<String, String> restored) {
@@ -391,7 +491,106 @@ class FitState extends FitCore
   static String _normName(String s) =>
       s.toLowerCase().replaceAll(RegExp(r'[^a-z0-9]+'), ' ').trim();
 
+  @override
+  void syncTrainReminder() {
+    if (trainReminderMin == null) {
+      TrainReminder.instance.cancel();
+      return;
+    }
+    TrainReminder.instance.schedule(
+      minuteOfDay: reminderMinute,
+      weekdays: reminderWeekdays,
+      skipToday: trainedToday,
+    );
+  }
+
+  int get reminderMinute =>
+      (smartReminder ? usualStartMinute : null) ?? trainReminderMin ?? 19 * 60;
+
+  Set<int> get reminderWeekdays {
+    if (smartReminder) {
+      final days = usualWeekdays;
+      if (days.isNotEmpty) return days.toSet();
+    }
+    return weeklyPlan.keys.toSet();
+  }
+
   Exercise? matchExerciseByName(String name) => matchExercise(name, allExercises);
+
+  int applyTemplate(ProgramTemplate template) {
+    final planWasEmpty = weeklyPlan.isEmpty;
+    var made = 0;
+    for (final day in template.days) {
+      final ids = <String, int>{};
+      for (final (name, sets) in day.exercises) {
+        final ex = matchExerciseByName(name);
+        if (ex == null || ids.containsKey(ex.id)) continue;
+        ids[ex.id] = sets;
+      }
+      if (ids.isEmpty) continue;
+      final id = createRoutine(day.name);
+      setRoutineGroup(id, template.name);
+      for (final entry in ids.entries) {
+        toggleRoutineExercise(id, entry.key);
+        bumpRoutineSets(id, entry.key, entry.value - kDefaultRoutineSets);
+      }
+      if (planWasEmpty && day.weekday != null) weeklyPlan[day.weekday!] = id;
+      made++;
+    }
+    if (made == 0) return 0;
+    persistNow();
+    syncTrainReminder();
+    notifyListeners();
+    return made;
+  }
+
+  String planRequestText() {
+    final here = allExercises.where(fitsHere).toList();
+    final lines = <String>[
+      'GymMane · ${activePlace?.name ?? t.placeAll}',
+      t.planIntro,
+      t.planFormat,
+      '{"name": "Push", "exercises": [{"name": "Barbell Bench Press", "sets": 3}]}',
+      '',
+    ];
+    for (final ex in here) {
+      final local = exerciseName(ex);
+      final label = local == ex.name ? ex.name : '${ex.name} ($local)';
+      lines.add('$label | ${ex.primary} | ${ex.equipment} | ${ex.difficulty}');
+    }
+    return lines.join('\n');
+  }
+
+  ({int added, List<String> missed, bool readable}) importPlan(String raw) {
+    final plans = parsePlan(raw);
+    if (plans.isEmpty) return (added: 0, missed: const [], readable: false);
+    var added = 0;
+    final missed = <String>[];
+    for (final plan in plans) {
+      final ids = <String, int>{};
+      for (final item in plan.items) {
+        final ex = matchExerciseByName(item.name);
+        if (ex == null) {
+          if (!missed.contains(item.name)) missed.add(item.name);
+          continue;
+        }
+        if (ids.containsKey(ex.id)) continue;
+        ids[ex.id] = (item.sets ?? kDefaultRoutineSets).clamp(1, 12);
+      }
+      if (ids.isEmpty) continue;
+      final id = createRoutine(plan.name.isEmpty ? t.newRoutineName : plan.name);
+      for (final entry in ids.entries) {
+        toggleRoutineExercise(id, entry.key);
+        bumpRoutineSets(id, entry.key, entry.value - kDefaultRoutineSets);
+      }
+      added += ids.length;
+    }
+    if (added > 0) {
+      persistNow();
+      notifyListeners();
+    }
+    return (added: added, missed: missed, readable: true);
+  }
 
   static String _sessionKey(LoggedSession s) =>
       '${s.date.toIso8601String()}|${s.exercises.map((e) => '${e.id}:${e.sets.length}').join(',')}';
@@ -402,7 +601,7 @@ class FitState extends FitCore
       final exs = <LoggedExercise>[];
       for (final pe in ps.exercises) {
         if (pe.sets.isEmpty) continue;
-        final match = matchExerciseByName(pe.name);
+        final match = (pe.id == null ? null : exerciseById(pe.id!)) ?? matchExerciseByName(pe.name);
         final id = match?.id ?? 'imp:${_normName(pe.name).replaceAll(' ', '-')}';
         final hint = (pe.muscle ?? '').toLowerCase();
         final primary =
@@ -477,12 +676,22 @@ class FitState extends FitCore
         closeNoteEditor();
       case 'train':
         trainStep == 'review' ? trainBack() : closeTrain();
+      case 'preferences':
+        backFromPreferences();
+      case 'moments':
+        backFromMoments();
+      case 'awards':
+        backFromAwards();
+      case 'ai-plan':
+        backFromAiPlan();
       case 'progress':
       case 'exercises':
       case 'settings':
         goHome();
-      default:
+      case 'home':
         return false;
+      default:
+        popRoute();
     }
     return true;
   }
