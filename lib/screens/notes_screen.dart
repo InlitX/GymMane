@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 import '../l10n/l10n.dart';
 import '../models/exercise.dart';
@@ -105,10 +105,10 @@ class NotesScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(noteDayLabel(day).toUpperCase(),
-                      style: AppTheme.d(12,
-                          weight: FontWeight.w700, color: gc.text, letterSpacing: 2)),
+                      style: AppTheme.f(10.5,
+                          weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.5)),
                   const SizedBox(height: 3),
-                  Text(t.fullDate(day), style: AppTheme.s(12, color: gc.textTertiary)),
+                  Text(t.fullDate(day), style: AppTheme.f(12, weight: FontWeight.w500, color: gc.textTertiary)),
                 ],
               ),
             ),
@@ -127,7 +127,6 @@ class NotesScreen extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: 26, horizontal: 20),
             decoration: BoxDecoration(
               color: gc.bgRaised.withValues(alpha: 0.5),
-              border: Border.all(color: gc.border),
               borderRadius: BorderRadius.circular(18),
             ),
             child: Row(
@@ -136,7 +135,7 @@ class NotesScreen extends StatelessWidget {
                 const SizedBox(width: 14),
                 Expanded(
                   child: Text(t.noteNoneOnDay,
-                      style: AppTheme.s(13, color: gc.textSecondary, height: 1.4)),
+                      style: AppTheme.f(13, weight: FontWeight.w500, color: gc.textSecondary, height: 1.4)),
                 ),
               ],
             ),
@@ -189,10 +188,10 @@ class NotesScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(noteDayLabel(d).toUpperCase(),
-                      style: AppTheme.d(12.5,
-                          weight: FontWeight.w700, color: gc.text, letterSpacing: 2)),
+                      style: AppTheme.f(12.5,
+                          weight: FontWeight.w700, color: gc.text, letterSpacing: 0.4)),
                   const SizedBox(height: 3),
-                  Text(t.fullDate(d), style: AppTheme.s(11.5, color: gc.textTertiary)),
+                  Text(t.fullDate(d), style: AppTheme.f(11.5, weight: FontWeight.w500, color: gc.textTertiary)),
                 ],
               ),
               const SizedBox(width: 12),
@@ -219,11 +218,11 @@ class NotesScreen extends StatelessWidget {
               const SizedBox(height: 16),
               Text(t.noteEmptyTitle,
                   textAlign: TextAlign.center,
-                  style: AppTheme.d(17, weight: FontWeight.w600, color: gc.text)),
+                  style: AppTheme.f(17, weight: FontWeight.w600, color: gc.text)),
               const SizedBox(height: 8),
               Text(t.noteEmptyBody,
                   textAlign: TextAlign.center,
-                  style: AppTheme.s(13, color: gc.textSecondary, height: 1.5)),
+                  style: AppTheme.f(13, weight: FontWeight.w500, color: gc.textSecondary, height: 1.5)),
             ],
           ),
         ),

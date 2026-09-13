@@ -1,6 +1,6 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 import '../l10n/l10n.dart';
 import '../models/exercise.dart';
@@ -135,7 +135,6 @@ class _NoteEditScreenState extends State<NoteEditScreen> {
                   Container(
                     decoration: BoxDecoration(
                       color: gc.bgRaised,
-                      border: Border.all(color: gc.border),
                       borderRadius: BorderRadius.circular(16),
                     ),
                     padding: const EdgeInsets.fromLTRB(16, 6, 16, 6),
@@ -148,12 +147,12 @@ class _NoteEditScreenState extends State<NoteEditScreen> {
                       textCapitalization: TextCapitalization.sentences,
                       onChanged: (_) => setState(() {}),
                       cursorColor: gc.accent,
-                      style: AppTheme.s(14.5, color: gc.text, height: 1.45),
+                      style: AppTheme.f(14.5, weight: FontWeight.w500, color: gc.text, height: 1.45),
                       decoration: InputDecoration(
                         border: InputBorder.none,
                         hintText: t.notePlaceholder,
-                        hintStyle: AppTheme.s(14.5, color: gc.textTertiary),
-                        counterStyle: AppTheme.s(11, color: gc.textTertiary),
+                        hintStyle: AppTheme.f(14.5, weight: FontWeight.w500, color: gc.textTertiary),
+                        counterStyle: AppTheme.f(11, weight: FontWeight.w500, color: gc.textTertiary),
                       ),
                     ),
                   ),
@@ -209,7 +208,8 @@ class _NoteEditScreenState extends State<NoteEditScreen> {
   Widget _label(GymColors gc, String text) => Padding(
         padding: const EdgeInsets.only(bottom: 10),
         child: Text(text,
-            style: AppTheme.d(12, weight: FontWeight.w600, color: gc.textSecondary, letterSpacing: 2)),
+            style: AppTheme.f(11,
+                weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.4)),
       );
 
   Widget _row(
@@ -234,7 +234,7 @@ class _NoteEditScreenState extends State<NoteEditScreen> {
                 child: Text(value,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: AppTheme.s(14,
+                    style: AppTheme.f(14,
                         weight: FontWeight.w500, color: muted ? gc.textTertiary : gc.text)),
               ),
               trailing ??
@@ -268,15 +268,14 @@ class _NoteEditScreenState extends State<NoteEditScreen> {
               height: 74,
               decoration: BoxDecoration(
                 color: gc.bgRaised,
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: gc.border),
+                borderRadius: BorderRadius.circular(16),
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Icon(PhosphorIconsRegular.images, size: 20, color: gc.textSecondary),
                   const SizedBox(height: 5),
-                  Text(t.noteAttach, style: AppTheme.s(10.5, color: gc.textTertiary)),
+                  Text(t.noteAttach, style: AppTheme.f(10.5, weight: FontWeight.w500, color: gc.textTertiary)),
                 ],
               ),
             ),
@@ -330,7 +329,6 @@ class _ExercisePickerSheetState extends State<_ExercisePickerSheet> {
         height: MediaQuery.of(context).size.height * 0.72,
         decoration: BoxDecoration(
           color: gc.bg,
-          border: Border.all(color: gc.border),
           borderRadius: const BorderRadius.vertical(top: Radius.circular(26)),
         ),
         clipBehavior: Clip.antiAlias,
@@ -344,10 +342,10 @@ class _ExercisePickerSheetState extends State<_ExercisePickerSheet> {
                 autofocus: true,
                 onChanged: (_) => setState(() {}),
                 cursorColor: gc.accent,
-                style: AppTheme.s(14, color: gc.text),
+                style: AppTheme.f(14, weight: FontWeight.w500, color: gc.text),
                 decoration: InputDecoration(
                   hintText: t.searchAllExercises,
-                  hintStyle: AppTheme.s(14, color: gc.textTertiary),
+                  hintStyle: AppTheme.f(14, weight: FontWeight.w500, color: gc.textTertiary),
                   filled: true,
                   fillColor: gc.bgRaised,
                   prefixIcon: Icon(PhosphorIconsRegular.magnifyingGlass, size: 17, color: gc.textTertiary),
@@ -386,7 +384,7 @@ class _ExercisePickerSheetState extends State<_ExercisePickerSheet> {
           padding: const EdgeInsets.symmetric(vertical: 14),
           decoration: BoxDecoration(border: Border(bottom: BorderSide(color: gc.border))),
           child: Text(label,
-              style: AppTheme.s(14,
+              style: AppTheme.f(14,
                   weight: FontWeight.w500, color: muted ? gc.textTertiary : gc.text)),
         ),
       );
