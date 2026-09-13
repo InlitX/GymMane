@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 import 'package:video_player/video_player.dart';
 
 import '../models/exercise.dart';
@@ -17,19 +17,22 @@ class ExerciseMedia extends StatelessWidget {
     this.height = 210,
     this.radius = 20,
     this.live = false,
+    this.bordered = true,
   });
 
   final Exercise ex;
   final double height;
   final double radius;
   final bool live;
+  final bool bordered;
 
   @override
   Widget build(BuildContext context) {
     final media = fit.mediaFor(ex.id);
     final path = media.isEmpty ? null : MediaStore.pathFor(media);
     if (path == null) {
-      return ExerciseArt(slug: ex.art, height: height, radius: radius, live: live);
+      return ExerciseArt(
+          slug: ex.art, height: height, radius: radius, live: live, bordered: bordered);
     }
     final isVideo = MediaStore.isVideo(media);
     if (isVideo && live) {
@@ -38,6 +41,7 @@ class ExerciseMedia extends StatelessWidget {
     return _MediaFrame(
       height: height,
       radius: radius,
+      bordered: bordered,
       child: isVideo
           ? _VideoPoster(height: height)
           : Center(
@@ -60,10 +64,15 @@ Widget _fallbackIcon(BuildContext context, double height) => Center(
     );
 
 class _MediaFrame extends StatelessWidget {
-  const _MediaFrame({required this.child, required this.height, required this.radius});
+  const _MediaFrame(
+      {required this.child,
+      required this.height,
+      required this.radius,
+      this.bordered = true});
   final Widget child;
   final double height;
   final double radius;
+  final bool bordered;
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +82,7 @@ class _MediaFrame extends StatelessWidget {
       decoration: BoxDecoration(
         color: gc.bgRaised2,
         borderRadius: BorderRadius.circular(radius),
-        border: Border.all(color: gc.border),
+        border: bordered ? Border.all(color: gc.border) : null,
       ),
       clipBehavior: Clip.antiAlias,
       child: child,

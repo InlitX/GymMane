@@ -6,6 +6,7 @@ mixin LibraryState on FitCore {
   String? exDifficultyFilter;
   String? exEquipmentFilter;
   String? activeExerciseId;
+  int _customSeq = 0;
   List<Exercise> get allExercises => [...kExercises, ...customExercises];
 
   Exercise? exerciseById(String id) {
@@ -66,9 +67,11 @@ mixin LibraryState on FitCore {
 
   int get favouriteCount => favorites.values.where((v) => v).length;
 
-  List<Exercise> get exercisesFiltered {
-    final matchesSearch = exerciseSearch(exSearch);
-    return allExercises.where((ex) {
+  List<Exercise> get exercisesFiltered => exercisesMatching(exSearch);
+
+  List<Exercise> exercisesMatching(String query) {
+    final matchesSearch = exerciseSearch(query);
+    final list = allExercises.where((ex) {
       if (exFavouritesOnly && favorites[ex.id] != true) return false;
       if (!matchesSearch(ex)) return false;
       if (exMuscleFilter != null &&
@@ -80,6 +83,21 @@ mixin LibraryState on FitCore {
       if (exEquipmentFilter != null && ex.equipment != exEquipmentFilter) return false;
       return true;
     }).toList();
+    final muscle = exMuscleFilter;
+    if (muscle == null) return _groupedByMuscle(list);
+    final primary = list.where((ex) => ex.primary == muscle);
+    final secondary = _groupedByMuscle(list.where((ex) => ex.primary != muscle).toList());
+    return [...primary, ...secondary];
+  }
+
+  List<Exercise> _groupedByMuscle(List<Exercise> list) {
+    final order = {for (var i = 0; i < kMuscles.length; i++) kMuscles[i].id: i};
+    final seats = [
+      for (var i = 0; i < list.length; i++)
+        (ex: list[i], muscle: order[list[i].primary] ?? kMuscles.length, seat: i),
+    ]..sort((a, b) =>
+        a.muscle == b.muscle ? a.seat.compareTo(b.seat) : a.muscle.compareTo(b.muscle));
+    return [for (final s in seats) s.ex];
   }
 
   Exercise get activeExercise =>
@@ -98,7 +116,7 @@ mixin LibraryState on FitCore {
     required String equipment,
     String difficulty = 'Beginner',
   }) {
-    final id = 'c${DateTime.now().microsecondsSinceEpoch}';
+    final id = 'c${DateTime.now().microsecondsSinceEpoch}-${_customSeq++}';
     customExercises.add(Exercise(
       id: id,
       name: name.trim(),
