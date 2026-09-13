@@ -15,6 +15,7 @@ class HomeWidgetBridge {
   static const heatmapKey = 'heatmap_img';
   static const statsKey = 'stats_img';
   static const bodyKey = 'body_img';
+  static const todayKey = 'today_img';
   static const bodyDays = 7;
   static bool get _supported => !kIsWeb && Platform.isAndroid;
 
@@ -56,10 +57,23 @@ class HomeWidgetBridge {
         logicalSize: const Size(320, 220),
         pixelRatio: 3,
       );
+      await HomeWidget.renderFlutterWidget(
+        TodayWidgetView(
+          gc: gc,
+          done: fit.isDayDone(fit.todayIndex),
+          planned: fit.todayRoutine != null,
+          streak: fit.currentStreak,
+          size: const Size(120, 120),
+        ),
+        key: todayKey,
+        logicalSize: const Size(120, 120),
+        pixelRatio: 3,
+      );
       await HomeWidget.updateWidget(
           qualifiedAndroidName: '$_pkg.HeatmapWidgetProvider');
       await HomeWidget.updateWidget(
           qualifiedAndroidName: '$_pkg.BodyWidgetProvider');
+      await HomeWidget.updateWidget(qualifiedAndroidName: '$_pkg.TodayWidgetProvider');
       await HomeWidget.updateWidget(
           qualifiedAndroidName: '$_pkg.StatsWidgetProvider');
     } catch (e) {

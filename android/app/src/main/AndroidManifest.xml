@@ -7,6 +7,8 @@
     <uses-permission android:name="android.permission.USE_EXACT_ALARM"/>
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
     <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28"/>
     <!-- Para que el aviso encienda la pantalla con el móvil bloqueado. -->
     <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT"/>
     <!-- MIUI y otras capas matan la app al bloquear; el aviso debe sobrevivir. -->
@@ -72,6 +74,16 @@
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/body_widget_info" />
+        </receiver>
+        <receiver
+            android:name=".TodayWidgetProvider"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/today_widget_info" />
         </receiver>
 
         <!-- Sin estos dos, zonedSchedule no dispara nada cuando el sistema mata la app. -->

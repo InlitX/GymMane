@@ -234,6 +234,62 @@ class StatsWidgetView extends StatelessWidget {
   }
 }
 
+class TodayWidgetView extends StatelessWidget {
+  const TodayWidgetView({
+    super.key,
+    required this.gc,
+    required this.done,
+    required this.planned,
+    required this.streak,
+    this.size = const Size(120, 120),
+  });
+
+  final GymColors gc;
+  final bool done;
+  final bool planned;
+  final int streak;
+  final Size size;
+
+  @override
+  Widget build(BuildContext context) {
+    final ring = done ? gc.accent : (planned ? gc.brass : gc.border);
+    return Container(
+      width: size.width,
+      height: size.height,
+      decoration: BoxDecoration(
+        color: gc.bgRaised,
+        borderRadius: BorderRadius.circular(size.width * 0.3),
+        border: Border.all(color: gc.border, width: _kBorder),
+      ),
+      child: Center(
+        child: Container(
+          width: size.width * 0.62,
+          height: size.width * 0.62,
+          decoration: BoxDecoration(
+            color: done ? gc.accentSoft : Colors.transparent,
+            shape: BoxShape.circle,
+            border: Border.all(color: ring, width: size.width * 0.045),
+          ),
+          child: Center(
+            child: done
+                ? Icon(Icons.check_rounded, size: size.width * 0.3, color: gc.accent)
+                : Text(
+                    '${DateTime.now().day}',
+                    style: TextStyle(
+                      fontFamily: _kDisplay,
+                      fontSize: size.width * 0.26,
+                      height: 1,
+                      fontWeight: FontWeight.w700,
+                      color: planned ? gc.text : gc.textSecondary,
+                    ),
+                  ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class BodyWidgetView extends StatelessWidget {
   const BodyWidgetView({
     super.key,
