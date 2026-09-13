@@ -1,8 +1,23 @@
+import 'dart:convert';
+
 import 'package:archive/archive.dart';
+
+import '../catalog/opengym_ids.dart';
 
 const double _lbPerKg = 2.2046226218;
 
-enum ImportFormat { hevy, strong, fitnotes, gymmane, hevyWeights, strongWeights, weights, unknown }
+enum ImportFormat {
+  hevy,
+  strong,
+  fitnotes,
+  gymmane,
+  openGym,
+  generic,
+  hevyWeights,
+  strongWeights,
+  weights,
+  unknown,
+}
 
 extension ImportFormatX on ImportFormat {
   bool get isWeights =>
@@ -24,9 +39,10 @@ class ParsedWeight {
 }
 
 class ParsedExercise {
-  ParsedExercise(this.name, this.muscle);
+  ParsedExercise(this.name, this.muscle, {this.id});
   final String name;
   final String? muscle;
+  final String? id;
   final List<ParsedSet> sets = [];
 }
 
@@ -115,7 +131,30 @@ const _formats = <ImportFormat, _Fmt>{
     weightLb: [],
     muscle: ['muscle'],
   ),
+  ImportFormat.generic: _Fmt(
+    date: _genericDateCols,
+    exercise: _genericExerciseCols,
+    reps: _genericRepCols,
+    weightKg: _weightKgCols,
+    weightLb: _weightLbCols,
+    weightPlain: _genericWeightCols,
+    group: ['workout', 'routine', 'rutina', 'plan', 'entrenamiento', 'training'],
+    muscle: ['category', 'muscle', 'categoria', 'categoría', 'musculo', 'músculo'],
+  ),
 };
+
+const _genericDateCols = [
+  'date', 'fecha', 'datum', 'data', 'day', 'dia', 'día', 'timestamp', 'start_time', 'time',
+];
+const _genericExerciseCols = [
+  'exercise', 'exercise name', 'exercise_name', 'ejercicio', 'exercicio', 'exercício',
+  'übung', 'ubung', 'uebung', 'esercizio', 'exercice', 'name', 'nombre',
+];
+const _genericRepCols = [
+  'reps', 'rep', 'repetitions', 'repeticiones', 'repetições', 'repeticoes',
+  'wiederholungen', 'ripetizioni', 'répétitions', 'repetitions_count',
+];
+const _genericWeightCols = ['weight', 'peso', 'gewicht', 'poids', 'carga'];
 
 const _anyWeight = ['weight (kg)', 'weight (lbs)', 'weight (lb)', 'weight', 'weight_kg'];
 const _weightKgCols = ['weight_kg', 'weight (kg)', 'weight kg', 'peso (kg)'];
@@ -123,6 +162,7 @@ const _weightLbCols = ['weight_lbs', 'weight_lb', 'weight (lbs)', 'weight (lb)',
 const _dateCols = ['date', 'fecha', 'start_time', 'time'];
 
 ImportFormat detectFormat(String csv) {
+  if (_backupOf(csv) != null) return ImportFormat.openGym;
   final cols = _header(csv);
   if (cols.isEmpty) return ImportFormat.unknown;
   if (cols.contains('exercise_title') && cols.contains('start_time')) return ImportFormat.hevy;
@@ -133,6 +173,10 @@ ImportFormat detectFormat(String csv) {
   if (cols.contains('exercise') && cols.contains('category') && _pick(cols, _anyWeight) != null) {
     return ImportFormat.fitnotes;
   }
+  final exerciseCol = _pick(cols, _genericExerciseCols);
+  final repsCol = _pick(cols, _genericRepCols);
+  final genericDate = _pick(cols, _genericDateCols);
+  if (exerciseCol != null && repsCol != null && genericDate != null) return ImportFormat.generic;
   final hasExercise = cols.any((c) => c.contains('exercise') || c.contains('ejercicio'));
   final dateCol = _pick(cols, _dateCols);
   final weightCol = _pick(cols, [..._weightKgCols, ..._weightLbCols, 'weight', 'peso']);
@@ -225,6 +269,7 @@ List<ParsedWeight> parseWeights(String csv, {bool isLb = false}) {
 
 ImportResult parseImport(String csv, {bool isLb = false}) {
   final format = detectFormat(csv);
+  if (format == ImportFormat.openGym) return _parseOpenGym(_backupOf(csv)!);
   if (format.isWeights) {
     return ImportResult(format, const [], weights: parseWeights(csv, isLb: isLb));
   }
@@ -291,6 +336,89 @@ ImportResult parseImport(String csv, {bool isLb = false}) {
   }
 
   return ImportResult(format, sessions.values.toList());
+}
+
+Map<String, dynamic>? _backupOf(String text) {
+  final head = text.trimLeft();
+  if (!head.startsWith('{')) return null;
+  Object? decoded;
+  try {
+    decoded = jsonDecode(head);
+  } catch (_) {
+    return null;
+  }
+  if (decoded is! Map) return null;
+  final map = decoded.cast<String, dynamic>();
+  return map['workouts'] is List && map['routines'] is List ? map : null;
+}
+
+ImportResult _parseOpenGym(Map<String, dynamic> backup) {
+  final isLb = _norm((backup['unit'] as String?) ?? 'kg').startsWith('lb');
+  final custom = <String, String>{};
+  for (final entry in (backup['customEx'] as List?) ?? const []) {
+    if (entry is! Map) continue;
+    final id = entry['id'];
+    final name = entry['n'];
+    if (id is String && name is String && name.trim().isNotEmpty) custom[id] = name.trim();
+  }
+
+  final sessions = <ParsedSession>[];
+  for (final raw in (backup['workouts'] as List?) ?? const []) {
+    if (raw is! Map) continue;
+    final workout = raw.cast<String, dynamic>();
+    final date = _openGymDate(workout);
+    if (date == null) continue;
+    final session = ParsedSession(date, _openGymDuration(workout));
+    for (final rawEntry in (workout['entries'] as List?) ?? const []) {
+      if (rawEntry is! Map) continue;
+      final sourceId = rawEntry['id'];
+      if (sourceId is! String) continue;
+      final localId = kOpenGymIds[sourceId];
+      final name = custom[sourceId] ?? '';
+      if (localId == null && name.isEmpty) continue;
+      final exercise = ParsedExercise(name, null, id: localId);
+      for (final rawSet in (rawEntry['sets'] as List?) ?? const []) {
+        if (rawSet is! Map) continue;
+        if (rawSet['done'] != true) continue;
+        if (rawSet['phase'] == 'warmup' || rawSet['warmup'] == true) continue;
+        final reps = (rawSet['r'] as num?)?.toInt() ?? 0;
+        if (reps <= 0) continue;
+        final weight = (rawSet['w'] as num?)?.toDouble() ?? 0;
+        exercise.sets.add(ParsedSet(reps, isLb ? weight / _lbPerKg : weight));
+      }
+      if (exercise.sets.isNotEmpty) session.exercises.add(exercise);
+    }
+    if (session.exercises.isNotEmpty) sessions.add(session);
+  }
+
+  final weights = <ParsedWeight>[];
+  for (final raw in (backup['bodyweight'] as List?) ?? const []) {
+    if (raw is! Map) continue;
+    final date = _parseDate((raw['d'] as String?) ?? '');
+    final value = (raw['w'] as num?)?.toDouble() ?? 0;
+    if (date == null || value <= 0) continue;
+    weights.add(ParsedWeight(date, isLb ? value / _lbPerKg : value));
+  }
+
+  return ImportResult(ImportFormat.openGym, sessions, weights: weights);
+}
+
+DateTime? _openGymDate(Map<String, dynamic> workout) {
+  final start = (workout['start'] as num?)?.toInt();
+  final day = _parseDate((workout['d'] as String?) ?? '');
+  if (start != null && start > 0) {
+    final stamp = DateTime.fromMillisecondsSinceEpoch(start);
+    if (day == null || _dayId(stamp) == _dayId(day)) return stamp;
+  }
+  return day;
+}
+
+int _openGymDuration(Map<String, dynamic> workout) {
+  final start = (workout['start'] as num?)?.toInt() ?? 0;
+  final end = (workout['end'] as num?)?.toInt() ?? 0;
+  if (start <= 0 || end <= start) return 0;
+  final seconds = (end - start) ~/ 1000;
+  return seconds > 24 * 3600 ? 0 : seconds;
 }
 
 double _weightKg({
