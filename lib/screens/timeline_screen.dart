@@ -3,7 +3,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 import '../l10n/l10n.dart';
 import '../models/progress_shot.dart';
@@ -105,8 +105,11 @@ class _TimelineScreenState extends State<TimelineScreen> {
                         _bodyEmpty(gc)
                       else ...[
                         Text(t.timelineBodyHint,
-                            style: AppTheme.s(12.5, color: gc.textTertiary, height: 1.4)),
-                        const SizedBox(height: 14),
+                            style: AppTheme.f(12.5,
+                                weight: FontWeight.w500, color: gc.textTertiary, height: 1.4)),
+                        const SizedBox(height: 16),
+                        _intervalPicker(gc, body: true),
+                        const SizedBox(height: 18),
                         _heatLegend(gc),
                         const SizedBox(height: 22),
                         for (int i = 0; i < windows.length; i++)
@@ -120,7 +123,7 @@ class _TimelineScreenState extends State<TimelineScreen> {
                   : [
                       if (entries.isEmpty) _empty(gc) else _heroBand(gc),
                       const SizedBox(height: 20),
-                      _intervalPicker(gc),
+                      _intervalPicker(gc, body: false),
                       const SizedBox(height: 24),
                       for (int i = 0; i < entries.length; i++)
                         _entryRow(gc, entries[i], start,
@@ -445,22 +448,34 @@ class _TimelineScreenState extends State<TimelineScreen> {
     );
   }
 
-  Widget _intervalPicker(GymColors gc) {
+  Future<void> _askInterval(bool body) async {
+    final days = await askNumber(
+      context,
+      title: body ? t.timelineEvery : t.photoEvery,
+      initial: '${fit.photoIntervalDays > 0 ? fit.photoIntervalDays : 30}',
+      decimal: false,
+    );
+    if (days != null) fit.setPhotoInterval(days.round());
+  }
+
+  Widget _intervalPicker(GymColors gc, {required bool body}) {
     final left = fit.daysUntilPhoto;
     final due = fit.photoDue;
+    final current = fit.photoIntervalDays;
+    final custom = current > 0 && !kPhotoIntervals.contains(current);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
           children: [
             Expanded(
-              child: Text(t.photoEvery,
-                  style: AppTheme.d(12,
-                      weight: FontWeight.w600, color: gc.textSecondary, letterSpacing: 2)),
+              child: Text(titleCase(body ? t.timelineEvery : t.photoEvery),
+                  style: AppTheme.f(10.5,
+                      weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.3)),
             ),
-            if (left != null)
+            if (!body && left != null)
               Text(due ? t.photoDueNow : t.photoNextIn(left),
-                  style: AppTheme.s(12,
+                  style: AppTheme.f(12,
                       weight: FontWeight.w600, color: due ? gc.accent : gc.textTertiary)),
           ],
         ),
@@ -469,49 +484,69 @@ class _TimelineScreenState extends State<TimelineScreen> {
           padding: const EdgeInsets.all(4),
           decoration: BoxDecoration(
             color: gc.bgRaised,
-            border: Border.all(color: gc.border),
             borderRadius: BorderRadius.circular(100),
           ),
           child: Row(
             children: [
               for (final days in kPhotoIntervals)
-                Expanded(
-                  child: Semantics(
-                    button: true,
-                    selected: fit.photoIntervalDays == days,
-                    label: t.photoInterval(days),
-                    child: GestureDetector(
-                      behavior: HitTestBehavior.opaque,
+                if (!body || days > 0)
+                  Expanded(
+                    child: _intervalTab(
+                      gc,
+                      label: days <= 0 ? t.photoEveryOff : '$days',
+                      semantics: t.photoInterval(days),
+                      on: current == days,
                       onTap: () => fit.setPhotoInterval(days),
-                      child: AnimatedContainer(
-                        duration: const Duration(milliseconds: 180),
-                        height: 36,
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          color: fit.photoIntervalDays == days ? gc.ember : Colors.transparent,
-                          borderRadius: BorderRadius.circular(100),
-                        ),
-                        child: FittedBox(
-                          fit: BoxFit.scaleDown,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 6),
-                            child: Text(days <= 0 ? t.photoEveryOff : '$days',
-                                maxLines: 1,
-                                style: AppTheme.s(13,
-                                    weight: FontWeight.w600,
-                                    color: fit.photoIntervalDays == days
-                                        ? gc.onEmber
-                                        : gc.textSecondary)),
-                          ),
-                        ),
-                      ),
                     ),
                   ),
+              Expanded(
+                child: _intervalTab(
+                  gc,
+                  label: custom ? '$current' : t.custom,
+                  semantics: t.custom,
+                  on: custom,
+                  onTap: () => _askInterval(body),
                 ),
+              ),
             ],
           ),
         ),
       ],
+    );
+  }
+
+  Widget _intervalTab(GymColors gc,
+      {required String label,
+      required String semantics,
+      required bool on,
+      required VoidCallback onTap}) {
+    return Semantics(
+      button: true,
+      selected: on,
+      label: semantics,
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: onTap,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 180),
+          height: 36,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color: on ? gc.ember : Colors.transparent,
+            borderRadius: BorderRadius.circular(100),
+          ),
+          child: FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 6),
+              child: Text(label,
+                  maxLines: 1,
+                  style: AppTheme.f(13,
+                      weight: FontWeight.w600, color: on ? gc.onEmber : gc.textSecondary)),
+            ),
+          ),
+        ),
+      ),
     );
   }
 

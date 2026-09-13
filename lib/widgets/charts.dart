@@ -225,12 +225,18 @@ class _SparkPainter extends CustomPainter {
 }
 
 class Heatmap extends StatelessWidget {
-  const Heatmap({super.key, required this.levels, this.onTapDay});
+  const Heatmap({super.key, required this.levels, this.onTapDay, this.mono = false});
   final List<int> levels;
   final void Function(int index)? onTapDay;
+  final bool mono;
 
-  Color _color(int level, GymColors gc) =>
-      level <= 0 ? gc.heatEmpty : heatLevelColor(gc, level);
+  static const _monoAlpha = [0.0, 0.30, 0.46, 0.64, 0.82, 1.0];
+
+  Color _color(int level, GymColors gc) {
+    if (level <= 0) return gc.heatEmpty;
+    if (!mono) return heatLevelColor(gc, level);
+    return gc.text.withValues(alpha: _monoAlpha[level.clamp(1, _monoAlpha.length - 1)]);
+  }
 
   @override
   Widget build(BuildContext context) {
