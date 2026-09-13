@@ -5,7 +5,6 @@ import '../state/fit_state.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
 import '../widgets/dialogs.dart';
-import '../widgets/svg_icon.dart';
 import '../widgets/ui_kit.dart';
 
 class ToolDetailScreen extends StatelessWidget {
@@ -24,28 +23,27 @@ class ToolDetailScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Row(children: [
-              RoundBtn(icon: Ic.chevronLeft, onTap: fit.closeTool),
-              const SizedBox(width: 12),
-              Text(meta.$1, style: AppTheme.d(18, weight: FontWeight.w700, color: gc.text, letterSpacing: 1)),
-            ]),
-            const SizedBox(height: 14),
+            ScreenHeader(title: meta.$1, onBack: fit.closeTool, titleSize: 21),
+            const SizedBox(height: 20),
             Container(
-              padding: const EdgeInsets.all(22),
+              padding: const EdgeInsets.fromLTRB(22, 24, 22, 24),
               decoration: BoxDecoration(
                 color: gc.bgRaised,
-                border: Border.all(color: gc.ember),
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(24),
               ),
               child: Column(children: [
-                Text(t.result, style: AppTheme.s(11, weight: FontWeight.w600, color: gc.brass, letterSpacing: 2)),
+                Text(t.result.toUpperCase(),
+                    style: AppTheme.f(10.5,
+                        weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.6)),
                 const SizedBox(height: 8),
-                Text(meta.$2, style: AppTheme.d(36, weight: FontWeight.w700, color: gc.text)),
+                Text(meta.$2,
+                    textAlign: TextAlign.center,
+                    style: AppTheme.f(40, weight: FontWeight.w800, color: gc.text)),
                 const SizedBox(height: 8),
-                Text(meta.$3, style: AppTheme.s(13, color: gc.textSecondary), textAlign: TextAlign.center),
+                Text(meta.$3, style: AppTheme.f(13, weight: FontWeight.w500, color: gc.textSecondary), textAlign: TextAlign.center),
               ]),
             ),
-            const SizedBox(height: 14),
+            const SizedBox(height: 18),
             ..._inputs(context, gc, id),
           ],
         ),
@@ -167,7 +165,7 @@ class ToolDetailScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(t.activityLevel, style: AppTheme.s(13, weight: FontWeight.w600, color: gc.textSecondary)),
+          Text(t.activityLevel, style: AppTheme.f(13, weight: FontWeight.w600, color: gc.textSecondary)),
           const SizedBox(height: 10),
           Wrap(spacing: 6, runSpacing: 6, children: [
             pill(t.activityName('Sedentary'), 1.2),
@@ -186,9 +184,9 @@ class ToolDetailScreen extends StatelessWidget {
             radius: 14,
             padding: const EdgeInsets.all(12),
             child: Column(children: [
-              Text(label, style: AppTheme.s(10, weight: FontWeight.w600, color: gc.textSecondary)),
+              Text(label, style: AppTheme.f(10, weight: FontWeight.w600, color: gc.textSecondary)),
               const SizedBox(height: 4),
-              Text(value, style: AppTheme.d(16, weight: FontWeight.w700, color: gc.text)),
+              Text(value, style: AppTheme.f(16, weight: FontWeight.w700, color: gc.text)),
             ]),
           ),
         );
@@ -212,7 +210,7 @@ class ToolDetailScreen extends StatelessWidget {
             alignment: Alignment.center,
             decoration: BoxDecoration(color: active ? gc.ember : gc.bgRaised2, borderRadius: BorderRadius.circular(10)),
             child: Text('${fmt(v)} ${fit.units}',
-                style: AppTheme.s(13, weight: FontWeight.w600, color: active ? gc.onEmber : gc.textSecondary)),
+                style: AppTheme.f(13, weight: FontWeight.w600, color: active ? gc.onEmber : gc.textSecondary)),
           ),
         ),
       );
@@ -225,7 +223,7 @@ class ToolDetailScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(t.barWeight, style: AppTheme.s(13, weight: FontWeight.w600, color: gc.textSecondary)),
+          Text(t.barWeight, style: AppTheme.f(13, weight: FontWeight.w600, color: gc.textSecondary)),
           const SizedBox(height: 10),
           Row(children: [
             for (int i = 0; i < bars.length; i++) ...[
@@ -240,16 +238,18 @@ class ToolDetailScreen extends StatelessWidget {
 
   Widget _perSideCard(GymColors gc) {
     final rows = fit.plateBreakdown;
+    final target = fit.toDisplayWeight(fit.plateTarget);
+    final loadable = fit.loadableTotal(target, fit.plateBarDisplay);
     return SoftCard(
       radius: 14,
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(t.perSide, style: AppTheme.s(13, weight: FontWeight.w600, color: gc.textSecondary)),
+          Text(t.perSide, style: AppTheme.f(13, weight: FontWeight.w600, color: gc.textSecondary)),
           const SizedBox(height: 10),
           if (rows.isEmpty)
-            Text(t.justTheBar, style: AppTheme.s(13, color: gc.textSecondary))
+            Text(t.justTheBar, style: AppTheme.f(13, weight: FontWeight.w500, color: gc.textSecondary))
           else
             for (final p in rows)
               Padding(
@@ -257,11 +257,14 @@ class ToolDetailScreen extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('${fmt(p.weight)} ${fit.units}', style: AppTheme.s(14, weight: FontWeight.w600, color: gc.text)),
-                    Text(t.perSideCount(p.count), style: AppTheme.s(13, color: gc.textSecondary)),
+                    Text('${fmt(p.weight)} ${fit.units}', style: AppTheme.f(14, weight: FontWeight.w600, color: gc.text)),
+                    Text(t.perSideCount(p.count), style: AppTheme.f(13, weight: FontWeight.w500, color: gc.textSecondary)),
                   ],
                 ),
               ),
+          if (loadable < target - 0.01)
+            Text(t.plateAchievable('${fmt(loadable)} ${fit.units}'),
+                style: AppTheme.f(12, weight: FontWeight.w500, color: gc.brass)),
         ],
       ),
     );
@@ -283,8 +286,8 @@ class ToolDetailScreen extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(t.rampSet(sets[i].pct, sets[i].reps), style: AppTheme.s(13, color: gc.textSecondary)),
-                  Text('${fmt(sets[i].weight)} ${fit.units}', style: AppTheme.d(15, weight: FontWeight.w700, color: gc.text)),
+                  Text(t.rampSet(sets[i].pct, sets[i].reps), style: AppTheme.f(13, weight: FontWeight.w500, color: gc.textSecondary)),
+                  Text('${fmt(sets[i].weight)} ${fit.units}', style: AppTheme.f(15, weight: FontWeight.w700, color: gc.text)),
                 ],
               ),
             ),
@@ -292,4 +295,94 @@ class ToolDetailScreen extends StatelessWidget {
       ),
     );
   }
+}
+
+void showPlateSheet(BuildContext context, double displayTarget) {
+  final gc = context.gc;
+  var bar = fit.defaultBar;
+  showModalBottomSheet<void>(
+    context: context,
+    backgroundColor: Colors.transparent,
+    builder: (sheet) => StatefulBuilder(
+      builder: (sheet, setSheet) {
+        final rows = fit.platesPerSide(displayTarget, bar);
+        final loadable = fit.loadableTotal(displayTarget, bar);
+        return Container(
+          padding: sheetPad(sheet),
+          decoration: BoxDecoration(
+            color: gc.bgRaised,
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              const SheetHandle(),
+              const SizedBox(height: 18),
+              Text(t.toolTitle('plate'),
+                  textAlign: TextAlign.center,
+                  style: AppTheme.f(14, weight: FontWeight.w700, color: gc.text, letterSpacing: 0.4)),
+              const SizedBox(height: 4),
+              Text('${fmt(displayTarget)} ${fit.units}',
+                  textAlign: TextAlign.center,
+                  style: AppTheme.f(30, weight: FontWeight.w700, color: gc.ember)),
+              const SizedBox(height: 18),
+              Text(t.barWeight,
+                  style: AppTheme.f(10, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.5)),
+              const SizedBox(height: 8),
+              Row(children: [
+                for (final option in fit.barOptions) ...[
+                  if (option != fit.barOptions.first) const SizedBox(width: 8),
+                  Expanded(
+                    child: GestureDetector(
+                      behavior: HitTestBehavior.opaque,
+                      onTap: () => setSheet(() => bar = option),
+                      child: Container(
+                        padding: const EdgeInsets.all(10),
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          color: bar == option ? gc.ember : gc.bgRaised2,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Text('${fmt(option)} ${fit.units}',
+                            style: AppTheme.f(13,
+                                weight: FontWeight.w600,
+                                color: bar == option ? gc.onEmber : gc.textSecondary)),
+                      ),
+                    ),
+                  ),
+                ],
+              ]),
+              const SizedBox(height: 18),
+              Text(t.perSide,
+                  style: AppTheme.f(10, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.5)),
+              const SizedBox(height: 10),
+              if (rows.isEmpty)
+                Text(t.justTheBar, style: AppTheme.f(13, weight: FontWeight.w500, color: gc.textSecondary))
+              else
+                for (final p in rows)
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 8),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('${fmt(p.weight)} ${fit.units}',
+                            style: AppTheme.f(14, weight: FontWeight.w600, color: gc.text)),
+                        Text(t.perSideCount(p.count), style: AppTheme.f(13, weight: FontWeight.w500, color: gc.textSecondary)),
+                      ],
+                    ),
+                  ),
+              if (loadable < displayTarget - 0.01) ...[
+                const SizedBox(height: 2),
+                Text(t.plateAchievable('${fmt(loadable)} ${fit.units}'),
+                    style: AppTheme.f(12, weight: FontWeight.w500, color: gc.brass)),
+              ],
+              const SizedBox(height: 18),
+              PrimaryButton(label: t.done, onTap: () => Navigator.of(sheet).pop()),
+            ],
+          ),
+        );
+      },
+    ),
+  );
 }

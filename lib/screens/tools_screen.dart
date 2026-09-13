@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 import '../catalog/exercise_catalog.dart';
 import '../l10n/l10n.dart';
@@ -31,21 +31,20 @@ class ToolsScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            ScreenHeader(title: t.tools, onBack: fit.backFromTools, titleSize: 22),
-            const SizedBox(height: 6),
-            Padding(
-              padding: const EdgeInsets.only(left: 48),
-              child: Text(t.calculatorsCount(kToolMeta.length),
-                  style: AppTheme.s(13, color: gc.textSecondary)),
+            ScreenHeader(
+              title: t.tools,
+              onBack: fit.backFromTools,
+              titleSize: 22,
+              subtitle: t.calculatorsCount(kToolMeta.length),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 22),
             GridView.count(
               crossAxisCount: 2,
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               mainAxisSpacing: 12,
               crossAxisSpacing: 12,
-              childAspectRatio: 1.05,
+              childAspectRatio: 1.12,
               children: [for (final tool in kToolMeta) _card(gc, tool)],
             ),
           ],
@@ -58,11 +57,10 @@ class ToolsScreen extends StatelessWidget {
     return GestureDetector(
       onTap: () => fit.openTool(tool.id),
       child: Container(
-        padding: const EdgeInsets.all(18),
+        padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: gc.bgRaised,
-          border: Border.all(color: gc.border),
-          borderRadius: BorderRadius.circular(18),
+          borderRadius: BorderRadius.circular(20),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -71,16 +69,24 @@ class ToolsScreen extends StatelessWidget {
             Container(
               width: 36,
               height: 36,
-              decoration: BoxDecoration(color: gc.emberSoft, borderRadius: BorderRadius.circular(10)),
-              child: Center(child: Icon(_toolIcon(tool.id), size: 20, color: gc.ember)),
+              decoration:
+                  BoxDecoration(color: gc.bgRaised2, borderRadius: BorderRadius.circular(12)),
+              child: Center(child: Icon(_toolIcon(tool.id), size: 19, color: gc.textSecondary)),
             ),
             const Spacer(),
-            Text(t.toolName(tool.id), style: AppTheme.d(15, weight: FontWeight.w600, color: gc.text, letterSpacing: 0.5)),
-            const SizedBox(height: 2),
-            Text(t.toolDesc(tool.id),
-                maxLines: 2,
+            Text(t.toolName(tool.id),
+                maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: AppTheme.s(12, color: gc.textSecondary)),
+                style: AppTheme.f(14.5, weight: FontWeight.w700, color: gc.text)),
+            const SizedBox(height: 2),
+            SizedBox(
+              height: 31,
+              child: Text(t.toolDesc(tool.id),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: AppTheme.f(11.5,
+                      weight: FontWeight.w500, color: gc.textSecondary, height: 1.3)),
+            ),
           ],
         ),
       ),

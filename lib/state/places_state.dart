@@ -88,6 +88,61 @@ mixin PlacesState on FitCore, LibraryState {
     notifyListeners();
   }
 
+  @override
+  Map<double, int>? get plateStockKg {
+    final p = activePlace;
+    if (p == null || p.plates.isEmpty) return null;
+    return p.plates;
+  }
+
+  @override
+  double? get placeBarKg => activePlace?.bar;
+
+  void setPlatePairs(String placeId, double kg, int pairs) {
+    final i = places.indexWhere((p) => p.id == placeId);
+    if (i < 0) return;
+    final plates = {...places[i].plates};
+    final key = _plateKey(plates, kg);
+    if (pairs <= 0) {
+      plates.remove(key);
+    } else {
+      plates[key] = pairs.clamp(1, 20);
+    }
+    places[i] = places[i].copyWith(plates: plates);
+    _persist();
+    notifyListeners();
+  }
+
+  void clearPlates(String placeId) {
+    final i = places.indexWhere((p) => p.id == placeId);
+    if (i < 0) return;
+    places[i] = places[i].copyWith(plates: const {}, clearBar: true);
+    _persist();
+    notifyListeners();
+  }
+
+  void setPlaceBar(String placeId, double kg) {
+    final i = places.indexWhere((p) => p.id == placeId);
+    if (i < 0) return;
+    places[i] = places[i].copyWith(bar: _round3(kg.clamp(1, 60)));
+    _persist();
+    notifyListeners();
+  }
+
+  int platePairs(GymPlace place, double kg) {
+    for (final e in place.plates.entries) {
+      if ((e.key - kg).abs() < 0.05) return e.value;
+    }
+    return 0;
+  }
+
+  double _plateKey(Map<double, int> plates, double kg) {
+    for (final k in plates.keys) {
+      if ((k - kg).abs() < 0.05) return k;
+    }
+    return _round3(kg);
+  }
+
   void setActivePlace(String id) {
     activePlaceId = activePlaceId == id ? '' : id;
     _persist();
@@ -102,8 +157,8 @@ mixin PlacesState on FitCore, LibraryState {
   }
 
   @override
-  List<Exercise> get exercisesFiltered => super
-      .exercisesFiltered
+  List<Exercise> exercisesMatching(String query) => super
+      .exercisesMatching(query)
       .where((ex) => (!exNoGearOnly || ex.equipment == 'Bodyweight') && fitsHere(ex))
       .toList();
 

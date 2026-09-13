@@ -91,16 +91,36 @@ mixin ToolsState on FitCore {
 
   List<double> get barOptions => isLb ? const [45, 35, 15] : const [20, 15, 10];
 
+  List<double> get plateSizes => _plateSteps;
+
   List<double> get _plateSteps =>
       isLb ? const [45, 35, 25, 10, 5, 2.5] : const [25, 20, 15, 10, 5, 2.5, 1.25];
 
-  List<({double weight, int count})> get plateBreakdown {
-    final target = toDisplayWeight(plateTarget);
-    final bar = toDisplayWeight(plateBar);
-    double perSide = math.max(0, (target - bar) / 2);
+  List<({double weight, int count})> get plateBreakdown =>
+      platesPerSide(toDisplayWeight(plateTarget), toDisplayWeight(plateBar));
+
+  double get defaultBar {
+    final placeBar = placeBarKg;
+    if (placeBar != null) return _round1(toDisplayWeight(placeBar));
+    return isLb ? 45 : 20;
+  }
+
+  Map<double, int>? get plateStockDisplay {
+    final stock = plateStockKg;
+    if (stock == null) return null;
+    return {for (final e in stock.entries) _round1(toDisplayWeight(e.key)): e.value};
+  }
+
+  List<({double weight, int count})> platesPerSide(double displayTarget, double displayBar) {
+    final stock = plateStockDisplay;
+    final steps = stock == null
+        ? _plateSteps
+        : (stock.keys.toList()..sort((a, b) => b.compareTo(a)));
+    double perSide = math.max(0, (displayTarget - displayBar) / 2);
     final out = <({double weight, int count})>[];
-    for (final p in _plateSteps) {
-      final count = (perSide / p + 1e-6).floor();
+    for (final p in steps) {
+      var count = (perSide / p + 1e-6).floor();
+      if (stock != null) count = math.min(count, stock[p] ?? 0);
       if (count > 0) {
         out.add((weight: p, count: count));
         perSide = _round1(perSide - count * p);
@@ -109,19 +129,9 @@ mixin ToolsState on FitCore {
     return out;
   }
 
-  double get defaultBar => isLb ? 45 : 20;
-
-  List<({double weight, int count})> platesPerSide(double displayTarget, double displayBar) {
-    double perSide = math.max(0, (displayTarget - displayBar) / 2);
-    final out = <({double weight, int count})>[];
-    for (final p in _plateSteps) {
-      final count = (perSide / p + 1e-6).floor();
-      if (count > 0) {
-        out.add((weight: p, count: count));
-        perSide = _round1(perSide - count * p);
-      }
-    }
-    return out;
+  double loadableTotal(double displayTarget, double displayBar) {
+    final parts = platesPerSide(displayTarget, displayBar);
+    return _round1(displayBar + parts.fold<double>(0, (a, p) => a + p.weight * p.count) * 2);
   }
 
   String? plateHint(String equipment, double weightKg) {
