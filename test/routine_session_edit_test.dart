@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:gymmane/models/profile.dart';
 import 'package:gymmane/models/note.dart';
 import 'package:gymmane/services/local_store.dart';
 import 'package:gymmane/state/fit_state.dart';
@@ -155,7 +156,7 @@ void main() {
       expect(fit.notesFor(a), isEmpty);
       expect(fit.favorites, isEmpty);
       expect(fit.session, isNull);
-      expect(fit.profile.name, 'InlitX');
+      expect(fit.profile.name, kDefaultName);
       expect(fit.onboarded, false, reason: 'vuelve a estar recién instalada');
       expect(fit.route, 'home');
     });

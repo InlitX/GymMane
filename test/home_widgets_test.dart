@@ -14,7 +14,7 @@ void main() {
   }
 
   for (final (name, gc) in [('dark', GymColors.dark), ('light', GymColors.light)]) {
-    testWidgets('the three home widgets draw in $name without overflowing', (tester) async {
+    testWidgets('the four home widgets draw in $name without overflowing', (tester) async {
       await draw(tester, HeatmapWidgetView(gc: gc, levels: List.filled(182, 2), streak: 12));
       await draw(tester,
           StatsWidgetView(gc: gc, streak: 12, sessionsThisWeek: 3, goalPct: 75));
@@ -25,6 +25,9 @@ void main() {
             days: 7,
             intensity: const {'chest': 1.0, 'back': 0.5, 'quads': 0.1},
           ));
+      await draw(tester, TodayWidgetView(gc: gc, done: true, planned: true, streak: 12));
+      await draw(tester, TodayWidgetView(gc: gc, done: false, planned: true, streak: 0));
+      await draw(tester, TodayWidgetView(gc: gc, done: false, planned: false, streak: 0));
     });
   }
 

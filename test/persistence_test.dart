@@ -22,6 +22,13 @@ void main() {
     fit.customExercises.clear();
     fit.profile = Profile();
     fit.setUnits('kg');
+    fit.progressStep.clear();
+    fit.autoWarmup.clear();
+    fit.logRpe = false;
+    fit.autoAdvance = true;
+    fit.showFocus = true;
+    fit.smartReminder = false;
+    fit.trainReminderMin = null;
   });
 
   void fillEverything() {
@@ -40,6 +47,17 @@ void main() {
     fit.toggleRoutineExercise(r, kFirstId);
     fit.assignRoutineToDay(1, r);
     fit.addCustomExercise(name: 'Mi ejercicio', primary: 'chest', equipment: 'Other');
+    fit.toggleProgress(kFirstId);
+    fit.toggleAutoWarmup(kFirstId);
+    fit.toggleLogRpe();
+    fit.toggleAutoAdvance();
+    fit.toggleFocusCard();
+    fit.setBgDim(0.72);
+    fit.setTrainReminder(7 * 60 + 45);
+    fit.setSmartReminder(true);
+    fit.toggleChain(r, kFirstId);
+    fit.setRoutineGroup(r, 'PPL');
+    fit.bumpRoutineSets(r, kFirstId, 2);
 
     fit.startWorkout();
     fit.toggleMuscle('chest');
@@ -66,6 +84,17 @@ void main() {
     expect(fit.weeklyPlan[1], fit.routines.single.id);
     expect(fit.customExercises.single.name, 'Mi ejercicio');
     expect(fit.sessions.single.exercises.single.sets.single.reps, 10);
+    expect(fit.hasProgress(kFirstId), isTrue);
+    expect(fit.warmsUp(kFirstId), isTrue);
+    expect(fit.logRpe, isTrue);
+    expect(fit.autoAdvance, isFalse);
+    expect(fit.showFocus, isFalse);
+    expect(fit.bgDim, 0.72);
+    expect(fit.trainReminderMin, 7 * 60 + 45);
+    expect(fit.smartReminder, isTrue);
+    expect(fit.routines.single.chained, contains(kFirstId));
+    expect(fit.routines.single.group, 'PPL');
+    expect(fit.routineSets(fit.routines.single, kFirstId), 5);
   }
 
   test('everything survives a restart', () async {
@@ -100,7 +129,7 @@ void main() {
     final empty = fit.exportJson();
     expect(fit.importJson(empty), true);
     expect(fit.sessions, isEmpty);
-    expect(fit.profile.name, 'InlitX');
+    expect(fit.profile.name, kDefaultName);
   });
 
   test('old backups with the previous notes format still load', () {

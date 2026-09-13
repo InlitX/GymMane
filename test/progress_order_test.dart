@@ -7,6 +7,7 @@ import 'package:gymmane/services/local_store.dart';
 import 'package:gymmane/services/progress_reminder.dart';
 import 'package:gymmane/services/train_reminder.dart';
 import 'package:gymmane/state/fit_state.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
@@ -41,34 +42,32 @@ void main() {
     return tester.getTopLeft(finder.first).dy;
   }
 
-  testWidgets('la gráfica va primero, luego el cuerpo y luego el mapa de días',
-      (tester) async {
+  testWidgets('the numbers come first, then the grid, then the body', (tester) async {
     logSessions();
     fit.route = 'progress';
     await tester.pumpWidget(const GymManeApp());
     await tester.pumpAndSettle();
 
-    final chart = await yOf(tester, t.totalVolume30d);
+    final volume = await yOf(tester, t.tileVolume30.toUpperCase());
+    final heat = await yOf(tester, t.consistency.toUpperCase());
     final body = await yOf(tester, t.muscleMap);
-    final heat = await yOf(tester, t.consistency);
 
-    expect(chart, lessThan(body));
-    expect(body, lessThan(heat));
+    expect(volume, lessThan(heat));
+    expect(heat, lessThan(body));
   });
 
-  testWidgets('las tarjetas sin datos se van al final', (tester) async {
+  testWidgets('a card with nothing in it is not drawn at all', (tester) async {
     logSessions();
     fit.route = 'progress';
     await tester.pumpWidget(const GymManeApp());
     await tester.pumpAndSettle();
 
-    final withData = await yOf(tester, t.personalRecords);
-    final empty = await yOf(tester, t.measures);
-
-    expect(withData, lessThan(empty), reason: 'las medidas vacías deberían quedar debajo');
+    expect(find.text(t.measures), findsNothing, reason: 'sin medidas, no hay tarjeta de medidas');
+    expect(find.text(t.setupMeasures), findsOneWidget,
+        reason: 'lo que falta se cuenta una sola vez, en la tarjeta de arranque');
   });
 
-  testWidgets('en cuanto hay datos, la tarjeta sube', (tester) async {
+  testWidgets('the card shows up as soon as there is something to show', (tester) async {
     logSessions();
     fit.addMeasure('chest', 100);
     fit.persistNow();
@@ -76,9 +75,21 @@ void main() {
     await tester.pumpWidget(const GymManeApp());
     await tester.pumpAndSettle();
 
-    final measures = await yOf(tester, t.measures);
-    final timeline = await yOf(tester, t.timeline);
+    expect(find.text(t.measures), findsWidgets);
+    expect(find.byIcon(PhosphorIconsFill.checkCircle), findsWidgets,
+        reason: 'lo ya hecho se queda listado, pero con su tic');
+  });
 
-    expect(measures, lessThan(timeline), reason: 'con datos, las medidas van antes que lo vacío');
+  testWidgets('a fresh install leads with what to fill in, not with empty cards', (tester) async {
+    fit.route = 'progress';
+    await tester.pumpWidget(const GymManeApp());
+    await tester.pumpAndSettle();
+
+    final setup = await yOf(tester, t.setupTitle);
+    final volume = await yOf(tester, t.tileVolume30.toUpperCase());
+
+    expect(setup, lessThan(volume));
+    expect(find.text(t.consistency.toUpperCase()), findsNothing,
+        reason: 'una rejilla vacía no dice nada a quien acaba de instalar');
   });
 }

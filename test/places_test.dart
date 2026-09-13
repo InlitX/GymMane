@@ -174,6 +174,9 @@ void main() {
     await tester.pumpWidget(const GymManeApp());
     await tester.pumpAndSettle();
 
+    await tester.tap(find.text(t.filters));
+    await tester.pumpAndSettle();
+
     expect(find.text(t.placeAll), findsOneWidget);
     await tester.tap(find.text('Casa'));
     await tester.pumpAndSettle();

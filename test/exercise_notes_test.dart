@@ -7,6 +7,7 @@ import 'package:gymmane/screens/notes_screen.dart';
 import 'package:gymmane/state/fit_state.dart';
 import 'package:gymmane/theme/app_theme.dart';
 import 'package:gymmane/widgets/note_kit.dart';
+import 'package:gymmane/widgets/ui_kit.dart';
 
 Widget _host(Widget Function() screen) => MaterialApp(
       theme: AppTheme.dark,
@@ -78,7 +79,7 @@ void main() {
 
     expect(find.text('nota 10'), findsNothing);
 
-    await tapVisible(tester, find.text(t.notes));
+    await tapVisible(tester, find.text(titleCase(t.notes)));
     expect(fit.route, 'notes');
     expect(fit.noteScope, exId);
     expect(fit.notesAllView, isFalse);

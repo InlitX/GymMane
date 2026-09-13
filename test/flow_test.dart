@@ -56,7 +56,6 @@ void main() {
     expect(fit.trainStep, 'select');
     expect(fit.selectedMuscles, suggested.muscles);
 
-    // Can proceed to review directly
     fit.trainContinue();
     expect(fit.trainStep, 'review');
     expect(fit.sessionPicks, isNotEmpty);

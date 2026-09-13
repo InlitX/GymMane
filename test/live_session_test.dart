@@ -77,10 +77,23 @@ void main() {
     expect(fit.sessionElapsed, frozen, reason: 'en pausa el reloj no corre ni estando muerta');
   });
 
-  test('the rest timer is not resurrected — that rest already happened', () {
+  test('a rest still running comes back with the time it really has left', () {
     startAndLog();
     fit.startRest();
-    expect(fit.session!.restRemaining, isNotNull);
+    final left = fit.session!.restRemaining!;
+
+    killAndReopen();
+
+    expect(fit.session!.restRemaining, isNotNull,
+        reason: 'la alarma sigue programada, así que la cuenta tiene que seguir en pantalla');
+    expect(fit.session!.restRemaining, lessThanOrEqualTo(left),
+        reason: 'el descanso cuenta por reloj, no se reinicia');
+  });
+
+  test('a rest whose time already passed is not resurrected', () {
+    startAndLog();
+    fit.startRest();
+    fit.session!.restEndsAt = DateTime.now().subtract(const Duration(seconds: 1));
 
     killAndReopen();
     expect(fit.session!.restRemaining, isNull);

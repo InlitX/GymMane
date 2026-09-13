@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:gymmane/widgets/ui_kit.dart';
 import 'package:gymmane/l10n/l10n.dart';
 import 'package:gymmane/models/workout.dart';
 import 'package:gymmane/screens/timeline_screen.dart';
@@ -99,13 +100,13 @@ void main() {
     await tester.pumpWidget(_host(TimelineScreen.new));
     await tester.pumpAndSettle();
 
-    expect(find.text(t.addTodayPhotos), findsOneWidget);
+    expect(find.text(titleCase(t.addTodayPhotos)), findsOneWidget);
 
-    await tester.tap(find.text(t.timelineBody));
+    await tester.tap(find.text(titleCase(t.timelineBody)));
     await tester.pumpAndSettle();
 
     expect(fit.bodyTimeline, true);
-    expect(find.text(t.addTodayPhotos), findsNothing);
+    expect(find.text(titleCase(t.addTodayPhotos)), findsNothing);
     expect(find.text(t.timelineBodyHint), findsOneWidget);
     fit.persistNow();
   });

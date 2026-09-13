@@ -173,8 +173,8 @@ void main() {
 
     final zip = await buildBackupZip();
     final names = ZipDecoder().decodeBytes(zip).files.map((f) => f.name);
-    expect(names, contains('media/progress/2026-02-01-front.png'));
-    expect(names, contains('media/progress/2026-02-01-back.png'));
+    expect(names, contains('timeline/2026-02-01/front.png'));
+    expect(names, contains('timeline/2026-02-01/back.png'));
 
     fit.resetAllData();
     expect(await restoreBackupZip(zip), true);
@@ -191,7 +191,7 @@ void main() {
     final zip = await buildBackupZip();
     final stripped = Archive();
     for (final f in ZipDecoder().decodeBytes(zip).files) {
-      if (f.name.startsWith('media/progress/')) continue;
+      if (f.name.startsWith('timeline/')) continue;
       final bytes = f.readBytes()!;
       stripped.addFile(ArchiveFile.noCompress(f.name, bytes.length, bytes));
     }

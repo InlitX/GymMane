@@ -68,4 +68,23 @@ void main() {
     fit.handleBack();
     expect(fit.route, 'exercises');
   });
+
+  test('every screen you can open knows how to come back', () {
+    for (final open in <(String, void Function())>[
+      ('preferences', fit.goPreferences),
+      ('moments', fit.goMoments),
+      ('awards', fit.goAwards),
+    ]) {
+      fit.goSettings();
+      open.$2();
+      expect(fit.route, open.$1);
+      expect(fit.handleBack(), isTrue, reason: 'salir de ${open.$1} no puede cerrar la app');
+      expect(fit.route, 'settings');
+    }
+  });
+
+  test('back from home is the only one that leaves the app', () {
+    fit.goHome();
+    expect(fit.handleBack(), isFalse);
+  });
 }

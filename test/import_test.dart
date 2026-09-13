@@ -42,6 +42,59 @@ date,exercise,muscle,set,reps,weight_kg,volume_kg,est_1rm_kg
 2024-01-16,Barbell Bench Press,chest,1,10,60,600,80
 ''';
 
+const _generic = '''
+Date,Exercise,Reps,Weight,RiR
+2024-02-01,Bench Press,10,60,2
+2024-02-01,Bench Press,8,62.5,1
+2024-02-01,Squat,5,100,
+''';
+
+const _genericDe = '''
+Datum;Übung;Wiederholungen;Gewicht
+2024-02-02;Kniebeuge;5;100
+''';
+
+const _openGym = '''
+{
+  "unit": "kg",
+  "routines": [],
+  "customEx": [{"id": "im1", "n": "Sled Drag", "custom": true}],
+  "bodyweight": [{"d": "2024-01-20", "w": 81.4, "t": 1705750000000}],
+  "workouts": [
+    {
+      "id": "w1",
+      "d": "2024-01-20",
+      "start": 1705750000000,
+      "end": 1705753600000,
+      "name": "Push",
+      "entries": [
+        {"id": "0025", "sets": [
+          {"w": 20, "r": 10, "done": true, "phase": "warmup"},
+          {"w": 60, "r": 8, "done": true},
+          {"w": 60, "r": 7, "done": true},
+          {"w": 60, "r": 6, "done": false}
+        ]},
+        {"id": "0294", "sets": [{"w": 12, "r": 12, "done": true}]},
+        {"id": "im1", "sets": [{"w": 40, "r": 20, "done": true}]},
+        {"id": "9999", "sets": [{"w": 30, "r": 10, "done": true}]}
+      ]
+    }
+  ]
+}
+''';
+
+const _openGymLb = '''
+{
+  "unit": "lb",
+  "routines": [],
+  "workouts": [
+    {"id": "w1", "d": "2024-01-21", "start": 1705836000000, "end": 1705836000000,
+     "entries": [{"id": "0043", "sets": [{"w": 220, "r": 5, "done": true}]}]}
+  ],
+  "bodyweight": [{"d": "2024-01-21", "w": 180}]
+}
+''';
+
 void main() {
   group('detección de formato', () {
     test('reconoce cada app', () {
@@ -51,6 +104,8 @@ void main() {
       expect(detectFormat(_fitnotesUnits), ImportFormat.fitnotes);
       expect(detectFormat(_gymmane), ImportFormat.gymmane);
       expect(detectFormat('a,b,c\n1,2,3'), ImportFormat.unknown);
+      expect(detectFormat(_generic), ImportFormat.generic);
+      expect(detectFormat(_genericDe), ImportFormat.generic);
       expect(detectFormat(''), ImportFormat.unknown);
     });
 
@@ -60,6 +115,30 @@ void main() {
       expect(needsUnitChoice(_fitnotesUnits), isFalse);
       expect(needsUnitChoice(_hevy), isFalse);
       expect(needsUnitChoice(_gymmane), isFalse);
+    });
+  });
+
+  group('CSV genérico de cualquier app', () {
+    test('agrupa por día y respeta las columnas en inglés', () {
+      final r = parseImport(_generic);
+      expect(r.format, ImportFormat.generic);
+      expect(r.sessions.length, 1);
+      final s = r.sessions.first;
+      expect(s.exercises.length, 2);
+      expect(s.exercises.first.name, 'Bench Press');
+      expect(s.exercises.first.sets.length, 2);
+      expect(s.exercises.first.sets.first.weightKg, 60);
+      expect(s.exercises.last.sets.single.reps, 5);
+    });
+
+    test('lee cabeceras en otro idioma y con punto y coma', () {
+      final r = parseImport(_genericDe);
+      expect(r.sessions.single.exercises.single.name, 'Kniebeuge');
+      expect(r.sessions.single.exercises.single.sets.single.weightKg, 100);
+    });
+
+    test('pregunta la unidad porque la columna no la dice', () {
+      expect(needsUnitChoice(_generic), isTrue);
     });
   });
 
@@ -118,6 +197,36 @@ void main() {
     test('un archivo sin filas útiles no rompe nada', () {
       expect(parseImport(_hevy.split('\n').first).sessions, isEmpty);
       expect(parseImport('cualquier cosa').sessions, isEmpty);
+    });
+  });
+
+  group('openGym', () {
+    test('reconoce el backup y lo parsea', () {
+      expect(detectFormat(_openGym), ImportFormat.openGym);
+      expect(needsUnitChoice(_openGym), isFalse);
+      final r = parseImport(_openGym);
+      final s = r.sessions.single;
+      expect(s.date, DateTime.fromMillisecondsSinceEpoch(1705750000000));
+      expect(s.durationSec, 3600);
+      expect(s.exercises.length, 3, reason: 'el ejercicio que no está en el catálogo se cae');
+      expect(s.exercises.first.id, 'EIeI8Vf');
+      expect(s.exercises.first.sets.length, 2,
+          reason: 'fuera el calentamiento y la serie sin marcar');
+      expect(s.exercises.first.sets.first.weightKg, 60);
+      expect(s.exercises[1].id, 'NbVPDMW');
+      expect(s.exercises.last.name, 'Sled Drag');
+      expect(r.weights.single.kg, 81.4);
+    });
+
+    test('convierte a kg cuando el backup está en libras', () {
+      final r = parseImport(_openGymLb);
+      expect(r.sessions.single.exercises.single.sets.single.weightKg, closeTo(99.79, 0.05));
+      expect(r.sessions.single.durationSec, 0);
+      expect(r.weights.single.kg, closeTo(81.65, 0.05));
+    });
+
+    test('no confunde un backup de GymMane con uno de openGym', () {
+      expect(detectFormat('{"sessions": [], "routines": []}'), ImportFormat.unknown);
     });
   });
 

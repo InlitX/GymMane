@@ -96,9 +96,13 @@ void main() {
     expect(fit.daysUntilPhoto, isNull);
   });
 
-  test('a rubbish interval falls back to the default', () {
+  test('a hand-typed interval sticks and anything out of range is clamped', () {
     fit.setPhotoInterval(7);
-    expect(fit.photoIntervalDays, 30);
+    expect(fit.photoIntervalDays, 7);
+    fit.setPhotoInterval(900);
+    expect(fit.photoIntervalDays, 365);
+    fit.setPhotoInterval(-3);
+    expect(fit.photoIntervalDays, 0);
   });
 
   test('comparing defaults to the first and the last, and only offers shared poses', () async {

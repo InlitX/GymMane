@@ -64,6 +64,17 @@ void main() {
       expect(fit.exercisesFiltered.length, fit.allExercises.length);
     });
 
+    test('the muscle filter leads with the exercises that actually train it', () {
+      fit.setMuscleFilter('back');
+      final list = fit.exercisesFiltered;
+      expect(list, isNotEmpty);
+      final firstSecondary = list.indexWhere((e) => e.primary != 'back');
+      final lastPrimary = list.lastIndexWhere((e) => e.primary == 'back');
+      expect(firstSecondary == -1 || firstSecondary > lastPrimary, true,
+          reason: 'los de espalda van antes que los que solo la tocan de apoyo');
+      fit.clearExFilters();
+    });
+
     test('search finds exercises by their Spanish name too', () {
       setAppLanguage('es');
       fit.setExSearch('sentadilla');

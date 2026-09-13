@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:gymmane/widgets/ui_kit.dart';
 import 'package:gymmane/app/gymmane_app.dart';
 import 'package:gymmane/l10n/l10n.dart';
 import 'package:gymmane/services/local_store.dart';
@@ -34,13 +35,13 @@ void main() {
   testWidgets('the timeline repaints when its own buttons change the state', (tester) async {
     await open(tester, 'timeline');
 
-    await tester.tap(find.text(t.timelineBody));
+    await tester.tap(find.text(titleCase(t.timelineBody)));
     await tester.pumpAndSettle();
-    expect(find.text(t.addTodayPhotos), findsNothing, reason: 'la pantalla no se repintó');
+    expect(find.text(titleCase(t.addTodayPhotos)), findsNothing, reason: 'la pantalla no se repintó');
 
-    await tester.tap(find.text(t.timelinePhotos));
+    await tester.tap(find.text(titleCase(t.timelinePhotos)));
     await tester.pumpAndSettle();
-    expect(find.text(t.addTodayPhotos), findsOneWidget);
+    expect(find.text(titleCase(t.addTodayPhotos)), findsOneWidget);
 
     await tester.tap(find.text('60'));
     await tester.pumpAndSettle();

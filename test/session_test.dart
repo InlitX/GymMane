@@ -32,6 +32,29 @@ void main() {
     expect(fit.session!.exercises.length, fit.sessionPicks.length);
   });
 
+  test('logging a past day stamps that date and leaves the clock alone', () {
+    final day = DateTime.now().subtract(const Duration(days: 3));
+    final id = fit.createRoutine('Past');
+    fit.toggleRoutineExercise(id, 'EIeI8Vf');
+    fit.startRoutine(fit.routines.firstWhere((r) => r.id == id), on: day);
+
+    final s = fit.session!;
+    expect(s.manual, isTrue);
+    expect(s.loggedAt, DateTime(day.year, day.month, day.day, 12));
+
+    fit.toggleSet(0, 0);
+    expect(s.restRemaining, isNull, reason: 'no rest timer while filling in a past day');
+
+    fit.finishSession();
+    final logged = fit.sessions.single;
+    expect(logged.date, DateTime(day.year, day.month, day.day, 12));
+    expect(logged.durationSec, 0, reason: 'a typed-in session has no measured duration');
+    expect(fit.daySummary(day)?.sets, 1);
+
+    fit.saveAndExit();
+    fit.deleteRoutine(id);
+  });
+
   test('dropping every exercise refuses to start a session', () {
     fit.startWorkout();
     fit.toggleMuscle('chest');
@@ -71,6 +94,46 @@ void main() {
     fit.toggleSessionPause();
     fit.startRest();
     expect(fit.session!.restRemaining, isNull);
+    fit.saveAndExit();
+  });
+
+  test('the rest counts by the clock, so leaving the app does not stall it', () {
+    fit.startWorkout();
+    fit.toggleMuscle('chest');
+    fit.trainContinue();
+    fit.startSession();
+    fit.startRest();
+
+    final left = fit.session!.restRemaining!;
+    fit.session!.restEndsAt = fit.session!.restEndsAt!.subtract(const Duration(seconds: 30));
+    expect(fit.session!.restRemaining, lessThanOrEqualTo(left - 29),
+        reason: 'el tiempo que pasa fuera de la app cuenta igual');
+
+    fit.session!.restEndsAt = DateTime.now().subtract(const Duration(seconds: 1));
+    expect(fit.session!.restRemaining, isNull, reason: 'un descanso vencido no se queda clavado');
+    fit.syncRest();
+    expect(fit.session!.restEndsAt, isNull);
+
+    fit.saveAndExit();
+  });
+
+  test('pausing freezes the rest and resuming hands it back', () {
+    fit.startWorkout();
+    fit.toggleMuscle('chest');
+    fit.trainContinue();
+    fit.startSession();
+    fit.startRest();
+    final left = fit.session!.restRemaining!;
+
+    fit.toggleSessionPause();
+    expect(fit.session!.restFrozen, left);
+    expect(fit.session!.restEndsAt, isNull);
+    expect(fit.session!.restRemaining, left, reason: 'en pausa el descanso no corre');
+
+    fit.toggleSessionPause();
+    expect(fit.session!.restFrozen, isNull);
+    expect(fit.session!.restRemaining, left, reason: 'al reanudar sigue donde estaba');
+
     fit.saveAndExit();
   });
 
