@@ -93,6 +93,7 @@ y mira cómo se mueven tus números.
 <img src="../screenshots/mock/09-notes.png" width="215" alt="Diario" />
 <img src="../screenshots/mock/10-places.png" width="215" alt="Sitios" />
 <img src="../screenshots/mock/11-body.png" width="215" alt="Evolución en el muñeco" />
+<img src="../screenshots/mock/12-profile.png" width="215" alt="Perfil" />
 
 <sub><b>Historial</b> &nbsp;·&nbsp; <b>Biblioteca</b> &nbsp;·&nbsp; <b>Rutinas</b> &nbsp;·&nbsp; <b>Ajustes</b></sub>
 
@@ -142,14 +143,12 @@ volumen, récords, racha y reparto muscular. Nada decorativo.
 ### 🏋️ Entrenar
 
 - **Mapa del cuerpo interactivo**, frente y espalda — toca lo que quieras entrenar
-- Una sesión elegida por ti, y luego editada serie a serie
-- Repeticiones, peso y un **cronómetro de descanso** con tu sonido de alarma,
-  y su propia duración por ejercicio
-- **Tipos de serie** — calentamiento, efectiva, drop set, al fallo. El
-  calentamiento no cuenta para el volumen
-- Los **discos por lado** calculados mientras cargas la barra
+- Repeticiones, peso y **descanso** con tu propio sonido, por ejercicio
+- **Tipos de serie** — calentamiento, efectiva, drop set, al fallo — y RPE si quieres
+- **Superseries**: encadena un ejercicio con el siguiente y te saltas el descanso
+- Los **discos por lado**, calculados con el material que de verdad tienes
+- **Rutinas** que agrupas, duplicas y asignas a cada día, y planes ya hechos
 - La sesión en directo sobrevive a un reinicio — sigues donde lo dejaste
-- **Rutinas** que puedes reordenar y asignar a cada día de la semana
 
 </td>
 <td width="50%" valign="top">
@@ -159,11 +158,10 @@ volumen, récords, racha y reparto muscular. Nada decorativo.
 - Volumen, racha, anillo de objetivo semanal y **récords**, todo de tus series
 - **Mapa de constancia** estilo GitHub, ritmo semanal y totales de siempre
 - **Curvas de fuerza** con 1RM estimado y tu reparto muscular de 30 días
-- **Evolución en fotos** — frente, perfil y espalda cada 15/30/60/90 días,
-  con vista de antes y después y un aviso cuando toca
+- **Evolución en fotos** en una línea de tiempo, con vista de antes y después
 - ¿No te apetece fotografiarte? La misma evolución **dibujada en el muñeco**
 - Peso corporal y **diez medidas del cuerpo**, cada una con su curva
-- Una **lámina para compartir** — racha, músculos trabajados o tu antes y después
+- Un **perfil** con niveles, **20 medallas** y una lámina para compartir
 
 </td>
 </tr>
@@ -173,15 +171,12 @@ volumen, récords, racha y reparto muscular. Nada decorativo.
 ### 📚 Ejercicios y herramientas
 
 - **+500 ejercicios** con animaciones e instrucciones paso a paso
-- Búsqueda, filtros por músculo, material y nivel, favoritos y **tus propios
-  ejercicios**
-- Cambia el dibujo de **cualquier ejercicio** por tu foto, GIF o vídeo
-- **Sitios** — di qué material tienes y solo te ofrece lo que de verdad
-  puedes hacer ahí
-- Un **diario de entrenamiento** en calendario — notas de tipo nota, plan,
-  logro o molestia, con fotos y vídeo
+- Búsqueda, filtros por músculo, material y nivel, y **tus propios ejercicios**
+- Cambia el dibujo de cualquier ejercicio por tu foto, GIF o vídeo
+- **Sitios** — di qué material tienes y solo te ofrece lo que encaja
+- Un **diario de entrenamiento** en calendario, con fotos y vídeo
 - **Seis calculadoras** — 1RM, discos, IMC, calorías y macros, grasa, calentamiento
-- **Tres widgets** de pantalla de inicio — actividad, números y mapa muscular
+- **Cuatro widgets** de pantalla de inicio — actividad, números, mapa muscular y hoy
 
 </td>
 <td width="50%" valign="top">
@@ -189,13 +184,12 @@ volumen, récords, racha y reparto muscular. Nada decorativo.
 ### 🔒 Tus datos
 
 - Exporta a **CSV** o a una **copia ZIP** completa, con tu media dentro, y reimpórtala
-- Trae tu historial de **Hevy**, **Strong** o **FitNotes** — entrenos *y* peso
-  corporal
+- Historial de **Hevy**, **Strong**, **FitNotes**, **openGym** o cualquier CSV
+- **Rutina con IA**: exporta tu lista, pégala donde quieras e importa la respuesta
 - Sin cuenta, sin anuncios, sin analítica — y sin **permiso de INTERNET**
 - Cada foto, vídeo y nota que añades se queda en el almacén de la app
+- Tema claro y oscuro, kg o lb, y seis idiomas
 - Borra todo de un toque
-- Tema claro y oscuro, kg o lb
-- Español e inglés, y un idioma nuevo es solo un pull request
 
 </td>
 </tr>
@@ -207,10 +201,8 @@ volumen, récords, racha y reparto muscular. Nada decorativo.
 
 | Plataforma | Estado |
 |------------|--------|
-| Android | ✅ Soportada |
-| Wear OS | 📅 Planeada |
-| iOS | 📅 Planeada |
-| Escritorio | 📅 Planeada |
+| Android 7.0+ | ✅ Soportada |
+| iOS · Escritorio | 📅 Planeada |
 
 ---
 
@@ -226,6 +218,8 @@ propia biblioteca y se salta lo que ya tengas anotado.
 | **Hevy** | `workout_data.csv` y el zip de medidas |
 | **Strong** | `strong.csv` |
 | **FitNotes** | la copia entera `.fitnotes` (SQLite) |
+| **openGym** | el `opengym-backup-*.json` |
+| **Cualquier otra** | un CSV con fecha, ejercicio, repes y peso |
 
 <div align="center"><sub><b>Ajustes → Datos → Importar de otra app</b></sub></div>
 
@@ -252,7 +246,7 @@ Y lo que sí pide, con su porqué:
 
 ## 🌍 Traducciones
 
-Hoy GymMane habla español e inglés, y cualquier otro idioma es más que
+Hoy GymMane habla español, inglés, portugués, italiano, ruso y chino simplificado, y cualquier otro idioma es más que
 bienvenido. Las traducciones viven en [ficheros ARB](lib/l10n) de texto
 plano — uno por idioma, sin nada que compilar. Todavía no hay Weblate ni
 Crowdin, así que se hace por GitHub: editas el fichero y abres un pull request.

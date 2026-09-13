@@ -93,6 +93,7 @@ and watch your numbers move.
 <img src="docs/screenshots/mock/09-notes.png" width="215" alt="Journal" />
 <img src="docs/screenshots/mock/10-places.png" width="215" alt="Places" />
 <img src="docs/screenshots/mock/11-body.png" width="215" alt="Muscle timeline" />
+<img src="docs/screenshots/mock/12-profile.png" width="215" alt="Profile" />
 
 <sub><b>History</b> &nbsp;·&nbsp; <b>Library</b> &nbsp;·&nbsp; <b>Routines</b> &nbsp;·&nbsp; <b>Settings</b></sub>
 
@@ -116,15 +117,9 @@ and watch your numbers move.
 
 ## 👋 Overview
 
-GymMane is an open-source strength log built for the gym floor. Tap the muscles
-you want to train on an interactive body, log reps and weight set by set, rest
-with an alarm that actually gets your attention, and read progress that comes
-from **your** own sets — volume, records, streak and muscle split. Nothing
-decorative.
-
-> [!TIP]
-> **Yours, completely.** No account, no ads, no subscription — and no internet
-> permission at all. Every set stays on your phone.
+An open-source strength log built for the gym floor. Tap the muscles you want to
+train, log reps and weight set by set, rest with an alarm that actually gets your
+attention, and read progress that comes from **your** own sets.
 
 <div align="center">
 <br/>
@@ -142,14 +137,12 @@ decorative.
 ### 🏋️ Training
 
 - **Interactive body map**, front and back — tap what you want to train
-- A session picked for you, then edited set by set
-- Reps, weight and a **rest timer** with your own alarm sound, and its own
-  length per exercise
-- **Set types** — warm-up, working, drop set, to failure. Warm-ups stay out
-  of your volume
-- **Plates per side** worked out for you as you load the bar
+- Reps, weight and a **rest timer** with your own alarm sound, per exercise
+- **Set types** — warm-up, working, drop set, to failure — and RPE if you want it
+- **Supersets**: chain an exercise to the next one and skip the rest
+- **Plates per side**, worked out from the kit you actually own
+- **Routines** you can group, duplicate and schedule, plus ready-made plans
 - A live session survives a reboot — carry on where you left off
-- **Routines** you can reorder and schedule per weekday
 
 </td>
 <td width="50%" valign="top">
@@ -159,11 +152,10 @@ decorative.
 - Volume, streak, weekly goal ring and **PRs**, all from your own sets
 - GitHub-style **activity heatmap**, week rhythm and all-time totals
 - **Strength curves** with estimated 1RM, and your muscle split over 30 days
-- **Progress photo timeline** — front, side and back every 15/30/60/90 days,
-  with a before-and-after view and a reminder
+- **Progress photos** on a timeline, with a before-and-after view
 - Rather not photograph yourself? The same timeline **drawn as a muscle map**
-- Bodyweight and **ten body measurements**, each with its own history and curve
-- A **share card** you can post — streak, muscles worked or your before/after
+- Bodyweight and **ten body measurements**, each with its own curve
+- A **profile** with levels, **20 medals** and a share card you can post
 
 </td>
 </tr>
@@ -173,15 +165,12 @@ decorative.
 ### 📚 Exercises & tools
 
 - **500+ exercises** with animations and step-by-step instructions
-- Search, filters by muscle, equipment and level, favourites and **your own
-  exercises**
-- Swap the art of **any exercise** for your own photo, GIF or video
-- **Places** — say what kit you have and you only get offered what you can
-  actually do there
-- A **training journal** on a calendar — notes tagged as note, plan, win or
-  niggle, with photos and video
+- Search, filters by muscle, equipment and level, and **your own exercises**
+- Swap the art of any exercise for your own photo, GIF or video
+- **Places** — say what kit you have and you only get offered what fits
+- A **training journal** on a calendar, with photos and video
 - **Six calculators** — 1RM, plates, BMI, calories & macros, body fat, warm-up
-- **Three home-screen widgets** — activity, stats and muscle map
+- **Four home-screen widgets** — activity, stats, muscle map and today
 
 </td>
 <td width="50%" valign="top">
@@ -189,13 +178,12 @@ decorative.
 ### 🔒 Your data
 
 - Export to **CSV** or a full **ZIP backup**, media and all, and import it back
-- Bring your history from **Hevy**, **Strong** or **FitNotes** — workouts
-  *and* bodyweight
+- History from **Hevy**, **Strong**, **FitNotes**, **openGym** or any CSV
+- **Routine with AI**: export your list, paste it anywhere, import the answer
 - No account, no ads, no analytics — and no **INTERNET permission** at all
-- Every photo, video and note you add stays in the app's own storage
+- Every photo, video and note stays in the app's own storage
+- Light and dark themes, kg or lb, and six languages
 - Delete everything in one tap
-- Light and dark themes, kg or lb
-- English, Spanish, Italian and Simplified Chinese, and a new language is just a pull request
 
 </td>
 </tr>
@@ -207,25 +195,23 @@ decorative.
 
 | Platform | Status |
 |----------|--------|
-| Android | ✅ Supported |
-| Wear OS | 📅 Planned |
-| iOS | 📅 Planned |
-| Desktop | 📅 Planned |
+| Android 7.0+ | ✅ Supported |
+| iOS · Desktop | 📅 Planned |
 
 ---
 
 ## 📦 Coming from another app?
 
-Bring your history with you. GymMane reads the workout and measurement exports
-of **Hevy** and **Strong** — CSV or the measurements zip — and the whole
-**FitNotes** backup, which is a SQLite database. Every exercise is matched
-against its own library and anything you already logged is skipped.
+Bring your history with you. Every exercise is matched against GymMane's own
+library, and anything you already logged is skipped.
 
 | App | What to hand it |
 |---|---|
 | **Hevy** | `workout_data.csv`, plus the measurements zip |
 | **Strong** | `strong.csv` |
 | **FitNotes** | the whole `.fitnotes` backup (SQLite) |
+| **openGym** | the `opengym-backup-*.json` |
+| **Anything else** | any CSV with date, exercise, reps and weight |
 
 <div align="center"><sub><b>Settings → Data → Import from another app</b></sub></div>
 
@@ -251,12 +237,10 @@ Everything it *does* ask for, and why:
 
 ## 🌍 Translations
 
-GymMane speaks English, Spanish, Italian and Simplified Chinese today, and more languages are very welcome.
-Translations live in plain [ARB files](lib/l10n) — one file per
-language, nothing to compile. There is no Weblate or Crowdin yet, so it goes
-through GitHub: edit the file and open a pull request.
-
-The full guide lives in **TRANSLATING.md**.
+GymMane speaks English, Spanish, Portuguese, Italian, Russian and Simplified
+Chinese, and more languages are very welcome. They live in plain
+[ARB files](lib/l10n) — one per language, nothing to compile: edit the file and
+open a pull request. The full guide is in **TRANSLATING.md**.
 
 ---
 
@@ -284,11 +268,9 @@ issue first so we can agree on the direction.
 
 <div align="center">
 
-GymMane is free, open source and free of ads, and it stays that way.
-
-If it helps you show up at the gym more often, that is already enough. If you
-also feel like giving something back, a star, a translation or a clear bug
-report help as much as a coffee does.
+GymMane is free, open source and free of ads, and it stays that way. If it helps
+you show up at the gym more often, that is already enough — and a star, a
+translation or a clear bug report help as much as a coffee does.
 
 <a href="https://ko-fi.com/inlitx"><img src="https://ko-fi.com/img/githubbutton_sm.svg" alt="Support me on Ko-fi" height="38" /></a>
 
@@ -331,15 +313,6 @@ pose artwork from [Everkinetic](https://github.com/everkinetic/data). Workout
 Guide's *code* is MIT, but its artwork is CC BY-SA 4.0 — so GymMane's copy stays
 CC BY-SA 4.0 too, credit included. GymMane draws it as vectors and tints it with
 the theme; **CREDITS.md** has the details.
-
----
-
-<div align="center">
-
-Code released under the <b>GNU GPL v3</b>, exercise art under <b>CC BY-SA 4.0</b>
-(Bryl Lim · Everkinetic). Free forever, and nobody can close it up and resell it.
-
-</div>
 
 ---
 

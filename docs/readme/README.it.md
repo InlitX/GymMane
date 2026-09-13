@@ -92,6 +92,7 @@ e guarda come si muovono i tuoi numeri.
 <img src="../screenshots/mock/09-notes.png" width="215" alt="Diario" />
 <img src="../screenshots/mock/10-places.png" width="215" alt="Posti" />
 <img src="../screenshots/mock/11-body.png" width="215" alt="Timeline muscolare" />
+<img src="../screenshots/mock/12-profile.png" width="215" alt="Profilo" />
 
 <sub><b>Storico</b> &nbsp;·&nbsp; <b>Libreria</b> &nbsp;·&nbsp; <b>Routine</b> &nbsp;·&nbsp; <b>Impostazioni</b></sub>
 
@@ -168,7 +169,7 @@ decorazioni.
 - Un **diario di allenamento** su calendario — note etichettate come nota, piano, traguardo o
   fastidio, con foto e video
 - **Sei calcolatrici** — massimale, dischi, BMI, calorie e macro, massa grassa, riscaldamento
-- **Tre widget** per la home — attività, statistiche e mappa muscolare
+- **Quattro widget** per la home — attività, statistiche, mappa muscolare e oggi
 
 </td>
 <td width="50%" valign="top">
@@ -182,7 +183,7 @@ decorazioni.
 - Ogni foto, video e nota resta nello spazio privato dell'app
 - Elimina tutto con un tocco
 - Temi chiaro e scuro, kg o lb
-- Inglese, spagnolo, italiano e cinese semplificato, e una nuova lingua è solo una pull request
+- Inglese, spagnolo, portoghese, italiano, russo e cinese semplificato, e una nuova lingua è solo una pull request
 
 </td>
 </tr>
@@ -238,7 +239,7 @@ Tutto ciò che *chiede*, e perché:
 
 ## 🌍 Traduzioni
 
-GymMane oggi parla inglese, spagnolo e italiano, e altre lingue sono molto benvenute.
+GymMane oggi parla inglese, spagnolo, portoghese, italiano, russo e cinese semplificato, e altre lingue sono molto benvenute.
 Le traduzioni vivono in semplici [file ARB](lib/l10n) — un file per
 lingua, niente da compilare. Non c'è ancora Weblate né Crowdin, quindi passa
 da GitHub: modifica il file e apri una pull request.
