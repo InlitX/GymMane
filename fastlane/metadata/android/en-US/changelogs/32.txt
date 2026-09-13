@@ -1,0 +1,27 @@
+🦁 GymMane 1.2.0
+🎨 A new look from top to bottom: rounder type, calmer cards, colour only where it means something, and a light theme that finally reads
+👤 Profile tab: cover, avatar, badge, level, your numbers, your medals and your own photos
+🏅 20 medals in real 3D — spin them, read the engraving on the back and save the card to your gallery
+🔗 Supersets: chain an exercise to the next one and go straight to it, no rest
+🧩 Sets per exercise in a routine, and the workout moves on by itself when you close them
+📈 Add weight on its own: hit every rep and the next session starts heavier
+🎯 NEXT: the app suggests your weight and reps from your own history
+📋 Ready-made plans: Full Body, Push Pull Legs, Upper Lower, StrongLifts 5×5, Starting Strength and a no-kit one
+🗂️ Routine groups, duplicate a routine, and save today's workout as a routine
+🤖 Routine with AI: export your exercise list, paste it into whatever assistant you use, import its answer. The app never connects
+💪 RPE per set, if you want it
+🥏 Plates and bar per place: the calculator only offers what you actually own, and opens from the workout
+🔥 Warm-up tied to an exercise: the session opens with the ramp-up sets ready
+⏰ Training reminder, with a smart mode that learns your days and your time
+🤸 Rings: 14 new exercises and their own kit
+📅 Log a workout from a day gone by, straight from the calendar
+🏠 A fourth home-screen widget: today, done or not
+🖼️ Your own photo as the background
+🔎 Search and filters pinned at the top of the library, and the same filter sheet when you build a routine
+📊 Progress reordered: the chart and the body map first, anything without data last
+📥 Import from Hevy, Strong, FitNotes, openGym or any CSV with date, exercise, reps and weight
+🐛 Fixed: the exercises you create now show up when you build a routine
+📱 Fixed: the system bar no longer eats the interface
+💾 Fixed: your settings no longer reset when you close the app
+📦 The ZIP backup now carries your timeline photos, your moments and your medals, and brings them all back
+🇮🇹 🇷🇺 Italian and Russian, complete

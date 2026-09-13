@@ -1,0 +1,27 @@
+🦁 GymMane 1.2.0
+🎨 Diseño nuevo de arriba abajo: letra más redonda, tarjetas más tranquilas, color solo donde significa algo y un modo claro que por fin se lee
+👤 Pestaña Perfil: portada, avatar, insignia, nivel, tus números, tus medallas y tus fotos
+🏅 20 medallas en 3D de verdad — gíralas, lee lo que llevan grabado detrás y guarda la lámina en la galería
+🔗 Superseries: encadena un ejercicio con el siguiente y pasas a él sin descanso
+🧩 Series por ejercicio en la rutina, y el entreno salta solo al siguiente cuando las cierras
+📈 Sube el peso solo: si cumples todas las repes, el próximo entreno empieza más arriba
+🎯 SIGUIENTE: la app te propone peso y repes sacados de tu propio historial
+📋 Planes hechos: Full Body, Push Pull Legs, Upper Lower, StrongLifts 5×5, Starting Strength y uno sin material
+🗂️ Grupos de rutinas, duplicar una rutina y guardar el entreno de hoy como rutina
+🤖 Rutina con IA: exporta tu lista de ejercicios, pégala en la IA que uses e importa su respuesta. La app nunca se conecta
+💪 RPE por serie, si lo quieres
+🥏 Discos y barra por sitio: la calculadora solo propone lo que de verdad tienes, y se abre desde el entreno
+🔥 Calentamiento pegado al ejercicio: la sesión abre con las rampas puestas
+⏰ Aviso para entrenar, con modo inteligente que aprende tus días y tu hora
+🤸 Anillas: 14 ejercicios nuevos y su propio material
+📅 Apunta un entreno de un día pasado desde el calendario
+🏠 Un cuarto widget de pantalla de inicio: hoy, hecho o no
+🖼️ Fondo con tu propia foto
+🔎 Buscador y filtros fijos arriba en la biblioteca, y la misma hoja de filtros al montar una rutina
+📊 Progreso reordenado: la gráfica y el cuerpo primero, y lo que aún no tiene datos al final
+📥 Importa de Hevy, Strong, FitNotes, openGym o cualquier CSV con fecha, ejercicio, repes y peso
+🐛 Arreglado: los ejercicios que te creas ya aparecen al montar la rutina
+📱 Arreglado: la barra del sistema ya no se come la interfaz
+💾 Arreglado: los ajustes ya no se pierden al cerrar la app
+📦 La copia ZIP se lleva las fotos del timeline, tus momentos y tus medallas, y los devuelve todos
+🇮🇹 🇷🇺 Italiano y ruso, completos

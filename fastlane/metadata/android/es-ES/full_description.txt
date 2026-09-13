@@ -27,13 +27,13 @@ Tuyo del todo. Sin cuenta, sin anuncios, sin suscripción — y sin el permiso I
 • Cambia el dibujo de cualquier ejercicio por tu foto, GIF o vídeo
 • Un diario de entrenamiento en un calendario — notas marcadas como nota, plan, logro o molestia, con fotos y vídeo
 • Seis calculadoras — 1RM, discos, IMC, calorías y macros, grasa corporal, calentamiento
-• Tres widgets de pantalla de inicio — actividad, estadísticas y mapa muscular
+• Cuatro widgets de pantalla de inicio — actividad, estadísticas, mapa muscular y hoy
 
 💾 TUS DATOS
 • Exporta a CSV o a una copia completa en ZIP — tus datos y la media que hayas subido — y vuelve a importarla
 • Importa tu histórico de Hevy, Strong o FitNotes — entrenamientos y peso corporal
 • Borra todo de un toque
-• Temas claro y oscuro, kg o lb, español e inglés
+• Temas claro y oscuro, kg o lb, y seis idiomas
 
 🔒 PRIVACIDAD
 GymMane no lleva analítica, ni SDK de publicidad, ni código de red. Nunca pide el permiso INTERNET, así que no hay forma de que tus datos salgan del móvil. Lo único que sale fuera son los enlaces que tocas tú.
