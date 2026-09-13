@@ -892,6 +892,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get photoEveryOff => 'Never';
 
   @override
+  String get timelineEvery => 'GROUP EVERY';
+
+  @override
+  String get custom => 'Custom';
+
+  @override
   String photoNextIn(int n) {
     String _temp0 = intl.Intl.pluralLogic(
       n,
@@ -1637,6 +1643,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get equipKettlebell => 'Kettlebell';
 
   @override
+  String get equipRings => 'Rings';
+
+  @override
   String get equipOther => 'Other';
 
   @override
@@ -2113,4 +2122,411 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get importAskApp => 'Need another app? Ask for it';
+
+  @override
+  String get awardFirstStepName => 'First step';
+
+  @override
+  String get awardFirstStepLine => 'Welcome to GymMane. This one is on the house.';
+
+  @override
+  String get awardFirstWorkoutName => 'First workout';
+
+  @override
+  String get awardFirstWorkoutLine => 'The first one is logged. That is the hard one.';
+
+  @override
+  String get awardFirstRoutineName => 'First routine';
+
+  @override
+  String get awardFirstRoutineLine => 'You have a plan to come back to.';
+
+  @override
+  String get awardFirstRecordName => 'First record';
+
+  @override
+  String get awardFirstRecordLine => 'You beat your best lift on an exercise.';
+
+  @override
+  String get awardStreak3Name => 'Three in a row';
+
+  @override
+  String get awardStreak3Line => 'Three days straight. This is how it starts.';
+
+  @override
+  String get awardTonne1Name => 'One tonne';
+
+  @override
+  String get awardTonne1Line => 'A thousand kilos lifted across your sets.';
+
+  @override
+  String get awardSets100Name => 'One hundred sets';
+
+  @override
+  String get awardSets100Line => 'A hundred sets finished, one at a time.';
+
+  @override
+  String get awardHours10Name => 'Ten hours';
+
+  @override
+  String get awardHours10Line => 'Ten hours of training on the clock.';
+
+  @override
+  String get awardWorkouts50Name => 'Fifty workouts';
+
+  @override
+  String get awardWorkouts50Line => 'Fifty sessions behind you.';
+
+  @override
+  String get awardHours50Name => 'Fifty hours';
+
+  @override
+  String get awardHours50Line => 'Fifty hours inside the gym.';
+
+  @override
+  String get awardsTitle => 'Medals';
+
+  @override
+  String get awardWon => 'Earned';
+
+  @override
+  String get yearTitle => 'Your year';
+
+  @override
+  String get yearBestMonth => 'Best month';
+
+  @override
+  String get yearMonths => 'months';
+
+  @override
+  String get awardSpinHint => 'Drag the medal to spin it';
+
+  @override
+  String get awardUnlocked => 'New achievement unlocked';
+
+  @override
+  String get awardNice => 'Awesome!';
+
+  @override
+  String get awardSaveImage => 'Save image';
+
+  @override
+  String get awardSaved => 'Saved to your gallery';
+
+  @override
+  String get awardStreakBottom => 'streak';
+
+  @override
+  String get awardStreak7Top => 'seven days';
+
+  @override
+  String get awardStreak7Name => 'Seven days';
+
+  @override
+  String get awardStreak7Line => 'A full week without missing a day.';
+
+  @override
+  String get awardStreak30Top => 'thirty days';
+
+  @override
+  String get awardStreak30Name => 'Thirty days';
+
+  @override
+  String get awardStreak30Line => 'A month straight. This is a habit now.';
+
+  @override
+  String get awardWorkouts100Top => 'one hundred';
+
+  @override
+  String get awardWorkouts100Bottom => 'workouts';
+
+  @override
+  String get awardWorkouts100Name => 'One hundred workouts';
+
+  @override
+  String get awardWorkouts100Line => 'A hundred sessions logged, start to finish.';
+
+  @override
+  String get awardTonnes100Top => 'one hundred';
+
+  @override
+  String get awardTonnes100Bottom => 'tonnes';
+
+  @override
+  String get awardTonnes100Name => 'One hundred tonnes';
+
+  @override
+  String get awardTonnes100Line => 'Everything you have lifted adds up to 100,000 kg.';
+
+  @override
+  String get awardSets1000Top => 'a thousand';
+
+  @override
+  String get awardSets1000Bottom => 'sets';
+
+  @override
+  String get awardSets1000Name => 'A thousand sets';
+
+  @override
+  String get awardSets1000Line => 'One set at a time, a thousand of them.';
+
+  @override
+  String get profile => 'Profile';
+
+  @override
+  String get editProfile => 'Edit profile';
+
+  @override
+  String get pickBadge => 'Badge';
+
+  @override
+  String get badgeTitle => 'Your badge';
+
+  @override
+  String get statWorkouts => 'Workouts';
+
+  @override
+  String get statTrained => 'Trained';
+
+  @override
+  String get statSets => 'Sets';
+
+  @override
+  String get statLifted => 'Lifted';
+
+  @override
+  String get statStreak => 'Streak';
+
+  @override
+  String get statDays => 'days';
+
+  @override
+  String get unitHours => 'h';
+
+  @override
+  String get unitDays => 'days';
+
+  @override
+  String get snapshots => 'Photos';
+
+  @override
+  String get snapNow => 'Take one';
+
+  @override
+  String get calendarLegend => 'Trained · photos';
+
+  @override
+  String get addCover => 'Add a cover';
+
+  @override
+  String get addTodayWidget => 'Today done or not';
+
+  @override
+  String get monthTitle => 'This month';
+
+  @override
+  String get photosCard => 'Your photos';
+
+  @override
+  String get handleLabel => 'Username';
+
+  @override
+  String get setupTitle => 'Fill these in and the rest of the page fills itself';
+
+  @override
+  String get setupHint => 'Every number here comes from what you log. Nothing is sent anywhere.';
+
+  @override
+  String get setupWorkout => 'Log your first workout';
+
+  @override
+  String get setupWeight => 'Write down your body weight';
+
+  @override
+  String get setupMeasures => 'Take your measurements';
+
+  @override
+  String get setupPhoto => 'Take your first progress photo';
+
+  @override
+  String get progressTitle => 'Progress';
+
+  @override
+  String get tileVolume30 => 'Volume · 30d';
+
+  @override
+  String get tileAddWeight => 'Add yours';
+
+  @override
+  String get heatToneTitle => 'Heat colour';
+
+  @override
+  String get heatToneHint => 'Only changes how the grid and the body are painted.';
+
+  @override
+  String get thisWeekTitle => 'This week';
+
+  @override
+  String get momentsEmptyTitle => 'Nothing here yet';
+
+  @override
+  String get deletePhotoTitle => 'Delete this photo?';
+
+  @override
+  String get deletePhotoBody => 'It goes for good.';
+
+  @override
+  String get awardsEarned => 'Earned';
+
+  @override
+  String get awardsLocked => 'Locked';
+
+  @override
+  String get awardStreak100Name => 'One hundred days';
+
+  @override
+  String get awardWorkouts10Name => 'Ten workouts';
+
+  @override
+  String get awardWorkouts10Line => 'The first ten are the ones that decide it.';
+
+  @override
+  String get awardWorkouts365Name => 'Three hundred and sixty-five';
+
+  @override
+  String get awardWorkouts365Line => 'A workout for every day of a year, logged one by one.';
+
+  @override
+  String get awardTonnes10Name => 'Ten tonnes';
+
+  @override
+  String get awardTonnes10Line => 'Ten thousand kilos have gone through your hands.';
+
+  @override
+  String get awardHours100Name => 'One hundred hours';
+
+  @override
+  String get awardHours100Line => 'A hundred hours under the bar, stopwatch in hand.';
+
+  @override
+  String awardWonOn(String date) {
+    return 'Earned on $date';
+  }
+
+  @override
+  String awardProgressLabel(String value, String goal) {
+    return '$value of $goal';
+  }
+
+  @override
+  String badgeName(String id) {
+    String _temp0 = intl.Intl.selectLogic(id, {
+      'gold': 'Gold',
+      'blue': 'Blue',
+      'green': 'Green',
+      'other': 'Badge',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String memberSince(String date) {
+    return 'Since $date';
+  }
+
+  @override
+  String levelShort(int n) {
+    return 'Level $n';
+  }
+
+  @override
+  String levelToNext(int n, int next) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n workouts to level $next',
+      one: '1 workout to level $next',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String heightCm(int n) {
+    return '$n cm';
+  }
+
+  @override
+  String heatToneName(String id) {
+    String _temp0 = intl.Intl.selectLogic(id, {
+      'ember': 'Ember',
+      'green': 'Green',
+      'blue': 'Blue',
+      'mono': 'Grey',
+      'other': 'Colour',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String setsThisWeek(int n) {
+    return '$n sets';
+  }
+
+  @override
+  String weekOfGoal(int n, int goal) {
+    return '$n of $goal this week';
+  }
+
+  @override
+  String momentCount(int n) {
+    return '$n photos';
+  }
+
+  @override
+  String get badgeHint =>
+      'Pick a colour, or tap the one you have to take it off. It is only for you — nothing is checked, nothing is paid.';
+
+  @override
+  String get momentsEmptyHint =>
+      'Snap the gym, the whiteboard, a plate setup — anything you want to remember. They stay on the phone and only you see them.';
+
+  @override
+  String get awardStreak100Line =>
+      'A hundred days in a row. That is not motivation any more, that is who you are.';
+
+  @override
+  String get coverLabel => 'COVER';
+
+  @override
+  String get removeCover => 'Remove cover';
+
+  @override
+  String get startTitle => 'Start workout';
+
+  @override
+  String get logTitle => 'Log a workout';
+
+  @override
+  String get logHint => 'No timer — just fill in what you did.';
+
+  @override
+  String get orStartFrom => 'Or start from';
+
+  @override
+  String get pickExercisesOption => 'Pick exercises';
+
+  @override
+  String get chooseFocusOption => 'Choose a focus';
+
+  @override
+  String get plannedRoutine => 'PLANNED';
+
+  @override
+  String get logWorkoutAction => 'LOG A WORKOUT';
+
+  @override
+  String get logging => 'LOGGING';
+
+  @override
+  String get placesLabel => 'My places';
 }

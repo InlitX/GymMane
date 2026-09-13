@@ -203,24 +203,24 @@ class AppLocalizationsRu extends AppLocalizations {
   String get finishSession => 'ЗАВЕРШИТЬ';
 
   @override
-  String get setDone => 'SET DONE';
+  String get setDone => 'ПОДХОД СДЕЛАН';
 
   @override
-  String get nextExercise => 'NEXT EXERCISE';
+  String get nextExercise => 'СЛЕДУЮЩЕЕ УПРАЖНЕНИЕ';
 
   @override
-  String get skipExercise => 'Skip this exercise?';
+  String get skipExercise => 'Пропустить это упражнение?';
 
   @override
   String skipExerciseBody(String name) {
-    return 'You haven\'t marked any set as done, so nothing gets logged for \"$name\".';
+    return 'Ты не отметил ни одного подхода, так что по «$name» ничего не запишется.';
   }
 
   @override
-  String get dropExerciseAction => 'Drop exercise';
+  String get dropExerciseAction => 'Убрать упражнение';
 
   @override
-  String get restOff => 'Off';
+  String get restOff => 'Выключен';
 
   @override
   String get setCol => '№';
@@ -922,6 +922,12 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get photoEveryOff => 'Никогда';
+
+  @override
+  String get timelineEvery => 'ГРУППИРОВАТЬ КАЖДЫЕ';
+
+  @override
+  String get custom => 'Другое';
 
   @override
   String photoNextIn(int n) {
@@ -1685,6 +1691,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get equipKettlebell => 'Гиря';
 
   @override
+  String get equipRings => 'Кольца';
+
+  @override
   String get equipOther => 'Другое';
 
   @override
@@ -1898,276 +1907,705 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
-  String get focusCard => 'Today’s focus';
+  String get focusCard => 'Фокус на сегодня';
 
   @override
-  String get autoAdvance => 'Move on automatically';
+  String get autoAdvance => 'Переходить дальше сам';
 
   @override
-  String get autoAdvanceHint => 'When the last set of an exercise is ticked, the workout moves on.';
+  String get autoAdvanceHint =>
+      'Когда отметишь последний подход упражнения, тренировка перейдёт к следующему.';
 
   @override
-  String get autoProgress => 'Add weight next time';
+  String get autoProgress => 'Добавлять вес сам';
 
   @override
   String autoProgressHint(String w) {
-    return 'Hit every rep and the next session starts $w heavier.';
+    return 'Сделаешь все повторения — следующая тренировка начнётся на $w тяжелее.';
   }
 
   @override
-  String get placePlates => 'Plates and bar';
+  String get placePlates => 'Блины и гриф';
 
   @override
-  String get platesAll => 'Everything available';
+  String get platesAll => 'Всё доступно';
 
   @override
   String platesOwned(int n) {
-    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n sizes', one: '$n size');
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n размера',
+      many: '$n размеров',
+      few: '$n размера',
+      one: '$n размер',
+    );
     return '$_temp0';
   }
 
   @override
-  String get platePairs => 'PAIRS';
+  String get platePairs => 'ПАРЫ';
 
   @override
   String plateAchievable(String w) {
-    return 'Closest you can load: $w';
+    return 'Ближайший вес, который соберётся: $w';
   }
 
   @override
-  String get autoWarmup => 'Start with warm-up sets';
+  String get autoWarmup => 'Начинать с разминки';
 
   @override
-  String get autoWarmupHint => 'Adds the ramp-up sets when the workout opens.';
+  String get autoWarmupHint => 'Добавляет разминочные подходы при открытии тренировки.';
 
   @override
-  String get trainReminder => 'Training reminder';
+  String get trainReminder => 'Напоминание о тренировке';
 
   @override
-  String get trainReminderHint => 'A nudge at this time, only on the days your routine is planned.';
+  String get trainReminderHint => 'Напомнит в это время, только в те дни, на которые стоит программа.';
 
   @override
-  String get notifTrainChannel => 'Training reminder';
+  String get notifTrainChannel => 'Напоминание о тренировке';
 
   @override
-  String get notifTrainChannelWhy => 'A nudge to train on the days you planned.';
+  String get notifTrainChannelWhy => 'Толчок потренироваться в те дни, что ты запланировал.';
 
   @override
-  String get notifTrainTitle => 'Time to train';
+  String get notifTrainTitle => 'Пора тренироваться';
 
   @override
-  String get notifTrainBody => 'Your routine is waiting.';
+  String get notifTrainBody => 'Твоя программа ждёт.';
 
   @override
-  String get exportCatalog => 'Export exercise list';
+  String get exportCatalog => 'Экспортировать список упражнений';
 
   @override
-  String get importRoutine => 'Import a routine (JSON)';
+  String get importRoutine => 'Импортировать программу (JSON)';
 
   @override
-  String get planIntro => 'Build me a training routine using only the exercises in this list.';
+  String get planIntro => 'Составь мне программу тренировок, используя только упражнения из этого списка.';
 
   @override
-  String get planFormat => 'Answer with JSON only, in this shape:';
+  String get planFormat => 'Ответь только в JSON, вот в таком виде:';
 
   @override
   String planImported(int n) {
     String _temp0 = intl.Intl.pluralLogic(
       n,
       locale: localeName,
-      other: '$n exercises added to the routine',
-      one: '$n exercise added to the routine',
+      other: 'в программу добавлено $n упражнения',
+      many: 'в программу добавлено $n упражнений',
+      few: 'в программу добавлено $n упражнения',
+      one: 'в программу добавлено $n упражнение',
     );
     return '$_temp0';
   }
 
   @override
-  String get planNothing => 'No exercise in that file matched your library';
+  String get planNothing => 'Ни одного упражнения из этого файла нет в твоей библиотеке';
 
   @override
-  String get planFailed => 'That file is not a routine we can read';
+  String get planFailed => 'Этот файл — не программа, его не прочитать';
 
   @override
-  String get routineGroup => 'Group';
+  String get routineGroup => 'Группа';
 
   @override
-  String get newGroup => 'New group';
+  String get newGroup => 'Новая группа';
 
   @override
-  String get noGroup => 'No group';
+  String get noGroup => 'Без группы';
 
   @override
-  String get groupNameHint => 'Push / Pull / Legs, 5×5…';
+  String get groupNameHint => 'Push / Pull / Ноги, 5×5…';
 
   @override
-  String get filters => 'Filters';
+  String get filters => 'Фильтры';
 
   @override
-  String get setsPlannedHint => 'Pick how many sets you want of each one. The workout opens with them ready.';
+  String get setsPlannedHint => 'Выбери, сколько подходов хочешь в каждом. Тренировка откроется уже с ними.';
 
   @override
-  String get nextTime => 'NEXT';
+  String get nextTime => 'СЛЕДУЮЩИЙ';
 
   @override
-  String get nextHold => 'same weight until you hit every rep';
+  String get nextHold => 'тот же вес, пока не сделаешь все повторения';
 
   @override
-  String get bgPhoto => 'Your photo';
+  String get bgPhoto => 'Твоё фото';
 
   @override
-  String get bgPhotoPick => 'Choose a photo';
+  String get bgPhotoPick => 'Выбрать фото';
 
   @override
-  String get bgPhotoChange => 'Change photo';
+  String get bgPhotoChange => 'Поменять фото';
 
   @override
-  String get bgPhotoRemove => 'Remove photo';
+  String get bgPhotoRemove => 'Убрать фото';
 
   @override
-  String get bgDim => 'HOW DARK';
+  String get bgDim => 'НАСКОЛЬКО ТЕМНО';
 
   @override
-  String get dimSoft => 'Soft';
+  String get dimSoft => 'Слабо';
 
   @override
-  String get dimMedium => 'Medium';
+  String get dimMedium => 'Средне';
 
   @override
-  String get dimStrong => 'Strong';
+  String get dimStrong => 'Сильно';
 
   @override
-  String get bgPhotoHint => 'It sits behind everything, dimmed so the app stays readable.';
+  String get bgPhotoHint => 'Оно стоит за всем, затемнённое, чтобы приложение читалось.';
 
   @override
-  String get reminderSmart => 'Smart';
+  String get reminderSmart => 'Умное';
 
   @override
-  String get reminderFixed => 'Fixed time';
+  String get reminderFixed => 'В точное время';
 
   @override
   String get reminderSmartHint =>
-      'It uses the days and the time you actually train, and stays quiet on a day you already trained.';
+      'Берёт дни и время, когда ты реально тренируешься, и молчит, если в этот день ты уже потренировался.';
 
   @override
-  String get reminderSmartEmpty => 'Log a few more sessions and it will learn your days.';
+  String get reminderSmartEmpty => 'Запиши ещё несколько тренировок, и оно выучит твои дни.';
 
   @override
   String habitFocus(String day) {
-    return 'what you usually train on $day';
+    return 'что ты обычно тренируешь в $day';
   }
 
   @override
-  String get duplicateRoutine => 'Duplicate routine';
+  String get duplicateRoutine => 'Дублировать программу';
 
   @override
   String copySuffix(String name) {
-    return '$name (copy)';
+    return '$name (копия)';
   }
 
   @override
-  String get saveAsRoutine => 'SAVE AS A ROUTINE';
+  String get saveAsRoutine => 'СОХРАНИТЬ КАК ПРОГРАММУ';
 
   @override
-  String get savedAsRoutine => 'Saved as a routine';
+  String get savedAsRoutine => 'Сохранено как программа';
 
   @override
-  String get templates => 'Ready-made plans';
+  String get templates => 'Готовые программы';
 
   @override
   String get templatesHint =>
-      'Classic programmes, built from your own library. You can change anything afterwards.';
+      'Классические программы, собранные из твоей библиотеки. Потом можно поменять что угодно.';
 
   @override
   String templateAdded(int n) {
     String _temp0 = intl.Intl.pluralLogic(
       n,
       locale: localeName,
-      other: '$n routines added',
-      one: '$n routine added',
+      other: 'добавлено $n программы',
+      many: 'добавлено $n программ',
+      few: 'добавлено $n программы',
+      one: 'добавлена $n программа',
     );
     return '$_temp0';
   }
 
   @override
-  String get tplFullbody => 'Three full-body days a week. The one to start with.';
+  String get tplFullbody => 'Три дня в неделю на всё тело. С этого и начинают.';
 
   @override
-  String get tplPpl => 'Push, pull and legs. Three or six days a week.';
+  String get tplPpl => 'Жим, тяга и ноги. Три или шесть дней в неделю.';
 
   @override
-  String get tplUpperlower => 'Upper and lower body, four days a week.';
+  String get tplUpperlower => 'Верх и низ, четыре дня в неделю.';
 
   @override
-  String get tplStronglifts => 'Two workouts, five sets of five, alternating.';
+  String get tplStronglifts => 'Две тренировки, пять подходов по пять, по очереди.';
 
   @override
-  String get tplStartingstrength => 'Squat every session, two alternating workouts.';
+  String get tplStartingstrength => 'Присед каждый раз, две чередующиеся тренировки.';
 
   @override
-  String get tplHome => 'Nothing but a bar to hang from and the floor.';
+  String get tplHome => 'Только перекладина и пол.';
 
   @override
   String dayCount(int n) {
-    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n days', one: '$n day');
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n дня',
+      many: '$n дней',
+      few: '$n дня',
+      one: '$n день',
+    );
     return '$_temp0';
   }
 
   @override
-  String get logRpe => 'Log effort (RPE)';
+  String get logRpe => 'Записывать усилие (RPE)';
 
   @override
-  String get rpeTitle => 'EFFORT (RPE)';
+  String get rpeTitle => 'УСИЛИЕ (RPE)';
 
   @override
-  String get rpeHint => '10 is nothing left in the tank, 8 is two reps to spare.';
+  String get rpeHint => '10 — больше ни одного повторения; 8 — оставалось ещё два.';
 
   @override
-  String get superset => 'Superset';
+  String get superset => 'Суперсет';
 
   @override
-  String get supersetLink => 'Chain with the next one';
+  String get supersetLink => 'Связать со следующим';
 
   @override
-  String get supersetHint => 'No rest between chained exercises — you go straight to the next one.';
+  String get supersetHint => 'Между связанными упражнениями отдыха нет: сразу идёшь к следующему.';
 
   @override
-  String get aiRoutine => 'Routine with AI';
+  String get aiRoutine => 'Программа с ИИ';
 
   @override
   String get aiIntro =>
-      'GymMane never talks to an AI. You take your exercise list out, you paste it into whatever assistant you already use, and you bring its answer back in. Nothing leaves the phone on its own.';
+      'GymMane ни с каким ИИ не общается. Ты сам выгружаешь список упражнений, вставляешь его в тот ассистент, которым уже пользуешься, и приносишь ответ обратно. С телефона само ничего не уходит.';
 
   @override
   String get aiStep1 =>
-      'Export your exercise list. If you picked a place, it only includes what you can do there.';
+      'Выгрузи свой список упражнений. Если выбрано место, в нём будет только то, что можно сделать там.';
 
   @override
-  String get aiStep2 => 'Hand that file to any AI and ask it for a routine.';
+  String get aiStep2 => 'Отдай этот файл любому ИИ и попроси программу.';
 
   @override
-  String get aiStep3 => 'Save its answer as a file — JSON or plain text, either works.';
+  String get aiStep3 => 'Сохрани ответ в файл: JSON или обычный текст, без разницы.';
 
   @override
-  String get aiStep4 =>
-      'Import it here. The names are matched against your library and the routine is built.';
+  String get aiStep4 => 'Импортируй его сюда. Названия сверятся с твоей библиотекой, и программа соберётся.';
 
   @override
   String aiMissing(int n) {
     String _temp0 = intl.Intl.pluralLogic(
       n,
       locale: localeName,
-      other: '$n names were not in your library',
-      one: '1 name was not in your library',
+      other: '$n названий не нашлось в твоей библиотеке',
+      many: '$n названий не нашлось в твоей библиотеке',
+      few: '$n названия не нашлись в твоей библиотеке',
+      one: '$n название не нашлось в твоей библиотеке',
     );
     return '$_temp0';
   }
 
   @override
-  String get importApps => 'Which apps it reads';
+  String get importApps => 'Какие приложения читает';
 
   @override
-  String get importOtherCsv => 'Any other CSV with date, exercise, reps and weight';
+  String get importOtherCsv => 'Любой другой CSV с датой, упражнением, повторениями и весом';
 
   @override
-  String get importAskApp => 'Need another app? Ask for it';
+  String get importAskApp => 'Нужно другое приложение? Попроси';
+
+  @override
+  String get awardFirstStepName => 'Первый шаг';
+
+  @override
+  String get awardFirstStepLine => 'Добро пожаловать в GymMane. Эта — от заведения.';
+
+  @override
+  String get awardFirstWorkoutName => 'Первая тренировка';
+
+  @override
+  String get awardFirstWorkoutLine => 'Первая записана. Она и есть самая трудная.';
+
+  @override
+  String get awardFirstRoutineName => 'Первая программа';
+
+  @override
+  String get awardFirstRoutineLine => 'Теперь есть план, к которому возвращаться.';
+
+  @override
+  String get awardFirstRecordName => 'Первый рекорд';
+
+  @override
+  String get awardFirstRecordLine => 'Ты побил свой лучший результат в упражнении.';
+
+  @override
+  String get awardStreak3Name => 'Три подряд';
+
+  @override
+  String get awardStreak3Line => 'Три дня подряд. Так всё и начинается.';
+
+  @override
+  String get awardTonne1Name => 'Одна тонна';
+
+  @override
+  String get awardTonne1Line => 'Тысяча килограммов, поднятая за все подходы.';
+
+  @override
+  String get awardSets100Name => 'Сто подходов';
+
+  @override
+  String get awardSets100Line => 'Сто подходов сделано, по одному за раз.';
+
+  @override
+  String get awardHours10Name => 'Десять часов';
+
+  @override
+  String get awardHours10Line => 'Десять часов тренировок по секундомеру.';
+
+  @override
+  String get awardWorkouts50Name => 'Пятьдесят тренировок';
+
+  @override
+  String get awardWorkouts50Line => 'Пятьдесят занятий позади.';
+
+  @override
+  String get awardHours50Name => 'Пятьдесят часов';
+
+  @override
+  String get awardHours50Line => 'Пятьдесят часов в зале.';
+
+  @override
+  String get awardsTitle => 'Медали';
+
+  @override
+  String get awardWon => 'Получена';
+
+  @override
+  String get yearTitle => 'Твой год';
+
+  @override
+  String get yearBestMonth => 'Лучший месяц';
+
+  @override
+  String get yearMonths => 'месяцы';
+
+  @override
+  String get awardSpinHint => 'Потяни медаль, чтобы покрутить';
+
+  @override
+  String get awardUnlocked => 'Новое достижение открыто';
+
+  @override
+  String get awardNice => 'Отлично!';
+
+  @override
+  String get awardSaveImage => 'Сохранить картинку';
+
+  @override
+  String get awardSaved => 'Сохранено в галерею';
+
+  @override
+  String get awardStreakBottom => 'подряд';
+
+  @override
+  String get awardStreak7Top => 'семь дней';
+
+  @override
+  String get awardStreak7Name => 'Семь дней';
+
+  @override
+  String get awardStreak7Line => 'Целая неделя без единого пропуска.';
+
+  @override
+  String get awardStreak30Top => 'тридцать дней';
+
+  @override
+  String get awardStreak30Name => 'Тридцать дней';
+
+  @override
+  String get awardStreak30Line => 'Месяц подряд. Это уже привычка.';
+
+  @override
+  String get awardWorkouts100Top => 'сто';
+
+  @override
+  String get awardWorkouts100Bottom => 'тренировок';
+
+  @override
+  String get awardWorkouts100Name => 'Сто тренировок';
+
+  @override
+  String get awardWorkouts100Line => 'Сто занятий записано от начала до конца.';
+
+  @override
+  String get awardTonnes100Top => 'сто';
+
+  @override
+  String get awardTonnes100Bottom => 'тонн';
+
+  @override
+  String get awardTonnes100Name => 'Сто тонн';
+
+  @override
+  String get awardTonnes100Line => 'Всё, что ты поднял, складывается в 100 000 кг.';
+
+  @override
+  String get awardSets1000Top => 'тысяча';
+
+  @override
+  String get awardSets1000Bottom => 'подходов';
+
+  @override
+  String get awardSets1000Name => 'Тысяча подходов';
+
+  @override
+  String get awardSets1000Line => 'По одному подходу за раз — и вот их тысяча.';
+
+  @override
+  String get profile => 'Профиль';
+
+  @override
+  String get editProfile => 'Изменить профиль';
+
+  @override
+  String get pickBadge => 'Значок';
+
+  @override
+  String get badgeTitle => 'Твой значок';
+
+  @override
+  String get statWorkouts => 'Тренировки';
+
+  @override
+  String get statTrained => 'Тренировался';
+
+  @override
+  String get statSets => 'Подходы';
+
+  @override
+  String get statLifted => 'Поднято';
+
+  @override
+  String get statStreak => 'Серия';
+
+  @override
+  String get statDays => 'дней';
+
+  @override
+  String get unitHours => 'ч';
+
+  @override
+  String get unitDays => 'дней';
+
+  @override
+  String get snapshots => 'Фото';
+
+  @override
+  String get snapNow => 'Сделать фото';
+
+  @override
+  String get calendarLegend => 'Тренировки · фото';
+
+  @override
+  String get addCover => 'Поставь обложку';
+
+  @override
+  String get addTodayWidget => 'Сегодня: сделано или нет';
+
+  @override
+  String get monthTitle => 'Этот месяц';
+
+  @override
+  String get photosCard => 'Твои фото';
+
+  @override
+  String get handleLabel => 'Имя пользователя';
+
+  @override
+  String get setupTitle => 'Заполни это, и остальная страница заполнится сама';
+
+  @override
+  String get setupHint =>
+      'Каждая цифра здесь берётся из того, что ты записываешь. Никуда ничего не отправляется.';
+
+  @override
+  String get setupWorkout => 'Запиши первую тренировку';
+
+  @override
+  String get setupWeight => 'Запиши свой вес';
+
+  @override
+  String get setupMeasures => 'Сними мерки';
+
+  @override
+  String get setupPhoto => 'Сделай первое фото прогресса';
+
+  @override
+  String get progressTitle => 'Прогресс';
+
+  @override
+  String get tileVolume30 => 'Объём · 30 дн';
+
+  @override
+  String get tileAddWeight => 'Записать';
+
+  @override
+  String get heatToneTitle => 'Цвет карты';
+
+  @override
+  String get heatToneHint => 'Меняет только то, каким цветом рисуются сетка и тело.';
+
+  @override
+  String get thisWeekTitle => 'Эта неделя';
+
+  @override
+  String get momentsEmptyTitle => 'Здесь пока пусто';
+
+  @override
+  String get deletePhotoTitle => 'Удалить это фото?';
+
+  @override
+  String get deletePhotoBody => 'Уйдёт навсегда.';
+
+  @override
+  String get awardsEarned => 'Получены';
+
+  @override
+  String get awardsLocked => 'Закрыты';
+
+  @override
+  String get awardStreak100Name => 'Сто дней';
+
+  @override
+  String get awardWorkouts10Name => 'Десять тренировок';
+
+  @override
+  String get awardWorkouts10Line => 'Первые десять — те, что всё решают.';
+
+  @override
+  String get awardWorkouts365Name => 'Триста шестьдесят пять';
+
+  @override
+  String get awardWorkouts365Line => 'По тренировке на каждый день года, записаны одна за другой.';
+
+  @override
+  String get awardTonnes10Name => 'Десять тонн';
+
+  @override
+  String get awardTonnes10Line => 'Десять тысяч килограммов прошли через твои руки.';
+
+  @override
+  String get awardHours100Name => 'Сто часов';
+
+  @override
+  String get awardHours100Line => 'Сто часов под штангой, с секундомером в руке.';
+
+  @override
+  String awardWonOn(String date) {
+    return 'Получена $date';
+  }
+
+  @override
+  String awardProgressLabel(String value, String goal) {
+    return '$value из $goal';
+  }
+
+  @override
+  String badgeName(String id) {
+    String _temp0 = intl.Intl.selectLogic(id, {
+      'gold': 'Золотой',
+      'blue': 'Синий',
+      'green': 'Зелёный',
+      'other': 'Значок',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String memberSince(String date) {
+    return 'С $date';
+  }
+
+  @override
+  String levelShort(int n) {
+    return 'Уровень $n';
+  }
+
+  @override
+  String levelToNext(int n, int next) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n тренировки до уровня $next',
+      many: '$n тренировок до уровня $next',
+      few: '$n тренировки до уровня $next',
+      one: '$n тренировка до уровня $next',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String heightCm(int n) {
+    return '$n см';
+  }
+
+  @override
+  String heatToneName(String id) {
+    String _temp0 = intl.Intl.selectLogic(id, {
+      'ember': 'Уголь',
+      'green': 'Зелёный',
+      'blue': 'Синий',
+      'mono': 'Серый',
+      'other': 'Цвет',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String setsThisWeek(int n) {
+    return 'подходов: $n';
+  }
+
+  @override
+  String weekOfGoal(int n, int goal) {
+    return '$n из $goal на этой неделе';
+  }
+
+  @override
+  String momentCount(int n) {
+    return '$n фото';
+  }
+
+  @override
+  String get badgeHint =>
+      'Выбери цвет или нажми на тот, что стоит, чтобы снять. Он только для тебя: ничего не проверяется и ничего не оплачивается.';
+
+  @override
+  String get momentsEmptyHint =>
+      'Сфотографируй зал, доску, как ты набрал блины — всё, что хочешь запомнить. Они останутся в телефоне, и видишь их только ты.';
+
+  @override
+  String get awardStreak100Line => 'Сто дней подряд. Это уже не мотивация, это ты.';
+
+  @override
+  String get coverLabel => 'ОБЛОЖКА';
+
+  @override
+  String get removeCover => 'Убрать обложку';
+
+  @override
+  String get startTitle => 'Начать тренировку';
+
+  @override
+  String get logTitle => 'Записать тренировку';
+
+  @override
+  String get logHint => 'Без секундомера: просто заполни, что ты сделал.';
+
+  @override
+  String get orStartFrom => 'Или начни с';
+
+  @override
+  String get pickExercisesOption => 'Выбрать упражнения';
+
+  @override
+  String get chooseFocusOption => 'Выбрать по мышцам';
+
+  @override
+  String get plannedRoutine => 'ЗАПЛАНИРОВАНО';
+
+  @override
+  String get logWorkoutAction => 'ЗАПИСАТЬ ТРЕНИРОВКУ';
+
+  @override
+  String get logging => 'ЗАПИСЬ';
+
+  @override
+  String get placesLabel => 'Мои места';
 }

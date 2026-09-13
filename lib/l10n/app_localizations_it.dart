@@ -189,24 +189,24 @@ class AppLocalizationsIt extends AppLocalizations {
   String get finishSession => 'TERMINA SESSIONE';
 
   @override
-  String get setDone => 'SET DONE';
+  String get setDone => 'SERIE FATTA';
 
   @override
-  String get nextExercise => 'NEXT EXERCISE';
+  String get nextExercise => 'PROSSIMO ESERCIZIO';
 
   @override
-  String get skipExercise => 'Skip this exercise?';
+  String get skipExercise => 'Saltare questo esercizio?';
 
   @override
   String skipExerciseBody(String name) {
-    return 'You haven\'t marked any set as done, so nothing gets logged for \"$name\".';
+    return 'Non hai segnato nessuna serie, quindi di \"$name\" non viene registrato niente.';
   }
 
   @override
-  String get dropExerciseAction => 'Drop exercise';
+  String get dropExerciseAction => 'Togli l\'esercizio';
 
   @override
-  String get restOff => 'Off';
+  String get restOff => 'Spento';
 
   @override
   String get setCol => '#';
@@ -890,6 +890,12 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get photoEveryOff => 'Mai';
+
+  @override
+  String get timelineEvery => 'RAGGRUPPA OGNI';
+
+  @override
+  String get custom => 'Altro';
 
   @override
   String photoNextIn(int n) {
@@ -1637,6 +1643,9 @@ class AppLocalizationsIt extends AppLocalizations {
   String get equipKettlebell => 'Kettlebell';
 
   @override
+  String get equipRings => 'Anelli';
+
+  @override
   String get equipOther => 'Altro';
 
   @override
@@ -1842,276 +1851,684 @@ class AppLocalizationsIt extends AppLocalizations {
   }
 
   @override
-  String get focusCard => 'Today’s focus';
+  String get focusCard => 'Il focus di oggi';
 
   @override
-  String get autoAdvance => 'Move on automatically';
+  String get autoAdvance => 'Passa al prossimo da solo';
 
   @override
-  String get autoAdvanceHint => 'When the last set of an exercise is ticked, the workout moves on.';
+  String get autoAdvanceHint =>
+      'Quando segni l\'ultima serie di un esercizio, l\'allenamento passa al prossimo.';
 
   @override
-  String get autoProgress => 'Add weight next time';
+  String get autoProgress => 'Aumenta il peso da solo';
 
   @override
   String autoProgressHint(String w) {
-    return 'Hit every rep and the next session starts $w heavier.';
+    return 'Se completi tutte le ripetizioni, la prossima volta si parte con $w in più.';
   }
 
   @override
-  String get placePlates => 'Plates and bar';
+  String get placePlates => 'Dischi e bilanciere';
 
   @override
-  String get platesAll => 'Everything available';
+  String get platesAll => 'Tutto disponibile';
 
   @override
   String platesOwned(int n) {
-    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n sizes', one: '$n size');
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n misure', one: '$n misura');
     return '$_temp0';
   }
 
   @override
-  String get platePairs => 'PAIRS';
+  String get platePairs => 'COPPIE';
 
   @override
   String plateAchievable(String w) {
-    return 'Closest you can load: $w';
+    return 'Il più vicino che puoi caricare: $w';
   }
 
   @override
-  String get autoWarmup => 'Start with warm-up sets';
+  String get autoWarmup => 'Inizia con il riscaldamento';
 
   @override
-  String get autoWarmupHint => 'Adds the ramp-up sets when the workout opens.';
+  String get autoWarmupHint => 'Aggiunge le serie di riscaldamento all\'apertura dell\'allenamento.';
 
   @override
-  String get trainReminder => 'Training reminder';
+  String get trainReminder => 'Promemoria per allenarti';
 
   @override
-  String get trainReminderHint => 'A nudge at this time, only on the days your routine is planned.';
+  String get trainReminderHint => 'Un avviso a quest\'ora, solo nei giorni in cui hai una scheda.';
 
   @override
-  String get notifTrainChannel => 'Training reminder';
+  String get notifTrainChannel => 'Promemoria per allenarti';
 
   @override
-  String get notifTrainChannelWhy => 'A nudge to train on the days you planned.';
+  String get notifTrainChannelWhy => 'Una spinta ad allenarti nei giorni che hai pianificato.';
 
   @override
-  String get notifTrainTitle => 'Time to train';
+  String get notifTrainTitle => 'È ora di allenarsi';
 
   @override
-  String get notifTrainBody => 'Your routine is waiting.';
+  String get notifTrainBody => 'La tua scheda ti aspetta.';
 
   @override
-  String get exportCatalog => 'Export exercise list';
+  String get exportCatalog => 'Esporta la lista di esercizi';
 
   @override
-  String get importRoutine => 'Import a routine (JSON)';
+  String get importRoutine => 'Importa una scheda (JSON)';
 
   @override
-  String get planIntro => 'Build me a training routine using only the exercises in this list.';
+  String get planIntro => 'Creami una scheda di allenamento usando solo gli esercizi di questa lista.';
 
   @override
-  String get planFormat => 'Answer with JSON only, in this shape:';
+  String get planFormat => 'Rispondi solo con JSON, in questo formato:';
 
   @override
   String planImported(int n) {
     String _temp0 = intl.Intl.pluralLogic(
       n,
       locale: localeName,
-      other: '$n exercises added to the routine',
-      one: '$n exercise added to the routine',
+      other: '$n esercizi aggiunti alla scheda',
+      one: '$n esercizio aggiunto alla scheda',
     );
     return '$_temp0';
   }
 
   @override
-  String get planNothing => 'No exercise in that file matched your library';
+  String get planNothing => 'Nessun esercizio di quel file è nella tua libreria';
 
   @override
-  String get planFailed => 'That file is not a routine we can read';
+  String get planFailed => 'Quel file non è una scheda che si possa leggere';
 
   @override
-  String get routineGroup => 'Group';
+  String get routineGroup => 'Gruppo';
 
   @override
-  String get newGroup => 'New group';
+  String get newGroup => 'Nuovo gruppo';
 
   @override
-  String get noGroup => 'No group';
+  String get noGroup => 'Senza gruppo';
 
   @override
-  String get groupNameHint => 'Push / Pull / Legs, 5×5…';
+  String get groupNameHint => 'Push / Pull / Gambe, 5×5…';
 
   @override
-  String get filters => 'Filters';
+  String get filters => 'Filtri';
 
   @override
-  String get setsPlannedHint => 'Pick how many sets you want of each one. The workout opens with them ready.';
+  String get setsPlannedHint => 'Scegli quante serie vuoi di ognuno. L\'allenamento si apre già con quelle.';
 
   @override
-  String get nextTime => 'NEXT';
+  String get nextTime => 'PROSSIMA';
 
   @override
-  String get nextHold => 'same weight until you hit every rep';
+  String get nextHold => 'stesso peso finché non completi tutte le ripetizioni';
 
   @override
-  String get bgPhoto => 'Your photo';
+  String get bgPhoto => 'La tua foto';
 
   @override
-  String get bgPhotoPick => 'Choose a photo';
+  String get bgPhotoPick => 'Scegli una foto';
 
   @override
-  String get bgPhotoChange => 'Change photo';
+  String get bgPhotoChange => 'Cambia la foto';
 
   @override
-  String get bgPhotoRemove => 'Remove photo';
+  String get bgPhotoRemove => 'Togli la foto';
 
   @override
-  String get bgDim => 'HOW DARK';
+  String get bgDim => 'QUANTO SCURA';
 
   @override
-  String get dimSoft => 'Soft';
+  String get dimSoft => 'Leggera';
 
   @override
-  String get dimMedium => 'Medium';
+  String get dimMedium => 'Media';
 
   @override
-  String get dimStrong => 'Strong';
+  String get dimStrong => 'Forte';
 
   @override
-  String get bgPhotoHint => 'It sits behind everything, dimmed so the app stays readable.';
+  String get bgPhotoHint => 'Sta dietro a tutto, scurita perché l\'app resti leggibile.';
 
   @override
-  String get reminderSmart => 'Smart';
+  String get reminderSmart => 'Intelligente';
 
   @override
-  String get reminderFixed => 'Fixed time';
+  String get reminderFixed => 'Ora fissa';
 
   @override
   String get reminderSmartHint =>
-      'It uses the days and the time you actually train, and stays quiet on a day you already trained.';
+      'Usa i giorni e l\'ora in cui ti alleni davvero, e sta zitto se quel giorno ti sei già allenato.';
 
   @override
-  String get reminderSmartEmpty => 'Log a few more sessions and it will learn your days.';
+  String get reminderSmartEmpty => 'Registra ancora qualche allenamento e imparerà i tuoi giorni.';
 
   @override
   String habitFocus(String day) {
-    return 'what you usually train on $day';
+    return 'quello che fai di solito il $day';
   }
 
   @override
-  String get duplicateRoutine => 'Duplicate routine';
+  String get duplicateRoutine => 'Duplica la scheda';
 
   @override
   String copySuffix(String name) {
-    return '$name (copy)';
+    return '$name (copia)';
   }
 
   @override
-  String get saveAsRoutine => 'SAVE AS A ROUTINE';
+  String get saveAsRoutine => 'SALVA COME SCHEDA';
 
   @override
-  String get savedAsRoutine => 'Saved as a routine';
+  String get savedAsRoutine => 'Salvata come scheda';
 
   @override
-  String get templates => 'Ready-made plans';
+  String get templates => 'Schede già pronte';
 
   @override
   String get templatesHint =>
-      'Classic programmes, built from your own library. You can change anything afterwards.';
+      'Programmi classici, montati con la tua libreria. Dopo puoi cambiare quello che vuoi.';
 
   @override
   String templateAdded(int n) {
     String _temp0 = intl.Intl.pluralLogic(
       n,
       locale: localeName,
-      other: '$n routines added',
-      one: '$n routine added',
+      other: '$n schede aggiunte',
+      one: '$n scheda aggiunta',
     );
     return '$_temp0';
   }
 
   @override
-  String get tplFullbody => 'Three full-body days a week. The one to start with.';
+  String get tplFullbody => 'Tre giorni a settimana di corpo intero. Quello da cui si parte.';
 
   @override
-  String get tplPpl => 'Push, pull and legs. Three or six days a week.';
+  String get tplPpl => 'Spinta, tirata e gambe. Tre o sei giorni a settimana.';
 
   @override
-  String get tplUpperlower => 'Upper and lower body, four days a week.';
+  String get tplUpperlower => 'Parte alta e parte bassa, quattro giorni a settimana.';
 
   @override
-  String get tplStronglifts => 'Two workouts, five sets of five, alternating.';
+  String get tplStronglifts => 'Due allenamenti, cinque serie da cinque, alternati.';
 
   @override
-  String get tplStartingstrength => 'Squat every session, two alternating workouts.';
+  String get tplStartingstrength => 'Squat a ogni seduta, due allenamenti che si alternano.';
 
   @override
-  String get tplHome => 'Nothing but a bar to hang from and the floor.';
+  String get tplHome => 'Nient\'altro che una barra a cui appendersi e il pavimento.';
 
   @override
   String dayCount(int n) {
-    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n days', one: '$n day');
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n giorni', one: '$n giorno');
     return '$_temp0';
   }
 
   @override
-  String get logRpe => 'Log effort (RPE)';
+  String get logRpe => 'Segna lo sforzo (RPE)';
 
   @override
-  String get rpeTitle => 'EFFORT (RPE)';
+  String get rpeTitle => 'SFORZO (RPE)';
 
   @override
-  String get rpeHint => '10 is nothing left in the tank, 8 is two reps to spare.';
+  String get rpeHint => '10 è non farne un\'altra; 8, che te ne avanzavano due.';
 
   @override
-  String get superset => 'Superset';
+  String get superset => 'Superserie';
 
   @override
-  String get supersetLink => 'Chain with the next one';
+  String get supersetLink => 'Concatena con il prossimo';
 
   @override
-  String get supersetHint => 'No rest between chained exercises — you go straight to the next one.';
+  String get supersetHint => 'Nessun riposo tra gli esercizi concatenati: passi dritto al prossimo.';
 
   @override
-  String get aiRoutine => 'Routine with AI';
+  String get aiRoutine => 'Scheda con l\'IA';
 
   @override
   String get aiIntro =>
-      'GymMane never talks to an AI. You take your exercise list out, you paste it into whatever assistant you already use, and you bring its answer back in. Nothing leaves the phone on its own.';
+      'GymMane non parla con nessuna IA. Sei tu che esporti la tua lista di esercizi, la incolli nell\'assistente che già usi e riporti dentro la sua risposta. Dal telefono non esce niente da solo.';
 
   @override
   String get aiStep1 =>
-      'Export your exercise list. If you picked a place, it only includes what you can do there.';
+      'Esporta la tua lista di esercizi. Se hai scelto un posto, contiene solo quello che puoi fare lì.';
 
   @override
-  String get aiStep2 => 'Hand that file to any AI and ask it for a routine.';
+  String get aiStep2 => 'Dai quel file all\'IA che preferisci e chiedile una scheda.';
 
   @override
-  String get aiStep3 => 'Save its answer as a file — JSON or plain text, either works.';
+  String get aiStep3 => 'Salva la sua risposta in un file: JSON o testo semplice, va bene lo stesso.';
 
   @override
   String get aiStep4 =>
-      'Import it here. The names are matched against your library and the routine is built.';
+      'Importalo qui. I nomi vengono confrontati con la tua libreria e la scheda si crea da sola.';
 
   @override
   String aiMissing(int n) {
     String _temp0 = intl.Intl.pluralLogic(
       n,
       locale: localeName,
-      other: '$n names were not in your library',
-      one: '1 name was not in your library',
+      other: '$n nomi non erano nella tua libreria',
+      one: '1 nome non era nella tua libreria',
     );
     return '$_temp0';
   }
 
   @override
-  String get importApps => 'Which apps it reads';
+  String get importApps => 'Quali app legge';
 
   @override
-  String get importOtherCsv => 'Any other CSV with date, exercise, reps and weight';
+  String get importOtherCsv => 'Qualsiasi altro CSV con data, esercizio, ripetizioni e peso';
 
   @override
-  String get importAskApp => 'Need another app? Ask for it';
+  String get importAskApp => 'Ti serve un\'altra app? Chiedila';
+
+  @override
+  String get awardFirstStepName => 'Primo passo';
+
+  @override
+  String get awardFirstStepLine => 'Benvenuto in GymMane. Questa te la regala la casa.';
+
+  @override
+  String get awardFirstWorkoutName => 'Primo allenamento';
+
+  @override
+  String get awardFirstWorkoutLine => 'Il primo è registrato. Quello è il difficile.';
+
+  @override
+  String get awardFirstRoutineName => 'Prima scheda';
+
+  @override
+  String get awardFirstRoutineLine => 'Ora hai un piano a cui tornare.';
+
+  @override
+  String get awardFirstRecordName => 'Primo record';
+
+  @override
+  String get awardFirstRecordLine => 'Hai battuto il tuo massimo in un esercizio.';
+
+  @override
+  String get awardStreak3Name => 'Tre di fila';
+
+  @override
+  String get awardStreak3Line => 'Tre giorni di fila. È così che si comincia.';
+
+  @override
+  String get awardTonne1Name => 'Una tonnellata';
+
+  @override
+  String get awardTonne1Line => 'Mille chili sollevati tra tutte le tue serie.';
+
+  @override
+  String get awardSets100Name => 'Cento serie';
+
+  @override
+  String get awardSets100Line => 'Cento serie completate, una alla volta.';
+
+  @override
+  String get awardHours10Name => 'Dieci ore';
+
+  @override
+  String get awardHours10Line => 'Dieci ore di allenamento sul cronometro.';
+
+  @override
+  String get awardWorkouts50Name => 'Cinquanta allenamenti';
+
+  @override
+  String get awardWorkouts50Line => 'Cinquanta sedute alle spalle.';
+
+  @override
+  String get awardHours50Name => 'Cinquanta ore';
+
+  @override
+  String get awardHours50Line => 'Cinquanta ore dentro la palestra.';
+
+  @override
+  String get awardsTitle => 'Medaglie';
+
+  @override
+  String get awardWon => 'Conquistata';
+
+  @override
+  String get yearTitle => 'Il tuo anno';
+
+  @override
+  String get yearBestMonth => 'Mese migliore';
+
+  @override
+  String get yearMonths => 'mesi';
+
+  @override
+  String get awardSpinHint => 'Trascina la medaglia per girarla';
+
+  @override
+  String get awardUnlocked => 'Nuovo traguardo sbloccato';
+
+  @override
+  String get awardNice => 'Grande!';
+
+  @override
+  String get awardSaveImage => 'Salva l\'immagine';
+
+  @override
+  String get awardSaved => 'Salvata nella galleria';
+
+  @override
+  String get awardStreakBottom => 'di fila';
+
+  @override
+  String get awardStreak7Top => 'sette giorni';
+
+  @override
+  String get awardStreak7Name => 'Sette giorni';
+
+  @override
+  String get awardStreak7Line => 'Una settimana intera senza saltare un giorno.';
+
+  @override
+  String get awardStreak30Top => 'trenta giorni';
+
+  @override
+  String get awardStreak30Name => 'Trenta giorni';
+
+  @override
+  String get awardStreak30Line => 'Un mese di fila. Ormai è un\'abitudine.';
+
+  @override
+  String get awardWorkouts100Top => 'cento';
+
+  @override
+  String get awardWorkouts100Bottom => 'allenamenti';
+
+  @override
+  String get awardWorkouts100Name => 'Cento allenamenti';
+
+  @override
+  String get awardWorkouts100Line => 'Cento sedute registrate dall\'inizio alla fine.';
+
+  @override
+  String get awardTonnes100Top => 'cento';
+
+  @override
+  String get awardTonnes100Bottom => 'tonnellate';
+
+  @override
+  String get awardTonnes100Name => 'Cento tonnellate';
+
+  @override
+  String get awardTonnes100Line => 'Tutto quello che hai sollevato fa 100.000 kg.';
+
+  @override
+  String get awardSets1000Top => 'mille';
+
+  @override
+  String get awardSets1000Bottom => 'serie';
+
+  @override
+  String get awardSets1000Name => 'Mille serie';
+
+  @override
+  String get awardSets1000Line => 'Una serie alla volta, fino a mille.';
+
+  @override
+  String get profile => 'Profilo';
+
+  @override
+  String get editProfile => 'Modifica profilo';
+
+  @override
+  String get pickBadge => 'Distintivo';
+
+  @override
+  String get badgeTitle => 'Il tuo distintivo';
+
+  @override
+  String get statWorkouts => 'Allenamenti';
+
+  @override
+  String get statTrained => 'Allenato';
+
+  @override
+  String get statSets => 'Serie';
+
+  @override
+  String get statLifted => 'Sollevato';
+
+  @override
+  String get statStreak => 'Streak';
+
+  @override
+  String get statDays => 'giorni';
+
+  @override
+  String get unitHours => 'h';
+
+  @override
+  String get unitDays => 'giorni';
+
+  @override
+  String get snapshots => 'Foto';
+
+  @override
+  String get snapNow => 'Scattane una';
+
+  @override
+  String get calendarLegend => 'Allenamenti · foto';
+
+  @override
+  String get addCover => 'Metti una copertina';
+
+  @override
+  String get addTodayWidget => 'Oggi: fatto o no';
+
+  @override
+  String get monthTitle => 'Questo mese';
+
+  @override
+  String get photosCard => 'Le tue foto';
+
+  @override
+  String get handleLabel => 'Nome utente';
+
+  @override
+  String get setupTitle => 'Riempi questi e il resto della pagina si riempie da solo';
+
+  @override
+  String get setupHint =>
+      'Ogni numero qui viene da quello che registri. Niente viene inviato da nessuna parte.';
+
+  @override
+  String get setupWorkout => 'Registra il tuo primo allenamento';
+
+  @override
+  String get setupWeight => 'Segna il tuo peso';
+
+  @override
+  String get setupMeasures => 'Prendi le tue misure';
+
+  @override
+  String get setupPhoto => 'Scatta la prima foto dei progressi';
+
+  @override
+  String get progressTitle => 'Progressi';
+
+  @override
+  String get tileVolume30 => 'Volume · 30g';
+
+  @override
+  String get tileAddWeight => 'Segnalo';
+
+  @override
+  String get heatToneTitle => 'Colore della mappa';
+
+  @override
+  String get heatToneHint => 'Cambia solo come vengono dipinti la griglia e il corpo.';
+
+  @override
+  String get thisWeekTitle => 'Questa settimana';
+
+  @override
+  String get momentsEmptyTitle => 'Qui non c\'è ancora niente';
+
+  @override
+  String get deletePhotoTitle => 'Cancellare questa foto?';
+
+  @override
+  String get deletePhotoBody => 'Sparisce per sempre.';
+
+  @override
+  String get awardsEarned => 'Conquistate';
+
+  @override
+  String get awardsLocked => 'Da conquistare';
+
+  @override
+  String get awardStreak100Name => 'Cento giorni';
+
+  @override
+  String get awardWorkouts10Name => 'Dieci allenamenti';
+
+  @override
+  String get awardWorkouts10Line => 'I primi dieci sono quelli che decidono.';
+
+  @override
+  String get awardWorkouts365Name => 'Trecentosessantacinque';
+
+  @override
+  String get awardWorkouts365Line => 'Un allenamento per ogni giorno dell\'anno, registrati uno a uno.';
+
+  @override
+  String get awardTonnes10Name => 'Dieci tonnellate';
+
+  @override
+  String get awardTonnes10Line => 'Diecimila chili ti sono passati per le mani.';
+
+  @override
+  String get awardHours100Name => 'Cento ore';
+
+  @override
+  String get awardHours100Line => 'Cento ore sotto il bilanciere, cronometro alla mano.';
+
+  @override
+  String awardWonOn(String date) {
+    return 'Conquistata il $date';
+  }
+
+  @override
+  String awardProgressLabel(String value, String goal) {
+    return '$value di $goal';
+  }
+
+  @override
+  String badgeName(String id) {
+    String _temp0 = intl.Intl.selectLogic(id, {
+      'gold': 'Oro',
+      'blue': 'Blu',
+      'green': 'Verde',
+      'other': 'Distintivo',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String memberSince(String date) {
+    return 'Dal $date';
+  }
+
+  @override
+  String levelShort(int n) {
+    return 'Livello $n';
+  }
+
+  @override
+  String levelToNext(int n, int next) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n allenamenti al livello $next',
+      one: '1 allenamento al livello $next',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String heightCm(int n) {
+    return '$n cm';
+  }
+
+  @override
+  String heatToneName(String id) {
+    String _temp0 = intl.Intl.selectLogic(id, {
+      'ember': 'Brace',
+      'green': 'Verde',
+      'blue': 'Blu',
+      'mono': 'Grigio',
+      'other': 'Colore',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String setsThisWeek(int n) {
+    return '$n serie';
+  }
+
+  @override
+  String weekOfGoal(int n, int goal) {
+    return '$n di $goal questa settimana';
+  }
+
+  @override
+  String momentCount(int n) {
+    return '$n foto';
+  }
+
+  @override
+  String get badgeHint =>
+      'Scegli un colore, o tocca quello che hai per toglierlo. È solo tuo: non si verifica niente e non si paga niente.';
+
+  @override
+  String get momentsEmptyHint =>
+      'Fotografa la palestra, la lavagna, come hai caricato il bilanciere… quello che vuoi ricordare. Restano sul telefono e le vedi solo tu.';
+
+  @override
+  String get awardStreak100Line => 'Cento giorni di fila. Quella non è più motivazione, quello sei tu.';
+
+  @override
+  String get coverLabel => 'COPERTINA';
+
+  @override
+  String get removeCover => 'Togli la copertina';
+
+  @override
+  String get startTitle => 'Inizia l\'allenamento';
+
+  @override
+  String get logTitle => 'Segna un allenamento';
+
+  @override
+  String get logHint => 'Senza cronometro: riempi solo quello che hai fatto.';
+
+  @override
+  String get orStartFrom => 'Oppure parti da';
+
+  @override
+  String get pickExercisesOption => 'Scegli gli esercizi';
+
+  @override
+  String get chooseFocusOption => 'Scegli per muscoli';
+
+  @override
+  String get plannedRoutine => 'PREVISTA';
+
+  @override
+  String get logWorkoutAction => 'SEGNA UN ALLENAMENTO';
+
+  @override
+  String get logging => 'SEGNANDO';
+
+  @override
+  String get placesLabel => 'I miei posti';
 }

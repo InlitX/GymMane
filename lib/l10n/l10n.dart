@@ -181,6 +181,7 @@ extension GymL10n on AppLocalizations {
         'Weighted' => equipWeighted,
         'Band' => equipBand,
         'Kettlebell' => equipKettlebell,
+        'Rings' => equipRings,
         _ => equipOther,
       };
 
@@ -193,11 +194,20 @@ extension GymL10n on AppLocalizations {
   String weekday(int w) =>
       _capitalize(_dates(DateFormat.EEEE).format(DateTime(2024, 1, w)));
 
+  String weekdayShort(int w) =>
+      _capitalize(_dates(DateFormat.E).format(DateTime(2024, 1, w)));
+
   String weekdayInitial(int w) =>
       _dates((l) => DateFormat('', l)).dateSymbols.NARROWWEEKDAYS[w % 7];
 
   int get firstWeekday =>
       _dates((l) => DateFormat('', l)).dateSymbols.FIRSTDAYOFWEEK + 1;
+
+  String monthInitial(int m) =>
+      _dates((l) => DateFormat('', l)).dateSymbols.NARROWMONTHS[m - 1];
+
+  String monthName(int m) =>
+      _capitalize(_dates(DateFormat.MMMM).format(DateTime(2024, m)));
 
   String monthYear(DateTime d) => _capitalize(_dates(DateFormat.yMMMM).format(d));
 
