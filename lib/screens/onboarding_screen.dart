@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 import '../l10n/l10n.dart';
 import '../state/fit_state.dart';
@@ -15,9 +15,14 @@ class OnboardingScreen extends StatefulWidget {
   State<OnboardingScreen> createState() => _OnboardingScreenState();
 }
 
-class _OnboardingScreenState extends State<OnboardingScreen> {
+class _OnboardingScreenState extends State<OnboardingScreen>
+    with SingleTickerProviderStateMixin {
   final _page = PageController();
   late final TextEditingController _name = TextEditingController();
+  late final AnimationController _reveal = AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 680),
+  )..forward();
   int _index = 0;
   static const _last = 4;
 
@@ -25,12 +30,17 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   void dispose() {
     _page.dispose();
     _name.dispose();
+    _reveal.dispose();
     super.dispose();
   }
 
   void _go(int i) {
+    _page.animateToPage(i, duration: const Duration(milliseconds: 340), curve: Curves.easeOutCubic);
+  }
+
+  void _onPage(int i) {
     setState(() => _index = i);
-    _page.animateToPage(i, duration: const Duration(milliseconds: 280), curve: Curves.easeOutCubic);
+    _reveal.forward(from: 0);
   }
 
   void _finish() {
@@ -39,11 +49,27 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     fit.completeOnboarding();
   }
 
+  Widget _in(int order, Widget child) {
+    return AnimatedBuilder(
+      animation: _reveal,
+      builder: (context, kid) {
+        final v = Curves.easeOutCubic
+            .transform(((_reveal.value - 0.08 * order) / 0.6).clamp(0.0, 1.0));
+        return Opacity(
+          opacity: v,
+          child: Transform.translate(offset: Offset(0, 20 * (1 - v)), child: kid),
+        );
+      },
+      child: child,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final gc = context.gc;
     return Scaffold(
       backgroundColor: gc.bg,
+      resizeToAvoidBottomInset: false,
       body: Stack(
         children: [
           Positioned.fill(child: _Glow(gc)),
@@ -55,7 +81,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 Expanded(
                   child: PageView(
                     controller: _page,
-                    onPageChanged: (i) => setState(() => _index = i),
+                    onPageChanged: _onPage,
                     children: [
                       _welcome(gc),
                       _nameStep(gc),
@@ -76,32 +102,36 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   Widget _topBar(GymColors gc) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 12, 20, 0),
+      padding: const EdgeInsets.fromLTRB(24, 16, 16, 0),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Row(children: [
-            for (int i = 0; i <= _last; i++)
-              AnimatedContainer(
-                duration: const Duration(milliseconds: 240),
-                margin: const EdgeInsets.only(right: 6),
-                width: i == _index ? 20 : 6,
-                height: 6,
-                decoration: BoxDecoration(
-                  color: i <= _index ? gc.ember : gc.bgRaised2,
-                  borderRadius: BorderRadius.circular(3),
-                ),
-              ),
-          ]),
-          Semantics(
-            button: true,
-            child: GestureDetector(
-              behavior: HitTestBehavior.opaque,
-              onTap: _finish,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
-                child: Text(t.skip2, style: AppTheme.s(13, color: gc.textTertiary)),
-              ),
+          Expanded(
+            child: Row(
+              children: [
+                for (int i = 0; i <= _last; i++)
+                  Expanded(
+                    child: AnimatedContainer(
+                      duration: const Duration(milliseconds: 280),
+                      curve: Curves.easeOutCubic,
+                      margin: const EdgeInsets.only(right: 6),
+                      height: 3,
+                      decoration: BoxDecoration(
+                        color: i <= _index ? gc.text : gc.bgRaised2,
+                        borderRadius: BorderRadius.circular(3),
+                      ),
+                    ),
+                  ),
+              ],
+            ),
+          ),
+          const SizedBox(width: 10),
+          GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onTap: _finish,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+              child: Text(t.skip2,
+                  style: AppTheme.f(12.5, weight: FontWeight.w600, color: gc.textTertiary)),
             ),
           ),
         ],
@@ -111,25 +141,22 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   Widget _bottomBar(GymColors gc) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+      padding: const EdgeInsets.fromLTRB(24, 8, 24, 22),
       child: Row(
         children: [
           if (_index > 0)
-            Expanded(
-              child: GestureDetector(
-                behavior: HitTestBehavior.opaque,
-                onTap: () => _go(_index - 1),
-                child: SizedBox(
-                  height: 52,
-                  child: Center(
-                    child: Text(t.back,
-                        style: AppTheme.d(13, weight: FontWeight.w600, color: gc.textSecondary, letterSpacing: 1)),
-                  ),
-                ),
+            GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onTap: () => _go(_index - 1),
+              child: Container(
+                width: 56,
+                height: 56,
+                margin: const EdgeInsets.only(right: 12),
+                decoration: BoxDecoration(color: gc.bgRaised, shape: BoxShape.circle),
+                child: Icon(PhosphorIconsBold.arrowLeft, size: 18, color: gc.textSecondary),
               ),
             ),
           Expanded(
-            flex: 2,
             child: PrimaryButton(
               label: _index == _last ? t.welcomeStart : t.next,
               onTap: () => _index == _last ? _finish() : _go(_index + 1),
@@ -150,23 +177,36 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   }) {
     return LayoutBuilder(
       builder: (context, box) => SingleChildScrollView(
-        padding: const EdgeInsets.fromLTRB(24, 24, 24, 24),
+        padding: const EdgeInsets.fromLTRB(24, 20, 24, 20),
         child: ConstrainedBox(
-          constraints: BoxConstraints(minHeight: box.maxHeight - 48),
+          constraints: BoxConstraints(minHeight: box.maxHeight - 40),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              _badge(gc, icon),
-              const SizedBox(height: 20),
-              Text(t.onbStep(step, _last),
-                  style: AppTheme.d(11, weight: FontWeight.w600, color: gc.brass, letterSpacing: 3)),
-              const SizedBox(height: 8),
-              Text(title, style: AppTheme.d(30, weight: FontWeight.w700, color: gc.text, height: 1.1)),
-              const SizedBox(height: 8),
-              Text(why, style: AppTheme.s(14, color: gc.textSecondary, height: 1.4)),
-              const SizedBox(height: 28),
-              child,
+              _in(0, _badge(gc, icon)),
+              const SizedBox(height: 22),
+              _in(
+                1,
+                Text(t.onbStep(step, _last).toUpperCase(),
+                    style: AppTheme.f(10.5,
+                        weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.6)),
+              ),
+              const SizedBox(height: 9),
+              _in(
+                2,
+                Text(title,
+                    style: AppTheme.f(30, weight: FontWeight.w800, color: gc.text, height: 1.12)),
+              ),
+              const SizedBox(height: 10),
+              _in(
+                3,
+                Text(why,
+                    style: AppTheme.f(13.5,
+                        weight: FontWeight.w500, color: gc.textSecondary, height: 1.45)),
+              ),
+              const SizedBox(height: 26),
+              _in(4, child),
             ],
           ),
         ),
@@ -177,53 +217,84 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   Widget _badge(GymColors gc, IconData icon) => Align(
         alignment: Alignment.centerLeft,
         child: Container(
-          width: 56,
-          height: 56,
+          width: 54,
+          height: 54,
           decoration: BoxDecoration(
-            color: gc.emberSoft,
+            color: gc.bgRaised,
             borderRadius: BorderRadius.circular(18),
-            border: Border.all(color: gc.border),
           ),
-          child: Icon(icon, size: 26, color: gc.ember),
+          child: Icon(icon, size: 24, color: gc.textSecondary),
         ),
       );
 
   Widget _welcome(GymColors gc) {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.fromLTRB(24, 0, 24, 24),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Center(
-            child: Image.asset('assets/img/runner.png',
-                height: 200, opacity: const AlwaysStoppedAnimation(0.85)),
+    return LayoutBuilder(
+      builder: (context, box) => SingleChildScrollView(
+        padding: const EdgeInsets.fromLTRB(24, 20, 24, 20),
+        child: ConstrainedBox(
+          constraints: BoxConstraints(minHeight: box.maxHeight - 40),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _in(
+                0,
+                Center(
+                  child: Image.asset('assets/img/runner.png',
+                      height: 218, opacity: const AlwaysStoppedAnimation(0.9)),
+                ),
+              ),
+              const SizedBox(height: 30),
+              _in(
+                1,
+                Text(t.welcomeKicker.toUpperCase(),
+                    style: AppTheme.f(10.5,
+                        weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.6)),
+              ),
+              const SizedBox(height: 8),
+              _in(
+                2,
+                Text('GymMane',
+                    style: AppTheme.f(44, weight: FontWeight.w800, color: gc.text, height: 1)),
+              ),
+              const SizedBox(height: 12),
+              _in(
+                3,
+                Text(t.welcomeBlurb,
+                    style: AppTheme.f(14.5,
+                        weight: FontWeight.w500, color: gc.textSecondary, height: 1.5)),
+              ),
+              const SizedBox(height: 26),
+              _in(
+                4,
+                SoftCard(
+                  radius: 22,
+                  padding: const EdgeInsets.fromLTRB(18, 16, 18, 16),
+                  child: Column(
+                    children: [
+                      _promise(gc, PhosphorIconsRegular.wifiSlash, t.fullyOffline),
+                      const SizedBox(height: 14),
+                      _promise(gc, PhosphorIconsRegular.sealCheck, t.freeForever),
+                      const SizedBox(height: 14),
+                      _promise(gc, PhosphorIconsRegular.lockKey, t.yoursToTake),
+                    ],
+                  ),
+                ),
+              ),
+            ],
           ),
-          const SizedBox(height: 28),
-          Text(t.welcomeKicker,
-              style: AppTheme.d(12, weight: FontWeight.w600, color: gc.brass, letterSpacing: 3)),
-          const SizedBox(height: 6),
-          Text('GYMMANE', style: AppTheme.d(46, weight: FontWeight.w700, color: gc.text, letterSpacing: 1)),
-          const SizedBox(height: 12),
-          Text(t.welcomeBlurb, style: AppTheme.s(15, color: gc.textSecondary, height: 1.45)),
-          const SizedBox(height: 26),
-          _promise(gc, PhosphorIconsRegular.wifiSlash, t.fullyOffline),
-          const SizedBox(height: 10),
-          _promise(gc, PhosphorIconsRegular.sealCheck, t.freeForever),
-          const SizedBox(height: 10),
-          _promise(gc, PhosphorIconsRegular.lockKey, t.yoursToTake),
-        ],
+        ),
       ),
     );
   }
 
   Widget _promise(GymColors gc, IconData icon, String label) => Row(
         children: [
-          Icon(icon, size: 17, color: gc.sage),
-          const SizedBox(width: 10),
+          Icon(icon, size: 17, color: gc.textSecondary),
+          const SizedBox(width: 12),
           Expanded(
             child: Text(label,
-                style: AppTheme.s(13, weight: FontWeight.w600, color: gc.textSecondary)),
+                style: AppTheme.f(13, weight: FontWeight.w600, color: gc.text)),
           ),
         ],
       );
@@ -238,17 +309,18 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       child: TextField(
         controller: _name,
         textCapitalization: TextCapitalization.words,
-        textInputAction: TextInputAction.next,
-        style: AppTheme.d(22, weight: FontWeight.w600, color: gc.text),
+        textInputAction: TextInputAction.done,
+        style: AppTheme.f(20, weight: FontWeight.w700, color: gc.text),
         cursorColor: gc.accent,
         onSubmitted: (_) => _go(2),
         decoration: InputDecoration(
           hintText: t.onbNameHint,
-          hintStyle: AppTheme.d(22, weight: FontWeight.w600, color: gc.textTertiary),
+          hintStyle: AppTheme.f(20, weight: FontWeight.w700, color: gc.textTertiary),
           filled: true,
           fillColor: gc.bgRaised,
-          contentPadding: const EdgeInsets.symmetric(horizontal: 18, vertical: 18),
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: BorderSide.none),
+          contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+          border:
+              OutlineInputBorder(borderRadius: BorderRadius.circular(20), borderSide: BorderSide.none),
         ),
       ),
     );
@@ -262,21 +334,32 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       icon: PhosphorIconsRegular.ruler,
       title: t.onbBodyTitle,
       why: t.onbBodyWhy,
-      child: Column(children: [
-        _row(gc, t.sexLabel, SegToggle([
-          SegOption(t.male, p.sex == 'male', () => _up(() => fit.updateProfile(sex: 'male'))),
-          SegOption(t.female, p.sex == 'female', () => _up(() => fit.updateProfile(sex: 'female'))),
-        ])),
-        const SizedBox(height: 12),
-        _stepper(gc, t.ageLabel, '${p.age}', () => fit.updateProfile(ageDelta: -1), () => fit.updateProfile(ageDelta: 1)),
-        const SizedBox(height: 12),
-        _stepper(gc, t.heightLabel, '${fmt(p.heightCm)} cm', () => fit.updateProfile(heightDelta: -1),
-            () => fit.updateProfile(heightDelta: 1)),
-        const SizedBox(height: 12),
-        _stepper(gc, t.weightLabel, fit.weightLabel(p.weightKg),
-            () => fit.updateProfile(weightDelta: -fit.fromDisplayWeight(fit.isLb ? 1 : 0.5)),
-            () => fit.updateProfile(weightDelta: fit.fromDisplayWeight(fit.isLb ? 1 : 0.5))),
-      ]),
+      child: SoftCard(
+        radius: 22,
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+        child: Column(
+          children: [
+            _row(gc, t.sexLabel, SegToggle([
+              SegOption(t.male, p.sex == 'male', () => _up(() => fit.updateProfile(sex: 'male'))),
+              SegOption(
+                  t.female, p.sex == 'female', () => _up(() => fit.updateProfile(sex: 'female'))),
+            ])),
+            _divider(gc),
+            _stepperRow(gc, t.ageLabel, '${p.age}', () => fit.updateProfile(ageDelta: -1),
+                () => fit.updateProfile(ageDelta: 1)),
+            _divider(gc),
+            _stepperRow(gc, t.heightLabel, '${fmt(p.heightCm)} cm',
+                () => fit.updateProfile(heightDelta: -1), () => fit.updateProfile(heightDelta: 1)),
+            _divider(gc),
+            _stepperRow(
+                gc,
+                t.weightLabel,
+                fit.weightLabel(p.weightKg),
+                () => fit.updateProfile(weightDelta: -fit.fromDisplayWeight(fit.isLb ? 1 : 0.5)),
+                () => fit.updateProfile(weightDelta: fit.fromDisplayWeight(fit.isLb ? 1 : 0.5))),
+          ],
+        ),
+      ),
     );
   }
 
@@ -290,21 +373,22 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       child: Column(
         children: [
           Text(t.perWeek(fit.profile.weeklyGoal),
-              style: AppTheme.d(28, weight: FontWeight.w700, color: gc.text)),
-          const SizedBox(height: 18),
+              style: AppTheme.f(26, weight: FontWeight.w800, color: gc.text)),
+          const SizedBox(height: 20),
           Wrap(
-            spacing: 8,
-            runSpacing: 8,
+            spacing: 9,
+            runSpacing: 9,
             alignment: WrapAlignment.center,
             children: [
               for (int n = 2; n <= 7; n++)
                 Pill(
                   label: '$n×',
-                  bg: fit.profile.weeklyGoal == n ? gc.ember : gc.bgRaised2,
+                  bg: fit.profile.weeklyGoal == n ? gc.ember : gc.bgRaised,
                   fg: fit.profile.weeklyGoal == n ? gc.onEmber : gc.textSecondary,
-                  onTap: () => _up(() => fit.updateProfile(weeklyGoalDelta: n - fit.profile.weeklyGoal)),
-                  hPad: 18,
-                  vPad: 12,
+                  onTap: () =>
+                      _up(() => fit.updateProfile(weeklyGoalDelta: n - fit.profile.weeklyGoal)),
+                  hPad: 20,
+                  vPad: 13,
                   fontSize: 15,
                 ),
             ],
@@ -326,22 +410,23 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           for (final u in const ['kg', 'lb'])
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.only(right: 10),
+                padding: EdgeInsets.only(right: u == 'kg' ? 12 : 0),
                 child: GestureDetector(
                   behavior: HitTestBehavior.opaque,
                   onTap: () => _up(() => fit.setUnits(u)),
                   child: AnimatedContainer(
-                    duration: const Duration(milliseconds: 160),
-                    height: 90,
+                    duration: const Duration(milliseconds: 200),
+                    curve: Curves.easeOutCubic,
+                    height: 96,
                     decoration: BoxDecoration(
                       color: fit.units == u ? gc.ember : gc.bgRaised,
-                      border: Border.all(color: fit.units == u ? gc.ember : gc.border),
-                      borderRadius: BorderRadius.circular(18),
+                      borderRadius: BorderRadius.circular(22),
                     ),
                     alignment: Alignment.center,
                     child: Text(u,
-                        style: AppTheme.d(30,
-                            weight: FontWeight.w700, color: fit.units == u ? gc.onEmber : gc.text)),
+                        style: AppTheme.f(28,
+                            weight: FontWeight.w800,
+                            color: fit.units == u ? gc.onEmber : gc.text)),
                   ),
                 ),
               ),
@@ -356,24 +441,27 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     setState(() {});
   }
 
-  Widget _row(GymColors gc, String label, Widget control) => SoftCard(
-        radius: 14,
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+  Widget _divider(GymColors gc) => Container(height: 1, color: gc.bgRaised2);
+
+  Widget _row(GymColors gc, String label, Widget control) => Padding(
+        padding: const EdgeInsets.symmetric(vertical: 12),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(label, style: AppTheme.s(13, weight: FontWeight.w600, color: gc.textSecondary)),
+            Text(label, style: AppTheme.f(13, weight: FontWeight.w600, color: gc.textSecondary)),
             control,
           ],
         ),
       );
 
-  Widget _stepper(GymColors gc, String label, String value, VoidCallback dec, VoidCallback inc) => _row(
+  Widget _stepperRow(
+          GymColors gc, String label, String value, VoidCallback dec, VoidCallback inc) =>
+      _row(
         gc,
         label,
         StepperControl(
           value: value,
-          minWidth: 74,
+          minWidth: 78,
           btnSize: 34,
           gap: 12,
           fontSize: 15,
@@ -395,7 +483,7 @@ class _Glow extends StatelessWidget {
             gradient: RadialGradient(
               center: const Alignment(0.9, -0.85),
               radius: 1.1,
-              colors: [gc.ember.withValues(alpha: 0.16), gc.bg.withValues(alpha: 0)],
+              colors: [gc.ember.withValues(alpha: 0.12), gc.bg.withValues(alpha: 0)],
             ),
           ),
           child: DecoratedBox(
@@ -403,7 +491,7 @@ class _Glow extends StatelessWidget {
               gradient: RadialGradient(
                 center: const Alignment(-0.9, 0.9),
                 radius: 1.0,
-                colors: [gc.brass.withValues(alpha: 0.08), gc.bg.withValues(alpha: 0)],
+                colors: [gc.brass.withValues(alpha: 0.07), gc.bg.withValues(alpha: 0)],
               ),
             ),
             child: const SizedBox.expand(),
