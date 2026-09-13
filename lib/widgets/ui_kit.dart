@@ -65,7 +65,6 @@ class SearchField extends StatelessWidget {
       padding: const EdgeInsets.only(left: 16, right: 6),
       decoration: BoxDecoration(
         color: color ?? gc.bgRaised,
-        border: Border.all(color: gc.border),
         borderRadius: BorderRadius.circular(100),
       ),
       child: Row(children: [
@@ -75,13 +74,13 @@ class SearchField extends StatelessWidget {
           child: TextField(
             controller: controller,
             onChanged: onChanged,
-            style: AppTheme.s(14, color: gc.text),
+            style: AppTheme.f(14, weight: FontWeight.w500, color: gc.text),
             cursorColor: gc.accent,
             decoration: InputDecoration(
               isCollapsed: true,
               border: InputBorder.none,
               hintText: hint,
-              hintStyle: AppTheme.s(14, color: gc.textSecondary),
+              hintStyle: AppTheme.f(14, weight: FontWeight.w500, color: gc.textSecondary),
             ),
           ),
         ),
@@ -164,17 +163,19 @@ class GhostButton extends StatelessWidget {
       onTap: onTap,
       child: Container(
         height: 46,
+        padding: const EdgeInsets.symmetric(horizontal: 20),
         alignment: Alignment.center,
         decoration: BoxDecoration(
-          border: Border.all(color: gc.border),
-          borderRadius: BorderRadius.circular(14),
+          color: context.gc.bgRaised2,
+          borderRadius: BorderRadius.circular(100),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             Icon(icon, size: 16, color: gc.ember),
             const SizedBox(width: 8),
-            Text(label, style: AppTheme.d(13, weight: FontWeight.w600, color: gc.text, letterSpacing: 1)),
+            Text(titleCase(label),
+                style: AppTheme.f(13.5, weight: FontWeight.w700, color: gc.text)),
           ],
         ),
       ),
@@ -284,7 +285,9 @@ class ScreenHeader extends StatelessWidget {
               ScreenTitle(title, size: titleSize, spacing: titleSpacing),
               if (subtitle != null) ...[
                 const SizedBox(height: 2),
-                Text(subtitle!, style: AppTheme.s(12.5, color: gc.textSecondary)),
+                Text(subtitle!,
+                    style: AppTheme.f(12.5,
+                        weight: FontWeight.w500, color: gc.textSecondary)),
               ],
             ],
           ),
@@ -295,6 +298,13 @@ class ScreenHeader extends StatelessWidget {
   }
 }
 
+String titleCase(String s) {
+  if (s.isEmpty || s != s.toUpperCase()) return s;
+  if (s.length <= 4 && !s.contains(' ')) return s;
+  if (RegExp(r'[0-9]').hasMatch(s)) return s;
+  return s[0] + s.substring(1).toLowerCase();
+}
+
 class ScreenTitle extends StatelessWidget {
   const ScreenTitle(this.text, {super.key, this.size = 22, this.spacing = 2});
   final String text;
@@ -302,7 +312,10 @@ class ScreenTitle extends StatelessWidget {
   final double spacing;
   @override
   Widget build(BuildContext context) =>
-      Text(text, style: AppTheme.d(size, weight: FontWeight.w700, color: context.gc.text, letterSpacing: spacing));
+      Text(titleCase(text),
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: AppTheme.f(size, weight: FontWeight.w800, color: context.gc.text));
 }
 
 class Kicker extends StatelessWidget {
@@ -313,7 +326,7 @@ class Kicker extends StatelessWidget {
   final double spacing;
   @override
   Widget build(BuildContext context) =>
-      Text(text, style: AppTheme.d(size, weight: FontWeight.w600, color: color, letterSpacing: spacing));
+      Text(text, style: AppTheme.f(size, weight: FontWeight.w600, color: color, letterSpacing: spacing));
 }
 
 class StepperControl extends StatelessWidget {
@@ -356,7 +369,7 @@ class StepperControl extends StatelessWidget {
     Widget label = Container(
       constraints: BoxConstraints(minWidth: minWidth),
       alignment: Alignment.center,
-      child: Text(value, style: AppTheme.d(fontSize, weight: FontWeight.w700, color: gc.text)),
+      child: Text(value, style: AppTheme.f(fontSize, weight: FontWeight.w700, color: gc.text)),
     );
     if (onEdit != null) {
       label = GestureDetector(behavior: HitTestBehavior.opaque, onTap: onEdit, child: label);
@@ -387,7 +400,7 @@ class ToolRow extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Flexible(child: Text(label, style: AppTheme.s(13, weight: FontWeight.w600, color: gc.textSecondary))),
+          Flexible(child: Text(label, style: AppTheme.f(13, weight: FontWeight.w600, color: gc.textSecondary))),
           control,
         ],
       ),
@@ -428,7 +441,7 @@ class SegToggle extends StatelessWidget {
                   borderRadius: BorderRadius.circular(100),
                 ),
                 child: Text(o.label,
-                    style: AppTheme.s(fontSize,
+                    style: AppTheme.f(fontSize,
                         weight: FontWeight.w600, color: o.selected ? gc.onEmber : gc.textSecondary)),
               ),
             ),
@@ -508,7 +521,8 @@ class Pill extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: hPad, vertical: vPad),
         decoration: BoxDecoration(color: bg, borderRadius: BorderRadius.circular(100)),
-        child: Text(label, style: AppTheme.s(fontSize, weight: FontWeight.w600, color: fg)),
+        child: Text(titleCase(label),
+            style: AppTheme.f(fontSize, weight: FontWeight.w600, color: fg)),
       ),
     );
   }
@@ -549,9 +563,9 @@ class PrimaryButton extends StatelessWidget {
             Flexible(
               child: FittedBox(
                 fit: BoxFit.scaleDown,
-                child: Text(label,
+                child: Text(titleCase(label),
                     maxLines: 1,
-                    style: AppTheme.d(16, weight: FontWeight.w600, color: f, letterSpacing: 2)),
+                    style: AppTheme.f(15.5, weight: FontWeight.w700, color: f, letterSpacing: 0.2)),
               ),
             ),
           ],
