@@ -62,6 +62,10 @@ doc-personal/
 tool/
 fdroid/
 test/fixtures/
+test/failures/
+test/preview/
+test/preview_*.dart
+test/marketing_shots.dart
 site/
 
 # OS junk
