@@ -980,6 +980,26 @@
   },
   "focusCard": "Today’s focus",
   "autoAdvance": "Move on automatically",
+  "keepScreenOn": "Keep the screen on while training",
+  "lockWorkout": "Lock the screen",
+  "unlockWorkout": "Unlock",
+  "lockedCaps": "LOCKED",
+  "holdToUnlock": "Hold to unlock",
+  "liveChannel": "Ongoing workout",
+  "liveChannelWhy": "Shows the current exercise, set and rest timer while you train",
+  "liveSet": "Set {n} of {total}",
+  "@liveSet": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "liveResting": "Resting",
+  "liveAllDone": "All sets done",
   "autoAdvanceHint": "When the last set of an exercise is ticked, the workout moves on.",
   "autoProgress": "Add weight next time",
   "autoProgressHint": "Hit every rep and the next session starts {w} heavier.",
@@ -1324,5 +1344,227 @@
   "plannedRoutine": "PLANNED",
   "logWorkoutAction": "LOG A WORKOUT",
   "logging": "LOGGING",
-  "placesLabel": "My places"
+  "placesLabel": "My places",
+  "undo": "Undo",
+  "deleteSet": "Delete set",
+  "setDeleted": "Set deleted",
+  "removeWarmup": "Remove warm-up",
+  "addWeightAction": "Add weight",
+  "workoutOverview": "This workout",
+  "allExercisesShort": "All",
+  "setsDoneOf": "{done}/{total} sets",
+  "@setsDoneOf": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "nowLabel": "Now",
+  "deleteWorkout": "Delete workout",
+  "deleteWorkoutBody": "This workout and all its sets will be removed from your history.",
+  "themeAuto": "Auto",
+  "themeAutoHint": "Follows your phone",
+  "demoSizeTitle": "Exercise demo while training",
+  "demoLarge": "Large",
+  "demoSmall": "Small",
+  "demoOff": "Hidden",
+  "alarmStyleTitle": "When rest ends",
+  "alarmStyleLoud": "Always ring",
+  "alarmStyleQuiet": "Follow silent mode",
+  "alarmStyleVibrate": "Vibrate only",
+  "alarmStyleHint": "Always ring uses the alarm volume, even on silent. Follow silent mode uses the notification volume and just vibrates when your phone is muted.",
+  "suggestedPicks": "Suggested for you",
+  "moreOptions": "More options",
+  "suggestInWorkouts": "Suggest in quick workouts",
+  "suggestInWorkoutsHint": "Off keeps it out of the picks made for you. You can still add it by hand.",
+  "dontSuggest": "Don't suggest it again",
+  "noLongerSuggested": "It won't be suggested again",
+  "onbPlaceTitle": "Where do you train?",
+  "onbPlaceWhy": "Pick every place you train. We'll only suggest what you can do in each one.",
+  "onbPlaceGear": "What do you have there?",
+  "distanceCol": "DISTANCE ({unit})",
+  "@distanceCol": {
+    "placeholders": {
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "timeCol": "TIME",
+  "timeMinutesTitle": "Time (minutes)",
+  "timeSecondsTitle": "Time (seconds)",
+  "distanceTitle": "Distance ({unit})",
+  "@distanceTitle": {
+    "placeholders": {
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "holdLabel": "Hold",
+  "stopLabel": "Stop",
+  "startHold": "Start · {time}",
+  "@startHold": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "exerciseTypeLabel": "Log by",
+  "typeReps": "Reps & weight",
+  "typeTime": "Time",
+  "typeCardio": "Distance & time",
+  "exerciseTypeHint": "Cardio like running or swimming logs distance and time. Holds like a plank log time.",
+  "howToLabel": "How to (optional)",
+  "howToHint": "One step per line",
+  "editExercise": "Edit exercise",
+  "saveChanges": "Save changes",
+  "noStepsYet": "No steps yet. Write your own so you remember how you do it.",
+  "addSteps": "Write the steps",
+  "setTypeRestPause": "Rest-pause",
+  "planFormatNotes": "Use the exercise names exactly as they appear in the list. \"sets\", \"reps\", \"weight\" (in the unit given), \"rest\" in seconds and \"days\" are optional. \"superset\": true links an exercise with the next one. For several weeks, group the routines inside \"weeks\" like the second example.",
+  "planSets": "Plan sets",
+  "planSetsHint": "Choose the type, reps and weight of each set. Leave the weight on Auto to start from your last session.",
+  "autoValue": "Auto",
+  "clearPlan": "Clear plan",
+  "planChip": "Plan",
+  "shareRoutine": "Share routine",
+  "shareWeek": "Share my week",
+  "shareWeekHint": "All your routines and the day each one is on.",
+  "shareMessage": "{name} — open the file with GymMane to add it.",
+  "@shareMessage": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "importRoutines": "Import routines",
+  "importPasteHint": "Paste a routine here: one shared from GymMane, an AI answer, JSON or CSV.",
+  "pasteAction": "Paste",
+  "routineCount": "{n, plural, =1{1 routine} other{{n} routines}}",
+  "@routineCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "useTheirSchedule": "Also use its weekly schedule",
+  "useTheirScheduleHint": "The days it brings replace what you have planned on them.",
+  "addToMyRoutines": "Add to my routines",
+  "routinesAdded": "{n, plural, =1{1 routine added} other{{n} routines added}}",
+  "@routinesAdded": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "nothingToImport": "Nothing here GymMane can import",
+  "aiStepCopy": "Copy the request. It carries your exercise list and the format GymMane reads.",
+  "aiStepAsk": "Paste it into any AI and say what you want: days per week, goal, how many weeks.",
+  "aiStepPaste": "Paste its answer below and import it. No file needed.",
+  "copyForAi": "Copy for the AI",
+  "copiedDone": "Copied",
+  "aiPasteHint": "Paste the AI's answer here",
+  "importAction": "Import",
+  "showFormat": "See the format",
+  "shareAsFile": "Share as a file",
+  "recoveryTab": "Recovery",
+  "recoveryOverall": "Body {pct}% recovered",
+  "@recoveryOverall": {
+    "placeholders": {
+      "pct": {
+        "type": "int"
+      }
+    }
+  },
+  "recoveryAllFresh": "Everything is recovered. Good day to train anything.",
+  "recoveryStill": "Still recovering: {muscles}",
+  "@recoveryStill": {
+    "placeholders": {
+      "muscles": {
+        "type": "String"
+      }
+    }
+  },
+  "recoveryTired": "Fatigued",
+  "recoveryFresh": "Fresh",
+  "recoveryHint": "Tap a muscle to see how recovered it is. Recent sets weigh more, and harder ones (by RPE) more still.",
+  "recoveryPct": "{pct}% recovered",
+  "@recoveryPct": {
+    "placeholders": {
+      "pct": {
+        "type": "int"
+      }
+    }
+  },
+  "readyInHours": "ready in ~{h} h",
+  "@readyInHours": {
+    "placeholders": {
+      "h": {
+        "type": "int"
+      }
+    }
+  },
+  "tplAbcd": "Four days: chest and triceps, back and biceps, legs, shoulders and abs.",
+  "tplAbcde": "Five days, one muscle group each: chest, back, legs, shoulders, arms.",
+  "elapsedCaps": "ELAPSED",
+  "tapToSkip": "Tap to skip",
+  "tapToStop": "Tap to stop",
+  "screenLocked": "Screen locked",
+  "lockedHint": "Press and hold the fingerprint at the top to unlock",
+  "liveDoneSet": "Set done",
+  "liveSkipRest": "Skip rest",
+  "livePause": "Pause",
+  "liveResume": "Resume",
+  "liveNext": "Next",
+  "liveUpNext": "Up next: {name}",
+  "@liveUpNext": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "stickerOpen": "Share on a photo",
+  "stickerNoPhoto": "No photo",
+  "stickerWorkout": "Workout",
+  "stickerStreak": "Streak",
+  "stickerDate": "Date",
+  "stickerHint": "Drag to move it, pinch to resize or turn it",
+  "stickerSaved": "Saved to your gallery",
+  "stickerWeek": "This week",
+  "getReady": "Get ready",
+  "stickerGallery": "Gallery",
+  "stickerCamera": "Camera",
+  "shareIntroTitle": "Share this routine",
+  "shareIntroBody": "Send it to your partner, a friend or your family. They get a small file that opens in GymMane and adds it in one tap, with its sets and weights.",
+  "removedFromRoutine": "Removed from the routine",
+  "radarTitle": "This month",
+  "radarHint": "See which areas need more work",
+  "radarEmpty": "Train this month to see your balance",
+  "radarBalanced": "Good balance so far",
+  "radarFocus": "Needs more: {list}",
+  "@radarFocus": {
+    "placeholders": {
+      "list": {
+        "type": "String"
+      }
+    }
+  },
+  "countdownReady": "Get ready",
+  "countdownSkip": "Tap to start now",
+  "countdownSetting": "Countdown before starting",
+  "effortSetting": "Log effort per set",
+  "effortHint": "RPE: 10 means nothing left, 8 means two reps to spare. RIR counts the reps you had left. When a set has it, the estimated 1RM uses the RPE chart.",
+  "rirTitle": "RESERVE (RIR)",
+  "rirHint": "0 is nothing left in the tank, 2 is two reps to spare.",
+  "addWeekWidget": "Add week widget"
 }
