@@ -3,54 +3,46 @@
 
   var DICT = {
     es: {
-      metaDesc: 'GymMane es una app de gimnasio 100% offline: registra tus series, mira tu progreso real y entrena sin cuenta, sin anuncios y sin suscripción. Código abierto con licencia GPL-3.0.',
-      title: 'GymMane — Diario de gimnasio, offline y sin humo',
-      navFeatures: 'Funciones', navPrivacy: 'Privacidad', navTranslate: 'Traducir',
-      navShots: 'Capturas', navDownload: 'Descargar',
+      metaDesc: 'GymMane es un diario de gimnasio gratis y sin conexión para Android. Apunta tus series y mira tu progreso sin cuenta, sin anuncios y sin permiso de internet. Código abierto (GPL-3.0).',
+      title: 'GymMane: diario de gimnasio gratis y sin conexión',
+      navFeatures: 'Qué hace', navShots: 'Capturas', navPrivacy: 'Privacidad', navDownload: 'Descargar', navTranslate: 'Traducir',
       skip: 'Saltar al contenido',
-      relNote: 'Ya disponible para Android',
       heroL1: 'Levanta.', heroL2: 'Anota.', heroL3: 'Mejora.',
-      heroLead: 'La app de gimnasio sin humo: registra tus series y mira tu progreso <em>de verdad</em>. Todo en tu móvil.',
-      ctaGithub: 'Ver en GitHub', ctaTry: 'Ver capturas',
-      promiseFree: 'Gratis y sin anuncios', promiseNoAcc: 'Sin cuenta', promiseOffline: '100% offline',
-      featKicker: 'Lo que llevas dentro',
-      featTitle: 'Todo lo del gimnasio.<br>Nada de relleno.',
-      featLead: 'Cada número sale de tus propias series. Si está en pantalla, lo has levantado tú.',
-      f1t: 'Entrenar', f1d: 'Elige músculos sobre un cuerpo real —frente y espalda— y registra series, reps, peso y descanso con alarma de verdad, con tu propio sonido.',
-      f2t: 'Progreso', f2d: 'Volumen, mapa muscular, heatmap estilo GitHub, récords personales y curvas de fuerza con 1RM estimado.',
-      f3t: 'Herramientas', f3d: '1RM, discos de barra, IMC, calorías y macros, % de grasa y calentamiento. Todas con fórmulas publicadas.',
-      f4t: 'Ejercicios propios', f4d: '+360 ejercicios con animación e instrucciones paso a paso. ¿Falta uno? Créalo con tu foto, GIF o vídeo.',
-      f5t: 'Widgets de inicio', f5d: 'Tu actividad y tus estadísticas en la pantalla de inicio, con el mismo mimo que la app.',
-      f6t: 'Offline de verdad', f6d: 'Sin servidores, sin cuenta, sin internet. Exporta a CSV o copia JSON y bórralo todo de un toque.',
-      shotsKicker: 'Capturas reales',
-      shotsTitle: 'Así se ve<br>por dentro.',
-      shotsLead: 'Nada de maquetas inventadas: estas pantallas salen de la app corriendo en un teléfono. Toca cualquiera para verla grande.',
+      heroLead: 'Un diario de gimnasio gratis y sin conexión. Toca los músculos que quieres entrenar, apunta tus series y mira cómo suben tus números.',
+      ctaDownload: 'Descargar', ctaGithub: 'Ver en GitHub',
+      heroMeta: 'Android 7.0 o superior · Sin cuenta · Sin anuncios',
+      liveNote: 'Demo interactiva, puedes tocarla',
+      featTitle: 'Qué hace',
+      f1t: 'Entrenar', f1d: 'Toca los músculos en el cuerpo, de frente y de espalda, y te sale la sesión. Apunta reps, peso y, si quieres, RPE o RIR.',
+      f2t: 'Descanso', f2d: 'Temporizador con tu propio sonido de alarma y la cuenta atrás en la notificación, también con la pantalla apagada.',
+      f3t: 'Rutinas', f3d: 'Crea las tuyas, agrúpalas y prográmalas, o empieza con un plan ya hecho. Con superseries y discos por lado.',
+      f4t: 'Progreso', f4d: 'Récords, 1RM estimado, racha, mapa de actividad, medidas corporales y fotos de progreso.',
+      f5t: 'Ejercicios', f5d: 'Más de 500 con animación e instrucciones. Si falta alguno, créalo con tu foto, GIF o vídeo.',
+      f6t: 'Widgets y reloj', f6d: 'Cinco widgets para la pantalla de inicio y una app para Wear OS que funciona sin el móvil.',
+      f7t: 'Calculadoras', f7d: '1RM, discos, IMC, calorías y macros, grasa corporal y calentamiento.',
+      f8t: 'Importar y exportar', f8d: 'Trae tu historial de Hevy, Strong, Lyfta, FitNotes, openGym o cualquier CSV. Exporta a CSV o a una copia completa.',
+      shotsTitle: 'Capturas',
+      shotsLead: 'Sacadas de la app en un móvil. Toca una para verla en grande.',
       sHome: 'Inicio', sProgress: 'Progreso', sTrain: 'Entrenar', sSession: 'Sesión',
-      sHistory: 'Historial', sLibrary: 'Ejercicios', sRoutines: 'Rutinas', sSettings: 'Ajustes',
+      sLibrary: 'Ejercicios', sRoutines: 'Rutinas', sProfile: 'Perfil', sSettings: 'Ajustes',
       restReady: 'Listo',
-      privKicker: 'Tus datos son tuyos', privTitle: 'Sin humo,<br>sin letra pequeña',
-      manifestNote: 'Sin permiso de internet, la app no puede mandar tus datos a ningún sitio. No es una promesa: es el sistema quien lo impide.',
-      impKicker: 'Vienes de otra app', impTitle: 'Tráete<br>tu historial',
-      impLead: 'CSV de Hevy o Strong, o la copia entera de FitNotes. Cada ejercicio se empareja solo y lo repetido se descarta.',
-      whyKicker: 'Por qué existe',
-      whyTitle: 'Me cansé de pagar<br>por ver mis propias series.',
-      whyP1: 'Todas las apps de gimnasio acaban igual: una cuenta, un plan mensual y tu historial secuestrado detrás de un botón dorado. Así que hice la que yo quería usar — rápida, oscura, sin internet y gratis de verdad.',
-      whyP2: 'GymMane es código abierto con licencia GPL-3.0: nadie puede cerrarla ni revenderla. Si le falta algo que necesitas, el repositorio está abierto y las incidencias también.',
-      whySign: 'Autor de GymMane · un dev, sin empresa detrás',
-      dlBtn: 'Descargar el APK',
-      dl1: 'APK directo · Android 7+',
-      dl2: 'Sin cuenta, sin anuncios, sin telemetría',
-      dl3: 'F-Droid e IzzyOnDroid: en camino',
-      endKicker: 'Se acabaron las notas sueltas', endTitle: 'Empieza a<br>llevar la cuenta',
-      endLead: 'Descárgala, registra tu primera sesión y deja que los números hablen.',
-      endBtn2: 'Invítame a un café',
-      footFine: 'GymMane — hecha con Flutter para Android.',
-      footTagline: 'Un diario de gimnasio que no pide nada: ni cuenta, ni internet, ni permisos.',
-      footBadgeOffline: '100% offline',
-      footCode: 'Código', footReleases: 'Descargar APK',
-      footIssues: 'Reportar un fallo', footCoffee: 'Invítame a un café',
-      footNoCookies: 'sin cookies ni analítica',
-      liveNote: 'Demo real — tócala',
+      privTitle: 'Tus datos no salen del móvil',
+      privP1: 'GymMane no tiene permiso de internet, así que no puede enviar nada a ningún sitio. No hay cuenta, ni anuncios, ni analítica.',
+      privP2: 'Los permisos que pide son para el temporizador de descanso, su notificación y los widgets. Tus fotos, vídeos y notas se quedan en el almacenamiento de la app.',
+      whyTitle: 'Por qué existe',
+      whyP1: 'Quería una app de gimnasio que no me pidiera una cuenta ni una suscripción para ver mis propias series. No la encontré, así que la hice.',
+      whyP2: 'Es código abierto con licencia GPL-3.0. Si le falta algo, abre una incidencia o manda un cambio en GitHub.',
+      dlTitle: 'Descárgala', dlLead: 'Gratis, para Android 7.0 o superior.',
+      dlHint: 'En GitHub, si no sabes qué APK elegir, coge el <code>arm64-v8a</code>.',
+      footCode: 'Código', footIssues: 'Reportar un fallo', footCoffee: 'Invítame a un café',
+      dlCount: 'descargas en GitHub',
+      supTitle: 'Apoya el proyecto',
+      supP1: 'GymMane es gratis y lo seguirá siendo, sin anuncios ni versión de pago. Si te ayuda a entrenar y quieres echar una mano, puedes invitarme a un café en Ko-fi.',
+      supP2: 'Una traducción o un buen reporte de fallo también ayudan mucho.',
+      supBtn: 'Invítame a un café', supStar: 'Dale una estrella',
+      supCrypto: 'También con cripto', copy: 'Copiar', copied: 'Copiada',
+      privNet: 'Sin permiso de internet', privNetSub: 'Míralo en el AndroidManifest.xml',
+      privFd: 'Compilada por F-Droid', privFdSub: 'Desde el código, sin rastreadores',
       app: {
         navhome: 'INICIO', navprogress: 'PROGRESO', navexercises: 'EJERCICIOS', navsettings: 'AJUSTES',
         today: 'Hoy', routine: 'RUTINA DE HOY', focus: 'FOCO DE HOY', pullDay: 'DÍA DE TIRÓN', exs: 'ejercicios',
@@ -73,7 +65,7 @@
         lvBeg: 'Principiante', lvInt: 'Intermedio', lvAdv: 'Avanzado',
         level4: 'Nivel 4', prefs: 'Preferencias', data: 'Datos',
         setTheme: 'Tema', dark: 'Oscuro', light: 'Claro', setBackup: 'Copia de seguridad (JSON)',
-        demoTitle: 'Demo limitada. ', demoBody: 'En la app hay +360 ejercicios con animación, rutinas, historial, calculadoras, widgets y alarma de descanso. Esto es solo un aperitivo para que la toques.',
+        demoTitle: 'Demo limitada. ', demoBody: 'En la app hay más de 500 ejercicios con animación, rutinas, historial, calculadoras, widgets y alarma de descanso. Esto es solo un aperitivo para que la toques.',
         setLang: 'Idioma', setUnits: 'Unidades', setRest: 'Descanso por defecto',
         setSound: 'Sonido de alarma', setSoundVal: 'El tuyo', setExport: 'Exportar entrenos (CSV)', setWipe: 'Borrar todo'
       },
@@ -84,54 +76,46 @@
       }
     },
     en: {
-      metaDesc: 'GymMane is a 100% offline gym log: track your sets, see your real progress and train with no account, no ads and no subscription. Open source under GPL-3.0.',
-      title: 'GymMane — An offline gym log with no nonsense',
-      navFeatures: 'Features', navPrivacy: 'Privacy', navTranslate: 'Translate',
-      navShots: 'Screens', navDownload: 'Download',
+      metaDesc: 'GymMane is a free, offline gym log for Android. Log your sets and track your progress with no account, no ads and no internet permission. Open source (GPL-3.0).',
+      title: 'GymMane: a free, offline gym log',
+      navFeatures: 'What it does', navShots: 'Screens', navPrivacy: 'Privacy', navDownload: 'Download', navTranslate: 'Translate',
       skip: 'Skip to content',
-      relNote: 'Out now for Android',
       heroL1: 'Lift.', heroL2: 'Log it.', heroL3: 'Grow.',
-      heroLead: 'The gym app with no nonsense: log your sets and watch your progress <em>for real</em>. All on your phone.',
-      ctaGithub: 'View on GitHub', ctaTry: 'See the screens',
-      promiseFree: 'Free, no ads', promiseNoAcc: 'No account', promiseOffline: '100% offline',
-      featKicker: 'What you get',
-      featTitle: 'Everything from the gym.<br>None of the filler.',
-      featLead: 'Every number comes from your own sets. If it is on screen, you lifted it.',
-      f1t: 'Train', f1d: 'Pick muscles on a real body — front and back — then log sets, reps, weight and rest with a real alarm, with your own sound.',
-      f2t: 'Progress', f2d: 'Volume, a GitHub-style heatmap, personal records and strength curves with estimated 1RM.',
-      f3t: 'Tools', f3d: '1RM, barbell plates, BMI, calories and macros, body fat and warm-up. All with published formulas.',
-      f4t: 'Your own exercises', f4d: '+360 exercises with animations and step-by-step instructions. Missing one? Create it with your photo, GIF or video.',
-      f5t: 'Home widgets', f5d: 'Your activity and your stats on the home screen, built with the same care as the app.',
-      f6t: 'Properly offline', f6d: 'No servers, no account, no internet. Export to CSV or a JSON backup, and wipe it all in one tap.',
-      shotsKicker: 'Real screenshots',
-      shotsTitle: 'This is how<br>it looks inside.',
-      shotsLead: 'No invented mockups: every screen here comes from the app running on a real phone. Tap any of them to see it big.',
+      heroLead: 'A free, offline gym log. Tap the muscles you want to train, log your sets and watch your numbers go up.',
+      ctaDownload: 'Download', ctaGithub: 'View on GitHub',
+      heroMeta: 'Android 7.0 or later · No account · No ads',
+      liveNote: 'Interactive demo, try tapping it',
+      featTitle: 'What it does',
+      f1t: 'Train', f1d: 'Tap muscles on the body, front and back, and get a session for them. Log reps, weight and, if you like, RPE or RIR.',
+      f2t: 'Rest', f2d: 'A rest timer with your own alarm sound and the countdown in the notification, even with the screen off.',
+      f3t: 'Routines', f3d: 'Build your own, group and schedule them, or start from a ready-made plan. Supersets and plates per side included.',
+      f4t: 'Progress', f4d: 'Records, estimated 1RM, streaks, an activity heatmap, body measurements and progress photos.',
+      f5t: 'Exercises', f5d: 'Over 500 with animations and instructions. If one is missing, add it with your own photo, GIF or video.',
+      f6t: 'Widgets and watch', f6d: 'Five home-screen widgets and a Wear OS app that works without the phone.',
+      f7t: 'Calculators', f7d: '1RM, plates, BMI, calories and macros, body fat and warm-up.',
+      f8t: 'Import and export', f8d: 'Bring your history from Hevy, Strong, Lyfta, FitNotes, openGym or any CSV. Export to CSV or a full backup.',
+      shotsTitle: 'Screens',
+      shotsLead: 'Taken from the app on a phone. Tap one to see it bigger.',
       sHome: 'Home', sProgress: 'Progress', sTrain: 'Train', sSession: 'Session',
-      sHistory: 'History', sLibrary: 'Exercises', sRoutines: 'Routines', sSettings: 'Settings',
+      sLibrary: 'Exercises', sRoutines: 'Routines', sProfile: 'Profile', sSettings: 'Settings',
       restReady: 'Ready',
-      privKicker: 'Your data is yours', privTitle: 'No smoke,<br>no small print',
-      manifestNote: 'With no internet permission the app cannot send your data anywhere. It is not a promise — the system enforces it.',
-      impKicker: 'Coming from another app', impTitle: 'Bring your<br>history along',
-      impLead: 'A CSV from Hevy or Strong, or the whole FitNotes backup. Every exercise is matched for you and anything you already logged is skipped.',
-      whyKicker: 'Why it exists',
-      whyTitle: 'I got tired of paying<br>to look at my own sets.',
-      whyP1: 'Every gym app ends up the same: an account, a monthly plan and your history locked behind a golden button. So I built the one I wanted to use — fast, dark, offline and actually free.',
-      whyP2: 'GymMane is open source under GPL-3.0, so nobody can close it up and resell it. If it is missing something you need, the repo is open and so is the issue tracker.',
-      whySign: 'Author of GymMane · one dev, no company behind it',
-      dlBtn: 'Download the APK',
-      dl1: 'Direct APK · Android 7+',
-      dl2: 'No account, no ads, no telemetry',
-      dl3: 'F-Droid and IzzyOnDroid: on the way',
-      endKicker: 'No more notes app', endTitle: 'Start keeping<br>the count',
-      endLead: 'Download it, log your first session and let the numbers do the talking.',
-      endBtn2: 'Buy me a coffee',
-      footFine: 'GymMane — built with Flutter for Android.',
-      footTagline: 'A gym log that asks for nothing: no account, no internet, no permissions.',
-      footBadgeOffline: '100% offline',
-      footCode: 'Source', footReleases: 'Download APK',
-      footIssues: 'Report a bug', footCoffee: 'Buy me a coffee',
-      footNoCookies: 'no cookies, no analytics',
-      liveNote: 'Live demo — tap it',
+      privTitle: 'Your data stays on your phone',
+      privP1: 'GymMane doesn\'t have the internet permission, so it can\'t send anything anywhere. No account, no ads, no analytics.',
+      privP2: 'The permissions it asks for are for the rest timer, its notification and the widgets. Your photos, videos and notes stay in the app\'s own storage.',
+      whyTitle: 'Why it exists',
+      whyP1: 'I wanted a gym app that didn\'t ask for an account or a subscription to look at my own sets. I couldn\'t find one, so I made it.',
+      whyP2: 'It\'s open source under GPL-3.0. If something is missing, open an issue or send a pull request on GitHub.',
+      dlTitle: 'Get it', dlLead: 'Free, for Android 7.0 or later.',
+      dlHint: 'On GitHub, take the <code>arm64-v8a</code> APK if you\'re not sure which one you need.',
+      footCode: 'Source', footIssues: 'Report a bug', footCoffee: 'Buy me a coffee',
+      dlCount: 'downloads on GitHub',
+      supTitle: 'Support the project',
+      supP1: 'GymMane is free and will stay free, with no ads and no paid version. If it helps you train and you want to chip in, you can buy me a coffee on Ko-fi.',
+      supP2: 'A translation or a clear bug report helps a lot too.',
+      supBtn: 'Buy me a coffee', supStar: 'Give it a star',
+      supCrypto: 'Or with crypto', copy: 'Copy', copied: 'Copied',
+      privNet: 'No internet permission', privNetSub: 'Check the AndroidManifest.xml',
+      privFd: 'Built by F-Droid', privFdSub: 'From source, no trackers',
       app: {
         navhome: 'HOME', navprogress: 'PROGRESS', navexercises: 'EXERCISES', navsettings: 'SETTINGS',
         today: 'Today', routine: "TODAY'S ROUTINE", focus: "TODAY'S FOCUS", pullDay: 'PULL DAY', exs: 'exercises',
@@ -154,7 +138,7 @@
         lvBeg: 'Beginner', lvInt: 'Intermediate', lvAdv: 'Advanced',
         level4: 'Level 4', prefs: 'Preferences', data: 'Data',
         setTheme: 'Theme', dark: 'Dark', light: 'Light', setBackup: 'Backup (JSON)',
-        demoTitle: 'Limited demo. ', demoBody: 'The app packs more than 360 animated exercises, routines, history, calculators, widgets and a real rest alarm. This is just a taste so you can poke at it.',
+        demoTitle: 'Limited demo. ', demoBody: 'The app packs more than 500 animated exercises, routines, history, calculators, widgets and a real rest alarm. This is just a taste so you can poke at it.',
         setLang: 'Language', setUnits: 'Units', setRest: 'Default rest',
         setSound: 'Alarm sound', setSoundVal: 'Yours', setExport: 'Export workouts (CSV)', setWipe: 'Wipe everything'
       },
@@ -195,6 +179,7 @@
       b.setAttribute('aria-pressed', String(b.dataset.lang === lang));
     });
     buildShots();
+    fmtDlNow();
     aRender(true);
     document.querySelectorAll('#bodySvg .muscle').forEach(function (g) {
       var id = g.getAttribute('data-muscle');
@@ -217,8 +202,8 @@
 
   var SHOTS = [
     { f: 'home', k: 'sHome' }, { f: 'train', k: 'sTrain' }, { f: 'session', k: 'sSession' },
-    { f: 'progress', k: 'sProgress' }, { f: 'history', k: 'sHistory' }, { f: 'library', k: 'sLibrary' },
-    { f: 'routines', k: 'sRoutines' }, { f: 'settings', k: 'sSettings' }
+    { f: 'progress', k: 'sProgress' }, { f: 'library', k: 'sLibrary' }, { f: 'routines', k: 'sRoutines' },
+    { f: 'profile', k: 'sProfile' }, { f: 'settings', k: 'sSettings' }
   ];
   var rail = document.getElementById('shotsRail');
   var track = document.getElementById('shotsTrack');
@@ -228,7 +213,7 @@
       return '<figure class="shot"' + (dup ? ' aria-hidden="true"' : '') + '>' +
         '<div class="phone" role="button" tabindex="' + (dup ? '-1' : '0') + '" data-i="' + i +
         '" aria-label="' + t(s.k) + '"><div class="island"></div>' +
-        '<img src="assets/shots/' + s.f + '.webp" width="630" height="1400" loading="lazy" alt="GymMane — ' +
+        '<img src="assets/shots/' + lang + '/' + s.f + '.webp" width="630" height="1400" loading="lazy" alt="GymMane — ' +
         t(s.k) + '" /></div><figcaption class="cap">' + t(s.k) + '</figcaption></figure>';
     }
     track.innerHTML = SHOTS.map(function (s, i) { return card(s, i, false); }).join('') +
@@ -242,7 +227,7 @@
 
   function openLb(i, opener) {
     lbIdx = (i + SHOTS.length) % SHOTS.length;
-    lbImg.src = 'assets/shots/' + SHOTS[lbIdx].f + '.webp';
+    lbImg.src = 'assets/shots/' + lang + '/' + SHOTS[lbIdx].f + '.webp';
     lbImg.alt = 'GymMane — ' + t(SHOTS[lbIdx].k);
     lbCap.textContent = t(SHOTS[lbIdx].k);
     lb.classList.add('on');
@@ -827,30 +812,61 @@
   }, { threshold: 0.14 });
   document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
 
-  document.querySelectorAll('.card').forEach(function (c) {
-    c.addEventListener('pointermove', function (e) {
-      var r = c.getBoundingClientRect();
-      c.style.setProperty('--mx', (e.clientX - r.left) + 'px');
-      c.style.setProperty('--my', (e.clientY - r.top) + 'px');
-    });
-  });
-
-  var bar = document.getElementById('bar');
-  var head = document.querySelector('header');
   var spy = [].slice.call(document.querySelectorAll('.lnks a.lnk')).map(function (a) {
     return { a: a, sec: document.querySelector(a.getAttribute('href')) };
   }).filter(function (s) { return s.sec; });
 
   addEventListener('scroll', function () {
-    var h = document.documentElement;
-    var p = h.scrollTop / (h.scrollHeight - h.clientHeight || 1);
-    bar.style.width = (p * 100).toFixed(2) + '%';
-    head.classList.toggle('small', h.scrollTop > 40);
-
-    var mark = h.scrollTop + 140, on = null;
+    var mark = document.documentElement.scrollTop + 140, on = null;
     spy.forEach(function (s) { if (s.sec.offsetTop <= mark) on = s.a; });
     spy.forEach(function (s) { s.a.classList.toggle('on', s.a === on); });
   }, { passive: true });
+
+  var dlBox = document.getElementById('dlCount');
+  var dlNum = document.getElementById('dlNum');
+  var dlShown = 0, dlRaf = 0;
+  function fmtDl(v) { return Math.round(v).toLocaleString(lang === 'es' ? 'es-ES' : 'en-GB'); }
+  function fmtDlNow() { if (dlNum && dlShown) dlNum.textContent = fmtDl(dlShown); }
+  function countDl(n) {
+    if (!n) return;
+    dlBox.hidden = false;
+    cancelAnimationFrame(dlRaf);
+    if (slowMo) { dlShown = n; fmtDlNow(); return; }
+    var from = dlShown, t0 = performance.now(), dur = 1800;
+    (function step(now) {
+      var p = Math.min(1, Math.max(0, (now - t0) / dur));
+      dlShown = from + (n - from) * (1 - Math.pow(1 - p, 3));
+      dlNum.textContent = fmtDl(dlShown);
+      if (p < 1) dlRaf = requestAnimationFrame(step);
+    })(t0);
+  }
+  var dlCache = null;
+  try { dlCache = JSON.parse(localStorage.getItem('gm-dl') || 'null'); } catch (e) {}
+  if (dlCache) countDl(dlCache.n);
+  if (!dlCache || Date.now() - dlCache.t > 36e5) {
+    fetch('https://api.github.com/repos/InlitX/GymMane/releases?per_page=100')
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (rs) {
+        if (!rs) return;
+        var n = 0;
+        rs.forEach(function (r) { (r.assets || []).forEach(function (a) { n += a.download_count || 0; }); });
+        try { localStorage.setItem('gm-dl', JSON.stringify({ n: n, t: Date.now() })); } catch (e) {}
+        if (!dlCache || dlCache.n !== n) countDl(n);
+      })
+      .catch(function () {});
+  }
+
+  document.querySelectorAll('.coin button').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var addr = b.parentNode.querySelector('code').textContent;
+      var done = function () {
+        b.textContent = t('copied');
+        b.classList.add('ok');
+        setTimeout(function () { b.textContent = t('copy'); b.classList.remove('ok'); }, 1600);
+      };
+      if (navigator.clipboard) navigator.clipboard.writeText(addr).then(done, function () {});
+    });
+  });
 
   document.getElementById('y').textContent = new Date().getFullYear();
   applyLang();

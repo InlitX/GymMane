@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>GymMane — Diario de gimnasio, offline y sin humo</title>
-<meta name="description" data-i18n-meta="metaDesc" content="GymMane es una app de gimnasio 100% offline: registra tus series, mira tu progreso real y entrena sin cuenta, sin anuncios y sin suscripción. Código abierto con licencia GPL-3.0." />
-<meta property="og:title" content="GymMane — Tu diario de gimnasio, offline y sin humo" />
-<meta property="og:description" content="Registra series, mira tu progreso real y entrena. Sin cuenta, sin anuncios, sin suscripción. Código abierto (GPL-3.0)." />
+<title>GymMane: diario de gimnasio gratis y sin conexión</title>
+<meta name="description" content="GymMane es un diario de gimnasio gratis y sin conexión para Android. Apunta tus series y mira tu progreso sin cuenta, sin anuncios y sin permiso de internet. Código abierto (GPL-3.0)." />
+<meta property="og:title" content="GymMane: diario de gimnasio gratis y sin conexión" />
+<meta property="og:description" content="Apunta tus series y mira tu progreso sin cuenta, sin anuncios y sin permiso de internet. Código abierto (GPL-3.0)." />
 <meta property="og:type" content="website" />
 <meta property="og:image" content="assets/og.jpg" />
 <meta property="og:image:width" content="1200" />
@@ -19,22 +19,19 @@
 <link rel="apple-touch-icon" href="assets/icon.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="assets/styles.css" />
 </head>
 <body>
 
 <a class="skip" href="#top" data-i18n="skip">Saltar al contenido</a>
-<div id="bar"></div>
-<div class="glow" aria-hidden="true"></div>
-<div class="grid-fade" aria-hidden="true"></div>
 
 <header>
   <div class="wrap nav">
     <a class="brand" href="#top"><img src="assets/icon.png" alt="GymMane" /><b>GymMane</b></a>
     <nav class="nav-links">
       <div class="lnks">
-        <a class="lnk" href="#features" data-i18n="navFeatures">Funciones</a>
+        <a class="lnk" href="#features" data-i18n="navFeatures">Qué hace</a>
         <a class="lnk" href="#shots" data-i18n="navShots">Capturas</a>
         <a class="lnk" href="#privacy" data-i18n="navPrivacy">Privacidad</a>
         <a class="lnk" href="#download" data-i18n="navDownload">Descargar</a>
@@ -43,7 +40,7 @@
         <button data-lang="es" aria-pressed="true">ES</button>
         <button data-lang="en" aria-pressed="false">EN</button>
       </div>
-      <a class="btn btn-nav" href="https://github.com/InlitX/GymMane" aria-label="GitHub"><svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.4 7.4 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg><span>GitHub</span></a>
+      <a class="btn-nav" href="https://github.com/InlitX/GymMane" aria-label="GitHub"><svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.4 7.4 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg><span>GitHub</span></a>
     </nav>
   </div>
 </header>
@@ -53,211 +50,142 @@
   <section class="hero">
     <div class="wrap hero-grid">
       <div>
-        <a class="rel" href="https://github.com/InlitX/GymMane/releases">
-          <span class="rel-dot"></span>
-          <span data-i18n="relNote">Ya disponible para Android</span>
-          <b>v1.0.0<svg viewBox="0 0 16 10" aria-hidden="true"><path d="M1 5h11M8.5 1.5 12 5l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></b>
+        <a class="dl-count" id="dlCount" href="https://github.com/InlitX/GymMane/releases" hidden>
+          <span class="dl-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7.5 10.5 12 15l4.5-4.5M5 20h14"/></svg></span>
+          <b id="dlNum"></b>
+          <span data-i18n="dlCount">descargas en GitHub</span>
         </a>
         <h1>
           <span><i data-i18n="heroL1">Levanta.</i></span>
           <span><i data-i18n="heroL2">Anota.</i></span>
           <span><i class="clay" data-i18n="heroL3">Mejora.</i></span>
         </h1>
-        <p class="lead" data-i18n-html="heroLead">La app de gimnasio sin humo: registra tus series y mira tu progreso <em>de verdad</em>. Todo en tu móvil.</p>
+        <p class="lead" data-i18n="heroLead">Un diario de gimnasio gratis y sin conexión. Toca los músculos que quieres entrenar, apunta tus series y mira cómo suben tus números.</p>
         <div class="cta">
-          <a class="btn btn-primary" href="https://github.com/InlitX/GymMane">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.58 2 12.25c0 4.53 2.87 8.37 6.84 9.73.5.1.68-.22.68-.49 0-.24-.01-.87-.01-1.71-2.78.62-3.37-1.22-3.37-1.22-.46-1.18-1.11-1.49-1.11-1.49-.91-.64.07-.62.07-.62 1 .07 1.53 1.06 1.53 1.06.89 1.56 2.34 1.11 2.91.85.09-.66.35-1.11.63-1.37-2.22-.26-4.56-1.14-4.56-5.06 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.7 0 0 .84-.28 2.75 1.05A9.34 9.34 0 0 1 12 6.84c.85 0 1.71.12 2.51.34 1.91-1.33 2.75-1.05 2.75-1.05.55 1.4.2 2.44.1 2.7.64.72 1.03 1.63 1.03 2.75 0 3.93-2.35 4.79-4.58 5.05.36.32.68.94.68 1.9 0 1.37-.01 2.47-.01 2.81 0 .27.18.6.69.49A10.02 10.02 0 0 0 22 12.25C22 6.58 17.52 2 12 2z"/></svg>
-            <span data-i18n="ctaGithub">Ver en GitHub</span>
-          </a>
-          <a class="btn btn-ghost" href="#shots" data-i18n="ctaTry">Ver capturas</a>
+          <a class="btn btn-primary" href="#download" data-i18n="ctaDownload">Descargar</a>
+          <a class="btn btn-ghost" href="https://github.com/InlitX/GymMane" data-i18n="ctaGithub">Ver en GitHub</a>
         </div>
-        <div class="promises">
-          <span><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg><span data-i18n="promiseFree">Gratis y sin anuncios</span></span>
-          <span><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg><span data-i18n="promiseNoAcc">Sin cuenta</span></span>
-          <span><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg><span data-i18n="promiseOffline">100% offline</span></span>
-        </div>
+        <p class="hero-meta" data-i18n="heroMeta">Android 7.0 o superior · Sin cuenta · Sin anuncios</p>
       </div>
 
       <div class="stage-col">
         <div class="device" id="device">
-          <div class="device-glow"></div>
           <span class="key vol"></span><span class="key vol2"></span><span class="key pwr"></span>
           <div class="island"></div>
           <div class="screen">
             <div class="app" id="app"></div>
           </div>
         </div>
-        <div class="live-wrap">
-          <div class="live-note">
-            <span class="dot"></span><span data-i18n="liveNote">Demo real — tócala</span>
-          </div>
-        </div>
+        <p class="live-note" data-i18n="liveNote">Demo interactiva, puedes tocarla</p>
       </div>
     </div>
   </section>
 
-  <section class="pad wrap" id="features">
-    <div class="sec-head reveal">
-      <span class="kicker" data-i18n="featKicker">Lo que llevas dentro</span>
-      <h2 data-i18n-html="featTitle">Todo lo del gimnasio.<br>Nada de relleno.</h2>
-      <p data-i18n="featLead">Cada número sale de tus propias series. Si está en pantalla, lo has levantado tú.</p>
-    </div>
-    <div class="feat-grid">
-      <div class="card reveal">
-        <div class="ic"><svg viewBox="0 0 24 24"><path d="M6.5 8v8M3.5 10v4M17.5 8v8M20.5 10v4M6.5 12h11"/></svg></div>
-        <h3 data-i18n="f1t">Entrenar</h3>
-        <p data-i18n="f1d">Elige músculos sobre un cuerpo real —frente y espalda— y registra series, reps, peso y descanso con alarma de verdad, con tu propio sonido.</p>
-      </div>
-      <div class="card reveal" data-d="1">
-        <div class="ic"><svg viewBox="0 0 24 24"><path d="M4 19V5M4 19h16M8 15l3.5-4.5L15 13l4-6"/><circle cx="19" cy="7" r="1.6"/></svg></div>
-        <h3 data-i18n="f2t">Progreso</h3>
-        <p data-i18n="f2d">Volumen, mapa muscular, heatmap estilo GitHub, récords personales y curvas de fuerza con 1RM estimado.</p>
-      </div>
-      <div class="card reveal" data-d="2">
-        <div class="ic"><svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2.5"/><path d="M8 7.5h8M8 12h2M12 12h2M16 12h.01M8 16h2M12 16h4"/></svg></div>
-        <h3 data-i18n="f3t">Herramientas</h3>
-        <p data-i18n="f3d">1RM, discos de barra, IMC, calorías y macros, % de grasa y calentamiento. Todas con fórmulas publicadas.</p>
-      </div>
-      <div class="card reveal">
-        <div class="ic"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="14" rx="2.5"/><path d="M3 9h18"/><circle cx="12" cy="13.5" r="2.2"/><path d="M6.5 6.5h.01M9 6.5h.01"/></svg></div>
-        <h3 data-i18n="f4t">Ejercicios propios</h3>
-        <p data-i18n="f4d">+360 ejercicios con animación e instrucciones paso a paso. ¿Falta uno? Créalo con tu foto, GIF o vídeo.</p>
-      </div>
-      <div class="card reveal" data-d="1">
-        <div class="ic"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7.5" height="7.5" rx="2"/><rect x="13.5" y="3" width="7.5" height="7.5" rx="2"/><rect x="3" y="13.5" width="7.5" height="7.5" rx="2"/><path d="M17.25 13.5v7.5M13.5 17.25h7.5"/></svg></div>
-        <h3 data-i18n="f5t">Widgets de inicio</h3>
-        <p data-i18n="f5d">Tu actividad y tus estadísticas en la pantalla de inicio, con el mismo mimo que la app.</p>
-      </div>
-      <div class="card reveal" data-d="2">
-        <div class="ic"><svg viewBox="0 0 24 24"><path d="M12 3l7.5 3v5.5c0 4.4-3 8-7.5 9.5-4.5-1.5-7.5-5.1-7.5-9.5V6z"/><path d="M9 12l2.2 2.2L15.5 10"/></svg></div>
-        <h3 data-i18n="f6t">Offline de verdad</h3>
-        <p data-i18n="f6d">Sin servidores, sin cuenta, sin internet. Exporta a CSV o copia JSON y bórralo todo de un toque.</p>
-      </div>
+  <section class="sec wrap" id="features">
+    <h2 class="reveal" data-i18n="featTitle">Qué hace</h2>
+    <div class="feat-list">
+      <div class="feat reveal"><h3 data-i18n="f1t">Entrenar</h3><p data-i18n="f1d">Toca los músculos en el cuerpo, de frente y de espalda, y te sale la sesión. Apunta reps, peso y, si quieres, RPE o RIR.</p></div>
+      <div class="feat reveal"><h3 data-i18n="f2t">Descanso</h3><p data-i18n="f2d">Temporizador con tu propio sonido de alarma y la cuenta atrás en la notificación, también con la pantalla apagada.</p></div>
+      <div class="feat reveal"><h3 data-i18n="f3t">Rutinas</h3><p data-i18n="f3d">Crea las tuyas, agrúpalas y prográmalas, o empieza con un plan ya hecho. Con superseries y discos por lado.</p></div>
+      <div class="feat reveal"><h3 data-i18n="f4t">Progreso</h3><p data-i18n="f4d">Récords, 1RM estimado, racha, mapa de actividad, medidas corporales y fotos de progreso.</p></div>
+      <div class="feat reveal"><h3 data-i18n="f5t">Ejercicios</h3><p data-i18n="f5d">Más de 500 con animación e instrucciones. Si falta alguno, créalo con tu foto, GIF o vídeo.</p></div>
+      <div class="feat reveal"><h3 data-i18n="f6t">Widgets y reloj</h3><p data-i18n="f6d">Cinco widgets para la pantalla de inicio y una app para Wear OS que funciona sin el móvil.</p></div>
+      <div class="feat reveal"><h3 data-i18n="f7t">Calculadoras</h3><p data-i18n="f7d">1RM, discos, IMC, calorías y macros, grasa corporal y calentamiento.</p></div>
+      <div class="feat reveal"><h3 data-i18n="f8t">Importar y exportar</h3><p data-i18n="f8d">Trae tu historial de Hevy, Strong, Lyfta, FitNotes, openGym o cualquier CSV. Exporta a CSV o a una copia completa.</p></div>
     </div>
   </section>
 
-  <section class="pad" id="shots">
+  <section class="sec" id="shots">
     <div class="wrap">
-      <div class="shots-head reveal">
-        <div class="sec-head" style="margin-bottom:0">
-          <span class="kicker" data-i18n="shotsKicker">Capturas reales</span>
-          <h2 data-i18n-html="shotsTitle">Así se ve<br>por dentro.</h2>
-          <p data-i18n="shotsLead">Nada de maquetas inventadas: estas pantallas salen de la app corriendo en un teléfono. Toca cualquiera para verla grande.</p>
-        </div>
-      </div>
+      <h2 class="reveal" data-i18n="shotsTitle">Capturas</h2>
+      <p class="sec-lead reveal" data-i18n="shotsLead">Sacadas de la app en un móvil. Toca una para verla en grande.</p>
     </div>
-    <div class="rail-mask reveal" data-d="1">
+    <div class="rail-mask reveal">
       <div class="shots-rail" id="shotsRail"><div class="shots-track" id="shotsTrack"></div></div>
     </div>
   </section>
 
-  <section class="pad wrap" id="why">
-    <div class="story reveal">
-      <img class="story-art" src="assets/runner.webp" alt="" loading="lazy" />
-      <div class="story-txt">
-        <span class="kicker" data-i18n="whyKicker">Por qué existe</span>
-        <h2 data-i18n-html="whyTitle">Me cansé de pagar<br>por ver mis propias series.</h2>
-        <p data-i18n="whyP1">Todas las apps de gimnasio acaban igual: una cuenta, un plan mensual y tu historial secuestrado detrás de un botón dorado. Así que hice la que yo quería usar — rápida, oscura, sin internet y gratis de verdad.</p>
-        <p class="story-small" data-i18n="whyP2">GymMane es código abierto con licencia GPL-3.0: nadie puede cerrarla ni revenderla. Si le falta algo que necesitas, el repositorio está abierto y las incidencias también.</p>
-        <div class="sign">
-          <img src="assets/icon.png" alt="" />
-          <div><b>InlitX</b><span data-i18n="whySign">Autor de GymMane · un dev, sin empresa detrás</span></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="pad wrap" id="privacy">
-    <div class="split">
-      <div class="reveal">
-        <span class="kicker" data-i18n="privKicker">Tus datos son tuyos</span>
-        <h2 style="font-size:clamp(32px,5vw,50px);text-transform:uppercase;margin:16px 0 22px;" data-i18n-html="privTitle">Sin humo,<br>sin letra pequeña</h2>
-        <p class="privacy-note" data-i18n="manifestNote">Sin permiso de internet, la app no puede mandar tus datos a ningún sitio. No es una promesa: es el sistema quien lo impide.</p>
-      </div>
-
-      <div class="manifest reveal" data-d="1">
-        <div class="bar"><i></i><i></i><i></i><span>AndroidManifest.xml</span></div>
-        <ul>
-          <li class="ok"><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg>POST_NOTIFICATIONS</li>
-          <li class="ok"><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg>USE_EXACT_ALARM</li>
-          <li class="ok"><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg>VIBRATE</li>
-          <li class="ok"><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg>WAKE_LOCK</li>
-          <li class="no"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>INTERNET</li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <section class="pad wrap" id="import">
-    <div class="sec-head reveal">
-      <span class="kicker" data-i18n="impKicker">Vienes de otra app</span>
-      <h2 data-i18n-html="impTitle">Tráete<br>tu historial</h2>
-      <p data-i18n="impLead">Exporta la copia desde tu app de siempre e impórtala en GymMane: CSV, el zip de medidas o la copia entera de FitNotes. Cada ejercicio se empareja con la biblioteca y lo repetido se descarta.</p>
-    </div>
-    <div class="import-row">
-      <div class="app-card reveal"><div class="tag hevy">H</div><div><b>Hevy</b><p>workout_data.csv</p></div></div>
-      <div class="app-card reveal" data-d="1"><div class="tag strong">S</div><div><b>Strong</b><p>strong.csv</p></div></div>
-      <div class="app-card reveal" data-d="2"><div class="tag fitnotes">F</div><div><b>FitNotes</b><p>.fitnotes</p></div></div>
-    </div>
-  </section>
-
-  <section class="final wrap" id="download">
+  <section class="sec wrap split" id="privacy">
+    <h2 class="reveal" data-i18n="privTitle">Tus datos no salen del móvil</h2>
     <div class="reveal">
-      <span class="kicker" data-i18n="endKicker">Se acabaron las notas sueltas</span>
-      <h2 data-i18n-html="endTitle">Empieza a<br>llevar la cuenta</h2>
-      <p data-i18n="endLead">Descárgala, registra tu primera sesión y deja que los números hablen.</p>
-      <div class="store">
-        <a class="dlbox" href="https://github.com/InlitX/GymMane/releases/latest">
-          <span class="dlbox-ic"><svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.4 7.4 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg></span>
-          <span class="dlbox-t">
-            <b data-i18n="dlBtn">Descargar el APK</b>
-            <small>GitHub Releases · v1.0.0</small>
-          </span>
-          <svg class="dlbox-go" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v11M7.5 10 12 14.5 16.5 10M4 20h16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <p data-i18n="privP1">GymMane no tiene permiso de internet, así que no puede enviar nada a ningún sitio. No hay cuenta, ni anuncios, ni analítica.</p>
+      <p data-i18n="privP2">Los permisos que pide son para el temporizador de descanso, su notificación y los widgets. Tus fotos, vídeos y notas se quedan en el almacenamiento de la app.</p>
+      <div class="row-links">
+        <a class="row-link" href="https://github.com/InlitX/GymMane/blob/main/android/app/src/main/AndroidManifest.xml">
+          <span class="row-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20h.01M8.5 16.43a5 5 0 0 1 7 0M5 12.86a10 10 0 0 1 5.17-2.69M19 12.86a10 10 0 0 0-2-1.52M2 8.82a15 15 0 0 1 4.18-2.64M22 8.82a15 15 0 0 0-11.29-3.76M2 2l20 20"/></svg></span>
+          <span><b data-i18n="privNet">Sin permiso de internet</b><small data-i18n="privNetSub">Míralo en el AndroidManifest.xml</small></span>
         </a>
-        <ul class="store-meta">
-          <li data-i18n="dl1">APK directo · Android 7+</li>
-          <li data-i18n="dl2">Sin cuenta, sin anuncios, sin telemetría</li>
-          <li data-i18n="dl3">F-Droid e IzzyOnDroid: en camino</li>
-        </ul>
-      </div>
-      <div class="cta">
-        <a class="btn btn-ghost" href="https://github.com/InlitX/GymMane" data-i18n="ctaGithub">Ver en GitHub</a>
-        <a class="btn btn-ghost" href="https://ko-fi.com/inlitx" data-i18n="endBtn2">Invítame a un café</a>
+        <a class="row-link" href="https://f-droid.org/packages/com.gymmane.app/">
+          <span class="row-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1zM9 12l2 2 4-4"/></svg></span>
+          <span><b data-i18n="privFd">Compilada por F-Droid</b><small data-i18n="privFdSub">Desde el código, sin rastreadores</small></span>
+        </a>
       </div>
     </div>
+  </section>
+
+  <section class="sec wrap split" id="why">
+    <h2 class="reveal" data-i18n="whyTitle">Por qué existe</h2>
+    <div class="reveal">
+      <p data-i18n="whyP1">Quería una app de gimnasio que no me pidiera una cuenta ni una suscripción para ver mis propias series. No la encontré, así que la hice.</p>
+      <p data-i18n="whyP2">Es código abierto con licencia GPL-3.0. Si le falta algo, abre una incidencia o manda un cambio en GitHub.</p>
+      <div class="row-links">
+        <a class="row-link" href="https://github.com/InlitX">
+          <img class="row-ic" src="assets/avatar.webp" alt="" width="44" height="44" />
+          <span><b>InlitX</b><small>github.com/InlitX</small></span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec wrap split" id="support">
+    <h2 class="reveal" data-i18n="supTitle">Apoya el proyecto</h2>
+    <div class="reveal">
+      <p data-i18n="supP1">GymMane es gratis y lo seguirá siendo, sin anuncios ni versión de pago. Si te ayuda a entrenar y quieres echar una mano, puedes invitarme a un café en Ko-fi.</p>
+      <p data-i18n="supP2">Una traducción o un buen reporte de fallo también ayudan mucho.</p>
+      <div class="row-links">
+        <a class="row-link" href="https://ko-fi.com/inlitx">
+          <span class="row-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 2v2M14 2v2M6 2v2M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1"/></svg></span>
+          <span><b data-i18n="supBtn">Invítame a un café</b><small>ko-fi.com/inlitx</small></span>
+        </a>
+        <a class="row-link" href="https://github.com/InlitX/GymMane/stargazers">
+          <span class="row-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11.53 2.3a.53.53 0 0 1 .94 0l2.31 4.68a2.12 2.12 0 0 0 1.6 1.16l5.16.76a.53.53 0 0 1 .3.9l-3.74 3.64a2.12 2.12 0 0 0-.61 1.88l.88 5.14a.53.53 0 0 1-.77.56l-4.62-2.43a2.12 2.12 0 0 0-1.97 0L6.4 21.02a.53.53 0 0 1-.77-.56l.88-5.14a2.12 2.12 0 0 0-.61-1.88L2.16 9.8a.53.53 0 0 1 .3-.9l5.16-.76a2.12 2.12 0 0 0 1.6-1.16z"/></svg></span>
+          <span><b data-i18n="supStar">Dale una estrella</b><small>github.com/InlitX/GymMane</small></span>
+        </a>
+      </div>
+      <div class="crypto">
+        <p class="crypto-t" data-i18n="supCrypto">También con cripto</p>
+        <div class="coin"><img src="assets/crypto/bitcoin.svg" alt="" width="20" height="20" /><b>Bitcoin</b><code>bc1qm0r4pg8nknnjh3a7n2t63ckafhsz8jdd6qer29</code><button type="button" data-i18n="copy">Copiar</button></div>
+        <div class="coin"><img src="assets/crypto/ethereum.svg" alt="" width="20" height="20" /><b>Ethereum</b><code>0x34b7A5552132cBca150Ae29c1E632faA49430e1a</code><button type="button" data-i18n="copy">Copiar</button></div>
+        <div class="coin"><img src="assets/crypto/solana.svg" alt="" width="20" height="20" /><b>Solana</b><code>DC8dNEUNJhWdtBHBZAn4FTheVC3W4PtkGhbazvtk17Jo</code><button type="button" data-i18n="copy">Copiar</button></div>
+        <div class="coin"><img src="assets/crypto/monero.svg" alt="" width="20" height="20" /><b>Monero</b><code>44SECMEf3rfV228kpy3Gs48wLmLXnq231gAMG7ULYoCWBWLYLHdwYV7YFkhMk31DR5P7SRAyRPyhkYaehtgEoajASz7qubq</code><button type="button" data-i18n="copy">Copiar</button></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec wrap final" id="download">
+    <h2 class="reveal" data-i18n="dlTitle">Descárgala</h2>
+    <p class="sec-lead reveal" data-i18n="dlLead">Gratis, para Android 7.0 o superior.</p>
+    <div class="stores reveal">
+      <a href="https://f-droid.org/packages/com.gymmane.app/"><img src="assets/badges/get-it-on-fdroid.png" alt="F-Droid" height="56" /></a>
+      <a href="https://apt.izzysoft.de/fdroid/index/apk/com.gymmane.app?repo=main"><img src="assets/badges/get-it-on-izzyondroid.png" alt="IzzyOnDroid" height="56" /></a>
+      <a href="https://www.openapk.net/gymmane/com.gymmane.app/"><img src="assets/badges/get-it-on-openapk.png" alt="OpenAPK" height="56" /></a>
+      <a href="https://github.com/InlitX/GymMane/releases/latest"><img src="assets/badges/get-it-on-github.png" alt="GitHub" height="56" /></a>
+      <a href="https://apps.obtainium.imranr.dev/redirect?r=obtainium://add/https://github.com/InlitX/GymMane"><img src="assets/badges/get-it-on-obtainium.png" alt="Obtainium" height="56" /></a>
+    </div>
+    <p class="fine reveal" data-i18n-html="dlHint">En GitHub, si no sabes qué APK elegir, coge el <code>arm64-v8a</code>.</p>
   </section>
 
 </main>
 
 <footer>
-  <div class="wrap">
-    <div class="foot-top">
-      <div class="foot-brand">
-        <a class="brand" href="#top"><img src="assets/icon.png" alt="" style="width:30px;height:30px;border-radius:9px;" /><b>GymMane</b></a>
-        <p data-i18n="footTagline">Un diario de gimnasio que no pide nada: ni cuenta, ni internet, ni permisos.</p>
-        <div class="foot-badges">
-          <span>GPL-3.0</span>
-          <span>Flutter</span>
-          <span>Android 7+</span>
-          <span data-i18n="footBadgeOffline">100% offline</span>
-        </div>
-      </div>
-
-      <nav class="foot-links">
-        <a href="https://github.com/InlitX/GymMane"><span data-i18n="footCode">Código</span></a>
-        <a href="https://github.com/InlitX/GymMane/releases" data-i18n="footReleases">Descargar APK</a>
-        <a href="#privacy" data-i18n="navPrivacy">Privacidad</a>
-        <a href="https://github.com/InlitX/GymMane/blob/main/TRANSLATING.md" data-i18n="navTranslate">Traducir</a>
-        <a href="https://github.com/InlitX/GymMane/issues" data-i18n="footIssues">Reportar un fallo</a>
-        <a href="https://ko-fi.com/inlitx" data-i18n="footCoffee">Invítame a un café</a>
-      </nav>
-    </div>
-
-    <div class="foot-fine">
-      <span data-i18n="footFine">GymMane — hecha con Flutter para Android.</span>
-      <span class="mono">© <span id="y"></span> InlitX · GPL-3.0 · <span data-i18n="footNoCookies">sin cookies ni analítica</span></span>
-    </div>
+  <div class="wrap foot">
+    <span>© <span id="y"></span> InlitX · GPL-3.0</span>
+    <nav class="foot-links">
+      <a href="https://github.com/InlitX/GymMane"><svg class="gh" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.4 7.4 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg><span data-i18n="footCode">Código</span></a>
+      <a href="https://github.com/InlitX/GymMane/blob/main/TRANSLATING.md"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 8 6 6M4 14l6-6 2-3M2 5h12M7 2h1M22 22l-5-10-5 10M14 18h6"/></svg><span data-i18n="navTranslate">Traducir</span></a>
+      <a href="https://github.com/InlitX/GymMane/issues"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m8 2 1.88 1.88M14.12 3.88 16 2M9 7.13v-1a3 3 0 1 1 6 0v1"/><path d="M12 20c-3.3 0-6-2.7-6-6v-3a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v3c0 3.3-2.7 6-6 6M12 20v-9M6.53 9C4.6 8.8 3 7.1 3 5M6 13H2M3 21c0-2.1 1.7-3.9 3.8-4M20.97 5c0 2.1-1.6 3.8-3.5 4M22 13h-4M17.2 17c2.1.1 3.8 1.9 3.8 4"/></svg><span data-i18n="footIssues">Reportar un fallo</span></a>
+      <a href="https://ko-fi.com/inlitx"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 2v2M14 2v2M6 2v2"/><path d="M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1"/></svg><span data-i18n="footCoffee">Invítame a un café</span></a>
+    </nav>
   </div>
 </footer>
 
