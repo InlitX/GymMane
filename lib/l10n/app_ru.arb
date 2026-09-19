@@ -1566,5 +1566,6 @@
   "effortHint": "RPE: 10 means nothing left, 8 means two reps to spare. RIR counts the reps you had left. When a set has it, the estimated 1RM uses the RPE chart.",
   "rirTitle": "RESERVE (RIR)",
   "rirHint": "0 is nothing left in the tank, 2 is two reps to spare.",
-  "addWeekWidget": "Add week widget"
+  "addWeekWidget": "Add week widget",
+  "gamificationSetting": "Medals and levels"
 }
