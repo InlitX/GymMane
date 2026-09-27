@@ -43,6 +43,39 @@ That's it. The exercise catalogue is separate and optional — see below.
 - **You don't have to finish.** Anything you leave out simply shows in English,
   so nothing ever breaks. Ten strings today, more whenever you feel like it.
 
+## Persian (`fa`): keep common loanwords
+
+Do **not** over-localize everyday technical, software, fitness, or internet
+terms. Prefer the wording Persian-speaking users actually use in apps, even
+when a formal Persian equivalent exists.
+
+Prefer in this order:
+
+1. The term people naturally say
+2. A familiar Persian-script transliteration of the English word
+3. A natural, widely understood Persian translation
+4. Formal or dictionary-coined Persian only when it is genuinely common
+
+Examples of preferred loanwords:
+
+| English | Prefer | Avoid |
+| --- | --- | --- |
+| server | سرور | کارساز |
+| set | ست | مجموعه / نوبت (as gym set) |
+| routine | روتین | برنامهٔ تمرینی (when "routine" is the product term) |
+| copy | کپی | رونوشت |
+| offline | آفلاین | برون‌خط |
+| online | آنلاین | برخط |
+
+Apply the same idea to other familiar terms (تایمر، ویجت، فایل، بکاپ، گالری،
+پروفایل، فیلتر، آلارم، سوپرست، دراپ ست، کاردیو، دمبل، هالتر، استریک…). Keep
+identifiers and technical tokens as-is: API names, package names, commands,
+paths, URLs, code, config keys, translation keys, placeholders, and units such
+as `CSV`, `JSON`, `ZIP`, `BMI`, `RPE`, `RIR`, `1RM`, `AI`, `GitHub`.
+
+Context still matters — use natural Persian when it is clearly more idiomatic —
+and keep each chosen term consistent across the app.
+
 ## Dates, months and weekdays
 
 Don't translate them — there is nothing to translate. Calendars, month names and
