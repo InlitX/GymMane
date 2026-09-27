@@ -162,7 +162,6 @@
       }
     }
   },
-  "saveAndExit": "SAVE AND EXIT",
   "duration": "DURATION",
   "setsCaps": "SETS",
   "exerciseXofY": "EXERCISE {i} OF {n}",
@@ -679,7 +678,6 @@
   "starOnGithub": "Star on GitHub",
   "buyCoffee": "Buy me a coffee",
   "cantOpenLink": "Couldn't open the link",
-  "preferences": "PREFERENCES",
   "theme": "Theme",
   "darkTheme": "Dark",
   "lightTheme": "Light",
@@ -706,7 +704,6 @@
     }
   },
   "alarmChangedDefault": "Back to the default sound",
-  "homeWidgets": "HOME SCREEN",
   "addActivityWidget": "Add activity widget",
   "addStatsWidget": "Add stats widget",
   "pinUnsupported": "Add it from your launcher's widget menu",
@@ -714,7 +711,6 @@
   "bgNone": "None",
   "bgDots": "Dots",
   "bgGrid": "Grid",
-  "data": "DATA",
   "exportCsv": "Export workouts (CSV)",
   "exportBackup": "Export backup (ZIP)",
   "importBackup": "Import backup",
@@ -1382,7 +1378,6 @@
   "suggestInWorkouts": "Suggest in quick workouts",
   "suggestInWorkoutsHint": "Off keeps it out of the picks made for you. You can still add it by hand.",
   "dontSuggest": "Don't suggest it again",
-  "noLongerSuggested": "It won't be suggested again",
   "onbPlaceTitle": "Where do you train?",
   "onbPlaceWhy": "Pick every place you train. We'll only suggest what you can do in each one.",
   "onbPlaceGear": "What do you have there?",
@@ -1567,5 +1562,108 @@
   "rirTitle": "RESERVE (RIR)",
   "rirHint": "0 is nothing left in the tank, 2 is two reps to spare.",
   "addWeekWidget": "Add week widget",
-  "gamificationSetting": "Medals and levels"
+  "gamificationSetting": "Medals and levels",
+  "repCount": "{n, plural, =1{{n} rep} other{{n} reps}}",
+  "@repCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "prBestSet": "Best set",
+  "weekStartSetting": "Week starts on",
+  "stepOutOfWorkout": "Pause and leave",
+  "saveToRoutine": "SAVE CHANGES TO ROUTINE",
+  "routineUpdated": "Routine updated",
+  "saveChangesTitle": "Save changes to {name}?",
+  "@saveChangesTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "saveChangesBody": "Next time this routine starts like this.",
+  "routineOrderChanged": "New exercise order",
+  "mineOnly": "Created by you",
+  "createNamed": "Not here? Create “{name}”",
+  "@createNamed": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "orStartWith": "Or start with",
+  "warmupFocus": "Warm-up",
+  "warmupFocusHint": "Mobility and activation, with or without kit",
+  "cardioFocus": "Cardio",
+  "cardioFocusHint": "Run, bike, row or skip, by distance and time",
+  "homeRecommended": "Recommended on home",
+  "archivedFilter": "Archived",
+  "archiveExercise": "Archive exercise",
+  "restoreExercise": "Restore",
+  "archivedToast": "Exercise archived",
+  "archivedToastHint": "Find it under Exercises › Archived",
+  "archivedBanner": "Archived. It stays out of lists and suggestions; your history is kept.",
+  "videoMarksHint": "Pause on a step and tap the pin to jump there next time.",
+  "videoMarkHere": "Mark this step here",
+  "sectionGeneral": "General",
+  "sectionTraining": "Training",
+  "sectionAlerts": "Reminders & alarm",
+  "sectionHome": "Home",
+  "sectionWidgets": "Widgets",
+  "sectionData": "Data & backup",
+  "multiPlanSetting": "Several routines a day",
+  "multiPlanHint": "Tap every routine for this day. They go in the order you add them.",
+  "routineOfDay": "{n} of {total} today",
+  "@routineOfDay": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "planAboutMe": "About me:",
+  "planBody": "{sex}, {age} years old, {height} tall, {weight}.",
+  "planDays": "I want to train {n} days a week.",
+  "planNoHistory": "No workouts logged yet: treat me as a beginner and keep volume and weights conservative.",
+  "planHistory": "{n, plural, =1{1 workout logged in the last 30 days.} other{{n} workouts logged in the last 30 days.}}",
+  "planBestLifts": "Best recent sets",
+  "planAskFirst": "If you don’t know my goal (strength, muscle, fat loss or general fitness) or how long each session can last, ask me first in one short message. Once you have it, answer with JSON only.",
+  "@planBody": {
+    "placeholders": {
+      "sex": {
+        "type": "String"
+      },
+      "age": {
+        "type": "int"
+      },
+      "height": {
+        "type": "String"
+      },
+      "weight": {
+        "type": "String"
+      }
+    }
+  },
+  "@planDays": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "@planHistory": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "backToTop": "Back to top"
 }
