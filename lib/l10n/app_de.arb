@@ -646,7 +646,7 @@
     }
   },
   "newRoutineName": "New routine",
-  "dragToReorder": "Hold and drag to reorder — this is the order you train in.",
+  "dragToReorder": "Drag the dotted handle to reorder — this is the order you train in.",
   "reorderHandle": "Reorder {name}",
   "@reorderHandle": {
     "placeholders": {
@@ -1512,7 +1512,6 @@
   "tplAbcde": "Five days, one muscle group each: chest, back, legs, shoulders, arms.",
   "elapsedCaps": "ELAPSED",
   "tapToSkip": "Tap to skip",
-  "tapToStop": "Tap to stop",
   "screenLocked": "Screen locked",
   "lockedHint": "Press and hold the fingerprint at the top to unlock",
   "liveDoneSet": "Set done",
@@ -1665,5 +1664,28 @@
       }
     }
   },
-  "backToTop": "Back to top"
+  "backToTop": "Back to top",
+  "deleteExerciseTitle": "Delete this exercise?",
+  "deleteExerciseBody": "\"{name}\" will be removed from your library and routines. Your past sets are kept.",
+  "@deleteExerciseBody": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "exportForStravaHint": "Upload it in a browser at strava.com/upload/select (the Strava app can't import files). It shows up as a Weight Training with your sets.",
+  "manualStartTime": "Start time",
+  "manualDuration": "Duration",
+  "manualDurationUnset": "Add duration",
+  "stravaRow": "Export to Strava (beta)",
+  "stravaBeta": "BETA",
+  "stravaIntro": "Pick a workout to take it to Strava. You get a .fit file: upload it in a browser at strava.com/upload/select and it shows up as a Weight Training with your sets.",
+  "stravaEmpty": "No workouts to export yet.",
+  "tapToPause": "Tap to pause",
+  "holdPausedHint": "Paused · tap to resume",
+  "finishHoldNow": "Finish set now",
+  "barWeightExercise": "Bar or sled weight",
+  "barWeightHint": "Used by the plate calculator",
+  "barWeightCustom": "Your own · tap to reset"
 }
