@@ -589,7 +589,6 @@
   "setTypeWarmup": "Warm-up",
   "setTypeDrop": "Drop set",
   "setTypeFailure": "To failure",
-  "setTypeHint": "Warm-ups stay out of your volume and your records.",
   "addWarmup": "WARM-UP",
   "platesPerSide": "Per side: {plates}",
   "@platesPerSide": {
@@ -1368,6 +1367,10 @@
   "demoLarge": "Large",
   "demoSmall": "Small",
   "demoOff": "Hidden",
+  "demoLoopTitle": "Demo animation",
+  "demoLoopAlways": "Loop",
+  "demoLoopShort": "10 seconds",
+  "demoLoopHint": "Plays for about 10 seconds and stops on the starting pose. Tap the demo to watch it again.",
   "alarmStyleTitle": "When rest ends",
   "alarmStyleLoud": "Always ring",
   "alarmStyleQuiet": "Follow silent mode",
@@ -1422,6 +1425,11 @@
   "noStepsYet": "No steps yet. Write your own so you remember how you do it.",
   "addSteps": "Write the steps",
   "setTypeRestPause": "Rest-pause",
+  "setTypeNormalInfo": "A regular set. It counts toward your volume and records.",
+  "setTypeWarmupInfo": "Light sets to get ready. They don't count toward volume or records.",
+  "setTypeDropInfo": "Straight after a set, lower the weight and keep going without resting.",
+  "setTypeFailureInfo": "Keep going until you can't do another clean rep. Log the reps you actually did.",
+  "setTypeRestPauseInfo": "Rest 10 to 20 seconds after the set, then squeeze out a few more reps.",
   "planFormatNotes": "Use the exercise names exactly as they appear in the list. \"sets\", \"reps\", \"weight\" (in the unit given), \"rest\" in seconds and \"days\" are optional. \"superset\": true links an exercise with the next one. For several weeks, group the routines inside \"weeks\" like the second example.",
   "planSets": "Plan sets",
   "planSetsHint": "Choose the type, reps and weight of each set. Leave the weight on Auto to start from your last session.",
@@ -1744,5 +1752,38 @@
   },
   "levelUpStayed": "No more step-up tips for this one",
   "levelHintsSetting": "Suggest the next step",
-  "heatmapLabelsSetting": "Days and months on the activity map"
+  "heatmapLabelsSetting": "Days and months on the activity map",
+  "rmPercent": "PERCENTAGE",
+  "rmAtPercent": "{pct} of your max",
+  "@rmAtPercent": {
+    "placeholders": {
+      "pct": {
+        "type": "String"
+      }
+    }
+  },
+  "copyWorkout": "Copy as text",
+  "goalSet": "Set a goal",
+  "goalTargetReps": "TARGET REPS",
+  "goalToGo": "{value} to go",
+  "@goalToGo": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "goalReached": "Goal reached",
+  "goalDaysLeft": "{n, plural, =1{1 day left} other{{n} days left}}",
+  "@goalDaysLeft": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "goalOverdue": "Past the date",
+  "goalDeadline": "DEADLINE",
+  "goalNoDeadline": "No deadline",
+  "goalRemove": "Remove goal"
 }
