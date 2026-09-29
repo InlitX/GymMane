@@ -1,10 +1,10 @@
 {
   "@@locale": "ar",
-  "languageName": "English",
+  "languageName": "العربية",
   "@languageName": {
     "description": "This language, written in itself. Shown in the language picker."
   },
-  "vsLastMonthLabel": "{pct}% vs last month",
+  "vsLastMonthLabel": "{pct}% مقارنة بالشهر الماضي",
   "@vsLastMonthLabel": {
     "placeholders": {
       "pct": {
@@ -12,7 +12,7 @@
       }
     }
   },
-  "levelStreakLabel": "Level {level} · {streak}",
+  "levelStreakLabel": "المستوى {level} · {streak}",
   "@levelStreakLabel": {
     "placeholders": {
       "level": {
@@ -23,30 +23,30 @@
       }
     }
   },
-  "save": "SAVE",
-  "cancel": "Cancel",
-  "cancelCaps": "CANCEL",
-  "deleteCaps": "DELETE",
-  "done": "DONE",
-  "set": "Set",
-  "home": "HOME",
-  "progress": "PROGRESS",
-  "exercises": "EXERCISES",
-  "settings": "SETTINGS",
-  "today": "TODAY",
-  "thisWeek": "THIS WEEK",
-  "recommended": "RECOMMENDED",
-  "goal": "GOAL",
-  "volume": "VOLUME",
-  "setsToday": "SETS TODAY",
-  "prs": "PRs",
-  "todaysFocus": "TODAY'S FOCUS",
-  "todaysRoutine": "TODAY'S ROUTINE",
-  "startWorkout": "START WORKOUT",
-  "routines": "ROUTINES",
-  "tools": "TOOLS",
-  "firstSessionHint": "Pick your muscles and log your first session",
-  "exerciseCount": "{n, plural, =1{{n} exercise} other{{n} exercises}}",
+  "save": "حفظ",
+  "cancel": "إلغاء",
+  "cancelCaps": "إلغاء",
+  "deleteCaps": "حذف",
+  "done": "تم",
+  "set": "مجموعة",
+  "home": "الرئيسية",
+  "progress": "التقدم",
+  "exercises": "التمارين",
+  "settings": "الإعدادات",
+  "today": "اليوم",
+  "thisWeek": "هذا الأسبوع",
+  "recommended": "موصى به",
+  "goal": "الهدف",
+  "volume": "الحجم",
+  "setsToday": "مجموعات اليوم",
+  "prs": "الأرقام القياسية",
+  "todaysFocus": "تركيز اليوم",
+  "todaysRoutine": "روتين اليوم",
+  "startWorkout": "ابدأ التمرين",
+  "routines": "الروتينات",
+  "tools": "الأدوات",
+  "firstSessionHint": "اختر عضلاتك وسجّل تمرينك الأول",
+  "exerciseCount": "{n, plural, =1{تمرين واحد} other{{n} تمارين}}",
   "@exerciseCount": {
     "placeholders": {
       "n": {
@@ -54,23 +54,23 @@
       }
     }
   },
-  "pushDay": "PUSH DAY",
-  "pullDay": "PULL DAY",
-  "legDay": "LEG DAY",
-  "pushFocus": "Chest · Shoulders · Triceps",
-  "pullFocus": "Back · Biceps · Traps",
-  "legFocus": "Quads · Hamstrings · Glutes",
-  "train": "TRAIN",
-  "step1": "STEP 1 OF 2",
-  "step2": "STEP 2 OF 2",
-  "chooseFocus": "CHOOSE YOUR FOCUS",
-  "buildSession": "BUILD YOUR SESSION",
-  "tapMuscles": "Tap the muscles you want to train — front and back.",
-  "noMusclesYet": "No muscles selected yet — tap the body to begin.",
-  "continueBtn": "CONTINUE",
-  "nothingForFocus": "Nothing for this focus yet",
-  "goBackPick": "Go back and pick a muscle with exercises in your library.",
-  "pickedHint": "We picked a session for you — tap to add or drop any of the {n}.",
+  "pushDay": "يوم الدفع",
+  "pullDay": "يوم السحب",
+  "legDay": "الأرجل",
+  "pushFocus": "الصدر · الكتفين · الترايسبس",
+  "pullFocus": "الظهر · البايسبس · الترابيس",
+  "legFocus": "الرباعية · أوتار الركبة · الألوية",
+  "train": "تدرّب",
+  "step1": "الخطوة 1 من 2",
+  "step2": "الخطوة 2 من 2",
+  "chooseFocus": "اختر تركيزك",
+  "buildSession": "أنشئ تمرينك",
+  "tapMuscles": "اضغط على العضلات التي تريد تدريبها — من الأمام والخلف.",
+  "noMusclesYet": "لم تحدد أي عضلات بعد — اضغط على الجسم للبدء.",
+  "continueBtn": "متابعة",
+  "nothingForFocus": "لا توجد تمارين لهذا التركيز",
+  "goBackPick": "ارجع واختر عضلة لها تمارين في مكتبتك.",
+  "pickedHint": "جهزنا لك تمرينًا — اضغط لإضافة أو إزالة أي من التمارين الـ {n}.",
   "@pickedHint": {
     "placeholders": {
       "n": {
@@ -78,11 +78,11 @@
       }
     }
   },
-  "pickAnExercise": "PICK AN EXERCISE",
-  "searchAllExercises": "Search any exercise…",
-  "noExercisesMatch": "No exercises match",
-  "createItInstead": "Create it as your own instead",
-  "startCount": "START · {n, plural, =1{{n} EXERCISE} other{{n} EXERCISES}}",
+  "pickAnExercise": "اختر تمرينًا",
+  "searchAllExercises": "ابحث عن تمرين…",
+  "noExercisesMatch": "لا توجد تمارين مطابقة",
+  "createItInstead": "أنشئ تمرينك الخاص بدلًا من ذلك",
+  "startCount": "ابدأ · {n, plural, =1{تمرين واحد} other{{n} تمارين}}",
   "@startCount": {
     "placeholders": {
       "n": {
@@ -90,17 +90,17 @@
       }
     }
   },
-  "inProgress": "IN PROGRESS",
-  "paused": "PAUSED",
-  "last": "LAST",
-  "rest": "REST",
-  "skip": "SKIP",
-  "addSet": "+ ADD SET",
-  "finishSession": "FINISH SESSION",
-  "setDone": "SET DONE",
-  "nextExercise": "NEXT EXERCISE",
-  "skipExercise": "Skip this exercise?",
-  "skipExerciseBody": "You haven't marked any set as done, so nothing gets logged for \"{name}\".",
+  "inProgress": "قيد التنفيذ",
+  "paused": "متوقف مؤقتًا",
+  "last": "الأخير",
+  "rest": "راحة",
+  "skip": "تخطَّ",
+  "addSet": "+ إضافة مجموعة",
+  "finishSession": "إنهاء التمرين",
+  "setDone": "اكتملت المجموعة",
+  "nextExercise": "التمرين التالي",
+  "skipExercise": "تخطي هذا التمرين؟",
+  "skipExerciseBody": "لم تحدد أي مجموعة كمكتملة، لذلك لن يتم تسجيل شيء لـ \"{name}\".",
   "@skipExerciseBody": {
     "placeholders": {
       "name": {
@@ -108,11 +108,11 @@
       }
     }
   },
-  "dropExerciseAction": "Drop exercise",
-  "restOff": "Off",
+  "dropExerciseAction": "إزالة التمرين",
+  "restOff": "متوقف",
   "setCol": "#",
-  "repsCol": "REPS",
-  "weightCol": "WEIGHT ({unit})",
+  "repsCol": "التكرارات",
+  "weightCol": "الوزن ({unit})",
   "@weightCol": {
     "placeholders": {
       "unit": {
@@ -120,8 +120,8 @@
       }
     }
   },
-  "repsTitle": "REPS",
-  "weightTitle": "WEIGHT ({unit})",
+  "repsTitle": "التكرارات",
+  "weightTitle": "الوزن ({unit})",
   "@weightTitle": {
     "placeholders": {
       "unit": {
@@ -129,12 +129,12 @@
       }
     }
   },
-  "sessionComplete": "WORKOUT LOGGED",
-  "finishHeadlinePr": "New personal record",
-  "finishHeadlineGoal": "Weekly goal reached",
-  "finishHeadlineStreak": "Streak alive",
-  "finishHeadlineDefault": "Another one in the bank",
-  "finishBodyPr": "You lifted more than ever on {prs, plural, =1{an exercise} other{{prs} exercises}}. It is in your records now.",
+  "sessionComplete": "تم تسجيل التمرين",
+  "finishHeadlinePr": "رقم شخصي جديد",
+  "finishHeadlineGoal": "تم تحقيق الهدف الأسبوعي",
+  "finishHeadlineStreak": "تم الحفاظ على السلسلة",
+  "finishHeadlineDefault": "تمرين آخر في الرصيد",
+  "finishBodyPr": "رفعت وزنًا أكبر من أي وقت مضى في {prs, plural, =1{تمرين واحد} other{{prs} تمارين}}. تم حفظه في سجلاتك.",
   "@finishBodyPr": {
     "placeholders": {
       "prs": {
@@ -142,8 +142,8 @@
       }
     }
   },
-  "finishBodyGoal": "You hit the sessions you set out to do this week.",
-  "finishBodyStreak": "{streak} days in a row. The hard part is not stopping.",
+  "finishBodyGoal": "أكملت عدد التمارين الذي خططت له هذا الأسبوع.",
+  "finishBodyStreak": "{streak} أيام متتالية. الأصعب هو ألا تتوقف.",
   "@finishBodyStreak": {
     "placeholders": {
       "streak": {
@@ -151,10 +151,10 @@
       }
     }
   },
-  "finishBodyDefault": "Logged and counted. Consistency is what moves the numbers.",
-  "vsLastTime": "VS LAST TIME",
-  "firstTime": "First time logged",
-  "prCount": "{n, plural, =1{{n} new record} other{{n} new records}}",
+  "finishBodyDefault": "تم التسجيل والاحتساب. الاستمرارية هي ما يصنع التقدم.",
+  "vsLastTime": "مقارنة بالمرة السابقة",
+  "firstTime": "أول تسجيل",
+  "prCount": "{n, plural, =1{رقم قياسي جديد واحد} other{{n} أرقام قياسية جديدة}}",
   "@prCount": {
     "placeholders": {
       "n": {
@@ -162,9 +162,9 @@
       }
     }
   },
-  "duration": "DURATION",
-  "setsCaps": "SETS",
-  "exerciseXofY": "EXERCISE {i} OF {n}",
+  "duration": "المدة",
+  "setsCaps": "المجموعات",
+  "exerciseXofY": "التمرين {i} من {n}",
   "@exerciseXofY": {
     "placeholders": {
       "i": {
@@ -175,9 +175,9 @@
       }
     }
   },
-  "decrease": "Decrease",
-  "increase": "Increase",
-  "markSet": "Mark set {n} as done",
+  "decrease": "تقليل",
+  "increase": "زيادة",
+  "markSet": "وضع علامة على المجموعة {n} كمكتملة",
   "@markSet": {
     "placeholders": {
       "n": {
@@ -185,24 +185,24 @@
       }
     }
   },
-  "pauseWorkout": "Pause workout",
-  "resumeWorkout": "Resume workout",
-  "discardTitle": "Discard workout?",
-  "discardBody": "Your sets from this session will be lost.",
-  "keepTraining": "Keep training",
-  "discard": "Discard",
-  "notifRestChannel": "Rest timer",
-  "notifRestChannelWhy": "Tells you when your rest between sets is over",
-  "notifAlertChannel": "Rest timer (alert)",
-  "notifAlertChannelWhy": "Shows a banner the moment your rest is over",
-  "restOverTitle": "Rest over",
-  "restOverBody": "Back to it — next set is waiting.",
-  "totalVolume30d": "TOTAL VOLUME · 30 DAYS",
-  "volumeCumulative": "Running total of every kilo you moved",
-  "volumeChartEmpty": "Log a session and the curve starts here",
-  "weekRhythm": "WEEK RHYTHM",
-  "weekRhythmHint": "Which days you actually show up.",
-  "weekRhythmBest": "{day} is your day",
+  "pauseWorkout": "إيقاف التمرين مؤقتًا",
+  "resumeWorkout": "استئناف التمرين",
+  "discardTitle": "تجاهل التمرين؟",
+  "discardBody": "ستفقد مجموعات هذا التمرين.",
+  "keepTraining": "متابعة التمرين",
+  "discard": "تجاهل",
+  "notifRestChannel": "مؤقت الراحة",
+  "notifRestChannelWhy": "يخبرك عند انتهاء الراحة بين المجموعات",
+  "notifAlertChannel": "مؤقت الراحة (تنبيه)",
+  "notifAlertChannelWhy": "يعرض إشعارًا فور انتهاء الراحة",
+  "restOverTitle": "انتهت الراحة",
+  "restOverBody": "عد إلى التمرين — المجموعة التالية تنتظرك.",
+  "totalVolume30d": "الحجم الإجمالي · 30 يومًا",
+  "volumeCumulative": "المجموع التراكمي لكل الكيلوغرامات التي رفعتها",
+  "volumeChartEmpty": "سجّل تمرينًا وسيبدأ المنحنى هنا",
+  "weekRhythm": "إيقاع الأسبوع",
+  "weekRhythmHint": "الأيام التي تتمرن فيها فعليًا.",
+  "weekRhythmBest": "{day} هو يومك",
   "@weekRhythmBest": {
     "placeholders": {
       "day": {
@@ -210,13 +210,13 @@
       }
     }
   },
-  "weekRhythmEmpty": "Log a session and your week takes shape here.",
-  "allTime": "ALL TIME",
-  "allTimeSessions": "SESSIONS",
-  "allTimeTime": "TIME",
-  "allTimeVolume": "LIFTED",
-  "allTimeSets": "SETS",
-  "allTimeAvg": "{time} a session on average",
+  "weekRhythmEmpty": "سجّل تمرينًا وسيبدأ أسبوعك بالتشكل هنا.",
+  "allTime": "منذ البداية",
+  "allTimeSessions": "التمارين",
+  "allTimeTime": "الوقت",
+  "allTimeVolume": "مرفوع",
+  "allTimeSets": "المجموعات",
+  "allTimeAvg": "بمتوسط {time} لكل تمرين",
   "@allTimeAvg": {
     "placeholders": {
       "time": {
@@ -224,7 +224,7 @@
       }
     }
   },
-  "hoursShort": "{n}h",
+  "hoursShort": "{n} س",
   "@hoursShort": {
     "placeholders": {
       "n": {
@@ -232,8 +232,8 @@
       }
     }
   },
-  "consistency": "CONSISTENCY",
-  "sessionsLogged": "{n, plural, =1{{n} session logged} other{{n} sessions logged}}",
+  "consistency": "الاستمرارية",
+  "sessionsLogged": "{n, plural, =1{تم تسجيل تمرين واحد} other{تم تسجيل {n} تمارين}}",
   "@sessionsLogged": {
     "placeholders": {
       "n": {
@@ -241,7 +241,7 @@
       }
     }
   },
-  "streakDays": "{n}-day streak",
+  "streakDays": "سلسلة {n} أيام",
   "@streakDays": {
     "placeholders": {
       "n": {
@@ -249,19 +249,19 @@
       }
     }
   },
-  "bodyweight": "BODYWEIGHT",
-  "notLoggedYet": "Not logged yet",
-  "logShort": "+ LOG",
-  "logBodyweight": "LOG BODYWEIGHT",
-  "trackWeight": "Track your weight over time",
-  "muscleMap": "MUSCLE MAP",
-  "days7": "7D",
-  "days30": "30D",
-  "heatLow": "Untouched",
-  "heatHigh": "Full volume",
-  "muscleMapEmpty": "Log a session and your body starts lighting up here.",
-  "muscleMapHint": "Tap a muscle to see what it got.",
-  "muscleMapBehind": "Falling behind: {names}",
+  "bodyweight": "وزن الجسم",
+  "notLoggedYet": "لم يُسجل بعد",
+  "logShort": "+ تسجيل",
+  "logBodyweight": "تسجيل الوزن",
+  "trackWeight": "تتبّع وزنك مع مرور الوقت",
+  "muscleMap": "خريطة العضلات",
+  "days7": "7 أيام",
+  "days30": "30 يومًا",
+  "heatLow": "غير مُدرَّب",
+  "heatHigh": "أقصى حجم",
+  "muscleMapEmpty": "سجّل تمرينًا وسيبدأ جسمك بالإضاءة هنا.",
+  "muscleMapHint": "اضغط على عضلة لترى مقدار تمرينها.",
+  "muscleMapBehind": "متأخرة: {names}",
   "@muscleMapBehind": {
     "placeholders": {
       "names": {
@@ -269,7 +269,7 @@
       }
     }
   },
-  "ofTarget": "{pct}% of target",
+  "ofTarget": "{pct}% من الهدف",
   "@ofTarget": {
     "placeholders": {
       "pct": {
@@ -277,13 +277,13 @@
       }
     }
   },
-  "muscleSplit": "MUSCLE SPLIT",
-  "splitEmpty": "Train to see how your volume splits across muscle groups.",
-  "personalRecords": "PERSONAL RECORDS",
-  "prEmpty": "Your records will appear here as you log sets.",
-  "strength1rm": "STRENGTH · EST. 1RM",
-  "strengthEmpty": "Log an exercise twice and its strength curve shows up here.",
-  "oneRmEst": "1RM est. {w}",
+  "muscleSplit": "توزيع العضلات",
+  "splitEmpty": "تمرّن لترى كيف يتوزع حجم تمرينك بين مجموعات العضلات.",
+  "personalRecords": "الأرقام الشخصية",
+  "prEmpty": "ستظهر أرقامك القياسية هنا مع تسجيل المجموعات.",
+  "strength1rm": "القوة · 1RM مقدر",
+  "strengthEmpty": "سجّل تمرينًا مرتين لتظهر منحنيات القوة هنا.",
+  "oneRmEst": "1RM المقدر: {w}",
   "@oneRmEst": {
     "placeholders": {
       "w": {
@@ -291,11 +291,11 @@
       }
     }
   },
-  "restDayShort": "Rest day",
-  "restDay": "Rest day — nothing logged.",
-  "delete": "Delete",
-  "deleteEntry": "Delete this entry?",
-  "deleteEntryBody": "\"{name}\" will be removed from this day, and from your records and charts.",
+  "restDayShort": "يوم راحة",
+  "restDay": "يوم راحة — لم يُسجل شيء.",
+  "delete": "حذف",
+  "deleteEntry": "حذف هذا الإدخال؟",
+  "deleteEntryBody": "ستتم إزالة \"{name}\" من هذا اليوم ومن سجلاتك ورسومك البيانية.",
   "@deleteEntryBody": {
     "placeholders": {
       "name": {
@@ -303,11 +303,11 @@
       }
     }
   },
-  "bodyweightHistory": "HISTORY",
-  "noBodyweightYet": "Nothing logged yet.",
-  "exercisesCaps": "EXERCISES",
-  "timeCaps": "TIME",
-  "libraryCount": "{n, plural, =1{{n} exercise in your library} other{{n} exercises in your library}}",
+  "bodyweightHistory": "السجل",
+  "noBodyweightYet": "لم يُسجل شيء بعد.",
+  "exercisesCaps": "التمارين",
+  "timeCaps": "الوقت",
+  "libraryCount": "{n, plural, =1{تمرين واحد في مكتبتك} other{{n} تمارين في مكتبتك}}",
   "@libraryCount": {
     "placeholders": {
       "n": {
@@ -315,31 +315,31 @@
       }
     }
   },
-  "searchExercises": "Search exercises",
-  "muscleFilter": "MUSCLE",
-  "levelFilter": "LEVEL",
-  "newExercise": "NEW EXERCISE",
-  "exerciseName": "Exercise name",
-  "equipmentLabel": "EQUIPMENT",
-  "addExercise": "ADD EXERCISE",
-  "advanced": "ADVANCED",
-  "demoMedia": "DEMO",
-  "addMedia": "Add media",
-  "mediaHint": "Image, GIF or video",
-  "changeMedia": "Change",
-  "videoSelected": "Video selected",
-  "favouritesOnly": "Favourites",
-  "noFavouritesYet": "No favourites yet",
-  "noFavouritesHint": "Tap the star on an exercise to keep it here.",
-  "clearFilters": "Clear filters",
-  "noExercisesFound": "No exercises found",
-  "noExercisesHint": "Try a different search or clear your filters.",
-  "personalRecord": "PERSONAL RECORD",
-  "history": "HISTORY",
-  "noHistory": "No sessions logged yet. Train this exercise to build history.",
-  "notes": "NOTES",
-  "notePlaceholder": "Cues, setup, how it felt…",
-  "showAllNotes": "Show all {n} notes",
+  "searchExercises": "البحث عن تمارين",
+  "muscleFilter": "العضلة",
+  "levelFilter": "المستوى",
+  "newExercise": "تمرين جديد",
+  "exerciseName": "اسم التمرين",
+  "equipmentLabel": "المعدات",
+  "addExercise": "إضافة تمرين",
+  "advanced": "متقدم",
+  "demoMedia": "عرض توضيحي",
+  "addMedia": "إضافة وسائط",
+  "mediaHint": "صورة أو GIF أو فيديو",
+  "changeMedia": "تغيير",
+  "videoSelected": "تم اختيار الفيديو",
+  "favouritesOnly": "المفضلة",
+  "noFavouritesYet": "لا توجد مفضلة بعد",
+  "noFavouritesHint": "اضغط على نجمة التمرين للاحتفاظ به هنا.",
+  "clearFilters": "مسح عوامل التصفية",
+  "noExercisesFound": "لم يتم العثور على تمارين",
+  "noExercisesHint": "جرّب بحثًا آخر أو امسح عوامل التصفية.",
+  "personalRecord": "رقم شخصي",
+  "history": "السجل",
+  "noHistory": "لا توجد جلسات مسجلة بعد. تدرب على هذا التمرين لبناء السجل.",
+  "notes": "ملاحظات",
+  "notePlaceholder": "ملاحظات، إعداد، شعور…",
+  "showAllNotes": "عرض جميع الملاحظات ({n})",
   "@showAllNotes": {
     "placeholders": {
       "n": {
@@ -347,7 +347,7 @@
       }
     }
   },
-  "notHere": "No {gear} at {place}",
+  "notHere": "لا يوجد {gear} في {place}",
   "@notHere": {
     "placeholders": {
       "gear": {
@@ -358,17 +358,17 @@
       }
     }
   },
-  "notHereWhy": "Swap it for something you can actually load today.",
-  "altHere": "WHAT YOU CAN DO HERE",
-  "places": "MY PLACES",
-  "placesShort": "Places",
-  "placesHint": "Say what you have in each place and the library only shows what you can actually do there.",
-  "placeAll": "Anywhere",
-  "placeNew": "New place",
-  "placeNameLabel": "NAME",
-  "placeNamePlaceholder": "Home, gym, the park…",
-  "placeGearLabel": "WHAT IS THERE",
-  "placeGearCount": "{n, plural, =0{Nothing ticked} =1{1 kind of kit} other{{n} kinds of kit}}",
+  "notHereWhy": "استبدله بشيء يمكنك استخدامه فعليًا اليوم.",
+  "altHere": "ما يمكنك فعله هنا",
+  "places": "أماكني",
+  "placesShort": "الأماكن",
+  "placesHint": "حدّد المعدات الموجودة في كل مكان وستعرض المكتبة فقط ما يمكنك فعله هناك.",
+  "placeAll": "في أي مكان",
+  "placeNew": "مكان جديد",
+  "placeNameLabel": "الاسم",
+  "placeNamePlaceholder": "المنزل، النادي، الحديقة…",
+  "placeGearLabel": "المعدات المتاحة",
+  "placeGearCount": "{n, plural, =0{لم يتم اختيار معدات} =1{نوع واحد من المعدات} other{{n} أنواع من المعدات}}",
   "@placeGearCount": {
     "placeholders": {
       "n": {
@@ -376,7 +376,7 @@
       }
     }
   },
-  "placeExercises": "{n} exercises here",
+  "placeExercises": "{n} تمارين هنا",
   "@placeExercises": {
     "placeholders": {
       "n": {
@@ -384,16 +384,16 @@
       }
     }
   },
-  "placeEmptyTitle": "Train wherever you are",
-  "placeEmptyBody": "A place is a list of the kit you have there. Pick one to start and edit it later.",
-  "placeDeleteTitle": "Delete place",
-  "placeDeleteBody": "Only the place goes — your exercises and sessions stay.",
-  "placeGym": "Gym",
-  "placeHome": "Home",
-  "placeOutdoors": "Outdoors",
-  "placeFilterLabel": "PLACE",
-  "noGearOnly": "No kit",
-  "placeActive": "Training at {name}",
+  "placeEmptyTitle": "تمرّن أينما كنت",
+  "placeEmptyBody": "المكان هو قائمة بالمعدات الموجودة فيه. اختر واحدًا للبدء وعدّله لاحقًا.",
+  "placeDeleteTitle": "حذف المكان",
+  "placeDeleteBody": "سيُحذف المكان فقط — ستبقى تمارينك وجلساتك.",
+  "placeGym": "النادي الرياضي",
+  "placeHome": "المنزل",
+  "placeOutdoors": "في الخارج",
+  "placeFilterLabel": "المكان",
+  "noGearOnly": "بدون معدات",
+  "placeActive": "التمرين في {name}",
   "@placeActive": {
     "placeholders": {
       "name": {
@@ -401,8 +401,8 @@
       }
     }
   },
-  "journal": "JOURNAL",
-  "noteCount": "{n, plural, =0{No notes} =1{1 note} other{{n} notes}}",
+  "journal": "اليوميات",
+  "noteCount": "{n, plural, =0{لا توجد ملاحظات} =1{ملاحظة واحدة} other{{n} ملاحظات}}",
   "@noteCount": {
     "placeholders": {
       "n": {
@@ -410,36 +410,36 @@
       }
     }
   },
-  "noteKindNote": "Note",
-  "noteKindPlan": "Plan",
-  "noteKindDone": "Win",
-  "noteKindPain": "Niggle",
-  "noteFilterAll": "All",
-  "newNote": "New note",
-  "editNote": "Edit note",
-  "addNote": "ADD NOTE",
-  "noteEmptyTitle": "Nothing written down yet",
-  "noteEmptyBody": "Cues, plans for next time, how a session felt — with photos or video if you want.",
-  "noteNoneForExercise": "No notes on this exercise yet.",
-  "noteKindLabel": "TYPE",
-  "noteTextLabel": "NOTE",
-  "noteDateLabel": "DATE",
-  "noteExerciseLabel": "EXERCISE",
-  "noteMediaLabel": "PHOTOS & VIDEO",
-  "noteGeneral": "No exercise",
-  "noteAttach": "Attach",
-  "noteRemoveMedia": "Remove attachment",
-  "deleteNoteTitle": "Delete note",
-  "deleteNoteBody": "The note and anything attached to it go for good.",
-  "noteToday": "Today",
-  "noteYesterday": "Yesterday",
-  "noteAllNotes": "All notes",
-  "noteCalendar": "Calendar",
-  "noteNoneOnDay": "Nothing written on this day",
-  "noteAddOnDay": "Note on this day",
-  "notePrevMonth": "Previous month",
-  "noteNextMonth": "Next month",
-  "noteMonthCount": "{n, plural, =0{No notes this month} =1{1 note this month} other{{n} notes this month}}",
+  "noteKindNote": "ملاحظة",
+  "noteKindPlan": "خطة",
+  "noteKindDone": "إنجاز",
+  "noteKindPain": "ألم بسيط",
+  "noteFilterAll": "الكل",
+  "newNote": "ملاحظة جديدة",
+  "editNote": "تعديل الملاحظة",
+  "addNote": "إضافة ملاحظة",
+  "noteEmptyTitle": "لم يُكتب شيء بعد",
+  "noteEmptyBody": "سجّل الملاحظات وخطط المرة القادمة وشعورك بعد التمرين — مع صور أو فيديو إن أردت.",
+  "noteNoneForExercise": "لا توجد ملاحظات لهذا التمرين بعد.",
+  "noteKindLabel": "النوع",
+  "noteTextLabel": "ملاحظة",
+  "noteDateLabel": "التاريخ",
+  "noteExerciseLabel": "التمرين",
+  "noteMediaLabel": "الصور والفيديو",
+  "noteGeneral": "بدون تمرين",
+  "noteAttach": "إرفاق",
+  "noteRemoveMedia": "إزالة المرفق",
+  "deleteNoteTitle": "حذف الملاحظة",
+  "deleteNoteBody": "سيتم حذف الملاحظة وجميع مرفقاتها نهائيًا.",
+  "noteToday": "اليوم",
+  "noteYesterday": "أمس",
+  "noteAllNotes": "كل الملاحظات",
+  "noteCalendar": "التقويم",
+  "noteNoneOnDay": "لم يُكتب شيء في هذا اليوم",
+  "noteAddOnDay": "إضافة ملاحظة لهذا اليوم",
+  "notePrevMonth": "الشهر السابق",
+  "noteNextMonth": "الشهر التالي",
+  "noteMonthCount": "{n, plural, =0{لا توجد ملاحظات هذا الشهر} =1{ملاحظة واحدة هذا الشهر} other{{n} ملاحظات هذا الشهر}}",
   "@noteMonthCount": {
     "placeholders": {
       "n": {
@@ -447,9 +447,9 @@
       }
     }
   },
-  "measures": "MEASUREMENTS",
-  "measuresHint": "Neck to calf — watch your body change, not just the bar.",
-  "measureCount": "{n, plural, =0{Nothing logged} =1{1 reading} other{{n} readings}}",
+  "measures": "القياسات",
+  "measuresHint": "من الرقبة إلى ربلة الساق — راقب تغير جسمك لا البار فقط.",
+  "measureCount": "{n, plural, =0{لا توجد قياسات} =1{قياس واحد} other{{n} قياسات}}",
   "@measureCount": {
     "placeholders": {
       "n": {
@@ -457,22 +457,22 @@
       }
     }
   },
-  "measureNoneYet": "Not logged yet",
-  "measureHistory": "HISTORY",
-  "measureNeck": "Neck",
-  "measureShoulders": "Shoulders",
-  "measureChest": "Chest",
-  "measureArm": "Arm",
-  "measureForearm": "Forearm",
-  "measureWaist": "Waist",
-  "measureHips": "Hips",
-  "measureThigh": "Thigh",
-  "measureCalf": "Calf",
-  "measureBodyfat": "Body fat",
-  "timeline": "TIMELINE",
-  "timelineHint": "Same pose, same spot, same light. In a year you will not believe it.",
-  "timelineEmptyTitle": "Your first photo starts the clock",
-  "photoCount": "{n, plural, =0{No photos} =1{1 photo} other{{n} photos}}",
+  "measureNoneYet": "لم يُقَس بعد",
+  "measureHistory": "السجل",
+  "measureNeck": "الرقبة",
+  "measureShoulders": "الكتفان",
+  "measureChest": "الصدر",
+  "measureArm": "الذراع",
+  "measureForearm": "الساعد",
+  "measureWaist": "الخصر",
+  "measureHips": "الورك",
+  "measureThigh": "الفخذ",
+  "measureCalf": "ربلة الساق",
+  "measureBodyfat": "دهون الجسم",
+  "timeline": "الخط الزمني",
+  "timelineHint": "نفس الوضعية والمكان والإضاءة. بعد سنة لن تصدق الفرق.",
+  "timelineEmptyTitle": "صورتك الأولى تبدأ التتبع",
+  "photoCount": "{n, plural, =0{لا توجد صور} =1{صورة واحدة} other{{n} صور}}",
   "@photoCount": {
     "placeholders": {
       "n": {
@@ -480,11 +480,11 @@
       }
     }
   },
-  "poseFront": "Front",
-  "poseSide": "Side",
-  "poseBack": "Back",
-  "photoEvery": "REMIND ME",
-  "photoEveryDays": "Every {n} days",
+  "poseFront": "أمام",
+  "poseSide": "جانب",
+  "poseBack": "خلف",
+  "photoEvery": "ذكّرني",
+  "photoEveryDays": "كل {n} أيام",
   "@photoEveryDays": {
     "placeholders": {
       "n": {
@@ -492,10 +492,10 @@
       }
     }
   },
-  "photoEveryOff": "Never",
-  "timelineEvery": "GROUP EVERY",
-  "custom": "Custom",
-  "photoNextIn": "{n, plural, =1{Next photo tomorrow} other{Next photo in {n} days}}",
+  "photoEveryOff": "أبدًا",
+  "timelineEvery": "تجميع كل",
+  "custom": "مخصص",
+  "photoNextIn": "{n, plural, =1{الصورة التالية غدًا} other{الصورة التالية بعد {n} أيام}}",
   "@photoNextIn": {
     "placeholders": {
       "n": {
@@ -503,9 +503,9 @@
       }
     }
   },
-  "photoDueNow": "Photo due — grab it today",
-  "addTodayPhotos": "ADD TODAY'S PHOTOS",
-  "posePhoto": "{pose} photo",
+  "photoDueNow": "حان وقت الصورة — التقطها اليوم",
+  "addTodayPhotos": "إضافة صور اليوم",
+  "posePhoto": "صورة {pose}",
   "@posePhoto": {
     "placeholders": {
       "pose": {
@@ -513,9 +513,9 @@
       }
     }
   },
-  "compare": "COMPARE",
-  "compareNeedTwo": "Shoot the same pose on two different days and you can compare them here.",
-  "dayNumber": "Day {n}",
+  "compare": "مقارنة",
+  "compareNeedTwo": "التقط نفس الوضعية في يومين مختلفين لتتمكن من المقارنة هنا.",
+  "dayNumber": "اليوم {n}",
   "@dayNumber": {
     "placeholders": {
       "n": {
@@ -523,7 +523,7 @@
       }
     }
   },
-  "daysApart": "{n, plural, =0{Same day} =1{1 day apart} other{{n} days apart}}",
+  "daysApart": "{n, plural, =0{في اليوم نفسه} =1{بفارق يوم واحد} other{بفارق {n} أيام}}",
   "@daysApart": {
     "placeholders": {
       "n": {
@@ -531,14 +531,14 @@
       }
     }
   },
-  "deleteEntryTitle": "Delete this day",
-  "deleteDayBody": "Its photos go with it, for good.",
-  "timelinePhotos": "Photos",
-  "timelineBody": "Muscle map",
-  "timelineBodyEmpty": "Log a session and your muscle map starts filling in here, no photos needed.",
-  "timelineBodyHint": "Built from your own sets — nothing to upload.",
+  "deleteEntryTitle": "حذف هذا اليوم",
+  "deleteDayBody": "ستُحذف صور هذا اليوم نهائيًا أيضًا.",
+  "timelinePhotos": "الصور",
+  "timelineBody": "خريطة العضلات",
+  "timelineBodyEmpty": "سجّل تمرينًا وستبدأ خريطة العضلات بالامتلاء هنا — دون حاجة إلى صور.",
+  "timelineBodyHint": "مبنية من مجموعاتك أنت — لا يتم رفع أي شيء.",
   "timelineWindow": "{from} – {to}",
-  "sessionCount": "{n, plural, =0{No sessions} =1{1 session} other{{n} sessions}}",
+  "sessionCount": "{n, plural, =0{لا توجد تمارين} =1{تمرين واحد} other{{n} تمارين}}",
   "@sessionCount": {
     "placeholders": {
       "n": {
@@ -556,10 +556,10 @@
       }
     }
   },
-  "notifPhotoChannel": "Progress photos",
-  "notifPhotoChannelWhy": "A nudge when your next progress photo is due.",
-  "notifPhotoTitle": "Time for your progress photo",
-  "notifPhotoBody": "{n} days since the last one. Same pose, same light.",
+  "notifPhotoChannel": "صور التقدم",
+  "notifPhotoChannelWhy": "تذكير عندما يحين موعد صورة التقدم التالية.",
+  "notifPhotoTitle": "حان وقت صورة التقدم",
+  "notifPhotoBody": "مرّ {n} أيام منذ الأخيرة. نفس الوضعية ونفس الإضاءة.",
   "@notifPhotoBody": {
     "placeholders": {
       "n": {
@@ -567,30 +567,30 @@
       }
     }
   },
-  "share": "SHARE",
-  "sharePick": "What do you want to show?",
-  "shareSession": "Last session",
-  "shareStreak": "Streak and consistency",
-  "shareBody": "Muscles worked",
-  "shareCompare": "Before and after",
-  "shareHint": "The card is built on your phone. Nothing leaves until you pick where it goes.",
-  "shareFailed": "The card could not be built",
-  "shareWeekOf": "LAST 7 DAYS",
-  "shareStreakLabel": "DAY STREAK",
-  "shareSessionsLabel": "SESSIONS",
-  "shareVolumeLabel": "VOLUME",
-  "shareSetsLabel": "SETS",
-  "shareNothing": "Log a session first — there is nothing to show yet",
-  "restForExercise": "REST FOR THIS EXERCISE",
-  "restUsingDefault": "Using your default",
-  "restCustom": "Only for this one",
-  "setType": "SET TYPE",
-  "setTypeNormal": "Working",
-  "setTypeWarmup": "Warm-up",
-  "setTypeDrop": "Drop set",
-  "setTypeFailure": "To failure",
-  "addWarmup": "WARM-UP",
-  "platesPerSide": "Per side: {plates}",
+  "share": "مشاركة",
+  "sharePick": "ماذا تريد أن تعرض؟",
+  "shareSession": "آخر تمرين",
+  "shareStreak": "السلسلة والاستمرارية",
+  "shareBody": "العضلات المستهدفة",
+  "shareCompare": "قبل / بعد",
+  "shareHint": "يتم إنشاء البطاقة على هاتفك. لا يغادر شيء الهاتف حتى تختار وجهة الإرسال.",
+  "shareFailed": "تعذر إنشاء البطاقة",
+  "shareWeekOf": "آخر 7 أيام",
+  "shareStreakLabel": "أيام متتالية",
+  "shareSessionsLabel": "التمارين",
+  "shareVolumeLabel": "الحجم",
+  "shareSetsLabel": "المجموعات",
+  "shareNothing": "سجّل تمرينًا أولًا — لا يوجد شيء لعرضه بعد",
+  "restForExercise": "الراحة لهذا التمرين",
+  "restUsingDefault": "استخدام المدة الافتراضية",
+  "restCustom": "لهذا فقط",
+  "setType": "نوع المجموعة",
+  "setTypeNormal": "عمل",
+  "setTypeWarmup": "إحماء",
+  "setTypeDrop": "مجموعة إسقاط",
+  "setTypeFailure": "حتى الفشل",
+  "addWarmup": "إحماء",
+  "platesPerSide": "لكل جانب: {plates}",
   "@platesPerSide": {
     "placeholders": {
       "plates": {
@@ -598,12 +598,12 @@
       }
     }
   },
-  "howTo": "HOW TO",
-  "similar": "SIMILAR",
-  "primaryLabel": "PRIMARY",
-  "secondaryLabel": "SECONDARY",
-  "none": "None",
-  "setCount": "{n, plural, =1{{n} set} other{{n} sets}}",
+  "howTo": "كيفية الأداء",
+  "similar": "مشابهة",
+  "primaryLabel": "أساسي",
+  "secondaryLabel": "ثانوي",
+  "none": "لا شيء",
+  "setCount": "{n, plural, =1{مجموعة واحدة} other{{n} مجموعات}}",
   "@setCount": {
     "placeholders": {
       "n": {
@@ -611,7 +611,7 @@
       }
     }
   },
-  "volumeSuffix": "{v} volume",
+  "volumeSuffix": "حجم {v}",
   "@volumeSuffix": {
     "placeholders": {
       "v": {
@@ -619,16 +619,16 @@
       }
     }
   },
-  "weeklyPlan": "WEEKLY PLAN",
-  "yourRoutines": "YOUR ROUTINES",
-  "noRoutines": "No routines yet. Create one and add your exercises.",
-  "newRoutine": "NEW ROUTINE",
-  "routineName": "Routine name",
-  "schedule": "SCHEDULE",
-  "addFromList": "Add exercises from the list below.",
-  "addExercises": "Add exercises",
-  "deleteRoutine": "Delete this routine?",
-  "exercisesWithCount": "EXERCISES · {n}",
+  "weeklyPlan": "الخطة الأسبوعية",
+  "yourRoutines": "روتيناتك",
+  "noRoutines": "لا توجد روتينات بعد. أنشئ واحدًا وأضف تمارينك.",
+  "newRoutine": "روتين جديد",
+  "routineName": "اسم الروتين",
+  "schedule": "الجدول",
+  "addFromList": "أضف تمارين من القائمة أدناه.",
+  "addExercises": "إضافة تمارين",
+  "deleteRoutine": "حذف هذا الروتين؟",
+  "exercisesWithCount": "التمارين · {n}",
   "@exercisesWithCount": {
     "placeholders": {
       "n": {
@@ -636,7 +636,7 @@
       }
     }
   },
-  "setDay": "SET {day}",
+  "setDay": "تعيين {day}",
   "@setDay": {
     "placeholders": {
       "day": {
@@ -644,9 +644,9 @@
       }
     }
   },
-  "newRoutineName": "New routine",
-  "dragToReorder": "Drag the dotted handle to reorder — this is the order you train in.",
-  "reorderHandle": "Reorder {name}",
+  "newRoutineName": "روتين جديد",
+  "dragToReorder": "اسحب المقبض المنقّط لإعادة الترتيب — هذا هو ترتيب تمرينك.",
+  "reorderHandle": "إعادة ترتيب {name}",
   "@reorderHandle": {
     "placeholders": {
       "name": {
@@ -654,9 +654,9 @@
       }
     }
   },
-  "removeFromRoutine": "Remove from routine",
-  "dropExercise": "Drop this exercise?",
-  "dropExerciseBody": "\"{name}\" leaves this workout. Nothing logged is lost.",
+  "removeFromRoutine": "إزالة من الروتين",
+  "dropExercise": "إزالة هذا التمرين؟",
+  "dropExerciseBody": "ستتم إزالة \"{name}\" من هذا التمرين. لن تفقد أي بيانات مسجلة.",
   "@dropExerciseBody": {
     "placeholders": {
       "name": {
@@ -664,37 +664,37 @@
       }
     }
   },
-  "drop": "Drop",
-  "addToWorkout": "ADD AN EXERCISE",
-  "resetData": "Delete all my data",
-  "resetTitle": "Delete everything?",
-  "resetBody": "Sessions, records, routines, notes and profile. This cannot be undone — export a backup first if you might want it.",
-  "resetConfirm": "Delete everything",
-  "resetDone": "All data deleted",
-  "support": "SUPPORT",
-  "reportBug": "Report a bug",
-  "requestFeature": "Request a feature",
-  "starOnGithub": "Star on GitHub",
-  "buyCoffee": "Buy me a coffee",
-  "cantOpenLink": "Couldn't open the link",
-  "theme": "Theme",
-  "darkTheme": "Dark",
-  "lightTheme": "Light",
-  "languageLabel": "Language",
-  "unitsLabel": "Units",
-  "restTimer": "Rest timer",
-  "alarmBlockedTitle": "Notifications are off",
-  "alarmBlockedBody": "The rest alarm won't go off with the screen locked",
-  "alarmBlockedAction": "TURN ON",
-  "alarmSound": "Alarm sound",
-  "alarmDefaultName": "Default",
-  "alarmSoundHint": "Use your own — up to 15 seconds",
-  "alarmChoose": "Choose a sound…",
-  "alarmPreview": "Play current sound",
-  "alarmReset": "Reset to default",
-  "alarmTooLong": "That sound is longer than 15 seconds",
-  "alarmInvalid": "Couldn't read that audio file",
-  "alarmChanged": "Alarm sound set to \"{name}\"",
+  "drop": "إزالة",
+  "addToWorkout": "إضافة تمرين",
+  "resetData": "حذف جميع بياناتي",
+  "resetTitle": "حذف كل شيء؟",
+  "resetBody": "التمارين والسجلات والروتينات والملاحظات والملف الشخصي. لا يمكن التراجع عن ذلك — صدّر نسخة احتياطية أولًا إذا قد تحتاجها.",
+  "resetConfirm": "حذف كل شيء",
+  "resetDone": "تم حذف جميع البيانات",
+  "support": "الدعم",
+  "reportBug": "الإبلاغ عن خطأ",
+  "requestFeature": "اقتراح ميزة",
+  "starOnGithub": "أضف نجمة على GitHub",
+  "buyCoffee": "اشترِ لي قهوة",
+  "cantOpenLink": "تعذر فتح الرابط",
+  "theme": "السمة",
+  "darkTheme": "داكن",
+  "lightTheme": "فاتح",
+  "languageLabel": "اللغة",
+  "unitsLabel": "الوحدات",
+  "restTimer": "مؤقت الراحة",
+  "alarmBlockedTitle": "الإشعارات متوقفة",
+  "alarmBlockedBody": "لن يصدر منبه الراحة صوتًا عندما تكون الشاشة مقفلة",
+  "alarmBlockedAction": "تشغيل",
+  "alarmSound": "صوت المنبه",
+  "alarmDefaultName": "افتراضي",
+  "alarmSoundHint": "استخدم صوتك الخاص — حتى 15 ثانية",
+  "alarmChoose": "اختر صوتًا…",
+  "alarmPreview": "تشغيل الصوت الحالي",
+  "alarmReset": "إعادة الضبط إلى الصوت الافتراضي",
+  "alarmTooLong": "هذا الصوت أطول من 15 ثانية",
+  "alarmInvalid": "تعذر قراءة ملف الصوت هذا",
+  "alarmChanged": "تم تعيين صوت المنبه إلى \"{name}\"",
   "@alarmChanged": {
     "placeholders": {
       "name": {
@@ -702,24 +702,24 @@
       }
     }
   },
-  "alarmChangedDefault": "Back to the default sound",
-  "addActivityWidget": "Add activity widget",
-  "addStatsWidget": "Add stats widget",
-  "pinUnsupported": "Add it from your launcher's widget menu",
-  "background": "Background",
-  "bgNone": "None",
-  "bgDots": "Dots",
-  "bgGrid": "Grid",
-  "exportCsv": "Export workouts (CSV)",
-  "exportBackup": "Export backup (ZIP)",
-  "importBackup": "Import backup",
-  "importHint": "Choose a .zip (or older .json) backup exported from GymMane. This replaces your current data, media included.",
-  "import": "Import",
-  "chooseFile": "Choose file",
-  "importFromApp": "Import from another app",
-  "importUnknownFormat": "That file needs date, exercise, reps and weight columns",
-  "importZipNoWeights": "That zip has no weight file in it",
-  "importWeights": "{n, plural, =1{Imported {n} weigh-in} other{Imported {n} weigh-ins}}",
+  "alarmChangedDefault": "تمت استعادة الصوت الافتراضي",
+  "addActivityWidget": "إضافة أداة النشاط",
+  "addStatsWidget": "إضافة أداة الإحصاءات",
+  "pinUnsupported": "أضفه من قائمة الأدوات في المشغّل",
+  "background": "الخلفية",
+  "bgNone": "لا شيء",
+  "bgDots": "نقاط",
+  "bgGrid": "شبكة",
+  "exportCsv": "تصدير التمارين (CSV)",
+  "exportBackup": "تصدير نسخة احتياطية (ZIP)",
+  "importBackup": "استيراد نسخة احتياطية",
+  "importHint": "اختر نسخة احتياطية .zip (أو .json أقدم) تم تصديرها من GymMane. سيؤدي ذلك إلى استبدال بياناتك الحالية بما فيها الوسائط.",
+  "import": "استيراد",
+  "chooseFile": "اختر ملفًا",
+  "importFromApp": "الاستيراد من تطبيق آخر",
+  "importUnknownFormat": "يجب أن يحتوي الملف على أعمدة التاريخ والتمرين والتكرارات والوزن",
+  "importZipNoWeights": "ملف ZIP هذا لا يحتوي على ملف وزن",
+  "importWeights": "{n, plural, =1{تم استيراد قياس وزن واحد} other{تم استيراد {n} قياسات وزن}}",
   "@importWeights": {
     "placeholders": {
       "n": {
@@ -727,11 +727,11 @@
       }
     }
   },
-  "importReadFailed": "Couldn't read that file",
-  "importUnitTitle": "Which unit is that file in?",
-  "importUnitBody": "This export doesn't say which unit the weights are in.",
-  "importNothing": "Nothing new to import",
-  "importDone": "{n, plural, =1{Imported {n} session} other{Imported {n} sessions}}",
+  "importReadFailed": "تعذر قراءة هذا الملف",
+  "importUnitTitle": "ما الوحدة المستخدمة في هذا الملف؟",
+  "importUnitBody": "لا يحدد هذا التصدير وحدة الأوزان.",
+  "importNothing": "لا يوجد شيء جديد لاستيراده",
+  "importDone": "{n, plural, =1{تم استيراد تمرين واحد} other{تم استيراد {n} تمارين}}",
   "@importDone": {
     "placeholders": {
       "n": {
@@ -739,31 +739,31 @@
       }
     }
   },
-  "aboutGymmane": "About GymMane",
-  "yourProfile": "YOUR PROFILE",
-  "autofills": "Autofills the calculators",
-  "nameLabel": "NAME",
-  "sexLabel": "SEX",
-  "macroProtein": "PROTEIN",
-  "macroCarbs": "CARBS",
-  "macroFat": "FAT",
-  "male": "Male",
-  "female": "Female",
-  "ageLabel": "AGE",
-  "heightLabel": "HEIGHT",
-  "weightLabel": "WEIGHT",
-  "weeklyGoal": "WEEKLY GOAL",
-  "activityLabel": "ACTIVITY",
-  "addPhoto": "Add a photo",
-  "removePhoto": "Remove photo",
-  "takePhoto": "Take a photo",
-  "chooseGallery": "Choose from gallery",
-  "backupCopied": "Backup copied to clipboard",
-  "backupImported": "Backup imported",
-  "backupFailed": "Couldn't read that backup",
-  "nothingToExport": "Nothing to export yet — log a session first",
-  "athlete": "Athlete",
-  "calculatorsCount": "{n} calculators for your training",
+  "aboutGymmane": "حول GymMane",
+  "yourProfile": "ملفك الشخصي",
+  "autofills": "يملأ الحاسبات تلقائيًا",
+  "nameLabel": "الاسم",
+  "sexLabel": "الجنس",
+  "macroProtein": "البروتين",
+  "macroCarbs": "الكربوهيدرات",
+  "macroFat": "الدهون",
+  "male": "ذكر",
+  "female": "أنثى",
+  "ageLabel": "العمر",
+  "heightLabel": "الطول",
+  "weightLabel": "الوزن",
+  "weeklyGoal": "الهدف الأسبوعي",
+  "activityLabel": "النشاط",
+  "addPhoto": "إضافة صورة",
+  "removePhoto": "إزالة الصورة",
+  "takePhoto": "التقاط صورة",
+  "chooseGallery": "اختر من المعرض",
+  "backupCopied": "تم نسخ النسخة الاحتياطية إلى الحافظة",
+  "backupImported": "تم استيراد النسخة الاحتياطية",
+  "backupFailed": "تعذر قراءة هذه النسخة الاحتياطية",
+  "nothingToExport": "لا يوجد شيء لتصديره بعد — سجّل تمرينًا أولًا",
+  "athlete": "رياضي",
+  "calculatorsCount": "{n} حاسبات لتدريبك",
   "@calculatorsCount": {
     "placeholders": {
       "n": {
@@ -771,19 +771,19 @@
       }
     }
   },
-  "result": "RESULT",
-  "weightLifted": "WEIGHT LIFTED",
-  "repsPerformed": "REPS PERFORMED",
-  "neck": "NECK",
-  "waist": "WAIST",
-  "hip": "HIP (for women)",
-  "targetWeight": "TARGET WEIGHT",
-  "workingWeight": "WORKING WEIGHT",
-  "activityLevel": "ACTIVITY LEVEL",
-  "barWeight": "BAR WEIGHT",
-  "perSide": "PER SIDE",
-  "justTheBar": "Just the bar.",
-  "perSideCount": "× {n} per side",
+  "result": "النتيجة",
+  "weightLifted": "الوزن المرفوع",
+  "repsPerformed": "التكرارات المنفذة",
+  "neck": "الرقبة",
+  "waist": "الخصر",
+  "hip": "الورك (للنساء)",
+  "targetWeight": "الوزن المستهدف",
+  "workingWeight": "وزن العمل",
+  "activityLevel": "مستوى النشاط",
+  "barWeight": "وزن البار",
+  "perSide": "لكل جانب",
+  "justTheBar": "البار فقط.",
+  "perSideCount": "× {n} لكل جانب",
   "@perSideCount": {
     "placeholders": {
       "n": {
@@ -791,7 +791,7 @@
       }
     }
   },
-  "rampSet": "{pct} · {reps} reps",
+  "rampSet": "{pct} · {reps} تكرارات",
   "@rampSet": {
     "placeholders": {
       "pct": {
@@ -803,70 +803,70 @@
     }
   },
   "toolNameRm": "1RM",
-  "toolNameBmi": "BMI",
-  "toolNameCal": "Calories",
-  "toolNameBf": "Body Fat",
-  "toolNamePlate": "Plates",
-  "toolNameWarmup": "Warm-up",
-  "toolTitleRm": "1RM Calculator",
-  "toolTitleBmi": "BMI Calculator",
-  "toolTitleCal": "Calories & Macros",
-  "toolTitleBf": "Body Fat %",
-  "toolTitlePlate": "Plate Calculator",
-  "toolTitleWarmup": "Warm-up Sets",
-  "toolHintRm": "Estimated 1-rep max (Epley formula)",
-  "toolHintCal": "Estimated daily maintenance",
-  "toolHintBf": "US Navy method estimate",
-  "toolHintPlate": "Total barbell weight",
-  "toolHintWarmup": "Working weight target",
-  "toolDescRm": "Estimated one-rep max",
-  "toolDescBmi": "Body mass index",
-  "toolDescCal": "Calories & macros",
-  "toolDescBf": "Body fat percentage",
-  "toolDescPlate": "Barbell plate calculator",
-  "toolDescWarmup": "Ramp-up sets",
-  "bmiUnderweight": "Underweight",
-  "bmiNormal": "Normal",
-  "bmiOverweight": "Overweight",
-  "bmiObese": "Obese",
-  "actSedentary": "Sedentary",
-  "actLight": "Light",
-  "actActive": "Active",
-  "actModerate": "Moderate",
-  "muscleChest": "Chest",
-  "muscleBack": "Back",
-  "muscleShoulders": "Shoulders",
-  "muscleBiceps": "Biceps",
-  "muscleTriceps": "Triceps",
-  "muscleForearm": "Forearm",
-  "muscleTrapezius": "Trapezius",
-  "muscleAbdomen": "Abdomen",
-  "muscleObliques": "Obliques",
-  "muscleQuads": "Quads",
-  "muscleHamstrings": "Hamstrings",
-  "muscleGlutes": "Glutes",
-  "muscleCalves": "Calves",
-  "mgChest": "Chest",
-  "mgBack": "Back",
-  "mgLegs": "Legs",
-  "mgShoulders": "Shoulders",
-  "mgArms": "Arms",
-  "mgCore": "Core",
-  "equipBarbell": "Barbell",
-  "equipDumbbell": "Dumbbell",
-  "equipCable": "Cable",
-  "equipMachine": "Machine",
-  "equipBodyweight": "Bodyweight",
-  "equipWeighted": "Weighted",
-  "equipBand": "Band",
-  "equipKettlebell": "Kettlebell",
-  "equipRings": "Rings",
-  "equipOther": "Other",
-  "diffBeginner": "Beginner",
-  "diffAdvanced": "Advanced",
-  "diffIntermediate": "Intermediate",
-  "about": "ABOUT",
-  "version": "Version {v}",
+  "toolNameBmi": "مؤشر كتلة الجسم",
+  "toolNameCal": "السعرات الحرارية",
+  "toolNameBf": "دهون الجسم",
+  "toolNamePlate": "الأقراص",
+  "toolNameWarmup": "الإحماء",
+  "toolTitleRm": "حاسبة 1RM",
+  "toolTitleBmi": "حاسبة مؤشر كتلة الجسم",
+  "toolTitleCal": "السعرات والمغذيات الكبرى",
+  "toolTitleBf": "نسبة دهون الجسم",
+  "toolTitlePlate": "حاسبة الأقراص",
+  "toolTitleWarmup": "مجموعات الإحماء",
+  "toolHintRm": "الحد الأقصى المقدر لتكرار واحد (معادلة إبلي)",
+  "toolHintCal": "تقدير احتياجات الصيانة اليومية",
+  "toolHintBf": "تقدير بطريقة البحرية الأمريكية",
+  "toolHintPlate": "الوزن الإجمالي للبار",
+  "toolHintWarmup": "وزن العمل المستهدف",
+  "toolDescRm": "الحد الأقصى المقدر لتكرار واحد",
+  "toolDescBmi": "مؤشر كتلة الجسم",
+  "toolDescCal": "السعرات والمغذيات الكبرى",
+  "toolDescBf": "نسبة دهون الجسم",
+  "toolDescPlate": "حاسبة أقراص الأوزان",
+  "toolDescWarmup": "مجموعات إحماء تصاعدية",
+  "bmiUnderweight": "نقص الوزن",
+  "bmiNormal": "وزن طبيعي",
+  "bmiOverweight": "زيادة الوزن",
+  "bmiObese": "السمنة",
+  "actSedentary": "خامل",
+  "actLight": "خفيف",
+  "actActive": "نشط",
+  "actModerate": "متوسط",
+  "muscleChest": "الصدر",
+  "muscleBack": "الظهر",
+  "muscleShoulders": "الكتفان",
+  "muscleBiceps": "البايسبس",
+  "muscleTriceps": "الترايسبس",
+  "muscleForearm": "الساعد",
+  "muscleTrapezius": "الترابيس",
+  "muscleAbdomen": "البطن",
+  "muscleObliques": "العضلات المائلة",
+  "muscleQuads": "العضلة الرباعية",
+  "muscleHamstrings": "أوتار الركبة",
+  "muscleGlutes": "الألوية",
+  "muscleCalves": "ربلة الساق",
+  "mgChest": "الصدر",
+  "mgBack": "الظهر",
+  "mgLegs": "الأرجل",
+  "mgShoulders": "الكتفان",
+  "mgArms": "الذراعان",
+  "mgCore": "الجذع",
+  "equipBarbell": "بار حديد",
+  "equipDumbbell": "دمبل",
+  "equipCable": "كابل",
+  "equipMachine": "آلة",
+  "equipBodyweight": "وزن الجسم",
+  "equipWeighted": "بوزن إضافي",
+  "equipBand": "شريط مقاومة",
+  "equipKettlebell": "كيتل بيل",
+  "equipRings": "حلقات",
+  "equipOther": "أخرى",
+  "diffBeginner": "مبتدئ",
+  "diffAdvanced": "متقدم",
+  "diffIntermediate": "متوسط",
+  "about": "حول",
+  "version": "الإصدار {v}",
   "@version": {
     "placeholders": {
       "v": {
@@ -874,15 +874,15 @@
       }
     }
   },
-  "aboutBlurb": "Built by lifters, for lifters.",
-  "freeForever": "Free forever",
-  "freeForeverWhy": "No subscription, no ads, nothing locked behind a paywall.",
-  "fullyOffline": "Fully offline",
-  "fullyOfflineWhy": "No account, no servers. Your training never leaves this phone.",
-  "yoursToTake": "Your data is yours",
-  "yoursToTakeWhy": "Export it to CSV whenever you like, and delete it all in one tap.",
-  "whatsInside": "WHAT'S INSIDE",
-  "exercisesInside": "{n} exercises",
+  "aboutBlurb": "صنعه متدربون للمتدربين.",
+  "freeForever": "مجاني إلى الأبد",
+  "freeForeverWhy": "لا اشتراك ولا إعلانات ولا ميزات محجوبة بالدفع.",
+  "fullyOffline": "100% دون اتصال",
+  "fullyOfflineWhy": "لا حساب ولا خادم. تمارينك لا تغادر هذا الهاتف أبدًا.",
+  "yoursToTake": "بياناتك ملكك",
+  "yoursToTakeWhy": "صدّرها بصيغة CSV متى شئت واحذف كل شيء بخطوة واحدة.",
+  "whatsInside": "المحتوى",
+  "exercisesInside": "{n} تمارين",
   "@exercisesInside": {
     "placeholders": {
       "n": {
@@ -890,16 +890,16 @@
       }
     }
   },
-  "exercisesInsideWhy": "Every one with an animation and step-by-step instructions.",
-  "calculatorsInside": "6 calculators",
-  "calculatorsInsideWhy": "1RM, plates, BMI, calories, body fat and warm-up — all with published formulas.",
-  "mathInside": "Honest maths",
-  "mathInsideWhy": "Volume, records and streaks come from your own sets. Nothing here is decoration.",
-  "yourNumbers": "YOUR NUMBERS",
-  "sessionsCaps": "SESSIONS",
-  "liftedCaps": "LIFTED",
-  "streakCaps": "STREAK",
-  "daysUnit": "{n, plural, =1{day} other{days}}",
+  "exercisesInsideWhy": "لكل تمرين رسوم متحركة وتعليمات خطوة بخطوة.",
+  "calculatorsInside": "6 حاسبات",
+  "calculatorsInsideWhy": "1RM والأقراص ومؤشر كتلة الجسم والسعرات ودهون الجسم والإحماء — كلها مبنية على معادلات منشورة.",
+  "mathInside": "حسابات شفافة",
+  "mathInsideWhy": "يتم حساب الحجم والأرقام القياسية والمجموعات من بياناتك أنت. لا شيء للزينة فقط.",
+  "yourNumbers": "أرقامك",
+  "sessionsCaps": "التمارين",
+  "liftedCaps": "مرفوع",
+  "streakCaps": "السلسلة",
+  "daysUnit": "{n, plural, =1{يوم} other{أيام}}",
   "@daysUnit": {
     "placeholders": {
       "n": {
@@ -907,8 +907,8 @@
       }
     }
   },
-  "restDefaultLabel": "Rest timer",
-  "restDefault": "Default is {s}s — change it in Settings",
+  "restDefaultLabel": "مؤقت الراحة",
+  "restDefault": "الافتراضي: {s} ث — غيّره من الإعدادات",
   "@restDefault": {
     "placeholders": {
       "s": {
@@ -916,11 +916,11 @@
       }
     }
   },
-  "reset": "RESET",
-  "welcomeKicker": "WELCOME TO",
-  "welcomeBlurb": "Everything stays on your phone. No account, no internet, nothing to pay.",
-  "welcomeStart": "GET STARTED",
-  "onbStep": "STEP {i} OF {n}",
+  "reset": "إعادة تعيين",
+  "welcomeKicker": "مرحبًا بك في",
+  "welcomeBlurb": "كل شيء يبقى على هاتفك. لا حساب ولا إنترنت ولا دفع.",
+  "welcomeStart": "ابدأ",
+  "onbStep": "الخطوة {i} من {n}",
   "@onbStep": {
     "placeholders": {
       "i": {
@@ -931,14 +931,14 @@
       }
     }
   },
-  "onbNameTitle": "What should we call you?",
-  "onbNameHint": "Your name",
-  "onbNameWhy": "Only used to greet you. It never leaves the phone.",
-  "onbBodyTitle": "A few numbers",
-  "onbBodyWhy": "They feed the calculators. You can change them any time in Settings.",
-  "onbGoalTitle": "How often do you train?",
-  "onbGoalWhy": "Sets your weekly goal ring. Be honest, not ambitious.",
-  "perWeek": "{n, plural, =1{{n} session a week} other{{n} sessions a week}}",
+  "onbNameTitle": "ماذا نادِيك؟",
+  "onbNameHint": "اسمك الأول",
+  "onbNameWhy": "يُستخدم فقط لتحيتك. لا يغادر هاتفك أبدًا.",
+  "onbBodyTitle": "بعض البيانات",
+  "onbBodyWhy": "تُستخدم في الحاسبات. يمكنك تغييرها في الإعدادات في أي وقت.",
+  "onbGoalTitle": "كم مرة تتمرن؟",
+  "onbGoalWhy": "يحدد هدفك الأسبوعي. كن واقعيًا ولا تبالغ في الطموح.",
+  "perWeek": "{n, plural, =1{تمرين واحد في الأسبوع} other{{n} تمارين في الأسبوع}}",
   "@perWeek": {
     "placeholders": {
       "n": {
@@ -946,26 +946,26 @@
       }
     }
   },
-  "onbUnitsTitle": "Kilos or pounds?",
-  "next": "NEXT",
-  "back": "BACK",
-  "skip2": "Skip",
-  "madeWithLoveBy": "MADE WITH LOVE BY",
-  "sourceCode": "SOURCE CODE",
-  "suggested": "SUGGESTED",
-  "results": "RESULTS",
-  "noMatches": "No exercise matches that search.",
-  "tapToEdit": "Tap the pencil to fix an entry, or the bin to remove it.",
-  "editEntry": "Edit",
-  "editEntryHint": "Fix the reps or the weight of any set.",
-  "removeSet": "Remove set",
-  "continueWorkout": "CONTINUE",
-  "continueWorkoutBody": "The workout goes back to being in progress, with its sets already ticked. Finishing it again saves it on its original day.",
-  "addBodyWidget": "Add muscle map widget",
-  "repsOnly": "Reps only",
-  "repsOnlyHint": "Log this exercise without weight.",
-  "useDefaultArt": "Back to the default art",
-  "daysShort": "{n}d",
+  "onbUnitsTitle": "كيلوغرام أم رطل؟",
+  "next": "التالي",
+  "back": "رجوع",
+  "skip2": "تخطَّ",
+  "madeWithLoveBy": "صُنع بحب بواسطة",
+  "sourceCode": "الكود المصدري",
+  "suggested": "مقترح",
+  "results": "النتائج",
+  "noMatches": "لا يوجد تمرين يطابق هذا البحث.",
+  "tapToEdit": "اضغط على القلم لتعديل الإدخال أو سلة المهملات لحذفه.",
+  "editEntry": "تعديل",
+  "editEntryHint": "صحح التكرارات أو الوزن لأي مجموعة.",
+  "removeSet": "حذف المجموعة",
+  "continueWorkout": "متابعة",
+  "continueWorkoutBody": "سيستأنف التمرين مع المجموعات المحددة مسبقًا. عند إنهائه مرة أخرى سيُحفظ بتاريخِه الأصلي.",
+  "addBodyWidget": "إضافة أداة خريطة العضلات",
+  "repsOnly": "تكرارات فقط",
+  "repsOnlyHint": "سجّل هذا التمرين دون وزن.",
+  "useDefaultArt": "العودة إلى الرسم الافتراضي",
+  "daysShort": "{n} ي",
   "@daysShort": {
     "placeholders": {
       "n": {
@@ -973,16 +973,16 @@
       }
     }
   },
-  "focusCard": "Today’s focus",
-  "autoAdvance": "Move on automatically",
-  "keepScreenOn": "Keep the screen on while training",
-  "lockWorkout": "Lock the screen",
-  "unlockWorkout": "Unlock",
-  "lockedCaps": "LOCKED",
-  "holdToUnlock": "Hold to unlock",
-  "liveChannel": "Ongoing workout",
-  "liveChannelWhy": "Shows the current exercise, set and rest timer while you train",
-  "liveSet": "Set {n} of {total}",
+  "focusCard": "تركيز اليوم",
+  "autoAdvance": "الانتقال تلقائيًا إلى التالي",
+  "keepScreenOn": "إبقاء الشاشة مضاءة أثناء التمرين",
+  "lockWorkout": "قفل الشاشة",
+  "unlockWorkout": "فتح القفل",
+  "lockedCaps": "مقفل",
+  "holdToUnlock": "اضغط مطولًا لفتح القفل",
+  "liveChannel": "تمرين جارٍ",
+  "liveChannelWhy": "يعرض التمرين الحالي والمجموعة ومؤقت الراحة أثناء التمرين",
+  "liveSet": "المجموعة {n} من {total}",
   "@liveSet": {
     "placeholders": {
       "n": {
@@ -993,11 +993,11 @@
       }
     }
   },
-  "liveResting": "Resting",
-  "liveAllDone": "All sets done",
-  "autoAdvanceHint": "When the last set of an exercise is ticked, the workout moves on.",
-  "autoProgress": "Add weight next time",
-  "autoProgressHint": "Hit every rep and the next session starts {w} heavier.",
+  "liveResting": "راحة",
+  "liveAllDone": "اكتملت كل المجموعات",
+  "autoAdvanceHint": "عند تحديد آخر مجموعة للتمرين، ينتقل التمرين تلقائيًا إلى التمرين التالي.",
+  "autoProgress": "أضف وزنًا في المرة القادمة",
+  "autoProgressHint": "أكمل كل التكرارات وسيبدأ التمرين التالي بزيادة {w}.",
   "@autoProgressHint": {
     "placeholders": {
       "w": {
@@ -1005,9 +1005,9 @@
       }
     }
   },
-  "placePlates": "Plates and bar",
-  "platesAll": "Everything available",
-  "platesOwned": "{n, plural, =1{{n} size} other{{n} sizes}}",
+  "placePlates": "الأقراص والبار",
+  "platesAll": "كل شيء متاح",
+  "platesOwned": "{n, plural, =1{مقاس واحد} other{{n} مقاسات}}",
   "@platesOwned": {
     "placeholders": {
       "n": {
@@ -1015,8 +1015,8 @@
       }
     }
   },
-  "platePairs": "PAIRS",
-  "plateAchievable": "Closest you can load: {w}",
+  "platePairs": "الأزواج",
+  "plateAchievable": "أقرب وزن ممكن: {w}",
   "@plateAchievable": {
     "placeholders": {
       "w": {
@@ -1024,19 +1024,19 @@
       }
     }
   },
-  "autoWarmup": "Start with warm-up sets",
-  "autoWarmupHint": "Adds the ramp-up sets when the workout opens.",
-  "trainReminder": "Training reminder",
-  "trainReminderHint": "A nudge at this time, only on the days your routine is planned.",
-  "notifTrainChannel": "Training reminder",
-  "notifTrainChannelWhy": "A nudge to train on the days you planned.",
-  "notifTrainTitle": "Time to train",
-  "notifTrainBody": "Your routine is waiting.",
-  "exportCatalog": "Export exercise list",
-  "importRoutine": "Import a routine (JSON)",
-  "planIntro": "Build me a training routine using only the exercises in this list.",
-  "planFormat": "Answer with JSON only, in this shape:",
-  "planImported": "{n, plural, =1{{n} exercise added to the routine} other{{n} exercises added to the routine}}",
+  "autoWarmup": "ابدأ بمجموعات الإحماء",
+  "autoWarmupHint": "يضيف مجموعات إحماء تصاعدية عند فتح التمرين.",
+  "trainReminder": "تذكير بالتمرين",
+  "trainReminderHint": "تذكير في هذا الوقت، فقط في الأيام التي يكون فيها روتينك مجدولًا.",
+  "notifTrainChannel": "تذكير بالتمرين",
+  "notifTrainChannelWhy": "تذكير للتمرن في الأيام التي خططت لها.",
+  "notifTrainTitle": "حان وقت التمرين",
+  "notifTrainBody": "روتينك بانتظارك.",
+  "exportCatalog": "تصدير قائمة التمارين",
+  "importRoutine": "استيراد روتين (JSON)",
+  "planIntro": "أنشئ لي روتين تدريب باستخدام التمارين الموجودة في هذه القائمة فقط.",
+  "planFormat": "أجب بصيغة JSON فقط، بهذا الشكل:",
+  "planImported": "{n, plural, =1{تمت إضافة تمرين واحد إلى الروتين} other{تمت إضافة {n} تمارين إلى الروتين}}",
   "@planImported": {
     "placeholders": {
       "n": {
@@ -1044,30 +1044,30 @@
       }
     }
   },
-  "planNothing": "No exercise in that file matched your library",
-  "planFailed": "That file is not a routine we can read",
-  "routineGroup": "Group",
-  "newGroup": "New group",
-  "noGroup": "No group",
-  "groupNameHint": "Push / Pull / Legs, 5×5…",
-  "filters": "Filters",
-  "setsPlannedHint": "Pick how many sets you want of each one. The workout opens with them ready.",
-  "nextTime": "NEXT",
-  "nextHold": "same weight until you hit every rep",
-  "bgPhoto": "Your photo",
-  "bgPhotoPick": "Choose a photo",
-  "bgPhotoChange": "Change photo",
-  "bgPhotoRemove": "Remove photo",
-  "bgDim": "HOW DARK",
-  "dimSoft": "Soft",
-  "dimMedium": "Medium",
-  "dimStrong": "Strong",
-  "bgPhotoHint": "It sits behind everything, dimmed so the app stays readable.",
-  "reminderSmart": "Smart",
-  "reminderFixed": "Fixed time",
-  "reminderSmartHint": "It uses the days and the time you actually train, and stays quiet on a day you already trained.",
-  "reminderSmartEmpty": "Log a few more sessions and it will learn your days.",
-  "habitFocus": "what you usually train on {day}",
+  "planNothing": "لا يوجد تمرين في هذا الملف يطابق مكتبتك",
+  "planFailed": "هذا الملف ليس روتينًا يمكن لـ GymMane قراءته",
+  "routineGroup": "مجموعة",
+  "newGroup": "مجموعة جديدة",
+  "noGroup": "بدون مجموعة",
+  "groupNameHint": "دفع / سحب / أرجل، 5×5…",
+  "filters": "عوامل التصفية",
+  "setsPlannedHint": "اختر عدد المجموعات لكل تمرين. سيفتح التمرين وكل شيء جاهز.",
+  "nextTime": "المرة القادمة",
+  "nextHold": "حافظ على نفس الوزن حتى تكمل كل التكرارات",
+  "bgPhoto": "صورتك",
+  "bgPhotoPick": "اختر صورة",
+  "bgPhotoChange": "تغيير الصورة",
+  "bgPhotoRemove": "إزالة الصورة",
+  "bgDim": "التعتيم",
+  "dimSoft": "خفيف",
+  "dimMedium": "متوسط",
+  "dimStrong": "قوي",
+  "bgPhotoHint": "تظهر خلف الواجهة كلها مع تعتيمها للحفاظ على وضوح التطبيق.",
+  "reminderSmart": "ذكي",
+  "reminderFixed": "وقت ثابت",
+  "reminderSmartHint": "يستخدم الأيام والأوقات التي تتمرن فيها فعليًا ويبقى صامتًا إذا كنت قد تمرنت في ذلك اليوم بالفعل.",
+  "reminderSmartEmpty": "سجّل بضعة تمارين أخرى ليتعلم عاداتك.",
+  "habitFocus": "ما تتمرن عليه عادةً يوم {day}",
   "@habitFocus": {
     "placeholders": {
       "day": {
@@ -1075,8 +1075,8 @@
       }
     }
   },
-  "duplicateRoutine": "Duplicate routine",
-  "copySuffix": "{name} (copy)",
+  "duplicateRoutine": "تكرار الروتين",
+  "copySuffix": "{name} (نسخة)",
   "@copySuffix": {
     "placeholders": {
       "name": {
@@ -1084,11 +1084,11 @@
       }
     }
   },
-  "saveAsRoutine": "SAVE AS A ROUTINE",
-  "savedAsRoutine": "Saved as a routine",
-  "templates": "Ready-made plans",
-  "templatesHint": "Classic programmes, built from your own library. You can change anything afterwards.",
-  "templateAdded": "{n, plural, =1{{n} routine added} other{{n} routines added}}",
+  "saveAsRoutine": "حفظ كروتين",
+  "savedAsRoutine": "تم الحفظ كروتين",
+  "templates": "روتينات جاهزة",
+  "templatesHint": "روتينات كلاسيكية مبنية من مكتبتك. يمكنك تعديل كل شيء بعدها.",
+  "templateAdded": "{n, plural, =1{تمت إضافة روتين واحد} other{تمت إضافة {n} روتينات}}",
   "@templateAdded": {
     "placeholders": {
       "n": {
@@ -1096,13 +1096,13 @@
       }
     }
   },
-  "tplFullbody": "Three full-body days a week. The one to start with.",
-  "tplPpl": "Push, pull and legs. Three or six days a week.",
-  "tplUpperlower": "Upper and lower body, four days a week.",
-  "tplStronglifts": "Two workouts, five sets of five, alternating.",
-  "tplStartingstrength": "Squat every session, two alternating workouts.",
-  "tplHome": "Nothing but a bar to hang from and the floor.",
-  "dayCount": "{n, plural, =1{{n} day} other{{n} days}}",
+  "tplFullbody": "ثلاث تمارين لكامل الجسم أسبوعيًا. مثالي للبداية.",
+  "tplPpl": "دفع وسحب وأرجل. ثلاثة أو ستة أيام أسبوعيًا.",
+  "tplUpperlower": "الجزء العلوي والسفلي، أربعة أيام أسبوعيًا.",
+  "tplStronglifts": "تمرينان بالتناوب، خمس مجموعات من خمس تكرارات.",
+  "tplStartingstrength": "قرفصاء في كل تمرين، مع تمرينين بالتناوب.",
+  "tplHome": "لا شيء سوى عقلة وأرضية.",
+  "dayCount": "{n, plural, =1{يوم واحد} other{{n} أيام}}",
   "@dayCount": {
     "placeholders": {
       "n": {
@@ -1110,19 +1110,19 @@
       }
     }
   },
-  "logRpe": "Log effort (RPE)",
-  "rpeTitle": "EFFORT (RPE)",
-  "rpeHint": "10 is nothing left in the tank, 8 is two reps to spare.",
-  "superset": "Superset",
-  "supersetLink": "Chain with the next one",
-  "supersetHint": "No rest between chained exercises — you go straight to the next one.",
-  "aiRoutine": "Routine with AI",
-  "aiIntro": "GymMane never talks to an AI. You take your exercise list out, you paste it into whatever assistant you already use, and you bring its answer back in. Nothing leaves the phone on its own.",
-  "aiStep1": "Export your exercise list. If you picked a place, it only includes what you can do there.",
-  "aiStep2": "Hand that file to any AI and ask it for a routine.",
-  "aiStep3": "Save its answer as a file — JSON or plain text, either works.",
-  "aiStep4": "Import it here. The names are matched against your library and the routine is built.",
-  "aiMissing": "{n, plural, =1{1 name was not in your library} other{{n} names were not in your library}}",
+  "logRpe": "تسجيل الجهد (RPE)",
+  "rpeTitle": "الجهد (RPE)",
+  "rpeHint": "10 = لا يمكن تكرار إضافي؛ 8 = نحو تكرارين احتياطيين.",
+  "superset": "سوبر سيت",
+  "supersetLink": "ربط بالتالي",
+  "supersetHint": "لا راحة بين التمارين المرتبطة — تنتقل مباشرة إلى التالي.",
+  "aiRoutine": "روتين بالذكاء الاصطناعي",
+  "aiIntro": "لا يتواصل GymMane مباشرةً مع أي ذكاء اصطناعي. تصدّر قائمة تمارينك وتلصقها في المساعد الذي تستخدمه ثم تستورد رده. لا شيء يغادر هاتفك تلقائيًا.",
+  "aiStep1": "صدّر قائمة تمارينك. إذا اخترت مكانًا فستحتوي فقط على ما يمكنك فعله هناك.",
+  "aiStep2": "أعطِ هذا الملف للذكاء الاصطناعي الذي تختاره واطلب منه روتينًا.",
+  "aiStep3": "احفظ الرد في ملف — JSON أو نص عادي، كلاهما يعمل.",
+  "aiStep4": "استورده هنا. ستتم مطابقة الأسماء مع مكتبتك وإنشاء الروتين.",
+  "aiMissing": "{n, plural, =1{اسم واحد غير موجود في مكتبتك} other{{n} أسماء غير موجودة في مكتبتك}}",
   "@aiMissing": {
     "placeholders": {
       "n": {
@@ -1130,105 +1130,105 @@
       }
     }
   },
-  "importApps": "Which apps it reads",
-  "importOtherCsv": "Any other CSV with date, exercise, reps and weight",
-  "importAskApp": "Need another app? Ask for it",
-  "awardFirstStepName": "First step",
-  "awardFirstStepLine": "Welcome to GymMane. This one is on the house.",
-  "awardFirstWorkoutName": "First workout",
-  "awardFirstWorkoutLine": "The first one is logged. That is the hard one.",
-  "awardFirstRoutineName": "First routine",
-  "awardFirstRoutineLine": "You have a plan to come back to.",
-  "awardFirstRecordName": "First record",
-  "awardFirstRecordLine": "You beat your best lift on an exercise.",
-  "awardStreak3Name": "Three in a row",
-  "awardStreak3Line": "Three days straight. This is how it starts.",
-  "awardTonne1Name": "One tonne",
-  "awardTonne1Line": "A thousand kilos lifted across your sets.",
-  "awardSets100Name": "One hundred sets",
-  "awardSets100Line": "A hundred sets finished, one at a time.",
-  "awardHours10Name": "Ten hours",
-  "awardHours10Line": "Ten hours of training on the clock.",
-  "awardWorkouts50Name": "Fifty workouts",
-  "awardWorkouts50Line": "Fifty sessions behind you.",
-  "awardHours50Name": "Fifty hours",
-  "awardHours50Line": "Fifty hours inside the gym.",
-  "awardsTitle": "Medals",
-  "awardWon": "Earned",
-  "yearTitle": "Your year",
-  "yearBestMonth": "Best month",
-  "yearMonths": "months",
-  "awardSpinHint": "Drag the medal to spin it",
-  "awardUnlocked": "New achievement unlocked",
-  "awardNice": "Awesome!",
-  "awardSaveImage": "Save image",
-  "awardSaved": "Saved to your gallery",
-  "awardStreakBottom": "streak",
-  "awardStreak7Top": "seven days",
-  "awardStreak7Name": "Seven days",
-  "awardStreak7Line": "A full week without missing a day.",
-  "awardStreak30Top": "thirty days",
-  "awardStreak30Name": "Thirty days",
-  "awardStreak30Line": "A month straight. This is a habit now.",
-  "awardWorkouts100Top": "one hundred",
-  "awardWorkouts100Bottom": "workouts",
-  "awardWorkouts100Name": "One hundred workouts",
-  "awardWorkouts100Line": "A hundred sessions logged, start to finish.",
-  "awardTonnes100Top": "one hundred",
-  "awardTonnes100Bottom": "tonnes",
-  "awardTonnes100Name": "One hundred tonnes",
-  "awardTonnes100Line": "Everything you have lifted adds up to 100,000 kg.",
-  "awardSets1000Top": "a thousand",
-  "awardSets1000Bottom": "sets",
-  "awardSets1000Name": "A thousand sets",
-  "awardSets1000Line": "One set at a time, a thousand of them.",
-  "profile": "Profile",
-  "editProfile": "Edit profile",
-  "pickBadge": "Badge",
-  "badgeTitle": "Your badge",
-  "statWorkouts": "Workouts",
-  "statTrained": "Trained",
-  "statSets": "Sets",
-  "statLifted": "Lifted",
-  "statStreak": "Streak",
-  "statDays": "days",
-  "unitHours": "h",
-  "unitDays": "days",
-  "snapshots": "Photos",
-  "snapNow": "Take one",
-  "calendarLegend": "Trained · photos",
-  "addCover": "Add a cover",
-  "addTodayWidget": "Today done or not",
-  "monthTitle": "This month",
-  "photosCard": "Your photos",
-  "handleLabel": "Username",
-  "setupTitle": "Fill these in and the rest of the page fills itself",
-  "setupHint": "Every number here comes from what you log. Nothing is sent anywhere.",
-  "setupWorkout": "Log your first workout",
-  "setupWeight": "Write down your body weight",
-  "setupMeasures": "Take your measurements",
-  "setupPhoto": "Take your first progress photo",
-  "progressTitle": "Progress",
-  "tileVolume30": "Volume · 30d",
-  "tileAddWeight": "Add yours",
-  "heatToneTitle": "Heat colour",
-  "heatToneHint": "Only changes how the grid and the body are painted.",
-  "thisWeekTitle": "This week",
-  "momentsEmptyTitle": "Nothing here yet",
-  "deletePhotoTitle": "Delete this photo?",
-  "deletePhotoBody": "It goes for good.",
-  "awardsEarned": "Earned",
-  "awardsLocked": "Locked",
-  "awardStreak100Name": "One hundred days",
-  "awardWorkouts10Name": "Ten workouts",
-  "awardWorkouts10Line": "The first ten are the ones that decide it.",
-  "awardWorkouts365Name": "Three hundred and sixty-five",
-  "awardWorkouts365Line": "A workout for every day of a year, logged one by one.",
-  "awardTonnes10Name": "Ten tonnes",
-  "awardTonnes10Line": "Ten thousand kilos have gone through your hands.",
-  "awardHours100Name": "One hundred hours",
-  "awardHours100Line": "A hundred hours under the bar, stopwatch in hand.",
-  "awardWonOn": "Earned on {date}",
+  "importApps": "التطبيقات المدعومة",
+  "importOtherCsv": "أي ملف CSV آخر يحتوي على التاريخ والتمرين والتكرارات والوزن",
+  "importAskApp": "تحتاج تطبيقًا آخر؟ اطلب إضافته",
+  "awardFirstStepName": "الخطوة الأولى",
+  "awardFirstStepLine": "مرحبًا بك في GymMane. هذه هدية لك.",
+  "awardFirstWorkoutName": "التمرين الأول",
+  "awardFirstWorkoutLine": "تم تسجيل الأول. وهو الأصعب.",
+  "awardFirstRoutineName": "الروتين الأول",
+  "awardFirstRoutineLine": "لديك الآن خطة يمكنك العودة إليها.",
+  "awardFirstRecordName": "الرقم القياسي الأول",
+  "awardFirstRecordLine": "تفوقت على أفضل نتيجة لك في تمرين.",
+  "awardStreak3Name": "ثلاثة متتالية",
+  "awardStreak3Line": "ثلاثة أيام متتالية. هكذا تبدأ العادة.",
+  "awardTonne1Name": "طن واحد",
+  "awardTonne1Line": "رفعت ألف كيلوغرام إجمالًا عبر مجموعاتك.",
+  "awardSets100Name": "مئة مجموعة",
+  "awardSets100Line": "أكملت مئة مجموعة، واحدة تلو الأخرى.",
+  "awardHours10Name": "عشر ساعات",
+  "awardHours10Line": "عشر ساعات من التدريب على العداد.",
+  "awardWorkouts50Name": "خمسون تمرينًا",
+  "awardWorkouts50Line": "خمسون تمرينًا أصبحت خلفك.",
+  "awardHours50Name": "خمسون ساعة",
+  "awardHours50Line": "خمسون ساعة قضيتها في التدريب.",
+  "awardsTitle": "الميداليات",
+  "awardWon": "مكتسبة",
+  "yearTitle": "سنتك",
+  "yearBestMonth": "أفضل شهر",
+  "yearMonths": "أشهر",
+  "awardSpinHint": "اسحب على الميدالية لتدويرها",
+  "awardUnlocked": "تم فتح إنجاز جديد",
+  "awardNice": "رائع!",
+  "awardSaveImage": "حفظ الصورة",
+  "awardSaved": "تم الحفظ في معرض الصور",
+  "awardStreakBottom": "سلسلة",
+  "awardStreak7Top": "سبعة أيام",
+  "awardStreak7Name": "سبعة أيام",
+  "awardStreak7Line": "أسبوع كامل دون تفويت يوم.",
+  "awardStreak30Top": "ثلاثون يومًا",
+  "awardStreak30Name": "ثلاثون يومًا",
+  "awardStreak30Line": "شهر كامل متواصل. أصبحت عادة الآن.",
+  "awardWorkouts100Top": "مئة",
+  "awardWorkouts100Bottom": "تمارين",
+  "awardWorkouts100Name": "مئة تمرين",
+  "awardWorkouts100Line": "تم تسجيل مئة تمرين من البداية حتى النهاية.",
+  "awardTonnes100Top": "مئة",
+  "awardTonnes100Bottom": "طن",
+  "awardTonnes100Name": "مئة طن",
+  "awardTonnes100Line": "بلغ مجموع ما رفعته 100,000 كغ.",
+  "awardSets1000Top": "ألف",
+  "awardSets1000Bottom": "مجموعة",
+  "awardSets1000Name": "ألف مجموعة",
+  "awardSets1000Line": "مجموعة تلو الأخرى حتى الألف.",
+  "profile": "الملف الشخصي",
+  "editProfile": "تعديل الملف الشخصي",
+  "pickBadge": "شارة",
+  "badgeTitle": "شارتك",
+  "statWorkouts": "التمارين",
+  "statTrained": "التدريب",
+  "statSets": "المجموعات",
+  "statLifted": "مرفوع",
+  "statStreak": "السلسلة",
+  "statDays": "أيام",
+  "unitHours": "س",
+  "unitDays": "أيام",
+  "snapshots": "الصور",
+  "snapNow": "التقاط الآن",
+  "calendarLegend": "التمرين · الصور",
+  "addCover": "إضافة غلاف",
+  "addTodayWidget": "هل تم تمرين اليوم أم لا",
+  "monthTitle": "هذا الشهر",
+  "photosCard": "صورك",
+  "handleLabel": "اسم المستخدم",
+  "setupTitle": "املأ هذه البيانات وسيتم ملء بقية الصفحة تلقائيًا",
+  "setupHint": "كل رقم هنا يأتي مما تسجله. لا يتم إرسال شيء إلى أي مكان.",
+  "setupWorkout": "سجّل تمرينك الأول",
+  "setupWeight": "سجّل وزن جسمك",
+  "setupMeasures": "خذ قياسات جسمك",
+  "setupPhoto": "التقط أول صورة تقدم",
+  "progressTitle": "التقدم",
+  "tileVolume30": "الحجم · 30 يومًا",
+  "tileAddWeight": "أضف قيمتك",
+  "heatToneTitle": "لون الخريطة الحرارية",
+  "heatToneHint": "يغير لون الشبكة والجسم فقط.",
+  "thisWeekTitle": "هذا الأسبوع",
+  "momentsEmptyTitle": "لا يوجد شيء هنا بعد",
+  "deletePhotoTitle": "حذف هذه الصورة؟",
+  "deletePhotoBody": "سيتم حذفها نهائيًا.",
+  "awardsEarned": "مكتسبة",
+  "awardsLocked": "مقفلة",
+  "awardStreak100Name": "مئة يوم",
+  "awardWorkouts10Name": "عشرة تمارين",
+  "awardWorkouts10Line": "العشرة الأولى هي التي تصنع الفرق.",
+  "awardWorkouts365Name": "ثلاثمئة وخمسة وستون",
+  "awardWorkouts365Line": "تمرين لكل يوم من أيام السنة، مسجل واحدًا تلو الآخر.",
+  "awardTonnes10Name": "عشرة أطنان",
+  "awardTonnes10Line": "مرّ عشرة آلاف كيلوغرام بين يديك.",
+  "awardHours100Name": "مئة ساعة",
+  "awardHours100Line": "مئة ساعة تحت البار، والمؤقت يعمل.",
+  "awardWonOn": "تم الحصول عليها في {date}",
   "@awardWonOn": {
     "placeholders": {
       "date": {
@@ -1236,7 +1236,7 @@
       }
     }
   },
-  "awardProgressLabel": "{value} of {goal}",
+  "awardProgressLabel": "{value} من {goal}",
   "@awardProgressLabel": {
     "placeholders": {
       "value": {
@@ -1247,7 +1247,7 @@
       }
     }
   },
-  "badgeName": "{id, select, gold{Gold} blue{Blue} green{Green} other{Badge}}",
+  "badgeName": "{id, select, gold{ذهبي} blue{أزرق} green{أخضر} other{شارة}}",
   "@badgeName": {
     "placeholders": {
       "id": {
@@ -1255,7 +1255,7 @@
       }
     }
   },
-  "memberSince": "Since {date}",
+  "memberSince": "منذ {date}",
   "@memberSince": {
     "placeholders": {
       "date": {
@@ -1263,8 +1263,8 @@
       }
     }
   },
-  "levelShort": "Level {n}",
-  "levelToNext": "{n, plural, =1{1 workout to level {next}} other{{n} workouts to level {next}}}",
+  "levelShort": "المستوى {n}",
+  "levelToNext": "{n, plural, =1{تمرين واحد حتى المستوى {next}} other{{n} تمارين حتى المستوى {next}}}",
   "@levelToNext": {
     "placeholders": {
       "n": {
@@ -1282,7 +1282,7 @@
       }
     }
   },
-  "heightCm": "{n} cm",
+  "heightCm": "{n} سم",
   "@heightCm": {
     "placeholders": {
       "n": {
@@ -1290,7 +1290,7 @@
       }
     }
   },
-  "heatToneName": "{id, select, ember{Ember} green{Green} blue{Blue} mono{Grey} other{Colour}}",
+  "heatToneName": "{id, select, ember{جمر} green{أخضر} blue{أزرق} mono{رمادي} other{لون}}",
   "@heatToneName": {
     "placeholders": {
       "id": {
@@ -1298,7 +1298,7 @@
       }
     }
   },
-  "setsThisWeek": "{n} sets",
+  "setsThisWeek": "{n} مجموعات",
   "@setsThisWeek": {
     "placeholders": {
       "n": {
@@ -1306,7 +1306,7 @@
       }
     }
   },
-  "weekOfGoal": "{n} of {goal} this week",
+  "weekOfGoal": "{n} من {goal} هذا الأسبوع",
   "@weekOfGoal": {
     "placeholders": {
       "n": {
@@ -1317,7 +1317,7 @@
       }
     }
   },
-  "momentCount": "{n} photos",
+  "momentCount": "{n} صور",
   "@momentCount": {
     "placeholders": {
       "n": {
@@ -1325,29 +1325,29 @@
       }
     }
   },
-  "badgeHint": "Pick a colour, or tap the one you have to take it off. It is only for you — nothing is checked, nothing is paid.",
-  "momentsEmptyHint": "Snap the gym, the whiteboard, a plate setup — anything you want to remember. They stay on the phone and only you see them.",
-  "awardStreak100Line": "A hundred days in a row. That is not motivation any more, that is who you are.",
-  "coverLabel": "COVER",
-  "removeCover": "Remove cover",
-  "startTitle": "Start workout",
-  "logTitle": "Log a workout",
-  "logHint": "No timer — just fill in what you did.",
-  "orStartFrom": "Or start from",
-  "pickExercisesOption": "Pick exercises",
-  "chooseFocusOption": "Choose a focus",
-  "plannedRoutine": "PLANNED",
-  "logWorkoutAction": "LOG A WORKOUT",
-  "logging": "LOGGING",
-  "placesLabel": "My places",
-  "undo": "Undo",
-  "deleteSet": "Delete set",
-  "setDeleted": "Set deleted",
-  "removeWarmup": "Remove warm-up",
-  "addWeightAction": "Add weight",
-  "workoutOverview": "This workout",
-  "allExercisesShort": "All",
-  "setsDoneOf": "{done}/{total} sets",
+  "badgeHint": "اختر لونًا أو اضغط على اللون الحالي لإزالته. هذا لك فقط — لا يتم التحقق من شيء ولا توجد أي رسوم.",
+  "momentsEmptyHint": "التقط صورة للنادي أو اللوح أو بار محمّل — أي شيء تريد تذكره. تبقى الصور على هاتفك ولا يراها سواك.",
+  "awardStreak100Line": "مئة يوم متتالية. لم يعد الأمر دافعًا، بل أصبح عادة.",
+  "coverLabel": "الغلاف",
+  "removeCover": "إزالة الغلاف",
+  "startTitle": "بدء تمرين",
+  "logTitle": "تسجيل تمرين",
+  "logHint": "بدون مؤقت — فقط أدخل ما فعلته.",
+  "orStartFrom": "أو ابدأ بـ",
+  "pickExercisesOption": "اختيار تمارين",
+  "chooseFocusOption": "اختيار التركيز",
+  "plannedRoutine": "مخطط",
+  "logWorkoutAction": "تسجيل تمرين",
+  "logging": "جارٍ التسجيل",
+  "placesLabel": "أماكني",
+  "undo": "تراجع",
+  "deleteSet": "حذف المجموعة",
+  "setDeleted": "حُذفت المجموعة",
+  "removeWarmup": "إزالة الإحماء",
+  "addWeightAction": "إضافة وزن",
+  "workoutOverview": "هذا التمرين",
+  "allExercisesShort": "الكل",
+  "setsDoneOf": "{done}/{total} مجموعات",
   "@setsDoneOf": {
     "placeholders": {
       "done": {
@@ -1358,33 +1358,33 @@
       }
     }
   },
-  "nowLabel": "Now",
-  "deleteWorkout": "Delete workout",
-  "deleteWorkoutBody": "This workout and all its sets will be removed from your history.",
-  "themeAuto": "Auto",
-  "themeAutoHint": "Follows your phone",
-  "demoSizeTitle": "Exercise demo while training",
-  "demoLarge": "Large",
-  "demoSmall": "Small",
-  "demoOff": "Hidden",
-  "demoLoopTitle": "Demo animation",
-  "demoLoopAlways": "Loop",
-  "demoLoopShort": "10 seconds",
-  "demoLoopHint": "Plays for about 10 seconds and stops on the starting pose. Tap the demo to watch it again.",
-  "alarmStyleTitle": "When rest ends",
-  "alarmStyleLoud": "Always ring",
-  "alarmStyleQuiet": "Follow silent mode",
-  "alarmStyleVibrate": "Vibrate only",
-  "alarmStyleHint": "Always ring uses the alarm volume, even on silent. Follow silent mode uses the notification volume and just vibrates when your phone is muted.",
-  "suggestedPicks": "Suggested for you",
-  "moreOptions": "More options",
-  "suggestInWorkouts": "Suggest in quick workouts",
-  "suggestInWorkoutsHint": "Off keeps it out of the picks made for you. You can still add it by hand.",
-  "dontSuggest": "Don't suggest it again",
-  "onbPlaceTitle": "Where do you train?",
-  "onbPlaceWhy": "Pick every place you train. We'll only suggest what you can do in each one.",
-  "onbPlaceGear": "What do you have there?",
-  "distanceCol": "DISTANCE ({unit})",
+  "nowLabel": "الآن",
+  "deleteWorkout": "حذف التمرين",
+  "deleteWorkoutBody": "سيُحذف هذا التمرين وكل مجموعاته من سجلك.",
+  "themeAuto": "تلقائي",
+  "themeAutoHint": "يتبع هاتفك",
+  "demoSizeTitle": "عرض التمرين أثناء التدريب",
+  "demoLarge": "كبير",
+  "demoSmall": "صغير",
+  "demoOff": "مخفي",
+  "demoLoopTitle": "حركة العرض",
+  "demoLoopAlways": "متكررة",
+  "demoLoopShort": "10 ثوانٍ",
+  "demoLoopHint": "تتحرك نحو 10 ثوانٍ ثم تتوقف عند وضعية البداية. المس العرض لمشاهدته مرة أخرى.",
+  "alarmStyleTitle": "عند انتهاء الراحة",
+  "alarmStyleLoud": "رنين دائمًا",
+  "alarmStyleQuiet": "اتباع الوضع الصامت",
+  "alarmStyleVibrate": "اهتزاز فقط",
+  "alarmStyleHint": "«رنين دائمًا» يستخدم صوت المنبه حتى في الوضع الصامت. «اتباع الوضع الصامت» يستخدم صوت الإشعارات ويهتز فقط عندما يكون الهاتف صامتًا.",
+  "suggestedPicks": "مقترحة لك",
+  "moreOptions": "خيارات أخرى",
+  "suggestInWorkouts": "اقتراحه في التمارين السريعة",
+  "suggestInWorkoutsHint": "عند إيقافه لن يظهر في الاقتراحات. يمكنك دائمًا إضافته يدويًا.",
+  "dontSuggest": "لا تقترحه مجددًا",
+  "onbPlaceTitle": "أين تتمرن؟",
+  "onbPlaceWhy": "اختر كل الأماكن التي تتمرن فيها. سنقترح فقط ما يمكنك فعله في كل منها.",
+  "onbPlaceGear": "ماذا لديك هناك؟",
+  "distanceCol": "المسافة ({unit})",
   "@distanceCol": {
     "placeholders": {
       "unit": {
@@ -1392,10 +1392,10 @@
       }
     }
   },
-  "timeCol": "TIME",
-  "timeMinutesTitle": "Time (minutes)",
-  "timeSecondsTitle": "Time (seconds)",
-  "distanceTitle": "Distance ({unit})",
+  "timeCol": "الوقت",
+  "timeMinutesTitle": "الوقت (دقائق)",
+  "timeSecondsTitle": "الوقت (ثوانٍ)",
+  "distanceTitle": "المسافة ({unit})",
   "@distanceTitle": {
     "placeholders": {
       "unit": {
@@ -1403,9 +1403,9 @@
       }
     }
   },
-  "holdLabel": "Hold",
-  "stopLabel": "Stop",
-  "startHold": "Start · {time}",
+  "holdLabel": "ثبات",
+  "stopLabel": "إيقاف",
+  "startHold": "ابدأ · {time}",
   "@startHold": {
     "placeholders": {
       "time": {
@@ -1413,33 +1413,33 @@
       }
     }
   },
-  "exerciseTypeLabel": "Log by",
-  "typeReps": "Reps & weight",
-  "typeTime": "Time",
-  "typeCardio": "Distance & time",
-  "exerciseTypeHint": "Cardio like running or swimming logs distance and time. Holds like a plank log time.",
-  "howToLabel": "How to (optional)",
-  "howToHint": "One step per line",
-  "editExercise": "Edit exercise",
-  "saveChanges": "Save changes",
-  "noStepsYet": "No steps yet. Write your own so you remember how you do it.",
-  "addSteps": "Write the steps",
-  "setTypeRestPause": "Rest-pause",
-  "setTypeNormalInfo": "A regular set. It counts toward your volume and records.",
-  "setTypeWarmupInfo": "Light sets to get ready. They don't count toward volume or records.",
-  "setTypeDropInfo": "Straight after a set, lower the weight and keep going without resting.",
-  "setTypeFailureInfo": "Keep going until you can't do another clean rep. Log the reps you actually did.",
-  "setTypeRestPauseInfo": "Rest 10 to 20 seconds after the set, then squeeze out a few more reps.",
-  "planFormatNotes": "Use the exercise names exactly as they appear in the list. \"sets\", \"reps\", \"weight\" (in the unit given), \"rest\" in seconds and \"days\" are optional. \"superset\": true links an exercise with the next one. For several weeks, group the routines inside \"weeks\" like the second example.",
-  "planSets": "Plan sets",
-  "planSetsHint": "Choose the type, reps and weight of each set. Leave the weight on Auto to start from your last session.",
-  "autoValue": "Auto",
-  "clearPlan": "Clear plan",
-  "planChip": "Plan",
-  "shareRoutine": "Share routine",
-  "shareWeek": "Share my week",
-  "shareWeekHint": "All your routines and the day each one is on.",
-  "shareMessage": "{name} — open the file with GymMane to add it.",
+  "exerciseTypeLabel": "التسجيل حسب",
+  "typeReps": "التكرارات والوزن",
+  "typeTime": "الوقت",
+  "typeCardio": "المسافة والوقت",
+  "exerciseTypeHint": "الكارديو مثل الجري أو السباحة يسجل المسافة والوقت. تمارين الثبات مثل البلانك تسجل الوقت.",
+  "howToLabel": "طريقة الأداء (اختياري)",
+  "howToHint": "خطوة في كل سطر",
+  "editExercise": "تعديل التمرين",
+  "saveChanges": "حفظ التغييرات",
+  "noStepsYet": "لا توجد خطوات بعد. اكتب خطواتك لتتذكر كيف تؤديه.",
+  "addSteps": "اكتب الخطوات",
+  "setTypeRestPause": "راحة-توقف",
+  "setTypeNormalInfo": "مجموعة عادية. تُحتسب في الحجم والأرقام القياسية.",
+  "setTypeWarmupInfo": "مجموعات خفيفة للتهيئة. لا تُحتسب في الحجم ولا في الأرقام القياسية.",
+  "setTypeDropInfo": "بعد المجموعة مباشرة، خفّف الوزن وتابع دون راحة.",
+  "setTypeFailureInfo": "استمر حتى لا تستطيع تكرارًا نظيفًا آخر. سجّل التكرارات التي أنجزتها فعلًا.",
+  "setTypeRestPauseInfo": "استرح من 10 إلى 20 ثانية بعد المجموعة، ثم أضف بضع تكرارات أخرى.",
+  "planFormatNotes": "استخدم أسماء التمارين كما تظهر في القائمة تمامًا. الحقول \"sets\" و\"reps\" و\"weight\" (بالوحدة المحددة) و\"rest\" بالثواني و\"days\" اختيارية. \"superset\": true يربط التمرين بالتالي. لعدة أسابيع، اجمع الروتينات داخل \"weeks\" كما في المثال الثاني.",
+  "planSets": "تخطيط المجموعات",
+  "planSetsHint": "اختر النوع والتكرارات والوزن لكل مجموعة. اترك الوزن على «تلقائي» لتبدأ من آخر تمرين.",
+  "autoValue": "تلقائي",
+  "clearPlan": "مسح الخطة",
+  "planChip": "خطة",
+  "shareRoutine": "مشاركة الروتين",
+  "shareWeek": "مشاركة أسبوعي",
+  "shareWeekHint": "كل روتيناتك واليوم المخصص لكل منها.",
+  "shareMessage": "{name} — افتح الملف باستخدام GymMane لإضافته.",
   "@shareMessage": {
     "placeholders": {
       "name": {
@@ -1447,9 +1447,9 @@
       }
     }
   },
-  "importRoutines": "Import routines",
-  "importPasteHint": "Paste a routine here: one shared from GymMane, an AI answer, JSON or CSV.",
-  "pasteAction": "Paste",
+  "importRoutines": "استيراد روتينات",
+  "importPasteHint": "الصق روتينًا هنا: مشارك من GymMane أو رد من ذكاء اصطناعي أو JSON أو CSV.",
+  "pasteAction": "لصق",
   "routineCount": "{n, plural, =1{1 routine} other{{n} routines}}",
   "@routineCount": {
     "placeholders": {
@@ -1458,9 +1458,9 @@
       }
     }
   },
-  "useTheirSchedule": "Also use its weekly schedule",
-  "useTheirScheduleHint": "The days it brings replace what you have planned on them.",
-  "addToMyRoutines": "Add to my routines",
+  "useTheirSchedule": "استخدام جدوله الأسبوعي أيضًا",
+  "useTheirScheduleHint": "الأيام التي يحملها تحل محل ما خططت له في تلك الأيام.",
+  "addToMyRoutines": "إضافة إلى روتيناتي",
   "routinesAdded": "{n, plural, =1{1 routine added} other{{n} routines added}}",
   "@routinesAdded": {
     "placeholders": {
@@ -1469,18 +1469,18 @@
       }
     }
   },
-  "nothingToImport": "Nothing here GymMane can import",
-  "aiStepCopy": "Copy the request. It carries your exercise list and the format GymMane reads.",
-  "aiStepAsk": "Paste it into any AI and say what you want: days per week, goal, how many weeks.",
-  "aiStepPaste": "Paste its answer below and import it. No file needed.",
-  "copyForAi": "Copy for the AI",
-  "copiedDone": "Copied",
-  "aiPasteHint": "Paste the AI's answer here",
-  "importAction": "Import",
-  "showFormat": "See the format",
-  "shareAsFile": "Share as a file",
-  "recoveryTab": "Recovery",
-  "recoveryOverall": "Body {pct}% recovered",
+  "nothingToImport": "لا يوجد هنا ما يمكن لـ GymMane استيراده",
+  "aiStepCopy": "انسخ الطلب. يحتوي على قائمة تمارينك والتنسيق الذي يقرؤه GymMane.",
+  "aiStepAsk": "الصقه في أي ذكاء اصطناعي وقل ما تريد: أيام في الأسبوع، الهدف، عدد الأسابيع.",
+  "aiStepPaste": "الصق رده بالأسفل واستورده. لا حاجة لملف.",
+  "copyForAi": "نسخ للذكاء الاصطناعي",
+  "copiedDone": "تم النسخ",
+  "aiPasteHint": "الصق رد الذكاء الاصطناعي هنا",
+  "importAction": "استيراد",
+  "showFormat": "عرض التنسيق",
+  "shareAsFile": "مشاركة كملف",
+  "recoveryTab": "التعافي",
+  "recoveryOverall": "الجسم متعافٍ بنسبة {pct}%",
   "@recoveryOverall": {
     "placeholders": {
       "pct": {
@@ -1488,8 +1488,8 @@
       }
     }
   },
-  "recoveryAllFresh": "Everything is recovered. Good day to train anything.",
-  "recoveryStill": "Still recovering: {muscles}",
+  "recoveryAllFresh": "كل شيء متعافٍ. يوم جيد لتمرين أي شيء.",
+  "recoveryStill": "ما زال يتعافى: {muscles}",
   "@recoveryStill": {
     "placeholders": {
       "muscles": {
@@ -1497,10 +1497,10 @@
       }
     }
   },
-  "recoveryTired": "Fatigued",
-  "recoveryFresh": "Fresh",
-  "recoveryHint": "Tap a muscle to see how recovered it is. Recent sets weigh more, and harder ones (by RPE) more still.",
-  "recoveryPct": "{pct}% recovered",
+  "recoveryTired": "مُجهد",
+  "recoveryFresh": "منتعش",
+  "recoveryHint": "اضغط على عضلة لترى مدى تعافيها. المجموعات الأحدث تُحتسب أكثر، والأصعب (حسب RPE) أكثر بعد.",
+  "recoveryPct": "متعافٍ بنسبة {pct}%",
   "@recoveryPct": {
     "placeholders": {
       "pct": {
@@ -1508,7 +1508,7 @@
       }
     }
   },
-  "readyInHours": "ready in ~{h} h",
+  "readyInHours": "جاهز خلال ~{h} س",
   "@readyInHours": {
     "placeholders": {
       "h": {
@@ -1516,18 +1516,18 @@
       }
     }
   },
-  "tplAbcd": "Four days: chest and triceps, back and biceps, legs, shoulders and abs.",
-  "tplAbcde": "Five days, one muscle group each: chest, back, legs, shoulders, arms.",
-  "elapsedCaps": "ELAPSED",
-  "tapToSkip": "Tap to skip",
-  "screenLocked": "Screen locked",
-  "lockedHint": "Press and hold the fingerprint at the top to unlock",
-  "liveDoneSet": "Set done",
-  "liveSkipRest": "Skip rest",
-  "livePause": "Pause",
-  "liveResume": "Resume",
-  "liveNext": "Next",
-  "liveUpNext": "Up next: {name}",
+  "tplAbcd": "أربعة أيام: صدر وترايسبس، ظهر وبايسبس، أرجل، أكتاف وبطن.",
+  "tplAbcde": "خمسة أيام، مجموعة عضلية لكل يوم: صدر، ظهر، أرجل، أكتاف، ذراعان.",
+  "elapsedCaps": "المنقضي",
+  "tapToSkip": "اضغط للتخطي",
+  "screenLocked": "الشاشة مقفلة",
+  "lockedHint": "اضغط مطولًا على البصمة في الأعلى لفتح القفل",
+  "liveDoneSet": "انتهت المجموعة",
+  "liveSkipRest": "تخطي الراحة",
+  "livePause": "إيقاف مؤقت",
+  "liveResume": "استئناف",
+  "liveNext": "التالي",
+  "liveUpNext": "التالي: {name}",
   "@liveUpNext": {
     "placeholders": {
       "name": {
@@ -1535,25 +1535,25 @@
       }
     }
   },
-  "stickerOpen": "Share on a photo",
-  "stickerNoPhoto": "No photo",
-  "stickerWorkout": "Workout",
-  "stickerStreak": "Streak",
-  "stickerDate": "Date",
-  "stickerHint": "Drag to move it, pinch to resize or turn it",
-  "stickerSaved": "Saved to your gallery",
-  "stickerWeek": "This week",
-  "getReady": "Get ready",
-  "stickerGallery": "Gallery",
-  "stickerCamera": "Camera",
-  "shareIntroTitle": "Share this routine",
-  "shareIntroBody": "Send it to your partner, a friend or your family. They get a small file that opens in GymMane and adds it in one tap, with its sets and weights.",
-  "removedFromRoutine": "Removed from the routine",
-  "radarTitle": "This month",
-  "radarHint": "See which areas need more work",
-  "radarEmpty": "Train this month to see your balance",
-  "radarBalanced": "Good balance so far",
-  "radarFocus": "Needs more: {list}",
+  "stickerOpen": "مشاركة على صورة",
+  "stickerNoPhoto": "بدون صورة",
+  "stickerWorkout": "تمرين",
+  "stickerStreak": "سلسلة",
+  "stickerDate": "التاريخ",
+  "stickerHint": "اسحبها لتحريكها، واقرص لتغيير حجمها أو تدويرها",
+  "stickerSaved": "حُفظت في معرض الصور",
+  "stickerWeek": "هذا الأسبوع",
+  "getReady": "استعد",
+  "stickerGallery": "المعرض",
+  "stickerCamera": "الكاميرا",
+  "shareIntroTitle": "شارك هذا الروتين",
+  "shareIntroBody": "أرسله إلى شريكك أو صديق أو عائلتك. سيصلهم ملف صغير يُفتح في GymMane ويضيف الروتين بلمسة واحدة، مع مجموعاته وأوزانه.",
+  "removedFromRoutine": "أُزيل من الروتين",
+  "radarTitle": "هذا الشهر",
+  "radarHint": "اعرف أي المناطق تحتاج إلى تمرين أكثر",
+  "radarEmpty": "تمرّن هذا الشهر لترى توازنك",
+  "radarBalanced": "توازن جيد حتى الآن",
+  "radarFocus": "يحتاج إلى المزيد: {list}",
   "@radarFocus": {
     "placeholders": {
       "list": {
@@ -1561,15 +1561,15 @@
       }
     }
   },
-  "countdownReady": "Get ready",
-  "countdownSkip": "Tap to start now",
-  "countdownSetting": "Countdown before starting",
-  "effortSetting": "Log effort per set",
-  "effortHint": "RPE: 10 means nothing left, 8 means two reps to spare. RIR counts the reps you had left. When a set has it, the estimated 1RM uses the RPE chart.",
-  "rirTitle": "RESERVE (RIR)",
-  "rirHint": "0 is nothing left in the tank, 2 is two reps to spare.",
-  "addWeekWidget": "Add week widget",
-  "gamificationSetting": "Medals and levels",
+  "countdownReady": "استعد",
+  "countdownSkip": "اضغط للبدء الآن",
+  "countdownSetting": "عدّ تنازلي قبل البدء",
+  "effortSetting": "سجّل الجهد",
+  "effortHint": "RPE: ‏10 يعني أنك لا تستطيع تكرارًا آخر، و8 يعني أنه بقي لديك تكراران. RIR يعدّ التكرارات المتبقية. إذا كانت المجموعة تحتوي عليه، يستخدم الحد الأقصى المقدَّر جدول RPE.",
+  "rirTitle": "الاحتياط (RIR)",
+  "rirHint": "0 يعني أنك لا تستطيع تكرارًا آخر، و2 يعني أنه بقي لديك تكراران.",
+  "addWeekWidget": "إضافة أداة الأسبوع",
+  "gamificationSetting": "الميداليات والمستويات",
   "repCount": "{n, plural, =1{{n} rep} other{{n} reps}}",
   "@repCount": {
     "placeholders": {
@@ -1578,12 +1578,12 @@
       }
     }
   },
-  "prBestSet": "Best set",
-  "weekStartSetting": "Week starts on",
-  "stepOutOfWorkout": "Pause and leave",
-  "saveToRoutine": "SAVE CHANGES TO ROUTINE",
-  "routineUpdated": "Routine updated",
-  "saveChangesTitle": "Save changes to {name}?",
+  "prBestSet": "أفضل مجموعة",
+  "weekStartSetting": "يبدأ الأسبوع يوم",
+  "stepOutOfWorkout": "إيقاف مؤقت والخروج",
+  "saveToRoutine": "حفظ التغييرات في الروتين",
+  "routineUpdated": "تم تحديث الروتين",
+  "saveChangesTitle": "حفظ التغييرات في {name}؟",
   "@saveChangesTitle": {
     "placeholders": {
       "name": {
@@ -1591,10 +1591,10 @@
       }
     }
   },
-  "saveChangesBody": "Next time this routine starts like this.",
-  "routineOrderChanged": "New exercise order",
-  "mineOnly": "Created by you",
-  "createNamed": "Not here? Create “{name}”",
+  "saveChangesBody": "في المرة القادمة سيبدأ هذا الروتين هكذا.",
+  "routineOrderChanged": "ترتيب جديد للتمارين",
+  "mineOnly": "من إنشائك",
+  "createNamed": "غير موجود؟ أنشئ «{name}»",
   "@createNamed": {
     "placeholders": {
       "name": {
@@ -1602,29 +1602,29 @@
       }
     }
   },
-  "orStartWith": "Or start with",
-  "warmupFocus": "Warm-up",
-  "warmupFocusHint": "Mobility and activation, with or without kit",
-  "cardioFocus": "Cardio",
-  "cardioFocusHint": "Run, bike, row or skip, by distance and time",
-  "homeRecommended": "Recommended on home",
-  "archivedFilter": "Archived",
-  "archiveExercise": "Archive exercise",
-  "restoreExercise": "Restore",
-  "archivedToast": "Exercise archived",
-  "archivedToastHint": "Find it under Exercises › Archived",
-  "archivedBanner": "Archived. It stays out of lists and suggestions; your history is kept.",
-  "videoMarksHint": "Pause on a step and tap the pin to jump there next time.",
-  "videoMarkHere": "Mark this step here",
-  "sectionGeneral": "General",
-  "sectionTraining": "Training",
-  "sectionAlerts": "Reminders & alarm",
-  "sectionHome": "Home",
-  "sectionWidgets": "Widgets",
-  "sectionData": "Data & backup",
-  "multiPlanSetting": "Several routines a day",
-  "multiPlanHint": "Tap every routine for this day. They go in the order you add them.",
-  "routineOfDay": "{n} of {total} today",
+  "orStartWith": "أو ابدأ بـ",
+  "warmupFocus": "الإحماء",
+  "warmupFocusHint": "مرونة وتنشيط، بأدوات أو بدونها",
+  "cardioFocus": "كارديو",
+  "cardioFocusHint": "جري أو دراجة أو تجديف أو حبل، بالمسافة والوقت",
+  "homeRecommended": "المقترحات في الرئيسية",
+  "archivedFilter": "المؤرشفة",
+  "archiveExercise": "أرشفة التمرين",
+  "restoreExercise": "استعادة",
+  "archivedToast": "تمت أرشفة التمرين",
+  "archivedToastHint": "تجده في التمارين › المؤرشفة",
+  "archivedBanner": "مؤرشف. لا يظهر في القوائم ولا الاقتراحات، ويبقى سجلك محفوظًا.",
+  "videoMarksHint": "أوقف مؤقتًا عند خطوة واضغط الدبوس لتنتقل إليها في المرة القادمة.",
+  "videoMarkHere": "حدّد هذه الخطوة هنا",
+  "sectionGeneral": "عام",
+  "sectionTraining": "التمرين",
+  "sectionAlerts": "التذكيرات والمنبّه",
+  "sectionHome": "الرئيسية",
+  "sectionWidgets": "الأدوات",
+  "sectionData": "البيانات والنسخ الاحتياطي",
+  "multiPlanSetting": "أكثر من روتين في اليوم",
+  "multiPlanHint": "اضغط كل روتين لهذا اليوم. تأتي بالترتيب الذي تضيفها به.",
+  "routineOfDay": "{n} من {total} اليوم",
   "@routineOfDay": {
     "placeholders": {
       "n": {
@@ -1635,13 +1635,13 @@
       }
     }
   },
-  "planAboutMe": "About me:",
-  "planBody": "{sex}, {age} years old, {height} tall, {weight}.",
-  "planDays": "I want to train {n} days a week.",
-  "planNoHistory": "No workouts logged yet: treat me as a beginner and keep volume and weights conservative.",
-  "planHistory": "{n, plural, =1{1 workout logged in the last 30 days.} other{{n} workouts logged in the last 30 days.}}",
-  "planBestLifts": "Best recent sets",
-  "planAskFirst": "If you don’t know my goal (strength, muscle, fat loss or general fitness) or how long each session can last, ask me first in one short message. Once you have it, answer with JSON only.",
+  "planAboutMe": "عني:",
+  "planBody": "{sex}، {age} سنة، الطول {height}، الوزن {weight}.",
+  "planDays": "أريد التمرين {n} أيام في الأسبوع.",
+  "planNoHistory": "لم أسجّل أي تمرين بعد: اعتبرني مبتدئًا وكن حذرًا في الحجم والأوزان.",
+  "planHistory": "{n, plural, =1{تمرين واحد في آخر 30 يومًا.} other{{n} تمارين في آخر 30 يومًا.}}",
+  "planBestLifts": "أفضل المجموعات الأخيرة",
+  "planAskFirst": "إذا لم تكن تعرف هدفي (قوة أو عضل أو خسارة دهون أو لياقة عامة) أو مدة كل حصة، فاسألني أولًا برسالة قصيرة. بعدها أجب بـ JSON فقط.",
   "@planBody": {
     "placeholders": {
       "sex": {
@@ -1672,9 +1672,9 @@
       }
     }
   },
-  "backToTop": "Back to top",
-  "deleteExerciseTitle": "Delete this exercise?",
-  "deleteExerciseBody": "\"{name}\" will be removed from your library and routines. Your past sets are kept.",
+  "backToTop": "العودة للأعلى",
+  "deleteExerciseTitle": "حذف هذا التمرين؟",
+  "deleteExerciseBody": "سيُزال «{name}» من مكتبتك ومن روتيناتك. تبقى مجموعاتك السابقة محفوظة.",
   "@deleteExerciseBody": {
     "placeholders": {
       "name": {
@@ -1682,24 +1682,24 @@
       }
     }
   },
-  "exportForStravaHint": "Upload it in a browser at strava.com/upload/select (the Strava app can't import files). It shows up as a Weight Training with your sets.",
-  "manualStartTime": "Start time",
-  "manualDuration": "Duration",
-  "manualDurationUnset": "Add duration",
-  "stravaRow": "Export to Strava (beta)",
-  "stravaBeta": "BETA",
-  "stravaIntro": "Pick a workout to take it to Strava. You get a .fit file: upload it in a browser at strava.com/upload/select and it shows up as a Weight Training with your sets.",
-  "stravaEmpty": "No workouts to export yet.",
-  "tapToPause": "Tap to pause",
-  "holdPausedHint": "Paused · tap to resume",
-  "finishHoldNow": "Finish set now",
-  "barWeightExercise": "Bar or sled weight",
-  "barWeightHint": "Used by the plate calculator",
-  "barWeightCustom": "Your own · tap to reset",
-  "groupRename": "Rename group",
-  "groupUngroup": "Remove group, keep routines",
-  "groupDeleteAll": "Delete group and routines",
-  "groupDeleteTitle": "Delete “{name}”?",
+  "exportForStravaHint": "ارفعه من المتصفح على strava.com/upload/select (تطبيق Strava لا يستورد الملفات). سيظهر كتمرين أوزان مع مجموعاتك.",
+  "manualStartTime": "وقت البدء",
+  "manualDuration": "المدة",
+  "manualDurationUnset": "أضف المدة",
+  "stravaRow": "تصدير إلى Strava (تجريبي)",
+  "stravaBeta": "تجريبي",
+  "stravaIntro": "اختر تمرينًا لنقله إلى Strava. ستحصل على ملف .fit: ارفعه من المتصفح على strava.com/upload/select وسيظهر كتمرين أوزان مع مجموعاتك.",
+  "stravaEmpty": "لا توجد تمارين للتصدير بعد.",
+  "tapToPause": "اضغط للإيقاف المؤقت",
+  "holdPausedHint": "متوقف مؤقتًا · اضغط للمتابعة",
+  "finishHoldNow": "أنهِ المجموعة الآن",
+  "barWeightExercise": "وزن البار أو المزلجة",
+  "barWeightHint": "تستخدمه حاسبة الأقراص",
+  "barWeightCustom": "مخصص · اضغط لإعادة الضبط",
+  "groupRename": "إعادة تسمية المجموعة",
+  "groupUngroup": "إزالة المجموعة مع إبقاء الروتينات",
+  "groupDeleteAll": "حذف المجموعة وروتيناتها",
+  "groupDeleteTitle": "حذف «{name}»؟",
   "@groupDeleteTitle": {
     "placeholders": {
       "name": {
@@ -1707,7 +1707,7 @@
       }
     }
   },
-  "groupDeleteBody": "{count} will be deleted. Your workout history is kept.",
+  "groupDeleteBody": "سيتم حذف {count}. يبقى سجل تمارينك كما هو.",
   "@groupDeleteBody": {
     "placeholders": {
       "count": {
@@ -1715,9 +1715,9 @@
       }
     }
   },
-  "tplRr": "The r/bodyweightfitness classic: full body three days a week. Move up a step when it gets easy.",
-  "levelUpKicker": "NEXT STEP",
-  "levelUpBody": "3×{reps} on {name} two workouts in a row. Ready for the next step?",
+  "tplRr": "الروتين الكلاسيكي من r/bodyweightfitness: الجسم كله ثلاثة أيام في الأسبوع. انتقل إلى المستوى التالي حين يصبح سهلًا.",
+  "levelUpKicker": "الخطوة التالية",
+  "levelUpBody": "3×{reps} في {name} في تمرينين متتاليين. هل أنت مستعد للخطوة التالية؟",
   "@levelUpBody": {
     "placeholders": {
       "reps": {
@@ -1728,7 +1728,7 @@
       }
     }
   },
-  "levelUpSwap": "Swap it in {routine}",
+  "levelUpSwap": "استبدله في {routine}",
   "@levelUpSwap": {
     "placeholders": {
       "routine": {
@@ -1736,10 +1736,10 @@
       }
     }
   },
-  "levelUpSee": "See how it's done",
-  "levelUpLater": "Not now",
-  "levelUpStay": "Keep this one",
-  "levelUpSwapped": "{name} is now in {routine}",
+  "levelUpSee": "شاهد طريقة الأداء",
+  "levelUpLater": "ليس الآن",
+  "levelUpStay": "سأبقى على هذا",
+  "levelUpSwapped": "أصبح {name} في {routine}",
   "@levelUpSwapped": {
     "placeholders": {
       "name": {
@@ -1750,11 +1750,11 @@
       }
     }
   },
-  "levelUpStayed": "No more step-up tips for this one",
-  "levelHintsSetting": "Suggest the next step",
-  "heatmapLabelsSetting": "Days and months on the activity map",
-  "rmPercent": "PERCENTAGE",
-  "rmAtPercent": "{pct} of your max",
+  "levelUpStayed": "لن نقترح الترقي في هذا التمرين",
+  "levelHintsSetting": "اقتراح الخطوة التالية",
+  "heatmapLabelsSetting": "الأيام والأشهر على خريطة النشاط",
+  "rmPercent": "النسبة",
+  "rmAtPercent": "{pct} من حدك الأقصى",
   "@rmAtPercent": {
     "placeholders": {
       "pct": {
@@ -1762,10 +1762,10 @@
       }
     }
   },
-  "copyWorkout": "Copy as text",
-  "goalSet": "Set a goal",
-  "goalTargetReps": "TARGET REPS",
-  "goalToGo": "{value} to go",
+  "copyWorkout": "نسخ كنص",
+  "goalSet": "حدّد هدفًا",
+  "goalTargetReps": "التكرارات المستهدفة",
+  "goalToGo": "بقي {value}",
   "@goalToGo": {
     "placeholders": {
       "value": {
@@ -1773,8 +1773,8 @@
       }
     }
   },
-  "goalReached": "Goal reached",
-  "goalDaysLeft": "{n, plural, =1{1 day left} other{{n} days left}}",
+  "goalReached": "تم بلوغ الهدف",
+  "goalDaysLeft": "{n, plural, =1{بقي يوم واحد} other{بقي {n} يوم}}",
   "@goalDaysLeft": {
     "placeholders": {
       "n": {
@@ -1782,8 +1782,8 @@
       }
     }
   },
-  "goalOverdue": "Past the date",
-  "goalDeadline": "DEADLINE",
-  "goalNoDeadline": "No deadline",
-  "goalRemove": "Remove goal"
+  "goalOverdue": "فات الموعد",
+  "goalDeadline": "الموعد النهائي",
+  "goalNoDeadline": "بلا موعد",
+  "goalRemove": "إزالة الهدف"
 }
