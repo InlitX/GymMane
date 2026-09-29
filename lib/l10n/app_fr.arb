@@ -1707,5 +1707,42 @@
       }
     }
   },
-  "tplRr": "The r/bodyweightfitness classic: full body three days a week. Move up a step when it gets easy."
+  "tplRr": "The r/bodyweightfitness classic: full body three days a week. Move up a step when it gets easy.",
+  "levelUpKicker": "NEXT STEP",
+  "levelUpBody": "3×{reps} on {name} two workouts in a row. Ready for the next step?",
+  "@levelUpBody": {
+    "placeholders": {
+      "reps": {
+        "type": "int"
+      },
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "levelUpSwap": "Swap it in {routine}",
+  "@levelUpSwap": {
+    "placeholders": {
+      "routine": {
+        "type": "String"
+      }
+    }
+  },
+  "levelUpSee": "See how it's done",
+  "levelUpLater": "Not now",
+  "levelUpStay": "Keep this one",
+  "levelUpSwapped": "{name} is now in {routine}",
+  "@levelUpSwapped": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "routine": {
+        "type": "String"
+      }
+    }
+  },
+  "levelUpStayed": "No more step-up tips for this one",
+  "levelHintsSetting": "Suggest the next step",
+  "heatmapLabelsSetting": "Days and months on the activity map"
 }
