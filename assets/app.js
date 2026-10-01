@@ -44,30 +44,35 @@
       privNet: 'Sin permiso de internet', privNetSub: 'Míralo en el AndroidManifest.xml',
       privFd: 'Compilada por F-Droid', privFdSub: 'Desde el código, sin rastreadores',
       app: {
-        navhome: 'INICIO', navprogress: 'PROGRESO', navexercises: 'EJERCICIOS', navsettings: 'AJUSTES',
-        today: 'Hoy', routine: 'RUTINA DE HOY', focus: 'FOCO DE HOY', pullDay: 'DÍA DE TIRÓN', exs: 'ejercicios',
-        startWorkout: 'EMPEZAR', thisWeek: 'ESTA SEMANA', volume: 'Volumen', setsToday: 'Series hoy', goal: 'Meta',
-        train: 'ENTRENAR', step1: 'PASO 1 DE 2', step2: 'PASO 2 DE 2',
-        chooseFocus: 'ELIGE TU FOCO', yourSession: 'TU SESIÓN', front: 'FRENTE', back: 'ESPALDA',
-        noMuscles: 'Nada elegido — toca el cuerpo.', continue: 'CONTINUAR', sets: 'series',
-        inProgress: 'EN CURSO', finish: 'Terminar', pause: 'Pausar', exercise: 'EJERCICIO', of: 'DE',
-        rest: 'DESCANSO', skip: 'SALTAR', backToIt: '¡A la barra!', reps: 'REPS', kg: 'PESO (KG)',
-        addSet: 'AÑADIR SERIE', nextEx: 'SIGUIENTE',
-        complete: 'SESIÓN COMPLETA', completeSub: 'Leo está orgulloso. Mantén la racha viva.',
-        duration: 'Duración', saveExit: 'GUARDAR Y SALIR',
-        vol30: 'VOLUMEN TOTAL · 30 DÍAS', consistency: 'CONSTANCIA', sessionsLogged: '33 sesiones',
-        streak: 'racha de 27 días', split: 'REPARTO MUSCULAR', records: 'RÉCORDS PERSONALES',
-        inLibrary: 'ejercicios en tu biblioteca', search: 'Buscar ejercicios',
-        tapBody: 'Toca los músculos que quieras entrenar — frente y espalda.',
-        last: 'ÚLTIMA', restDefault: 'Por defecto 90s — cámbialo en Ajustes',
-        finishSession: 'TERMINAR', vsMonth: '+64% vs mes pasado', bodyweight: 'PESO CORPORAL',
-        favs: 'FAVORITOS', muscle: 'Músculo', level: 'Nivel', newEx: 'NUEVO EJERCICIO',
-        lvBeg: 'Principiante', lvInt: 'Intermedio', lvAdv: 'Avanzado',
-        level4: 'Nivel 4', prefs: 'Preferencias', data: 'Datos',
-        setTheme: 'Tema', dark: 'Oscuro', light: 'Claro', setBackup: 'Copia de seguridad (JSON)',
-        demoTitle: 'Demo limitada. ', demoBody: 'En la app hay más de 500 ejercicios con animación, rutinas, historial, calculadoras, widgets y alarma de descanso. Esto es solo un aperitivo para que la toques.',
-        setLang: 'Idioma', setUnits: 'Unidades', setRest: 'Descanso por defecto',
-        setSound: 'Sonido de alarma', setSoundVal: 'El tuyo', setExport: 'Exportar entrenos (CSV)', setWipe: 'Borrar todo'
+        navhome: 'INICIO', navprogress: 'PROGRESO', navexercises: 'EJERCICIOS', navprofile: 'PERFIL', today: 'Hoy',
+        routine: 'RUTINA DE HOY', exs: 'ejercicios', startWorkout: 'Empezar', thisWeek: 'Esta semana',
+        volume: 'Volumen', setsToday: 'Series hoy', train: 'Entrenar', step1: 'PASO 1 DE 2', step2: 'PASO 2 DE 2',
+        chooseFocus: 'ELIGE TU FOCO', yourSession: 'TU SESIÓN', noMuscles: 'Nada elegido — toca el cuerpo.',
+        continue: 'Continuar', sets: 'series', inProgress: 'EN CURSO', pause: 'Pausar', exercise: 'EJERCICIO',
+        of: 'DE', backToIt: '¡A la barra!', reps: 'REPS', kg: 'PESO (KG)', addSet: 'Añadir serie', nextEx: 'Siguiente',
+        complete: 'Sesión completa', completeSub: 'Leo está orgulloso. Mantén la racha viva.', duration: 'Duración',
+        saveExit: 'Guardar y salir', vol30: 'Volumen · 30D', consistency: 'Constancia', streak: 'racha de 4 días',
+        inLibrary: 'ejercicios en tu biblioteca', activity: 'Actividad', prs: 'Récords', progressT: 'Progreso',
+        exercisesT: 'Ejercicios', settingsT: 'Ajustes', weight: 'Peso', weightDate: '19 sept',
+        weekOf: '4 de 4 esta semana', sessions: 'Sesiones', setsT: 'Series', time: 'Tiempo',
+        muscleMap: 'Mapa muscular', recovery: 'Recuperación', filters: 'Filtros', noKit: 'Sin material',
+        legs: 'Piernas', arms: 'Brazos', kitBarbell: 'Barra', kitDumbbell: 'Mancuerna', kitCable: 'Polea',
+        kitBodyweight: 'Peso corporal', editProfile: 'Editar perfil', level7: 'Nivel 7',
+        toLevel8: '6 entrenos para el nivel 8', workouts: 'Entrenos', trained: 'Entrenado', days: 'días',
+        lifted: 'Levantado', medals: 'Medallas', mStep: 'Primer paso', mWorkout: 'Primer entreno',
+        mRoutine: 'Primera rutina', mRecord: 'Primer récord', photos: 'Fotos', yourPhotos: 'Tus fotos',
+        takeOne: 'Hacer una', setRemind: 'Aviso para entrenar', never: 'Nunca', setFocus: 'El foco de hoy',
+        setEffort: 'Anotar el esfuerzo', off: 'Apagado', setAutoNext: 'Pasar al siguiente solo',
+        setAwake: 'Pantalla encendida al entrenar', resting: 'DESCANSANDO', elapsed: 'transcurrido',
+        tapSkip: 'toca para saltar', nextUp: 'SIGUIENTE', prevEx: 'Ejercicio anterior',
+        nextHint: 'mismo peso hasta cumplir todas las reps', search: 'Buscar ejercicios',
+        tapBody: 'Toca los músculos que quieras entrenar — frente y espalda.', last: 'ÚLTIMA',
+        finishSession: 'Terminar', favs: 'Favoritos', newEx: 'Nuevo ejercicio', lvBeg: 'Principiante',
+        lvInt: 'Intermedio', lvAdv: 'Avanzado', prefs: 'Preferencias', data: 'Datos', setTheme: 'Tema', dark: 'Oscuro',
+        setBackup: 'Copia de seguridad (JSON)', demoTitle: 'Demo limitada. ',
+        demoBody: 'En la app hay más de 500 ejercicios con animación, rutinas, historial, calculadoras, widgets y alarma de descanso. Esto es solo un aperitivo para que la toques.',
+        setLang: 'Idioma', setUnits: 'Unidades', setRest: 'Descanso por defecto', setSound: 'Sonido de alarma',
+        setSoundVal: 'Por defecto', setExport: 'Exportar entrenos (CSV)'
       },
       muscles: {
         chest: 'Pecho', back: 'Espalda', shoulders: 'Hombros', biceps: 'Bíceps', triceps: 'Tríceps',
@@ -117,30 +122,33 @@
       privNet: 'No internet permission', privNetSub: 'Check the AndroidManifest.xml',
       privFd: 'Built by F-Droid', privFdSub: 'From source, no trackers',
       app: {
-        navhome: 'HOME', navprogress: 'PROGRESS', navexercises: 'EXERCISES', navsettings: 'SETTINGS',
-        today: 'Today', routine: "TODAY'S ROUTINE", focus: "TODAY'S FOCUS", pullDay: 'PULL DAY', exs: 'exercises',
-        startWorkout: 'START WORKOUT', thisWeek: 'THIS WEEK', volume: 'Volume', setsToday: 'Sets today', goal: 'Goal',
-        train: 'TRAIN', step1: 'STEP 1 OF 2', step2: 'STEP 2 OF 2',
-        chooseFocus: 'CHOOSE YOUR FOCUS', yourSession: 'YOUR SESSION', front: 'FRONT', back: 'BACK',
-        noMuscles: 'Nothing picked — tap the body.', continue: 'CONTINUE', sets: 'sets',
-        inProgress: 'IN PROGRESS', finish: 'Finish', pause: 'Pause', exercise: 'EXERCISE', of: 'OF',
-        rest: 'REST', skip: 'SKIP', backToIt: 'Back to it!', reps: 'REPS', kg: 'WEIGHT (KG)',
-        addSet: 'ADD SET', nextEx: 'NEXT',
-        complete: 'SESSION COMPLETE', completeSub: "Leo's proud of that one. Keep the streak alive.",
-        duration: 'Duration', saveExit: 'SAVE AND EXIT',
-        vol30: 'TOTAL VOLUME · 30 DAYS', consistency: 'CONSISTENCY', sessionsLogged: '33 sessions logged',
-        streak: '27-day streak', split: 'MUSCLE SPLIT', records: 'PERSONAL RECORDS',
-        inLibrary: 'exercises in your library', search: 'Search exercises',
-        tapBody: 'Tap the muscles you want to train — front and back.',
-        last: 'LAST', restDefault: 'Default is 90s — change it in Settings',
-        finishSession: 'FINISH', vsMonth: '+64% vs last month', bodyweight: 'BODYWEIGHT',
-        favs: 'FAVOURITES', muscle: 'Muscle', level: 'Level', newEx: 'NEW EXERCISE',
-        lvBeg: 'Beginner', lvInt: 'Intermediate', lvAdv: 'Advanced',
-        level4: 'Level 4', prefs: 'Preferences', data: 'Data',
-        setTheme: 'Theme', dark: 'Dark', light: 'Light', setBackup: 'Backup (JSON)',
-        demoTitle: 'Limited demo. ', demoBody: 'The app packs more than 500 animated exercises, routines, history, calculators, widgets and a real rest alarm. This is just a taste so you can poke at it.',
-        setLang: 'Language', setUnits: 'Units', setRest: 'Default rest',
-        setSound: 'Alarm sound', setSoundVal: 'Yours', setExport: 'Export workouts (CSV)', setWipe: 'Wipe everything'
+        navhome: 'HOME', navprogress: 'PROGRESS', navexercises: 'EXERCISES', navprofile: 'PROFILE', today: 'Today',
+        routine: "TODAY'S ROUTINE", exs: 'exercises', startWorkout: 'Start', thisWeek: 'This week', volume: 'Volume',
+        setsToday: 'Sets today', train: 'Train', step1: 'STEP 1 OF 2', step2: 'STEP 2 OF 2',
+        chooseFocus: 'CHOOSE YOUR FOCUS', yourSession: 'YOUR SESSION', noMuscles: 'Nothing picked — tap the body.',
+        continue: 'Continue', sets: 'sets', inProgress: 'IN PROGRESS', pause: 'Pause', exercise: 'EXERCISE', of: 'OF',
+        backToIt: 'Back to it!', reps: 'REPS', kg: 'WEIGHT (KG)', addSet: 'Add set', nextEx: 'Next',
+        complete: 'Session complete', completeSub: "Leo's proud of that one. Keep the streak alive.",
+        duration: 'Duration', saveExit: 'Save and exit', vol30: 'Volume · 30D', consistency: 'Consistency',
+        streak: '4-day streak', inLibrary: 'exercises in your library', activity: 'Activity', prs: 'Records',
+        progressT: 'Progress', exercisesT: 'Exercises', settingsT: 'Settings', weight: 'Weight', weightDate: '19 Sept',
+        weekOf: '4 of 4 this week', sessions: 'Sessions', setsT: 'Sets', time: 'Time', muscleMap: 'Muscle map',
+        recovery: 'Recovery', filters: 'Filters', noKit: 'No equipment', legs: 'Legs', arms: 'Arms',
+        kitBarbell: 'Barbell', kitDumbbell: 'Dumbbell', kitCable: 'Cable', kitBodyweight: 'Bodyweight',
+        editProfile: 'Edit profile', level7: 'Level 7', toLevel8: '6 workouts to level 8', workouts: 'Workouts',
+        trained: 'Trained', days: 'days', lifted: 'Lifted', medals: 'Medals', mStep: 'First step',
+        mWorkout: 'First workout', mRoutine: 'First routine', mRecord: 'First record', photos: 'Photos',
+        yourPhotos: 'Your photos', takeOne: 'Take one', setRemind: 'Workout reminder', never: 'Never',
+        setFocus: "Today's focus", setEffort: 'Log effort', off: 'Off', setAutoNext: 'Auto-advance',
+        setAwake: 'Keep screen on while training', resting: 'RESTING', elapsed: 'elapsed', tapSkip: 'tap to skip',
+        nextUp: 'NEXT', prevEx: 'Previous exercise', nextHint: 'same weight until you hit every rep',
+        search: 'Search exercises', tapBody: 'Tap the muscles you want to train — front and back.', last: 'LAST',
+        finishSession: 'Finish', favs: 'Favourites', newEx: 'New exercise', lvBeg: 'Beginner', lvInt: 'Intermediate',
+        lvAdv: 'Advanced', prefs: 'Preferences', data: 'Data', setTheme: 'Theme', dark: 'Dark',
+        setBackup: 'Backup (JSON)', demoTitle: 'Limited demo. ',
+        demoBody: 'The app packs more than 500 animated exercises, routines, history, calculators, widgets and a real rest alarm. This is just a taste so you can poke at it.',
+        setLang: 'Language', setUnits: 'Units', setRest: 'Default rest', setSound: 'Alarm sound',
+        setSoundVal: 'Default', setExport: 'Export workouts (CSV)'
       },
       muscles: {
         chest: 'Chest', back: 'Back', shoulders: 'Shoulders', biceps: 'Biceps', triceps: 'Triceps',
@@ -186,9 +194,6 @@
       g.setAttribute('aria-label', d.muscles[id] || id);
     });
     if (lb.classList.contains('on')) lbCap.textContent = t(SHOTS[lbIdx].k);
-    if (!timer.running) setState(t('restReady'));
-    paintLive('stars', false);
-    paintLive('dl', false);
   }
 
   document.querySelectorAll('.lang button').forEach(function (b) {
@@ -324,6 +329,8 @@
     fbarbell: 'M800 704V192Q800 165 781.5 146.5Q763 128 736 128H672Q645 128 626.5 146.5Q608 165 608 192V416H416V192Q416 165 397.5 146.5Q379 128 352 128H288Q261 128 242.5 146.5Q224 165 224 192V704Q224 731 242.5 749.5Q261 768 288 768H352Q379 768 397.5 749.5Q416 731 416 704V480H608V704Q608 731 626.5 749.5Q645 768 672 768H736Q763 768 781.5 749.5Q800 731 800 704ZM144 672H128Q101 672 82.5 653.5Q64 635 64 608V480H33Q33 480 33.0 480.0Q33 480 33 480Q20 480 10.5 471.5Q1 463 0 450Q0 450 0.0 449.5Q0 449 0 448Q0 435 9.5 425.5Q19 416 32 416Q32 416 32.0 416.0Q32 416 32 416H64V288Q64 261 82.5 242.5Q101 224 128 224H144Q151 224 155.5 228.5Q160 233 160 240V656Q160 663 155.5 667.5Q151 672 144 672ZM1024 450Q1023 463 1013.5 471.5Q1004 480 991 480Q991 480 991.0 480.0Q991 480 991 480H960V608Q960 635 941.5 653.5Q923 672 896 672H880Q873 672 868.5 667.5Q864 663 864 656V240Q864 233 868.5 228.5Q873 224 880 224H896Q923 224 941.5 242.5Q960 261 960 288V416H992Q992 416 992.0 416.0Q992 416 992 416Q1005 416 1014.5 425.5Q1024 435 1024 448Q1024 449 1024.0 449.5Q1024 450 1024 450Z',
     rgearSix: 'M512 640Q432 640 376.0 584.0Q320 528 320 448Q320 368 376.0 312.0Q432 256 512 256Q592 256 648.0 312.0Q704 368 704 448Q704 527 647.5 583.5Q591 640 512 640ZM512 320Q459 320 421.5 357.5Q384 395 384 448Q384 501 421.5 538.5Q459 576 512 576Q565 576 602.5 538.5Q640 501 640 448Q640 395 602.5 357.5Q565 320 512 320ZM952 531Q950 538 946.0 543.5Q942 549 936 553L817 621L816 755Q816 763 813.0 769.0Q810 775 805 780Q774 806 737.5 827.0Q701 848 661 861L658 862Q656 863 653.5 863.5Q651 864 648 864Q644 864 640.0 863.0Q636 862 632 860L512 793L392 860Q388 862 384.0 863.0Q380 864 376 864Q373 864 370.5 863.5Q368 863 365 862H366Q323 848 286.5 827.0Q250 806 218 779H219Q214 775 211.0 768.5Q208 762 208 755L207 621L88 553Q82 549 78.0 543.5Q74 538 72 531Q68 512 66.0 491.0Q64 470 64 448Q64 426 66.0 404.5Q68 383 73 362L72 365Q74 358 78.0 352.5Q82 347 88 343L207 275V141Q208 133 211.0 127.0Q214 121 219 116Q250 90 286.0 69.0Q322 48 363 35L366 34Q368 33 370.5 32.5Q373 32 376 32Q380 32 384.0 33.0Q388 34 392 36L512 103L632 36Q636 34 640.0 33.0Q644 32 648 32Q648 32 648.0 32.0Q648 32 648 32Q651 32 653.5 32.5Q656 33 659 34H658Q701 48 737.5 69.0Q774 90 806 117H805Q810 121 813.0 127.5Q816 134 816 141L817 275L936 343Q942 347 946.0 352.5Q950 358 952 365Q956 384 958.0 405.0Q960 426 960 448Q960 470 958.0 491.5Q956 513 951 534L952 531ZM892 392 777 327Q774 324 771.0 321.0Q768 318 766 315H765Q764 312 762.0 308.5Q760 305 758 302Q756 299 754.5 294.5Q753 290 753 285V156Q731 139 706.0 125.0Q681 111 654 100L651 99L536 163Q533 165 529.0 166.0Q525 167 521 167Q520 167 520.0 167.0Q520 167 520 167Q516 167 512.5 167.0Q509 167 505 167Q505 167 504.5 167.0Q504 167 504 167Q500 167 496.0 166.0Q492 165 488 163H489L373 99Q344 110 318.5 124.5Q293 139 271 157L272 156L271 285Q271 289 269.5 293.5Q268 298 266 302Q264 305 262.5 308.0Q261 311 259 314Q257 318 254.0 321.0Q251 324 247 326L133 391Q130 404 129.0 418.5Q128 433 128 448Q128 463 129.5 477.5Q131 492 133 506V504L247 569Q250 572 253.0 575.0Q256 578 259 581Q260 584 262.0 587.5Q264 591 266 594Q268 597 269.5 601.5Q271 606 271 611V740Q293 757 318.0 771.0Q343 785 370 796L373 797L488 733Q491 731 495.0 730.0Q499 729 504 729Q504 729 504.0 729.0Q504 729 504 729Q508 729 511.5 729.0Q515 729 519 729Q519 729 519.5 729.0Q520 729 520 729Q524 729 528.0 730.0Q532 731 536 733H535L651 797Q680 786 705.5 771.5Q731 757 753 739L752 740L753 611Q753 607 754.5 602.5Q756 598 758 594Q760 591 761.5 588.0Q763 585 765 582Q767 578 770.0 575.0Q773 572 777 570L891 505Q894 492 895.0 477.5Q896 463 896 447Q896 433 895.0 418.5Q894 404 891 389L892 392Z',
     fgearSix: 'M952 531Q950 538 946.0 543.5Q942 549 936 553L817 621L816 755Q816 763 813.0 769.0Q810 775 805 780Q774 806 737.5 827.0Q701 848 661 861L658 862Q656 863 653.5 863.5Q651 864 648 864Q644 864 640.0 863.0Q636 862 632 860L512 793L392 860Q388 862 384.0 863.0Q380 864 376 864Q373 864 370.5 863.5Q368 863 365 862H366Q323 848 286.5 827.0Q250 806 218 779H219Q214 775 211.0 768.5Q208 762 208 755L207 621L88 553Q82 549 78.0 543.5Q74 538 72 531Q68 512 66.0 491.0Q64 470 64 448Q64 426 66.0 404.5Q68 383 73 362L72 365Q74 358 78.0 352.5Q82 347 88 343L207 275V141Q208 133 211.0 127.0Q214 121 219 116Q250 90 286.0 69.0Q322 48 363 34H366Q368 33 370.5 32.5Q373 32 376 32Q380 32 384.0 33.0Q388 34 392 36L512 103L632 36Q636 34 640.0 33.0Q644 32 648 32Q648 32 648.0 32.0Q648 32 648 32Q651 32 653.5 32.5Q656 33 659 34H658Q701 48 737.5 69.0Q774 90 806 117H805Q810 121 813.0 127.5Q816 134 816 141L817 275L936 343Q942 347 946.0 352.5Q950 358 952 365Q956 384 958.0 405.0Q960 426 960 448Q960 470 958.0 491.5Q956 513 951 534L952 531ZM512 288Q446 288 399.0 335.0Q352 382 352 448Q352 514 399.0 561.0Q446 608 512 608Q578 608 625.0 561.0Q672 514 672 448Q672 382 625.0 335.0Q578 288 512 288Z',
+    ruserCircle: 'M512 864Q426 864 350 831Q274 799 217.5 742.5Q161 686 129 610Q96 534 96 448Q96 362 129 286Q161 210 217.5 153.5Q274 97 350 65Q426 32 512 32Q598 32 674 65Q750 97 806.5 153.5Q863 210 895 286Q928 362 928 448Q928 534 895 610Q862 686 806.0 742.0Q750 798 674 831Q598 864 512 864ZM296 170Q331 224 387.5 256.0Q444 288 512 288Q580 288 636.5 256.0Q693 224 727 171L728 170Q684 135 628.5 115.5Q573 96 512 96Q451 96 395.5 116.0Q340 136 296 171V170ZM384 480Q384 533 421.5 570.5Q459 608 512 608Q565 608 602.5 570.5Q640 533 640 480Q640 427 602.5 389.5Q565 352 512 352Q459 352 421.5 389.5Q384 427 384 480ZM775 214Q748 253 712.0 282.0Q676 311 633 329H631Q664 356 684.0 395.0Q704 434 704 480Q704 560 648.0 616.0Q592 672 512 672Q432 672 376.0 616.0Q320 560 320 480Q320 434 340.0 395.0Q360 356 393 330V329Q349 311 312.5 282.0Q276 253 250 215L249 214Q208 261 184.0 321.0Q160 381 160 448Q160 521 188 585Q215 649 263.0 697.0Q311 745 375 773Q439 800 512 800Q585 800 649 773Q713 745 761.0 697.0Q809 649 836 585Q864 521 864 448Q864 381 840.0 321.0Q816 261 775 214Z',
+    fuserCircle: 'M688 480Q688 407 636.5 355.5Q585 304 512 304Q439 304 387.5 355.5Q336 407 336 480Q336 553 387.5 604.5Q439 656 512 656Q585 656 636.5 604.5Q688 553 688 480ZM928 448Q928 362 895 286Q863 210 806.5 153.5Q750 97 674 65Q598 32 512 32Q426 32 350 65Q274 97 217.5 153.5Q161 210 129 286Q96 362 96 448Q96 534 129 610Q161 686 217.5 742.5Q274 799 350 831Q426 864 512 864Q598 864 674 831Q750 798 806.0 742.0Q862 686 895 610Q928 534 928 448ZM864 448Q864 521 836 585Q808 649 760.5 697.0Q713 745 649 772Q585 800 512 800Q508 800 504.5 800.0Q501 800 497 800H498Q427 797 366 768Q304 739 258.0 691.5Q212 644 186 581Q160 518 160 447Q160 380 184.0 320.0Q208 260 249 214Q267 240 288.5 261.0Q310 282 335 299L336 300Q338 301 340.0 301.5Q342 302 345 302Q348 302 350.5 301.0Q353 300 355 298Q387 271 427.0 255.5Q467 240 512 240Q557 240 597.0 255.5Q637 271 669 299L668 298Q671 300 673.5 301.0Q676 302 679 302Q681 302 683.5 301.5Q686 301 688 300Q714 282 735.5 261.0Q757 240 774 215L775 214Q816 261 840.0 320.5Q864 380 864 448Q864 448 864.0 448.0Q864 448 864 448Z',
     rplay: 'M930 502 353 855Q346 859 337.5 861.5Q329 864 320 864Q311 864 303.0 862.0Q295 860 288 856Q274 848 265.0 833.0Q256 818 256 801V95Q256 69 274.5 50.5Q293 32 320 32Q320 32 320.0 32.0Q320 32 320 32Q329 32 337.5 34.5Q346 37 354 42L353 41L930 394Q943 402 951.5 416.5Q960 431 960 448Q960 465 951.5 479.0Q943 493 930 502ZM320 96V800L895 448Z',
     fplay: 'M960 448Q960 448 960.0 448.0Q960 448 960 448Q960 431 951.5 416.5Q943 402 930 394L353 41Q346 37 337.5 34.5Q329 32 320 32Q311 32 303.0 34.0Q295 36 288 40Q274 48 265.0 63.0Q256 78 256 95V801Q256 818 265.0 832.5Q274 847 288 856Q295 860 303.0 862.0Q311 864 320 864Q329 864 337.5 861.5Q346 859 354 854L353 855L930 502Q943 494 951.5 479.5Q960 465 960 448Q960 448 960.0 448.0Q960 448 960 448Z'
   };
@@ -334,7 +341,7 @@
     play: '<path d="M8 5v14l11-7z"/>'
   };
   var NAV = [
-    ['home', 'house'], ['progress', 'chartLineUp'], ['exercises', 'barbell'], ['settings', 'gearSix']
+    ['home', 'house'], ['progress', 'chartLineUp'], ['exercises', 'barbell'], ['profile', 'userCircle']
   ];
   function sv(p, o) {
     return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ' +
@@ -371,7 +378,7 @@
     var pill = navEl.querySelector('.a-navpill'), active = null;
     NAV.forEach(function (n) {
       var b = navEl.querySelector('[data-a="go:' + n[0] + '"]');
-      var on = A.screen === n[0];
+      var on = A.screen === n[0] || (n[0] === 'profile' && A.screen === 'settings');
       b.classList.toggle('on', on);
       b.setAttribute('aria-current', on ? 'page' : 'false');
       b.querySelector('.ph path').setAttribute('d', PH[(on ? 'f' : 'r') + n[1]]);
@@ -395,38 +402,51 @@
     return '<div class="a-demo"><b>' + ta('demoTitle') + '</b>' + ta('demoBody') + '</div>';
   }
 
+  function heatCells(n, seed) {
+    var out = '';
+    for (var i = 0; i < n; i++) {
+      seed = (seed * 1103515245 + 12345) & 0x7fffffff;
+      var r = seed / 0x7fffffff;
+      var c = r < .42 ? 'var(--heat)' : r < .6 ? 'rgba(224,177,90,.38)' : r < .8 ? 'rgba(224,177,90,.7)' : 'var(--amb)';
+      out += '<i style="background:' + c + '"></i>';
+    }
+    return out;
+  }
+  function chev(c) { return sv('<path d="M9 6l6 6-6 6"/>', 'width="14" height="14" style="color:' + (c || 'var(--at3)') + ';flex:none"'); }
+  function round(icon, act, label) {
+    return '<button class="a-round"' + (act ? ' data-a="' + act + '"' : '') + ' aria-label="' + (label || '') + '">' + icon + '</button>';
+  }
+  var IC = {
+    share: sv('<circle cx="18" cy="5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="19" r="2.5"/><path d="M8.2 10.9l7.6-4.3M8.2 13.1l7.6 4.3"/>', 'width="16" height="16"'),
+    plus: sv('<path d="M12 5v14M5 12h14"/>', 'width="17" height="17"'),
+    back: sv('<path d="M15 18l-6-6 6-6"/>', 'width="16" height="16"'),
+    gear: phos('gearSix', false, 19),
+    star: '<path d="M12 4l2.4 5 5.6.6-4 3.9 1 5.5-5-2.7-5 2.7 1-5.5-4-3.9 5.6-.6z"/>'
+  };
+
   function aHome() {
     var d = new Date();
     var day = d.toLocaleDateString(lang === 'es' ? 'es-ES' : 'en-GB', { weekday: 'long', day: 'numeric', month: 'short' });
     day = day.charAt(0).toUpperCase() + day.slice(1).replace('.', '');
-    var focus = A.picked.length ? A.picked.map(mus).join(' · ') : mus('back') + ' · ' + mus('biceps');
-    var total = 0; (A.picked.length ? A.picked : ['back', 'biceps']).forEach(function (m) { total += COUNTS[m]; });
     var days = lang === 'es' ? ['L', 'M', 'X', 'J', 'V', 'S', 'D'] : ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
+    var doneW = A.week.filter(Boolean).length;
     return '<div class="a-scroll">' +
       '<div style="display:flex;align-items:center;justify-content:space-between">' +
         '<div><div class="a-lbl">' + ta('today') + '</div>' +
-        '<div class="a-dsp" style="font-size:20px;letter-spacing:.01em;margin-top:1px">' + day + '</div></div>' +
+        '<div class="a-dsp" style="font-size:21px;margin-top:1px">' + day + '</div></div>' +
         '<span class="a-pill"><svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">' + ICON.flame + '</svg>' +
-        '<b class="a-dsp" style="font-size:13px">' + (A.saved ? 28 : 27) + '</b></span>' +
+        '<b style="font-size:13px">' + (A.saved ? 5 : 4) + '</b></span>' +
       '</div>' +
 
       '<div class="a-card big a-focus">' +
         '<img src="assets/runner.webp" alt="" class="a-runner" />' +
         '<div style="position:relative">' +
-          '<div class="a-kick">' + ta('focus') + '</div>' +
-          '<div class="a-dsp" style="font-size:40px;line-height:.98;margin-top:6px">' + ta('pullDay') + '</div>' +
-          '<div style="font-size:12.5px;color:var(--at2);margin-top:7px">' + focus + ' · ' + total + ' ' + ta('exs') + '</div>' +
-          '<button class="a-btn" style="margin-top:17px" data-a="start">' +
-            '<svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor">' + ICON.play + '</svg>' + ta('startWorkout') + '</button>' +
+          '<div class="a-kick">' + ta('routine') + '</div>' +
+          '<div class="a-dsp" style="font-size:30px;line-height:1.05;margin-top:4px">Push</div>' +
+          '<div style="font-size:12.5px;color:var(--at2);margin-top:3px">4 ' + ta('exs') + '</div>' +
+          '<button class="a-btn" style="margin-top:18px" data-a="start">' +
+            '<svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor">' + ICON.play + '</svg>' + ta('startWorkout') + '</button>' +
         '</div>' +
-      '</div>' +
-
-      '<div class="a-card" style="display:flex;align-items:center;justify-content:space-between;gap:14px">' +
-        '<div><div class="a-kick" style="font-size:10.5px;letter-spacing:.22em">' + ta('routine') + '</div>' +
-        '<div class="a-dsp" style="font-size:22px;letter-spacing:0;margin-top:3px">Push</div>' +
-        '<div style="font-size:12px;color:var(--at2)">5 ' + ta('exs') + '</div></div>' +
-        '<button data-a="start" style="width:44px;height:44px;border-radius:50%;background:#fff;display:grid;place-items:center;flex:none">' +
-          '<svg viewBox="0 0 24 24" width="17" height="17" fill="#0A0A0A">' + ICON.play + '</svg></button>' +
       '</div>' +
 
       '<div class="a-card"><div class="a-week">' + days.map(function (l, i) {
@@ -437,19 +457,20 @@
           '</span></button>';
       }).join('') + '</div></div>' +
 
-      '<div><div class="a-kick" style="color:var(--at2);letter-spacing:.22em;margin-bottom:9px">' + ta('thisWeek') + '</div>' +
-        '<div class="a-grid2">' +
-          '<div class="a-card a-stat"><div class="a-lbl">' + ta('volume') + '</div><div class="v">' + (A.saved ? '35.1' : '32.7') + '<small> t</small></div></div>' +
-          '<div class="a-card a-stat"><div class="a-lbl">' + ta('setsToday') + '</div><div class="v">' + (A.saved ? 19 : 16) + '</div></div>' +
-          '<div class="a-card a-stat"><div class="a-lbl">PRs</div><div class="v">15</div></div>' +
-          '<div class="a-card a-stat" style="display:flex;align-items:center;gap:11px">' +
-            '<svg width="36" height="36" viewBox="0 0 40 40" style="flex:none">' +
-              '<circle cx="20" cy="20" r="16" fill="none" stroke="var(--ar2)" stroke-width="4"/>' +
-              '<circle cx="20" cy="20" r="16" fill="none" stroke="var(--clay)" stroke-width="4" stroke-linecap="round" stroke-dasharray="100.5" stroke-dashoffset="' + (A.saved ? 0 : 24) + '" transform="rotate(-90 20 20)"/>' +
-            '</svg>' +
-            '<div><div class="a-lbl">' + ta('goal') + '</div><div class="v" style="font-size:20px">' + (A.saved ? 100 : 76) + '<small>%</small></div></div>' +
-          '</div>' +
+      '<div><div class="a-h">' + ta('thisWeek') + '</div>' +
+        '<div class="a-card a-wk">' +
+          '<div><div class="a-lbl">' + ta('volume') + '</div><div class="v">' + (A.saved ? '31.2' : '28.8') + '<small> t</small></div></div>' +
+          '<div><div class="a-lbl">' + ta('setsToday') + '</div><div class="v">' + (A.saved ? 12 : 10) + '</div></div>' +
+          '<div><div class="a-lbl">' + ta('prs') + '</div><div class="v">3</div></div>' +
+          '<div class="ring"><svg width="44" height="44" viewBox="0 0 40 40">' +
+            '<circle cx="20" cy="20" r="16" fill="none" stroke="var(--ar2)" stroke-width="3.5"/>' +
+            '<circle cx="20" cy="20" r="16" fill="none" stroke="var(--clay)" stroke-width="3.5" stroke-linecap="round" stroke-dasharray="100.5" stroke-dashoffset="' + (100.5 * (1 - Math.min(1, doneW / 4))).toFixed(1) + '" transform="rotate(-90 20 20)"/>' +
+          '</svg><span>' + Math.min(doneW, 4) + '/4</span></div>' +
         '</div>' +
+      '</div>' +
+
+      '<div><div class="a-h" style="display:flex;justify-content:space-between;align-items:center">' + ta('activity') + chev() + '</div>' +
+        '<div class="a-card"><div class="a-heat">' + heatCells(84, 20261001) + '</div></div>' +
       '</div>' +
       aDemoNote() +
     '</div>';
@@ -459,7 +480,7 @@
     var head = '<div style="display:flex;align-items:center;justify-content:space-between">' +
       '<button data-a="go:home" style="width:36px;height:36px;border-radius:50%;background:var(--ar);border:1px solid var(--abd);display:grid;place-items:center">' +
         sv('<path d="M6 6l12 12M18 6L6 18"/>', 'width="15" height="15"') + '</button>' +
-      '<div class="a-dsp" style="font-size:16px;letter-spacing:.2em">' + ta('train') + '</div><div style="width:36px"></div></div>';
+      '<div class="a-dsp" style="font-size:17px">' + ta('train') + '</div><div style="width:36px"></div></div>';
 
     if (A.step === 2) {
       return '<div class="a-scroll plain">' + head +
@@ -495,20 +516,23 @@
     var m = A.ex[A.exIdx] || 'chest';
     var rest = '';
     if (A.rest > 0 || A.restOver) {
+      var doneSets = A.sets.filter(function (x) { return x.ok; }).length;
+      var ticks = '', left = A.restOver ? 0 : A.rest / A.restTotal;
+      for (var k = 0; k < 40; k++) ticks += '<i' + (k / 40 < 1 - left ? ' class="on"' : '') + '></i>';
       rest = '<div class="a-card a-rest' + (A.restOver ? ' done' : '') + '">' +
-        '<div class="a-kick">' + ta('rest') + '</div>' +
-        (A.restOver
-          ? '<div class="n" id="aRestN">' + ta('backToIt') + '</div>'
-          : '<div class="a-restrow"><button data-a="rest-15">–15</button>' +
-            '<span class="n" id="aRestN">' + A.rest + 's</span>' +
-            '<button data-a="rest15">+15</button></div>' +
-            '<div style="font-size:11.5px;color:var(--at3)">' + ta('restDefault') + '</div>') +
-        '<button class="a-skip" data-a="skip">' + ta('skip') + '</button></div>';
+          '<div class="a-restbar"><button data-a="rest-15">–15</button><span>' + ta('resting') + '</span><button data-a="rest15">+15</button></div>' +
+          '<div class="a-ticks">' + ticks + '</div>' +
+          '<div class="a-restfoot">' +
+            '<div><b id="aEl3">' + clock(A.elapsed) + '</b><span>' + ta('elapsed') + '</span></div>' +
+            '<button data-a="skip" class="mid"><b class="n" id="aRestN">' + (A.restOver ? ta('backToIt') : restLabel()) + '</b><span>' + ta('tapSkip') + '</span></button>' +
+            '<div style="text-align:right"><b>' + doneSets + '/' + A.sets.length + '</b><span>' + ta('sets') + '</span></div>' +
+          '</div>' +
+        '</div>';
     }
-    return '<div class="a-scroll plain">' +
+    return '<div class="a-scroll plain' + (rest ? ' dock-rest' : ' dock') + '">' +
       '<div style="display:flex;align-items:center;gap:10px">' +
         '<span class="a-pulse" style="background:#fff"></span>' +
-        '<span class="a-dsp" style="font-size:12px;letter-spacing:.2em;flex:1">' + ta('inProgress') + '</span>' +
+        '<span style="font-size:12px;font-weight:700;letter-spacing:.08em;flex:1">' + ta('inProgress') + '</span>' +
         '<span class="a-dsp" id="aEl2" style="font-size:19px">' + clock(A.elapsed) + '</span>' +
         '<button data-a="pause" aria-label="' + ta('pause') + '" style="width:38px;height:38px;border-radius:50%;background:var(--ar2);display:grid;place-items:center;flex:none">' +
           (A.paused
@@ -518,11 +542,11 @@
       '</div>' +
       '<div><div style="font-size:11.5px;font-weight:600;letter-spacing:.1em;color:var(--at2)">' +
         ta('exercise') + ' ' + (A.exIdx + 1) + ' ' + ta('of') + ' ' + A.ex.length + '</div>' +
-        '<div class="a-dsp" style="font-size:25px;margin-top:4px;letter-spacing:0">' + exName(m) + '</div>' +
+        '<div class="a-dsp" style="font-size:25px;margin-top:4px">' + exName(m) + '</div>' +
         '<div style="margin-top:8px"><span class="a-chip" style="padding:6px 12px;font-size:12.5px">' + mus(m) + '</span></div>' +
-        '<div style="margin-top:10px;font-size:12.5px;color:var(--at2)"><b style="color:var(--at3);font-weight:600;letter-spacing:.1em">' + ta('last') + '</b> ' + LAST[m] + '</div></div>' +
+        '<div style="margin-top:10px;font-size:12px;color:var(--at2)"><b style="color:var(--at3);font-weight:700;letter-spacing:.08em">' + ta('last') + '</b> ' + LAST[m] + '</div>' +
+        '<div style="margin-top:3px;font-size:12px;color:var(--at2)"><b style="color:var(--clay);font-weight:700;letter-spacing:.08em">' + ta('nextUp') + '</b> ' + ta('nextHint') + '</div></div>' +
       '<div class="a-art"><img src="' + exGif(m) + '" width="300" height="300" alt="" /></div>' +
-      rest +
       '<div class="a-card">' +
         '<div class="a-sets"><span class="h">#</span><span class="h">' + ta('reps') + '</span><span class="h">' + ta('kg') + '</span><span></span></div>' +
         A.sets.map(function (s, i) {
@@ -536,17 +560,19 @@
         }).join('') +
         '<button class="a-add" data-a="addset">+ ' + ta('addSet') + '</button>' +
       '</div>' +
-      '<div style="display:flex;gap:9px;align-items:center">' +
-        '<button data-a="prev" style="width:46px;height:46px;flex:none;background:var(--ar);border:1px solid var(--abd);border-radius:50%;display:grid;place-items:center">' +
-          sv('<path d="M15 18l-6-6 6-6"/>', 'width="17" height="17"') + '</button>' +
-        '<button class="a-btn" data-a="next">' + (A.exIdx < A.ex.length - 1 ? ta('nextEx') : ta('finishSession')) + '</button>' +
+    '</div>' +
+    '<div class="a-dock">' + rest +
+      '<div class="a-actions">' +
+        '<button class="a-round" data-a="prev" aria-label="' + ta('prevEx') + '">' + sv('<path d="M15 18l-6-6 6-6"/>', 'width="17" height="17"') + '</button>' +
+        (A.exIdx < A.ex.length - 1 ? '<button class="a-btn" data-a="next">' + ta('nextEx') + '</button>' : '') +
+        '<button class="a-btn' + (A.exIdx < A.ex.length - 1 ? ' dark' : '') + '" data-a="finish">' + ta('finishSession') + '</button>' +
       '</div>' +
     '</div>';
   }
 
   function aDone() {
-    var vol = 0; A.sets.forEach(function (s) { if (s.ok) vol += s.r * s.w; });
-    var done = 0; A.sets.forEach(function (s) { if (s.ok) done++; });
+    var vol = A.doneVol || 0, done = A.doneSets || 0;
+    A.sets.forEach(function (s) { if (s.ok) { vol += s.r * s.w; done++; } });
     return '<div class="a-scroll plain a-done">' +
       '<svg width="62" height="62" viewBox="0 0 100 100">' +
         '<circle cx="50" cy="50" r="47" fill="none" stroke="var(--clay)" stroke-width="2"/>' +
@@ -555,7 +581,7 @@
         '<circle cx="50" cy="50" r="24" fill="var(--ar2)" stroke="var(--clay)" stroke-width="2"/>' +
         '<path d="M39 44 Q50 52 61 44" stroke="#fff" stroke-width="2.5" fill="none" stroke-linecap="round"/>' +
         '<circle cx="42" cy="46" r="2.5" fill="#fff"/><circle cx="58" cy="46" r="2.5" fill="#fff"/></svg>' +
-      '<div><div class="a-kick">' + ta('complete') + '</div>' +
+      '<div><div class="a-title">' + ta('complete') + '</div>' +
       '<div style="font-size:13.5px;color:var(--at2);margin-top:7px;max-width:270px">' + ta('completeSub') + '</div></div>' +
       '<div class="a-grid3">' +
         '<div class="a-card" style="padding:13px;border-radius:16px"><div class="a-lbl" style="font-size:10px">' + ta('duration') + '</div><div class="a-dsp" style="font-size:17px;margin-top:3px">' + clock(A.elapsed) + '</div></div>' +
@@ -567,139 +593,139 @@
   }
 
   function aProgress() {
-    var heat = '', seed = 20260726;
-    for (var i = 0; i < 84; i++) {
-      seed = (seed * 1103515245 + 12345) & 0x7fffffff;
-      var r = seed / 0x7fffffff;
-      var c = r < .44 ? 'var(--heat)' : r < .62 ? 'rgba(217,161,132,.42)' : r < .84 ? 'rgba(217,161,132,.68)' : 'var(--clay)';
-      heat += '<i style="background:' + c + '"></i>';
+    function spark(pts, x, y) {
+      return '<svg width="100%" height="40" viewBox="0 0 140 40" style="margin-top:10px;overflow:visible">' +
+        '<path d="' + pts + '" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>' +
+        '<circle cx="' + x + '" cy="' + y + '" r="3.5" fill="var(--ar)" stroke="#fff" stroke-width="2"/></svg>';
     }
+    var view = A.view || '7';
     return '<div class="a-scroll">' +
-      '<div class="a-title">' + ta('navprogress') + '</div>' +
-      '<div class="a-card big">' +
-        '<div class="a-kick">' + ta('vol30') + '</div>' +
-        '<div style="display:flex;align-items:center;gap:11px;margin-top:4px">' +
-          '<div class="a-dsp" style="font-size:44px;line-height:1">142<small style="font-size:18px;color:var(--at2)"> t</small></div>' +
-          '<span style="display:inline-flex;align-items:center;gap:5px;background:var(--sage-soft);color:var(--sage);padding:5px 10px;border-radius:9px;font-size:11.5px;font-weight:600">' +
-            sv('<path d="M4 16l6-6 4 4 6-8"/>', 'width="11" height="11"') + ta('vsMonth') + '</span>' +
-        '</div>' +
-        '<svg width="100%" height="88" viewBox="0 0 300 100" style="margin-top:16px;overflow:visible">' +
-          '<line x1="0" y1="22" x2="300" y2="22" stroke="var(--abd)"/><line x1="0" y1="55" x2="300" y2="55" stroke="var(--abd)"/><line x1="0" y1="88" x2="300" y2="88" stroke="var(--abd)"/>' +
-          '<path d="M0,86 L34,80 L64,76 L96,52 L128,44 L164,38 L196,30 L232,26 L264,20 L292,8 L292,92 L0,92 Z" fill="rgba(217,161,132,.13)"/>' +
-          '<path d="M0,86 L34,80 L64,76 L96,52 L128,44 L164,38 L196,30 L232,26 L264,20 L292,8" fill="none" stroke="var(--clay)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>' +
-          '<circle cx="292" cy="8" r="5.5" fill="var(--ar)" stroke="var(--clay)" stroke-width="3"/>' +
-        '</svg>' +
+      '<div style="display:flex;align-items:center;justify-content:space-between"><div class="a-title">' + ta('progressT') + '</div>' + round(IC.share, '', 'share') + '</div>' +
+      '<div class="a-grid2">' +
+        '<div class="a-card" style="padding:15px"><div class="a-lbl" style="display:flex;justify-content:space-between">' + ta('vol30') + '<span style="color:var(--sage)">↗ 16%</span></div>' +
+          '<div class="a-dsp" style="font-size:26px;margin-top:4px">98.4<small style="font-size:13px;color:var(--at2)"> t</small></div>' + spark('M4,32 L40,26 L76,22 L104,18 L132,10', 132, 10) + '</div>' +
+        '<div class="a-card" style="padding:15px"><div class="a-lbl">' + ta('weight') + '</div>' +
+          '<div class="a-dsp" style="font-size:26px;margin-top:4px">81.4<small style="font-size:13px;color:var(--at2)"> kg</small></div>' +
+          '<div style="font-size:11px;color:var(--at3)">' + ta('weightDate') + '</div>' + spark('M4,30 L44,26 L84,22 L132,14', 132, 14) + '</div>' +
       '</div>' +
       '<div class="a-card">' +
         '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">' +
-          '<div class="a-dsp" style="font-size:15px;letter-spacing:.06em">' + ta('consistency') + '</div>' +
-          '<div style="font-size:12px;color:var(--at2)">' + ta('sessionsLogged') + '</div></div>' +
-        '<div class="a-heat">' + heat + '</div>' +
-        '<div style="display:flex;align-items:center;gap:7px;margin-top:14px">' +
-          '<svg viewBox="0 0 24 24" width="14" height="14" fill="var(--clay)">' + ICON.flame + '</svg>' +
-          '<span style="font-size:13px;font-weight:600">' + ta('streak') + '</span></div>' +
+          '<div class="a-lbl">' + ta('consistency') + '</div>' +
+          '<span style="display:flex;gap:4px"><i class="a-dot"></i><i class="a-dot"></i><i class="a-dot" style="opacity:.4"></i></span></div>' +
+        '<div class="a-heat">' + heatCells(84, 20260726) + '</div>' +
+        '<div style="display:flex;align-items:center;justify-content:space-between;margin-top:14px;font-size:12.5px">' +
+          '<span style="display:flex;align-items:center;gap:7px;font-weight:700"><svg viewBox="0 0 24 24" width="14" height="14" fill="var(--clay)">' + ICON.flame + '</svg>' + ta('streak') + '</span>' +
+          '<span style="color:var(--at3)">' + ta('weekOf') + '</span></div>' +
       '</div>' +
-      '<div class="a-card">' +
-        '<div style="display:flex;align-items:flex-start;justify-content:space-between">' +
-          '<div><div class="a-dsp" style="font-size:15px;letter-spacing:.06em">' + ta('bodyweight') + '</div>' +
-          '<div class="a-dsp" style="font-size:26px;margin-top:2px">79.8<small style="font-size:14px;color:var(--at2)"> kg</small></div></div>' +
-          '<span style="background:var(--ar2);border-radius:999px;padding:8px 14px;font-family:var(--display);font-weight:600;font-size:12px;letter-spacing:.1em">+ LOG</span>' +
-        '</div>' +
-        '<svg width="100%" height="54" viewBox="0 0 300 60" style="margin-top:10px;overflow:visible">' +
-          '<path d="M4,10 L60,16 L104,18 L150,28 L200,36 L250,42 L292,48" fill="none" stroke="var(--clay)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>' +
-          '<circle cx="292" cy="48" r="4.5" fill="var(--ar)" stroke="var(--clay)" stroke-width="2.5"/>' +
-        '</svg>' +
-      '</div>' +
-      '<div class="a-card">' +
-        '<div class="a-dsp" style="font-size:15px;letter-spacing:.06em;margin-bottom:4px">' + ta('records') + '</div>' +
-        [['chest', 95, 119], ['glutes', 110, 138], ['back', 80, 100]].map(function (p) {
-          return '<div class="a-pr"><span style="font-size:13.5px;font-weight:500">' + exName(p[0]) + '</span>' +
-            '<div style="text-align:right"><div class="a-dsp" style="font-size:17px;letter-spacing:0">' + p[1] + ' kg</div>' +
-            '<div style="font-size:10.5px;color:var(--at2)">1RM ' + p[2] + ' kg</div></div></div>';
+      '<div class="a-grid3">' +
+        [['sessions', '64', ''], ['setsT', '640', ''], ['time', '60', ' h']].map(function (s) {
+          return '<div class="a-card" style="padding:13px 14px;border-radius:16px"><div class="a-lbl" style="font-size:10px">' + ta(s[0]) + '</div>' +
+            '<div class="a-dsp" style="font-size:22px;margin-top:3px">' + s[1] + '<small style="font-size:12px;color:var(--at2)">' + s[2] + '</small></div></div>';
         }).join('') +
+      '</div>' +
+      '<div class="a-card">' +
+        '<div style="display:flex;align-items:center;justify-content:space-between;gap:8px"><div class="a-lbl">' + ta('muscleMap') + '</div>' +
+        '<span class="a-seg">' + [['7', '7D'], ['30', '30D'], ['rec', ta('recovery')]].map(function (o) {
+          return '<button data-a="view:' + o[0] + '" class="' + (view === o[0] ? 'on' : '') + '">' + o[1] + '</button>';
+        }).join('') + '</span></div>' +
+        '<div class="a-map" data-v="' + view + '">' + (BODY_SVG || '') + '</div>' +
       '</div>' +
       aDemoNote() +
     '</div>';
   }
 
   function aExercises() {
-    var rows = ['chest', 'back', 'shoulders', 'biceps', 'quads', 'glutes'];
-    var lv = [ta('lvBeg'), ta('lvInt'), ta('lvAdv')];
+    var groups = [['chest', ['chest']], ['back', ['back']], ['shoulders', ['shoulders']], ['legs', ['quads', 'glutes', 'hamstrings']], ['arms', ['biceps', 'triceps']]];
     return '<div class="a-scroll">' +
-      '<div><div class="a-title">' + ta('navexercises') + '</div>' +
-      '<div style="font-size:12.5px;color:var(--at2);margin-top:3px">361 ' + ta('inLibrary') + '</div></div>' +
-      '<div class="a-card" style="display:flex;align-items:center;gap:10px;padding:14px 16px;border-radius:14px;color:var(--at3)">' +
-        sv('<circle cx="11" cy="11" r="7"/><path d="M20 20l-4.5-4.5"/>', 'width="15" height="15"') +
-        '<span style="font-size:13px">' + ta('search') + '</span></div>' +
-      '<div class="a-card" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:13px;border-radius:14px">' +
-        sv('<path d="M12 4l2.4 5 5.6.6-4 3.9 1 5.5-5-2.7-5 2.7 1-5.5-4-3.9 5.6-.6z"/>', 'width="14" height="14"') +
-        '<span class="a-dsp" style="font-size:12.5px;letter-spacing:.14em">' + ta('favs') + ' · 4</span></div>' +
-      '<div><div class="a-lbl" style="margin-bottom:8px">' + ta('muscle') + '</div>' +
-      '<div class="a-chips">' + ['chest', 'back', 'shoulders', 'biceps'].map(function (m, i) {
-        return '<span class="a-chip" style="font-size:12.5px;padding:7px 12px' + (i ? ';background:var(--ar);color:var(--at2)' : '') + '">' + mus(m) + '</span>';
-      }).join('') + '</div></div>' +
-      '<div><div class="a-lbl" style="margin-bottom:8px">' + ta('level') + '</div>' +
-      '<div class="a-chips">' + lv.map(function (l) {
-        return '<span class="a-chip" style="font-size:12.5px;padding:7px 12px;background:var(--ar);color:var(--at2)">' + l + '</span>';
-      }).join('') + '</div></div>' +
-      '<div class="a-card" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;border-radius:14px">' +
-        sv('<path d="M12 5v14M5 12h14"/>', 'width="15" height="15"') +
-        '<span class="a-dsp" style="font-size:12.5px;letter-spacing:.14em">' + ta('newEx') + '</span></div>' +
-      rows.map(function (m, k) {
-        return '<div class="a-card" style="display:flex;align-items:center;gap:12px;padding:11px;border-radius:16px">' +
-          '<div class="a-thumb"><img src="' + exGif(m) + '" width="300" height="300" loading="lazy" alt="" /></div>' +
-          '<div style="flex:1"><div style="font-size:13.5px;font-weight:600">' + exName(m) + '</div>' +
-          '<div style="display:flex;gap:8px;align-items:center;margin-top:4px">' +
-            '<span style="font-size:10.5px;font-weight:600;color:var(--clay);background:var(--clay-soft);padding:2px 7px;border-radius:6px">' + mus(m) + '</span>' +
-            '<span style="font-size:11px;color:var(--at2)">' + exKit(m) + '</span></div>' +
-          '<div style="font-size:10.5px;color:var(--at3);margin-top:3px">• ' + exLevel(m) + '</div></div>' +
-          '<svg viewBox="0 0 24 24" width="15" height="15" fill="' + (k ? 'none' : 'var(--clay)') + '" stroke="' + (k ? 'var(--at3)' : 'var(--clay)') + '" stroke-width="1.8">' +
-            '<path d="M12 4l2.4 5 5.6.6-4 3.9 1 5.5-5-2.7-5 2.7 1-5.5-4-3.9 5.6-.6z"/></svg></div>';
+      '<div style="display:flex;align-items:flex-start;justify-content:space-between"><div><div class="a-title">' + ta('exercisesT') + '</div>' +
+      '<div style="font-size:12.5px;color:var(--at2);margin-top:1px">551 ' + ta('inLibrary') + '</div></div>' + round(IC.plus, '', ta('newEx')) + '</div>' +
+      '<div class="a-search">' + sv('<circle cx="11" cy="11" r="7"/><path d="M20 20l-4.5-4.5"/>', 'width="15" height="15"') +
+        '<span>' + ta('search') + '</span></div>' +
+      '<div class="a-chips">' +
+        '<span class="a-chip ghost">' + ta('filters') + '</span>' +
+        '<span class="a-chip ghost">' + ta('favs') + ' · 2</span>' +
+        '<span class="a-chip ghost">' + ta('noKit') + '</span>' +
+      '</div>' +
+      groups.map(function (g, gi) {
+        return '<div><div class="a-lbl" style="margin-bottom:8px">' + (DICT[lang].muscles[g[0]] || ta(g[0])) + '</div>' +
+          '<div class="a-card a-list">' + g[1].map(function (m, k) {
+            var fav = gi === 0 && k === 0;
+            return '<div class="a-li">' +
+              '<div class="a-thumb"><img src="' + exGif(m) + '" width="300" height="300" loading="lazy" alt="" /></div>' +
+              '<div style="flex:1;min-width:0"><div style="font-size:13.5px;font-weight:700">' + exName(m) + '</div>' +
+              '<div style="font-size:11.5px;color:var(--at2);margin-top:1px">' + ta('kit' + exKit(m)) + ' · ' + exLevel(m) + '</div></div>' +
+              '<svg viewBox="0 0 24 24" width="17" height="17" fill="' + (fav ? 'var(--clay)' : 'none') + '" stroke="' + (fav ? 'var(--clay)' : 'var(--at3)') + '" stroke-width="1.8" style="flex:none">' + IC.star + '</svg></div>';
+          }).join('') + '</div></div>';
       }).join('') +
       aDemoNote() +
     '</div>';
   }
 
+  function aProfile() {
+    var medals = [['firstStep', 'mStep'], ['firstWorkout', 'mWorkout'], ['firstRoutine', 'mRoutine'], ['firstRecord', 'mRecord']];
+    return '<div class="a-scroll a-prof">' +
+      '<div class="a-cover"><div class="a-cover-act">' + round(IC.share, '', 'share') + round(IC.gear, 'go:settings', ta('settingsT')) + '</div></div>' +
+      '<div class="a-prof-head">' +
+        '<img class="a-ava" src="assets/avatar.webp" alt="" />' +
+        '<span class="a-edit">' + ta('editProfile') + '</span>' +
+      '</div>' +
+      '<div><div class="a-dsp" style="font-size:24px;display:flex;align-items:center;gap:7px">InlitX' +
+        '<svg viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="10" fill="#4C9BE8"/><path d="M7.5 12.3l3 3 6-6.3" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>' +
+        '<div style="font-size:12.5px;color:var(--at2)">@inlitx · 78 kg</div>' +
+        '<div style="display:flex;align-items:center;gap:8px;margin-top:8px"><span class="a-lvl">' + ta('level7') + '</span>' +
+        '<span style="font-size:11.5px;color:var(--at3)">' + ta('toLevel8') + '</span></div></div>' +
+      '<div class="a-pstats">' +
+        [['workouts', '64', ''], ['trained', '2', ' ' + ta('days')], ['setsT', '640', ''], ['lifted', '390', ' t']].map(function (s) {
+          return '<div><div class="a-lbl" style="font-size:9.5px">' + ta(s[0]) + '</div><div class="a-dsp" style="font-size:21px">' + s[1] + '<small style="font-size:11px;color:var(--at2)">' + s[2] + '</small></div></div>';
+        }).join('') +
+      '</div>' +
+      '<div><div class="a-h" style="display:flex;justify-content:space-between;align-items:center"><span>' + ta('medals') + ' <small style="color:var(--at3);font-weight:600;font-size:13px">13</small></span>' + chev() + '</div>' +
+        '<div class="a-medals">' + medals.map(function (m) {
+          return '<div><img src="assets/medals/' + m[0] + '.webp" width="128" height="128" alt="" /><span>' + ta(m[1]) + '</span></div>';
+        }).join('') + '</div></div>' +
+      '<div><div class="a-h" style="display:flex;justify-content:space-between;align-items:center">' + ta('photos') + chev() + '</div>' +
+        '<div class="a-grid2">' +
+          '<div class="a-card a-photo"><img src="assets/runner.webp" alt="" /><span>' + ta('yourPhotos') + ' <small>3</small></span></div>' +
+          '<div class="a-card a-photo">' + sv('<path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/>', 'width="26" height="26" style="color:var(--at2)"') + '<span>' + ta('takeOne') + '</span></div>' +
+        '</div></div>' +
+      aDemoNote() +
+    '</div>';
+  }
+
   function aSettings() {
-    function seg(a, b, first) {
-      return '<span class="a-seg2"><i class="' + (first ? 'on' : '') + '">' + a + '</i><i class="' + (first ? '' : 'on') + '">' + b + '</i></span>';
-    }
-    function row(icon, label, ctl, last) {
-      return '<div class="a-srow' + (last ? ' last' : '') + '">' +
-        sv(icon, 'width="19" height="19" style="color:var(--at2);flex:none"') +
+    function seg(a, b) { return '<span class="a-seg sm"><button class="on">' + a + '</button><button>' + b + '</button></span>'; }
+    function tog(on) { return '<span class="a-tog' + (on ? ' on' : '') + '"></span>'; }
+    function val(v) { return '<span style="display:flex;align-items:center;gap:6px;font-size:12.5px;color:var(--at2)">' + v + chev() + '</span>'; }
+    function row(icon, label, ctl) {
+      return '<div class="a-srow">' + sv(icon, 'width="18" height="18" style="color:var(--at2);flex:none"') +
         '<span style="flex:1;font-size:13.5px">' + label + '</span>' + ctl + '</div>';
     }
-    var chev = '<span style="display:flex;align-items:center;gap:7px;font-size:12.5px;font-weight:600;color:var(--at2)">';
     return '<div class="a-scroll">' +
-      '<div class="a-title">' + ta('navsettings') + '</div>' +
-      '<div class="a-card" style="display:flex;align-items:center;gap:14px">' +
-        '<div style="width:48px;height:48px;border-radius:50%;background:rgba(217,161,132,.18);color:var(--clay);display:grid;place-items:center;font-family:var(--display);font-weight:700;font-size:20px;flex:none">A</div>' +
-        '<div style="flex:1"><div class="a-dsp" style="font-size:17px">ALEX</div>' +
-        '<div style="font-size:12px;color:var(--at2)">' + ta('level4') + ' · ' + ta('streak') + '</div></div>' +
-        sv('<path d="M4 20h4L20 8l-4-4L4 16z"/>', 'width="16" height="16" style="color:var(--at2)"') +
-      '</div>' +
+      '<div style="display:flex;align-items:center;gap:12px">' + round(IC.back, 'go:profile', 'back') + '<div class="a-title" style="font-size:22px">' + ta('settingsT') + '</div></div>' +
       '<div><div class="a-lbl" style="margin-bottom:9px">' + ta('prefs') + '</div>' +
-      '<div class="a-card" style="padding:4px 16px">' +
-        row('<path d="M20 14a8 8 0 11-8-10 6.5 6.5 0 008 10z"/>', ta('setTheme'), seg(ta('dark'), ta('light'), true)) +
-        row('<path d="M4 5h10M9 3v2c0 5-2.5 8-5 9M7 12c1.5 3 4 5 7 6M14 21l4-10 4 10M15.5 18h5"/>', ta('setLang'), chev + (lang === 'es' ? 'Español' : 'English') + sv('<path d="M9 6l6 6-6 6"/>', 'width="13" height="13"') + '</span>') +
-        row('<path d="M12 3v18M4 8h16M6 8l-2 5h4zM18 8l-2 5h4z"/>', ta('setUnits'), seg('kg', 'lb', true)) +
-        row('<circle cx="12" cy="13" r="8"/><path d="M12 9v4M9 2h6"/>', ta('setRest'), '<span class="a-num"><button>–</button><span class="a-dsp" style="font-size:14px">90s</span><button>+</button></span>') +
-        row('<path d="M18 16V11a6 6 0 10-12 0v5l-2 3h16zM10 22h4"/>', ta('setSound'), chev + ta('setSoundVal') + sv('<path d="M9 6l6 6-6 6"/>', 'width="13" height="13"') + '</span>', true) +
+      '<div class="a-card" style="padding:2px 16px">' +
+        row('<path d="M20 14a8 8 0 11-8-10 6.5 6.5 0 008 10z"/>', ta('setTheme'), val(ta('dark'))) +
+        row('<path d="M4 5h10M9 3v2c0 5-2.5 8-5 9M7 12c1.5 3 4 5 7 6M14 21l4-10 4 10M15.5 18h5"/>', ta('setLang'), val(lang === 'es' ? 'Español' : 'English')) +
+        row('<path d="M12 3v18M4 8h16M6 8l-2 5h4zM18 8l-2 5h4z"/>', ta('setUnits'), seg('kg', 'lb')) +
+        row('<circle cx="12" cy="13" r="8"/><path d="M12 9v4M9 2h6"/>', ta('setRest'), '<span class="a-num"><button>–</button><span>90s</span><button>+</button></span>') +
+        row('<path d="M18 16V11a6 6 0 10-12 0v5l-2 3h16zM10 22h4"/>', ta('setRemind'), val(ta('never'))) +
+        row('<path d="M11 5L6 9H3v6h3l5 4zM15.5 8.5a5 5 0 010 7"/>', ta('setSound'), val(ta('setSoundVal'))) +
+        row('<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/>', ta('setFocus'), tog(true)) +
+        row('<path d="M12 20h9M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4z"/>', ta('setEffort'), val(ta('off'))) +
+        row('<path d="M6 4l10 8-10 8zM19 5v14"/>', ta('setAutoNext'), tog(true)) +
+        row('<rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/>', ta('setAwake'), tog(true)) +
       '</div></div>' +
       '<div><div class="a-lbl" style="margin-bottom:9px">' + ta('data') + '</div>' +
-      '<div class="a-card" style="padding:4px 16px">' +
-        row('<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M9 10v10"/>', ta('setExport'), sv('<path d="M9 6l6 6-6 6"/>', 'width="13" height="13" style="color:var(--at3)"')) +
-        row('<path d="M12 16V4M8 8l4-4 4 4M4 20h16"/>', ta('setBackup'), sv('<path d="M9 6l6 6-6 6"/>', 'width="13" height="13" style="color:var(--at3)"'), true) +
+      '<div class="a-card" style="padding:2px 16px">' +
+        row('<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M9 10v10"/>', ta('setExport'), chev()) +
+        row('<path d="M12 16V4M8 8l4-4 4 4M4 20h16"/>', ta('setBackup'), chev()) +
       '</div></div>' +
-      '<div class="a-card" style="display:flex;align-items:center;gap:11px;border-color:rgba(217,161,132,.35);color:var(--clay)">' +
-        sv('<path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/>', 'width="17" height="17"') +
-        '<span style="font-size:13.5px;font-weight:600">' + ta('setWipe') + '</span></div>' +
       '<div style="font-size:11.5px;color:var(--at3);text-align:center">GymMane · GPL-3.0</div>' +
       aDemoNote() +
     '</div>';
   }
 
-  var SCREENS = { home: aHome, train: aTrain, session: aSession, done: aDone, progress: aProgress, exercises: aExercises, settings: aSettings };
+  var SCREENS = { home: aHome, train: aTrain, session: aSession, done: aDone, progress: aProgress, exercises: aExercises, profile: aProfile, settings: aSettings };
 
   function aRender(keepScroll) {
     var sc = app.querySelector('.a-scroll');
@@ -724,18 +750,29 @@
     app.style.transform = 'scale(' + (w / 390).toFixed(4) + ')';
   }
 
+  function restLabel() { return clock(A.rest).replace(/^0/, ''); }
+  function paintRest() {
+    var n = document.getElementById('aRestN');
+    if (n) n.textContent = restLabel();
+    var ticks = app.querySelectorAll('.a-ticks i');
+    for (var i = 0; i < ticks.length; i++) ticks[i].classList.toggle('on', i / ticks.length < 1 - A.rest / A.restTotal);
+  }
+
   function aTimer(on) {
     if (A.id) { clearInterval(A.id); A.id = null; }
     if (!on) return;
     A.id = setInterval(function () {
       if (!A.paused) A.elapsed++;
-      var el = document.getElementById('aEl2');
-      if (el) el.textContent = clock(A.elapsed);
+      ['aEl2', 'aEl3'].forEach(function (id) {
+        var el = document.getElementById(id);
+        if (el) el.textContent = clock(A.elapsed);
+      });
       if (A.rest > 0 && !A.paused) {
         A.rest--;
-        var n = document.getElementById('aRestN');
-        if (A.rest === 0) { A.restOver = true; aRender(true); setTimeout(function () { if (A.restOver) { A.restOver = false; aRender(true); } }, 2800); }
-        else if (n) n.textContent = A.rest + 's';
+        if (A.rest > 0) return paintRest();
+        A.restOver = true;
+        aRender(true);
+        setTimeout(function () { if (A.restOver) { A.restOver = false; aRender(true); } }, 2800);
       }
     }, 1000);
   }
@@ -751,14 +788,18 @@
   var ACTS = {
     start: function () { A.step = 1; A.screen = 'train'; aTimer(false); aRender(); },
     review: function () { if (!A.picked.length) return; buildSession(); A.step = 2; aRender(); },
-    begin: function () { A.elapsed = 0; A.paused = false; loadSets(); aGo('session'); },
+    begin: function () { A.elapsed = 0; A.paused = false; A.doneVol = 0; A.doneSets = 0; loadSets(); aGo('session'); },
     pause: function () { A.paused = !A.paused; aRender(true); },
     finish: function () { aTimer(false); A.screen = 'done'; aRender(); },
     save: function () { A.saved = true; A.week[A.today] = 1; A.ex = []; aGo('home'); },
     skip: function () { A.rest = 0; A.restOver = false; aRender(true); },
-    rest15: function () { A.rest += 15; aRender(true); },
+    rest15: function () { A.rest += 15; A.restTotal = Math.max(A.restTotal, A.rest); aRender(true); },
     prev: function () { if (A.exIdx > 0) { A.exIdx--; loadSets(); aRender(); } },
-    next: function () { if (A.exIdx < A.ex.length - 1) { A.exIdx++; loadSets(); aRender(); } else ACTS.finish(); },
+    next: function () {
+      if (A.exIdx >= A.ex.length - 1) return ACTS.finish();
+      A.sets.forEach(function (s) { if (s.ok) { A.doneVol += s.r * s.w; A.doneSets++; } });
+      A.exIdx++; loadSets(); aRender();
+    },
     addset: function () { var l = A.sets[A.sets.length - 1]; A.sets.push({ r: l.r, w: l.w, ok: false }); aRender(true); }
   };
 
@@ -766,6 +807,7 @@
     var t = e.target.closest('[data-a]');
     if (!t) return;
     var a = t.dataset.a, p = a.split(':'), k = p[0], v = p[1];
+    if (k === 'rest-15') { A.rest = Math.max(1, A.rest - 15); return aRender(true); }
     if (ACTS[k]) return ACTS[k]();
     if (k === 'go') return aGo(v);
     if (k === 'day') { A.week[+v] = A.week[+v] ? 0 : 1; return aRender(true); }
@@ -843,16 +885,29 @@
   var dlCache = null;
   try { dlCache = JSON.parse(localStorage.getItem('gm-dl') || 'null'); } catch (e) {}
   if (dlCache) countDl(dlCache.n);
+  function saveDl(n) {
+    if (!n) return;
+    try { localStorage.setItem('gm-dl', JSON.stringify({ n: n, t: Date.now() })); } catch (e) {}
+    if (!dlCache || dlCache.n !== n) countDl(n);
+  }
+  function shieldsDl() {
+    return fetch('https://img.shields.io/github/downloads/InlitX/GymMane/total.json')
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (j) {
+        var m = j && /^([\d.]+)\s*([kM]?)$/.exec(j.value || j.message || '');
+        if (m) saveDl(Math.round(parseFloat(m[1]) * (m[2] === 'M' ? 1e6 : m[2] === 'k' ? 1e3 : 1)));
+      });
+  }
   if (!dlCache || Date.now() - dlCache.t > 36e5) {
     fetch('https://api.github.com/repos/InlitX/GymMane/releases?per_page=100')
-      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (r) { if (!r.ok) throw r; return r.json(); })
       .then(function (rs) {
-        if (!rs) return;
         var n = 0;
         rs.forEach(function (r) { (r.assets || []).forEach(function (a) { n += a.download_count || 0; }); });
-        try { localStorage.setItem('gm-dl', JSON.stringify({ n: n, t: Date.now() })); } catch (e) {}
-        if (!dlCache || dlCache.n !== n) countDl(n);
+        if (!n) throw n;
+        saveDl(n);
       })
+      .catch(function () { return shieldsDl(); })
       .catch(function () {});
   }
 
