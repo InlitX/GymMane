@@ -98,7 +98,6 @@ a.lnk:hover, a.lnk.on { color: var(--text); }
   padding: 7px 14px 7px 7px; border: 1px solid var(--border); border-radius: 12px; background: var(--raised);
   color: var(--dim); font-size: 14px; transition: border-color .2s;
 }
-.dl-count[hidden] { display: none; }
 .dl-count:hover { border-color: var(--border-hi); }
 .dl-count b { font-family: var(--display); font-weight: 600; font-size: 18px; color: var(--text); letter-spacing: .02em; }
 .dl-ic { width: 30px; height: 30px; border-radius: 8px; background: var(--clay-soft); display: grid; place-items: center; }

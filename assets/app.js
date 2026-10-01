@@ -864,14 +864,12 @@
     spy.forEach(function (s) { s.a.classList.toggle('on', s.a === on); });
   }, { passive: true });
 
-  var dlBox = document.getElementById('dlCount');
   var dlNum = document.getElementById('dlNum');
   var dlShown = 0, dlRaf = 0;
   function fmtDl(v) { return Math.round(v).toLocaleString(lang === 'es' ? 'es-ES' : 'en-GB'); }
   function fmtDlNow() { if (dlNum && dlShown) dlNum.textContent = fmtDl(dlShown); }
   function countDl(n) {
     if (!n) return;
-    dlBox.hidden = false;
     cancelAnimationFrame(dlRaf);
     if (slowMo) { dlShown = n; fmtDlNow(); return; }
     var from = dlShown, t0 = performance.now(), dur = 1800;
@@ -883,11 +881,15 @@
     })(t0);
   }
   var dlCache = null;
-  try { dlCache = JSON.parse(localStorage.getItem('gm-dl') || 'null'); } catch (e) {}
+  try {
+    localStorage.removeItem('gm-dl');
+    dlCache = JSON.parse(localStorage.getItem('gm-downloads') || 'null');
+  } catch (e) {}
+  if (!dlCache || !(dlCache.n > 0) || !(dlCache.t > 0)) dlCache = null;
   if (dlCache) countDl(dlCache.n);
   function saveDl(n) {
     if (!n) return;
-    try { localStorage.setItem('gm-dl', JSON.stringify({ n: n, t: Date.now() })); } catch (e) {}
+    try { localStorage.setItem('gm-downloads', JSON.stringify({ n: n, t: Date.now() })); } catch (e) {}
     if (!dlCache || dlCache.n !== n) countDl(n);
   }
   function shieldsDl() {
