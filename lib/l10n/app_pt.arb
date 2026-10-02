@@ -1,5 +1,5 @@
 {
-  "@@locale": "pt",
+  "@@locale": "pt-PT",
   "languageName": "Português (Brasil)",
   "@languageName": {
     "description": "This language, written in itself. Shown in the language picker."
@@ -271,7 +271,7 @@
   "searchExercises": "Pesquisar exercícios",
   "muscleFilter": "MÚSCULOS",
   "levelFilter": "NÍVEL",
-  "kindLabel": "TYPE",
+  "kindLabel": "TIPO",
   "kindStrength": "Strength",
   "kindCalisthenics": "Calisthenics",
   "kindCardio": "Cardio",
