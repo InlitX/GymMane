@@ -1,5 +1,5 @@
 {
-  "@@locale": "zh",
+  "@@locale": "zh-CN",
   "languageName": "简体中文",
   "@languageName": {
     "description": "This language, written in itself. Shown in the language picker."
@@ -66,7 +66,6 @@
   "chooseFocus": "选择训练重点",
   "buildSession": "定制本次训练",
   "tapMuscles": "点击你想训练的肌肉部位 — 正面与背面。",
-  "noMusclesYet": "尚未选择肌肉 — 点击人体图开始选择。",
   "continueBtn": "继续",
   "nothingForFocus": "该重点部位暂无可用动作",
   "goBackPick": "请返回并选择动作库中已有动作的肌肉部位。",
@@ -99,15 +98,6 @@
   "finishSession": "完成训练",
   "setDone": "完成一组",
   "nextExercise": "下一个动作",
-  "skipExercise": "跳过这个动作？",
-  "skipExerciseBody": "你还没有标记任何一组，所以「{name}」不会被记录。",
-  "@skipExerciseBody": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
   "dropExerciseAction": "移除动作",
   "restOff": "关闭",
   "setCol": "#",
@@ -197,41 +187,9 @@
   "notifAlertChannelWhy": "休息结束时弹出即时横幅提示",
   "restOverTitle": "休息结束",
   "restOverBody": "准备就绪 — 该开始下一组了！",
-  "totalVolume30d": "30天总容量",
-  "volumeCumulative": "累计训练总容量",
-  "volumeChartEmpty": "完成并记录一次训练，曲线将从这里启程",
-  "weekRhythm": "每周训练节奏",
-  "weekRhythmHint": "真实反映你的周出勤规律。",
-  "weekRhythmBest": "周{day}是你的主场",
-  "@weekRhythmBest": {
-    "placeholders": {
-      "day": {
-        "type": "String"
-      }
-    }
-  },
-  "weekRhythmEmpty": "完成并记录一次训练，本周节奏即可在此呈现。",
-  "allTime": "生涯总计",
   "allTimeSessions": "总训练次数",
   "allTimeTime": "总训练时长",
-  "allTimeVolume": "累计总负荷",
   "allTimeSets": "累计总组数",
-  "allTimeAvg": "平均每次训练 {time}",
-  "@allTimeAvg": {
-    "placeholders": {
-      "time": {
-        "type": "String"
-      }
-    }
-  },
-  "hoursShort": "{n}h",
-  "@hoursShort": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
   "consistency": "出勤与坚持",
   "sessionsLogged": "{n, plural, =1{已记录 {n} 次训练} other{已记录 {n} 次训练}}",
   "@sessionsLogged": {
@@ -250,8 +208,6 @@
     }
   },
   "bodyweight": "体重",
-  "notLoggedYet": "暂无记录",
-  "logShort": "+ 记录",
   "logBodyweight": "记录体重",
   "trackWeight": "追踪长期体重变化",
   "muscleMap": "肌肉受训热力图",
@@ -278,9 +234,7 @@
     }
   },
   "muscleSplit": "各部位容量占比",
-  "splitEmpty": "开始训练即可查看各个肌群的训练量分布。",
   "personalRecords": "个人纪录",
-  "prEmpty": "随着训练组数的记录，你的个人纪录将展示于此。",
   "strength1rm": "力量表现 · 估算 1RM",
   "strengthEmpty": "记录同一动作 2 次以上，即可生成力量增长曲线。",
   "oneRmEst": "估算 1RM：{w}",
@@ -304,7 +258,6 @@
     }
   },
   "bodyweightHistory": "历史记录",
-  "noBodyweightYet": "暂无记录。",
   "exercisesCaps": "动作",
   "timeCaps": "时间",
   "libraryCount": "{n, plural, =1{动作库共有 {n} 项动作} other{动作库共有 {n} 项动作}}",
@@ -318,6 +271,11 @@
   "searchExercises": "搜索动作",
   "muscleFilter": "肌群",
   "levelFilter": "难度",
+  "kindLabel": "TYPE",
+  "kindStrength": "Strength",
+  "kindCalisthenics": "Calisthenics",
+  "kindCardio": "Cardio",
+  "kindStretch": "Stretching",
   "newExercise": "新建动作",
   "exerciseName": "动作名称",
   "equipmentLabel": "器械",
@@ -339,14 +297,6 @@
   "noHistory": "暂无记录。开始练习此动作即可建立历史。",
   "notes": "笔记",
   "notePlaceholder": "发力感、器械调试、动作细节、心得…",
-  "showAllNotes": "查看全部 {n} 条笔记",
-  "@showAllNotes": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
   "notHere": "{place} 暂无 {gear}",
   "@notHere": {
     "placeholders": {
@@ -361,21 +311,11 @@
   "notHereWhy": "替换为当前场地现有的器械进行训练。",
   "altHere": "当前场地可用动作",
   "places": "我的训练场地",
-  "placesShort": "场地",
   "placesHint": "标记各个场地的可用器械，动作库将智能仅展示该场地支持的动作。",
   "placeAll": "所有场地",
   "placeNew": "新建场地",
-  "placeNameLabel": "场地名称",
   "placeNamePlaceholder": "家庭、健身房、公园……",
   "placeGearLabel": "场地现有器械",
-  "placeGearCount": "{n, plural, =0{未勾选器械} =1{1 种器械} other{{n} 种器械}}",
-  "@placeGearCount": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
   "placeExercises": "支持 {n} 个动作",
   "@placeExercises": {
     "placeholders": {
@@ -569,7 +509,6 @@
   },
   "share": "分享",
   "sharePick": "你想分享什么？",
-  "shareSession": "本次训练结算",
   "shareStreak": "训练日历",
   "shareBody": "训练肌群",
   "shareCompare": "前后身材对比",
@@ -579,8 +518,6 @@
   "shareStreakLabel": "连续训练天数",
   "shareSessionsLabel": "训练次数",
   "shareVolumeLabel": "总负荷",
-  "shareSetsLabel": "总组数",
-  "shareNothing": "请先完成一次训练，暂无数据可供展示",
   "restForExercise": "该动作专属间歇时间",
   "restUsingDefault": "跟随全局默认时间",
   "restCustom": "仅该动作自定义",
@@ -665,7 +602,6 @@
     }
   },
   "drop": "移除",
-  "addToWorkout": "添加动作",
   "resetData": "清空全部数据",
   "resetTitle": "确定清空所有数据？",
   "resetBody": "将清空所有训练记录、个人纪录、计划、笔记及个人资料。此操作不可逆 — 如有需要，请先导出备份。",
@@ -758,11 +694,9 @@
   "removePhoto": "移除头像",
   "takePhoto": "拍照",
   "chooseGallery": "从相册选择",
-  "backupCopied": "备份数据已复制到剪贴板",
   "backupImported": "备份已成功导入",
   "backupFailed": "无法读取该备份文件",
   "nothingToExport": "暂无可导出的数据 — 请先记录一次训练",
-  "athlete": "健身者",
   "calculatorsCount": "专为训练打造的 {n} 款实用计算器",
   "@calculatorsCount": {
     "placeholders": {
@@ -787,17 +721,6 @@
   "@perSideCount": {
     "placeholders": {
       "n": {
-        "type": "int"
-      }
-    }
-  },
-  "rampSet": "{pct} · {reps} 次",
-  "@rampSet": {
-    "placeholders": {
-      "pct": {
-        "type": "String"
-      },
-      "reps": {
         "type": "int"
       }
     }
@@ -891,27 +814,15 @@
     }
   },
   "exercisesInsideWhy": "全部配有动作动画和分步图文指导。",
-  "calculatorsInside": "6 款实用计算器",
-  "calculatorsInsideWhy": "涵盖 1RM、杠铃片、BMI、热量、体脂率和热身推算。",
+  "calculatorsInside": "8 calculators",
+  "calculatorsInsideWhy": "1RM, plates, BMI, calories, body fat, warm-up, RPE load and DOTS strength level — all with published formulas.",
   "mathInside": "真实可信的数据",
   "mathInsideWhy": "容量、纪录和打卡连胜均由你的真实训练组数如实计算，绝无虚饰。",
-  "yourNumbers": "你的数据概览",
-  "sessionsCaps": "训练总次数",
-  "liftedCaps": "总举起重量",
   "streakCaps": "连续打卡",
   "daysUnit": "{n, plural, =1{天} other{天}}",
   "@daysUnit": {
     "placeholders": {
       "n": {
-        "type": "int"
-      }
-    }
-  },
-  "restDefaultLabel": "默认组间休息",
-  "restDefault": "默认为 {s} 秒 — 可在设置中修改",
-  "@restDefault": {
-    "placeholders": {
-      "s": {
         "type": "int"
       }
     }
@@ -978,7 +889,6 @@
   "keepScreenOn": "训练时保持屏幕常亮",
   "lockWorkout": "锁定屏幕",
   "unlockWorkout": "解锁",
-  "lockedCaps": "已锁定",
   "holdToUnlock": "长按解锁",
   "liveChannel": "进行中的训练",
   "liveChannelWhy": "训练时显示当前动作、组数和休息倒计时",
@@ -1028,22 +938,15 @@
   "autoWarmupHint": "开始训练时自动加入热身组。",
   "trainReminder": "训练提醒",
   "trainReminderHint": "在你安排了计划的日子，按这个时间提醒你。",
+  "reminderExactTime": "Exact time",
+  "toastSoundSetting": "Notice sound",
+  "toastSoundHint": "A soft chime when a notice pops up at the top.",
   "notifTrainChannel": "训练提醒",
   "notifTrainChannelWhy": "在你安排训练的日子提醒你。",
   "notifTrainTitle": "该训练了",
   "notifTrainBody": "你的训练计划在等你。",
-  "exportCatalog": "导出动作清单",
-  "importRoutine": "导入训练计划（JSON）",
   "planIntro": "只用这份清单里的动作，帮我做一份训练计划。",
   "planFormat": "只用 JSON 回答，格式如下：",
-  "planImported": "{n, plural, =1{{n} exercise added to the routine} other{{n} exercises added to the routine}}",
-  "@planImported": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
   "planNothing": "该文件中的动作都不在你的动作库里",
   "planFailed": "无法读取该训练计划文件",
   "routineGroup": "分组",
@@ -1111,17 +1014,12 @@
     }
   },
   "logRpe": "记录用力程度（RPE）",
-  "rpeTitle": "用力程度（RPE）",
   "rpeHint": "10 表示一次也做不动了，8 表示还能再做两次。",
   "superset": "超级组",
   "supersetLink": "与下一个动作相连",
   "supersetHint": "相连的动作之间不休息，直接进入下一个。",
   "aiRoutine": "用 AI 生成计划",
   "aiIntro": "GymMane 不会和任何 AI 通信。你把动作清单导出，粘贴给你惯用的助手，再把它的回答导回来。手机不会自己往外发任何东西。",
-  "aiStep1": "导出你的动作清单。如果选了场地，只会包含你在那里能做的动作。",
-  "aiStep2": "把这个文件交给任意 AI，请它给你一份训练计划。",
-  "aiStep3": "把它的回答存成文件，JSON 或纯文本都可以。",
-  "aiStep4": "在这里导入。名称会和你的动作库对上，计划就建好了。",
   "aiMissing": "{n, plural, =1{1 name was not in your library} other{{n} names were not in your library}}",
   "@aiMissing": {
     "placeholders": {
@@ -1154,7 +1052,6 @@
   "awardHours50Name": "五十小时",
   "awardHours50Line": "在健身房里度过了五十个小时。",
   "awardsTitle": "勋章",
-  "awardWon": "已获得",
   "yearTitle": "你的一年",
   "yearBestMonth": "最佳月份",
   "yearMonths": "月",
@@ -1163,29 +1060,19 @@
   "awardNice": "太棒了！",
   "awardSaveImage": "保存图片",
   "awardSaved": "已保存到相册",
-  "awardStreakBottom": "连续",
-  "awardStreak7Top": "七天",
   "awardStreak7Name": "七天",
   "awardStreak7Line": "整整一周，一天都没落下。",
-  "awardStreak30Top": "三十天",
   "awardStreak30Name": "三十天",
   "awardStreak30Line": "连续一个月，已经成为习惯。",
-  "awardWorkouts100Top": "一百次",
-  "awardWorkouts100Bottom": "训练",
   "awardWorkouts100Name": "一百次训练",
   "awardWorkouts100Line": "完整记录了一百次训练。",
-  "awardTonnes100Top": "一百",
-  "awardTonnes100Bottom": "吨",
   "awardTonnes100Name": "一百吨",
   "awardTonnes100Line": "你举起的总重量达到 100,000 公斤。",
-  "awardSets1000Top": "一千",
-  "awardSets1000Bottom": "组",
   "awardSets1000Name": "一千组",
   "awardSets1000Line": "一组一组，累积到一千组。",
   "profile": "个人资料",
   "editProfile": "编辑资料",
   "pickBadge": "徽章",
-  "badgeTitle": "你的徽章",
   "statWorkouts": "训练次数",
   "statTrained": "训练时长",
   "statSets": "组数",
@@ -1196,10 +1083,8 @@
   "unitDays": "天",
   "snapshots": "照片",
   "snapNow": "拍一张",
-  "calendarLegend": "训练 · 照片",
   "addCover": "添加封面",
   "addTodayWidget": "今天是否完成",
-  "monthTitle": "本月",
   "photosCard": "你的照片",
   "handleLabel": "用户名",
   "setupTitle": "填好这些，页面其余部分会自动补全",
@@ -1232,17 +1117,6 @@
   "@awardWonOn": {
     "placeholders": {
       "date": {
-        "type": "String"
-      }
-    }
-  },
-  "awardProgressLabel": "{value} / {goal}",
-  "@awardProgressLabel": {
-    "placeholders": {
-      "value": {
-        "type": "String"
-      },
-      "goal": {
         "type": "String"
       }
     }
@@ -1325,7 +1199,22 @@
       }
     }
   },
-  "badgeHint": "选一个颜色，再次点击已选的即可取消。仅供自己使用：无需验证，也无需付费。",
+  "photosSelected": "{n} selected",
+  "deletePhotosTitle": "Delete {n} photos?",
+  "@photosSelected": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "@deletePhotosTitle": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "momentsEmptyHint": "拍下健身房、白板、杠铃的配重……任何你想记住的东西。照片只留在手机里，只有你能看到。",
   "awardStreak100Line": "连续一百天。这已经不是靠动力，而是你本来的样子。",
   "coverLabel": "封面",
@@ -1380,7 +1269,6 @@
   "moreOptions": "更多选择",
   "suggestInWorkouts": "在快速训练中推荐",
   "suggestInWorkoutsHint": "关闭后不会出现在为你挑选的动作里，但仍可手动添加。",
-  "dontSuggest": "不再推荐",
   "onbPlaceTitle": "你在哪里训练？",
   "onbPlaceWhy": "选出你训练的所有地点。我们只推荐你在每个地点能做的动作。",
   "onbPlaceGear": "那里有哪些器材？",
@@ -1435,7 +1323,6 @@
   "planSetsHint": "设置每组的类型、次数和重量。重量留“自动”则沿用你上次的训练。",
   "autoValue": "自动",
   "clearPlan": "清除计划",
-  "planChip": "计划",
   "shareRoutine": "分享训练计划",
   "shareWeek": "分享我的一周",
   "shareWeekHint": "你所有的训练计划，以及各自安排在哪天。",
@@ -1549,9 +1436,9 @@
   "shareIntroTitle": "分享这个计划",
   "shareIntroBody": "发给你的伴侣、朋友或家人。他们会收到一个小文件，用 GymMane 打开，一点就能加入，组数和重量都在。",
   "removedFromRoutine": "已从计划中移除",
-  "radarTitle": "本月",
+  "radarTitle": "Last 30 days",
   "radarHint": "看看哪些部位需要多练",
-  "radarEmpty": "本月训练后就能看到你的均衡度",
+  "radarEmpty": "Train a few days to see your balance",
   "radarBalanced": "目前很均衡",
   "radarFocus": "需要多练：{list}",
   "@radarFocus": {
@@ -1566,7 +1453,6 @@
   "countdownSetting": "开始前倒计时",
   "effortSetting": "记录每组强度",
   "effortHint": "RPE：10 表示一次都做不动了，8 表示还能再做两次。RIR 表示还剩几次。记录后，估算 1RM 会使用 RPE 表。",
-  "rirTitle": "余力 (RIR)",
   "rirHint": "0 表示一次都做不动了，2 表示还能再做两次。",
   "addWeekWidget": "添加本周小组件",
   "gamificationSetting": "勋章和等级",
@@ -1785,5 +1671,125 @@
   "goalOverdue": "已过期限",
   "goalDeadline": "截止日期",
   "goalNoDeadline": "无截止日期",
-  "goalRemove": "删除目标"
+  "goalRemove": "删除目标",
+  "exerciseNameMissing": "Give it a name",
+  "aliasesLabel": "Also called (optional)",
+  "aliasesHint": "Other names, separated by commas",
+  "alsoCalled": "Also: {names}",
+  "@alsoCalled": {
+    "placeholders": {
+      "names": {
+        "type": "String"
+      }
+    }
+  },
+  "addToRoutine": "Add to routine",
+  "inRoutines": "{n, plural, =0{Not in any routine yet} =1{In 1 routine} other{In {n} routines}}",
+  "@inRoutines": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "alreadyInRoutine": "Already in it",
+  "restInRoutine": "Rest in this routine",
+  "restInRoutineHint": "Same as the exercise",
+  "restInRoutineReset": "Only here · tap to undo",
+  "swapExercise": "Swap exercise",
+  "swapShort": "Swap",
+  "swapHint": "Instead of {name}, only for today. When you finish, you can keep it in the routine.",
+  "@swapHint": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "swapKeepsDone": "The sets you already did stay logged; the new one picks up the rest.",
+  "swapSameMuscle": "Same muscle · {muscle}",
+  "@swapSameMuscle": {
+    "placeholders": {
+      "muscle": {
+        "type": "String"
+      }
+    }
+  },
+  "swapDoneBefore": "Done before",
+  "multiPlanSettingHint": "More than one routine on the same weekday.",
+  "levelHintsHint": "When an exercise gets easy, it offers you the harder version.",
+  "focusCardHint": "Today’s routine, at the top of Home.",
+  "gamificationHint": "Medals, your level and the celebration when you finish.",
+  "exerciseSettings": "Settings for this exercise",
+  "placeActiveNow": "You’re here",
+  "placeTapToUse": "tap to train here",
+  "intervalDays": "days",
+  "goalDaysShort": "{done}/{target} days",
+  "@goalDaysShort": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "target": {
+        "type": "int"
+      }
+    }
+  },
+  "toolNameRpe": "RPE load",
+  "toolTitleRpe": "Load by RPE",
+  "toolDescRpe": "Weight for the effort you want",
+  "toolNameDots": "Strength level",
+  "toolTitleDots": "Strength level (DOTS)",
+  "toolDescDots": "Your strength for your bodyweight",
+  "rpeResultHint": "For {reps} reps at RPE {rpe}",
+  "@rpeResultHint": {
+    "placeholders": {
+      "reps": {
+        "type": "int"
+      },
+      "rpe": {
+        "type": "String"
+      }
+    }
+  },
+  "rpeYourSet": "A set you just did",
+  "rpeGoal": "What you want to do",
+  "rpeOneRmLine": "Estimated 1RM: {value}",
+  "@rpeOneRmLine": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "rpeExplain": "RPE 10 means you couldn’t do one more; 8 means you had two left.",
+  "dotsBestLifts": "Your best lifts",
+  "dotsSquat": "SQUAT",
+  "dotsBench": "BENCH PRESS",
+  "dotsDeadlift": "DEADLIFT",
+  "dotsTotalLine": "Total: {value}",
+  "@dotsTotalLine": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "dotsExplain": "Compares your strength with anyone’s, whatever they weigh. Use your best single rep, or your estimated 1RM.",
+  "dotsLevel0": "Beginner",
+  "dotsLevel1": "Intermediate",
+  "dotsLevel2": "Advanced",
+  "dotsLevel3": "Very advanced",
+  "dotsLevel4": "Elite",
+  "rpeEffortLabel": "Effort (RPE)",
+  "restRowHint": "Between sets, unless the exercise has its own.",
+  "effortRowHint": "Log RPE or RIR on each set.",
+  "countdownHint": "3, 2, 1 before the first set.",
+  "keepScreenOnHint": "The screen stays on while you train.",
+  "demoSizeRowHint": "The exercise drawing during the workout.",
+  "demoLoopRowHint": "Whether the animation repeats or stops.",
+  "trainReminderRowHint": "A nudge on the days you train.",
+  "alarmSoundRowHint": "What plays when the rest ends.",
+  "alarmStyleRowHint": "Whether it rings in silent mode.",
+  "recommendedRowHint": "Exercises we suggest on Home."
 }
