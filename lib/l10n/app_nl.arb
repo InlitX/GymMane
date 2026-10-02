@@ -66,7 +66,6 @@
   "chooseFocus": "KIES JE FOCUS",
   "buildSession": "STEL JE TRAINING SAMEN",
   "tapMuscles": "Tik op de spieren die je wilt trainen — voor en achter.",
-  "noMusclesYet": "Nog geen spieren geselecteerd — tik op het lichaam om te beginnen.",
   "continueBtn": "DOORGAAN",
   "nothingForFocus": "Geen oefening voor deze focus",
   "goBackPick": "Ga terug en kies een spier waarvoor oefeningen in je bibliotheek staan.",
@@ -99,15 +98,6 @@
   "finishSession": "TRAINING AFRONDEN",
   "setDone": "SET KLAAR",
   "nextExercise": "VOLGENDE OEFENING",
-  "skipExercise": "Deze oefening overslaan?",
-  "skipExerciseBody": "Je hebt geen set als voltooid gemarkeerd, dus er wordt niets gelogd voor ‘{name}’.",
-  "@skipExerciseBody": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
   "dropExerciseAction": "Oefening verwijderen",
   "restOff": "Uit",
   "setCol": "#",
@@ -197,41 +187,9 @@
   "notifAlertChannelWhy": "Toont meteen een banner wanneer je rust voorbij is",
   "restOverTitle": "Rust voorbij",
   "restOverBody": "Daar gaan we weer — de volgende set wacht.",
-  "totalVolume30d": "TOTAAL VOLUME · 30 DAGEN",
-  "volumeCumulative": "Lopend totaal van alle kilo's die je hebt verplaatst",
-  "volumeChartEmpty": "Log een training en de grafiek begint hier",
-  "weekRhythm": "WEEKRITME",
-  "weekRhythmHint": "De dagen waarop je daadwerkelijk traint.",
-  "weekRhythmBest": "{day} is jouw dag",
-  "@weekRhythmBest": {
-    "placeholders": {
-      "day": {
-        "type": "String"
-      }
-    }
-  },
-  "weekRhythmEmpty": "Log een training en je week krijgt hier vorm.",
-  "allTime": "ALTIJD",
   "allTimeSessions": "TRAININGEN",
   "allTimeTime": "TIJD",
-  "allTimeVolume": "GETILD",
   "allTimeSets": "SETS",
-  "allTimeAvg": "Gemiddeld {time} per training",
-  "@allTimeAvg": {
-    "placeholders": {
-      "time": {
-        "type": "String"
-      }
-    }
-  },
-  "hoursShort": "{n} u",
-  "@hoursShort": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
   "consistency": "CONSISTENTIE",
   "sessionsLogged": "{n, plural, =1{{n} training gelogd} other{{n} trainingen gelogd}}",
   "@sessionsLogged": {
@@ -250,8 +208,6 @@
     }
   },
   "bodyweight": "LICHAAMSGEWICHT",
-  "notLoggedYet": "Nog niet gelogd",
-  "logShort": "+ LOGGEN",
   "logBodyweight": "GEWICHT LOGGEN",
   "trackWeight": "Volg je gewicht in de loop van de tijd",
   "muscleMap": "SPIERKAART",
@@ -278,9 +234,7 @@
     }
   },
   "muscleSplit": "SPIERVERDELING",
-  "splitEmpty": "Train om te zien hoe je volume over spiergroepen verdeeld is.",
   "personalRecords": "PERSOONLIJKE RECORDS",
-  "prEmpty": "Je records verschijnen hier zodra je sets logt.",
   "strength1rm": "KRACHT · GESCH. 1RM",
   "strengthEmpty": "Log een oefening twee keer en de krachtcurve verschijnt hier.",
   "oneRmEst": "Gesch. 1RM: {w}",
@@ -304,7 +258,6 @@
     }
   },
   "bodyweightHistory": "GESCHIEDENIS",
-  "noBodyweightYet": "Nog niets gelogd.",
   "exercisesCaps": "OEFENINGEN",
   "timeCaps": "TIJD",
   "libraryCount": "{n, plural, =1{{n} oefening in je bibliotheek} other{{n} oefeningen in je bibliotheek}}",
@@ -318,6 +271,11 @@
   "searchExercises": "Oefeningen zoeken",
   "muscleFilter": "SPIER",
   "levelFilter": "NIVEAU",
+  "kindLabel": "TYPE",
+  "kindStrength": "Strength",
+  "kindCalisthenics": "Calisthenics",
+  "kindCardio": "Cardio",
+  "kindStretch": "Stretching",
   "newExercise": "NIEUWE OEFENING",
   "exerciseName": "Naam van oefening",
   "equipmentLabel": "MATERIAAL",
@@ -339,14 +297,6 @@
   "noHistory": "Nog geen trainingen gelogd. Train deze oefening om geschiedenis op te bouwen.",
   "notes": "NOTITIES",
   "notePlaceholder": "Tips, uitvoering, gevoel…",
-  "showAllNotes": "Alle {n} notities tonen",
-  "@showAllNotes": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
   "notHere": "Geen {gear} bij {place}",
   "@notHere": {
     "placeholders": {
@@ -361,21 +311,11 @@
   "notHereWhy": "Vervang het door iets dat je vandaag echt kunt gebruiken.",
   "altHere": "WAT JE HIER KUNT DOEN",
   "places": "MIJN PLEKKEN",
-  "placesShort": "Plekken",
   "placesHint": "Geef aan welke uitrusting je op elke plek hebt en de bibliotheek toont alleen wat je daar echt kunt doen.",
   "placeAll": "Overal",
   "placeNew": "Nieuwe plek",
-  "placeNameLabel": "NAAM",
   "placeNamePlaceholder": "Thuis, sportschool, park…",
   "placeGearLabel": "BESCHIKBARE UITRUSTING",
-  "placeGearCount": "{n, plural, =0{Geen uitrusting geselecteerd} =1{1 soort uitrusting} other{{n} soorten uitrusting}}",
-  "@placeGearCount": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
   "placeExercises": "{n} oefeningen hier",
   "@placeExercises": {
     "placeholders": {
@@ -569,7 +509,6 @@
   },
   "share": "DELEN",
   "sharePick": "Wat wil je laten zien?",
-  "shareSession": "Laatste training",
   "shareStreak": "Reeks en consistentie",
   "shareBody": "Getrainde spieren",
   "shareCompare": "Voor / na",
@@ -579,8 +518,6 @@
   "shareStreakLabel": "DAGEN OP RIJ",
   "shareSessionsLabel": "TRAININGEN",
   "shareVolumeLabel": "VOLUME",
-  "shareSetsLabel": "SETS",
-  "shareNothing": "Log eerst een training — er is nog niets om te laten zien",
   "restForExercise": "RUST VOOR DEZE OEFENING",
   "restUsingDefault": "Standaardduur gebruiken",
   "restCustom": "Alleen voor deze",
@@ -665,7 +602,6 @@
     }
   },
   "drop": "Verwijderen",
-  "addToWorkout": "OEFENING TOEVOEGEN",
   "resetData": "Al mijn gegevens verwijderen",
   "resetTitle": "Alles verwijderen?",
   "resetBody": "Trainingen, records, routines, notities en profiel. Dit kan niet ongedaan worden gemaakt — exporteer eerst een back-up als je ze wilt bewaren.",
@@ -758,11 +694,9 @@
   "removePhoto": "Foto verwijderen",
   "takePhoto": "Foto maken",
   "chooseGallery": "Uit galerij kiezen",
-  "backupCopied": "Back-up naar klembord gekopieerd",
   "backupImported": "Back-up geïmporteerd",
   "backupFailed": "Kon deze back-up niet lezen",
   "nothingToExport": "Nog niets om te exporteren — log eerst een training",
-  "athlete": "Atleet",
   "calculatorsCount": "{n} calculators voor je training",
   "@calculatorsCount": {
     "placeholders": {
@@ -787,17 +721,6 @@
   "@perSideCount": {
     "placeholders": {
       "n": {
-        "type": "int"
-      }
-    }
-  },
-  "rampSet": "{pct} · {reps} herhalingen",
-  "@rampSet": {
-    "placeholders": {
-      "pct": {
-        "type": "String"
-      },
-      "reps": {
         "type": "int"
       }
     }
@@ -891,27 +814,15 @@
     }
   },
   "exercisesInsideWhy": "Elk met animatie en stapsgewijze instructies.",
-  "calculatorsInside": "6 calculators",
-  "calculatorsInsideWhy": "1RM, schijven, BMI, calorieën, lichaamsvet en warming-up — allemaal gebaseerd op gepubliceerde formules.",
+  "calculatorsInside": "8 calculators",
+  "calculatorsInsideWhy": "1RM, plates, BMI, calories, body fat, warm-up, RPE load and DOTS strength level — all with published formulas.",
   "mathInside": "Transparante berekeningen",
   "mathInsideWhy": "Volume, records en sets worden uit je eigen gegevens berekend. Niets is alleen voor de sier.",
-  "yourNumbers": "JOUW CIJFERS",
-  "sessionsCaps": "TRAININGEN",
-  "liftedCaps": "GETILD",
   "streakCaps": "REEKS",
   "daysUnit": "{n, plural, =1{dag} other{dagen}}",
   "@daysUnit": {
     "placeholders": {
       "n": {
-        "type": "int"
-      }
-    }
-  },
-  "restDefaultLabel": "Rusttimer",
-  "restDefault": "Standaard: {s} s — wijzig in Instellingen",
-  "@restDefault": {
-    "placeholders": {
-      "s": {
         "type": "int"
       }
     }
@@ -978,7 +889,6 @@
   "keepScreenOn": "Scherm aan laten tijdens het trainen",
   "lockWorkout": "Scherm vergrendelen",
   "unlockWorkout": "Ontgrendelen",
-  "lockedCaps": "VERGRENDELD",
   "holdToUnlock": "Houd ingedrukt om te ontgrendelen",
   "liveChannel": "Lopende training",
   "liveChannelWhy": "Toont de huidige oefening, set en rusttimer terwijl je traint",
@@ -1028,22 +938,15 @@
   "autoWarmupHint": "Voegt opbouwsets toe wanneer de training wordt geopend.",
   "trainReminder": "Trainingsherinnering",
   "trainReminderHint": "Een herinnering op dit tijdstip, alleen op dagen waarop je routine gepland staat.",
+  "reminderExactTime": "Exact time",
+  "toastSoundSetting": "Notice sound",
+  "toastSoundHint": "A soft chime when a notice pops up at the top.",
   "notifTrainChannel": "Trainingsherinnering",
   "notifTrainChannelWhy": "Een herinnering om te trainen op je geplande dagen.",
   "notifTrainTitle": "Tijd om te trainen",
   "notifTrainBody": "Je routine wacht op je.",
-  "exportCatalog": "Oefeningenlijst exporteren",
-  "importRoutine": "Routine importeren (JSON)",
   "planIntro": "Maak voor mij een trainingsroutine met alleen oefeningen uit deze lijst.",
   "planFormat": "Antwoord alleen in JSON, in deze vorm:",
-  "planImported": "{n, plural, =1{{n} oefening aan routine toegevoegd} other{{n} oefeningen aan routine toegevoegd}}",
-  "@planImported": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
   "planNothing": "Geen oefening uit dit bestand komt overeen met je bibliotheek",
   "planFailed": "Dit bestand is geen routine die GymMane kan lezen",
   "routineGroup": "Groep",
@@ -1111,17 +1014,12 @@
     }
   },
   "logRpe": "Inspanning loggen (RPE)",
-  "rpeTitle": "INSPANNING (RPE)",
   "rpeHint": "10 = geen herhaling meer mogelijk; 8 = ongeveer twee herhalingen over.",
   "superset": "Superset",
   "supersetLink": "Koppelen aan de volgende",
   "supersetHint": "Geen rust tussen gekoppelde oefeningen — je gaat meteen door naar de volgende.",
   "aiRoutine": "Routine met AI",
   "aiIntro": "GymMane communiceert nooit rechtstreeks met AI. Je exporteert je oefeningenlijst, plakt die in de assistent die je al gebruikt en importeert daarna het antwoord. Niets verlaat je telefoon vanzelf.",
-  "aiStep1": "Exporteer je oefeningenlijst. Als je een plek hebt gekozen, bevat die alleen wat je daar kunt doen.",
-  "aiStep2": "Geef dit bestand aan de AI van jouw keuze en vraag om een routine.",
-  "aiStep3": "Sla het antwoord op als bestand — JSON of gewone tekst, beide werken.",
-  "aiStep4": "Importeer het hier. De namen worden met je bibliotheek vergeleken en de routine wordt gemaakt.",
   "aiMissing": "{n, plural, =1{1 naam stond niet in je bibliotheek} other{{n} namen stonden niet in je bibliotheek}}",
   "@aiMissing": {
     "placeholders": {
@@ -1154,7 +1052,6 @@
   "awardHours50Name": "Vijftig uur",
   "awardHours50Line": "Vijftig uur aan training besteed.",
   "awardsTitle": "Medailles",
-  "awardWon": "Behaald",
   "yearTitle": "Jouw jaar",
   "yearBestMonth": "Beste maand",
   "yearMonths": "maanden",
@@ -1163,29 +1060,19 @@
   "awardNice": "Lekker!",
   "awardSaveImage": "Afbeelding opslaan",
   "awardSaved": "Opgeslagen in je galerij",
-  "awardStreakBottom": "reeks",
-  "awardStreak7Top": "zeven dagen",
   "awardStreak7Name": "Zeven dagen",
   "awardStreak7Line": "Een hele week zonder een dag over te slaan.",
-  "awardStreak30Top": "dertig dagen",
   "awardStreak30Name": "Dertig dagen",
   "awardStreak30Line": "Een maand op rij. Nu is het een gewoonte.",
-  "awardWorkouts100Top": "honderd",
-  "awardWorkouts100Bottom": "trainingen",
   "awardWorkouts100Name": "Honderd trainingen",
   "awardWorkouts100Line": "Honderd trainingen van begin tot eind gelogd.",
-  "awardTonnes100Top": "honderd",
-  "awardTonnes100Bottom": "tonnen",
   "awardTonnes100Name": "Honderd ton",
   "awardTonnes100Line": "Alles wat je hebt getild komt uit op 100.000 kg.",
-  "awardSets1000Top": "duizend",
-  "awardSets1000Bottom": "sets",
   "awardSets1000Name": "Duizend sets",
   "awardSets1000Line": "Eén set tegelijk, tot duizend.",
   "profile": "Profiel",
   "editProfile": "Profiel bewerken",
   "pickBadge": "Badge",
-  "badgeTitle": "Jouw badge",
   "statWorkouts": "Trainingen",
   "statTrained": "Getraind",
   "statSets": "Sets",
@@ -1196,10 +1083,8 @@
   "unitDays": "dagen",
   "snapshots": "Foto's",
   "snapNow": "Nu maken",
-  "calendarLegend": "Training · foto's",
   "addCover": "Omslag toevoegen",
   "addTodayWidget": "Training van vandaag gedaan of niet",
-  "monthTitle": "Deze maand",
   "photosCard": "Jouw foto's",
   "handleLabel": "Gebruikersnaam",
   "setupTitle": "Vul deze gegevens in en de rest van de pagina wordt automatisch ingevuld",
@@ -1232,17 +1117,6 @@
   "@awardWonOn": {
     "placeholders": {
       "date": {
-        "type": "String"
-      }
-    }
-  },
-  "awardProgressLabel": "{value} van {goal}",
-  "@awardProgressLabel": {
-    "placeholders": {
-      "value": {
-        "type": "String"
-      },
-      "goal": {
         "type": "String"
       }
     }
@@ -1325,7 +1199,22 @@
       }
     }
   },
-  "badgeHint": "Kies een kleur of tik op je huidige om hem te verwijderen. Alleen voor jou — niets wordt gecontroleerd en niets kost geld.",
+  "photosSelected": "{n} selected",
+  "deletePhotosTitle": "Delete {n} photos?",
+  "@photosSelected": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "@deletePhotosTitle": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "momentsEmptyHint": "Maak een foto van de sportschool, het bord, een geladen stang — alles wat je wilt onthouden. Het blijft op je telefoon en alleen jij ziet het.",
   "awardStreak100Line": "Honderd dagen op rij. Dit is geen motivatie meer, dit is een gewoonte.",
   "coverLabel": "OMSLAG",
@@ -1380,7 +1269,6 @@
   "moreOptions": "Meer opties",
   "suggestInWorkouts": "Voorstellen in snelle trainingen",
   "suggestInWorkoutsHint": "Uit houdt hem uit de voorstellen. Met de hand toevoegen kan nog steeds.",
-  "dontSuggest": "Niet meer voorstellen",
   "onbPlaceTitle": "Waar train je?",
   "onbPlaceWhy": "Kies alle plekken waar je traint. We stellen alleen voor wat je op elke plek kunt doen.",
   "onbPlaceGear": "Wat heb je daar?",
@@ -1435,7 +1323,6 @@
   "planSetsHint": "Kies het type, de herhalingen en het gewicht van elke set. Laat het gewicht op Auto om vanaf je laatste training te beginnen.",
   "autoValue": "Auto",
   "clearPlan": "Plan wissen",
-  "planChip": "Plan",
   "shareRoutine": "Routine delen",
   "shareWeek": "Mijn week delen",
   "shareWeekHint": "Al je routines en de dag waarop elke routine valt.",
@@ -1549,9 +1436,9 @@
   "shareIntroTitle": "Deel deze routine",
   "shareIntroBody": "Stuur hem naar je partner, een vriend of je familie. Ze krijgen een klein bestand dat in GymMane opent en hem met één tik toevoegt, met sets en gewichten.",
   "removedFromRoutine": "Uit de routine gehaald",
-  "radarTitle": "Deze maand",
+  "radarTitle": "Last 30 days",
   "radarHint": "Zie welke zones meer werk nodig hebben",
-  "radarEmpty": "Train deze maand om je balans te zien",
+  "radarEmpty": "Train a few days to see your balance",
   "radarBalanced": "Tot nu toe mooi in balans",
   "radarFocus": "Meer nodig: {list}",
   "@radarFocus": {
@@ -1566,7 +1453,6 @@
   "countdownSetting": "Aftellen voor de start",
   "effortSetting": "Inspanning noteren",
   "effortHint": "RPE: 10 is er geen meer kunnen doen, 8 is er nog twee over hebben. RIR telt de herhalingen die je nog had. Heeft een set er een, dan gebruikt de geschatte 1RM de RPE-tabel.",
-  "rirTitle": "RESERVE (RIR)",
   "rirHint": "0 is er geen meer kunnen doen, 2 is er nog twee over hebben.",
   "addWeekWidget": "Weekwidget toevoegen",
   "gamificationSetting": "Medailles en niveaus",
@@ -1785,5 +1671,125 @@
   "goalOverdue": "Datum verstreken",
   "goalDeadline": "DEADLINE",
   "goalNoDeadline": "Geen deadline",
-  "goalRemove": "Doel verwijderen"
+  "goalRemove": "Doel verwijderen",
+  "exerciseNameMissing": "Give it a name",
+  "aliasesLabel": "Also called (optional)",
+  "aliasesHint": "Other names, separated by commas",
+  "alsoCalled": "Also: {names}",
+  "@alsoCalled": {
+    "placeholders": {
+      "names": {
+        "type": "String"
+      }
+    }
+  },
+  "addToRoutine": "Add to routine",
+  "inRoutines": "{n, plural, =0{Not in any routine yet} =1{In 1 routine} other{In {n} routines}}",
+  "@inRoutines": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "alreadyInRoutine": "Already in it",
+  "restInRoutine": "Rest in this routine",
+  "restInRoutineHint": "Same as the exercise",
+  "restInRoutineReset": "Only here · tap to undo",
+  "swapExercise": "Swap exercise",
+  "swapShort": "Swap",
+  "swapHint": "Instead of {name}, only for today. When you finish, you can keep it in the routine.",
+  "@swapHint": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "swapKeepsDone": "The sets you already did stay logged; the new one picks up the rest.",
+  "swapSameMuscle": "Same muscle · {muscle}",
+  "@swapSameMuscle": {
+    "placeholders": {
+      "muscle": {
+        "type": "String"
+      }
+    }
+  },
+  "swapDoneBefore": "Done before",
+  "multiPlanSettingHint": "More than one routine on the same weekday.",
+  "levelHintsHint": "When an exercise gets easy, it offers you the harder version.",
+  "focusCardHint": "Today’s routine, at the top of Home.",
+  "gamificationHint": "Medals, your level and the celebration when you finish.",
+  "exerciseSettings": "Settings for this exercise",
+  "placeActiveNow": "You’re here",
+  "placeTapToUse": "tap to train here",
+  "intervalDays": "days",
+  "goalDaysShort": "{done}/{target} days",
+  "@goalDaysShort": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "target": {
+        "type": "int"
+      }
+    }
+  },
+  "toolNameRpe": "RPE load",
+  "toolTitleRpe": "Load by RPE",
+  "toolDescRpe": "Weight for the effort you want",
+  "toolNameDots": "Strength level",
+  "toolTitleDots": "Strength level (DOTS)",
+  "toolDescDots": "Your strength for your bodyweight",
+  "rpeResultHint": "For {reps} reps at RPE {rpe}",
+  "@rpeResultHint": {
+    "placeholders": {
+      "reps": {
+        "type": "int"
+      },
+      "rpe": {
+        "type": "String"
+      }
+    }
+  },
+  "rpeYourSet": "A set you just did",
+  "rpeGoal": "What you want to do",
+  "rpeOneRmLine": "Estimated 1RM: {value}",
+  "@rpeOneRmLine": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "rpeExplain": "RPE 10 means you couldn’t do one more; 8 means you had two left.",
+  "dotsBestLifts": "Your best lifts",
+  "dotsSquat": "SQUAT",
+  "dotsBench": "BENCH PRESS",
+  "dotsDeadlift": "DEADLIFT",
+  "dotsTotalLine": "Total: {value}",
+  "@dotsTotalLine": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "dotsExplain": "Compares your strength with anyone’s, whatever they weigh. Use your best single rep, or your estimated 1RM.",
+  "dotsLevel0": "Beginner",
+  "dotsLevel1": "Intermediate",
+  "dotsLevel2": "Advanced",
+  "dotsLevel3": "Very advanced",
+  "dotsLevel4": "Elite",
+  "rpeEffortLabel": "Effort (RPE)",
+  "restRowHint": "Between sets, unless the exercise has its own.",
+  "effortRowHint": "Log RPE or RIR on each set.",
+  "countdownHint": "3, 2, 1 before the first set.",
+  "keepScreenOnHint": "The screen stays on while you train.",
+  "demoSizeRowHint": "The exercise drawing during the workout.",
+  "demoLoopRowHint": "Whether the animation repeats or stops.",
+  "trainReminderRowHint": "A nudge on the days you train.",
+  "alarmSoundRowHint": "What plays when the rest ends.",
+  "alarmStyleRowHint": "Whether it rings in silent mode.",
+  "recommendedRowHint": "Exercises we suggest on Home."
 }
