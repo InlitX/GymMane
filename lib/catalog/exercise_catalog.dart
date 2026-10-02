@@ -7160,6 +7160,8 @@ const List<ToolMeta> kToolMeta = [
   ToolMeta('bf', 'Body Fat', 'Body fat percentage'),
   ToolMeta('plate', 'Plates', 'Barbell plate calculator'),
   ToolMeta('warmup', 'Warm-up', 'Ramp-up sets'),
+  ToolMeta('rpe', 'RPE load', 'Weight for a target effort'),
+  ToolMeta('dots', 'Strength level', 'DOTS score'),
 ];
 
 const List<String> kFilterMuscles = [
@@ -7193,6 +7195,15 @@ const List<String> kWarmupIds = [
   'clamshell', 'kneeling-hip-flexor-stretch', 'BbfB8Gb', '6YUfHPL', 'jump-rope', 'band-pull-apart',
   'yuris-shoulder-band-warmup', 'wrist-prep',
 ];
+
+const Set<String> kStretchIds = {
+  'cat-cow-stretch', 'worlds-greatest-stretch', 'leg-swings-stretch', 'childs-pose', 'doorway-chest-stretch',
+  'cross-body-shoulder-stretch', 'standing-quad-stretch', 'kneeling-hip-flexor-stretch', 'butterfly-stretch',
+  'wall-calf-stretch', 'LNE3wfo', 'hamstring-stretch', 'seated-forward-fold-stretch',
+  'yuris-shoulder-band-warmup', 'wrist-prep',
+};
+
+const Set<String> kCalisthenicsEquipment = {'Bodyweight', 'Rings', 'Weighted'};
 
 const Set<String> kCardioExtras = {
   'jump-rope', 'battle-ropes', 'burpee', 'half-burpee', 'mountain-climber', 'high-knees', 'jumping-jack',

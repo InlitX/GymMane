@@ -95,6 +95,11 @@ class ToolDetailScreen extends StatelessWidget {
         return (t.toolTitle('plate'), '${fit.weightValue(fit.plateTarget)} ${fit.units}', t.toolResultHint('plate'));
       case 'warmup':
         return (t.toolTitle('warmup'), '${fit.weightValue(fit.warmupTarget)} ${fit.units}', t.toolResultHint('warmup'));
+      case 'rpe':
+        return (t.toolTitle('rpe'), '${fit.weightValue(fit.rpeResult)} ${fit.units}',
+            t.rpeResultHint(fit.rpeTargetReps, fmt(fit.rpeTargetRpe)));
+      case 'dots':
+        return (t.toolTitle('dots'), fmt(fit.dotsScore), t.dotsLevelName(fit.dotsLevel));
       default:
         return ('', '', '');
     }
@@ -162,10 +167,59 @@ class ToolDetailScreen extends StatelessWidget {
           const SizedBox(height: 10),
           _warmupCard(gc),
         ];
+      case 'rpe':
+        final step = fit.fromDisplayWeight(fit.weightStep);
+        return [
+          _sectionLabel(gc, t.rpeYourSet),
+          ToolRow(label: t.weightLifted, control: StepperControl(value: '${fit.weightValue(fit.rpeWeight)} ${fit.units}', onDec: () => fit.bumpRpeWeight(-step), onInc: () => fit.bumpRpeWeight(step), onEdit: () => _editNumber(context, title: t.weightLifted, current: fit.toDisplayWeight(fit.rpeWeight), decimal: true, apply: (v) => fit.bumpRpeWeight(fit.fromDisplayWeight(v) - fit.rpeWeight)))),
+          ToolRow(label: t.repsPerformed, control: StepperControl(value: '${fit.rpeReps}', minWidth: 40, onDec: () => fit.bumpRpeReps(-1), onInc: () => fit.bumpRpeReps(1))),
+          ToolRow(label: t.rpeEffortLabel, control: StepperControl(value: fmt(fit.rpeRpe), minWidth: 40, onDec: () => fit.bumpRpe(-0.5), onInc: () => fit.bumpRpe(0.5))),
+          _sectionLabel(gc, t.rpeGoal),
+          ToolRow(label: t.repsCol, control: StepperControl(value: '${fit.rpeTargetReps}', minWidth: 40, onDec: () => fit.bumpRpeTargetReps(-1), onInc: () => fit.bumpRpeTargetReps(1))),
+          ToolRow(label: t.rpeEffortLabel, control: StepperControl(value: fmt(fit.rpeTargetRpe), minWidth: 40, onDec: () => fit.bumpRpeTarget(-0.5), onInc: () => fit.bumpRpeTarget(0.5))),
+          _note(gc, '${t.rpeOneRmLine(fit.weightLabel(fit.rpeOneRm))}\n${t.rpeExplain}'),
+        ];
+      case 'dots':
+        final step = fit.fromDisplayWeight(fit.weightStep);
+        Widget lift(String label, double kg, void Function(double) bump) => ToolRow(
+              label: label,
+              control: StepperControl(
+                value: '${fit.weightValue(kg)} ${fit.units}',
+                onDec: () => bump(-step),
+                onInc: () => bump(step),
+                onEdit: () => _editNumber(context, title: label, current: fit.toDisplayWeight(kg), decimal: true, apply: (v) => bump(fit.fromDisplayWeight(v) - kg)),
+              ),
+            );
+        return [
+          ToolRow(
+            label: t.sexLabel,
+            control: SegToggle([
+              SegOption(t.male, fit.dotsSex == 'male', () => fit.setDotsSex('male')),
+              SegOption(t.female, fit.dotsSex == 'female', () => fit.setDotsSex('female')),
+            ]),
+          ),
+          lift(t.bodyweight, fit.dotsBody, fit.bumpDotsBody),
+          _sectionLabel(gc, t.dotsBestLifts),
+          lift(t.dotsSquat, fit.dotsSquat, fit.bumpDotsSquat),
+          lift(t.dotsBench, fit.dotsBench, fit.bumpDotsBench),
+          lift(t.dotsDeadlift, fit.dotsDeadlift, fit.bumpDotsDeadlift),
+          _note(gc, '${t.dotsTotalLine(fit.weightLabel(fit.dotsTotal))}\n${t.dotsExplain}'),
+        ];
       default:
         return const [];
     }
   }
+
+  Widget _sectionLabel(GymColors gc, String label) => Padding(
+        padding: const EdgeInsets.fromLTRB(4, 6, 4, 0),
+        child: Text(label.toUpperCase(),
+            style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.4)),
+      );
+
+  Widget _note(GymColors gc, String text) => Padding(
+        padding: const EdgeInsets.fromLTRB(4, 4, 4, 0),
+        child: Text(text, style: AppTheme.f(12, weight: FontWeight.w500, color: gc.textSecondary, height: 1.5)),
+      );
 
   Future<void> _editNumber(
     BuildContext context, {
@@ -359,7 +413,7 @@ class ToolDetailScreen extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(t.rampSet(sets[i].pct, sets[i].reps), style: AppTheme.f(13, weight: FontWeight.w500, color: gc.textSecondary)),
+                  Text('${sets[i].pct} · ${t.repCount(sets[i].reps)}', style: AppTheme.f(13, weight: FontWeight.w500, color: gc.textSecondary)),
                   Text('${fmt(sets[i].weight)} ${fit.units}', style: AppTheme.f(15, weight: FontWeight.w700, color: gc.text)),
                 ],
               ),

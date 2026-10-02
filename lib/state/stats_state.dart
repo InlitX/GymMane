@@ -83,7 +83,7 @@ mixin StatsState on FitCore, ToolsState, LibraryState, TimelineState {
     final shown = toDisplayWeight(kg);
     if (shown < 1000) return (shown.round().toString(), units);
     final k = shown / 1000;
-    return (k >= 10 ? k.round().toString() : k.toStringAsFixed(1), units == 'kg' ? 't' : 'k $units');
+    return (k >= 10 ? k.round().toString() : decimalText(k.toStringAsFixed(1)), units == 'kg' ? 't' : 'k $units');
   }
 
   (String, String) get liftedSpan => liftedSpanOf(totalVolumeKg);
@@ -734,6 +734,9 @@ mixin StatsState on FitCore, ToolsState, LibraryState, TimelineState {
     strengthExerciseId = id;
     notifyListeners();
   }
+
+  @override
+  double bestLift(String id) => oneRmSeries(id).fold(0.0, math.max);
 
   List<double> oneRmSeries(String id) {
     final h = exerciseHistory(id).reversed;

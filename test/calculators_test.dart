@@ -5,7 +5,7 @@ import 'package:gymmane/state/fit_state.dart';
 void main() {
   test('every tool in the menu has a screen behind it', () {
     expect(kToolMeta.map((t) => t.id).toSet(),
-        {'rm', 'bmi', 'cal', 'bf', 'plate', 'warmup'});
+        {'rm', 'bmi', 'cal', 'bf', 'plate', 'warmup', 'rpe', 'dots'});
     for (final t in kToolMeta) {
       expect(t.name.trim(), isNotEmpty);
       expect(t.desc.trim(), isNotEmpty);
