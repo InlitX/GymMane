@@ -1,5 +1,5 @@
 {
-  "@@locale": "pt",
+  "@@locale": "pt-PT",
   "languageName": "Português (Brasil)",
   "@languageName": {
     "description": "This language, written in itself. Shown in the language picker."
@@ -273,9 +273,9 @@
   "levelFilter": "NÍVEL",
   "kindLabel": "TIPO",
   "kindStrength": "Strength",
-  "kindCalisthenics": "Calisthenics",
+  "kindCalisthenics": "Calistenia",
   "kindCardio": "Cardio",
-  "kindStretch": "Stretching",
+  "kindStretch": "Alongamento",
   "newExercise": "NOVO EXERCÍCIO",
   "exerciseName": "Nome do exercício",
   "equipmentLabel": "EQUIPAMENTO",
