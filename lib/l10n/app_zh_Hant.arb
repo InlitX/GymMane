@@ -1,5 +1,5 @@
 {
-  "@@locale": "zh-TW",
+  "@@locale": "zh_Hant",
   "languageName": "繁體中文",
   "@languageName": {
     "description": "This language, written in itself. Shown in the language picker."
