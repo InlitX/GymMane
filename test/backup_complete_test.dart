@@ -272,4 +272,53 @@ void main() {
     expect(place.bar, 15);
     expect(fit.activePlaceId, place.id);
   });
+
+  test('vuelve también lo de la 1.4 y el descanso a cero no se pierde al reabrir', () async {
+    await seedTwoYears();
+    final routine = fit.routines.single;
+    fit.setRoutineRest(routine.id, bench.id, 75);
+    fit.setExerciseRest(squat.id, 0);
+    fit.setHeatTone('green');
+    fit.setAlarmStyle('vibrate');
+    fit.setEffortMode('rir');
+    fit.setWeekStart(DateTime.sunday);
+    fit.setDemoSize('small');
+    fit.toggleArchived(pushUp.id);
+    fit.setExerciseMode(squat.id, 'time');
+    fit.setExerciseBar(bench.id, 15);
+    fit.setExerciseGoal(bench.id, 120, DateTime(2027, 1, 1));
+    fit.toggleMultiPlan();
+    final custom = fit.customExercises.single;
+    fit.updateCustomExercise(custom.id,
+        name: custom.name,
+        primary: custom.primary,
+        equipment: custom.equipment,
+        difficulty: custom.difficulty,
+        steps: const [],
+        mode: '',
+        aliases: const ['Bulgarian split squat']);
+
+    final zip = await buildBackupZip();
+    fit.resetAllData();
+    expect(await restoreBackupZip(zip), isTrue);
+
+    expect(fit.routineRest(fit.routines.single.id, bench.id), 75);
+    expect(fit.restFor(squat.id), 0);
+    expect(fit.heatTone, 'green');
+    expect(fit.alarmStyle, 'vibrate');
+    expect(fit.usesRir, isTrue);
+    expect(fit.weekStartDay, DateTime.sunday);
+    expect(fit.demoSize, 'small');
+    expect(fit.isArchived(pushUp.id), isTrue);
+    expect(fit.modeOf(squat.id), 'time');
+    expect(fit.hasOwnBar(bench.id), isTrue);
+    expect(fit.exerciseGoals[bench.id]?.target, 120);
+    expect(fit.multiPlan, isTrue);
+    expect(fit.customExercises.single.aliases, ['Bulgarian split squat']);
+
+    fit.persistNow();
+    fit.loadFromStore();
+    expect(fit.restFor(squat.id), 0);
+    expect(fit.heatTone, 'green');
+  });
 }

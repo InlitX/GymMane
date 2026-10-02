@@ -39,12 +39,13 @@ class SessionSet {
 }
 
 class SessionExercise {
-  SessionExercise(this.id, this.name, this.primary, this.sets, {this.linkedNext = false});
+  SessionExercise(this.id, this.name, this.primary, this.sets, {this.linkedNext = false, this.swappedFrom});
   final String id;
   final String name;
   final String primary;
   final List<SessionSet> sets;
   bool linkedNext;
+  final String? swappedFrom;
 
   bool get hasUndone => sets.any((s) => !s.done);
 
@@ -54,6 +55,7 @@ class SessionExercise {
         'p': primary,
         's': sets.map((s) => s.toJson()).toList(),
         if (linkedNext) 'l': true,
+        if (swappedFrom != null) 'sw': swappedFrom,
       };
   factory SessionExercise.fromJson(Map<String, dynamic> j) => SessionExercise(
         j['id'] as String,
@@ -61,6 +63,7 @@ class SessionExercise {
         j['p'] as String,
         (j['s'] as List).map((e) => SessionSet.fromJson((e as Map).cast<String, dynamic>())).toList(),
         linkedNext: j['l'] as bool? ?? false,
+        swappedFrom: j['sw'] as String?,
       );
 }
 

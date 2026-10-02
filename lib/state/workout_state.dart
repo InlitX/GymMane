@@ -616,9 +616,10 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
     if (sessionPaused || session?.manual == true) return;
     _restTimer?.cancel();
     RestAlarm.instance.stopSound();
-    final seconds = restFor(session!.exercises.isEmpty
+    final exId = session!.exercises.isEmpty
         ? ''
-        : session!.exercises[session!.currentIndex.clamp(0, session!.exercises.length - 1)].id);
+        : session!.exercises[session!.currentIndex.clamp(0, session!.exercises.length - 1)].id;
+    final seconds = routineRest(session!.routineId, exId) ?? restFor(exId);
     if (seconds <= 0) {
       session!.clearRest();
       notifyListeners();
@@ -1044,6 +1045,55 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
     notifyListeners();
   }
 
+  List<Exercise> swapOptions(String exId, {int n = 15}) {
+    final from = exerciseById(exId);
+    if (from == null) return const [];
+    final cardio = modeOf(exId) == 'cardio';
+    final pool = allExercises
+        .where((e) =>
+            e.id != exId &&
+            e.primary == from.primary &&
+            !inSession(e.id) &&
+            !isArchived(e.id) &&
+            (modeOf(e.id) == 'cardio') == cardio)
+        .toList();
+    final shared = from.secondary.toSet();
+    int score(Exercise e) =>
+        (fitsHere(e) ? 8 : 0) +
+        (favorites[e.id] == true ? 4 : 0) +
+        (lastSetsFor(e.id).isNotEmpty ? 3 : 0) +
+        (e.secondary.where(shared.contains).isNotEmpty ? 1 : 0);
+    final ranked = [
+      for (var i = 0; i < pool.length; i++) (ex: pool[i], score: score(pool[i]), seat: i),
+    ]..sort((a, b) => a.score == b.score ? a.seat.compareTo(b.seat) : b.score.compareTo(a.score));
+    return [for (final r in ranked.take(n)) r.ex];
+  }
+
+  void swapSessionExercise(int exIdx, String toId) {
+    final s = session;
+    final to = exerciseById(toId);
+    if (s == null || to == null || exIdx < 0 || exIdx >= s.exercises.length || inSession(toId)) return;
+    final from = s.exercises[exIdx];
+    final left = from.sets.where((st) => !st.done && st.counts).length;
+    final started = from.sets.any((st) => st.done);
+    final count = left > 0 ? left : null;
+    final next = SessionExercise(to.id, to.name, to.primary,
+        started ? _workingOpeners(toId, count: count) : _openingSets(toId, count: count),
+        linkedNext: from.linkedNext,
+        swappedFrom: from.swappedFrom ?? from.id);
+    if (started) {
+      from.sets.removeWhere((st) => !st.done);
+      from.linkedNext = false;
+      s.exercises.insert(exIdx + 1, next);
+      s.currentIndex = exIdx + 1;
+    } else {
+      s.exercises[exIdx] = next;
+      s.currentIndex = exIdx;
+    }
+    persistNow();
+    notifyListeners();
+  }
+
   List<Exercise> sessionSuggestions() {
     final inSession = session?.exercises.map((e) => e.id).toSet() ?? <String>{};
     final ids = <String>[];
@@ -1134,6 +1184,22 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
   List<SessionExercise> get _savable =>
       [for (final e in session?.exercises ?? const <SessionExercise>[]) if (exerciseById(e.id) != null) e];
 
+  Map<String, String> get _swaps {
+    final r = sessionRoutine;
+    if (r == null) return const {};
+    final out = <String, String>{};
+    for (final e in _savable) {
+      final from = e.swappedFrom;
+      if (from != null && r.exerciseIds.contains(from) && !r.exerciseIds.contains(e.id)) out[from] = e.id;
+    }
+    return out;
+  }
+
+  List<SessionExercise> get _savableForRoutine {
+    final swaps = _swaps;
+    return [for (final e in _savable) if (!swaps.containsKey(e.id)) e];
+  }
+
   void _planFromSession(String routineId, SessionExercise ex) {
     if (ex.sets.isEmpty) return;
     setPlannedSets(routineId, ex.id, [
@@ -1156,13 +1222,13 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
   bool get sessionEditedRoutine {
     final r = sessionRoutine;
     return r != null &&
-        _savable.map((e) => e.id).join('|') != routineExercises(r).map((e) => e.id).join('|');
+        _savableForRoutine.map((e) => e.id).join('|') != routineExercises(r).map((e) => e.id).join('|');
   }
 
   ({List<Exercise> added, List<Exercise> removed, bool reordered}) get sessionRoutineChanges {
     final r = sessionRoutine;
     final before = r == null ? const <Exercise>[] : routineExercises(r);
-    final after = [for (final e in _savable) exerciseById(e.id)!];
+    final after = [for (final e in _savableForRoutine) exerciseById(e.id)!];
     final was = {for (final e in before) e.id};
     final now = {for (final e in after) e.id};
     return (
@@ -1190,7 +1256,11 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
   void saveSessionIntoRoutine() {
     final r = sessionRoutine;
     if (r == null) return;
-    final exs = _savable;
+    final swaps = _swaps;
+    final exs = [for (final e in _savable) if (!swaps.containsKey(e.id)) e];
+    for (final swap in swaps.entries) {
+      replaceRoutineExercise(r.id, swap.key, swap.value);
+    }
     final kept = {for (final e in exs) e.id};
     for (final id in [...r.exerciseIds]) {
       if (!kept.contains(id)) toggleRoutineExercise(r.id, id);

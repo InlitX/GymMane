@@ -114,7 +114,7 @@ class _RoutineEditScreenState extends State<RoutineEditScreen> {
                       height: 56,
                       alignment: Alignment.center,
                       decoration: BoxDecoration(color: gc.bgRaised2, borderRadius: BorderRadius.circular(100)),
-                      child: Text(t.save, style: AppTheme.f(15.5, weight: FontWeight.w700, color: gc.text)),
+                      child: Text(titleCase(t.save), style: AppTheme.f(15.5, weight: FontWeight.w700, color: gc.text)),
                     ),
                   ),
                 ),
@@ -271,15 +271,7 @@ class _RoutineEditScreenState extends State<RoutineEditScreen> {
           )
         else ...[
           Text(t.setsPlannedHint, style: AppTheme.f(11, weight: FontWeight.w500, color: gc.textTertiary)),
-          const SizedBox(height: 6),
-          if (routine.exerciseIds.length > 1) ...[
-            Text(t.supersetHint, style: AppTheme.f(11, weight: FontWeight.w500, color: gc.textTertiary)),
-            const SizedBox(height: 6),
-          ],
-          if (routine.exerciseIds.length > 1) ...[
-            Text(t.dragToReorder, style: AppTheme.f(11, weight: FontWeight.w500, color: gc.textTertiary)),
-            const SizedBox(height: 8),
-          ],
+          const SizedBox(height: 8),
           ReorderableListView(
             shrinkWrap: true,
             buildDefaultDragHandles: false,
@@ -601,15 +593,19 @@ class _RoutineEditScreenState extends State<RoutineEditScreen> {
                     style: AppTheme.f(9.5, weight: FontWeight.w700, color: gc.brass, letterSpacing: 1)),
               ],
               const SizedBox(height: 2),
-              StepperControl(
-                value: t.setCount(fit.routineSets(routine, ex.id)),
-                minWidth: 62,
-                btnSize: 24,
-                gap: 8,
-                fontSize: 12,
-                btnRadius: 7,
-                onDec: () => fit.bumpRoutineSets(_id, ex.id, -1),
-                onInc: () => fit.bumpRoutineSets(_id, ex.id, 1),
+              FittedBox(
+                fit: BoxFit.scaleDown,
+                alignment: AlignmentDirectional.centerStart,
+                child: StepperControl(
+                  value: t.setCount(fit.routineSets(routine, ex.id)),
+                  minWidth: 62,
+                  btnSize: 24,
+                  gap: 8,
+                  fontSize: 12,
+                  btnRadius: 7,
+                  onDec: () => fit.bumpRoutineSets(_id, ex.id, -1),
+                  onInc: () => fit.bumpRoutineSets(_id, ex.id, 1),
+                ),
               ),
               if (plan.isNotEmpty) ...[
                 const SizedBox(height: 3),
@@ -628,7 +624,13 @@ class _RoutineEditScreenState extends State<RoutineEditScreen> {
             label: t.supersetLink,
             child: GestureDetector(
               behavior: HitTestBehavior.opaque,
-              onTap: () => fit.toggleChain(_id, ex.id),
+              onTap: () {
+                fit.toggleChain(_id, ex.id);
+                if (!routine.chained.contains(ex.id)) return;
+                HapticFeedback.selectionClick();
+                showNotchToast(context, t.superset,
+                    subtitle: t.supersetHint, icon: PhosphorIconsFill.link, accent: gc.brass);
+              },
               child: SizedBox(
                 width: 38,
                 height: 44,
@@ -787,6 +789,8 @@ class _RoutineEditScreenState extends State<RoutineEditScreen> {
                       ),
                     ),
                   const SizedBox(height: 10),
+                  _restRow(sheet, gc, routine, ex),
+                  const SizedBox(height: 14),
                   PrimaryButton(label: t.done, onTap: () => Navigator.of(sheet).pop()),
                 ],
               ),
@@ -794,6 +798,59 @@ class _RoutineEditScreenState extends State<RoutineEditScreen> {
           );
         },
       ),
+    );
+  }
+
+  Widget _restRow(BuildContext sheet, GymColors gc, Routine routine, Exercise ex) {
+    final own = fit.routineRest(routine.id, ex.id);
+    final seconds = own ?? fit.restFor(ex.id);
+    String label(int s) => s == 0 ? t.restOff : clockLabel(s);
+    return Container(
+      padding: const EdgeInsets.fromLTRB(16, 12, 12, 12),
+      decoration: BoxDecoration(color: gc.bgRaised2, borderRadius: BorderRadius.circular(18)),
+      child: Row(children: [
+        Icon(PhosphorIconsRegular.timer, size: 19, color: own != null ? gc.text : gc.textSecondary),
+        const SizedBox(width: 12),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(titleCase(t.restInRoutine), style: AppTheme.f(14, weight: FontWeight.w600, color: gc.text)),
+              const SizedBox(height: 3),
+              GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: own != null ? () => fit.setRoutineRest(routine.id, ex.id, null) : null,
+                child: Text(own != null ? t.restInRoutineReset : t.restInRoutineHint,
+                    style: AppTheme.f(11.5,
+                        weight: FontWeight.w500, color: own != null ? gc.accent : gc.textSecondary, height: 1.3)),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(width: 10),
+        StepperControl(
+          value: label(seconds),
+          minWidth: 48,
+          btnSize: 30,
+          gap: 3,
+          fontSize: 14,
+          btnRadius: 10,
+          onDec: () => fit.setRoutineRest(routine.id, ex.id, seconds - 15),
+          onInc: () => fit.setRoutineRest(routine.id, ex.id, seconds + 15),
+          onEdit: () async {
+            final v = await askRuler(sheet,
+                title: t.restInRoutine,
+                value: seconds.toDouble(),
+                min: 0,
+                max: 600,
+                step: 5,
+                majorEvery: 6,
+                format: (v) => clockLabel(v.round()),
+                tickLabel: (v) => clockLabel(v.round()));
+            if (v != null) fit.setRoutineRest(routine.id, ex.id, v.round());
+          },
+        ),
+      ]),
     );
   }
 

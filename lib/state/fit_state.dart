@@ -197,6 +197,8 @@ class FitState extends FitCore
     showFocus = data['showFocus'] as bool? ?? true;
     showRecommended = data['showRecs'] as bool? ?? true;
     levelHints = data['levelHints'] as bool? ?? true;
+    toastSound = data['toastSound'] as bool? ?? true;
+    Beeper.instance.chimeOn = toastSound;
     heatmapLabels = data['heatLabels'] as bool? ?? true;
     multiPlan = data['multiPlan'] as bool? ?? false;
     final weekStart = data['weekStart'];
@@ -267,7 +269,7 @@ class FitState extends FitCore
     exerciseRest.clear();
     ((data['exRest'] as Map?) ?? const {}).forEach((k, v) {
       final n = (v as num?)?.toInt();
-      if (k is String && n != null) exerciseRest[k] = n.clamp(15, 600);
+      if (k is String && n != null) exerciseRest[k] = n <= 0 ? 0 : n.clamp(15, 600);
     });
   }
 
@@ -368,6 +370,7 @@ class FitState extends FitCore
         'showFocus': showFocus,
         'showRecs': showRecommended,
         'levelHints': levelHints,
+        'toastSound': toastSound,
         'heatLabels': heatmapLabels,
         'weekStart': weekStartDay,
         'autoAdvance': autoAdvance,
@@ -479,6 +482,8 @@ class FitState extends FitCore
     showFocus = true;
     showRecommended = true;
     levelHints = true;
+    toastSound = true;
+    Beeper.instance.chimeOn = true;
     heatmapLabels = true;
     weekStartDay = DateTime.monday;
     autoAdvance = true;
@@ -528,6 +533,7 @@ class FitState extends FitCore
     _applyLanguage(map['language'] as String? ?? language);
     restSeconds = (map['rest'] as num?)?.toInt() ?? restSeconds;
     bgPattern = map['bg'] as String? ?? bgPattern;
+    heatTone = map['heatTone'] as String? ?? heatTone;
     _loadToggles(map);
     onboarded = map['onboarded'] as bool? ?? onboarded;
     favorites
@@ -572,6 +578,8 @@ class FitState extends FitCore
     _seedCalculatorsFromProfile();
     _loading = false;
     _persist();
+    syncTrainReminder();
+    syncPhotoReminder();
     _refreshWidgets();
     notifyListeners();
   }
@@ -809,7 +817,7 @@ class FitState extends FitCore
           }
           if (item.superset) toggleChain(id, ex.id);
           final rest = item.restSec;
-          if (rest != null && !hasCustomRest(ex.id)) setExerciseRest(ex.id, rest);
+          if (rest != null) setRoutineRest(id, ex.id, rest);
         }
         made++;
         added += picked.length;
@@ -882,7 +890,7 @@ class FitState extends FitCore
                           },
                       ],
                     if (chainsToNext(r, id)) 'superset': true,
-                    if (hasCustomRest(id)) 'rest': restFor(id),
+                    'rest': ?(routineRest(r.id, id) ?? (hasCustomRest(id) ? restFor(id) : null)),
                     if (isCustom(id))
                       'custom': {
                         'muscle': ex.primary,

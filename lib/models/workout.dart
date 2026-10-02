@@ -178,11 +178,13 @@ class Routine {
       {Map<String, int>? sets,
       Set<String>? chained,
       Map<String, List<PlannedSet>>? plan,
+      Map<String, int>? rest,
       this.group = '',
       this.color = -1})
       : sets = sets ?? {},
         chained = chained ?? {},
-        plan = plan ?? {};
+        plan = plan ?? {},
+        rest = rest ?? {};
   final String id;
   String name;
   String group;
@@ -191,11 +193,13 @@ class Routine {
   final Map<String, int> sets;
   final Set<String> chained;
   final Map<String, List<PlannedSet>> plan;
+  final Map<String, int> rest;
 
   Map<String, dynamic> toJson() => {
         'id': id,
         'n': name,
         'ex': exerciseIds,
+        if (rest.isNotEmpty) 'r': rest,
         if (sets.isNotEmpty) 's': sets,
         if (chained.isNotEmpty) 'c': chained.toList(),
         if (group.isNotEmpty) 'g': group,
@@ -214,6 +218,8 @@ class Routine {
               k as String,
               (v as List).map((s) => PlannedSet.fromJson((s as Map).cast<String, dynamic>())).toList(),
             )),
+        rest: ((j['r'] as Map?) ?? const {})
+            .map((k, v) => MapEntry(k as String, ((v as num).toInt()).clamp(0, 600))),
         group: (j['g'] as String?) ?? '',
         color: (j['k'] as num?)?.toInt() ?? -1,
       );

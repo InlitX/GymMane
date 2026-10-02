@@ -161,6 +161,11 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
                   ),
                   Text(exerciseName(ex),
                       style: AppTheme.f(26, weight: FontWeight.w800, color: gc.text, height: 1.1)),
+                  if (ex.aliases.isNotEmpty) ...[
+                    const SizedBox(height: 6),
+                    Text(t.alsoCalled(ex.aliases.join(', ')),
+                        style: AppTheme.f(13, weight: FontWeight.w500, color: gc.textSecondary, height: 1.35)),
+                  ],
                   const SizedBox(height: 18),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -173,33 +178,7 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
                     ],
                   ),
                   const SizedBox(height: 18),
-                  _group(gc, [
-                    _modeRow(context, gc, ex.id, mode),
-                    if (mode != 'cardio') _repsOnlyRow(gc, ex.id, repsOnly),
-                    _restRow(gc, ex.id),
-                    if (ex.equipment == 'Barbell' || ex.equipment == 'Machine') _barRow(gc, ex),
-                    _switchRow(
-                      gc,
-                      PhosphorIconsRegular.sparkle,
-                      t.suggestInWorkouts,
-                      t.suggestInWorkoutsHint,
-                      fit.suggests(ex.id),
-                      () => fit.toggleSuggest(ex.id),
-                    ),
-                    if (!repsOnly && mode.isEmpty) ...[
-                      _progressRow(gc, ex.id),
-                      _switchRow(
-                        gc,
-                        PhosphorIconsRegular.fire,
-                        t.autoWarmup,
-                        t.autoWarmupHint,
-                        fit.warmsUp(ex.id),
-                        () => fit.toggleAutoWarmup(ex.id),
-                      ),
-                    ],
-                  ]),
-                  const SizedBox(height: 20),
-                  const StopwatchCard(),
+                  _addToRoutineRow(context, gc, ex),
                   const SizedBox(height: 20),
                   if (pr != null) ...[
                     Container(
@@ -300,6 +279,36 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
                       if (i < steps.length - 1) const SizedBox(height: 14),
                     ],
                   ],
+                  const SizedBox(height: 28),
+                  _section(gc, t.exerciseSettings),
+                  const SizedBox(height: 12),
+                  _group(gc, [
+                    _modeRow(context, gc, ex.id, mode),
+                    if (mode != 'cardio') _repsOnlyRow(gc, ex.id, repsOnly),
+                    _restRow(gc, ex.id),
+                    if (ex.equipment == 'Barbell' || ex.equipment == 'Machine') _barRow(gc, ex),
+                    _switchRow(
+                      gc,
+                      PhosphorIconsRegular.sparkle,
+                      t.suggestInWorkouts,
+                      t.suggestInWorkoutsHint,
+                      fit.suggests(ex.id),
+                      () => fit.toggleSuggest(ex.id),
+                    ),
+                    if (!repsOnly && mode.isEmpty) ...[
+                      _progressRow(gc, ex.id),
+                      _switchRow(
+                        gc,
+                        PhosphorIconsRegular.fire,
+                        t.autoWarmup,
+                        t.autoWarmupHint,
+                        fit.warmsUp(ex.id),
+                        () => fit.toggleAutoWarmup(ex.id),
+                      ),
+                    ],
+                  ]),
+                  const SizedBox(height: 20),
+                  const StopwatchCard(),
                   if (fit.alternativesHere(ex, 3).isNotEmpty) ...[
                     const SizedBox(height: 24),
                     _notHere(gc, ex),
@@ -473,6 +482,104 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
               Icon(PhosphorIconsRegular.caretRight, size: 15, color: gc.textTertiary),
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget _addToRoutineRow(BuildContext context, GymColors gc, Exercise ex) {
+    final n = fit.routinesWith(ex.id);
+    return Semantics(
+      button: true,
+      child: Pressable(
+        onTap: () => _pickRoutine(context, ex),
+        scale: 0.98,
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 13),
+          decoration: BoxDecoration(
+            color: gc.bgRaised,
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Row(
+            children: [
+              _rowIcon(gc, PhosphorIconsRegular.listPlus, n > 0),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(t.addToRoutine, style: AppTheme.f(14.5, weight: FontWeight.w500, color: gc.text)),
+                    const SizedBox(height: 3),
+                    Text(t.inRoutines(n),
+                        style: AppTheme.f(11.5, weight: FontWeight.w500, color: gc.textSecondary)),
+                  ],
+                ),
+              ),
+              Icon(PhosphorIconsRegular.plus, size: 16, color: gc.textTertiary),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _pickRoutine(BuildContext context, Exercise ex) {
+    final gc = context.gc;
+    final routines = [
+      for (final group in fit.routineGroups) ...fit.routinesInGroup(group),
+      ...fit.routinesInGroup(''),
+    ];
+    void pick(BuildContext sheet, String? id) {
+      Navigator.pop(sheet);
+      fit.addToRoutineAndEdit(id, ex.id);
+    }
+
+    showAppSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (sheet) => Container(
+        constraints: BoxConstraints(maxHeight: MediaQuery.sizeOf(sheet).height * 0.72),
+        padding: sheetPad(sheet),
+        decoration: BoxDecoration(
+          color: gc.bgRaised,
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            const SheetHandle(),
+            const SizedBox(height: 16),
+            SheetTitle(titleCase(t.addToRoutine)),
+            const SizedBox(height: 4),
+            Text(exerciseName(ex),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.center,
+                style: AppTheme.f(12.5, weight: FontWeight.w500, color: gc.textSecondary)),
+            const SizedBox(height: 14),
+            Flexible(
+              child: OptionGroup(
+                scroll: true,
+                [
+                  OptionItem(
+                    t.newRoutineName,
+                    icon: PhosphorIconsRegular.plus,
+                    onTap: () => pick(sheet, null),
+                  ),
+                  for (final r in routines)
+                    OptionItem(
+                      fit.routineTitle(r),
+                      detail: fit.routineHas(r.id, ex.id)
+                          ? t.alreadyInRoutine
+                          : (r.group.isEmpty ? null : r.group),
+                      selected: fit.routineHas(r.id, ex.id),
+                      onTap: () => pick(sheet, r.id),
+                    ),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -669,7 +776,7 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
           ),
           const SizedBox(width: 12),
           StepperControl(
-            value: seconds == 0 ? t.restOff : '${seconds}s',
+            value: seconds == 0 ? t.restOff : clockLabel(seconds),
             minWidth: 44,
             btnSize: 30,
             gap: 3,
