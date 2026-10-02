@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
@@ -62,21 +63,64 @@ class _MomentsScreenState extends State<MomentsScreen> {
     ));
   }
 
-  Future<void> _remove(Moment moment) async {
+  void _press(Moment moment) {
+    if (fit.momentPicks.isEmpty) return _open(moment);
+    fit.toggleMomentPick(moment.file);
+  }
+
+  void _hold(Moment moment) {
+    HapticFeedback.selectionClick();
+    fit.toggleMomentPick(moment.file);
+  }
+
+  Future<void> _removePicked() async {
+    final n = fit.momentPicks.length;
     final ok = await askConfirm(
       context,
-      title: t.deletePhotoTitle,
+      title: n == 1 ? t.deletePhotoTitle : t.deletePhotosTitle(n),
       body: t.deletePhotoBody,
       confirmLabel: t.delete,
       danger: true,
     );
-    if (ok) fit.deleteMoment(moment);
+    if (ok) fit.deleteMoments([...fit.momentPicks]);
+  }
+
+  Widget _picked(GymColors gc, Moment moment, Widget child) {
+    final on = fit.momentPicks.contains(moment.file);
+    if (fit.momentPicks.isEmpty) return child;
+    return Stack(
+      fit: StackFit.expand,
+      children: [
+        AnimatedScale(
+          scale: on ? 0.9 : 1,
+          duration: const Duration(milliseconds: 160),
+          curve: Curves.easeOut,
+          child: child,
+        ),
+        Positioned(
+          top: 8,
+          right: 8,
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 160),
+            width: 22,
+            height: 22,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: on ? gc.accent : Colors.black.withValues(alpha: 0.3),
+              border: Border.all(color: Colors.white, width: 1.6),
+            ),
+            child: on ? const Icon(PhosphorIconsBold.check, size: 12, color: Colors.black) : null,
+          ),
+        ),
+      ],
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     final gc = context.gc;
     final shots = fit.momentsNewest;
+    final picks = fit.momentPicks.length;
 
     return SafeArea(
       bottom: false,
@@ -88,8 +132,24 @@ class _MomentsScreenState extends State<MomentsScreen> {
             ScreenHeader(
               title: t.photosCard,
               onBack: fit.backFromMoments,
-              subtitle: shots.isEmpty ? null : t.momentCount(shots.length),
-              actions: [
+              subtitle: picks > 0
+                  ? t.photosSelected(picks)
+                  : (shots.isEmpty ? null : t.momentCount(shots.length)),
+              actions: picks > 0
+                  ? [
+                      RoundAction(
+                        onTap: _removePicked,
+                        label: t.delete,
+                        child: Icon(PhosphorIconsRegular.trash, size: 17, color: gc.danger),
+                      ),
+                      const SizedBox(width: 8),
+                      RoundAction(
+                        onTap: fit.clearMomentPicks,
+                        label: t.cancel,
+                        child: Icon(PhosphorIconsRegular.x, size: 17, color: gc.text),
+                      ),
+                    ]
+                  : [
                 RoundAction(
                   onTap: () => setState(() => _grouped = !_grouped),
                   label: t.photosCard,
@@ -178,15 +238,19 @@ class _MomentsScreenState extends State<MomentsScreen> {
   Widget _square(GymColors gc, Moment moment) {
     final path = MediaStore.pathFor(moment.file) ?? '';
     return GestureDetector(
-      onTap: () => _open(moment),
-      onLongPress: () => _remove(moment),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(20),
-        child: Hero(
-          tag: moment.file,
-          child: Image.file(File(path),
-              fit: BoxFit.cover,
-              errorBuilder: (_, _, _) => ColoredBox(color: gc.bgRaised2)),
+      onTap: () => _press(moment),
+      onLongPress: () => _hold(moment),
+      child: _picked(
+        gc,
+        moment,
+        ClipRRect(
+          borderRadius: BorderRadius.circular(20),
+          child: Hero(
+            tag: moment.file,
+            child: Image.file(File(path),
+                fit: BoxFit.cover,
+                errorBuilder: (_, _, _) => ColoredBox(color: gc.bgRaised2)),
+          ),
         ),
       ),
     );
@@ -218,9 +282,9 @@ class _MomentsScreenState extends State<MomentsScreen> {
   Widget _tile(GymColors gc, Moment moment) {
     final path = MediaStore.pathFor(moment.file) ?? '';
     return GestureDetector(
-      onTap: () => _open(moment),
-      onLongPress: () => _remove(moment),
-      child: ClipRRect(
+      onTap: () => _press(moment),
+      onLongPress: () => _hold(moment),
+      child: _picked(gc, moment, ClipRRect(
         borderRadius: BorderRadius.circular(14),
         child: Stack(
           fit: StackFit.expand,
@@ -245,7 +309,7 @@ class _MomentsScreenState extends State<MomentsScreen> {
             ),
           ],
         ),
-      ),
+      )),
     );
   }
 }

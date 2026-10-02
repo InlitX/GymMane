@@ -15,6 +15,7 @@ import '../widgets/entrance.dart';
 import '../widgets/medal_shelf.dart';
 import '../widgets/photo_source_sheet.dart';
 import '../widgets/profile_avatar.dart';
+import '../widgets/ui_kit.dart';
 import 'settings_screen.dart';
 import 'share_sheet.dart';
 
@@ -119,7 +120,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 Rise(
                   index: 2,
                   child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-                    _heading(gc, t.snapshots, onMore: fit.goMoments),
+                    _heading(gc, t.snapshots,
+                        count: fit.momentCount > 0 ? '${fit.momentCount}' : null,
+                        onMore: fit.goMoments,
+                        onAdd: fit.momentCount > 0 ? _snapshot : null),
                     const SizedBox(height: 16),
                     _photoCards(gc),
                   ]),
@@ -250,7 +254,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  Widget _heading(GymColors gc, String title, {String? count, VoidCallback? onMore}) {
+  Widget _heading(GymColors gc, String title, {String? count, VoidCallback? onMore, VoidCallback? onAdd}) {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: onMore,
@@ -262,6 +266,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
             Text(count, style: AppTheme.f(17, weight: FontWeight.w600, color: gc.textTertiary)),
           ],
           const Spacer(),
+          if (onAdd != null) ...[
+            Semantics(
+              button: true,
+              label: t.snapNow,
+              child: Pressable(
+                onTap: onAdd,
+                scale: 0.88,
+                child: Container(
+                  width: 32,
+                  height: 32,
+                  decoration: BoxDecoration(color: gc.accentSoft, shape: BoxShape.circle),
+                  child: Icon(PhosphorIconsBold.plus, size: 15, color: gc.accent),
+                ),
+              ),
+            ),
+            const SizedBox(width: 12),
+          ],
           if (onMore != null) Icon(PhosphorIconsBold.caretRight, size: 16, color: gc.textTertiary),
         ],
       ),
@@ -312,123 +333,79 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  Widget _photoCards(GymColors gc) {
-    final shots = fit.momentsNewest.take(3).map((m) => m.file).toList();
-    return IntrinsicHeight(
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Expanded(
-            child: _card(
-              gc,
-              label: t.photosCard,
-              trailing: shots.isEmpty ? null : '${fit.momentCount}',
-              onTap: fit.goMoments,
-              child: shots.isEmpty
-                  ? Icon(PhosphorIconsRegular.imagesSquare, size: 28, color: gc.textTertiary)
-                  : _fan(gc, shots),
-            ),
-          ),
-          const SizedBox(width: 14),
-          Expanded(
-            child: _card(
-              gc,
-              label: t.snapNow,
-              onTap: _snapshot,
-              child: Container(
-                width: 56,
-                height: 56,
-                decoration: BoxDecoration(color: gc.bgRaised2, shape: BoxShape.circle),
-                child: Icon(PhosphorIconsRegular.camera, size: 24, color: gc.textSecondary),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+  static const _turns = [-0.07, 0.05, -0.035, 0.065, -0.05];
 
-  Widget _card(
-    GymColors gc, {
-    required String label,
-    required Widget child,
-    required VoidCallback onTap,
-    String? trailing,
-  }) {
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      onTap: onTap,
-      child: Container(
-        height: 168,
-        decoration: BoxDecoration(color: gc.bgRaised, borderRadius: BorderRadius.circular(22)),
-        child: Column(
-          children: [
-            Expanded(child: Center(child: child)),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 18),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(label, style: AppTheme.f(14.5, color: gc.text)),
-                  if (trailing != null) ...[
-                    const SizedBox(width: 7),
-                    Text(trailing,
-                        style: AppTheme.f(13, weight: FontWeight.w600, color: gc.textTertiary)),
-                  ],
-                ],
-              ),
-            ),
-          ],
+  Widget _photoCards(GymColors gc) {
+    final shots = fit.momentsNewest.take(4).map((m) => m.file).toList();
+    const w = 104.0, h = 136.0;
+    return Semantics(
+      button: true,
+      label: shots.isEmpty ? t.snapNow : t.photosCard,
+      child: Pressable(
+        onTap: shots.isEmpty ? _snapshot : fit.goMoments,
+        scale: 0.97,
+        child: SizedBox(
+          height: h + 20,
+          child: LayoutBuilder(builder: (context, box) {
+            const n = 4;
+            final step = math.min(w * 0.78, (box.maxWidth - w) / (n - 1));
+            return Stack(
+              clipBehavior: Clip.none,
+              children: [
+                for (var i = 0; i < n; i++)
+                  Positioned(
+                    left: i * step,
+                    top: i.isOdd ? 14 : 6,
+                    width: w,
+                    height: h,
+                    child: Transform.rotate(
+                      angle: _turns[i % _turns.length],
+                      child: i < shots.length ? _shot(gc, shots[i]) : _ghost(gc),
+                    ),
+                  ),
+              ],
+            );
+          }),
         ),
       ),
     );
   }
 
-  Widget _fan(GymColors gc, List<String> files) {
-    const spread = [-0.22, 0.0, 0.22];
-    const shift = [-30.0, 0.0, 30.0];
-    final order = [
-      for (var i = 0; i < files.length; i++)
-        if (i != 1) i,
-      if (files.length > 1) 1,
-    ];
-    return SizedBox(
-      height: 94,
-      width: double.infinity,
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-          for (final i in order)
-            Transform.translate(
-              offset: Offset(files.length == 1 ? 0 : shift[i], 0),
-              child: Transform.rotate(
-                angle: files.length == 1 ? 0 : spread[i],
-                child: _thumb(gc, files[i], raised: i == 1 || files.length == 1),
-              ),
-            ),
+  Widget _frame(GymColors gc, Widget child) {
+    final dark = gc.bg.computeLuminance() < 0.5;
+    return Container(
+      padding: const EdgeInsets.all(3),
+      decoration: BoxDecoration(
+        color: dark ? Color.lerp(gc.bgRaised2, Colors.white, 0.1) : Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+              color: Colors.black.withValues(alpha: dark ? 0.5 : 0.16), blurRadius: 12, offset: const Offset(0, 4)),
         ],
       ),
+      child: ClipRRect(borderRadius: BorderRadius.circular(13), child: child),
     );
   }
 
-  Widget _thumb(GymColors gc, String file, {bool raised = false}) {
-    final path = MediaStore.pathFor(file) ?? '';
-    return Container(
-      width: 62,
-      height: 86,
-      decoration: BoxDecoration(
-        color: gc.bgRaised2,
-        borderRadius: BorderRadius.circular(12),
-        border: raised ? null : Border.all(color: gc.bgRaised, width: 2.5),
-        boxShadow: raised
-            ? [BoxShadow(color: Colors.black.withValues(alpha: 0.45), blurRadius: 14)]
-            : null,
-      ),
-      clipBehavior: Clip.antiAlias,
-      child: Image.file(File(path),
-          fit: BoxFit.cover, errorBuilder: (_, _, _) => const SizedBox.shrink()),
-    );
-  }
+  Widget _shot(GymColors gc, String file) => _frame(
+        gc,
+        Image.file(File(MediaStore.pathFor(file) ?? ''),
+            fit: BoxFit.cover,
+            width: double.infinity,
+            height: double.infinity,
+            errorBuilder: (_, _, _) => ColoredBox(color: gc.bgRaised2)),
+      );
+
+  Widget _ghost(GymColors gc) => Opacity(
+        opacity: 0.55,
+        child: _frame(
+          gc,
+          ColoredBox(
+            color: gc.bgRaised2,
+            child: Center(child: Icon(PhosphorIconsRegular.image, size: 22, color: gc.textTertiary)),
+          ),
+        ),
+      );
 }
 
 class _ProfileHeader extends SliverPersistentHeaderDelegate {

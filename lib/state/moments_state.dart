@@ -19,6 +19,7 @@ class Moment {
 
 mixin MomentsState on FitCore {
   final List<Moment> moments = [];
+  final Set<String> momentPicks = {};
 
   List<Moment> get momentsNewest {
     final out = [...moments]..sort((a, b) => b.date.compareTo(a.date));
@@ -43,7 +44,33 @@ mixin MomentsState on FitCore {
     notifyListeners();
   }
 
-  void goMoments() => pushRoute('moments');
+  void deleteMoments(Iterable<String> files) {
+    final gone = files.toSet();
+    moments.removeWhere((m) => gone.contains(m.file));
+    gone.forEach(MediaStore.delete);
+    momentPicks.removeAll(gone);
+    _persist();
+    notifyListeners();
+  }
 
-  void backFromMoments() => popRoute(fallback: 'settings');
+  void toggleMomentPick(String file) {
+    if (!momentPicks.remove(file)) momentPicks.add(file);
+    notifyListeners();
+  }
+
+  void clearMomentPicks() {
+    if (momentPicks.isEmpty) return;
+    momentPicks.clear();
+    notifyListeners();
+  }
+
+  void goMoments() {
+    momentPicks.clear();
+    pushRoute('moments');
+  }
+
+  void backFromMoments() {
+    if (momentPicks.isNotEmpty) return clearMomentPicks();
+    popRoute(fallback: 'settings');
+  }
 }
