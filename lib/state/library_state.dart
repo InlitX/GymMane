@@ -5,6 +5,7 @@ mixin LibraryState on FitCore {
   String? exMuscleFilter;
   String? exDifficultyFilter;
   String? exEquipmentFilter;
+  String? exKindFilter;
   String? activeExerciseId;
   int _customSeq = 0;
   List<Exercise> get allExercises => [...kExercises, ...customExercises];
@@ -57,6 +58,7 @@ mixin LibraryState on FitCore {
     exMuscleFilter = null;
     exDifficultyFilter = null;
     exEquipmentFilter = null;
+    exKindFilter = null;
     exFavouritesOnly = false;
     exArchivedOnly = false;
     notifyListeners();
@@ -70,6 +72,18 @@ mixin LibraryState on FitCore {
   void setDifficultyFilter(String d) {
     exDifficultyFilter = exDifficultyFilter == d ? null : d;
     notifyListeners();
+  }
+
+  void setKindFilter(String k) {
+    exKindFilter = exKindFilter == k ? null : k;
+    notifyListeners();
+  }
+
+  String kindOf(Exercise ex) {
+    if (ex.kind.isNotEmpty) return ex.kind;
+    if (kStretchIds.contains(ex.id)) return 'stretch';
+    if (isCardio(ex.id) || kCardioExtras.contains(ex.id)) return 'cardio';
+    return kCalisthenicsEquipment.contains(ex.equipment) ? 'calisthenics' : 'strength';
   }
 
   void setEquipmentFilter(String e) {
@@ -101,6 +115,7 @@ mixin LibraryState on FitCore {
       }
       if (exDifficultyFilter != null && ex.difficulty != exDifficultyFilter) return false;
       if (exEquipmentFilter != null && ex.equipment != exEquipmentFilter) return false;
+      if (exKindFilter != null && kindOf(ex) != exKindFilter) return false;
       return true;
     }).toList();
     final muscle = exMuscleFilter;
@@ -138,6 +153,8 @@ mixin LibraryState on FitCore {
     List<String> steps = const [],
     String mode = '',
     List<String> secondary = const [],
+    List<String> aliases = const [],
+    String kind = '',
   }) {
     final id = 'c${DateTime.now().microsecondsSinceEpoch}-${_customSeq++}';
     customExercises.add(Exercise(
@@ -150,6 +167,8 @@ mixin LibraryState on FitCore {
       art: '',
       steps: _cleanSteps(steps),
       mode: kExerciseModeIds.contains(mode) ? mode : '',
+      aliases: _cleanAliases(name, aliases),
+      kind: kExerciseKinds.contains(kind) ? kind : '',
     ));
     _persist();
     notifyListeners();
@@ -165,6 +184,8 @@ mixin LibraryState on FitCore {
     required List<String> steps,
     required String mode,
     List<String> secondary = const [],
+    List<String>? aliases,
+    String? kind,
   }) {
     final i = customExercises.indexWhere((e) => e.id == id);
     if (i < 0 || name.trim().isEmpty) return;
@@ -176,6 +197,8 @@ mixin LibraryState on FitCore {
       difficulty: difficulty,
       steps: _cleanSteps(steps),
       mode: kExerciseModeIds.contains(mode) ? mode : '',
+      aliases: _cleanAliases(name, aliases ?? customExercises[i].aliases),
+      kind: kind == null ? null : (kExerciseKinds.contains(kind) ? kind : ''),
     );
     modeOverride.remove(id);
     _persist();
@@ -186,6 +209,14 @@ mixin LibraryState on FitCore {
         for (final m in kMuscles)
           if (m.id != primary && raw.contains(m.id)) m.id,
       ];
+
+  static List<String> _cleanAliases(String name, List<String> raw) {
+    final seen = {name.trim().toLowerCase()};
+    return [
+      for (final a in raw.map((a) => a.trim()))
+        if (a.isNotEmpty && seen.add(a.toLowerCase())) a,
+    ];
+  }
 
   static final _bullet = RegExp(r'^(\d+[.)]|[-•*])\s*');
 

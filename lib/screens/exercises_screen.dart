@@ -1,7 +1,9 @@
 import 'dart:io';
+import 'dart:math' as math;
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 import '../catalog/exercise_catalog.dart';
@@ -131,7 +133,8 @@ class _ExercisesScreenState extends State<ExercisesScreen> {
       (fit.activePlaceId.isEmpty ? 0 : 1) +
       (fit.exMuscleFilter == null ? 0 : 1) +
       (fit.exEquipmentFilter == null ? 0 : 1) +
-      (fit.exDifficultyFilter == null ? 0 : 1);
+      (fit.exDifficultyFilter == null ? 0 : 1) +
+      (fit.exKindFilter == null ? 0 : 1);
 
   void _clearAll() {
     _c.clear();
@@ -369,11 +372,17 @@ void showCreateExerciseSheet(BuildContext context,
   final gc = context.gc;
   final nameCtrl = TextEditingController(text: editing?.name ?? initialName.trim());
   final stepsCtrl = TextEditingController(text: editing?.steps.join('\n') ?? '');
+  final aliasCtrl = TextEditingController(text: editing?.aliases.join(', ') ?? '');
+  final nameFocus = FocusNode();
+  final scroll = ScrollController();
+  bool nameMissing = false;
+  int shakes = 0;
   String muscle = editing?.primary ?? kMuscles.first.id;
   final secondary = <String>{...?editing?.secondary};
   String equipment = editing?.equipment ?? kEquipment.first;
   String difficulty = editing?.difficulty ?? kDifficulties.first;
   String mode = editing?.mode ?? '';
+  String kind = editing?.kind ?? '';
   bool advanced = false;
   String? mediaPath;
   bool busy = false;
@@ -395,8 +404,24 @@ void showCreateExerciseSheet(BuildContext context,
             } catch (_) {}
           }
 
+          void flagName() {
+            HapticFeedback.heavyImpact();
+            Future.delayed(const Duration(milliseconds: 120), HapticFeedback.mediumImpact);
+            setSheet(() {
+              nameMissing = true;
+              shakes++;
+            });
+            nameFocus.requestFocus();
+            if (scroll.hasClients) {
+              scroll.animateTo(0, duration: const Duration(milliseconds: 380), curve: Curves.easeOutCubic);
+            }
+          }
+
+          final nameLine = BorderSide(color: nameMissing ? gc.danger : gc.border, width: nameMissing ? 1.5 : 1);
+          final nameFocusLine = BorderSide(color: nameMissing ? gc.danger : gc.accent, width: nameMissing ? 1.5 : 1);
           return SafeArea(
             child: SingleChildScrollView(
+              controller: scroll,
               padding: const EdgeInsets.fromLTRB(20, 18, 20, 20),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -405,23 +430,44 @@ void showCreateExerciseSheet(BuildContext context,
                   Text(titleCase(editing == null ? t.newExercise : t.editExercise),
                       style: AppTheme.f(19, weight: FontWeight.w800, color: gc.text)),
                   const SizedBox(height: 16),
-                  TextField(
-                    controller: nameCtrl,
-                    autofocus: editing == null,
-                    style: AppTheme.f(15, weight: FontWeight.w500, color: gc.text),
-                    cursorColor: gc.accent,
-                    textCapitalization: TextCapitalization.words,
-                    decoration: InputDecoration(
-                      hintText: t.exerciseName,
-                      hintStyle: AppTheme.f(15, weight: FontWeight.w500, color: gc.textTertiary),
-                      filled: true,
-                      fillColor: gc.bgRaised2,
-                      contentPadding: const EdgeInsets.all(14),
-                      enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(14), borderSide: BorderSide(color: gc.border)),
-                      focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(14), borderSide: BorderSide(color: gc.accent)),
+                  _Shake(
+                    count: shakes,
+                    child: TextField(
+                      controller: nameCtrl,
+                      focusNode: nameFocus,
+                      autofocus: editing == null,
+                      style: AppTheme.f(15, weight: FontWeight.w500, color: gc.text),
+                      cursorColor: nameMissing ? gc.danger : gc.accent,
+                      textCapitalization: TextCapitalization.words,
+                      onChanged: (v) {
+                        if (nameMissing && v.trim().isNotEmpty) setSheet(() => nameMissing = false);
+                      },
+                      decoration: InputDecoration(
+                        hintText: t.exerciseName,
+                        hintStyle: AppTheme.f(15, weight: FontWeight.w500, color: gc.textTertiary),
+                        filled: true,
+                        fillColor: nameMissing ? gc.danger.withValues(alpha: 0.08) : gc.bgRaised2,
+                        contentPadding: const EdgeInsets.all(14),
+                        enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(14), borderSide: nameLine),
+                        focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(14), borderSide: nameFocusLine),
+                      ),
                     ),
+                  ),
+                  AnimatedSize(
+                    duration: const Duration(milliseconds: 220),
+                    curve: Curves.easeOutCubic,
+                    alignment: Alignment.topLeft,
+                    child: nameMissing
+                        ? Padding(
+                            padding: const EdgeInsets.only(top: 8, left: 4),
+                            child: Row(children: [
+                              Icon(PhosphorIconsFill.warningCircle, size: 15, color: gc.danger),
+                              const SizedBox(width: 6),
+                              Text(t.exerciseNameMissing,
+                                  style: AppTheme.f(12.5, weight: FontWeight.w600, color: gc.danger)),
+                            ]),
+                          )
+                        : const SizedBox(width: double.infinity),
                   ),
                   const SizedBox(height: 16),
                   _filterLabel(gc, t.muscleFilter),
@@ -504,6 +550,27 @@ void showCreateExerciseSheet(BuildContext context,
                       ),
                   ]),
                   const SizedBox(height: 16),
+                  _filterLabel(gc, t.kindLabel),
+                  const SizedBox(height: 8),
+                  Builder(builder: (_) {
+                    final shown = kind.isNotEmpty
+                        ? kind
+                        : mode == 'cardio'
+                            ? 'cardio'
+                            : (kCalisthenicsEquipment.contains(equipment) ? 'calisthenics' : 'strength');
+                    return Wrap(spacing: 8, runSpacing: 8, children: [
+                      for (final k in kExerciseKinds)
+                        Pill(
+                          label: t.exerciseKind(k),
+                          bg: shown == k ? gc.ember : gc.bgRaised2,
+                          fg: shown == k ? gc.onEmber : gc.textSecondary,
+                          onTap: () => setSheet(() => kind = k),
+                          vPad: 7,
+                          fontSize: 12,
+                        ),
+                    ]);
+                  }),
+                  const SizedBox(height: 16),
                   _filterLabel(gc, t.howToLabel),
                   const SizedBox(height: 8),
                   TextField(
@@ -516,6 +583,26 @@ void showCreateExerciseSheet(BuildContext context,
                     cursorColor: gc.accent,
                     decoration: InputDecoration(
                       hintText: t.howToHint,
+                      hintStyle: AppTheme.f(14, weight: FontWeight.w500, color: gc.textTertiary),
+                      filled: true,
+                      fillColor: gc.bgRaised2,
+                      contentPadding: const EdgeInsets.all(14),
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(14), borderSide: BorderSide(color: gc.border)),
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(14), borderSide: BorderSide(color: gc.accent)),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  _filterLabel(gc, t.aliasesLabel),
+                  const SizedBox(height: 8),
+                  TextField(
+                    controller: aliasCtrl,
+                    style: AppTheme.f(14, weight: FontWeight.w500, color: gc.text),
+                    cursorColor: gc.accent,
+                    textCapitalization: TextCapitalization.words,
+                    decoration: InputDecoration(
+                      hintText: t.aliasesHint,
                       hintStyle: AppTheme.f(14, weight: FontWeight.w500, color: gc.textTertiary),
                       filled: true,
                       fillColor: gc.bgRaised2,
@@ -621,9 +708,11 @@ void showCreateExerciseSheet(BuildContext context,
                   PrimaryButton(
                     label: editing == null ? t.addExercise : t.saveChanges,
                     onTap: () async {
-                      if (busy || nameCtrl.text.trim().isEmpty) return;
+                      if (busy) return;
+                      if (nameCtrl.text.trim().isEmpty) return flagName();
                       busy = true;
                       final steps = stepsCtrl.text.split('\n');
+                      final aliases = aliasCtrl.text.split(RegExp(r'[,;\n]'));
                       if (editing != null) {
                         fit.updateCustomExercise(editing.id,
                             name: nameCtrl.text,
@@ -632,7 +721,9 @@ void showCreateExerciseSheet(BuildContext context,
                             difficulty: difficulty,
                             steps: steps,
                             mode: mode,
-                            secondary: secondary.toList());
+                            secondary: secondary.toList(),
+                            aliases: aliases,
+                            kind: kind);
                         Navigator.pop(sheetCtx);
                         return;
                       }
@@ -643,7 +734,9 @@ void showCreateExerciseSheet(BuildContext context,
                           difficulty: difficulty,
                           steps: steps,
                           mode: mode,
-                          secondary: secondary.toList());
+                          secondary: secondary.toList(),
+                          aliases: aliases,
+                          kind: kind);
                       if (mediaPath != null) {
                         await fit.attachExerciseMedia(id, mediaPath!);
                       }
@@ -666,6 +759,23 @@ void showCreateExerciseSheet(BuildContext context,
   );
 }
 
+
+class _Shake extends StatelessWidget {
+  const _Shake({required this.count, required this.child});
+  final int count;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) => TweenAnimationBuilder<double>(
+        tween: Tween(begin: 0, end: count.toDouble()),
+        duration: const Duration(milliseconds: 460),
+        builder: (_, v, child) {
+          final p = v - v.floorToDouble();
+          return Transform.translate(offset: Offset(math.sin(p * math.pi * 6) * 8 * (1 - p), 0), child: child);
+        },
+        child: child,
+      );
+}
 
 void _clearFilters(VoidCallback? onClear) {
   fit.clearExFilters();
@@ -711,6 +821,14 @@ void showExerciseFilters(BuildContext context, {VoidCallback? onClear}) {
                   fit.goPlaces();
                 }),
               ], gc, hPad: 14, vPad: 8, fontSize: 13),
+              const SizedBox(height: 16),
+              _filterLabel(gc, t.kindLabel),
+              const SizedBox(height: 8),
+              _chipRow([
+                for (final k in kExerciseKinds)
+                  _FilterChipData(t.exerciseKind(k), fit.exKindFilter == k,
+                      () => setSheet(() => fit.setKindFilter(k))),
+              ], gc, hPad: 12, vPad: 6, fontSize: 12),
               const SizedBox(height: 16),
               _filterLabel(gc, t.muscleFilter),
               const SizedBox(height: 8),

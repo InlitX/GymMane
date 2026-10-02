@@ -70,8 +70,10 @@ ExerciseFilter exerciseSearch(String query) {
   return (e) {
     final label = exerciseName(e);
     if (e.name.toLowerCase().contains(plain) || label.toLowerCase().contains(plain)) return true;
+    if (e.aliases.any((a) => a.toLowerCase().contains(plain))) return true;
     if (key.isEmpty) return false;
     if (_keyOf(e.name).contains(key) || _keyOf(label).contains(key)) return true;
+    if (e.aliases.any((a) => _keyOf(a).contains(key))) return true;
     return kExerciseAliases[e.name]?.any((a) => _keyOf(a).contains(key)) ?? false;
   };
 }
@@ -141,6 +143,10 @@ Exercise? matchExercise(String name, Iterable<Exercise> pool) {
 
   for (final e in pool) {
     if (_keyOf(e.name) == key) return e;
+  }
+
+  for (final e in pool) {
+    if (e.aliases.any((a) => _keyOf(a) == key)) return e;
   }
 
   final alias = _aliasIndex[sortedKey(name)];

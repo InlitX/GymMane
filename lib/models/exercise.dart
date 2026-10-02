@@ -18,6 +18,8 @@ class Exercise {
     required this.art,
     required this.steps,
     this.mode = '',
+    this.aliases = const [],
+    this.kind = '',
   });
   final String id;
   final String name;
@@ -28,6 +30,8 @@ class Exercise {
   final String art;
   final List<String> steps;
   final String mode;
+  final List<String> aliases;
+  final String kind;
 
   Exercise copyWith({
     String? name,
@@ -37,6 +41,8 @@ class Exercise {
     String? difficulty,
     List<String>? steps,
     String? mode,
+    List<String>? aliases,
+    String? kind,
   }) =>
       Exercise(
         id: id,
@@ -48,6 +54,8 @@ class Exercise {
         art: art,
         steps: steps ?? this.steps,
         mode: mode ?? this.mode,
+        aliases: aliases ?? this.aliases,
+        kind: kind ?? this.kind,
       );
 
   Map<String, dynamic> toJson() => {
@@ -59,6 +67,8 @@ class Exercise {
         if (secondary.isNotEmpty) 's': secondary,
         if (steps.isNotEmpty) 'st': steps,
         if (mode.isNotEmpty) 'k': mode,
+        if (aliases.isNotEmpty) 'a': aliases,
+        if (kind.isNotEmpty) 'ty': kind,
       };
   factory Exercise.fromJson(Map<String, dynamic> j) => Exercise(
         id: j['id'] as String,
@@ -70,10 +80,14 @@ class Exercise {
         art: '',
         steps: ((j['st'] as List?) ?? const []).whereType<String>().toList(),
         mode: kExerciseModeIds.contains(j['k']) ? j['k'] as String : '',
+        aliases: ((j['a'] as List?) ?? const []).whereType<String>().toList(),
+        kind: kExerciseKinds.contains(j['ty']) ? j['ty'] as String : '',
       );
 }
 
 const List<String> kExerciseModeIds = ['cardio', 'time'];
+
+const List<String> kExerciseKinds = ['strength', 'calisthenics', 'cardio', 'stretch'];
 
 class ToolMeta {
   const ToolMeta(this.id, this.name, this.desc);
