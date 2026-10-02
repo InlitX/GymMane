@@ -66,7 +66,6 @@
   "chooseFocus": "초점 선택",
   "buildSession": "운동 구성",
   "tapMuscles": "운동할 근육을 탭하세요 — 앞면과 뒷면.",
-  "noMusclesYet": "선택된 근육이 없습니다 — 몸을 탭해 시작하세요.",
   "continueBtn": "계속",
   "nothingForFocus": "이 초점에 맞는 운동이 없습니다",
   "goBackPick": "뒤로 가서 라이브러리에 운동이 있는 근육을 선택하세요.",
@@ -99,15 +98,6 @@
   "finishSession": "운동 종료",
   "setDone": "세트 완료",
   "nextExercise": "다음 운동",
-  "skipExercise": "이 운동을 건너뛸까요?",
-  "skipExerciseBody": "완료로 표시한 세트가 없어 “{name}”에 기록되는 내용이 없습니다.",
-  "@skipExerciseBody": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
   "dropExerciseAction": "운동 빼기",
   "restOff": "끔",
   "setCol": "#",
@@ -197,41 +187,9 @@
   "notifAlertChannelWhy": "휴식이 끝나는 즉시 배너를 표시합니다",
   "restOverTitle": "휴식 종료",
   "restOverBody": "다시 시작해요 — 다음 세트가 기다립니다.",
-  "totalVolume30d": "총 볼륨 · 30일",
-  "volumeCumulative": "지금까지 들어 올린 모든 중량의 누계",
-  "volumeChartEmpty": "운동을 기록하면 그래프가 여기서 시작됩니다",
-  "weekRhythm": "주간 리듬",
-  "weekRhythmHint": "실제로 운동하는 요일입니다.",
-  "weekRhythmBest": "{day}은(는) 당신의 날",
-  "@weekRhythmBest": {
-    "placeholders": {
-      "day": {
-        "type": "String"
-      }
-    }
-  },
-  "weekRhythmEmpty": "운동을 기록하면 주간 패턴이 여기에 나타납니다.",
-  "allTime": "전체 기간",
   "allTimeSessions": "운동",
   "allTimeTime": "시간",
-  "allTimeVolume": "들어 올림",
   "allTimeSets": "세트",
-  "allTimeAvg": "운동당 평균 {time}",
-  "@allTimeAvg": {
-    "placeholders": {
-      "time": {
-        "type": "String"
-      }
-    }
-  },
-  "hoursShort": "{n}시간",
-  "@hoursShort": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
   "consistency": "꾸준함",
   "sessionsLogged": "{n, plural, =1{운동 {n}회 기록} other{운동 {n}회 기록}}",
   "@sessionsLogged": {
@@ -250,8 +208,6 @@
     }
   },
   "bodyweight": "체중",
-  "notLoggedYet": "아직 기록 없음",
-  "logShort": "+ 기록",
   "logBodyweight": "체중 기록",
   "trackWeight": "시간에 따른 체중 변화를 추적하세요",
   "muscleMap": "근육 지도",
@@ -278,9 +234,7 @@
     }
   },
   "muscleSplit": "근육 분포",
-  "splitEmpty": "운동하면 근육군별 볼륨 분포를 볼 수 있습니다.",
   "personalRecords": "개인 기록",
-  "prEmpty": "세트를 기록하면 개인 기록이 여기에 표시됩니다.",
   "strength1rm": "근력 · 예상 1RM",
   "strengthEmpty": "같은 운동을 두 번 기록하면 근력 곡선이 표시됩니다.",
   "oneRmEst": "예상 1RM: {w}",
@@ -304,7 +258,6 @@
     }
   },
   "bodyweightHistory": "기록",
-  "noBodyweightYet": "아직 기록이 없습니다.",
   "exercisesCaps": "운동",
   "timeCaps": "시간",
   "libraryCount": "{n, plural, =1{라이브러리에 운동 {n}개} other{라이브러리에 운동 {n}개}}",
@@ -318,6 +271,11 @@
   "searchExercises": "운동 검색",
   "muscleFilter": "근육",
   "levelFilter": "레벨",
+  "kindLabel": "TYPE",
+  "kindStrength": "Strength",
+  "kindCalisthenics": "Calisthenics",
+  "kindCardio": "Cardio",
+  "kindStretch": "Stretching",
   "newExercise": "새 운동",
   "exerciseName": "운동 이름",
   "equipmentLabel": "장비",
@@ -339,14 +297,6 @@
   "noHistory": "아직 기록된 운동이 없습니다. 이 운동을 수행해 기록을 쌓으세요.",
   "notes": "메모",
   "notePlaceholder": "팁, 세팅, 느낌…",
-  "showAllNotes": "메모 {n}개 모두 보기",
-  "@showAllNotes": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
   "notHere": "{place}에 {gear} 없음",
   "@notHere": {
     "placeholders": {
@@ -361,21 +311,11 @@
   "notHereWhy": "오늘 실제로 사용할 수 있는 것으로 바꾸세요.",
   "altHere": "여기서 할 수 있는 운동",
   "places": "내 장소",
-  "placesShort": "장소",
   "placesHint": "각 장소의 장비를 지정하면 그곳에서 할 수 있는 운동만 라이브러리에 표시됩니다.",
   "placeAll": "어디서나",
   "placeNew": "새 장소",
-  "placeNameLabel": "이름",
   "placeNamePlaceholder": "집, 헬스장, 공원…",
   "placeGearLabel": "사용 가능한 장비",
-  "placeGearCount": "{n, plural, =0{선택한 장비 없음} =1{장비 1종} other{장비 {n}종}}",
-  "@placeGearCount": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
   "placeExercises": "여기서 운동 {n}개",
   "@placeExercises": {
     "placeholders": {
@@ -569,7 +509,6 @@
   },
   "share": "공유",
   "sharePick": "무엇을 보여줄까요?",
-  "shareSession": "최근 운동",
   "shareStreak": "연속 기록과 꾸준함",
   "shareBody": "운동한 근육",
   "shareCompare": "전 / 후",
@@ -579,8 +518,6 @@
   "shareStreakLabel": "연속 일수",
   "shareSessionsLabel": "운동",
   "shareVolumeLabel": "볼륨",
-  "shareSetsLabel": "세트",
-  "shareNothing": "먼저 운동을 기록하세요 — 아직 보여줄 내용이 없습니다",
   "restForExercise": "이 운동의 휴식",
   "restUsingDefault": "기본 시간 사용",
   "restCustom": "이 운동에만",
@@ -665,7 +602,6 @@
     }
   },
   "drop": "빼기",
-  "addToWorkout": "운동 추가",
   "resetData": "내 모든 데이터 삭제",
   "resetTitle": "모두 삭제할까요?",
   "resetBody": "운동, 기록, 루틴, 메모, 프로필이 모두 삭제됩니다. 되돌릴 수 없으니 필요하다면 먼저 백업을 내보내세요.",
@@ -758,11 +694,9 @@
   "removePhoto": "사진 제거",
   "takePhoto": "사진 촬영",
   "chooseGallery": "갤러리에서 선택",
-  "backupCopied": "백업을 클립보드에 복사했습니다",
   "backupImported": "백업을 가져왔습니다",
   "backupFailed": "이 백업을 읽을 수 없습니다",
   "nothingToExport": "아직 내보낼 내용이 없습니다 — 먼저 운동을 기록하세요",
-  "athlete": "운동선수",
   "calculatorsCount": "운동용 계산기 {n}개",
   "@calculatorsCount": {
     "placeholders": {
@@ -787,17 +721,6 @@
   "@perSideCount": {
     "placeholders": {
       "n": {
-        "type": "int"
-      }
-    }
-  },
-  "rampSet": "{pct} · {reps}회",
-  "@rampSet": {
-    "placeholders": {
-      "pct": {
-        "type": "String"
-      },
-      "reps": {
         "type": "int"
       }
     }
@@ -891,27 +814,15 @@
     }
   },
   "exercisesInsideWhy": "각 운동에 애니메이션과 단계별 설명이 있습니다.",
-  "calculatorsInside": "계산기 6개",
-  "calculatorsInsideWhy": "1RM, 원판, BMI, 칼로리, 체지방, 워밍업 — 모두 공개된 공식에 기반합니다.",
+  "calculatorsInside": "8 calculators",
+  "calculatorsInsideWhy": "1RM, plates, BMI, calories, body fat, warm-up, RPE load and DOTS strength level — all with published formulas.",
   "mathInside": "투명한 계산",
   "mathInsideWhy": "볼륨, 기록, 세트는 사용자의 실제 데이터로 계산됩니다. 장식용 수치는 없습니다.",
-  "yourNumbers": "내 수치",
-  "sessionsCaps": "운동",
-  "liftedCaps": "들어 올림",
   "streakCaps": "연속",
   "daysUnit": "{n, plural, =1{일} other{일}}",
   "@daysUnit": {
     "placeholders": {
       "n": {
-        "type": "int"
-      }
-    }
-  },
-  "restDefaultLabel": "휴식 타이머",
-  "restDefault": "기본값: {s}초 — 설정에서 변경",
-  "@restDefault": {
-    "placeholders": {
-      "s": {
         "type": "int"
       }
     }
@@ -978,7 +889,6 @@
   "keepScreenOn": "운동 중에는 화면 켜 두기",
   "lockWorkout": "화면 잠금",
   "unlockWorkout": "잠금 해제",
-  "lockedCaps": "잠김",
   "holdToUnlock": "길게 눌러 잠금 해제",
   "liveChannel": "진행 중인 운동",
   "liveChannelWhy": "운동 중에 현재 운동, 세트, 휴식 타이머를 보여 줍니다",
@@ -1028,22 +938,15 @@
   "autoWarmupHint": "운동을 열 때 단계별 워밍업 세트를 추가합니다.",
   "trainReminder": "운동 알림",
   "trainReminderHint": "이 시간에, 루틴이 예정된 날에만 알림을 보냅니다.",
+  "reminderExactTime": "Exact time",
+  "toastSoundSetting": "Notice sound",
+  "toastSoundHint": "A soft chime when a notice pops up at the top.",
   "notifTrainChannel": "운동 알림",
   "notifTrainChannelWhy": "계획한 날에 운동하도록 알려줍니다.",
   "notifTrainTitle": "운동할 시간입니다",
   "notifTrainBody": "루틴이 기다리고 있습니다.",
-  "exportCatalog": "운동 목록 내보내기",
-  "importRoutine": "루틴 가져오기(JSON)",
   "planIntro": "이 목록의 운동만 사용해 운동 루틴을 만들어 주세요.",
   "planFormat": "다음 형식의 JSON으로만 답하세요:",
-  "planImported": "{n, plural, =1{루틴에 운동 {n}개 추가됨} other{루틴에 운동 {n}개 추가됨}}",
-  "@planImported": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
   "planNothing": "이 파일의 운동이 라이브러리와 일치하지 않습니다",
   "planFailed": "이 파일은 GymMane이 읽을 수 있는 루틴이 아닙니다",
   "routineGroup": "그룹",
@@ -1111,17 +1014,12 @@
     }
   },
   "logRpe": "운동 강도 기록(RPE)",
-  "rpeTitle": "운동 강도(RPE)",
   "rpeHint": "10 = 더 이상 반복 불가; 8 = 약 2회 여유.",
   "superset": "슈퍼세트",
   "supersetLink": "다음과 연결",
   "supersetHint": "연결된 운동 사이에는 휴식 없이 바로 다음 운동으로 넘어갑니다.",
   "aiRoutine": "AI 루틴",
   "aiIntro": "GymMane은 AI와 직접 통신하지 않습니다. 운동 목록을 내보내고 이미 사용하는 AI 도우미에 붙여넣은 뒤 응답을 다시 가져옵니다. 어떤 데이터도 자동으로 휴대전화 밖으로 나가지 않습니다.",
-  "aiStep1": "운동 목록을 내보냅니다. 장소를 선택했다면 그곳에서 할 수 있는 운동만 포함됩니다.",
-  "aiStep2": "이 파일을 원하는 AI에 주고 루틴을 요청하세요.",
-  "aiStep3": "응답을 파일로 저장하세요 — JSON 또는 일반 텍스트 모두 가능합니다.",
-  "aiStep4": "여기에 가져오세요. 이름을 라이브러리와 비교해 루틴을 만듭니다.",
   "aiMissing": "{n, plural, =1{라이브러리에 없는 이름 1개} other{라이브러리에 없는 이름 {n}개}}",
   "@aiMissing": {
     "placeholders": {
@@ -1154,7 +1052,6 @@
   "awardHours50Name": "50시간",
   "awardHours50Line": "운동에 50시간을 보냈습니다.",
   "awardsTitle": "메달",
-  "awardWon": "획득",
   "yearTitle": "나의 1년",
   "yearBestMonth": "최고의 달",
   "yearMonths": "개월",
@@ -1163,29 +1060,19 @@
   "awardNice": "좋아요!",
   "awardSaveImage": "이미지 저장",
   "awardSaved": "갤러리에 저장됨",
-  "awardStreakBottom": "연속",
-  "awardStreak7Top": "7일",
   "awardStreak7Name": "7일",
   "awardStreak7Line": "하루도 빠짐없이 일주일.",
-  "awardStreak30Top": "30일",
   "awardStreak30Name": "30일",
   "awardStreak30Line": "한 달 연속. 이제 습관이 되었습니다.",
-  "awardWorkouts100Top": "100",
-  "awardWorkouts100Bottom": "운동",
   "awardWorkouts100Name": "운동 100회",
   "awardWorkouts100Line": "운동 100회를 처음부터 끝까지 기록했습니다.",
-  "awardTonnes100Top": "100",
-  "awardTonnes100Bottom": "톤",
   "awardTonnes100Name": "100톤",
   "awardTonnes100Line": "지금까지 든 총 중량이 100,000kg에 도달했습니다.",
-  "awardSets1000Top": "1,000",
-  "awardSets1000Bottom": "세트",
   "awardSets1000Name": "1,000세트",
   "awardSets1000Line": "한 세트씩 쌓아 1,000세트까지.",
   "profile": "프로필",
   "editProfile": "프로필 수정",
   "pickBadge": "배지",
-  "badgeTitle": "내 배지",
   "statWorkouts": "운동",
   "statTrained": "운동 시간",
   "statSets": "세트",
@@ -1196,10 +1083,8 @@
   "unitDays": "일",
   "snapshots": "사진",
   "snapNow": "지금 찍기",
-  "calendarLegend": "운동 · 사진",
   "addCover": "커버 추가",
   "addTodayWidget": "오늘 운동 완료 여부",
-  "monthTitle": "이번 달",
   "photosCard": "내 사진",
   "handleLabel": "사용자 이름",
   "setupTitle": "이 항목을 입력하면 나머지 페이지가 자동으로 채워집니다",
@@ -1232,17 +1117,6 @@
   "@awardWonOn": {
     "placeholders": {
       "date": {
-        "type": "String"
-      }
-    }
-  },
-  "awardProgressLabel": "{value}/{goal}",
-  "@awardProgressLabel": {
-    "placeholders": {
-      "value": {
-        "type": "String"
-      },
-      "goal": {
         "type": "String"
       }
     }
@@ -1325,7 +1199,22 @@
       }
     }
   },
-  "badgeHint": "색상을 선택하거나 현재 색상을 탭해 제거하세요. 나만을 위한 기능이며 인증도 결제도 없습니다.",
+  "photosSelected": "{n} selected",
+  "deletePhotosTitle": "Delete {n} photos?",
+  "@photosSelected": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "@deletePhotosTitle": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "momentsEmptyHint": "헬스장, 보드, 원판을 끼운 바 등 기억하고 싶은 것을 촬영하세요. 사진은 휴대전화에만 남고 본인만 볼 수 있습니다.",
   "awardStreak100Line": "100일 연속. 이제 동기가 아니라 습관입니다.",
   "coverLabel": "커버",
@@ -1380,7 +1269,6 @@
   "moreOptions": "더 보기",
   "suggestInWorkouts": "빠른 운동에서 추천",
   "suggestInWorkoutsHint": "끄면 추천에 나오지 않아요. 직접 추가는 계속 할 수 있어요.",
-  "dontSuggest": "다시 추천하지 않기",
   "onbPlaceTitle": "어디서 운동하나요?",
   "onbPlaceWhy": "운동하는 장소를 모두 골라 주세요. 장소마다 할 수 있는 운동만 추천할게요.",
   "onbPlaceGear": "그곳에 무엇이 있나요?",
@@ -1435,7 +1323,6 @@
   "planSetsHint": "각 세트의 종류, 횟수, 무게를 고르세요. 무게를 자동으로 두면 지난 운동에서 시작해요.",
   "autoValue": "자동",
   "clearPlan": "계획 지우기",
-  "planChip": "계획",
   "shareRoutine": "루틴 공유",
   "shareWeek": "내 한 주 공유",
   "shareWeekHint": "모든 루틴과 각 루틴의 요일.",
@@ -1549,9 +1436,9 @@
   "shareIntroTitle": "이 루틴 공유하기",
   "shareIntroBody": "연인, 친구, 가족에게 보내 보세요. GymMane으로 열리는 작은 파일이 가고, 세트와 무게까지 한 번에 추가돼요.",
   "removedFromRoutine": "루틴에서 뺐어요",
-  "radarTitle": "이번 달",
+  "radarTitle": "Last 30 days",
   "radarHint": "더 운동이 필요한 부위를 확인하세요",
-  "radarEmpty": "이번 달 운동하면 균형을 볼 수 있어요",
+  "radarEmpty": "Train a few days to see your balance",
   "radarBalanced": "지금까지 균형이 좋아요",
   "radarFocus": "더 필요해요: {list}",
   "@radarFocus": {
@@ -1566,7 +1453,6 @@
   "countdownSetting": "시작 전 카운트다운",
   "effortSetting": "세트별 강도 기록",
   "effortHint": "RPE: 10은 한 번도 더 못 하는 상태, 8은 두 번 더 할 수 있던 상태예요. RIR은 남아 있던 반복 수예요. 기록된 세트는 예상 1RM에 RPE 표를 사용해요.",
-  "rirTitle": "여력 (RIR)",
   "rirHint": "0은 한 번도 더 못 하는 상태, 2는 두 번 더 할 수 있던 상태예요.",
   "addWeekWidget": "이번 주 위젯 추가",
   "gamificationSetting": "메달과 레벨",
@@ -1785,5 +1671,125 @@
   "goalOverdue": "기한 지남",
   "goalDeadline": "기한",
   "goalNoDeadline": "기한 없음",
-  "goalRemove": "목표 삭제"
+  "goalRemove": "목표 삭제",
+  "exerciseNameMissing": "Give it a name",
+  "aliasesLabel": "Also called (optional)",
+  "aliasesHint": "Other names, separated by commas",
+  "alsoCalled": "Also: {names}",
+  "@alsoCalled": {
+    "placeholders": {
+      "names": {
+        "type": "String"
+      }
+    }
+  },
+  "addToRoutine": "Add to routine",
+  "inRoutines": "{n, plural, =0{Not in any routine yet} =1{In 1 routine} other{In {n} routines}}",
+  "@inRoutines": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "alreadyInRoutine": "Already in it",
+  "restInRoutine": "Rest in this routine",
+  "restInRoutineHint": "Same as the exercise",
+  "restInRoutineReset": "Only here · tap to undo",
+  "swapExercise": "Swap exercise",
+  "swapShort": "Swap",
+  "swapHint": "Instead of {name}, only for today. When you finish, you can keep it in the routine.",
+  "@swapHint": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "swapKeepsDone": "The sets you already did stay logged; the new one picks up the rest.",
+  "swapSameMuscle": "Same muscle · {muscle}",
+  "@swapSameMuscle": {
+    "placeholders": {
+      "muscle": {
+        "type": "String"
+      }
+    }
+  },
+  "swapDoneBefore": "Done before",
+  "multiPlanSettingHint": "More than one routine on the same weekday.",
+  "levelHintsHint": "When an exercise gets easy, it offers you the harder version.",
+  "focusCardHint": "Today’s routine, at the top of Home.",
+  "gamificationHint": "Medals, your level and the celebration when you finish.",
+  "exerciseSettings": "Settings for this exercise",
+  "placeActiveNow": "You’re here",
+  "placeTapToUse": "tap to train here",
+  "intervalDays": "days",
+  "goalDaysShort": "{done}/{target} days",
+  "@goalDaysShort": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "target": {
+        "type": "int"
+      }
+    }
+  },
+  "toolNameRpe": "RPE load",
+  "toolTitleRpe": "Load by RPE",
+  "toolDescRpe": "Weight for the effort you want",
+  "toolNameDots": "Strength level",
+  "toolTitleDots": "Strength level (DOTS)",
+  "toolDescDots": "Your strength for your bodyweight",
+  "rpeResultHint": "For {reps} reps at RPE {rpe}",
+  "@rpeResultHint": {
+    "placeholders": {
+      "reps": {
+        "type": "int"
+      },
+      "rpe": {
+        "type": "String"
+      }
+    }
+  },
+  "rpeYourSet": "A set you just did",
+  "rpeGoal": "What you want to do",
+  "rpeOneRmLine": "Estimated 1RM: {value}",
+  "@rpeOneRmLine": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "rpeExplain": "RPE 10 means you couldn’t do one more; 8 means you had two left.",
+  "dotsBestLifts": "Your best lifts",
+  "dotsSquat": "SQUAT",
+  "dotsBench": "BENCH PRESS",
+  "dotsDeadlift": "DEADLIFT",
+  "dotsTotalLine": "Total: {value}",
+  "@dotsTotalLine": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "dotsExplain": "Compares your strength with anyone’s, whatever they weigh. Use your best single rep, or your estimated 1RM.",
+  "dotsLevel0": "Beginner",
+  "dotsLevel1": "Intermediate",
+  "dotsLevel2": "Advanced",
+  "dotsLevel3": "Very advanced",
+  "dotsLevel4": "Elite",
+  "rpeEffortLabel": "Effort (RPE)",
+  "restRowHint": "Between sets, unless the exercise has its own.",
+  "effortRowHint": "Log RPE or RIR on each set.",
+  "countdownHint": "3, 2, 1 before the first set.",
+  "keepScreenOnHint": "The screen stays on while you train.",
+  "demoSizeRowHint": "The exercise drawing during the workout.",
+  "demoLoopRowHint": "Whether the animation repeats or stops.",
+  "trainReminderRowHint": "A nudge on the days you train.",
+  "alarmSoundRowHint": "What plays when the rest ends.",
+  "alarmStyleRowHint": "Whether it rings in silent mode.",
+  "recommendedRowHint": "Exercises we suggest on Home."
 }
