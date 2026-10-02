@@ -133,9 +133,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get tapMuscles => 'اضغط على العضلات التي تريد تدريبها — من الأمام والخلف.';
 
   @override
-  String get noMusclesYet => 'لم تحدد أي عضلات بعد — اضغط على الجسم للبدء.';
-
-  @override
   String get continueBtn => 'متابعة';
 
   @override
@@ -193,14 +190,6 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get nextExercise => 'التمرين التالي';
-
-  @override
-  String get skipExercise => 'تخطي هذا التمرين؟';
-
-  @override
-  String skipExerciseBody(String name) {
-    return 'لم تحدد أي مجموعة كمكتملة، لذلك لن يتم تسجيل شيء لـ \"$name\".';
-  }
 
   @override
   String get dropExerciseAction => 'إزالة التمرين';
@@ -335,52 +324,13 @@ class AppLocalizationsAr extends AppLocalizations {
   String get restOverBody => 'عد إلى التمرين — المجموعة التالية تنتظرك.';
 
   @override
-  String get totalVolume30d => 'الحجم الإجمالي · 30 يومًا';
-
-  @override
-  String get volumeCumulative => 'المجموع التراكمي لكل الكيلوغرامات التي رفعتها';
-
-  @override
-  String get volumeChartEmpty => 'سجّل تمرينًا وسيبدأ المنحنى هنا';
-
-  @override
-  String get weekRhythm => 'إيقاع الأسبوع';
-
-  @override
-  String get weekRhythmHint => 'الأيام التي تتمرن فيها فعليًا.';
-
-  @override
-  String weekRhythmBest(String day) {
-    return '$day هو يومك';
-  }
-
-  @override
-  String get weekRhythmEmpty => 'سجّل تمرينًا وسيبدأ أسبوعك بالتشكل هنا.';
-
-  @override
-  String get allTime => 'منذ البداية';
-
-  @override
   String get allTimeSessions => 'التمارين';
 
   @override
   String get allTimeTime => 'الوقت';
 
   @override
-  String get allTimeVolume => 'مرفوع';
-
-  @override
   String get allTimeSets => 'المجموعات';
-
-  @override
-  String allTimeAvg(String time) {
-    return 'بمتوسط $time لكل تمرين';
-  }
-
-  @override
-  String hoursShort(int n) {
-    return '$n س';
-  }
 
   @override
   String get consistency => 'الاستمرارية';
@@ -403,12 +353,6 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get bodyweight => 'وزن الجسم';
-
-  @override
-  String get notLoggedYet => 'لم يُسجل بعد';
-
-  @override
-  String get logShort => '+ تسجيل';
 
   @override
   String get logBodyweight => 'تسجيل الوزن';
@@ -451,13 +395,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get muscleSplit => 'توزيع العضلات';
 
   @override
-  String get splitEmpty => 'تمرّن لترى كيف يتوزع حجم تمرينك بين مجموعات العضلات.';
-
-  @override
   String get personalRecords => 'الأرقام الشخصية';
-
-  @override
-  String get prEmpty => 'ستظهر أرقامك القياسية هنا مع تسجيل المجموعات.';
 
   @override
   String get strength1rm => 'القوة · 1RM مقدر';
@@ -491,9 +429,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get bodyweightHistory => 'السجل';
 
   @override
-  String get noBodyweightYet => 'لم يُسجل شيء بعد.';
-
-  @override
   String get exercisesCaps => 'التمارين';
 
   @override
@@ -518,6 +453,21 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get levelFilter => 'المستوى';
+
+  @override
+  String get kindLabel => 'النوع';
+
+  @override
+  String get kindStrength => 'قوة';
+
+  @override
+  String get kindCalisthenics => 'كاليستينكس';
+
+  @override
+  String get kindCardio => 'كارديو';
+
+  @override
+  String get kindStretch => 'إطالة';
 
   @override
   String get newExercise => 'تمرين جديد';
@@ -583,11 +533,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get notePlaceholder => 'ملاحظات، إعداد، شعور…';
 
   @override
-  String showAllNotes(int n) {
-    return 'عرض جميع الملاحظات ($n)';
-  }
-
-  @override
   String notHere(String gear, String place) {
     return 'لا يوجد $gear في $place';
   }
@@ -602,9 +547,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get places => 'أماكني';
 
   @override
-  String get placesShort => 'الأماكن';
-
-  @override
   String get placesHint => 'حدّد المعدات الموجودة في كل مكان وستعرض المكتبة فقط ما يمكنك فعله هناك.';
 
   @override
@@ -614,25 +556,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get placeNew => 'مكان جديد';
 
   @override
-  String get placeNameLabel => 'الاسم';
-
-  @override
   String get placeNamePlaceholder => 'المنزل، النادي، الحديقة…';
 
   @override
   String get placeGearLabel => 'المعدات المتاحة';
-
-  @override
-  String placeGearCount(int n) {
-    String _temp0 = intl.Intl.pluralLogic(
-      n,
-      locale: localeName,
-      other: '$n أنواع من المعدات',
-      one: 'نوع واحد من المعدات',
-      zero: 'لم يتم اختيار معدات',
-    );
-    return '$_temp0';
-  }
 
   @override
   String placeExercises(int n) {
@@ -988,9 +915,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get sharePick => 'ماذا تريد أن تعرض؟';
 
   @override
-  String get shareSession => 'آخر تمرين';
-
-  @override
   String get shareStreak => 'السلسلة والاستمرارية';
 
   @override
@@ -1016,12 +940,6 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get shareVolumeLabel => 'الحجم';
-
-  @override
-  String get shareSetsLabel => 'المجموعات';
-
-  @override
-  String get shareNothing => 'سجّل تمرينًا أولًا — لا يوجد شيء لعرضه بعد';
 
   @override
   String get restForExercise => 'الراحة لهذا التمرين';
@@ -1142,9 +1060,6 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get drop => 'إزالة';
-
-  @override
-  String get addToWorkout => 'إضافة تمرين';
 
   @override
   String get resetData => 'حذف جميع بياناتي';
@@ -1380,9 +1295,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get chooseGallery => 'اختر من المعرض';
 
   @override
-  String get backupCopied => 'تم نسخ النسخة الاحتياطية إلى الحافظة';
-
-  @override
   String get backupImported => 'تم استيراد النسخة الاحتياطية';
 
   @override
@@ -1390,9 +1302,6 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get nothingToExport => 'لا يوجد شيء لتصديره بعد — سجّل تمرينًا أولًا';
-
-  @override
-  String get athlete => 'رياضي';
 
   @override
   String calculatorsCount(int n) {
@@ -1438,11 +1347,6 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String perSideCount(int n) {
     return '× $n لكل جانب';
-  }
-
-  @override
-  String rampSet(String pct, int reps) {
-    return '$pct · $reps تكرارات';
   }
 
   @override
@@ -1675,11 +1579,11 @@ class AppLocalizationsAr extends AppLocalizations {
   String get exercisesInsideWhy => 'لكل تمرين رسوم متحركة وتعليمات خطوة بخطوة.';
 
   @override
-  String get calculatorsInside => '6 حاسبات';
+  String get calculatorsInside => '8 حاسبات';
 
   @override
   String get calculatorsInsideWhy =>
-      '1RM والأقراص ومؤشر كتلة الجسم والسعرات ودهون الجسم والإحماء — كلها مبنية على معادلات منشورة.';
+      '1RM والأقراص ومؤشر كتلة الجسم والسعرات ودهون الجسم والإحماء والوزن حسب RPE ومستوى القوة DOTS — كلها مبنية على معادلات منشورة.';
 
   @override
   String get mathInside => 'حسابات شفافة';
@@ -1689,29 +1593,12 @@ class AppLocalizationsAr extends AppLocalizations {
       'يتم حساب الحجم والأرقام القياسية والمجموعات من بياناتك أنت. لا شيء للزينة فقط.';
 
   @override
-  String get yourNumbers => 'أرقامك';
-
-  @override
-  String get sessionsCaps => 'التمارين';
-
-  @override
-  String get liftedCaps => 'مرفوع';
-
-  @override
   String get streakCaps => 'السلسلة';
 
   @override
   String daysUnit(int n) {
     String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: 'أيام', one: 'يوم');
     return '$_temp0';
-  }
-
-  @override
-  String get restDefaultLabel => 'مؤقت الراحة';
-
-  @override
-  String restDefault(int s) {
-    return 'الافتراضي: $s ث — غيّره من الإعدادات';
   }
 
   @override
@@ -1842,9 +1729,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get unlockWorkout => 'فتح القفل';
 
   @override
-  String get lockedCaps => 'مقفل';
-
-  @override
   String get holdToUnlock => 'اضغط مطولًا لفتح القفل';
 
   @override
@@ -1908,6 +1792,15 @@ class AppLocalizationsAr extends AppLocalizations {
   String get trainReminderHint => 'تذكير في هذا الوقت، فقط في الأيام التي يكون فيها روتينك مجدولًا.';
 
   @override
+  String get reminderExactTime => 'الوقت بالضبط';
+
+  @override
+  String get toastSoundSetting => 'صوت التنبيهات';
+
+  @override
+  String get toastSoundHint => 'نغمة خفيفة عند ظهور تنبيه في الأعلى.';
+
+  @override
   String get notifTrainChannel => 'تذكير بالتمرين';
 
   @override
@@ -1920,27 +1813,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get notifTrainBody => 'روتينك بانتظارك.';
 
   @override
-  String get exportCatalog => 'تصدير قائمة التمارين';
-
-  @override
-  String get importRoutine => 'استيراد روتين (JSON)';
-
-  @override
   String get planIntro => 'أنشئ لي روتين تدريب باستخدام التمارين الموجودة في هذه القائمة فقط.';
 
   @override
   String get planFormat => 'أجب بصيغة JSON فقط، بهذا الشكل:';
-
-  @override
-  String planImported(int n) {
-    String _temp0 = intl.Intl.pluralLogic(
-      n,
-      locale: localeName,
-      other: 'تمت إضافة $n تمارين إلى الروتين',
-      one: 'تمت إضافة تمرين واحد إلى الروتين',
-    );
-    return '$_temp0';
-  }
 
   @override
   String get planNothing => 'لا يوجد تمرين في هذا الملف يطابق مكتبتك';
@@ -2076,9 +1952,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get logRpe => 'تسجيل الجهد (RPE)';
 
   @override
-  String get rpeTitle => 'الجهد (RPE)';
-
-  @override
   String get rpeHint => '10 = لا يمكن تكرار إضافي؛ 8 = نحو تكرارين احتياطيين.';
 
   @override
@@ -2096,18 +1969,6 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get aiIntro =>
       'لا يتواصل GymMane مباشرةً مع أي ذكاء اصطناعي. تصدّر قائمة تمارينك وتلصقها في المساعد الذي تستخدمه ثم تستورد رده. لا شيء يغادر هاتفك تلقائيًا.';
-
-  @override
-  String get aiStep1 => 'صدّر قائمة تمارينك. إذا اخترت مكانًا فستحتوي فقط على ما يمكنك فعله هناك.';
-
-  @override
-  String get aiStep2 => 'أعطِ هذا الملف للذكاء الاصطناعي الذي تختاره واطلب منه روتينًا.';
-
-  @override
-  String get aiStep3 => 'احفظ الرد في ملف — JSON أو نص عادي، كلاهما يعمل.';
-
-  @override
-  String get aiStep4 => 'استورده هنا. ستتم مطابقة الأسماء مع مكتبتك وإنشاء الروتين.';
 
   @override
   String aiMissing(int n) {
@@ -2193,9 +2054,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get awardsTitle => 'الميداليات';
 
   @override
-  String get awardWon => 'مكتسبة';
-
-  @override
   String get yearTitle => 'سنتك';
 
   @override
@@ -2220,19 +2078,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get awardSaved => 'تم الحفظ في معرض الصور';
 
   @override
-  String get awardStreakBottom => 'سلسلة';
-
-  @override
-  String get awardStreak7Top => 'سبعة أيام';
-
-  @override
   String get awardStreak7Name => 'سبعة أيام';
 
   @override
   String get awardStreak7Line => 'أسبوع كامل دون تفويت يوم.';
-
-  @override
-  String get awardStreak30Top => 'ثلاثون يومًا';
 
   @override
   String get awardStreak30Name => 'ثلاثون يومًا';
@@ -2241,34 +2090,16 @@ class AppLocalizationsAr extends AppLocalizations {
   String get awardStreak30Line => 'شهر كامل متواصل. أصبحت عادة الآن.';
 
   @override
-  String get awardWorkouts100Top => 'مئة';
-
-  @override
-  String get awardWorkouts100Bottom => 'تمارين';
-
-  @override
   String get awardWorkouts100Name => 'مئة تمرين';
 
   @override
   String get awardWorkouts100Line => 'تم تسجيل مئة تمرين من البداية حتى النهاية.';
 
   @override
-  String get awardTonnes100Top => 'مئة';
-
-  @override
-  String get awardTonnes100Bottom => 'طن';
-
-  @override
   String get awardTonnes100Name => 'مئة طن';
 
   @override
   String get awardTonnes100Line => 'بلغ مجموع ما رفعته 100,000 كغ.';
-
-  @override
-  String get awardSets1000Top => 'ألف';
-
-  @override
-  String get awardSets1000Bottom => 'مجموعة';
 
   @override
   String get awardSets1000Name => 'ألف مجموعة';
@@ -2284,9 +2115,6 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get pickBadge => 'شارة';
-
-  @override
-  String get badgeTitle => 'شارتك';
 
   @override
   String get statWorkouts => 'التمارين';
@@ -2319,16 +2147,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get snapNow => 'التقاط الآن';
 
   @override
-  String get calendarLegend => 'التمرين · الصور';
-
-  @override
   String get addCover => 'إضافة غلاف';
 
   @override
   String get addTodayWidget => 'هل تم تمرين اليوم أم لا';
-
-  @override
-  String get monthTitle => 'هذا الشهر';
 
   @override
   String get photosCard => 'صورك';
@@ -2420,11 +2242,6 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
-  String awardProgressLabel(String value, String goal) {
-    return '$value من $goal';
-  }
-
-  @override
   String badgeName(String id) {
     String _temp0 = intl.Intl.selectLogic(id, {
       'gold': 'ذهبي',
@@ -2489,8 +2306,14 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
-  String get badgeHint =>
-      'اختر لونًا أو اضغط على اللون الحالي لإزالته. هذا لك فقط — لا يتم التحقق من شيء ولا توجد أي رسوم.';
+  String photosSelected(int n) {
+    return '$n محددة';
+  }
+
+  @override
+  String deletePhotosTitle(int n) {
+    return 'حذف $n صور؟';
+  }
 
   @override
   String get momentsEmptyHint =>
@@ -2629,9 +2452,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get suggestInWorkoutsHint => 'عند إيقافه لن يظهر في الاقتراحات. يمكنك دائمًا إضافته يدويًا.';
 
   @override
-  String get dontSuggest => 'لا تقترحه مجددًا';
-
-  @override
   String get onbPlaceTitle => 'أين تتمرن؟';
 
   @override
@@ -2739,9 +2559,6 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get clearPlan => 'مسح الخطة';
-
-  @override
-  String get planChip => 'خطة';
 
   @override
   String get shareRoutine => 'مشاركة الروتين';
@@ -2949,13 +2766,13 @@ class AppLocalizationsAr extends AppLocalizations {
   String get removedFromRoutine => 'أُزيل من الروتين';
 
   @override
-  String get radarTitle => 'هذا الشهر';
+  String get radarTitle => 'آخر 30 يومًا';
 
   @override
   String get radarHint => 'اعرف أي المناطق تحتاج إلى تمرين أكثر';
 
   @override
-  String get radarEmpty => 'تمرّن هذا الشهر لترى توازنك';
+  String get radarEmpty => 'تمرن بضعة أيام لترى توازنك';
 
   @override
   String get radarBalanced => 'توازن جيد حتى الآن';
@@ -2980,9 +2797,6 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get effortHint =>
       'RPE: ‏10 يعني أنك لا تستطيع تكرارًا آخر، و8 يعني أنه بقي لديك تكراران. RIR يعدّ التكرارات المتبقية. إذا كانت المجموعة تحتوي عليه، يستخدم الحد الأقصى المقدَّر جدول RPE.';
-
-  @override
-  String get rirTitle => 'الاحتياط (RIR)';
 
   @override
   String get rirHint => '0 يعني أنك لا تستطيع تكرارًا آخر، و2 يعني أنه بقي لديك تكراران.';
@@ -3301,4 +3115,202 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get goalRemove => 'إزالة الهدف';
+
+  @override
+  String get exerciseNameMissing => 'أعطه اسمًا';
+
+  @override
+  String get aliasesLabel => 'أسماء أخرى (اختياري)';
+
+  @override
+  String get aliasesHint => 'أسماء أخرى، مفصولة بفواصل';
+
+  @override
+  String alsoCalled(String names) {
+    return 'يُعرف أيضًا بـ: $names';
+  }
+
+  @override
+  String get addToRoutine => 'إضافة إلى روتين';
+
+  @override
+  String inRoutines(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: 'في $n روتينات',
+      one: 'في روتين واحد',
+      zero: 'ليس في أي روتين بعد',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get alreadyInRoutine => 'موجود بالفعل';
+
+  @override
+  String get restInRoutine => 'الراحة في هذا الروتين';
+
+  @override
+  String get restInRoutineHint => 'نفس راحة التمرين';
+
+  @override
+  String get restInRoutineReset => 'هنا فقط · اضغط للإلغاء';
+
+  @override
+  String get swapExercise => 'تبديل التمرين';
+
+  @override
+  String get swapShort => 'تبديل';
+
+  @override
+  String swapHint(String name) {
+    return 'بدلًا من $name، لهذا اليوم فقط. عند الانتهاء يمكنك إبقاؤه في الروتين.';
+  }
+
+  @override
+  String get swapKeepsDone => 'المجموعات التي أنهيتها تبقى؛ والتمرين الجديد يكمل الباقي.';
+
+  @override
+  String swapSameMuscle(String muscle) {
+    return 'نفس العضلة · $muscle';
+  }
+
+  @override
+  String get swapDoneBefore => 'قمت به من قبل';
+
+  @override
+  String get multiPlanSettingHint => 'أكثر من روتين في نفس يوم الأسبوع.';
+
+  @override
+  String get levelHintsHint => 'عندما يصبح التمرين سهلًا، يقترح عليك النسخة الأصعب.';
+
+  @override
+  String get focusCardHint => 'روتين اليوم في أعلى الصفحة الرئيسية.';
+
+  @override
+  String get gamificationHint => 'الميداليات ومستواك والاحتفال عند الانتهاء.';
+
+  @override
+  String get exerciseSettings => 'إعدادات هذا التمرين';
+
+  @override
+  String get placeActiveNow => 'أنت هنا';
+
+  @override
+  String get placeTapToUse => 'اضغط للتمرن هنا';
+
+  @override
+  String get intervalDays => 'أيام';
+
+  @override
+  String goalDaysShort(int done, int target) {
+    return '$done/$target أيام';
+  }
+
+  @override
+  String get toolNameRpe => 'الوزن حسب RPE';
+
+  @override
+  String get toolTitleRpe => 'الوزن حسب RPE';
+
+  @override
+  String get toolDescRpe => 'أي وزن للجهد الذي تريده';
+
+  @override
+  String get toolNameDots => 'مستوى القوة';
+
+  @override
+  String get toolTitleDots => 'مستوى القوة (DOTS)';
+
+  @override
+  String get toolDescDots => 'قوتك بالنسبة لوزنك';
+
+  @override
+  String rpeResultHint(int reps, String rpe) {
+    return 'لـ $reps تكرارات عند RPE $rpe';
+  }
+
+  @override
+  String get rpeYourSet => 'مجموعة أنهيتها للتو';
+
+  @override
+  String get rpeGoal => 'ما تريد فعله';
+
+  @override
+  String rpeOneRmLine(String value) {
+    return 'الحد الأقصى المقدّر: $value';
+  }
+
+  @override
+  String get rpeExplain => 'RPE 10 يعني أنك لم تستطع تكرارًا آخر؛ 8 يعني أنه بقي لديك اثنان.';
+
+  @override
+  String get dotsBestLifts => 'أفضل أرقامك';
+
+  @override
+  String get dotsSquat => 'القرفصاء';
+
+  @override
+  String get dotsBench => 'ضغط البنش';
+
+  @override
+  String get dotsDeadlift => 'الرفعة الميتة';
+
+  @override
+  String dotsTotalLine(String value) {
+    return 'المجموع: $value';
+  }
+
+  @override
+  String get dotsExplain =>
+      'يقارن قوتك بقوة أي شخص مهما كان وزنه. استخدم أفضل تكرار واحد لك أو الحد الأقصى المقدّر.';
+
+  @override
+  String get dotsLevel0 => 'مبتدئ';
+
+  @override
+  String get dotsLevel1 => 'متوسط';
+
+  @override
+  String get dotsLevel2 => 'متقدم';
+
+  @override
+  String get dotsLevel3 => 'متقدم جدًا';
+
+  @override
+  String get dotsLevel4 => 'نخبة';
+
+  @override
+  String get rpeEffortLabel => 'الجهد (RPE)';
+
+  @override
+  String get restRowHint => 'بين المجموعات، إن لم يكن للتمرين وقته الخاص.';
+
+  @override
+  String get effortRowHint => 'سجّل RPE أو RIR في كل مجموعة.';
+
+  @override
+  String get countdownHint => '3، 2، 1 قبل أول مجموعة.';
+
+  @override
+  String get keepScreenOnHint => 'تبقى الشاشة مضاءة أثناء التمرين.';
+
+  @override
+  String get demoSizeRowHint => 'رسم التمرين أثناء الحصة.';
+
+  @override
+  String get demoLoopRowHint => 'هل تتكرر الحركة أم تتوقف.';
+
+  @override
+  String get trainReminderRowHint => 'تذكير في أيام تمرينك.';
+
+  @override
+  String get alarmSoundRowHint => 'ما يرن عند انتهاء الراحة.';
+
+  @override
+  String get alarmStyleRowHint => 'هل يرن في الوضع الصامت.';
+
+  @override
+  String get recommendedRowHint => 'تمارين نقترحها في الرئيسية.';
 }

@@ -14,6 +14,10 @@ class TrainReminder {
 
   final _plugin = FlutterLocalNotificationsPlugin();
   bool enabled = true;
+  Future<void> _queue = Future.value();
+
+  Future<void> _serial(Future<void> Function() job) =>
+      _queue = _queue.then((_) => job()).catchError((Object e) => debugPrint('Aviso de entreno: $e'));
 
   AndroidNotificationDetails get _android => AndroidNotificationDetails(
         'train_reminder',
@@ -31,7 +35,9 @@ class TrainReminder {
         presentSound: true,
       );
 
-  Future<void> cancel() async {
+  Future<void> cancel() => _serial(_cancel);
+
+  Future<void> _cancel() async {
     if (!enabled) return;
     for (var i = 0; i < _slots; i++) {
       try {
@@ -44,9 +50,12 @@ class TrainReminder {
     required int minuteOfDay,
     required Set<int> weekdays,
     bool skipToday = false,
-  }) async {
+  }) =>
+      _serial(() => _schedule(minuteOfDay, weekdays, skipToday));
+
+  Future<void> _schedule(int minuteOfDay, Set<int> weekdays, bool skipToday) async {
     if (!enabled) return;
-    await cancel();
+    await _cancel();
     final mode = await reminderMode(_plugin);
     final now = DateTime.now();
     var slot = 0;

@@ -181,8 +181,12 @@ class RoutineFolder extends StatelessWidget {
                   child: Row(mainAxisSize: MainAxisSize.min, children: [
                     Icon(n > 0 ? PhosphorIconsFill.play : PhosphorIconsBold.plus, size: 12, color: gc.textSecondary),
                     const SizedBox(width: 7),
-                    Text(n > 0 ? titleCase(t.startWorkout) : t.addExercises,
-                        style: AppTheme.f(13.5, weight: FontWeight.w700, color: gc.textSecondary)),
+                    Flexible(
+                      child: Text(n > 0 ? titleCase(t.startWorkout) : t.addExercises,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: AppTheme.f(13.5, weight: FontWeight.w700, color: gc.textSecondary)),
+                    ),
                   ]),
                 ),
               ),

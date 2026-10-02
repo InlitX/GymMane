@@ -29,8 +29,8 @@ Future<void> main() async {
   await Store.instance.init();
   await MediaStore.init();
   await AlarmStore.init();
-  fit.loadFromStore();
   await RestAlarm.instance.init();
+  fit.loadFromStore();
   fit.syncPhotoReminder();
   fit.syncTrainReminder();
 

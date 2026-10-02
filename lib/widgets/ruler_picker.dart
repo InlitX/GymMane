@@ -258,7 +258,7 @@ Future<double?> askRuler(
 }) {
   var current = value.clamp(min, max).toDouble();
   final decimals = step == step.roundToDouble() ? 0 : (step < 0.1 || step * 10 != (step * 10).roundToDouble() ? 2 : 1);
-  String show(double v) => format != null ? format(v) : v.toStringAsFixed(decimals);
+  String show(double v) => format != null ? format(v) : decimalText(v.toStringAsFixed(decimals));
   return showAppSheet<double>(
     context: context,
     isScrollControlled: true,

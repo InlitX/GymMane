@@ -174,8 +174,13 @@ class PlacesScreen extends StatelessWidget {
                             overflow: TextOverflow.ellipsis,
                             style: AppTheme.d(17, weight: FontWeight.w700, color: gc.text)),
                         const SizedBox(height: 2),
-                        Text(t.placeExercises(fit.placeExerciseCount(place)),
-                            style: AppTheme.s(12, color: gc.textTertiary)),
+                        Text(
+                            on
+                                ? '${t.placeActiveNow} · ${t.placeExercises(fit.placeExerciseCount(place))}'
+                                : '${t.placeExercises(fit.placeExerciseCount(place))} · ${t.placeTapToUse}',
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: AppTheme.s(12, color: on ? gc.ember : gc.textTertiary)),
                       ],
                     ),
                   ),

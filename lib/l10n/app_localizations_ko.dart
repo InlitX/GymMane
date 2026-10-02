@@ -133,9 +133,6 @@ class AppLocalizationsKo extends AppLocalizations {
   String get tapMuscles => '운동할 근육을 탭하세요 — 앞면과 뒷면.';
 
   @override
-  String get noMusclesYet => '선택된 근육이 없습니다 — 몸을 탭해 시작하세요.';
-
-  @override
   String get continueBtn => '계속';
 
   @override
@@ -193,14 +190,6 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get nextExercise => '다음 운동';
-
-  @override
-  String get skipExercise => '이 운동을 건너뛸까요?';
-
-  @override
-  String skipExerciseBody(String name) {
-    return '완료로 표시한 세트가 없어 “$name”에 기록되는 내용이 없습니다.';
-  }
 
   @override
   String get dropExerciseAction => '운동 빼기';
@@ -330,52 +319,13 @@ class AppLocalizationsKo extends AppLocalizations {
   String get restOverBody => '다시 시작해요 — 다음 세트가 기다립니다.';
 
   @override
-  String get totalVolume30d => '총 볼륨 · 30일';
-
-  @override
-  String get volumeCumulative => '지금까지 들어 올린 모든 중량의 누계';
-
-  @override
-  String get volumeChartEmpty => '운동을 기록하면 그래프가 여기서 시작됩니다';
-
-  @override
-  String get weekRhythm => '주간 리듬';
-
-  @override
-  String get weekRhythmHint => '실제로 운동하는 요일입니다.';
-
-  @override
-  String weekRhythmBest(String day) {
-    return '$day은(는) 당신의 날';
-  }
-
-  @override
-  String get weekRhythmEmpty => '운동을 기록하면 주간 패턴이 여기에 나타납니다.';
-
-  @override
-  String get allTime => '전체 기간';
-
-  @override
   String get allTimeSessions => '운동';
 
   @override
   String get allTimeTime => '시간';
 
   @override
-  String get allTimeVolume => '들어 올림';
-
-  @override
   String get allTimeSets => '세트';
-
-  @override
-  String allTimeAvg(String time) {
-    return '운동당 평균 $time';
-  }
-
-  @override
-  String hoursShort(int n) {
-    return '$n시간';
-  }
 
   @override
   String get consistency => '꾸준함';
@@ -393,12 +343,6 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get bodyweight => '체중';
-
-  @override
-  String get notLoggedYet => '아직 기록 없음';
-
-  @override
-  String get logShort => '+ 기록';
 
   @override
   String get logBodyweight => '체중 기록';
@@ -441,13 +385,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get muscleSplit => '근육 분포';
 
   @override
-  String get splitEmpty => '운동하면 근육군별 볼륨 분포를 볼 수 있습니다.';
-
-  @override
   String get personalRecords => '개인 기록';
-
-  @override
-  String get prEmpty => '세트를 기록하면 개인 기록이 여기에 표시됩니다.';
 
   @override
   String get strength1rm => '근력 · 예상 1RM';
@@ -481,9 +419,6 @@ class AppLocalizationsKo extends AppLocalizations {
   String get bodyweightHistory => '기록';
 
   @override
-  String get noBodyweightYet => '아직 기록이 없습니다.';
-
-  @override
   String get exercisesCaps => '운동';
 
   @override
@@ -508,6 +443,21 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get levelFilter => '레벨';
+
+  @override
+  String get kindLabel => '종류';
+
+  @override
+  String get kindStrength => '근력';
+
+  @override
+  String get kindCalisthenics => '맨몸 운동';
+
+  @override
+  String get kindCardio => '유산소';
+
+  @override
+  String get kindStretch => '스트레칭';
 
   @override
   String get newExercise => '새 운동';
@@ -573,11 +523,6 @@ class AppLocalizationsKo extends AppLocalizations {
   String get notePlaceholder => '팁, 세팅, 느낌…';
 
   @override
-  String showAllNotes(int n) {
-    return '메모 $n개 모두 보기';
-  }
-
-  @override
   String notHere(String gear, String place) {
     return '$place에 $gear 없음';
   }
@@ -592,9 +537,6 @@ class AppLocalizationsKo extends AppLocalizations {
   String get places => '내 장소';
 
   @override
-  String get placesShort => '장소';
-
-  @override
   String get placesHint => '각 장소의 장비를 지정하면 그곳에서 할 수 있는 운동만 라이브러리에 표시됩니다.';
 
   @override
@@ -604,25 +546,10 @@ class AppLocalizationsKo extends AppLocalizations {
   String get placeNew => '새 장소';
 
   @override
-  String get placeNameLabel => '이름';
-
-  @override
   String get placeNamePlaceholder => '집, 헬스장, 공원…';
 
   @override
   String get placeGearLabel => '사용 가능한 장비';
-
-  @override
-  String placeGearCount(int n) {
-    String _temp0 = intl.Intl.pluralLogic(
-      n,
-      locale: localeName,
-      other: '장비 $n종',
-      one: '장비 1종',
-      zero: '선택한 장비 없음',
-    );
-    return '$_temp0';
-  }
 
   @override
   String placeExercises(int n) {
@@ -966,9 +893,6 @@ class AppLocalizationsKo extends AppLocalizations {
   String get sharePick => '무엇을 보여줄까요?';
 
   @override
-  String get shareSession => '최근 운동';
-
-  @override
   String get shareStreak => '연속 기록과 꾸준함';
 
   @override
@@ -994,12 +918,6 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get shareVolumeLabel => '볼륨';
-
-  @override
-  String get shareSetsLabel => '세트';
-
-  @override
-  String get shareNothing => '먼저 운동을 기록하세요 — 아직 보여줄 내용이 없습니다';
 
   @override
   String get restForExercise => '이 운동의 휴식';
@@ -1120,9 +1038,6 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get drop => '빼기';
-
-  @override
-  String get addToWorkout => '운동 추가';
 
   @override
   String get resetData => '내 모든 데이터 삭제';
@@ -1351,9 +1266,6 @@ class AppLocalizationsKo extends AppLocalizations {
   String get chooseGallery => '갤러리에서 선택';
 
   @override
-  String get backupCopied => '백업을 클립보드에 복사했습니다';
-
-  @override
   String get backupImported => '백업을 가져왔습니다';
 
   @override
@@ -1361,9 +1273,6 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get nothingToExport => '아직 내보낼 내용이 없습니다 — 먼저 운동을 기록하세요';
-
-  @override
-  String get athlete => '운동선수';
 
   @override
   String calculatorsCount(int n) {
@@ -1409,11 +1318,6 @@ class AppLocalizationsKo extends AppLocalizations {
   @override
   String perSideCount(int n) {
     return '한쪽당 × $n';
-  }
-
-  @override
-  String rampSet(String pct, int reps) {
-    return '$pct · $reps회';
   }
 
   @override
@@ -1646,10 +1550,10 @@ class AppLocalizationsKo extends AppLocalizations {
   String get exercisesInsideWhy => '각 운동에 애니메이션과 단계별 설명이 있습니다.';
 
   @override
-  String get calculatorsInside => '계산기 6개';
+  String get calculatorsInside => '계산기 8개';
 
   @override
-  String get calculatorsInsideWhy => '1RM, 원판, BMI, 칼로리, 체지방, 워밍업 — 모두 공개된 공식에 기반합니다.';
+  String get calculatorsInsideWhy => '1RM, 원판, BMI, 칼로리, 체지방, 워밍업, RPE 중량, DOTS 근력 수준 — 모두 공개된 공식에 기반합니다.';
 
   @override
   String get mathInside => '투명한 계산';
@@ -1658,29 +1562,12 @@ class AppLocalizationsKo extends AppLocalizations {
   String get mathInsideWhy => '볼륨, 기록, 세트는 사용자의 실제 데이터로 계산됩니다. 장식용 수치는 없습니다.';
 
   @override
-  String get yourNumbers => '내 수치';
-
-  @override
-  String get sessionsCaps => '운동';
-
-  @override
-  String get liftedCaps => '들어 올림';
-
-  @override
   String get streakCaps => '연속';
 
   @override
   String daysUnit(int n) {
     String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '일', one: '일');
     return '$_temp0';
-  }
-
-  @override
-  String get restDefaultLabel => '휴식 타이머';
-
-  @override
-  String restDefault(int s) {
-    return '기본값: $s초 — 설정에서 변경';
   }
 
   @override
@@ -1805,9 +1692,6 @@ class AppLocalizationsKo extends AppLocalizations {
   String get unlockWorkout => '잠금 해제';
 
   @override
-  String get lockedCaps => '잠김';
-
-  @override
   String get holdToUnlock => '길게 눌러 잠금 해제';
 
   @override
@@ -1871,6 +1755,15 @@ class AppLocalizationsKo extends AppLocalizations {
   String get trainReminderHint => '이 시간에, 루틴이 예정된 날에만 알림을 보냅니다.';
 
   @override
+  String get reminderExactTime => '정확한 시간';
+
+  @override
+  String get toastSoundSetting => '알림 소리';
+
+  @override
+  String get toastSoundHint => '위에 알림이 뜰 때 나는 부드러운 소리.';
+
+  @override
   String get notifTrainChannel => '운동 알림';
 
   @override
@@ -1883,27 +1776,10 @@ class AppLocalizationsKo extends AppLocalizations {
   String get notifTrainBody => '루틴이 기다리고 있습니다.';
 
   @override
-  String get exportCatalog => '운동 목록 내보내기';
-
-  @override
-  String get importRoutine => '루틴 가져오기(JSON)';
-
-  @override
   String get planIntro => '이 목록의 운동만 사용해 운동 루틴을 만들어 주세요.';
 
   @override
   String get planFormat => '다음 형식의 JSON으로만 답하세요:';
-
-  @override
-  String planImported(int n) {
-    String _temp0 = intl.Intl.pluralLogic(
-      n,
-      locale: localeName,
-      other: '루틴에 운동 $n개 추가됨',
-      one: '루틴에 운동 $n개 추가됨',
-    );
-    return '$_temp0';
-  }
 
   @override
   String get planNothing => '이 파일의 운동이 라이브러리와 일치하지 않습니다';
@@ -2033,9 +1909,6 @@ class AppLocalizationsKo extends AppLocalizations {
   String get logRpe => '운동 강도 기록(RPE)';
 
   @override
-  String get rpeTitle => '운동 강도(RPE)';
-
-  @override
   String get rpeHint => '10 = 더 이상 반복 불가; 8 = 약 2회 여유.';
 
   @override
@@ -2053,18 +1926,6 @@ class AppLocalizationsKo extends AppLocalizations {
   @override
   String get aiIntro =>
       'GymMane은 AI와 직접 통신하지 않습니다. 운동 목록을 내보내고 이미 사용하는 AI 도우미에 붙여넣은 뒤 응답을 다시 가져옵니다. 어떤 데이터도 자동으로 휴대전화 밖으로 나가지 않습니다.';
-
-  @override
-  String get aiStep1 => '운동 목록을 내보냅니다. 장소를 선택했다면 그곳에서 할 수 있는 운동만 포함됩니다.';
-
-  @override
-  String get aiStep2 => '이 파일을 원하는 AI에 주고 루틴을 요청하세요.';
-
-  @override
-  String get aiStep3 => '응답을 파일로 저장하세요 — JSON 또는 일반 텍스트 모두 가능합니다.';
-
-  @override
-  String get aiStep4 => '여기에 가져오세요. 이름을 라이브러리와 비교해 루틴을 만듭니다.';
 
   @override
   String aiMissing(int n) {
@@ -2150,9 +2011,6 @@ class AppLocalizationsKo extends AppLocalizations {
   String get awardsTitle => '메달';
 
   @override
-  String get awardWon => '획득';
-
-  @override
   String get yearTitle => '나의 1년';
 
   @override
@@ -2177,19 +2035,10 @@ class AppLocalizationsKo extends AppLocalizations {
   String get awardSaved => '갤러리에 저장됨';
 
   @override
-  String get awardStreakBottom => '연속';
-
-  @override
-  String get awardStreak7Top => '7일';
-
-  @override
   String get awardStreak7Name => '7일';
 
   @override
   String get awardStreak7Line => '하루도 빠짐없이 일주일.';
-
-  @override
-  String get awardStreak30Top => '30일';
 
   @override
   String get awardStreak30Name => '30일';
@@ -2198,34 +2047,16 @@ class AppLocalizationsKo extends AppLocalizations {
   String get awardStreak30Line => '한 달 연속. 이제 습관이 되었습니다.';
 
   @override
-  String get awardWorkouts100Top => '100';
-
-  @override
-  String get awardWorkouts100Bottom => '운동';
-
-  @override
   String get awardWorkouts100Name => '운동 100회';
 
   @override
   String get awardWorkouts100Line => '운동 100회를 처음부터 끝까지 기록했습니다.';
 
   @override
-  String get awardTonnes100Top => '100';
-
-  @override
-  String get awardTonnes100Bottom => '톤';
-
-  @override
   String get awardTonnes100Name => '100톤';
 
   @override
   String get awardTonnes100Line => '지금까지 든 총 중량이 100,000kg에 도달했습니다.';
-
-  @override
-  String get awardSets1000Top => '1,000';
-
-  @override
-  String get awardSets1000Bottom => '세트';
 
   @override
   String get awardSets1000Name => '1,000세트';
@@ -2241,9 +2072,6 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get pickBadge => '배지';
-
-  @override
-  String get badgeTitle => '내 배지';
 
   @override
   String get statWorkouts => '운동';
@@ -2276,16 +2104,10 @@ class AppLocalizationsKo extends AppLocalizations {
   String get snapNow => '지금 찍기';
 
   @override
-  String get calendarLegend => '운동 · 사진';
-
-  @override
   String get addCover => '커버 추가';
 
   @override
   String get addTodayWidget => '오늘 운동 완료 여부';
-
-  @override
-  String get monthTitle => '이번 달';
 
   @override
   String get photosCard => '내 사진';
@@ -2377,11 +2199,6 @@ class AppLocalizationsKo extends AppLocalizations {
   }
 
   @override
-  String awardProgressLabel(String value, String goal) {
-    return '$value/$goal';
-  }
-
-  @override
   String badgeName(String id) {
     String _temp0 = intl.Intl.selectLogic(id, {'gold': '골드', 'blue': '블루', 'green': '그린', 'other': '배지'});
     return '$_temp0';
@@ -2441,7 +2258,14 @@ class AppLocalizationsKo extends AppLocalizations {
   }
 
   @override
-  String get badgeHint => '색상을 선택하거나 현재 색상을 탭해 제거하세요. 나만을 위한 기능이며 인증도 결제도 없습니다.';
+  String photosSelected(int n) {
+    return '$n장 선택됨';
+  }
+
+  @override
+  String deletePhotosTitle(int n) {
+    return '사진 $n장을 삭제할까요?';
+  }
 
   @override
   String get momentsEmptyHint => '헬스장, 보드, 원판을 끼운 바 등 기억하고 싶은 것을 촬영하세요. 사진은 휴대전화에만 남고 본인만 볼 수 있습니다.';
@@ -2579,9 +2403,6 @@ class AppLocalizationsKo extends AppLocalizations {
   String get suggestInWorkoutsHint => '끄면 추천에 나오지 않아요. 직접 추가는 계속 할 수 있어요.';
 
   @override
-  String get dontSuggest => '다시 추천하지 않기';
-
-  @override
   String get onbPlaceTitle => '어디서 운동하나요?';
 
   @override
@@ -2686,9 +2507,6 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get clearPlan => '계획 지우기';
-
-  @override
-  String get planChip => '계획';
 
   @override
   String get shareRoutine => '루틴 공유';
@@ -2880,13 +2698,13 @@ class AppLocalizationsKo extends AppLocalizations {
   String get removedFromRoutine => '루틴에서 뺐어요';
 
   @override
-  String get radarTitle => '이번 달';
+  String get radarTitle => '최근 30일';
 
   @override
   String get radarHint => '더 운동이 필요한 부위를 확인하세요';
 
   @override
-  String get radarEmpty => '이번 달 운동하면 균형을 볼 수 있어요';
+  String get radarEmpty => '며칠 운동하면 균형이 보여요';
 
   @override
   String get radarBalanced => '지금까지 균형이 좋아요';
@@ -2911,9 +2729,6 @@ class AppLocalizationsKo extends AppLocalizations {
   @override
   String get effortHint =>
       'RPE: 10은 한 번도 더 못 하는 상태, 8은 두 번 더 할 수 있던 상태예요. RIR은 남아 있던 반복 수예요. 기록된 세트는 예상 1RM에 RPE 표를 사용해요.';
-
-  @override
-  String get rirTitle => '여력 (RIR)';
 
   @override
   String get rirHint => '0은 한 번도 더 못 하는 상태, 2는 두 번 더 할 수 있던 상태예요.';
@@ -3224,4 +3039,200 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get goalRemove => '목표 삭제';
+
+  @override
+  String get exerciseNameMissing => '이름을 입력하세요';
+
+  @override
+  String get aliasesLabel => '다른 이름(선택)';
+
+  @override
+  String get aliasesHint => '다른 이름을 쉼표로 구분';
+
+  @override
+  String alsoCalled(String names) {
+    return '다른 이름: $names';
+  }
+
+  @override
+  String get addToRoutine => '루틴에 추가';
+
+  @override
+  String inRoutines(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '루틴 $n개에 있어요',
+      zero: '아직 어떤 루틴에도 없어요',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get alreadyInRoutine => '이미 있음';
+
+  @override
+  String get restInRoutine => '이 루틴의 휴식';
+
+  @override
+  String get restInRoutineHint => '운동 설정과 같음';
+
+  @override
+  String get restInRoutineReset => '여기서만 · 탭하면 되돌림';
+
+  @override
+  String get swapExercise => '운동 바꾸기';
+
+  @override
+  String get swapShort => '바꾸기';
+
+  @override
+  String swapHint(String name) {
+    return '오늘만 $name 대신. 끝나면 루틴에 남길 수 있어요.';
+  }
+
+  @override
+  String get swapKeepsDone => '이미 한 세트는 남고, 새 운동이 나머지를 이어서 해요.';
+
+  @override
+  String swapSameMuscle(String muscle) {
+    return '같은 부위 · $muscle';
+  }
+
+  @override
+  String get swapDoneBefore => '해 본 적 있음';
+
+  @override
+  String get multiPlanSettingHint => '같은 요일에 여러 루틴.';
+
+  @override
+  String get levelHintsHint => '운동이 쉬워지면 더 어려운 버전을 제안해요.';
+
+  @override
+  String get focusCardHint => '오늘의 루틴을 홈 맨 위에.';
+
+  @override
+  String get gamificationHint => '메달, 레벨, 운동을 마칠 때의 축하.';
+
+  @override
+  String get exerciseSettings => '이 운동의 설정';
+
+  @override
+  String get placeActiveNow => '지금 여기';
+
+  @override
+  String get placeTapToUse => '여기서 운동하려면 탭';
+
+  @override
+  String get intervalDays => '일';
+
+  @override
+  String goalDaysShort(int done, int target) {
+    return '$done/$target일';
+  }
+
+  @override
+  String get toolNameRpe => 'RPE로 무게';
+
+  @override
+  String get toolTitleRpe => 'RPE로 무게';
+
+  @override
+  String get toolDescRpe => '원하는 강도에 맞는 무게';
+
+  @override
+  String get toolNameDots => '근력 레벨';
+
+  @override
+  String get toolTitleDots => '근력 레벨 (DOTS)';
+
+  @override
+  String get toolDescDots => '체중 대비 내 근력';
+
+  @override
+  String rpeResultHint(int reps, String rpe) {
+    return '$reps회 · RPE $rpe 기준';
+  }
+
+  @override
+  String get rpeYourSet => '방금 한 세트';
+
+  @override
+  String get rpeGoal => '하고 싶은 것';
+
+  @override
+  String rpeOneRmLine(String value) {
+    return '예상 1RM: $value';
+  }
+
+  @override
+  String get rpeExplain => 'RPE 10은 한 번도 더 못 하는 상태, 8은 두 번 남은 상태예요.';
+
+  @override
+  String get dotsBestLifts => '내 최고 기록';
+
+  @override
+  String get dotsSquat => '스쿼트';
+
+  @override
+  String get dotsBench => '벤치프레스';
+
+  @override
+  String get dotsDeadlift => '데드리프트';
+
+  @override
+  String dotsTotalLine(String value) {
+    return '합계: $value';
+  }
+
+  @override
+  String get dotsExplain => '체중과 상관없이 누구와도 근력을 비교해요. 1회 최고 기록이나 예상 1RM을 쓰세요.';
+
+  @override
+  String get dotsLevel0 => '초급';
+
+  @override
+  String get dotsLevel1 => '중급';
+
+  @override
+  String get dotsLevel2 => '상급';
+
+  @override
+  String get dotsLevel3 => '최상급';
+
+  @override
+  String get dotsLevel4 => '엘리트';
+
+  @override
+  String get rpeEffortLabel => '강도 (RPE)';
+
+  @override
+  String get restRowHint => '세트 사이, 운동별 휴식이 없을 때.';
+
+  @override
+  String get effortRowHint => '세트마다 RPE나 RIR 기록.';
+
+  @override
+  String get countdownHint => '첫 세트 전에 3, 2, 1.';
+
+  @override
+  String get keepScreenOnHint => '운동하는 동안 화면이 꺼지지 않아요.';
+
+  @override
+  String get demoSizeRowHint => '운동 중 보이는 동작 그림.';
+
+  @override
+  String get demoLoopRowHint => '애니메이션 반복 또는 멈춤.';
+
+  @override
+  String get trainReminderRowHint => '운동하는 날 알림.';
+
+  @override
+  String get alarmSoundRowHint => '휴식이 끝날 때 나는 소리.';
+
+  @override
+  String get alarmStyleRowHint => '무음 모드에서도 울릴지.';
+
+  @override
+  String get recommendedRowHint => '홈에서 추천하는 운동.';
 }

@@ -470,7 +470,7 @@ class _TimelineScreenState extends State<TimelineScreen> {
         Row(
           children: [
             Expanded(
-              child: Text(titleCase(body ? t.timelineEvery : t.photoEvery),
+              child: Text('${body ? t.timelineEvery : t.photoEvery} · ${t.intervalDays.toUpperCase()}',
                   style: AppTheme.f(10.5,
                       weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.3)),
             ),

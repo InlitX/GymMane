@@ -157,7 +157,7 @@ void main() {
     fit.setUnits('lb');
     expect(fit.volume30dKg, kg, reason: 'lo guardado no se toca');
     expect(fit.volumeUnit, 'k lb');
-    expect(fit.weightLabel(100), '220.5 lb');
+    expect(fit.weightLabel(100), '${decimalText('220.5')} lb');
     fit.setUnits('kg');
   });
 

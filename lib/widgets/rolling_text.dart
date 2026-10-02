@@ -47,7 +47,7 @@ class _RollingTextState extends State<RollingText> {
   DateTime? _changedAt;
 
   static double? _numeric(String s) {
-    final digits = s.replaceAll(RegExp(r'[^0-9.]'), '');
+    final digits = s.replaceAll(RegExp(r'[,٫]'), '.').replaceAll(RegExp(r'[^0-9.]'), '');
     return digits.isEmpty ? null : double.tryParse(digits);
   }
 
@@ -95,7 +95,7 @@ class _RollingTextState extends State<RollingText> {
       label: widget.text,
       excludeSemantics: true,
       child: AnimatedSize(
-        duration: reduce || _rapid ? Duration.zero : const Duration(milliseconds: 240),
+        duration: reduce || _rapid ? const Duration(milliseconds: 1) : const Duration(milliseconds: 240),
         curve: Curves.easeOutCubic,
         alignment: switch (widget.textAlign) {
           TextAlign.right || TextAlign.end => Alignment.centerRight,

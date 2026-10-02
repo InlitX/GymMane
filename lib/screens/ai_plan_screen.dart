@@ -100,14 +100,16 @@ class _AiPlanScreenState extends State<AiPlanScreen> {
               _chip(gc, PhosphorIconsRegular.clipboardText, t.pasteAction, _paste),
               const SizedBox(width: 8),
               _chip(gc, PhosphorIconsRegular.fileArrowUp, t.chooseFile, _file),
-              const Spacer(),
-              GestureDetector(
-                behavior: HitTestBehavior.opaque,
-                onTap: () => setState(() => _format = !_format),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
-                  child: Text(t.showFormat,
-                      style: AppTheme.f(12.5, weight: FontWeight.w600, color: gc.accent)),
+              Expanded(
+                child: GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTap: () => setState(() => _format = !_format),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
+                    child: Text(t.showFormat,
+                        textAlign: TextAlign.end,
+                        style: AppTheme.f(12.5, weight: FontWeight.w600, color: gc.accent)),
+                  ),
                 ),
               ),
             ]),

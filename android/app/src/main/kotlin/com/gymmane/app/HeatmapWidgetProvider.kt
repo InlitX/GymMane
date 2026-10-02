@@ -15,7 +15,7 @@ class HeatmapWidgetProvider : HomeWidgetProvider() {
     ) {
         appWidgetIds.forEach { widgetId ->
             val views = RemoteViews(context.packageName, R.layout.widget_heatmap).apply {
-                bindThemedImage(context, widgetData, "heatmap_img")
+                bindThemedImage(context, widgetData, "heatmap_img", R.drawable.preview_heatmap)
             }
             appWidgetManager.updateAppWidget(widgetId, views)
         }

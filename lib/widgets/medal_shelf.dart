@@ -67,13 +67,15 @@ class MedalShelf extends StatelessWidget {
               ),
               if (won) ...[
                 const SizedBox(height: 7),
-                Text(
-                  awardName(id),
-                  maxLines: 2,
-                  textAlign: TextAlign.center,
-                  overflow: TextOverflow.ellipsis,
-                  style: AppTheme.f(9.5,
-                      weight: FontWeight.w600, color: context.gc.textSecondary, height: 1.15),
+                Flexible(
+                  child: Text(
+                    awardName(id),
+                    maxLines: 2,
+                    textAlign: TextAlign.center,
+                    overflow: TextOverflow.ellipsis,
+                    style: AppTheme.f(9.5,
+                        weight: FontWeight.w600, color: context.gc.textSecondary, height: 1.15),
+                  ),
                 ),
               ],
             ],
@@ -165,4 +167,4 @@ class _MedalSheet extends StatelessWidget {
 }
 
 String medalShort(int v) =>
-    v >= 1000 ? '${(v / 1000).toStringAsFixed(v % 1000 == 0 ? 0 : 1)}k' : '$v';
+    v >= 1000 ? '${decimalText((v / 1000).toStringAsFixed(v % 1000 == 0 ? 0 : 1))}k' : '$v';

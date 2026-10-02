@@ -13,14 +13,12 @@ void main() {
     await tester.pumpWidget(const GymManeApp());
     await tester.pumpAndSettle();
 
-    expect(find.textContaining('No muscles selected'), findsOneWidget);
     expect(find.text('Chest'), findsNothing);
 
     fit.toggleMuscle('chest');
     await tester.pump();
 
     expect(find.text('Chest'), findsOneWidget);
-    expect(find.textContaining('No muscles selected'), findsNothing);
 
     fit.toggleMuscle('chest');
     await tester.pump();

@@ -30,8 +30,8 @@ class HomeWidgetBridge {
   static bool get _supported => !kIsWeb && (Platform.isAndroid || Platform.isIOS);
   static bool _groupReady = false;
   static Timer? _debounce;
-  static bool _running = false;
-  static bool _again = false;
+  static Future<void>? _job;
+  static String? _allPainted;
   static final Set<String> _forced = {};
 
   static void update() {
@@ -41,19 +41,15 @@ class HomeWidgetBridge {
   }
 
   static Future<void> _run() async {
-    if (_running) {
-      _again = true;
-      return;
+    while (_job != null) {
+      await _job;
     }
-    _running = true;
+    final job = _paint();
+    _job = job;
     try {
-      await _paint();
+      await job;
     } finally {
-      _running = false;
-      if (_again) {
-        _again = false;
-        update();
-      }
+      _job = null;
     }
   }
 
@@ -65,7 +61,9 @@ class HomeWidgetBridge {
 
   static Future<void> _paint() async {
     try {
-      final installed = _ios
+      final today = _stamp(DateTime.now());
+      final everyone = _allPainted != today;
+      final installed = _ios || everyone
           ? null
           : {
               ..._forced,
@@ -194,6 +192,7 @@ class HomeWidgetBridge {
         }
       }
       final now = DateTime.now();
+      if (everyone) _allPainted = today;
       await HomeWidget.saveWidgetData<String>('today_stamp', _stamp(now));
       final plan = [
         for (var d = 1; d <= 7; d++) fit.routineOn(now.add(Duration(days: d - now.weekday))) != null ? '1' : '0',

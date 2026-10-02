@@ -70,9 +70,11 @@ class LiveWorkout {
         detail = t.liveAllDone;
       } else {
         final st = ex.sets[pending];
-        final load = fit.isRepsOnly(ex.id)
-            ? '${st.reps} ${t.repsCol.toLowerCase()}'
-            : '${st.reps} × ${fit.weightLabel(st.weight)}';
+        final load = st.sec != null || st.km != null
+            ? fit.loggedSetLabel(st.logged)
+            : fit.isRepsOnly(ex.id)
+                ? '${st.reps} ${t.repsCol.toLowerCase()}'
+                : '${st.reps} × ${fit.weightLabel(st.weight)}';
         detail = '${t.liveSet(pending + 1, ex.sets.length)} · $load';
       }
     }

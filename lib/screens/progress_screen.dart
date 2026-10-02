@@ -754,8 +754,13 @@ class _MuscleMapCardState extends State<_MuscleMapCard> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(t.muscleMap,
-                  style: AppTheme.f(10, weight: FontWeight.w600, color: gc.textTertiary, letterSpacing: 0.9)),
+              Flexible(
+                child: Text(t.muscleMap,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: AppTheme.f(10, weight: FontWeight.w600, color: gc.textTertiary, letterSpacing: 0.9)),
+              ),
+              const SizedBox(width: 8),
               _modes(),
             ],
           ),
@@ -828,8 +833,13 @@ class _MuscleMapCardState extends State<_MuscleMapCard> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(t.muscleMap,
-                  style: AppTheme.f(10, weight: FontWeight.w600, color: gc.textTertiary, letterSpacing: 0.9)),
+              Flexible(
+                child: Text(t.muscleMap,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: AppTheme.f(10, weight: FontWeight.w600, color: gc.textTertiary, letterSpacing: 0.9)),
+              ),
+              const SizedBox(width: 8),
               _modes(),
             ],
           ),
@@ -1557,7 +1567,7 @@ class _LogBodyweightSheetState extends State<_LogBodyweightSheet> {
             crossAxisAlignment: CrossAxisAlignment.baseline,
             textBaseline: TextBaseline.alphabetic,
             children: [
-              RollingText(_shown.toStringAsFixed(1),
+              RollingText(decimalText(_shown.toStringAsFixed(1)),
                   style: AppTheme.f(52, weight: FontWeight.w800, color: gc.text, height: 1.1)),
               const SizedBox(width: 6),
               Text(fit.units, style: AppTheme.f(18, weight: FontWeight.w700, color: gc.textSecondary)),

@@ -25,7 +25,7 @@ class TodayWidgetProvider : DayWidgetProvider() {
         val shown = if (widgetData.getString(key, null) == null) "today_img" else key
         appWidgetIds.forEach { widgetId ->
             val views = RemoteViews(context.packageName, R.layout.widget_today).apply {
-                bindThemedImage(context, widgetData, shown)
+                bindThemedImage(context, widgetData, shown, R.drawable.preview_today)
             }
             appWidgetManager.updateAppWidget(widgetId, views)
         }

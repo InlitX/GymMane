@@ -31,6 +31,25 @@ class AppTheme {
       splashColor: Colors.transparent,
       highlightColor: Colors.transparent,
       dividerColor: gc.border,
+      timePickerTheme: TimePickerThemeData(
+        backgroundColor: gc.bgRaised,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(28)),
+        hourMinuteShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        hourMinuteColor: WidgetStateColor.resolveWith(
+            (s) => s.contains(WidgetState.selected) ? gc.accentSoft : gc.bgRaised2),
+        hourMinuteTextColor: WidgetStateColor.resolveWith(
+            (s) => s.contains(WidgetState.selected) ? gc.accent : gc.text),
+        dayPeriodColor: WidgetStateColor.resolveWith(
+            (s) => s.contains(WidgetState.selected) ? gc.accentSoft : Colors.transparent),
+        dayPeriodTextColor: WidgetStateColor.resolveWith(
+            (s) => s.contains(WidgetState.selected) ? gc.accent : gc.textSecondary),
+        dayPeriodBorderSide: BorderSide(color: gc.border),
+        helpTextStyle: TextStyle(
+            fontFamily: sans, fontSize: 12, fontWeight: FontWeight.w700, letterSpacing: 1.2, color: gc.textSecondary),
+        entryModeIconColor: gc.textSecondary,
+        cancelButtonStyle: TextButton.styleFrom(foregroundColor: gc.textSecondary),
+        confirmButtonStyle: TextButton.styleFrom(foregroundColor: gc.accent),
+      ),
       extensions: [gc],
     );
   }

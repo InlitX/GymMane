@@ -2,7 +2,7 @@ part of 'fit_state.dart';
 
 String fmt(num n) {
   if (n == n.round()) return n.round().toString();
-  return n.toString();
+  return decimalText(n.toString());
 }
 
 double _round1(double n) => (n * 10).round() / 10;

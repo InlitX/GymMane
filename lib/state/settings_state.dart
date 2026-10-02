@@ -31,6 +31,7 @@ mixin SettingsState on FitCore, ToolsState, LibraryState {
   bool showFocus = true;
   bool showRecommended = true;
   bool levelHints = true;
+  bool toastSound = true;
   bool heatmapLabels = true;
   bool autoAdvance = true;
   bool keepScreenOn = true;
@@ -358,6 +359,13 @@ mixin SettingsState on FitCore, ToolsState, LibraryState {
 
   void toggleHeatmapLabels() {
     heatmapLabels = !heatmapLabels;
+    _persist();
+    notifyListeners();
+  }
+
+  void toggleToastSound() {
+    toastSound = !toastSound;
+    Beeper.instance.chimeOn = toastSound;
     _persist();
     notifyListeners();
   }

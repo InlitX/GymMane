@@ -126,8 +126,7 @@ class _TrainScreenState extends State<TrainScreen> {
                   runSpacing: 8,
                   children: [for (final id in fit.selectedMuscles) _chip(gc, id)],
                 )
-              : Text(t.noMusclesYet,
-                  style: AppTheme.f(13, weight: FontWeight.w500, color: gc.textTertiary)),
+              : const SizedBox.shrink(),
         ),
         const SizedBox(height: 18),
         PrimaryButton(
@@ -212,14 +211,16 @@ class _TrainScreenState extends State<TrainScreen> {
               child: SvgPathIcon(Ic.chevronLeft, size: 20, color: gc.textSecondary),
             ),
             const SizedBox(width: 10),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(t.step2.toUpperCase(),
-                    style: AppTheme.f(10.5,
-                        weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.5)),
-                Text(t.buildSession, style: AppTheme.f(22, weight: FontWeight.w800, color: gc.text)),
-              ],
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(t.step2.toUpperCase(),
+                      style: AppTheme.f(10.5,
+                          weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.5)),
+                  Text(t.buildSession, style: AppTheme.f(22, weight: FontWeight.w800, color: gc.text)),
+                ],
+              ),
             ),
           ],
         ),

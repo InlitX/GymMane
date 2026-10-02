@@ -340,7 +340,7 @@ class HomeScreen extends StatelessWidget {
               children: [
                 GoalRing(pct: fit.goalPct.toDouble(), size: 44),
                 const SizedBox(height: 7),
-                Text('${fit.daysDoneThisWeek}/${fit.weeklyTarget}',
+                Text(t.goalDaysShort(fit.daysDoneThisWeek, fit.weeklyTarget),
                     style: AppTheme.f(11, weight: FontWeight.w700, color: gc.textSecondary)),
               ],
             ),

@@ -140,9 +140,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get tapMuscles => 'Нажми на мышцы, которые хочешь нагрузить — спереди и сзади.';
 
   @override
-  String get noMusclesYet => 'Мышцы ещё не выбраны — нажми на тело, чтобы начать.';
-
-  @override
   String get continueBtn => 'ДАЛЬШЕ';
 
   @override
@@ -207,14 +204,6 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get nextExercise => 'СЛЕДУЮЩЕЕ УПРАЖНЕНИЕ';
-
-  @override
-  String get skipExercise => 'Пропустить это упражнение?';
-
-  @override
-  String skipExerciseBody(String name) {
-    return 'Ты не отметил ни одного подхода, так что по «$name» ничего не запишется.';
-  }
 
   @override
   String get dropExerciseAction => 'Убрать упражнение';
@@ -358,52 +347,13 @@ class AppLocalizationsRu extends AppLocalizations {
   String get restOverBody => 'Возвращайся — следующий подход ждёт.';
 
   @override
-  String get totalVolume30d => 'ОБЩИЙ ОБЪЁМ · 30 ДНЕЙ';
-
-  @override
-  String get volumeCumulative => 'Нарастающий итог каждого поднятого килограмма';
-
-  @override
-  String get volumeChartEmpty => 'Запиши тренировку — и кривая начнётся здесь';
-
-  @override
-  String get weekRhythm => 'РИТМ НЕДЕЛИ';
-
-  @override
-  String get weekRhythmHint => 'В какие дни ты реально приходишь.';
-
-  @override
-  String weekRhythmBest(String day) {
-    return '$day — твой день';
-  }
-
-  @override
-  String get weekRhythmEmpty => 'Запиши тренировку — и неделя обретёт форму.';
-
-  @override
-  String get allTime => 'ЗА ВСЁ ВРЕМЯ';
-
-  @override
   String get allTimeSessions => 'ТРЕНИРОВОК';
 
   @override
   String get allTimeTime => 'ВРЕМЯ';
 
   @override
-  String get allTimeVolume => 'ПОДНЯТО';
-
-  @override
   String get allTimeSets => 'ПОДХОДОВ';
-
-  @override
-  String allTimeAvg(String time) {
-    return 'В среднем $time на тренировку';
-  }
-
-  @override
-  String hoursShort(int n) {
-    return '$n ч';
-  }
 
   @override
   String get consistency => 'РЕГУЛЯРНОСТЬ';
@@ -428,12 +378,6 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get bodyweight => 'ВЕС ТЕЛА';
-
-  @override
-  String get notLoggedYet => 'Ещё не записано';
-
-  @override
-  String get logShort => '+ ЗАПИСАТЬ';
 
   @override
   String get logBodyweight => 'ЗАПИСАТЬ ВЕС';
@@ -476,13 +420,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get muscleSplit => 'РАСПРЕДЕЛЕНИЕ ОБЪЁМА';
 
   @override
-  String get splitEmpty => 'Тренируйся, чтобы увидеть, как объём делится по мышечным группам.';
-
-  @override
   String get personalRecords => 'ЛИЧНЫЕ РЕКОРДЫ';
-
-  @override
-  String get prEmpty => 'Рекорды появятся здесь по мере записи подходов.';
 
   @override
   String get strength1rm => 'СИЛА · ОЦЕНКА 1ПМ';
@@ -516,9 +454,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get bodyweightHistory => 'ИСТОРИЯ';
 
   @override
-  String get noBodyweightYet => 'Пока ничего не записано.';
-
-  @override
   String get exercisesCaps => 'УПРАЖНЕНИЯ';
 
   @override
@@ -545,6 +480,21 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get levelFilter => 'УРОВЕНЬ';
+
+  @override
+  String get kindLabel => 'ТИП';
+
+  @override
+  String get kindStrength => 'Силовые';
+
+  @override
+  String get kindCalisthenics => 'Калистеника';
+
+  @override
+  String get kindCardio => 'Кардио';
+
+  @override
+  String get kindStretch => 'Растяжка';
 
   @override
   String get newExercise => 'НОВОЕ УПРАЖНЕНИЕ';
@@ -610,11 +560,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get notePlaceholder => 'Подсказки, настройка, ощущения…';
 
   @override
-  String showAllNotes(int n) {
-    return 'Показать все заметки ($n)';
-  }
-
-  @override
   String notHere(String gear, String place) {
     return 'Нет «$gear» в «$place»';
   }
@@ -629,9 +574,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get places => 'МОИ МЕСТА';
 
   @override
-  String get placesShort => 'Места';
-
-  @override
   String get placesHint =>
       'Укажи, что есть в каждом месте, и библиотека покажет только то, что там реально можно сделать.';
 
@@ -642,27 +584,10 @@ class AppLocalizationsRu extends AppLocalizations {
   String get placeNew => 'Новое место';
 
   @override
-  String get placeNameLabel => 'НАЗВАНИЕ';
-
-  @override
   String get placeNamePlaceholder => 'Дом, зал, парк…';
 
   @override
   String get placeGearLabel => 'ЧТО ТАМ ЕСТЬ';
-
-  @override
-  String placeGearCount(int n) {
-    String _temp0 = intl.Intl.pluralLogic(
-      n,
-      locale: localeName,
-      other: '$n вида инвентаря',
-      many: '$n видов инвентаря',
-      few: '$n вида инвентаря',
-      one: '$n вид инвентаря',
-      zero: 'Ничего не отмечено',
-    );
-    return '$_temp0';
-  }
 
   @override
   String placeExercises(int n) {
@@ -1032,9 +957,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get sharePick => 'Что показать?';
 
   @override
-  String get shareSession => 'Последнюю тренировку';
-
-  @override
   String get shareStreak => 'Серию и регулярность';
 
   @override
@@ -1061,12 +983,6 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get shareVolumeLabel => 'ОБЪЁМ';
-
-  @override
-  String get shareSetsLabel => 'ПОДХОДОВ';
-
-  @override
-  String get shareNothing => 'Сначала запиши тренировку — показывать пока нечего';
 
   @override
   String get restForExercise => 'ОТДЫХ ДЛЯ ЭТОГО УПРАЖНЕНИЯ';
@@ -1194,9 +1110,6 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get drop => 'Убрать';
-
-  @override
-  String get addToWorkout => 'ДОБАВИТЬ УПРАЖНЕНИЕ';
 
   @override
   String get resetData => 'Удалить все мои данные';
@@ -1436,9 +1349,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get chooseGallery => 'Выбрать из галереи';
 
   @override
-  String get backupCopied => 'Резервная копия скопирована в буфер обмена';
-
-  @override
   String get backupImported => 'Резервная копия загружена';
 
   @override
@@ -1446,9 +1356,6 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get nothingToExport => 'Выгружать пока нечего — сначала запиши тренировку';
-
-  @override
-  String get athlete => 'Атлет';
 
   @override
   String calculatorsCount(int n) {
@@ -1494,11 +1401,6 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String perSideCount(int n) {
     return '× $n на сторону';
-  }
-
-  @override
-  String rampSet(String pct, int reps) {
-    return '$pct · $reps повт.';
   }
 
   @override
@@ -1731,11 +1633,11 @@ class AppLocalizationsRu extends AppLocalizations {
   String get exercisesInsideWhy => 'Каждое с анимацией и пошаговой инструкцией.';
 
   @override
-  String get calculatorsInside => '6 калькуляторов';
+  String get calculatorsInside => '8 калькуляторов';
 
   @override
   String get calculatorsInsideWhy =>
-      '1ПМ, блины, ИМТ, калории, жир и разминка — все по опубликованным формулам.';
+      '1ПМ, блины, ИМТ, калории, жир, разминка, вес по RPE и уровень силы DOTS — все по опубликованным формулам.';
 
   @override
   String get mathInside => 'Честная математика';
@@ -1743,15 +1645,6 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get mathInsideWhy =>
       'Объём, рекорды и серии считаются по твоим подходам. Здесь ничего не нарисовано для красоты.';
-
-  @override
-  String get yourNumbers => 'ТВОИ ЦИФРЫ';
-
-  @override
-  String get sessionsCaps => 'ТРЕНИРОВОК';
-
-  @override
-  String get liftedCaps => 'ПОДНЯТО';
 
   @override
   String get streakCaps => 'СЕРИЯ';
@@ -1767,14 +1660,6 @@ class AppLocalizationsRu extends AppLocalizations {
       one: 'день',
     );
     return '$_temp0';
-  }
-
-  @override
-  String get restDefaultLabel => 'Таймер отдыха';
-
-  @override
-  String restDefault(int s) {
-    return 'По умолчанию $s с — измени в настройках';
   }
 
   @override
@@ -1907,9 +1792,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get unlockWorkout => 'Разблокировать';
 
   @override
-  String get lockedCaps => 'ЗАБЛОКИРОВАНО';
-
-  @override
   String get holdToUnlock => 'Удерживай, чтобы разблокировать';
 
   @override
@@ -1981,6 +1863,15 @@ class AppLocalizationsRu extends AppLocalizations {
   String get trainReminderHint => 'Напомнит в это время, только в те дни, на которые стоит программа.';
 
   @override
+  String get reminderExactTime => 'Точное время';
+
+  @override
+  String get toastSoundSetting => 'Звук уведомлений';
+
+  @override
+  String get toastSoundHint => 'Мягкий звук, когда сверху появляется уведомление.';
+
+  @override
   String get notifTrainChannel => 'Напоминание о тренировке';
 
   @override
@@ -1993,29 +1884,10 @@ class AppLocalizationsRu extends AppLocalizations {
   String get notifTrainBody => 'Твоя программа ждёт.';
 
   @override
-  String get exportCatalog => 'Экспортировать список упражнений';
-
-  @override
-  String get importRoutine => 'Импортировать программу (JSON)';
-
-  @override
   String get planIntro => 'Составь мне программу тренировок, используя только упражнения из этого списка.';
 
   @override
   String get planFormat => 'Ответь только в JSON, вот в таком виде:';
-
-  @override
-  String planImported(int n) {
-    String _temp0 = intl.Intl.pluralLogic(
-      n,
-      locale: localeName,
-      other: 'в программу добавлено $n упражнения',
-      many: 'в программу добавлено $n упражнений',
-      few: 'в программу добавлено $n упражнения',
-      one: 'в программу добавлено $n упражнение',
-    );
-    return '$_temp0';
-  }
 
   @override
   String get planNothing => 'Ни одного упражнения из этого файла нет в твоей библиотеке';
@@ -2161,9 +2033,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get logRpe => 'Записывать усилие (RPE)';
 
   @override
-  String get rpeTitle => 'УСИЛИЕ (RPE)';
-
-  @override
   String get rpeHint => '10 — больше ни одного повторения; 8 — оставалось ещё два.';
 
   @override
@@ -2181,19 +2050,6 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get aiIntro =>
       'GymMane ни с каким ИИ не общается. Ты сам выгружаешь список упражнений, вставляешь его в тот ассистент, которым уже пользуешься, и приносишь ответ обратно. С телефона само ничего не уходит.';
-
-  @override
-  String get aiStep1 =>
-      'Выгрузи свой список упражнений. Если выбрано место, в нём будет только то, что можно сделать там.';
-
-  @override
-  String get aiStep2 => 'Отдай этот файл любому ИИ и попроси программу.';
-
-  @override
-  String get aiStep3 => 'Сохрани ответ в файл: JSON или обычный текст, без разницы.';
-
-  @override
-  String get aiStep4 => 'Импортируй его сюда. Названия сверятся с твоей библиотекой, и программа соберётся.';
 
   @override
   String aiMissing(int n) {
@@ -2281,9 +2137,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get awardsTitle => 'Медали';
 
   @override
-  String get awardWon => 'Получена';
-
-  @override
   String get yearTitle => 'Твой год';
 
   @override
@@ -2308,19 +2161,10 @@ class AppLocalizationsRu extends AppLocalizations {
   String get awardSaved => 'Сохранено в галерею';
 
   @override
-  String get awardStreakBottom => 'подряд';
-
-  @override
-  String get awardStreak7Top => 'семь дней';
-
-  @override
   String get awardStreak7Name => 'Семь дней';
 
   @override
   String get awardStreak7Line => 'Целая неделя без единого пропуска.';
-
-  @override
-  String get awardStreak30Top => 'тридцать дней';
 
   @override
   String get awardStreak30Name => 'Тридцать дней';
@@ -2329,34 +2173,16 @@ class AppLocalizationsRu extends AppLocalizations {
   String get awardStreak30Line => 'Месяц подряд. Это уже привычка.';
 
   @override
-  String get awardWorkouts100Top => 'сто';
-
-  @override
-  String get awardWorkouts100Bottom => 'тренировок';
-
-  @override
   String get awardWorkouts100Name => 'Сто тренировок';
 
   @override
   String get awardWorkouts100Line => 'Сто занятий записано от начала до конца.';
 
   @override
-  String get awardTonnes100Top => 'сто';
-
-  @override
-  String get awardTonnes100Bottom => 'тонн';
-
-  @override
   String get awardTonnes100Name => 'Сто тонн';
 
   @override
   String get awardTonnes100Line => 'Всё, что ты поднял, складывается в 100 000 кг.';
-
-  @override
-  String get awardSets1000Top => 'тысяча';
-
-  @override
-  String get awardSets1000Bottom => 'подходов';
 
   @override
   String get awardSets1000Name => 'Тысяча подходов';
@@ -2372,9 +2198,6 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get pickBadge => 'Значок';
-
-  @override
-  String get badgeTitle => 'Твой значок';
 
   @override
   String get statWorkouts => 'Тренировки';
@@ -2407,16 +2230,10 @@ class AppLocalizationsRu extends AppLocalizations {
   String get snapNow => 'Сделать фото';
 
   @override
-  String get calendarLegend => 'Тренировки · фото';
-
-  @override
   String get addCover => 'Поставь обложку';
 
   @override
   String get addTodayWidget => 'Сегодня: сделано или нет';
-
-  @override
-  String get monthTitle => 'Этот месяц';
 
   @override
   String get photosCard => 'Твои фото';
@@ -2509,11 +2326,6 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
-  String awardProgressLabel(String value, String goal) {
-    return '$value из $goal';
-  }
-
-  @override
   String badgeName(String id) {
     String _temp0 = intl.Intl.selectLogic(id, {
       'gold': 'Золотой',
@@ -2580,8 +2392,14 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
-  String get badgeHint =>
-      'Выбери цвет или нажми на тот, что стоит, чтобы снять. Он только для тебя: ничего не проверяется и ничего не оплачивается.';
+  String photosSelected(int n) {
+    return 'Выбрано: $n';
+  }
+
+  @override
+  String deletePhotosTitle(int n) {
+    return 'Удалить фото ($n)?';
+  }
 
   @override
   String get momentsEmptyHint =>
@@ -2722,9 +2540,6 @@ class AppLocalizationsRu extends AppLocalizations {
       'Если выключить, упражнение не попадёт в подборку. Добавить его вручную всё равно можно.';
 
   @override
-  String get dontSuggest => 'Больше не предлагать';
-
-  @override
   String get onbPlaceTitle => 'Где ты тренируешься?';
 
   @override
@@ -2834,9 +2649,6 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get clearPlan => 'Сбросить план';
-
-  @override
-  String get planChip => 'План';
 
   @override
   String get shareRoutine => 'Поделиться тренировкой';
@@ -3045,13 +2857,13 @@ class AppLocalizationsRu extends AppLocalizations {
   String get removedFromRoutine => 'Убрано из программы';
 
   @override
-  String get radarTitle => 'Этот месяц';
+  String get radarTitle => 'Последние 30 дней';
 
   @override
   String get radarHint => 'Посмотри, каким зонам нужно больше работы';
 
   @override
-  String get radarEmpty => 'Тренируйся в этом месяце, чтобы увидеть баланс';
+  String get radarEmpty => 'Потренируйтесь несколько дней, чтобы увидеть баланс';
 
   @override
   String get radarBalanced => 'Пока всё сбалансировано';
@@ -3076,9 +2888,6 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get effortHint =>
       'RPE: 10 — больше ни одного повтора, 8 — оставалось два. RIR — сколько повторов оставалось в запасе. Если у подхода есть оценка, 1ПМ считается по таблице RPE.';
-
-  @override
-  String get rirTitle => 'ЗАПАС (RIR)';
 
   @override
   String get rirHint => '0 — больше ни одного повтора, 2 — оставалось два.';
@@ -3407,4 +3216,202 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get goalRemove => 'Убрать цель';
+
+  @override
+  String get exerciseNameMissing => 'Дайте название';
+
+  @override
+  String get aliasesLabel => 'Другие названия (необязательно)';
+
+  @override
+  String get aliasesHint => 'Другие названия через запятую';
+
+  @override
+  String alsoCalled(String names) {
+    return 'Ещё: $names';
+  }
+
+  @override
+  String get addToRoutine => 'Добавить в программу';
+
+  @override
+  String inRoutines(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: 'В $n программах',
+      one: 'В 1 программе',
+      zero: 'Пока ни в одной программе',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get alreadyInRoutine => 'Уже есть';
+
+  @override
+  String get restInRoutine => 'Отдых в этой программе';
+
+  @override
+  String get restInRoutineHint => 'Как у упражнения';
+
+  @override
+  String get restInRoutineReset => 'Только здесь · нажмите, чтобы сбросить';
+
+  @override
+  String get swapExercise => 'Заменить упражнение';
+
+  @override
+  String get swapShort => 'Заменить';
+
+  @override
+  String swapHint(String name) {
+    return 'Вместо «$name», только сегодня. В конце можно оставить его в программе.';
+  }
+
+  @override
+  String get swapKeepsDone => 'Сделанные подходы останутся; новое продолжит оставшиеся.';
+
+  @override
+  String swapSameMuscle(String muscle) {
+    return 'Та же мышца · $muscle';
+  }
+
+  @override
+  String get swapDoneBefore => 'Уже делали';
+
+  @override
+  String get multiPlanSettingHint => 'Больше одной программы в один день недели.';
+
+  @override
+  String get levelHintsHint => 'Когда упражнение даётся легко, предложит более сложный вариант.';
+
+  @override
+  String get focusCardHint => 'Программа на сегодня — вверху главного экрана.';
+
+  @override
+  String get gamificationHint => 'Медали, ваш уровень и праздник в конце.';
+
+  @override
+  String get exerciseSettings => 'Настройки упражнения';
+
+  @override
+  String get placeActiveNow => 'Вы здесь';
+
+  @override
+  String get placeTapToUse => 'нажмите, чтобы тренироваться здесь';
+
+  @override
+  String get intervalDays => 'дней';
+
+  @override
+  String goalDaysShort(int done, int target) {
+    return '$done/$target дн.';
+  }
+
+  @override
+  String get toolNameRpe => 'Вес по RPE';
+
+  @override
+  String get toolTitleRpe => 'Вес по RPE';
+
+  @override
+  String get toolDescRpe => 'Какой вес взять под нужное усилие';
+
+  @override
+  String get toolNameDots => 'Уровень силы';
+
+  @override
+  String get toolTitleDots => 'Уровень силы (DOTS)';
+
+  @override
+  String get toolDescDots => 'Ваша сила относительно веса';
+
+  @override
+  String rpeResultHint(int reps, String rpe) {
+    return 'На $reps повт. при RPE $rpe';
+  }
+
+  @override
+  String get rpeYourSet => 'Подход, который вы только что сделали';
+
+  @override
+  String get rpeGoal => 'Что хотите сделать';
+
+  @override
+  String rpeOneRmLine(String value) {
+    return 'Расчётный 1ПМ: $value';
+  }
+
+  @override
+  String get rpeExplain => 'RPE 10 — больше ни одного повтора; 8 — оставалось два.';
+
+  @override
+  String get dotsBestLifts => 'Ваши лучшие результаты';
+
+  @override
+  String get dotsSquat => 'ПРИСЕД';
+
+  @override
+  String get dotsBench => 'ЖИМ ЛЁЖА';
+
+  @override
+  String get dotsDeadlift => 'СТАНОВАЯ ТЯГА';
+
+  @override
+  String dotsTotalLine(String value) {
+    return 'Сумма: $value';
+  }
+
+  @override
+  String get dotsExplain =>
+      'Сравнивает вашу силу с силой любого человека, независимо от веса. Используйте лучший разовый результат или расчётный 1ПМ.';
+
+  @override
+  String get dotsLevel0 => 'Новичок';
+
+  @override
+  String get dotsLevel1 => 'Средний';
+
+  @override
+  String get dotsLevel2 => 'Продвинутый';
+
+  @override
+  String get dotsLevel3 => 'Очень продвинутый';
+
+  @override
+  String get dotsLevel4 => 'Элита';
+
+  @override
+  String get rpeEffortLabel => 'Усилие (RPE)';
+
+  @override
+  String get restRowHint => 'Между подходами, если у упражнения нет своего.';
+
+  @override
+  String get effortRowHint => 'Отмечайте RPE или RIR в каждом подходе.';
+
+  @override
+  String get countdownHint => '3, 2, 1 перед первым подходом.';
+
+  @override
+  String get keepScreenOnHint => 'Экран не гаснет во время тренировки.';
+
+  @override
+  String get demoSizeRowHint => 'Рисунок упражнения во время тренировки.';
+
+  @override
+  String get demoLoopRowHint => 'Повторяется анимация или останавливается.';
+
+  @override
+  String get trainReminderRowHint => 'Напоминание в дни тренировок.';
+
+  @override
+  String get alarmSoundRowHint => 'Что звучит в конце отдыха.';
+
+  @override
+  String get alarmStyleRowHint => 'Звонит ли в беззвучном режиме.';
+
+  @override
+  String get recommendedRowHint => 'Упражнения, которые мы предлагаем на главной.';
 }

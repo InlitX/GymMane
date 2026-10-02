@@ -14,15 +14,21 @@ import es.antonborri.home_widget.HomeWidgetProvider
 import java.util.Calendar
 import java.util.Locale
 
-fun RemoteViews.bindThemedImage(context: Context, widgetData: SharedPreferences, key: String) {
+fun RemoteViews.bindThemedImage(context: Context, widgetData: SharedPreferences, key: String, preview: Int) {
     val day = widgetData.getString(key, null)?.let { BitmapFactory.decodeFile(it) }
     val night = widgetData.getString("${key}_night", null)?.let { BitmapFactory.decodeFile(it) } ?: day
-    bindThemedBitmaps(context, day, night)
+    bindThemedBitmaps(context, day, night, preview)
 }
 
-fun RemoteViews.bindThemedBitmaps(context: Context, day: Bitmap?, night: Bitmap?) {
-    day?.let { setImageViewBitmap(R.id.widget_image, it) }
-    (night ?: day)?.let { setImageViewBitmap(R.id.widget_image_night, it) }
+fun RemoteViews.bindThemedBitmaps(context: Context, day: Bitmap?, night: Bitmap?, preview: Int) {
+    val shown = day ?: night
+    if (shown == null) {
+        setImageViewResource(R.id.widget_image, preview)
+        setImageViewResource(R.id.widget_image_night, preview)
+    } else {
+        setImageViewBitmap(R.id.widget_image, shown)
+        setImageViewBitmap(R.id.widget_image_night, night ?: shown)
+    }
     val open = PendingIntent.getActivity(
         context,
         0,

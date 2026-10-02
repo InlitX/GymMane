@@ -623,7 +623,7 @@ class _NavBarState extends State<_NavBar> {
                       _fab(context),
                       _item(context, 2, PhosphorIconsRegular.barbell, PhosphorIconsFill.barbell, t.exercises,
                           fit.goExercises),
-                      _item(context, 3, PhosphorIconsRegular.userCircle, PhosphorIconsFill.userCircle, t.profile,
+                      _item(context, 3, PhosphorIconsRegular.userCircle, PhosphorIconsFill.userCircle, t.profile.toUpperCase(),
                           fit.goSettings),
                     ],
                   ),

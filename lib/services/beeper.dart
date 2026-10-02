@@ -72,8 +72,10 @@ class Beeper {
   String? _chime;
   DateTime _lastChime = DateTime(2000);
 
+  bool chimeOn = true;
+
   Future<void> chime() async {
-    if (kIsWeb || _failed) return;
+    if (kIsWeb || _failed || !chimeOn) return;
     final now = DateTime.now();
     if (now.difference(_lastChime) < const Duration(milliseconds: 700)) return;
     _lastChime = now;

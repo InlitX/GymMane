@@ -39,7 +39,7 @@ class _MuscleRadarCardState extends State<MuscleRadarCard> {
 
   Map<String, double> _month() {
     final now = DateTime.now();
-    final raw = fit.muscleSetsBetween(DateTime(now.year, now.month), now.add(const Duration(minutes: 1)));
+    final raw = fit.muscleSetsBetween(DateTime(now.year, now.month, now.day - 29), now.add(const Duration(minutes: 1)));
     return {
       for (final id in _axes) id: (raw[id] ?? 0) + (id == 'abdomen' ? raw['obliques'] ?? 0 : 0),
     };

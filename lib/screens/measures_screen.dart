@@ -176,7 +176,7 @@ class _MeasureSheetState extends State<_MeasureSheet> {
     return _snap(fit.toDisplayCm((_rangesCm[_key] ?? (10.0, 200.0, 50.0)).$3));
   }();
 
-  String _show(double v) => v.toStringAsFixed(_step < 0.5 ? 2 : 1);
+  String _show(double v) => decimalText(v.toStringAsFixed(_step < 0.5 ? 2 : 1));
 
   void _save() {
     if (_value <= 0) return;

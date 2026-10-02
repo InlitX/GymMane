@@ -15,7 +15,7 @@ class StatsWidgetProvider : HomeWidgetProvider() {
     ) {
         appWidgetIds.forEach { widgetId ->
             val views = RemoteViews(context.packageName, R.layout.widget_stats).apply {
-                bindThemedImage(context, widgetData, "stats_img")
+                bindThemedImage(context, widgetData, "stats_img", R.drawable.preview_stats)
             }
             appWidgetManager.updateAppWidget(widgetId, views)
         }

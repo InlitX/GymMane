@@ -15,7 +15,7 @@ class BodyWidgetProvider : HomeWidgetProvider() {
     ) {
         appWidgetIds.forEach { widgetId ->
             val views = RemoteViews(context.packageName, R.layout.widget_body).apply {
-                bindThemedImage(context, widgetData, "body_img")
+                bindThemedImage(context, widgetData, "body_img", R.drawable.preview_body)
             }
             appWidgetManager.updateAppWidget(widgetId, views)
         }

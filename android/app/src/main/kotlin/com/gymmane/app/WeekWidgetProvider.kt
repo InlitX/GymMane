@@ -46,7 +46,7 @@ class WeekWidgetProvider : DayWidgetProvider() {
         val night = image("_night", widgetData.getString("week_ring_night", null))
         appWidgetIds.forEach { widgetId ->
             val views = RemoteViews(context.packageName, R.layout.widget_week).apply {
-                bindThemedBitmaps(context, day, night)
+                bindThemedBitmaps(context, day, night, R.drawable.preview_week)
             }
             appWidgetManager.updateAppWidget(widgetId, views)
         }

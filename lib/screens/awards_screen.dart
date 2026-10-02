@@ -86,7 +86,7 @@ class AwardsScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Medal(id: id, size: 96, locked: !won),
+            Flexible(child: FittedBox(child: Medal(id: id, size: 96, locked: !won))),
             const SizedBox(height: 14),
             Text(
               awardName(id),
