@@ -1,0 +1,12 @@
+GymMane 1.4.0
+
+• Un aviso de "Siguiente paso" cuando un ejercicio se queda corto
+• Calentamiento y cardio, y la Recommended Routine de r/bodyweightfitness
+• Objetivos por ejercicio y porcentajes del 1RM
+• Varias rutinas al día y grupos de rutinas
+• Archiva ejercicios y míralos desde cualquier lista
+• Exporta un entreno a Strava
+• Cambia un ejercicio a mitad del entreno y descanso por rutina
+• Tipos de ejercicio, calculadoras de RPE y DOTS
+
+Y mucho más. Instálala y descúbrelo.

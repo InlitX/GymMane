@@ -1,0 +1,12 @@
+GymMane 1.4.0
+
+• A "Next step" tip when an exercise gets easy
+• Warm-up and cardio sessions, and the r/bodyweightfitness Recommended Routine
+• Goals per exercise and 1RM percentages
+• Several routines a day and routine groups
+• Archive exercises and preview them from any list
+• Export a workout to Strava
+• Swap an exercise mid-workout and rest per routine
+• Exercise types, RPE and DOTS calculators
+
+And a lot more. Install it and find out.
