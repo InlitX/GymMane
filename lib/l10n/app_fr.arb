@@ -758,6 +758,7 @@
   "actModerate": "Modéré",
   "muscleChest": "Pectoraux",
   "muscleBack": "Dos",
+  "muscleLowerBack": "Lower back",
   "muscleShoulders": "Épaules",
   "muscleBiceps": "Biceps",
   "muscleTriceps": "Triceps",
@@ -1477,7 +1478,7 @@
       }
     }
   },
-  "saveChangesBody": "La prochaine fois, ce programme commencera ainsi.",
+  "saveChangesBody": "Next time you start it, the routine will have these changes.",
   "routineOrderChanged": "Nouvel ordre des exercices",
   "mineOnly": "Créés par toi",
   "createNamed": "Introuvable ? Créer « {name} »",
@@ -1521,6 +1522,7 @@
       }
     }
   },
+  "nextToday": "Next today",
   "planAboutMe": "À propos de moi :",
   "planBody": "{sex}, {age} ans, {height}, {weight}.",
   "planDays": "Je veux m’entraîner {n} jours par semaine.",
