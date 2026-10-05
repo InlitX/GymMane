@@ -758,6 +758,7 @@
   "actModerate": "보통",
   "muscleChest": "가슴",
   "muscleBack": "등",
+  "muscleLowerBack": "Lower back",
   "muscleShoulders": "어깨",
   "muscleBiceps": "이두근",
   "muscleTriceps": "삼두근",
@@ -1477,7 +1478,7 @@
       }
     }
   },
-  "saveChangesBody": "다음부터 이 루틴은 이렇게 시작돼요.",
+  "saveChangesBody": "Next time you start it, the routine will have these changes.",
   "routineOrderChanged": "새 운동 순서",
   "mineOnly": "내가 만든 운동",
   "createNamed": "없나요? “{name}” 만들기",
@@ -1521,6 +1522,7 @@
       }
     }
   },
+  "nextToday": "Next today",
   "planAboutMe": "나에 대해:",
   "planBody": "{sex}, {age}세, 키 {height}, 몸무게 {weight}.",
   "planDays": "주 {n}일 운동하고 싶어요.",
