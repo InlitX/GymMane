@@ -814,8 +814,8 @@
     }
   },
   "exercisesInsideWhy": "Elk met animatie en stapsgewijze instructies.",
-  "calculatorsInside": "8 calculators",
-  "calculatorsInsideWhy": "1RM, plates, BMI, calories, body fat, warm-up, RPE load and DOTS strength level — all with published formulas.",
+  "calculatorsInside": "10 calculators",
+  "calculatorsInsideWhy": "1RM, plates, BMI, calories, body fat, FFMI, warm-up, RPE load, and DOTS and Wilks strength scores — all with published formulas.",
   "mathInside": "Transparante berekeningen",
   "mathInsideWhy": "Volume, records en sets worden uit je eigen gegevens berekend. Niets is alleen voor de sier.",
   "streakCaps": "REEKS",
@@ -1781,6 +1781,28 @@
   "dotsLevel2": "Advanced",
   "dotsLevel3": "Very advanced",
   "dotsLevel4": "Elite",
+  "toolNameWilks": "Wilks",
+  "toolTitleWilks": "Wilks score",
+  "toolDescWilks": "The classic powerlifting score",
+  "wilksExplain": "The classic powerlifting formula. DOTS replaced it in 2020, but many meets and rankings still use it.",
+  "toolNameFfmi": "FFMI",
+  "toolTitleFfmi": "Fat-free mass index",
+  "toolDescFfmi": "How much muscle for your height",
+  "ffmiBodyFat": "BODY FAT",
+  "ffmiLeanLine": "Lean mass: {value}",
+  "@ffmiLeanLine": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "ffmiExplain": "Like BMI, but without the fat: it only counts your lean mass. Adjusted to your height so tall and short people compare fairly.",
+  "ffmiLevel0": "Below average",
+  "ffmiLevel1": "Average",
+  "ffmiLevel2": "Above average",
+  "ffmiLevel3": "Excellent",
+  "ffmiLevel4": "Exceptional",
   "rpeEffortLabel": "Effort (RPE)",
   "restRowHint": "Between sets, unless the exercise has its own.",
   "effortRowHint": "Log RPE or RIR on each set.",
