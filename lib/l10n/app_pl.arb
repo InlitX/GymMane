@@ -758,6 +758,7 @@
   "actModerate": "Umiarkowany",
   "muscleChest": "Klatka piersiowa",
   "muscleBack": "Plecy",
+  "muscleLowerBack": "Lower back",
   "muscleShoulders": "Barki",
   "muscleBiceps": "Biceps",
   "muscleTriceps": "Triceps",
@@ -1477,7 +1478,7 @@
       }
     }
   },
-  "saveChangesBody": "Następnym razem ten plan zacznie się tak.",
+  "saveChangesBody": "Next time you start it, the routine will have these changes.",
   "routineOrderChanged": "Nowa kolejność ćwiczeń",
   "mineOnly": "Utworzone przez ciebie",
   "createNamed": "Nie ma? Utwórz „{name}”",
@@ -1521,6 +1522,7 @@
       }
     }
   },
+  "nextToday": "Next today",
   "planAboutMe": "O mnie:",
   "planBody": "{sex}, {age} lat, {height} wzrostu, {weight}.",
   "planDays": "Chcę trenować {n} dni w tygodniu.",
