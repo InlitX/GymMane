@@ -758,6 +758,7 @@
   "actModerate": "متوسط",
   "muscleChest": "سینه",
   "muscleBack": "پشت",
+  "muscleLowerBack": "Lower back",
   "muscleShoulders": "شانه‌ها",
   "muscleBiceps": "جلو‌بازو",
   "muscleTriceps": "پشت‌بازو",
@@ -1477,7 +1478,7 @@
       }
     }
   },
-  "saveChangesBody": "دفعه بعد این روتین همین‌طور شروع می‌شود.",
+  "saveChangesBody": "Next time you start it, the routine will have these changes.",
   "routineOrderChanged": "ترتیب جدید حرکات",
   "mineOnly": "ساخته خودت",
   "createNamed": "اینجا نیست؟ «{name}» را بساز",
@@ -1521,6 +1522,7 @@
       }
     }
   },
+  "nextToday": "Next today",
   "planAboutMe": "درباره من:",
   "planBody": "{sex}، {age} ساله، قد {height}، وزن {weight}.",
   "planDays": "می‌خواهم هفته‌ای {n} روز تمرین کنم.",
