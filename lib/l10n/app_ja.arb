@@ -758,6 +758,7 @@
   "actModerate": "中程度",
   "muscleChest": "胸",
   "muscleBack": "背中",
+  "muscleLowerBack": "Lower back",
   "muscleShoulders": "肩",
   "muscleBiceps": "上腕二頭筋",
   "muscleTriceps": "上腕三頭筋",
@@ -1477,7 +1478,7 @@
       }
     }
   },
-  "saveChangesBody": "次回からこのルーティンはこの内容で始まります。",
+  "saveChangesBody": "Next time you start it, the routine will have these changes.",
   "routineOrderChanged": "新しい種目の順番",
   "mineOnly": "自分で作成",
   "createNamed": "見つからない？「{name}」を作成",
@@ -1521,6 +1522,7 @@
       }
     }
   },
+  "nextToday": "Next today",
   "planAboutMe": "私について：",
   "planBody": "{sex}、{age}歳、身長{height}、体重{weight}。",
   "planDays": "週{n}日トレーニングしたい。",
