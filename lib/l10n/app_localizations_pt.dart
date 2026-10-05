@@ -1590,11 +1590,11 @@ class AppLocalizationsPt extends AppLocalizations {
   String get exercisesInsideWhy => 'Todos com animação e instruções passo a passo.';
 
   @override
-  String get calculatorsInside => '8 calculadoras';
+  String get calculatorsInside => '10 calculadoras';
 
   @override
   String get calculatorsInsideWhy =>
-      '1RM, pesos, IMC, calorias, gordura corporal, aquecimento, carga por RPE e nível de força DOTS — tudo com fórmulas publicadas.';
+      '1RM, pesos, IMC, calorias, gordura corporal, FFMI, aquecimento, carga por RPE e pontuações de força DOTS e Wilks — tudo com fórmulas publicadas.';
 
   @override
   String get mathInside => 'Matemática honesta';
@@ -3288,50 +3288,50 @@ class AppLocalizationsPt extends AppLocalizations {
   String get toolNameWilks => 'Wilks';
 
   @override
-  String get toolTitleWilks => 'Wilks score';
+  String get toolTitleWilks => 'Pontuação Wilks';
 
   @override
-  String get toolDescWilks => 'The classic powerlifting score';
+  String get toolDescWilks => 'A pontuação clássica do powerlifting';
 
   @override
   String get wilksExplain =>
-      'The classic powerlifting formula. DOTS replaced it in 2020, but many meets and rankings still use it.';
+      'A fórmula clássica do powerlifting. A DOTS a substituiu em 2020, mas muitas competições e rankings ainda a usam.';
 
   @override
   String get toolNameFfmi => 'FFMI';
 
   @override
-  String get toolTitleFfmi => 'Fat-free mass index';
+  String get toolTitleFfmi => 'Índice de massa magra';
 
   @override
-  String get toolDescFfmi => 'How much muscle for your height';
+  String get toolDescFfmi => 'Quanto músculo para sua altura';
 
   @override
-  String get ffmiBodyFat => 'BODY FAT';
+  String get ffmiBodyFat => 'GORDURA CORPORAL';
 
   @override
   String ffmiLeanLine(String value) {
-    return 'Lean mass: $value';
+    return 'Massa magra: $value';
   }
 
   @override
   String get ffmiExplain =>
-      'Like BMI, but without the fat: it only counts your lean mass. Adjusted to your height so tall and short people compare fairly.';
+      'Como o IMC, mas sem a gordura: conta só sua massa magra. Ajustado à altura para comparar altos e baixos de forma justa.';
 
   @override
-  String get ffmiLevel0 => 'Below average';
+  String get ffmiLevel0 => 'Abaixo da média';
 
   @override
-  String get ffmiLevel1 => 'Average';
+  String get ffmiLevel1 => 'Na média';
 
   @override
-  String get ffmiLevel2 => 'Above average';
+  String get ffmiLevel2 => 'Acima da média';
 
   @override
-  String get ffmiLevel3 => 'Excellent';
+  String get ffmiLevel3 => 'Excelente';
 
   @override
-  String get ffmiLevel4 => 'Exceptional';
+  String get ffmiLevel4 => 'Excepcional';
 
   @override
   String get rpeEffortLabel => 'Esforço (RPE)';

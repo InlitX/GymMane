@@ -283,6 +283,39 @@ void main() {
       expect(fit.todayPlanDone, isTrue);
     });
 
+    test('#157 repetir una rutina no cuenta como hacer la otra', () {
+      fit.toggleMultiPlan();
+      final a = routineOf(['Barbell Bench Press']);
+      final b = routineOf(['Barbell Squat']);
+      final c = routineOf(['Barbell Deadlift']);
+      final today = DateTime.now().weekday;
+      fit.togglePlanDay(today, a.id);
+      fit.togglePlanDay(today, b.id);
+      LoggedSession done(String id) => LoggedSession(DateTime.now(), 1800, const [], routineId: id);
+
+      fit.sessions.add(done(a.id));
+      fit.sessions.add(done(a.id));
+      fit.sessions.add(done(c.id));
+      expect(fit.todayPlanDone, isFalse);
+      expect(fit.todayRoutine, same(b));
+
+      fit.sessions.add(done(b.id));
+      expect(fit.todayPlanDone, isTrue);
+      expect(LoggedSession.fromJson(done(b.id).toJson()).routineId, b.id);
+    });
+
+    test('#157 hacer la segunda primero deja pendiente la primera', () {
+      fit.toggleMultiPlan();
+      final a = routineOf(['Barbell Bench Press']);
+      final b = routineOf(['Barbell Squat']);
+      final today = DateTime.now().weekday;
+      fit.togglePlanDay(today, a.id);
+      fit.togglePlanDay(today, b.id);
+      fit.sessions.add(LoggedSession(DateTime.now(), 1800, const [], routineId: b.id));
+      expect(fit.todayRoutine, same(a));
+      expect(fit.todayPlanDone, isFalse);
+    });
+
     test('borrar la primera deja la segunda y se guarda', () {
       fit.toggleMultiPlan();
       final a = routineOf(['Barbell Bench Press']);

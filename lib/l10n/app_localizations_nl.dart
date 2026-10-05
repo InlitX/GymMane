@@ -1590,11 +1590,11 @@ class AppLocalizationsNl extends AppLocalizations {
   String get exercisesInsideWhy => 'Elk met animatie en stapsgewijze instructies.';
 
   @override
-  String get calculatorsInside => '8 calculators';
+  String get calculatorsInside => '10 calculators';
 
   @override
   String get calculatorsInsideWhy =>
-      '1RM, schijven, BMI, calorieën, lichaamsvet, warming-up, gewicht via RPE en krachtniveau (DOTS) — allemaal gebaseerd op gepubliceerde formules.';
+      '1RM, schijven, BMI, calorieën, lichaamsvet, FFMI, warming-up, gewicht via RPE en krachtscores (DOTS en Wilks) — allemaal gebaseerd op gepubliceerde formules.';
 
   @override
   String get mathInside => 'Transparante berekeningen';
@@ -3296,50 +3296,50 @@ class AppLocalizationsNl extends AppLocalizations {
   String get toolNameWilks => 'Wilks';
 
   @override
-  String get toolTitleWilks => 'Wilks score';
+  String get toolTitleWilks => 'Wilks-score';
 
   @override
-  String get toolDescWilks => 'The classic powerlifting score';
+  String get toolDescWilks => 'De klassieke powerliftingscore';
 
   @override
   String get wilksExplain =>
-      'The classic powerlifting formula. DOTS replaced it in 2020, but many meets and rankings still use it.';
+      'De klassieke powerliftingformule. DOTS verving hem in 2020, maar veel wedstrijden en ranglijsten gebruiken hem nog.';
 
   @override
   String get toolNameFfmi => 'FFMI';
 
   @override
-  String get toolTitleFfmi => 'Fat-free mass index';
+  String get toolTitleFfmi => 'Vetvrije-massa-index';
 
   @override
-  String get toolDescFfmi => 'How much muscle for your height';
+  String get toolDescFfmi => 'Hoeveel spier voor je lengte';
 
   @override
-  String get ffmiBodyFat => 'BODY FAT';
+  String get ffmiBodyFat => 'LICHAAMSVET';
 
   @override
   String ffmiLeanLine(String value) {
-    return 'Lean mass: $value';
+    return 'Vetvrije massa: $value';
   }
 
   @override
   String get ffmiExplain =>
-      'Like BMI, but without the fat: it only counts your lean mass. Adjusted to your height so tall and short people compare fairly.';
+      'Zoals BMI, maar zonder vet: alleen je vetvrije massa telt. Aangepast aan je lengte, zodat lange en korte mensen eerlijk te vergelijken zijn.';
 
   @override
-  String get ffmiLevel0 => 'Below average';
+  String get ffmiLevel0 => 'Onder gemiddeld';
 
   @override
-  String get ffmiLevel1 => 'Average';
+  String get ffmiLevel1 => 'Gemiddeld';
 
   @override
-  String get ffmiLevel2 => 'Above average';
+  String get ffmiLevel2 => 'Boven gemiddeld';
 
   @override
-  String get ffmiLevel3 => 'Excellent';
+  String get ffmiLevel3 => 'Uitstekend';
 
   @override
-  String get ffmiLevel4 => 'Exceptional';
+  String get ffmiLevel4 => 'Uitzonderlijk';
 
   @override
   String get rpeEffortLabel => 'Inspanning (RPE)';

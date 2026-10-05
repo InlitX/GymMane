@@ -1579,11 +1579,11 @@ class AppLocalizationsAr extends AppLocalizations {
   String get exercisesInsideWhy => 'لكل تمرين رسوم متحركة وتعليمات خطوة بخطوة.';
 
   @override
-  String get calculatorsInside => '8 حاسبات';
+  String get calculatorsInside => '10 حاسبات';
 
   @override
   String get calculatorsInsideWhy =>
-      '1RM والأقراص ومؤشر كتلة الجسم والسعرات ودهون الجسم والإحماء والوزن حسب RPE ومستوى القوة DOTS — كلها مبنية على معادلات منشورة.';
+      '1RM والأقراص ومؤشر كتلة الجسم والسعرات ودهون الجسم وFFMI والإحماء والوزن حسب RPE ونقاط القوة DOTS وWilks — كلها مبنية على معادلات منشورة.';
 
   @override
   String get mathInside => 'حسابات شفافة';
@@ -3285,50 +3285,50 @@ class AppLocalizationsAr extends AppLocalizations {
   String get toolNameWilks => 'Wilks';
 
   @override
-  String get toolTitleWilks => 'Wilks score';
+  String get toolTitleWilks => 'نقاط Wilks';
 
   @override
-  String get toolDescWilks => 'The classic powerlifting score';
+  String get toolDescWilks => 'النقاط الكلاسيكية لرفع القوة';
 
   @override
   String get wilksExplain =>
-      'The classic powerlifting formula. DOTS replaced it in 2020, but many meets and rankings still use it.';
+      'المعادلة الكلاسيكية لرفع القوة. حلّت DOTS محلها في 2020، لكن كثيرًا من البطولات والتصنيفات ما زالت تستخدمها.';
 
   @override
   String get toolNameFfmi => 'FFMI';
 
   @override
-  String get toolTitleFfmi => 'Fat-free mass index';
+  String get toolTitleFfmi => 'مؤشر الكتلة الخالية من الدهون';
 
   @override
-  String get toolDescFfmi => 'How much muscle for your height';
+  String get toolDescFfmi => 'كمية العضل بالنسبة لطولك';
 
   @override
-  String get ffmiBodyFat => 'BODY FAT';
+  String get ffmiBodyFat => 'دهون الجسم';
 
   @override
   String ffmiLeanLine(String value) {
-    return 'Lean mass: $value';
+    return 'الكتلة الخالية من الدهون: $value';
   }
 
   @override
   String get ffmiExplain =>
-      'Like BMI, but without the fat: it only counts your lean mass. Adjusted to your height so tall and short people compare fairly.';
+      'مثل مؤشر كتلة الجسم لكن بدون الدهون: يحسب كتلتك الخالية من الدهون فقط، ومعدّل حسب طولك لتكون المقارنة عادلة بين الطوال والقصار.';
 
   @override
-  String get ffmiLevel0 => 'Below average';
+  String get ffmiLevel0 => 'أقل من المتوسط';
 
   @override
-  String get ffmiLevel1 => 'Average';
+  String get ffmiLevel1 => 'متوسط';
 
   @override
-  String get ffmiLevel2 => 'Above average';
+  String get ffmiLevel2 => 'فوق المتوسط';
 
   @override
-  String get ffmiLevel3 => 'Excellent';
+  String get ffmiLevel3 => 'ممتاز';
 
   @override
-  String get ffmiLevel4 => 'Exceptional';
+  String get ffmiLevel4 => 'استثنائي';
 
   @override
   String get rpeEffortLabel => 'الجهد (RPE)';

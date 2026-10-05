@@ -1537,10 +1537,11 @@ class AppLocalizationsJa extends AppLocalizations {
   String get exercisesInsideWhy => 'すべてにアニメーションと手順説明があります。';
 
   @override
-  String get calculatorsInside => '8個の計算ツール';
+  String get calculatorsInside => '10個の計算ツール';
 
   @override
-  String get calculatorsInsideWhy => '1RM、プレート、BMI、カロリー、体脂肪、ウォームアップ、RPE重量、DOTS筋力レベル — すべて公開済みの式に基づきます。';
+  String get calculatorsInsideWhy =>
+      '1RM、プレート、BMI、カロリー、体脂肪、FFMI、ウォームアップ、RPE重量、DOTSとWilksの筋力スコア — すべて公開済みの式に基づきます。';
 
   @override
   String get mathInside => '透明な計算';
@@ -3196,50 +3197,48 @@ class AppLocalizationsJa extends AppLocalizations {
   String get toolNameWilks => 'Wilks';
 
   @override
-  String get toolTitleWilks => 'Wilks score';
+  String get toolTitleWilks => 'Wilksスコア';
 
   @override
-  String get toolDescWilks => 'The classic powerlifting score';
+  String get toolDescWilks => 'パワーリフティングの定番スコア';
 
   @override
-  String get wilksExplain =>
-      'The classic powerlifting formula. DOTS replaced it in 2020, but many meets and rankings still use it.';
+  String get wilksExplain => 'パワーリフティングの定番の式。2020年にDOTSに置き換えられましたが、今も多くの大会やランキングで使われています。';
 
   @override
   String get toolNameFfmi => 'FFMI';
 
   @override
-  String get toolTitleFfmi => 'Fat-free mass index';
+  String get toolTitleFfmi => '除脂肪量指数';
 
   @override
-  String get toolDescFfmi => 'How much muscle for your height';
+  String get toolDescFfmi => '身長に対する筋肉量';
 
   @override
-  String get ffmiBodyFat => 'BODY FAT';
+  String get ffmiBodyFat => '体脂肪率';
 
   @override
   String ffmiLeanLine(String value) {
-    return 'Lean mass: $value';
+    return '除脂肪量：$value';
   }
 
   @override
-  String get ffmiExplain =>
-      'Like BMI, but without the fat: it only counts your lean mass. Adjusted to your height so tall and short people compare fairly.';
+  String get ffmiExplain => 'BMIに似ていますが脂肪を除き、除脂肪量だけを数えます。身長で補正しているので、背の高い人も低い人も公平に比べられます。';
 
   @override
-  String get ffmiLevel0 => 'Below average';
+  String get ffmiLevel0 => '平均以下';
 
   @override
-  String get ffmiLevel1 => 'Average';
+  String get ffmiLevel1 => '平均';
 
   @override
-  String get ffmiLevel2 => 'Above average';
+  String get ffmiLevel2 => '平均以上';
 
   @override
-  String get ffmiLevel3 => 'Excellent';
+  String get ffmiLevel3 => '優秀';
 
   @override
-  String get ffmiLevel4 => 'Exceptional';
+  String get ffmiLevel4 => '傑出';
 
   @override
   String get rpeEffortLabel => '強度（RPE）';

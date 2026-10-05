@@ -1588,11 +1588,11 @@ class AppLocalizationsTr extends AppLocalizations {
   String get exercisesInsideWhy => 'Her birinde animasyon ve adım adım talimat var.';
 
   @override
-  String get calculatorsInside => '8 hesaplayıcı';
+  String get calculatorsInside => '10 hesaplayıcı';
 
   @override
   String get calculatorsInsideWhy =>
-      '1RM, plakalar, VKİ, kalori, vücut yağı, ısınma, RPE\'ye göre ağırlık ve DOTS güç seviyesi — hepsi yayımlanmış formüllere dayanır.';
+      '1RM, plakalar, VKİ, kalori, vücut yağı, FFMI, ısınma, RPE\'ye göre ağırlık ve DOTS ile Wilks güç puanları — hepsi yayımlanmış formüllere dayanır.';
 
   @override
   String get mathInside => 'Şeffaf hesaplamalar';
@@ -3293,50 +3293,50 @@ class AppLocalizationsTr extends AppLocalizations {
   String get toolNameWilks => 'Wilks';
 
   @override
-  String get toolTitleWilks => 'Wilks score';
+  String get toolTitleWilks => 'Wilks puanı';
 
   @override
-  String get toolDescWilks => 'The classic powerlifting score';
+  String get toolDescWilks => 'Powerlifting’in klasik puanı';
 
   @override
   String get wilksExplain =>
-      'The classic powerlifting formula. DOTS replaced it in 2020, but many meets and rankings still use it.';
+      'Powerlifting’in klasik formülü. 2020’de yerini DOTS aldı ama birçok yarışma ve sıralama hâlâ kullanıyor.';
 
   @override
   String get toolNameFfmi => 'FFMI';
 
   @override
-  String get toolTitleFfmi => 'Fat-free mass index';
+  String get toolTitleFfmi => 'Yağsız kütle indeksi';
 
   @override
-  String get toolDescFfmi => 'How much muscle for your height';
+  String get toolDescFfmi => 'Boyuna göre ne kadar kasın var';
 
   @override
-  String get ffmiBodyFat => 'BODY FAT';
+  String get ffmiBodyFat => 'VÜCUT YAĞI';
 
   @override
   String ffmiLeanLine(String value) {
-    return 'Lean mass: $value';
+    return 'Yağsız kütle: $value';
   }
 
   @override
   String get ffmiExplain =>
-      'Like BMI, but without the fat: it only counts your lean mass. Adjusted to your height so tall and short people compare fairly.';
+      'VKİ gibi ama yağ olmadan: yalnızca yağsız kütleni sayar. Boyuna göre düzeltilir, böylece uzun ve kısa boylular adilce karşılaştırılır.';
 
   @override
-  String get ffmiLevel0 => 'Below average';
+  String get ffmiLevel0 => 'Ortalamanın altında';
 
   @override
-  String get ffmiLevel1 => 'Average';
+  String get ffmiLevel1 => 'Ortalama';
 
   @override
-  String get ffmiLevel2 => 'Above average';
+  String get ffmiLevel2 => 'Ortalamanın üstünde';
 
   @override
-  String get ffmiLevel3 => 'Excellent';
+  String get ffmiLevel3 => 'Mükemmel';
 
   @override
-  String get ffmiLevel4 => 'Exceptional';
+  String get ffmiLevel4 => 'Olağanüstü';
 
   @override
   String get rpeEffortLabel => 'Efor (RPE)';

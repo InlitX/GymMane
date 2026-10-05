@@ -1522,10 +1522,10 @@ class AppLocalizationsZh extends AppLocalizations {
   String get exercisesInsideWhy => '全部配有动作动画和分步图文指导。';
 
   @override
-  String get calculatorsInside => '8 款实用计算器';
+  String get calculatorsInside => '10 款实用计算器';
 
   @override
-  String get calculatorsInsideWhy => '涵盖 1RM、杠铃片、BMI、热量、体脂率、热身、RPE 负重和 DOTS 力量水平推算。';
+  String get calculatorsInsideWhy => '涵盖 1RM、杠铃片、BMI、热量、体脂率、FFMI、热身、RPE 负重以及 DOTS 和 Wilks 力量评分。';
 
   @override
   String get mathInside => '真实可信的数据';
@@ -3152,50 +3152,48 @@ class AppLocalizationsZh extends AppLocalizations {
   String get toolNameWilks => 'Wilks';
 
   @override
-  String get toolTitleWilks => 'Wilks score';
+  String get toolTitleWilks => 'Wilks 系数';
 
   @override
-  String get toolDescWilks => 'The classic powerlifting score';
+  String get toolDescWilks => '力量举的经典评分';
 
   @override
-  String get wilksExplain =>
-      'The classic powerlifting formula. DOTS replaced it in 2020, but many meets and rankings still use it.';
+  String get wilksExplain => '力量举的经典公式。2020 年被 DOTS 取代，但很多比赛和排名仍在使用。';
 
   @override
   String get toolNameFfmi => 'FFMI';
 
   @override
-  String get toolTitleFfmi => 'Fat-free mass index';
+  String get toolTitleFfmi => '去脂体重指数';
 
   @override
-  String get toolDescFfmi => 'How much muscle for your height';
+  String get toolDescFfmi => '相对身高的肌肉量';
 
   @override
-  String get ffmiBodyFat => 'BODY FAT';
+  String get ffmiBodyFat => '体脂率';
 
   @override
   String ffmiLeanLine(String value) {
-    return 'Lean mass: $value';
+    return '去脂体重：$value';
   }
 
   @override
-  String get ffmiExplain =>
-      'Like BMI, but without the fat: it only counts your lean mass. Adjusted to your height so tall and short people compare fairly.';
+  String get ffmiExplain => '类似 BMI，但不算脂肪：只计算去脂体重，并按身高校正，让高个子和矮个子能公平比较。';
 
   @override
-  String get ffmiLevel0 => 'Below average';
+  String get ffmiLevel0 => '低于平均';
 
   @override
-  String get ffmiLevel1 => 'Average';
+  String get ffmiLevel1 => '平均';
 
   @override
-  String get ffmiLevel2 => 'Above average';
+  String get ffmiLevel2 => '高于平均';
 
   @override
-  String get ffmiLevel3 => 'Excellent';
+  String get ffmiLevel3 => '优秀';
 
   @override
-  String get ffmiLevel4 => 'Exceptional';
+  String get ffmiLevel4 => '卓越';
 
   @override
   String get rpeEffortLabel => '强度（RPE）';
@@ -4749,10 +4747,10 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get exercisesInsideWhy => '每個動作都有動畫與逐步說明。';
 
   @override
-  String get calculatorsInside => '8 個計算器';
+  String get calculatorsInside => '10 個計算器';
 
   @override
-  String get calculatorsInsideWhy => '1RM、槓片、BMI、卡路里、體脂、暖身、RPE 重量與 DOTS 力量等級 — 全都基於公開公式。';
+  String get calculatorsInsideWhy => '1RM、槓片、BMI、卡路里、體脂、FFMI、暖身、RPE 重量與 DOTS、Wilks 力量評分 — 全都基於公開公式。';
 
   @override
   String get mathInside => '透明計算';
@@ -6391,6 +6389,53 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get dotsLevel4 => '菁英';
+
+  @override
+  String get toolNameWilks => 'Wilks';
+
+  @override
+  String get toolTitleWilks => 'Wilks 係數';
+
+  @override
+  String get toolDescWilks => '健力的經典評分';
+
+  @override
+  String get wilksExplain => '健力的經典公式。2020 年被 DOTS 取代，但許多比賽和排名仍在使用。';
+
+  @override
+  String get toolNameFfmi => 'FFMI';
+
+  @override
+  String get toolTitleFfmi => '去脂體重指數';
+
+  @override
+  String get toolDescFfmi => '相對身高的肌肉量';
+
+  @override
+  String get ffmiBodyFat => '體脂';
+
+  @override
+  String ffmiLeanLine(String value) {
+    return '去脂體重：$value';
+  }
+
+  @override
+  String get ffmiExplain => '類似 BMI，但不算脂肪：只計算去脂體重，並依身高校正，讓高個子和矮個子能公平比較。';
+
+  @override
+  String get ffmiLevel0 => '低於平均';
+
+  @override
+  String get ffmiLevel1 => '平均';
+
+  @override
+  String get ffmiLevel2 => '高於平均';
+
+  @override
+  String get ffmiLevel3 => '優秀';
+
+  @override
+  String get ffmiLevel4 => '卓越';
 
   @override
   String get rpeEffortLabel => '強度（RPE）';

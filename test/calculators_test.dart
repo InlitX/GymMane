@@ -5,11 +5,53 @@ import 'package:gymmane/state/fit_state.dart';
 void main() {
   test('every tool in the menu has a screen behind it', () {
     expect(kToolMeta.map((t) => t.id).toSet(),
-        {'rm', 'bmi', 'cal', 'bf', 'plate', 'warmup', 'rpe', 'dots'});
+        {'rm', 'bmi', 'cal', 'bf', 'ffmi', 'plate', 'warmup', 'rpe', 'dots', 'wilks'});
     for (final t in kToolMeta) {
       expect(t.name.trim(), isNotEmpty);
       expect(t.desc.trim(), isNotEmpty);
     }
+  });
+
+  group('Wilks', () {
+    test('80 kg man, 420 kg total → 286.7', () {
+      fit.dotsSex = 'male';
+      fit.dotsBody = 80;
+      fit.dotsSquat = 160;
+      fit.dotsBench = 100;
+      fit.dotsDeadlift = 160;
+      expect(fit.wilksScore, closeTo(286.7, 0.05));
+    });
+
+    test('60 kg woman, 300 kg total → 334.5', () {
+      fit.dotsSex = 'female';
+      fit.dotsBody = 60;
+      fit.dotsSquat = 110;
+      fit.dotsBench = 60;
+      fit.dotsDeadlift = 130;
+      expect(fit.wilksScore, closeTo(334.5, 0.05));
+    });
+  });
+
+  group('FFMI', () {
+    test('175 cm, 75 kg, 15 % → 21.1 above average', () {
+      fit.ffmiSex = 'male';
+      fit.ffmiHeight = 175;
+      fit.ffmiWeight = 75;
+      fit.ffmiBf = 15;
+      expect(fit.ffmiLean, closeTo(63.75, 0.01));
+      expect(fit.ffmiScore, closeTo(21.1, 0.05));
+      expect(fit.ffmiLevel, 2);
+    });
+
+    test('the same number ranks higher for a woman', () {
+      fit.ffmiHeight = 165;
+      fit.ffmiWeight = 60;
+      fit.ffmiBf = 22;
+      fit.ffmiSex = 'female';
+      final woman = fit.ffmiLevel;
+      fit.ffmiSex = 'male';
+      expect(woman, greaterThan(fit.ffmiLevel));
+    });
   });
 
   group('1RM (Epley)', () {

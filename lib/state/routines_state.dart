@@ -44,12 +44,27 @@ mixin RoutinesState on FitCore, LibraryState {
 
   bool plannedOn(int weekday, String routineId) => planIdsOn(weekday).contains(routineId);
 
+  List<Routine> pendingRoutinesOn(DateTime day) {
+    final left = routinesOn(day);
+    final key = _dayKey(day);
+    var free = 0;
+    for (final s in sessions.where((s) => _dayKey(s.date) == key)) {
+      final id = s.routineId;
+      if (id == null) {
+        free++;
+      } else {
+        final i = left.indexWhere((r) => r.id == id);
+        if (i >= 0) left.removeAt(i);
+      }
+    }
+    return left.sublist(math.min(free, left.length));
+  }
+
   Routine? routineOn(DateTime day) {
     final list = routinesOn(day);
     if (list.isEmpty) return null;
-    final key = _dayKey(day);
-    final done = sessions.where((s) => _dayKey(s.date) == key).length;
-    return list[math.min(done, list.length - 1)];
+    final pending = pendingRoutinesOn(day);
+    return pending.isEmpty ? list.last : pending.first;
   }
 
   void toggleMultiPlan() {

@@ -1580,11 +1580,11 @@ class AppLocalizationsFa extends AppLocalizations {
   String get exercisesInsideWhy => 'هر کدام با انیمیشن و دستور گام‌به‌گام.';
 
   @override
-  String get calculatorsInside => '۸ ماشین‌حساب';
+  String get calculatorsInside => '۱۰ ماشین‌حساب';
 
   @override
   String get calculatorsInsideWhy =>
-      '1RM، وزنه، BMI، کالری، چربی بدن، گرم‌کردن، وزن بر اساس RPE و سطح قدرت DOTS — همه با فرمول‌های منتشرشده.';
+      '1RM، وزنه، BMI، کالری، چربی بدن، FFMI، گرم‌کردن، وزن بر اساس RPE و امتیاز قدرت DOTS و Wilks — همه با فرمول‌های منتشرشده.';
 
   @override
   String get mathInside => 'آمار واقعی';
@@ -3273,50 +3273,50 @@ class AppLocalizationsFa extends AppLocalizations {
   String get toolNameWilks => 'Wilks';
 
   @override
-  String get toolTitleWilks => 'Wilks score';
+  String get toolTitleWilks => 'امتیاز Wilks';
 
   @override
-  String get toolDescWilks => 'The classic powerlifting score';
+  String get toolDescWilks => 'امتیاز کلاسیک پاورلیفتینگ';
 
   @override
   String get wilksExplain =>
-      'The classic powerlifting formula. DOTS replaced it in 2020, but many meets and rankings still use it.';
+      'فرمول کلاسیک پاورلیفتینگ. DOTS در ۲۰۲۰ جایگزینش شد، اما هنوز بسیاری از مسابقات و رده‌بندی‌ها از آن استفاده می‌کنند.';
 
   @override
   String get toolNameFfmi => 'FFMI';
 
   @override
-  String get toolTitleFfmi => 'Fat-free mass index';
+  String get toolTitleFfmi => 'شاخص توده بدون چربی';
 
   @override
-  String get toolDescFfmi => 'How much muscle for your height';
+  String get toolDescFfmi => 'چقدر عضله نسبت به قدت داری';
 
   @override
-  String get ffmiBodyFat => 'BODY FAT';
+  String get ffmiBodyFat => 'چربی بدن';
 
   @override
   String ffmiLeanLine(String value) {
-    return 'Lean mass: $value';
+    return 'توده بدون چربی: $value';
   }
 
   @override
   String get ffmiExplain =>
-      'Like BMI, but without the fat: it only counts your lean mass. Adjusted to your height so tall and short people compare fairly.';
+      'مثل BMI، اما بدون چربی: فقط توده بدون چربی‌ات را حساب می‌کند. بر اساس قد تنظیم شده تا افراد بلند و کوتاه منصفانه مقایسه شوند.';
 
   @override
-  String get ffmiLevel0 => 'Below average';
+  String get ffmiLevel0 => 'زیر میانگین';
 
   @override
-  String get ffmiLevel1 => 'Average';
+  String get ffmiLevel1 => 'میانگین';
 
   @override
-  String get ffmiLevel2 => 'Above average';
+  String get ffmiLevel2 => 'بالای میانگین';
 
   @override
-  String get ffmiLevel3 => 'Excellent';
+  String get ffmiLevel3 => 'عالی';
 
   @override
-  String get ffmiLevel4 => 'Exceptional';
+  String get ffmiLevel4 => 'استثنایی';
 
   @override
   String get rpeEffortLabel => 'فشار (RPE)';

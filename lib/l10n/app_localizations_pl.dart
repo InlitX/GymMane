@@ -1588,11 +1588,11 @@ class AppLocalizationsPl extends AppLocalizations {
   String get exercisesInsideWhy => 'Każde z animacją i instrukcją krok po kroku.';
 
   @override
-  String get calculatorsInside => '8 kalkulatorów';
+  String get calculatorsInside => '10 kalkulatorów';
 
   @override
   String get calculatorsInsideWhy =>
-      '1RM, talerze, BMI, kalorie, tkanka tłuszczowa, rozgrzewka, ciężar według RPE i poziom siły DOTS — wszystko na podstawie opublikowanych wzorów.';
+      '1RM, talerze, BMI, kalorie, tkanka tłuszczowa, FFMI, rozgrzewka, ciężar według RPE i punktacje siły DOTS i Wilks — wszystko na podstawie opublikowanych wzorów.';
 
   @override
   String get mathInside => 'Przejrzyste obliczenia';
@@ -3301,50 +3301,50 @@ class AppLocalizationsPl extends AppLocalizations {
   String get toolNameWilks => 'Wilks';
 
   @override
-  String get toolTitleWilks => 'Wilks score';
+  String get toolTitleWilks => 'Punkty Wilksa';
 
   @override
-  String get toolDescWilks => 'The classic powerlifting score';
+  String get toolDescWilks => 'Klasyczna punktacja trójboju';
 
   @override
   String get wilksExplain =>
-      'The classic powerlifting formula. DOTS replaced it in 2020, but many meets and rankings still use it.';
+      'Klasyczny wzór trójboju siłowego. W 2020 zastąpił go DOTS, ale wiele zawodów i rankingów nadal go używa.';
 
   @override
   String get toolNameFfmi => 'FFMI';
 
   @override
-  String get toolTitleFfmi => 'Fat-free mass index';
+  String get toolTitleFfmi => 'Wskaźnik beztłuszczowej masy ciała';
 
   @override
-  String get toolDescFfmi => 'How much muscle for your height';
+  String get toolDescFfmi => 'Ile mięśni na twój wzrost';
 
   @override
-  String get ffmiBodyFat => 'BODY FAT';
+  String get ffmiBodyFat => 'TKANKA TŁUSZCZOWA';
 
   @override
   String ffmiLeanLine(String value) {
-    return 'Lean mass: $value';
+    return 'Beztłuszczowa masa ciała: $value';
   }
 
   @override
   String get ffmiExplain =>
-      'Like BMI, but without the fat: it only counts your lean mass. Adjusted to your height so tall and short people compare fairly.';
+      'Jak BMI, ale bez tłuszczu: liczy tylko beztłuszczową masę ciała. Skorygowany o wzrost, żeby uczciwie porównać wysokich i niskich.';
 
   @override
-  String get ffmiLevel0 => 'Below average';
+  String get ffmiLevel0 => 'Poniżej średniej';
 
   @override
-  String get ffmiLevel1 => 'Average';
+  String get ffmiLevel1 => 'Średnio';
 
   @override
-  String get ffmiLevel2 => 'Above average';
+  String get ffmiLevel2 => 'Powyżej średniej';
 
   @override
-  String get ffmiLevel3 => 'Excellent';
+  String get ffmiLevel3 => 'Doskonale';
 
   @override
-  String get ffmiLevel4 => 'Exceptional';
+  String get ffmiLevel4 => 'Wyjątkowo';
 
   @override
   String get rpeEffortLabel => 'Wysiłek (RPE)';

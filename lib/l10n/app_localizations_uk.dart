@@ -1587,11 +1587,11 @@ class AppLocalizationsUk extends AppLocalizations {
   String get exercisesInsideWhy => 'Кожна має анімацію та покрокові інструкції.';
 
   @override
-  String get calculatorsInside => '8 калькуляторів';
+  String get calculatorsInside => '10 калькуляторів';
 
   @override
   String get calculatorsInsideWhy =>
-      '1ПМ, диски, ІМТ, калорії, жир, розминка, вага за RPE і рівень сили DOTS — усе базується на опублікованих формулах.';
+      '1ПМ, диски, ІМТ, калорії, жир, FFMI, розминка, вага за RPE і бали сили DOTS та Wilks — усе базується на опублікованих формулах.';
 
   @override
   String get mathInside => 'Прозорі розрахунки';
@@ -3306,50 +3306,50 @@ class AppLocalizationsUk extends AppLocalizations {
   String get toolNameWilks => 'Wilks';
 
   @override
-  String get toolTitleWilks => 'Wilks score';
+  String get toolTitleWilks => 'Бали Wilks';
 
   @override
-  String get toolDescWilks => 'The classic powerlifting score';
+  String get toolDescWilks => 'Класична оцінка в пауерліфтингу';
 
   @override
   String get wilksExplain =>
-      'The classic powerlifting formula. DOTS replaced it in 2020, but many meets and rankings still use it.';
+      'Класична формула пауерліфтингу. У 2020 її замінила DOTS, але багато змагань і рейтингів досі її використовують.';
 
   @override
   String get toolNameFfmi => 'FFMI';
 
   @override
-  String get toolTitleFfmi => 'Fat-free mass index';
+  String get toolTitleFfmi => 'Індекс знежиреної маси';
 
   @override
-  String get toolDescFfmi => 'How much muscle for your height';
+  String get toolDescFfmi => 'Скільки м’язів для твого зросту';
 
   @override
-  String get ffmiBodyFat => 'BODY FAT';
+  String get ffmiBodyFat => 'ЖИРОВА МАСА';
 
   @override
   String ffmiLeanLine(String value) {
-    return 'Lean mass: $value';
+    return 'Знежирена маса: $value';
   }
 
   @override
   String get ffmiExplain =>
-      'Like BMI, but without the fat: it only counts your lean mass. Adjusted to your height so tall and short people compare fairly.';
+      'Як ІМТ, але без жиру: враховує лише знежирену масу. З поправкою на зріст, щоб чесно порівнювати високих і невисоких.';
 
   @override
-  String get ffmiLevel0 => 'Below average';
+  String get ffmiLevel0 => 'Нижче середнього';
 
   @override
-  String get ffmiLevel1 => 'Average';
+  String get ffmiLevel1 => 'Середній';
 
   @override
-  String get ffmiLevel2 => 'Above average';
+  String get ffmiLevel2 => 'Вище середнього';
 
   @override
-  String get ffmiLevel3 => 'Excellent';
+  String get ffmiLevel3 => 'Відмінний';
 
   @override
-  String get ffmiLevel4 => 'Exceptional';
+  String get ffmiLevel4 => 'Винятковий';
 
   @override
   String get rpeEffortLabel => 'Зусилля (RPE)';

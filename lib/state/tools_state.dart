@@ -339,7 +339,7 @@ mixin ToolsState on FitCore {
   }
 
   int get ffmiLevel {
-    final s = ffmiScore - (ffmiSex == 'male' ? 0 : 3);
+    final s = ffmiScore + (ffmiSex == 'male' ? 0 : 3);
     if (s < 18) return 0;
     if (s < 20) return 1;
     if (s < 22) return 2;

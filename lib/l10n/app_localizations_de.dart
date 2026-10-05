@@ -1593,11 +1593,11 @@ class AppLocalizationsDe extends AppLocalizations {
   String get exercisesInsideWhy => 'Jede Übung mit Animation und Schritt-für-Schritt-Anleitung.';
 
   @override
-  String get calculatorsInside => '8 Rechner';
+  String get calculatorsInside => '10 Rechner';
 
   @override
   String get calculatorsInsideWhy =>
-      '1RM, Scheiben, BMI, Kalorien, Körperfett, Aufwärmen, Gewicht nach RPE und Kraftniveau (DOTS) — alle mit veröffentlichten Formeln.';
+      '1RM, Scheiben, BMI, Kalorien, Körperfett, FFMI, Aufwärmen, Gewicht nach RPE und Kraftwertungen (DOTS und Wilks) — alle mit veröffentlichten Formeln.';
 
   @override
   String get mathInside => 'Ehrliche Mathematik';
@@ -3303,50 +3303,50 @@ class AppLocalizationsDe extends AppLocalizations {
   String get toolNameWilks => 'Wilks';
 
   @override
-  String get toolTitleWilks => 'Wilks score';
+  String get toolTitleWilks => 'Wilks-Punkte';
 
   @override
-  String get toolDescWilks => 'The classic powerlifting score';
+  String get toolDescWilks => 'Die klassische Powerlifting-Wertung';
 
   @override
   String get wilksExplain =>
-      'The classic powerlifting formula. DOTS replaced it in 2020, but many meets and rankings still use it.';
+      'Die klassische Powerlifting-Formel. DOTS hat sie 2020 abgelöst, aber viele Wettkämpfe und Ranglisten nutzen sie noch.';
 
   @override
   String get toolNameFfmi => 'FFMI';
 
   @override
-  String get toolTitleFfmi => 'Fat-free mass index';
+  String get toolTitleFfmi => 'Fettfreie-Masse-Index';
 
   @override
-  String get toolDescFfmi => 'How much muscle for your height';
+  String get toolDescFfmi => 'Wie viel Muskel für deine Größe';
 
   @override
-  String get ffmiBodyFat => 'BODY FAT';
+  String get ffmiBodyFat => 'KÖRPERFETT';
 
   @override
   String ffmiLeanLine(String value) {
-    return 'Lean mass: $value';
+    return 'Magermasse: $value';
   }
 
   @override
   String get ffmiExplain =>
-      'Like BMI, but without the fat: it only counts your lean mass. Adjusted to your height so tall and short people compare fairly.';
+      'Wie der BMI, nur ohne Fett: Er zählt nur deine fettfreie Masse. An deine Größe angepasst, damit Große und Kleine fair verglichen werden.';
 
   @override
-  String get ffmiLevel0 => 'Below average';
+  String get ffmiLevel0 => 'Unterdurchschnittlich';
 
   @override
-  String get ffmiLevel1 => 'Average';
+  String get ffmiLevel1 => 'Durchschnittlich';
 
   @override
-  String get ffmiLevel2 => 'Above average';
+  String get ffmiLevel2 => 'Überdurchschnittlich';
 
   @override
-  String get ffmiLevel3 => 'Excellent';
+  String get ffmiLevel3 => 'Sehr gut';
 
   @override
-  String get ffmiLevel4 => 'Exceptional';
+  String get ffmiLevel4 => 'Herausragend';
 
   @override
   String get rpeEffortLabel => 'Anstrengung (RPE)';

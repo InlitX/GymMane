@@ -103,10 +103,11 @@ class LoggedExercise {
 }
 
 class LoggedSession {
-  LoggedSession(this.date, this.durationSec, this.exercises);
+  LoggedSession(this.date, this.durationSec, this.exercises, {this.routineId});
   final DateTime date;
   final int durationSec;
   final List<LoggedExercise> exercises;
+  final String? routineId;
 
   double get volume => exercises.fold(0.0, (s, e) => s + e.volume);
   int get setCount => exercises.fold(0, (s, e) => s + e.workingSets.length);
@@ -115,11 +116,13 @@ class LoggedSession {
         'd': date.toIso8601String(),
         'dur': durationSec,
         'ex': exercises.map((e) => e.toJson()).toList(),
+        if (routineId != null) 'r': routineId,
       };
   factory LoggedSession.fromJson(Map<String, dynamic> j) => LoggedSession(
         DateTime.parse(j['d'] as String),
         (j['dur'] as num?)?.toInt() ?? 0,
         (j['ex'] as List).map((e) => LoggedExercise.fromJson(e as Map<String, dynamic>)).toList(),
+        routineId: j['r'] as String?,
       );
 }
 

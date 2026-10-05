@@ -1633,11 +1633,11 @@ class AppLocalizationsRu extends AppLocalizations {
   String get exercisesInsideWhy => 'Каждое с анимацией и пошаговой инструкцией.';
 
   @override
-  String get calculatorsInside => '8 калькуляторов';
+  String get calculatorsInside => '10 калькуляторов';
 
   @override
   String get calculatorsInsideWhy =>
-      '1ПМ, блины, ИМТ, калории, жир, разминка, вес по RPE и уровень силы DOTS — все по опубликованным формулам.';
+      '1ПМ, блины, ИМТ, калории, жир, FFMI, разминка, вес по RPE и очки силы DOTS и Wilks — все по опубликованным формулам.';
 
   @override
   String get mathInside => 'Честная математика';
@@ -3386,50 +3386,50 @@ class AppLocalizationsRu extends AppLocalizations {
   String get toolNameWilks => 'Wilks';
 
   @override
-  String get toolTitleWilks => 'Wilks score';
+  String get toolTitleWilks => 'Очки Wilks';
 
   @override
-  String get toolDescWilks => 'The classic powerlifting score';
+  String get toolDescWilks => 'Классическая оценка в пауэрлифтинге';
 
   @override
   String get wilksExplain =>
-      'The classic powerlifting formula. DOTS replaced it in 2020, but many meets and rankings still use it.';
+      'Классическая формула пауэрлифтинга. В 2020 её заменила DOTS, но многие соревнования и рейтинги всё ещё её используют.';
 
   @override
   String get toolNameFfmi => 'FFMI';
 
   @override
-  String get toolTitleFfmi => 'Fat-free mass index';
+  String get toolTitleFfmi => 'Индекс безжировой массы';
 
   @override
-  String get toolDescFfmi => 'How much muscle for your height';
+  String get toolDescFfmi => 'Сколько мышц для твоего роста';
 
   @override
-  String get ffmiBodyFat => 'BODY FAT';
+  String get ffmiBodyFat => 'ЖИР';
 
   @override
   String ffmiLeanLine(String value) {
-    return 'Lean mass: $value';
+    return 'Безжировая масса: $value';
   }
 
   @override
   String get ffmiExplain =>
-      'Like BMI, but without the fat: it only counts your lean mass. Adjusted to your height so tall and short people compare fairly.';
+      'Как ИМТ, но без жира: учитывается только безжировая масса. С поправкой на рост, чтобы честно сравнивать высоких и невысоких.';
 
   @override
-  String get ffmiLevel0 => 'Below average';
+  String get ffmiLevel0 => 'Ниже среднего';
 
   @override
-  String get ffmiLevel1 => 'Average';
+  String get ffmiLevel1 => 'Средний';
 
   @override
-  String get ffmiLevel2 => 'Above average';
+  String get ffmiLevel2 => 'Выше среднего';
 
   @override
-  String get ffmiLevel3 => 'Excellent';
+  String get ffmiLevel3 => 'Отличный';
 
   @override
-  String get ffmiLevel4 => 'Exceptional';
+  String get ffmiLevel4 => 'Исключительный';
 
   @override
   String get rpeEffortLabel => 'Усилие (RPE)';
