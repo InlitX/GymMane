@@ -758,6 +758,7 @@
   "actModerate": "Mäßig aktiv",
   "muscleChest": "Brust",
   "muscleBack": "Rücken",
+  "muscleLowerBack": "Lower back",
   "muscleShoulders": "Schultern",
   "muscleBiceps": "Bizeps",
   "muscleTriceps": "Trizeps",
@@ -1477,7 +1478,7 @@
       }
     }
   },
-  "saveChangesBody": "Beim nächsten Mal startet der Trainingsplan so.",
+  "saveChangesBody": "Next time you start it, the routine will have these changes.",
   "routineOrderChanged": "Neue Reihenfolge der Übungen",
   "mineOnly": "Von dir erstellt",
   "createNamed": "Nicht dabei? „{name}“ erstellen",
@@ -1521,6 +1522,7 @@
       }
     }
   },
+  "nextToday": "Next today",
   "planAboutMe": "Über mich:",
   "planBody": "{sex}, {age} Jahre, {height} groß, {weight}.",
   "planDays": "Ich möchte {n} Tage pro Woche trainieren.",
