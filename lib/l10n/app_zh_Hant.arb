@@ -1,5 +1,5 @@
 {
-  "@@locale": "zh_Hant",
+  "@@locale": "zh-TW",
   "languageName": "繁體中文",
   "@languageName": {
     "description": "This language, written in itself. Shown in the language picker."
@@ -758,6 +758,7 @@
   "actModerate": "中等",
   "muscleChest": "胸",
   "muscleBack": "背",
+  "muscleLowerBack": "Lower back",
   "muscleShoulders": "肩",
   "muscleBiceps": "二頭肌",
   "muscleTriceps": "三頭肌",
@@ -1477,7 +1478,7 @@
       }
     }
   },
-  "saveChangesBody": "下次這個課表會照這樣開始。",
+  "saveChangesBody": "Next time you start it, the routine will have these changes.",
   "routineOrderChanged": "新的動作順序",
   "mineOnly": "我建立的",
   "createNamed": "沒有？建立「{name}」",
@@ -1521,6 +1522,7 @@
       }
     }
   },
+  "nextToday": "Next today",
   "planAboutMe": "關於我：",
   "planBody": "{sex}，{age} 歲，身高 {height}，體重 {weight}。",
   "planDays": "我想每週訓練 {n} 天。",
