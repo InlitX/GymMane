@@ -758,6 +758,7 @@
   "actModerate": "Moderato",
   "muscleChest": "Petto",
   "muscleBack": "Schiena",
+  "muscleLowerBack": "Lower back",
   "muscleShoulders": "Spalle",
   "muscleBiceps": "Bicipiti",
   "muscleTriceps": "Tricipiti",
@@ -1477,7 +1478,7 @@
       }
     }
   },
-  "saveChangesBody": "La prossima volta la scheda partirà così.",
+  "saveChangesBody": "Next time you start it, the routine will have these changes.",
   "routineOrderChanged": "Nuovo ordine degli esercizi",
   "mineOnly": "Creati da te",
   "createNamed": "Non c’è? Crea «{name}»",
@@ -1521,6 +1522,7 @@
       }
     }
   },
+  "nextToday": "Next today",
   "planAboutMe": "Su di me:",
   "planBody": "{sex}, {age} anni, {height} di altezza, {weight}.",
   "planDays": "Voglio allenarmi {n} giorni a settimana.",
