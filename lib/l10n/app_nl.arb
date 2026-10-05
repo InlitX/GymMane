@@ -758,6 +758,7 @@
   "actModerate": "Matig",
   "muscleChest": "Borst",
   "muscleBack": "Rug",
+  "muscleLowerBack": "Lower back",
   "muscleShoulders": "Schouders",
   "muscleBiceps": "Biceps",
   "muscleTriceps": "Triceps",
@@ -1477,7 +1478,7 @@
       }
     }
   },
-  "saveChangesBody": "De volgende keer start deze routine zo.",
+  "saveChangesBody": "Next time you start it, the routine will have these changes.",
   "routineOrderChanged": "Nieuwe volgorde van oefeningen",
   "mineOnly": "Door jou gemaakt",
   "createNamed": "Staat er niet bij? Maak „{name}”",
@@ -1521,6 +1522,7 @@
       }
     }
   },
+  "nextToday": "Next today",
   "planAboutMe": "Over mij:",
   "planBody": "{sex}, {age} jaar, {height} lang, {weight}.",
   "planDays": "Ik wil {n} dagen per week trainen.",
