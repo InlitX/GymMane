@@ -2848,7 +2848,7 @@ class AppLocalizationsTr extends AppLocalizations {
   }
 
   @override
-  String get saveChangesBody => 'Program bir dahaki sefere böyle başlayacak.';
+  String get saveChangesBody => 'Bir dahaki sefere başlattığında program bu değişiklikleri içerecek.';
 
   @override
   String get routineOrderChanged => 'Yeni egzersiz sırası';
@@ -2931,6 +2931,9 @@ class AppLocalizationsTr extends AppLocalizations {
   String routineOfDay(int n, int total) {
     return 'Bugün $n/$total';
   }
+
+  @override
+  String get nextToday => 'Bugün sıradaki';
 
   @override
   String get planAboutMe => 'Hakkımda:';

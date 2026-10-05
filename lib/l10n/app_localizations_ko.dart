@@ -2767,7 +2767,7 @@ class AppLocalizationsKo extends AppLocalizations {
   }
 
   @override
-  String get saveChangesBody => '다음부터 이 루틴은 이렇게 시작돼요.';
+  String get saveChangesBody => '다음에 시작하면 루틴에 이 변경 사항이 반영돼요.';
 
   @override
   String get routineOrderChanged => '새 운동 순서';
@@ -2850,6 +2850,9 @@ class AppLocalizationsKo extends AppLocalizations {
   String routineOfDay(int n, int total) {
     return '오늘 $n/$total';
   }
+
+  @override
+  String get nextToday => '오늘 다음 루틴';
 
   @override
   String get planAboutMe => '나에 대해:';

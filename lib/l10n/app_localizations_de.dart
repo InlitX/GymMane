@@ -2855,7 +2855,8 @@ class AppLocalizationsDe extends AppLocalizations {
   }
 
   @override
-  String get saveChangesBody => 'Beim nächsten Mal startet der Trainingsplan so.';
+  String get saveChangesBody =>
+      'Wenn du ihn das nächste Mal startest, hat der Trainingsplan diese Änderungen.';
 
   @override
   String get routineOrderChanged => 'Neue Reihenfolge der Übungen';
@@ -2941,6 +2942,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String routineOfDay(int n, int total) {
     return '$n von $total heute';
   }
+
+  @override
+  String get nextToday => 'Als Nächstes heute';
 
   @override
   String get planAboutMe => 'Über mich:';

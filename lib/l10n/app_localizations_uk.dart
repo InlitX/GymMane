@@ -2853,7 +2853,7 @@ class AppLocalizationsUk extends AppLocalizations {
   }
 
   @override
-  String get saveChangesBody => 'Наступного разу програма почнеться так.';
+  String get saveChangesBody => 'Наступного разу, коли ти її почнеш, у програмі будуть ці зміни.';
 
   @override
   String get routineOrderChanged => 'Новий порядок вправ';
@@ -2937,6 +2937,9 @@ class AppLocalizationsUk extends AppLocalizations {
   String routineOfDay(int n, int total) {
     return '$n з $total сьогодні';
   }
+
+  @override
+  String get nextToday => 'Далі сьогодні';
 
   @override
   String get planAboutMe => 'Про мене:';

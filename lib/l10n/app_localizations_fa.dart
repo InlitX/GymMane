@@ -2828,7 +2828,7 @@ class AppLocalizationsFa extends AppLocalizations {
   }
 
   @override
-  String get saveChangesBody => 'دفعه بعد این روتین همین‌طور شروع می‌شود.';
+  String get saveChangesBody => 'دفعه بعد که شروعش کنی، روتین این تغییرات را خواهد داشت.';
 
   @override
   String get routineOrderChanged => 'ترتیب جدید حرکات';
@@ -2911,6 +2911,9 @@ class AppLocalizationsFa extends AppLocalizations {
   String routineOfDay(int n, int total) {
     return '$n از $total امروز';
   }
+
+  @override
+  String get nextToday => 'بعدی امروز';
 
   @override
   String get planAboutMe => 'درباره من:';

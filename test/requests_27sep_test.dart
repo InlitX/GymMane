@@ -304,6 +304,29 @@ void main() {
       expect(LoggedSession.fromJson(done(b.id).toJson()).routineId, b.id);
     });
 
+    test('#156 al acabar una rutina ofrece la siguiente del día', () {
+      fit.toggleMultiPlan();
+      final a = routineOf(['Barbell Bench Press']);
+      final b = routineOf(['Barbell Squat']);
+      final today = DateTime.now().weekday;
+      fit.togglePlanDay(today, a.id);
+      fit.togglePlanDay(today, b.id);
+
+      fit.startRoutine(a);
+      fit.toggleSet(0, 0);
+      fit.finishSession();
+      expect(fit.sessions.last.routineId, a.id);
+      expect(fit.nextRoutineToday, same(b));
+
+      fit.startNextRoutine();
+      expect(fit.session?.routineId, b.id);
+      expect(fit.session?.complete, isFalse);
+      fit.toggleSet(0, 0);
+      fit.finishSession();
+      expect(fit.nextRoutineToday, isNull);
+      expect(fit.todayPlanDone, isTrue);
+    });
+
     test('#157 hacer la segunda primero deja pendiente la primera', () {
       fit.toggleMultiPlan();
       final a = routineOf(['Barbell Bench Press']);

@@ -2848,7 +2848,7 @@ class AppLocalizationsNl extends AppLocalizations {
   }
 
   @override
-  String get saveChangesBody => 'De volgende keer start deze routine zo.';
+  String get saveChangesBody => 'De volgende keer dat je hem start, heeft de routine deze wijzigingen.';
 
   @override
   String get routineOrderChanged => 'Nieuwe volgorde van oefeningen';
@@ -2934,6 +2934,9 @@ class AppLocalizationsNl extends AppLocalizations {
   String routineOfDay(int n, int total) {
     return '$n van $total vandaag';
   }
+
+  @override
+  String get nextToday => 'Hierna vandaag';
 
   @override
   String get planAboutMe => 'Over mij:';

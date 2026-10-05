@@ -2718,7 +2718,7 @@ class AppLocalizationsZh extends AppLocalizations {
   }
 
   @override
-  String get saveChangesBody => '下次这个训练计划会按这样开始。';
+  String get saveChangesBody => '下次开始时，训练计划会包含这些更改。';
 
   @override
   String get routineOrderChanged => '新的动作顺序';
@@ -2801,6 +2801,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String routineOfDay(int n, int total) {
     return '今天第 $n/$total 个';
   }
+
+  @override
+  String get nextToday => '今天的下一个';
 
   @override
   String get planAboutMe => '关于我：';
@@ -5960,7 +5963,7 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   }
 
   @override
-  String get saveChangesBody => '下次這個課表會照這樣開始。';
+  String get saveChangesBody => '下次開始時，課表會包含這些變更。';
 
   @override
   String get routineOrderChanged => '新的動作順序';
@@ -6043,6 +6046,9 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String routineOfDay(int n, int total) {
     return '今天第 $n/$total 個';
   }
+
+  @override
+  String get nextToday => '今天的下一個';
 
   @override
   String get planAboutMe => '關於我：';

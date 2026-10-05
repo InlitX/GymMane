@@ -1245,6 +1245,7 @@ class SessionScreen extends StatelessWidget {
     final vsLast = fit.summaryVsLast;
     final vol = fit.summaryVolumeKg;
     final sets = fit.session?.summarySets ?? 0;
+    final next = fit.nextRoutineToday;
 
     return _Celebrate(
       active: sets > 0 && fit.gamification,
@@ -1283,11 +1284,19 @@ class SessionScreen extends StatelessWidget {
                       child: Rise(index: 3, child: _levelUpCard(context, gc, fit.summaryLevelUp!)),
                     ),
             ),
+            if (next != null) ...[
+              const SizedBox(height: 18),
+              Rise(index: 3, child: _nextRoutineCard(gc, next)),
+            ],
             const SizedBox(height: 18),
             Rise(
               index: 3,
               child: Row(children: [
-                Expanded(child: PrimaryButton(label: t.done, onTap: fit.saveAndExit)),
+                Expanded(
+                  child: next == null
+                      ? PrimaryButton(label: t.done, onTap: fit.saveAndExit)
+                      : PrimaryButton(label: t.done, bg: gc.bgRaised, fg: gc.text, onTap: fit.saveAndExit),
+                ),
                 const SizedBox(width: 10),
                 Semantics(
                   button: true,
@@ -1337,6 +1346,39 @@ class SessionScreen extends StatelessWidget {
             ],
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _nextRoutineCard(GymColors gc, Routine next) {
+    final today = fit.routinesOn(DateTime.now());
+    return Container(
+      padding: const EdgeInsets.fromLTRB(20, 18, 20, 18),
+      decoration: BoxDecoration(
+        color: gc.bgRaised,
+        borderRadius: BorderRadius.circular(24),
+        border: Border.all(color: gc.accent.withValues(alpha: 0.35), width: 1.2),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text(t.nextToday.toUpperCase(),
+              style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.accent, letterSpacing: 1.4)),
+          const SizedBox(height: 7),
+          Text(fit.routineTitle(next),
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: AppTheme.f(22, weight: FontWeight.w800, color: gc.text, height: 1.15)),
+          const SizedBox(height: 5),
+          Text(
+              [
+                t.exerciseCount(next.exerciseIds.length),
+                if (today.length > 1) t.routineOfDay(today.indexOf(next) + 1, today.length),
+              ].join(' · '),
+              style: AppTheme.f(13, weight: FontWeight.w500, color: gc.textSecondary)),
+          const SizedBox(height: 16),
+          PrimaryButton(label: t.startWorkout, icon: Ic.play, height: 52, onTap: fit.startNextRoutine),
+        ],
       ),
     );
   }

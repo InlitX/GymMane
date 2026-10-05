@@ -5113,7 +5113,7 @@ abstract class AppLocalizations {
   /// No description provided for @saveChangesBody.
   ///
   /// In en, this message translates to:
-  /// **'Next time this routine starts like this.'**
+  /// **'Next time you start it, the routine will have these changes.'**
   String get saveChangesBody;
 
   /// No description provided for @routineOrderChanged.
@@ -5271,6 +5271,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{n} of {total} today'**
   String routineOfDay(int n, int total);
+
+  /// No description provided for @nextToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Next today'**
+  String get nextToday;
 
   /// No description provided for @planAboutMe.
   ///

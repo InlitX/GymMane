@@ -81,7 +81,7 @@ class _RoutineEditScreenState extends State<RoutineEditScreen> {
       return const SizedBox.shrink();
     }
     final list = _filtered;
-    final start = routine.exerciseIds.isNotEmpty;
+    final start = routine.exerciseIds.isNotEmpty && MediaQuery.viewInsetsOf(context).bottom == 0;
     final create = _q.trim().isNotEmpty && list.isNotEmpty;
     return SafeArea(
       bottom: false,
@@ -113,7 +113,12 @@ class _RoutineEditScreenState extends State<RoutineEditScreen> {
                     child: Container(
                       height: 56,
                       alignment: Alignment.center,
-                      decoration: BoxDecoration(color: gc.bgRaised2, borderRadius: BorderRadius.circular(100)),
+                      decoration: BoxDecoration(
+                        color: gc.bgRaised2,
+                        borderRadius: BorderRadius.circular(100),
+                        border: Border.all(color: gc.textTertiary.withValues(alpha: 0.45), width: 1.2),
+                        boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.28), blurRadius: 14, offset: const Offset(0, 4))],
+                      ),
                       child: Text(titleCase(t.save), style: AppTheme.f(15.5, weight: FontWeight.w700, color: gc.text)),
                     ),
                   ),

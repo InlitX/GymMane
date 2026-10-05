@@ -420,6 +420,22 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
     return routinesOn(now).length > 1 ? pendingRoutinesOn(now).isEmpty : isDayDone(todayIndex);
   }
 
+  Routine? get nextRoutineToday {
+    final s = session;
+    if (s == null || s.manual) return null;
+    for (final r in pendingRoutinesOn(DateTime.now())) {
+      if (r.id != s.routineId && r.exerciseIds.isNotEmpty) return r;
+    }
+    return null;
+  }
+
+  void startNextRoutine() {
+    final r = nextRoutineToday;
+    if (r == null) return;
+    saveAndExit();
+    startRoutine(r);
+  }
+
   bool get sessionParked => session != null && !session!.complete && route != 'session';
 
   void stepOutOfSession() {
