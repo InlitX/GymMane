@@ -31,6 +31,10 @@ mixin ToolsState on FitCore {
   double dotsBench = 100;
   double dotsDeadlift = 180;
   bool _dotsSeeded = false;
+  String ffmiSex = 'male';
+  double ffmiHeight = 175;
+  double ffmiWeight = 75;
+  double ffmiBf = 15;
 
   static const dotsLifts = ['qXTaZnJ', 'EIeI8Vf', 'ila4NZS'];
 
@@ -46,6 +50,9 @@ mixin ToolsState on FitCore {
     bfSex = profile.sex;
     dotsBody = profile.weightKg;
     dotsSex = profile.sex;
+    ffmiHeight = profile.heightCm;
+    ffmiWeight = profile.weightKg;
+    ffmiSex = profile.sex;
   }
 
   double bestLift(String id) => 0;
@@ -62,7 +69,7 @@ mixin ToolsState on FitCore {
   void goTools() => pushRoute('tools');
 
   void openTool(String id) {
-    if (id == 'dots') _seedDots();
+    if (id == 'dots' || id == 'wilks') _seedDots();
     activeToolId = id;
     pushRoute('tools-detail');
   }
@@ -289,8 +296,24 @@ mixin ToolsState on FitCore {
     return _round1(dotsTotal * 500 / den);
   }
 
-  int get dotsLevel {
-    final s = dotsScore;
+  int get dotsLevel => strengthLevel(dotsScore);
+
+  double get wilksScore {
+    final male = dotsSex == 'male';
+    final bw = dotsBody.clamp(male ? 40 : 26.51, male ? 201.9 : 154.53).toDouble();
+    final c = male
+        ? const [-216.0475144, 16.2606339, -0.002388645, -0.00113732, 7.01863e-6, -1.291e-8]
+        : const [594.31747775582, -27.23842536447, 0.82112226871, -0.00930733913, 4.731582e-5, -9.054e-8];
+    var den = 0.0;
+    for (var i = 0; i < c.length; i++) {
+      den += c[i] * math.pow(bw, i);
+    }
+    return _round1(dotsTotal * 500 / den);
+  }
+
+  int get wilksLevel => strengthLevel(wilksScore);
+
+  static int strengthLevel(double s) {
     if (s < 250) return 0;
     if (s < 325) return 1;
     if (s < 400) return 2;
@@ -307,6 +330,30 @@ mixin ToolsState on FitCore {
   void bumpDotsBench(double d) { dotsBench = _clamp(dotsBench + d, 0, null); notifyListeners(); }
 
   void bumpDotsDeadlift(double d) { dotsDeadlift = _clamp(dotsDeadlift + d, 0, null); notifyListeners(); }
+
+  double get ffmiLean => ffmiWeight * (1 - ffmiBf / 100);
+
+  double get ffmiScore {
+    final m = ffmiHeight / 100;
+    return _round1(ffmiLean / (m * m) + 6.1 * (1.8 - m));
+  }
+
+  int get ffmiLevel {
+    final s = ffmiScore - (ffmiSex == 'male' ? 0 : 3);
+    if (s < 18) return 0;
+    if (s < 20) return 1;
+    if (s < 22) return 2;
+    if (s < 25) return 3;
+    return 4;
+  }
+
+  void setFfmiSex(String s) { ffmiSex = s; notifyListeners(); }
+
+  void bumpFfmiHeight(double d) { ffmiHeight = _clamp(ffmiHeight + d, 100, 250); notifyListeners(); }
+
+  void bumpFfmiWeight(double d) { ffmiWeight = _clamp(ffmiWeight + d, 30, 300); notifyListeners(); }
+
+  void bumpFfmiBf(double d) { ffmiBf = _clamp(ffmiBf + d, 3, 60); notifyListeners(); }
 
   void bumpWarmupTarget(double d) { warmupTarget = _clamp(warmupTarget + d, 0, null); notifyListeners(); }
 }

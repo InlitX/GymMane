@@ -3293,6 +3293,55 @@ class AppLocalizationsNl extends AppLocalizations {
   String get dotsLevel4 => 'Elite';
 
   @override
+  String get toolNameWilks => 'Wilks';
+
+  @override
+  String get toolTitleWilks => 'Wilks score';
+
+  @override
+  String get toolDescWilks => 'The classic powerlifting score';
+
+  @override
+  String get wilksExplain =>
+      'The classic powerlifting formula. DOTS replaced it in 2020, but many meets and rankings still use it.';
+
+  @override
+  String get toolNameFfmi => 'FFMI';
+
+  @override
+  String get toolTitleFfmi => 'Fat-free mass index';
+
+  @override
+  String get toolDescFfmi => 'How much muscle for your height';
+
+  @override
+  String get ffmiBodyFat => 'BODY FAT';
+
+  @override
+  String ffmiLeanLine(String value) {
+    return 'Lean mass: $value';
+  }
+
+  @override
+  String get ffmiExplain =>
+      'Like BMI, but without the fat: it only counts your lean mass. Adjusted to your height so tall and short people compare fairly.';
+
+  @override
+  String get ffmiLevel0 => 'Below average';
+
+  @override
+  String get ffmiLevel1 => 'Average';
+
+  @override
+  String get ffmiLevel2 => 'Above average';
+
+  @override
+  String get ffmiLevel3 => 'Excellent';
+
+  @override
+  String get ffmiLevel4 => 'Exceptional';
+
+  @override
   String get rpeEffortLabel => 'Inspanning (RPE)';
 
   @override

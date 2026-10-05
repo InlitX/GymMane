@@ -7158,10 +7158,12 @@ const List<ToolMeta> kToolMeta = [
   ToolMeta('bmi', 'BMI', 'Body mass index'),
   ToolMeta('cal', 'Calories', 'Calories & macros'),
   ToolMeta('bf', 'Body Fat', 'Body fat percentage'),
+  ToolMeta('ffmi', 'FFMI', 'Fat-free mass index'),
   ToolMeta('plate', 'Plates', 'Barbell plate calculator'),
   ToolMeta('warmup', 'Warm-up', 'Ramp-up sets'),
   ToolMeta('rpe', 'RPE load', 'Weight for a target effort'),
   ToolMeta('dots', 'Strength level', 'DOTS score'),
+  ToolMeta('wilks', 'Wilks', 'Wilks score'),
 ];
 
 const List<String> kFilterMuscles = [

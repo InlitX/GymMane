@@ -100,6 +100,10 @@ class ToolDetailScreen extends StatelessWidget {
             t.rpeResultHint(fit.rpeTargetReps, fmt(fit.rpeTargetRpe)));
       case 'dots':
         return (t.toolTitle('dots'), fmt(fit.dotsScore), t.dotsLevelName(fit.dotsLevel));
+      case 'wilks':
+        return (t.toolTitle('wilks'), fmt(fit.wilksScore), t.dotsLevelName(fit.wilksLevel));
+      case 'ffmi':
+        return (t.toolTitle('ffmi'), fmt(fit.ffmiScore), t.ffmiLevelName(fit.ffmiLevel));
       default:
         return ('', '', '');
     }
@@ -180,6 +184,7 @@ class ToolDetailScreen extends StatelessWidget {
           _note(gc, '${t.rpeOneRmLine(fit.weightLabel(fit.rpeOneRm))}\n${t.rpeExplain}'),
         ];
       case 'dots':
+      case 'wilks':
         final step = fit.fromDisplayWeight(fit.weightStep);
         Widget lift(String label, double kg, void Function(double) bump) => ToolRow(
               label: label,
@@ -203,7 +208,21 @@ class ToolDetailScreen extends StatelessWidget {
           lift(t.dotsSquat, fit.dotsSquat, fit.bumpDotsSquat),
           lift(t.dotsBench, fit.dotsBench, fit.bumpDotsBench),
           lift(t.dotsDeadlift, fit.dotsDeadlift, fit.bumpDotsDeadlift),
-          _note(gc, '${t.dotsTotalLine(fit.weightLabel(fit.dotsTotal))}\n${t.dotsExplain}'),
+          _note(gc, '${t.dotsTotalLine(fit.weightLabel(fit.dotsTotal))}\n${id == 'wilks' ? t.wilksExplain : t.dotsExplain}'),
+        ];
+      case 'ffmi':
+        return [
+          ToolRow(
+            label: t.sexLabel,
+            control: SegToggle([
+              SegOption(t.male, fit.ffmiSex == 'male', () => fit.setFfmiSex('male')),
+              SegOption(t.female, fit.ffmiSex == 'female', () => fit.setFfmiSex('female')),
+            ]),
+          ),
+          ToolRow(label: t.heightLabel, control: StepperControl(value: fit.heightLabel(fit.ffmiHeight), onDec: () => fit.bumpFfmiHeight(-fit.heightStep), onInc: () => fit.bumpFfmiHeight(fit.heightStep), onEdit: () => _editNumber(context, title: t.heightLabel, current: fit.toDisplayCm(fit.ffmiHeight), decimal: true, apply: (v) => fit.bumpFfmiHeight(fit.fromDisplayCm(v) - fit.ffmiHeight)))),
+          ToolRow(label: t.weightLabel, control: StepperControl(value: '${fit.weightValue(fit.ffmiWeight)} ${fit.units}', onDec: () => fit.bumpFfmiWeight(-fit.fromDisplayWeight(fit.isLb ? 1 : 0.5)), onInc: () => fit.bumpFfmiWeight(fit.fromDisplayWeight(fit.isLb ? 1 : 0.5)), onEdit: () => _editNumber(context, title: t.weightLabel, current: fit.toDisplayWeight(fit.ffmiWeight), decimal: true, apply: (v) => fit.bumpFfmiWeight(fit.fromDisplayWeight(v) - fit.ffmiWeight)))),
+          ToolRow(label: t.ffmiBodyFat, control: StepperControl(value: '${fmt(fit.ffmiBf)}%', minWidth: 52, onDec: () => fit.bumpFfmiBf(-0.5), onInc: () => fit.bumpFfmiBf(0.5), onEdit: () => _editNumber(context, title: t.ffmiBodyFat, current: fit.ffmiBf, decimal: true, apply: (v) => fit.bumpFfmiBf(v - fit.ffmiBf)))),
+          _note(gc, '${t.ffmiLeanLine(fit.weightLabel(fit.ffmiLean))}\n${t.ffmiExplain}'),
         ];
       default:
         return const [];

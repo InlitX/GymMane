@@ -1586,11 +1586,11 @@ class AppLocalizationsEs extends AppLocalizations {
   String get exercisesInsideWhy => 'Cada uno con su animación y sus instrucciones paso a paso.';
 
   @override
-  String get calculatorsInside => '8 calculadoras';
+  String get calculatorsInside => '10 calculadoras';
 
   @override
   String get calculatorsInsideWhy =>
-      '1RM, discos, IMC, calorías, grasa, calentamiento, peso por RPE y nivel de fuerza DOTS — todas con fórmulas publicadas.';
+      '1RM, discos, IMC, calorías, grasa, FFMI, calentamiento, peso por RPE y puntuaciones de fuerza DOTS y Wilks — todas con fórmulas publicadas.';
 
   @override
   String get mathInside => 'Cuentas honestas';
@@ -3282,6 +3282,55 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get dotsLevel4 => 'Élite';
+
+  @override
+  String get toolNameWilks => 'Wilks';
+
+  @override
+  String get toolTitleWilks => 'Puntuación Wilks';
+
+  @override
+  String get toolDescWilks => 'La puntuación clásica del powerlifting';
+
+  @override
+  String get wilksExplain =>
+      'La fórmula clásica del powerlifting. DOTS la sustituyó en 2020, pero muchas competiciones y rankings la siguen usando.';
+
+  @override
+  String get toolNameFfmi => 'FFMI';
+
+  @override
+  String get toolTitleFfmi => 'Índice de masa magra';
+
+  @override
+  String get toolDescFfmi => 'Cuánto músculo para tu altura';
+
+  @override
+  String get ffmiBodyFat => 'GRASA CORPORAL';
+
+  @override
+  String ffmiLeanLine(String value) {
+    return 'Masa magra: $value';
+  }
+
+  @override
+  String get ffmiExplain =>
+      'Como el IMC, pero sin la grasa: solo cuenta tu masa magra. Ajustado a tu altura para comparar igual a altos y bajos.';
+
+  @override
+  String get ffmiLevel0 => 'Por debajo de la media';
+
+  @override
+  String get ffmiLevel1 => 'En la media';
+
+  @override
+  String get ffmiLevel2 => 'Por encima de la media';
+
+  @override
+  String get ffmiLevel3 => 'Excelente';
+
+  @override
+  String get ffmiLevel4 => 'Excepcional';
 
   @override
   String get rpeEffortLabel => 'Esfuerzo (RPE)';

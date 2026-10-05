@@ -1587,11 +1587,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get exercisesInsideWhy => 'Every one with an animation and step-by-step instructions.';
 
   @override
-  String get calculatorsInside => '8 calculators';
+  String get calculatorsInside => '10 calculators';
 
   @override
   String get calculatorsInsideWhy =>
-      '1RM, plates, BMI, calories, body fat, warm-up, RPE load and DOTS strength level — all with published formulas.';
+      '1RM, plates, BMI, calories, body fat, FFMI, warm-up, RPE load, and DOTS and Wilks strength scores — all with published formulas.';
 
   @override
   String get mathInside => 'Honest maths';
@@ -3277,6 +3277,55 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get dotsLevel4 => 'Elite';
+
+  @override
+  String get toolNameWilks => 'Wilks';
+
+  @override
+  String get toolTitleWilks => 'Wilks score';
+
+  @override
+  String get toolDescWilks => 'The classic powerlifting score';
+
+  @override
+  String get wilksExplain =>
+      'The classic powerlifting formula. DOTS replaced it in 2020, but many meets and rankings still use it.';
+
+  @override
+  String get toolNameFfmi => 'FFMI';
+
+  @override
+  String get toolTitleFfmi => 'Fat-free mass index';
+
+  @override
+  String get toolDescFfmi => 'How much muscle for your height';
+
+  @override
+  String get ffmiBodyFat => 'BODY FAT';
+
+  @override
+  String ffmiLeanLine(String value) {
+    return 'Lean mass: $value';
+  }
+
+  @override
+  String get ffmiExplain =>
+      'Like BMI, but without the fat: it only counts your lean mass. Adjusted to your height so tall and short people compare fairly.';
+
+  @override
+  String get ffmiLevel0 => 'Below average';
+
+  @override
+  String get ffmiLevel1 => 'Average';
+
+  @override
+  String get ffmiLevel2 => 'Above average';
+
+  @override
+  String get ffmiLevel3 => 'Excellent';
+
+  @override
+  String get ffmiLevel4 => 'Exceptional';
 
   @override
   String get rpeEffortLabel => 'Effort (RPE)';

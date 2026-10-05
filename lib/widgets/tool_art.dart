@@ -280,6 +280,108 @@ class _ToolArtPainter extends CustomPainter {
               ..style = PaintingStyle.stroke
               ..strokeWidth = 1.4
               ..color = const Color(0xFF9C7334).withValues(alpha: 0.6));
+      case 'wilks':
+        const goldLight = Color(0xFFFBE9B8), goldDark = Color(0xFFC9934A), rim = Color(0xFF9C7334);
+        final cx = w / 2;
+        Shader gold(Rect r) =>
+            const LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight, colors: [goldLight, goldDark])
+                .createShader(r);
+        final handle = Paint()
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 3.2
+          ..strokeCap = StrokeCap.round
+          ..color = goldDark;
+        for (final s in [-1.0, 1.0]) {
+          canvas.drawPath(
+              Path()
+                ..moveTo(cx + s * 12.5, 9)
+                ..cubicTo(cx + s * 22, 8, cx + s * 22, 20, cx + s * 8.5, 23),
+              handle);
+        }
+        final cup = Path()
+          ..moveTo(cx - 14, 5)
+          ..lineTo(cx + 14, 5)
+          ..cubicTo(cx + 14, 17, cx + 9, 25, cx + 2.6, 27.5)
+          ..lineTo(cx + 2.6, 34)
+          ..cubicTo(cx + 2.6, 36, cx + 8, 37, cx + 9, 39.5)
+          ..lineTo(cx - 9, 39.5)
+          ..cubicTo(cx - 8, 37, cx - 2.6, 36, cx - 2.6, 34)
+          ..lineTo(cx - 2.6, 27.5)
+          ..cubicTo(cx - 9, 25, cx - 14, 17, cx - 14, 5)
+          ..close();
+        final base = _block(canvas, Rect.fromLTWH(cx - 14, 39, 28, 11), 3, _hue(4));
+        canvas.drawRRect(RRect.fromRectAndRadius(Rect.fromCenter(center: base.center, width: 12, height: 2.4), const Radius.circular(1.2)),
+            Paint()..color = _ink(_hue(4)).withValues(alpha: 0.35));
+        _shadow(canvas, cup);
+        canvas.drawPath(cup, Paint()..shader = gold(cup.getBounds()));
+        canvas.drawOval(Rect.fromCenter(center: Offset(cx, 30.5), width: 9, height: 3.6), Paint()..shader = gold(Rect.fromLTWH(cx - 5, 28, 10, 5)));
+        canvas.drawOval(Rect.fromCenter(center: Offset(cx, 5.5), width: 28, height: 4), Paint()..color = rim.withValues(alpha: 0.55));
+        canvas.drawOval(Rect.fromCenter(center: Offset(cx, 5), width: 25, height: 2.6), Paint()..color = goldLight);
+        canvas.drawPath(
+            Path()
+              ..moveTo(cx - 9.5, 10)
+              ..cubicTo(cx - 9.5, 17, cx - 7, 21, cx - 4, 23),
+            Paint()
+              ..style = PaintingStyle.stroke
+              ..strokeWidth = 2.6
+              ..strokeCap = StrokeCap.round
+              ..color = Colors.white.withValues(alpha: 0.55));
+        final star = Path();
+        for (var k = 0; k < 10; k++) {
+          final a = -math.pi / 2 + k * math.pi / 5;
+          final r = k.isEven ? 4.2 : 1.8;
+          final pt = Offset(cx + math.cos(a) * r, 15 + math.sin(a) * r);
+          k == 0 ? star.moveTo(pt.dx, pt.dy) : star.lineTo(pt.dx, pt.dy);
+        }
+        canvas.drawPath(star..close(), Paint()..color = rim.withValues(alpha: 0.55));
+      case 'ffmi':
+        final ruler = Rect.fromLTWH(7, 3, 14, h - 6);
+        _block(canvas, ruler, 3.5, _hue(2));
+        final tick = Paint()..color = _ink(_hue(2)).withValues(alpha: 0.5);
+        for (var k = 0; k <= 12; k++) {
+          final y = ruler.top + 5 + k * (ruler.height - 10) / 12;
+          final len = k % 4 == 0 ? 8.0 : (k.isEven ? 5.5 : 3.5);
+          canvas.drawRRect(RRect.fromRectAndRadius(Rect.fromLTWH(ruler.left + 2, y - 0.7, len, 1.4), const Radius.circular(0.7)), tick);
+        }
+        final bx = w - 21.0, by = h - 18.0;
+        final iron = _hue(0);
+        canvas.drawPath(
+            Path()
+              ..moveTo(bx - 9.5, by - 1)
+              ..cubicTo(bx - 12, by - 26, bx + 12, by - 26, bx + 9.5, by - 1),
+            Paint()
+              ..style = PaintingStyle.stroke
+              ..strokeWidth = 4.6
+              ..strokeCap = StrokeCap.round
+              ..color = _ink(iron).withValues(alpha: 0.9));
+        canvas.drawPath(
+            Path()
+              ..moveTo(bx - 9.5, by - 1.5)
+              ..cubicTo(bx - 12, by - 26, bx + 12, by - 26, bx + 9.5, by - 1.5),
+            Paint()
+              ..style = PaintingStyle.stroke
+              ..strokeWidth = 3
+              ..strokeCap = StrokeCap.round
+              ..color = Color.lerp(iron, Colors.black, 0.18)!);
+        final bell = Path()
+          ..moveTo(bx - 7, by + 13.5)
+          ..cubicTo(bx - 17, by + 11, bx - 16.5, by - 9, bx, by - 10)
+          ..cubicTo(bx + 16.5, by - 9, bx + 17, by + 11, bx + 7, by + 13.5)
+          ..close();
+        _shadow(canvas, bell);
+        _fill(canvas, bell, iron);
+        canvas.save();
+        canvas.clipPath(bell);
+        canvas.drawPath(bell.shift(const Offset(-2.5, 2)),
+            Paint()
+              ..style = PaintingStyle.stroke
+              ..strokeWidth = 2
+              ..color = Colors.white.withValues(alpha: 0.3));
+        canvas.restore();
+        canvas.drawOval(Rect.fromCenter(center: Offset(bx - 5, by - 3), width: 6, height: 3.6),
+            Paint()..color = Colors.white.withValues(alpha: 0.42));
+        canvas.drawRRect(RRect.fromRectAndRadius(Rect.fromCenter(center: Offset(bx, by + 4), width: 10, height: 6), const Radius.circular(2)),
+            Paint()..color = _ink(iron).withValues(alpha: 0.28));
     }
   }
 

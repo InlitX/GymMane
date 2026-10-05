@@ -18,7 +18,6 @@ class HomeWidgetBridge {
   static const statsKey = 'stats_img';
   static const bodyKey = 'body_img';
   static const todayKey = 'today_img';
-  static const todayIdleKey = 'today_idle_img';
   static const todayPlanKey = 'today_plan_img';
   static const todayRestKey = 'today_rest_img';
   static const weekKey = 'week_img';
@@ -89,7 +88,6 @@ class HomeWidgetBridge {
       final levels = fit.heatmapWeeksFor(26);
       final heat = fit.muscleHeatOver(bodyDays);
       final plannedToday = fit.todayRoutine != null;
-      final hasPlan = fit.weeklyPlan.isNotEmpty;
 
       final views = <(String, String, Size, Widget Function(GymColors))>[
         (
@@ -137,14 +135,13 @@ class HomeWidgetBridge {
                 gc: gc,
                 done: fit.todayPlanDone,
                 planned: plannedToday,
-                rest: !plannedToday && hasPlan,
+                rest: !plannedToday,
                 streak: fit.currentStreak,
                 size: todaySize,
                 framed: framed,
               ),
         ),
         for (final (key, planned, rest) in [
-          (todayIdleKey, false, false),
           (todayPlanKey, true, false),
           (todayRestKey, false, true),
         ])
