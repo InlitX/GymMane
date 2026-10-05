@@ -1,5 +1,5 @@
 {
-  "@@locale": "pt",
+  "@@locale": "pt-PT",
   "languageName": "Português (Brasil)",
   "@languageName": {
     "description": "This language, written in itself. Shown in the language picker."
@@ -758,6 +758,7 @@
   "actModerate": "Moderado",
   "muscleChest": "Peito",
   "muscleBack": "Costas",
+  "muscleLowerBack": "Lower back",
   "muscleShoulders": "Ombros",
   "muscleBiceps": "Bíceps",
   "muscleTriceps": "Tríceps",
@@ -1477,7 +1478,7 @@
       }
     }
   },
-  "saveChangesBody": "Da próxima vez esta rotina começa assim.",
+  "saveChangesBody": "Next time you start it, the routine will have these changes.",
   "routineOrderChanged": "Nova ordem dos exercícios",
   "mineOnly": "Criados por ti",
   "createNamed": "Não está? Criar «{name}»",
@@ -1521,6 +1522,7 @@
       }
     }
   },
+  "nextToday": "Next today",
   "planAboutMe": "Sobre mim:",
   "planBody": "{sex}, {age} anos, {height} de altura, {weight}.",
   "planDays": "Quero treinar {n} dias por semana.",
