@@ -758,6 +758,7 @@
   "actModerate": "Orta",
   "muscleChest": "Göğüs",
   "muscleBack": "Sırt",
+  "muscleLowerBack": "Lower back",
   "muscleShoulders": "Omuzlar",
   "muscleBiceps": "Biseps",
   "muscleTriceps": "Triseps",
@@ -1477,7 +1478,7 @@
       }
     }
   },
-  "saveChangesBody": "Program bir dahaki sefere böyle başlayacak.",
+  "saveChangesBody": "Next time you start it, the routine will have these changes.",
   "routineOrderChanged": "Yeni egzersiz sırası",
   "mineOnly": "Senin oluşturdukların",
   "createNamed": "Yok mu? “{name}” oluştur",
@@ -1521,6 +1522,7 @@
       }
     }
   },
+  "nextToday": "Next today",
   "planAboutMe": "Hakkımda:",
   "planBody": "{sex}, {age} yaşında, boy {height}, kilo {weight}.",
   "planDays": "Haftada {n} gün antrenman yapmak istiyorum.",
