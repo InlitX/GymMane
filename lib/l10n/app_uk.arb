@@ -758,6 +758,7 @@
   "actModerate": "Помірний",
   "muscleChest": "Груди",
   "muscleBack": "Спина",
+  "muscleLowerBack": "Lower back",
   "muscleShoulders": "Плечі",
   "muscleBiceps": "Біцепс",
   "muscleTriceps": "Трицепс",
@@ -1477,7 +1478,7 @@
       }
     }
   },
-  "saveChangesBody": "Наступного разу програма почнеться так.",
+  "saveChangesBody": "Next time you start it, the routine will have these changes.",
   "routineOrderChanged": "Новий порядок вправ",
   "mineOnly": "Створені вами",
   "createNamed": "Немає? Створити «{name}»",
@@ -1521,6 +1522,7 @@
       }
     }
   },
+  "nextToday": "Next today",
   "planAboutMe": "Про мене:",
   "planBody": "{sex}, {age} років, зріст {height}, вага {weight}.",
   "planDays": "Хочу тренуватися {n} днів на тиждень.",
