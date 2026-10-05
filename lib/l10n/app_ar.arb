@@ -758,6 +758,7 @@
   "actModerate": "متوسط",
   "muscleChest": "الصدر",
   "muscleBack": "الظهر",
+  "muscleLowerBack": "Lower back",
   "muscleShoulders": "الكتفان",
   "muscleBiceps": "البايسبس",
   "muscleTriceps": "الترايسبس",
@@ -1477,7 +1478,7 @@
       }
     }
   },
-  "saveChangesBody": "في المرة القادمة سيبدأ هذا الروتين هكذا.",
+  "saveChangesBody": "Next time you start it, the routine will have these changes.",
   "routineOrderChanged": "ترتيب جديد للتمارين",
   "mineOnly": "من إنشائك",
   "createNamed": "غير موجود؟ أنشئ «{name}»",
@@ -1521,6 +1522,7 @@
       }
     }
   },
+  "nextToday": "Next today",
   "planAboutMe": "عني:",
   "planBody": "{sex}، {age} سنة، الطول {height}، الوزن {weight}.",
   "planDays": "أريد التمرين {n} أيام في الأسبوع.",
