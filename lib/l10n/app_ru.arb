@@ -758,6 +758,7 @@
   "actModerate": "Умеренная",
   "muscleChest": "Грудь",
   "muscleBack": "Спина",
+  "muscleLowerBack": "Lower back",
   "muscleShoulders": "Плечи",
   "muscleBiceps": "Бицепс",
   "muscleTriceps": "Трицепс",
@@ -1477,7 +1478,7 @@
       }
     }
   },
-  "saveChangesBody": "В следующий раз программа начнётся так.",
+  "saveChangesBody": "Next time you start it, the routine will have these changes.",
   "routineOrderChanged": "Новый порядок упражнений",
   "mineOnly": "Созданные вами",
   "createNamed": "Нет в списке? Создать «{name}»",
@@ -1521,6 +1522,7 @@
       }
     }
   },
+  "nextToday": "Next today",
   "planAboutMe": "Обо мне:",
   "planBody": "{sex}, {age} лет, рост {height}, вес {weight}.",
   "planDays": "Хочу тренироваться {n} дней в неделю.",
