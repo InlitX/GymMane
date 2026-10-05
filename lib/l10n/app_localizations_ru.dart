@@ -1503,6 +1503,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get muscleBack => 'Спина';
 
   @override
+  String get muscleLowerBack => 'Поясница';
+
+  @override
   String get muscleShoulders => 'Плечи';
 
   @override

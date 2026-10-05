@@ -589,6 +589,7 @@ mixin StatsState on FitCore, ToolsState, LibraryState, TimelineState {
   static const Map<String, double> _recoveryHours = {
     'chest': 60,
     'back': 60,
+    'lowerback': 72,
     'quads': 72,
     'hamstrings': 72,
     'glutes': 72,

@@ -1458,6 +1458,9 @@ class AppLocalizationsTr extends AppLocalizations {
   String get muscleBack => 'Sırt';
 
   @override
+  String get muscleLowerBack => 'Bel';
+
+  @override
   String get muscleShoulders => 'Omuzlar';
 
   @override

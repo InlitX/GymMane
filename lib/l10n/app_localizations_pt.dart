@@ -1460,6 +1460,9 @@ class AppLocalizationsPt extends AppLocalizations {
   String get muscleBack => 'Costas';
 
   @override
+  String get muscleLowerBack => 'Lombar';
+
+  @override
   String get muscleShoulders => 'Ombros';
 
   @override

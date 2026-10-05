@@ -1460,6 +1460,9 @@ class AppLocalizationsNl extends AppLocalizations {
   String get muscleBack => 'Rug';
 
   @override
+  String get muscleLowerBack => 'Onderrug';
+
+  @override
   String get muscleShoulders => 'Schouders';
 
   @override

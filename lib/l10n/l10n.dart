@@ -172,6 +172,7 @@ extension GymL10n on AppLocalizations {
   String muscle(String id) => switch (id) {
         'chest' => muscleChest,
         'back' => muscleBack,
+        'lowerback' => muscleLowerBack,
         'shoulders' => muscleShoulders,
         'biceps' => muscleBiceps,
         'triceps' => muscleTriceps,

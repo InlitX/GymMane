@@ -1450,6 +1450,9 @@ class AppLocalizationsFa extends AppLocalizations {
   String get muscleBack => 'پشت';
 
   @override
+  String get muscleLowerBack => 'پایین کمر';
+
+  @override
   String get muscleShoulders => 'شانه‌ها';
 
   @override

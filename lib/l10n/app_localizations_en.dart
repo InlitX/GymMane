@@ -1457,6 +1457,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get muscleBack => 'Back';
 
   @override
+  String get muscleLowerBack => 'Lower back';
+
+  @override
   String get muscleShoulders => 'Shoulders';
 
   @override

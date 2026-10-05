@@ -10,6 +10,8 @@ import '../theme/app_theme.dart';
 import 'svg_icon.dart';
 import 'ui_kit.dart';
 
+const _merged = {'abdomen': 'obliques', 'back': 'lowerback'};
+
 const _axes = [
   'chest',
   'shoulders',
@@ -41,7 +43,8 @@ class _MuscleRadarCardState extends State<MuscleRadarCard> {
     final now = DateTime.now();
     final raw = fit.muscleSetsBetween(DateTime(now.year, now.month, now.day - 29), now.add(const Duration(minutes: 1)));
     return {
-      for (final id in _axes) id: (raw[id] ?? 0) + (id == 'abdomen' ? raw['obliques'] ?? 0 : 0),
+      for (final id in _axes)
+        id: (raw[id] ?? 0) + (raw[_merged[id]] ?? 0),
     };
   }
 
@@ -249,7 +252,7 @@ class MuscleFigurePainter extends CustomPainter {
     final dark = gc.bg.computeLuminance() < 0.5;
     final skin = dark ? const Color(0xFFE4E1DC) : const Color(0xFFB9B1A8);
     final rest = Color.lerp(skin, gc.bgRaised, 0.22)!;
-    final lit = {muscle, if (muscle == 'abdomen') 'obliques'};
+    final lit = {muscle, ?_merged[muscle]};
 
     canvas.clipRect(Offset.zero & size);
     final k = size.width / crop.width;

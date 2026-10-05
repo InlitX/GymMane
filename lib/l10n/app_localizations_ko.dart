@@ -1420,6 +1420,9 @@ class AppLocalizationsKo extends AppLocalizations {
   String get muscleBack => '등';
 
   @override
+  String get muscleLowerBack => '허리';
+
+  @override
   String get muscleShoulders => '어깨';
 
   @override

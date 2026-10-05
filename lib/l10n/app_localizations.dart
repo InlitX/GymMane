@@ -2650,6 +2650,12 @@ abstract class AppLocalizations {
   /// **'Back'**
   String get muscleBack;
 
+  /// No description provided for @muscleLowerBack.
+  ///
+  /// In en, this message translates to:
+  /// **'Lower back'**
+  String get muscleLowerBack;
+
   /// No description provided for @muscleShoulders.
   ///
   /// In en, this message translates to:

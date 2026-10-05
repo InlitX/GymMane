@@ -1463,6 +1463,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get muscleBack => 'Rücken';
 
   @override
+  String get muscleLowerBack => 'Unterer Rücken';
+
+  @override
   String get muscleShoulders => 'Schultern';
 
   @override

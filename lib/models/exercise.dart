@@ -106,6 +106,7 @@ const List<Muscle> kMuscles = [
   Muscle('forearm', 'Forearm', 'front'),
   Muscle('trapezius', 'Trapezius', 'back'),
   Muscle('back', 'Back', 'back'),
+  Muscle('lowerback', 'Lower back', 'back'),
   Muscle('triceps', 'Triceps', 'back'),
   Muscle('glutes', 'Glutes', 'back'),
   Muscle('hamstrings', 'Hamstrings', 'back'),
@@ -123,6 +124,7 @@ String muscleGroup(String muscleId) {
     case 'chest':
       return 'Chest';
     case 'back':
+    case 'lowerback':
     case 'trapezius':
       return 'Back';
     case 'quads':
@@ -151,6 +153,7 @@ String muscleFamily(String muscleId) {
     case 'triceps':
       return 'push';
     case 'back':
+    case 'lowerback':
     case 'trapezius':
     case 'biceps':
     case 'forearm':

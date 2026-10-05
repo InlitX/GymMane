@@ -1392,6 +1392,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get muscleBack => '背部';
 
   @override
+  String get muscleLowerBack => '下背';
+
+  @override
   String get muscleShoulders => '肩部';
 
   @override
@@ -4618,6 +4621,9 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get muscleBack => '背';
+
+  @override
+  String get muscleLowerBack => '下背';
 
   @override
   String get muscleShoulders => '肩';

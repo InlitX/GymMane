@@ -1458,6 +1458,9 @@ class AppLocalizationsPl extends AppLocalizations {
   String get muscleBack => 'Plecy';
 
   @override
+  String get muscleLowerBack => 'Dolny odcinek pleców';
+
+  @override
   String get muscleShoulders => 'Barki';
 
   @override

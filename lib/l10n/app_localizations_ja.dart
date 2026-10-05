@@ -1407,6 +1407,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get muscleBack => '背中';
 
   @override
+  String get muscleLowerBack => '腰';
+
+  @override
   String get muscleShoulders => '肩';
 
   @override
