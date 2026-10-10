@@ -1,5 +1,5 @@
 {
-  "@@locale": "zh_Hant",
+  "@@locale": "zh-TW",
   "languageName": "繁體中文",
   "@languageName": {
     "description": "This language, written in itself. Shown in the language picker."
@@ -1500,6 +1500,20 @@
   "cardioFocus": "有氧",
   "cardioFocusHint": "跑步、騎車、划船或跳繩，按距離和時間記錄",
   "homeRecommended": "首頁推薦",
+  "homeRoutines": "Routines on home",
+  "homeRoutinesHint": "Your routines, last done first. Tap one to start it.",
+  "homeWeekStats": "This week on home",
+  "homeWeekStatsHint": "Volume, sets and PRs of the week.",
+  "routineDoneToday": "Done for today · nice work",
+  "trainAgain": "Train again",
+  "lastDoneAgo": "{n, plural, =0{Done today} =1{Done yesterday} other{{n} days ago}}",
+  "@lastDoneAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "archivedFilter": "已封存",
   "archiveExercise": "封存動作",
   "restoreExercise": "還原",
@@ -1820,5 +1834,30 @@
   "trainReminderRowHint": "A nudge on the days you train.",
   "alarmSoundRowHint": "What plays when the rest ends.",
   "alarmStyleRowHint": "Whether it rings in silent mode.",
-  "recommendedRowHint": "Exercises we suggest on Home."
+  "recommendedRowHint": "Exercises we suggest on Home.",
+  "weightStepSetting": "Weight step",
+  "weightStepHint": "What the − and + buttons add.",
+  "prBestWorkout": "Best workout",
+  "mergeExercise": "Merge",
+  "mergeExerciseInto": "Merge {name} into…",
+  "@mergeExerciseInto": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "mergeExerciseTitle": "Merge exercises?",
+  "mergeExerciseBody": "All the history of \"{from}\" moves to \"{to}\". \"{from}\" stays in your library. This can't be undone.",
+  "@mergeExerciseBody": {
+    "placeholders": {
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "mergedToast": "History merged"
 }
