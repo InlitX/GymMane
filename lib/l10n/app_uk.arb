@@ -371,6 +371,7 @@
   "theme": "Тема",
   "darkTheme": "Темна",
   "lightTheme": "Світла",
+  "editDuration": "Тривалість тренування",
   "languageLabel": "Мова",
   "unitsLabel": "Одиниці",
   "restTimer": "Таймер відпочинку",

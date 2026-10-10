@@ -371,6 +371,7 @@
   "theme": "主題",
   "darkTheme": "深色",
   "lightTheme": "淺色",
+  "editDuration": "訓練時長",
   "languageLabel": "語言",
   "unitsLabel": "單位",
   "restTimer": "休息計時器",

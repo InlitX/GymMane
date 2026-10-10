@@ -1113,6 +1113,9 @@ class AppLocalizationsIt extends AppLocalizations {
   String get lightTheme => 'Chiaro';
 
   @override
+  String get editDuration => 'Durata dell’allenamento';
+
+  @override
   String get languageLabel => 'Lingua';
 
   @override

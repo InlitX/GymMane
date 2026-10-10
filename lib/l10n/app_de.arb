@@ -381,6 +381,7 @@
   "theme": "Erscheinungsbild",
   "darkTheme": "Dunkel",
   "lightTheme": "Hell",
+  "editDuration": "Trainingsdauer",
   "languageLabel": "Sprache",
   "unitsLabel": "Einheiten",
   "restTimer": "Pausentimer",

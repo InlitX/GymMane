@@ -342,6 +342,7 @@
   "theme": "Тема",
   "darkTheme": "Тёмная",
   "lightTheme": "Светлая",
+  "editDuration": "Длительность тренировки",
   "languageLabel": "Язык",
   "unitsLabel": "Единицы",
   "restTimer": "Таймер отдыха",

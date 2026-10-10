@@ -1117,6 +1117,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get lightTheme => 'Clair';
 
   @override
+  String get editDuration => 'Durée de la séance';
+
+  @override
   String get languageLabel => 'Langue';
 
   @override

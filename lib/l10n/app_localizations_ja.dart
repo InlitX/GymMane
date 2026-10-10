@@ -1064,6 +1064,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get lightTheme => 'ライト';
 
   @override
+  String get editDuration => 'トレーニング時間';
+
+  @override
   String get languageLabel => '言語';
 
   @override

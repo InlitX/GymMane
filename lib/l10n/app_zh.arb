@@ -194,6 +194,7 @@
   "theme": "外观主题",
   "darkTheme": "深色模式",
   "lightTheme": "浅色模式",
+  "editDuration": "训练时长",
   "languageLabel": "语言",
   "unitsLabel": "单位",
   "restTimer": "组间休息计时器",

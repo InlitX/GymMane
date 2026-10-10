@@ -105,7 +105,7 @@ class LoggedExercise {
 class LoggedSession {
   LoggedSession(this.date, this.durationSec, this.exercises, {this.routineId});
   final DateTime date;
-  final int durationSec;
+  int durationSec;
   final List<LoggedExercise> exercises;
   final String? routineId;
 

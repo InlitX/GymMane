@@ -371,6 +371,7 @@
   "theme": "테마",
   "darkTheme": "다크",
   "lightTheme": "라이트",
+  "editDuration": "운동 시간",
   "languageLabel": "언어",
   "unitsLabel": "단위",
   "restTimer": "휴식 타이머",

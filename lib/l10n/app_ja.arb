@@ -371,6 +371,7 @@
   "theme": "テーマ",
   "darkTheme": "ダーク",
   "lightTheme": "ライト",
+  "editDuration": "トレーニング時間",
   "languageLabel": "言語",
   "unitsLabel": "単位",
   "restTimer": "休憩タイマー",

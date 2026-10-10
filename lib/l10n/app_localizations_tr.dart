@@ -1114,6 +1114,9 @@ class AppLocalizationsTr extends AppLocalizations {
   String get lightTheme => 'Açık';
 
   @override
+  String get editDuration => 'Antrenman süresi';
+
+  @override
   String get languageLabel => 'Dil';
 
   @override

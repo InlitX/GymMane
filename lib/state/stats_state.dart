@@ -239,6 +239,13 @@ mixin StatsState on FitCore, ToolsState, LibraryState, TimelineState {
     notifyListeners();
   }
 
+  void setSessionDuration(LoggedSession s, int seconds) {
+    if (!sessions.contains(s) || seconds < 0 || seconds == s.durationSec) return;
+    s.durationSec = seconds;
+    persistNow();
+    notifyListeners();
+  }
+
   void deleteLoggedExercise(LoggedSession s, LoggedExercise e) {
     s.exercises.remove(e);
     if (s.exercises.isEmpty) sessions.remove(s);

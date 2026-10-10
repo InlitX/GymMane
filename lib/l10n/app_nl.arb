@@ -371,6 +371,7 @@
   "theme": "Thema",
   "darkTheme": "Donker",
   "lightTheme": "Licht",
+  "editDuration": "Duur van de training",
   "languageLabel": "Taal",
   "unitsLabel": "Eenheden",
   "restTimer": "Rusttimer",

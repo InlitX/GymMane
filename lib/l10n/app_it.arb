@@ -383,6 +383,7 @@
   "theme": "Tema",
   "darkTheme": "Scuro",
   "lightTheme": "Chiaro",
+  "editDuration": "Durata dell’allenamento",
   "languageLabel": "Lingua",
   "unitsLabel": "Unità",
   "restTimer": "Recupero",

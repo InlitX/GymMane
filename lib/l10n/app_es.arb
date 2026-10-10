@@ -348,6 +348,7 @@
   "theme": "Tema",
   "darkTheme": "Oscuro",
   "lightTheme": "Claro",
+  "editDuration": "Duración del entreno",
   "languageLabel": "Idioma",
   "unitsLabel": "Unidades",
   "restTimer": "Descanso",

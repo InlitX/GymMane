@@ -383,6 +383,7 @@
   "theme": "Theme",
   "darkTheme": "Dark",
   "lightTheme": "Light",
+  "editDuration": "Workout length",
   "languageLabel": "Language",
   "unitsLabel": "Units",
   "restTimer": "Rest timer",

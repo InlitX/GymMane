@@ -371,6 +371,7 @@
   "theme": "Motyw",
   "darkTheme": "Ciemny",
   "lightTheme": "Jasny",
+  "editDuration": "Czas treningu",
   "languageLabel": "Język",
   "unitsLabel": "Jednostki",
   "restTimer": "Minutnik odpoczynku",

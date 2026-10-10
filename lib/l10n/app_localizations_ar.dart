@@ -1105,6 +1105,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get lightTheme => 'فاتح';
 
   @override
+  String get editDuration => 'مدة التمرين';
+
+  @override
   String get languageLabel => 'اللغة';
 
   @override

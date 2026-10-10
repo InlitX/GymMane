@@ -1115,6 +1115,9 @@ class AppLocalizationsNl extends AppLocalizations {
   String get lightTheme => 'Licht';
 
   @override
+  String get editDuration => 'Duur van de training';
+
+  @override
   String get languageLabel => 'Taal';
 
   @override

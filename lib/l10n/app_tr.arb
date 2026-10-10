@@ -371,6 +371,7 @@
   "theme": "Tema",
   "darkTheme": "Koyu",
   "lightTheme": "Açık",
+  "editDuration": "Antrenman süresi",
   "languageLabel": "Dil",
   "unitsLabel": "Birimler",
   "restTimer": "Dinlenme zamanlayıcısı",
