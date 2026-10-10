@@ -1137,5 +1137,10 @@
   "recommendedRowHint": "Übungen, die wir auf der Startseite vorschlagen.",
   "weightStepSetting": "Gewichtsschritt",
   "weightStepHint": "Was die Tasten − und + hinzufügen.",
-  "prBestWorkout": "Bestes Training"
+  "prBestWorkout": "Bestes Training",
+  "mergeExercise": "Zusammenführen",
+  "mergeExerciseInto": "{name} zusammenführen mit…",
+  "mergeExerciseTitle": "Übungen zusammenführen?",
+  "mergeExerciseBody": "Der gesamte Verlauf von „{from}“ geht auf „{to}“ über. „{from}“ bleibt in deiner Bibliothek. Das lässt sich nicht rückgängig machen.",
+  "mergedToast": "Verlauf zusammengeführt"
 }

@@ -1256,5 +1256,10 @@
   "recommendedRowHint": "Ćwiczenia proponowane na ekranie głównym.",
   "weightStepSetting": "Krok ciężaru",
   "weightStepHint": "Ile dodają przyciski − i +.",
-  "prBestWorkout": "Najlepszy trening"
+  "prBestWorkout": "Najlepszy trening",
+  "mergeExercise": "Scal",
+  "mergeExerciseInto": "Scal {name} z…",
+  "mergeExerciseTitle": "Scalić ćwiczenia?",
+  "mergeExerciseBody": "Cała historia „{from}” przejdzie do „{to}”. „{from}” zostaje w twojej bibliotece. Tego nie można cofnąć.",
+  "mergedToast": "Historia scalona"
 }

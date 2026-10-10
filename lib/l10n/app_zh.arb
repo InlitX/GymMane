@@ -1038,5 +1038,10 @@
   "recommendedRowHint": "首页推荐的动作。",
   "weightStepSetting": "重量步长",
   "weightStepHint": "− 和 + 按钮每次增减的量。",
-  "prBestWorkout": "最佳训练"
+  "prBestWorkout": "最佳训练",
+  "mergeExercise": "合并",
+  "mergeExerciseInto": "将 {name} 合并到…",
+  "mergeExerciseTitle": "合并动作？",
+  "mergeExerciseBody": "「{from}」的全部记录将转到「{to}」。「{from}」仍保留在你的动作库中。此操作无法撤销。",
+  "mergedToast": "记录已合并"
 }

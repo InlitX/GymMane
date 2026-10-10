@@ -1256,5 +1256,10 @@
   "recommendedRowHint": "Вправи, які ми пропонуємо на головній.",
   "weightStepSetting": "Крок ваги",
   "weightStepHint": "Скільки додають кнопки − і +.",
-  "prBestWorkout": "Найкраще тренування"
+  "prBestWorkout": "Найкраще тренування",
+  "mergeExercise": "Об’єднати",
+  "mergeExerciseInto": "Об’єднати {name} з…",
+  "mergeExerciseTitle": "Об’єднати вправи?",
+  "mergeExerciseBody": "Уся історія «{from}» перейде до «{to}». «{from}» залишиться в бібліотеці. Цю дію не можна скасувати.",
+  "mergedToast": "Історію об’єднано"
 }

@@ -3381,4 +3381,23 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String get prBestWorkout => 'بهترین تمرین';
+
+  @override
+  String get mergeExercise => 'ادغام';
+
+  @override
+  String mergeExerciseInto(String name) {
+    return 'ادغام $name با…';
+  }
+
+  @override
+  String get mergeExerciseTitle => 'حرکات ادغام شوند؟';
+
+  @override
+  String mergeExerciseBody(String from, String to) {
+    return 'تمام سابقهٔ «$from» به «$to» منتقل می‌شود. «$from» در کتابخانه‌ات می‌ماند. این کار برگشت‌پذیر نیست.';
+  }
+
+  @override
+  String get mergedToast => 'سابقه ادغام شد';
 }

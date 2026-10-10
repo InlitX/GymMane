@@ -1256,5 +1256,10 @@
   "recommendedRowHint": "ホームでおすすめする種目。",
   "weightStepSetting": "重量の刻み",
   "weightStepHint": "− と + ボタンで増減する量。",
-  "prBestWorkout": "ベストワークアウト"
+  "prBestWorkout": "ベストワークアウト",
+  "mergeExercise": "統合",
+  "mergeExerciseInto": "{name} を統合…",
+  "mergeExerciseTitle": "種目を統合しますか？",
+  "mergeExerciseBody": "「{from}」の履歴はすべて「{to}」に移ります。「{from}」はライブラリに残ります。元に戻せません。",
+  "mergedToast": "履歴を統合しました"
 }

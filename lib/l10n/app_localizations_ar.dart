@@ -3392,4 +3392,23 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get prBestWorkout => 'أفضل تمرين';
+
+  @override
+  String get mergeExercise => 'دمج';
+
+  @override
+  String mergeExerciseInto(String name) {
+    return 'دمج $name في…';
+  }
+
+  @override
+  String get mergeExerciseTitle => 'دمج التمارين؟';
+
+  @override
+  String mergeExerciseBody(String from, String to) {
+    return 'ينتقل كل سجل «$from» إلى «$to». يبقى «$from» في مكتبتك. لا يمكن التراجع عن ذلك.';
+  }
+
+  @override
+  String get mergedToast => 'تم دمج السجل';
 }

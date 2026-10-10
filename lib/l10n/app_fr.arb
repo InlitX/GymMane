@@ -1256,5 +1256,10 @@
   "recommendedRowHint": "Exercices que l’on vous propose sur l’Accueil.",
   "weightStepSetting": "Pas de poids",
   "weightStepHint": "Ce qu’ajoutent les boutons − et +.",
-  "prBestWorkout": "Meilleure séance"
+  "prBestWorkout": "Meilleure séance",
+  "mergeExercise": "Fusionner",
+  "mergeExerciseInto": "Fusionner {name} avec…",
+  "mergeExerciseTitle": "Fusionner les exercices ?",
+  "mergeExerciseBody": "Tout l’historique de « {from} » passe à « {to} ». « {from} » reste dans ta bibliothèque. C’est irréversible.",
+  "mergedToast": "Historique fusionné"
 }

@@ -1177,5 +1177,12 @@
   "recommendedRowHint": "Exercises we suggest on Home.",
   "weightStepSetting": "Weight step",
   "weightStepHint": "What the − and + buttons add.",
-  "prBestWorkout": "Best workout"
+  "prBestWorkout": "Best workout",
+  "mergeExercise": "Merge",
+  "mergeExerciseInto": "Merge {name} into…",
+  "@mergeExerciseInto": {"placeholders": {"name": {"type": "String"}}},
+  "mergeExerciseTitle": "Merge exercises?",
+  "mergeExerciseBody": "All the history of \"{from}\" moves to \"{to}\". \"{from}\" stays in your library. This can't be undone.",
+  "@mergeExerciseBody": {"placeholders": {"from": {"type": "String"}, "to": {"type": "String"}}},
+  "mergedToast": "History merged"
 }

@@ -7,6 +7,7 @@ import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 import '../l10n/l10n.dart';
 import '../models/exercise.dart';
 import '../models/workout.dart';
+import '../services/exercise_match.dart';
 import '../state/fit_state.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
@@ -96,6 +97,14 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
                         ),
                       ),
                       const SizedBox(width: 10),
+                      if (history.isNotEmpty) ...[
+                        RoundAction(
+                          label: t.mergeExercise,
+                          onTap: () => _merge(context, ex),
+                          child: Icon(PhosphorIconsRegular.gitMerge, size: 16, color: gc.textSecondary),
+                        ),
+                        const SizedBox(width: 10),
+                      ],
                     ],
                     RoundAction(
                       label: archived ? t.restoreExercise : t.archiveExercise,
@@ -652,6 +661,33 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
     if (!ok) return;
     fit.closeExerciseDetail();
     fit.deleteCustomExercise(ex.id);
+  }
+
+  Future<void> _merge(BuildContext context, Exercise ex) async {
+    final toId = await showAppSheet<String>(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (_) => _MergeTargetSheet(from: ex),
+    );
+    if (toId == null || !context.mounted) return;
+    final to = fit.exerciseById(toId);
+    if (to == null) return;
+    final ok = await askConfirm(
+      context,
+      title: t.mergeExerciseTitle,
+      body: t.mergeExerciseBody(exerciseName(ex), exerciseName(to)),
+      confirmLabel: t.mergeExercise,
+    );
+    if (!ok || !context.mounted) return;
+    fit.mergeExerciseInto(ex.id, to.id);
+    showNotchToast(
+      context,
+      t.mergedToast,
+      subtitle: exerciseName(to),
+      icon: PhosphorIconsRegular.gitMerge,
+      accent: context.gc.accent,
+    );
   }
 
   void _toggleArchived(BuildContext context, Exercise ex) {
@@ -1340,6 +1376,73 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
             border: Border.all(color: gc.border),
           ),
           child: Icon(icon, size: 16, color: gc.text),
+        ),
+      ),
+    );
+  }
+}
+
+class _MergeTargetSheet extends StatefulWidget {
+  const _MergeTargetSheet({required this.from});
+
+  final Exercise from;
+
+  @override
+  State<_MergeTargetSheet> createState() => _MergeTargetSheetState();
+}
+
+class _MergeTargetSheetState extends State<_MergeTargetSheet> {
+  final TextEditingController _q = TextEditingController();
+
+  @override
+  void dispose() {
+    _q.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final gc = context.gc;
+    final all = fit.mergeTargets(widget.from.id);
+    final results = _q.text.trim().isEmpty ? all.take(40).toList() : all.where(exerciseSearch(_q.text)).take(60).toList();
+
+    return Padding(
+      padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+      child: Container(
+        height: MediaQuery.of(context).size.height * 0.72,
+        padding: sheetPad(context, bottom: 16),
+        decoration: BoxDecoration(
+          color: gc.bgRaised,
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            const SheetHandle(),
+            const SizedBox(height: 16),
+            SheetTitle(t.mergeExerciseInto(exerciseName(widget.from))),
+            const SizedBox(height: 14),
+            SearchField(
+              controller: _q,
+              hint: t.searchAllExercises,
+              color: gc.bgRaised2,
+              onChanged: (_) => setState(() {}),
+            ),
+            const SizedBox(height: 12),
+            Flexible(
+              child: OptionGroup(
+                scroll: true,
+                [
+                  for (final ex in results)
+                    OptionItem(
+                      exerciseName(ex),
+                      detail: muscleLabel(ex.primary),
+                      onTap: () => Navigator.of(context).pop(ex.id),
+                    ),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );

@@ -3391,4 +3391,23 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get prBestWorkout => 'Best workout';
+
+  @override
+  String get mergeExercise => 'Merge';
+
+  @override
+  String mergeExerciseInto(String name) {
+    return 'Merge $name into…';
+  }
+
+  @override
+  String get mergeExerciseTitle => 'Merge exercises?';
+
+  @override
+  String mergeExerciseBody(String from, String to) {
+    return 'All the history of \"$from\" moves to \"$to\". \"$from\" stays in your library. This can\'t be undone.';
+  }
+
+  @override
+  String get mergedToast => 'History merged';
 }

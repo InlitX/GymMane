@@ -3302,4 +3302,23 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get prBestWorkout => 'ベストワークアウト';
+
+  @override
+  String get mergeExercise => '統合';
+
+  @override
+  String mergeExerciseInto(String name) {
+    return '$name を統合…';
+  }
+
+  @override
+  String get mergeExerciseTitle => '種目を統合しますか？';
+
+  @override
+  String mergeExerciseBody(String from, String to) {
+    return '「$from」の履歴はすべて「$to」に移ります。「$from」はライブラリに残ります。元に戻せません。';
+  }
+
+  @override
+  String get mergedToast => '履歴を統合しました';
 }

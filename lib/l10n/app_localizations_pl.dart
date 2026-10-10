@@ -3409,4 +3409,23 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get prBestWorkout => 'Najlepszy trening';
+
+  @override
+  String get mergeExercise => 'Scal';
+
+  @override
+  String mergeExerciseInto(String name) {
+    return 'Scal $name z…';
+  }
+
+  @override
+  String get mergeExerciseTitle => 'Scalić ćwiczenia?';
+
+  @override
+  String mergeExerciseBody(String from, String to) {
+    return 'Cała historia „$from” przejdzie do „$to”. „$from” zostaje w twojej bibliotece. Tego nie można cofnąć.';
+  }
+
+  @override
+  String get mergedToast => 'Historia scalona';
 }

@@ -3396,4 +3396,23 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get prBestWorkout => 'Mejor entreno';
+
+  @override
+  String get mergeExercise => 'Fusionar';
+
+  @override
+  String mergeExerciseInto(String name) {
+    return 'Fusionar $name con…';
+  }
+
+  @override
+  String get mergeExerciseTitle => '¿Fusionar ejercicios?';
+
+  @override
+  String mergeExerciseBody(String from, String to) {
+    return 'Todo el historial de «$from» pasa a «$to». «$from» se queda en tu biblioteca. No se puede deshacer.';
+  }
+
+  @override
+  String get mergedToast => 'Historial fusionado';
 }

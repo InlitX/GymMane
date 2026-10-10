@@ -3405,4 +3405,23 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get prBestWorkout => 'Beste training';
+
+  @override
+  String get mergeExercise => 'Samenvoegen';
+
+  @override
+  String mergeExerciseInto(String name) {
+    return '$name samenvoegen met…';
+  }
+
+  @override
+  String get mergeExerciseTitle => 'Oefeningen samenvoegen?';
+
+  @override
+  String mergeExerciseBody(String from, String to) {
+    return 'De hele geschiedenis van ‘$from’ gaat naar ‘$to’. ‘$from’ blijft in je bibliotheek. Dit kan niet ongedaan worden gemaakt.';
+  }
+
+  @override
+  String get mergedToast => 'Geschiedenis samengevoegd';
 }

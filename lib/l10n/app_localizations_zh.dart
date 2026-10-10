@@ -3257,6 +3257,25 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get prBestWorkout => '最佳训练';
+
+  @override
+  String get mergeExercise => '合并';
+
+  @override
+  String mergeExerciseInto(String name) {
+    return '将 $name 合并到…';
+  }
+
+  @override
+  String get mergeExerciseTitle => '合并动作？';
+
+  @override
+  String mergeExerciseBody(String from, String to) {
+    return '「$from」的全部记录将转到「$to」。「$from」仍保留在你的动作库中。此操作无法撤销。';
+  }
+
+  @override
+  String get mergedToast => '记录已合并';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -6529,4 +6548,23 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get prBestWorkout => '最佳訓練';
+
+  @override
+  String get mergeExercise => '合併';
+
+  @override
+  String mergeExerciseInto(String name) {
+    return '將 $name 合併到…';
+  }
+
+  @override
+  String get mergeExerciseTitle => '合併動作？';
+
+  @override
+  String mergeExerciseBody(String from, String to) {
+    return '「$from」的全部紀錄將轉到「$to」。「$from」仍保留在你的動作庫中。此操作無法復原。';
+  }
+
+  @override
+  String get mergedToast => '紀錄已合併';
 }

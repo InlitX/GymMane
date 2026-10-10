@@ -3496,4 +3496,23 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get prBestWorkout => 'Лучшая тренировка';
+
+  @override
+  String get mergeExercise => 'Объединить';
+
+  @override
+  String mergeExerciseInto(String name) {
+    return 'Объединить $name с…';
+  }
+
+  @override
+  String get mergeExerciseTitle => 'Объединить упражнения?';
+
+  @override
+  String mergeExerciseBody(String from, String to) {
+    return 'Вся история «$from» перейдёт в «$to». «$from» останется в библиотеке. Это нельзя отменить.';
+  }
+
+  @override
+  String get mergedToast => 'История объединена';
 }

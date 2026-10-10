@@ -1617,5 +1617,10 @@
   "recommendedRowHint": "حرکت‌هایی که در خانه پیشنهاد می‌دهیم.",
   "weightStepSetting": "گام وزن",
   "weightStepHint": "مقداری که دکمه‌های − و + اضافه می‌کنند.",
-  "prBestWorkout": "بهترین تمرین"
+  "prBestWorkout": "بهترین تمرین",
+  "mergeExercise": "ادغام",
+  "mergeExerciseInto": "ادغام {name} با…",
+  "mergeExerciseTitle": "حرکات ادغام شوند؟",
+  "mergeExerciseBody": "تمام سابقهٔ «{from}» به «{to}» منتقل می‌شود. «{from}» در کتابخانه‌ات می‌ماند. این کار برگشت‌پذیر نیست.",
+  "mergedToast": "سابقه ادغام شد"
 }

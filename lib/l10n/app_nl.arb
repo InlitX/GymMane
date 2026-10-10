@@ -1256,5 +1256,10 @@
   "recommendedRowHint": "Oefeningen die we op Start voorstellen.",
   "weightStepSetting": "Gewichtsstap",
   "weightStepHint": "Wat de knoppen − en + toevoegen.",
-  "prBestWorkout": "Beste training"
+  "prBestWorkout": "Beste training",
+  "mergeExercise": "Samenvoegen",
+  "mergeExerciseInto": "{name} samenvoegen met…",
+  "mergeExerciseTitle": "Oefeningen samenvoegen?",
+  "mergeExerciseBody": "De hele geschiedenis van ‘{from}’ gaat naar ‘{to}’. ‘{from}’ blijft in je bibliotheek. Dit kan niet ongedaan worden gemaakt.",
+  "mergedToast": "Geschiedenis samengevoegd"
 }

@@ -1256,5 +1256,10 @@
   "recommendedRowHint": "Ana sayfada önerdiğimiz egzersizler.",
   "weightStepSetting": "Ağırlık adımı",
   "weightStepHint": "− ve + düğmelerinin eklediği miktar.",
-  "prBestWorkout": "En iyi antrenman"
+  "prBestWorkout": "En iyi antrenman",
+  "mergeExercise": "Birleştir",
+  "mergeExerciseInto": "{name} şununla birleştir…",
+  "mergeExerciseTitle": "Egzersizler birleştirilsin mi?",
+  "mergeExerciseBody": "“{from}” geçmişinin tamamı “{to}” egzersizine taşınır. “{from}” kitaplığında kalır. Bu geri alınamaz.",
+  "mergedToast": "Geçmiş birleştirildi"
 }

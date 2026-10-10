@@ -1081,5 +1081,10 @@
   "recommendedRowHint": "Ejercicios que te proponemos en Inicio.",
   "weightStepSetting": "Salto de peso",
   "weightStepHint": "Lo que suman los botones − y +.",
-  "prBestWorkout": "Mejor entreno"
+  "prBestWorkout": "Mejor entreno",
+  "mergeExercise": "Fusionar",
+  "mergeExerciseInto": "Fusionar {name} con…",
+  "mergeExerciseTitle": "¿Fusionar ejercicios?",
+  "mergeExerciseBody": "Todo el historial de «{from}» pasa a «{to}». «{from}» se queda en tu biblioteca. No se puede deshacer.",
+  "mergedToast": "Historial fusionado"
 }

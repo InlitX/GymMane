@@ -3313,4 +3313,23 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get prBestWorkout => '최고 운동';
+
+  @override
+  String get mergeExercise => '병합';
+
+  @override
+  String mergeExerciseInto(String name) {
+    return '$name 병합 대상…';
+  }
+
+  @override
+  String get mergeExerciseTitle => '운동을 병합할까요?';
+
+  @override
+  String mergeExerciseBody(String from, String to) {
+    return '「$from」의 모든 기록이 「$to」(으)로 옮겨집니다. 「$from」은(는) 라이브러리에 남습니다. 되돌릴 수 없습니다.';
+  }
+
+  @override
+  String get mergedToast => '기록을 병합했어요';
 }

@@ -264,6 +264,31 @@ mixin LibraryState on FitCore {
     notifyListeners();
   }
 
+  List<Exercise> mergeTargets(String fromId) => [
+        for (final e in allExercises)
+          if (e.id != fromId && modeOf(e.id) == modeOf(fromId)) e,
+      ];
+
+  void mergeExerciseInto(String fromId, String toId) {
+    final to = exerciseById(toId);
+    if (to == null || fromId == toId || !isCustom(fromId) || modeOf(fromId) != modeOf(toId)) return;
+    for (final s in sessions) {
+      final i = s.exercises.indexWhere((e) => e.id == fromId);
+      if (i < 0) continue;
+      final from = s.exercises[i];
+      final j = s.exercises.indexWhere((e) => e.id == toId);
+      if (j < 0) {
+        s.exercises[i] = LoggedExercise(to.id, to.name, to.primary, from.sets);
+      } else {
+        s.exercises[j].sets.addAll(from.sets);
+        s.exercises.removeAt(i);
+      }
+    }
+    persistNow();
+    _refreshWidgets();
+    notifyListeners();
+  }
+
   String mediaFor(String id) => exerciseMedia[id] ?? '';
 
   bool hasCustomMedia(String id) => mediaFor(id).isNotEmpty;

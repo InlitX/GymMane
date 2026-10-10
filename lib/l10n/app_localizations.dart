@@ -6081,6 +6081,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Best workout'**
   String get prBestWorkout;
+
+  /// No description provided for @mergeExercise.
+  ///
+  /// In en, this message translates to:
+  /// **'Merge'**
+  String get mergeExercise;
+
+  /// No description provided for @mergeExerciseInto.
+  ///
+  /// In en, this message translates to:
+  /// **'Merge {name} into…'**
+  String mergeExerciseInto(String name);
+
+  /// No description provided for @mergeExerciseTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Merge exercises?'**
+  String get mergeExerciseTitle;
+
+  /// No description provided for @mergeExerciseBody.
+  ///
+  /// In en, this message translates to:
+  /// **'All the history of \"{from}\" moves to \"{to}\". \"{from}\" stays in your library. This can\'t be undone.'**
+  String mergeExerciseBody(String from, String to);
+
+  /// No description provided for @mergedToast.
+  ///
+  /// In en, this message translates to:
+  /// **'History merged'**
+  String get mergedToast;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

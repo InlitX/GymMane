@@ -1256,5 +1256,10 @@
   "recommendedRowHint": "홈에서 추천하는 운동.",
   "weightStepSetting": "무게 단위",
   "weightStepHint": "− 및 + 버튼이 더하는 양.",
-  "prBestWorkout": "최고 운동"
+  "prBestWorkout": "최고 운동",
+  "mergeExercise": "병합",
+  "mergeExerciseInto": "{name} 병합 대상…",
+  "mergeExerciseTitle": "운동을 병합할까요?",
+  "mergeExerciseBody": "「{from}」의 모든 기록이 「{to}」(으)로 옮겨집니다. 「{from}」은(는) 라이브러리에 남습니다. 되돌릴 수 없습니다.",
+  "mergedToast": "기록을 병합했어요"
 }

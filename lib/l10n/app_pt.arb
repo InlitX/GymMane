@@ -1038,5 +1038,10 @@
   "recommendedRowHint": "Exercícios que sugerimos no Início.",
   "weightStepSetting": "Incremento de peso",
   "weightStepHint": "O que os botões − e + somam.",
-  "prBestWorkout": "Melhor treino"
+  "prBestWorkout": "Melhor treino",
+  "mergeExercise": "Mesclar",
+  "mergeExerciseInto": "Mesclar {name} com…",
+  "mergeExerciseTitle": "Mesclar exercícios?",
+  "mergeExerciseBody": "Todo o histórico de “{from}” passa para “{to}”. “{from}” continua na sua biblioteca. Não dá para desfazer.",
+  "mergedToast": "Histórico mesclado"
 }

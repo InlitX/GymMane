@@ -3401,4 +3401,23 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get prBestWorkout => 'En iyi antrenman';
+
+  @override
+  String get mergeExercise => 'Birleştir';
+
+  @override
+  String mergeExerciseInto(String name) {
+    return '$name şununla birleştir…';
+  }
+
+  @override
+  String get mergeExerciseTitle => 'Egzersizler birleştirilsin mi?';
+
+  @override
+  String mergeExerciseBody(String from, String to) {
+    return '“$from” geçmişinin tamamı “$to” egzersizine taşınır. “$from” kitaplığında kalır. Bu geri alınamaz.';
+  }
+
+  @override
+  String get mergedToast => 'Geçmiş birleştirildi';
 }

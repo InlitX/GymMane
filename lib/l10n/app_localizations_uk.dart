@@ -3415,4 +3415,23 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get prBestWorkout => 'Найкраще тренування';
+
+  @override
+  String get mergeExercise => 'Об’єднати';
+
+  @override
+  String mergeExerciseInto(String name) {
+    return 'Об’єднати $name з…';
+  }
+
+  @override
+  String get mergeExerciseTitle => 'Об’єднати вправи?';
+
+  @override
+  String mergeExerciseBody(String from, String to) {
+    return 'Уся історія «$from» перейде до «$to». «$from» залишиться в бібліотеці. Цю дію не можна скасувати.';
+  }
+
+  @override
+  String get mergedToast => 'Історію об’єднано';
 }

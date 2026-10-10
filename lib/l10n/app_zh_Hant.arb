@@ -1256,5 +1256,10 @@
   "recommendedRowHint": "首頁推薦的動作。",
   "weightStepSetting": "重量步長",
   "weightStepHint": "− 和 + 按鈕每次增減的量。",
-  "prBestWorkout": "最佳訓練"
+  "prBestWorkout": "最佳訓練",
+  "mergeExercise": "合併",
+  "mergeExerciseInto": "將 {name} 合併到…",
+  "mergeExerciseTitle": "合併動作？",
+  "mergeExerciseBody": "「{from}」的全部紀錄將轉到「{to}」。「{from}」仍保留在你的動作庫中。此操作無法復原。",
+  "mergedToast": "紀錄已合併"
 }

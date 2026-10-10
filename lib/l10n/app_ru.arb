@@ -1065,5 +1065,10 @@
   "recommendedRowHint": "Упражнения, которые мы предлагаем на главной.",
   "weightStepSetting": "Шаг веса",
   "weightStepHint": "Сколько добавляют кнопки − и +.",
-  "prBestWorkout": "Лучшая тренировка"
+  "prBestWorkout": "Лучшая тренировка",
+  "mergeExercise": "Объединить",
+  "mergeExerciseInto": "Объединить {name} с…",
+  "mergeExerciseTitle": "Объединить упражнения?",
+  "mergeExerciseBody": "Вся история «{from}» перейдёт в «{to}». «{from}» останется в библиотеке. Это нельзя отменить.",
+  "mergedToast": "История объединена"
 }

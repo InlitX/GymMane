@@ -1256,5 +1256,10 @@
   "recommendedRowHint": "تمارين نقترحها في الرئيسية.",
   "weightStepSetting": "خطوة الوزن",
   "weightStepHint": "ما تضيفه زرّا − و+.",
-  "prBestWorkout": "أفضل تمرين"
+  "prBestWorkout": "أفضل تمرين",
+  "mergeExercise": "دمج",
+  "mergeExerciseInto": "دمج {name} في…",
+  "mergeExerciseTitle": "دمج التمارين؟",
+  "mergeExerciseBody": "ينتقل كل سجل «{from}» إلى «{to}». يبقى «{from}» في مكتبتك. لا يمكن التراجع عن ذلك.",
+  "mergedToast": "تم دمج السجل"
 }

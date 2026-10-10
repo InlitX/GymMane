@@ -1117,5 +1117,10 @@
   "recommendedRowHint": "Esercizi che ti proponiamo in Home.",
   "weightStepSetting": "Incremento del peso",
   "weightStepHint": "Quanto aggiungono i pulsanti − e +.",
-  "prBestWorkout": "Miglior allenamento"
+  "prBestWorkout": "Miglior allenamento",
+  "mergeExercise": "Unisci",
+  "mergeExerciseInto": "Unisci {name} a…",
+  "mergeExerciseTitle": "Unire gli esercizi?",
+  "mergeExerciseBody": "Tutto lo storico di «{from}» passa a «{to}». «{from}» resta nella tua libreria. Non si può annullare.",
+  "mergedToast": "Storico unito"
 }
