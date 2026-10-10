@@ -2579,6 +2579,23 @@ class AppLocalizationsNl extends AppLocalizations {
       'Kies het type, de herhalingen en het gewicht van elke set. Laat het gewicht op Auto om vanaf je laatste training te beginnen.';
 
   @override
+  String get planHintReps =>
+      'Kies het type en de herhalingen van elke set. Auto begint bij je laatste sessie.';
+
+  @override
+  String get planHintTime => 'Kies het type en de tijd van elke set. Auto begint bij je laatste sessie.';
+
+  @override
+  String get planHintTimeWeight =>
+      'Kies het type, de tijd en het gewicht van elke set. Auto begint bij je laatste sessie.';
+
+  @override
+  String get planHintCardio => 'Kies de afstand en de tijd van elke set. Auto begint bij je laatste sessie.';
+
+  @override
+  String get timeOnly => 'Alleen tijd';
+
+  @override
   String get autoValue => 'Auto';
 
   @override

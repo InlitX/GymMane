@@ -2570,6 +2570,23 @@ class AppLocalizationsEn extends AppLocalizations {
       'Choose the type, reps and weight of each set. Leave the weight on Auto to start from your last session.';
 
   @override
+  String get planHintReps => 'Choose the type and reps of each set. Auto starts from your last session.';
+
+  @override
+  String get planHintTime => 'Choose the type and time of each set. Auto starts from your last session.';
+
+  @override
+  String get planHintTimeWeight =>
+      'Choose the type, time and weight of each set. Auto starts from your last session.';
+
+  @override
+  String get planHintCardio =>
+      'Choose the distance and time of each set. Auto starts from your last session.';
+
+  @override
+  String get timeOnly => 'Time only';
+
+  @override
   String get autoValue => 'Auto';
 
   @override

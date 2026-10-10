@@ -2578,6 +2578,22 @@ class AppLocalizationsTr extends AppLocalizations {
       'Her setin türünü, tekrarını ve ağırlığını seç. Son antrenmanından başlamak için ağırlığı Otomatik bırak.';
 
   @override
+  String get planHintReps => 'Her setin türünü ve tekrarını seç. Otomatik, son seansından başlar.';
+
+  @override
+  String get planHintTime => 'Her setin türünü ve süresini seç. Otomatik, son seansından başlar.';
+
+  @override
+  String get planHintTimeWeight =>
+      'Her setin türünü, süresini ve ağırlığını seç. Otomatik, son seansından başlar.';
+
+  @override
+  String get planHintCardio => 'Her setin mesafesini ve süresini seç. Otomatik, son seansından başlar.';
+
+  @override
+  String get timeOnly => 'Yalnızca süre';
+
+  @override
   String get autoValue => 'Otomatik';
 
   @override

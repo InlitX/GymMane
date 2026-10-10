@@ -2585,6 +2585,23 @@ class AppLocalizationsDe extends AppLocalizations {
       'Wähle Typ, Wiederholungen und Gewicht jedes Satzes. Lass das Gewicht auf Auto, um bei deiner letzten Einheit anzuknüpfen.';
 
   @override
+  String get planHintReps =>
+      'Wähle Typ und Wiederholungen jedes Satzes. Auto knüpft an deine letzte Einheit an.';
+
+  @override
+  String get planHintTime => 'Wähle Typ und Zeit jedes Satzes. Auto knüpft an deine letzte Einheit an.';
+
+  @override
+  String get planHintTimeWeight =>
+      'Wähle Typ, Zeit und Gewicht jedes Satzes. Auto knüpft an deine letzte Einheit an.';
+
+  @override
+  String get planHintCardio => 'Wähle Distanz und Zeit jedes Satzes. Auto knüpft an deine letzte Einheit an.';
+
+  @override
+  String get timeOnly => 'Nur Zeit';
+
+  @override
   String get autoValue => 'Auto';
 
   @override

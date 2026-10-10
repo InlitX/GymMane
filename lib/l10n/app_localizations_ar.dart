@@ -2558,6 +2558,21 @@ class AppLocalizationsAr extends AppLocalizations {
       'اختر النوع والتكرارات والوزن لكل مجموعة. اترك الوزن على «تلقائي» لتبدأ من آخر تمرين.';
 
   @override
+  String get planHintReps => 'اختر نوع كل مجموعة وعدد تكراراتها. «تلقائي» يبدأ من جلستك الأخيرة.';
+
+  @override
+  String get planHintTime => 'اختر نوع كل مجموعة ومدتها. «تلقائي» يبدأ من جلستك الأخيرة.';
+
+  @override
+  String get planHintTimeWeight => 'اختر نوع كل مجموعة ومدتها ووزنها. «تلقائي» يبدأ من جلستك الأخيرة.';
+
+  @override
+  String get planHintCardio => 'اختر مسافة كل مجموعة ومدتها. «تلقائي» يبدأ من جلستك الأخيرة.';
+
+  @override
+  String get timeOnly => 'الوقت فقط';
+
+  @override
   String get autoValue => 'تلقائي';
 
   @override

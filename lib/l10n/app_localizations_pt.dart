@@ -2574,6 +2574,22 @@ class AppLocalizationsPt extends AppLocalizations {
       'Escolha o tipo, as repetições e o peso de cada série. Deixe o peso em Auto para partir da última sessão.';
 
   @override
+  String get planHintReps => 'Escolha o tipo e as repetições de cada série. Auto parte da última sessão.';
+
+  @override
+  String get planHintTime => 'Escolha o tipo e o tempo de cada série. Auto parte da última sessão.';
+
+  @override
+  String get planHintTimeWeight =>
+      'Escolha o tipo, o tempo e o peso de cada série. Auto parte da última sessão.';
+
+  @override
+  String get planHintCardio => 'Escolha a distância e o tempo de cada série. Auto parte da última sessão.';
+
+  @override
+  String get timeOnly => 'Somente tempo';
+
+  @override
   String get autoValue => 'Auto';
 
   @override

@@ -2561,6 +2561,22 @@ class AppLocalizationsFa extends AppLocalizations {
       'نوع، تکرار و وزن هر ست را انتخاب کن. وزن را روی خودکار بگذار تا از آخرین جلسه تمرینت شروع شود.';
 
   @override
+  String get planHintReps => 'نوع و تکرار هر ست را انتخاب کن. «خودکار» از آخرین جلسه‌ات شروع می‌کند.';
+
+  @override
+  String get planHintTime => 'نوع و زمان هر ست را انتخاب کن. «خودکار» از آخرین جلسه‌ات شروع می‌کند.';
+
+  @override
+  String get planHintTimeWeight =>
+      'نوع، زمان و وزن هر ست را انتخاب کن. «خودکار» از آخرین جلسه‌ات شروع می‌کند.';
+
+  @override
+  String get planHintCardio => 'مسافت و زمان هر ست را انتخاب کن. «خودکار» از آخرین جلسه‌ات شروع می‌کند.';
+
+  @override
+  String get timeOnly => 'فقط زمان';
+
+  @override
   String get autoValue => 'خودکار';
 
   @override

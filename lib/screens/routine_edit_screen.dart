@@ -750,7 +750,12 @@ class _RoutineEditScreenState extends State<RoutineEditScreen> {
                   const SizedBox(height: 18),
                   Text(exerciseName(ex), style: AppTheme.f(19, weight: FontWeight.w800, color: gc.text)),
                   const SizedBox(height: 4),
-                  Text(t.planSetsHint,
+                  Text(
+                      switch (mode) {
+                        'cardio' => t.planHintCardio,
+                        'time' => repsOnly ? t.planHintTime : t.planHintTimeWeight,
+                        _ => repsOnly ? t.planHintReps : t.planSetsHint,
+                      },
                       style: AppTheme.f(12, weight: FontWeight.w500, color: gc.textSecondary, height: 1.4)),
                   const SizedBox(height: 16),
                   _planHeader(gc, mode, repsOnly),

@@ -2648,6 +2648,24 @@ class AppLocalizationsRu extends AppLocalizations {
       'Выбери тип, повторы и вес каждого подхода. Оставь вес на «Авто», чтобы начать с прошлой тренировки.';
 
   @override
+  String get planHintReps =>
+      'Выбери тип и число повторений каждого подхода. «Авто» берёт данные прошлой тренировки.';
+
+  @override
+  String get planHintTime => 'Выбери тип и время каждого подхода. «Авто» берёт данные прошлой тренировки.';
+
+  @override
+  String get planHintTimeWeight =>
+      'Выбери тип, время и вес каждого подхода. «Авто» берёт данные прошлой тренировки.';
+
+  @override
+  String get planHintCardio =>
+      'Выбери дистанцию и время каждого подхода. «Авто» берёт данные прошлой тренировки.';
+
+  @override
+  String get timeOnly => 'Только время';
+
+  @override
   String get autoValue => 'Авто';
 
   @override

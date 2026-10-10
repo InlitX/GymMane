@@ -2507,6 +2507,21 @@ class AppLocalizationsKo extends AppLocalizations {
   String get planSetsHint => '각 세트의 종류, 횟수, 무게를 고르세요. 무게를 자동으로 두면 지난 운동에서 시작해요.';
 
   @override
+  String get planHintReps => '세트마다 종류와 반복 수를 정하세요. 자동은 지난 세션에서 시작해요.';
+
+  @override
+  String get planHintTime => '세트마다 종류와 시간을 정하세요. 자동은 지난 세션에서 시작해요.';
+
+  @override
+  String get planHintTimeWeight => '세트마다 종류, 시간, 무게를 정하세요. 자동은 지난 세션에서 시작해요.';
+
+  @override
+  String get planHintCardio => '세트마다 거리와 시간을 정하세요. 자동은 지난 세션에서 시작해요.';
+
+  @override
+  String get timeOnly => '시간만';
+
+  @override
   String get autoValue => '자동';
 
   @override

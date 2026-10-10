@@ -2498,6 +2498,21 @@ class AppLocalizationsJa extends AppLocalizations {
   String get planSetsHint => '各セットの種類、回数、重量を選びます。重量を自動にすると前回のトレーニングから始まります。';
 
   @override
+  String get planHintReps => '各セットの種類と回数を選びます。「自動」は前回のセッションから始まります。';
+
+  @override
+  String get planHintTime => '各セットの種類と時間を選びます。「自動」は前回のセッションから始まります。';
+
+  @override
+  String get planHintTimeWeight => '各セットの種類、時間、重量を選びます。「自動」は前回のセッションから始まります。';
+
+  @override
+  String get planHintCardio => '各セットの距離と時間を選びます。「自動」は前回のセッションから始まります。';
+
+  @override
+  String get timeOnly => '時間のみ';
+
+  @override
   String get autoValue => '自動';
 
   @override

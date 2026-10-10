@@ -2574,6 +2574,22 @@ class AppLocalizationsPl extends AppLocalizations {
       'Wybierz typ, powtórzenia i ciężar każdej serii. Zostaw ciężar na Auto, by zacząć od ostatniego treningu.';
 
   @override
+  String get planHintReps => 'Wybierz typ i powtórzenia każdej serii. Auto zaczyna od ostatniej sesji.';
+
+  @override
+  String get planHintTime => 'Wybierz typ i czas każdej serii. Auto zaczyna od ostatniej sesji.';
+
+  @override
+  String get planHintTimeWeight =>
+      'Wybierz typ, czas i ciężar każdej serii. Auto zaczyna od ostatniej sesji.';
+
+  @override
+  String get planHintCardio => 'Wybierz dystans i czas każdej serii. Auto zaczyna od ostatniej sesji.';
+
+  @override
+  String get timeOnly => 'Tylko czas';
+
+  @override
   String get autoValue => 'Auto';
 
   @override

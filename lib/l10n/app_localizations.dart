@@ -4642,6 +4642,36 @@ abstract class AppLocalizations {
   /// **'Choose the type, reps and weight of each set. Leave the weight on Auto to start from your last session.'**
   String get planSetsHint;
 
+  /// No description provided for @planHintReps.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose the type and reps of each set. Auto starts from your last session.'**
+  String get planHintReps;
+
+  /// No description provided for @planHintTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose the type and time of each set. Auto starts from your last session.'**
+  String get planHintTime;
+
+  /// No description provided for @planHintTimeWeight.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose the type, time and weight of each set. Auto starts from your last session.'**
+  String get planHintTimeWeight;
+
+  /// No description provided for @planHintCardio.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose the distance and time of each set. Auto starts from your last session.'**
+  String get planHintCardio;
+
+  /// No description provided for @timeOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'Time only'**
+  String get timeOnly;
+
   /// No description provided for @autoValue.
   ///
   /// In en, this message translates to:

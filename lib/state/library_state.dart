@@ -304,7 +304,9 @@ mixin LibraryState on FitCore {
   bool isRepsOnly(String id) {
     if (repsOnly.contains(id)) return true;
     if (repsOnlyOff.contains(id)) return false;
-    if (exerciseById(id)?.equipment != 'Bodyweight') return false;
+    final equipment = exerciseById(id)?.equipment;
+    final bare = modeOf(id) == 'time' ? !_loadedHolds.contains(equipment) : equipment == 'Bodyweight';
+    if (!bare) return false;
     return !_hasLoadedHistory(id);
   }
 
@@ -331,3 +333,5 @@ mixin LibraryState on FitCore {
 
   bool isCustom(String id) => customExercises.any((e) => e.id == id);
 }
+  static const _loadedHolds = {'Dumbbell', 'Kettlebell', 'Cable', 'Machine', 'Weighted'};
+

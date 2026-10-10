@@ -1204,7 +1204,7 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(t.repsOnly,
+                    Text(fit.isTimed(id) ? t.timeOnly : t.repsOnly,
                         style: AppTheme.f(14.5, weight: FontWeight.w500, color: gc.text)),
                     const SizedBox(height: 3),
                     Text(t.repsOnlyHint,
