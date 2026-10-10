@@ -1065,6 +1065,15 @@ class AppLocalizationsZh extends AppLocalizations {
   String get editDuration => '训练时长';
 
   @override
+  String get sessionName => '训练名称';
+
+  @override
+  String get nameWorkout => '起个名字';
+
+  @override
+  String get sessionNameHint => '例如：腿、推、全身';
+
+  @override
   String get secondaryPickHint => '点选这个动作还会锻炼到的其他肌肉。';
 
   @override
@@ -4370,6 +4379,15 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get editDuration => '訓練時長';
+
+  @override
+  String get sessionName => '訓練名稱';
+
+  @override
+  String get nameWorkout => '取個名字';
+
+  @override
+  String get sessionNameHint => '例如：腿、推、全身';
 
   @override
   String get secondaryPickHint => '點選這個動作還會鍛鍊到的其他肌肉。';

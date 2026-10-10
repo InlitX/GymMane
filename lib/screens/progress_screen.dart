@@ -1355,6 +1355,47 @@ class _DaySheet extends StatelessWidget {
   }
 
   Widget _sessionHeader(BuildContext context, GymColors gc, LoggedSession s) {
+    final title = fit.sessionTitle(s);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Semantics(
+          button: true,
+          label: t.sessionName,
+          child: GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onTap: () => _renameSession(context, s),
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 6),
+              child: Row(children: [
+                Flexible(
+                  child: Text(
+                    title ?? t.nameWorkout,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: title == null
+                        ? AppTheme.f(13, weight: FontWeight.w600, color: gc.textTertiary)
+                        : AppTheme.f(16, weight: FontWeight.w700, color: gc.text),
+                  ),
+                ),
+                const SizedBox(width: 6),
+                Icon(PhosphorIconsRegular.pencilSimple, size: 13, color: gc.textTertiary),
+              ]),
+            ),
+          ),
+        ),
+        _sessionMeta(context, gc, s),
+      ],
+    );
+  }
+
+  Future<void> _renameSession(BuildContext context, LoggedSession s) async {
+    final current = fit.sessionTitle(s) ?? '';
+    final name = await askText(context, title: t.sessionName, initial: current, hint: t.sessionNameHint);
+    if (name != null && name != current) fit.renameSession(s, name);
+  }
+
+  Widget _sessionMeta(BuildContext context, GymColors gc, LoggedSession s) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),
       child: Row(

@@ -1161,6 +1161,15 @@ class AppLocalizationsRu extends AppLocalizations {
   String get editDuration => 'Длительность тренировки';
 
   @override
+  String get sessionName => 'Название тренировки';
+
+  @override
+  String get nameWorkout => 'Назвать';
+
+  @override
+  String get sessionNameHint => 'напр. Ноги, Жимы, Всё тело';
+
+  @override
   String get secondaryPickHint => 'Отметь другие мышцы, которые работают в этом упражнении.';
 
   @override

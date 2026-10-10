@@ -2020,6 +2020,24 @@ abstract class AppLocalizations {
   /// **'Workout length'**
   String get editDuration;
 
+  /// No description provided for @sessionName.
+  ///
+  /// In en, this message translates to:
+  /// **'Workout name'**
+  String get sessionName;
+
+  /// No description provided for @nameWorkout.
+  ///
+  /// In en, this message translates to:
+  /// **'Name it'**
+  String get nameWorkout;
+
+  /// No description provided for @sessionNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. Legs, Push, Full body'**
+  String get sessionNameHint;
+
   /// No description provided for @secondaryPickHint.
   ///
   /// In en, this message translates to:

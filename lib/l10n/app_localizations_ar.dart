@@ -1111,6 +1111,15 @@ class AppLocalizationsAr extends AppLocalizations {
   String get editDuration => 'مدة التمرين';
 
   @override
+  String get sessionName => 'اسم التمرين';
+
+  @override
+  String get nameWorkout => 'سمِّه';
+
+  @override
+  String get sessionNameHint => 'مثلًا: أرجل، دفع، الجسم كامل';
+
+  @override
   String get secondaryPickHint => 'اضغط على العضلات الأخرى التي يعمل عليها هذا التمرين.';
 
   @override

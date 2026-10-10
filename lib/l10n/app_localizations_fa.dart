@@ -1112,6 +1112,15 @@ class AppLocalizationsFa extends AppLocalizations {
   String get editDuration => 'مدت تمرین';
 
   @override
+  String get sessionName => 'نام تمرین';
+
+  @override
+  String get nameWorkout => 'نام بگذار';
+
+  @override
+  String get sessionNameHint => 'مثلاً: پا، پرس، کل بدن';
+
+  @override
   String get secondaryPickHint => 'عضله‌های دیگری را که این حرکت درگیر می‌کند لمس کن.';
 
   @override

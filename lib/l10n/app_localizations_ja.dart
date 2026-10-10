@@ -1070,6 +1070,15 @@ class AppLocalizationsJa extends AppLocalizations {
   String get editDuration => 'トレーニング時間';
 
   @override
+  String get sessionName => 'トレーニング名';
+
+  @override
+  String get nameWorkout => '名前をつける';
+
+  @override
+  String get sessionNameHint => '例：脚、プッシュ、全身';
+
+  @override
   String get secondaryPickHint => 'この種目で使うほかの筋肉をタップしてください。';
 
   @override

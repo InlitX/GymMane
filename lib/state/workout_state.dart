@@ -1196,7 +1196,7 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
           logged.add(LoggedExercise(e.id, e.name, e.primary, doneSets));
         }
       }
-      final entry = LoggedSession(s.loggedAt ?? DateTime.now(), s.summaryDuration ?? 0, logged, routineId: s.routineId);
+      final entry = LoggedSession(s.loggedAt ?? DateTime.now(), s.summaryDuration ?? 0, logged, routineId: s.routineId, name: s.name);
       sessions.add(entry);
       sessions.sort((a, b) => a.date.compareTo(b.date));
       _filed = entry;
@@ -1431,6 +1431,17 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
 
   LoggedSession? _filed;
 
+  LoggedSession? get filedSession => _filed;
+
+  void renameSession(LoggedSession s, String name) {
+    final clean = name.trim().isEmpty ? null : name.trim();
+    if (!sessions.contains(s) || clean == s.name) return;
+    s.name = clean;
+    if (identical(s, _filed)) session?.name = clean;
+    persistNow();
+    notifyListeners();
+  }
+
   void continueSession() {
     final s = session;
     if (s == null || !s.complete) return;
@@ -1469,6 +1480,7 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
       ..loggedAt = ls.date
       ..manual = _dayKey(ls.date) != _dayKey(DateTime.now())
       ..routineId = ls.routineId
+      ..name = ls.name
       ..exercises = ls.exercises
           .map((e) => SessionExercise(
               e.id,

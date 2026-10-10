@@ -1119,6 +1119,15 @@ class AppLocalizationsUk extends AppLocalizations {
   String get editDuration => 'Тривалість тренування';
 
   @override
+  String get sessionName => 'Назва тренування';
+
+  @override
+  String get nameWorkout => 'Назвати';
+
+  @override
+  String get sessionNameHint => 'напр. Ноги, Жими, Усе тіло';
+
+  @override
   String get secondaryPickHint => 'Познач інші мʼязи, які працюють у цій вправі.';
 
   @override

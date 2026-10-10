@@ -1123,6 +1123,15 @@ class AppLocalizationsFr extends AppLocalizations {
   String get editDuration => 'Durée de la séance';
 
   @override
+  String get sessionName => 'Nom de la séance';
+
+  @override
+  String get nameWorkout => 'Nommer';
+
+  @override
+  String get sessionNameHint => 'ex. : Jambes, Push, Full body';
+
+  @override
   String get secondaryPickHint => 'Touche les autres muscles que travaille cet exercice.';
 
   @override

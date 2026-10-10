@@ -207,6 +207,14 @@ mixin StatsState on FitCore, ToolsState, LibraryState, TimelineState {
     }
   }
 
+  String? sessionTitle(LoggedSession s) {
+    final name = s.name;
+    if (name != null) return name;
+    final r = routines.where((r) => r.id == s.routineId).firstOrNull;
+    if (r == null) return null;
+    return r.name.isEmpty ? t.newRoutineName : r.name;
+  }
+
   String workoutText(LoggedSession s) {
     String line(LoggedSet x) {
       if (x.km != null) return '${distanceLabel(x.km!)} · ${durationLabel(x.sec ?? 0)}';
@@ -214,7 +222,11 @@ mixin StatsState on FitCore, ToolsState, LibraryState, TimelineState {
       return x.weight > 0 ? '${weightLabel(x.weight)} × ${x.reps}' : t.repCount(x.reps);
     }
 
-    final out = [s.durationSec > 0 ? '${t.longDate(s.date)} · ${s.durationSec ~/ 60} min' : t.longDate(s.date)];
+    final title = sessionTitle(s);
+    final out = [
+      ?title,
+      s.durationSec > 0 ? '${t.longDate(s.date)} · ${s.durationSec ~/ 60} min' : t.longDate(s.date),
+    ];
     var reps = 0;
     for (final e in s.exercises) {
       out

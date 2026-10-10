@@ -75,6 +75,7 @@ class WorkoutSession {
   bool complete = false;
   bool manual = false;
   String? routineId;
+  String? name;
   DateTime? loggedAt;
   DateTime? restEndsAt;
   int? restFrozen;
@@ -102,6 +103,7 @@ class WorkoutSession {
         'c': complete,
         if (manual) 'm': true,
         if (routineId != null) 'r': routineId,
+        if (name != null) 'n': name,
         'at': loggedAt?.toIso8601String(),
         if (restEndsAt != null) 're': restEndsAt!.toIso8601String(),
         if (restFrozen != null) 'rf': restFrozen,
@@ -117,6 +119,7 @@ class WorkoutSession {
     ..complete = j['c'] as bool? ?? false
     ..manual = j['m'] as bool? ?? false
     ..routineId = j['r'] as String?
+    ..name = j['n'] as String?
     ..loggedAt = DateTime.tryParse((j['at'] as String?) ?? '')
     ..restEndsAt = DateTime.tryParse((j['re'] as String?) ?? '')
     ..restFrozen = (j['rf'] as num?)?.toInt()

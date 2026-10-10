@@ -1120,6 +1120,15 @@ class AppLocalizationsTr extends AppLocalizations {
   String get editDuration => 'Antrenman süresi';
 
   @override
+  String get sessionName => 'Antrenman adı';
+
+  @override
+  String get nameWorkout => 'Ad ver';
+
+  @override
+  String get sessionNameHint => 'örn. Bacak, İtiş, Tüm vücut';
+
+  @override
   String get secondaryPickHint => 'Bu hareketin çalıştırdığı diğer kaslara dokun.';
 
   @override
