@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'dart:math' as math;
 
@@ -12,23 +13,27 @@ class Beeper {
   static final instance = Beeper._();
 
   AudioPlayer? _player;
+  AudioPlayer? _hold;
   String? _tick;
   String? _go;
+  String? _silence;
+  Timer? _release;
+  bool _holding = false;
   bool _failed = false;
   bool _loud = false;
 
   set loud(bool on) {
     if (_loud == on) return;
     _loud = on;
-    final p = _player;
-    if (p != null) p.setAudioContext(_context).catchError((_) {});
+    _player?.setAudioContext(_context(AndroidAudioFocus.none)).catchError((_) {});
+    _hold?.setAudioContext(_context(AndroidAudioFocus.gainTransientMayDuck)).catchError((_) {});
   }
 
-  AudioContext get _context => AudioContext(
+  AudioContext _context(AndroidAudioFocus focus) => AudioContext(
         android: AudioContextAndroid(
           contentType: AndroidContentType.sonification,
           usageType: _loud ? AndroidUsageType.alarm : AndroidUsageType.notification,
-          audioFocus: AndroidAudioFocus.gainTransientMayDuck,
+          audioFocus: focus,
         ),
         iOS: AudioContextIOS(category: AVAudioSessionCategory.ambient, options: const {}),
       );
@@ -40,9 +45,14 @@ class Beeper {
       final dir = await getTemporaryDirectory();
       _tick = await _write(dir, 'gm_tick2.wav', _tone(880, 0.09));
       _go = await _write(dir, 'gm_go2.wav', _tone(1318.5, 0.32));
+      _silence = await _write(dir, 'gm_hold1.wav', _tone(0, 0.5));
       final p = AudioPlayer();
       await p.setReleaseMode(ReleaseMode.stop);
-      await p.setAudioContext(_context);
+      await p.setAudioContext(_context(AndroidAudioFocus.none));
+      final h = AudioPlayer();
+      await h.setReleaseMode(ReleaseMode.loop);
+      await h.setAudioContext(_context(AndroidAudioFocus.gainTransientMayDuck));
+      _hold = h;
       _player = p;
       return true;
     } catch (_) {
@@ -62,10 +72,22 @@ class Beeper {
     if (!sound || !await _ready()) return;
     final path = kind == _TickKind.go ? _go : _tick;
     if (path == null) return;
+    _release?.cancel();
+    _release = Timer(Duration(milliseconds: kind == _TickKind.go ? 700 : 1600), _letGo);
     try {
+      if (!_holding) {
+        _holding = true;
+        await _hold!.play(DeviceFileSource(_silence!), volume: 1);
+      }
       await _player!.stop();
       await _player!.play(DeviceFileSource(path), volume: 1);
     } catch (_) {}
+  }
+
+  void _letGo() {
+    if (!_holding) return;
+    _holding = false;
+    _hold?.stop().catchError((_) {});
   }
 
   AudioPlayer? _soft;
