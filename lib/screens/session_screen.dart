@@ -1138,7 +1138,11 @@ class SessionScreen extends StatelessWidget {
     final count = fit.sessionSetCount;
     final lead = fit.holdLead;
     return TimerPanel(
-      label: lead > 0 ? t.getReady : t.holdLabel,
+      label: lead > 0
+          ? t.getReady
+          : fit.modeOf(fit.session?.exercises[fit.holdEx].id ?? '') == 'cardio'
+              ? t.kindCardio
+              : t.holdLabel,
       remaining: lead > 0 ? lead : fit.holdRemaining ?? 0,
       total: lead > 0 ? WorkoutState.holdLeadIn : fit.holdTotal,
       elapsed: fit.elapsedLabel,
@@ -1172,7 +1176,7 @@ class SessionScreen extends StatelessWidget {
 
   Widget _mainAction(GymColors gc, SessionExercise? ex, int exIdx, int total, bool locked) {
     final pending = ex == null ? -1 : ex.sets.indexWhere((st) => !st.done);
-    if (pending >= 0 && ex != null && fit.isTimed(ex.id)) {
+    if (pending >= 0 && ex != null && fit.runsClock(ex.id) && (ex.sets[pending].sec ?? 30) > 0) {
       if (fit.holding && fit.holdEx == exIdx) {
         return _ticking(() => PrimaryButton(
               label: fit.holdPaused

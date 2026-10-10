@@ -798,7 +798,15 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
     notifyListeners();
   }
 
-  void completeHold() => _finishHold();
+  void completeHold() {
+    final s = session;
+    if (s != null && holdEx >= 0 && holdEx < s.exercises.length && holdLead == 0) {
+      final ex = s.exercises[holdEx];
+      final ran = holdTotal - (holdRemaining ?? 0);
+      if (modeOf(ex.id) == 'cardio' && ran > 0 && holdSet < ex.sets.length) ex.sets[holdSet].sec = ran;
+    }
+    _finishHold();
+  }
 
   bool get holding => holdEndsAt != null;
 
@@ -823,7 +831,7 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
     if (s == null || exIdx >= s.exercises.length) return;
     final sets = s.exercises[exIdx].sets;
     if (setIdx < 0 || setIdx >= sets.length) return;
-    final secs = (sets[setIdx].sec ?? 30).clamp(1, 3600);
+    final secs = (sets[setIdx].sec ?? 30).clamp(1, 18000);
     if (s.restRemaining != null) skipRest();
     holdEx = exIdx;
     holdSet = setIdx;

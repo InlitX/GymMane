@@ -277,6 +277,8 @@ mixin LibraryState on FitCore {
 
   bool isTimed(String id) => modeOf(id) == 'time';
 
+  bool runsClock(String id) => modeOf(id).isNotEmpty;
+
   void setExerciseMode(String id, String mode) {
     final base = customExercises.where((e) => e.id == id).map((e) => e.mode).firstOrNull ??
         kExerciseModes[id] ??

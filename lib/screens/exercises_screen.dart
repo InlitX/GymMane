@@ -134,7 +134,7 @@ class _ExercisesScreenState extends State<ExercisesScreen> {
       (fit.exMuscleFilter == null ? 0 : 1) +
       (fit.exEquipmentFilter == null ? 0 : 1) +
       (fit.exDifficultyFilter == null ? 0 : 1) +
-      (fit.exKindFilter == null ? 0 : 1);
+      (fit.exKindFilter == null || fit.exKindFilter == 'cardio' ? 0 : 1);
 
   void _clearAll() {
     _c.clear();
@@ -176,7 +176,12 @@ class _ExercisesScreenState extends State<ExercisesScreen> {
 
   Widget _quickChips(BuildContext context, GymColors gc) {
     final active = _activeFilters;
-    final anyOn = active > 0 || fit.exNoGearOnly || fit.exFavouritesOnly || fit.exMineOnly || fit.exArchivedOnly;
+    final anyOn = active > 0 ||
+        fit.exKindFilter != null ||
+        fit.exNoGearOnly ||
+        fit.exFavouritesOnly ||
+        fit.exMineOnly ||
+        fit.exArchivedOnly;
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       clipBehavior: Clip.none,
@@ -208,6 +213,16 @@ class _ExercisesScreenState extends State<ExercisesScreen> {
           bg: fit.exNoGearOnly ? gc.ember : gc.bgRaised2,
           fg: fit.exNoGearOnly ? gc.onEmber : gc.textSecondary,
           onTap: fit.toggleNoGearFilter,
+          hPad: 14,
+          vPad: 7,
+          fontSize: 12.5,
+        ),
+        const SizedBox(width: 8),
+        Pill(
+          label: t.kindCardio,
+          bg: fit.exKindFilter == 'cardio' ? gc.ember : gc.bgRaised2,
+          fg: fit.exKindFilter == 'cardio' ? gc.onEmber : gc.textSecondary,
+          onTap: () => fit.setKindFilter('cardio'),
           hPad: 14,
           vPad: 7,
           fontSize: 12.5,
