@@ -1,5 +1,5 @@
 {
-  "@@locale": "pt",
+  "@@locale": "pt-PT",
   "languageName": "Português (Brasil)",
   "@languageName": {
     "description": "This language, written in itself. Shown in the language picker."
@@ -1322,6 +1322,11 @@
   "planFormatNotes": "Use os nomes dos exercícios exatamente como aparecem na lista. \"sets\", \"reps\", \"weight\" (na unidade indicada), \"rest\" em segundos e \"days\" são opcionais. \"superset\": true liga um exercício ao seguinte. Para várias semanas, agrupe as rotinas dentro de \"weeks\" como no segundo exemplo.",
   "planSets": "Planejar séries",
   "planSetsHint": "Escolha o tipo, as repetições e o peso de cada série. Deixe o peso em Auto para partir da última sessão.",
+  "planHintReps": "Choose the type and reps of each set. Auto starts from your last session.",
+  "planHintTime": "Choose the type and time of each set. Auto starts from your last session.",
+  "planHintTimeWeight": "Choose the type, time and weight of each set. Auto starts from your last session.",
+  "planHintCardio": "Choose the distance and time of each set. Auto starts from your last session.",
+  "timeOnly": "Time only",
   "autoValue": "Auto",
   "clearPlan": "Limpar o plano",
   "shareRoutine": "Compartilhar rotina",
