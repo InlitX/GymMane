@@ -1,5 +1,5 @@
 {
-  "@@locale": "zh",
+  "@@locale": "zh-CN",
   "languageName": "简体中文",
   "@languageName": {
     "description": "This language, written in itself. Shown in the language picker."
@@ -616,6 +616,12 @@
   "theme": "外观主题",
   "darkTheme": "深色模式",
   "lightTheme": "浅色模式",
+  "amoledTheme": "AMOLED black",
+  "editDuration": "Workout length",
+  "sessionName": "Workout name",
+  "nameWorkout": "Name it",
+  "sessionNameHint": "e.g. Legs, Push, Full body",
+  "secondaryPickHint": "Tap the other muscles this exercise works.",
   "languageLabel": "语言",
   "unitsLabel": "单位",
   "restTimer": "组间休息计时器",
