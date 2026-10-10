@@ -1,5 +1,5 @@
 {
-  "@@locale": "zh",
+  "@@locale": "zh-CN",
   "languageName": "简体中文",
   "@languageName": {
     "description": "This language, written in itself. Shown in the language picker."
@@ -1322,6 +1322,11 @@
   "planFormatNotes": "动作名称请完全按照列表书写。\"sets\"、\"reps\"、\"weight\"（按给定单位）、\"rest\"（秒）和 \"days\" 都是可选的。\"superset\": true 表示与下一个动作组成超级组。多周计划请像第二个示例那样放在 \"weeks\" 里。",
   "planSets": "规划每组",
   "planSetsHint": "设置每组的类型、次数和重量。重量留“自动”则沿用你上次的训练。",
+  "planHintReps": "Choose the type and reps of each set. Auto starts from your last session.",
+  "planHintTime": "Choose the type and time of each set. Auto starts from your last session.",
+  "planHintTimeWeight": "Choose the type, time and weight of each set. Auto starts from your last session.",
+  "planHintCardio": "Choose the distance and time of each set. Auto starts from your last session.",
+  "timeOnly": "Time only",
   "autoValue": "自动",
   "clearPlan": "清除计划",
   "shareRoutine": "分享训练计划",
