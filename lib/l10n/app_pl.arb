@@ -1253,5 +1253,7 @@
   "trainReminderRowHint": "Przypomnienie w dni treningowe.",
   "alarmSoundRowHint": "Co gra po końcu przerwy.",
   "alarmStyleRowHint": "Czy dzwoni w trybie cichym.",
-  "recommendedRowHint": "Ćwiczenia proponowane na ekranie głównym."
+  "recommendedRowHint": "Ćwiczenia proponowane na ekranie głównym.",
+  "weightStepSetting": "Krok ciężaru",
+  "weightStepHint": "Ile dodają przyciski − i +."
 }

@@ -3392,4 +3392,10 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get recommendedRowHint => 'Ana sayfada önerdiğimiz egzersizler.';
+
+  @override
+  String get weightStepSetting => 'Ağırlık adımı';
+
+  @override
+  String get weightStepHint => '− ve + düğmelerinin eklediği miktar.';
 }

@@ -1035,5 +1035,7 @@
   "trainReminderRowHint": "Um aviso nos dias de treino.",
   "alarmSoundRowHint": "O que toca ao fim do descanso.",
   "alarmStyleRowHint": "Se toca com o celular no silencioso.",
-  "recommendedRowHint": "Exercícios que sugerimos no Início."
+  "recommendedRowHint": "Exercícios que sugerimos no Início.",
+  "weightStepSetting": "Incremento de peso",
+  "weightStepHint": "O que os botões − e + somam."
 }

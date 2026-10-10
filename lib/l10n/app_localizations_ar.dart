@@ -3383,4 +3383,10 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get recommendedRowHint => 'تمارين نقترحها في الرئيسية.';
+
+  @override
+  String get weightStepSetting => 'خطوة الوزن';
+
+  @override
+  String get weightStepHint => 'ما تضيفه زرّا − و+.';
 }

@@ -220,7 +220,7 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
     final working = planned.where((p) => p.kind != SetKind.warmup).length;
     final base = _workingOpeners(id, count: working == 0 ? 1 : working);
     final first = base.isEmpty ? SessionSet(10, 0, false) : base.first;
-    final warmWeight = fromDisplayWeight(_roundTo(toDisplayWeight(first.weight * 0.5), weightStep));
+    final warmWeight = fromDisplayWeight(_roundTo(toDisplayWeight(first.weight * 0.5), plateStep));
     final out = <SessionSet>[];
     var w = 0;
     for (final p in planned) {
@@ -961,7 +961,7 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
       for (final spec in _warmupSpec)
         SessionSet(
           spec.$2,
-          fromDisplayWeight(_roundTo(toDisplayWeight(target * spec.$1), weightStep)),
+          fromDisplayWeight(_roundTo(toDisplayWeight(target * spec.$1), plateStep)),
           false,
           kind: SetKind.warmup,
         ),

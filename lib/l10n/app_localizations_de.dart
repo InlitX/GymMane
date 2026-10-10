@@ -3404,4 +3404,10 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get recommendedRowHint => 'Übungen, die wir auf der Startseite vorschlagen.';
+
+  @override
+  String get weightStepSetting => 'Gewichtsschritt';
+
+  @override
+  String get weightStepHint => 'Was die Tasten − und + hinzufügen.';
 }

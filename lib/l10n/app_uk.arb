@@ -1253,5 +1253,7 @@
   "trainReminderRowHint": "Нагадування в дні тренувань.",
   "alarmSoundRowHint": "Що звучить наприкінці відпочинку.",
   "alarmStyleRowHint": "Чи дзвонить у беззвучному режимі.",
-  "recommendedRowHint": "Вправи, які ми пропонуємо на головній."
+  "recommendedRowHint": "Вправи, які ми пропонуємо на головній.",
+  "weightStepSetting": "Крок ваги",
+  "weightStepHint": "Скільки додають кнопки − і +."
 }

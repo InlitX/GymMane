@@ -3487,4 +3487,10 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get recommendedRowHint => 'Упражнения, которые мы предлагаем на главной.';
+
+  @override
+  String get weightStepSetting => 'Шаг веса';
+
+  @override
+  String get weightStepHint => 'Сколько добавляют кнопки − и +.';
 }

@@ -97,6 +97,8 @@ abstract class FitCore extends ChangeNotifier {
   double? get placeBarKg => null;
 
   String units = 'kg';
+  double stepKg = 2.5;
+  double stepLb = 5;
   int weekStartDay = DateTime.monday;
   bool _loading = false;
   Timer? _saveDebounce;
@@ -179,7 +181,8 @@ abstract class FitCore extends ChangeNotifier {
 
   String weightValue(double kg) => fmt(_round1(toDisplayWeight(kg)));
 
-  double get weightStep => isLb ? 5 : 2.5;
+  double get weightStep => isLb ? stepLb : stepKg;
+  double get plateStep => isLb ? 5 : 2.5;
   String get volumeUnit => isLb ? 'k lb' : 't';
 
   String volumeValue(double kg) => fmt(_round1(toDisplayWeight(kg) / 1000));

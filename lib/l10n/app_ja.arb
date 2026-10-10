@@ -1253,5 +1253,7 @@
   "trainReminderRowHint": "トレーニング日のお知らせ。",
   "alarmSoundRowHint": "休憩終了時に鳴る音。",
   "alarmStyleRowHint": "マナーモードでも鳴らすか。",
-  "recommendedRowHint": "ホームでおすすめする種目。"
+  "recommendedRowHint": "ホームでおすすめする種目。",
+  "weightStepSetting": "重量の刻み",
+  "weightStepHint": "− と + ボタンで増減する量。"
 }

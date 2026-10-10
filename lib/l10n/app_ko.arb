@@ -1253,5 +1253,7 @@
   "trainReminderRowHint": "운동하는 날 알림.",
   "alarmSoundRowHint": "휴식이 끝날 때 나는 소리.",
   "alarmStyleRowHint": "무음 모드에서도 울릴지.",
-  "recommendedRowHint": "홈에서 추천하는 운동."
+  "recommendedRowHint": "홈에서 추천하는 운동.",
+  "weightStepSetting": "무게 단위",
+  "weightStepHint": "− 및 + 버튼이 더하는 양."
 }

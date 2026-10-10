@@ -1114,5 +1114,7 @@
   "trainReminderRowHint": "Un promemoria nei giorni di allenamento.",
   "alarmSoundRowHint": "Cosa suona a fine recupero.",
   "alarmStyleRowHint": "Se suona anche in silenzioso.",
-  "recommendedRowHint": "Esercizi che ti proponiamo in Home."
+  "recommendedRowHint": "Esercizi che ti proponiamo in Home.",
+  "weightStepSetting": "Incremento del peso",
+  "weightStepHint": "Quanto aggiungono i pulsanti − e +."
 }

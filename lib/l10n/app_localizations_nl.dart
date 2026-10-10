@@ -3396,4 +3396,10 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get recommendedRowHint => 'Oefeningen die we op Start voorstellen.';
+
+  @override
+  String get weightStepSetting => 'Gewichtsstap';
+
+  @override
+  String get weightStepHint => 'Wat de knoppen − en + toevoegen.';
 }

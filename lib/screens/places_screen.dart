@@ -341,9 +341,9 @@ class PlacesScreen extends StatelessWidget {
                       gap: 8,
                       fontSize: 14,
                       onDec: () => setSheet(() =>
-                          fit.setPlaceBar(place.id, fit.fromDisplayWeight(bar - fit.weightStep))),
+                          fit.setPlaceBar(place.id, fit.fromDisplayWeight(bar - fit.plateStep))),
                       onInc: () => setSheet(() =>
-                          fit.setPlaceBar(place.id, fit.fromDisplayWeight(bar + fit.weightStep))),
+                          fit.setPlaceBar(place.id, fit.fromDisplayWeight(bar + fit.plateStep))),
                     ),
                   ),
                   const SizedBox(height: 18),

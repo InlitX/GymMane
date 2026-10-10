@@ -378,6 +378,22 @@ mixin SettingsState on FitCore, ToolsState, LibraryState {
 
   static const weekStarts = [DateTime.monday, DateTime.saturday, DateTime.sunday];
 
+  static const kgSteps = [0.5, 1.0, 1.25, 2.0, 2.5, 5.0];
+  static const lbSteps = [1.0, 2.5, 5.0, 10.0];
+
+  List<double> get weightSteps => isLb ? lbSteps : kgSteps;
+
+  void setWeightStep(double step) {
+    if (!weightSteps.contains(step)) return;
+    if (isLb) {
+      stepLb = step;
+    } else {
+      stepKg = step;
+    }
+    _persist();
+    notifyListeners();
+  }
+
   void setWeekStart(int weekday) {
     if (!weekStarts.contains(weekday)) return;
     weekStartDay = weekday;

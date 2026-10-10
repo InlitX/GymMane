@@ -1253,5 +1253,7 @@
   "trainReminderRowHint": "Un rappel les jours d’entraînement.",
   "alarmSoundRowHint": "Ce qui sonne à la fin du repos.",
   "alarmStyleRowHint": "S’il sonne en mode silencieux.",
-  "recommendedRowHint": "Exercices que l’on vous propose sur l’Accueil."
+  "recommendedRowHint": "Exercices que l’on vous propose sur l’Accueil.",
+  "weightStepSetting": "Pas de poids",
+  "weightStepHint": "Ce qu’ajoutent les boutons − et +."
 }

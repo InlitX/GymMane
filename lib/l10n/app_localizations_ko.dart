@@ -3304,4 +3304,10 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get recommendedRowHint => '홈에서 추천하는 운동.';
+
+  @override
+  String get weightStepSetting => '무게 단위';
+
+  @override
+  String get weightStepHint => '− 및 + 버튼이 더하는 양.';
 }

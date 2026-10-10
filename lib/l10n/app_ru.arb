@@ -1062,5 +1062,7 @@
   "trainReminderRowHint": "Напоминание в дни тренировок.",
   "alarmSoundRowHint": "Что звучит в конце отдыха.",
   "alarmStyleRowHint": "Звонит ли в беззвучном режиме.",
-  "recommendedRowHint": "Упражнения, которые мы предлагаем на главной."
+  "recommendedRowHint": "Упражнения, которые мы предлагаем на главной.",
+  "weightStepSetting": "Шаг веса",
+  "weightStepHint": "Сколько добавляют кнопки − и +."
 }

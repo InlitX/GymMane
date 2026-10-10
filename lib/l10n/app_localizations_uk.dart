@@ -3406,4 +3406,10 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get recommendedRowHint => 'Вправи, які ми пропонуємо на головній.';
+
+  @override
+  String get weightStepSetting => 'Крок ваги';
+
+  @override
+  String get weightStepHint => 'Скільки додають кнопки − і +.';
 }

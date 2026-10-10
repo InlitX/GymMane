@@ -1253,5 +1253,7 @@
   "trainReminderRowHint": "Antrenman günlerinde bir hatırlatma.",
   "alarmSoundRowHint": "Dinlenme bitince çalan ses.",
   "alarmStyleRowHint": "Sessiz modda çalıp çalmayacağı.",
-  "recommendedRowHint": "Ana sayfada önerdiğimiz egzersizler."
+  "recommendedRowHint": "Ana sayfada önerdiğimiz egzersizler.",
+  "weightStepSetting": "Ağırlık adımı",
+  "weightStepHint": "− ve + düğmelerinin eklediği miktar."
 }

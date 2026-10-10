@@ -6063,6 +6063,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Exercises we suggest on Home.'**
   String get recommendedRowHint;
+
+  /// No description provided for @weightStepSetting.
+  ///
+  /// In en, this message translates to:
+  /// **'Weight step'**
+  String get weightStepSetting;
+
+  /// No description provided for @weightStepHint.
+  ///
+  /// In en, this message translates to:
+  /// **'What the − and + buttons add.'**
+  String get weightStepHint;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

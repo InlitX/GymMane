@@ -3400,4 +3400,10 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get recommendedRowHint => 'Ćwiczenia proponowane na ekranie głównym.';
+
+  @override
+  String get weightStepSetting => 'Krok ciężaru';
+
+  @override
+  String get weightStepHint => 'Ile dodają przyciski − i +.';
 }

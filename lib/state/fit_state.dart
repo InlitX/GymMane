@@ -149,6 +149,11 @@ class FitState extends FitCore
     return fallback;
   }
 
+  static double _stepFrom(Object? raw, List<double> allowed, double fallback) {
+    final v = (raw as num?)?.toDouble();
+    return v != null && allowed.contains(v) ? v : fallback;
+  }
+
   void _loadToggles(Map<String, dynamic> data) {
     demoSize = data['demo'] as String? ?? 'large';
     demoLoop = data['demoLoop'] as String? ?? 'always';
@@ -209,6 +214,8 @@ class FitState extends FitCore
     gamification = data['gamify'] as bool? ?? true;
     logRpe = data['rpe'] as bool? ?? false;
     effortScale = data['effort'] == 'rir' ? 'rir' : 'rpe';
+    stepKg = _stepFrom(data['stepKg'], SettingsState.kgSteps, 2.5);
+    stepLb = _stepFrom(data['stepLb'], SettingsState.lbSteps, 5);
     trainReminderMin = (data['trainAt'] as num?)?.toInt();
     smartReminder = data['trainSmart'] as bool? ?? false;
     progressStep
@@ -379,6 +386,8 @@ class FitState extends FitCore
         'gamify': gamification,
         'rpe': logRpe,
         'effort': effortScale,
+        'stepKg': stepKg,
+        'stepLb': stepLb,
         'demo': demoSize,
         'demoLoop': demoLoop,
         'alarmStyle': alarmStyle,
@@ -491,6 +500,8 @@ class FitState extends FitCore
     gamification = true;
     logRpe = false;
     effortScale = 'rpe';
+    stepKg = 2.5;
+    stepLb = 5;
     trainReminderMin = null;
     smartReminder = false;
     TrainReminder.instance.cancel();

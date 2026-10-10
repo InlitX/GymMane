@@ -3293,4 +3293,10 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get recommendedRowHint => 'ホームでおすすめする種目。';
+
+  @override
+  String get weightStepSetting => '重量の刻み';
+
+  @override
+  String get weightStepHint => '− と + ボタンで増減する量。';
 }

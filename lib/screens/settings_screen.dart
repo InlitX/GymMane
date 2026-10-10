@@ -171,6 +171,16 @@ class SettingsScreen extends StatelessWidget {
                 hint: t.effortHint,
                 rowHint: t.effortRowHint,
               ),
+              _choiceRow(
+                context,
+                gc,
+                PhosphorIconsRegular.barbell,
+                t.weightStepSetting,
+                [for (final s in fit.weightSteps) ('$s', '${fmt(s)} ${fit.units}', PhosphorIconsRegular.barbell)],
+                () => '${fit.weightStep}',
+                (v) => fit.setWeightStep(double.parse(v)),
+                rowHint: t.weightStepHint,
+              ),
               GestureDetector(
                 behavior: HitTestBehavior.opaque,
                 onTap: fit.toggleAutoAdvance,

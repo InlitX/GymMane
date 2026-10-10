@@ -3397,4 +3397,10 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get recommendedRowHint => 'Esercizi che ti proponiamo in Home.';
+
+  @override
+  String get weightStepSetting => 'Incremento del peso';
+
+  @override
+  String get weightStepHint => 'Quanto aggiungono i pulsanti − e +.';
 }

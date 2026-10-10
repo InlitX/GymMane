@@ -1253,5 +1253,7 @@
   "trainReminderRowHint": "تذكير في أيام تمرينك.",
   "alarmSoundRowHint": "ما يرن عند انتهاء الراحة.",
   "alarmStyleRowHint": "هل يرن في الوضع الصامت.",
-  "recommendedRowHint": "تمارين نقترحها في الرئيسية."
+  "recommendedRowHint": "تمارين نقترحها في الرئيسية.",
+  "weightStepSetting": "خطوة الوزن",
+  "weightStepHint": "ما تضيفه زرّا − و+."
 }

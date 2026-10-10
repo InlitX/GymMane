@@ -1134,5 +1134,7 @@
   "trainReminderRowHint": "Eine Erinnerung an Trainingstagen.",
   "alarmSoundRowHint": "Was am Ende der Pause klingt.",
   "alarmStyleRowHint": "Ob es im Lautlosmodus klingelt.",
-  "recommendedRowHint": "Übungen, die wir auf der Startseite vorschlagen."
+  "recommendedRowHint": "Übungen, die wir auf der Startseite vorschlagen.",
+  "weightStepSetting": "Gewichtsschritt",
+  "weightStepHint": "Was die Tasten − und + hinzufügen."
 }

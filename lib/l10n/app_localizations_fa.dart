@@ -3372,4 +3372,10 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String get recommendedRowHint => 'حرکت‌هایی که در خانه پیشنهاد می‌دهیم.';
+
+  @override
+  String get weightStepSetting => 'گام وزن';
+
+  @override
+  String get weightStepHint => 'مقداری که دکمه‌های − و + اضافه می‌کنند.';
 }
