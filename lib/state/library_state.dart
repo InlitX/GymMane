@@ -310,6 +310,8 @@ mixin LibraryState on FitCore {
     return !_hasLoadedHistory(id);
   }
 
+  static const _loadedHolds = {'Dumbbell', 'Kettlebell', 'Cable', 'Machine', 'Weighted'};
+
   bool _hasLoadedHistory(String id) {
     for (final s in sessions) {
       for (final e in s.exercises) {
@@ -333,5 +335,3 @@ mixin LibraryState on FitCore {
 
   bool isCustom(String id) => customExercises.any((e) => e.id == id);
 }
-  static const _loadedHolds = {'Dumbbell', 'Kettlebell', 'Cable', 'Machine', 'Weighted'};
-
