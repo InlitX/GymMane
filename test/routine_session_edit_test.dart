@@ -117,6 +117,32 @@ void main() {
       fit.saveAndExit();
     });
 
+    test('an added exercise comes right after the current one', () {
+      final r = fit.createRoutine('Dos');
+      fit.toggleRoutineExercise(r, a);
+      fit.toggleRoutineExercise(r, c);
+      fit.startRoutine(fit.routines.single);
+
+      fit.addExerciseToSession(b);
+      expect(fit.session!.exercises.map((e) => e.id), [a, b, c]);
+      expect(fit.session!.currentIndex, 1);
+      fit.saveAndExit();
+    });
+
+    test('an added exercise never splits a superset', () {
+      final r = fit.createRoutine('Dos');
+      fit.toggleRoutineExercise(r, a);
+      fit.toggleRoutineExercise(r, b);
+      fit.startRoutine(fit.routines.single);
+      fit.session!.exercises[0].linkedNext = true;
+
+      fit.addExerciseToSession(c);
+      expect(fit.session!.exercises.map((e) => e.id), [a, b, c]);
+      expect(fit.session!.exercises[0].linkedNext, isTrue);
+      expect(fit.session!.currentIndex, 2);
+      fit.saveAndExit();
+    });
+
     test('the same exercise cannot be added twice', () {
       routineWithThree();
       start();

@@ -1055,8 +1055,11 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
     final s = session;
     final ex = exerciseById(id);
     if (s == null || ex == null || s.exercises.any((e) => e.id == id)) return;
-    s.exercises.add(SessionExercise(ex.id, ex.name, ex.primary, _openingSets(id)));
-    s.currentIndex = s.exercises.length - 1;
+    final chain = chainAt(s.currentIndex);
+    final at = chain.isEmpty ? s.exercises.length : chain.last + 1;
+    s.exercises.insert(at, SessionExercise(ex.id, ex.name, ex.primary, _openingSets(id)));
+    _advanceTimer?.cancel();
+    s.currentIndex = at;
     persistNow();
     notifyListeners();
   }

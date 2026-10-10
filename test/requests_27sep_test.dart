@@ -149,7 +149,7 @@ void main() {
       fit.startRoutine(r);
       fit.removeSessionExercise(2);
       fit.addExerciseToSession(idOf('Barbell Curl'));
-      fit.reorderSessionExercise(1, 0);
+      fit.reorderSessionExercise(2, 0);
       final changes = fit.sessionRoutineChanges;
       expect(changes.added.map((e) => e.id), [idOf('Barbell Curl')]);
       expect(changes.removed.map((e) => e.id), [idOf('Barbell Deadlift')]);
