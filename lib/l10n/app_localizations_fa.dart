@@ -2879,6 +2879,36 @@ class AppLocalizationsFa extends AppLocalizations {
   String get homeRecommended => 'پیشنهادی در خانه';
 
   @override
+  String get homeRoutines => 'روتین‌ها در خانه';
+
+  @override
+  String get homeRoutinesHint => 'روتین‌هایت، آخرین انجام‌شده اول. روی یکی بزن تا شروع شود.';
+
+  @override
+  String get homeWeekStats => 'این هفته در خانه';
+
+  @override
+  String get homeWeekStatsHint => 'حجم، ست‌ها و رکوردهای هفته.';
+
+  @override
+  String get routineDoneToday => 'برای امروز تمام شد · عالی بود';
+
+  @override
+  String get trainAgain => 'دوباره تمرین کن';
+
+  @override
+  String lastDoneAgo(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n روز پیش',
+      one: 'دیروز انجام شد',
+      zero: 'امروز انجام شد',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get archivedFilter => 'بایگانی';
 
   @override

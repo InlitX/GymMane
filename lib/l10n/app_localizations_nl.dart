@@ -2900,6 +2900,36 @@ class AppLocalizationsNl extends AppLocalizations {
   String get homeRecommended => 'Aanbevolen op start';
 
   @override
+  String get homeRoutines => 'Routines op het startscherm';
+
+  @override
+  String get homeRoutinesHint => 'Je routines, de laatst gedane eerst. Tik op een routine om te starten.';
+
+  @override
+  String get homeWeekStats => 'Deze week op het startscherm';
+
+  @override
+  String get homeWeekStatsHint => 'Volume, sets en PR’s van de week.';
+
+  @override
+  String get routineDoneToday => 'Klaar voor vandaag · goed gedaan';
+
+  @override
+  String get trainAgain => 'Nog een keer trainen';
+
+  @override
+  String lastDoneAgo(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n dagen geleden',
+      one: 'Gisteren gedaan',
+      zero: 'Vandaag gedaan',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get archivedFilter => 'Gearchiveerd';
 
   @override

@@ -2894,6 +2894,36 @@ class AppLocalizationsEs extends AppLocalizations {
   String get homeRecommended => 'Recomendados en inicio';
 
   @override
+  String get homeRoutines => 'Rutinas en inicio';
+
+  @override
+  String get homeRoutinesHint => 'Tus rutinas, la última que hiciste primero. Toca una para empezarla.';
+
+  @override
+  String get homeWeekStats => 'Esta semana en inicio';
+
+  @override
+  String get homeWeekStatsHint => 'Volumen, series y récords de la semana.';
+
+  @override
+  String get routineDoneToday => 'Hecha por hoy · buen trabajo';
+
+  @override
+  String get trainAgain => 'Entrenar otra vez';
+
+  @override
+  String lastDoneAgo(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: 'Hace $n días',
+      one: 'Hecha ayer',
+      zero: 'Hecha hoy',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get archivedFilter => 'Archivados';
 
   @override

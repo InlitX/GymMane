@@ -2807,6 +2807,30 @@ class AppLocalizationsJa extends AppLocalizations {
   String get homeRecommended => 'ホームのおすすめ';
 
   @override
+  String get homeRoutines => 'ホームのルーティン';
+
+  @override
+  String get homeRoutinesHint => '最近やった順に表示。タップで開始します。';
+
+  @override
+  String get homeWeekStats => 'ホームの今週';
+
+  @override
+  String get homeWeekStatsHint => '今週のボリューム・セット・記録。';
+
+  @override
+  String get routineDoneToday => '今日は完了 · お疲れさま';
+
+  @override
+  String get trainAgain => 'もう一度トレーニング';
+
+  @override
+  String lastDoneAgo(int n) {
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n日前', one: '昨日実施', zero: '今日実施');
+    return '$_temp0';
+  }
+
+  @override
   String get archivedFilter => 'アーカイブ';
 
   @override

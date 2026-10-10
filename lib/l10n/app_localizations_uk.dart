@@ -2905,6 +2905,38 @@ class AppLocalizationsUk extends AppLocalizations {
   String get homeRecommended => 'Рекомендації на головній';
 
   @override
+  String get homeRoutines => 'Програми на головній';
+
+  @override
+  String get homeRoutinesHint => 'Твої програми, остання виконана першою. Натисни, щоб почати.';
+
+  @override
+  String get homeWeekStats => 'Цей тиждень на головній';
+
+  @override
+  String get homeWeekStatsHint => 'Обʼєм, підходи й рекорди за тиждень.';
+
+  @override
+  String get routineDoneToday => 'На сьогодні все · чудова робота';
+
+  @override
+  String get trainAgain => 'Тренуватися ще';
+
+  @override
+  String lastDoneAgo(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n дня тому',
+      many: '$n днів тому',
+      few: '$n дні тому',
+      one: '$n день тому',
+      zero: 'Зроблено сьогодні',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get archivedFilter => 'Архів';
 
   @override

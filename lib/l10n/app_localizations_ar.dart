@@ -2891,6 +2891,36 @@ class AppLocalizationsAr extends AppLocalizations {
   String get homeRecommended => 'المقترحات في الرئيسية';
 
   @override
+  String get homeRoutines => 'الروتينات في الرئيسية';
+
+  @override
+  String get homeRoutinesHint => 'روتيناتك، آخر ما أنجزته أولًا. اضغط على أحدها لتبدأه.';
+
+  @override
+  String get homeWeekStats => 'هذا الأسبوع في الرئيسية';
+
+  @override
+  String get homeWeekStatsHint => 'الحجم والمجموعات والأرقام القياسية لهذا الأسبوع.';
+
+  @override
+  String get routineDoneToday => 'انتهيت لليوم · عمل رائع';
+
+  @override
+  String get trainAgain => 'تمرّن مرة أخرى';
+
+  @override
+  String lastDoneAgo(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: 'قبل $n يوم',
+      one: 'أُنجز أمس',
+      zero: 'أُنجز اليوم',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get archivedFilter => 'المؤرشفة';
 
   @override

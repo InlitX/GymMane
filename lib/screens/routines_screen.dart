@@ -396,71 +396,16 @@ class RoutinesScreen extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(bottom: 12),
           child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Expanded(child: RoutineFolder(routine: list[i], onMenu: () => _routineMenu(context, list[i]))),
+            Expanded(child: RoutineFolder(routine: list[i], onMenu: () => showRoutineMenu(context, list[i]))),
             const SizedBox(width: 12),
             Expanded(
               child: i + 1 < list.length
-                  ? RoutineFolder(routine: list[i + 1], onMenu: () => _routineMenu(context, list[i + 1]))
+                  ? RoutineFolder(routine: list[i + 1], onMenu: () => showRoutineMenu(context, list[i + 1]))
                   : const SizedBox.shrink(),
             ),
           ]),
         ),
     ]);
-  }
-
-  void _routineMenu(BuildContext context, Routine r) {
-    final gc = context.gc;
-    showAppSheet<void>(
-      context: context,
-      backgroundColor: Colors.transparent,
-      builder: (sheet) => Container(
-        padding: sheetPad(sheet),
-        decoration: BoxDecoration(
-          color: gc.bgRaised,
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            const SheetHandle(),
-            const SizedBox(height: 16),
-            SheetTitle(fit.routineTitle(r), subtitle: t.exerciseCount(r.exerciseIds.length)),
-            const SizedBox(height: 14),
-            OptionGroup([
-              OptionItem(t.editEntry, icon: PhosphorIconsRegular.pencilSimple, onTap: () {
-                Navigator.pop(sheet);
-                fit.openRoutine(r.id);
-              }),
-              if (r.exerciseIds.isNotEmpty)
-                OptionItem(titleCase(t.startWorkout), icon: PhosphorIconsRegular.play, onTap: () {
-                  Navigator.pop(sheet);
-                  fit.startRoutine(r);
-                }),
-              OptionItem(t.shareRoutine, icon: PhosphorIconsRegular.shareNetwork, onTap: () {
-                Navigator.pop(sheet);
-                sharePlan([r]);
-              }),
-              OptionItem(t.duplicateRoutine, icon: PhosphorIconsRegular.copy, onTap: () {
-                Navigator.pop(sheet);
-                fit.duplicateRoutine(r.id);
-              }),
-              OptionItem(t.delete, icon: PhosphorIconsRegular.trash, danger: true, onTap: () async {
-                Navigator.pop(sheet);
-                final ok = await askConfirm(
-                  context,
-                  title: t.deleteRoutine,
-                  body: fit.routineTitle(r),
-                  confirmLabel: t.delete,
-                  danger: true,
-                );
-                if (ok) fit.deleteRoutine(r.id);
-              }),
-            ]),
-          ],
-        ),
-      ),
-    );
   }
 
   void _pickRoutine(BuildContext context, int weekday) {
@@ -527,4 +472,59 @@ class RoutinesScreen extends StatelessWidget {
       ),
     );
   }
+}
+
+void showRoutineMenu(BuildContext context, Routine r) {
+  final gc = context.gc;
+  showAppSheet<void>(
+    context: context,
+    backgroundColor: Colors.transparent,
+    builder: (sheet) => Container(
+      padding: sheetPad(sheet),
+      decoration: BoxDecoration(
+        color: gc.bgRaised,
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          const SheetHandle(),
+          const SizedBox(height: 16),
+          SheetTitle(fit.routineTitle(r), subtitle: t.exerciseCount(r.exerciseIds.length)),
+          const SizedBox(height: 14),
+          OptionGroup([
+            OptionItem(t.editEntry, icon: PhosphorIconsRegular.pencilSimple, onTap: () {
+              Navigator.pop(sheet);
+              fit.openRoutine(r.id);
+            }),
+            if (r.exerciseIds.isNotEmpty)
+              OptionItem(titleCase(t.startWorkout), icon: PhosphorIconsRegular.play, onTap: () {
+                Navigator.pop(sheet);
+                fit.startRoutine(r);
+              }),
+            OptionItem(t.shareRoutine, icon: PhosphorIconsRegular.shareNetwork, onTap: () {
+              Navigator.pop(sheet);
+              sharePlan([r]);
+            }),
+            OptionItem(t.duplicateRoutine, icon: PhosphorIconsRegular.copy, onTap: () {
+              Navigator.pop(sheet);
+              fit.duplicateRoutine(r.id);
+            }),
+            OptionItem(t.delete, icon: PhosphorIconsRegular.trash, danger: true, onTap: () async {
+              Navigator.pop(sheet);
+              final ok = await askConfirm(
+                context,
+                title: t.deleteRoutine,
+                body: fit.routineTitle(r),
+                confirmLabel: t.delete,
+                danger: true,
+              );
+              if (ok) fit.deleteRoutine(r.id);
+            }),
+          ]),
+        ],
+      ),
+    ),
+  );
 }

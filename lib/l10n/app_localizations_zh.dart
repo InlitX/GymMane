@@ -2768,6 +2768,30 @@ class AppLocalizationsZh extends AppLocalizations {
   String get homeRecommended => '首页推荐';
 
   @override
+  String get homeRoutines => '首页的计划';
+
+  @override
+  String get homeRoutinesHint => '你的训练计划，最近做过的排在前面。点一下即可开始。';
+
+  @override
+  String get homeWeekStats => '首页的本周';
+
+  @override
+  String get homeWeekStatsHint => '本周的训练量、组数和纪录。';
+
+  @override
+  String get routineDoneToday => '今天已完成 · 干得好';
+
+  @override
+  String get trainAgain => '再练一次';
+
+  @override
+  String lastDoneAgo(int n) {
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n 天前', one: '昨天完成', zero: '今天完成');
+    return '$_temp0';
+  }
+
+  @override
   String get archivedFilter => '已归档';
 
   @override
@@ -6057,6 +6081,30 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get homeRecommended => '首頁推薦';
+
+  @override
+  String get homeRoutines => '首頁的課表';
+
+  @override
+  String get homeRoutinesHint => '你的課表，最近做過的排在前面。點一下即可開始。';
+
+  @override
+  String get homeWeekStats => '首頁的本週';
+
+  @override
+  String get homeWeekStatsHint => '本週的訓練量、組數和紀錄。';
+
+  @override
+  String get routineDoneToday => '今天完成了 · 做得好';
+
+  @override
+  String get trainAgain => '再練一次';
+
+  @override
+  String lastDoneAgo(int n) {
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n 天前', one: '昨天完成', zero: '今天完成');
+    return '$_temp0';
+  }
 
   @override
   String get archivedFilter => '已封存';

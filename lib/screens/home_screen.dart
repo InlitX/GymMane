@@ -3,6 +3,7 @@ import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 import '../l10n/l10n.dart';
 import '../models/exercise.dart';
+import '../models/workout.dart';
 import '../state/fit_state.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
@@ -11,9 +12,11 @@ import '../widgets/entrance.dart';
 import '../widgets/exercise_media.dart';
 import '../widgets/glass.dart';
 import '../widgets/home_folder.dart';
+import '../widgets/routine_folder.dart';
 import '../widgets/svg_icon.dart';
 import '../widgets/ui_kit.dart';
 import 'progress_screen.dart';
+import 'routines_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -22,6 +25,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final gc = context.gc;
     final recommended = fit.recommendedExercises(8);
+    final routines = fit.routinesByLastDone;
 
     return RiseScope(
       id: 'home',
@@ -45,10 +49,27 @@ class HomeScreen extends StatelessWidget {
               const SizedBox(height: 14),
               _photoNudge(gc),
             ],
-            const SizedBox(height: 30),
-            _heading(gc, t.thisWeek),
-            const SizedBox(height: 14),
-            _weekStats(context, gc),
+            if (fit.showWeekStats) ...[
+              const SizedBox(height: 30),
+              _heading(gc, t.thisWeek),
+              const SizedBox(height: 14),
+              _weekStats(context, gc),
+            ],
+            if (fit.showRoutineRow && routines.isNotEmpty) ...[
+              const SizedBox(height: 30),
+              _heading(gc, t.routines, onMore: fit.goRoutines),
+              const SizedBox(height: 14),
+              SizedBox(
+                height: 128,
+                child: ListView.separated(
+                  scrollDirection: Axis.horizontal,
+                  clipBehavior: Clip.none,
+                  itemCount: routines.length,
+                  separatorBuilder: (_, _) => const SizedBox(width: 12),
+                  itemBuilder: (_, i) => _routineCard(context, gc, routines[i]),
+                ),
+              ),
+            ],
             const SizedBox(height: 30),
             _heading(gc, t.activityLabel, onMore: fit.goProgress),
             const SizedBox(height: 14),
@@ -179,7 +200,10 @@ class HomeScreen extends StatelessWidget {
     final label = isRoutine ? t.todaysRoutine : t.todaysFocus;
     final title = isRoutine ? fit.routineTitle(routine) : focus.title;
     final today = fit.routinesOn(DateTime.now());
-    final subtitle = isRoutine
+    final done = isRoutine && fit.pendingRoutinesOn(DateTime.now()).isEmpty;
+    final subtitle = done
+        ? t.routineDoneToday
+        : isRoutine
         ? [
             t.exerciseCount(routine.exerciseIds.length),
             if (today.length > 1) t.routineOfDay(today.indexOf(routine) + 1, today.length),
@@ -229,9 +253,20 @@ class HomeScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(label.toUpperCase(),
-                      style: AppTheme.f(10.5,
-                          weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.4)),
+                  Row(children: [
+                    if (done) ...[
+                      Container(
+                        width: 16,
+                        height: 16,
+                        decoration: BoxDecoration(color: gc.ember, shape: BoxShape.circle),
+                        child: Center(child: SvgPathIcon(Ic.checkBold, size: 8, color: gc.onEmber)),
+                      ),
+                      const SizedBox(width: 7),
+                    ],
+                    Text(label.toUpperCase(),
+                        style: AppTheme.f(10.5,
+                            weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.4)),
+                  ]),
                   const SizedBox(height: 9),
                   Padding(
                     padding: const EdgeInsets.only(right: 96),
@@ -248,9 +283,11 @@ class HomeScreen extends StatelessWidget {
                       style: AppTheme.f(13, weight: FontWeight.w500, color: gc.textSecondary)),
                   const SizedBox(height: 20),
                   PrimaryButton(
-                    label: t.startWorkout,
+                    label: done ? t.trainAgain : t.startWorkout,
                     icon: Ic.play,
                     height: 52,
+                    bg: done ? gc.bgRaised2 : null,
+                    fg: done ? gc.text : null,
                     onTap: isRoutine ? () => fit.startRoutine(routine) : fit.startFocusWorkout,
                   ),
                 ],
@@ -328,7 +365,7 @@ class HomeScreen extends StatelessWidget {
                   child: _stat(gc, t.volume, fit.volumeValue(fit.volumeThisWeekKg),
                       unit: fit.volumeUnit),
                 ),
-                Expanded(child: _stat(gc, t.setsToday, '${fit.setsToday}')),
+                Expanded(child: _stat(gc, t.statSets, '${fit.weekSetCount}')),
                 Expanded(child: _stat(gc, t.prs, '${fit.prsThisWeek}')),
               ],
             ),
@@ -406,6 +443,51 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
             Icon(PhosphorIconsBold.caretRight, size: 14, color: gc.textTertiary),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _routineCard(BuildContext context, GymColors gc, Routine r) {
+    final hue = folderHue(r);
+    final last = fit.lastDoneOf(r.id);
+    final now = DateTime.now();
+    final ago = last == null
+        ? null
+        : DateTime(now.year, now.month, now.day).difference(DateTime(last.year, last.month, last.day)).inDays;
+    return Pressable(
+      onTap: () => r.exerciseIds.isEmpty ? fit.openRoutine(r.id) : fit.startRoutine(r),
+      onLongPress: () => showRoutineMenu(context, r),
+      child: Container(
+        width: 156,
+        padding: const EdgeInsets.fromLTRB(14, 14, 14, 13),
+        decoration: BoxDecoration(
+          color: gc.bgRaised,
+          borderRadius: BorderRadius.circular(18),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              width: 30,
+              height: 30,
+              decoration: BoxDecoration(color: hue, shape: BoxShape.circle),
+              child: Center(
+                child: SvgPathIcon(Ic.play, size: 12, color: Color.lerp(hue, Colors.black, 0.6)!),
+              ),
+            ),
+            const Spacer(),
+            Text(fit.routineTitle(r),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: AppTheme.f(14, weight: FontWeight.w700, color: gc.text, height: 1.2)),
+            const SizedBox(height: 4),
+            Text(
+                [t.exerciseCount(r.exerciseIds.length), if (ago != null) t.lastDoneAgo(ago)].join(' · '),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: AppTheme.f(11, weight: FontWeight.w500, color: gc.textTertiary)),
           ],
         ),
       ),

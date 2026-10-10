@@ -30,6 +30,8 @@ mixin SettingsState on FitCore, ToolsState, LibraryState {
   double bgDim = 0.55;
   bool showFocus = true;
   bool showRecommended = true;
+  bool showWeekStats = true;
+  bool showRoutineRow = true;
   bool levelHints = true;
   bool toastSound = true;
   bool heatmapLabels = true;
@@ -353,6 +355,18 @@ mixin SettingsState on FitCore, ToolsState, LibraryState {
 
   void toggleRecommended() {
     showRecommended = !showRecommended;
+    _persist();
+    notifyListeners();
+  }
+
+  void toggleWeekStats() {
+    showWeekStats = !showWeekStats;
+    _persist();
+    notifyListeners();
+  }
+
+  void toggleRoutineRow() {
+    showRoutineRow = !showRoutineRow;
     _persist();
     notifyListeners();
   }

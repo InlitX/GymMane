@@ -2899,6 +2899,36 @@ class AppLocalizationsTr extends AppLocalizations {
   String get homeRecommended => 'Ana ekranda öneriler';
 
   @override
+  String get homeRoutines => 'Ana ekranda programlar';
+
+  @override
+  String get homeRoutinesHint => 'Programların, en son yaptığın önce. Başlatmak için birine dokun.';
+
+  @override
+  String get homeWeekStats => 'Ana ekranda bu hafta';
+
+  @override
+  String get homeWeekStatsHint => 'Haftanın hacmi, setleri ve rekorları.';
+
+  @override
+  String get routineDoneToday => 'Bugünlük bitti · harika iş';
+
+  @override
+  String get trainAgain => 'Tekrar antrenman yap';
+
+  @override
+  String lastDoneAgo(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n gün önce',
+      one: 'Dün yapıldı',
+      zero: 'Bugün yapıldı',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get archivedFilter => 'Arşivlenenler';
 
   @override

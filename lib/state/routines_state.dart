@@ -35,6 +35,25 @@ mixin RoutinesState on FitCore, LibraryState {
 
   Routine? get todayRoutine => routineOn(DateTime.now());
 
+  DateTime? lastDoneOf(String routineId) {
+    DateTime? last;
+    for (final s in sessions) {
+      if (s.routineId == routineId && (last == null || s.date.isAfter(last))) last = s.date;
+    }
+    return last;
+  }
+
+  List<Routine> get routinesByLastDone {
+    final last = {for (final r in routines) r.id: lastDoneOf(r.id)};
+    final order = {for (final (i, r) in routines.indexed) r.id: i};
+    return [...routines]..sort((a, b) {
+        final la = last[a.id], lb = last[b.id];
+        if (la != null && lb != null && la != lb) return lb.compareTo(la);
+        if ((la == null) != (lb == null)) return la == null ? 1 : -1;
+        return order[a.id]!.compareTo(order[b.id]!);
+      });
+  }
+
   List<String> planIdsOn(int weekday) => [
         ?weeklyPlan[weekday],
         if (multiPlan) ...?planExtras[weekday],

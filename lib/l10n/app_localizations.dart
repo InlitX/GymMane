@@ -5206,6 +5206,48 @@ abstract class AppLocalizations {
   /// **'Recommended on home'**
   String get homeRecommended;
 
+  /// No description provided for @homeRoutines.
+  ///
+  /// In en, this message translates to:
+  /// **'Routines on home'**
+  String get homeRoutines;
+
+  /// No description provided for @homeRoutinesHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Your routines, last done first. Tap one to start it.'**
+  String get homeRoutinesHint;
+
+  /// No description provided for @homeWeekStats.
+  ///
+  /// In en, this message translates to:
+  /// **'This week on home'**
+  String get homeWeekStats;
+
+  /// No description provided for @homeWeekStatsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Volume, sets and PRs of the week.'**
+  String get homeWeekStatsHint;
+
+  /// No description provided for @routineDoneToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Done for today · nice work'**
+  String get routineDoneToday;
+
+  /// No description provided for @trainAgain.
+  ///
+  /// In en, this message translates to:
+  /// **'Train again'**
+  String get trainAgain;
+
+  /// No description provided for @lastDoneAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'{n, plural, =0{Done today} =1{Done yesterday} other{{n} days ago}}'**
+  String lastDoneAgo(int n);
+
   /// No description provided for @archivedFilter.
   ///
   /// In en, this message translates to:

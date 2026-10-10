@@ -337,6 +337,18 @@ class SettingsScreen extends StatelessWidget {
               ),
               GestureDetector(
                 behavior: HitTestBehavior.opaque,
+                onTap: fit.toggleRoutineRow,
+                child: _prefRow(gc, PhosphorIconsRegular.folders, t.homeRoutines,
+                    TinySwitch(on: fit.showRoutineRow), hint: t.homeRoutinesHint),
+              ),
+              GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: fit.toggleWeekStats,
+                child: _prefRow(gc, PhosphorIconsRegular.chartBar, t.homeWeekStats,
+                    TinySwitch(on: fit.showWeekStats), hint: t.homeWeekStatsHint),
+              ),
+              GestureDetector(
+                behavior: HitTestBehavior.opaque,
                 onTap: fit.toggleGamification,
                 child: _prefRow(gc, PhosphorIconsRegular.medal, t.gamificationSetting,
                     TinySwitch(on: fit.gamification), hint: t.gamificationHint),

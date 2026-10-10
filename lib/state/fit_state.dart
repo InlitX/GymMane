@@ -201,6 +201,8 @@ class FitState extends FitCore
     bgDim = (data['bgDim'] as num?)?.toDouble() ?? 0.55;
     showFocus = data['showFocus'] as bool? ?? true;
     showRecommended = data['showRecs'] as bool? ?? true;
+    showWeekStats = data['showWeek'] as bool? ?? true;
+    showRoutineRow = data['showRoutineRow'] as bool? ?? true;
     levelHints = data['levelHints'] as bool? ?? true;
     toastSound = data['toastSound'] as bool? ?? true;
     Beeper.instance.chimeOn = toastSound;
@@ -376,6 +378,8 @@ class FitState extends FitCore
         'bgDim': bgDim,
         'showFocus': showFocus,
         'showRecs': showRecommended,
+        'showWeek': showWeekStats,
+        'showRoutineRow': showRoutineRow,
         'levelHints': levelHints,
         'toastSound': toastSound,
         'heatLabels': heatmapLabels,
@@ -490,6 +494,8 @@ class FitState extends FitCore
     profile = Profile();
     showFocus = true;
     showRecommended = true;
+    showWeekStats = true;
+    showRoutineRow = true;
     levelHints = true;
     toastSound = true;
     Beeper.instance.chimeOn = true;

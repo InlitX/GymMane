@@ -403,6 +403,8 @@ mixin StatsState on FitCore, ToolsState, LibraryState, TimelineState {
 
   double get volumeThisWeekKg => _thisWeekSessions.fold(0.0, (a, s) => a + s.volume);
 
+  int get weekSetCount => _thisWeekSessions.fold(0, (a, s) => a + s.setCount);
+
   int get setsToday {
     final t = _dayKey(DateTime.now());
     return sessions.where((s) => _dayKey(s.date) == t).fold(0, (a, s) => a + s.setCount);

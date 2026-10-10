@@ -2985,6 +2985,38 @@ class AppLocalizationsRu extends AppLocalizations {
   String get homeRecommended => 'Рекомендации на главной';
 
   @override
+  String get homeRoutines => 'Тренировки на главной';
+
+  @override
+  String get homeRoutinesHint => 'Твои тренировки, последняя сделанная первой. Нажми, чтобы начать.';
+
+  @override
+  String get homeWeekStats => 'Эта неделя на главной';
+
+  @override
+  String get homeWeekStatsHint => 'Объём, подходы и рекорды за неделю.';
+
+  @override
+  String get routineDoneToday => 'На сегодня всё · отличная работа';
+
+  @override
+  String get trainAgain => 'Тренироваться ещё';
+
+  @override
+  String lastDoneAgo(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n дня назад',
+      many: '$n дней назад',
+      few: '$n дня назад',
+      one: '$n день назад',
+      zero: 'Сделано сегодня',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get archivedFilter => 'Архив';
 
   @override

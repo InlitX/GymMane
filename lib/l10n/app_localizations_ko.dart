@@ -2817,6 +2817,30 @@ class AppLocalizationsKo extends AppLocalizations {
   String get homeRecommended => '홈 추천';
 
   @override
+  String get homeRoutines => '홈의 루틴';
+
+  @override
+  String get homeRoutinesHint => '최근에 한 루틴부터 보여줘요. 탭하면 시작해요.';
+
+  @override
+  String get homeWeekStats => '홈의 이번 주';
+
+  @override
+  String get homeWeekStatsHint => '이번 주 볼륨, 세트, 기록.';
+
+  @override
+  String get routineDoneToday => '오늘 완료 · 수고했어요';
+
+  @override
+  String get trainAgain => '다시 운동하기';
+
+  @override
+  String lastDoneAgo(int n) {
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n일 전', one: '어제 완료', zero: '오늘 완료');
+    return '$_temp0';
+  }
+
+  @override
   String get archivedFilter => '보관됨';
 
   @override
