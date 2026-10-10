@@ -373,6 +373,7 @@
   "lightTheme": "Світла",
   "amoledTheme": "Чорна AMOLED",
   "editDuration": "Тривалість тренування",
+  "secondaryPickHint": "Познач інші мʼязи, які працюють у цій вправі.",
   "languageLabel": "Мова",
   "unitsLabel": "Одиниці",
   "restTimer": "Таймер відпочинку",

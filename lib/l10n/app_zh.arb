@@ -196,6 +196,7 @@
   "lightTheme": "浅色模式",
   "amoledTheme": "AMOLED 纯黑",
   "editDuration": "训练时长",
+  "secondaryPickHint": "点选这个动作还会锻炼到的其他肌肉。",
   "languageLabel": "语言",
   "unitsLabel": "单位",
   "restTimer": "组间休息计时器",

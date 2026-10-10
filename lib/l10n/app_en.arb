@@ -385,6 +385,7 @@
   "lightTheme": "Light",
   "amoledTheme": "AMOLED black",
   "editDuration": "Workout length",
+  "secondaryPickHint": "Tap the other muscles this exercise works.",
   "languageLabel": "Language",
   "unitsLabel": "Units",
   "restTimer": "Rest timer",

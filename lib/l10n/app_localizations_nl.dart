@@ -1121,6 +1121,9 @@ class AppLocalizationsNl extends AppLocalizations {
   String get editDuration => 'Duur van de training';
 
   @override
+  String get secondaryPickHint => 'Tik op de andere spieren die deze oefening traint.';
+
+  @override
   String get languageLabel => 'Taal';
 
   @override

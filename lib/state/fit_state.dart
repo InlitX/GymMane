@@ -198,6 +198,11 @@ class FitState extends FitCore
       ..clear()
       ..addAll(((data['exMode'] as Map?) ?? const {}).map((k, v) => MapEntry(k as String, v as String))
         ..removeWhere((_, v) => !const ['weight', 'cardio', 'time'].contains(v)));
+    secondaryOverride
+      ..clear()
+      ..addAll(((data['exSecondary'] as Map?) ?? const {})
+          .map((k, v) => MapEntry(k as String, (v as List).whereType<String>().toList())));
+    _builtInExercises = null;
     bgDim = (data['bgDim'] as num?)?.toDouble() ?? 0.55;
     showFocus = data['showFocus'] as bool? ?? true;
     showRecommended = data['showRecs'] as bool? ?? true;
@@ -404,6 +409,7 @@ class FitState extends FitCore
         'barKg': exerciseBar,
         'marks': videoMarks.map((k, v) => MapEntry(k, v.map((i, ms) => MapEntry('$i', ms)))),
         'exMode': modeOverride,
+        'exSecondary': secondaryOverride,
         'trainAt': trainReminderMin,
         'trainSmart': smartReminder,
         'alarmAskedAt': alarmAskedAt,
@@ -485,6 +491,8 @@ class FitState extends FitCore
     videoMarks.clear();
     exerciseBar.clear();
     modeOverride.clear();
+    secondaryOverride.clear();
+    _builtInExercises = null;
     demoSize = 'large';
     demoLoop = 'always';
     MediaStore.clearAll();

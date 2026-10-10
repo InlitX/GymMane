@@ -373,6 +373,7 @@
   "lightTheme": "Clair",
   "amoledTheme": "Noir AMOLED",
   "editDuration": "Durée de la séance",
+  "secondaryPickHint": "Touche les autres muscles que travaille cet exercice.",
   "languageLabel": "Langue",
   "unitsLabel": "Unités",
   "restTimer": "Minuteur de repos",

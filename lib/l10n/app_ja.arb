@@ -373,6 +373,7 @@
   "lightTheme": "ライト",
   "amoledTheme": "AMOLEDブラック",
   "editDuration": "トレーニング時間",
+  "secondaryPickHint": "この種目で使うほかの筋肉をタップしてください。",
   "languageLabel": "言語",
   "unitsLabel": "単位",
   "restTimer": "休憩タイマー",

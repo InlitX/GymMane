@@ -618,6 +618,7 @@
   "lightTheme": "روشن",
   "amoledTheme": "مشکی AMOLED",
   "editDuration": "مدت تمرین",
+  "secondaryPickHint": "عضله‌های دیگری را که این حرکت درگیر می‌کند لمس کن.",
   "languageLabel": "زبان",
   "unitsLabel": "واحدها",
   "restTimer": "تایمر استراحت",

@@ -373,6 +373,7 @@
   "lightTheme": "라이트",
   "amoledTheme": "AMOLED 블랙",
   "editDuration": "운동 시간",
+  "secondaryPickHint": "이 운동이 함께 쓰는 다른 근육을 탭하세요.",
   "languageLabel": "언어",
   "unitsLabel": "단위",
   "restTimer": "휴식 타이머",

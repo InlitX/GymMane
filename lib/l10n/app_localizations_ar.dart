@@ -1111,6 +1111,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get editDuration => 'مدة التمرين';
 
   @override
+  String get secondaryPickHint => 'اضغط على العضلات الأخرى التي يعمل عليها هذا التمرين.';
+
+  @override
   String get languageLabel => 'اللغة';
 
   @override

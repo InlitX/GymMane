@@ -1065,6 +1065,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get editDuration => '训练时长';
 
   @override
+  String get secondaryPickHint => '点选这个动作还会锻炼到的其他肌肉。';
+
+  @override
   String get languageLabel => '语言';
 
   @override
@@ -4367,6 +4370,9 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get editDuration => '訓練時長';
+
+  @override
+  String get secondaryPickHint => '點選這個動作還會鍛鍊到的其他肌肉。';
 
   @override
   String get languageLabel => '語言';

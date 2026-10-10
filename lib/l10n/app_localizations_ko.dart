@@ -1088,6 +1088,9 @@ class AppLocalizationsKo extends AppLocalizations {
   String get editDuration => '운동 시간';
 
   @override
+  String get secondaryPickHint => '이 운동이 함께 쓰는 다른 근육을 탭하세요.';
+
+  @override
   String get languageLabel => '언어';
 
   @override

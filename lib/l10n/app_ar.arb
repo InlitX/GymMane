@@ -373,6 +373,7 @@
   "lightTheme": "فاتح",
   "amoledTheme": "أسود AMOLED",
   "editDuration": "مدة التمرين",
+  "secondaryPickHint": "اضغط على العضلات الأخرى التي يعمل عليها هذا التمرين.",
   "languageLabel": "اللغة",
   "unitsLabel": "الوحدات",
   "restTimer": "مؤقت الراحة",

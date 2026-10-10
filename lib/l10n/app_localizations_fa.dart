@@ -1112,6 +1112,9 @@ class AppLocalizationsFa extends AppLocalizations {
   String get editDuration => 'مدت تمرین';
 
   @override
+  String get secondaryPickHint => 'عضله‌های دیگری را که این حرکت درگیر می‌کند لمس کن.';
+
+  @override
   String get languageLabel => 'زبان';
 
   @override

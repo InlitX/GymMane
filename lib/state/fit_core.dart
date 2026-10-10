@@ -80,6 +80,8 @@ abstract class FitCore extends ChangeNotifier {
   final Map<String, double> exerciseBar = {};
 
   final Map<String, String> modeOverride = {};
+
+  final Map<String, List<String>> secondaryOverride = {};
   VoidCallback? onWidgetsShouldUpdate;
 
   void refreshWidgets() => _refreshWidgets();

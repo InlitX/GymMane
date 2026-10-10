@@ -373,6 +373,7 @@
   "lightTheme": "Licht",
   "amoledTheme": "AMOLED-zwart",
   "editDuration": "Duur van de training",
+  "secondaryPickHint": "Tik op de andere spieren die deze oefening traint.",
   "languageLabel": "Taal",
   "unitsLabel": "Eenheden",
   "restTimer": "Rusttimer",

@@ -1118,6 +1118,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get editDuration => 'Duración del entreno';
 
   @override
+  String get secondaryPickHint => 'Toca los otros músculos que trabaja este ejercicio.';
+
+  @override
   String get languageLabel => 'Idioma';
 
   @override

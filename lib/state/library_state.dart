@@ -8,7 +8,46 @@ mixin LibraryState on FitCore {
   String? exKindFilter;
   String? activeExerciseId;
   int _customSeq = 0;
-  List<Exercise> get allExercises => [...kExercises, ...customExercises];
+  List<Exercise>? _builtInExercises;
+
+  List<Exercise> get allExercises => [
+        ...(_builtInExercises ??= [
+          for (final e in kExercises)
+            if (secondaryOverride[e.id] case final s?) e.copyWith(secondary: _cleanSecondary(e.primary, s)) else e,
+        ]),
+        ...customExercises,
+      ];
+
+  bool hasSecondaryOverride(String id) => secondaryOverride.containsKey(id);
+
+  void setSecondary(String id, List<String> muscles) {
+    final ex = exerciseById(id);
+    if (ex == null) return;
+    final clean = _cleanSecondary(ex.primary, muscles);
+    final i = customExercises.indexWhere((e) => e.id == id);
+    if (i >= 0) {
+      customExercises[i] = customExercises[i].copyWith(secondary: clean);
+    } else {
+      final base = kExercises.firstWhere((e) => e.id == id);
+      if (_sameMuscles(clean, _cleanSecondary(base.primary, base.secondary))) {
+        secondaryOverride.remove(id);
+      } else {
+        secondaryOverride[id] = clean;
+      }
+      _builtInExercises = null;
+    }
+    _persist();
+    notifyListeners();
+  }
+
+  void resetSecondary(String id) {
+    if (secondaryOverride.remove(id) == null) return;
+    _builtInExercises = null;
+    _persist();
+    notifyListeners();
+  }
+
+  static bool _sameMuscles(List<String> a, List<String> b) => a.length == b.length && a.toSet().containsAll(b);
 
   bool fitsHere(Exercise ex) => true;
 

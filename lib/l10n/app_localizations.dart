@@ -2020,6 +2020,12 @@ abstract class AppLocalizations {
   /// **'Workout length'**
   String get editDuration;
 
+  /// No description provided for @secondaryPickHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap the other muscles this exercise works.'**
+  String get secondaryPickHint;
+
   /// No description provided for @languageLabel.
   ///
   /// In en, this message translates to:

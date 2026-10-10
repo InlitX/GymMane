@@ -373,6 +373,7 @@
   "lightTheme": "Açık",
   "amoledTheme": "AMOLED siyah",
   "editDuration": "Antrenman süresi",
+  "secondaryPickHint": "Bu hareketin çalıştırdığı diğer kaslara dokun.",
   "languageLabel": "Dil",
   "unitsLabel": "Birimler",
   "restTimer": "Dinlenme zamanlayıcısı",

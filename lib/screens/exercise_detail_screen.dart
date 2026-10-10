@@ -181,7 +181,7 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
                     children: [
                       _meta(gc, t.primaryLabel, muscleLabel(ex.primary)),
                       const SizedBox(width: 20),
-                      _meta(gc, t.secondaryLabel, secondary),
+                      _meta(gc, t.secondaryLabel, secondary, onTap: () => _editSecondary(context, ex.id)),
                       const SizedBox(width: 20),
                       _meta(gc, t.equipmentLabel, t.equipment(ex.equipment)),
                     ],
@@ -634,18 +634,93 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
     );
   }
 
-  Widget _meta(GymColors gc, String label, String value) {
+  Widget _meta(GymColors gc, String label, String value, {VoidCallback? onTap}) {
+    final column = Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(mainAxisSize: MainAxisSize.min, children: [
+          Flexible(child: _cardLabel(gc, label)),
+          if (onTap != null) ...[
+            const SizedBox(width: 4),
+            Icon(PhosphorIconsRegular.pencilSimple, size: 11, color: gc.textTertiary),
+          ],
+        ]),
+        const SizedBox(height: 5),
+        Text(value,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: AppTheme.f(14.5, weight: FontWeight.w600, color: gc.text)),
+      ],
+    );
     return Flexible(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _cardLabel(gc, label),
-          const SizedBox(height: 5),
-          Text(value,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: AppTheme.f(14.5, weight: FontWeight.w600, color: gc.text)),
-        ],
+      child: onTap == null
+          ? column
+          : Semantics(
+              button: true,
+              child: GestureDetector(behavior: HitTestBehavior.opaque, onTap: onTap, child: column),
+            ),
+    );
+  }
+
+  void _editSecondary(BuildContext context, String id) {
+    showAppSheet<void>(
+      context: context,
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
+      builder: (sheet) => AnimatedBuilder(
+        animation: fit,
+        builder: (sheet, _) {
+          final gc = sheet.gc;
+          final ex = fit.exerciseById(id);
+          if (ex == null) return const SizedBox.shrink();
+          return Container(
+            padding: sheetPad(sheet),
+            decoration: BoxDecoration(
+              color: gc.bgRaised,
+              borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const SheetHandle(),
+                const SizedBox(height: 16),
+                SheetTitle(exerciseName(ex), subtitle: t.secondaryPickHint),
+                const SizedBox(height: 16),
+                Wrap(spacing: 8, runSpacing: 8, children: [
+                  for (final m in kMuscles)
+                    if (m.id != ex.primary)
+                      Pill(
+                        label: t.muscle(m.id),
+                        bg: ex.secondary.contains(m.id) ? gc.ember : gc.bgRaised2,
+                        fg: ex.secondary.contains(m.id) ? gc.onEmber : gc.textSecondary,
+                        vPad: 7,
+                        onTap: () => fit.setSecondary(
+                            id,
+                            ex.secondary.contains(m.id)
+                                ? [...ex.secondary.where((s) => s != m.id)]
+                                : [...ex.secondary, m.id]),
+                      ),
+                ]),
+                if (fit.hasSecondaryOverride(id))
+                  GestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    onTap: () => fit.resetSecondary(id),
+                    child: Container(
+                      height: 44,
+                      margin: const EdgeInsets.only(top: 8),
+                      alignment: Alignment.center,
+                      child: Text(t.alarmReset,
+                          style: AppTheme.f(13, weight: FontWeight.w600, color: gc.accent)),
+                    ),
+                  )
+                else
+                  const SizedBox(height: 18),
+                PrimaryButton(label: t.done, onTap: () => Navigator.of(sheet).pop()),
+              ],
+            ),
+          );
+        },
       ),
     );
   }

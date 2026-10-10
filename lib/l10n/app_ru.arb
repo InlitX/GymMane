@@ -344,6 +344,7 @@
   "lightTheme": "Светлая",
   "amoledTheme": "Чёрная AMOLED",
   "editDuration": "Длительность тренировки",
+  "secondaryPickHint": "Отметь другие мышцы, которые работают в этом упражнении.",
   "languageLabel": "Язык",
   "unitsLabel": "Единицы",
   "restTimer": "Таймер отдыха",

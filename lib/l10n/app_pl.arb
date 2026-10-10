@@ -373,6 +373,7 @@
   "lightTheme": "Jasny",
   "amoledTheme": "Czerń AMOLED",
   "editDuration": "Czas treningu",
+  "secondaryPickHint": "Stuknij inne mięśnie, które pracują w tym ćwiczeniu.",
   "languageLabel": "Język",
   "unitsLabel": "Jednostki",
   "restTimer": "Minutnik odpoczynku",

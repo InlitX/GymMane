@@ -1070,6 +1070,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get editDuration => 'トレーニング時間';
 
   @override
+  String get secondaryPickHint => 'この種目で使うほかの筋肉をタップしてください。';
+
+  @override
   String get languageLabel => '言語';
 
   @override

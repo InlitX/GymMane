@@ -1161,6 +1161,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get editDuration => 'Длительность тренировки';
 
   @override
+  String get secondaryPickHint => 'Отметь другие мышцы, которые работают в этом упражнении.';
+
+  @override
   String get languageLabel => 'Язык';
 
   @override

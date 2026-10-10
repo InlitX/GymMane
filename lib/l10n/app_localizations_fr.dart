@@ -1123,6 +1123,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get editDuration => 'Durée de la séance';
 
   @override
+  String get secondaryPickHint => 'Touche les autres muscles que travaille cet exercice.';
+
+  @override
   String get languageLabel => 'Langue';
 
   @override

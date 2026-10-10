@@ -373,6 +373,7 @@
   "lightTheme": "淺色",
   "amoledTheme": "AMOLED 純黑",
   "editDuration": "訓練時長",
+  "secondaryPickHint": "點選這個動作還會鍛鍊到的其他肌肉。",
   "languageLabel": "語言",
   "unitsLabel": "單位",
   "restTimer": "休息計時器",

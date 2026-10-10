@@ -350,6 +350,7 @@
   "lightTheme": "Claro",
   "amoledTheme": "Negro AMOLED",
   "editDuration": "Duración del entreno",
+  "secondaryPickHint": "Toca los otros músculos que trabaja este ejercicio.",
   "languageLabel": "Idioma",
   "unitsLabel": "Unidades",
   "restTimer": "Descanso",

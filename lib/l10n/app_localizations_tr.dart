@@ -1120,6 +1120,9 @@ class AppLocalizationsTr extends AppLocalizations {
   String get editDuration => 'Antrenman süresi';
 
   @override
+  String get secondaryPickHint => 'Bu hareketin çalıştırdığı diğer kaslara dokun.';
+
+  @override
   String get languageLabel => 'Dil';
 
   @override

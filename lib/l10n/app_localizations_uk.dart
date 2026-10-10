@@ -1119,6 +1119,9 @@ class AppLocalizationsUk extends AppLocalizations {
   String get editDuration => 'Тривалість тренування';
 
   @override
+  String get secondaryPickHint => 'Познач інші мʼязи, які працюють у цій вправі.';
+
+  @override
   String get languageLabel => 'Мова';
 
   @override
