@@ -17,7 +17,7 @@ class GymManeApp extends StatefulWidget {
 }
 
 class _GymManeAppState extends State<GymManeApp> {
-  var _look = (fit.themeMode, fit.locale);
+  var _look = (fit.themeMode, fit.locale, fit.themePref == 'amoled');
 
   @override
   void initState() {
@@ -32,7 +32,7 @@ class _GymManeAppState extends State<GymManeApp> {
   }
 
   void _watch() {
-    final look = (fit.themeMode, fit.locale);
+    final look = (fit.themeMode, fit.locale, fit.themePref == 'amoled');
     if (look != _look) setState(() => _look = look);
   }
 
@@ -42,7 +42,7 @@ class _GymManeAppState extends State<GymManeApp> {
         title: 'GymMane',
         debugShowCheckedModeBanner: false,
         theme: AppTheme.light,
-        darkTheme: AppTheme.dark,
+        darkTheme: _look.$3 ? AppTheme.amoled : AppTheme.dark,
         themeMode: _look.$1,
         locale: _look.$2,
         supportedLocales: AppLocalizations.supportedLocales,

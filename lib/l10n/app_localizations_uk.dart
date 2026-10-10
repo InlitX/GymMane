@@ -1113,6 +1113,9 @@ class AppLocalizationsUk extends AppLocalizations {
   String get lightTheme => 'Світла';
 
   @override
+  String get amoledTheme => 'Чорна AMOLED';
+
+  @override
   String get editDuration => 'Тривалість тренування';
 
   @override

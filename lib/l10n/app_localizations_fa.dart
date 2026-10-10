@@ -1106,6 +1106,9 @@ class AppLocalizationsFa extends AppLocalizations {
   String get lightTheme => 'روشن';
 
   @override
+  String get amoledTheme => 'مشکی AMOLED';
+
+  @override
   String get editDuration => 'مدت تمرین';
 
   @override

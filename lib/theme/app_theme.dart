@@ -10,6 +10,7 @@ class AppTheme {
   static const String round = 'Nunito';
 
   static ThemeData get dark => _build(Brightness.dark, GymColors.dark);
+  static ThemeData get amoled => _build(Brightness.dark, GymColors.amoled);
   static ThemeData get light => _build(Brightness.light, GymColors.light);
 
   static ThemeData _build(Brightness brightness, GymColors gc) {

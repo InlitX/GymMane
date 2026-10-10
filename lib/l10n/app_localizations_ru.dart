@@ -1155,6 +1155,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get lightTheme => 'Светлая';
 
   @override
+  String get amoledTheme => 'Чёрная AMOLED';
+
+  @override
   String get editDuration => 'Длительность тренировки';
 
   @override

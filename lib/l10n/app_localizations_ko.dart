@@ -1082,6 +1082,9 @@ class AppLocalizationsKo extends AppLocalizations {
   String get lightTheme => '라이트';
 
   @override
+  String get amoledTheme => 'AMOLED 블랙';
+
+  @override
   String get editDuration => '운동 시간';
 
   @override

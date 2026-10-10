@@ -2008,6 +2008,12 @@ abstract class AppLocalizations {
   /// **'Light'**
   String get lightTheme;
 
+  /// No description provided for @amoledTheme.
+  ///
+  /// In en, this message translates to:
+  /// **'AMOLED black'**
+  String get amoledTheme;
+
   /// No description provided for @editDuration.
   ///
   /// In en, this message translates to:

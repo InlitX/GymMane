@@ -381,6 +381,7 @@
   "theme": "Erscheinungsbild",
   "darkTheme": "Dunkel",
   "lightTheme": "Hell",
+  "amoledTheme": "AMOLED-Schwarz",
   "editDuration": "Trainingsdauer",
   "languageLabel": "Sprache",
   "unitsLabel": "Einheiten",

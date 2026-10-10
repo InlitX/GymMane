@@ -342,6 +342,7 @@
   "theme": "Тема",
   "darkTheme": "Тёмная",
   "lightTheme": "Светлая",
+  "amoledTheme": "Чёрная AMOLED",
   "editDuration": "Длительность тренировки",
   "languageLabel": "Язык",
   "unitsLabel": "Единицы",

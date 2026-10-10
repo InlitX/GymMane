@@ -69,6 +69,7 @@ class SettingsScreen extends StatelessWidget {
                 [
                   ('system', t.themeAuto, PhosphorIconsRegular.circleHalf),
                   ('dark', t.darkTheme, PhosphorIconsRegular.moon),
+                  ('amoled', t.amoledTheme, PhosphorIconsRegular.moonStars),
                   ('light', t.lightTheme, PhosphorIconsRegular.sun),
                 ],
                 () => fit.themePref,

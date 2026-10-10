@@ -76,8 +76,9 @@ class HomeWidgetBridge {
         _groupReady = true;
       }
       final pref = fit.themePref;
-      final day = pref == 'dark' ? GymColors.dark : GymColors.light;
-      final night = pref == 'light' ? GymColors.light : GymColors.dark;
+      final darkColors = pref == 'amoled' ? GymColors.amoled : GymColors.dark;
+      final day = pref == 'dark' || pref == 'amoled' ? darkColors : GymColors.light;
+      final night = pref == 'light' ? GymColors.light : darkColors;
       final framed = !_ios;
       const heatmapSize = Size(320, 150);
       const statsSize = Size(155, 155);

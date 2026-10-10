@@ -7,7 +7,7 @@ mixin SettingsState on FitCore, ToolsState, LibraryState {
 
   bool get dark => themePref == 'system'
       ? PlatformDispatcher.instance.platformBrightness == Brightness.dark
-      : themePref == 'dark';
+      : themePref == 'dark' || themePref == 'amoled';
 
   set dark(bool on) => themePref = on ? 'dark' : 'light';
 
@@ -59,7 +59,7 @@ mixin SettingsState on FitCore, ToolsState, LibraryState {
   }
 
   void setThemePref(String pref) {
-    if (!const ['system', 'dark', 'light'].contains(pref)) return;
+    if (!const ['system', 'dark', 'amoled', 'light'].contains(pref)) return;
     themePref = pref;
     _persist();
     _refreshWidgets();

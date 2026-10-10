@@ -1114,6 +1114,9 @@ class AppLocalizationsTr extends AppLocalizations {
   String get lightTheme => 'Açık';
 
   @override
+  String get amoledTheme => 'AMOLED siyah';
+
+  @override
   String get editDuration => 'Antrenman süresi';
 
   @override

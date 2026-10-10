@@ -1059,6 +1059,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get lightTheme => '浅色模式';
 
   @override
+  String get amoledTheme => 'AMOLED 纯黑';
+
+  @override
   String get editDuration => '训练时长';
 
   @override
@@ -4358,6 +4361,9 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get lightTheme => '淺色';
+
+  @override
+  String get amoledTheme => 'AMOLED 純黑';
 
   @override
   String get editDuration => '訓練時長';

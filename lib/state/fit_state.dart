@@ -143,7 +143,7 @@ class FitState extends FitCore
 
   static String _themeFrom(Map<String, dynamic> data, {required String fallback}) {
     final pref = data['theme'];
-    if (pref is String && const ['system', 'dark', 'light'].contains(pref)) return pref;
+    if (pref is String && const ['system', 'dark', 'amoled', 'light'].contains(pref)) return pref;
     final dark = data['dark'];
     if (dark is bool) return dark ? 'dark' : 'light';
     return fallback;

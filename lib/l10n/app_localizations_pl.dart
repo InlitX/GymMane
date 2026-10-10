@@ -1114,6 +1114,9 @@ class AppLocalizationsPl extends AppLocalizations {
   String get lightTheme => 'Jasny';
 
   @override
+  String get amoledTheme => 'Czerń AMOLED';
+
+  @override
   String get editDuration => 'Czas treningu';
 
   @override

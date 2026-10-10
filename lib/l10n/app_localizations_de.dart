@@ -1118,6 +1118,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get lightTheme => 'Hell';
 
   @override
+  String get amoledTheme => 'AMOLED-Schwarz';
+
+  @override
   String get editDuration => 'Trainingsdauer';
 
   @override

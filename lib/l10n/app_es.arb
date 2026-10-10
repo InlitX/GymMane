@@ -348,6 +348,7 @@
   "theme": "Tema",
   "darkTheme": "Oscuro",
   "lightTheme": "Claro",
+  "amoledTheme": "Negro AMOLED",
   "editDuration": "Duración del entreno",
   "languageLabel": "Idioma",
   "unitsLabel": "Unidades",
