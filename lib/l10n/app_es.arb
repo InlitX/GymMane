@@ -1,5 +1,5 @@
 {
-  "@@locale": "es-ES",
+  "@@locale": "es",
   "languageName": "Español",
   "@languageName": {
     "description": "This language, written in itself. Shown in the language picker."

@@ -1,5 +1,5 @@
 {
-  "@@locale": "zh-CN",
+  "@@locale": "zh",
   "languageName": "简体中文",
   "@languageName": {
     "description": "This language, written in itself. Shown in the language picker."
