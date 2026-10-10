@@ -7167,7 +7167,8 @@ const List<ToolMeta> kToolMeta = [
 ];
 
 const List<String> kFilterMuscles = [
-  'chest', 'back', 'lowerback', 'shoulders', 'biceps', 'triceps', 'abdomen', 'quads', 'glutes', 'hamstrings', 'calves'
+  'chest', 'back', 'trapezius', 'lowerback', 'shoulders', 'biceps', 'triceps', 'forearm', 'abdomen', 'obliques',
+  'quads', 'glutes', 'hamstrings', 'calves'
 ];
 const List<String> kDifficulties = ['Beginner', 'Intermediate', 'Advanced'];
 
