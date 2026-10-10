@@ -442,6 +442,35 @@ mixin StatsState on FitCore, ToolsState, LibraryState, TimelineState {
     return sets.isEmpty ? null : _record(id, '', sets);
   }
 
+  ({LoggedSet set, DateTime date})? bestSet(String id) {
+    ({LoggedSet set, DateTime date})? best;
+    for (final h in exerciseHistory(id)) {
+      for (final st in h.ex.workingSets) {
+        if (st.weight <= 0 || st.reps <= 0) continue;
+        if (best == null || st.oneRm > best.set.oneRm) best = (set: st, date: h.date);
+      }
+    }
+    return best;
+  }
+
+  ({double score, DateTime date})? bestWorkout(String id, PrKind kind) {
+    double score(LoggedExercise e) => switch (kind) {
+          PrKind.weight => e.volume,
+          PrKind.reps => e.workingSets.fold(0.0, (n, st) => n + st.reps),
+          _ => 0,
+        };
+    ({double score, DateTime date})? best;
+    for (final h in exerciseHistory(id)) {
+      final v = score(h.ex);
+      if (v > 0 && (best == null || v > best.score)) best = (score: v, date: h.date);
+    }
+    return best;
+  }
+
+  String bestWorkoutLabel(double score, PrKind kind) => kind == PrKind.weight
+      ? '${fmt(toDisplayWeight(score).roundToDouble())} $units'
+      : t.repCount(score.round());
+
   String recordLabel(PersonalRecord r) => switch (r.kind) {
         PrKind.weight => weightLabel(r.best),
         PrKind.distance => distanceLabel(r.best),

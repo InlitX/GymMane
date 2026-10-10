@@ -3299,4 +3299,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get weightStepHint => '− と + ボタンで増減する量。';
+
+  @override
+  String get prBestWorkout => 'ベストワークアウト';
 }

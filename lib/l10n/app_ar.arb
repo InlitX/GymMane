@@ -1255,5 +1255,6 @@
   "alarmStyleRowHint": "هل يرن في الوضع الصامت.",
   "recommendedRowHint": "تمارين نقترحها في الرئيسية.",
   "weightStepSetting": "خطوة الوزن",
-  "weightStepHint": "ما تضيفه زرّا − و+."
+  "weightStepHint": "ما تضيفه زرّا − و+.",
+  "prBestWorkout": "أفضل تمرين"
 }

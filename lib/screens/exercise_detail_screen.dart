@@ -210,6 +210,7 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
                                       weight: FontWeight.w500, color: gc.textSecondary)),
                             ],
                           ),
+                          if (history.length > 1) _bests(gc, ex.id, pr.kind),
                           if (pr.kind == PrKind.weight && oneRm.length > 2) ...[
                             const SizedBox(height: 16),
                             TrendChart(values: [for (final v in oneRm) fit.toDisplayWeight(v)], height: 84, scale: fmt),
@@ -689,6 +690,29 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
           ),
         ]),
       );
+
+  Widget _bests(GymColors gc, String id, PrKind kind) {
+    final set = kind == PrKind.weight ? fit.bestSet(id) : null;
+    final work = fit.bestWorkout(id, kind);
+    if (work == null) return const SizedBox.shrink();
+    Widget cell(String label, String value, DateTime date) => Expanded(
+          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            _cardLabel(gc, label),
+            const SizedBox(height: 6),
+            FitText(value, style: AppTheme.f(17, weight: FontWeight.w700, color: gc.text, height: 1)),
+            const SizedBox(height: 4),
+            Text(_fmtDate(date), style: AppTheme.f(11.5, weight: FontWeight.w500, color: gc.textTertiary)),
+          ]),
+        );
+    return Padding(
+      padding: const EdgeInsets.only(top: 16),
+      child: Row(children: [
+        if (set != null) cell(t.prBestSet, '${fit.weightLabel(set.set.weight)} × ${set.set.reps}', set.date),
+        if (set != null) const SizedBox(width: 12),
+        cell(t.prBestWorkout, fit.bestWorkoutLabel(work.score, kind), work.date),
+      ]),
+    );
+  }
 
   Widget _cardLabel(GymColors gc, String label) => FitText(label.toUpperCase(),
       style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.3));

@@ -1255,5 +1255,6 @@
   "alarmStyleRowHint": "靜音模式下是否響鈴。",
   "recommendedRowHint": "首頁推薦的動作。",
   "weightStepSetting": "重量步長",
-  "weightStepHint": "− 和 + 按鈕每次增減的量。"
+  "weightStepHint": "− 和 + 按鈕每次增減的量。",
+  "prBestWorkout": "最佳訓練"
 }

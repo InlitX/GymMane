@@ -1136,5 +1136,6 @@
   "alarmStyleRowHint": "Ob es im Lautlosmodus klingelt.",
   "recommendedRowHint": "Übungen, die wir auf der Startseite vorschlagen.",
   "weightStepSetting": "Gewichtsschritt",
-  "weightStepHint": "Was die Tasten − und + hinzufügen."
+  "weightStepHint": "Was die Tasten − und + hinzufügen.",
+  "prBestWorkout": "Bestes Training"
 }

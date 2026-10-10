@@ -3310,4 +3310,7 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get weightStepHint => '− 및 + 버튼이 더하는 양.';
+
+  @override
+  String get prBestWorkout => '최고 운동';
 }

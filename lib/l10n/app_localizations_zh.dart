@@ -3254,6 +3254,9 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get weightStepHint => '− 和 + 按钮每次增减的量。';
+
+  @override
+  String get prBestWorkout => '最佳训练';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -6523,4 +6526,7 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get weightStepHint => '− 和 + 按鈕每次增減的量。';
+
+  @override
+  String get prBestWorkout => '最佳訓練';
 }

@@ -1037,5 +1037,6 @@
   "alarmStyleRowHint": "Se toca com o celular no silencioso.",
   "recommendedRowHint": "Exercícios que sugerimos no Início.",
   "weightStepSetting": "Incremento de peso",
-  "weightStepHint": "O que os botões − e + somam."
+  "weightStepHint": "O que os botões − e + somam.",
+  "prBestWorkout": "Melhor treino"
 }

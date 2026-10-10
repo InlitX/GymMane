@@ -1080,5 +1080,6 @@
   "alarmStyleRowHint": "Si suena con el móvil en silencio.",
   "recommendedRowHint": "Ejercicios que te proponemos en Inicio.",
   "weightStepSetting": "Salto de peso",
-  "weightStepHint": "Lo que suman los botones − y +."
+  "weightStepHint": "Lo que suman los botones − y +.",
+  "prBestWorkout": "Mejor entreno"
 }

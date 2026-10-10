@@ -3378,4 +3378,7 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String get weightStepHint => 'مقداری که دکمه‌های − و + اضافه می‌کنند.';
+
+  @override
+  String get prBestWorkout => 'بهترین تمرین';
 }

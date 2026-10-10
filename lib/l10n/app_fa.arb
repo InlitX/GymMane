@@ -1616,5 +1616,6 @@
   "alarmStyleRowHint": "آیا در حالت بی‌صدا زنگ بزند.",
   "recommendedRowHint": "حرکت‌هایی که در خانه پیشنهاد می‌دهیم.",
   "weightStepSetting": "گام وزن",
-  "weightStepHint": "مقداری که دکمه‌های − و + اضافه می‌کنند."
+  "weightStepHint": "مقداری که دکمه‌های − و + اضافه می‌کنند.",
+  "prBestWorkout": "بهترین تمرین"
 }

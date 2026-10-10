@@ -1255,5 +1255,6 @@
   "alarmStyleRowHint": "Czy dzwoni w trybie cichym.",
   "recommendedRowHint": "Ćwiczenia proponowane na ekranie głównym.",
   "weightStepSetting": "Krok ciężaru",
-  "weightStepHint": "Ile dodają przyciski − i +."
+  "weightStepHint": "Ile dodają przyciski − i +.",
+  "prBestWorkout": "Najlepszy trening"
 }

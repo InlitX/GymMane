@@ -1255,5 +1255,6 @@
   "alarmStyleRowHint": "S’il sonne en mode silencieux.",
   "recommendedRowHint": "Exercices que l’on vous propose sur l’Accueil.",
   "weightStepSetting": "Pas de poids",
-  "weightStepHint": "Ce qu’ajoutent les boutons − et +."
+  "weightStepHint": "Ce qu’ajoutent les boutons − et +.",
+  "prBestWorkout": "Meilleure séance"
 }

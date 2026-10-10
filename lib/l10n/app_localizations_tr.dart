@@ -3398,4 +3398,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get weightStepHint => '− ve + düğmelerinin eklediği miktar.';
+
+  @override
+  String get prBestWorkout => 'En iyi antrenman';
 }

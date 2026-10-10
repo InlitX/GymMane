@@ -1255,5 +1255,6 @@
   "alarmStyleRowHint": "Of hij afgaat in stille modus.",
   "recommendedRowHint": "Oefeningen die we op Start voorstellen.",
   "weightStepSetting": "Gewichtsstap",
-  "weightStepHint": "Wat de knoppen − en + toevoegen."
+  "weightStepHint": "Wat de knoppen − en + toevoegen.",
+  "prBestWorkout": "Beste training"
 }

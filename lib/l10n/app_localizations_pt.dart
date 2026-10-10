@@ -3393,4 +3393,7 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get weightStepHint => 'O que os botões − e + somam.';
+
+  @override
+  String get prBestWorkout => 'Melhor treino';
 }

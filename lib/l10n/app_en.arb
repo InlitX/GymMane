@@ -1176,5 +1176,6 @@
   "alarmStyleRowHint": "Whether it rings in silent mode.",
   "recommendedRowHint": "Exercises we suggest on Home.",
   "weightStepSetting": "Weight step",
-  "weightStepHint": "What the − and + buttons add."
+  "weightStepHint": "What the − and + buttons add.",
+  "prBestWorkout": "Best workout"
 }

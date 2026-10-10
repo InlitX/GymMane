@@ -1064,5 +1064,6 @@
   "alarmStyleRowHint": "Звонит ли в беззвучном режиме.",
   "recommendedRowHint": "Упражнения, которые мы предлагаем на главной.",
   "weightStepSetting": "Шаг веса",
-  "weightStepHint": "Сколько добавляют кнопки − и +."
+  "weightStepHint": "Сколько добавляют кнопки − и +.",
+  "prBestWorkout": "Лучшая тренировка"
 }

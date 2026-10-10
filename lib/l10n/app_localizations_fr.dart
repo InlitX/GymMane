@@ -3415,4 +3415,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get weightStepHint => 'Ce qu’ajoutent les boutons − et +.';
+
+  @override
+  String get prBestWorkout => 'Meilleure séance';
 }

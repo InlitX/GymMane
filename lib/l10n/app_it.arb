@@ -1116,5 +1116,6 @@
   "alarmStyleRowHint": "Se suona anche in silenzioso.",
   "recommendedRowHint": "Esercizi che ti proponiamo in Home.",
   "weightStepSetting": "Incremento del peso",
-  "weightStepHint": "Quanto aggiungono i pulsanti − e +."
+  "weightStepHint": "Quanto aggiungono i pulsanti − e +.",
+  "prBestWorkout": "Miglior allenamento"
 }

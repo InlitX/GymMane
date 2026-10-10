@@ -3412,4 +3412,7 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get weightStepHint => 'Скільки додають кнопки − і +.';
+
+  @override
+  String get prBestWorkout => 'Найкраще тренування';
 }

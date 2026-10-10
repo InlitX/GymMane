@@ -6075,6 +6075,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'What the − and + buttons add.'**
   String get weightStepHint;
+
+  /// No description provided for @prBestWorkout.
+  ///
+  /// In en, this message translates to:
+  /// **'Best workout'**
+  String get prBestWorkout;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

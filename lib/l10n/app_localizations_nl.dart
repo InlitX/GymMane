@@ -3402,4 +3402,7 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get weightStepHint => 'Wat de knoppen − en + toevoegen.';
+
+  @override
+  String get prBestWorkout => 'Beste training';
 }

@@ -3403,4 +3403,7 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get weightStepHint => 'Quanto aggiungono i pulsanti − e +.';
+
+  @override
+  String get prBestWorkout => 'Miglior allenamento';
 }

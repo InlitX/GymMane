@@ -3389,4 +3389,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get weightStepHint => 'ما تضيفه زرّا − و+.';
+
+  @override
+  String get prBestWorkout => 'أفضل تمرين';
 }

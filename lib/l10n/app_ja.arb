@@ -1255,5 +1255,6 @@
   "alarmStyleRowHint": "マナーモードでも鳴らすか。",
   "recommendedRowHint": "ホームでおすすめする種目。",
   "weightStepSetting": "重量の刻み",
-  "weightStepHint": "− と + ボタンで増減する量。"
+  "weightStepHint": "− と + ボタンで増減する量。",
+  "prBestWorkout": "ベストワークアウト"
 }
