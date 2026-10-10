@@ -148,6 +148,15 @@ Tap the muscles you want to train, log your sets and watch your numbers go up.
 </tr>
 </table>
 
+## Quick help
+
+- **An exercise disappeared from Suggested:** Long-pressing it hides it only
+  from the Suggested section, not the full exercise list. Tap **Undo** in the
+  toast, or open the exercise details and turn **Suggest in workouts** back on.
+- **What does the link icon in a routine do?** It links that exercise to the
+  next one as a superset, so there is no rest between them. Tap it again to
+  unlink them.
+
 ## Download
 
 Get it from F-Droid, IzzyOnDroid, OpenAPK, Obtainium or the
