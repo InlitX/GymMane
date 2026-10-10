@@ -1137,7 +1137,14 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
 
   void nextExercise() {
     final s = session!;
-    s.currentIndex = math.min(s.currentIndex + 1, s.exercises.length - 1);
+    var next = s.currentIndex + 1;
+    final chain = chainAt(s.currentIndex);
+    if (chain.length > 1) {
+      final after = chain.where((i) => i > s.currentIndex && s.exercises[i].hasUndone);
+      next = after.isNotEmpty ? after.first : chain.last + 1;
+      if (next >= s.exercises.length) next = s.currentIndex + 1;
+    }
+    s.currentIndex = math.min(next, s.exercises.length - 1);
     _persist();
     notifyListeners();
   }
