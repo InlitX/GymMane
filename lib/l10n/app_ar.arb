@@ -1,8 +1,28 @@
 {
   "@@locale": "ar",
   "languageName": "العربية",
+  "@languageName": {
+    "description": "This language, written in itself. Shown in the language picker."
+  },
   "vsLastMonthLabel": "{pct}% مقارنة بالشهر الماضي",
+  "@vsLastMonthLabel": {
+    "placeholders": {
+      "pct": {
+        "type": "String"
+      }
+    }
+  },
   "levelStreakLabel": "المستوى {level} · {streak}",
+  "@levelStreakLabel": {
+    "placeholders": {
+      "level": {
+        "type": "int"
+      },
+      "streak": {
+        "type": "String"
+      }
+    }
+  },
   "save": "حفظ",
   "cancel": "إلغاء",
   "cancelCaps": "إلغاء",
@@ -27,6 +47,13 @@
   "tools": "الأدوات",
   "firstSessionHint": "اختر عضلاتك وسجّل تمرينك الأول",
   "exerciseCount": "{n, plural, =1{تمرين واحد} other{{n} تمارين}}",
+  "@exerciseCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "pushDay": "يوم الدفع",
   "pullDay": "يوم السحب",
   "legDay": "الأرجل",
@@ -43,11 +70,25 @@
   "nothingForFocus": "لا توجد تمارين لهذا التركيز",
   "goBackPick": "ارجع واختر عضلة لها تمارين في مكتبتك.",
   "pickedHint": "جهزنا لك تمرينًا — اضغط لإضافة أو إزالة أي من التمارين الـ {n}.",
+  "@pickedHint": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "pickAnExercise": "اختر تمرينًا",
   "searchAllExercises": "ابحث عن تمرين…",
   "noExercisesMatch": "لا توجد تمارين مطابقة",
   "createItInstead": "أنشئ تمرينك الخاص بدلًا من ذلك",
   "startCount": "ابدأ · {n, plural, =1{تمرين واحد} other{{n} تمارين}}",
+  "@startCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "inProgress": "قيد التنفيذ",
   "paused": "متوقف مؤقتًا",
   "last": "الأخير",
@@ -62,26 +103,78 @@
   "setCol": "#",
   "repsCol": "التكرارات",
   "weightCol": "الوزن ({unit})",
+  "@weightCol": {
+    "placeholders": {
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
   "repsTitle": "التكرارات",
   "weightTitle": "الوزن ({unit})",
+  "@weightTitle": {
+    "placeholders": {
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
   "sessionComplete": "تم تسجيل التمرين",
   "finishHeadlinePr": "رقم شخصي جديد",
   "finishHeadlineGoal": "تم تحقيق الهدف الأسبوعي",
   "finishHeadlineStreak": "تم الحفاظ على السلسلة",
   "finishHeadlineDefault": "تمرين آخر في الرصيد",
   "finishBodyPr": "رفعت وزنًا أكبر من أي وقت مضى في {prs, plural, =1{تمرين واحد} other{{prs} تمارين}}. تم حفظه في سجلاتك.",
+  "@finishBodyPr": {
+    "placeholders": {
+      "prs": {
+        "type": "int"
+      }
+    }
+  },
   "finishBodyGoal": "أكملت عدد التمارين الذي خططت له هذا الأسبوع.",
   "finishBodyStreak": "{streak} أيام متتالية. الأصعب هو ألا تتوقف.",
+  "@finishBodyStreak": {
+    "placeholders": {
+      "streak": {
+        "type": "int"
+      }
+    }
+  },
   "finishBodyDefault": "تم التسجيل والاحتساب. الاستمرارية هي ما يصنع التقدم.",
   "vsLastTime": "مقارنة بالمرة السابقة",
   "firstTime": "أول تسجيل",
   "prCount": "{n, plural, =1{رقم قياسي جديد واحد} other{{n} أرقام قياسية جديدة}}",
+  "@prCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "duration": "المدة",
   "setsCaps": "المجموعات",
   "exerciseXofY": "التمرين {i} من {n}",
+  "@exerciseXofY": {
+    "placeholders": {
+      "i": {
+        "type": "int"
+      },
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "decrease": "تقليل",
   "increase": "زيادة",
   "markSet": "وضع علامة على المجموعة {n} كمكتملة",
+  "@markSet": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "pauseWorkout": "إيقاف التمرين مؤقتًا",
   "resumeWorkout": "استئناف التمرين",
   "discardTitle": "تجاهل التمرين؟",
@@ -99,7 +192,21 @@
   "allTimeSets": "المجموعات",
   "consistency": "الاستمرارية",
   "sessionsLogged": "{n, plural, =1{تم تسجيل تمرين واحد} other{تم تسجيل {n} تمارين}}",
+  "@sessionsLogged": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "streakDays": "سلسلة {n} أيام",
+  "@streakDays": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "bodyweight": "وزن الجسم",
   "logBodyweight": "تسجيل الوزن",
   "trackWeight": "تتبّع وزنك مع مرور الوقت",
@@ -111,27 +218,76 @@
   "daysAll": "الكل",
   "weeklyAvgTitle": "المتوسط الأسبوعي",
   "weekOfDate": "أسبوع {date}",
+  "@weekOfDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
   "weightChangeRange": "{change} في هذه الفترة",
+  "@weightChangeRange": {
+    "placeholders": {
+      "change": {
+        "type": "String"
+      }
+    }
+  },
   "heatLow": "غير مُدرَّب",
   "heatHigh": "أقصى حجم",
   "muscleMapEmpty": "سجّل تمرينًا وسيبدأ جسمك بالإضاءة هنا.",
   "muscleMapHint": "اضغط على عضلة لترى مقدار تمرينها.",
   "muscleMapBehind": "متأخرة: {names}",
+  "@muscleMapBehind": {
+    "placeholders": {
+      "names": {
+        "type": "String"
+      }
+    }
+  },
   "ofTarget": "{pct}% من الهدف",
+  "@ofTarget": {
+    "placeholders": {
+      "pct": {
+        "type": "int"
+      }
+    }
+  },
   "muscleSplit": "توزيع العضلات",
   "personalRecords": "الأرقام الشخصية",
   "strength1rm": "القوة · 1RM مقدر",
   "strengthEmpty": "سجّل تمرينًا مرتين لتظهر منحنيات القوة هنا.",
   "oneRmEst": "1RM المقدر: {w}",
+  "@oneRmEst": {
+    "placeholders": {
+      "w": {
+        "type": "String"
+      }
+    }
+  },
   "restDayShort": "يوم راحة",
   "restDay": "يوم راحة — لم يُسجل شيء.",
   "delete": "حذف",
   "deleteEntry": "حذف هذا الإدخال؟",
   "deleteEntryBody": "ستتم إزالة \"{name}\" من هذا اليوم ومن سجلاتك ورسومك البيانية.",
+  "@deleteEntryBody": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "bodyweightHistory": "السجل",
   "exercisesCaps": "التمارين",
   "timeCaps": "الوقت",
   "libraryCount": "{n, plural, =1{تمرين واحد في مكتبتك} other{{n} تمارين في مكتبتك}}",
+  "@libraryCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "searchExercises": "البحث عن تمارين",
   "muscleFilter": "العضلة",
   "levelFilter": "المستوى",
@@ -162,6 +318,16 @@
   "notes": "ملاحظات",
   "notePlaceholder": "ملاحظات، إعداد، شعور…",
   "notHere": "لا يوجد {gear} في {place}",
+  "@notHere": {
+    "placeholders": {
+      "gear": {
+        "type": "String"
+      },
+      "place": {
+        "type": "String"
+      }
+    }
+  },
   "notHereWhy": "استبدله بشيء يمكنك استخدامه فعليًا اليوم.",
   "altHere": "ما يمكنك فعله هنا",
   "places": "أماكني",
@@ -171,6 +337,13 @@
   "placeNamePlaceholder": "المنزل، النادي، الحديقة…",
   "placeGearLabel": "المعدات المتاحة",
   "placeExercises": "{n} تمارين هنا",
+  "@placeExercises": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "placeEmptyTitle": "تمرّن أينما كنت",
   "placeEmptyBody": "المكان هو قائمة بالمعدات الموجودة فيه. اختر واحدًا للبدء وعدّله لاحقًا.",
   "placeDeleteTitle": "حذف المكان",
@@ -181,8 +354,22 @@
   "placeFilterLabel": "المكان",
   "noGearOnly": "بدون معدات",
   "placeActive": "التمرين في {name}",
+  "@placeActive": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "journal": "اليوميات",
   "noteCount": "{n, plural, =0{لا توجد ملاحظات} =1{ملاحظة واحدة} other{{n} ملاحظات}}",
+  "@noteCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "noteKindNote": "ملاحظة",
   "noteKindPlan": "خطة",
   "noteKindDone": "إنجاز",
@@ -213,9 +400,23 @@
   "notePrevMonth": "الشهر السابق",
   "noteNextMonth": "الشهر التالي",
   "noteMonthCount": "{n, plural, =0{لا توجد ملاحظات هذا الشهر} =1{ملاحظة واحدة هذا الشهر} other{{n} ملاحظات هذا الشهر}}",
+  "@noteMonthCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "measures": "القياسات",
   "measuresHint": "من الرقبة إلى ربلة الساق — راقب تغير جسمك لا البار فقط.",
   "measureCount": "{n, plural, =0{لا توجد قياسات} =1{قياس واحد} other{{n} قياسات}}",
+  "@measureCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "measureNoneYet": "لم يُقَس بعد",
   "measureHistory": "السجل",
   "measureNeck": "الرقبة",
@@ -232,22 +433,64 @@
   "timelineHint": "نفس الوضعية والمكان والإضاءة. بعد سنة لن تصدق الفرق.",
   "timelineEmptyTitle": "صورتك الأولى تبدأ التتبع",
   "photoCount": "{n, plural, =0{لا توجد صور} =1{صورة واحدة} other{{n} صور}}",
+  "@photoCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "poseFront": "أمام",
   "poseSide": "جانب",
   "poseBack": "خلف",
   "photoEvery": "ذكّرني",
   "photoEveryDays": "كل {n} أيام",
+  "@photoEveryDays": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "photoEveryOff": "أبدًا",
   "timelineEvery": "تجميع كل",
   "custom": "مخصص",
   "photoNextIn": "{n, plural, =1{الصورة التالية غدًا} other{الصورة التالية بعد {n} أيام}}",
+  "@photoNextIn": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "photoDueNow": "حان وقت الصورة — التقطها اليوم",
   "addTodayPhotos": "إضافة صور اليوم",
   "posePhoto": "صورة {pose}",
+  "@posePhoto": {
+    "placeholders": {
+      "pose": {
+        "type": "String"
+      }
+    }
+  },
   "compare": "مقارنة",
   "compareNeedTwo": "التقط نفس الوضعية في يومين مختلفين لتتمكن من المقارنة هنا.",
   "dayNumber": "اليوم {n}",
+  "@dayNumber": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "daysApart": "{n, plural, =0{في اليوم نفسه} =1{بفارق يوم واحد} other{بفارق {n} أيام}}",
+  "@daysApart": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "deleteEntryTitle": "حذف هذا اليوم",
   "deleteDayBody": "ستُحذف صور هذا اليوم نهائيًا أيضًا.",
   "timelinePhotos": "الصور",
@@ -256,10 +499,34 @@
   "timelineBodyHint": "مبنية من مجموعاتك أنت — لا يتم رفع أي شيء.",
   "timelineWindow": "{from} – {to}",
   "sessionCount": "{n, plural, =0{لا توجد تمارين} =1{تمرين واحد} other{{n} تمارين}}",
+  "@sessionCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "@timelineWindow": {
+    "placeholders": {
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
   "notifPhotoChannel": "صور التقدم",
   "notifPhotoChannelWhy": "تذكير عندما يحين موعد صورة التقدم التالية.",
   "notifPhotoTitle": "حان وقت صورة التقدم",
   "notifPhotoBody": "مرّ {n} أيام منذ الأخيرة. نفس الوضعية ونفس الإضاءة.",
+  "@notifPhotoBody": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "share": "مشاركة",
   "sharePick": "ماذا تريد أن تعرض؟",
   "shareStreak": "السلسلة والاستمرارية",
@@ -281,13 +548,34 @@
   "setTypeFailure": "حتى الفشل",
   "addWarmup": "إحماء",
   "platesPerSide": "لكل جانب: {plates}",
+  "@platesPerSide": {
+    "placeholders": {
+      "plates": {
+        "type": "String"
+      }
+    }
+  },
   "howTo": "كيفية الأداء",
   "similar": "مشابهة",
   "primaryLabel": "أساسي",
   "secondaryLabel": "ثانوي",
   "none": "لا شيء",
   "setCount": "{n, plural, =1{مجموعة واحدة} other{{n} مجموعات}}",
+  "@setCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "volumeSuffix": "حجم {v}",
+  "@volumeSuffix": {
+    "placeholders": {
+      "v": {
+        "type": "String"
+      }
+    }
+  },
   "weeklyPlan": "الخطة الأسبوعية",
   "yourRoutines": "روتيناتك",
   "noRoutines": "لا توجد روتينات بعد. أنشئ واحدًا وأضف تمارينك.",
@@ -298,13 +586,41 @@
   "addExercises": "إضافة تمارين",
   "deleteRoutine": "حذف هذا الروتين؟",
   "exercisesWithCount": "التمارين · {n}",
+  "@exercisesWithCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "setDay": "تعيين {day}",
+  "@setDay": {
+    "placeholders": {
+      "day": {
+        "type": "String"
+      }
+    }
+  },
   "newRoutineName": "روتين جديد",
   "dragToReorder": "اسحب المقبض المنقّط لإعادة الترتيب — هذا هو ترتيب تمرينك.",
   "reorderHandle": "إعادة ترتيب {name}",
+  "@reorderHandle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "removeFromRoutine": "إزالة من الروتين",
   "dropExercise": "إزالة هذا التمرين؟",
   "dropExerciseBody": "ستتم إزالة \"{name}\" من هذا التمرين. لن تفقد أي بيانات مسجلة.",
+  "@dropExerciseBody": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "drop": "إزالة",
   "resetData": "حذف جميع بياناتي",
   "resetTitle": "حذف كل شيء؟",
@@ -341,6 +657,13 @@
   "alarmTooLong": "هذا الصوت أطول من 15 ثانية",
   "alarmInvalid": "تعذر قراءة ملف الصوت هذا",
   "alarmChanged": "تم تعيين صوت المنبه إلى \"{name}\"",
+  "@alarmChanged": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "alarmChangedDefault": "تمت استعادة الصوت الافتراضي",
   "addActivityWidget": "إضافة أداة النشاط",
   "addStatsWidget": "إضافة أداة الإحصاءات",
@@ -359,11 +682,25 @@
   "importUnknownFormat": "يجب أن يحتوي الملف على أعمدة التاريخ والتمرين والتكرارات والوزن",
   "importZipNoWeights": "ملف ZIP هذا لا يحتوي على ملف وزن",
   "importWeights": "{n, plural, =1{تم استيراد قياس وزن واحد} other{تم استيراد {n} قياسات وزن}}",
+  "@importWeights": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "importReadFailed": "تعذر قراءة هذا الملف",
   "importUnitTitle": "ما الوحدة المستخدمة في هذا الملف؟",
   "importUnitBody": "لا يحدد هذا التصدير وحدة الأوزان.",
   "importNothing": "لا يوجد شيء جديد لاستيراده",
   "importDone": "{n, plural, =1{تم استيراد تمرين واحد} other{تم استيراد {n} تمارين}}",
+  "@importDone": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "aboutGymmane": "حول GymMane",
   "yourProfile": "ملفك الشخصي",
   "autofills": "يملأ الحاسبات تلقائيًا",
@@ -387,6 +724,13 @@
   "backupFailed": "تعذر قراءة هذه النسخة الاحتياطية",
   "nothingToExport": "لا يوجد شيء لتصديره بعد — سجّل تمرينًا أولًا",
   "calculatorsCount": "{n} حاسبات لتدريبك",
+  "@calculatorsCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "result": "النتيجة",
   "weightLifted": "الوزن المرفوع",
   "repsPerformed": "التكرارات المنفذة",
@@ -400,6 +744,13 @@
   "perSide": "لكل جانب",
   "justTheBar": "البار فقط.",
   "perSideCount": "× {n} لكل جانب",
+  "@perSideCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "toolNameRm": "1RM",
   "toolNameBmi": "مؤشر كتلة الجسم",
   "toolNameCal": "السعرات الحرارية",
@@ -466,6 +817,13 @@
   "diffIntermediate": "متوسط",
   "about": "حول",
   "version": "الإصدار {v}",
+  "@version": {
+    "placeholders": {
+      "v": {
+        "type": "String"
+      }
+    }
+  },
   "aboutBlurb": "صنعه متدربون للمتدربين.",
   "freeForever": "مجاني إلى الأبد",
   "freeForeverWhy": "لا اشتراك ولا إعلانات ولا ميزات محجوبة بالدفع.",
@@ -475,6 +833,13 @@
   "yoursToTakeWhy": "صدّرها بصيغة CSV متى شئت واحذف كل شيء بخطوة واحدة.",
   "whatsInside": "المحتوى",
   "exercisesInside": "{n} تمارين",
+  "@exercisesInside": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "exercisesInsideWhy": "لكل تمرين رسوم متحركة وتعليمات خطوة بخطوة.",
   "calculatorsInside": "10 حاسبات",
   "calculatorsInsideWhy": "1RM والأقراص ومؤشر كتلة الجسم والسعرات ودهون الجسم وFFMI والإحماء والوزن حسب RPE ونقاط القوة DOTS وWilks — كلها مبنية على معادلات منشورة.",
@@ -482,11 +847,28 @@
   "mathInsideWhy": "يتم حساب الحجم والأرقام القياسية والمجموعات من بياناتك أنت. لا شيء للزينة فقط.",
   "streakCaps": "السلسلة",
   "daysUnit": "{n, plural, =1{يوم} other{أيام}}",
+  "@daysUnit": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "reset": "إعادة تعيين",
   "welcomeKicker": "مرحبًا بك في",
   "welcomeBlurb": "كل شيء يبقى على هاتفك. لا حساب ولا إنترنت ولا دفع.",
   "welcomeStart": "ابدأ",
   "onbStep": "الخطوة {i} من {n}",
+  "@onbStep": {
+    "placeholders": {
+      "i": {
+        "type": "int"
+      },
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "onbNameTitle": "ماذا نادِيك؟",
   "onbNameHint": "اسمك الأول",
   "onbPhotoAdd": "أضف صورة",
@@ -500,6 +882,13 @@
   "onbGoalTitle": "كم مرة تتمرن؟",
   "onbGoalWhy": "يحدد هدفك الأسبوعي. كن واقعيًا ولا تبالغ في الطموح.",
   "perWeek": "{n, plural, =1{تمرين واحد في الأسبوع} other{{n} تمارين في الأسبوع}}",
+  "@perWeek": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "onbUnitsTitle": "كيلوغرام أم رطل؟",
   "next": "التالي",
   "back": "رجوع",
@@ -520,6 +909,13 @@
   "repsOnlyHint": "سجّل هذا التمرين دون وزن.",
   "useDefaultArt": "العودة إلى الرسم الافتراضي",
   "daysShort": "{n} ي",
+  "@daysShort": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "focusCard": "تركيز اليوم",
   "autoAdvance": "الانتقال تلقائيًا إلى التالي",
   "keepScreenOn": "إبقاء الشاشة مضاءة أثناء التمرين",
@@ -529,16 +925,47 @@
   "liveChannel": "تمرين جارٍ",
   "liveChannelWhy": "يعرض التمرين الحالي والمجموعة ومؤقت الراحة أثناء التمرين",
   "liveSet": "المجموعة {n} من {total}",
+  "@liveSet": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
   "liveResting": "راحة",
   "liveAllDone": "اكتملت كل المجموعات",
   "autoAdvanceHint": "عند تحديد آخر مجموعة للتمرين، ينتقل التمرين تلقائيًا إلى التمرين التالي.",
   "autoProgress": "أضف وزنًا في المرة القادمة",
   "autoProgressHint": "أكمل كل التكرارات وسيبدأ التمرين التالي بزيادة {w}.",
+  "@autoProgressHint": {
+    "placeholders": {
+      "w": {
+        "type": "String"
+      }
+    }
+  },
   "placePlates": "الأقراص والبار",
   "platesAll": "كل شيء متاح",
   "platesOwned": "{n, plural, =1{مقاس واحد} other{{n} مقاسات}}",
+  "@platesOwned": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "platePairs": "الأزواج",
   "plateAchievable": "أقرب وزن ممكن: {w}",
+  "@plateAchievable": {
+    "placeholders": {
+      "w": {
+        "type": "String"
+      }
+    }
+  },
   "autoWarmup": "ابدأ بمجموعات الإحماء",
   "autoWarmupHint": "يضيف مجموعات إحماء تصاعدية عند فتح التمرين.",
   "trainReminder": "تذكير بالتمرين",
@@ -576,13 +1003,34 @@
   "reminderSmartHint": "يستخدم الأيام والأوقات التي تتمرن فيها فعليًا ويبقى صامتًا إذا كنت قد تمرنت في ذلك اليوم بالفعل.",
   "reminderSmartEmpty": "سجّل بضعة تمارين أخرى ليتعلم عاداتك.",
   "habitFocus": "ما تتمرن عليه عادةً يوم {day}",
+  "@habitFocus": {
+    "placeholders": {
+      "day": {
+        "type": "String"
+      }
+    }
+  },
   "duplicateRoutine": "تكرار الروتين",
   "copySuffix": "{name} (نسخة)",
+  "@copySuffix": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "saveAsRoutine": "حفظ كروتين",
   "savedAsRoutine": "تم الحفظ كروتين",
   "templates": "روتينات جاهزة",
   "templatesHint": "روتينات كلاسيكية مبنية من مكتبتك. يمكنك تعديل كل شيء بعدها.",
   "templateAdded": "{n, plural, =1{تمت إضافة روتين واحد} other{تمت إضافة {n} روتينات}}",
+  "@templateAdded": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "tplFullbody": "ثلاث تمارين لكامل الجسم أسبوعيًا. مثالي للبداية.",
   "tplPpl": "دفع وسحب وأرجل. ثلاثة أو ستة أيام أسبوعيًا.",
   "tplUpperlower": "الجزء العلوي والسفلي، أربعة أيام أسبوعيًا.",
@@ -590,6 +1038,13 @@
   "tplStartingstrength": "قرفصاء في كل تمرين، مع تمرينين بالتناوب.",
   "tplHome": "لا شيء سوى عقلة وأرضية.",
   "dayCount": "{n, plural, =1{يوم واحد} other{{n} أيام}}",
+  "@dayCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "logRpe": "تسجيل الجهد (RPE)",
   "rpeHint": "10 = لا يمكن تكرار إضافي؛ 8 = نحو تكرارين احتياطيين.",
   "superset": "سوبر سيت",
@@ -598,6 +1053,13 @@
   "aiRoutine": "روتين بالذكاء الاصطناعي",
   "aiIntro": "لا يتواصل GymMane مباشرةً مع أي ذكاء اصطناعي. تصدّر قائمة تمارينك وتلصقها في المساعد الذي تستخدمه ثم تستورد رده. لا شيء يغادر هاتفك تلقائيًا.",
   "aiMissing": "{n, plural, =1{اسم واحد غير موجود في مكتبتك} other{{n} أسماء غير موجودة في مكتبتك}}",
+  "@aiMissing": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "importApps": "التطبيقات المدعومة",
   "importOtherCsv": "أي ملف CSV آخر يحتوي على التاريخ والتمرين والتكرارات والوزن",
   "importAskApp": "تحتاج تطبيقًا آخر؟ اطلب إضافته",
@@ -684,17 +1146,107 @@
   "awardHours100Name": "مئة ساعة",
   "awardHours100Line": "مئة ساعة تحت البار، والمؤقت يعمل.",
   "awardWonOn": "تم الحصول عليها في {date}",
+  "@awardWonOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
   "badgeName": "{id, select, gold{ذهبي} blue{أزرق} green{أخضر} other{شارة}}",
+  "@badgeName": {
+    "placeholders": {
+      "id": {
+        "type": "String"
+      }
+    }
+  },
   "memberSince": "منذ {date}",
+  "@memberSince": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
   "levelShort": "المستوى {n}",
   "levelToNext": "{n, plural, =1{تمرين واحد حتى المستوى {next}} other{{n} تمارين حتى المستوى {next}}}",
+  "@levelToNext": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      },
+      "next": {
+        "type": "int"
+      }
+    }
+  },
+  "@levelShort": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "heightCm": "{n} سم",
+  "@heightCm": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "heatToneName": "{id, select, ember{جمر} green{أخضر} blue{أزرق} mono{رمادي} other{لون}}",
+  "@heatToneName": {
+    "placeholders": {
+      "id": {
+        "type": "String"
+      }
+    }
+  },
   "setsThisWeek": "{n} مجموعات",
+  "@setsThisWeek": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "weekOfGoal": "{n} من {goal} هذا الأسبوع",
+  "@weekOfGoal": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      },
+      "goal": {
+        "type": "int"
+      }
+    }
+  },
   "momentCount": "{n} صور",
+  "@momentCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "photosSelected": "{n} محددة",
   "deletePhotosTitle": "حذف {n} صور؟",
+  "@photosSelected": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "@deletePhotosTitle": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "momentsEmptyHint": "التقط صورة للنادي أو اللوح أو بار محمّل — أي شيء تريد تذكره. تبقى الصور على هاتفك ولا يراها سواك.",
   "awardStreak100Line": "مئة يوم متتالية. لم يعد الأمر دافعًا، بل أصبح عادة.",
   "coverLabel": "الغلاف",
@@ -717,6 +1269,16 @@
   "workoutOverview": "هذا التمرين",
   "allExercisesShort": "الكل",
   "setsDoneOf": "{done}/{total} مجموعات",
+  "@setsDoneOf": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
   "nowLabel": "الآن",
   "deleteWorkout": "حذف التمرين",
   "deleteWorkoutBody": "سيُحذف هذا التمرين وكل مجموعاته من سجلك.",
@@ -743,13 +1305,34 @@
   "onbPlaceWhy": "اختر كل الأماكن التي تتمرن فيها. سنقترح فقط ما يمكنك فعله في كل منها.",
   "onbPlaceGear": "ماذا لديك هناك؟",
   "distanceCol": "المسافة ({unit})",
+  "@distanceCol": {
+    "placeholders": {
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
   "timeCol": "الوقت",
   "timeMinutesTitle": "الوقت (دقائق)",
   "timeSecondsTitle": "الوقت (ثوانٍ)",
   "distanceTitle": "المسافة ({unit})",
+  "@distanceTitle": {
+    "placeholders": {
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
   "holdLabel": "ثبات",
   "stopLabel": "إيقاف",
   "startHold": "ابدأ · {time}",
+  "@startHold": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
   "exerciseTypeLabel": "التسجيل حسب",
   "typeReps": "التكرارات والوزن",
   "typeTime": "الوقت",
@@ -781,14 +1364,35 @@
   "shareWeek": "مشاركة أسبوعي",
   "shareWeekHint": "كل روتيناتك واليوم المخصص لكل منها.",
   "shareMessage": "{name} — افتح الملف باستخدام GymMane لإضافته.",
+  "@shareMessage": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "importRoutines": "استيراد روتينات",
   "importPasteHint": "الصق روتينًا هنا: مشارك من GymMane أو رد من ذكاء اصطناعي أو JSON أو CSV.",
   "pasteAction": "لصق",
-  "routineCount": "{n, plural, =1{روتين واحد} =2{روتينان} few{{n} روتينات} other{{n} روتين}}",
+  "routineCount": "{n, plural, =1{1 routine} other{{n} routines}}",
+  "@routineCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "useTheirSchedule": "استخدام جدوله الأسبوعي أيضًا",
   "useTheirScheduleHint": "الأيام التي يحملها تحل محل ما خططت له في تلك الأيام.",
   "addToMyRoutines": "إضافة إلى روتيناتي",
-  "routinesAdded": "{n, plural, =1{أُضيف روتين واحد} =2{أُضيف روتينان} few{أُضيفت {n} روتينات} other{أُضيف {n} روتين}}",
+  "routinesAdded": "{n, plural, =1{1 routine added} other{{n} routines added}}",
+  "@routinesAdded": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "nothingToImport": "لا يوجد هنا ما يمكن لـ GymMane استيراده",
   "aiStepCopy": "انسخ الطلب. يحتوي على قائمة تمارينك والتنسيق الذي يقرؤه GymMane.",
   "aiStepAsk": "الصقه في أي ذكاء اصطناعي وقل ما تريد: أيام في الأسبوع، الهدف، عدد الأسابيع.",
@@ -801,13 +1405,41 @@
   "shareAsFile": "مشاركة كملف",
   "recoveryTab": "التعافي",
   "recoveryOverall": "الجسم متعافٍ بنسبة {pct}%",
+  "@recoveryOverall": {
+    "placeholders": {
+      "pct": {
+        "type": "int"
+      }
+    }
+  },
   "recoveryAllFresh": "كل شيء متعافٍ. يوم جيد لتمرين أي شيء.",
   "recoveryStill": "ما زال يتعافى: {muscles}",
+  "@recoveryStill": {
+    "placeholders": {
+      "muscles": {
+        "type": "String"
+      }
+    }
+  },
   "recoveryTired": "مُجهد",
   "recoveryFresh": "منتعش",
   "recoveryHint": "اضغط على عضلة لترى مدى تعافيها. المجموعات الأحدث تُحتسب أكثر، والأصعب (حسب RPE) أكثر بعد.",
   "recoveryPct": "متعافٍ بنسبة {pct}%",
+  "@recoveryPct": {
+    "placeholders": {
+      "pct": {
+        "type": "int"
+      }
+    }
+  },
   "readyInHours": "جاهز خلال ~{h} س",
+  "@readyInHours": {
+    "placeholders": {
+      "h": {
+        "type": "int"
+      }
+    }
+  },
   "tplAbcd": "أربعة أيام: صدر وترايسبس، ظهر وبايسبس، أرجل، أكتاف وبطن.",
   "tplAbcde": "خمسة أيام، مجموعة عضلية لكل يوم: صدر، ظهر، أرجل، أكتاف، ذراعان.",
   "elapsedCaps": "المنقضي",
@@ -820,6 +1452,13 @@
   "liveResume": "استئناف",
   "liveNext": "التالي",
   "liveUpNext": "التالي: {name}",
+  "@liveUpNext": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "stickerOpen": "مشاركة على صورة",
   "stickerNoPhoto": "بدون صورة",
   "stickerWorkout": "تمرين",
@@ -839,6 +1478,13 @@
   "radarEmpty": "تمرن بضعة أيام لترى توازنك",
   "radarBalanced": "توازن جيد حتى الآن",
   "radarFocus": "يحتاج إلى المزيد: {list}",
+  "@radarFocus": {
+    "placeholders": {
+      "list": {
+        "type": "String"
+      }
+    }
+  },
   "countdownReady": "استعد",
   "countdownSkip": "اضغط للبدء الآن",
   "countdownSetting": "عدّ تنازلي قبل البدء",
@@ -847,17 +1493,38 @@
   "rirHint": "0 يعني أنك لا تستطيع تكرارًا آخر، و2 يعني أنه بقي لديك تكراران.",
   "addWeekWidget": "إضافة أداة الأسبوع",
   "gamificationSetting": "الميداليات والمستويات",
-  "repCount": "{n, plural, =1{تكرار واحد} =2{تكراران} few{{n} تكرارات} other{{n} تكرارًا}}",
+  "repCount": "{n, plural, =1{{n} rep} other{{n} reps}}",
+  "@repCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "prBestSet": "أفضل مجموعة",
   "weekStartSetting": "يبدأ الأسبوع يوم",
   "stepOutOfWorkout": "إيقاف مؤقت والخروج",
   "saveToRoutine": "حفظ التغييرات في الروتين",
   "routineUpdated": "تم تحديث الروتين",
   "saveChangesTitle": "حفظ التغييرات في {name}؟",
+  "@saveChangesTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "saveChangesBody": "في المرة القادمة التي تبدأه فيها، سيتضمن الروتين هذه التغييرات.",
   "routineOrderChanged": "ترتيب جديد للتمارين",
   "mineOnly": "من إنشائك",
   "createNamed": "غير موجود؟ أنشئ «{name}»",
+  "@createNamed": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "orStartWith": "أو ابدأ بـ",
   "warmupFocus": "الإحماء",
   "warmupFocusHint": "مرونة وتنشيط، بأدوات أو بدونها",
@@ -872,7 +1539,21 @@
   "stepsSettingHint": "يعرض خطوات اليوم في الرئيسية. لا شيء يغادر هاتفك.",
   "stepsToday": "خطوات اليوم",
   "stepsOfGoal": "من {goal}",
+  "@stepsOfGoal": {
+    "placeholders": {
+      "goal": {
+        "type": "String"
+      }
+    }
+  },
   "stepsTodayCount": "{count} خطوة اليوم",
+  "@stepsTodayCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
   "stepsGoal": "هدف الخطوات اليومي",
   "stepsNoAccess": "لا يوجد وصول إلى خطواتك",
   "stepsGrant": "اضغط للسماح بذلك في Health Connect",
@@ -883,6 +1564,13 @@
   "routineDoneToday": "انتهيت لليوم · عمل رائع",
   "trainAgain": "تمرّن مرة أخرى",
   "lastDoneAgo": "{n, plural, =0{أُنجز اليوم} =1{أُنجز أمس} other{قبل {n} يوم}}",
+  "@lastDoneAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "archivedFilter": "المؤرشفة",
   "archiveExercise": "أرشفة التمرين",
   "restoreExercise": "استعادة",
@@ -900,6 +1588,16 @@
   "multiPlanSetting": "أكثر من روتين في اليوم",
   "multiPlanHint": "اضغط كل روتين لهذا اليوم. تأتي بالترتيب الذي تضيفها به.",
   "routineOfDay": "{n} من {total} اليوم",
+  "@routineOfDay": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
   "nextToday": "التالي اليوم",
   "planAboutMe": "عني:",
   "planBody": "{sex}، {age} سنة، الطول {height}، الوزن {weight}.",
@@ -908,9 +1606,46 @@
   "planHistory": "{n, plural, =1{تمرين واحد في آخر 30 يومًا.} other{{n} تمارين في آخر 30 يومًا.}}",
   "planBestLifts": "أفضل المجموعات الأخيرة",
   "planAskFirst": "إذا لم تكن تعرف هدفي (قوة أو عضل أو خسارة دهون أو لياقة عامة) أو مدة كل حصة، فاسألني أولًا برسالة قصيرة. بعدها أجب بـ JSON فقط.",
+  "@planBody": {
+    "placeholders": {
+      "sex": {
+        "type": "String"
+      },
+      "age": {
+        "type": "int"
+      },
+      "height": {
+        "type": "String"
+      },
+      "weight": {
+        "type": "String"
+      }
+    }
+  },
+  "@planDays": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "@planHistory": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "backToTop": "العودة للأعلى",
   "deleteExerciseTitle": "حذف هذا التمرين؟",
   "deleteExerciseBody": "سيُزال «{name}» من مكتبتك ومن روتيناتك. تبقى مجموعاتك السابقة محفوظة.",
+  "@deleteExerciseBody": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "exportForStravaHint": "ارفعه من المتصفح على strava.com/upload/select (تطبيق Strava لا يستورد الملفات). سيظهر كتمرين أوزان مع مجموعاتك.",
   "manualStartTime": "وقت البدء",
   "manualDuration": "المدة",
@@ -929,26 +1664,88 @@
   "groupUngroup": "إزالة المجموعة مع إبقاء الروتينات",
   "groupDeleteAll": "حذف المجموعة وروتيناتها",
   "groupDeleteTitle": "حذف «{name}»؟",
+  "@groupDeleteTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "groupDeleteBody": "سيتم حذف {count}. يبقى سجل تمارينك كما هو.",
+  "@groupDeleteBody": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
   "tplRr": "الروتين الكلاسيكي من r/bodyweightfitness: الجسم كله ثلاثة أيام في الأسبوع. انتقل إلى المستوى التالي حين يصبح سهلًا.",
   "levelUpKicker": "الخطوة التالية",
   "levelUpBody": "3×{reps} في {name} في تمرينين متتاليين. هل أنت مستعد للخطوة التالية؟",
+  "@levelUpBody": {
+    "placeholders": {
+      "reps": {
+        "type": "int"
+      },
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "levelUpSwap": "استبدله في {routine}",
+  "@levelUpSwap": {
+    "placeholders": {
+      "routine": {
+        "type": "String"
+      }
+    }
+  },
   "levelUpSee": "شاهد طريقة الأداء",
   "levelUpLater": "ليس الآن",
   "levelUpStay": "سأبقى على هذا",
   "levelUpSwapped": "أصبح {name} في {routine}",
+  "@levelUpSwapped": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "routine": {
+        "type": "String"
+      }
+    }
+  },
   "levelUpStayed": "لن نقترح الترقي في هذا التمرين",
   "levelHintsSetting": "اقتراح الخطوة التالية",
   "heatmapLabelsSetting": "الأيام والأشهر على خريطة النشاط",
   "rmPercent": "النسبة",
   "rmAtPercent": "{pct} من حدك الأقصى",
+  "@rmAtPercent": {
+    "placeholders": {
+      "pct": {
+        "type": "String"
+      }
+    }
+  },
   "copyWorkout": "نسخ كنص",
   "goalSet": "حدّد هدفًا",
   "goalTargetReps": "التكرارات المستهدفة",
   "goalToGo": "بقي {value}",
+  "@goalToGo": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
   "goalReached": "تم بلوغ الهدف",
   "goalDaysLeft": "{n, plural, =1{بقي يوم واحد} other{بقي {n} يوم}}",
+  "@goalDaysLeft": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "goalOverdue": "فات الموعد",
   "goalDeadline": "الموعد النهائي",
   "goalNoDeadline": "بلا موعد",
@@ -957,8 +1754,22 @@
   "aliasesLabel": "أسماء أخرى (اختياري)",
   "aliasesHint": "أسماء أخرى، مفصولة بفواصل",
   "alsoCalled": "يُعرف أيضًا بـ: {names}",
+  "@alsoCalled": {
+    "placeholders": {
+      "names": {
+        "type": "String"
+      }
+    }
+  },
   "addToRoutine": "إضافة إلى روتين",
   "inRoutines": "{n, plural, =0{ليس في أي روتين بعد} =1{في روتين واحد} other{في {n} روتينات}}",
+  "@inRoutines": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "alreadyInRoutine": "موجود بالفعل",
   "restInRoutine": "الراحة في هذا الروتين",
   "restInRoutineHint": "نفس راحة التمرين",
@@ -966,8 +1777,22 @@
   "swapExercise": "تبديل التمرين",
   "swapShort": "تبديل",
   "swapHint": "بدلًا من {name}، لهذا اليوم فقط. عند الانتهاء يمكنك إبقاؤه في الروتين.",
+  "@swapHint": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "swapKeepsDone": "المجموعات التي أنهيتها تبقى؛ والتمرين الجديد يكمل الباقي.",
   "swapSameMuscle": "نفس العضلة · {muscle}",
+  "@swapSameMuscle": {
+    "placeholders": {
+      "muscle": {
+        "type": "String"
+      }
+    }
+  },
   "swapDoneBefore": "قمت به من قبل",
   "multiPlanSettingHint": "أكثر من روتين في نفس يوم الأسبوع.",
   "levelHintsHint": "عندما يصبح التمرين سهلًا، يقترح عليك النسخة الأصعب.",
@@ -978,6 +1803,16 @@
   "placeTapToUse": "اضغط للتمرن هنا",
   "intervalDays": "أيام",
   "goalDaysShort": "{done}/{target} أيام",
+  "@goalDaysShort": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "target": {
+        "type": "int"
+      }
+    }
+  },
   "toolNameRpe": "الوزن حسب RPE",
   "toolTitleRpe": "الوزن حسب RPE",
   "toolDescRpe": "أي وزن للجهد الذي تريده",
@@ -985,15 +1820,39 @@
   "toolTitleDots": "مستوى القوة (DOTS)",
   "toolDescDots": "قوتك بالنسبة لوزنك",
   "rpeResultHint": "لـ {reps} تكرارات عند RPE {rpe}",
+  "@rpeResultHint": {
+    "placeholders": {
+      "reps": {
+        "type": "int"
+      },
+      "rpe": {
+        "type": "String"
+      }
+    }
+  },
   "rpeYourSet": "مجموعة أنهيتها للتو",
   "rpeGoal": "ما تريد فعله",
   "rpeOneRmLine": "الحد الأقصى المقدّر: {value}",
+  "@rpeOneRmLine": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
   "rpeExplain": "RPE 10 يعني أنك لم تستطع تكرارًا آخر؛ 8 يعني أنه بقي لديك اثنان.",
   "dotsBestLifts": "أفضل أرقامك",
   "dotsSquat": "القرفصاء",
   "dotsBench": "ضغط البنش",
   "dotsDeadlift": "الرفعة الميتة",
   "dotsTotalLine": "المجموع: {value}",
+  "@dotsTotalLine": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
   "dotsExplain": "يقارن قوتك بقوة أي شخص مهما كان وزنه. استخدم أفضل تكرار واحد لك أو الحد الأقصى المقدّر.",
   "dotsLevel0": "مبتدئ",
   "dotsLevel1": "متوسط",
@@ -1009,6 +1868,13 @@
   "toolDescFfmi": "كمية العضل بالنسبة لطولك",
   "ffmiBodyFat": "دهون الجسم",
   "ffmiLeanLine": "الكتلة الخالية من الدهون: {value}",
+  "@ffmiLeanLine": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
   "ffmiExplain": "مثل مؤشر كتلة الجسم لكن بدون الدهون: يحسب كتلتك الخالية من الدهون فقط، ومعدّل حسب طولك لتكون المقارنة عادلة بين الطوال والقصار.",
   "ffmiLevel0": "أقل من المتوسط",
   "ffmiLevel1": "متوسط",
@@ -1031,12 +1897,39 @@
   "prBestWorkout": "أفضل تمرين",
   "mergeExercise": "دمج",
   "mergeExerciseInto": "دمج {name} في…",
+  "@mergeExerciseInto": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "mergeExerciseTitle": "دمج التمارين؟",
   "mergeExerciseBody": "ينتقل كل سجل «{from}» إلى «{to}». يبقى «{from}» في مكتبتك. لا يمكن التراجع عن ذلك.",
+  "@mergeExerciseBody": {
+    "placeholders": {
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
   "mergedToast": "تم دمج السجل",
   "nutrition": "التغذية",
   "nutritionHomeEmpty": "الماء والبروتين والسعرات",
   "nutritionHomeDetail": "{energy} · {protein} غ بروتين",
+  "@nutritionHomeDetail": {
+    "placeholders": {
+      "energy": {
+        "type": "String"
+      },
+      "protein": {
+        "type": "int"
+      }
+    }
+  },
   "nutritionToday": "اليوم",
   "nutritionYesterday": "أمس",
   "nutritionGoals": "أهداف اليوم",
@@ -1051,6 +1944,13 @@
   "addSupplement": "مكمل جديد",
   "supplementNameHint": "كرياتين، فيتامين د…",
   "removeSupplementTitle": "حذف {name}؟",
+  "@removeSupplementTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "removeSupplementBody": "تُحذف معه الأيام التي علّمته فيها.",
   "suppCreatine": "كرياتين",
   "suppVitaminD": "فيتامين د",
@@ -1071,6 +1971,13 @@
   "cutoutTry": "قص",
   "cutoutKeep": "الصورة كاملة",
   "deleteFoodTitle": "حذف {name}؟",
+  "@deleteFoodTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "deleteFoodBody": "سيُحذف من أطعمتك. ما سجلته يبقى.",
   "mealBreakfast": "الفطور",
   "mealLunch": "الغداء",
@@ -1078,19 +1985,47 @@
   "mealSnacks": "وجبات خفيفة",
   "nothingLogged": "لا شيء مسجل بعد.",
   "addToMeal": "إضافة إلى {meal}",
+  "@addToMeal": {
+    "placeholders": {
+      "meal": {
+        "type": "String"
+      }
+    }
+  },
   "quickAdd": "إضافة سريعة",
   "quickAddHint": "الأرقام فقط، دون حفظ طعام.",
   "quickAddName": "ماذا كان؟ (اختياري)",
   "logFood": "إضافة",
   "loggedToast": "أُضيف إلى {meal}",
+  "@loggedToast": {
+    "placeholders": {
+      "meal": {
+        "type": "String"
+      }
+    }
+  },
   "entryRemoved": "تم الحذف",
   "goalsFromProfile": "احسب من ملفي",
   "goalsFromProfileHint": "السعرات من ملفك، و1.8 غ بروتين و35 مل ماء لكل كغ من الوزن.",
   "kcalEaten": "المأكول",
   "kcalRemaining": "المتبقي",
   "waterTapHint": "اضغط على الكوب: + {amount}",
+  "@waterTapHint": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
   "shakeEmpty": "اضغط لاختيار مشروبك",
   "shakeTapHint": "اضغط: + {name}",
+  "@shakeTapHint": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "shakePick": "مشروب البروتين",
   "shakePickHint": "اضغط على الكوب فيُسجَّل دفعة واحدة.",
   "proteinLetter": "ب",
@@ -1100,8 +2035,22 @@
   "addBurnedHint": "تُقدَّر السعرات المحروقة من مدة تمرينك ووزنك.",
   "amountLabel": "الكمية",
   "amountIn": "الكمية ({unit})",
+  "@amountIn": {
+    "placeholders": {
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
   "bodyweightLabel": "الوزن",
   "copiedMealToast": "{count, plural, =1{تم نسخ طعام واحد} other{تم نسخ {count} أطعمة}}",
+  "@copiedMealToast": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "deleteSavedMealBody": "ما سجلته يبقى كما هو.",
   "fiberLabel": "الألياف",
   "sugarLabel": "السكر",
@@ -1111,17 +2060,90 @@
   "mealOptions": "خيارات الوجبة",
   "moreNutrients": "الألياف والسكر والصوديوم",
   "ofGoal": "من {goal} {unit}",
+  "@ofGoal": {
+    "placeholders": {
+      "goal": {
+        "type": "int"
+      },
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
   "per100": "لكل 100 {unit}",
+  "@per100": {
+    "placeholders": {
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
   "perServingShort": "لكل حصة",
   "portionUnit": "{count, plural, =1{قطعة واحدة} other{{count} قطع}}",
+  "@portionUnit": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "portionSlice": "{count, plural, =1{شريحة واحدة} other{{count} شرائح}}",
+  "@portionSlice": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "portionScoop": "{count, plural, =1{مغرفة واحدة} other{{count} مغارف}}",
+  "@portionScoop": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "portionTbsp": "{count, plural, =1{ملعقة كبيرة} other{{count} ملاعق كبيرة}}",
+  "@portionTbsp": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "portionTsp": "{count, plural, =1{ملعقة صغيرة} other{{count} ملاعق صغيرة}}",
+  "@portionTsp": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "portionCup": "{count, plural, =1{كوب واحد} other{{count} أكواب}}",
+  "@portionCup": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "portionGlass": "{count, plural, =1{كأس واحدة} other{{count} كؤوس}}",
+  "@portionGlass": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "recentFoods": "الأخيرة",
   "recipeItems": "{count, plural, =1{طعام واحد} other{{count} أطعمة}}",
+  "@recipeItems": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "renameLabel": "إعادة التسمية",
   "repeatFrom": "كرّر من",
   "repeatNone": "لا يوجد شيء مسجل لهذه الوجبة في أيام أخرى بعد.",
@@ -1136,6 +2158,13 @@
   "searchFoodsHint": "ابحث عن طعام",
   "searchFoodsEmpty": "ابحث بين أكثر من 500 طعام بالصور، أو أنشئ أطعمتك.",
   "searchFoodsNone": "لا نتائج لـ «{query}». أنشئه كطعام خاص بك.",
+  "@searchFoodsNone": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
   "servingWeight": "غرام",
   "weekAverage": "هذا الأسبوع",
   "weekAvgEnergy": "المتوسط اليومي",
@@ -1143,17 +2172,69 @@
   "weekEnergyOnTarget": "السعرات ضمن الهدف",
   "weekProteinOnTarget": "البروتين ضمن الهدف",
   "weekProteinAvg": "{grams} غ بروتين يومياً",
+  "@weekProteinAvg": {
+    "placeholders": {
+      "grams": {
+        "type": "int"
+      }
+    }
+  },
   "weekDaysOnTarget": "{met} من {days} أيام ضمن الهدف",
+  "@weekDaysOnTarget": {
+    "placeholders": {
+      "met": {
+        "type": "int"
+      },
+      "days": {
+        "type": "int"
+      }
+    }
+  },
   "weekLoggedDays": "{count, plural, =1{يوم واحد مسجل} other{{count} أيام مسجلة}}",
+  "@weekLoggedDays": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "weekNoData": "لا شيء مسجل بعد",
   "weekOnTargetHint": "ضمن الهدف: السعرات في حدود 10% من الهدف و90% على الأقل من البروتين.",
   "weightGoalLabel": "الوزن المستهدف",
   "weightGoalTitle": "الوزن المستهدف ({unit})",
+  "@weightGoalTitle": {
+    "placeholders": {
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
   "weightGoalLine": "الهدف {weight}",
+  "@weightGoalLine": {
+    "placeholders": {
+      "weight": {
+        "type": "String"
+      }
+    }
+  },
   "weightGoalNone": "اضغط مطولاً لتحديد هدف",
   "weightGoalReached": "تم بلوغ الهدف",
   "weightToLose": "باقٍ {weight} للنزول",
+  "@weightToLose": {
+    "placeholders": {
+      "weight": {
+        "type": "String"
+      }
+    }
+  },
   "weightToGain": "باقٍ {weight} للزيادة",
+  "@weightToGain": {
+    "placeholders": {
+      "weight": {
+        "type": "String"
+      }
+    }
+  },
   "aminoHis": "الهستيدين",
   "aminoIle": "الأيزوليوسين",
   "aminoLeu": "الليوسين",
@@ -1172,12 +2253,36 @@
   "qualityNoDataHint": "سجّل أطعمة من القاعدة لترى أحماضك الأمينية.",
   "qualityAllCovered": "الأحماض الأمينية الأساسية التسعة مغطاة كلها.",
   "qualityLimiting": "ينقصك {amino}. اجمعه مع أطعمة غنية به.",
+  "@qualityLimiting": {
+    "placeholders": {
+      "amino": {
+        "type": "String"
+      }
+    }
+  },
   "qualityCoverage": "محسوب على {pct}% من بروتينك: أطعمتك الخاصة بلا بيانات أحماض أمينية.",
+  "@qualityCoverage": {
+    "placeholders": {
+      "pct": {
+        "type": "int"
+      }
+    }
+  },
   "fatTypes": "أنواع الدهون",
   "fatSaturated": "مشبعة",
   "fatMono": "أحادية",
   "fatPoly": "متعددة",
   "satLimitLine": "المشبعة {grams} غ من حد أقصى {limit} غ (10% من السعرات)",
+  "@satLimitLine": {
+    "placeholders": {
+      "grams": {
+        "type": "String"
+      },
+      "limit": {
+        "type": "int"
+      }
+    }
+  },
   "sugarSodium": "السكر والصوديوم",
   "shakeCard": "مشروب البروتين",
   "mealOther": "وجبة",
@@ -1202,11 +2307,35 @@
   "prepAddIngredient": "إضافة مكوّن",
   "prepCookedWeight": "الوزن بعد الطهي",
   "prepCookedHint": "زِن القدر بعد الطهي لأرقام دقيقة. إن تُرك فارغاً يُستخدم الوزن النيء ({grams} غ).",
+  "@prepCookedHint": {
+    "placeholders": {
+      "grams": {
+        "type": "String"
+      }
+    }
+  },
   "prepNeedWeight": "أدخل الوزن بعد الطهي: بعض المكونات بلا غرامات.",
   "prepLeftOf": "تبقّى {left} من {total}",
+  "@prepLeftOf": {
+    "placeholders": {
+      "left": {
+        "type": "String"
+      },
+      "total": {
+        "type": "String"
+      }
+    }
+  },
   "prepOfWhatsLeft": "% من المتبقي",
   "prepAll": "الكل",
   "prepLogAmount": "سجّل {grams}",
+  "@prepLogAmount": {
+    "placeholders": {
+      "grams": {
+        "type": "String"
+      }
+    }
+  },
   "prepWeighLeft": "زِن المتبقي",
   "prepFinished": "انتهت هذه الدفعة.",
   "approxValues": "تقريبي",
@@ -1214,12 +2343,36 @@
   "editValuesHint": "يغيّر هذا الإدخال فقط. لتصحيح الطعام للمرات القادمة عدّله من أطعمتي.",
   "editLibraryHint": "يُحفظ كطعام خاص بك بالصورة نفسها",
   "per100Line": "{energy} لكل 100 {unit}",
+  "@per100Line": {
+    "placeholders": {
+      "energy": {
+        "type": "String"
+      },
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
   "rawLabel": "نيء",
   "cookedLabel": "مطهو",
   "rawHint": "الوزن قبل الطهي",
   "cookedHint": "الوزن بعد الطهي (×{factor} من الوزن النيء)",
+  "@cookedHint": {
+    "placeholders": {
+      "factor": {
+        "type": "String"
+      }
+    }
+  },
   "servingsUnit": "حصص",
   "logAmount": "سجّل · {energy}",
+  "@logAmount": {
+    "placeholders": {
+      "energy": {
+        "type": "String"
+      }
+    }
+  },
   "catFruit": "فواكه",
   "catVeg": "خضار",
   "catMeat": "لحوم",
@@ -1243,6 +2396,80 @@
   "energySplit": "من أين تأتي السعرات",
   "typicalServing": "الحصة المعتادة",
   "cookedYieldLine": "يزن {factor}× وزنه نيئًا",
+  "@cookedYieldLine": {
+    "placeholders": {
+      "factor": {
+        "type": "String"
+      }
+    }
+  },
+  "readyDishes": "Dishes",
+  "weightLastLine": "Last weigh-in {weight}",
+  "@weightLastLine": {
+    "placeholders": {
+      "weight": {
+        "type": "String"
+      }
+    }
+  },
+  "proteinAnimalShort": "Animal",
+  "proteinPlantShort": "Plant",
+  "kcalFromMacros": "These macros add up to about {value}",
+  "@kcalFromMacros": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "useValue": "Use",
+  "suppRowHint": "Tap to mark · hold for details",
+  "suppPhoto": "Photo",
+  "suppDose": "Dose",
+  "suppDoseHint": "5 g, 2 capsules…",
+  "suppRemind": "Remind me",
+  "mealPlanDefault": "Plan {n}",
+  "@mealPlanDefault": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "mealPlansTitle": "Meal plans",
+  "mealPlanNew": "New plan",
+  "fromPlan": "From {name}",
+  "@fromPlan": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "logPlan": "Log",
+  "planFromDay": "Copy this day",
+  "planNewHint": "Plan your days like your routines, then log a whole meal with one tap.",
+  "planLogDay": "Log the empty meals",
+  "planLogged": "{n, plural, =1{1 food logged} other{{n} foods logged}}",
+  "@planLogged": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "planNoPlan": "No plan",
+  "planWeekHint": "Tap a day to give it a plan.",
+  "planDuplicate": "Duplicate",
+  "planDeleteTitle": "Delete {name}?",
+  "@planDeleteTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "planDeleteBody": "Your logged days stay as they are.",
   "sectionBeta": "تجريبي",
   "nutritionBeta": "التغذية",
   "nutritionBetaHint": "الوجبات والماء والبروتين والمكملات. ما زالت قيد التطوير: تبقى بياناتك حتى لو أوقفتها.",
@@ -1257,5 +2484,167 @@
   "nutritionAboutBetaTitle": "ما زالت تجريبية",
   "nutritionAboutBeta": "إذا افتقدت شيئًا، فاقترحه على GitHub. ما عدا الماسح الضوئي أو قاعدة أطعمة أكبر: فإلى جانب خصوصيتك، سيصبح التطبيق أثقل بكثير. لا تحتاج إلى التغذية؟ أوقفها من الإعدادات، وتبقى بياناتك.",
   "nutritionAboutSuggest": "اقترح فكرة",
-  "nutritionAboutOk": "فهمت"
+  "nutritionAboutOk": "فهمت",
+  "planShare": "Share",
+  "planImport": "Import a plan",
+  "planImported": "{n, plural, =1{1 plan imported} other{{n} plans imported}}",
+  "@planImported": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "planImportNone": "That file has no meal plans.",
+  "planMoveUp": "Move up",
+  "planMoveDown": "Move down",
+  "cutoutEdit": "Touch up cutout",
+  "cutoutEditHint": "Drag to erase or restore. Tap an area to remove or bring it back whole. Pinch to zoom.",
+  "cutoutErase": "Erase",
+  "cutoutRestore": "Restore",
+  "cutoutReset": "Back to automatic",
+  "cutoutByHand": "Cut out by hand",
+  "notifSuppTitleFor": "Time to take: {names}",
+  "@notifSuppTitleFor": {
+    "placeholders": {
+      "names": {
+        "type": "String"
+      }
+    }
+  },
+  "notifSuppTap": "Tick it off in GymMane once you've taken it.",
+  "suppNoneToday": "Nothing to take today.",
+  "suppOtherDays": "Other days",
+  "suppEveryN": "{n, plural, =1{Every day} other{Every {n} days}}",
+  "@suppEveryN": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "suppDaily": "Every day",
+  "suppFromDate": "from {date}",
+  "@suppFromDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "suppUntilDate": "until {date}",
+  "@suppUntilDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "suppSomeDays": "Some days",
+  "suppEveryShort": "Every X days",
+  "suppWhen": "When",
+  "suppEveryLead": "Every",
+  "suppEveryTail": "{n, plural, =1{day} other{days}}",
+  "@suppEveryTail": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "suppStarts": "Starts",
+  "suppEnds": "Ends",
+  "suppTomorrow": "Tomorrow",
+  "suppPickDate": "Pick a date",
+  "suppNever": "Never",
+  "suppOneWeek": "In 1 week",
+  "suppOneMonth": "In 1 month",
+  "planPickHint": "Pick the plan for this day, or make a new one.",
+  "planSetForDay": "Plan set for {day}",
+  "@planSetForDay": {
+    "placeholders": {
+      "day": {
+        "type": "String"
+      }
+    }
+  },
+  "planSaved": "Plan saved",
+  "planDiscardTitle": "Discard changes?",
+  "planDiscardBody": "What you changed won't be saved.",
+  "planDiscard": "Discard",
+  "planEdit": "Edit plan",
+  "planNameHint": "Plan name",
+  "planDaysQuestion": "Which days?",
+  "planDaysHint": "On those days it shows up in Nutrition so you can log it in one tap.",
+  "planDaysNone": "Pick at least one day, or it won't show up anywhere.",
+  "planNothingToLog": "Those meals are already logged",
+  "planSave": "Save plan",
+  "planToday": "Today's plan",
+  "planLogRest": "Log the rest",
+  "dishNew": "Create my dish",
+  "dishNewHint": "Pick ingredients and amounts, save it and log it in one tap.",
+  "dishEdit": "Edit dish",
+  "dishNameHint": "E.g. Mum's lentils",
+  "dishIngredients": "Ingredients",
+  "dishEmptyHint": "Add what goes in it with the amount you usually eat.",
+  "dishSave": "Save dish",
+  "dishNeedsName": "Give it a name",
+  "dishNeedsItems": "Add at least one ingredient",
+  "suppHistory": "Last 14 days",
+  "suppTakenOf": "{n} of {total} taken",
+  "@suppTakenOf": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "suppNoReminder": "No reminder",
+  "suppMarkTaken": "Mark as taken",
+  "suppUnmark": "Unmark",
+  "suppEdit": "Edit",
+  "mealMoveTo": "Move to",
+  "mealClear": "Clear meal",
+  "mealCleared": "Meal cleared",
+  "movedMealToast": "{count, plural, =1{1 food moved} other{{count} foods moved}}",
+  "@movedMealToast": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "repeatWholeDay": "Repeat the whole day",
+  "createFoodNamed": "Create “{name}”",
+  "@createFoodNamed": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "entryDay": "Day",
+  "movedToDay": "Moved",
+  "favFoodsHint": "Tap ☆ on a food",
+  "favFoodsEmpty": "Tap the star on any food to keep it here, one tap away.",
+  "savedMealsCount": "{count, plural, =1{1 meal} other{{count} meals}}",
+  "@savedMealsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "savedMealsEmpty": "Save a meal from its ••• menu, or build your own dish.",
+  "sugarLimitLabel": "Sugar limit",
+  "sodiumLimitLabel": "Sodium limit",
+  "waterOptions": "Water options",
+  "waterNone": "No water logged yet.",
+  "waterDailyGoal": "Daily water",
+  "trackersScreen": "Screen",
+  "vesselMotion": "Moving water and shake",
+  "vesselMotionHint": "Turn it off if the screen feels slow: the glasses still fill up, they just stop moving."
 }
