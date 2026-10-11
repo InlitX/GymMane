@@ -1,8 +1,28 @@
 {
   "@@locale": "ru",
   "languageName": "Русский",
+  "@languageName": {
+    "description": "This language, written in itself. Shown in the language picker."
+  },
   "vsLastMonthLabel": "{pct}% к прошлому месяцу",
+  "@vsLastMonthLabel": {
+    "placeholders": {
+      "pct": {
+        "type": "String"
+      }
+    }
+  },
   "levelStreakLabel": "Уровень {level} · {streak}",
+  "@levelStreakLabel": {
+    "placeholders": {
+      "level": {
+        "type": "int"
+      },
+      "streak": {
+        "type": "String"
+      }
+    }
+  },
   "save": "СОХРАНИТЬ",
   "cancel": "Отмена",
   "cancelCaps": "ОТМЕНА",
@@ -26,7 +46,14 @@
   "routines": "ПРОГРАММЫ",
   "tools": "ИНСТРУМЕНТЫ",
   "firstSessionHint": "Выбери мышцы и запиши первую тренировку",
-  "exerciseCount": "{n, plural, one{{n} упражнение} few{{n} упражнения} many{{n} упражнений} other{{n} упражнения}}",
+  "exerciseCount": "{n, plural, =1{{n} exercise} other{{n} exercises}}",
+  "@exerciseCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "pushDay": "ЖИМОВОЙ ДЕНЬ",
   "pullDay": "ТЯГОВЫЙ ДЕНЬ",
   "legDay": "ДЕНЬ НОГ",
@@ -43,11 +70,25 @@
   "nothingForFocus": "Для этого фокуса пока ничего нет",
   "goBackPick": "Вернись и выбери мышцу, для которой в библиотеке есть упражнения.",
   "pickedHint": "Мы собрали тренировку за тебя — нажми, чтобы добавить или убрать любое из {n}.",
+  "@pickedHint": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "pickAnExercise": "ВЫБЕРИ УПРАЖНЕНИЕ",
   "searchAllExercises": "Найти любое упражнение…",
   "noExercisesMatch": "Ничего не найдено",
   "createItInstead": "Создать своё упражнение",
-  "startCount": "СТАРТ · {n, plural, one{{n} УПРАЖНЕНИЕ} few{{n} УПРАЖНЕНИЯ} many{{n} УПРАЖНЕНИЙ} other{{n} УПРАЖНЕНИЯ}}",
+  "startCount": "START · {n, plural, =1{{n} EXERCISE} other{{n} EXERCISES}}",
+  "@startCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "inProgress": "ИДЁТ",
   "paused": "ПАУЗА",
   "last": "ПРОШЛЫЙ",
@@ -62,26 +103,78 @@
   "setCol": "№",
   "repsCol": "ПОВТОРЫ",
   "weightCol": "ВЕС ({unit})",
+  "@weightCol": {
+    "placeholders": {
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
   "repsTitle": "ПОВТОРЫ",
   "weightTitle": "ВЕС ({unit})",
+  "@weightTitle": {
+    "placeholders": {
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
   "sessionComplete": "ТРЕНИРОВКА ЗАПИСАНА",
   "finishHeadlinePr": "Новый личный рекорд",
   "finishHeadlineGoal": "Недельная цель взята",
   "finishHeadlineStreak": "Серия жива",
   "finishHeadlineDefault": "Ещё одна в копилку",
-  "finishBodyPr": "Ты поднял больше, чем когда-либо, в {prs, plural, one{одном упражнении} few{{prs} упражнениях} many{{prs} упражнениях} other{{prs} упражнениях}}. Теперь это в твоих рекордах.",
+  "finishBodyPr": "You lifted more than ever on {prs, plural, =1{an exercise} other{{prs} exercises}}. It is in your records now.",
+  "@finishBodyPr": {
+    "placeholders": {
+      "prs": {
+        "type": "int"
+      }
+    }
+  },
   "finishBodyGoal": "Ты сделал столько тренировок, сколько наметил на эту неделю.",
   "finishBodyStreak": "{streak} дней подряд. Самое трудное — не останавливаться.",
+  "@finishBodyStreak": {
+    "placeholders": {
+      "streak": {
+        "type": "int"
+      }
+    }
+  },
   "finishBodyDefault": "Записано и учтено. Цифры двигает регулярность.",
   "vsLastTime": "ПРОТИВ ПРОШЛОГО РАЗА",
   "firstTime": "Записано впервые",
-  "prCount": "{n, plural, one{{n} новый рекорд} few{{n} новых рекорда} many{{n} новых рекордов} other{{n} новых рекорда}}",
+  "prCount": "{n, plural, =1{{n} new record} other{{n} new records}}",
+  "@prCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "duration": "ДЛИТЕЛЬНОСТЬ",
   "setsCaps": "ПОДХОДЫ",
   "exerciseXofY": "УПРАЖНЕНИЕ {i} ИЗ {n}",
+  "@exerciseXofY": {
+    "placeholders": {
+      "i": {
+        "type": "int"
+      },
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "decrease": "Уменьшить",
   "increase": "Увеличить",
   "markSet": "Отметить подход {n} как выполненный",
+  "@markSet": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "pauseWorkout": "Поставить тренировку на паузу",
   "resumeWorkout": "Продолжить тренировку",
   "discardTitle": "Отменить тренировку?",
@@ -98,48 +191,111 @@
   "allTimeTime": "ВРЕМЯ",
   "allTimeSets": "ПОДХОДОВ",
   "consistency": "РЕГУЛЯРНОСТЬ",
-  "sessionsLogged": "{n, plural, one{записана {n} тренировка} few{записано {n} тренировки} many{записано {n} тренировок} other{записано {n} тренировки}}",
+  "sessionsLogged": "{n, plural, =1{{n} session logged} other{{n} sessions logged}}",
+  "@sessionsLogged": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "streakDays": "серия {n} дн.",
+  "@streakDays": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "bodyweight": "ВЕС ТЕЛА",
   "logBodyweight": "ЗАПИСАТЬ ВЕС",
   "trackWeight": "Следи за своим весом со временем",
   "muscleMap": "КАРТА МЫШЦ",
   "days7": "7Д",
   "days30": "30Д",
-  "days90": "90Д",
-  "days365": "1Г",
-  "daysAll": "Всё",
-  "weeklyAvgTitle": "Среднее за неделю",
-  "weekOfDate": "Неделя с {date}",
-  "weightChangeRange": "{change} за этот период",
+  "days90": "90D",
+  "days365": "1Y",
+  "daysAll": "All",
+  "weeklyAvgTitle": "Weekly average",
+  "weekOfDate": "Week of {date}",
+  "@weekOfDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "weightChangeRange": "{change} in this period",
+  "@weightChangeRange": {
+    "placeholders": {
+      "change": {
+        "type": "String"
+      }
+    }
+  },
   "heatLow": "Не тронуто",
   "heatHigh": "Полный объём",
   "muscleMapEmpty": "Запиши тренировку — и тело начнёт подсвечиваться здесь.",
   "muscleMapHint": "Нажми на мышцу, чтобы увидеть, сколько ей досталось.",
   "muscleMapBehind": "Отстают: {names}",
+  "@muscleMapBehind": {
+    "placeholders": {
+      "names": {
+        "type": "String"
+      }
+    }
+  },
   "ofTarget": "{pct}% от цели",
+  "@ofTarget": {
+    "placeholders": {
+      "pct": {
+        "type": "int"
+      }
+    }
+  },
   "muscleSplit": "РАСПРЕДЕЛЕНИЕ ОБЪЁМА",
   "personalRecords": "ЛИЧНЫЕ РЕКОРДЫ",
   "strength1rm": "СИЛА · ОЦЕНКА 1ПМ",
   "strengthEmpty": "Запиши упражнение дважды — и здесь появится кривая силы.",
   "oneRmEst": "1ПМ ≈ {w}",
+  "@oneRmEst": {
+    "placeholders": {
+      "w": {
+        "type": "String"
+      }
+    }
+  },
   "restDayShort": "День отдыха",
   "restDay": "День отдыха — ничего не записано.",
   "delete": "Удалить",
   "deleteEntry": "Удалить эту запись?",
   "deleteEntryBody": "«{name}» исчезнет из этого дня, а также из рекордов и графиков.",
+  "@deleteEntryBody": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "bodyweightHistory": "ИСТОРИЯ",
   "exercisesCaps": "УПРАЖНЕНИЯ",
   "timeCaps": "ВРЕМЯ",
-  "libraryCount": "{n, plural, one{{n} упражнение в твоей библиотеке} few{{n} упражнения в твоей библиотеке} many{{n} упражнений в твоей библиотеке} other{{n} упражнения в твоей библиотеке}}",
+  "libraryCount": "{n, plural, =1{{n} exercise in your library} other{{n} exercises in your library}}",
+  "@libraryCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "searchExercises": "Поиск упражнений",
   "muscleFilter": "МЫШЦА",
   "levelFilter": "УРОВЕНЬ",
-  "kindLabel": "ТИП",
-  "kindStrength": "Силовые",
-  "kindCalisthenics": "Калистеника",
-  "kindCardio": "Кардио",
-  "kindStretch": "Растяжка",
+  "kindLabel": "TYPE",
+  "kindStrength": "Strength",
+  "kindCalisthenics": "Calisthenics",
+  "kindCardio": "Cardio",
+  "kindStretch": "Stretching",
   "newExercise": "НОВОЕ УПРАЖНЕНИЕ",
   "exerciseName": "Название упражнения",
   "equipmentLabel": "ИНВЕНТАРЬ",
@@ -162,6 +318,16 @@
   "notes": "ЗАМЕТКИ",
   "notePlaceholder": "Подсказки, настройка, ощущения…",
   "notHere": "Нет «{gear}» в «{place}»",
+  "@notHere": {
+    "placeholders": {
+      "gear": {
+        "type": "String"
+      },
+      "place": {
+        "type": "String"
+      }
+    }
+  },
   "notHereWhy": "Замени на то, что действительно можешь взять сегодня.",
   "altHere": "ЧТО МОЖНО ДЕЛАТЬ ЗДЕСЬ",
   "places": "МОИ МЕСТА",
@@ -171,6 +337,13 @@
   "placeNamePlaceholder": "Дом, зал, парк…",
   "placeGearLabel": "ЧТО ТАМ ЕСТЬ",
   "placeExercises": "Упражнений здесь: {n}",
+  "@placeExercises": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "placeEmptyTitle": "Тренируйся где угодно",
   "placeEmptyBody": "Место — это список инвентаря, который там есть. Выбери одно для начала, потом отредактируешь.",
   "placeDeleteTitle": "Удалить место",
@@ -181,8 +354,22 @@
   "placeFilterLabel": "МЕСТО",
   "noGearOnly": "Без инвентаря",
   "placeActive": "Тренируешься здесь: {name}",
+  "@placeActive": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "journal": "ДНЕВНИК",
-  "noteCount": "{n, plural, =0{Нет заметок} one{{n} заметка} few{{n} заметки} many{{n} заметок} other{{n} заметки}}",
+  "noteCount": "{n, plural, =0{No notes} =1{1 note} other{{n} notes}}",
+  "@noteCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "noteKindNote": "Заметка",
   "noteKindPlan": "План",
   "noteKindDone": "Победа",
@@ -212,10 +399,24 @@
   "noteAddOnDay": "Заметка на этот день",
   "notePrevMonth": "Предыдущий месяц",
   "noteNextMonth": "Следующий месяц",
-  "noteMonthCount": "{n, plural, =0{В этом месяце нет заметок} one{{n} заметка в этом месяце} few{{n} заметки в этом месяце} many{{n} заметок в этом месяце} other{{n} заметки в этом месяце}}",
+  "noteMonthCount": "{n, plural, =0{No notes this month} =1{1 note this month} other{{n} notes this month}}",
+  "@noteMonthCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "measures": "ЗАМЕРЫ",
   "measuresHint": "От шеи до икр — следи, как меняется тело, а не только штанга.",
-  "measureCount": "{n, plural, =0{Ничего не записано} one{{n} замер} few{{n} замера} many{{n} замеров} other{{n} замера}}",
+  "measureCount": "{n, plural, =0{Nothing logged} =1{1 reading} other{{n} readings}}",
+  "@measureCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "measureNoneYet": "Ещё не записано",
   "measureHistory": "ИСТОРИЯ",
   "measureNeck": "Шея",
@@ -231,23 +432,65 @@
   "timeline": "ЛЕНТА",
   "timelineHint": "Та же поза, то же место, тот же свет. Через год сам не поверишь.",
   "timelineEmptyTitle": "Первое фото запускает отсчёт",
-  "photoCount": "{n, plural, =0{Нет фото} one{{n} фото} few{{n} фото} many{{n} фото} other{{n} фото}}",
+  "photoCount": "{n, plural, =0{No photos} =1{1 photo} other{{n} photos}}",
+  "@photoCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "poseFront": "Спереди",
   "poseSide": "Сбоку",
   "poseBack": "Сзади",
   "photoEvery": "НАПОМИНАТЬ",
   "photoEveryDays": "Каждые {n} дн.",
+  "@photoEveryDays": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "photoEveryOff": "Никогда",
   "timelineEvery": "ГРУППИРОВАТЬ КАЖДЫЕ",
   "custom": "Другое",
   "photoNextIn": "{n, plural, =1{Следующее фото завтра} other{Следующее фото через {n} дн.}}",
+  "@photoNextIn": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "photoDueNow": "Пора сделать фото — прямо сегодня",
   "addTodayPhotos": "ДОБАВИТЬ ФОТО ЗА СЕГОДНЯ",
   "posePhoto": "Фото: {pose}",
+  "@posePhoto": {
+    "placeholders": {
+      "pose": {
+        "type": "String"
+      }
+    }
+  },
   "compare": "СРАВНИТЬ",
   "compareNeedTwo": "Сними одну и ту же позу в два разных дня — и сможешь сравнить их здесь.",
   "dayNumber": "День {n}",
-  "daysApart": "{n, plural, =0{Тот же день} one{разница {n} день} few{разница {n} дня} many{разница {n} дней} other{разница {n} дня}}",
+  "@dayNumber": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "daysApart": "{n, plural, =0{Same day} =1{1 day apart} other{{n} days apart}}",
+  "@daysApart": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "deleteEntryTitle": "Удалить этот день",
   "deleteDayBody": "Его фото уйдут вместе с ним, навсегда.",
   "timelinePhotos": "Фото",
@@ -255,11 +498,35 @@
   "timelineBodyEmpty": "Запиши тренировку — и карта мышц начнёт заполняться здесь, без всяких фото.",
   "timelineBodyHint": "Построена по твоим подходам — ничего загружать не нужно.",
   "timelineWindow": "{from} – {to}",
-  "sessionCount": "{n, plural, =0{Нет тренировок} one{{n} тренировка} few{{n} тренировки} many{{n} тренировок} other{{n} тренировки}}",
+  "sessionCount": "{n, plural, =0{No sessions} =1{1 session} other{{n} sessions}}",
+  "@sessionCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "@timelineWindow": {
+    "placeholders": {
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
   "notifPhotoChannel": "Фото прогресса",
   "notifPhotoChannelWhy": "Напоминание, когда пора сделать следующее фото прогресса.",
   "notifPhotoTitle": "Пора сделать фото прогресса",
   "notifPhotoBody": "{n} дн. с прошлого раза. Та же поза, тот же свет.",
+  "@notifPhotoBody": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "share": "ПОДЕЛИТЬСЯ",
   "sharePick": "Что показать?",
   "shareStreak": "Серию и регулярность",
@@ -281,13 +548,34 @@
   "setTypeFailure": "До отказа",
   "addWarmup": "РАЗМИНКА",
   "platesPerSide": "На сторону: {plates}",
+  "@platesPerSide": {
+    "placeholders": {
+      "plates": {
+        "type": "String"
+      }
+    }
+  },
   "howTo": "КАК ДЕЛАТЬ",
   "similar": "ПОХОЖИЕ",
   "primaryLabel": "ОСНОВНЫЕ",
   "secondaryLabel": "ВСПОМОГАТЕЛЬНЫЕ",
   "none": "Нет",
-  "setCount": "{n, plural, one{{n} подход} few{{n} подхода} many{{n} подходов} other{{n} подхода}}",
+  "setCount": "{n, plural, =1{{n} set} other{{n} sets}}",
+  "@setCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "volumeSuffix": "объём {v}",
+  "@volumeSuffix": {
+    "placeholders": {
+      "v": {
+        "type": "String"
+      }
+    }
+  },
   "weeklyPlan": "ПЛАН НА НЕДЕЛЮ",
   "yourRoutines": "ТВОИ ПРОГРАММЫ",
   "noRoutines": "Программ пока нет. Создай одну и добавь упражнения.",
@@ -298,13 +586,41 @@
   "addExercises": "Добавить упражнения",
   "deleteRoutine": "Удалить эту программу?",
   "exercisesWithCount": "УПРАЖНЕНИЯ · {n}",
+  "@exercisesWithCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "setDay": "НАЗНАЧИТЬ НА {day}",
+  "@setDay": {
+    "placeholders": {
+      "day": {
+        "type": "String"
+      }
+    }
+  },
   "newRoutineName": "Новая программа",
   "dragToReorder": "Потяните за ручку с точками, чтобы изменить порядок — в нём вы тренируетесь.",
   "reorderHandle": "Переместить {name}",
+  "@reorderHandle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "removeFromRoutine": "Убрать из программы",
   "dropExercise": "Убрать это упражнение?",
   "dropExerciseBody": "«{name}» уйдёт из этой тренировки. Ничего записанного не потеряется.",
+  "@dropExerciseBody": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "drop": "Убрать",
   "resetData": "Удалить все мои данные",
   "resetTitle": "Удалить всё?",
@@ -320,12 +636,12 @@
   "theme": "Тема",
   "darkTheme": "Тёмная",
   "lightTheme": "Светлая",
-  "amoledTheme": "Чёрная AMOLED",
-  "editDuration": "Длительность тренировки",
-  "sessionName": "Название тренировки",
-  "nameWorkout": "Назвать",
-  "sessionNameHint": "напр. Ноги, Жимы, Всё тело",
-  "secondaryPickHint": "Отметь другие мышцы, которые работают в этом упражнении.",
+  "amoledTheme": "AMOLED black",
+  "editDuration": "Workout length",
+  "sessionName": "Workout name",
+  "nameWorkout": "Name it",
+  "sessionNameHint": "e.g. Legs, Push, Full body",
+  "secondaryPickHint": "Tap the other muscles this exercise works.",
   "languageLabel": "Язык",
   "unitsLabel": "Единицы",
   "restTimer": "Таймер отдыха",
@@ -341,6 +657,13 @@
   "alarmTooLong": "Этот звук длиннее 15 секунд",
   "alarmInvalid": "Не удалось прочитать этот аудиофайл",
   "alarmChanged": "Звук сигнала: «{name}»",
+  "@alarmChanged": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "alarmChangedDefault": "Вернулись к стандартному звуку",
   "addActivityWidget": "Добавить виджет активности",
   "addStatsWidget": "Добавить виджет статистики",
@@ -358,12 +681,26 @@
   "importFromApp": "Импорт из другого приложения",
   "importUnknownFormat": "Этот файл — не выгрузка из Hevy, Strong или FitNotes",
   "importZipNoWeights": "В этом zip нет файла с весом",
-  "importWeights": "{n, plural, one{Загружено {n} взвешивание} few{Загружено {n} взвешивания} many{Загружено {n} взвешиваний} other{Загружено {n} взвешивания}}",
+  "importWeights": "{n, plural, =1{Imported {n} weigh-in} other{Imported {n} weigh-ins}}",
+  "@importWeights": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "importReadFailed": "Не удалось прочитать этот файл",
   "importUnitTitle": "В каких единицах этот файл?",
   "importUnitBody": "В этой выгрузке не сказано, в каких единицах указан вес.",
   "importNothing": "Нового для загрузки нет",
-  "importDone": "{n, plural, one{Загружена {n} тренировка} few{Загружено {n} тренировки} many{Загружено {n} тренировок} other{Загружено {n} тренировки}}",
+  "importDone": "{n, plural, =1{Imported {n} session} other{Imported {n} sessions}}",
+  "@importDone": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "aboutGymmane": "О GymMane",
   "yourProfile": "ТВОЙ ПРОФИЛЬ",
   "autofills": "Подставляется в калькуляторы",
@@ -387,6 +724,13 @@
   "backupFailed": "Не удалось прочитать эту копию",
   "nothingToExport": "Выгружать пока нечего — сначала запиши тренировку",
   "calculatorsCount": "Калькуляторов для твоих тренировок: {n}",
+  "@calculatorsCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "result": "РЕЗУЛЬТАТ",
   "weightLifted": "ПОДНЯТЫЙ ВЕС",
   "repsPerformed": "СДЕЛАНО ПОВТОРОВ",
@@ -400,6 +744,13 @@
   "perSide": "НА СТОРОНУ",
   "justTheBar": "Только гриф.",
   "perSideCount": "× {n} на сторону",
+  "@perSideCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "toolNameRm": "1ПМ",
   "toolNameBmi": "ИМТ",
   "toolNameCal": "Калории",
@@ -433,7 +784,7 @@
   "actModerate": "Умеренная",
   "muscleChest": "Грудь",
   "muscleBack": "Спина",
-  "muscleLowerBack": "Поясница",
+  "muscleLowerBack": "Lower back",
   "muscleShoulders": "Плечи",
   "muscleBiceps": "Бицепс",
   "muscleTriceps": "Трицепс",
@@ -466,6 +817,13 @@
   "diffIntermediate": "Средний",
   "about": "О ПРИЛОЖЕНИИ",
   "version": "Версия {v}",
+  "@version": {
+    "placeholders": {
+      "v": {
+        "type": "String"
+      }
+    }
+  },
   "aboutBlurb": "Сделано теми, кто тягает, для тех, кто тягает.",
   "freeForever": "Бесплатно навсегда",
   "freeForeverWhy": "Без подписок, без рекламы, ничего не спрятано за платной стеной.",
@@ -475,31 +833,62 @@
   "yoursToTakeWhy": "Выгружай их в CSV когда захочешь и удали всё одним нажатием.",
   "whatsInside": "ЧТО ВНУТРИ",
   "exercisesInside": "{n} упражнений",
+  "@exercisesInside": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "exercisesInsideWhy": "Каждое с анимацией и пошаговой инструкцией.",
-  "calculatorsInside": "10 калькуляторов",
-  "calculatorsInsideWhy": "1ПМ, блины, ИМТ, калории, жир, FFMI, разминка, вес по RPE и очки силы DOTS и Wilks — все по опубликованным формулам.",
+  "calculatorsInside": "10 calculators",
+  "calculatorsInsideWhy": "1RM, plates, BMI, calories, body fat, FFMI, warm-up, RPE load, and DOTS and Wilks strength scores — all with published formulas.",
   "mathInside": "Честная математика",
   "mathInsideWhy": "Объём, рекорды и серии считаются по твоим подходам. Здесь ничего не нарисовано для красоты.",
   "streakCaps": "СЕРИЯ",
-  "daysUnit": "{n, plural, one{день} few{дня} many{дней} other{дня}}",
+  "daysUnit": "{n, plural, =1{day} other{days}}",
+  "@daysUnit": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "reset": "СБРОС",
   "welcomeKicker": "ДОБРО ПОЖАЛОВАТЬ В",
   "welcomeBlurb": "Всё остаётся на твоём телефоне. Без аккаунта, без интернета, без оплаты.",
   "welcomeStart": "НАЧАТЬ",
   "onbStep": "ШАГ {i} ИЗ {n}",
+  "@onbStep": {
+    "placeholders": {
+      "i": {
+        "type": "int"
+      },
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "onbNameTitle": "Как к тебе обращаться?",
   "onbNameHint": "Твоё имя",
-  "onbPhotoAdd": "Добавить фото",
-  "onbPhotoChange": "Сменить фото",
-  "onbPhotoTitle": "Добавь лицо в профиль",
-  "onbPhotoWhy": "Необязательно. Фото останется на телефоне, его можно сменить в профиле в любой момент.",
-  "onbPhotoLater": "ПОЗЖЕ",
+  "onbPhotoAdd": "Add a photo",
+  "onbPhotoChange": "Change photo",
+  "onbPhotoTitle": "Put a face to your profile",
+  "onbPhotoWhy": "Optional. It stays on your phone and you can change it any time from your profile.",
+  "onbPhotoLater": "LATER",
   "onbNameWhy": "Нужно только для приветствия. Телефон оно не покидает.",
   "onbBodyTitle": "Пара цифр",
   "onbBodyWhy": "Они питают калькуляторы. Поменять их можно в любой момент в настройках.",
   "onbGoalTitle": "Как часто ты тренируешься?",
   "onbGoalWhy": "Задаёт кольцо недельной цели. Будь честен, а не амбициозен.",
-  "perWeek": "{n, plural, one{{n} тренировка в неделю} few{{n} тренировки в неделю} many{{n} тренировок в неделю} other{{n} тренировки в неделю}}",
+  "perWeek": "{n, plural, =1{{n} session a week} other{{n} sessions a week}}",
+  "@perWeek": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "onbUnitsTitle": "Килограммы или фунты?",
   "next": "ДАЛЕЕ",
   "back": "НАЗАД",
@@ -520,6 +909,13 @@
   "repsOnlyHint": "Записывать это упражнение без веса.",
   "useDefaultArt": "Вернуть стандартную картинку",
   "daysShort": "{n} д",
+  "@daysShort": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "focusCard": "Фокус на сегодня",
   "autoAdvance": "Переходить дальше сам",
   "keepScreenOn": "Не гасить экран во время тренировки",
@@ -529,23 +925,54 @@
   "liveChannel": "Текущая тренировка",
   "liveChannelWhy": "Показывает упражнение, подход и отдых во время тренировки",
   "liveSet": "Подход {n} из {total}",
+  "@liveSet": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
   "liveResting": "Отдых",
   "liveAllDone": "Все подходы выполнены",
   "autoAdvanceHint": "Когда отметишь последний подход упражнения, тренировка перейдёт к следующему.",
   "autoProgress": "Добавлять вес сам",
   "autoProgressHint": "Сделаешь все повторения — следующая тренировка начнётся на {w} тяжелее.",
+  "@autoProgressHint": {
+    "placeholders": {
+      "w": {
+        "type": "String"
+      }
+    }
+  },
   "placePlates": "Блины и гриф",
   "platesAll": "Всё доступно",
-  "platesOwned": "{n, plural, one{{n} размер} few{{n} размера} many{{n} размеров} other{{n} размера}}",
+  "platesOwned": "{n, plural, =1{{n} size} other{{n} sizes}}",
+  "@platesOwned": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "platePairs": "ПАРЫ",
   "plateAchievable": "Ближайший вес, который соберётся: {w}",
+  "@plateAchievable": {
+    "placeholders": {
+      "w": {
+        "type": "String"
+      }
+    }
+  },
   "autoWarmup": "Начинать с разминки",
   "autoWarmupHint": "Добавляет разминочные подходы при открытии тренировки.",
   "trainReminder": "Напоминание о тренировке",
   "trainReminderHint": "Напомнит в это время, только в те дни, на которые стоит программа.",
-  "reminderExactTime": "Точное время",
-  "toastSoundSetting": "Звук уведомлений",
-  "toastSoundHint": "Мягкий звук, когда сверху появляется уведомление.",
+  "reminderExactTime": "Exact time",
+  "toastSoundSetting": "Notice sound",
+  "toastSoundHint": "A soft chime when a notice pops up at the top.",
   "notifTrainChannel": "Напоминание о тренировке",
   "notifTrainChannelWhy": "Толчок потренироваться в те дни, что ты запланировал.",
   "notifTrainTitle": "Пора тренироваться",
@@ -576,20 +1003,48 @@
   "reminderSmartHint": "Берёт дни и время, когда ты реально тренируешься, и молчит, если в этот день ты уже потренировался.",
   "reminderSmartEmpty": "Запиши ещё несколько тренировок, и оно выучит твои дни.",
   "habitFocus": "что ты обычно тренируешь в {day}",
+  "@habitFocus": {
+    "placeholders": {
+      "day": {
+        "type": "String"
+      }
+    }
+  },
   "duplicateRoutine": "Дублировать программу",
   "copySuffix": "{name} (копия)",
+  "@copySuffix": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "saveAsRoutine": "СОХРАНИТЬ КАК ПРОГРАММУ",
   "savedAsRoutine": "Сохранено как программа",
   "templates": "Готовые программы",
   "templatesHint": "Классические программы, собранные из твоей библиотеки. Потом можно поменять что угодно.",
-  "templateAdded": "{n, plural, one{добавлена {n} программа} few{добавлено {n} программы} many{добавлено {n} программ} other{добавлено {n} программы}}",
+  "templateAdded": "{n, plural, =1{{n} routine added} other{{n} routines added}}",
+  "@templateAdded": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "tplFullbody": "Три дня в неделю на всё тело. С этого и начинают.",
   "tplPpl": "Жим, тяга и ноги. Три или шесть дней в неделю.",
   "tplUpperlower": "Верх и низ, четыре дня в неделю.",
   "tplStronglifts": "Две тренировки, пять подходов по пять, по очереди.",
   "tplStartingstrength": "Присед каждый раз, две чередующиеся тренировки.",
   "tplHome": "Только перекладина и пол.",
-  "dayCount": "{n, plural, one{{n} день} few{{n} дня} many{{n} дней} other{{n} дня}}",
+  "dayCount": "{n, plural, =1{{n} day} other{{n} days}}",
+  "@dayCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "logRpe": "Записывать усилие (RPE)",
   "rpeHint": "10 — больше ни одного повторения; 8 — оставалось ещё два.",
   "superset": "Суперсет",
@@ -597,7 +1052,14 @@
   "supersetHint": "Между связанными упражнениями отдыха нет: сразу идёшь к следующему.",
   "aiRoutine": "Программа с ИИ",
   "aiIntro": "GymMane ни с каким ИИ не общается. Ты сам выгружаешь список упражнений, вставляешь его в тот ассистент, которым уже пользуешься, и приносишь ответ обратно. С телефона само ничего не уходит.",
-  "aiMissing": "{n, plural, one{{n} название не нашлось в твоей библиотеке} few{{n} названия не нашлись в твоей библиотеке} many{{n} названий не нашлось в твоей библиотеке} other{{n} названий не нашлось в твоей библиотеке}}",
+  "aiMissing": "{n, plural, =1{1 name was not in your library} other{{n} names were not in your library}}",
+  "@aiMissing": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "importApps": "Какие приложения читает",
   "importOtherCsv": "Любой другой CSV с датой, упражнением, повторениями и весом",
   "importAskApp": "Нужно другое приложение? Попроси",
@@ -684,17 +1146,107 @@
   "awardHours100Name": "Сто часов",
   "awardHours100Line": "Сто часов под штангой, с секундомером в руке.",
   "awardWonOn": "Получена {date}",
+  "@awardWonOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
   "badgeName": "{id, select, gold{Золотой} blue{Синий} green{Зелёный} other{Значок}}",
+  "@badgeName": {
+    "placeholders": {
+      "id": {
+        "type": "String"
+      }
+    }
+  },
   "memberSince": "С {date}",
+  "@memberSince": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
   "levelShort": "Уровень {n}",
-  "levelToNext": "{n, plural, one{{n} тренировка до уровня {next}} few{{n} тренировки до уровня {next}} many{{n} тренировок до уровня {next}} other{{n} тренировки до уровня {next}}}",
+  "levelToNext": "{n, plural, =1{1 workout to level {next}} other{{n} workouts to level {next}}}",
+  "@levelToNext": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      },
+      "next": {
+        "type": "int"
+      }
+    }
+  },
+  "@levelShort": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "heightCm": "{n} см",
+  "@heightCm": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "heatToneName": "{id, select, ember{Уголь} green{Зелёный} blue{Синий} mono{Серый} other{Цвет}}",
+  "@heatToneName": {
+    "placeholders": {
+      "id": {
+        "type": "String"
+      }
+    }
+  },
   "setsThisWeek": "подходов: {n}",
+  "@setsThisWeek": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "weekOfGoal": "{n} из {goal} на этой неделе",
+  "@weekOfGoal": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      },
+      "goal": {
+        "type": "int"
+      }
+    }
+  },
   "momentCount": "{n} фото",
-  "photosSelected": "Выбрано: {n}",
-  "deletePhotosTitle": "Удалить фото ({n})?",
+  "@momentCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "photosSelected": "{n} selected",
+  "deletePhotosTitle": "Delete {n} photos?",
+  "@photosSelected": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "@deletePhotosTitle": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "momentsEmptyHint": "Сфотографируй зал, доску, как ты набрал блины — всё, что хочешь запомнить. Они останутся в телефоне, и видишь их только ты.",
   "awardStreak100Line": "Сто дней подряд. Это уже не мотивация, это ты.",
   "coverLabel": "ОБЛОЖКА",
@@ -717,6 +1269,16 @@
   "workoutOverview": "Эта тренировка",
   "allExercisesShort": "Все",
   "setsDoneOf": "{done}/{total} подх.",
+  "@setsDoneOf": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
   "nowLabel": "Сейчас",
   "deleteWorkout": "Удалить тренировку",
   "deleteWorkoutBody": "Тренировка и все её подходы будут удалены из истории.",
@@ -743,13 +1305,34 @@
   "onbPlaceWhy": "Отметь все места, где тренируешься. Предложим только то, что можно сделать в каждом.",
   "onbPlaceGear": "Что у тебя там есть?",
   "distanceCol": "ДИСТАНЦИЯ ({unit})",
+  "@distanceCol": {
+    "placeholders": {
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
   "timeCol": "ВРЕМЯ",
   "timeMinutesTitle": "Время (минуты)",
   "timeSecondsTitle": "Время (секунды)",
   "distanceTitle": "Дистанция ({unit})",
+  "@distanceTitle": {
+    "placeholders": {
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
   "holdLabel": "Держи",
   "stopLabel": "Стоп",
   "startHold": "Начать · {time}",
+  "@startHold": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
   "exerciseTypeLabel": "Что записывать",
   "typeReps": "Повторы и вес",
   "typeTime": "Время",
@@ -770,25 +1353,46 @@
   "planFormatNotes": "Используй названия упражнений точно как в списке. \"sets\", \"reps\", \"weight\" (в указанных единицах), \"rest\" в секундах и \"days\" необязательны. \"superset\": true связывает упражнение со следующим. Для нескольких недель сгруппируй тренировки внутри \"weeks\", как во втором примере.",
   "planSets": "Спланировать подходы",
   "planSetsHint": "Выбери тип, повторы и вес каждого подхода. Оставь вес на «Авто», чтобы начать с прошлой тренировки.",
-  "planHintReps": "Выбери тип и число повторений каждого подхода. «Авто» берёт данные прошлой тренировки.",
-  "planHintTime": "Выбери тип и время каждого подхода. «Авто» берёт данные прошлой тренировки.",
-  "planHintTimeWeight": "Выбери тип, время и вес каждого подхода. «Авто» берёт данные прошлой тренировки.",
-  "planHintCardio": "Выбери дистанцию и время каждого подхода. «Авто» берёт данные прошлой тренировки.",
-  "timeOnly": "Только время",
+  "planHintReps": "Choose the type and reps of each set. Auto starts from your last session.",
+  "planHintTime": "Choose the type and time of each set. Auto starts from your last session.",
+  "planHintTimeWeight": "Choose the type, time and weight of each set. Auto starts from your last session.",
+  "planHintCardio": "Choose the distance and time of each set. Auto starts from your last session.",
+  "timeOnly": "Time only",
   "autoValue": "Авто",
   "clearPlan": "Сбросить план",
   "shareRoutine": "Поделиться тренировкой",
   "shareWeek": "Поделиться неделей",
   "shareWeekHint": "Все твои тренировки и дни, на которые они стоят.",
   "shareMessage": "{name} — открой файл в GymMane, чтобы добавить.",
+  "@shareMessage": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "importRoutines": "Импорт тренировок",
   "importPasteHint": "Вставь сюда тренировку: отправленную из GymMane, ответ ИИ, JSON или CSV.",
   "pasteAction": "Вставить",
-  "routineCount": "{n, plural, one{{n} тренировка} few{{n} тренировки} many{{n} тренировок} other{{n} тренировки}}",
+  "routineCount": "{n, plural, =1{1 routine} other{{n} routines}}",
+  "@routineCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "useTheirSchedule": "Применить и расписание по дням",
   "useTheirScheduleHint": "Дни из файла заменят то, что у тебя на них запланировано.",
   "addToMyRoutines": "Добавить к моим тренировкам",
-  "routinesAdded": "{n, plural, one{Добавлена {n} тренировка} few{Добавлено {n} тренировки} many{Добавлено {n} тренировок} other{Добавлено {n} тренировки}}",
+  "routinesAdded": "{n, plural, =1{1 routine added} other{{n} routines added}}",
+  "@routinesAdded": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "nothingToImport": "Здесь нет ничего, что GymMane может импортировать",
   "aiStepCopy": "Скопируй запрос. В нём твой список упражнений и формат, который понимает GymMane.",
   "aiStepAsk": "Вставь его в любой ИИ и скажи, что нужно: дни в неделю, цель, сколько недель.",
@@ -801,13 +1405,41 @@
   "shareAsFile": "Отправить файлом",
   "recoveryTab": "Восстановление",
   "recoveryOverall": "Тело восстановлено на {pct}%",
+  "@recoveryOverall": {
+    "placeholders": {
+      "pct": {
+        "type": "int"
+      }
+    }
+  },
   "recoveryAllFresh": "Всё восстановлено. Хороший день, чтобы тренировать что угодно.",
   "recoveryStill": "Ещё восстанавливаются: {muscles}",
+  "@recoveryStill": {
+    "placeholders": {
+      "muscles": {
+        "type": "String"
+      }
+    }
+  },
   "recoveryTired": "Устал",
   "recoveryFresh": "Свежий",
   "recoveryHint": "Нажми на мышцу, чтобы увидеть, насколько она восстановилась. Недавние подходы весят больше, а тяжёлые (по RPE) — ещё больше.",
   "recoveryPct": "восстановлено на {pct}%",
+  "@recoveryPct": {
+    "placeholders": {
+      "pct": {
+        "type": "int"
+      }
+    }
+  },
   "readyInHours": "готово через ~{h} ч",
+  "@readyInHours": {
+    "placeholders": {
+      "h": {
+        "type": "int"
+      }
+    }
+  },
   "tplAbcd": "Четыре дня: грудь и трицепс, спина и бицепс, ноги, плечи и пресс.",
   "tplAbcde": "Пять дней, по группе мышц на каждый: грудь, спина, ноги, плечи, руки.",
   "elapsedCaps": "ПРОШЛО",
@@ -820,6 +1452,13 @@
   "liveResume": "Продолжить",
   "liveNext": "Дальше",
   "liveUpNext": "Дальше: {name}",
+  "@liveUpNext": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "stickerOpen": "Поделиться на фото",
   "stickerNoPhoto": "Без фото",
   "stickerWorkout": "Тренировка",
@@ -834,11 +1473,18 @@
   "shareIntroTitle": "Поделись этой программой",
   "shareIntroBody": "Отправь её партнёру, другу или семье. Они получат небольшой файл, который открывается в GymMane и добавляет программу одним касанием, с подходами и весами.",
   "removedFromRoutine": "Убрано из программы",
-  "radarTitle": "Последние 30 дней",
+  "radarTitle": "Last 30 days",
   "radarHint": "Посмотри, каким зонам нужно больше работы",
-  "radarEmpty": "Потренируйтесь несколько дней, чтобы увидеть баланс",
+  "radarEmpty": "Train a few days to see your balance",
   "radarBalanced": "Пока всё сбалансировано",
   "radarFocus": "Нужно больше: {list}",
+  "@radarFocus": {
+    "placeholders": {
+      "list": {
+        "type": "String"
+      }
+    }
+  },
   "countdownReady": "Приготовься",
   "countdownSkip": "Нажми, чтобы начать сразу",
   "countdownSetting": "Обратный отсчёт перед стартом",
@@ -847,42 +1493,84 @@
   "rirHint": "0 — больше ни одного повтора, 2 — оставалось два.",
   "addWeekWidget": "Добавить виджет недели",
   "gamificationSetting": "Медали и уровни",
-  "repCount": "{n, plural, one{{n} повтор} few{{n} повтора} many{{n} повторов} other{{n} повтора}}",
+  "repCount": "{n, plural, =1{{n} rep} other{{n} reps}}",
+  "@repCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "prBestSet": "Лучший подход",
   "weekStartSetting": "Неделя начинается с",
   "stepOutOfWorkout": "Пауза и выход",
   "saveToRoutine": "СОХРАНИТЬ ИЗМЕНЕНИЯ В ПРОГРАММЕ",
   "routineUpdated": "Программа обновлена",
   "saveChangesTitle": "Сохранить изменения в {name}?",
-  "saveChangesBody": "В следующий раз, когда ты её начнёшь, в программе будут эти изменения.",
+  "@saveChangesTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "saveChangesBody": "Next time you start it, the routine will have these changes.",
   "routineOrderChanged": "Новый порядок упражнений",
   "mineOnly": "Созданные вами",
   "createNamed": "Нет в списке? Создать «{name}»",
+  "@createNamed": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "orStartWith": "Или начните с",
   "warmupFocus": "Разминка",
   "warmupFocusHint": "Подвижность и активация, с инвентарём или без",
   "cardioFocus": "Кардио",
   "cardioFocusHint": "Бег, велосипед, гребля или скакалка — по дистанции и времени",
   "homeRecommended": "Рекомендации на главной",
-  "homeRoutines": "Тренировки на главной",
-  "homeRoutinesHint": "Твои тренировки, последняя сделанная первой. Нажми, чтобы начать.",
-  "homeWeekStats": "Эта неделя на главной",
-  "homeWeekStatsHint": "Объём, подходы и рекорды за неделю.",
-  "stepsSetting": "Шаги из Health Connect",
-  "stepsSettingHint": "Показывает шаги за сегодня на главном экране. Ничего не покидает телефон.",
-  "stepsToday": "Шаги сегодня",
-  "stepsOfGoal": "из {goal}",
-  "stepsTodayCount": "Сегодня шагов: {count}",
-  "stepsGoal": "Дневная цель по шагам",
-  "stepsNoAccess": "Нет доступа к шагам",
-  "stepsGrant": "Нажми, чтобы разрешить в Health Connect",
-  "stepsInfoRead": "Читает только число шагов. Больше ничего не читает и ничего не пишет в Health Connect.",
-  "stepsInfoLocal": "Шаги остаются на телефоне. GymMane никогда не подключается к интернету.",
-  "stepsInfoOff": "Можно отключить в любой момент в Настройках или в Health Connect.",
-  "stepsManage": "Управлять разрешением",
-  "routineDoneToday": "На сегодня всё · отличная работа",
-  "trainAgain": "Тренироваться ещё",
-  "lastDoneAgo": "{n, plural, =0{Сделано сегодня} =1{Сделано вчера} one{{n} день назад} few{{n} дня назад} many{{n} дней назад} other{{n} дня назад}}",
+  "homeRoutines": "Routines on home",
+  "homeRoutinesHint": "Your routines, last done first. Tap one to start it.",
+  "homeWeekStats": "This week on home",
+  "homeWeekStatsHint": "Volume, sets and PRs of the week.",
+  "stepsSetting": "Steps from Health Connect",
+  "stepsSettingHint": "Shows today's steps on Home. Nothing leaves your phone.",
+  "stepsToday": "Steps today",
+  "stepsOfGoal": "of {goal}",
+  "@stepsOfGoal": {
+    "placeholders": {
+      "goal": {
+        "type": "String"
+      }
+    }
+  },
+  "stepsTodayCount": "{count} steps today",
+  "@stepsTodayCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "stepsGoal": "Daily step goal",
+  "stepsNoAccess": "No access to your steps",
+  "stepsGrant": "Tap to allow it in Health Connect",
+  "stepsInfoRead": "It only reads your step count. It never reads anything else or writes to Health Connect.",
+  "stepsInfoLocal": "Your steps stay on your phone. GymMane never connects to the internet.",
+  "stepsInfoOff": "Turn it off anytime in Settings or in Health Connect.",
+  "stepsManage": "Manage permission",
+  "routineDoneToday": "Done for today · nice work",
+  "trainAgain": "Train again",
+  "lastDoneAgo": "{n, plural, =0{Done today} =1{Done yesterday} other{{n} days ago}}",
+  "@lastDoneAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "archivedFilter": "Архив",
   "archiveExercise": "Архивировать упражнение",
   "restoreExercise": "Восстановить",
@@ -900,17 +1588,64 @@
   "multiPlanSetting": "Несколько программ в день",
   "multiPlanHint": "Отметьте каждую программу на этот день. Они идут в порядке добавления.",
   "routineOfDay": "{n} из {total} сегодня",
-  "nextToday": "Далее сегодня",
+  "@routineOfDay": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "nextToday": "Next today",
   "planAboutMe": "Обо мне:",
   "planBody": "{sex}, {age} лет, рост {height}, вес {weight}.",
   "planDays": "Хочу тренироваться {n} дней в неделю.",
   "planNoHistory": "Тренировок пока нет: считай меня новичком и будь осторожен с объёмом и весами.",
-  "planHistory": "{n, plural, one{{n} тренировка за последние 30 дней.} few{{n} тренировки за последние 30 дней.} many{{n} тренировок за последние 30 дней.} other{{n} тренировки за последние 30 дней.}}",
+  "planHistory": "{n, plural, =1{1 workout logged in the last 30 days.} other{{n} workouts logged in the last 30 days.}}",
   "planBestLifts": "Лучшие недавние подходы",
   "planAskFirst": "Если ты не знаешь мою цель (сила, мышцы, сжигание жира или общая форма) или сколько может длиться тренировка, сначала спроси меня одним коротким сообщением. Потом отвечай только JSON.",
+  "@planBody": {
+    "placeholders": {
+      "sex": {
+        "type": "String"
+      },
+      "age": {
+        "type": "int"
+      },
+      "height": {
+        "type": "String"
+      },
+      "weight": {
+        "type": "String"
+      }
+    }
+  },
+  "@planDays": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "@planHistory": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "backToTop": "Наверх",
   "deleteExerciseTitle": "Удалить это упражнение?",
   "deleteExerciseBody": "«{name}» будет удалено из библиотеки и программ. Прошлые подходы сохранятся.",
+  "@deleteExerciseBody": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "exportForStravaHint": "Загрузите в браузере на strava.com/upload/select (приложение Strava не импортирует файлы). Появится как силовая тренировка с вашими подходами.",
   "manualStartTime": "Время начала",
   "manualDuration": "Длительность",
@@ -929,333 +1664,987 @@
   "groupUngroup": "Убрать группу, оставить программы",
   "groupDeleteAll": "Удалить группу и программы",
   "groupDeleteTitle": "Удалить «{name}»?",
+  "@groupDeleteTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "groupDeleteBody": "Будут удалены: {count}. История тренировок сохранится.",
+  "@groupDeleteBody": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
   "tplRr": "Классика r/bodyweightfitness: всё тело три дня в неделю. Переходи на следующую ступень, когда станет легко.",
   "levelUpKicker": "СЛЕДУЮЩИЙ ШАГ",
   "levelUpBody": "3×{reps} в «{name}» две тренировки подряд. Готов к следующему шагу?",
+  "@levelUpBody": {
+    "placeholders": {
+      "reps": {
+        "type": "int"
+      },
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "levelUpSwap": "Заменить в «{routine}»",
+  "@levelUpSwap": {
+    "placeholders": {
+      "routine": {
+        "type": "String"
+      }
+    }
+  },
   "levelUpSee": "Как выполнять",
   "levelUpLater": "Не сейчас",
   "levelUpStay": "Оставить это",
   "levelUpSwapped": "«{name}» теперь в «{routine}»",
+  "@levelUpSwapped": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "routine": {
+        "type": "String"
+      }
+    }
+  },
   "levelUpStayed": "Больше не предлагать усложнение для этого",
   "levelHintsSetting": "Предлагать следующий шаг",
   "heatmapLabelsSetting": "Дни и месяцы на карте активности",
   "rmPercent": "ПРОЦЕНТ",
   "rmAtPercent": "{pct} от твоего максимума",
+  "@rmAtPercent": {
+    "placeholders": {
+      "pct": {
+        "type": "String"
+      }
+    }
+  },
   "copyWorkout": "Скопировать текстом",
   "goalSet": "Поставить цель",
   "goalTargetReps": "ЦЕЛЕВЫЕ ПОВТОРЫ",
   "goalToGo": "Осталось {value}",
+  "@goalToGo": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
   "goalReached": "Цель достигнута",
   "goalDaysLeft": "{n, plural, =1{Остался {n} день} few{Осталось {n} дня} other{Осталось {n} дней}}",
+  "@goalDaysLeft": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "goalOverdue": "Срок прошёл",
   "goalDeadline": "СРОК",
   "goalNoDeadline": "Без срока",
   "goalRemove": "Убрать цель",
-  "exerciseNameMissing": "Дайте название",
-  "aliasesLabel": "Другие названия (необязательно)",
-  "aliasesHint": "Другие названия через запятую",
-  "alsoCalled": "Ещё: {names}",
-  "addToRoutine": "Добавить в программу",
-  "inRoutines": "{n, plural, =0{Пока ни в одной программе} =1{В 1 программе} other{В {n} программах}}",
-  "alreadyInRoutine": "Уже есть",
-  "restInRoutine": "Отдых в этой программе",
-  "restInRoutineHint": "Как у упражнения",
-  "restInRoutineReset": "Только здесь · нажмите, чтобы сбросить",
-  "swapExercise": "Заменить упражнение",
-  "swapShort": "Заменить",
-  "swapHint": "Вместо «{name}», только сегодня. В конце можно оставить его в программе.",
-  "swapKeepsDone": "Сделанные подходы останутся; новое продолжит оставшиеся.",
-  "swapSameMuscle": "Та же мышца · {muscle}",
-  "swapDoneBefore": "Уже делали",
-  "multiPlanSettingHint": "Больше одной программы в один день недели.",
-  "levelHintsHint": "Когда упражнение даётся легко, предложит более сложный вариант.",
-  "focusCardHint": "Программа на сегодня — вверху главного экрана.",
-  "gamificationHint": "Медали, ваш уровень и праздник в конце.",
-  "exerciseSettings": "Настройки упражнения",
-  "placeActiveNow": "Вы здесь",
-  "placeTapToUse": "нажмите, чтобы тренироваться здесь",
-  "intervalDays": "дней",
-  "goalDaysShort": "{done}/{target} дн.",
-  "toolNameRpe": "Вес по RPE",
-  "toolTitleRpe": "Вес по RPE",
-  "toolDescRpe": "Какой вес взять под нужное усилие",
-  "toolNameDots": "Уровень силы",
-  "toolTitleDots": "Уровень силы (DOTS)",
-  "toolDescDots": "Ваша сила относительно веса",
-  "rpeResultHint": "На {reps} повт. при RPE {rpe}",
-  "rpeYourSet": "Подход, который вы только что сделали",
-  "rpeGoal": "Что хотите сделать",
-  "rpeOneRmLine": "Расчётный 1ПМ: {value}",
-  "rpeExplain": "RPE 10 — больше ни одного повтора; 8 — оставалось два.",
-  "dotsBestLifts": "Ваши лучшие результаты",
-  "dotsSquat": "ПРИСЕД",
-  "dotsBench": "ЖИМ ЛЁЖА",
-  "dotsDeadlift": "СТАНОВАЯ ТЯГА",
-  "dotsTotalLine": "Сумма: {value}",
-  "dotsExplain": "Сравнивает вашу силу с силой любого человека, независимо от веса. Используйте лучший разовый результат или расчётный 1ПМ.",
-  "dotsLevel0": "Новичок",
-  "dotsLevel1": "Средний",
-  "dotsLevel2": "Продвинутый",
-  "dotsLevel3": "Очень продвинутый",
-  "dotsLevel4": "Элита",
+  "exerciseNameMissing": "Give it a name",
+  "aliasesLabel": "Also called (optional)",
+  "aliasesHint": "Other names, separated by commas",
+  "alsoCalled": "Also: {names}",
+  "@alsoCalled": {
+    "placeholders": {
+      "names": {
+        "type": "String"
+      }
+    }
+  },
+  "addToRoutine": "Add to routine",
+  "inRoutines": "{n, plural, =0{Not in any routine yet} =1{In 1 routine} other{In {n} routines}}",
+  "@inRoutines": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "alreadyInRoutine": "Already in it",
+  "restInRoutine": "Rest in this routine",
+  "restInRoutineHint": "Same as the exercise",
+  "restInRoutineReset": "Only here · tap to undo",
+  "swapExercise": "Swap exercise",
+  "swapShort": "Swap",
+  "swapHint": "Instead of {name}, only for today. When you finish, you can keep it in the routine.",
+  "@swapHint": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "swapKeepsDone": "The sets you already did stay logged; the new one picks up the rest.",
+  "swapSameMuscle": "Same muscle · {muscle}",
+  "@swapSameMuscle": {
+    "placeholders": {
+      "muscle": {
+        "type": "String"
+      }
+    }
+  },
+  "swapDoneBefore": "Done before",
+  "multiPlanSettingHint": "More than one routine on the same weekday.",
+  "levelHintsHint": "When an exercise gets easy, it offers you the harder version.",
+  "focusCardHint": "Today’s routine, at the top of Home.",
+  "gamificationHint": "Medals, your level and the celebration when you finish.",
+  "exerciseSettings": "Settings for this exercise",
+  "placeActiveNow": "You’re here",
+  "placeTapToUse": "tap to train here",
+  "intervalDays": "days",
+  "goalDaysShort": "{done}/{target} days",
+  "@goalDaysShort": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "target": {
+        "type": "int"
+      }
+    }
+  },
+  "toolNameRpe": "RPE load",
+  "toolTitleRpe": "Load by RPE",
+  "toolDescRpe": "Weight for the effort you want",
+  "toolNameDots": "Strength level",
+  "toolTitleDots": "Strength level (DOTS)",
+  "toolDescDots": "Your strength for your bodyweight",
+  "rpeResultHint": "For {reps} reps at RPE {rpe}",
+  "@rpeResultHint": {
+    "placeholders": {
+      "reps": {
+        "type": "int"
+      },
+      "rpe": {
+        "type": "String"
+      }
+    }
+  },
+  "rpeYourSet": "A set you just did",
+  "rpeGoal": "What you want to do",
+  "rpeOneRmLine": "Estimated 1RM: {value}",
+  "@rpeOneRmLine": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "rpeExplain": "RPE 10 means you couldn’t do one more; 8 means you had two left.",
+  "dotsBestLifts": "Your best lifts",
+  "dotsSquat": "SQUAT",
+  "dotsBench": "BENCH PRESS",
+  "dotsDeadlift": "DEADLIFT",
+  "dotsTotalLine": "Total: {value}",
+  "@dotsTotalLine": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "dotsExplain": "Compares your strength with anyone’s, whatever they weigh. Use your best single rep, or your estimated 1RM.",
+  "dotsLevel0": "Beginner",
+  "dotsLevel1": "Intermediate",
+  "dotsLevel2": "Advanced",
+  "dotsLevel3": "Very advanced",
+  "dotsLevel4": "Elite",
   "toolNameWilks": "Wilks",
-  "toolTitleWilks": "Очки Wilks",
-  "toolDescWilks": "Классическая оценка в пауэрлифтинге",
-  "wilksExplain": "Классическая формула пауэрлифтинга. В 2020 её заменила DOTS, но многие соревнования и рейтинги всё ещё её используют.",
+  "toolTitleWilks": "Wilks score",
+  "toolDescWilks": "The classic powerlifting score",
+  "wilksExplain": "The classic powerlifting formula. DOTS replaced it in 2020, but many meets and rankings still use it.",
   "toolNameFfmi": "FFMI",
-  "toolTitleFfmi": "Индекс безжировой массы",
-  "toolDescFfmi": "Сколько мышц для твоего роста",
-  "ffmiBodyFat": "ЖИР",
-  "ffmiLeanLine": "Безжировая масса: {value}",
-  "ffmiExplain": "Как ИМТ, но без жира: учитывается только безжировая масса. С поправкой на рост, чтобы честно сравнивать высоких и невысоких.",
-  "ffmiLevel0": "Ниже среднего",
-  "ffmiLevel1": "Средний",
-  "ffmiLevel2": "Выше среднего",
-  "ffmiLevel3": "Отличный",
-  "ffmiLevel4": "Исключительный",
-  "rpeEffortLabel": "Усилие (RPE)",
-  "restRowHint": "Между подходами, если у упражнения нет своего.",
-  "effortRowHint": "Отмечайте RPE или RIR в каждом подходе.",
-  "countdownHint": "3, 2, 1 перед первым подходом.",
-  "keepScreenOnHint": "Экран не гаснет во время тренировки.",
-  "demoSizeRowHint": "Рисунок упражнения во время тренировки.",
-  "demoLoopRowHint": "Повторяется анимация или останавливается.",
-  "trainReminderRowHint": "Напоминание в дни тренировок.",
-  "alarmSoundRowHint": "Что звучит в конце отдыха.",
-  "alarmStyleRowHint": "Звонит ли в беззвучном режиме.",
-  "recommendedRowHint": "Упражнения, которые мы предлагаем на главной.",
-  "weightStepSetting": "Шаг веса",
-  "weightStepHint": "Сколько добавляют кнопки − и +.",
-  "prBestWorkout": "Лучшая тренировка",
-  "mergeExercise": "Объединить",
-  "mergeExerciseInto": "Объединить {name} с…",
-  "mergeExerciseTitle": "Объединить упражнения?",
-  "mergeExerciseBody": "Вся история «{from}» перейдёт в «{to}». «{from}» останется в библиотеке. Это нельзя отменить.",
-  "mergedToast": "История объединена",
-  "nutrition": "Питание",
-  "nutritionHomeEmpty": "Вода, белок и калории",
-  "nutritionHomeDetail": "{energy} · {protein} г белка",
-  "nutritionToday": "Сегодня",
-  "nutritionYesterday": "Вчера",
-  "nutritionGoals": "Цели на день",
-  "kcalLabel": "КАЛОРИИ",
-  "kcalOver": "сверх",
-  "waterLabel": "ВОДА",
-  "waterDone": "Цель достигнута",
-  "waterCustom": "Другое количество",
-  "glassSize": "Размер стакана",
-  "supplementsLabel": "ДОБАВКИ",
-  "supplementsEmpty": "Нажми, чтобы добавить, или + для своей.",
-  "addSupplement": "Новая добавка",
-  "supplementNameHint": "Креатин, витамин D…",
-  "removeSupplementTitle": "Удалить {name}?",
-  "removeSupplementBody": "Дни, когда ты её отмечал, удалятся вместе с ней.",
-  "suppCreatine": "Креатин",
-  "suppVitaminD": "Витамин D",
-  "suppOmega3": "Омега-3",
-  "suppMagnesium": "Магний",
-  "suppMultivitamin": "Мультивитамины",
-  "suppCaffeine": "Кофеин",
-  "myFoods": "Мои продукты",
-  "newFood": "Новый продукт",
-  "editFood": "Изменить продукт",
-  "foodNameHint": "Протеин, овсянка, хлеб…",
-  "servingLabel": "ПОРЦИЯ",
-  "servingHint": "1 мерная ложка · 30 г",
-  "perServing": "НА ПОРЦИЮ",
-  "servingsLabel": "Порции",
-  "foodPhotoHint": "На однотонном фоне превращается в стикер.",
-  "cutoutWorking": "Вырезаем…",
-  "cutoutTry": "Вырезать",
-  "cutoutKeep": "Всё фото",
-  "deleteFoodTitle": "Удалить {name}?",
-  "deleteFoodBody": "Исчезнет из твоих продуктов. Уже записанное останется.",
-  "mealBreakfast": "Завтрак",
-  "mealLunch": "Обед",
-  "mealDinner": "Ужин",
-  "mealSnacks": "Перекусы",
-  "nothingLogged": "Пока ничего не записано.",
-  "addToMeal": "Добавить: {meal}",
-  "quickAdd": "Быстро добавить",
-  "quickAddHint": "Только цифры, без сохранения продукта.",
-  "quickAddName": "Что это было? (необязательно)",
-  "logFood": "Добавить",
-  "loggedToast": "Добавлено: {meal}",
-  "entryRemoved": "Удалено",
-  "goalsFromProfile": "Рассчитать по профилю",
-  "goalsFromProfileHint": "Калории из профиля, 1,8 г белка и 35 мл воды на кг веса.",
-  "kcalEaten": "Съедено",
-  "kcalRemaining": "Осталось",
-  "waterTapHint": "Нажми на стакан: + {amount}",
-  "shakeEmpty": "Нажми, чтобы выбрать коктейль",
-  "shakeTapHint": "Нажми: + {name}",
-  "shakePick": "Твой коктейль",
-  "shakePickHint": "Нажми на стакан — и он запишется сразу.",
-  "proteinLetter": "Б",
-  "carbsLetter": "У",
-  "fatLetter": "Ж",
-  "addBurnedLabel": "Учитывать сожжённые калории",
-  "addBurnedHint": "Сожжённые калории считаются по длительности тренировок и твоему весу.",
-  "amountLabel": "Количество",
-  "amountIn": "Количество ({unit})",
-  "bodyweightLabel": "Вес",
-  "copiedMealToast": "{count, plural, =1{Скопирован 1 продукт} few{Скопировано {count} продукта} other{Скопировано {count} продуктов}}",
-  "deleteSavedMealBody": "Уже записанное останется как есть.",
-  "fiberLabel": "Клетчатка",
-  "sugarLabel": "Сахар",
-  "sodiumLabel": "Натрий",
-  "foodDatabase": "База продуктов",
-  "kcalBurned": "Сожжено",
-  "mealOptions": "Параметры приёма пищи",
-  "moreNutrients": "Клетчатка, сахар и натрий",
-  "ofGoal": "из {goal} {unit}",
-  "per100": "на 100 {unit}",
-  "perServingShort": "на порцию",
-  "portionUnit": "{count, plural, =1{1 штука} few{{count} штуки} other{{count} штук}}",
-  "portionSlice": "{count, plural, =1{1 ломтик} few{{count} ломтика} other{{count} ломтиков}}",
-  "portionScoop": "{count, plural, =1{1 мерная ложка} few{{count} мерные ложки} other{{count} мерных ложек}}",
-  "portionTbsp": "{count, plural, =1{1 ст. л.} other{{count} ст. л.}}",
-  "portionTsp": "{count, plural, =1{1 ч. л.} other{{count} ч. л.}}",
-  "portionCup": "{count, plural, =1{1 чашка} few{{count} чашки} other{{count} чашек}}",
-  "portionGlass": "{count, plural, =1{1 стакан} few{{count} стакана} other{{count} стаканов}}",
-  "recentFoods": "Недавние",
-  "recipeItems": "{count, plural, =1{1 продукт} few{{count} продукта} other{{count} продуктов}}",
-  "renameLabel": "Переименовать",
-  "repeatFrom": "Повторить из",
-  "repeatNone": "В другие дни для этого приёма пищи ещё ничего нет.",
-  "restDayGoals": "Другие цели в дни отдыха",
-  "trainingDays": "Дни тренировок",
-  "restDays": "Дни отдыха",
-  "trainingDay": "День тренировки",
-  "saveAsMeal": "Сохранить как приём пищи",
-  "savedMealNameHint": "напр. Обычный завтрак",
-  "savedMealToast": "Сохранено",
-  "savedMeals": "Сохранённые приёмы пищи",
-  "searchFoodsHint": "Поиск продуктов",
-  "searchFoodsEmpty": "Ищи среди более чем 500 продуктов с фото или добавь свои.",
-  "searchFoodsNone": "По запросу «{query}» ничего. Создай его как свой продукт.",
-  "servingWeight": "ГРАММЫ",
-  "weekAverage": "Эта неделя",
-  "weekAvgEnergy": "В среднем в день",
-  "weekAvgProtein": "Белок в день",
-  "weekEnergyOnTarget": "Калории в цели",
-  "weekProteinOnTarget": "Белок в цели",
-  "weekProteinAvg": "{grams} г белка в день",
-  "weekDaysOnTarget": "{met} из {days} дней в цели",
-  "weekLoggedDays": "{count, plural, =1{1 день записан} few{{count} дня записано} other{{count} дней записано}}",
-  "weekNoData": "Пока ничего не записано",
-  "weekOnTargetHint": "В цели: калории в пределах 10 % от цели и не меньше 90 % белка.",
-  "weightGoalLabel": "Целевой вес",
-  "weightGoalTitle": "Целевой вес ({unit})",
-  "weightGoalLine": "Цель {weight}",
-  "weightGoalNone": "Удерживай, чтобы задать цель",
-  "weightGoalReached": "Цель достигнута",
-  "weightToLose": "Сбросить ещё {weight}",
-  "weightToGain": "Набрать ещё {weight}",
-  "aminoHis": "гистидин",
-  "aminoIle": "изолейцин",
-  "aminoLeu": "лейцин",
-  "aminoLys": "лизин",
-  "aminoSaa": "метионин",
-  "aminoAaa": "фенилаланин",
-  "aminoThr": "треонин",
-  "aminoTrp": "триптофан",
-  "aminoVal": "валин",
-  "animalProtein": "Животный белок",
-  "proteinQuality": "Качество белка",
-  "qualityComplete": "Полноценный",
-  "qualityAlmost": "Почти полноценный",
-  "qualityIncomplete": "Неполноценный",
-  "qualityNoData": "Данных пока нет",
-  "qualityNoDataHint": "Записывай продукты из базы, чтобы видеть свои аминокислоты.",
-  "qualityAllCovered": "Все девять незаменимых аминокислот покрыты.",
-  "qualityLimiting": "Не хватает: {amino}. Сочетай с продуктами, где её много.",
-  "qualityCoverage": "Посчитано по {pct} % белка: в своих продуктах нет данных об аминокислотах.",
-  "fatTypes": "Виды жиров",
-  "fatSaturated": "Насыщенные",
-  "fatMono": "Мононенас.",
-  "fatPoly": "Полиненас.",
-  "satLimitLine": "Насыщенные {grams} г из макс. {limit} г (10 % калорий)",
-  "sugarSodium": "Сахар и натрий",
-  "shakeCard": "Протеиновый коктейль",
-  "mealOther": "Приём пищи",
-  "mealAdd": "Добавить приём пищи",
-  "mealAddHint": "напр. Перед тренировкой",
-  "mealsOfDay": "Приёмы пищи за день",
-  "mealsHint": "Создавай сколько хочешь. При удалении его записи переходят в тот, что выше.",
-  "trackersTitle": "Настроить",
-  "trackersHint": "Оставь только то, что хочешь отслеживать.",
-  "trackersDaily": "Итоги дня",
-  "trackersDetail": "Подробно",
-  "trackersCards": "Карточки",
-  "prepTitle": "Заготовки",
-  "prepNewShort": "Новая заготовка",
-  "prepNew": "Новая заготовка",
-  "prepEdit": "Изменить заготовку",
-  "prepHint": "Запиши всю кастрюлю один раз и ешь понемногу.",
-  "prepEmpty": "Приготовил на несколько дней? Запиши один раз, а потом просто укажи, сколько съел от остатка.",
-  "prepNameHint": "напр. Курица с рисом",
-  "prepDefaultName": "Заготовка",
-  "prepIngredients": "Ингредиенты",
-  "prepAddIngredient": "Добавить ингредиент",
-  "prepCookedWeight": "ВЕС ГОТОВОГО",
-  "prepCookedHint": "Взвесь кастрюлю после готовки для точных цифр. Пусто = общий сырой вес ({grams} г).",
-  "prepNeedWeight": "Укажи вес готового: у некоторых ингредиентов нет граммов.",
-  "prepLeftOf": "Осталось {left} из {total}",
-  "prepOfWhatsLeft": "% от остатка",
-  "prepAll": "Всё",
-  "prepLogAmount": "Записать {grams}",
-  "prepWeighLeft": "Взвесить остаток",
-  "prepFinished": "Эта заготовка закончилась.",
-  "approxValues": "Приблизительно",
-  "editValues": "Изменить значения",
-  "editValuesHint": "Меняет только эту запись. Чтобы исправить продукт на будущее, измени его в «Мои продукты».",
-  "editLibraryHint": "Сохранится как твой продукт, с тем же фото",
-  "per100Line": "{energy} на 100 {unit}",
-  "rawLabel": "Сырой",
-  "cookedLabel": "Готовый",
-  "rawHint": "Вес до готовки",
-  "cookedHint": "Вес после готовки (×{factor} от сырого)",
-  "servingsUnit": "порций",
-  "logAmount": "Записать · {energy}",
-  "catFruit": "Фрукты",
-  "catVeg": "Овощи",
-  "catMeat": "Мясо",
-  "catFish": "Рыба",
-  "catEgg": "Яйца",
-  "catDairy": "Молочное",
-  "catGrain": "Крупы",
-  "catBakery": "Хлеб",
-  "catLegume": "Бобовые",
-  "catNut": "Орехи",
-  "catOil": "Масла",
-  "catPantry": "Кладовая",
-  "catDrink": "Напитки",
-  "catSauce": "Соусы",
-  "catSpice": "Специи",
-  "searchFoodsPrompt": "Что ты съел?",
-  "shelfEmpty": "Найди продукт или сфотографируй свой: здесь появятся те, что ты записываешь чаще всего.",
-  "repeatEntry": "Повторить",
-  "notifSuppChannel": "Добавки",
-  "notifSuppChannelWhy": "Ежедневное напоминание о добавках",
-  "energySplit": "Откуда калории",
-  "typicalServing": "Обычная порция",
-  "cookedYieldLine": "Весит в {factor} раза больше сырого",
-  "sectionBeta": "Бета",
-  "nutritionBeta": "Питание",
-  "nutritionBetaHint": "Еда, вода, белок и добавки. Ещё в разработке: данные сохранятся, даже если отключить.",
-  "nutritionAboutTitle": "О питании",
-  "nutritionAboutSub": "Что это и чем оно никогда не станет.",
-  "nutritionAboutWhatTitle": "Часть твоих тренировок",
-  "nutritionAboutWhat": "Простой способ записывать еду, воду, белок и добавки рядом с тренировками. GymMane — прежде всего приложение для зала: питание здесь, чтобы всё было в одном месте, а не чтобы заменить приложение для диеты.",
-  "nutritionAboutScanTitle": "Без сканера, никогда",
-  "nutritionAboutScan": "Отсканировать штрихкод и получить всё заполненным было бы удобно. Но для этого нужны интернет и огромная онлайн-база продуктов, а то, что ты ешь, оказывается на чужих серверах. Эти данные показывают, когда ты ешь, что ты ешь и как следишь за своим телом, и их могут использовать для рекламы или передать крупным компаниям. Поэтому сканера нет и не будет.",
-  "nutritionAboutLocalTitle": "Всё на твоём телефоне",
-  "nutritionAboutLocal": "В приложении уже есть более 500 продуктов с фото. Можно добавлять свои, менять им фото и редактировать значения. Всё остаётся на твоём телефоне, как и всё остальное в GymMane.",
-  "nutritionAboutBetaTitle": "Пока в бете",
-  "nutritionAboutBeta": "Если чего-то не хватает, предложи это на GitHub. Только не сканер и не большую базу продуктов: помимо приватности, приложение стало бы намного тяжелее. Питание не нужно? Отключи его в настройках, данные сохранятся.",
-  "nutritionAboutSuggest": "Предложить идею",
-  "nutritionAboutOk": "Понятно"
+  "toolTitleFfmi": "Fat-free mass index",
+  "toolDescFfmi": "How much muscle for your height",
+  "ffmiBodyFat": "BODY FAT",
+  "ffmiLeanLine": "Lean mass: {value}",
+  "@ffmiLeanLine": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "ffmiExplain": "Like BMI, but without the fat: it only counts your lean mass. Adjusted to your height so tall and short people compare fairly.",
+  "ffmiLevel0": "Below average",
+  "ffmiLevel1": "Average",
+  "ffmiLevel2": "Above average",
+  "ffmiLevel3": "Excellent",
+  "ffmiLevel4": "Exceptional",
+  "rpeEffortLabel": "Effort (RPE)",
+  "restRowHint": "Between sets, unless the exercise has its own.",
+  "effortRowHint": "Log RPE or RIR on each set.",
+  "countdownHint": "3, 2, 1 before the first set.",
+  "keepScreenOnHint": "The screen stays on while you train.",
+  "demoSizeRowHint": "The exercise drawing during the workout.",
+  "demoLoopRowHint": "Whether the animation repeats or stops.",
+  "trainReminderRowHint": "A nudge on the days you train.",
+  "alarmSoundRowHint": "What plays when the rest ends.",
+  "alarmStyleRowHint": "Whether it rings in silent mode.",
+  "recommendedRowHint": "Exercises we suggest on Home.",
+  "weightStepSetting": "Weight step",
+  "weightStepHint": "What the − and + buttons add.",
+  "prBestWorkout": "Best workout",
+  "mergeExercise": "Merge",
+  "mergeExerciseInto": "Merge {name} into…",
+  "@mergeExerciseInto": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "mergeExerciseTitle": "Merge exercises?",
+  "mergeExerciseBody": "All the history of \"{from}\" moves to \"{to}\". \"{from}\" stays in your library. This can't be undone.",
+  "@mergeExerciseBody": {
+    "placeholders": {
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "mergedToast": "History merged",
+  "nutrition": "Nutrition",
+  "nutritionHomeEmpty": "Water, protein and calories",
+  "nutritionHomeDetail": "{energy} · {protein} g protein",
+  "@nutritionHomeDetail": {
+    "placeholders": {
+      "energy": {
+        "type": "String"
+      },
+      "protein": {
+        "type": "int"
+      }
+    }
+  },
+  "nutritionToday": "Today",
+  "nutritionYesterday": "Yesterday",
+  "nutritionGoals": "Daily goals",
+  "kcalLabel": "CALORIES",
+  "kcalOver": "over",
+  "waterLabel": "WATER",
+  "waterDone": "Goal reached",
+  "waterCustom": "Other amount",
+  "glassSize": "Glass size",
+  "supplementsLabel": "SUPPLEMENTS",
+  "supplementsEmpty": "Tap one to add it, or + for your own.",
+  "addSupplement": "New supplement",
+  "supplementNameHint": "Creatine, vitamin D…",
+  "removeSupplementTitle": "Remove {name}?",
+  "@removeSupplementTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "removeSupplementBody": "The days you marked it as taken go with it.",
+  "suppCreatine": "Creatine",
+  "suppVitaminD": "Vitamin D",
+  "suppOmega3": "Omega-3",
+  "suppMagnesium": "Magnesium",
+  "suppMultivitamin": "Multivitamin",
+  "suppCaffeine": "Caffeine",
+  "myFoods": "My foods",
+  "newFood": "New food",
+  "editFood": "Edit food",
+  "foodNameHint": "Whey protein, oats, bread…",
+  "servingLabel": "SERVING",
+  "servingHint": "1 scoop · 30 g",
+  "perServing": "PER SERVING",
+  "servingsLabel": "Servings",
+  "foodPhotoHint": "On a plain background it turns into a sticker.",
+  "cutoutWorking": "Cutting out…",
+  "cutoutTry": "Cut out",
+  "cutoutKeep": "Whole photo",
+  "deleteFoodTitle": "Delete {name}?",
+  "@deleteFoodTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "deleteFoodBody": "It leaves your foods. What you already logged stays.",
+  "mealBreakfast": "Breakfast",
+  "mealLunch": "Lunch",
+  "mealDinner": "Dinner",
+  "mealSnacks": "Snacks",
+  "nothingLogged": "Nothing logged yet.",
+  "addToMeal": "Add to {meal}",
+  "@addToMeal": {
+    "placeholders": {
+      "meal": {
+        "type": "String"
+      }
+    }
+  },
+  "quickAdd": "Quick add",
+  "quickAddHint": "Just the numbers, without saving a food.",
+  "quickAddName": "What was it? (optional)",
+  "logFood": "Add",
+  "loggedToast": "Added to {meal}",
+  "@loggedToast": {
+    "placeholders": {
+      "meal": {
+        "type": "String"
+      }
+    }
+  },
+  "entryRemoved": "Removed",
+  "goalsFromProfile": "Calculate from my profile",
+  "goalsFromProfileHint": "Calories from your profile, 1.8 g of protein and 35 ml of water per kg of bodyweight.",
+  "kcalEaten": "Eaten",
+  "kcalRemaining": "Remaining",
+  "waterTapHint": "Tap the glass: + {amount}",
+  "@waterTapHint": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "shakeEmpty": "Tap to pick your shake",
+  "shakeTapHint": "Tap: + {name}",
+  "@shakeTapHint": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "shakePick": "Your shake",
+  "shakePickHint": "Tap the shaker and it gets logged in one go.",
+  "proteinLetter": "P",
+  "carbsLetter": "C",
+  "fatLetter": "F",
+  "addBurnedLabel": "Add burned calories",
+  "addBurnedHint": "Your goal already counts your usual activity. Turn this on only if you set yourself as sedentary: it adds what each workout burns on top of resting.",
+  "amountLabel": "Amount",
+  "amountIn": "Amount ({unit})",
+  "@amountIn": {
+    "placeholders": {
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "bodyweightLabel": "Bodyweight",
+  "copiedMealToast": "{count, plural, =1{1 food copied} other{{count} foods copied}}",
+  "@copiedMealToast": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "deleteSavedMealBody": "What you already logged stays as it is.",
+  "fiberLabel": "Fiber",
+  "sugarLabel": "Sugar",
+  "sodiumLabel": "Sodium",
+  "foodDatabase": "Food database",
+  "kcalBurned": "Burned",
+  "mealOptions": "Meal options",
+  "moreNutrients": "Fiber, sugar and sodium",
+  "ofGoal": "of {goal} {unit}",
+  "@ofGoal": {
+    "placeholders": {
+      "goal": {
+        "type": "int"
+      },
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "per100": "per 100 {unit}",
+  "@per100": {
+    "placeholders": {
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "perServingShort": "per serving",
+  "portionUnit": "{count, plural, =1{1 piece} other{{count} pieces}}",
+  "@portionUnit": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "portionSlice": "{count, plural, =1{1 slice} other{{count} slices}}",
+  "@portionSlice": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "portionScoop": "{count, plural, =1{1 scoop} other{{count} scoops}}",
+  "@portionScoop": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "portionTbsp": "{count, plural, =1{1 tbsp} other{{count} tbsp}}",
+  "@portionTbsp": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "portionTsp": "{count, plural, =1{1 tsp} other{{count} tsp}}",
+  "@portionTsp": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "portionCup": "{count, plural, =1{1 cup} other{{count} cups}}",
+  "@portionCup": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "portionGlass": "{count, plural, =1{1 glass} other{{count} glasses}}",
+  "@portionGlass": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "recentFoods": "Recent",
+  "recipeItems": "{count, plural, =1{1 food} other{{count} foods}}",
+  "@recipeItems": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "renameLabel": "Rename",
+  "repeatFrom": "Repeat from",
+  "repeatNone": "Nothing logged for this meal on other days yet.",
+  "restDayGoals": "Different goals on rest days",
+  "trainingDays": "Training days",
+  "restDays": "Rest days",
+  "trainingDay": "Training day",
+  "saveAsMeal": "Save as a meal",
+  "savedMealNameHint": "e.g. Usual breakfast",
+  "savedMealToast": "Meal saved",
+  "savedMeals": "Saved meals",
+  "searchFoodsHint": "Search foods",
+  "searchFoodsEmpty": "Search over 500 foods with photos, or add your own.",
+  "searchFoodsNone": "Nothing found for \"{query}\". Create it as your own food.",
+  "@searchFoodsNone": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "servingWeight": "GRAMS",
+  "weekAverage": "This week",
+  "weekAvgEnergy": "Daily average",
+  "weekAvgProtein": "Protein per day",
+  "weekEnergyOnTarget": "Calories on target",
+  "weekProteinOnTarget": "Protein on target",
+  "weekProteinAvg": "{grams} g protein a day",
+  "@weekProteinAvg": {
+    "placeholders": {
+      "grams": {
+        "type": "int"
+      }
+    }
+  },
+  "weekDaysOnTarget": "{met} of {days} days on target",
+  "@weekDaysOnTarget": {
+    "placeholders": {
+      "met": {
+        "type": "int"
+      },
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "weekLoggedDays": "{count, plural, =1{1 day logged} other{{count} days logged}}",
+  "@weekLoggedDays": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "weekNoData": "Nothing logged yet",
+  "weekOnTargetHint": "On target: calories within 10% of the goal and at least 90% of the protein.",
+  "weightGoalLabel": "Goal weight",
+  "weightGoalTitle": "Goal weight ({unit})",
+  "@weightGoalTitle": {
+    "placeholders": {
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "weightGoalLine": "Goal {weight}",
+  "@weightGoalLine": {
+    "placeholders": {
+      "weight": {
+        "type": "String"
+      }
+    }
+  },
+  "weightGoalNone": "Hold to set a goal",
+  "weightGoalReached": "Goal reached",
+  "weightToLose": "{weight} to lose",
+  "@weightToLose": {
+    "placeholders": {
+      "weight": {
+        "type": "String"
+      }
+    }
+  },
+  "weightToGain": "{weight} to gain",
+  "@weightToGain": {
+    "placeholders": {
+      "weight": {
+        "type": "String"
+      }
+    }
+  },
+  "aminoHis": "histidine",
+  "aminoIle": "isoleucine",
+  "aminoLeu": "leucine",
+  "aminoLys": "lysine",
+  "aminoSaa": "methionine",
+  "aminoAaa": "phenylalanine",
+  "aminoThr": "threonine",
+  "aminoTrp": "tryptophan",
+  "aminoVal": "valine",
+  "animalProtein": "Animal protein",
+  "proteinQuality": "Protein quality",
+  "qualityComplete": "Complete",
+  "qualityAlmost": "Almost complete",
+  "qualityIncomplete": "Incomplete",
+  "qualityNoData": "No data yet",
+  "qualityNoDataHint": "Log foods from the database to see your amino acids.",
+  "qualityAllCovered": "All nine essential amino acids are covered.",
+  "qualityLimiting": "Short on {amino}. Pair it with foods rich in it.",
+  "@qualityLimiting": {
+    "placeholders": {
+      "amino": {
+        "type": "String"
+      }
+    }
+  },
+  "qualityCoverage": "Based on {pct}% of your protein: your own foods have no amino acid data.",
+  "@qualityCoverage": {
+    "placeholders": {
+      "pct": {
+        "type": "int"
+      }
+    }
+  },
+  "fatTypes": "Fat types",
+  "fatSaturated": "Saturated",
+  "fatMono": "Mono",
+  "fatPoly": "Poly",
+  "satLimitLine": "Saturated {grams} g of {limit} g max (10% of calories)",
+  "@satLimitLine": {
+    "placeholders": {
+      "grams": {
+        "type": "String"
+      },
+      "limit": {
+        "type": "int"
+      }
+    }
+  },
+  "sugarSodium": "Sugar and sodium",
+  "shakeCard": "Protein shake",
+  "mealOther": "Meal",
+  "mealAdd": "Add a meal",
+  "mealAddHint": "e.g. Pre-workout",
+  "mealsOfDay": "Meals of the day",
+  "mealsHint": "Create as many as you want. Removing one moves what you logged in it to the one above.",
+  "trackersTitle": "Customize",
+  "trackersHint": "Show only what you want to track.",
+  "trackersDaily": "Daily summary",
+  "trackersDetail": "In detail",
+  "trackersCards": "Cards",
+  "prepTitle": "Meal prep",
+  "prepNewShort": "New batch",
+  "prepNew": "New batch",
+  "prepEdit": "Edit batch",
+  "prepHint": "Log the whole pot once, then eat it bit by bit.",
+  "prepEmpty": "Cooked a big batch? Log it once and then just say how much of what is left you ate.",
+  "prepNameHint": "e.g. Chicken and rice",
+  "prepDefaultName": "Batch",
+  "prepIngredients": "Ingredients",
+  "prepAddIngredient": "Add ingredient",
+  "prepCookedWeight": "COOKED WEIGHT",
+  "prepCookedHint": "Weigh the pot once cooked for exact numbers. Empty uses the raw total ({grams} g).",
+  "@prepCookedHint": {
+    "placeholders": {
+      "grams": {
+        "type": "String"
+      }
+    }
+  },
+  "prepNeedWeight": "Add the cooked weight: some ingredients have no grams.",
+  "prepLeftOf": "{left} left of {total}",
+  "@prepLeftOf": {
+    "placeholders": {
+      "left": {
+        "type": "String"
+      },
+      "total": {
+        "type": "String"
+      }
+    }
+  },
+  "prepOfWhatsLeft": "% of what is left",
+  "prepAll": "All",
+  "prepLogAmount": "Log {grams}",
+  "@prepLogAmount": {
+    "placeholders": {
+      "grams": {
+        "type": "String"
+      }
+    }
+  },
+  "prepWeighLeft": "Weigh what is left",
+  "prepFinished": "This batch is finished.",
+  "approxValues": "Approximate",
+  "editValues": "Edit values",
+  "editValuesHint": "Only changes this entry. To fix the food for next time, edit it from My foods.",
+  "editLibraryHint": "Saved as your own food, with the same photo",
+  "per100Line": "{energy} per 100 {unit}",
+  "@per100Line": {
+    "placeholders": {
+      "energy": {
+        "type": "String"
+      },
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "rawLabel": "Raw",
+  "cookedLabel": "Cooked",
+  "rawHint": "Weight before cooking",
+  "cookedHint": "Weight once cooked (×{factor} the raw weight)",
+  "@cookedHint": {
+    "placeholders": {
+      "factor": {
+        "type": "String"
+      }
+    }
+  },
+  "servingsUnit": "servings",
+  "logAmount": "Log · {energy}",
+  "@logAmount": {
+    "placeholders": {
+      "energy": {
+        "type": "String"
+      }
+    }
+  },
+  "catFruit": "Fruit",
+  "catVeg": "Veggies",
+  "catMeat": "Meat",
+  "catFish": "Fish",
+  "catEgg": "Eggs",
+  "catDairy": "Dairy",
+  "catGrain": "Grains",
+  "catBakery": "Bakery",
+  "catLegume": "Legumes",
+  "catNut": "Nuts",
+  "catOil": "Oils",
+  "catPantry": "Pantry",
+  "catDrink": "Drinks",
+  "catSauce": "Sauces",
+  "catSpice": "Spices",
+  "searchFoodsPrompt": "What did you eat?",
+  "shelfEmpty": "Search a food or take a photo of yours: the ones you log most will show up here.",
+  "repeatEntry": "Log again",
+  "notifSuppChannel": "Supplements",
+  "notifSuppChannelWhy": "Daily reminder to take your supplements",
+  "energySplit": "Where the calories come from",
+  "typicalServing": "Typical serving",
+  "cookedYieldLine": "Weighs {factor}× its raw weight",
+  "@cookedYieldLine": {
+    "placeholders": {
+      "factor": {
+        "type": "String"
+      }
+    }
+  },
+  "readyDishes": "Dishes",
+  "weightLastLine": "Last weigh-in {weight}",
+  "@weightLastLine": {
+    "placeholders": {
+      "weight": {
+        "type": "String"
+      }
+    }
+  },
+  "proteinAnimalShort": "Animal",
+  "proteinPlantShort": "Plant",
+  "kcalFromMacros": "These macros add up to about {value}",
+  "@kcalFromMacros": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "useValue": "Use",
+  "suppRowHint": "Tap to mark · hold for details",
+  "suppPhoto": "Photo",
+  "suppDose": "Dose",
+  "suppDoseHint": "5 g, 2 capsules…",
+  "suppRemind": "Remind me",
+  "mealPlanDefault": "Plan {n}",
+  "@mealPlanDefault": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "mealPlansTitle": "Meal plans",
+  "mealPlanNew": "New plan",
+  "fromPlan": "From {name}",
+  "@fromPlan": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "logPlan": "Log",
+  "planFromDay": "Copy this day",
+  "planNewHint": "Plan your days like your routines, then log a whole meal with one tap.",
+  "planLogDay": "Log the empty meals",
+  "planLogged": "{n, plural, =1{1 food logged} other{{n} foods logged}}",
+  "@planLogged": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "planNoPlan": "No plan",
+  "planWeekHint": "Tap a day to give it a plan.",
+  "planDuplicate": "Duplicate",
+  "planDeleteTitle": "Delete {name}?",
+  "@planDeleteTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "planDeleteBody": "Your logged days stay as they are.",
+  "sectionBeta": "Beta",
+  "nutritionBeta": "Nutrition",
+  "nutritionBetaHint": "Meals, water, protein and supplements. Still being built: your data stays even if you turn it off.",
+  "nutritionAboutTitle": "About Nutrition",
+  "nutritionAboutSub": "What it is, and what it will never be.",
+  "nutritionAboutWhatTitle": "Part of your training",
+  "nutritionAboutWhat": "A simple way to log meals, water, protein and supplements right next to your workouts. GymMane is a gym app first: Nutrition is here so you can keep everything in one place, not to replace a dedicated diet app.",
+  "nutritionAboutScanTitle": "No scanning, ever",
+  "nutritionAboutScan": "Scanning a barcode and having every detail filled in for you would be handy. But it needs the internet and a huge online food database, and what you eat ends up on someone else's servers. That data shows when you eat, what you eat and how you look after your body, and it can be used for advertising or passed on to big companies. That's why there's no scanner, and there won't be one.",
+  "nutritionAboutLocalTitle": "Everything on your phone",
+  "nutritionAboutLocal": "More than 500 foods with photos come inside the app. You can add your own, change their photos and edit their values. It all stays on your phone, like the rest of GymMane.",
+  "nutritionAboutBetaTitle": "Still in beta",
+  "nutritionAboutBeta": "If you miss something, suggest it on GitHub. Just not scanning or a bigger food database: besides your privacy, it would make the app much heavier. Don't need Nutrition? Turn it off in Settings and your data stays.",
+  "nutritionAboutSuggest": "Suggest an idea",
+  "nutritionAboutOk": "Got it",
+  "planShare": "Share",
+  "planImport": "Import a plan",
+  "planImported": "{n, plural, =1{1 plan imported} other{{n} plans imported}}",
+  "@planImported": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "planImportNone": "That file has no meal plans.",
+  "planMoveUp": "Move up",
+  "planMoveDown": "Move down",
+  "cutoutEdit": "Touch up cutout",
+  "cutoutEditHint": "Drag to erase or restore. Tap an area to remove or bring it back whole. Pinch to zoom.",
+  "cutoutErase": "Erase",
+  "cutoutRestore": "Restore",
+  "cutoutReset": "Back to automatic",
+  "cutoutByHand": "Cut out by hand",
+  "notifSuppTitleFor": "Time to take: {names}",
+  "@notifSuppTitleFor": {
+    "placeholders": {
+      "names": {
+        "type": "String"
+      }
+    }
+  },
+  "notifSuppTap": "Tick it off in GymMane once you've taken it.",
+  "suppNoneToday": "Nothing to take today.",
+  "suppOtherDays": "Other days",
+  "suppEveryN": "{n, plural, =1{Every day} other{Every {n} days}}",
+  "@suppEveryN": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "suppDaily": "Every day",
+  "suppFromDate": "from {date}",
+  "@suppFromDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "suppUntilDate": "until {date}",
+  "@suppUntilDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "suppSomeDays": "Some days",
+  "suppEveryShort": "Every X days",
+  "suppWhen": "When",
+  "suppEveryLead": "Every",
+  "suppEveryTail": "{n, plural, =1{day} other{days}}",
+  "@suppEveryTail": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "suppStarts": "Starts",
+  "suppEnds": "Ends",
+  "suppTomorrow": "Tomorrow",
+  "suppPickDate": "Pick a date",
+  "suppNever": "Never",
+  "suppOneWeek": "In 1 week",
+  "suppOneMonth": "In 1 month",
+  "planPickHint": "Pick the plan for this day, or make a new one.",
+  "planSetForDay": "Plan set for {day}",
+  "@planSetForDay": {
+    "placeholders": {
+      "day": {
+        "type": "String"
+      }
+    }
+  },
+  "planSaved": "Plan saved",
+  "planDiscardTitle": "Discard changes?",
+  "planDiscardBody": "What you changed won't be saved.",
+  "planDiscard": "Discard",
+  "planEdit": "Edit plan",
+  "planNameHint": "Plan name",
+  "planDaysQuestion": "Which days?",
+  "planDaysHint": "On those days it shows up in Nutrition so you can log it in one tap.",
+  "planDaysNone": "Pick at least one day, or it won't show up anywhere.",
+  "planNothingToLog": "Those meals are already logged",
+  "planSave": "Save plan",
+  "planToday": "Today's plan",
+  "planLogRest": "Log the rest",
+  "dishNew": "Create my dish",
+  "dishNewHint": "Pick ingredients and amounts, save it and log it in one tap.",
+  "dishEdit": "Edit dish",
+  "dishNameHint": "E.g. Mum's lentils",
+  "dishIngredients": "Ingredients",
+  "dishEmptyHint": "Add what goes in it with the amount you usually eat.",
+  "dishSave": "Save dish",
+  "dishNeedsName": "Give it a name",
+  "dishNeedsItems": "Add at least one ingredient",
+  "suppHistory": "Last 14 days",
+  "suppTakenOf": "{n} of {total} taken",
+  "@suppTakenOf": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "suppNoReminder": "No reminder",
+  "suppMarkTaken": "Mark as taken",
+  "suppUnmark": "Unmark",
+  "suppEdit": "Edit",
+  "mealMoveTo": "Move to",
+  "mealClear": "Clear meal",
+  "mealCleared": "Meal cleared",
+  "movedMealToast": "{count, plural, =1{1 food moved} other{{count} foods moved}}",
+  "@movedMealToast": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "repeatWholeDay": "Repeat the whole day",
+  "createFoodNamed": "Create “{name}”",
+  "@createFoodNamed": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "entryDay": "Day",
+  "movedToDay": "Moved",
+  "favFoodsHint": "Tap ☆ on a food",
+  "favFoodsEmpty": "Tap the star on any food to keep it here, one tap away.",
+  "savedMealsCount": "{count, plural, =1{1 meal} other{{count} meals}}",
+  "@savedMealsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "savedMealsEmpty": "Save a meal from its ••• menu, or build your own dish.",
+  "sugarLimitLabel": "Sugar limit",
+  "sodiumLimitLabel": "Sodium limit",
+  "waterOptions": "Water options",
+  "waterNone": "No water logged yet.",
+  "waterDailyGoal": "Daily water",
+  "trackersScreen": "Screen",
+  "vesselMotion": "Moving water and shake",
+  "vesselMotionHint": "Turn it off if the screen feels slow: the glasses still fill up, they just stop moving."
 }
