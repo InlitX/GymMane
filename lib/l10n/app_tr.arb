@@ -1,8 +1,28 @@
 {
   "@@locale": "tr",
   "languageName": "Türkçe",
+  "@languageName": {
+    "description": "This language, written in itself. Shown in the language picker."
+  },
   "vsLastMonthLabel": "Geçen aya göre %{pct}",
+  "@vsLastMonthLabel": {
+    "placeholders": {
+      "pct": {
+        "type": "String"
+      }
+    }
+  },
   "levelStreakLabel": "Seviye {level} · {streak}",
+  "@levelStreakLabel": {
+    "placeholders": {
+      "level": {
+        "type": "int"
+      },
+      "streak": {
+        "type": "String"
+      }
+    }
+  },
   "save": "KAYDET",
   "cancel": "İptal",
   "cancelCaps": "İPTAL",
@@ -27,6 +47,13 @@
   "tools": "ARAÇLAR",
   "firstSessionHint": "Kaslarını seç ve ilk antrenmanını kaydet",
   "exerciseCount": "{n, plural, =1{{n} egzersiz} other{{n} egzersiz}}",
+  "@exerciseCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "pushDay": "İTİŞ GÜNÜ",
   "pullDay": "ÇEKİŞ GÜNÜ",
   "legDay": "BACAK",
@@ -43,11 +70,25 @@
   "nothingForFocus": "Bu odak için egzersiz yok",
   "goBackPick": "Geri dön ve kütüphanende egzersizi olan bir kas seç.",
   "pickedHint": "Senin için bir antrenman hazırladık — {n} egzersizden birini eklemek veya çıkarmak için dokun.",
+  "@pickedHint": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "pickAnExercise": "EGZERSİZ SEÇ",
   "searchAllExercises": "Egzersiz ara…",
   "noExercisesMatch": "Eşleşen egzersiz yok",
   "createItInstead": "Bunun yerine kendi egzersizini oluştur",
   "startCount": "BAŞLA · {n, plural, =1{{n} EGZERSİZ} other{{n} EGZERSİZ}}",
+  "@startCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "inProgress": "DEVAM EDİYOR",
   "paused": "DURAKLATILDI",
   "last": "SON",
@@ -62,26 +103,78 @@
   "setCol": "#",
   "repsCol": "TEKRAR",
   "weightCol": "AĞIRLIK ({unit})",
+  "@weightCol": {
+    "placeholders": {
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
   "repsTitle": "TEKRAR",
   "weightTitle": "AĞIRLIK ({unit})",
+  "@weightTitle": {
+    "placeholders": {
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
   "sessionComplete": "ANTRENMAN KAYDEDİLDİ",
   "finishHeadlinePr": "Yeni kişisel rekor",
   "finishHeadlineGoal": "Haftalık hedefe ulaşıldı",
   "finishHeadlineStreak": "Seri devam ediyor",
   "finishHeadlineDefault": "Bir antrenman daha tamam",
   "finishBodyPr": "{prs, plural, =1{bir egzersizde} other{{prs} egzersizde}} her zamankinden daha fazla kaldırdın. Artık kayıtlarda.",
+  "@finishBodyPr": {
+    "placeholders": {
+      "prs": {
+        "type": "int"
+      }
+    }
+  },
   "finishBodyGoal": "Bu hafta planladığın antrenman sayısına ulaştın.",
   "finishBodyStreak": "{streak} gün üst üste. En zor kısmı bırakmamak.",
+  "@finishBodyStreak": {
+    "placeholders": {
+      "streak": {
+        "type": "int"
+      }
+    }
+  },
   "finishBodyDefault": "Kaydedildi ve hesaba katıldı. İlerlemenin sırrı istikrar.",
   "vsLastTime": "SON SEFERE GÖRE",
   "firstTime": "İlk kayıt",
   "prCount": "{n, plural, =1{{n} yeni rekor} other{{n} yeni rekor}}",
+  "@prCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "duration": "SÜRE",
   "setsCaps": "SETLER",
   "exerciseXofY": "EGZERSİZ {i} / {n}",
+  "@exerciseXofY": {
+    "placeholders": {
+      "i": {
+        "type": "int"
+      },
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "decrease": "Azalt",
   "increase": "Artır",
   "markSet": "Set {n} tamamlandı olarak işaretle",
+  "@markSet": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "pauseWorkout": "Antrenmanı duraklat",
   "resumeWorkout": "Antrenmana devam et",
   "discardTitle": "Antrenman silinsin mi?",
@@ -99,47 +192,110 @@
   "allTimeSets": "SETLER",
   "consistency": "İSTİKRAR",
   "sessionsLogged": "{n, plural, =1{{n} antrenman kaydedildi} other{{n} antrenman kaydedildi}}",
+  "@sessionsLogged": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "streakDays": "{n} günlük seri",
+  "@streakDays": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "bodyweight": "VÜCUT AĞIRLIĞI",
   "logBodyweight": "KİLOYU KAYDET",
   "trackWeight": "Kilonun zaman içindeki değişimini takip et",
   "muscleMap": "KAS HARİTASI",
   "days7": "7 G",
   "days30": "30 G",
-  "days90": "90 G",
-  "days365": "1 Y",
-  "daysAll": "Tümü",
-  "weeklyAvgTitle": "Haftalık ortalama",
-  "weekOfDate": "{date} haftası",
-  "weightChangeRange": "Bu dönemde {change}",
+  "days90": "90D",
+  "days365": "1Y",
+  "daysAll": "All",
+  "weeklyAvgTitle": "Weekly average",
+  "weekOfDate": "Week of {date}",
+  "@weekOfDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "weightChangeRange": "{change} in this period",
+  "@weightChangeRange": {
+    "placeholders": {
+      "change": {
+        "type": "String"
+      }
+    }
+  },
   "heatLow": "Çalıştırılmadı",
   "heatHigh": "Maksimum hacim",
   "muscleMapEmpty": "Bir antrenman kaydet, vücudun burada renklenmeye başlasın.",
   "muscleMapHint": "Ne kadar çalıştığını görmek için bir kasa dokun.",
   "muscleMapBehind": "Geride: {names}",
+  "@muscleMapBehind": {
+    "placeholders": {
+      "names": {
+        "type": "String"
+      }
+    }
+  },
   "ofTarget": "Hedefin %{pct}'si",
+  "@ofTarget": {
+    "placeholders": {
+      "pct": {
+        "type": "int"
+      }
+    }
+  },
   "muscleSplit": "KAS DAĞILIMI",
   "personalRecords": "KİŞİSEL REKORLAR",
   "strength1rm": "GÜÇ · TAH. 1RM",
   "strengthEmpty": "Bir egzersizi iki kez kaydet, güç eğrisi burada görünsün.",
   "oneRmEst": "Tah. 1RM: {w}",
+  "@oneRmEst": {
+    "placeholders": {
+      "w": {
+        "type": "String"
+      }
+    }
+  },
   "restDayShort": "Dinlenme günü",
   "restDay": "Dinlenme günü — kayıt yok.",
   "delete": "Sil",
   "deleteEntry": "Bu kayıt silinsin mi?",
   "deleteEntryBody": "“{name}” bu günden, rekorlarından ve grafiklerinden kaldırılacak.",
+  "@deleteEntryBody": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "bodyweightHistory": "GEÇMİŞ",
   "exercisesCaps": "EGZERSİZLER",
   "timeCaps": "SÜRE",
   "libraryCount": "{n, plural, =1{Kütüphanende {n} egzersiz} other{Kütüphanende {n} egzersiz}}",
+  "@libraryCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "searchExercises": "Egzersiz ara",
   "muscleFilter": "KAS",
   "levelFilter": "SEVİYE",
-  "kindLabel": "TÜR",
-  "kindStrength": "Kuvvet",
-  "kindCalisthenics": "Kalistenik",
-  "kindCardio": "Kardiyo",
-  "kindStretch": "Esneme",
+  "kindLabel": "TYPE",
+  "kindStrength": "Strength",
+  "kindCalisthenics": "Calisthenics",
+  "kindCardio": "Cardio",
+  "kindStretch": "Stretching",
   "newExercise": "YENİ EGZERSİZ",
   "exerciseName": "Egzersiz adı",
   "equipmentLabel": "EKİPMAN",
@@ -162,6 +318,16 @@
   "notes": "NOTLAR",
   "notePlaceholder": "İpuçları, kurulum, nasıl hissettirdi…",
   "notHere": "{place} konumunda {gear} yok",
+  "@notHere": {
+    "placeholders": {
+      "gear": {
+        "type": "String"
+      },
+      "place": {
+        "type": "String"
+      }
+    }
+  },
   "notHereWhy": "Bugün gerçekten kullanabileceğin bir şeyle değiştir.",
   "altHere": "BURADA YAPABİLECEKLERİN",
   "places": "YERLERİM",
@@ -171,6 +337,13 @@
   "placeNamePlaceholder": "Ev, spor salonu, park…",
   "placeGearLabel": "MEVCUT EKİPMAN",
   "placeExercises": "Burada {n} egzersiz",
+  "@placeExercises": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "placeEmptyTitle": "Nerede olursan ol antrenman yap",
   "placeEmptyBody": "Bir yer, orada bulunan ekipmanların listesidir. Başlamak için birini seç; daha sonra düzenleyebilirsin.",
   "placeDeleteTitle": "Yeri sil",
@@ -181,8 +354,22 @@
   "placeFilterLabel": "YER",
   "noGearOnly": "Ekipmansız",
   "placeActive": "{name} konumunda antrenman",
+  "@placeActive": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "journal": "GÜNLÜK",
   "noteCount": "{n, plural, =0{Not yok} =1{1 not} other{{n} not}}",
+  "@noteCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "noteKindNote": "Not",
   "noteKindPlan": "Plan",
   "noteKindDone": "Başarı",
@@ -213,9 +400,23 @@
   "notePrevMonth": "Önceki ay",
   "noteNextMonth": "Sonraki ay",
   "noteMonthCount": "{n, plural, =0{Bu ay not yok} =1{Bu ay 1 not} other{Bu ay {n} not}}",
+  "@noteMonthCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "measures": "ÖLÇÜLER",
   "measuresHint": "Boyundan baldıra — yalnızca barı değil, vücudundaki değişimi de izle.",
   "measureCount": "{n, plural, =0{Ölçüm yok} =1{1 ölçüm} other{{n} ölçüm}}",
+  "@measureCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "measureNoneYet": "Henüz ölçülmedi",
   "measureHistory": "GEÇMİŞ",
   "measureNeck": "Boyun",
@@ -232,22 +433,64 @@
   "timelineHint": "Aynı poz, aynı yer, aynı ışık. Bir yıl sonra inanamayacaksın.",
   "timelineEmptyTitle": "İlk fotoğrafın takibi başlatır",
   "photoCount": "{n, plural, =0{Fotoğraf yok} =1{1 fotoğraf} other{{n} fotoğraf}}",
+  "@photoCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "poseFront": "Ön",
   "poseSide": "Yan",
   "poseBack": "Arka",
   "photoEvery": "HATIRLAT",
   "photoEveryDays": "Her {n} günde",
+  "@photoEveryDays": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "photoEveryOff": "Asla",
   "timelineEvery": "ŞU ARALIKLA GRUPLA",
   "custom": "Özel",
   "photoNextIn": "{n, plural, =1{Sonraki fotoğraf yarın} other{Sonraki fotoğraf {n} gün sonra}}",
+  "@photoNextIn": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "photoDueNow": "Fotoğraf zamanı — bugün çek",
   "addTodayPhotos": "BUGÜNÜN FOTOĞRAFLARINI EKLE",
   "posePhoto": "{pose} fotoğrafı",
+  "@posePhoto": {
+    "placeholders": {
+      "pose": {
+        "type": "String"
+      }
+    }
+  },
   "compare": "KARŞILAŞTIR",
   "compareNeedTwo": "Aynı pozu iki farklı günde çek, burada karşılaştırabilirsin.",
   "dayNumber": "Gün {n}",
+  "@dayNumber": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "daysApart": "{n, plural, =0{Aynı gün} =1{1 gün arayla} other{{n} gün arayla}}",
+  "@daysApart": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "deleteEntryTitle": "Bu günü sil",
   "deleteDayBody": "Bu günün fotoğrafları da kalıcı olarak silinir.",
   "timelinePhotos": "Fotoğraflar",
@@ -256,10 +499,34 @@
   "timelineBodyHint": "Kendi setlerinden oluşturulur — internete hiçbir şey yüklenmez.",
   "timelineWindow": "{from} – {to}",
   "sessionCount": "{n, plural, =0{Antrenman yok} =1{1 antrenman} other{{n} antrenman}}",
+  "@sessionCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "@timelineWindow": {
+    "placeholders": {
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
   "notifPhotoChannel": "İlerleme fotoğrafları",
   "notifPhotoChannelWhy": "Bir sonraki ilerleme fotoğrafının zamanı geldiğinde hatırlatır.",
   "notifPhotoTitle": "İlerleme fotoğrafı zamanı",
   "notifPhotoBody": "Sonuncudan beri {n} gün. Aynı poz, aynı ışık.",
+  "@notifPhotoBody": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "share": "PAYLAŞ",
   "sharePick": "Ne göstermek istiyorsun?",
   "shareStreak": "Seri ve istikrar",
@@ -281,13 +548,34 @@
   "setTypeFailure": "Tükenişe kadar",
   "addWarmup": "ISINMA",
   "platesPerSide": "Her taraf: {plates}",
+  "@platesPerSide": {
+    "placeholders": {
+      "plates": {
+        "type": "String"
+      }
+    }
+  },
   "howTo": "NASIL YAPILIR",
   "similar": "BENZER",
   "primaryLabel": "BİRİNCİL",
   "secondaryLabel": "İKİNCİL",
   "none": "Yok",
   "setCount": "{n, plural, =1{{n} set} other{{n} set}}",
+  "@setCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "volumeSuffix": "{v} hacim",
+  "@volumeSuffix": {
+    "placeholders": {
+      "v": {
+        "type": "String"
+      }
+    }
+  },
   "weeklyPlan": "HAFTALIK PLAN",
   "yourRoutines": "PROGRAMLARIN",
   "noRoutines": "Henüz program yok. Bir tane oluştur ve egzersizlerini ekle.",
@@ -298,13 +586,41 @@
   "addExercises": "Egzersiz ekle",
   "deleteRoutine": "Bu program silinsin mi?",
   "exercisesWithCount": "EGZERSİZLER · {n}",
+  "@exercisesWithCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "setDay": "{day} AYARLA",
+  "@setDay": {
+    "placeholders": {
+      "day": {
+        "type": "String"
+      }
+    }
+  },
   "newRoutineName": "Yeni program",
   "dragToReorder": "Sıralamak için noktalı tutamacı sürükle — antrenman sırası budur.",
   "reorderHandle": "{name} yeniden sırala",
+  "@reorderHandle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "removeFromRoutine": "Programdan kaldır",
   "dropExercise": "Bu egzersiz çıkarılsın mı?",
   "dropExerciseBody": "“{name}” bu antrenmandan çıkarılacak. Kaydedilen hiçbir şey kaybolmaz.",
+  "@dropExerciseBody": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "drop": "Çıkar",
   "resetData": "Tüm verilerimi sil",
   "resetTitle": "Her şey silinsin mi?",
@@ -320,12 +636,12 @@
   "theme": "Tema",
   "darkTheme": "Koyu",
   "lightTheme": "Açık",
-  "amoledTheme": "AMOLED siyah",
-  "editDuration": "Antrenman süresi",
-  "sessionName": "Antrenman adı",
-  "nameWorkout": "Ad ver",
-  "sessionNameHint": "örn. Bacak, İtiş, Tüm vücut",
-  "secondaryPickHint": "Bu hareketin çalıştırdığı diğer kaslara dokun.",
+  "amoledTheme": "AMOLED black",
+  "editDuration": "Workout length",
+  "sessionName": "Workout name",
+  "nameWorkout": "Name it",
+  "sessionNameHint": "e.g. Legs, Push, Full body",
+  "secondaryPickHint": "Tap the other muscles this exercise works.",
   "languageLabel": "Dil",
   "unitsLabel": "Birimler",
   "restTimer": "Dinlenme zamanlayıcısı",
@@ -341,6 +657,13 @@
   "alarmTooLong": "Bu ses 15 saniyeden uzun",
   "alarmInvalid": "Bu ses dosyası okunamadı",
   "alarmChanged": "Alarm sesi “{name}” olarak ayarlandı",
+  "@alarmChanged": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "alarmChangedDefault": "Varsayılan sese dönüldü",
   "addActivityWidget": "Etkinlik widget'ı ekle",
   "addStatsWidget": "İstatistik widget'ı ekle",
@@ -359,11 +682,25 @@
   "importUnknownFormat": "Bu dosya tarih, egzersiz, tekrar ve ağırlık sütunlarını içermeli",
   "importZipNoWeights": "Bu zip içinde ağırlık dosyası yok",
   "importWeights": "{n, plural, =1{{n} kilo kaydı içe aktarıldı} other{{n} kilo kaydı içe aktarıldı}}",
+  "@importWeights": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "importReadFailed": "Bu dosya okunamadı",
   "importUnitTitle": "Bu dosya hangi birimi kullanıyor?",
   "importUnitBody": "Bu dışa aktarma ağırlık birimini belirtmiyor.",
   "importNothing": "İçe aktarılacak yeni bir şey yok",
   "importDone": "{n, plural, =1{{n} antrenman içe aktarıldı} other{{n} antrenman içe aktarıldı}}",
+  "@importDone": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "aboutGymmane": "GymMane hakkında",
   "yourProfile": "PROFİLİN",
   "autofills": "Hesaplayıcılardaki bilgileri otomatik doldurur",
@@ -387,6 +724,13 @@
   "backupFailed": "Bu yedek okunamadı",
   "nothingToExport": "Henüz dışa aktarılacak bir şey yok — önce bir antrenman kaydet",
   "calculatorsCount": "Antrenmanın için {n} hesaplayıcı",
+  "@calculatorsCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "result": "SONUÇ",
   "weightLifted": "KALDIRILAN AĞIRLIK",
   "repsPerformed": "YAPILAN TEKRAR",
@@ -400,6 +744,13 @@
   "perSide": "HER TARAF",
   "justTheBar": "Sadece bar.",
   "perSideCount": "Her taraf × {n}",
+  "@perSideCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "toolNameRm": "1RM",
   "toolNameBmi": "VKİ",
   "toolNameCal": "Kalori",
@@ -433,7 +784,7 @@
   "actModerate": "Orta",
   "muscleChest": "Göğüs",
   "muscleBack": "Sırt",
-  "muscleLowerBack": "Bel",
+  "muscleLowerBack": "Lower back",
   "muscleShoulders": "Omuzlar",
   "muscleBiceps": "Biseps",
   "muscleTriceps": "Triseps",
@@ -466,6 +817,13 @@
   "diffIntermediate": "Orta seviye",
   "about": "HAKKINDA",
   "version": "Sürüm {v}",
+  "@version": {
+    "placeholders": {
+      "v": {
+        "type": "String"
+      }
+    }
+  },
   "aboutBlurb": "Spor yapanlar tarafından, spor yapanlar için geliştirildi.",
   "freeForever": "Sonsuza kadar ücretsiz",
   "freeForeverWhy": "Abonelik yok, reklam yok, ücret duvarı yok.",
@@ -475,31 +833,62 @@
   "yoursToTakeWhy": "İstediğin zaman CSV olarak dışa aktar ve her şeyi tek dokunuşla sil.",
   "whatsInside": "İÇERİK",
   "exercisesInside": "{n} egzersiz",
+  "@exercisesInside": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "exercisesInsideWhy": "Her birinde animasyon ve adım adım talimat var.",
-  "calculatorsInside": "10 hesaplayıcı",
-  "calculatorsInsideWhy": "1RM, plakalar, VKİ, kalori, vücut yağı, FFMI, ısınma, RPE'ye göre ağırlık ve DOTS ile Wilks güç puanları — hepsi yayımlanmış formüllere dayanır.",
+  "calculatorsInside": "10 calculators",
+  "calculatorsInsideWhy": "1RM, plates, BMI, calories, body fat, FFMI, warm-up, RPE load, and DOTS and Wilks strength scores — all with published formulas.",
   "mathInside": "Şeffaf hesaplamalar",
   "mathInsideWhy": "Hacim, rekorlar ve seriler kendi setlerinden hesaplanır. Buradaki hiçbir şey göstermelik değil.",
   "streakCaps": "SERİ",
   "daysUnit": "{n, plural, =1{gün} other{gün}}",
+  "@daysUnit": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "reset": "SIFIRLA",
   "welcomeKicker": "HOŞ GELDİN",
   "welcomeBlurb": "Her şey telefonunda kalır. Hesap yok, internet yok, ödeme yok.",
   "welcomeStart": "BAŞLA",
   "onbStep": "ADIM {i} / {n}",
+  "@onbStep": {
+    "placeholders": {
+      "i": {
+        "type": "int"
+      },
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "onbNameTitle": "Sana nasıl hitap edelim?",
   "onbNameHint": "Adın",
-  "onbPhotoAdd": "Fotoğraf ekle",
-  "onbPhotoChange": "Fotoğrafı değiştir",
-  "onbPhotoTitle": "Profiline bir yüz ekle",
-  "onbPhotoWhy": "İsteğe bağlı. Telefonunda kalır ve profilinden istediğin zaman değiştirebilirsin.",
-  "onbPhotoLater": "SONRA",
+  "onbPhotoAdd": "Add a photo",
+  "onbPhotoChange": "Change photo",
+  "onbPhotoTitle": "Put a face to your profile",
+  "onbPhotoWhy": "Optional. It stays on your phone and you can change it any time from your profile.",
+  "onbPhotoLater": "LATER",
   "onbNameWhy": "Yalnızca sana hitap etmek için kullanılır. Telefonundan asla çıkmaz.",
   "onbBodyTitle": "Birkaç bilgi",
   "onbBodyWhy": "Hesaplayıcılarda kullanılır. Ayarlar'dan istediğin zaman değiştirebilirsin.",
   "onbGoalTitle": "Ne sıklıkla antrenman yapıyorsun?",
   "onbGoalWhy": "Haftalık hedef halkasını belirler. İddialı değil, gerçekçi ol.",
   "perWeek": "{n, plural, =1{Haftada {n} antrenman} other{Haftada {n} antrenman}}",
+  "@perWeek": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "onbUnitsTitle": "Kilo mu pound mu?",
   "next": "İLERİ",
   "back": "GERİ",
@@ -520,6 +909,13 @@
   "repsOnlyHint": "Bu egzersizi ağırlıksız kaydet.",
   "useDefaultArt": "Varsayılan görsele dön",
   "daysShort": "{n} g",
+  "@daysShort": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "focusCard": "Bugünün odağı",
   "autoAdvance": "Otomatik sonraki egzersize geç",
   "keepScreenOn": "Antrenman sırasında ekranı açık tut",
@@ -529,23 +925,54 @@
   "liveChannel": "Devam eden antrenman",
   "liveChannelWhy": "Antrenman sırasında mevcut egzersizi, seti ve dinlenme sayacını gösterir",
   "liveSet": "Set {n} / {total}",
+  "@liveSet": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
   "liveResting": "Dinlenme",
   "liveAllDone": "Tüm setler bitti",
   "autoAdvanceHint": "Bir egzersizin son seti işaretlendiğinde antrenman otomatik olarak sonrakine geçer.",
   "autoProgress": "Bir dahaki sefere ağırlık ekle",
   "autoProgressHint": "Tüm tekrarları tamamladığında sonraki antrenman {w} daha ağır başlar.",
+  "@autoProgressHint": {
+    "placeholders": {
+      "w": {
+        "type": "String"
+      }
+    }
+  },
   "placePlates": "Plakalar ve bar",
   "platesAll": "Hepsi mevcut",
   "platesOwned": "{n, plural, =1{{n} plaka ağırlığı} other{{n} plaka ağırlığı}}",
+  "@platesOwned": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "platePairs": "ÇİFTLER",
   "plateAchievable": "Yükleyebileceğin en yakın ağırlık: {w}",
+  "@plateAchievable": {
+    "placeholders": {
+      "w": {
+        "type": "String"
+      }
+    }
+  },
   "autoWarmup": "Isınma setleriyle başla",
   "autoWarmupHint": "Antrenman açıldığında kademeli ısınma setleri ekler.",
   "trainReminder": "Antrenman hatırlatıcısı",
   "trainReminderHint": "Yalnızca programının olduğu günlerde bu saatte hatırlatır.",
-  "reminderExactTime": "Tam saat",
-  "toastSoundSetting": "Bildirim sesi",
-  "toastSoundHint": "Üstte bir bildirim çıktığında hafif bir ses.",
+  "reminderExactTime": "Exact time",
+  "toastSoundSetting": "Notice sound",
+  "toastSoundHint": "A soft chime when a notice pops up at the top.",
   "notifTrainChannel": "Antrenman hatırlatıcısı",
   "notifTrainChannelWhy": "Planladığın günlerde antrenman yapman için hatırlatma.",
   "notifTrainTitle": "Antrenman zamanı",
@@ -576,13 +1003,34 @@
   "reminderSmartHint": "Gerçekte antrenman yaptığın gün ve saatleri kullanır; o gün zaten antrenman yaptıysan sessiz kalır.",
   "reminderSmartEmpty": "Alışkanlıklarını öğrenmesi için birkaç antrenman daha kaydet.",
   "habitFocus": "{day} günü genellikle çalıştırdığın kaslar",
+  "@habitFocus": {
+    "placeholders": {
+      "day": {
+        "type": "String"
+      }
+    }
+  },
   "duplicateRoutine": "Programı çoğalt",
   "copySuffix": "{name} (kopya)",
+  "@copySuffix": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "saveAsRoutine": "PROGRAM OLARAK KAYDET",
   "savedAsRoutine": "Program olarak kaydedildi",
   "templates": "Hazır programlar",
   "templatesHint": "Kendi kütüphanendeki egzersizlerle oluşturulan klasik programlar. Daha sonra her şeyi değiştirebilirsin.",
   "templateAdded": "{n, plural, =1{{n} program eklendi} other{{n} program eklendi}}",
+  "@templateAdded": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "tplFullbody": "Haftada üç tam vücut antrenmanı. Başlangıç için ideal.",
   "tplPpl": "İtiş, çekiş ve bacak. Haftada üç veya altı gün.",
   "tplUpperlower": "Üst ve alt vücut, haftada dört gün.",
@@ -590,6 +1038,13 @@
   "tplStartingstrength": "Her antrenmanda squat yapılan, dönüşümlü iki antrenman.",
   "tplHome": "Barfiks demiri ve zemin dışında hiçbir şey yok.",
   "dayCount": "{n, plural, =1{{n} gün} other{{n} gün}}",
+  "@dayCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "logRpe": "Eforu kaydet (RPE)",
   "rpeHint": "10 = artık tekrar yok; 8 = yaklaşık iki tekrar yedekte.",
   "superset": "Süperset",
@@ -598,6 +1053,13 @@
   "aiRoutine": "Yapay zekâ ile program",
   "aiIntro": "GymMane hiçbir zaman doğrudan bir yapay zekâyla iletişim kurmaz. Egzersiz listesini dışa aktarır, kullandığın asistana yapıştırır ve yanıtını yeniden içe aktarırsın. Hiçbir şey kendiliğinden telefondan çıkmaz.",
   "aiMissing": "{n, plural, =1{1 ad kütüphanende yoktu} other{{n} ad kütüphanende yoktu}}",
+  "@aiMissing": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "importApps": "Desteklenen uygulamalar",
   "importOtherCsv": "Tarih, egzersiz, tekrar ve ağırlık içeren başka herhangi bir CSV",
   "importAskApp": "Başka bir uygulamaya mı ihtiyacın var? Eklenmesini iste",
@@ -684,17 +1146,107 @@
   "awardHours100Name": "Yüz saat",
   "awardHours100Line": "Barın altında, kronometre çalışırken yüz saat.",
   "awardWonOn": "{date} tarihinde kazanıldı",
+  "@awardWonOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
   "badgeName": "{id, select, gold{Altın} blue{Mavi} green{Yeşil} other{Rozet}}",
+  "@badgeName": {
+    "placeholders": {
+      "id": {
+        "type": "String"
+      }
+    }
+  },
   "memberSince": "{date} tarihinden beri",
+  "@memberSince": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
   "levelShort": "Seviye {n}",
   "levelToNext": "{n, plural, =1{Seviye {next} için 1 antrenman} other{Seviye {next} için {n} antrenman}}",
+  "@levelToNext": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      },
+      "next": {
+        "type": "int"
+      }
+    }
+  },
+  "@levelShort": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "heightCm": "{n} cm",
+  "@heightCm": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "heatToneName": "{id, select, ember{Kor} green{Yeşil} blue{Mavi} mono{Gri} other{Renk}}",
+  "@heatToneName": {
+    "placeholders": {
+      "id": {
+        "type": "String"
+      }
+    }
+  },
   "setsThisWeek": "{n} set",
+  "@setsThisWeek": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "weekOfGoal": "Bu hafta {n} / {goal}",
+  "@weekOfGoal": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      },
+      "goal": {
+        "type": "int"
+      }
+    }
+  },
   "momentCount": "{n} fotoğraf",
-  "photosSelected": "{n} seçildi",
-  "deletePhotosTitle": "{n} fotoğraf silinsin mi?",
+  "@momentCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "photosSelected": "{n} selected",
+  "deletePhotosTitle": "Delete {n} photos?",
+  "@photosSelected": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "@deletePhotosTitle": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "momentsEmptyHint": "Spor salonunun, tahtanın, yüklü bir barın fotoğrafını çek — hatırlamak istediğin her şey olabilir. Telefonda kalır ve yalnızca sen görürsün.",
   "awardStreak100Line": "Yüz gün üst üste. Bu artık motivasyon değil, alışkanlık.",
   "coverLabel": "KAPAK",
@@ -717,6 +1269,16 @@
   "workoutOverview": "Bu antrenman",
   "allExercisesShort": "Tümü",
   "setsDoneOf": "{done}/{total} set",
+  "@setsDoneOf": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
   "nowLabel": "Şimdi",
   "deleteWorkout": "Antrenmanı sil",
   "deleteWorkoutBody": "Bu antrenman ve tüm setleri geçmişinden silinecek.",
@@ -743,13 +1305,34 @@
   "onbPlaceWhy": "Antrenman yaptığın tüm yerleri seç. Her birinde yapabileceklerini önereceğiz.",
   "onbPlaceGear": "Orada neyin var?",
   "distanceCol": "MESAFE ({unit})",
+  "@distanceCol": {
+    "placeholders": {
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
   "timeCol": "SÜRE",
   "timeMinutesTitle": "Süre (dakika)",
   "timeSecondsTitle": "Süre (saniye)",
   "distanceTitle": "Mesafe ({unit})",
+  "@distanceTitle": {
+    "placeholders": {
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
   "holdLabel": "Tut",
   "stopLabel": "Durdur",
   "startHold": "Başla · {time}",
+  "@startHold": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
   "exerciseTypeLabel": "Kayıt türü",
   "typeReps": "Tekrar ve ağırlık",
   "typeTime": "Süre",
@@ -770,25 +1353,46 @@
   "planFormatNotes": "Egzersiz adlarını tam listede göründüğü gibi kullan. \"sets\", \"reps\", \"weight\" (belirtilen birimde), saniye cinsinden \"rest\" ve \"days\" isteğe bağlıdır. \"superset\": true bir egzersizi sonrakine bağlar. Birkaç hafta için programları ikinci örnekteki gibi \"weeks\" içinde grupla.",
   "planSets": "Setleri planla",
   "planSetsHint": "Her setin türünü, tekrarını ve ağırlığını seç. Son antrenmanından başlamak için ağırlığı Otomatik bırak.",
-  "planHintReps": "Her setin türünü ve tekrarını seç. Otomatik, son seansından başlar.",
-  "planHintTime": "Her setin türünü ve süresini seç. Otomatik, son seansından başlar.",
-  "planHintTimeWeight": "Her setin türünü, süresini ve ağırlığını seç. Otomatik, son seansından başlar.",
-  "planHintCardio": "Her setin mesafesini ve süresini seç. Otomatik, son seansından başlar.",
-  "timeOnly": "Yalnızca süre",
+  "planHintReps": "Choose the type and reps of each set. Auto starts from your last session.",
+  "planHintTime": "Choose the type and time of each set. Auto starts from your last session.",
+  "planHintTimeWeight": "Choose the type, time and weight of each set. Auto starts from your last session.",
+  "planHintCardio": "Choose the distance and time of each set. Auto starts from your last session.",
+  "timeOnly": "Time only",
   "autoValue": "Otomatik",
   "clearPlan": "Planı temizle",
   "shareRoutine": "Programı paylaş",
   "shareWeek": "Haftamı paylaş",
   "shareWeekHint": "Tüm programların ve her birinin planlandığı gün.",
   "shareMessage": "{name} — eklemek için dosyayı GymMane ile aç.",
+  "@shareMessage": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "importRoutines": "Programları içe aktar",
   "importPasteHint": "Buraya bir program yapıştır: GymMane'den paylaşılan bir program, yapay zekâ yanıtı, JSON veya CSV olabilir.",
   "pasteAction": "Yapıştır",
   "routineCount": "{n, plural, =1{1 program} other{{n} program}}",
+  "@routineCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "useTheirSchedule": "Haftalık planını da kullan",
   "useTheirScheduleHint": "Getirdiği günler, o günlerde planladıklarının yerine geçer.",
   "addToMyRoutines": "Programlarıma ekle",
   "routinesAdded": "{n, plural, =1{1 program eklendi} other{{n} program eklendi}}",
+  "@routinesAdded": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "nothingToImport": "Burada GymMane'in içe aktarabileceği bir şey yok",
   "aiStepCopy": "İsteği kopyala. Egzersiz listeni ve GymMane'in okuduğu biçimi içerir.",
   "aiStepAsk": "Herhangi bir yapay zekâya yapıştır ve ne istediğini söyle: haftada kaç gün, hedef, kaç hafta.",
@@ -801,13 +1405,41 @@
   "shareAsFile": "Dosya olarak paylaş",
   "recoveryTab": "Toparlanma",
   "recoveryOverall": "Vücut %{pct} toparlandı",
+  "@recoveryOverall": {
+    "placeholders": {
+      "pct": {
+        "type": "int"
+      }
+    }
+  },
   "recoveryAllFresh": "Her şey toparlandı. Her şeyi çalışmak için iyi bir gün.",
   "recoveryStill": "Hâlâ toparlanıyor: {muscles}",
+  "@recoveryStill": {
+    "placeholders": {
+      "muscles": {
+        "type": "String"
+      }
+    }
+  },
   "recoveryTired": "Yorgun",
   "recoveryFresh": "Dinç",
   "recoveryHint": "Ne kadar toparlandığını görmek için bir kasa dokun. Yakın zamanda yapılan setler daha çok, daha zor olanlar (RPE'ye göre) daha da fazla hesaba katılır.",
   "recoveryPct": "%{pct} toparlandı",
+  "@recoveryPct": {
+    "placeholders": {
+      "pct": {
+        "type": "int"
+      }
+    }
+  },
   "readyInHours": "~{h} sa içinde hazır",
+  "@readyInHours": {
+    "placeholders": {
+      "h": {
+        "type": "int"
+      }
+    }
+  },
   "tplAbcd": "Dört gün: göğüs ve arka kol, sırt ve ön kol, bacak, omuz ve karın.",
   "tplAbcde": "Beş gün, her gün bir kas grubu: göğüs, sırt, bacak, omuz, kol.",
   "elapsedCaps": "GEÇEN SÜRE",
@@ -820,6 +1452,13 @@
   "liveResume": "Devam et",
   "liveNext": "Sonraki",
   "liveUpNext": "Sırada: {name}",
+  "@liveUpNext": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "stickerOpen": "Bir fotoğrafta paylaş",
   "stickerNoPhoto": "Fotoğrafsız",
   "stickerWorkout": "Antrenman",
@@ -834,11 +1473,18 @@
   "shareIntroTitle": "Bu programı paylaş",
   "shareIntroBody": "Partnerine, bir arkadaşına ya da ailene gönder. GymMane ile açılan küçük dosyayı, setleri ve ağırlıklarıyla birlikte tek dokunuşla ekleyebilirler.",
   "removedFromRoutine": "Programdan çıkarıldı",
-  "radarTitle": "Son 30 gün",
+  "radarTitle": "Last 30 days",
   "radarHint": "Hangi bölgelerin daha fazla çalışmaya ihtiyacı olduğunu gör",
-  "radarEmpty": "Dengeni görmek için birkaç gün çalış",
+  "radarEmpty": "Train a few days to see your balance",
   "radarBalanced": "Şimdilik dengeli",
   "radarFocus": "Daha fazlası gerek: {list}",
+  "@radarFocus": {
+    "placeholders": {
+      "list": {
+        "type": "String"
+      }
+    }
+  },
   "countdownReady": "Hazırlan",
   "countdownSkip": "Hemen başlamak için dokun",
   "countdownSetting": "Başlamadan önce geri sayım",
@@ -848,41 +1494,83 @@
   "addWeekWidget": "Hafta widget'ı ekle",
   "gamificationSetting": "Madalyalar ve seviyeler",
   "repCount": "{n, plural, =1{{n} tekrar} other{{n} tekrar}}",
+  "@repCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "prBestSet": "En iyi set",
   "weekStartSetting": "Hafta başlangıcı",
   "stepOutOfWorkout": "Duraklat ve çık",
   "saveToRoutine": "DEĞİŞİKLİKLERİ PROGRAMA KAYDET",
   "routineUpdated": "Program güncellendi",
   "saveChangesTitle": "Değişiklikler {name} programına kaydedilsin mi?",
-  "saveChangesBody": "Bir dahaki sefere başlattığında program bu değişiklikleri içerecek.",
+  "@saveChangesTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "saveChangesBody": "Next time you start it, the routine will have these changes.",
   "routineOrderChanged": "Yeni egzersiz sırası",
   "mineOnly": "Senin oluşturdukların",
   "createNamed": "Yok mu? “{name}” oluştur",
+  "@createNamed": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "orStartWith": "Ya da şununla başla",
   "warmupFocus": "Isınma",
   "warmupFocusHint": "Ekipmanlı ya da ekipmansız mobilite ve aktivasyon",
   "cardioFocus": "Kardiyo",
   "cardioFocusHint": "Koşu, bisiklet, kürek ya da ip, mesafe ve süreyle",
   "homeRecommended": "Ana ekranda öneriler",
-  "homeRoutines": "Ana ekranda programlar",
-  "homeRoutinesHint": "Programların, en son yaptığın önce. Başlatmak için birine dokun.",
-  "homeWeekStats": "Ana ekranda bu hafta",
-  "homeWeekStatsHint": "Haftanın hacmi, setleri ve rekorları.",
-  "stepsSetting": "Health Connect adımları",
-  "stepsSettingHint": "Bugünkü adımları Ana sayfada gösterir. Hiçbir şey telefondan çıkmaz.",
-  "stepsToday": "Bugünkü adımlar",
-  "stepsOfGoal": "/ {goal}",
-  "stepsTodayCount": "Bugün {count} adım",
-  "stepsGoal": "Günlük adım hedefi",
-  "stepsNoAccess": "Adımlarına erişim yok",
-  "stepsGrant": "Health Connect'te izin vermek için dokun",
-  "stepsInfoRead": "Yalnızca adım sayını okur. Başka hiçbir şey okumaz ve Health Connect'e yazmaz.",
-  "stepsInfoLocal": "Adımların telefonunda kalır. GymMane asla internete bağlanmaz.",
-  "stepsInfoOff": "İstediğin zaman Ayarlar'dan veya Health Connect'ten kapatabilirsin.",
-  "stepsManage": "İzni yönet",
-  "routineDoneToday": "Bugünlük bitti · harika iş",
-  "trainAgain": "Tekrar antrenman yap",
-  "lastDoneAgo": "{n, plural, =0{Bugün yapıldı} =1{Dün yapıldı} other{{n} gün önce}}",
+  "homeRoutines": "Routines on home",
+  "homeRoutinesHint": "Your routines, last done first. Tap one to start it.",
+  "homeWeekStats": "This week on home",
+  "homeWeekStatsHint": "Volume, sets and PRs of the week.",
+  "stepsSetting": "Steps from Health Connect",
+  "stepsSettingHint": "Shows today's steps on Home. Nothing leaves your phone.",
+  "stepsToday": "Steps today",
+  "stepsOfGoal": "of {goal}",
+  "@stepsOfGoal": {
+    "placeholders": {
+      "goal": {
+        "type": "String"
+      }
+    }
+  },
+  "stepsTodayCount": "{count} steps today",
+  "@stepsTodayCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "stepsGoal": "Daily step goal",
+  "stepsNoAccess": "No access to your steps",
+  "stepsGrant": "Tap to allow it in Health Connect",
+  "stepsInfoRead": "It only reads your step count. It never reads anything else or writes to Health Connect.",
+  "stepsInfoLocal": "Your steps stay on your phone. GymMane never connects to the internet.",
+  "stepsInfoOff": "Turn it off anytime in Settings or in Health Connect.",
+  "stepsManage": "Manage permission",
+  "routineDoneToday": "Done for today · nice work",
+  "trainAgain": "Train again",
+  "lastDoneAgo": "{n, plural, =0{Done today} =1{Done yesterday} other{{n} days ago}}",
+  "@lastDoneAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "archivedFilter": "Arşivlenenler",
   "archiveExercise": "Egzersizi arşivle",
   "restoreExercise": "Geri al",
@@ -900,7 +1588,17 @@
   "multiPlanSetting": "Günde birden fazla program",
   "multiPlanHint": "Bu günün her programına dokun. Eklediğin sırayla gelirler.",
   "routineOfDay": "Bugün {n}/{total}",
-  "nextToday": "Bugün sıradaki",
+  "@routineOfDay": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "nextToday": "Next today",
   "planAboutMe": "Hakkımda:",
   "planBody": "{sex}, {age} yaşında, boy {height}, kilo {weight}.",
   "planDays": "Haftada {n} gün antrenman yapmak istiyorum.",
@@ -908,9 +1606,46 @@
   "planHistory": "{n, plural, =1{Son 30 günde 1 antrenman.} other{Son 30 günde {n} antrenman.}}",
   "planBestLifts": "Son en iyi setler",
   "planAskFirst": "Hedefimi (güç, kas, yağ yakımı ya da genel form) veya bir seansın ne kadar sürebileceğini bilmiyorsan önce bana kısa bir mesajla sor. Sonra yalnızca JSON ile cevap ver.",
+  "@planBody": {
+    "placeholders": {
+      "sex": {
+        "type": "String"
+      },
+      "age": {
+        "type": "int"
+      },
+      "height": {
+        "type": "String"
+      },
+      "weight": {
+        "type": "String"
+      }
+    }
+  },
+  "@planDays": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "@planHistory": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "backToTop": "Başa dön",
   "deleteExerciseTitle": "Bu egzersiz silinsin mi?",
   "deleteExerciseBody": "\"{name}\" kütüphanenden ve programlarından kaldırılacak. Önceki setlerin korunur.",
+  "@deleteExerciseBody": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "exportForStravaHint": "Tarayıcıdan strava.com/upload/select adresine yükle (Strava uygulaması dosya içe aktaramaz). Setlerinle birlikte ağırlık antrenmanı olarak görünür.",
   "manualStartTime": "Başlangıç saati",
   "manualDuration": "Süre",
@@ -929,333 +1664,987 @@
   "groupUngroup": "Grubu kaldır, rutinleri koru",
   "groupDeleteAll": "Grubu ve rutinleri sil",
   "groupDeleteTitle": "“{name}” silinsin mi?",
+  "@groupDeleteTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "groupDeleteBody": "{count} silinecek. Antrenman geçmişin korunur.",
+  "@groupDeleteBody": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
   "tplRr": "r/bodyweightfitness klasiği: haftada üç gün tüm vücut. Kolaylaşınca bir sonraki aşamaya geç.",
   "levelUpKicker": "SONRAKİ ADIM",
   "levelUpBody": "{name} hareketinde üst üste iki antrenmanda 3×{reps}. Sonraki adıma hazır mısın?",
+  "@levelUpBody": {
+    "placeholders": {
+      "reps": {
+        "type": "int"
+      },
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "levelUpSwap": "{routine} içinde değiştir",
+  "@levelUpSwap": {
+    "placeholders": {
+      "routine": {
+        "type": "String"
+      }
+    }
+  },
   "levelUpSee": "Nasıl yapıldığını gör",
   "levelUpLater": "Şimdi değil",
   "levelUpStay": "Bununla devam",
   "levelUpSwapped": "{name} artık {routine} içinde",
+  "@levelUpSwapped": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "routine": {
+        "type": "String"
+      }
+    }
+  },
   "levelUpStayed": "Bu hareket için artık seviye önerisi yok",
   "levelHintsSetting": "Sonraki adımı öner",
   "heatmapLabelsSetting": "Aktivite haritasında gün ve aylar",
   "rmPercent": "YÜZDE",
   "rmAtPercent": "Maksimumunun {pct} kadarı",
+  "@rmAtPercent": {
+    "placeholders": {
+      "pct": {
+        "type": "String"
+      }
+    }
+  },
   "copyWorkout": "Metin olarak kopyala",
   "goalSet": "Hedef belirle",
   "goalTargetReps": "HEDEF TEKRAR",
   "goalToGo": "{value} kaldı",
+  "@goalToGo": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
   "goalReached": "Hedefe ulaşıldı",
   "goalDaysLeft": "{n, plural, =1{1 gün kaldı} other{{n} gün kaldı}}",
+  "@goalDaysLeft": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "goalOverdue": "Tarih geçti",
   "goalDeadline": "SON TARİH",
   "goalNoDeadline": "Tarih yok",
   "goalRemove": "Hedefi kaldır",
-  "exerciseNameMissing": "Bir ad ver",
-  "aliasesLabel": "Diğer adları (isteğe bağlı)",
-  "aliasesHint": "Diğer adlar, virgülle ayrılmış",
-  "alsoCalled": "Diğer adı: {names}",
-  "addToRoutine": "Programa ekle",
-  "inRoutines": "{n, plural, =0{Henüz hiçbir programda yok} =1{1 programda} other{{n} programda}}",
-  "alreadyInRoutine": "Zaten içinde",
-  "restInRoutine": "Bu programda dinlenme",
-  "restInRoutineHint": "Egzersizdekiyle aynı",
-  "restInRoutineReset": "Yalnızca burada · geri almak için dokun",
-  "swapExercise": "Egzersizi değiştir",
-  "swapShort": "Değiştir",
-  "swapHint": "Sadece bugün {name} yerine. Bitirince programda tutabilirsin.",
-  "swapKeepsDone": "Yaptığın setler kalır; yenisi kalanlarla devam eder.",
-  "swapSameMuscle": "Aynı kas · {muscle}",
-  "swapDoneBefore": "Daha önce yaptın",
-  "multiPlanSettingHint": "Haftanın aynı gününde birden fazla program.",
-  "levelHintsHint": "Bir egzersiz kolaylaşınca daha zor versiyonunu önerir.",
-  "focusCardHint": "Bugünün programı, Ana sayfanın en üstünde.",
-  "gamificationHint": "Madalyalar, seviyen ve bitirince kutlama.",
-  "exerciseSettings": "Bu egzersizin ayarları",
-  "placeActiveNow": "Buradasın",
-  "placeTapToUse": "burada çalışmak için dokun",
-  "intervalDays": "gün",
-  "goalDaysShort": "{done}/{target} gün",
-  "toolNameRpe": "RPE’ye göre ağırlık",
-  "toolTitleRpe": "RPE’ye göre ağırlık",
-  "toolDescRpe": "İstediğin efor için hangi ağırlık",
-  "toolNameDots": "Güç seviyesi",
-  "toolTitleDots": "Güç seviyesi (DOTS)",
-  "toolDescDots": "Kilona göre gücün",
-  "rpeResultHint": "{reps} tekrar, RPE {rpe} için",
-  "rpeYourSet": "Az önce yaptığın bir set",
-  "rpeGoal": "Ne yapmak istiyorsun",
-  "rpeOneRmLine": "Tahmini 1RM: {value}",
-  "rpeExplain": "RPE 10 bir tekrar daha yapamamak; 8 iki tekrar kalmış demek.",
-  "dotsBestLifts": "En iyi kaldırışların",
+  "exerciseNameMissing": "Give it a name",
+  "aliasesLabel": "Also called (optional)",
+  "aliasesHint": "Other names, separated by commas",
+  "alsoCalled": "Also: {names}",
+  "@alsoCalled": {
+    "placeholders": {
+      "names": {
+        "type": "String"
+      }
+    }
+  },
+  "addToRoutine": "Add to routine",
+  "inRoutines": "{n, plural, =0{Not in any routine yet} =1{In 1 routine} other{In {n} routines}}",
+  "@inRoutines": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "alreadyInRoutine": "Already in it",
+  "restInRoutine": "Rest in this routine",
+  "restInRoutineHint": "Same as the exercise",
+  "restInRoutineReset": "Only here · tap to undo",
+  "swapExercise": "Swap exercise",
+  "swapShort": "Swap",
+  "swapHint": "Instead of {name}, only for today. When you finish, you can keep it in the routine.",
+  "@swapHint": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "swapKeepsDone": "The sets you already did stay logged; the new one picks up the rest.",
+  "swapSameMuscle": "Same muscle · {muscle}",
+  "@swapSameMuscle": {
+    "placeholders": {
+      "muscle": {
+        "type": "String"
+      }
+    }
+  },
+  "swapDoneBefore": "Done before",
+  "multiPlanSettingHint": "More than one routine on the same weekday.",
+  "levelHintsHint": "When an exercise gets easy, it offers you the harder version.",
+  "focusCardHint": "Today’s routine, at the top of Home.",
+  "gamificationHint": "Medals, your level and the celebration when you finish.",
+  "exerciseSettings": "Settings for this exercise",
+  "placeActiveNow": "You’re here",
+  "placeTapToUse": "tap to train here",
+  "intervalDays": "days",
+  "goalDaysShort": "{done}/{target} days",
+  "@goalDaysShort": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "target": {
+        "type": "int"
+      }
+    }
+  },
+  "toolNameRpe": "RPE load",
+  "toolTitleRpe": "Load by RPE",
+  "toolDescRpe": "Weight for the effort you want",
+  "toolNameDots": "Strength level",
+  "toolTitleDots": "Strength level (DOTS)",
+  "toolDescDots": "Your strength for your bodyweight",
+  "rpeResultHint": "For {reps} reps at RPE {rpe}",
+  "@rpeResultHint": {
+    "placeholders": {
+      "reps": {
+        "type": "int"
+      },
+      "rpe": {
+        "type": "String"
+      }
+    }
+  },
+  "rpeYourSet": "A set you just did",
+  "rpeGoal": "What you want to do",
+  "rpeOneRmLine": "Estimated 1RM: {value}",
+  "@rpeOneRmLine": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "rpeExplain": "RPE 10 means you couldn’t do one more; 8 means you had two left.",
+  "dotsBestLifts": "Your best lifts",
   "dotsSquat": "SQUAT",
   "dotsBench": "BENCH PRESS",
   "dotsDeadlift": "DEADLIFT",
-  "dotsTotalLine": "Toplam: {value}",
-  "dotsExplain": "Gücünü, kilosu ne olursa olsun herkesinkiyle karşılaştırır. En iyi tek tekrarını ya da tahmini 1RM’ini kullan.",
-  "dotsLevel0": "Başlangıç",
-  "dotsLevel1": "Orta",
-  "dotsLevel2": "İleri",
-  "dotsLevel3": "Çok ileri",
-  "dotsLevel4": "Elit",
+  "dotsTotalLine": "Total: {value}",
+  "@dotsTotalLine": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "dotsExplain": "Compares your strength with anyone’s, whatever they weigh. Use your best single rep, or your estimated 1RM.",
+  "dotsLevel0": "Beginner",
+  "dotsLevel1": "Intermediate",
+  "dotsLevel2": "Advanced",
+  "dotsLevel3": "Very advanced",
+  "dotsLevel4": "Elite",
   "toolNameWilks": "Wilks",
-  "toolTitleWilks": "Wilks puanı",
-  "toolDescWilks": "Powerlifting’in klasik puanı",
-  "wilksExplain": "Powerlifting’in klasik formülü. 2020’de yerini DOTS aldı ama birçok yarışma ve sıralama hâlâ kullanıyor.",
+  "toolTitleWilks": "Wilks score",
+  "toolDescWilks": "The classic powerlifting score",
+  "wilksExplain": "The classic powerlifting formula. DOTS replaced it in 2020, but many meets and rankings still use it.",
   "toolNameFfmi": "FFMI",
-  "toolTitleFfmi": "Yağsız kütle indeksi",
-  "toolDescFfmi": "Boyuna göre ne kadar kasın var",
-  "ffmiBodyFat": "VÜCUT YAĞI",
-  "ffmiLeanLine": "Yağsız kütle: {value}",
-  "ffmiExplain": "VKİ gibi ama yağ olmadan: yalnızca yağsız kütleni sayar. Boyuna göre düzeltilir, böylece uzun ve kısa boylular adilce karşılaştırılır.",
-  "ffmiLevel0": "Ortalamanın altında",
-  "ffmiLevel1": "Ortalama",
-  "ffmiLevel2": "Ortalamanın üstünde",
-  "ffmiLevel3": "Mükemmel",
-  "ffmiLevel4": "Olağanüstü",
-  "rpeEffortLabel": "Efor (RPE)",
-  "restRowHint": "Setler arası, egzersizin kendi süresi yoksa.",
-  "effortRowHint": "Her sette RPE veya RIR kaydet.",
-  "countdownHint": "İlk setten önce 3, 2, 1.",
-  "keepScreenOnHint": "Antrenman sırasında ekran kapanmaz.",
-  "demoSizeRowHint": "Antrenman sırasında egzersiz çizimi.",
-  "demoLoopRowHint": "Animasyon tekrar mı eder, durur mu.",
-  "trainReminderRowHint": "Antrenman günlerinde bir hatırlatma.",
-  "alarmSoundRowHint": "Dinlenme bitince çalan ses.",
-  "alarmStyleRowHint": "Sessiz modda çalıp çalmayacağı.",
-  "recommendedRowHint": "Ana sayfada önerdiğimiz egzersizler.",
-  "weightStepSetting": "Ağırlık adımı",
-  "weightStepHint": "− ve + düğmelerinin eklediği miktar.",
-  "prBestWorkout": "En iyi antrenman",
-  "mergeExercise": "Birleştir",
-  "mergeExerciseInto": "{name} şununla birleştir…",
-  "mergeExerciseTitle": "Egzersizler birleştirilsin mi?",
-  "mergeExerciseBody": "“{from}” geçmişinin tamamı “{to}” egzersizine taşınır. “{from}” kitaplığında kalır. Bu geri alınamaz.",
-  "mergedToast": "Geçmiş birleştirildi",
-  "nutrition": "Beslenme",
-  "nutritionHomeEmpty": "Su, protein ve kalori",
+  "toolTitleFfmi": "Fat-free mass index",
+  "toolDescFfmi": "How much muscle for your height",
+  "ffmiBodyFat": "BODY FAT",
+  "ffmiLeanLine": "Lean mass: {value}",
+  "@ffmiLeanLine": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "ffmiExplain": "Like BMI, but without the fat: it only counts your lean mass. Adjusted to your height so tall and short people compare fairly.",
+  "ffmiLevel0": "Below average",
+  "ffmiLevel1": "Average",
+  "ffmiLevel2": "Above average",
+  "ffmiLevel3": "Excellent",
+  "ffmiLevel4": "Exceptional",
+  "rpeEffortLabel": "Effort (RPE)",
+  "restRowHint": "Between sets, unless the exercise has its own.",
+  "effortRowHint": "Log RPE or RIR on each set.",
+  "countdownHint": "3, 2, 1 before the first set.",
+  "keepScreenOnHint": "The screen stays on while you train.",
+  "demoSizeRowHint": "The exercise drawing during the workout.",
+  "demoLoopRowHint": "Whether the animation repeats or stops.",
+  "trainReminderRowHint": "A nudge on the days you train.",
+  "alarmSoundRowHint": "What plays when the rest ends.",
+  "alarmStyleRowHint": "Whether it rings in silent mode.",
+  "recommendedRowHint": "Exercises we suggest on Home.",
+  "weightStepSetting": "Weight step",
+  "weightStepHint": "What the − and + buttons add.",
+  "prBestWorkout": "Best workout",
+  "mergeExercise": "Merge",
+  "mergeExerciseInto": "Merge {name} into…",
+  "@mergeExerciseInto": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "mergeExerciseTitle": "Merge exercises?",
+  "mergeExerciseBody": "All the history of \"{from}\" moves to \"{to}\". \"{from}\" stays in your library. This can't be undone.",
+  "@mergeExerciseBody": {
+    "placeholders": {
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "mergedToast": "History merged",
+  "nutrition": "Nutrition",
+  "nutritionHomeEmpty": "Water, protein and calories",
   "nutritionHomeDetail": "{energy} · {protein} g protein",
-  "nutritionToday": "Bugün",
-  "nutritionYesterday": "Dün",
-  "nutritionGoals": "Günlük hedefler",
-  "kcalLabel": "KALORİ",
-  "kcalOver": "fazla",
-  "waterLabel": "SU",
-  "waterDone": "Hedefe ulaşıldı",
-  "waterCustom": "Başka miktar",
-  "glassSize": "Bardak boyutu",
-  "supplementsLabel": "TAKVİYELER",
-  "supplementsEmpty": "Eklemek için birine dokun ya da kendin için +.",
-  "addSupplement": "Yeni takviye",
-  "supplementNameHint": "Kreatin, D vitamini…",
-  "removeSupplementTitle": "{name} silinsin mi?",
-  "removeSupplementBody": "İşaretlediğin günler de onunla gider.",
-  "suppCreatine": "Kreatin",
-  "suppVitaminD": "D vitamini",
+  "@nutritionHomeDetail": {
+    "placeholders": {
+      "energy": {
+        "type": "String"
+      },
+      "protein": {
+        "type": "int"
+      }
+    }
+  },
+  "nutritionToday": "Today",
+  "nutritionYesterday": "Yesterday",
+  "nutritionGoals": "Daily goals",
+  "kcalLabel": "CALORIES",
+  "kcalOver": "over",
+  "waterLabel": "WATER",
+  "waterDone": "Goal reached",
+  "waterCustom": "Other amount",
+  "glassSize": "Glass size",
+  "supplementsLabel": "SUPPLEMENTS",
+  "supplementsEmpty": "Tap one to add it, or + for your own.",
+  "addSupplement": "New supplement",
+  "supplementNameHint": "Creatine, vitamin D…",
+  "removeSupplementTitle": "Remove {name}?",
+  "@removeSupplementTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "removeSupplementBody": "The days you marked it as taken go with it.",
+  "suppCreatine": "Creatine",
+  "suppVitaminD": "Vitamin D",
   "suppOmega3": "Omega-3",
-  "suppMagnesium": "Magnezyum",
+  "suppMagnesium": "Magnesium",
   "suppMultivitamin": "Multivitamin",
-  "suppCaffeine": "Kafein",
-  "myFoods": "Yiyeceklerim",
-  "newFood": "Yeni yiyecek",
-  "editFood": "Yiyeceği düzenle",
-  "foodNameHint": "Whey, yulaf, ekmek…",
-  "servingLabel": "PORSİYON",
-  "servingHint": "1 ölçek · 30 g",
-  "perServing": "PORSİYON BAŞINA",
-  "servingsLabel": "Porsiyon",
-  "foodPhotoHint": "Düz bir zeminde çıkartmaya dönüşür.",
-  "cutoutWorking": "Kesiliyor…",
-  "cutoutTry": "Kes",
-  "cutoutKeep": "Fotoğrafın tamamı",
-  "deleteFoodTitle": "{name} silinsin mi?",
-  "deleteFoodBody": "Yiyeceklerinden çıkar. Kaydettiklerin kalır.",
-  "mealBreakfast": "Kahvaltı",
-  "mealLunch": "Öğle yemeği",
-  "mealDinner": "Akşam yemeği",
-  "mealSnacks": "Ara öğün",
-  "nothingLogged": "Henüz bir şey kaydedilmedi.",
-  "addToMeal": "Ekle: {meal}",
-  "quickAdd": "Hızlı ekle",
-  "quickAddHint": "Sadece sayılar, yiyecek kaydetmeden.",
-  "quickAddName": "Neydi? (isteğe bağlı)",
-  "logFood": "Ekle",
-  "loggedToast": "Eklendi: {meal}",
-  "entryRemoved": "Silindi",
-  "goalsFromProfile": "Profilimden hesapla",
-  "goalsFromProfileHint": "Profilindeki kalori, kilogram başına 1,8 g protein ve 35 ml su.",
-  "kcalEaten": "Yenen",
-  "kcalRemaining": "Kalan",
-  "waterTapHint": "Bardağa dokun: + {amount}",
-  "shakeEmpty": "Shake’ini seçmek için dokun",
-  "shakeTapHint": "Dokun: + {name}",
-  "shakePick": "Shake’in",
-  "shakePickHint": "Bardağa dokun, tek seferde kaydedilsin.",
+  "suppCaffeine": "Caffeine",
+  "myFoods": "My foods",
+  "newFood": "New food",
+  "editFood": "Edit food",
+  "foodNameHint": "Whey protein, oats, bread…",
+  "servingLabel": "SERVING",
+  "servingHint": "1 scoop · 30 g",
+  "perServing": "PER SERVING",
+  "servingsLabel": "Servings",
+  "foodPhotoHint": "On a plain background it turns into a sticker.",
+  "cutoutWorking": "Cutting out…",
+  "cutoutTry": "Cut out",
+  "cutoutKeep": "Whole photo",
+  "deleteFoodTitle": "Delete {name}?",
+  "@deleteFoodTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "deleteFoodBody": "It leaves your foods. What you already logged stays.",
+  "mealBreakfast": "Breakfast",
+  "mealLunch": "Lunch",
+  "mealDinner": "Dinner",
+  "mealSnacks": "Snacks",
+  "nothingLogged": "Nothing logged yet.",
+  "addToMeal": "Add to {meal}",
+  "@addToMeal": {
+    "placeholders": {
+      "meal": {
+        "type": "String"
+      }
+    }
+  },
+  "quickAdd": "Quick add",
+  "quickAddHint": "Just the numbers, without saving a food.",
+  "quickAddName": "What was it? (optional)",
+  "logFood": "Add",
+  "loggedToast": "Added to {meal}",
+  "@loggedToast": {
+    "placeholders": {
+      "meal": {
+        "type": "String"
+      }
+    }
+  },
+  "entryRemoved": "Removed",
+  "goalsFromProfile": "Calculate from my profile",
+  "goalsFromProfileHint": "Calories from your profile, 1.8 g of protein and 35 ml of water per kg of bodyweight.",
+  "kcalEaten": "Eaten",
+  "kcalRemaining": "Remaining",
+  "waterTapHint": "Tap the glass: + {amount}",
+  "@waterTapHint": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "shakeEmpty": "Tap to pick your shake",
+  "shakeTapHint": "Tap: + {name}",
+  "@shakeTapHint": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "shakePick": "Your shake",
+  "shakePickHint": "Tap the shaker and it gets logged in one go.",
   "proteinLetter": "P",
-  "carbsLetter": "K",
-  "fatLetter": "Y",
-  "addBurnedLabel": "Yakılan kaloriyi ekle",
-  "addBurnedHint": "Yakılan kalori antrenman süren ve kilondan tahmin edilir.",
-  "amountLabel": "Miktar",
-  "amountIn": "Miktar ({unit})",
-  "bodyweightLabel": "Kilo",
-  "copiedMealToast": "{count, plural, =1{1 yiyecek kopyalandı} other{{count} yiyecek kopyalandı}}",
-  "deleteSavedMealBody": "Kaydettiklerin olduğu gibi kalır.",
-  "fiberLabel": "Lif",
-  "sugarLabel": "Şeker",
-  "sodiumLabel": "Sodyum",
-  "foodDatabase": "Yiyecek veritabanı",
-  "kcalBurned": "Yakılan",
-  "mealOptions": "Öğün seçenekleri",
-  "moreNutrients": "Lif, şeker ve sodyum",
-  "ofGoal": "{goal} {unit} hedefin",
-  "per100": "100 {unit} başına",
-  "perServingShort": "porsiyon başına",
-  "portionUnit": "{count, plural, =1{1 adet} other{{count} adet}}",
-  "portionSlice": "{count, plural, =1{1 dilim} other{{count} dilim}}",
-  "portionScoop": "{count, plural, =1{1 ölçek} other{{count} ölçek}}",
-  "portionTbsp": "{count, plural, =1{1 yemek kaşığı} other{{count} yemek kaşığı}}",
-  "portionTsp": "{count, plural, =1{1 çay kaşığı} other{{count} çay kaşığı}}",
-  "portionCup": "{count, plural, =1{1 su bardağı} other{{count} su bardağı}}",
-  "portionGlass": "{count, plural, =1{1 bardak} other{{count} bardak}}",
-  "recentFoods": "Son kullanılanlar",
-  "recipeItems": "{count, plural, =1{1 yiyecek} other{{count} yiyecek}}",
-  "renameLabel": "Yeniden adlandır",
-  "repeatFrom": "Şuradan tekrarla",
-  "repeatNone": "Bu öğün için başka günlerde henüz kayıt yok.",
-  "restDayGoals": "Dinlenme günlerinde farklı hedefler",
-  "trainingDays": "Antrenman günleri",
-  "restDays": "Dinlenme günleri",
-  "trainingDay": "Antrenman günü",
-  "saveAsMeal": "Öğün olarak kaydet",
-  "savedMealNameHint": "ör. Her zamanki kahvaltı",
-  "savedMealToast": "Öğün kaydedildi",
-  "savedMeals": "Kayıtlı öğünler",
-  "searchFoodsHint": "Yiyecek ara",
-  "searchFoodsEmpty": "500’den fazla fotoğraflı yiyecek arasında ara ya da kendininkini ekle.",
-  "searchFoodsNone": "“{query}” için sonuç yok. Kendi yiyeceğin olarak oluştur.",
-  "servingWeight": "GRAM",
-  "weekAverage": "Bu hafta",
-  "weekAvgEnergy": "Günlük ortalama",
-  "weekAvgProtein": "Günlük protein",
-  "weekEnergyOnTarget": "Hedefte kalori",
-  "weekProteinOnTarget": "Hedefte protein",
-  "weekProteinAvg": "Günde {grams} g protein",
-  "weekDaysOnTarget": "{days} günün {met} günü hedefte",
-  "weekLoggedDays": "{count, plural, =1{1 gün kaydedildi} other{{count} gün kaydedildi}}",
-  "weekNoData": "Henüz bir şey kaydedilmedi",
-  "weekOnTargetHint": "Hedefte: kalori hedefin %10 yakınında ve proteinin en az %90’ı.",
-  "weightGoalLabel": "Hedef kilo",
-  "weightGoalTitle": "Hedef kilo ({unit})",
-  "weightGoalLine": "Hedef {weight}",
-  "weightGoalNone": "Hedef koymak için basılı tut",
-  "weightGoalReached": "Hedefe ulaşıldı",
-  "weightToLose": "Verilecek {weight}",
-  "weightToGain": "Alınacak {weight}",
-  "aminoHis": "histidin",
-  "aminoIle": "izolösin",
-  "aminoLeu": "lösin",
-  "aminoLys": "lizin",
-  "aminoSaa": "metiyonin",
-  "aminoAaa": "fenilalanin",
-  "aminoThr": "treonin",
-  "aminoTrp": "triptofan",
-  "aminoVal": "valin",
-  "animalProtein": "Hayvansal protein",
-  "proteinQuality": "Protein kalitesi",
-  "qualityComplete": "Tam",
-  "qualityAlmost": "Neredeyse tam",
-  "qualityIncomplete": "Eksik",
-  "qualityNoData": "Henüz veri yok",
-  "qualityNoDataHint": "Amino asitlerini görmek için veritabanından yiyecek kaydet.",
-  "qualityAllCovered": "Dokuz temel amino asidin hepsi karşılanıyor.",
-  "qualityLimiting": "{amino} eksik. Bundan zengin yiyeceklerle birleştir.",
-  "qualityCoverage": "Proteininin %{pct}’i ile hesaplandı: kendi yiyeceklerinde amino asit verisi yok.",
-  "fatTypes": "Yağ türleri",
-  "fatSaturated": "Doymuş",
-  "fatMono": "Tekli",
-  "fatPoly": "Çoklu",
-  "satLimitLine": "Doymuş {grams} g, en fazla {limit} g (kalorinin %10’u)",
-  "sugarSodium": "Şeker ve sodyum",
+  "carbsLetter": "C",
+  "fatLetter": "F",
+  "addBurnedLabel": "Add burned calories",
+  "addBurnedHint": "Your goal already counts your usual activity. Turn this on only if you set yourself as sedentary: it adds what each workout burns on top of resting.",
+  "amountLabel": "Amount",
+  "amountIn": "Amount ({unit})",
+  "@amountIn": {
+    "placeholders": {
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "bodyweightLabel": "Bodyweight",
+  "copiedMealToast": "{count, plural, =1{1 food copied} other{{count} foods copied}}",
+  "@copiedMealToast": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "deleteSavedMealBody": "What you already logged stays as it is.",
+  "fiberLabel": "Fiber",
+  "sugarLabel": "Sugar",
+  "sodiumLabel": "Sodium",
+  "foodDatabase": "Food database",
+  "kcalBurned": "Burned",
+  "mealOptions": "Meal options",
+  "moreNutrients": "Fiber, sugar and sodium",
+  "ofGoal": "of {goal} {unit}",
+  "@ofGoal": {
+    "placeholders": {
+      "goal": {
+        "type": "int"
+      },
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "per100": "per 100 {unit}",
+  "@per100": {
+    "placeholders": {
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "perServingShort": "per serving",
+  "portionUnit": "{count, plural, =1{1 piece} other{{count} pieces}}",
+  "@portionUnit": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "portionSlice": "{count, plural, =1{1 slice} other{{count} slices}}",
+  "@portionSlice": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "portionScoop": "{count, plural, =1{1 scoop} other{{count} scoops}}",
+  "@portionScoop": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "portionTbsp": "{count, plural, =1{1 tbsp} other{{count} tbsp}}",
+  "@portionTbsp": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "portionTsp": "{count, plural, =1{1 tsp} other{{count} tsp}}",
+  "@portionTsp": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "portionCup": "{count, plural, =1{1 cup} other{{count} cups}}",
+  "@portionCup": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "portionGlass": "{count, plural, =1{1 glass} other{{count} glasses}}",
+  "@portionGlass": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "recentFoods": "Recent",
+  "recipeItems": "{count, plural, =1{1 food} other{{count} foods}}",
+  "@recipeItems": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "renameLabel": "Rename",
+  "repeatFrom": "Repeat from",
+  "repeatNone": "Nothing logged for this meal on other days yet.",
+  "restDayGoals": "Different goals on rest days",
+  "trainingDays": "Training days",
+  "restDays": "Rest days",
+  "trainingDay": "Training day",
+  "saveAsMeal": "Save as a meal",
+  "savedMealNameHint": "e.g. Usual breakfast",
+  "savedMealToast": "Meal saved",
+  "savedMeals": "Saved meals",
+  "searchFoodsHint": "Search foods",
+  "searchFoodsEmpty": "Search over 500 foods with photos, or add your own.",
+  "searchFoodsNone": "Nothing found for \"{query}\". Create it as your own food.",
+  "@searchFoodsNone": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "servingWeight": "GRAMS",
+  "weekAverage": "This week",
+  "weekAvgEnergy": "Daily average",
+  "weekAvgProtein": "Protein per day",
+  "weekEnergyOnTarget": "Calories on target",
+  "weekProteinOnTarget": "Protein on target",
+  "weekProteinAvg": "{grams} g protein a day",
+  "@weekProteinAvg": {
+    "placeholders": {
+      "grams": {
+        "type": "int"
+      }
+    }
+  },
+  "weekDaysOnTarget": "{met} of {days} days on target",
+  "@weekDaysOnTarget": {
+    "placeholders": {
+      "met": {
+        "type": "int"
+      },
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "weekLoggedDays": "{count, plural, =1{1 day logged} other{{count} days logged}}",
+  "@weekLoggedDays": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "weekNoData": "Nothing logged yet",
+  "weekOnTargetHint": "On target: calories within 10% of the goal and at least 90% of the protein.",
+  "weightGoalLabel": "Goal weight",
+  "weightGoalTitle": "Goal weight ({unit})",
+  "@weightGoalTitle": {
+    "placeholders": {
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "weightGoalLine": "Goal {weight}",
+  "@weightGoalLine": {
+    "placeholders": {
+      "weight": {
+        "type": "String"
+      }
+    }
+  },
+  "weightGoalNone": "Hold to set a goal",
+  "weightGoalReached": "Goal reached",
+  "weightToLose": "{weight} to lose",
+  "@weightToLose": {
+    "placeholders": {
+      "weight": {
+        "type": "String"
+      }
+    }
+  },
+  "weightToGain": "{weight} to gain",
+  "@weightToGain": {
+    "placeholders": {
+      "weight": {
+        "type": "String"
+      }
+    }
+  },
+  "aminoHis": "histidine",
+  "aminoIle": "isoleucine",
+  "aminoLeu": "leucine",
+  "aminoLys": "lysine",
+  "aminoSaa": "methionine",
+  "aminoAaa": "phenylalanine",
+  "aminoThr": "threonine",
+  "aminoTrp": "tryptophan",
+  "aminoVal": "valine",
+  "animalProtein": "Animal protein",
+  "proteinQuality": "Protein quality",
+  "qualityComplete": "Complete",
+  "qualityAlmost": "Almost complete",
+  "qualityIncomplete": "Incomplete",
+  "qualityNoData": "No data yet",
+  "qualityNoDataHint": "Log foods from the database to see your amino acids.",
+  "qualityAllCovered": "All nine essential amino acids are covered.",
+  "qualityLimiting": "Short on {amino}. Pair it with foods rich in it.",
+  "@qualityLimiting": {
+    "placeholders": {
+      "amino": {
+        "type": "String"
+      }
+    }
+  },
+  "qualityCoverage": "Based on {pct}% of your protein: your own foods have no amino acid data.",
+  "@qualityCoverage": {
+    "placeholders": {
+      "pct": {
+        "type": "int"
+      }
+    }
+  },
+  "fatTypes": "Fat types",
+  "fatSaturated": "Saturated",
+  "fatMono": "Mono",
+  "fatPoly": "Poly",
+  "satLimitLine": "Saturated {grams} g of {limit} g max (10% of calories)",
+  "@satLimitLine": {
+    "placeholders": {
+      "grams": {
+        "type": "String"
+      },
+      "limit": {
+        "type": "int"
+      }
+    }
+  },
+  "sugarSodium": "Sugar and sodium",
   "shakeCard": "Protein shake",
-  "mealOther": "Öğün",
-  "mealAdd": "Öğün ekle",
-  "mealAddHint": "ör. Antrenman öncesi",
-  "mealsOfDay": "Günün öğünleri",
-  "mealsHint": "İstediğin kadar oluştur. Birini silersen içindekiler üsttekine geçer.",
-  "trackersTitle": "Özelleştir",
-  "trackersHint": "Sadece takip etmek istediklerini bırak.",
-  "trackersDaily": "Günün özeti",
-  "trackersDetail": "Ayrıntılı",
-  "trackersCards": "Kartlar",
+  "mealOther": "Meal",
+  "mealAdd": "Add a meal",
+  "mealAddHint": "e.g. Pre-workout",
+  "mealsOfDay": "Meals of the day",
+  "mealsHint": "Create as many as you want. Removing one moves what you logged in it to the one above.",
+  "trackersTitle": "Customize",
+  "trackersHint": "Show only what you want to track.",
+  "trackersDaily": "Daily summary",
+  "trackersDetail": "In detail",
+  "trackersCards": "Cards",
   "prepTitle": "Meal prep",
-  "prepNewShort": "Yeni parti",
-  "prepNew": "Yeni parti",
-  "prepEdit": "Partiyi düzenle",
-  "prepHint": "Tencerenin tamamını bir kez kaydet, sonra azar azar ye.",
-  "prepEmpty": "Birkaç günlük mü pişirdin? Bir kez kaydet, sonra kalandan ne kadar yediğini söyle yeter.",
-  "prepNameHint": "ör. Tavuklu pilav",
-  "prepDefaultName": "Parti",
-  "prepIngredients": "Malzemeler",
-  "prepAddIngredient": "Malzeme ekle",
-  "prepCookedWeight": "PİŞMİŞ AĞIRLIK",
-  "prepCookedHint": "Kesin sayılar için tencereyi pişince tart. Boş = toplam çiğ ağırlık ({grams} g).",
-  "prepNeedWeight": "Pişmiş ağırlığı gir: bazı malzemelerin gramı yok.",
-  "prepLeftOf": "{total}’nin {left}’ı kaldı",
-  "prepOfWhatsLeft": "Kalanın %’si",
-  "prepAll": "Hepsi",
-  "prepLogAmount": "{grams} kaydet",
-  "prepWeighLeft": "Kalanı tart",
-  "prepFinished": "Bu parti bitti.",
-  "approxValues": "Yaklaşık",
-  "editValues": "Değerleri düzenle",
-  "editValuesHint": "Sadece bu kaydı değiştirir. Yiyeceği bir dahaki sefer için düzeltmek istersen Yiyeceklerim’den düzenle.",
-  "editLibraryHint": "Aynı fotoğrafla senin yiyeceğin olarak kaydedilir",
-  "per100Line": "100 {unit} başına {energy}",
-  "rawLabel": "Çiğ",
-  "cookedLabel": "Pişmiş",
-  "rawHint": "Pişirmeden önceki ağırlık",
-  "cookedHint": "Pişmiş ağırlık (çiğ ağırlığın ×{factor} katı)",
-  "servingsUnit": "porsiyon",
-  "logAmount": "Kaydet · {energy}",
-  "catFruit": "Meyve",
-  "catVeg": "Sebze",
-  "catMeat": "Et",
-  "catFish": "Balık",
-  "catEgg": "Yumurta",
-  "catDairy": "Süt ürünleri",
-  "catGrain": "Tahıllar",
-  "catBakery": "Ekmek",
-  "catLegume": "Baklagiller",
-  "catNut": "Kuruyemiş",
-  "catOil": "Yağlar",
-  "catPantry": "Kiler",
-  "catDrink": "İçecekler",
-  "catSauce": "Soslar",
-  "catSpice": "Baharatlar",
-  "searchFoodsPrompt": "Ne yedin?",
-  "shelfEmpty": "Bir yiyecek ara ya da kendininkinin fotoğrafını çek: en çok kaydettiklerin burada çıkar.",
-  "repeatEntry": "Tekrarla",
-  "notifSuppChannel": "Takviyeler",
-  "notifSuppChannelWhy": "Takviyelerini almak için günlük hatırlatma",
-  "energySplit": "Kaloriler nereden geliyor",
-  "typicalServing": "Tipik porsiyon",
-  "cookedYieldLine": "Çiğ ağırlığının {factor} katı gelir",
+  "prepNewShort": "New batch",
+  "prepNew": "New batch",
+  "prepEdit": "Edit batch",
+  "prepHint": "Log the whole pot once, then eat it bit by bit.",
+  "prepEmpty": "Cooked a big batch? Log it once and then just say how much of what is left you ate.",
+  "prepNameHint": "e.g. Chicken and rice",
+  "prepDefaultName": "Batch",
+  "prepIngredients": "Ingredients",
+  "prepAddIngredient": "Add ingredient",
+  "prepCookedWeight": "COOKED WEIGHT",
+  "prepCookedHint": "Weigh the pot once cooked for exact numbers. Empty uses the raw total ({grams} g).",
+  "@prepCookedHint": {
+    "placeholders": {
+      "grams": {
+        "type": "String"
+      }
+    }
+  },
+  "prepNeedWeight": "Add the cooked weight: some ingredients have no grams.",
+  "prepLeftOf": "{left} left of {total}",
+  "@prepLeftOf": {
+    "placeholders": {
+      "left": {
+        "type": "String"
+      },
+      "total": {
+        "type": "String"
+      }
+    }
+  },
+  "prepOfWhatsLeft": "% of what is left",
+  "prepAll": "All",
+  "prepLogAmount": "Log {grams}",
+  "@prepLogAmount": {
+    "placeholders": {
+      "grams": {
+        "type": "String"
+      }
+    }
+  },
+  "prepWeighLeft": "Weigh what is left",
+  "prepFinished": "This batch is finished.",
+  "approxValues": "Approximate",
+  "editValues": "Edit values",
+  "editValuesHint": "Only changes this entry. To fix the food for next time, edit it from My foods.",
+  "editLibraryHint": "Saved as your own food, with the same photo",
+  "per100Line": "{energy} per 100 {unit}",
+  "@per100Line": {
+    "placeholders": {
+      "energy": {
+        "type": "String"
+      },
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "rawLabel": "Raw",
+  "cookedLabel": "Cooked",
+  "rawHint": "Weight before cooking",
+  "cookedHint": "Weight once cooked (×{factor} the raw weight)",
+  "@cookedHint": {
+    "placeholders": {
+      "factor": {
+        "type": "String"
+      }
+    }
+  },
+  "servingsUnit": "servings",
+  "logAmount": "Log · {energy}",
+  "@logAmount": {
+    "placeholders": {
+      "energy": {
+        "type": "String"
+      }
+    }
+  },
+  "catFruit": "Fruit",
+  "catVeg": "Veggies",
+  "catMeat": "Meat",
+  "catFish": "Fish",
+  "catEgg": "Eggs",
+  "catDairy": "Dairy",
+  "catGrain": "Grains",
+  "catBakery": "Bakery",
+  "catLegume": "Legumes",
+  "catNut": "Nuts",
+  "catOil": "Oils",
+  "catPantry": "Pantry",
+  "catDrink": "Drinks",
+  "catSauce": "Sauces",
+  "catSpice": "Spices",
+  "searchFoodsPrompt": "What did you eat?",
+  "shelfEmpty": "Search a food or take a photo of yours: the ones you log most will show up here.",
+  "repeatEntry": "Log again",
+  "notifSuppChannel": "Supplements",
+  "notifSuppChannelWhy": "Daily reminder to take your supplements",
+  "energySplit": "Where the calories come from",
+  "typicalServing": "Typical serving",
+  "cookedYieldLine": "Weighs {factor}× its raw weight",
+  "@cookedYieldLine": {
+    "placeholders": {
+      "factor": {
+        "type": "String"
+      }
+    }
+  },
+  "readyDishes": "Dishes",
+  "weightLastLine": "Last weigh-in {weight}",
+  "@weightLastLine": {
+    "placeholders": {
+      "weight": {
+        "type": "String"
+      }
+    }
+  },
+  "proteinAnimalShort": "Animal",
+  "proteinPlantShort": "Plant",
+  "kcalFromMacros": "These macros add up to about {value}",
+  "@kcalFromMacros": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "useValue": "Use",
+  "suppRowHint": "Tap to mark · hold for details",
+  "suppPhoto": "Photo",
+  "suppDose": "Dose",
+  "suppDoseHint": "5 g, 2 capsules…",
+  "suppRemind": "Remind me",
+  "mealPlanDefault": "Plan {n}",
+  "@mealPlanDefault": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "mealPlansTitle": "Meal plans",
+  "mealPlanNew": "New plan",
+  "fromPlan": "From {name}",
+  "@fromPlan": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "logPlan": "Log",
+  "planFromDay": "Copy this day",
+  "planNewHint": "Plan your days like your routines, then log a whole meal with one tap.",
+  "planLogDay": "Log the empty meals",
+  "planLogged": "{n, plural, =1{1 food logged} other{{n} foods logged}}",
+  "@planLogged": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "planNoPlan": "No plan",
+  "planWeekHint": "Tap a day to give it a plan.",
+  "planDuplicate": "Duplicate",
+  "planDeleteTitle": "Delete {name}?",
+  "@planDeleteTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "planDeleteBody": "Your logged days stay as they are.",
   "sectionBeta": "Beta",
-  "nutritionBeta": "Beslenme",
-  "nutritionBetaHint": "Öğünler, su, protein ve takviyeler. Hâlâ yapım aşamasında: kapatsan bile verilerin kalır.",
-  "nutritionAboutTitle": "Beslenme hakkında",
-  "nutritionAboutSub": "Ne olduğu ve asla ne olmayacağı.",
-  "nutritionAboutWhatTitle": "Antrenmanının bir parçası",
-  "nutritionAboutWhat": "Öğünlerini, suyunu, proteinini ve takviyelerini antrenmanlarının hemen yanında kaydetmenin basit bir yolu. GymMane her şeyden önce bir spor salonu uygulaması: Beslenme her şeyi tek bir yerde tutman için var, bir diyet uygulamasının yerini almak için değil.",
-  "nutritionAboutScanTitle": "Tarayıcı yok, asla",
-  "nutritionAboutScan": "Bir barkodu tarayıp her şeyin kendiliğinden dolması kullanışlı olurdu. Ama bunun için internet ve devasa bir çevrimiçi gıda veritabanı gerekir ve yediklerin başkalarının sunucularına gider. Bu veriler ne zaman yediğini, ne yediğini ve vücuduna nasıl baktığını gösterir; reklam için kullanılabilir ya da büyük şirketlerin eline geçebilir. Bu yüzden tarayıcı yok ve olmayacak.",
-  "nutritionAboutLocalTitle": "Her şey telefonunda",
-  "nutritionAboutLocal": "Uygulamada fotoğraflı 500’den fazla yiyecek var. Kendi yiyeceklerini ekleyebilir, fotoğraflarını değiştirebilir ve değerlerini düzenleyebilirsin. GymMane’in geri kalanı gibi her şey telefonunda kalır.",
-  "nutritionAboutBetaTitle": "Hâlâ beta",
-  "nutritionAboutBeta": "Eksik bir şey varsa GitHub’da öner. Yalnızca tarayıcı ya da daha büyük bir gıda veritabanı olmasın: gizliliğinin yanı sıra uygulamayı çok daha ağır yapar. Beslenmeye ihtiyacın yok mu? Ayarlar’dan kapat, verilerin kalır.",
-  "nutritionAboutSuggest": "Fikir öner",
-  "nutritionAboutOk": "Anladım"
+  "nutritionBeta": "Nutrition",
+  "nutritionBetaHint": "Meals, water, protein and supplements. Still being built: your data stays even if you turn it off.",
+  "nutritionAboutTitle": "About Nutrition",
+  "nutritionAboutSub": "What it is, and what it will never be.",
+  "nutritionAboutWhatTitle": "Part of your training",
+  "nutritionAboutWhat": "A simple way to log meals, water, protein and supplements right next to your workouts. GymMane is a gym app first: Nutrition is here so you can keep everything in one place, not to replace a dedicated diet app.",
+  "nutritionAboutScanTitle": "No scanning, ever",
+  "nutritionAboutScan": "Scanning a barcode and having every detail filled in for you would be handy. But it needs the internet and a huge online food database, and what you eat ends up on someone else's servers. That data shows when you eat, what you eat and how you look after your body, and it can be used for advertising or passed on to big companies. That's why there's no scanner, and there won't be one.",
+  "nutritionAboutLocalTitle": "Everything on your phone",
+  "nutritionAboutLocal": "More than 500 foods with photos come inside the app. You can add your own, change their photos and edit their values. It all stays on your phone, like the rest of GymMane.",
+  "nutritionAboutBetaTitle": "Still in beta",
+  "nutritionAboutBeta": "If you miss something, suggest it on GitHub. Just not scanning or a bigger food database: besides your privacy, it would make the app much heavier. Don't need Nutrition? Turn it off in Settings and your data stays.",
+  "nutritionAboutSuggest": "Suggest an idea",
+  "nutritionAboutOk": "Got it",
+  "planShare": "Share",
+  "planImport": "Import a plan",
+  "planImported": "{n, plural, =1{1 plan imported} other{{n} plans imported}}",
+  "@planImported": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "planImportNone": "That file has no meal plans.",
+  "planMoveUp": "Move up",
+  "planMoveDown": "Move down",
+  "cutoutEdit": "Touch up cutout",
+  "cutoutEditHint": "Drag to erase or restore. Tap an area to remove or bring it back whole. Pinch to zoom.",
+  "cutoutErase": "Erase",
+  "cutoutRestore": "Restore",
+  "cutoutReset": "Back to automatic",
+  "cutoutByHand": "Cut out by hand",
+  "notifSuppTitleFor": "Time to take: {names}",
+  "@notifSuppTitleFor": {
+    "placeholders": {
+      "names": {
+        "type": "String"
+      }
+    }
+  },
+  "notifSuppTap": "Tick it off in GymMane once you've taken it.",
+  "suppNoneToday": "Nothing to take today.",
+  "suppOtherDays": "Other days",
+  "suppEveryN": "{n, plural, =1{Every day} other{Every {n} days}}",
+  "@suppEveryN": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "suppDaily": "Every day",
+  "suppFromDate": "from {date}",
+  "@suppFromDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "suppUntilDate": "until {date}",
+  "@suppUntilDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "suppSomeDays": "Some days",
+  "suppEveryShort": "Every X days",
+  "suppWhen": "When",
+  "suppEveryLead": "Every",
+  "suppEveryTail": "{n, plural, =1{day} other{days}}",
+  "@suppEveryTail": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "suppStarts": "Starts",
+  "suppEnds": "Ends",
+  "suppTomorrow": "Tomorrow",
+  "suppPickDate": "Pick a date",
+  "suppNever": "Never",
+  "suppOneWeek": "In 1 week",
+  "suppOneMonth": "In 1 month",
+  "planPickHint": "Pick the plan for this day, or make a new one.",
+  "planSetForDay": "Plan set for {day}",
+  "@planSetForDay": {
+    "placeholders": {
+      "day": {
+        "type": "String"
+      }
+    }
+  },
+  "planSaved": "Plan saved",
+  "planDiscardTitle": "Discard changes?",
+  "planDiscardBody": "What you changed won't be saved.",
+  "planDiscard": "Discard",
+  "planEdit": "Edit plan",
+  "planNameHint": "Plan name",
+  "planDaysQuestion": "Which days?",
+  "planDaysHint": "On those days it shows up in Nutrition so you can log it in one tap.",
+  "planDaysNone": "Pick at least one day, or it won't show up anywhere.",
+  "planNothingToLog": "Those meals are already logged",
+  "planSave": "Save plan",
+  "planToday": "Today's plan",
+  "planLogRest": "Log the rest",
+  "dishNew": "Create my dish",
+  "dishNewHint": "Pick ingredients and amounts, save it and log it in one tap.",
+  "dishEdit": "Edit dish",
+  "dishNameHint": "E.g. Mum's lentils",
+  "dishIngredients": "Ingredients",
+  "dishEmptyHint": "Add what goes in it with the amount you usually eat.",
+  "dishSave": "Save dish",
+  "dishNeedsName": "Give it a name",
+  "dishNeedsItems": "Add at least one ingredient",
+  "suppHistory": "Last 14 days",
+  "suppTakenOf": "{n} of {total} taken",
+  "@suppTakenOf": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "suppNoReminder": "No reminder",
+  "suppMarkTaken": "Mark as taken",
+  "suppUnmark": "Unmark",
+  "suppEdit": "Edit",
+  "mealMoveTo": "Move to",
+  "mealClear": "Clear meal",
+  "mealCleared": "Meal cleared",
+  "movedMealToast": "{count, plural, =1{1 food moved} other{{count} foods moved}}",
+  "@movedMealToast": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "repeatWholeDay": "Repeat the whole day",
+  "createFoodNamed": "Create “{name}”",
+  "@createFoodNamed": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "entryDay": "Day",
+  "movedToDay": "Moved",
+  "favFoodsHint": "Tap ☆ on a food",
+  "favFoodsEmpty": "Tap the star on any food to keep it here, one tap away.",
+  "savedMealsCount": "{count, plural, =1{1 meal} other{{count} meals}}",
+  "@savedMealsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "savedMealsEmpty": "Save a meal from its ••• menu, or build your own dish.",
+  "sugarLimitLabel": "Sugar limit",
+  "sodiumLimitLabel": "Sodium limit",
+  "waterOptions": "Water options",
+  "waterNone": "No water logged yet.",
+  "waterDailyGoal": "Daily water",
+  "trackersScreen": "Screen",
+  "vesselMotion": "Moving water and shake",
+  "vesselMotionHint": "Turn it off if the screen feels slow: the glasses still fill up, they just stop moving."
 }
