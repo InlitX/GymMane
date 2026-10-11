@@ -213,6 +213,26 @@
   "muscleMap": "MAPPA MUSCOLARE",
   "days7": "7G",
   "days30": "30G",
+  "days90": "90D",
+  "days365": "1Y",
+  "daysAll": "All",
+  "weeklyAvgTitle": "Weekly average",
+  "weekOfDate": "Week of {date}",
+  "@weekOfDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "weightChangeRange": "{change} in this period",
+  "@weightChangeRange": {
+    "placeholders": {
+      "change": {
+        "type": "String"
+      }
+    }
+  },
   "heatLow": "Non toccato",
   "heatHigh": "Volume pieno",
   "muscleMapEmpty": "Registra una sessione e il tuo corpo si illumina qui.",
@@ -851,6 +871,11 @@
   },
   "onbNameTitle": "Come ti chiami?",
   "onbNameHint": "Il tuo nome",
+  "onbPhotoAdd": "Add a photo",
+  "onbPhotoChange": "Change photo",
+  "onbPhotoTitle": "Put a face to your profile",
+  "onbPhotoWhy": "Optional. It stays on your phone and you can change it any time from your profile.",
+  "onbPhotoLater": "LATER",
   "onbNameWhy": "Serve solo per salutarti. Non lascia mai il telefono.",
   "onbBodyTitle": "Qualche numero",
   "onbBodyWhy": "Alimentano le calcolatrici. Puoi cambiarli quando vuoi in Impostazioni.",
@@ -1510,6 +1535,32 @@
   "homeRoutinesHint": "Your routines, last done first. Tap one to start it.",
   "homeWeekStats": "This week on home",
   "homeWeekStatsHint": "Volume, sets and PRs of the week.",
+  "stepsSetting": "Steps from Health Connect",
+  "stepsSettingHint": "Shows today's steps on Home. Nothing leaves your phone.",
+  "stepsToday": "Steps today",
+  "stepsOfGoal": "of {goal}",
+  "@stepsOfGoal": {
+    "placeholders": {
+      "goal": {
+        "type": "String"
+      }
+    }
+  },
+  "stepsTodayCount": "{count} steps today",
+  "@stepsTodayCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "stepsGoal": "Daily step goal",
+  "stepsNoAccess": "No access to your steps",
+  "stepsGrant": "Tap to allow it in Health Connect",
+  "stepsInfoRead": "It only reads your step count. It never reads anything else or writes to Health Connect.",
+  "stepsInfoLocal": "Your steps stay on your phone. GymMane never connects to the internet.",
+  "stepsInfoOff": "Turn it off anytime in Settings or in Health Connect.",
+  "stepsManage": "Manage permission",
   "routineDoneToday": "Done for today · nice work",
   "trainAgain": "Train again",
   "lastDoneAgo": "{n, plural, =0{Done today} =1{Done yesterday} other{{n} days ago}}",
@@ -1865,5 +1916,735 @@
       }
     }
   },
-  "mergedToast": "History merged"
+  "mergedToast": "History merged",
+  "nutrition": "Nutrition",
+  "nutritionHomeEmpty": "Water, protein and calories",
+  "nutritionHomeDetail": "{energy} · {protein} g protein",
+  "@nutritionHomeDetail": {
+    "placeholders": {
+      "energy": {
+        "type": "String"
+      },
+      "protein": {
+        "type": "int"
+      }
+    }
+  },
+  "nutritionToday": "Today",
+  "nutritionYesterday": "Yesterday",
+  "nutritionGoals": "Daily goals",
+  "kcalLabel": "CALORIES",
+  "kcalOver": "over",
+  "waterLabel": "WATER",
+  "waterDone": "Goal reached",
+  "waterCustom": "Other amount",
+  "glassSize": "Glass size",
+  "supplementsLabel": "SUPPLEMENTS",
+  "supplementsEmpty": "Tap one to add it, or + for your own.",
+  "addSupplement": "New supplement",
+  "supplementNameHint": "Creatine, vitamin D…",
+  "removeSupplementTitle": "Remove {name}?",
+  "@removeSupplementTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "removeSupplementBody": "The days you marked it as taken go with it.",
+  "suppCreatine": "Creatine",
+  "suppVitaminD": "Vitamin D",
+  "suppOmega3": "Omega-3",
+  "suppMagnesium": "Magnesium",
+  "suppMultivitamin": "Multivitamin",
+  "suppCaffeine": "Caffeine",
+  "myFoods": "My foods",
+  "newFood": "New food",
+  "editFood": "Edit food",
+  "foodNameHint": "Whey protein, oats, bread…",
+  "servingLabel": "SERVING",
+  "servingHint": "1 scoop · 30 g",
+  "perServing": "PER SERVING",
+  "servingsLabel": "Servings",
+  "foodPhotoHint": "On a plain background it turns into a sticker.",
+  "cutoutWorking": "Cutting out…",
+  "cutoutTry": "Cut out",
+  "cutoutKeep": "Whole photo",
+  "deleteFoodTitle": "Delete {name}?",
+  "@deleteFoodTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "deleteFoodBody": "It leaves your foods. What you already logged stays.",
+  "mealBreakfast": "Breakfast",
+  "mealLunch": "Lunch",
+  "mealDinner": "Dinner",
+  "mealSnacks": "Snacks",
+  "nothingLogged": "Nothing logged yet.",
+  "addToMeal": "Add to {meal}",
+  "@addToMeal": {
+    "placeholders": {
+      "meal": {
+        "type": "String"
+      }
+    }
+  },
+  "quickAdd": "Quick add",
+  "quickAddHint": "Just the numbers, without saving a food.",
+  "quickAddName": "What was it? (optional)",
+  "logFood": "Add",
+  "loggedToast": "Added to {meal}",
+  "@loggedToast": {
+    "placeholders": {
+      "meal": {
+        "type": "String"
+      }
+    }
+  },
+  "entryRemoved": "Removed",
+  "goalsFromProfile": "Calculate from my profile",
+  "goalsFromProfileHint": "Calories from your profile, 1.8 g of protein and 35 ml of water per kg of bodyweight.",
+  "kcalEaten": "Eaten",
+  "kcalRemaining": "Remaining",
+  "waterTapHint": "Tap the glass: + {amount}",
+  "@waterTapHint": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "shakeEmpty": "Tap to pick your shake",
+  "shakeTapHint": "Tap: + {name}",
+  "@shakeTapHint": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "shakePick": "Your shake",
+  "shakePickHint": "Tap the shaker and it gets logged in one go.",
+  "proteinLetter": "P",
+  "carbsLetter": "C",
+  "fatLetter": "F",
+  "addBurnedLabel": "Add burned calories",
+  "addBurnedHint": "Your goal already counts your usual activity. Turn this on only if you set yourself as sedentary: it adds what each workout burns on top of resting.",
+  "amountLabel": "Amount",
+  "amountIn": "Amount ({unit})",
+  "@amountIn": {
+    "placeholders": {
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "bodyweightLabel": "Bodyweight",
+  "copiedMealToast": "{count, plural, =1{1 food copied} other{{count} foods copied}}",
+  "@copiedMealToast": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "deleteSavedMealBody": "What you already logged stays as it is.",
+  "fiberLabel": "Fiber",
+  "sugarLabel": "Sugar",
+  "sodiumLabel": "Sodium",
+  "foodDatabase": "Food database",
+  "kcalBurned": "Burned",
+  "mealOptions": "Meal options",
+  "moreNutrients": "Fiber, sugar and sodium",
+  "ofGoal": "of {goal} {unit}",
+  "@ofGoal": {
+    "placeholders": {
+      "goal": {
+        "type": "int"
+      },
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "per100": "per 100 {unit}",
+  "@per100": {
+    "placeholders": {
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "perServingShort": "per serving",
+  "portionUnit": "{count, plural, =1{1 piece} other{{count} pieces}}",
+  "@portionUnit": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "portionSlice": "{count, plural, =1{1 slice} other{{count} slices}}",
+  "@portionSlice": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "portionScoop": "{count, plural, =1{1 scoop} other{{count} scoops}}",
+  "@portionScoop": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "portionTbsp": "{count, plural, =1{1 tbsp} other{{count} tbsp}}",
+  "@portionTbsp": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "portionTsp": "{count, plural, =1{1 tsp} other{{count} tsp}}",
+  "@portionTsp": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "portionCup": "{count, plural, =1{1 cup} other{{count} cups}}",
+  "@portionCup": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "portionGlass": "{count, plural, =1{1 glass} other{{count} glasses}}",
+  "@portionGlass": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "recentFoods": "Recent",
+  "recipeItems": "{count, plural, =1{1 food} other{{count} foods}}",
+  "@recipeItems": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "renameLabel": "Rename",
+  "repeatFrom": "Repeat from",
+  "repeatNone": "Nothing logged for this meal on other days yet.",
+  "restDayGoals": "Different goals on rest days",
+  "trainingDays": "Training days",
+  "restDays": "Rest days",
+  "trainingDay": "Training day",
+  "saveAsMeal": "Save as a meal",
+  "savedMealNameHint": "e.g. Usual breakfast",
+  "savedMealToast": "Meal saved",
+  "savedMeals": "Saved meals",
+  "searchFoodsHint": "Search foods",
+  "searchFoodsEmpty": "Search over 500 foods with photos, or add your own.",
+  "searchFoodsNone": "Nothing found for \"{query}\". Create it as your own food.",
+  "@searchFoodsNone": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "servingWeight": "GRAMS",
+  "weekAverage": "This week",
+  "weekAvgEnergy": "Daily average",
+  "weekAvgProtein": "Protein per day",
+  "weekEnergyOnTarget": "Calories on target",
+  "weekProteinOnTarget": "Protein on target",
+  "weekProteinAvg": "{grams} g protein a day",
+  "@weekProteinAvg": {
+    "placeholders": {
+      "grams": {
+        "type": "int"
+      }
+    }
+  },
+  "weekDaysOnTarget": "{met} of {days} days on target",
+  "@weekDaysOnTarget": {
+    "placeholders": {
+      "met": {
+        "type": "int"
+      },
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "weekLoggedDays": "{count, plural, =1{1 day logged} other{{count} days logged}}",
+  "@weekLoggedDays": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "weekNoData": "Nothing logged yet",
+  "weekOnTargetHint": "On target: calories within 10% of the goal and at least 90% of the protein.",
+  "weightGoalLabel": "Goal weight",
+  "weightGoalTitle": "Goal weight ({unit})",
+  "@weightGoalTitle": {
+    "placeholders": {
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "weightGoalLine": "Goal {weight}",
+  "@weightGoalLine": {
+    "placeholders": {
+      "weight": {
+        "type": "String"
+      }
+    }
+  },
+  "weightGoalNone": "Hold to set a goal",
+  "weightGoalReached": "Goal reached",
+  "weightToLose": "{weight} to lose",
+  "@weightToLose": {
+    "placeholders": {
+      "weight": {
+        "type": "String"
+      }
+    }
+  },
+  "weightToGain": "{weight} to gain",
+  "@weightToGain": {
+    "placeholders": {
+      "weight": {
+        "type": "String"
+      }
+    }
+  },
+  "aminoHis": "histidine",
+  "aminoIle": "isoleucine",
+  "aminoLeu": "leucine",
+  "aminoLys": "lysine",
+  "aminoSaa": "methionine",
+  "aminoAaa": "phenylalanine",
+  "aminoThr": "threonine",
+  "aminoTrp": "tryptophan",
+  "aminoVal": "valine",
+  "animalProtein": "Animal protein",
+  "proteinQuality": "Protein quality",
+  "qualityComplete": "Complete",
+  "qualityAlmost": "Almost complete",
+  "qualityIncomplete": "Incomplete",
+  "qualityNoData": "No data yet",
+  "qualityNoDataHint": "Log foods from the database to see your amino acids.",
+  "qualityAllCovered": "All nine essential amino acids are covered.",
+  "qualityLimiting": "Short on {amino}. Pair it with foods rich in it.",
+  "@qualityLimiting": {
+    "placeholders": {
+      "amino": {
+        "type": "String"
+      }
+    }
+  },
+  "qualityCoverage": "Based on {pct}% of your protein: your own foods have no amino acid data.",
+  "@qualityCoverage": {
+    "placeholders": {
+      "pct": {
+        "type": "int"
+      }
+    }
+  },
+  "fatTypes": "Fat types",
+  "fatSaturated": "Saturated",
+  "fatMono": "Mono",
+  "fatPoly": "Poly",
+  "satLimitLine": "Saturated {grams} g of {limit} g max (10% of calories)",
+  "@satLimitLine": {
+    "placeholders": {
+      "grams": {
+        "type": "String"
+      },
+      "limit": {
+        "type": "int"
+      }
+    }
+  },
+  "sugarSodium": "Sugar and sodium",
+  "shakeCard": "Protein shake",
+  "mealOther": "Meal",
+  "mealAdd": "Add a meal",
+  "mealAddHint": "e.g. Pre-workout",
+  "mealsOfDay": "Meals of the day",
+  "mealsHint": "Create as many as you want. Removing one moves what you logged in it to the one above.",
+  "trackersTitle": "Customize",
+  "trackersHint": "Show only what you want to track.",
+  "trackersDaily": "Daily summary",
+  "trackersDetail": "In detail",
+  "trackersCards": "Cards",
+  "prepTitle": "Meal prep",
+  "prepNewShort": "New batch",
+  "prepNew": "New batch",
+  "prepEdit": "Edit batch",
+  "prepHint": "Log the whole pot once, then eat it bit by bit.",
+  "prepEmpty": "Cooked a big batch? Log it once and then just say how much of what is left you ate.",
+  "prepNameHint": "e.g. Chicken and rice",
+  "prepDefaultName": "Batch",
+  "prepIngredients": "Ingredients",
+  "prepAddIngredient": "Add ingredient",
+  "prepCookedWeight": "COOKED WEIGHT",
+  "prepCookedHint": "Weigh the pot once cooked for exact numbers. Empty uses the raw total ({grams} g).",
+  "@prepCookedHint": {
+    "placeholders": {
+      "grams": {
+        "type": "String"
+      }
+    }
+  },
+  "prepNeedWeight": "Add the cooked weight: some ingredients have no grams.",
+  "prepLeftOf": "{left} left of {total}",
+  "@prepLeftOf": {
+    "placeholders": {
+      "left": {
+        "type": "String"
+      },
+      "total": {
+        "type": "String"
+      }
+    }
+  },
+  "prepOfWhatsLeft": "% of what is left",
+  "prepAll": "All",
+  "prepLogAmount": "Log {grams}",
+  "@prepLogAmount": {
+    "placeholders": {
+      "grams": {
+        "type": "String"
+      }
+    }
+  },
+  "prepWeighLeft": "Weigh what is left",
+  "prepFinished": "This batch is finished.",
+  "approxValues": "Approximate",
+  "editValues": "Edit values",
+  "editValuesHint": "Only changes this entry. To fix the food for next time, edit it from My foods.",
+  "editLibraryHint": "Saved as your own food, with the same photo",
+  "per100Line": "{energy} per 100 {unit}",
+  "@per100Line": {
+    "placeholders": {
+      "energy": {
+        "type": "String"
+      },
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "rawLabel": "Raw",
+  "cookedLabel": "Cooked",
+  "rawHint": "Weight before cooking",
+  "cookedHint": "Weight once cooked (×{factor} the raw weight)",
+  "@cookedHint": {
+    "placeholders": {
+      "factor": {
+        "type": "String"
+      }
+    }
+  },
+  "servingsUnit": "servings",
+  "logAmount": "Log · {energy}",
+  "@logAmount": {
+    "placeholders": {
+      "energy": {
+        "type": "String"
+      }
+    }
+  },
+  "catFruit": "Fruit",
+  "catVeg": "Veggies",
+  "catMeat": "Meat",
+  "catFish": "Fish",
+  "catEgg": "Eggs",
+  "catDairy": "Dairy",
+  "catGrain": "Grains",
+  "catBakery": "Bakery",
+  "catLegume": "Legumes",
+  "catNut": "Nuts",
+  "catOil": "Oils",
+  "catPantry": "Pantry",
+  "catDrink": "Drinks",
+  "catSauce": "Sauces",
+  "catSpice": "Spices",
+  "searchFoodsPrompt": "What did you eat?",
+  "shelfEmpty": "Search a food or take a photo of yours: the ones you log most will show up here.",
+  "repeatEntry": "Log again",
+  "notifSuppChannel": "Supplements",
+  "notifSuppChannelWhy": "Daily reminder to take your supplements",
+  "energySplit": "Where the calories come from",
+  "typicalServing": "Typical serving",
+  "cookedYieldLine": "Weighs {factor}× its raw weight",
+  "@cookedYieldLine": {
+    "placeholders": {
+      "factor": {
+        "type": "String"
+      }
+    }
+  },
+  "readyDishes": "Dishes",
+  "weightLastLine": "Last weigh-in {weight}",
+  "@weightLastLine": {
+    "placeholders": {
+      "weight": {
+        "type": "String"
+      }
+    }
+  },
+  "proteinAnimalShort": "Animal",
+  "proteinPlantShort": "Plant",
+  "kcalFromMacros": "These macros add up to about {value}",
+  "@kcalFromMacros": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "useValue": "Use",
+  "suppRowHint": "Tap to mark · hold for details",
+  "suppPhoto": "Photo",
+  "suppDose": "Dose",
+  "suppDoseHint": "5 g, 2 capsules…",
+  "suppRemind": "Remind me",
+  "mealPlanDefault": "Plan {n}",
+  "@mealPlanDefault": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "mealPlansTitle": "Meal plans",
+  "mealPlanNew": "New plan",
+  "fromPlan": "From {name}",
+  "@fromPlan": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "logPlan": "Log",
+  "planFromDay": "Copy this day",
+  "planNewHint": "Plan your days like your routines, then log a whole meal with one tap.",
+  "planLogDay": "Log the empty meals",
+  "planLogged": "{n, plural, =1{1 food logged} other{{n} foods logged}}",
+  "@planLogged": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "planNoPlan": "No plan",
+  "planWeekHint": "Tap a day to give it a plan.",
+  "planDuplicate": "Duplicate",
+  "planDeleteTitle": "Delete {name}?",
+  "@planDeleteTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "planDeleteBody": "Your logged days stay as they are.",
+  "sectionBeta": "Beta",
+  "nutritionBeta": "Nutrition",
+  "nutritionBetaHint": "Meals, water, protein and supplements. Still being built: your data stays even if you turn it off.",
+  "nutritionAboutTitle": "About Nutrition",
+  "nutritionAboutSub": "What it is, and what it will never be.",
+  "nutritionAboutWhatTitle": "Part of your training",
+  "nutritionAboutWhat": "A simple way to log meals, water, protein and supplements right next to your workouts. GymMane is a gym app first: Nutrition is here so you can keep everything in one place, not to replace a dedicated diet app.",
+  "nutritionAboutScanTitle": "No scanning, ever",
+  "nutritionAboutScan": "Scanning a barcode and having every detail filled in for you would be handy. But it needs the internet and a huge online food database, and what you eat ends up on someone else's servers. That data shows when you eat, what you eat and how you look after your body, and it can be used for advertising or passed on to big companies. That's why there's no scanner, and there won't be one.",
+  "nutritionAboutLocalTitle": "Everything on your phone",
+  "nutritionAboutLocal": "More than 500 foods with photos come inside the app. You can add your own, change their photos and edit their values. It all stays on your phone, like the rest of GymMane.",
+  "nutritionAboutBetaTitle": "Still in beta",
+  "nutritionAboutBeta": "If you miss something, suggest it on GitHub. Just not scanning or a bigger food database: besides your privacy, it would make the app much heavier. Don't need Nutrition? Turn it off in Settings and your data stays.",
+  "nutritionAboutSuggest": "Suggest an idea",
+  "nutritionAboutOk": "Got it",
+  "planShare": "Share",
+  "planImport": "Import a plan",
+  "planImported": "{n, plural, =1{1 plan imported} other{{n} plans imported}}",
+  "@planImported": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "planImportNone": "That file has no meal plans.",
+  "planMoveUp": "Move up",
+  "planMoveDown": "Move down",
+  "cutoutEdit": "Touch up cutout",
+  "cutoutEditHint": "Drag to erase or restore. Tap an area to remove or bring it back whole. Pinch to zoom.",
+  "cutoutErase": "Erase",
+  "cutoutRestore": "Restore",
+  "cutoutReset": "Back to automatic",
+  "cutoutByHand": "Cut out by hand",
+  "notifSuppTitleFor": "Time to take: {names}",
+  "@notifSuppTitleFor": {
+    "placeholders": {
+      "names": {
+        "type": "String"
+      }
+    }
+  },
+  "notifSuppTap": "Tick it off in GymMane once you've taken it.",
+  "suppNoneToday": "Nothing to take today.",
+  "suppOtherDays": "Other days",
+  "suppEveryN": "{n, plural, =1{Every day} other{Every {n} days}}",
+  "@suppEveryN": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "suppDaily": "Every day",
+  "suppFromDate": "from {date}",
+  "@suppFromDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "suppUntilDate": "until {date}",
+  "@suppUntilDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "suppSomeDays": "Some days",
+  "suppEveryShort": "Every X days",
+  "suppWhen": "When",
+  "suppEveryLead": "Every",
+  "suppEveryTail": "{n, plural, =1{day} other{days}}",
+  "@suppEveryTail": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "suppStarts": "Starts",
+  "suppEnds": "Ends",
+  "suppTomorrow": "Tomorrow",
+  "suppPickDate": "Pick a date",
+  "suppNever": "Never",
+  "suppOneWeek": "In 1 week",
+  "suppOneMonth": "In 1 month",
+  "planPickHint": "Pick the plan for this day, or make a new one.",
+  "planSetForDay": "Plan set for {day}",
+  "@planSetForDay": {
+    "placeholders": {
+      "day": {
+        "type": "String"
+      }
+    }
+  },
+  "planSaved": "Plan saved",
+  "planDiscardTitle": "Discard changes?",
+  "planDiscardBody": "What you changed won't be saved.",
+  "planDiscard": "Discard",
+  "planEdit": "Edit plan",
+  "planNameHint": "Plan name",
+  "planDaysQuestion": "Which days?",
+  "planDaysHint": "On those days it shows up in Nutrition so you can log it in one tap.",
+  "planDaysNone": "Pick at least one day, or it won't show up anywhere.",
+  "planNothingToLog": "Those meals are already logged",
+  "planSave": "Save plan",
+  "planToday": "Today's plan",
+  "planLogRest": "Log the rest",
+  "dishNew": "Create my dish",
+  "dishNewHint": "Pick ingredients and amounts, save it and log it in one tap.",
+  "dishEdit": "Edit dish",
+  "dishNameHint": "E.g. Mum's lentils",
+  "dishIngredients": "Ingredients",
+  "dishEmptyHint": "Add what goes in it with the amount you usually eat.",
+  "dishSave": "Save dish",
+  "dishNeedsName": "Give it a name",
+  "dishNeedsItems": "Add at least one ingredient",
+  "suppHistory": "Last 14 days",
+  "suppTakenOf": "{n} of {total} taken",
+  "@suppTakenOf": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "suppNoReminder": "No reminder",
+  "suppMarkTaken": "Mark as taken",
+  "suppUnmark": "Unmark",
+  "suppEdit": "Edit",
+  "mealMoveTo": "Move to",
+  "mealClear": "Clear meal",
+  "mealCleared": "Meal cleared",
+  "movedMealToast": "{count, plural, =1{1 food moved} other{{count} foods moved}}",
+  "@movedMealToast": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "repeatWholeDay": "Repeat the whole day",
+  "createFoodNamed": "Create “{name}”",
+  "@createFoodNamed": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "entryDay": "Day",
+  "movedToDay": "Moved",
+  "favFoodsHint": "Tap ☆ on a food",
+  "favFoodsEmpty": "Tap the star on any food to keep it here, one tap away.",
+  "savedMealsCount": "{count, plural, =1{1 meal} other{{count} meals}}",
+  "@savedMealsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "savedMealsEmpty": "Save a meal from its ••• menu, or build your own dish.",
+  "sugarLimitLabel": "Sugar limit",
+  "sodiumLimitLabel": "Sodium limit",
+  "waterOptions": "Water options",
+  "waterNone": "No water logged yet.",
+  "waterDailyGoal": "Daily water",
+  "trackersScreen": "Screen",
+  "vesselMotion": "Moving water and shake",
+  "vesselMotionHint": "Turn it off if the screen feels slow: the glasses still fill up, they just stop moving."
 }
