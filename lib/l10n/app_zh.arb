@@ -1,8 +1,28 @@
 {
-  "@@locale": "zh",
+  "@@locale": "zh-CN",
   "languageName": "简体中文",
+  "@languageName": {
+    "description": "This language, written in itself. Shown in the language picker."
+  },
   "vsLastMonthLabel": "较上月 {pct}%",
+  "@vsLastMonthLabel": {
+    "placeholders": {
+      "pct": {
+        "type": "String"
+      }
+    }
+  },
   "levelStreakLabel": "等级 {level} · {streak}",
+  "@levelStreakLabel": {
+    "placeholders": {
+      "level": {
+        "type": "int"
+      },
+      "streak": {
+        "type": "String"
+      }
+    }
+  },
   "save": "保存",
   "cancel": "取消",
   "cancelCaps": "取消",
@@ -27,6 +47,13 @@
   "tools": "实用工具",
   "firstSessionHint": "选择想要训练的肌群，记录你的第一次训练",
   "exerciseCount": "{n, plural, =1{{n} 项动作} other{{n} 项动作}}",
+  "@exerciseCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "pushDay": "推力日",
   "pullDay": "拉力日",
   "legDay": "腿部日",
@@ -43,11 +70,25 @@
   "nothingForFocus": "该重点部位暂无可用动作",
   "goBackPick": "请返回并选择动作库中已有动作的肌肉部位。",
   "pickedHint": "已为你推荐一组动作 — 点击可添加或删减这 {n} 项动作。",
+  "@pickedHint": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "pickAnExercise": "选择动作",
   "searchAllExercises": "搜索全部动作…",
   "noExercisesMatch": "没有匹配的动作",
   "createItInstead": "添加为自定义动作",
   "startCount": "开始 · {n, plural, =1{{n} 项动作} other{{n} 项动作}}",
+  "@startCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "inProgress": "进行中",
   "paused": "已暂停",
   "last": "上次",
@@ -62,26 +103,78 @@
   "setCol": "#",
   "repsCol": "次数",
   "weightCol": "重量 ({unit})",
+  "@weightCol": {
+    "placeholders": {
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
   "repsTitle": "次数",
   "weightTitle": "重量 ({unit})",
+  "@weightTitle": {
+    "placeholders": {
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
   "sessionComplete": "训练已记录",
   "finishHeadlinePr": "突破个人纪录！",
   "finishHeadlineGoal": "达成每周目标！",
   "finishHeadlineStreak": "打卡连胜中！",
   "finishHeadlineDefault": "又完成了一次训练！",
   "finishBodyPr": "你在 {prs, plural, =1{1 项动作} other{{prs} 项动作}} 中突破了个人最佳纪录，已记入历史成绩。",
+  "@finishBodyPr": {
+    "placeholders": {
+      "prs": {
+        "type": "int"
+      }
+    }
+  },
   "finishBodyGoal": "你已完成了本周设定的全部训练目标。",
   "finishBodyStreak": "已连续坚持 {streak} 天。最难的是坚持，而你做到了。",
+  "@finishBodyStreak": {
+    "placeholders": {
+      "streak": {
+        "type": "int"
+      }
+    }
+  },
   "finishBodyDefault": "训练已妥善记录。持之以恒，终见成效。",
   "vsLastTime": "对比上次",
   "firstTime": "首次记录",
   "prCount": "{n, plural, =1{{n} 项新纪录} other{{n} 项新纪录}}",
+  "@prCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "duration": "时长",
   "setsCaps": "组数",
   "exerciseXofY": "动作 {i} / {n}",
+  "@exerciseXofY": {
+    "placeholders": {
+      "i": {
+        "type": "int"
+      },
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "decrease": "减少",
   "increase": "增加",
   "markSet": "标记第 {n} 组完成",
+  "@markSet": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "pauseWorkout": "暂停训练",
   "resumeWorkout": "继续训练",
   "discardTitle": "放弃本次训练？",
@@ -99,7 +192,21 @@
   "allTimeSets": "累计总组数",
   "consistency": "出勤与坚持",
   "sessionsLogged": "{n, plural, =1{已记录 {n} 次训练} other{已记录 {n} 次训练}}",
+  "@sessionsLogged": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "streakDays": "连续坚持 {n} 天",
+  "@streakDays": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "bodyweight": "体重",
   "logBodyweight": "记录体重",
   "trackWeight": "追踪长期体重变化",
@@ -111,27 +218,76 @@
   "daysAll": "全部",
   "weeklyAvgTitle": "每周平均",
   "weekOfDate": "{date} 那周",
+  "@weekOfDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
   "weightChangeRange": "这段时间 {change}",
+  "@weightChangeRange": {
+    "placeholders": {
+      "change": {
+        "type": "String"
+      }
+    }
+  },
   "heatLow": "未练",
   "heatHigh": "高容量",
   "muscleMapEmpty": "记录训练后，受训肌群便会在此高亮亮起。",
   "muscleMapHint": "点击肌肉部位查看受训详情。",
   "muscleMapBehind": "训练偏少部位：{names}",
+  "@muscleMapBehind": {
+    "placeholders": {
+      "names": {
+        "type": "String"
+      }
+    }
+  },
   "ofTarget": "达标率 {pct}%",
+  "@ofTarget": {
+    "placeholders": {
+      "pct": {
+        "type": "int"
+      }
+    }
+  },
   "muscleSplit": "各部位容量占比",
   "personalRecords": "个人纪录",
   "strength1rm": "力量表现 · 估算 1RM",
   "strengthEmpty": "记录同一动作 2 次以上，即可生成力量增长曲线。",
   "oneRmEst": "估算 1RM：{w}",
+  "@oneRmEst": {
+    "placeholders": {
+      "w": {
+        "type": "String"
+      }
+    }
+  },
   "restDayShort": "休息日",
   "restDay": "休息日 — 未记录训练。",
   "delete": "删除",
   "deleteEntry": "删除此条记录？",
   "deleteEntryBody": "“{name}” 将从该日移除，并同步从历史纪录与图表中删除。",
+  "@deleteEntryBody": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "bodyweightHistory": "历史记录",
   "exercisesCaps": "动作",
   "timeCaps": "时间",
   "libraryCount": "{n, plural, =1{动作库共有 {n} 项动作} other{动作库共有 {n} 项动作}}",
+  "@libraryCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "searchExercises": "搜索动作",
   "muscleFilter": "肌群",
   "levelFilter": "难度",
@@ -162,6 +318,16 @@
   "notes": "笔记",
   "notePlaceholder": "发力感、器械调试、动作细节、心得…",
   "notHere": "{place} 暂无 {gear}",
+  "@notHere": {
+    "placeholders": {
+      "gear": {
+        "type": "String"
+      },
+      "place": {
+        "type": "String"
+      }
+    }
+  },
   "notHereWhy": "替换为当前场地现有的器械进行训练。",
   "altHere": "当前场地可用动作",
   "places": "我的训练场地",
@@ -171,6 +337,13 @@
   "placeNamePlaceholder": "家庭、健身房、公园……",
   "placeGearLabel": "场地现有器械",
   "placeExercises": "支持 {n} 个动作",
+  "@placeExercises": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "placeEmptyTitle": "随时随地，想练就练",
   "placeEmptyBody": "场地即器械配置清单。挑选一个预设或创建新场地，后续可随时调整。",
   "placeDeleteTitle": "删除场地",
@@ -181,8 +354,22 @@
   "placeFilterLabel": "场地筛选",
   "noGearOnly": "仅自重",
   "placeActive": "当前在 {name} 训练",
+  "@placeActive": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "journal": "备忘日志",
   "noteCount": "{n, plural, =0{暂无备忘} =1{1 条备忘} other{{n} 条备忘}}",
+  "@noteCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "noteKindNote": "笔记",
   "noteKindPlan": "计划",
   "noteKindDone": "突破",
@@ -213,9 +400,23 @@
   "notePrevMonth": "上个月",
   "noteNextMonth": "下个月",
   "noteMonthCount": "{n, plural, =0{本月暂无备忘} =1{本月 1 条备忘} other{本月 {n} 条备忘}}",
+  "@noteMonthCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "measures": "身体围度",
   "measuresHint": "从颈围到小腿围，见证肉眼可见的身材蜕变，不仅关注杠铃重量。",
   "measureCount": "{n, plural, =0{暂无记录} =1{1 次记录} other{{n} 次记录}}",
+  "@measureCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "measureNoneYet": "暂无记录",
   "measureHistory": "历史趋势",
   "measureNeck": "颈围",
@@ -232,22 +433,64 @@
   "timelineHint": "同姿态、同机位、同光线。坚持一年，震撼由心而生。",
   "timelineEmptyTitle": "拍下第一张身材照，开启蜕变之旅",
   "photoCount": "{n, plural, =0{暂无照片} =1{1 张照片} other{{n} 张照片}}",
+  "@photoCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "poseFront": "正面",
   "poseSide": "侧面",
   "poseBack": "背面",
   "photoEvery": "拍照提醒",
   "photoEveryDays": "每 {n} 天提醒",
+  "@photoEveryDays": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "photoEveryOff": "从不提醒",
   "timelineEvery": "分组间隔",
   "custom": "自定",
   "photoNextIn": "{n, plural, =1{明天该拍照啦} other{{n} 天后拍摄身材照}}",
+  "@photoNextIn": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "photoDueNow": "今天到了拍照打卡日，拍一张吧",
   "addTodayPhotos": "记录今日身材照",
   "posePhoto": "{pose}身材照",
+  "@posePhoto": {
+    "placeholders": {
+      "pose": {
+        "type": "String"
+      }
+    }
+  },
   "compare": "身材对比",
   "compareNeedTwo": "在不同日期拍摄同一姿态的照片，即可在此左右同屏对比。",
   "dayNumber": "第 {n} 天",
+  "@dayNumber": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "daysApart": "{n, plural, =0{同一天} =1{间隔 1 天} other{间隔 {n} 天}}",
+  "@daysApart": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "deleteEntryTitle": "删除该日记录",
   "deleteDayBody": "当日拍摄的所有身材照都将被永久删除。",
   "timelinePhotos": "身材照片",
@@ -256,10 +499,34 @@
   "timelineBodyHint": "由你的真实训练组数自动绘制，无需上传任何数据。",
   "timelineWindow": "{from} 至 {to}",
   "sessionCount": "{n, plural, =0{暂无训练} =1{1 次训练} other{{n} 次训练}}",
+  "@sessionCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "@timelineWindow": {
+    "placeholders": {
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
   "notifPhotoChannel": "身材打卡提醒",
   "notifPhotoChannelWhy": "在身材照拍摄日发送提醒。",
   "notifPhotoTitle": "该拍身材照啦",
   "notifPhotoBody": "距离上次拍照已有 {n} 天。保持同姿态、同光线打卡一张吧！",
+  "@notifPhotoBody": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "share": "分享",
   "sharePick": "你想分享什么？",
   "shareStreak": "训练日历",
@@ -281,13 +548,34 @@
   "setTypeFailure": "力竭组",
   "addWarmup": "添加热身组",
   "platesPerSide": "单边挂片: {plates}",
+  "@platesPerSide": {
+    "placeholders": {
+      "plates": {
+        "type": "String"
+      }
+    }
+  },
   "howTo": "动作指南",
   "similar": "相似动作",
   "primaryLabel": "主导肌群",
   "secondaryLabel": "协同肌群",
   "none": "无",
   "setCount": "{n, plural, =1{{n} 组} other{{n} 组}}",
+  "@setCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "volumeSuffix": "{v} 容量",
+  "@volumeSuffix": {
+    "placeholders": {
+      "v": {
+        "type": "String"
+      }
+    }
+  },
   "weeklyPlan": "每周计划",
   "yourRoutines": "我的计划",
   "noRoutines": "暂无计划。创建一个计划并添加训练动作吧。",
@@ -298,13 +586,41 @@
   "addExercises": "添加动作",
   "deleteRoutine": "删除此计划？",
   "exercisesWithCount": "动作 · {n}",
+  "@exercisesWithCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "setDay": "设为{day}",
+  "@setDay": {
+    "placeholders": {
+      "day": {
+        "type": "String"
+      }
+    }
+  },
   "newRoutineName": "新计划",
   "dragToReorder": "拖动带点的手柄调整顺序，这就是你的训练顺序。",
   "reorderHandle": "拖动重新排序 {name}",
+  "@reorderHandle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "removeFromRoutine": "从计划中移除",
   "dropExercise": "移除此动作？",
   "dropExerciseBody": "“{name}” 将从本次训练中移除，已记录的数据不会丢失。",
+  "@dropExerciseBody": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "drop": "移除",
   "resetData": "清空全部数据",
   "resetTitle": "确定清空所有数据？",
@@ -341,6 +657,13 @@
   "alarmTooLong": "音频时长不能超过 15 秒",
   "alarmInvalid": "无法读取该音频文件",
   "alarmChanged": "提示音已设置为 “{name}”",
+  "@alarmChanged": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "alarmChangedDefault": "已恢复为默认提示音",
   "addActivityWidget": "添加今日动态微件",
   "addStatsWidget": "添加统计概览微件",
@@ -359,11 +682,25 @@
   "importUnknownFormat": "该文件需要日期、动作、次数和重量这几列",
   "importZipNoWeights": "该 zip 压缩包中未包含体重数据文件",
   "importWeights": "{n, plural, =1{已导入 {n} 条体重记录} other{已导入 {n} 条体重记录}}",
+  "@importWeights": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "importReadFailed": "无法读取该文件",
   "importUnitTitle": "该文件使用什么重量单位？",
   "importUnitBody": "导入的数据中未注明重量单位。",
   "importNothing": "没有可导入的新数据",
   "importDone": "{n, plural, =1{已导入 {n} 次训练记录} other{已导入 {n} 次训练记录}}",
+  "@importDone": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "aboutGymmane": "关于 GymMane",
   "yourProfile": "个人资料",
   "autofills": "用于自动填充计算器参数",
@@ -387,6 +724,13 @@
   "backupFailed": "无法读取该备份文件",
   "nothingToExport": "暂无可导出的数据 — 请先记录一次训练",
   "calculatorsCount": "专为训练打造的 {n} 款实用计算器",
+  "@calculatorsCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "result": "计算结果",
   "weightLifted": "负重量",
   "repsPerformed": "完成次数",
@@ -400,6 +744,13 @@
   "perSide": "单侧配重",
   "justTheBar": "仅空杆。",
   "perSideCount": "单侧各 {n} 片",
+  "@perSideCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "toolNameRm": "极限重量 (1RM)",
   "toolNameBmi": "BMI 指数",
   "toolNameCal": "卡路里",
@@ -466,6 +817,13 @@
   "diffIntermediate": "进阶",
   "about": "关于",
   "version": "版本 {v}",
+  "@version": {
+    "placeholders": {
+      "v": {
+        "type": "String"
+      }
+    }
+  },
   "aboutBlurb": "由健身者打造，为健身者而生。",
   "freeForever": "永久免费",
   "freeForeverWhy": "无订阅、无广告、无付费功能。",
@@ -475,6 +833,13 @@
   "yoursToTakeWhy": "随时导出为 CSV 文件，也可一键清空所有数据。",
   "whatsInside": "功能一览",
   "exercisesInside": "{n} 项内置动作",
+  "@exercisesInside": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "exercisesInsideWhy": "全部配有动作动画和分步图文指导。",
   "calculatorsInside": "10 款实用计算器",
   "calculatorsInsideWhy": "涵盖 1RM、杠铃片、BMI、热量、体脂率、FFMI、热身、RPE 负重以及 DOTS 和 Wilks 力量评分。",
@@ -482,11 +847,28 @@
   "mathInsideWhy": "容量、纪录和打卡连胜均由你的真实训练组数如实计算，绝无虚饰。",
   "streakCaps": "连续打卡",
   "daysUnit": "{n, plural, =1{天} other{天}}",
+  "@daysUnit": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "reset": "重置",
   "welcomeKicker": "欢迎使用",
   "welcomeBlurb": "所有数据均保存在你的手机上。无账号、无网络连接要求、无任何费用。",
   "welcomeStart": "立即开始",
   "onbStep": "第 {i} 步 / 共 {n} 步",
+  "@onbStep": {
+    "placeholders": {
+      "i": {
+        "type": "int"
+      },
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "onbNameTitle": "我们该如何称呼你？",
   "onbNameHint": "你的名字或昵称",
   "onbPhotoAdd": "添加照片",
@@ -500,6 +882,13 @@
   "onbGoalTitle": "你计划每周训练几次？",
   "onbGoalWhy": "用于设定每周目标环。诚实记录，量力而行。",
   "perWeek": "{n, plural, =1{每周 {n} 次} other{每周 {n} 次}}",
+  "@perWeek": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "onbUnitsTitle": "选择重量单位：公斤还是磅？",
   "next": "下一步",
   "back": "上一步",
@@ -520,6 +909,13 @@
   "repsOnlyHint": "纯自重动作，记录时无需输入重量。",
   "useDefaultArt": "恢复为默认动作图",
   "daysShort": "{n}d",
+  "@daysShort": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "focusCard": "今日重点",
   "autoAdvance": "自动进入下一个动作",
   "keepScreenOn": "训练时保持屏幕常亮",
@@ -529,16 +925,47 @@
   "liveChannel": "进行中的训练",
   "liveChannelWhy": "训练时显示当前动作、组数和休息倒计时",
   "liveSet": "第 {n}/{total} 组",
+  "@liveSet": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
   "liveResting": "休息中",
   "liveAllDone": "所有组已完成",
   "autoAdvanceHint": "勾选一个动作的最后一组后，训练会自动进入下一个动作。",
   "autoProgress": "下次自动加重",
   "autoProgressHint": "完成全部次数后，下次训练自动增加 {w}。",
+  "@autoProgressHint": {
+    "placeholders": {
+      "w": {
+        "type": "String"
+      }
+    }
+  },
   "placePlates": "杠铃片和杠铃杆",
   "platesAll": "全部可用",
-  "platesOwned": "{n} 种",
+  "platesOwned": "{n, plural, =1{{n} size} other{{n} sizes}}",
+  "@platesOwned": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "platePairs": "对数",
   "plateAchievable": "最接近可加到：{w}",
+  "@plateAchievable": {
+    "placeholders": {
+      "w": {
+        "type": "String"
+      }
+    }
+  },
   "autoWarmup": "先做热身组",
   "autoWarmupHint": "开始训练时自动加入热身组。",
   "trainReminder": "训练提醒",
@@ -576,20 +1003,48 @@
   "reminderSmartHint": "按你实际训练的日子和时间提醒；当天已经练过就不再打扰。",
   "reminderSmartEmpty": "再多记录几次训练，它就会学到你的规律。",
   "habitFocus": "你在{day}常练的",
+  "@habitFocus": {
+    "placeholders": {
+      "day": {
+        "type": "String"
+      }
+    }
+  },
   "duplicateRoutine": "复制训练计划",
   "copySuffix": "{name}（副本）",
+  "@copySuffix": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "saveAsRoutine": "保存为训练计划",
   "savedAsRoutine": "已保存为训练计划",
   "templates": "现成计划",
   "templatesHint": "经典训练计划，用你自己的动作库拼成。之后都能改。",
-  "templateAdded": "已加入 {n} 个训练计划",
+  "templateAdded": "{n, plural, =1{{n} routine added} other{{n} routines added}}",
+  "@templateAdded": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "tplFullbody": "每周三次全身训练，新手从这里开始。",
   "tplPpl": "推、拉、腿，每周三天或六天。",
   "tplUpperlower": "上肢和下肢，每周四天。",
   "tplStronglifts": "两个训练日，五组五次，交替进行。",
   "tplStartingstrength": "每次都练深蹲，两个训练日交替。",
   "tplHome": "只需要一根单杠和地板。",
-  "dayCount": "{n} 天",
+  "dayCount": "{n, plural, =1{{n} day} other{{n} days}}",
+  "@dayCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "logRpe": "记录用力程度（RPE）",
   "rpeHint": "10 表示一次也做不动了，8 表示还能再做两次。",
   "superset": "超级组",
@@ -597,7 +1052,14 @@
   "supersetHint": "相连的动作之间不休息，直接进入下一个。",
   "aiRoutine": "用 AI 生成计划",
   "aiIntro": "GymMane 不会和任何 AI 通信。你把动作清单导出，粘贴给你惯用的助手，再把它的回答导回来。手机不会自己往外发任何东西。",
-  "aiMissing": "有 {n} 个名称不在你的动作库里",
+  "aiMissing": "{n, plural, =1{1 name was not in your library} other{{n} names were not in your library}}",
+  "@aiMissing": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "importApps": "支持哪些 app",
   "importOtherCsv": "任何含日期、动作、次数和重量的 CSV",
   "importAskApp": "需要其他 app？告诉我",
@@ -684,17 +1146,107 @@
   "awardHours100Name": "一百小时",
   "awardHours100Line": "杠铃之下的一百个小时。",
   "awardWonOn": "{date} 获得",
+  "@awardWonOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
   "badgeName": "{id, select, gold{金色} blue{蓝色} green{绿色} other{徽章}}",
+  "@badgeName": {
+    "placeholders": {
+      "id": {
+        "type": "String"
+      }
+    }
+  },
   "memberSince": "自 {date}",
+  "@memberSince": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
   "levelShort": "等级 {n}",
-  "levelToNext": "再练 {n} 次升到 {next} 级",
+  "levelToNext": "{n, plural, =1{1 workout to level {next}} other{{n} workouts to level {next}}}",
+  "@levelToNext": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      },
+      "next": {
+        "type": "int"
+      }
+    }
+  },
+  "@levelShort": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "heightCm": "{n} 厘米",
+  "@heightCm": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "heatToneName": "{id, select, ember{炭橙} green{绿色} blue{蓝色} mono{灰色} other{颜色}}",
+  "@heatToneName": {
+    "placeholders": {
+      "id": {
+        "type": "String"
+      }
+    }
+  },
   "setsThisWeek": "{n} 组",
+  "@setsThisWeek": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "weekOfGoal": "本周 {n}/{goal}",
+  "@weekOfGoal": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      },
+      "goal": {
+        "type": "int"
+      }
+    }
+  },
   "momentCount": "{n} 张照片",
+  "@momentCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "photosSelected": "已选 {n} 张",
   "deletePhotosTitle": "删除 {n} 张照片？",
+  "@photosSelected": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "@deletePhotosTitle": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "momentsEmptyHint": "拍下健身房、白板、杠铃的配重……任何你想记住的东西。照片只留在手机里，只有你能看到。",
   "awardStreak100Line": "连续一百天。这已经不是靠动力，而是你本来的样子。",
   "coverLabel": "封面",
@@ -717,6 +1269,16 @@
   "workoutOverview": "本次训练",
   "allExercisesShort": "全部",
   "setsDoneOf": "{done}/{total} 组",
+  "@setsDoneOf": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
   "nowLabel": "当前",
   "deleteWorkout": "删除训练",
   "deleteWorkoutBody": "这次训练及其所有组都会从记录中删除。",
@@ -743,13 +1305,34 @@
   "onbPlaceWhy": "选出你训练的所有地点。我们只推荐你在每个地点能做的动作。",
   "onbPlaceGear": "那里有哪些器材？",
   "distanceCol": "距离（{unit}）",
+  "@distanceCol": {
+    "placeholders": {
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
   "timeCol": "时间",
   "timeMinutesTitle": "时间（分钟）",
   "timeSecondsTitle": "时间（秒）",
   "distanceTitle": "距离（{unit}）",
+  "@distanceTitle": {
+    "placeholders": {
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
   "holdLabel": "坚持",
   "stopLabel": "停止",
   "startHold": "开始 · {time}",
+  "@startHold": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
   "exerciseTypeLabel": "记录方式",
   "typeReps": "次数和重量",
   "typeTime": "时间",
@@ -781,14 +1364,35 @@
   "shareWeek": "分享我的一周",
   "shareWeekHint": "你所有的训练计划，以及各自安排在哪天。",
   "shareMessage": "{name} —— 用 GymMane 打开这个文件即可添加。",
+  "@shareMessage": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "importRoutines": "导入训练计划",
   "importPasteHint": "在这里粘贴训练计划：GymMane 分享的内容、AI 的回答、JSON 或 CSV 都可以。",
   "pasteAction": "粘贴",
-  "routineCount": "{n} 个训练计划",
+  "routineCount": "{n, plural, =1{1 routine} other{{n} routines}}",
+  "@routineCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "useTheirSchedule": "同时采用它的每周安排",
   "useTheirScheduleHint": "它包含的日子会替换你在那些天的安排。",
   "addToMyRoutines": "添加到我的计划",
-  "routinesAdded": "已添加 {n} 个训练计划",
+  "routinesAdded": "{n, plural, =1{1 routine added} other{{n} routines added}}",
+  "@routinesAdded": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "nothingToImport": "这里没有 GymMane 能导入的内容",
   "aiStepCopy": "复制请求。它包含你的动作列表和 GymMane 能读取的格式。",
   "aiStepAsk": "把它粘贴到任意 AI 里，说出你的需求：每周几天、目标、几周。",
@@ -801,13 +1405,41 @@
   "shareAsFile": "以文件分享",
   "recoveryTab": "恢复",
   "recoveryOverall": "身体已恢复 {pct}%",
+  "@recoveryOverall": {
+    "placeholders": {
+      "pct": {
+        "type": "int"
+      }
+    }
+  },
   "recoveryAllFresh": "全部恢复了，今天练什么都可以。",
   "recoveryStill": "仍在恢复：{muscles}",
+  "@recoveryStill": {
+    "placeholders": {
+      "muscles": {
+        "type": "String"
+      }
+    }
+  },
   "recoveryTired": "疲劳",
   "recoveryFresh": "充沛",
   "recoveryHint": "点一块肌肉查看它的恢复程度。越近的训练组影响越大，越吃力的组（按 RPE）影响更大。",
   "recoveryPct": "已恢复 {pct}%",
+  "@recoveryPct": {
+    "placeholders": {
+      "pct": {
+        "type": "int"
+      }
+    }
+  },
   "readyInHours": "约 {h} 小时后恢复",
+  "@readyInHours": {
+    "placeholders": {
+      "h": {
+        "type": "int"
+      }
+    }
+  },
   "tplAbcd": "四天：胸+三头、背+二头、腿、肩+腹。",
   "tplAbcde": "五天，每天一个部位：胸、背、腿、肩、手臂。",
   "elapsedCaps": "已用时",
@@ -820,6 +1452,13 @@
   "liveResume": "继续",
   "liveNext": "下一个",
   "liveUpNext": "下一个：{name}",
+  "@liveUpNext": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "stickerOpen": "分享到照片上",
   "stickerNoPhoto": "不用照片",
   "stickerWorkout": "训练",
@@ -839,6 +1478,13 @@
   "radarEmpty": "练几天就能看到你的均衡情况",
   "radarBalanced": "目前很均衡",
   "radarFocus": "需要多练：{list}",
+  "@radarFocus": {
+    "placeholders": {
+      "list": {
+        "type": "String"
+      }
+    }
+  },
   "countdownReady": "准备",
   "countdownSkip": "点一下立即开始",
   "countdownSetting": "开始前倒计时",
@@ -848,16 +1494,37 @@
   "addWeekWidget": "添加本周小组件",
   "gamificationSetting": "勋章和等级",
   "repCount": "{n, plural, =1{{n} 次} other{{n} 次}}",
+  "@repCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "prBestSet": "最佳一组",
   "weekStartSetting": "每周开始于",
   "stepOutOfWorkout": "暂停并离开",
   "saveToRoutine": "将更改保存到训练计划",
   "routineUpdated": "训练计划已更新",
   "saveChangesTitle": "将更改保存到{name}？",
+  "@saveChangesTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "saveChangesBody": "下次开始时，训练计划会包含这些更改。",
   "routineOrderChanged": "新的动作顺序",
   "mineOnly": "我创建的",
   "createNamed": "没有？创建“{name}”",
+  "@createNamed": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "orStartWith": "或者从这里开始",
   "warmupFocus": "热身",
   "warmupFocusHint": "有无器械都能做的灵活性与激活",
@@ -872,7 +1539,21 @@
   "stepsSettingHint": "在首页显示今天的步数。数据不会离开手机。",
   "stepsToday": "今日步数",
   "stepsOfGoal": "/ {goal}",
+  "@stepsOfGoal": {
+    "placeholders": {
+      "goal": {
+        "type": "String"
+      }
+    }
+  },
   "stepsTodayCount": "今天 {count} 步",
+  "@stepsTodayCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
   "stepsGoal": "每日步数目标",
   "stepsNoAccess": "无法读取步数",
   "stepsGrant": "点按以在 Health Connect 中允许",
@@ -883,6 +1564,13 @@
   "routineDoneToday": "今天已完成 · 干得好",
   "trainAgain": "再练一次",
   "lastDoneAgo": "{n, plural, =0{今天完成} =1{昨天完成} other{{n} 天前}}",
+  "@lastDoneAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "archivedFilter": "已归档",
   "archiveExercise": "归档动作",
   "restoreExercise": "恢复",
@@ -900,6 +1588,16 @@
   "multiPlanSetting": "一天多个训练计划",
   "multiPlanHint": "点选这一天的每个计划，按添加顺序进行。",
   "routineOfDay": "今天第 {n}/{total} 个",
+  "@routineOfDay": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
   "nextToday": "今天的下一个",
   "planAboutMe": "关于我：",
   "planBody": "{sex}，{age} 岁，身高 {height}，体重 {weight}。",
@@ -908,9 +1606,46 @@
   "planHistory": "{n, plural, =1{最近 30 天训练了 1 次。} other{最近 30 天训练了 {n} 次。}}",
   "planBestLifts": "最近的最佳组",
   "planAskFirst": "如果你不知道我的目标（力量、增肌、减脂或一般体能）或每次能练多久，请先用一条简短消息问我。知道后只用 JSON 回答。",
+  "@planBody": {
+    "placeholders": {
+      "sex": {
+        "type": "String"
+      },
+      "age": {
+        "type": "int"
+      },
+      "height": {
+        "type": "String"
+      },
+      "weight": {
+        "type": "String"
+      }
+    }
+  },
+  "@planDays": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "@planHistory": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "backToTop": "回到顶部",
   "deleteExerciseTitle": "删除这个动作？",
   "deleteExerciseBody": "“{name}”将从动作库和训练计划中移除，之前的训练记录会保留。",
+  "@deleteExerciseBody": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "exportForStravaHint": "请在浏览器中打开 strava.com/upload/select 上传（Strava 应用无法导入文件），会显示为带组数的力量训练。",
   "manualStartTime": "开始时间",
   "manualDuration": "时长",
@@ -929,26 +1664,88 @@
   "groupUngroup": "取消分组,保留计划",
   "groupDeleteAll": "删除分组及其计划",
   "groupDeleteTitle": "删除“{name}”?",
+  "@groupDeleteTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "groupDeleteBody": "将删除{count}。训练记录会保留。",
+  "@groupDeleteBody": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
   "tplRr": "r/bodyweightfitness 的经典计划:每周三天全身训练。变轻松了就进阶到下一级。",
   "levelUpKicker": "下一步",
   "levelUpBody": "{name} 连续两次训练完成 3×{reps}。准备好进阶了吗?",
+  "@levelUpBody": {
+    "placeholders": {
+      "reps": {
+        "type": "int"
+      },
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "levelUpSwap": "在{routine}中替换",
+  "@levelUpSwap": {
+    "placeholders": {
+      "routine": {
+        "type": "String"
+      }
+    }
+  },
   "levelUpSee": "看看怎么做",
   "levelUpLater": "以后再说",
   "levelUpStay": "继续做这个",
   "levelUpSwapped": "{name} 已加入{routine}",
+  "@levelUpSwapped": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "routine": {
+        "type": "String"
+      }
+    }
+  },
   "levelUpStayed": "不再为这个动作提示进阶",
   "levelHintsSetting": "提示下一步进阶",
   "heatmapLabelsSetting": "在活动图上显示星期和月份",
   "rmPercent": "百分比",
   "rmAtPercent": "最大重量的 {pct}",
+  "@rmAtPercent": {
+    "placeholders": {
+      "pct": {
+        "type": "String"
+      }
+    }
+  },
   "copyWorkout": "复制为文本",
   "goalSet": "设定目标",
   "goalTargetReps": "目标次数",
   "goalToGo": "还差 {value}",
+  "@goalToGo": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
   "goalReached": "目标达成",
-  "goalDaysLeft": "{n, plural, other{还剩 {n} 天}}",
+  "goalDaysLeft": "{n, plural, =1{1 day left} other{{n} days left}}",
+  "@goalDaysLeft": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "goalOverdue": "已过期限",
   "goalDeadline": "截止日期",
   "goalNoDeadline": "无截止日期",
@@ -957,8 +1754,22 @@
   "aliasesLabel": "别名（可选）",
   "aliasesHint": "其他叫法，用逗号分隔",
   "alsoCalled": "又称：{names}",
+  "@alsoCalled": {
+    "placeholders": {
+      "names": {
+        "type": "String"
+      }
+    }
+  },
   "addToRoutine": "加入计划",
-  "inRoutines": "{n, plural, =0{还没加入任何计划} other{已在 {n} 个计划中}}",
+  "inRoutines": "{n, plural, =0{Not in any routine yet} =1{In 1 routine} other{In {n} routines}}",
+  "@inRoutines": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "alreadyInRoutine": "已在其中",
   "restInRoutine": "本计划中的休息",
   "restInRoutineHint": "与动作设置相同",
@@ -966,8 +1777,22 @@
   "swapExercise": "更换动作",
   "swapShort": "更换",
   "swapHint": "今天用它代替{name}。结束时可以保留到计划中。",
+  "@swapHint": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "swapKeepsDone": "已完成的组会保留，新动作接着做剩下的。",
   "swapSameMuscle": "同一肌群 · {muscle}",
+  "@swapSameMuscle": {
+    "placeholders": {
+      "muscle": {
+        "type": "String"
+      }
+    }
+  },
   "swapDoneBefore": "做过",
   "multiPlanSettingHint": "同一天安排多个计划。",
   "levelHintsHint": "动作变轻松时，推荐更难的版本。",
@@ -978,6 +1803,16 @@
   "placeTapToUse": "点按在这里训练",
   "intervalDays": "天",
   "goalDaysShort": "{done}/{target} 天",
+  "@goalDaysShort": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "target": {
+        "type": "int"
+      }
+    }
+  },
   "toolNameRpe": "按 RPE 算重量",
   "toolTitleRpe": "按 RPE 算重量",
   "toolDescRpe": "想要的强度该用多重",
@@ -985,15 +1820,39 @@
   "toolTitleDots": "力量水平（DOTS）",
   "toolDescDots": "相对体重的力量",
   "rpeResultHint": "{reps} 次 · RPE {rpe}",
+  "@rpeResultHint": {
+    "placeholders": {
+      "reps": {
+        "type": "int"
+      },
+      "rpe": {
+        "type": "String"
+      }
+    }
+  },
   "rpeYourSet": "刚做完的一组",
   "rpeGoal": "你想做的",
   "rpeOneRmLine": "预估 1RM：{value}",
+  "@rpeOneRmLine": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
   "rpeExplain": "RPE 10 表示一次也做不了了；8 表示还剩两次。",
   "dotsBestLifts": "你的最佳成绩",
   "dotsSquat": "深蹲",
   "dotsBench": "卧推",
   "dotsDeadlift": "硬拉",
   "dotsTotalLine": "总计：{value}",
+  "@dotsTotalLine": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
   "dotsExplain": "不论体重，都能和任何人比较力量。用你的单次最佳成绩或预估 1RM。",
   "dotsLevel0": "新手",
   "dotsLevel1": "中级",
@@ -1009,6 +1868,13 @@
   "toolDescFfmi": "相对身高的肌肉量",
   "ffmiBodyFat": "体脂率",
   "ffmiLeanLine": "去脂体重：{value}",
+  "@ffmiLeanLine": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
   "ffmiExplain": "类似 BMI，但不算脂肪：只计算去脂体重，并按身高校正，让高个子和矮个子能公平比较。",
   "ffmiLevel0": "低于平均",
   "ffmiLevel1": "平均",
@@ -1031,12 +1897,39 @@
   "prBestWorkout": "最佳训练",
   "mergeExercise": "合并",
   "mergeExerciseInto": "将 {name} 合并到…",
+  "@mergeExerciseInto": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "mergeExerciseTitle": "合并动作？",
   "mergeExerciseBody": "「{from}」的全部记录将转到「{to}」。「{from}」仍保留在你的动作库中。此操作无法撤销。",
+  "@mergeExerciseBody": {
+    "placeholders": {
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
   "mergedToast": "记录已合并",
   "nutrition": "饮食",
   "nutritionHomeEmpty": "饮水、蛋白质和热量",
   "nutritionHomeDetail": "{energy} · 蛋白质 {protein} 克",
+  "@nutritionHomeDetail": {
+    "placeholders": {
+      "energy": {
+        "type": "String"
+      },
+      "protein": {
+        "type": "int"
+      }
+    }
+  },
   "nutritionToday": "今天",
   "nutritionYesterday": "昨天",
   "nutritionGoals": "每日目标",
@@ -1051,6 +1944,13 @@
   "addSupplement": "新补剂",
   "supplementNameHint": "肌酸、维生素 D…",
   "removeSupplementTitle": "删除{name}？",
+  "@removeSupplementTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "removeSupplementBody": "标记过的日子也会一起删除。",
   "suppCreatine": "肌酸",
   "suppVitaminD": "维生素 D",
@@ -1071,6 +1971,13 @@
   "cutoutTry": "抠图",
   "cutoutKeep": "整张照片",
   "deleteFoodTitle": "删除{name}？",
+  "@deleteFoodTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "deleteFoodBody": "它会从你的食物中移除，已记录的内容保留。",
   "mealBreakfast": "早餐",
   "mealLunch": "午餐",
@@ -1078,19 +1985,47 @@
   "mealSnacks": "加餐",
   "nothingLogged": "还没有记录。",
   "addToMeal": "添加到{meal}",
+  "@addToMeal": {
+    "placeholders": {
+      "meal": {
+        "type": "String"
+      }
+    }
+  },
   "quickAdd": "快速添加",
   "quickAddHint": "只记数字，不保存食物。",
   "quickAddName": "吃了什么？（可选）",
   "logFood": "添加",
   "loggedToast": "已添加到{meal}",
+  "@loggedToast": {
+    "placeholders": {
+      "meal": {
+        "type": "String"
+      }
+    }
+  },
   "entryRemoved": "已删除",
   "goalsFromProfile": "按我的资料计算",
   "goalsFromProfileHint": "热量来自你的资料，每公斤体重 1.8 克蛋白质和 35 毫升水。",
   "kcalEaten": "已吃",
   "kcalRemaining": "剩余",
   "waterTapHint": "点杯子：+ {amount}",
+  "@waterTapHint": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
   "shakeEmpty": "点一下选择你的奶昔",
   "shakeTapHint": "点一下：+ {name}",
+  "@shakeTapHint": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "shakePick": "你的奶昔",
   "shakePickHint": "点杯子即可一次记录。",
   "proteinLetter": "蛋",
@@ -1100,8 +2035,22 @@
   "addBurnedHint": "消耗的热量按训练时长和体重估算。",
   "amountLabel": "数量",
   "amountIn": "数量（{unit}）",
+  "@amountIn": {
+    "placeholders": {
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
   "bodyweightLabel": "体重",
-  "copiedMealToast": "{count, plural, other{已复制 {count} 种食物}}",
+  "copiedMealToast": "{count, plural, =1{1 food copied} other{{count} foods copied}}",
+  "@copiedMealToast": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "deleteSavedMealBody": "已记录的内容保持不变。",
   "fiberLabel": "膳食纤维",
   "sugarLabel": "糖",
@@ -1111,17 +2060,90 @@
   "mealOptions": "餐次选项",
   "moreNutrients": "膳食纤维、糖和钠",
   "ofGoal": "/ {goal} {unit}",
+  "@ofGoal": {
+    "placeholders": {
+      "goal": {
+        "type": "int"
+      },
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
   "per100": "每 100 {unit}",
+  "@per100": {
+    "placeholders": {
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
   "perServingShort": "每份",
-  "portionUnit": "{count, plural, other{{count} 个}}",
-  "portionSlice": "{count, plural, other{{count} 片}}",
-  "portionScoop": "{count, plural, other{{count} 勺}}",
-  "portionTbsp": "{count, plural, other{{count} 汤匙}}",
-  "portionTsp": "{count, plural, other{{count} 茶匙}}",
-  "portionCup": "{count, plural, other{{count} 杯}}",
-  "portionGlass": "{count, plural, other{{count} 杯}}",
+  "portionUnit": "{count, plural, =1{1 piece} other{{count} pieces}}",
+  "@portionUnit": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "portionSlice": "{count, plural, =1{1 slice} other{{count} slices}}",
+  "@portionSlice": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "portionScoop": "{count, plural, =1{1 scoop} other{{count} scoops}}",
+  "@portionScoop": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "portionTbsp": "{count, plural, =1{1 tbsp} other{{count} tbsp}}",
+  "@portionTbsp": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "portionTsp": "{count, plural, =1{1 tsp} other{{count} tsp}}",
+  "@portionTsp": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "portionCup": "{count, plural, =1{1 cup} other{{count} cups}}",
+  "@portionCup": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "portionGlass": "{count, plural, =1{1 glass} other{{count} glasses}}",
+  "@portionGlass": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "recentFoods": "最近",
-  "recipeItems": "{count, plural, other{{count} 种食物}}",
+  "recipeItems": "{count, plural, =1{1 food} other{{count} foods}}",
+  "@recipeItems": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "renameLabel": "重命名",
   "repeatFrom": "从这里复用",
   "repeatNone": "其他日子这一餐还没有记录。",
@@ -1136,6 +2158,13 @@
   "searchFoodsHint": "搜索食物",
   "searchFoodsEmpty": "在 500 多种带图片的食物中搜索，或创建你自己的。",
   "searchFoodsNone": "没有找到“{query}”。把它创建成你的食物吧。",
+  "@searchFoodsNone": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
   "servingWeight": "克",
   "weekAverage": "本周",
   "weekAvgEnergy": "日均",
@@ -1143,17 +2172,69 @@
   "weekEnergyOnTarget": "热量达标",
   "weekProteinOnTarget": "蛋白质达标",
   "weekProteinAvg": "每天蛋白质 {grams} 克",
+  "@weekProteinAvg": {
+    "placeholders": {
+      "grams": {
+        "type": "int"
+      }
+    }
+  },
   "weekDaysOnTarget": "{days} 天中 {met} 天达标",
-  "weekLoggedDays": "{count, plural, other{已记录 {count} 天}}",
+  "@weekDaysOnTarget": {
+    "placeholders": {
+      "met": {
+        "type": "int"
+      },
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "weekLoggedDays": "{count, plural, =1{1 day logged} other{{count} days logged}}",
+  "@weekLoggedDays": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "weekNoData": "还没有记录",
   "weekOnTargetHint": "达标：热量在目标 ±10% 以内，且蛋白质至少达到 90%。",
   "weightGoalLabel": "目标体重",
   "weightGoalTitle": "目标体重（{unit}）",
+  "@weightGoalTitle": {
+    "placeholders": {
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
   "weightGoalLine": "目标 {weight}",
+  "@weightGoalLine": {
+    "placeholders": {
+      "weight": {
+        "type": "String"
+      }
+    }
+  },
   "weightGoalNone": "长按设置目标",
   "weightGoalReached": "已达成目标",
   "weightToLose": "还需减 {weight}",
+  "@weightToLose": {
+    "placeholders": {
+      "weight": {
+        "type": "String"
+      }
+    }
+  },
   "weightToGain": "还需增 {weight}",
+  "@weightToGain": {
+    "placeholders": {
+      "weight": {
+        "type": "String"
+      }
+    }
+  },
   "aminoHis": "组氨酸",
   "aminoIle": "异亮氨酸",
   "aminoLeu": "亮氨酸",
@@ -1172,12 +2253,36 @@
   "qualityNoDataHint": "记录食物库中的食物即可查看氨基酸。",
   "qualityAllCovered": "九种必需氨基酸都已满足。",
   "qualityLimiting": "缺少{amino}。搭配富含它的食物吧。",
+  "@qualityLimiting": {
+    "placeholders": {
+      "amino": {
+        "type": "String"
+      }
+    }
+  },
   "qualityCoverage": "基于你 {pct}% 的蛋白质计算：自己创建的食物没有氨基酸数据。",
+  "@qualityCoverage": {
+    "placeholders": {
+      "pct": {
+        "type": "int"
+      }
+    }
+  },
   "fatTypes": "脂肪类型",
   "fatSaturated": "饱和",
   "fatMono": "单不饱和",
   "fatPoly": "多不饱和",
   "satLimitLine": "饱和脂肪 {grams} 克，上限 {limit} 克（热量的 10%）",
+  "@satLimitLine": {
+    "placeholders": {
+      "grams": {
+        "type": "String"
+      },
+      "limit": {
+        "type": "int"
+      }
+    }
+  },
   "sugarSodium": "糖和钠",
   "shakeCard": "蛋白奶昔",
   "mealOther": "餐",
@@ -1202,11 +2307,35 @@
   "prepAddIngredient": "添加食材",
   "prepCookedWeight": "熟重",
   "prepCookedHint": "做好后连锅称重更准确。留空则用生重总和（{grams} 克）。",
+  "@prepCookedHint": {
+    "placeholders": {
+      "grams": {
+        "type": "String"
+      }
+    }
+  },
   "prepNeedWeight": "请填写熟重：有些食材没有克数。",
   "prepLeftOf": "剩 {left}，共 {total}",
+  "@prepLeftOf": {
+    "placeholders": {
+      "left": {
+        "type": "String"
+      },
+      "total": {
+        "type": "String"
+      }
+    }
+  },
   "prepOfWhatsLeft": "剩余的 %",
   "prepAll": "全部",
   "prepLogAmount": "记录 {grams}",
+  "@prepLogAmount": {
+    "placeholders": {
+      "grams": {
+        "type": "String"
+      }
+    }
+  },
   "prepWeighLeft": "称一下剩余",
   "prepFinished": "这份备餐已吃完。",
   "approxValues": "约值",
@@ -1214,12 +2343,36 @@
   "editValuesHint": "只修改这一条记录。若要以后都更正，请在“我的食物”中编辑。",
   "editLibraryHint": "将以相同照片保存为你的食物",
   "per100Line": "每 100 {unit} {energy}",
+  "@per100Line": {
+    "placeholders": {
+      "energy": {
+        "type": "String"
+      },
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
   "rawLabel": "生",
   "cookedLabel": "熟",
   "rawHint": "烹饪前重量",
   "cookedHint": "烹饪后重量（生重 ×{factor}）",
+  "@cookedHint": {
+    "placeholders": {
+      "factor": {
+        "type": "String"
+      }
+    }
+  },
   "servingsUnit": "份",
   "logAmount": "记录 · {energy}",
+  "@logAmount": {
+    "placeholders": {
+      "energy": {
+        "type": "String"
+      }
+    }
+  },
   "catFruit": "水果",
   "catVeg": "蔬菜",
   "catMeat": "肉类",
@@ -1243,6 +2396,80 @@
   "energySplit": "热量来源",
   "typicalServing": "常见份量",
   "cookedYieldLine": "重量为生重的 {factor} 倍",
+  "@cookedYieldLine": {
+    "placeholders": {
+      "factor": {
+        "type": "String"
+      }
+    }
+  },
+  "readyDishes": "Dishes",
+  "weightLastLine": "Last weigh-in {weight}",
+  "@weightLastLine": {
+    "placeholders": {
+      "weight": {
+        "type": "String"
+      }
+    }
+  },
+  "proteinAnimalShort": "Animal",
+  "proteinPlantShort": "Plant",
+  "kcalFromMacros": "These macros add up to about {value}",
+  "@kcalFromMacros": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "useValue": "Use",
+  "suppRowHint": "Tap to mark · hold for details",
+  "suppPhoto": "Photo",
+  "suppDose": "Dose",
+  "suppDoseHint": "5 g, 2 capsules…",
+  "suppRemind": "Remind me",
+  "mealPlanDefault": "Plan {n}",
+  "@mealPlanDefault": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "mealPlansTitle": "Meal plans",
+  "mealPlanNew": "New plan",
+  "fromPlan": "From {name}",
+  "@fromPlan": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "logPlan": "Log",
+  "planFromDay": "Copy this day",
+  "planNewHint": "Plan your days like your routines, then log a whole meal with one tap.",
+  "planLogDay": "Log the empty meals",
+  "planLogged": "{n, plural, =1{1 food logged} other{{n} foods logged}}",
+  "@planLogged": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "planNoPlan": "No plan",
+  "planWeekHint": "Tap a day to give it a plan.",
+  "planDuplicate": "Duplicate",
+  "planDeleteTitle": "Delete {name}?",
+  "@planDeleteTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "planDeleteBody": "Your logged days stay as they are.",
   "sectionBeta": "测试版",
   "nutritionBeta": "饮食",
   "nutritionBetaHint": "饮食、饮水、蛋白质和补剂。仍在建设中：即使关闭，你的数据也会保留。",
@@ -1257,5 +2484,167 @@
   "nutritionAboutBetaTitle": "仍是测试版",
   "nutritionAboutBeta": "如果缺少什么，请在 GitHub 上提出。只是别要扫码或更大的食物数据库：除了隐私问题，这还会让应用变得重得多。不需要饮食功能？在设置中关闭即可，你的数据会保留。",
   "nutritionAboutSuggest": "提个建议",
-  "nutritionAboutOk": "知道了"
+  "nutritionAboutOk": "知道了",
+  "planShare": "Share",
+  "planImport": "Import a plan",
+  "planImported": "{n, plural, =1{1 plan imported} other{{n} plans imported}}",
+  "@planImported": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "planImportNone": "That file has no meal plans.",
+  "planMoveUp": "Move up",
+  "planMoveDown": "Move down",
+  "cutoutEdit": "Touch up cutout",
+  "cutoutEditHint": "Drag to erase or restore. Tap an area to remove or bring it back whole. Pinch to zoom.",
+  "cutoutErase": "Erase",
+  "cutoutRestore": "Restore",
+  "cutoutReset": "Back to automatic",
+  "cutoutByHand": "Cut out by hand",
+  "notifSuppTitleFor": "Time to take: {names}",
+  "@notifSuppTitleFor": {
+    "placeholders": {
+      "names": {
+        "type": "String"
+      }
+    }
+  },
+  "notifSuppTap": "Tick it off in GymMane once you've taken it.",
+  "suppNoneToday": "Nothing to take today.",
+  "suppOtherDays": "Other days",
+  "suppEveryN": "{n, plural, =1{Every day} other{Every {n} days}}",
+  "@suppEveryN": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "suppDaily": "Every day",
+  "suppFromDate": "from {date}",
+  "@suppFromDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "suppUntilDate": "until {date}",
+  "@suppUntilDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "suppSomeDays": "Some days",
+  "suppEveryShort": "Every X days",
+  "suppWhen": "When",
+  "suppEveryLead": "Every",
+  "suppEveryTail": "{n, plural, =1{day} other{days}}",
+  "@suppEveryTail": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "suppStarts": "Starts",
+  "suppEnds": "Ends",
+  "suppTomorrow": "Tomorrow",
+  "suppPickDate": "Pick a date",
+  "suppNever": "Never",
+  "suppOneWeek": "In 1 week",
+  "suppOneMonth": "In 1 month",
+  "planPickHint": "Pick the plan for this day, or make a new one.",
+  "planSetForDay": "Plan set for {day}",
+  "@planSetForDay": {
+    "placeholders": {
+      "day": {
+        "type": "String"
+      }
+    }
+  },
+  "planSaved": "Plan saved",
+  "planDiscardTitle": "Discard changes?",
+  "planDiscardBody": "What you changed won't be saved.",
+  "planDiscard": "Discard",
+  "planEdit": "Edit plan",
+  "planNameHint": "Plan name",
+  "planDaysQuestion": "Which days?",
+  "planDaysHint": "On those days it shows up in Nutrition so you can log it in one tap.",
+  "planDaysNone": "Pick at least one day, or it won't show up anywhere.",
+  "planNothingToLog": "Those meals are already logged",
+  "planSave": "Save plan",
+  "planToday": "Today's plan",
+  "planLogRest": "Log the rest",
+  "dishNew": "Create my dish",
+  "dishNewHint": "Pick ingredients and amounts, save it and log it in one tap.",
+  "dishEdit": "Edit dish",
+  "dishNameHint": "E.g. Mum's lentils",
+  "dishIngredients": "Ingredients",
+  "dishEmptyHint": "Add what goes in it with the amount you usually eat.",
+  "dishSave": "Save dish",
+  "dishNeedsName": "Give it a name",
+  "dishNeedsItems": "Add at least one ingredient",
+  "suppHistory": "Last 14 days",
+  "suppTakenOf": "{n} of {total} taken",
+  "@suppTakenOf": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "suppNoReminder": "No reminder",
+  "suppMarkTaken": "Mark as taken",
+  "suppUnmark": "Unmark",
+  "suppEdit": "Edit",
+  "mealMoveTo": "Move to",
+  "mealClear": "Clear meal",
+  "mealCleared": "Meal cleared",
+  "movedMealToast": "{count, plural, =1{1 food moved} other{{count} foods moved}}",
+  "@movedMealToast": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "repeatWholeDay": "Repeat the whole day",
+  "createFoodNamed": "Create “{name}”",
+  "@createFoodNamed": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "entryDay": "Day",
+  "movedToDay": "Moved",
+  "favFoodsHint": "Tap ☆ on a food",
+  "favFoodsEmpty": "Tap the star on any food to keep it here, one tap away.",
+  "savedMealsCount": "{count, plural, =1{1 meal} other{{count} meals}}",
+  "@savedMealsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "savedMealsEmpty": "Save a meal from its ••• menu, or build your own dish.",
+  "sugarLimitLabel": "Sugar limit",
+  "sodiumLimitLabel": "Sodium limit",
+  "waterOptions": "Water options",
+  "waterNone": "No water logged yet.",
+  "waterDailyGoal": "Daily water",
+  "trackersScreen": "Screen",
+  "vesselMotion": "Moving water and shake",
+  "vesselMotionHint": "Turn it off if the screen feels slow: the glasses still fill up, they just stop moving."
 }
