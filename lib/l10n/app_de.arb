@@ -184,7 +184,7 @@
   "journal": "PROTOKOLL",
   "noteCount": "{n, plural, =0{Keine Notizen} =1{1 Notiz} other{{n} Notizen}}",
   "noteKindNote": "Notiz",
-  "noteKindPlan": "Plan",
+  "noteKindPlan": "Plane",
   "noteKindDone": "Erfolg",
   "noteKindPain": "Beschwerde",
   "noteFilterAll": "Alle",

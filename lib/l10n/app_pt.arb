@@ -286,7 +286,7 @@
   "primaryLabel": "PRIMÁRIO",
   "secondaryLabel": "SECUNDÁRIO",
   "none": "Nenhum",
-  "setCount": "{n, plural, =1{{n} série} other{{n} séries}}",
+  "setCount": "{n, plural, one{{n} série} other{{n} séries}}",
   "volumeSuffix": "{v} de volume",
   "weeklyPlan": "PLANO SEMANAL",
   "yourRoutines": "SUAS ROTINAS",
