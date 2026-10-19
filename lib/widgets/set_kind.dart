@@ -9,36 +9,36 @@ import 'glass.dart';
 import 'ui_kit.dart';
 
 Color setKindColor(GymColors gc, SetKind kind) => switch (kind) {
-      SetKind.warmup => gc.warn,
-      SetKind.drop => gc.info,
-      SetKind.failure => gc.danger,
-      SetKind.restPause => gc.brass,
-      SetKind.normal => gc.text,
-    };
+  SetKind.warmup => gc.warn,
+  SetKind.drop => gc.info,
+  SetKind.failure => gc.danger,
+  SetKind.restPause => gc.brass,
+  SetKind.normal => gc.text,
+};
 
 String setKindLabel(SetKind kind) => switch (kind) {
-      SetKind.warmup => t.setTypeWarmup,
-      SetKind.drop => t.setTypeDrop,
-      SetKind.failure => t.setTypeFailure,
-      SetKind.restPause => t.setTypeRestPause,
-      SetKind.normal => t.setTypeNormal,
-    };
+  SetKind.warmup => t.setTypeWarmup,
+  SetKind.drop => t.setTypeDrop,
+  SetKind.failure => t.setTypeFailure,
+  SetKind.restPause => t.setTypeRestPause,
+  SetKind.normal => t.setTypeNormal,
+};
 
 String setKindTag(SetKind kind) => switch (kind) {
-      SetKind.warmup => 'W',
-      SetKind.drop => 'D',
-      SetKind.failure => 'F',
-      SetKind.restPause => 'RP',
-      SetKind.normal => '',
-    };
+  SetKind.warmup => 'W',
+  SetKind.drop => 'D',
+  SetKind.failure => 'F',
+  SetKind.restPause => 'RP',
+  SetKind.normal => '',
+};
 
 String setKindInfo(SetKind kind) => switch (kind) {
-      SetKind.warmup => t.setTypeWarmupInfo,
-      SetKind.drop => t.setTypeDropInfo,
-      SetKind.failure => t.setTypeFailureInfo,
-      SetKind.restPause => t.setTypeRestPauseInfo,
-      SetKind.normal => t.setTypeNormalInfo,
-    };
+  SetKind.warmup => t.setTypeWarmupInfo,
+  SetKind.drop => t.setTypeDropInfo,
+  SetKind.failure => t.setTypeFailureInfo,
+  SetKind.restPause => t.setTypeRestPauseInfo,
+  SetKind.normal => t.setTypeNormalInfo,
+};
 
 class SetKindOptions extends StatelessWidget {
   const SetKindOptions({super.key, required this.current, required this.onPick});
@@ -64,31 +64,43 @@ class SetKindOptions extends StatelessWidget {
                 borderRadius: BorderRadius.circular(14),
                 border: Border.all(color: kind == current ? setKindColor(gc, kind) : gc.border),
               ),
-              child: Row(children: [
-                Container(
-                  width: 8,
-                  height: 8,
-                  decoration: BoxDecoration(color: setKindColor(gc, kind), shape: BoxShape.circle),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(setKindLabel(kind),
-                          style: AppTheme.f(14, weight: FontWeight.w600, color: gc.text)),
-                      const SizedBox(height: 2),
-                      Text(setKindInfo(kind),
-                          style: AppTheme.f(12,
-                              weight: FontWeight.w500, color: gc.textSecondary, height: 1.35)),
-                    ],
+              child: Row(
+                children: [
+                  Container(
+                    width: 8,
+                    height: 8,
+                    decoration: BoxDecoration(color: setKindColor(gc, kind), shape: BoxShape.circle),
                   ),
-                ),
-                const SizedBox(width: 10),
-                Icon(PhosphorIconsBold.check,
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          setKindLabel(kind),
+                          style: AppTheme.f(14, weight: FontWeight.w600, color: gc.text),
+                        ),
+                        const SizedBox(height: 2),
+                        Text(
+                          setKindInfo(kind),
+                          style: AppTheme.f(
+                            12,
+                            weight: FontWeight.w500,
+                            color: gc.textSecondary,
+                            height: 1.35,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  Icon(
+                    PhosphorIconsBold.check,
                     size: 14,
-                    color: kind == current ? setKindColor(gc, kind) : Colors.transparent),
-              ]),
+                    color: kind == current ? setKindColor(gc, kind) : Colors.transparent,
+                  ),
+                ],
+              ),
             ),
           ),
         ],
@@ -116,8 +128,10 @@ Future<SetKind?> askSetKind(BuildContext context, SetKind current) {
           children: [
             const SheetHandle(),
             const SizedBox(height: 18),
-            Text(t.setType,
-                style: AppTheme.f(12, weight: FontWeight.w600, color: gc.textSecondary, letterSpacing: 0.4)),
+            Text(
+              t.setType,
+              style: AppTheme.f(12, weight: FontWeight.w600, color: gc.textSecondary, letterSpacing: 0.4),
+            ),
             const SizedBox(height: 12),
             SetKindOptions(current: current, onPick: (k) => Navigator.of(sheet).pop(k)),
           ],

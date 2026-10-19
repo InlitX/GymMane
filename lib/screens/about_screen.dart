@@ -26,60 +26,55 @@ class AboutScreen extends StatelessWidget {
       id: 'about',
       once: false,
       child: SafeArea(
-      bottom: false,
-      child: SingleChildScrollView(
-        clipBehavior: Clip.none,
-        padding: const EdgeInsets.fromLTRB(20, 12, 20, 36),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: riseAll([
-            ScreenHeader(
-              title: t.about,
-              onBack: fit.backFromAbout,
-              titleSize: 18,
-              titleSpacing: 1,
-            ),
-            const SizedBox(height: 18),
-            _hero(gc),
-            const SizedBox(height: 20),
-            _group(gc, [
-              (PhosphorIconsRegular.gift, t.freeForever, t.freeForeverWhy),
-              (PhosphorIconsRegular.wifiSlash, t.fullyOffline, t.fullyOfflineWhy),
-              (PhosphorIconsRegular.export, t.yoursToTake, t.yoursToTakeWhy),
-            ]),
-            const SizedBox(height: 18),
-            _sectionLabel(gc, t.whatsInside),
-            const SizedBox(height: 8),
-            _group(gc, [
-              (PhosphorIconsRegular.barbell, t.exercisesInside(kExercises.length),
-                  t.exercisesInsideWhy),
-              (PhosphorIconsRegular.calculator, t.calculatorsInside, t.calculatorsInsideWhy),
-              (PhosphorIconsRegular.chartLineUp, t.mathInside, t.mathInsideWhy),
-            ]),
-            const SizedBox(height: 22),
-            Text(t.aboutBlurb,
+        bottom: false,
+        child: SingleChildScrollView(
+          clipBehavior: Clip.none,
+          padding: const EdgeInsets.fromLTRB(20, 12, 20, 36),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: riseAll([
+              ScreenHeader(title: t.about, onBack: fit.backFromAbout, titleSize: 18, titleSpacing: 1),
+              const SizedBox(height: 18),
+              _hero(gc),
+              const SizedBox(height: 20),
+              _group(gc, [
+                (PhosphorIconsRegular.gift, t.freeForever, t.freeForeverWhy),
+                (PhosphorIconsRegular.wifiSlash, t.fullyOffline, t.fullyOfflineWhy),
+                (PhosphorIconsRegular.export, t.yoursToTake, t.yoursToTakeWhy),
+              ]),
+              const SizedBox(height: 18),
+              _sectionLabel(gc, t.whatsInside),
+              const SizedBox(height: 8),
+              _group(gc, [
+                (PhosphorIconsRegular.barbell, t.exercisesInside(kExercises.length), t.exercisesInsideWhy),
+                (PhosphorIconsRegular.calculator, t.calculatorsInside, t.calculatorsInsideWhy),
+                (PhosphorIconsRegular.chartLineUp, t.mathInside, t.mathInsideWhy),
+              ]),
+              const SizedBox(height: 22),
+              Text(
+                t.aboutBlurb,
                 textAlign: TextAlign.center,
-                style: AppTheme.f(12.5, weight: FontWeight.w500, color: gc.textTertiary, height: 1.6)),
-            const SizedBox(height: 20),
-            _credits(gc),
-          ]),
+                style: AppTheme.f(12.5, weight: FontWeight.w500, color: gc.textTertiary, height: 1.6),
+              ),
+              const SizedBox(height: 20),
+              _credits(gc),
+            ]),
+          ),
         ),
-      ),
       ),
     );
   }
 
-  Widget _sectionLabel(GymColors gc, String label) => Text(label.toUpperCase(),
-      style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.3));
+  Widget _sectionLabel(GymColors gc, String label) => Text(
+    label.toUpperCase(),
+    style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.3),
+  );
 
   Widget _hero(GymColors gc) {
     return Container(
       height: 178,
       clipBehavior: Clip.antiAlias,
-      decoration: BoxDecoration(
-        color: gc.bgRaised,
-        borderRadius: BorderRadius.circular(22),
-      ),
+      decoration: BoxDecoration(color: gc.bgRaised, borderRadius: BorderRadius.circular(22)),
       child: Stack(
         children: [
           Positioned(
@@ -104,10 +99,7 @@ class AboutScreen extends StatelessWidget {
             right: 6,
             top: 14,
             bottom: 14,
-            child: Opacity(
-              opacity: 0.6,
-              child: Image.asset('assets/img/runner.png', fit: BoxFit.fitHeight),
-            ),
+            child: Opacity(opacity: 0.6, child: Image.asset('assets/img/runner.png', fit: BoxFit.fitHeight)),
           ),
           Padding(
             padding: const EdgeInsets.all(22),
@@ -115,17 +107,18 @@ class AboutScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text('GymMane',
-                    style: AppTheme.f(33, weight: FontWeight.w800, color: gc.text, letterSpacing: -0.5)),
+                Text(
+                  'GymMane',
+                  style: AppTheme.f(33, weight: FontWeight.w800, color: gc.text, letterSpacing: -0.5),
+                ),
                 const SizedBox(height: 10),
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 5),
-                  decoration: BoxDecoration(
-                    color: gc.bgRaised2,
-                    borderRadius: BorderRadius.circular(100),
+                  decoration: BoxDecoration(color: gc.bgRaised2, borderRadius: BorderRadius.circular(100)),
+                  child: Text(
+                    t.version(_kVersion),
+                    style: AppTheme.f(11.5, weight: FontWeight.w600, color: gc.textSecondary),
                   ),
-                  child: Text(t.version(_kVersion),
-                      style: AppTheme.f(11.5, weight: FontWeight.w600, color: gc.textSecondary)),
                 ),
               ],
             ),
@@ -138,10 +131,7 @@ class AboutScreen extends StatelessWidget {
   Widget _group(GymColors gc, List<(IconData, String, String)> rows) {
     return Container(
       clipBehavior: Clip.antiAlias,
-      decoration: BoxDecoration(
-        color: gc.bgRaised,
-        borderRadius: BorderRadius.circular(20),
-      ),
+      decoration: BoxDecoration(color: gc.bgRaised, borderRadius: BorderRadius.circular(20)),
       child: Column(
         children: [
           for (int i = 0; i < rows.length; i++)
@@ -157,20 +147,26 @@ class AboutScreen extends StatelessWidget {
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(top: 1, right: 14),
-                    child: SizedBox(
-                      width: 22,
-                      child: Icon(rows[i].$1, size: 19, color: gc.textSecondary),
-                    ),
+                    child: SizedBox(width: 22, child: Icon(rows[i].$1, size: 19, color: gc.textSecondary)),
                   ),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(rows[i].$2, style: AppTheme.f(14.5, weight: FontWeight.w600, color: gc.text)),
+                        Text(
+                          rows[i].$2,
+                          style: AppTheme.f(14.5, weight: FontWeight.w600, color: gc.text),
+                        ),
                         const SizedBox(height: 3),
-                        Text(rows[i].$3,
-                            style: AppTheme.f(12.5,
-                                weight: FontWeight.w500, color: gc.textSecondary, height: 1.4)),
+                        Text(
+                          rows[i].$3,
+                          style: AppTheme.f(
+                            12.5,
+                            weight: FontWeight.w500,
+                            color: gc.textSecondary,
+                            height: 1.4,
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -190,10 +186,7 @@ class AboutScreen extends StatelessWidget {
     ];
     return Container(
       clipBehavior: Clip.antiAlias,
-      decoration: BoxDecoration(
-        color: gc.bgRaised,
-        borderRadius: BorderRadius.circular(20),
-      ),
+      decoration: BoxDecoration(color: gc.bgRaised, borderRadius: BorderRadius.circular(20)),
       child: Column(
         children: [
           for (int i = 0; i < rows.length; i++)
@@ -223,12 +216,20 @@ class AboutScreen extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(rows[i].$2.toUpperCase(),
-                                style: AppTheme.f(10,
-                                    weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.3)),
+                            Text(
+                              rows[i].$2.toUpperCase(),
+                              style: AppTheme.f(
+                                10,
+                                weight: FontWeight.w700,
+                                color: gc.textTertiary,
+                                letterSpacing: 1.3,
+                              ),
+                            ),
                             const SizedBox(height: 4),
-                            Text(rows[i].$3,
-                                style: AppTheme.f(15.5, weight: FontWeight.w700, color: gc.text)),
+                            Text(
+                              rows[i].$3,
+                              style: AppTheme.f(15.5, weight: FontWeight.w700, color: gc.text),
+                            ),
                           ],
                         ),
                       ),

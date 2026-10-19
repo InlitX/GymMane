@@ -63,8 +63,12 @@ void main() {
     test('la mejor serie es la de más 1RM y el mejor entreno el de más volumen', () {
       final bench = idOf('Barbell Bench Press');
       fit.sessions.addAll([
-        day(3, [LoggedExercise(bench, 'Bench', 'chest', [LoggedSet(13, 16), LoggedSet(5, 18)])]),
-        day(1, [LoggedExercise(bench, 'Bench', 'chest', [LoggedSet(10, 17), LoggedSet(10, 17), LoggedSet(10, 17)])]),
+        day(3, [
+          LoggedExercise(bench, 'Bench', 'chest', [LoggedSet(13, 16), LoggedSet(5, 18)]),
+        ]),
+        day(1, [
+          LoggedExercise(bench, 'Bench', 'chest', [LoggedSet(10, 17), LoggedSet(10, 17), LoggedSet(10, 17)]),
+        ]),
       ]);
 
       final set = fit.bestSet(bench)!;
@@ -76,7 +80,11 @@ void main() {
 
     test('en un ejercicio de repeticiones el mejor entreno suma repeticiones', () {
       final pull = idOf('Pull Up');
-      fit.sessions.add(day(1, [LoggedExercise(pull, 'Pull', 'back', [LoggedSet(8, 0), LoggedSet(6, 0)])]));
+      fit.sessions.add(
+        day(1, [
+          LoggedExercise(pull, 'Pull', 'back', [LoggedSet(8, 0), LoggedSet(6, 0)]),
+        ]),
+      );
       expect(fit.bestWorkout(pull, PrKind.reps)!.score, 14);
       expect(fit.bestSet(pull), isNull);
     });
@@ -87,7 +95,9 @@ void main() {
       final mine = fit.addCustomExercise(name: 'Mi press', primary: 'chest', equipment: 'Barbell');
       final bench = idOf('Barbell Bench Press');
       fit.sessions.addAll([
-        day(2, [LoggedExercise(mine, 'Mi press', 'chest', [LoggedSet(10, 50)])]),
+        day(2, [
+          LoggedExercise(mine, 'Mi press', 'chest', [LoggedSet(10, 50)]),
+        ]),
         day(1, [
           LoggedExercise(bench, 'Bench', 'chest', [LoggedSet(8, 60)]),
           LoggedExercise(mine, 'Mi press', 'chest', [LoggedSet(6, 70)]),
@@ -106,13 +116,26 @@ void main() {
     test('solo se fusiona un ejercicio propio con otro del mismo tipo', () {
       final bench = idOf('Barbell Bench Press');
       final squat = idOf('Barbell Squat');
-      fit.sessions.add(day(1, [LoggedExercise(bench, 'Bench', 'chest', [LoggedSet(8, 60)])]));
+      fit.sessions.add(
+        day(1, [
+          LoggedExercise(bench, 'Bench', 'chest', [LoggedSet(8, 60)]),
+        ]),
+      );
       fit.mergeExerciseInto(bench, squat);
       expect(fit.exerciseHistory(bench), hasLength(1));
 
-      final run = fit.addCustomExercise(name: 'Mi carrera', primary: 'quads', equipment: 'Bodyweight', mode: 'cardio');
+      final run = fit.addCustomExercise(
+        name: 'Mi carrera',
+        primary: 'quads',
+        equipment: 'Bodyweight',
+        mode: 'cardio',
+      );
       expect(fit.mergeTargets(run).every((e) => fit.modeOf(e.id) == 'cardio'), isTrue);
-      fit.sessions.add(day(2, [LoggedExercise(run, 'Run', 'quads', [LoggedSet(0, 0, sec: 600)])]));
+      fit.sessions.add(
+        day(2, [
+          LoggedExercise(run, 'Run', 'quads', [LoggedSet(0, 0, sec: 600)]),
+        ]),
+      );
       fit.mergeExerciseInto(run, bench);
       expect(fit.exerciseHistory(run), hasLength(1));
     });

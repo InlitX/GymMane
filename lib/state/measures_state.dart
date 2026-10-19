@@ -9,8 +9,7 @@ mixin MeasuresState on FitCore {
 
   bool isPercent(String key) => key == 'bodyfat';
 
-  double toDisplayMeasure(String key, double raw) =>
-      isPercent(key) || !isInches ? raw : raw / _cmPerInch;
+  double toDisplayMeasure(String key, double raw) => isPercent(key) || !isInches ? raw : raw / _cmPerInch;
 
   double fromDisplayMeasure(String key, double shown) =>
       isPercent(key) || !isInches ? shown : shown * _cmPerInch;
@@ -40,8 +39,7 @@ mixin MeasuresState on FitCore {
   String measureLabel(String key, double raw) => '${measureValue(key, raw)} ${measureUnit(key)}';
 
   List<BodyMeasure> measureHistory(String key) {
-    final out = measures.where((m) => m.key == key).toList()
-      ..sort((a, b) => b.date.compareTo(a.date));
+    final out = measures.where((m) => m.key == key).toList()..sort((a, b) => b.date.compareTo(a.date));
     return out;
   }
 
@@ -59,8 +57,7 @@ mixin MeasuresState on FitCore {
   List<double> measureSeries(String key) =>
       measureHistory(key).reversed.map((m) => toDisplayMeasure(key, m.value)).toList();
 
-  List<String> get trackedMeasures =>
-      kMeasureKeys.where((k) => latestMeasure(k) != null).toList();
+  List<String> get trackedMeasures => kMeasureKeys.where((k) => latestMeasure(k) != null).toList();
 
   bool get hasMeasures => measures.isNotEmpty;
 

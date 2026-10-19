@@ -6,8 +6,37 @@ SetKind setKindFrom(Object? raw) {
 }
 
 const _rpeTable = [
-  1.0, .978, .955, .939, .922, .907, .892, .878, .863, .85, .837, .824, .811, .799, .786, .774,
-  .762, .751, .739, .723, .707, .694, .68, .667, .653, .64, .626, .613, .599, .586, .574,
+  1.0,
+  .978,
+  .955,
+  .939,
+  .922,
+  .907,
+  .892,
+  .878,
+  .863,
+  .85,
+  .837,
+  .824,
+  .811,
+  .799,
+  .786,
+  .774,
+  .762,
+  .751,
+  .739,
+  .723,
+  .707,
+  .694,
+  .68,
+  .667,
+  .653,
+  .64,
+  .626,
+  .613,
+  .599,
+  .586,
+  .574,
 ];
 
 double? rpePercent(int reps, double? rpe) {
@@ -35,21 +64,21 @@ class LoggedSet {
   }
 
   Map<String, dynamic> toJson() => {
-        'r': reps,
-        'w': weight,
-        if (kind != SetKind.normal) 'k': kind.index,
-        if (rpe != null) 'e': rpe,
-        if (sec != null) 't': sec,
-        if (km != null) 'km': km,
-      };
+    'r': reps,
+    'w': weight,
+    if (kind != SetKind.normal) 'k': kind.index,
+    if (rpe != null) 'e': rpe,
+    if (sec != null) 't': sec,
+    if (km != null) 'km': km,
+  };
   factory LoggedSet.fromJson(Map<String, dynamic> j) => LoggedSet(
-        (j['r'] as num).toInt(),
-        (j['w'] as num).toDouble(),
-        kind: setKindFrom(j['k']),
-        rpe: (j['e'] as num?)?.toDouble(),
-        sec: (j['t'] as num?)?.toInt(),
-        km: (j['km'] as num?)?.toDouble(),
-      );
+    (j['r'] as num).toInt(),
+    (j['w'] as num).toDouble(),
+    kind: setKindFrom(j['k']),
+    rpe: (j['e'] as num?)?.toDouble(),
+    sec: (j['t'] as num?)?.toInt(),
+    km: (j['km'] as num?)?.toDouble(),
+  );
 }
 
 enum PrKind {
@@ -59,11 +88,11 @@ enum PrKind {
   reps;
 
   double score(LoggedSet s) => switch (this) {
-        PrKind.weight => s.weight,
-        PrKind.distance => s.km ?? 0,
-        PrKind.time => (s.sec ?? 0).toDouble(),
-        PrKind.reps => s.reps.toDouble(),
-      };
+    PrKind.weight => s.weight,
+    PrKind.distance => s.km ?? 0,
+    PrKind.time => (s.sec ?? 0).toDouble(),
+    PrKind.reps => s.reps.toDouble(),
+  };
 }
 
 typedef PersonalRecord = ({String id, String name, PrKind kind, double best, double oneRm});
@@ -89,17 +118,17 @@ class LoggedExercise {
   }
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'n': name,
-        'p': primary,
-        's': sets.map((s) => s.toJson()).toList(),
-      };
+    'id': id,
+    'n': name,
+    'p': primary,
+    's': sets.map((s) => s.toJson()).toList(),
+  };
   factory LoggedExercise.fromJson(Map<String, dynamic> j) => LoggedExercise(
-        j['id'] as String,
-        j['n'] as String,
-        j['p'] as String,
-        (j['s'] as List).map((e) => LoggedSet.fromJson(e as Map<String, dynamic>)).toList(),
-      );
+    j['id'] as String,
+    j['n'] as String,
+    j['p'] as String,
+    (j['s'] as List).map((e) => LoggedSet.fromJson(e as Map<String, dynamic>)).toList(),
+  );
 }
 
 class LoggedSession {
@@ -115,19 +144,19 @@ class LoggedSession {
   int get setCount => exercises.fold(0, (s, e) => s + e.workingSets.length);
 
   Map<String, dynamic> toJson() => {
-        'd': date.toIso8601String(),
-        'dur': durationSec,
-        'ex': exercises.map((e) => e.toJson()).toList(),
-        if (routineId != null) 'r': routineId,
-        if (name != null) 'n': name,
-      };
+    'd': date.toIso8601String(),
+    'dur': durationSec,
+    'ex': exercises.map((e) => e.toJson()).toList(),
+    if (routineId != null) 'r': routineId,
+    if (name != null) 'n': name,
+  };
   factory LoggedSession.fromJson(Map<String, dynamic> j) => LoggedSession(
-        DateTime.parse(j['d'] as String),
-        (j['dur'] as num?)?.toInt() ?? 0,
-        (j['ex'] as List).map((e) => LoggedExercise.fromJson(e as Map<String, dynamic>)).toList(),
-        routineId: j['r'] as String?,
-        name: j['n'] as String?,
-      );
+    DateTime.parse(j['d'] as String),
+    (j['dur'] as num?)?.toInt() ?? 0,
+    (j['ex'] as List).map((e) => LoggedExercise.fromJson(e as Map<String, dynamic>)).toList(),
+    routineId: j['r'] as String?,
+    name: j['n'] as String?,
+  );
 }
 
 class BodyweightEntry {
@@ -155,43 +184,45 @@ class PlannedSet {
     int? sec,
     double? km,
     bool autoWeight = false,
-  }) =>
-      PlannedSet(
-        reps: reps ?? this.reps,
-        weightKg: autoWeight ? null : (weightKg ?? this.weightKg),
-        kind: kind ?? this.kind,
-        sec: sec ?? this.sec,
-        km: km ?? this.km,
-      );
+  }) => PlannedSet(
+    reps: reps ?? this.reps,
+    weightKg: autoWeight ? null : (weightKg ?? this.weightKg),
+    kind: kind ?? this.kind,
+    sec: sec ?? this.sec,
+    km: km ?? this.km,
+  );
 
   Map<String, dynamic> toJson() => {
-        if (reps != null) 'r': reps,
-        if (weightKg != null) 'w': weightKg,
-        if (kind != SetKind.normal) 'k': kind.index,
-        if (sec != null) 't': sec,
-        if (km != null) 'km': km,
-      };
+    if (reps != null) 'r': reps,
+    if (weightKg != null) 'w': weightKg,
+    if (kind != SetKind.normal) 'k': kind.index,
+    if (sec != null) 't': sec,
+    if (km != null) 'km': km,
+  };
   factory PlannedSet.fromJson(Map<String, dynamic> j) => PlannedSet(
-        reps: (j['r'] as num?)?.toInt(),
-        weightKg: (j['w'] as num?)?.toDouble(),
-        kind: setKindFrom(j['k']),
-        sec: (j['t'] as num?)?.toInt(),
-        km: (j['km'] as num?)?.toDouble(),
-      );
+    reps: (j['r'] as num?)?.toInt(),
+    weightKg: (j['w'] as num?)?.toDouble(),
+    kind: setKindFrom(j['k']),
+    sec: (j['t'] as num?)?.toInt(),
+    km: (j['km'] as num?)?.toDouble(),
+  );
 }
 
 class Routine {
-  Routine(this.id, this.name, this.exerciseIds,
-      {Map<String, int>? sets,
-      Set<String>? chained,
-      Map<String, List<PlannedSet>>? plan,
-      Map<String, int>? rest,
-      this.group = '',
-      this.color = -1})
-      : sets = sets ?? {},
-        chained = chained ?? {},
-        plan = plan ?? {},
-        rest = rest ?? {};
+  Routine(
+    this.id,
+    this.name,
+    this.exerciseIds, {
+    Map<String, int>? sets,
+    Set<String>? chained,
+    Map<String, List<PlannedSet>>? plan,
+    Map<String, int>? rest,
+    this.group = '',
+    this.color = -1,
+  }) : sets = sets ?? {},
+       chained = chained ?? {},
+       plan = plan ?? {},
+       rest = rest ?? {};
   final String id;
   String name;
   String group;
@@ -203,31 +234,32 @@ class Routine {
   final Map<String, int> rest;
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'n': name,
-        'ex': exerciseIds,
-        if (rest.isNotEmpty) 'r': rest,
-        if (sets.isNotEmpty) 's': sets,
-        if (chained.isNotEmpty) 'c': chained.toList(),
-        if (group.isNotEmpty) 'g': group,
-        if (color >= 0) 'k': color,
-        if (plan.isNotEmpty)
-          'p': plan.map((k, v) => MapEntry(k, v.map((s) => s.toJson()).toList())),
-      };
+    'id': id,
+    'n': name,
+    'ex': exerciseIds,
+    if (rest.isNotEmpty) 'r': rest,
+    if (sets.isNotEmpty) 's': sets,
+    if (chained.isNotEmpty) 'c': chained.toList(),
+    if (group.isNotEmpty) 'g': group,
+    if (color >= 0) 'k': color,
+    if (plan.isNotEmpty) 'p': plan.map((k, v) => MapEntry(k, v.map((s) => s.toJson()).toList())),
+  };
   factory Routine.fromJson(Map<String, dynamic> j) => Routine(
-        j['id'] as String,
-        j['n'] as String,
-        ((j['ex'] as List?) ?? []).cast<String>(),
-        sets: ((j['s'] as Map?) ?? const {})
-            .map((k, v) => MapEntry(k as String, (v as num).toInt())),
-        chained: ((j['c'] as List?) ?? const []).cast<String>().toSet(),
-        plan: ((j['p'] as Map?) ?? const {}).map((k, v) => MapEntry(
-              k as String,
-              (v as List).map((s) => PlannedSet.fromJson((s as Map).cast<String, dynamic>())).toList(),
-            )),
-        rest: ((j['r'] as Map?) ?? const {})
-            .map((k, v) => MapEntry(k as String, ((v as num).toInt()).clamp(0, 600))),
-        group: (j['g'] as String?) ?? '',
-        color: (j['k'] as num?)?.toInt() ?? -1,
-      );
+    j['id'] as String,
+    j['n'] as String,
+    ((j['ex'] as List?) ?? []).cast<String>(),
+    sets: ((j['s'] as Map?) ?? const {}).map((k, v) => MapEntry(k as String, (v as num).toInt())),
+    chained: ((j['c'] as List?) ?? const []).cast<String>().toSet(),
+    plan: ((j['p'] as Map?) ?? const {}).map(
+      (k, v) => MapEntry(
+        k as String,
+        (v as List).map((s) => PlannedSet.fromJson((s as Map).cast<String, dynamic>())).toList(),
+      ),
+    ),
+    rest: ((j['r'] as Map?) ?? const {}).map(
+      (k, v) => MapEntry(k as String, ((v as num).toInt()).clamp(0, 600)),
+    ),
+    group: (j['g'] as String?) ?? '',
+    color: (j['k'] as num?)?.toInt() ?? -1,
+  );
 }

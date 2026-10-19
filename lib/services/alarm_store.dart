@@ -9,7 +9,16 @@ class AlarmStore {
   static String? _dir;
 
   static const audioExtensions = <String>[
-    'mp3', 'wav', 'ogg', 'm4a', 'aac', 'flac', 'opus', 'wma', 'caf', 'aiff',
+    'mp3',
+    'wav',
+    'ogg',
+    'm4a',
+    'aac',
+    'flac',
+    'opus',
+    'wma',
+    'caf',
+    'aiff',
   ];
 
   static const maxDuration = Duration(seconds: 15);

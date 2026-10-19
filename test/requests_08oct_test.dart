@@ -29,12 +29,10 @@ void main() {
     return r;
   }
 
-  LoggedSession done(String routineId, int ago) => LoggedSession(
-        DateTime.now().subtract(Duration(days: ago)),
-        1800,
-        [LoggedExercise(ids[0], 'x', 'chest', [LoggedSet(8, 60)])],
-        routineId: routineId,
-      );
+  LoggedSession done(String routineId, int ago) =>
+      LoggedSession(DateTime.now().subtract(Duration(days: ago)), 1800, [
+        LoggedExercise(ids[0], 'x', 'chest', [LoggedSet(8, 60)]),
+      ], routineId: routineId);
 
   group('#177 saltar dentro de una superserie', () {
     void finish(int exIdx) {
@@ -119,9 +117,11 @@ void main() {
     });
 
     test('las series de la tarjeta semanal son las de la semana', () {
-      fit.sessions.add(LoggedSession(DateTime.now(), 600, [
-        LoggedExercise(ids[0], 'x', 'chest', [LoggedSet(8, 60), LoggedSet(8, 60)]),
-      ]));
+      fit.sessions.add(
+        LoggedSession(DateTime.now(), 600, [
+          LoggedExercise(ids[0], 'x', 'chest', [LoggedSet(8, 60), LoggedSet(8, 60)]),
+        ]),
+      );
       expect(fit.weekSetCount, 2);
     });
   });

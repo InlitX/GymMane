@@ -153,15 +153,15 @@ class SqliteDb {
   }
 
   static int _sizeOf(int type) => switch (type) {
-        0 || 8 || 9 => 0,
-        1 => 1,
-        2 => 2,
-        3 => 3,
-        4 => 4,
-        5 => 6,
-        6 || 7 => 8,
-        _ => type >= 12 ? (type - 12) ~/ 2 : 0,
-      };
+    0 || 8 || 9 => 0,
+    1 => 1,
+    2 => 2,
+    3 => 3,
+    4 => 4,
+    5 => 6,
+    6 || 7 => 8,
+    _ => type >= 12 ? (type - 12) ~/ 2 : 0,
+  };
 
   static Object? _value(int type, Uint8List b, int at, int size) {
     switch (type) {
@@ -226,8 +226,7 @@ class SqliteDb {
 
   static int _be16(Uint8List b, int at) => (b[at] << 8) | b[at + 1];
 
-  static int _be32(Uint8List b, int at) =>
-      (b[at] << 24) | (b[at + 1] << 16) | (b[at + 2] << 8) | b[at + 3];
+  static int _be32(Uint8List b, int at) => (b[at] << 24) | (b[at + 1] << 16) | (b[at + 2] << 8) | b[at + 3];
 
   static _Varint _varint(Uint8List b, int at) {
     var value = 0;

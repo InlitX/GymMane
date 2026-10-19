@@ -2,13 +2,7 @@ part of 'fit_state.dart';
 
 const List<int> kPhotoIntervals = [0, 15, 30, 60, 90];
 
-typedef BodyWindow = ({
-  DateTime from,
-  DateTime to,
-  Map<String, double> heat,
-  int sessions,
-  double volume,
-});
+typedef BodyWindow = ({DateTime from, DateTime to, Map<String, double> heat, int sessions, double volume});
 
 mixin TimelineState on FitCore {
   int photoIntervalDays = 30;
@@ -18,8 +12,7 @@ mixin TimelineState on FitCore {
   String? compareToId;
 
   List<ProgressEntry> get timeline {
-    final out = shots.where((e) => !e.isEmpty).toList()
-      ..sort((a, b) => b.date.compareTo(a.date));
+    final out = shots.where((e) => !e.isEmpty).toList()..sort((a, b) => b.date.compareTo(a.date));
     return out;
   }
 

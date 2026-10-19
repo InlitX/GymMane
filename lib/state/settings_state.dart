@@ -12,10 +12,10 @@ mixin SettingsState on FitCore, ToolsState, LibraryState {
   set dark(bool on) => themePref = on ? 'dark' : 'light';
 
   ThemeMode get themeMode => switch (themePref) {
-        'system' => ThemeMode.system,
-        'light' => ThemeMode.light,
-        _ => ThemeMode.dark,
-      };
+    'system' => ThemeMode.system,
+    'light' => ThemeMode.light,
+    _ => ThemeMode.dark,
+  };
 
   String demoSize = 'large';
   String demoLoop = 'always';
@@ -54,8 +54,7 @@ mixin SettingsState on FitCore, ToolsState, LibraryState {
 
   Locale get locale => localeOf(language);
 
-  void _adoptDeviceLanguage() =>
-      _applyLanguage(PlatformDispatcher.instance.locale.toLanguageTag());
+  void _adoptDeviceLanguage() => _applyLanguage(PlatformDispatcher.instance.locale.toLanguageTag());
 
   void _applyLanguage(String code) {
     setAppLanguage(code);
@@ -518,6 +517,5 @@ mixin SettingsState on FitCore, ToolsState, LibraryState {
     notifyListeners();
   }
 
-  Future<void> openNotificationSettings() =>
-      AppSettings.openAppSettings(type: AppSettingsType.notification);
+  Future<void> openNotificationSettings() => AppSettings.openAppSettings(type: AppSettingsType.notification);
 }

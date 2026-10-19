@@ -41,7 +41,14 @@ void main() {
     fit.setRoutineRest(r, ex, 150);
     final back = Routine.fromJson(fit.routines.single.toJson());
     expect(back.rest[ex], 150);
-    expect(Routine.fromJson({'id': 'x', 'n': 'Old', 'ex': [ex]}).rest, isEmpty);
+    expect(
+      Routine.fromJson({
+        'id': 'x',
+        'n': 'Old',
+        'ex': [ex],
+      }).rest,
+      isEmpty,
+    );
   });
 
   test('viaja al duplicar, se va al quitar y vuelve al deshacer', () {

@@ -184,12 +184,12 @@ class _AppShellState extends State<AppShell> with WidgetsBindingObserver {
   }
 
   void _syncSnap() => scheduleMicrotask(() {
-        if (!mounted) return;
-        final on = fit.route == 'nutrition' && (glassOpen.value > 0 || (glassShown.value > 0 && !_changedUnder));
-        if (on == _snap.allowSnapshotting) return;
-        _changedUnder = false;
-        _snap.allowSnapshotting = on;
-      });
+    if (!mounted) return;
+    final on = fit.route == 'nutrition' && (glassOpen.value > 0 || (glassShown.value > 0 && !_changedUnder));
+    if (on == _snap.allowSnapshotting) return;
+    _changedUnder = false;
+    _snap.allowSnapshotting = on;
+  });
 
   @override
   void dispose() {
@@ -274,97 +274,103 @@ class _AppShellState extends State<AppShell> with WidgetsBindingObserver {
             value: fit.dark ? _overlayDark : _overlayLight,
             child: BackdropGroup(
               child: Stack(
-              children: [
-                Positioned.fill(
-                  child: SnapshotWidget(
-                    controller: _snap,
-                    mode: SnapshotMode.permissive,
-                    autoresize: true,
-                    child: Stack(children: [
-                      Positioned.fill(child: ColoredBox(color: context.gc.bg)),
-                      Positioned.fill(
-                        child: AppBackground(
-                          pattern: fit.bgPattern,
-                          photo: fit.bgPhotoPath,
-                          dim: fit.bgDim,
-                        ),
-                      ),
-                      Scaffold(
-                        backgroundColor: Colors.transparent,
-                        body: Padding(
-                          padding: EdgeInsets.only(
-                              bottom: (MediaQuery.viewInsetsOf(context).bottom > 0
-                                      ? 0
-                                      : MediaQuery.viewPaddingOf(context).bottom) +
-                                  (parked ? _pillSpace : 0)),
-                          child: NotificationListener<ScrollNotification>(
-                            onNotification: _onScroll,
-                            child: RepaintBoundary(child: _animatedScreen()),
+                children: [
+                  Positioned.fill(
+                    child: SnapshotWidget(
+                      controller: _snap,
+                      mode: SnapshotMode.permissive,
+                      autoresize: true,
+                      child: Stack(
+                        children: [
+                          Positioned.fill(child: ColoredBox(color: context.gc.bg)),
+                          Positioned.fill(
+                            child: AppBackground(
+                              pattern: fit.bgPattern,
+                              photo: fit.bgPhotoPath,
+                              dim: fit.bgDim,
+                            ),
                           ),
-                        ),
+                          Scaffold(
+                            backgroundColor: Colors.transparent,
+                            body: Padding(
+                              padding: EdgeInsets.only(
+                                bottom:
+                                    (MediaQuery.viewInsetsOf(context).bottom > 0
+                                        ? 0
+                                        : MediaQuery.viewPaddingOf(context).bottom) +
+                                    (parked ? _pillSpace : 0),
+                              ),
+                              child: NotificationListener<ScrollNotification>(
+                                onNotification: _onScroll,
+                                child: RepaintBoundary(child: _animatedScreen()),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                    ]),
+                    ),
                   ),
-                ),
-                Positioned(
-                  left: 0,
-                  right: 0,
-                  top: 0,
-                  child: AnimatedOpacity(
-                    opacity: _scrolled && _blurTop.contains(fit.route) ? 1 : 0,
-                    duration: const Duration(milliseconds: 220),
-                    child: EdgeBlur(height: MediaQuery.viewPaddingOf(context).top + 64, sigma: 14),
-                  ),
-                ),
-                if (fit.showNav)
                   Positioned(
                     left: 0,
                     right: 0,
-                    bottom: 0,
-                    child: EdgeBlur(
-                        top: false, height: 128 + MediaQuery.viewPaddingOf(context).bottom + (parked ? _pillSpace : 0)),
-                  ),
-                if (fit.showNav && MediaQuery.viewInsetsOf(context).bottom < 60) ...[
-                  Positioned(
-                    left: 18,
-                    right: 18,
-                    bottom: 18 + MediaQuery.viewPaddingOf(context).bottom,
-                    child: RepaintBoundary(
-                      child: Directionality(textDirection: TextDirection.ltr, child: _NavBar()),
+                    top: 0,
+                    child: AnimatedOpacity(
+                      opacity: _scrolled && _blurTop.contains(fit.route) ? 1 : 0,
+                      duration: const Duration(milliseconds: 220),
+                      child: EdgeBlur(height: MediaQuery.viewPaddingOf(context).top + 64, sigma: 14),
                     ),
                   ),
-                  Positioned(
-                    left: 18,
-                    right: 18,
-                    bottom: 18 + _NavBarState.height + 10 + MediaQuery.viewPaddingOf(context).bottom,
-                    child: AnimatedSwitcher(
-                      duration: const Duration(milliseconds: 320),
-                      switchInCurve: Curves.easeOutCubic,
-                      switchOutCurve: Curves.easeInCubic,
-                      transitionBuilder: (child, a) => FadeTransition(
-                        opacity: a,
-                        child: SlideTransition(
-                          position: Tween(begin: const Offset(0, 0.4), end: Offset.zero).animate(a),
-                          child: child,
-                        ),
+                  if (fit.showNav)
+                    Positioned(
+                      left: 0,
+                      right: 0,
+                      bottom: 0,
+                      child: EdgeBlur(
+                        top: false,
+                        height: 128 + MediaQuery.viewPaddingOf(context).bottom + (parked ? _pillSpace : 0),
                       ),
-                      child: parked ? const _ParkedPill() : const SizedBox(width: double.infinity),
                     ),
-                  ),
+                  if (fit.showNav && MediaQuery.viewInsetsOf(context).bottom < 60) ...[
+                    Positioned(
+                      left: 18,
+                      right: 18,
+                      bottom: 18 + MediaQuery.viewPaddingOf(context).bottom,
+                      child: RepaintBoundary(
+                        child: Directionality(textDirection: TextDirection.ltr, child: _NavBar()),
+                      ),
+                    ),
+                    Positioned(
+                      left: 18,
+                      right: 18,
+                      bottom: 18 + _NavBarState.height + 10 + MediaQuery.viewPaddingOf(context).bottom,
+                      child: AnimatedSwitcher(
+                        duration: const Duration(milliseconds: 320),
+                        switchInCurve: Curves.easeOutCubic,
+                        switchOutCurve: Curves.easeInCubic,
+                        transitionBuilder: (child, a) => FadeTransition(
+                          opacity: a,
+                          child: SlideTransition(
+                            position: Tween(begin: const Offset(0, 0.4), end: Offset.zero).animate(a),
+                            child: child,
+                          ),
+                        ),
+                        child: parked ? const _ParkedPill() : const SizedBox(width: double.infinity),
+                      ),
+                    ),
+                  ],
+                  if (fit.countdownUntil != null && fit.session != null)
+                    Positioned.fill(
+                      child: StartCountdown(key: ValueKey(fit.countdownUntil), until: fit.countdownUntil!),
+                    ),
+                  if (fit.route != 'session' && _celebrating != null)
+                    Positioned.fill(
+                      child: AwardCelebration(
+                        key: ValueKey(_celebrating),
+                        id: _celebrating!,
+                        onClose: _closeCelebration,
+                      ),
+                    ),
                 ],
-                if (fit.countdownUntil != null && fit.session != null)
-                  Positioned.fill(
-                    child: StartCountdown(key: ValueKey(fit.countdownUntil), until: fit.countdownUntil!),
-                  ),
-                if (fit.route != 'session' && _celebrating != null)
-                  Positioned.fill(
-                    child: AwardCelebration(
-                      key: ValueKey(_celebrating),
-                      id: _celebrating!,
-                      onClose: _closeCelebration,
-                    ),
-                  ),
-              ],
               ),
             ),
           ),
@@ -374,12 +380,12 @@ class _AppShellState extends State<AppShell> with WidgetsBindingObserver {
   }
 
   Future<bool> _confirmDiscard(BuildContext context) => askConfirm(
-        context,
-        title: t.discardTitle,
-        body: t.discardBody,
-        cancelLabel: t.keepTraining,
-        confirmLabel: t.discard,
-      );
+    context,
+    title: t.discardTitle,
+    body: t.discardBody,
+    cancelLabel: t.keepTraining,
+    confirmLabel: t.discard,
+  );
 
   Widget _animatedScreen() {
     final route = fit.route;
@@ -537,37 +543,49 @@ class _ParkedPill extends StatelessWidget {
             padding: const EdgeInsets.fromLTRB(16, 8, 8, 8),
             child: Material(
               type: MaterialType.transparency,
-              child: Row(children: [
-              Expanded(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(t.paused,
-                        style: AppTheme.f(10.5,
-                            weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.2)),
-                    const SizedBox(height: 2),
-                    Text(ex == null ? '' : t.catalogName(ex.id, ex.name),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: AppTheme.f(14.5, weight: FontWeight.w700, color: gc.text)),
-                  ],
-                ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          t.paused,
+                          style: AppTheme.f(
+                            10.5,
+                            weight: FontWeight.w700,
+                            color: gc.textTertiary,
+                            letterSpacing: 1.2,
+                          ),
+                        ),
+                        const SizedBox(height: 2),
+                        Text(
+                          ex == null ? '' : t.catalogName(ex.id, ex.name),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: AppTheme.f(14.5, weight: FontWeight.w700, color: gc.text),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  ValueListenableBuilder<int>(
+                    valueListenable: fit.clock,
+                    builder: (_, _, _) => Text(
+                      fit.elapsedLabel,
+                      style: AppTheme.f(14, weight: FontWeight.w700, color: gc.textSecondary),
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Container(
+                    width: 40,
+                    height: 40,
+                    decoration: BoxDecoration(color: gc.ember, shape: BoxShape.circle),
+                    child: Icon(PhosphorIconsFill.play, size: 16, color: gc.onEmber),
+                  ),
+                ],
               ),
-              const SizedBox(width: 12),
-              ValueListenableBuilder<int>(
-                valueListenable: fit.clock,
-                builder: (_, _, _) =>
-                    Text(fit.elapsedLabel, style: AppTheme.f(14, weight: FontWeight.w700, color: gc.textSecondary)),
-              ),
-              const SizedBox(width: 12),
-              Container(
-                width: 40,
-                height: 40,
-                decoration: BoxDecoration(color: gc.ember, shape: BoxShape.circle),
-                child: Icon(PhosphorIconsFill.play, size: 16, color: gc.onEmber),
-              ),
-              ]),
             ),
           ),
         ),
@@ -601,11 +619,11 @@ class _NavBarState extends State<_NavBar> {
   }
 
   double _slotX(int i) => switch (i) {
-        0 => 0,
-        1 => _iw + _gap,
-        2 => 2 * _iw + 3 * _gap + _fabW,
-        _ => 3 * _iw + 4 * _gap + _fabW,
-      };
+    0 => 0,
+    1 => _iw + _gap,
+    2 => 2 * _iw + 3 * _gap + _fabW,
+    _ => 3 * _iw + 4 * _gap + _fabW,
+  };
 
   void _go(int i) => [fit.goHome, fit.goProgress, fit.goExercises, fit.goSettings][i]();
 
@@ -698,14 +716,39 @@ class _NavBarState extends State<_NavBar> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      _item(context, 0, PhosphorIconsRegular.house, PhosphorIconsFill.house, t.home, fit.goHome),
-                      _item(context, 1, PhosphorIconsRegular.chartLineUp, PhosphorIconsFill.chartLineUp, t.progress,
-                          fit.goProgress),
+                      _item(
+                        context,
+                        0,
+                        PhosphorIconsRegular.house,
+                        PhosphorIconsFill.house,
+                        t.home,
+                        fit.goHome,
+                      ),
+                      _item(
+                        context,
+                        1,
+                        PhosphorIconsRegular.chartLineUp,
+                        PhosphorIconsFill.chartLineUp,
+                        t.progress,
+                        fit.goProgress,
+                      ),
                       _fab(context),
-                      _item(context, 2, PhosphorIconsRegular.barbell, PhosphorIconsFill.barbell, t.exercises,
-                          fit.goExercises),
-                      _item(context, 3, PhosphorIconsRegular.userCircle, PhosphorIconsFill.userCircle, t.profile.toUpperCase(),
-                          fit.goSettings),
+                      _item(
+                        context,
+                        2,
+                        PhosphorIconsRegular.barbell,
+                        PhosphorIconsFill.barbell,
+                        t.exercises,
+                        fit.goExercises,
+                      ),
+                      _item(
+                        context,
+                        3,
+                        PhosphorIconsRegular.userCircle,
+                        PhosphorIconsFill.userCircle,
+                        t.profile.toUpperCase(),
+                        fit.goSettings,
+                      ),
                     ],
                   ),
                 ),
@@ -717,7 +760,14 @@ class _NavBarState extends State<_NavBar> {
     );
   }
 
-  Widget _item(BuildContext context, int index, IconData icon, IconData iconFill, String label, VoidCallback onTap) {
+  Widget _item(
+    BuildContext context,
+    int index,
+    IconData icon,
+    IconData iconFill,
+    String label,
+    VoidCallback onTap,
+  ) {
     final gc = context.gc;
     final selected = _selectedIndex == index;
     final lifted = selected && _dragX != null;
@@ -741,36 +791,36 @@ class _NavBarState extends State<_NavBar> {
         duration: const Duration(milliseconds: 220),
         curve: Curves.easeOutCubic,
         child: SizedBox(
-        width: _iw,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TweenAnimationBuilder<double>(
-              tween: Tween(begin: selected ? 1 : 0, end: selected ? 1 : 0),
-              duration: dur,
-              curve: Curves.easeOut,
-              builder: (context, t, _) => Icon(
-                selected ? iconFill : icon,
-                size: 22,
-                color: Color.lerp(gc.textTertiary, gc.text, t),
-              ),
-            ),
-            const SizedBox(height: 3),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 6),
-              child: FittedBox(
-                fit: BoxFit.scaleDown,
-                child: AnimatedDefaultTextStyle(
-                  duration: dur,
-                  curve: Curves.easeOut,
-                  style: AppTheme.s(9.5, weight: FontWeight.w600, color: color, letterSpacing: 0.2),
-                  child: Text(label, maxLines: 1, softWrap: false),
+          width: _iw,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TweenAnimationBuilder<double>(
+                tween: Tween(begin: selected ? 1 : 0, end: selected ? 1 : 0),
+                duration: dur,
+                curve: Curves.easeOut,
+                builder: (context, t, _) => Icon(
+                  selected ? iconFill : icon,
+                  size: 22,
+                  color: Color.lerp(gc.textTertiary, gc.text, t),
                 ),
               ),
-            ),
-          ],
+              const SizedBox(height: 3),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 6),
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: AnimatedDefaultTextStyle(
+                    duration: dur,
+                    curve: Curves.easeOut,
+                    style: AppTheme.s(9.5, weight: FontWeight.w600, color: color, letterSpacing: 0.2),
+                    child: Text(label, maxLines: 1, softWrap: false),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
-      ),
       ),
     );
   }
@@ -826,8 +876,11 @@ class _LiquidPill extends StatefulWidget {
 }
 
 class _LiquidPillState extends State<_LiquidPill> with TickerProviderStateMixin {
-  late final AnimationController _move =
-      AnimationController(vsync: this, duration: const Duration(milliseconds: 460), value: 1);
+  late final AnimationController _move = AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 460),
+    value: 1,
+  );
   late final AnimationController _lift = AnimationController(
     vsync: this,
     duration: const Duration(milliseconds: 260),
@@ -883,7 +936,11 @@ class _LiquidPillState extends State<_LiquidPill> with TickerProviderStateMixin 
           squash = 1 - 0.14 * (1 - (2 * t - 1).abs()) * (to == _from ? 0 : 1);
         }
         _shown = l;
-        final base = Color.lerp(widget.color, widget.color.withValues(alpha: (widget.color.a * 2.4).clamp(0.0, 1.0)), lift)!;
+        final base = Color.lerp(
+          widget.color,
+          widget.color.withValues(alpha: (widget.color.a * 2.4).clamp(0.0, 1.0)),
+          lift,
+        )!;
         final grow = 6 * lift;
         final inset = 10 + 12 * (1 - squash) - 6 * lift;
         return Stack(
@@ -908,7 +965,13 @@ class _LiquidPillState extends State<_LiquidPill> with TickerProviderStateMixin 
                   ),
                   boxShadow: lift <= 0
                       ? null
-                      : [BoxShadow(color: Colors.black.withValues(alpha: 0.28 * lift), blurRadius: 22, offset: const Offset(0, 8))],
+                      : [
+                          BoxShadow(
+                            color: Colors.black.withValues(alpha: 0.28 * lift),
+                            blurRadius: 22,
+                            offset: const Offset(0, 8),
+                          ),
+                        ],
                 ),
               ),
             ),

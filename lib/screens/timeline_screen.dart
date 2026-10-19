@@ -93,10 +93,7 @@ class _TimelineScreenState extends State<TimelineScreen> {
             ),
           ),
           const SizedBox(height: 16),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: _modeToggle(gc, body),
-          ),
+          Padding(padding: const EdgeInsets.symmetric(horizontal: 20), child: _modeToggle(gc, body)),
           Expanded(
             child: ListView(
               padding: const EdgeInsets.fromLTRB(20, 18, 20, 20),
@@ -105,20 +102,27 @@ class _TimelineScreenState extends State<TimelineScreen> {
                       if (windows.isEmpty)
                         _bodyEmpty(gc)
                       else ...[
-                        Text(t.timelineBodyHint,
-                            style: AppTheme.f(12.5,
-                                weight: FontWeight.w500, color: gc.textTertiary, height: 1.4)),
+                        Text(
+                          t.timelineBodyHint,
+                          style: AppTheme.f(
+                            12.5,
+                            weight: FontWeight.w500,
+                            color: gc.textTertiary,
+                            height: 1.4,
+                          ),
+                        ),
                         const SizedBox(height: 16),
                         _intervalPicker(gc, body: true),
                         const SizedBox(height: 18),
                         _heatLegend(gc),
                         const SizedBox(height: 22),
                         for (int i = 0; i < windows.length; i++)
-                          _bodyRow(gc, windows[i],
-                              last: i == windows.length - 1,
-                              gap: i == windows.length - 1
-                                  ? 0
-                                  : daysBetween(windows[i + 1].to, windows[i].to)),
+                          _bodyRow(
+                            gc,
+                            windows[i],
+                            last: i == windows.length - 1,
+                            gap: i == windows.length - 1 ? 0 : daysBetween(windows[i + 1].to, windows[i].to),
+                          ),
                       ],
                     ]
                   : [
@@ -127,11 +131,15 @@ class _TimelineScreenState extends State<TimelineScreen> {
                       _intervalPicker(gc, body: false),
                       const SizedBox(height: 24),
                       for (int i = 0; i < entries.length; i++)
-                        _entryRow(gc, entries[i], start,
-                            last: i == entries.length - 1,
-                            gap: i == entries.length - 1
-                                ? 0
-                                : daysBetween(entries[i + 1].date, entries[i].date)),
+                        _entryRow(
+                          gc,
+                          entries[i],
+                          start,
+                          last: i == entries.length - 1,
+                          gap: i == entries.length - 1
+                              ? 0
+                              : daysBetween(entries[i + 1].date, entries[i].date),
+                        ),
                     ],
             ),
           ),
@@ -152,33 +160,34 @@ class _TimelineScreenState extends State<TimelineScreen> {
 
   Widget _modeToggle(GymColors gc, bool body) {
     Widget tab(String label, IconData icon, bool on, VoidCallback onTap) => Expanded(
-          child: Semantics(
-            button: true,
-            selected: on,
-            child: GestureDetector(
-              behavior: HitTestBehavior.opaque,
-              onTap: onTap,
-              child: AnimatedContainer(
-                duration: const Duration(milliseconds: 180),
-                height: 40,
-                decoration: BoxDecoration(
-                  color: on ? gc.ember : Colors.transparent,
-                  borderRadius: BorderRadius.circular(100),
+      child: Semantics(
+        button: true,
+        selected: on,
+        child: GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onTap: onTap,
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 180),
+            height: 40,
+            decoration: BoxDecoration(
+              color: on ? gc.ember : Colors.transparent,
+              borderRadius: BorderRadius.circular(100),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(icon, size: 15, color: on ? gc.onEmber : gc.textSecondary),
+                const SizedBox(width: 7),
+                Text(
+                  label,
+                  style: AppTheme.s(13, weight: FontWeight.w600, color: on ? gc.onEmber : gc.textSecondary),
                 ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(icon, size: 15, color: on ? gc.onEmber : gc.textSecondary),
-                    const SizedBox(width: 7),
-                    Text(label,
-                        style: AppTheme.s(13,
-                            weight: FontWeight.w600, color: on ? gc.onEmber : gc.textSecondary)),
-                  ],
-                ),
-              ),
+              ],
             ),
           ),
-        );
+        ),
+      ),
+    );
 
     return Container(
       padding: const EdgeInsets.all(4),
@@ -197,43 +206,42 @@ class _TimelineScreenState extends State<TimelineScreen> {
   }
 
   Widget _bodyEmpty(GymColors gc) => Container(
-        padding: const EdgeInsets.fromLTRB(22, 26, 22, 26),
-        decoration: BoxDecoration(
-          color: gc.bgRaised,
-          border: Border.all(color: gc.border),
-          borderRadius: BorderRadius.circular(22),
+    padding: const EdgeInsets.fromLTRB(22, 26, 22, 26),
+    decoration: BoxDecoration(
+      color: gc.bgRaised,
+      border: Border.all(color: gc.border),
+      borderRadius: BorderRadius.circular(22),
+    ),
+    child: Column(
+      children: [
+        Icon(PhosphorIconsRegular.person, size: 30, color: gc.textTertiary),
+        const SizedBox(height: 16),
+        Text(
+          t.timelineBodyEmpty,
+          textAlign: TextAlign.center,
+          style: AppTheme.s(13, color: gc.textSecondary, height: 1.5),
         ),
-        child: Column(
-          children: [
-            Icon(PhosphorIconsRegular.person, size: 30, color: gc.textTertiary),
-            const SizedBox(height: 16),
-            Text(t.timelineBodyEmpty,
-                textAlign: TextAlign.center,
-                style: AppTheme.s(13, color: gc.textSecondary, height: 1.5)),
-          ],
-        ),
-      );
+      ],
+    ),
+  );
 
   Widget _heatLegend(GymColors gc) => Row(
-        children: [
-          Text(t.heatLow, style: AppTheme.s(10.5, color: gc.textTertiary)),
-          const SizedBox(width: 8),
-          for (int i = 0; i <= heatLevels; i++) ...[
-            if (i > 0) const SizedBox(width: 3),
-            Expanded(
-              child: Container(
-                height: 6,
-                decoration: BoxDecoration(
-                  color: heatLevelColor(gc, i),
-                  borderRadius: BorderRadius.circular(2),
-                ),
-              ),
-            ),
-          ],
-          const SizedBox(width: 8),
-          Text(t.heatHigh, style: AppTheme.s(10.5, color: gc.textTertiary)),
-        ],
-      );
+    children: [
+      Text(t.heatLow, style: AppTheme.s(10.5, color: gc.textTertiary)),
+      const SizedBox(width: 8),
+      for (int i = 0; i <= heatLevels; i++) ...[
+        if (i > 0) const SizedBox(width: 3),
+        Expanded(
+          child: Container(
+            height: 6,
+            decoration: BoxDecoration(color: heatLevelColor(gc, i), borderRadius: BorderRadius.circular(2)),
+          ),
+        ),
+      ],
+      const SizedBox(width: 8),
+      Text(t.heatHigh, style: AppTheme.s(10.5, color: gc.textTertiary)),
+    ],
+  );
 
   Widget _bodyRow(GymColors gc, BodyWindow w, {required bool last, required int gap}) {
     return LayoutBuilder(
@@ -250,11 +258,15 @@ class _TimelineScreenState extends State<TimelineScreen> {
                   children: [
                     Row(
                       children: [
-                        Text(t.timelineWindow(t.shortDate(w.from), t.shortDate(w.to)),
-                            style: AppTheme.d(14, weight: FontWeight.w700, color: gc.text)),
+                        Text(
+                          t.timelineWindow(t.shortDate(w.from), t.shortDate(w.to)),
+                          style: AppTheme.d(14, weight: FontWeight.w700, color: gc.text),
+                        ),
                         const Spacer(),
-                        Text(t.sessionCount(w.sessions),
-                            style: AppTheme.s(11.5, weight: FontWeight.w600, color: gc.textTertiary)),
+                        Text(
+                          t.sessionCount(w.sessions),
+                          style: AppTheme.s(11.5, weight: FontWeight.w600, color: gc.textTertiary),
+                        ),
                       ],
                     ),
                     const SizedBox(height: 10),
@@ -262,11 +274,7 @@ class _TimelineScreenState extends State<TimelineScreen> {
                       radius: 18,
                       padding: const EdgeInsets.symmetric(vertical: 12),
                       child: Center(
-                        child: BodyHeatArt(
-                          gc: gc,
-                          intensity: w.heat,
-                          width: math.min(c.maxWidth - 62, 250),
-                        ),
+                        child: BodyHeatArt(gc: gc, intensity: w.heat, width: math.min(c.maxWidth - 62, 250)),
                       ),
                     ),
                   ],
@@ -304,8 +312,10 @@ class _TimelineScreenState extends State<TimelineScreen> {
                     Expanded(child: DashedRail(color: dash, thickness: 2.2)),
                     if (gap > 0) ...[
                       const SizedBox(height: 4),
-                      Text('${gap}d',
-                          style: AppTheme.d(9.5, weight: FontWeight.w700, color: gc.textTertiary)),
+                      Text(
+                        '${gap}d',
+                        style: AppTheme.d(9.5, weight: FontWeight.w700, color: gc.textTertiary),
+                      ),
                       const SizedBox(height: 4),
                     ],
                     Expanded(child: DashedRail(color: dash, thickness: 2.2)),
@@ -319,47 +329,49 @@ class _TimelineScreenState extends State<TimelineScreen> {
   }
 
   Widget _empty(GymColors gc) => Container(
-        padding: const EdgeInsets.fromLTRB(22, 26, 22, 26),
-        decoration: BoxDecoration(
-          color: gc.bgRaised,
-          border: Border.all(color: gc.border),
-          borderRadius: BorderRadius.circular(22),
-        ),
-        child: Column(
+    padding: const EdgeInsets.fromLTRB(22, 26, 22, 26),
+    decoration: BoxDecoration(
+      color: gc.bgRaised,
+      border: Border.all(color: gc.border),
+      borderRadius: BorderRadius.circular(22),
+    ),
+    child: Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                for (final pose in kPoses) ...[
-                  if (pose != kPoses.first) const SizedBox(width: 10),
-                  _ghostTile(gc, pose),
-                ],
-              ],
-            ),
-            const SizedBox(height: 20),
-            Text(t.timelineEmptyTitle,
-                textAlign: TextAlign.center,
-                style: AppTheme.d(18, weight: FontWeight.w700, color: gc.text, height: 1.25)),
-            const SizedBox(height: 8),
-            Text(t.timelineHint,
-                textAlign: TextAlign.center,
-                style: AppTheme.s(13, color: gc.textSecondary, height: 1.5)),
+            for (final pose in kPoses) ...[
+              if (pose != kPoses.first) const SizedBox(width: 10),
+              _ghostTile(gc, pose),
+            ],
           ],
         ),
-      );
+        const SizedBox(height: 20),
+        Text(
+          t.timelineEmptyTitle,
+          textAlign: TextAlign.center,
+          style: AppTheme.d(18, weight: FontWeight.w700, color: gc.text, height: 1.25),
+        ),
+        const SizedBox(height: 8),
+        Text(
+          t.timelineHint,
+          textAlign: TextAlign.center,
+          style: AppTheme.s(13, color: gc.textSecondary, height: 1.5),
+        ),
+      ],
+    ),
+  );
 
   Widget _ghostTile(GymColors gc, String pose) => Container(
-        width: 56,
-        height: 72,
-        decoration: BoxDecoration(
-          color: gc.bgRaised2,
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: gc.border),
-        ),
-        child: Center(
-          child: Icon(PhosphorIconsRegular.person, size: 24, color: gc.textTertiary),
-        ),
-      );
+    width: 56,
+    height: 72,
+    decoration: BoxDecoration(
+      color: gc.bgRaised2,
+      borderRadius: BorderRadius.circular(12),
+      border: Border.all(color: gc.border),
+    ),
+    child: Center(child: Icon(PhosphorIconsRegular.person, size: 24, color: gc.textTertiary)),
+  );
 
   Widget _heroBand(GymColors gc) {
     final pair = fit.comparePair;
@@ -377,17 +389,16 @@ class _TimelineScreenState extends State<TimelineScreen> {
             _thumb(gc, only.media.first, 62, 82),
             const SizedBox(width: 16),
             Expanded(
-              child: Text(t.compareNeedTwo,
-                  style: AppTheme.s(13, color: gc.textSecondary, height: 1.5)),
+              child: Text(t.compareNeedTwo, style: AppTheme.s(13, color: gc.textSecondary, height: 1.5)),
             ),
           ],
         ),
       );
     }
 
-    final pose = fit.posesWithBoth.isEmpty ? null : (fit.posesWithBoth.contains(fit.comparePose)
-        ? fit.comparePose
-        : fit.posesWithBoth.first);
+    final pose = fit.posesWithBoth.isEmpty
+        ? null
+        : (fit.posesWithBoth.contains(fit.comparePose) ? fit.comparePose : fit.posesWithBoth.first);
     final a = pose == null ? pair.from.media.first : pair.from.shot(pose)!;
     final b = pose == null ? pair.to.media.first : pair.to.shot(pose)!;
     final delta = fit.compareWeightDelta;
@@ -421,26 +432,26 @@ class _TimelineScreenState extends State<TimelineScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(t.daysApart(fit.compareDays),
-                          style: AppTheme.d(15, weight: FontWeight.w700, color: gc.text)),
+                      Text(
+                        t.daysApart(fit.compareDays),
+                        style: AppTheme.d(15, weight: FontWeight.w700, color: gc.text),
+                      ),
                       if (delta != null) ...[
                         const SizedBox(height: 2),
-                        Text('${delta > 0 ? '+' : ''}${fmt(delta)} ${fit.units}',
-                            style: AppTheme.s(12.5,
-                                weight: FontWeight.w600,
-                                color: delta == 0 ? gc.textSecondary : gc.accent)),
+                        Text(
+                          '${delta > 0 ? '+' : ''}${fmt(delta)} ${fit.units}',
+                          style: AppTheme.s(
+                            12.5,
+                            weight: FontWeight.w600,
+                            color: delta == 0 ? gc.textSecondary : gc.accent,
+                          ),
+                        ),
                       ],
                     ],
                   ),
                 ),
                 if (pose != null)
-                  Pill(
-                    label: t.compare,
-                    bg: gc.ember,
-                    fg: gc.onEmber,
-                    fontSize: 12,
-                    onTap: fit.goCompare,
-                  ),
+                  Pill(label: t.compare, bg: gc.ember, fg: gc.onEmber, fontSize: 12, onTap: fit.goCompare),
               ],
             ),
           ],
@@ -470,23 +481,22 @@ class _TimelineScreenState extends State<TimelineScreen> {
         Row(
           children: [
             Expanded(
-              child: Text('${body ? t.timelineEvery : t.photoEvery} · ${t.intervalDays.toUpperCase()}',
-                  style: AppTheme.f(10.5,
-                      weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.3)),
+              child: Text(
+                '${body ? t.timelineEvery : t.photoEvery} · ${t.intervalDays.toUpperCase()}',
+                style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.3),
+              ),
             ),
             if (!body && left != null)
-              Text(due ? t.photoDueNow : t.photoNextIn(left),
-                  style: AppTheme.f(12,
-                      weight: FontWeight.w600, color: due ? gc.accent : gc.textTertiary)),
+              Text(
+                due ? t.photoDueNow : t.photoNextIn(left),
+                style: AppTheme.f(12, weight: FontWeight.w600, color: due ? gc.accent : gc.textTertiary),
+              ),
           ],
         ),
         const SizedBox(height: 10),
         Container(
           padding: const EdgeInsets.all(4),
-          decoration: BoxDecoration(
-            color: gc.bgRaised,
-            borderRadius: BorderRadius.circular(100),
-          ),
+          decoration: BoxDecoration(color: gc.bgRaised, borderRadius: BorderRadius.circular(100)),
           child: Row(
             children: [
               for (final days in kPhotoIntervals)
@@ -516,11 +526,13 @@ class _TimelineScreenState extends State<TimelineScreen> {
     );
   }
 
-  Widget _intervalTab(GymColors gc,
-      {required String label,
-      required String semantics,
-      required bool on,
-      required VoidCallback onTap}) {
+  Widget _intervalTab(
+    GymColors gc, {
+    required String label,
+    required String semantics,
+    required bool on,
+    required VoidCallback onTap,
+  }) {
     return Semantics(
       button: true,
       selected: on,
@@ -540,10 +552,11 @@ class _TimelineScreenState extends State<TimelineScreen> {
             fit: BoxFit.scaleDown,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 6),
-              child: Text(label,
-                  maxLines: 1,
-                  style: AppTheme.f(13,
-                      weight: FontWeight.w600, color: on ? gc.onEmber : gc.textSecondary)),
+              child: Text(
+                label,
+                maxLines: 1,
+                style: AppTheme.f(13, weight: FontWeight.w600, color: on ? gc.onEmber : gc.textSecondary),
+              ),
             ),
           ),
         ),
@@ -551,8 +564,13 @@ class _TimelineScreenState extends State<TimelineScreen> {
     );
   }
 
-  Widget _entryRow(GymColors gc, ProgressEntry entry, ProgressEntry? start,
-      {required bool last, required int gap}) {
+  Widget _entryRow(
+    GymColors gc,
+    ProgressEntry entry,
+    ProgressEntry? start, {
+    required bool last,
+    required int gap,
+  }) {
     final dayNo = start == null ? 1 : daysBetween(start.date, entry.date) + 1;
 
     return IntrinsicHeight(
@@ -568,15 +586,21 @@ class _TimelineScreenState extends State<TimelineScreen> {
                 children: [
                   Row(
                     children: [
-                      Text(t.shortDateYear(entry.date),
-                          style: AppTheme.d(14, weight: FontWeight.w700, color: gc.text)),
+                      Text(
+                        t.shortDateYear(entry.date),
+                        style: AppTheme.d(14, weight: FontWeight.w700, color: gc.text),
+                      ),
                       const SizedBox(width: 10),
-                      Text(t.dayNumber(dayNo),
-                          style: AppTheme.s(11.5, weight: FontWeight.w600, color: gc.textTertiary)),
+                      Text(
+                        t.dayNumber(dayNo),
+                        style: AppTheme.s(11.5, weight: FontWeight.w600, color: gc.textTertiary),
+                      ),
                       const Spacer(),
                       if (entry.weightKg != null)
-                        Text(fit.weightLabel(entry.weightKg!),
-                            style: AppTheme.s(12.5, weight: FontWeight.w600, color: gc.textSecondary)),
+                        Text(
+                          fit.weightLabel(entry.weightKg!),
+                          style: AppTheme.s(12.5, weight: FontWeight.w600, color: gc.textSecondary),
+                        ),
                       Semantics(
                         button: true,
                         label: t.delete,
@@ -634,16 +658,22 @@ class _TimelineScreenState extends State<TimelineScreen> {
                   children: [
                     Icon(PhosphorIconsRegular.plus, size: 16, color: gc.textTertiary),
                     const SizedBox(height: 6),
-                    Text(t.poseName(pose),
-                        style: AppTheme.s(10.5, weight: FontWeight.w600, color: gc.textTertiary)),
+                    Text(
+                      t.poseName(pose),
+                      style: AppTheme.s(10.5, weight: FontWeight.w600, color: gc.textTertiary),
+                    ),
                   ],
                 )
               : Stack(
                   fit: StackFit.expand,
                   children: [
-                    Image.file(File(path), fit: BoxFit.cover, gaplessPlayback: true,
-                        errorBuilder: (_, _, _) => Icon(PhosphorIconsRegular.imageSquare,
-                            size: 20, color: gc.textTertiary)),
+                    Image.file(
+                      File(path),
+                      fit: BoxFit.cover,
+                      gaplessPlayback: true,
+                      errorBuilder: (_, _, _) =>
+                          Icon(PhosphorIconsRegular.imageSquare, size: 20, color: gc.textTertiary),
+                    ),
                     Positioned(
                       left: 0,
                       right: 0,
@@ -652,8 +682,10 @@ class _TimelineScreenState extends State<TimelineScreen> {
                         padding: const EdgeInsets.symmetric(vertical: 4),
                         color: const Color(0x99000000),
                         alignment: Alignment.center,
-                        child: Text(t.poseName(pose),
-                            style: AppTheme.s(10, weight: FontWeight.w600, color: Colors.white)),
+                        child: Text(
+                          t.poseName(pose),
+                          style: AppTheme.s(10, weight: FontWeight.w600, color: Colors.white),
+                        ),
                       ),
                     ),
                   ],
@@ -676,9 +708,13 @@ class _TimelineScreenState extends State<TimelineScreen> {
       clipBehavior: Clip.antiAlias,
       child: path == null
           ? Icon(PhosphorIconsRegular.imageSquare, size: 18, color: gc.textTertiary)
-          : Image.file(File(path), fit: BoxFit.cover, gaplessPlayback: true,
+          : Image.file(
+              File(path),
+              fit: BoxFit.cover,
+              gaplessPlayback: true,
               errorBuilder: (_, _, _) =>
-                  Icon(PhosphorIconsRegular.imageSquare, size: 18, color: gc.textTertiary)),
+                  Icon(PhosphorIconsRegular.imageSquare, size: 18, color: gc.textTertiary),
+            ),
     );
   }
 
@@ -707,14 +743,18 @@ class _TimelineScreenState extends State<TimelineScreen> {
                 child: SoftCard(
                   radius: 16,
                   padding: const EdgeInsets.all(16),
-                  child: Row(children: [
-                    Icon(PhosphorIconsRegular.person, size: 20, color: gc.textSecondary),
-                    const SizedBox(width: 14),
-                    Expanded(
-                      child: Text(t.posePhoto(t.poseName(p).toLowerCase()),
-                          style: AppTheme.s(14, weight: FontWeight.w600, color: gc.text)),
-                    ),
-                  ]),
+                  child: Row(
+                    children: [
+                      Icon(PhosphorIconsRegular.person, size: 20, color: gc.textSecondary),
+                      const SizedBox(width: 14),
+                      Expanded(
+                        child: Text(
+                          t.posePhoto(t.poseName(p).toLowerCase()),
+                          style: AppTheme.s(14, weight: FontWeight.w600, color: gc.text),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],

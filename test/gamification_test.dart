@@ -27,9 +27,11 @@ void main() {
   void logWorkouts(int n) {
     final now = DateTime.now();
     for (var i = 0; i < n; i++) {
-      fit.sessions.add(LoggedSession(now.subtract(Duration(days: i + 1)), 1800, [
-        LoggedExercise('EIeI8Vf', 'Barbell Bench Press', 'chest', [LoggedSet(8, 60)]),
-      ]));
+      fit.sessions.add(
+        LoggedSession(now.subtract(Duration(days: i + 1)), 1800, [
+          LoggedExercise('EIeI8Vf', 'Barbell Bench Press', 'chest', [LoggedSet(8, 60)]),
+        ]),
+      );
     }
   }
 

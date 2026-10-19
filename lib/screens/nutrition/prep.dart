@@ -18,20 +18,30 @@ class _PrepShelf extends StatelessWidget {
             borderRadius: BorderRadius.circular(22),
             border: Border.all(color: gc.border),
           ),
-          child: Row(children: [
-            FoodPlate(
-              items: [
-                for (final slug in const ['rice', 'chicken-breast', 'broccoli']) ('asset:assets/food/$slug.webp', slug),
-              ],
-              size: 64,
-            ),
-            const SizedBox(width: 14),
-            Expanded(child: Text(t.prepEmpty, style: AppTheme.s(12.5, color: gc.textSecondary, height: 1.4))),
-          ]),
+          child: Row(
+            children: [
+              FoodPlate(
+                items: [
+                  for (final slug in const ['rice', 'chicken-breast', 'broccoli'])
+                    ('asset:assets/food/$slug.webp', slug),
+                ],
+                size: 64,
+              ),
+              const SizedBox(width: 14),
+              Expanded(
+                child: Text(t.prepEmpty, style: AppTheme.s(12.5, color: gc.textSecondary, height: 1.4)),
+              ),
+            ],
+          ),
         ),
       );
     }
-    if (list.length == 1) return SizedBox(height: 150, child: _BatchCard(batch: list.single, width: double.infinity));
+    if (list.length == 1) {
+      return SizedBox(
+        height: 150,
+        child: _BatchCard(batch: list.single, width: double.infinity),
+      );
+    }
     return SizedBox(
       height: 150,
       child: ListView.separated(
@@ -63,42 +73,57 @@ class _BatchCard extends StatelessWidget {
         width: width,
         padding: const EdgeInsets.fromLTRB(14, 12, 14, 14),
         decoration: BoxDecoration(color: gc.bgRaised, borderRadius: BorderRadius.circular(24)),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Row(children: [
-            FoodPlate(items: _plateOf(b.items), size: 46),
-            const SizedBox(width: 10),
-            Expanded(
-              child: Text(b.name,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: AppTheme.f(14, weight: FontWeight.w800, color: gc.text, height: 1.15)),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                FoodPlate(items: _plateOf(b.items), size: 46),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Text(
+                    b.name,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: AppTheme.f(14, weight: FontWeight.w800, color: gc.text, height: 1.15),
+                  ),
+                ),
+              ],
             ),
-          ]),
-          const Spacer(),
-          Text.rich(TextSpan(children: [
-            TextSpan(
-                text: _amount(b.leftGrams, false).split(' ').first,
-                style: AppTheme.f(22, weight: FontWeight.w800, color: gc.text, height: 1)),
-            TextSpan(
-                text: ' / ${_amount(b.totalGrams, false)}',
-                style: AppTheme.f(11.5, weight: FontWeight.w600, color: gc.textSecondary)),
-          ])),
-          const SizedBox(height: 8),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(6),
-            child: LinearProgressIndicator(
-              value: b.leftShare,
-              minHeight: 6,
-              backgroundColor: gc.bgRaised2,
-              color: gc.warn,
+            const Spacer(),
+            Text.rich(
+              TextSpan(
+                children: [
+                  TextSpan(
+                    text: _amount(b.leftGrams, false).split(' ').first,
+                    style: AppTheme.f(22, weight: FontWeight.w800, color: gc.text, height: 1),
+                  ),
+                  TextSpan(
+                    text: ' / ${_amount(b.totalGrams, false)}',
+                    style: AppTheme.f(11.5, weight: FontWeight.w600, color: gc.textSecondary),
+                  ),
+                ],
+              ),
             ),
-          ),
-          const SizedBox(height: 7),
-          Text('${_energy(b.per100.kcal)} · ${t.per100('g')}',
+            const SizedBox(height: 8),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(6),
+              child: LinearProgressIndicator(
+                value: b.leftShare,
+                minHeight: 6,
+                backgroundColor: gc.bgRaised2,
+                color: gc.warn,
+              ),
+            ),
+            const SizedBox(height: 7),
+            Text(
+              '${_energy(b.per100.kcal)} · ${t.per100('g')}',
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: AppTheme.f(11, weight: FontWeight.w600, color: gc.textTertiary)),
-        ]),
+              style: AppTheme.f(11, weight: FontWeight.w600, color: gc.textTertiary),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -153,8 +178,13 @@ class _BatchEditorState extends State<_BatchEditor> {
 
   Future<void> _delete() async {
     final b = widget.batch!;
-    final ok = await askConfirm(context,
-        title: t.deleteFoodTitle(b.name), body: t.deleteSavedMealBody, confirmLabel: t.delete, danger: true);
+    final ok = await askConfirm(
+      context,
+      title: t.deleteFoodTitle(b.name),
+      body: t.deleteSavedMealBody,
+      confirmLabel: t.delete,
+      danger: true,
+    );
     if (!ok || !mounted) return;
     fit.deleteBatch(b.id);
     Navigator.of(context).pop();
@@ -176,29 +206,42 @@ class _BatchEditorState extends State<_BatchEditor> {
           margin: const EdgeInsets.only(bottom: 6),
           padding: const EdgeInsets.fromLTRB(14, 10, 6, 10),
           decoration: BoxDecoration(color: gc.bgRaised2, borderRadius: BorderRadius.circular(16)),
-          child: Row(children: [
-            FoodSticker(photo: fit.photoForEntry(_items[i]), name: _items[i].name, size: 40, tilt: false, shadow: false),
-            const SizedBox(width: 10),
-            Expanded(
-              child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Text(_items[i].name.isEmpty ? t.quickAdd : _items[i].name,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: AppTheme.f(13.5, weight: FontWeight.w700, color: gc.text)),
-                Text(
-                  [
-                    _servingLine(_items[i], fit.foodById(_items[i].foodId)),
-                    _energy(_items[i].total.kcal),
-                  ].where((x) => x.isNotEmpty).join(' · '),
-                  style: AppTheme.f(11.5, weight: FontWeight.w600, color: gc.textSecondary),
+          child: Row(
+            children: [
+              FoodSticker(
+                photo: fit.photoForEntry(_items[i]),
+                name: _items[i].name,
+                size: 40,
+                tilt: false,
+                shadow: false,
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      _items[i].name.isEmpty ? t.quickAdd : _items[i].name,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: AppTheme.f(13.5, weight: FontWeight.w700, color: gc.text),
+                    ),
+                    Text(
+                      [
+                        _servingLine(_items[i], fit.foodById(_items[i].foodId)),
+                        _energy(_items[i].total.kcal),
+                      ].where((x) => x.isNotEmpty).join(' · '),
+                      style: AppTheme.f(11.5, weight: FontWeight.w600, color: gc.textSecondary),
+                    ),
+                  ],
                 ),
-              ]),
-            ),
-            IconButton(
-              onPressed: () => setState(() => _items.removeAt(i)),
-              icon: Icon(PhosphorIconsBold.x, size: 15, color: gc.textTertiary),
-            ),
-          ]),
+              ),
+              IconButton(
+                onPressed: () => setState(() => _items.removeAt(i)),
+                icon: Icon(PhosphorIconsBold.x, size: 15, color: gc.textTertiary),
+              ),
+            ],
+          ),
         ),
       GhostButton(label: t.prepAddIngredient, icon: PhosphorIconsBold.plus, onTap: _add),
       const SizedBox(height: 16),
@@ -208,10 +251,7 @@ class _BatchEditorState extends State<_BatchEditor> {
         _missingWeight ? t.prepNeedWeight : t.prepCookedHint(fmt(_raw.roundToDouble())),
         style: AppTheme.s(11.5, color: _missingWeight ? gc.danger : gc.textTertiary, height: 1.4),
       ),
-      if (_items.isNotEmpty) ...[
-        const SizedBox(height: 14),
-        _macroSummary(context, total),
-      ],
+      if (_items.isNotEmpty) ...[const SizedBox(height: 14), _macroSummary(context, total)],
       const SizedBox(height: 18),
       PrimaryButton(label: t.save, onTap: _save),
       if (widget.batch != null) ...[
@@ -219,7 +259,10 @@ class _BatchEditorState extends State<_BatchEditor> {
         Center(
           child: TextButton(
             onPressed: _delete,
-            child: Text(t.delete, style: AppTheme.f(13, weight: FontWeight.w700, color: gc.danger)),
+            child: Text(
+              t.delete,
+              style: AppTheme.f(13, weight: FontWeight.w700, color: gc.danger),
+            ),
           ),
         ),
       ],
@@ -254,8 +297,12 @@ class _BatchLogSheetState extends State<_BatchLogSheet> {
 
   Future<void> _weigh() async {
     final k = fit.isLb ? _ozOf(false) : 1.0;
-    final v = await askNumber(context,
-        title: '${t.prepWeighLeft} (${_amtUnit(false)})', initial: fmt((_b.leftGrams / k * 10).round() / 10), decimal: true);
+    final v = await askNumber(
+      context,
+      title: '${t.prepWeighLeft} (${_amtUnit(false)})',
+      initial: fmt((_b.leftGrams / k * 10).round() / 10),
+      decimal: true,
+    );
     if (v != null && v >= 0) fit.setBatchLeft(_b.id, v * k);
   }
 
@@ -271,51 +318,79 @@ class _BatchLogSheetState extends State<_BatchLogSheet> {
       const SizedBox(height: 12),
       ClipRRect(
         borderRadius: BorderRadius.circular(6),
-        child: LinearProgressIndicator(value: b.leftShare, minHeight: 8, backgroundColor: gc.bgRaised2, color: gc.warn),
+        child: LinearProgressIndicator(
+          value: b.leftShare,
+          minHeight: 8,
+          backgroundColor: gc.bgRaised2,
+          color: gc.warn,
+        ),
       ),
       const SizedBox(height: 18),
       if (b.finished)
-        Text(t.prepFinished, textAlign: TextAlign.center, style: AppTheme.s(13, color: gc.textSecondary))
+        Text(
+          t.prepFinished,
+          textAlign: TextAlign.center,
+          style: AppTheme.s(13, color: gc.textSecondary),
+        )
       else ...[
         _macroSummary(context, b.per100 * (_take / 100)),
         const SizedBox(height: 14),
         Center(
           child: SegToggle([
             SegOption(t.prepOfWhatsLeft, _byShare, () => setState(() => _byShare = true)),
-            SegOption(_amtUnit(false), !_byShare, () => setState(() {
-                  _grams = _take.roundToDouble();
-                  _byShare = false;
-                })),
+            SegOption(
+              _amtUnit(false),
+              !_byShare,
+              () => setState(() {
+                _grams = _take.roundToDouble();
+                _byShare = false;
+              }),
+            ),
           ]),
         ),
         const SizedBox(height: 12),
         if (_byShare)
-          Row(children: [
-            for (final s in shares)
-              Expanded(
-                child: Pressable(
-                  onTap: () => setState(() => _share = s),
-                  scale: 0.94,
-                  child: AnimatedContainer(
-                    duration: const Duration(milliseconds: 160),
-                    margin: const EdgeInsets.symmetric(horizontal: 3),
-                    padding: const EdgeInsets.symmetric(vertical: 11),
-                    decoration: BoxDecoration(
-                      color: (s - _share).abs() < 0.001 ? gc.accentSoft : gc.bgRaised2,
-                      borderRadius: BorderRadius.circular(14),
-                      border: Border.all(
-                          color: (s - _share).abs() < 0.001 ? gc.accent.withValues(alpha: 0.6) : Colors.transparent),
+          Row(
+            children: [
+              for (final s in shares)
+                Expanded(
+                  child: Pressable(
+                    onTap: () => setState(() => _share = s),
+                    scale: 0.94,
+                    child: AnimatedContainer(
+                      duration: const Duration(milliseconds: 160),
+                      margin: const EdgeInsets.symmetric(horizontal: 3),
+                      padding: const EdgeInsets.symmetric(vertical: 11),
+                      decoration: BoxDecoration(
+                        color: (s - _share).abs() < 0.001 ? gc.accentSoft : gc.bgRaised2,
+                        borderRadius: BorderRadius.circular(14),
+                        border: Border.all(
+                          color: (s - _share).abs() < 0.001
+                              ? gc.accent.withValues(alpha: 0.6)
+                              : Colors.transparent,
+                        ),
+                      ),
+                      child: Column(
+                        children: [
+                          Text(
+                            s == 1 ? t.prepAll : '${(s * 100).round()} %',
+                            style: AppTheme.f(
+                              13,
+                              weight: FontWeight.w800,
+                              color: (s - _share).abs() < 0.001 ? gc.accent : gc.text,
+                            ),
+                          ),
+                          Text(
+                            _amount(b.leftGrams * s, false),
+                            style: AppTheme.f(10, weight: FontWeight.w600, color: gc.textTertiary),
+                          ),
+                        ],
+                      ),
                     ),
-                    child: Column(children: [
-                      Text(s == 1 ? t.prepAll : '${(s * 100).round()} %',
-                          style: AppTheme.f(13, weight: FontWeight.w800, color: (s - _share).abs() < 0.001 ? gc.accent : gc.text)),
-                      Text(_amount(b.leftGrams * s, false),
-                          style: AppTheme.f(10, weight: FontWeight.w600, color: gc.textTertiary)),
-                    ]),
                   ),
                 ),
-              ),
-          ])
+            ],
+          )
         else
           ToolRow(
             label: t.amountLabel,
@@ -326,8 +401,12 @@ class _BatchLogSheetState extends State<_BatchLogSheet> {
               onInc: () => setState(() => _grams = (_grams + _gramStep).clamp(5, b.leftGrams).toDouble()),
               onEdit: () async {
                 final k = fit.isLb ? _ozOf(false) : 1.0;
-                final v = await askNumber(context,
-                    title: t.amountIn(_amtUnit(false)), initial: fmt((_grams / k * 10).round() / 10), decimal: true);
+                final v = await askNumber(
+                  context,
+                  title: t.amountIn(_amtUnit(false)),
+                  initial: fmt((_grams / k * 10).round() / 10),
+                  decimal: true,
+                );
                 if (v != null && v > 0) setState(() => _grams = (v * k).clamp(1, b.leftGrams).toDouble());
               },
             ),
@@ -349,19 +428,28 @@ class _BatchLogSheetState extends State<_BatchLogSheet> {
         ),
       ],
       const SizedBox(height: 8),
-      Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-        TextButton(
-          onPressed: _weigh,
-          child: Text(t.prepWeighLeft, style: AppTheme.f(13, weight: FontWeight.w700, color: gc.textSecondary)),
-        ),
-        TextButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-            showBatchEditor(context, batch: b);
-          },
-          child: Text(t.prepEdit, style: AppTheme.f(13, weight: FontWeight.w700, color: gc.textSecondary)),
-        ),
-      ]),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          TextButton(
+            onPressed: _weigh,
+            child: Text(
+              t.prepWeighLeft,
+              style: AppTheme.f(13, weight: FontWeight.w700, color: gc.textSecondary),
+            ),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+              showBatchEditor(context, batch: b);
+            },
+            child: Text(
+              t.prepEdit,
+              style: AppTheme.f(13, weight: FontWeight.w700, color: gc.textSecondary),
+            ),
+          ),
+        ],
+      ),
     ]);
   }
 }

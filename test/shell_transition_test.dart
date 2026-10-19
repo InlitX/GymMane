@@ -58,8 +58,11 @@ void main() {
     expect(find.byType(AwardCelebration), findsNothing);
 
     await tester.pump(const Duration(seconds: 1));
-    expect(find.byType(AwardCelebration), findsNothing,
-        reason: 'no da tiempo a ver la app antes de la medalla');
+    expect(
+      find.byType(AwardCelebration),
+      findsNothing,
+      reason: 'no da tiempo a ver la app antes de la medalla',
+    );
 
     await tester.pump(const Duration(seconds: 2));
     expect(find.byType(AwardCelebration), findsNothing);
@@ -75,9 +78,11 @@ void main() {
     await tester.pumpWidget(const GymManeApp());
     await tester.pump();
 
-    fit.sessions.add(LoggedSession(DateTime.now(), 1200, [
-      LoggedExercise('EIeI8Vf', 'Barbell Bench Press', 'chest', [LoggedSet(10, 60)]),
-    ]));
+    fit.sessions.add(
+      LoggedSession(DateTime.now(), 1200, [
+        LoggedExercise('EIeI8Vf', 'Barbell Bench Press', 'chest', [LoggedSet(10, 60)]),
+      ]),
+    );
     fit.refreshAwards();
     expect(fit.pendingAwards.length, greaterThan(1));
 
@@ -89,8 +94,11 @@ void main() {
     expect(find.byType(AwardCelebration), findsNothing);
 
     await tester.pump(const Duration(seconds: 4));
-    expect(find.byType(AwardCelebration), findsNothing,
-        reason: 'la segunda medalla salía pegada a la primera');
+    expect(
+      find.byType(AwardCelebration),
+      findsNothing,
+      reason: 'la segunda medalla salía pegada a la primera',
+    );
 
     await tester.pump(const Duration(milliseconds: 2500));
     expect(find.byType(AwardCelebration), findsOneWidget);

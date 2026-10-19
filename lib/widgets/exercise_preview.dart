@@ -103,47 +103,63 @@ class _ExercisePreviewState extends State<_ExercisePreview> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      Stack(children: [
-                        video == null
-                            ? ExerciseMedia(ex: ex, height: 250, radius: 20, live: true, bordered: false)
-                            : _VideoStage(controller: video),
-                        Positioned(
-                          top: 10,
-                          right: 10,
-                          child: RoundAction(
-                            label: MaterialLocalizations.of(context).closeButtonLabel,
-                            onTap: () => Navigator.of(context).pop(),
-                            child: Icon(PhosphorIconsBold.x, size: 15, color: gc.text),
+                      Stack(
+                        children: [
+                          video == null
+                              ? ExerciseMedia(ex: ex, height: 250, radius: 20, live: true, bordered: false)
+                              : _VideoStage(controller: video),
+                          Positioned(
+                            top: 10,
+                            right: 10,
+                            child: RoundAction(
+                              label: MaterialLocalizations.of(context).closeButtonLabel,
+                              onTap: () => Navigator.of(context).pop(),
+                              child: Icon(PhosphorIconsBold.x, size: 15, color: gc.text),
+                            ),
                           ),
-                        ),
-                      ]),
+                        ],
+                      ),
                       Padding(
                         padding: const EdgeInsets.fromLTRB(8, 20, 8, 0),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(exerciseName(ex),
-                                style: AppTheme.f(24, weight: FontWeight.w800, color: gc.text, height: 1.1)),
+                            Text(
+                              exerciseName(ex),
+                              style: AppTheme.f(24, weight: FontWeight.w800, color: gc.text, height: 1.1),
+                            ),
                             const SizedBox(height: 16),
                             Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 _meta(gc, t.primaryLabel, muscleLabel(ex.primary)),
                                 const SizedBox(width: 18),
-                                _meta(gc, t.secondaryLabel,
-                                    ex.secondary.isEmpty ? t.none : ex.secondary.map(muscleLabel).join(', ')),
+                                _meta(
+                                  gc,
+                                  t.secondaryLabel,
+                                  ex.secondary.isEmpty ? t.none : ex.secondary.map(muscleLabel).join(', '),
+                                ),
                                 const SizedBox(width: 18),
                                 _meta(gc, t.equipmentLabel, t.equipment(ex.equipment)),
                               ],
                             ),
                             if (steps.isNotEmpty) ...[
                               const SizedBox(height: 24),
-                              Text(titleCase(t.howTo),
-                                  style: AppTheme.f(17, weight: FontWeight.w700, color: gc.text)),
+                              Text(
+                                titleCase(t.howTo),
+                                style: AppTheme.f(17, weight: FontWeight.w700, color: gc.text),
+                              ),
                               if (video != null) ...[
                                 const SizedBox(height: 4),
-                                Text(t.videoMarksHint,
-                                    style: AppTheme.f(12, weight: FontWeight.w500, color: gc.textTertiary, height: 1.4)),
+                                Text(
+                                  t.videoMarksHint,
+                                  style: AppTheme.f(
+                                    12,
+                                    weight: FontWeight.w500,
+                                    color: gc.textTertiary,
+                                    height: 1.4,
+                                  ),
+                                ),
                               ],
                               const SizedBox(height: 14),
                               for (var i = 0; i < steps.length; i++) ...[
@@ -167,36 +183,47 @@ class _ExercisePreviewState extends State<_ExercisePreview> {
   }
 
   Widget _suggestRow(GymColors gc) => GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: () => fit.toggleSuggest(ex.id),
-        child: Container(
-          padding: const EdgeInsets.fromLTRB(20, 16, 20, 18),
-          decoration: BoxDecoration(border: Border(top: BorderSide(color: gc.border))),
-          child: Row(children: [
-            Icon(PhosphorIconsRegular.sparkle, size: 18, color: gc.textSecondary),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Text(t.suggestInWorkouts, style: AppTheme.f(14, weight: FontWeight.w600, color: gc.text)),
+    behavior: HitTestBehavior.opaque,
+    onTap: () => fit.toggleSuggest(ex.id),
+    child: Container(
+      padding: const EdgeInsets.fromLTRB(20, 16, 20, 18),
+      decoration: BoxDecoration(
+        border: Border(top: BorderSide(color: gc.border)),
+      ),
+      child: Row(
+        children: [
+          Icon(PhosphorIconsRegular.sparkle, size: 18, color: gc.textSecondary),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Text(
+              t.suggestInWorkouts,
+              style: AppTheme.f(14, weight: FontWeight.w600, color: gc.text),
             ),
-            TinySwitch(on: fit.suggests(ex.id)),
-          ]),
-        ),
-      );
+          ),
+          TinySwitch(on: fit.suggests(ex.id)),
+        ],
+      ),
+    ),
+  );
 
   Widget _meta(GymColors gc, String label, String value) => Flexible(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(label.toUpperCase(),
-                style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.3)),
-            const SizedBox(height: 5),
-            Text(value,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: AppTheme.f(14, weight: FontWeight.w600, color: gc.text)),
-          ],
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label.toUpperCase(),
+          style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.3),
         ),
-      );
+        const SizedBox(height: 5),
+        Text(
+          value,
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+          style: AppTheme.f(14, weight: FontWeight.w600, color: gc.text),
+        ),
+      ],
+    ),
+  );
 
   Widget _step(GymColors gc, int i, String text, VideoPlayerController? video) {
     final mark = video == null ? null : fit.videoMark(ex.id, i);
@@ -211,11 +238,17 @@ class _ExercisePreviewState extends State<_ExercisePreview> {
             height: 24,
             alignment: Alignment.center,
             decoration: BoxDecoration(color: gc.emberSoft, shape: BoxShape.circle),
-            child: Text('${i + 1}', style: AppTheme.f(12, weight: FontWeight.w700, color: gc.ember)),
+            child: Text(
+              '${i + 1}',
+              style: AppTheme.f(12, weight: FontWeight.w700, color: gc.ember),
+            ),
           ),
           const SizedBox(width: 12),
           Expanded(
-            child: Text(text, style: AppTheme.f(14, weight: FontWeight.w500, color: gc.textSecondary, height: 1.5)),
+            child: Text(
+              text,
+              style: AppTheme.f(14, weight: FontWeight.w500, color: gc.textSecondary, height: 1.5),
+            ),
           ),
           if (video != null) ...[
             const SizedBox(width: 8),
@@ -227,42 +260,45 @@ class _ExercisePreviewState extends State<_ExercisePreview> {
   }
 
   Widget _pin(GymColors gc, VideoPlayerController video, int i) => Semantics(
-        button: true,
-        label: t.videoMarkHere,
-        child: GestureDetector(
-          behavior: HitTestBehavior.opaque,
-          onTap: () {
-            HapticFeedback.selectionClick();
-            fit.setVideoMark(ex.id, i, video.value.position.inMilliseconds);
-          },
-          child: Container(
-            width: 34,
-            height: 26,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(100),
-              border: Border.all(color: gc.border),
-            ),
-            child: Icon(PhosphorIconsRegular.pushPin, size: 13, color: gc.textTertiary),
-          ),
+    button: true,
+    label: t.videoMarkHere,
+    child: GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: () {
+        HapticFeedback.selectionClick();
+        fit.setVideoMark(ex.id, i, video.value.position.inMilliseconds);
+      },
+      child: Container(
+        width: 34,
+        height: 26,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(100),
+          border: Border.all(color: gc.border),
         ),
-      );
+        child: Icon(PhosphorIconsRegular.pushPin, size: 13, color: gc.textTertiary),
+      ),
+    ),
+  );
 
   Widget _chip(GymColors gc, int ms, int i) => GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: () => _seek(ms),
-        onLongPress: () {
-          HapticFeedback.mediumImpact();
-          fit.setVideoMark(ex.id, i, null);
-        },
-        child: Container(
-          height: 26,
-          padding: const EdgeInsets.symmetric(horizontal: 10),
-          alignment: Alignment.center,
-          decoration: BoxDecoration(color: gc.accentSoft, borderRadius: BorderRadius.circular(100)),
-          child: Text(_clock(ms), style: AppTheme.f(12, weight: FontWeight.w700, color: gc.accent)),
-        ),
-      );
+    behavior: HitTestBehavior.opaque,
+    onTap: () => _seek(ms),
+    onLongPress: () {
+      HapticFeedback.mediumImpact();
+      fit.setVideoMark(ex.id, i, null);
+    },
+    child: Container(
+      height: 26,
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      alignment: Alignment.center,
+      decoration: BoxDecoration(color: gc.accentSoft, borderRadius: BorderRadius.circular(100)),
+      child: Text(
+        _clock(ms),
+        style: AppTheme.f(12, weight: FontWeight.w700, color: gc.accent),
+      ),
+    ),
+  );
 }
 
 String _clock(int ms) {
@@ -288,51 +324,65 @@ class _VideoStage extends StatelessWidget {
           builder: (context, v, _) {
             if (!v.isInitialized) return SizedBox(height: 250, child: Shimmer(radius: 20));
             final playing = v.isPlaying;
-            return Column(children: [
-              GestureDetector(
-                behavior: HitTestBehavior.opaque,
-                onTap: () => playing ? controller.pause() : controller.play(),
-                child: ConstrainedBox(
-                  constraints: BoxConstraints(maxHeight: maxHeight),
-                  child: Stack(alignment: Alignment.center, children: [
-                    Center(child: AspectRatio(aspectRatio: v.aspectRatio, child: VideoPlayer(controller))),
-                    AnimatedOpacity(
-                      opacity: playing ? 0 : 1,
-                      duration: const Duration(milliseconds: 200),
-                      child: Container(
-                        width: 58,
-                        height: 58,
-                        decoration: BoxDecoration(color: gc.bg.withValues(alpha: 0.55), shape: BoxShape.circle),
-                        child: Icon(PhosphorIconsFill.play, size: 24, color: gc.text),
-                      ),
-                    ),
-                  ]),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(14, 2, 14, 4),
-                child: Row(children: [
-                  Expanded(
-                    child: SizedBox(
-                      height: 26,
-                      child: VideoProgressIndicator(
-                        controller,
-                        allowScrubbing: true,
-                        padding: const EdgeInsets.symmetric(vertical: 10.5),
-                        colors: VideoProgressColors(
-                          playedColor: gc.accent,
-                          bufferedColor: gc.border,
-                          backgroundColor: gc.bgRaised,
+            return Column(
+              children: [
+                GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTap: () => playing ? controller.pause() : controller.play(),
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(maxHeight: maxHeight),
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        Center(
+                          child: AspectRatio(aspectRatio: v.aspectRatio, child: VideoPlayer(controller)),
                         ),
-                      ),
+                        AnimatedOpacity(
+                          opacity: playing ? 0 : 1,
+                          duration: const Duration(milliseconds: 200),
+                          child: Container(
+                            width: 58,
+                            height: 58,
+                            decoration: BoxDecoration(
+                              color: gc.bg.withValues(alpha: 0.55),
+                              shape: BoxShape.circle,
+                            ),
+                            child: Icon(PhosphorIconsFill.play, size: 24, color: gc.text),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  const SizedBox(width: 12),
-                  Text('${_clock(v.position.inMilliseconds)} / ${_clock(v.duration.inMilliseconds)}',
-                      style: AppTheme.f(11.5, weight: FontWeight.w600, color: gc.textSecondary)),
-                ]),
-              ),
-            ]);
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(14, 2, 14, 4),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: SizedBox(
+                          height: 26,
+                          child: VideoProgressIndicator(
+                            controller,
+                            allowScrubbing: true,
+                            padding: const EdgeInsets.symmetric(vertical: 10.5),
+                            colors: VideoProgressColors(
+                              playedColor: gc.accent,
+                              bufferedColor: gc.border,
+                              backgroundColor: gc.bgRaised,
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Text(
+                        '${_clock(v.position.inMilliseconds)} / ${_clock(v.duration.inMilliseconds)}',
+                        style: AppTheme.f(11.5, weight: FontWeight.w600, color: gc.textSecondary),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            );
           },
         ),
       ),

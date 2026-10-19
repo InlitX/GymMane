@@ -85,7 +85,10 @@ class _ToolArtPainter extends CustomPainter {
   void _plate(Canvas canvas, Rect r, Color c) {
     _block(canvas, r, math.min(3, r.width / 2), c);
     canvas.drawRRect(
-      RRect.fromRectAndRadius(Rect.fromCenter(center: r.center, width: 1.4, height: r.height * 0.62), const Radius.circular(1)),
+      RRect.fromRectAndRadius(
+        Rect.fromCenter(center: r.center, width: 1.4, height: r.height * 0.62),
+        const Radius.circular(1),
+      ),
       Paint()..color = _ink(c).withValues(alpha: 0.28),
     );
   }
@@ -109,10 +112,24 @@ class _ToolArtPainter extends CustomPainter {
           _block(canvas, Rect.fromLTWH(2, cy - 2, w - 4, 4), 2, _steel, gloss: false);
           for (final left in [true, false]) {
             double x(double dx, double width) => left ? dx : w - dx - width;
-            _block(canvas, Rect.fromLTWH(x(2, 3.5), cy - 3.5, 3.5, 7), 1.5, _steel, shadow: false, gloss: false);
+            _block(
+              canvas,
+              Rect.fromLTWH(x(2, 3.5), cy - 3.5, 3.5, 7),
+              1.5,
+              _steel,
+              shadow: false,
+              gloss: false,
+            );
             _plate(canvas, Rect.fromLTWH(x(8, 8), cy - 18, 8, 36), _hue(0));
             _plate(canvas, Rect.fromLTWH(x(16, 5.5), cy - 12, 5.5, 24), _hue(4));
-            _block(canvas, Rect.fromLTWH(x(21.5, 3.5), cy - 5.5, 3.5, 11), 1.5, _steel, shadow: false, gloss: false);
+            _block(
+              canvas,
+              Rect.fromLTWH(x(21.5, 3.5), cy - 5.5, 3.5, 11),
+              1.5,
+              _steel,
+              shadow: false,
+              gloss: false,
+            );
           }
         });
       case 'bmi':
@@ -120,20 +137,38 @@ class _ToolArtPainter extends CustomPainter {
           final body = Rect.fromCenter(center: Offset(w / 2, h / 2 + 2), width: 42, height: 40);
           _block(canvas, body, 11, _hue(2));
           final dial = Rect.fromCenter(center: Offset(w / 2, body.top + 15), width: 26, height: 22);
-          canvas.drawArc(dial, math.pi, math.pi, true, Paint()..color = _ink(_hue(2)).withValues(alpha: 0.85));
-          canvas.drawArc(dial.deflate(4), math.pi, math.pi, true, Paint()..color = Color.lerp(_hue(2), Colors.white, 0.75)!);
+          canvas.drawArc(
+            dial,
+            math.pi,
+            math.pi,
+            true,
+            Paint()..color = _ink(_hue(2)).withValues(alpha: 0.85),
+          );
+          canvas.drawArc(
+            dial.deflate(4),
+            math.pi,
+            math.pi,
+            true,
+            Paint()..color = Color.lerp(_hue(2), Colors.white, 0.75)!,
+          );
           final c = dial.center;
-          canvas.drawLine(c, c + Offset(math.cos(-0.9) * 8, math.sin(-0.9) * 8),
-              Paint()
-                ..color = const Color(0xFFD9774E)
-                ..strokeWidth = 2
-                ..strokeCap = StrokeCap.round);
+          canvas.drawLine(
+            c,
+            c + Offset(math.cos(-0.9) * 8, math.sin(-0.9) * 8),
+            Paint()
+              ..color = const Color(0xFFD9774E)
+              ..strokeWidth = 2
+              ..strokeCap = StrokeCap.round,
+          );
           canvas.drawCircle(c, 2, Paint()..color = _ink(_hue(2)));
           for (final dx in [-10.0, 10.0]) {
             canvas.drawRRect(
-                RRect.fromRectAndRadius(Rect.fromCenter(center: Offset(w / 2 + dx, body.bottom - 7), width: 9, height: 3),
-                    const Radius.circular(2)),
-                Paint()..color = _ink(_hue(2)).withValues(alpha: 0.35));
+              RRect.fromRectAndRadius(
+                Rect.fromCenter(center: Offset(w / 2 + dx, body.bottom - 7), width: 9, height: 3),
+                const Radius.circular(2),
+              ),
+              Paint()..color = _ink(_hue(2)).withValues(alpha: 0.35),
+            );
           }
         });
       case 'cal':
@@ -143,65 +178,99 @@ class _ToolArtPainter extends CustomPainter {
           final top = h - 4 - fh + dy, bottom = h - 4 + dy;
           return Path()
             ..moveTo(cx, top)
-            ..cubicTo(cx + fw * 0.15, top + fh * 0.25, cx + fw * 0.55, top + fh * 0.4, cx + fw * 0.5, top + fh * 0.68)
+            ..cubicTo(
+              cx + fw * 0.15,
+              top + fh * 0.25,
+              cx + fw * 0.55,
+              top + fh * 0.4,
+              cx + fw * 0.5,
+              top + fh * 0.68,
+            )
             ..cubicTo(cx + fw * 0.46, top + fh * 0.92, cx + fw * 0.2, bottom, cx, bottom)
             ..cubicTo(cx - fw * 0.2, bottom, cx - fw * 0.5, top + fh * 0.92, cx - fw * 0.5, top + fh * 0.66)
-            ..cubicTo(cx - fw * 0.5, top + fh * 0.45, cx - fw * 0.3, top + fh * 0.38, cx - fw * 0.22, top + fh * 0.22)
+            ..cubicTo(
+              cx - fw * 0.5,
+              top + fh * 0.45,
+              cx - fw * 0.3,
+              top + fh * 0.38,
+              cx - fw * 0.22,
+              top + fh * 0.22,
+            )
             ..cubicTo(cx - fw * 0.08, top + fh * 0.36, cx - fw * 0.02, top + fh * 0.18, cx, top)
             ..close();
         }
         final outer = flame(1, 0);
-        canvas.drawCircle(Offset(cx, h - 16), 18,
-            Paint()
-              ..color = const Color(0xFFF2A46E).withValues(alpha: dark ? 0.22 : 0.16)
-              ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 9));
+        canvas.drawCircle(
+          Offset(cx, h - 16),
+          18,
+          Paint()
+            ..color = const Color(0xFFF2A46E).withValues(alpha: dark ? 0.22 : 0.16)
+            ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 9),
+        );
         _shadow(canvas, outer);
         canvas.drawPath(
-            outer,
-            Paint()
-              ..shader = const LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [Color(0xFFF4BC86), Color(0xFFE0745A)],
-              ).createShader(outer.getBounds()));
+          outer,
+          Paint()
+            ..shader = const LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [Color(0xFFF4BC86), Color(0xFFE0745A)],
+            ).createShader(outer.getBounds()),
+        );
         canvas.save();
         canvas.clipPath(outer);
         canvas.drawPath(
-            outer.shift(const Offset(-3, 2)),
-            Paint()
-              ..style = PaintingStyle.stroke
-              ..strokeWidth = 2
-              ..color = Colors.white.withValues(alpha: 0.28));
+          outer.shift(const Offset(-3, 2)),
+          Paint()
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = 2
+            ..color = Colors.white.withValues(alpha: 0.28),
+        );
         canvas.restore();
         final inner = flame(0.52, -2);
         canvas.drawPath(
-            inner,
-            Paint()
-              ..shader = LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [const Color(0xFFF8E2A8), Color.lerp(const Color(0xFFF8E2A8), Colors.white, 0.5)!],
-              ).createShader(inner.getBounds()));
+          inner,
+          Paint()
+            ..shader = LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [const Color(0xFFF8E2A8), Color.lerp(const Color(0xFFF8E2A8), Colors.white, 0.5)!],
+            ).createShader(inner.getBounds()),
+        );
       case 'bf':
         _turn(canvas, size, 0.1, () {
           final sheet = Rect.fromCenter(center: Offset(w / 2, h / 2), width: 40, height: 46);
           _block(canvas, sheet, 8, _hue(3));
           final ring = Rect.fromCenter(center: Offset(w / 2, sheet.top + 18), width: 20, height: 20);
-          canvas.drawArc(ring, 0, math.pi * 2, false,
-              Paint()
-                ..style = PaintingStyle.stroke
-                ..strokeWidth = 5
-                ..color = _ink(_hue(3)).withValues(alpha: 0.3));
-          canvas.drawArc(ring, -math.pi / 2, math.pi * 0.7, false,
-              Paint()
-                ..style = PaintingStyle.stroke
-                ..strokeWidth = 5
-                ..strokeCap = StrokeCap.round
-                ..color = _hue(5));
+          canvas.drawArc(
+            ring,
+            0,
+            math.pi * 2,
+            false,
+            Paint()
+              ..style = PaintingStyle.stroke
+              ..strokeWidth = 5
+              ..color = _ink(_hue(3)).withValues(alpha: 0.3),
+          );
+          canvas.drawArc(
+            ring,
+            -math.pi / 2,
+            math.pi * 0.7,
+            false,
+            Paint()
+              ..style = PaintingStyle.stroke
+              ..strokeWidth = 5
+              ..strokeCap = StrokeCap.round
+              ..color = _hue(5),
+          );
           for (final (dy, f) in [(33.0, 1.0), (38.5, 0.6)]) {
             canvas.drawRRect(
-                RRect.fromRectAndRadius(Rect.fromLTWH(sheet.left + 8, sheet.top + dy, 24 * f, 2.5), const Radius.circular(2)),
-                Paint()..color = _ink(_hue(3)).withValues(alpha: 0.4));
+              RRect.fromRectAndRadius(
+                Rect.fromLTWH(sheet.left + 8, sheet.top + dy, 24 * f, 2.5),
+                const Radius.circular(2),
+              ),
+              Paint()..color = _ink(_hue(3)).withValues(alpha: 0.4),
+            );
           }
         });
       case 'plate':
@@ -220,43 +289,60 @@ class _ToolArtPainter extends CustomPainter {
         for (final (i, bh, hue) in [(0, 16.0, 2), (1, 27.0, 4), (2, 40.0, 0)]) {
           final r = Rect.fromLTWH(10 + i * 15.0, base - bh, 12, bh);
           _block(canvas, r, 4, _hue(hue));
-          canvas.drawRRect(RRect.fromRectAndRadius(Rect.fromLTWH(r.left + 3, r.top + 4, 6, 2.5), const Radius.circular(2)),
-              Paint()..color = Colors.white.withValues(alpha: 0.5));
+          canvas.drawRRect(
+            RRect.fromRectAndRadius(Rect.fromLTWH(r.left + 3, r.top + 4, 6, 2.5), const Radius.circular(2)),
+            Paint()..color = Colors.white.withValues(alpha: 0.5),
+          );
         }
       case 'rpe':
         final c = Offset(w / 2, h - 10);
         final arc = Rect.fromCircle(center: c, radius: 22);
         final track = Path()..addArc(arc, math.pi, math.pi);
         _shadow(canvas, track, blur: 3);
-        canvas.drawArc(arc, math.pi, math.pi, false,
-            Paint()
-              ..style = PaintingStyle.stroke
-              ..strokeWidth = 9
-              ..strokeCap = StrokeCap.round
-              ..shader = LinearGradient(colors: [_hue(2), _hue(4), _hue(0), const Color(0xFFE07A5A)]).createShader(arc));
+        canvas.drawArc(
+          arc,
+          math.pi,
+          math.pi,
+          false,
+          Paint()
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = 9
+            ..strokeCap = StrokeCap.round
+            ..shader = LinearGradient(
+              colors: [_hue(2), _hue(4), _hue(0), const Color(0xFFE07A5A)],
+            ).createShader(arc),
+        );
         for (var k = 1; k < 5; k++) {
           final a = math.pi + math.pi * k / 5;
-          canvas.drawLine(c + Offset(math.cos(a) * 18.5, math.sin(a) * 18.5), c + Offset(math.cos(a) * 25.5, math.sin(a) * 25.5),
-              Paint()
-                ..color = Colors.white.withValues(alpha: 0.45)
-                ..strokeWidth = 1.2);
+          canvas.drawLine(
+            c + Offset(math.cos(a) * 18.5, math.sin(a) * 18.5),
+            c + Offset(math.cos(a) * 25.5, math.sin(a) * 25.5),
+            Paint()
+              ..color = Colors.white.withValues(alpha: 0.45)
+              ..strokeWidth = 1.2,
+          );
         }
         final needle = dark ? const Color(0xFFF2EEE9) : const Color(0xFF3A332D);
         final tip = c + Offset(math.cos(math.pi * 1.72) * 17, math.sin(math.pi * 1.72) * 17);
         _shadow(canvas, Path()..addOval(Rect.fromCircle(center: c, radius: 4.5)), blur: 2, dy: 1.5);
-        canvas.drawLine(c, tip,
-            Paint()
-              ..color = needle
-              ..strokeWidth = 3
-              ..strokeCap = StrokeCap.round);
+        canvas.drawLine(
+          c,
+          tip,
+          Paint()
+            ..color = needle
+            ..strokeWidth = 3
+            ..strokeCap = StrokeCap.round,
+        );
         canvas.drawCircle(c, 4.5, Paint()..color = needle);
         canvas.drawCircle(c, 1.6, Paint()..color = _hue(0));
       case 'dots':
         final base = h - 4;
         for (final (x, bh, hue) in [(6.0, 18.0, 1), (22.0, 28.0, 4), (38.0, 12.0, 0)]) {
           final rr = _block(canvas, Rect.fromLTWH(x, base - bh, 16, bh), 3.5, _hue(hue));
-          canvas.drawRRect(RRect.fromRectAndRadius(Rect.fromLTWH(x + 5, rr.top + 5, 6, 2.2), const Radius.circular(1.1)),
-              Paint()..color = _ink(_hue(hue)).withValues(alpha: 0.35));
+          canvas.drawRRect(
+            RRect.fromRectAndRadius(Rect.fromLTWH(x + 5, rr.top + 5, 6, 2.2), const Radius.circular(1.1)),
+            Paint()..color = _ink(_hue(hue)).withValues(alpha: 0.35),
+          );
         }
         final medal = Offset(30, base - 28 - 11);
         for (final s in [-1.0, 1.0]) {
@@ -271,21 +357,29 @@ class _ToolArtPainter extends CustomPainter {
         final disc = Path()..addOval(Rect.fromCircle(center: medal, radius: 8));
         _shadow(canvas, disc, blur: 2.5, dy: 1.5);
         canvas.drawPath(
-            disc,
-            Paint()
-              ..shader = const RadialGradient(center: Alignment(-0.3, -0.4), colors: [Color(0xFFFBE9B8), Color(0xFFD6A55A)])
-                  .createShader(Rect.fromCircle(center: medal, radius: 8)));
-        canvas.drawCircle(medal, 4.5,
-            Paint()
-              ..style = PaintingStyle.stroke
-              ..strokeWidth = 1.4
-              ..color = const Color(0xFF9C7334).withValues(alpha: 0.6));
+          disc,
+          Paint()
+            ..shader = const RadialGradient(
+              center: Alignment(-0.3, -0.4),
+              colors: [Color(0xFFFBE9B8), Color(0xFFD6A55A)],
+            ).createShader(Rect.fromCircle(center: medal, radius: 8)),
+        );
+        canvas.drawCircle(
+          medal,
+          4.5,
+          Paint()
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = 1.4
+            ..color = const Color(0xFF9C7334).withValues(alpha: 0.6),
+        );
       case 'wilks':
         const goldLight = Color(0xFFFBE9B8), goldDark = Color(0xFFC9934A), rim = Color(0xFF9C7334);
         final cx = w / 2;
-        Shader gold(Rect r) =>
-            const LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight, colors: [goldLight, goldDark])
-                .createShader(r);
+        Shader gold(Rect r) => const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [goldLight, goldDark],
+        ).createShader(r);
         final handle = Paint()
           ..style = PaintingStyle.stroke
           ..strokeWidth = 3.2
@@ -293,10 +387,11 @@ class _ToolArtPainter extends CustomPainter {
           ..color = goldDark;
         for (final s in [-1.0, 1.0]) {
           canvas.drawPath(
-              Path()
-                ..moveTo(cx + s * 12.5, 9)
-                ..cubicTo(cx + s * 22, 8, cx + s * 22, 20, cx + s * 8.5, 23),
-              handle);
+            Path()
+              ..moveTo(cx + s * 12.5, 9)
+              ..cubicTo(cx + s * 22, 8, cx + s * 22, 20, cx + s * 8.5, 23),
+            handle,
+          );
         }
         final cup = Path()
           ..moveTo(cx - 14, 5)
@@ -310,22 +405,37 @@ class _ToolArtPainter extends CustomPainter {
           ..cubicTo(cx - 9, 25, cx - 14, 17, cx - 14, 5)
           ..close();
         final base = _block(canvas, Rect.fromLTWH(cx - 14, 39, 28, 11), 3, _hue(4));
-        canvas.drawRRect(RRect.fromRectAndRadius(Rect.fromCenter(center: base.center, width: 12, height: 2.4), const Radius.circular(1.2)),
-            Paint()..color = _ink(_hue(4)).withValues(alpha: 0.35));
+        canvas.drawRRect(
+          RRect.fromRectAndRadius(
+            Rect.fromCenter(center: base.center, width: 12, height: 2.4),
+            const Radius.circular(1.2),
+          ),
+          Paint()..color = _ink(_hue(4)).withValues(alpha: 0.35),
+        );
         _shadow(canvas, cup);
         canvas.drawPath(cup, Paint()..shader = gold(cup.getBounds()));
-        canvas.drawOval(Rect.fromCenter(center: Offset(cx, 30.5), width: 9, height: 3.6), Paint()..shader = gold(Rect.fromLTWH(cx - 5, 28, 10, 5)));
-        canvas.drawOval(Rect.fromCenter(center: Offset(cx, 5.5), width: 28, height: 4), Paint()..color = rim.withValues(alpha: 0.55));
-        canvas.drawOval(Rect.fromCenter(center: Offset(cx, 5), width: 25, height: 2.6), Paint()..color = goldLight);
+        canvas.drawOval(
+          Rect.fromCenter(center: Offset(cx, 30.5), width: 9, height: 3.6),
+          Paint()..shader = gold(Rect.fromLTWH(cx - 5, 28, 10, 5)),
+        );
+        canvas.drawOval(
+          Rect.fromCenter(center: Offset(cx, 5.5), width: 28, height: 4),
+          Paint()..color = rim.withValues(alpha: 0.55),
+        );
+        canvas.drawOval(
+          Rect.fromCenter(center: Offset(cx, 5), width: 25, height: 2.6),
+          Paint()..color = goldLight,
+        );
         canvas.drawPath(
-            Path()
-              ..moveTo(cx - 9.5, 10)
-              ..cubicTo(cx - 9.5, 17, cx - 7, 21, cx - 4, 23),
-            Paint()
-              ..style = PaintingStyle.stroke
-              ..strokeWidth = 2.6
-              ..strokeCap = StrokeCap.round
-              ..color = Colors.white.withValues(alpha: 0.55));
+          Path()
+            ..moveTo(cx - 9.5, 10)
+            ..cubicTo(cx - 9.5, 17, cx - 7, 21, cx - 4, 23),
+          Paint()
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = 2.6
+            ..strokeCap = StrokeCap.round
+            ..color = Colors.white.withValues(alpha: 0.55),
+        );
         final star = Path();
         for (var k = 0; k < 10; k++) {
           final a = -math.pi / 2 + k * math.pi / 5;
@@ -341,28 +451,36 @@ class _ToolArtPainter extends CustomPainter {
         for (var k = 0; k <= 12; k++) {
           final y = ruler.top + 5 + k * (ruler.height - 10) / 12;
           final len = k % 4 == 0 ? 8.0 : (k.isEven ? 5.5 : 3.5);
-          canvas.drawRRect(RRect.fromRectAndRadius(Rect.fromLTWH(ruler.left + 2, y - 0.7, len, 1.4), const Radius.circular(0.7)), tick);
+          canvas.drawRRect(
+            RRect.fromRectAndRadius(
+              Rect.fromLTWH(ruler.left + 2, y - 0.7, len, 1.4),
+              const Radius.circular(0.7),
+            ),
+            tick,
+          );
         }
         final bx = w - 21.0, by = h - 18.0;
         final iron = _hue(0);
         canvas.drawPath(
-            Path()
-              ..moveTo(bx - 9.5, by - 1)
-              ..cubicTo(bx - 12, by - 26, bx + 12, by - 26, bx + 9.5, by - 1),
-            Paint()
-              ..style = PaintingStyle.stroke
-              ..strokeWidth = 4.6
-              ..strokeCap = StrokeCap.round
-              ..color = _ink(iron).withValues(alpha: 0.9));
+          Path()
+            ..moveTo(bx - 9.5, by - 1)
+            ..cubicTo(bx - 12, by - 26, bx + 12, by - 26, bx + 9.5, by - 1),
+          Paint()
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = 4.6
+            ..strokeCap = StrokeCap.round
+            ..color = _ink(iron).withValues(alpha: 0.9),
+        );
         canvas.drawPath(
-            Path()
-              ..moveTo(bx - 9.5, by - 1.5)
-              ..cubicTo(bx - 12, by - 26, bx + 12, by - 26, bx + 9.5, by - 1.5),
-            Paint()
-              ..style = PaintingStyle.stroke
-              ..strokeWidth = 3
-              ..strokeCap = StrokeCap.round
-              ..color = Color.lerp(iron, Colors.black, 0.18)!);
+          Path()
+            ..moveTo(bx - 9.5, by - 1.5)
+            ..cubicTo(bx - 12, by - 26, bx + 12, by - 26, bx + 9.5, by - 1.5),
+          Paint()
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = 3
+            ..strokeCap = StrokeCap.round
+            ..color = Color.lerp(iron, Colors.black, 0.18)!,
+        );
         final bell = Path()
           ..moveTo(bx - 7, by + 13.5)
           ..cubicTo(bx - 17, by + 11, bx - 16.5, by - 9, bx, by - 10)
@@ -372,16 +490,25 @@ class _ToolArtPainter extends CustomPainter {
         _fill(canvas, bell, iron);
         canvas.save();
         canvas.clipPath(bell);
-        canvas.drawPath(bell.shift(const Offset(-2.5, 2)),
-            Paint()
-              ..style = PaintingStyle.stroke
-              ..strokeWidth = 2
-              ..color = Colors.white.withValues(alpha: 0.3));
+        canvas.drawPath(
+          bell.shift(const Offset(-2.5, 2)),
+          Paint()
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = 2
+            ..color = Colors.white.withValues(alpha: 0.3),
+        );
         canvas.restore();
-        canvas.drawOval(Rect.fromCenter(center: Offset(bx - 5, by - 3), width: 6, height: 3.6),
-            Paint()..color = Colors.white.withValues(alpha: 0.42));
-        canvas.drawRRect(RRect.fromRectAndRadius(Rect.fromCenter(center: Offset(bx, by + 4), width: 10, height: 6), const Radius.circular(2)),
-            Paint()..color = _ink(iron).withValues(alpha: 0.28));
+        canvas.drawOval(
+          Rect.fromCenter(center: Offset(bx - 5, by - 3), width: 6, height: 3.6),
+          Paint()..color = Colors.white.withValues(alpha: 0.42),
+        );
+        canvas.drawRRect(
+          RRect.fromRectAndRadius(
+            Rect.fromCenter(center: Offset(bx, by + 4), width: 10, height: 6),
+            const Radius.circular(2),
+          ),
+          Paint()..color = _ink(iron).withValues(alpha: 0.28),
+        );
     }
   }
 

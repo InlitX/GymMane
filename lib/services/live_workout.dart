@@ -73,8 +73,8 @@ class LiveWorkout {
         final load = st.sec != null || st.km != null
             ? fit.loggedSetLabel(st.logged)
             : fit.isRepsOnly(ex.id)
-                ? '${st.reps} ${t.repsCol.toLowerCase()}'
-                : '${st.reps} × ${fit.weightLabel(st.weight)}';
+            ? '${st.reps} ${t.repsCol.toLowerCase()}'
+            : '${st.reps} × ${fit.weightLabel(st.weight)}';
         detail = '${t.liveSet(pending + 1, ex.sets.length)} · $load';
       }
     }
@@ -94,24 +94,33 @@ class LiveWorkout {
     final finished = [for (final e in s.exercises) e.sets.isNotEmpty && e.sets.every((st) => st.done)];
     final flashing = _flashAt != null && DateTime.now().difference(_flashAt!) < const Duration(seconds: 2);
     List<(String, String)> actionsFor(bool resting) => [
-          if (paused)
-            ('pause', '▶  ${t.liveResume}')
-          else ...[
-            if (resting) ...[
-              ('add', '+15 s'),
-              ('skip', '${t.liveSkipRest}  ›'),
-            ] else if (pendingIdx >= 0)
-              ('done', '✓  ${t.liveDoneSet}')
-            else if (nextEx != null)
-              ('next', '${t.liveNext}  ›'),
-            ('pause', '❚❚  ${t.livePause}'),
-          ],
-        ];
+      if (paused)
+        ('pause', '▶  ${t.liveResume}')
+      else ...[
+        if (resting) ...[
+          ('add', '+15 s'),
+          ('skip', '${t.liveSkipRest}  ›'),
+        ] else if (pendingIdx >= 0)
+          ('done', '✓  ${t.liveDoneSet}')
+        else if (nextEx != null)
+          ('next', '${t.liveNext}  ›'),
+        ('pause', '❚❚  ${t.livePause}'),
+      ],
+    ];
     final actions = actionsFor(resting);
 
     final key = [
-      name, detail, index, total, resting ? restEnd.millisecondsSinceEpoch : 0, paused, position,
-      actions.length, finished.join(), _flashes, paused ? fit.sessionElapsed : 0,
+      name,
+      detail,
+      index,
+      total,
+      resting ? restEnd.millisecondsSinceEpoch : 0,
+      paused,
+      position,
+      actions.length,
+      finished.join(),
+      _flashes,
+      paused ? fit.sessionElapsed : 0,
     ].join('|');
     if (key == _lastKey) return;
     _lastKey = key;

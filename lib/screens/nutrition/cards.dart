@@ -13,38 +13,65 @@ class _HeroCard extends StatelessWidget {
     final budget = fit.kcalBudgetOn(day);
     final left = fit.energyOf(budget) - fit.energyOf(total.kcal);
     Widget side(IconData icon, Color color, String value, String label) => Expanded(
-          child: Column(children: [
-            Icon(icon, size: 16, color: color),
-            const SizedBox(height: 6),
-            FittedBox(
-              fit: BoxFit.scaleDown,
-              child: RollingText(value, style: AppTheme.f(22, weight: FontWeight.w800, color: gc.text, height: 1.2)),
+      child: Column(
+        children: [
+          Icon(icon, size: 16, color: color),
+          const SizedBox(height: 6),
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            child: RollingText(
+              value,
+              style: AppTheme.f(22, weight: FontWeight.w800, color: gc.text, height: 1.2),
             ),
-            const SizedBox(height: 4),
-            Text(label, maxLines: 1, style: AppTheme.f(12, weight: FontWeight.w600, color: gc.textSecondary)),
-          ]),
-        );
+          ),
+          const SizedBox(height: 4),
+          Text(
+            label,
+            maxLines: 1,
+            style: AppTheme.f(12, weight: FontWeight.w600, color: gc.textSecondary),
+          ),
+        ],
+      ),
+    );
     Widget macro(IconData icon, String label, double value, int goal, Color color) => Expanded(
-          child: Column(children: [
-            Text.rich(TextSpan(children: [
-              TextSpan(text: '${value.round()}', style: AppTheme.f(15, weight: FontWeight.w800, color: gc.text)),
-              TextSpan(text: '/${goal}g', style: AppTheme.f(12, weight: FontWeight.w600, color: gc.textSecondary)),
-            ])),
-            const SizedBox(height: 7),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: MacroTrack(pct: goal <= 0 ? 0 : value / goal, color: color),
+      child: Column(
+        children: [
+          Text.rich(
+            TextSpan(
+              children: [
+                TextSpan(
+                  text: '${value.round()}',
+                  style: AppTheme.f(15, weight: FontWeight.w800, color: gc.text),
+                ),
+                TextSpan(
+                  text: '/${goal}g',
+                  style: AppTheme.f(12, weight: FontWeight.w600, color: gc.textSecondary),
+                ),
+              ],
             ),
-            const SizedBox(height: 7),
-            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+          ),
+          const SizedBox(height: 7),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            child: MacroTrack(pct: goal <= 0 ? 0 : value / goal, color: color),
+          ),
+          const SizedBox(height: 7),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
               Icon(icon, size: 13, color: color),
               const SizedBox(width: 4),
               Flexible(
-                child: FitText(sentenceCase(label), style: AppTheme.f(13.5, weight: FontWeight.w800, color: gc.text)),
+                child: FitText(
+                  sentenceCase(label),
+                  style: AppTheme.f(13.5, weight: FontWeight.w800, color: gc.text),
+                ),
               ),
-            ]),
-          ]),
-        );
+            ],
+          ),
+        ],
+      ),
+    );
     final training = fit.isTrainingDay(day);
     final macros = [
       if (fit.trackerOn(Tracker.carbs))
@@ -56,51 +83,77 @@ class _HeroCard extends StatelessWidget {
     return SoftCard(
       radius: 26,
       padding: const EdgeInsets.fromLTRB(10, 16, 10, 18),
-      child: Column(children: [
-        if (fit.restGoals != null) ...[
-          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            Icon(training ? PhosphorIconsFill.barbell : PhosphorIconsFill.bed,
-                size: 13, color: training ? gc.accent : gc.sage),
-            const SizedBox(width: 6),
-            Text(training ? t.trainingDay : t.restDay,
-                style: AppTheme.f(12, weight: FontWeight.w700, color: training ? gc.accent : gc.sage)),
-          ]),
-          const SizedBox(height: 10),
-        ],
-        if (fit.trackerOn(Tracker.calories))
-          Row(children: [
-            side(PhosphorIconsFill.forkKnife, gc.accent, '${fit.energyOf(total.kcal)}', t.kcalEaten),
-            CalorieRing(
-              pct: budget <= 0 ? 0 : total.kcal / budget,
-              size: 148,
-              stroke: 12,
-              child: Column(mainAxisSize: MainAxisSize.min, children: [
-                Text(left >= 0 ? t.kcalRemaining : t.kcalOver,
-                    style: AppTheme.f(12, weight: FontWeight.w600, color: left >= 0 ? gc.textSecondary : gc.danger)),
-                FittedBox(
-                  fit: BoxFit.scaleDown,
-                  child: RollingText('${left.abs()}', style: AppTheme.f(34, weight: FontWeight.w800, color: gc.text, height: 1.15)),
+      child: Column(
+        children: [
+          if (fit.restGoals != null) ...[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  training ? PhosphorIconsFill.barbell : PhosphorIconsFill.bed,
+                  size: 13,
+                  color: training ? gc.accent : gc.sage,
                 ),
-                Text(t.ofGoal(fit.energyOf(budget), fit.energyUnit),
-                    style: AppTheme.f(11.5, weight: FontWeight.w600, color: gc.textSecondary)),
-              ]),
+                const SizedBox(width: 6),
+                Text(
+                  training ? t.trainingDay : t.restDay,
+                  style: AppTheme.f(12, weight: FontWeight.w700, color: training ? gc.accent : gc.sage),
+                ),
+              ],
             ),
-            side(PhosphorIconsFill.fire, gc.warn, '${fit.energyOf(burned)}', t.kcalBurned),
-          ]),
-        if (macros.isNotEmpty) ...[
-          if (fit.trackerOn(Tracker.calories)) const SizedBox(height: 20),
-          Row(children: macros),
+            const SizedBox(height: 10),
+          ],
+          if (fit.trackerOn(Tracker.calories))
+            Row(
+              children: [
+                side(PhosphorIconsFill.forkKnife, gc.accent, '${fit.energyOf(total.kcal)}', t.kcalEaten),
+                CalorieRing(
+                  pct: budget <= 0 ? 0 : total.kcal / budget,
+                  size: 148,
+                  stroke: 12,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        left >= 0 ? t.kcalRemaining : t.kcalOver,
+                        style: AppTheme.f(
+                          12,
+                          weight: FontWeight.w600,
+                          color: left >= 0 ? gc.textSecondary : gc.danger,
+                        ),
+                      ),
+                      FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: RollingText(
+                          '${left.abs()}',
+                          style: AppTheme.f(34, weight: FontWeight.w800, color: gc.text, height: 1.15),
+                        ),
+                      ),
+                      Text(
+                        t.ofGoal(fit.energyOf(budget), fit.energyUnit),
+                        style: AppTheme.f(11.5, weight: FontWeight.w600, color: gc.textSecondary),
+                      ),
+                    ],
+                  ),
+                ),
+                side(PhosphorIconsFill.fire, gc.warn, '${fit.energyOf(burned)}', t.kcalBurned),
+              ],
+            ),
+          if (macros.isNotEmpty) ...[
+            if (fit.trackerOn(Tracker.calories)) const SizedBox(height: 20),
+            Row(children: macros),
+          ],
         ],
-      ]),
+      ),
     );
   }
 }
 
 String _extrasLine(Macros m) => [
-      if (m.fiber > 0) '${t.fiberLabel} ${_g(m.fiber)} g',
-      if (m.sugar > 0) '${t.sugarLabel} ${_g(m.sugar)} g',
-      if (m.sodium > 0) '${t.sodiumLabel} ${m.sodium.round()} mg',
-    ].join('  ·  ');
+  if (m.fiber > 0) '${t.fiberLabel} ${_g(m.fiber)} g',
+  if (m.sugar > 0) '${t.sugarLabel} ${_g(m.sugar)} g',
+  if (m.sodium > 0) '${t.sodiumLabel} ${m.sodium.round()} mg',
+].join('  ·  ');
 
 class _RingCard extends StatelessWidget {
   const _RingCard({
@@ -125,33 +178,54 @@ class _RingCard extends StatelessWidget {
     return SoftCard(
       radius: 22,
       padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
-      child: Row(children: [
-        CalorieRing(
-          pct: pct,
-          size: 56,
-          stroke: 6,
-          color: color,
-          child: Icon(icon, size: 17, color: color),
-        ),
-        const SizedBox(width: 12),
-        Expanded(
-          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            FitText(label.toUpperCase(),
-                style: AppTheme.f(9.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 0.8)),
-            const SizedBox(height: 4),
-            FittedBox(
-              fit: BoxFit.scaleDown,
-              alignment: Alignment.centerLeft,
-              child: Text.rich(TextSpan(children: [
-                TextSpan(text: value, style: AppTheme.f(21, weight: FontWeight.w800, color: gc.text, height: 1.05)),
-                TextSpan(text: ' g', style: AppTheme.f(12, weight: FontWeight.w700, color: gc.textSecondary)),
-              ])),
+      child: Row(
+        children: [
+          CalorieRing(
+            pct: pct,
+            size: 56,
+            stroke: 6,
+            color: color,
+            child: Icon(icon, size: 17, color: color),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                FitText(
+                  label.toUpperCase(),
+                  style: AppTheme.f(9.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 0.8),
+                ),
+                const SizedBox(height: 4),
+                FittedBox(
+                  fit: BoxFit.scaleDown,
+                  alignment: Alignment.centerLeft,
+                  child: Text.rich(
+                    TextSpan(
+                      children: [
+                        TextSpan(
+                          text: value,
+                          style: AppTheme.f(21, weight: FontWeight.w800, color: gc.text, height: 1.05),
+                        ),
+                        TextSpan(
+                          text: ' g',
+                          style: AppTheme.f(12, weight: FontWeight.w700, color: gc.textSecondary),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  sub,
+                  maxLines: 1,
+                  style: AppTheme.f(11, weight: FontWeight.w600, color: gc.textSecondary),
+                ),
+              ],
             ),
-            const SizedBox(height: 2),
-            Text(sub, maxLines: 1, style: AppTheme.f(11, weight: FontWeight.w600, color: gc.textSecondary)),
-          ]),
-        ),
-      ]),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -205,38 +279,43 @@ class _DetailGrid extends StatelessWidget {
     ];
     if (cards.isEmpty) return const SizedBox.shrink();
     const perRow = 2;
-    return Column(children: [
-      for (var i = 0; i < cards.length; i += perRow) ...[
-        if (i > 0) const SizedBox(height: 10),
-        IntrinsicHeight(
-          child: Row(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-            for (var k = i; k < math.min(i + perRow, cards.length); k++) ...[
-              if (k > i) const SizedBox(width: 10),
-              Expanded(child: cards[k]),
-            ],
-            if (cards.length > perRow && cards.length - i < perRow)
-              for (var k = 0; k < perRow - (cards.length - i); k++) ...[
-                const SizedBox(width: 10),
-                const Expanded(child: SizedBox()),
+    return Column(
+      children: [
+        for (var i = 0; i < cards.length; i += perRow) ...[
+          if (i > 0) const SizedBox(height: 10),
+          IntrinsicHeight(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                for (var k = i; k < math.min(i + perRow, cards.length); k++) ...[
+                  if (k > i) const SizedBox(width: 10),
+                  Expanded(child: cards[k]),
+                ],
+                if (cards.length > perRow && cards.length - i < perRow)
+                  for (var k = 0; k < perRow - (cards.length - i); k++) ...[
+                    const SizedBox(width: 10),
+                    const Expanded(child: SizedBox()),
+                  ],
               ],
-          ]),
-        ),
+            ),
+          ),
+        ],
       ],
-    ]);
+    );
   }
 }
 
 String aminoName(Amino a) => switch (a) {
-      Amino.his => t.aminoHis,
-      Amino.ile => t.aminoIle,
-      Amino.leu => t.aminoLeu,
-      Amino.lys => t.aminoLys,
-      Amino.saa => t.aminoSaa,
-      Amino.aaa => t.aminoAaa,
-      Amino.thr => t.aminoThr,
-      Amino.trp => t.aminoTrp,
-      Amino.val => t.aminoVal,
-    };
+  Amino.his => t.aminoHis,
+  Amino.ile => t.aminoIle,
+  Amino.leu => t.aminoLeu,
+  Amino.lys => t.aminoLys,
+  Amino.saa => t.aminoSaa,
+  Amino.aaa => t.aminoAaa,
+  Amino.thr => t.aminoThr,
+  Amino.trp => t.aminoTrp,
+  Amino.val => t.aminoVal,
+};
 
 const _aminoShort = ['His', 'Ile', 'Leu', 'Lys', 'Met', 'Phe', 'Thr', 'Trp', 'Val'];
 
@@ -255,109 +334,151 @@ class _QualityCard extends StatelessWidget {
     final color = scores.isEmpty
         ? gc.textTertiary
         : q >= 1
-            ? gc.sage
-            : q >= 0.8
-                ? gc.warn
-                : gc.danger;
+        ? gc.sage
+        : q >= 0.8
+        ? gc.warn
+        : gc.danger;
     final verdict = scores.isEmpty
         ? t.qualityNoData
         : q >= 1
-            ? t.qualityComplete
-            : q >= 0.8
-                ? t.qualityAlmost
-                : t.qualityIncomplete;
+        ? t.qualityComplete
+        : q >= 0.8
+        ? t.qualityAlmost
+        : t.qualityIncomplete;
     final coverage = total.protein <= 0 ? 1.0 : total.aminoProtein / total.protein;
-    Widget source(IconData icon, Color c, String label, double grams) => Row(children: [
-          Container(
-            width: 24,
-            height: 24,
-            decoration: BoxDecoration(color: c.withValues(alpha: 0.16), shape: BoxShape.circle),
-            child: Icon(icon, size: 12, color: c),
+    Widget source(IconData icon, Color c, String label, double grams) => Row(
+      children: [
+        Container(
+          width: 24,
+          height: 24,
+          decoration: BoxDecoration(color: c.withValues(alpha: 0.16), shape: BoxShape.circle),
+          child: Icon(icon, size: 12, color: c),
+        ),
+        const SizedBox(width: 8),
+        Expanded(
+          child: Text(
+            label,
+            style: AppTheme.f(12, weight: FontWeight.w600, color: gc.textSecondary),
           ),
-          const SizedBox(width: 8),
-          Expanded(
-            child: Text(label, style: AppTheme.f(12, weight: FontWeight.w600, color: gc.textSecondary)),
-          ),
-          Text('${_g(grams)} g', style: AppTheme.f(13, weight: FontWeight.w800, color: gc.text)),
-        ]);
+        ),
+        Text(
+          '${_g(grams)} g',
+          style: AppTheme.f(13, weight: FontWeight.w800, color: gc.text),
+        ),
+      ],
+    );
     return SoftCard(
       radius: 24,
       padding: const EdgeInsets.fromLTRB(16, 14, 16, 16),
-      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Row(children: [
-          Icon(PhosphorIconsFill.dna, size: 14, color: color),
-          const SizedBox(width: 7),
-          Expanded(child: _kicker(gc, t.proteinQuality.toUpperCase())),
-        ]),
-        const SizedBox(height: 10),
-        Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
-          SizedBox(
-            width: 168,
-            height: 168,
-            child: scores.isEmpty
-                ? Center(child: Icon(PhosphorIconsRegular.dna, size: 48, color: gc.textTertiary.withValues(alpha: 0.4)))
-                : RepaintBoundary(
-                    child: TweenAnimationBuilder<double>(
-                      key: ValueKey(Object.hashAll(scores)),
-                      tween: Tween(begin: 0, end: 1),
-                      duration: const Duration(milliseconds: 900),
-                      curve: Curves.easeOutCubic,
-                      builder: (context, p, _) => CustomPaint(
-                        painter: _AminoRadar(
-                          scores: scores,
-                          limiting: limiting == null ? -1 : Amino.values.indexOf(limiting),
-                          progress: p,
-                          gc: gc,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(PhosphorIconsFill.dna, size: 14, color: color),
+              const SizedBox(width: 7),
+              Expanded(child: _kicker(gc, t.proteinQuality.toUpperCase())),
+            ],
+          ),
+          const SizedBox(height: 10),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(
+                width: 168,
+                height: 168,
+                child: scores.isEmpty
+                    ? Center(
+                        child: Icon(
+                          PhosphorIconsRegular.dna,
+                          size: 48,
+                          color: gc.textTertiary.withValues(alpha: 0.4),
+                        ),
+                      )
+                    : RepaintBoundary(
+                        child: TweenAnimationBuilder<double>(
+                          key: ValueKey(Object.hashAll(scores)),
+                          tween: Tween(begin: 0, end: 1),
+                          duration: const Duration(milliseconds: 900),
+                          curve: Curves.easeOutCubic,
+                          builder: (context, p, _) => CustomPaint(
+                            painter: _AminoRadar(
+                              scores: scores,
+                              limiting: limiting == null ? -1 : Amino.values.indexOf(limiting),
+                              progress: p,
+                              gc: gc,
+                            ),
+                          ),
                         ),
                       ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text.rich(
+                      TextSpan(
+                        children: [
+                          TextSpan(
+                            text: scores.isEmpty ? '—' : '${(q * 100).round()}',
+                            style: AppTheme.f(40, weight: FontWeight.w800, color: gc.text, height: 1),
+                          ),
+                          if (scores.isNotEmpty)
+                            TextSpan(
+                              text: ' /100',
+                              style: AppTheme.f(13, weight: FontWeight.w700, color: gc.textTertiary),
+                            ),
+                        ],
+                      ),
                     ),
-                  ),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text.rich(TextSpan(children: [
-                TextSpan(
-                  text: scores.isEmpty ? '—' : '${(q * 100).round()}',
-                  style: AppTheme.f(40, weight: FontWeight.w800, color: gc.text, height: 1),
+                    const SizedBox(height: 8),
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                      decoration: BoxDecoration(
+                        color: color.withValues(alpha: 0.16),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Text(
+                        verdict,
+                        style: AppTheme.f(12, weight: FontWeight.w800, color: color),
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      scores.isEmpty
+                          ? t.qualityNoDataHint
+                          : limiting == null
+                          ? t.qualityAllCovered
+                          : t.qualityLimiting(aminoName(limiting)),
+                      style: AppTheme.s(11.5, color: gc.textSecondary, height: 1.35),
+                    ),
+                  ],
                 ),
-                if (scores.isNotEmpty)
-                  TextSpan(text: ' /100', style: AppTheme.f(13, weight: FontWeight.w700, color: gc.textTertiary)),
-              ])),
-              const SizedBox(height: 8),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                decoration: BoxDecoration(color: color.withValues(alpha: 0.16), borderRadius: BorderRadius.circular(20)),
-                child: Text(verdict, style: AppTheme.f(12, weight: FontWeight.w800, color: color)),
               ),
-              const SizedBox(height: 8),
-              Text(
-                scores.isEmpty
-                    ? t.qualityNoDataHint
-                    : limiting == null
-                        ? t.qualityAllCovered
-                        : t.qualityLimiting(aminoName(limiting)),
-                style: AppTheme.s(11.5, color: gc.textSecondary, height: 1.35),
-              ),
-            ]),
+            ],
           ),
-        ]),
-        if (total.protein > 0) ...[
-          const SizedBox(height: 12),
-          _SplitBar(parts: [(total.animal, gc.warn), (total.plant, gc.sage)], height: 6),
-          const SizedBox(height: 10),
-          Row(children: [
-            Expanded(child: source(PhosphorIconsFill.cow, gc.warn, t.proteinAnimalShort, total.animal)),
-            const SizedBox(width: 16),
-            Expanded(child: source(PhosphorIconsFill.leaf, gc.sage, t.proteinPlantShort, total.plant)),
-          ]),
+          if (total.protein > 0) ...[
+            const SizedBox(height: 12),
+            _SplitBar(parts: [(total.animal, gc.warn), (total.plant, gc.sage)], height: 6),
+            const SizedBox(height: 10),
+            Row(
+              children: [
+                Expanded(child: source(PhosphorIconsFill.cow, gc.warn, t.proteinAnimalShort, total.animal)),
+                const SizedBox(width: 16),
+                Expanded(child: source(PhosphorIconsFill.leaf, gc.sage, t.proteinPlantShort, total.plant)),
+              ],
+            ),
+          ],
+          if (scores.isNotEmpty && coverage < 0.9) ...[
+            const SizedBox(height: 10),
+            Text(
+              t.qualityCoverage((coverage * 100).round()),
+              style: AppTheme.s(11, color: gc.textTertiary, height: 1.35),
+            ),
+          ],
         ],
-        if (scores.isNotEmpty && coverage < 0.9) ...[
-          const SizedBox(height: 10),
-          Text(t.qualityCoverage((coverage * 100).round()),
-              style: AppTheme.s(11, color: gc.textTertiary, height: 1.35)),
-        ],
-      ]),
+      ),
     );
   }
 }
@@ -445,16 +566,28 @@ class _AminoRadar extends CustomPainter {
           ..color = low ? gc.danger : tone,
       );
       final label = TextPainter(
-        text: TextSpan(children: [
-          TextSpan(
-            text: '${_aminoShort[i]}\n',
-            style: AppTheme.f(9, weight: FontWeight.w700, color: low ? gc.danger : gc.textTertiary, height: 1.1),
-          ),
-          TextSpan(
-            text: '${(scores[i] * 100).round()}',
-            style: AppTheme.f(9.5, weight: FontWeight.w800, color: low ? gc.danger : gc.textSecondary, height: 1.1),
-          ),
-        ]),
+        text: TextSpan(
+          children: [
+            TextSpan(
+              text: '${_aminoShort[i]}\n',
+              style: AppTheme.f(
+                9,
+                weight: FontWeight.w700,
+                color: low ? gc.danger : gc.textTertiary,
+                height: 1.1,
+              ),
+            ),
+            TextSpan(
+              text: '${(scores[i] * 100).round()}',
+              style: AppTheme.f(
+                9.5,
+                weight: FontWeight.w800,
+                color: low ? gc.danger : gc.textSecondary,
+                height: 1.1,
+              ),
+            ),
+          ],
+        ),
         textAlign: TextAlign.center,
         textDirection: TextDirection.ltr,
       )..layout();
@@ -483,10 +616,17 @@ class _SplitBar extends StatelessWidget {
         height: height,
         child: sum <= 0
             ? ColoredBox(color: gc.bgRaised2)
-            : Row(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-                for (final p in parts)
-                  if (p.$1 > 0) Expanded(flex: math.max(1, (p.$1 / sum * 1000).round()), child: ColoredBox(color: p.$2)),
-              ]),
+            : Row(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  for (final p in parts)
+                    if (p.$1 > 0)
+                      Expanded(
+                        flex: math.max(1, (p.$1 / sum * 1000).round()),
+                        child: ColoredBox(color: p.$2),
+                      ),
+                ],
+              ),
       ),
     );
   }
@@ -505,45 +645,71 @@ class _FatTypesCard extends StatelessWidget {
     final limit = fit.goalsFor(day).satLimit;
     final over = total.sat > limit;
     Widget legend(Color c, String name, double g) => Expanded(
-          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Row(children: [
-              Container(width: 8, height: 8, decoration: BoxDecoration(color: c, shape: BoxShape.circle)),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                width: 8,
+                height: 8,
+                decoration: BoxDecoration(color: c, shape: BoxShape.circle),
+              ),
               const SizedBox(width: 6),
               Flexible(
-                child: Text(name,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: AppTheme.f(11.5, weight: FontWeight.w700, color: gc.textSecondary)),
+                child: Text(
+                  name,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: AppTheme.f(11.5, weight: FontWeight.w700, color: gc.textSecondary),
+                ),
               ),
-            ]),
-            const SizedBox(height: 3),
-            Text('${_g(g)} g', style: AppTheme.f(16, weight: FontWeight.w800, color: gc.text)),
-          ]),
-        );
+            ],
+          ),
+          const SizedBox(height: 3),
+          Text(
+            '${_g(g)} g',
+            style: AppTheme.f(16, weight: FontWeight.w800, color: gc.text),
+          ),
+        ],
+      ),
+    );
     return SoftCard(
       radius: 24,
       padding: const EdgeInsets.fromLTRB(16, 14, 16, 16),
-      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Row(children: [
-          Icon(PhosphorIconsFill.drop, size: 14, color: gc.fat),
-          const SizedBox(width: 7),
-          Expanded(child: _kicker(gc, t.fatTypes.toUpperCase())),
-          Text('${_g(total.fat)} g', style: AppTheme.f(13, weight: FontWeight.w800, color: gc.text)),
-        ]),
-        const SizedBox(height: 14),
-        _SplitBar(parts: [(total.sat, gc.warn), (total.mono, gc.sage), (total.poly, gc.info)]),
-        const SizedBox(height: 14),
-        Row(children: [
-          legend(gc.warn, t.fatSaturated, total.sat),
-          legend(gc.sage, t.fatMono, total.mono),
-          legend(gc.info, t.fatPoly, total.poly),
-        ]),
-        if (of == null) ...[
-          const SizedBox(height: 12),
-          Text(t.satLimitLine(_g(total.sat), limit),
-              style: AppTheme.f(11.5, weight: FontWeight.w600, color: over ? gc.danger : gc.textTertiary)),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(PhosphorIconsFill.drop, size: 14, color: gc.fat),
+              const SizedBox(width: 7),
+              Expanded(child: _kicker(gc, t.fatTypes.toUpperCase())),
+              Text(
+                '${_g(total.fat)} g',
+                style: AppTheme.f(13, weight: FontWeight.w800, color: gc.text),
+              ),
+            ],
+          ),
+          const SizedBox(height: 14),
+          _SplitBar(parts: [(total.sat, gc.warn), (total.mono, gc.sage), (total.poly, gc.info)]),
+          const SizedBox(height: 14),
+          Row(
+            children: [
+              legend(gc.warn, t.fatSaturated, total.sat),
+              legend(gc.sage, t.fatMono, total.mono),
+              legend(gc.info, t.fatPoly, total.poly),
+            ],
+          ),
+          if (of == null) ...[
+            const SizedBox(height: 12),
+            Text(
+              t.satLimitLine(_g(total.sat), limit),
+              style: AppTheme.f(11.5, weight: FontWeight.w600, color: over ? gc.danger : gc.textTertiary),
+            ),
+          ],
         ],
-      ]),
+      ),
     );
   }
 }
@@ -592,40 +758,57 @@ class _Tile extends StatelessWidget {
               ),
       ),
       child: Padding(
-            padding: const EdgeInsets.fromLTRB(16, 12, 10, 16),
-            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Row(children: [
+        padding: const EdgeInsets.fromLTRB(16, 12, 10, 16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
                 Expanded(child: _kicker(gc, title)),
                 action,
-              ]),
-              const SizedBox(height: 6),
-              Center(child: vessel),
-              const Spacer(),
-              const SizedBox(height: 12),
-              Row(crossAxisAlignment: CrossAxisAlignment.baseline, textBaseline: TextBaseline.alphabetic, children: [
-                RollingText(value, style: AppTheme.f(26, weight: FontWeight.w800, color: gc.text, height: 1.2)),
+              ],
+            ),
+            const SizedBox(height: 6),
+            Center(child: vessel),
+            const Spacer(),
+            const SizedBox(height: 12),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.baseline,
+              textBaseline: TextBaseline.alphabetic,
+              children: [
+                RollingText(
+                  value,
+                  style: AppTheme.f(26, weight: FontWeight.w800, color: gc.text, height: 1.2),
+                ),
                 const SizedBox(width: 4),
                 Flexible(
-                  child: Text(unit,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: AppTheme.f(12, weight: FontWeight.w600, color: gc.textSecondary)),
+                  child: Text(
+                    unit,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: AppTheme.f(12, weight: FontWeight.w600, color: gc.textSecondary),
+                  ),
                 ),
-              ]),
-              const SizedBox(height: 4),
-              FitText(hint, style: AppTheme.f(11.5, weight: FontWeight.w700, color: hintColor)),
-            ]),
-          ),
+              ],
+            ),
+            const SizedBox(height: 4),
+            FitText(
+              hint,
+              style: AppTheme.f(11.5, weight: FontWeight.w700, color: hintColor),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
 
 Widget _roundIcon(IconData icon, Color color, VoidCallback onTap, {String? label}) => RoundAction(
-      label: label,
-      size: 34,
-      onTap: onTap,
-      child: Icon(icon, size: 15, color: color),
-    );
+  label: label,
+  size: 34,
+  onTap: onTap,
+  child: Icon(icon, size: 15, color: color),
+);
 
 class _WaterTile extends StatelessWidget {
   const _WaterTile();
@@ -640,8 +823,12 @@ class _WaterTile extends StatelessWidget {
     return _Tile(
       title: t.waterLabel,
       glow: gc.water,
-      action: _roundIcon(PhosphorIconsBold.dotsThree, gc.textSecondary, () => showWaterSheet(context),
-          label: t.waterOptions),
+      action: _roundIcon(
+        PhosphorIconsBold.dotsThree,
+        gc.textSecondary,
+        () => showWaterSheet(context),
+        label: t.waterOptions,
+      ),
       vessel: Pressable(
         onTap: () {
           HapticFeedback.lightImpact();
@@ -666,65 +853,88 @@ class _WaterTile extends StatelessWidget {
       hintColor: done ? gc.sage : gc.water,
     );
   }
-
 }
 
 Future<void> _customWater(BuildContext context) async {
   HapticFeedback.mediumImpact();
-  final v = await askNumber(context, title: '${t.waterCustom} (${fit.isLb ? 'fl oz' : 'ml'})', initial: '', decimal: true);
+  final v = await askNumber(
+    context,
+    title: '${t.waterCustom} (${fit.isLb ? 'fl oz' : 'ml'})',
+    initial: '',
+    decimal: true,
+  );
   if (v == null || v <= 0) return;
   fit.addWater((fit.isLb ? v * 29.5735 : v).round());
 }
 
 Future<void> showWaterSheet(BuildContext context) => _sheet<void>(context, (context) {
-      final gc = context.gc;
-      return AnimatedBuilder(
-        animation: fit,
-        builder: (context, _) {
-          final day = fit.nutritionDay;
-          final g = fit.activeGoals;
-          final sips = fit.waterSipsOn(day).reversed.toList();
-          final big = fit.isLb ? 473 : 500;
-          String time(DateTime d) => '${d.hour.toString().padLeft(2, '0')}:${d.minute.toString().padLeft(2, '0')}';
-          return _sheetFrame(context, [
-            SheetTitle(sentenceCase(t.waterLabel), subtitle: '${fit.waterLabel(fit.waterOn(day))} / ${fit.waterLabel(g.waterMl)}'),
-            const SizedBox(height: 16),
-            Wrap(alignment: WrapAlignment.center, spacing: 8, runSpacing: 8, children: [
-              for (final ml in {g.glassMl, big})
-                _QuickChip(
-                  label: '+ ${fit.waterLabel(ml)}',
-                  selected: false,
-                  onTap: () {
-                    HapticFeedback.lightImpact();
-                    fit.addWater(ml);
-                  },
-                ),
-              _QuickChip(label: t.waterCustom, selected: false, onTap: () => _customWater(context)),
-            ]),
-            const SizedBox(height: 18),
-            _kicker(gc, (fit.nutritionOnToday ? t.nutritionToday : t.longDate(day)).toUpperCase()),
-            const SizedBox(height: 8),
-            if (sips.isEmpty)
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8),
-                child: Text(t.waterNone, style: AppTheme.s(13, color: gc.textTertiary)),
-              )
-            else
-              ConstrainedBox(
-                constraints: const BoxConstraints(maxHeight: 220),
-                child: SoftCard(
-                  radius: 20,
-                  padding: const EdgeInsets.symmetric(vertical: 4),
-                  child: ListView(shrinkWrap: true, padding: EdgeInsets.zero, children: [
-                    for (final w in sips)
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(16, 6, 6, 6),
-                        child: Row(children: [
+  final gc = context.gc;
+  return AnimatedBuilder(
+    animation: fit,
+    builder: (context, _) {
+      final day = fit.nutritionDay;
+      final g = fit.activeGoals;
+      final sips = fit.waterSipsOn(day).reversed.toList();
+      final big = fit.isLb ? 473 : 500;
+      String time(DateTime d) =>
+          '${d.hour.toString().padLeft(2, '0')}:${d.minute.toString().padLeft(2, '0')}';
+      return _sheetFrame(context, [
+        SheetTitle(
+          sentenceCase(t.waterLabel),
+          subtitle: '${fit.waterLabel(fit.waterOn(day))} / ${fit.waterLabel(g.waterMl)}',
+        ),
+        const SizedBox(height: 16),
+        Wrap(
+          alignment: WrapAlignment.center,
+          spacing: 8,
+          runSpacing: 8,
+          children: [
+            for (final ml in {g.glassMl, big})
+              _QuickChip(
+                label: '+ ${fit.waterLabel(ml)}',
+                selected: false,
+                onTap: () {
+                  HapticFeedback.lightImpact();
+                  fit.addWater(ml);
+                },
+              ),
+            _QuickChip(label: t.waterCustom, selected: false, onTap: () => _customWater(context)),
+          ],
+        ),
+        const SizedBox(height: 18),
+        _kicker(gc, (fit.nutritionOnToday ? t.nutritionToday : t.longDate(day)).toUpperCase()),
+        const SizedBox(height: 8),
+        if (sips.isEmpty)
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8),
+            child: Text(t.waterNone, style: AppTheme.s(13, color: gc.textTertiary)),
+          )
+        else
+          ConstrainedBox(
+            constraints: const BoxConstraints(maxHeight: 220),
+            child: SoftCard(
+              radius: 20,
+              padding: const EdgeInsets.symmetric(vertical: 4),
+              child: ListView(
+                shrinkWrap: true,
+                padding: EdgeInsets.zero,
+                children: [
+                  for (final w in sips)
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(16, 6, 6, 6),
+                      child: Row(
+                        children: [
                           Icon(PhosphorIconsFill.drop, size: 15, color: gc.water),
                           const SizedBox(width: 10),
-                          Text(fit.waterLabel(w.ml), style: AppTheme.f(14, weight: FontWeight.w700, color: gc.text)),
+                          Text(
+                            fit.waterLabel(w.ml),
+                            style: AppTheme.f(14, weight: FontWeight.w700, color: gc.text),
+                          ),
                           const Spacer(),
-                          Text(time(w.at), style: AppTheme.f(12, weight: FontWeight.w600, color: gc.textTertiary)),
+                          Text(
+                            time(w.at),
+                            style: AppTheme.f(12, weight: FontWeight.w600, color: gc.textTertiary),
+                          ),
                           const SizedBox(width: 4),
                           IconButton(
                             tooltip: t.delete,
@@ -735,17 +945,19 @@ Future<void> showWaterSheet(BuildContext context) => _sheet<void>(context, (cont
                             },
                             icon: Icon(PhosphorIconsBold.x, size: 14, color: gc.textSecondary),
                           ),
-                        ]),
+                        ],
                       ),
-                  ]),
-                ),
+                    ),
+                ],
               ),
-            const SizedBox(height: 16),
-            ToolGroup(_waterRows(context)),
-          ]);
-        },
-      );
-    });
+            ),
+          ),
+        const SizedBox(height: 16),
+        ToolGroup(_waterRows(context)),
+      ]);
+    },
+  );
+});
 
 class _ShakeTile extends StatelessWidget {
   const _ShakeTile();
@@ -760,8 +972,12 @@ class _ShakeTile extends StatelessWidget {
     return _Tile(
       title: t.macroProtein,
       glow: gc.protein,
-      action: _roundIcon(PhosphorIconsBold.dotsThree, gc.textSecondary, () => showShakePicker(context),
-          label: t.shakePick),
+      action: _roundIcon(
+        PhosphorIconsBold.dotsThree,
+        gc.textSecondary,
+        () => showShakePicker(context),
+        label: t.shakePick,
+      ),
       vessel: Pressable(
         onTap: () {
           if (shake == null) {
@@ -794,80 +1010,90 @@ class _ShakeTile extends StatelessWidget {
 }
 
 Future<void> showShakePicker(BuildContext context) => _sheet<void>(context, (context) {
-      final gc = context.gc;
-      final shakes = fit.shakeFoodItems;
-      final others = [for (final f in fit.foodsByUse) if (!fit.isShakeFood(f.id)) f];
-      return _sheetFrame(context, [
-        SheetTitle(t.shakePick, subtitle: t.shakePickHint),
-        const SizedBox(height: 16),
-        if (shakes.isNotEmpty)
-          OptionGroup([
-            for (final f in shakes)
-              OptionItem(
-                f.name,
-                leading: FoodSticker(photo: f.photo, name: f.name, size: 32, tilt: false),
-                detail: '${_g(f.macros.protein)} g',
-                selected: f.id == fit.shakeFoodId,
-                trailing: Semantics(
-                  button: true,
-                  label: t.shakeUntag,
-                  child: GestureDetector(
-                    behavior: HitTestBehavior.opaque,
-                    onTap: () {
-                      HapticFeedback.selectionClick();
-                      fit.setShakeTag(f.id, false);
-                    },
-                    child: SizedBox(
-                      width: 34,
-                      height: 34,
-                      child: Icon(PhosphorIconsBold.x, size: 14, color: gc.textTertiary),
-                    ),
-                  ),
-                ),
+  final gc = context.gc;
+  final shakes = fit.shakeFoodItems;
+  final others = [
+    for (final f in fit.foodsByUse)
+      if (!fit.isShakeFood(f.id)) f,
+  ];
+  return _sheetFrame(context, [
+    SheetTitle(t.shakePick, subtitle: t.shakePickHint),
+    const SizedBox(height: 16),
+    if (shakes.isNotEmpty)
+      OptionGroup([
+        for (final f in shakes)
+          OptionItem(
+            f.name,
+            leading: FoodSticker(photo: f.photo, name: f.name, size: 32, tilt: false),
+            detail: '${_g(f.macros.protein)} g',
+            selected: f.id == fit.shakeFoodId,
+            trailing: Semantics(
+              button: true,
+              label: t.shakeUntag,
+              child: GestureDetector(
+                behavior: HitTestBehavior.opaque,
                 onTap: () {
-                  fit.setShakeFood(f.id);
-                  Navigator.of(context).pop();
+                  HapticFeedback.selectionClick();
+                  fit.setShakeTag(f.id, false);
                 },
+                child: SizedBox(
+                  width: 34,
+                  height: 34,
+                  child: Icon(PhosphorIconsBold.x, size: 14, color: gc.textTertiary),
+                ),
               ),
-          ])
-        else
-          Container(
-            padding: const EdgeInsets.fromLTRB(14, 14, 16, 14),
-            decoration: BoxDecoration(color: gc.bgRaised2, borderRadius: BorderRadius.circular(18)),
-            child: Row(children: [
-              Image.asset('assets/img/peek-shake.webp', width: 34, height: 40, fit: BoxFit.contain),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Text(t.shakeNone, style: AppTheme.f(13, weight: FontWeight.w600, color: gc.textSecondary, height: 1.35)),
-              ),
-            ]),
-          ),
-        if (others.isNotEmpty) ...[
-          const SizedBox(height: 18),
-          Text(t.shakeMarkLabel,
-              style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.1)),
-          const SizedBox(height: 8),
-          SizedBox(
-            height: 44,
-            child: ListView.separated(
-              scrollDirection: Axis.horizontal,
-              itemCount: others.length,
-              separatorBuilder: (_, _) => const SizedBox(width: 8),
-              itemBuilder: (_, i) => _ShakeChip(others[i]),
             ),
+            onTap: () {
+              fit.setShakeFood(f.id);
+              Navigator.of(context).pop();
+            },
           ),
-        ],
-        const SizedBox(height: 16),
-        GhostButton(
-          label: t.shakeNew,
-          icon: PhosphorIconsBold.plus,
-          onTap: () {
-            Navigator.of(context).pop();
-            showFoodEditor(context, asShake: true);
-          },
+      ])
+    else
+      Container(
+        padding: const EdgeInsets.fromLTRB(14, 14, 16, 14),
+        decoration: BoxDecoration(color: gc.bgRaised2, borderRadius: BorderRadius.circular(18)),
+        child: Row(
+          children: [
+            Image.asset('assets/img/peek-shake.webp', width: 34, height: 40, fit: BoxFit.contain),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Text(
+                t.shakeNone,
+                style: AppTheme.f(13, weight: FontWeight.w600, color: gc.textSecondary, height: 1.35),
+              ),
+            ),
+          ],
         ),
-      ]);
-    });
+      ),
+    if (others.isNotEmpty) ...[
+      const SizedBox(height: 18),
+      Text(
+        t.shakeMarkLabel,
+        style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.1),
+      ),
+      const SizedBox(height: 8),
+      SizedBox(
+        height: 44,
+        child: ListView.separated(
+          scrollDirection: Axis.horizontal,
+          itemCount: others.length,
+          separatorBuilder: (_, _) => const SizedBox(width: 8),
+          itemBuilder: (_, i) => _ShakeChip(others[i]),
+        ),
+      ),
+    ],
+    const SizedBox(height: 16),
+    GhostButton(
+      label: t.shakeNew,
+      icon: PhosphorIconsBold.plus,
+      onTap: () {
+        Navigator.of(context).pop();
+        showFoodEditor(context, asShake: true);
+      },
+    ),
+  ]);
+});
 
 class _ShakeChip extends StatelessWidget {
   const _ShakeChip(this.food);
@@ -890,19 +1116,24 @@ class _ShakeChip extends StatelessWidget {
           borderRadius: BorderRadius.circular(100),
           border: Border.all(color: gc.border),
         ),
-        child: Row(mainAxisSize: MainAxisSize.min, children: [
-          FoodSticker(photo: food.photo, name: food.name, size: 30, tilt: false, shadow: false),
-          const SizedBox(width: 8),
-          ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 140),
-            child: Text(food.name,
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            FoodSticker(photo: food.photo, name: food.name, size: 30, tilt: false, shadow: false),
+            const SizedBox(width: 8),
+            ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 140),
+              child: Text(
+                food.name,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: AppTheme.f(13, weight: FontWeight.w700, color: gc.text)),
-          ),
-          const SizedBox(width: 6),
-          Icon(PhosphorIconsBold.plus, size: 13, color: gc.protein),
-        ]),
+                style: AppTheme.f(13, weight: FontWeight.w700, color: gc.text),
+              ),
+            ),
+            const SizedBox(width: 6),
+            Icon(PhosphorIconsBold.plus, size: 13, color: gc.protein),
+          ],
+        ),
       ),
     );
   }
@@ -920,8 +1151,14 @@ String _suppPhoto(Supplement s) =>
 class _SupplementsCard extends StatelessWidget {
   const _SupplementsCard();
 
-  static List<String> get _suggested =>
-      [t.suppCreatine, t.suppVitaminD, t.suppOmega3, t.suppMagnesium, t.suppMultivitamin, t.suppCaffeine];
+  static List<String> get _suggested => [
+    t.suppCreatine,
+    t.suppVitaminD,
+    t.suppOmega3,
+    t.suppMagnesium,
+    t.suppMultivitamin,
+    t.suppCaffeine,
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -929,77 +1166,110 @@ class _SupplementsCard extends StatelessWidget {
     final day = fit.nutritionDay;
     final taken = fit.takenOn(day);
     final list = fit.supplements;
-    final due = [for (final s in list) if (s.dueOn(day)) s];
-    final later = [for (final s in list) if (!s.dueOn(day)) s];
+    final due = [
+      for (final s in list)
+        if (s.dueOn(day)) s,
+    ];
+    final later = [
+      for (final s in list)
+        if (!s.dueOn(day)) s,
+    ];
     final done = due.where((s) => taken.contains(s.id)).length;
     return SoftCard(
       radius: 26,
       padding: const EdgeInsets.fromLTRB(14, 14, 14, 12),
-      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Row(children: [
-          Image.asset('assets/img/peek-protein.webp', height: 22, cacheHeight: 66),
-          const SizedBox(width: 8),
-          Expanded(child: _kicker(gc, t.supplementsLabel)),
-          if (due.isNotEmpty)
-            Text('$done/${due.length}',
-                style: AppTheme.f(13, weight: FontWeight.w800, color: done == due.length ? gc.sage : gc.textSecondary)),
-        ]),
-        const SizedBox(height: 10),
-        if (list.isEmpty) ...[
-          Wrap(spacing: 7, runSpacing: 7, children: [
-            for (final name in _suggested)
-              _Chip(label: name, icon: PhosphorIconsBold.plus, onTap: () => showSupplementEditor(context, name: name)),
-          ]),
-          const SizedBox(height: 10),
-          Text(t.supplementsEmpty, style: AppTheme.s(11.5, color: gc.textTertiary, height: 1.35)),
-        ] else ...[
-          if (due.isEmpty)
-            Padding(
-              padding: const EdgeInsets.only(bottom: 8),
-              child: Text(t.suppNoneToday, style: AppTheme.s(12.5, color: gc.textSecondary)),
-            ),
-          _CappedList(
-            count: due.length,
-            itemBuilder: (_, i) => _SupplementRow(supp: due[i], taken: taken.contains(due[i].id)),
-            rowHeight: _SupplementRow.height,
-            gap: 8,
-            maxRows: 4,
-            fade: gc.bgRaised,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Image.asset('assets/img/peek-protein.webp', height: 22, cacheHeight: 66),
+              const SizedBox(width: 8),
+              Expanded(child: _kicker(gc, t.supplementsLabel)),
+              if (due.isNotEmpty)
+                Text(
+                  '$done/${due.length}',
+                  style: AppTheme.f(
+                    13,
+                    weight: FontWeight.w800,
+                    color: done == due.length ? gc.sage : gc.textSecondary,
+                  ),
+                ),
+            ],
           ),
-          if (due.isNotEmpty) const SizedBox(height: 8),
-          if (later.isNotEmpty) ...[
-            Padding(
-              padding: const EdgeInsets.fromLTRB(2, 4, 0, 8),
-              child: _kicker(gc, t.suppOtherDays.toUpperCase()),
+          const SizedBox(height: 10),
+          if (list.isEmpty) ...[
+            Wrap(
+              spacing: 7,
+              runSpacing: 7,
+              children: [
+                for (final name in _suggested)
+                  _Chip(
+                    label: name,
+                    icon: PhosphorIconsBold.plus,
+                    onTap: () => showSupplementEditor(context, name: name),
+                  ),
+              ],
             ),
+            const SizedBox(height: 10),
+            Text(t.supplementsEmpty, style: AppTheme.s(11.5, color: gc.textTertiary, height: 1.35)),
+          ] else ...[
+            if (due.isEmpty)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: Text(t.suppNoneToday, style: AppTheme.s(12.5, color: gc.textSecondary)),
+              ),
             _CappedList(
-              count: later.length,
-              itemBuilder: (_, i) => _SupplementRow(supp: later[i], taken: false, off: true),
+              count: due.length,
+              itemBuilder: (_, i) => _SupplementRow(supp: due[i], taken: taken.contains(due[i].id)),
               rowHeight: _SupplementRow.height,
               gap: 8,
-              maxRows: 3,
+              maxRows: 4,
               fade: gc.bgRaised,
             ),
-            const SizedBox(height: 8),
+            if (due.isNotEmpty) const SizedBox(height: 8),
+            if (later.isNotEmpty) ...[
+              Padding(
+                padding: const EdgeInsets.fromLTRB(2, 4, 0, 8),
+                child: _kicker(gc, t.suppOtherDays.toUpperCase()),
+              ),
+              _CappedList(
+                count: later.length,
+                itemBuilder: (_, i) => _SupplementRow(supp: later[i], taken: false, off: true),
+                rowHeight: _SupplementRow.height,
+                gap: 8,
+                maxRows: 3,
+                fade: gc.bgRaised,
+              ),
+              const SizedBox(height: 8),
+            ],
           ],
-        ],
-        const SizedBox(height: 2),
-        GestureDetector(
-          behavior: HitTestBehavior.opaque,
-          onTap: () => showSupplementEditor(context),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 6),
-            child: Row(children: [
-              Icon(PhosphorIconsBold.plus, size: 13, color: gc.accent),
-              const SizedBox(width: 6),
-              Text(t.addSupplement, style: AppTheme.f(12.5, weight: FontWeight.w800, color: gc.accent)),
-              const Spacer(),
-              if (due.isNotEmpty && done == 0)
-                Text(t.suppRowHint, style: AppTheme.f(11, weight: FontWeight.w600, color: gc.textTertiary)),
-            ]),
+          const SizedBox(height: 2),
+          GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onTap: () => showSupplementEditor(context),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 6),
+              child: Row(
+                children: [
+                  Icon(PhosphorIconsBold.plus, size: 13, color: gc.accent),
+                  const SizedBox(width: 6),
+                  Text(
+                    t.addSupplement,
+                    style: AppTheme.f(12.5, weight: FontWeight.w800, color: gc.accent),
+                  ),
+                  const Spacer(),
+                  if (due.isNotEmpty && done == 0)
+                    Text(
+                      t.suppRowHint,
+                      style: AppTheme.f(11, weight: FontWeight.w600, color: gc.textTertiary),
+                    ),
+                ],
+              ),
+            ),
           ),
-        ),
-      ]),
+        ],
+      ),
     );
   }
 }
@@ -1021,7 +1291,8 @@ String _suppSchedule(BuildContext context, Supplement s, {bool daily = true}) {
   return [
     if (daily || !s.everyDay) _suppDays(s),
     if (at != null) _clock(context, at),
-    if (from != null && from.isAfter(DateTime(today.year, today.month, today.day))) t.suppFromDate(t.shortDate(from)),
+    if (from != null && from.isAfter(DateTime(today.year, today.month, today.day)))
+      t.suppFromDate(t.shortDate(from)),
     if (s.until != null) t.suppUntilDate(t.shortDate(s.until!)),
   ].join(' · ');
 }
@@ -1068,82 +1339,106 @@ class _SupplementRow extends StatelessWidget {
             borderRadius: BorderRadius.circular(18),
             border: Border.all(color: taken ? gc.sage.withValues(alpha: 0.45) : Colors.transparent),
           ),
-          child: Row(children: [
-            SizedBox(
-              width: 46,
-              height: 46,
-              child: Center(
-                child: TweenAnimationBuilder<double>(
-                  tween: Tween(end: taken ? 1 : 0),
-                  duration: const Duration(milliseconds: 520),
-                  curve: Curves.easeOut,
-                  builder: (context, p, child) {
-                    final bump = math.sin(p * math.pi);
-                    return Transform.rotate(
-                      angle: bump * 0.16,
-                      child: Transform.scale(scale: 1 + bump * 0.2, child: child),
-                    );
-                  },
-                  child: FoodSticker(
-                      photo: _suppPhoto(supp), name: supp.name, size: 40, tilt: false, shadow: false, dim: off),
+          child: Row(
+            children: [
+              SizedBox(
+                width: 46,
+                height: 46,
+                child: Center(
+                  child: TweenAnimationBuilder<double>(
+                    tween: Tween(end: taken ? 1 : 0),
+                    duration: const Duration(milliseconds: 520),
+                    curve: Curves.easeOut,
+                    builder: (context, p, child) {
+                      final bump = math.sin(p * math.pi);
+                      return Transform.rotate(
+                        angle: bump * 0.16,
+                        child: Transform.scale(scale: 1 + bump * 0.2, child: child),
+                      );
+                    },
+                    child: FoodSticker(
+                      photo: _suppPhoto(supp),
+                      name: supp.name,
+                      size: 40,
+                      tilt: false,
+                      shadow: false,
+                      dim: off,
+                    ),
+                  ),
                 ),
               ),
-            ),
-            const SizedBox(width: 10),
-            Expanded(
-              child: Column(
+              const SizedBox(width: 10),
+              Expanded(
+                child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                Text(supp.name,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: AppTheme.f(14.5, weight: FontWeight.w800, color: off ? gc.textSecondary : gc.text)),
-                if (detail.isNotEmpty) ...[
-                const SizedBox(height: 2),
-                Row(children: [
-                  Icon(at != null ? PhosphorIconsFill.bellSimpleRinging : PhosphorIconsFill.calendarBlank,
-                      size: 11, color: gc.textTertiary),
-                  const SizedBox(width: 4),
-                  Flexible(
-                    child: Text(detail,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: AppTheme.f(11.5, weight: FontWeight.w600, color: gc.textSecondary)),
-                  ),
-                ]),
-                ],
-              ]),
-            ),
-            if (off)
-              Padding(
-                padding: const EdgeInsets.all(8),
-                child: Icon(PhosphorIconsBold.pencilSimple, size: 15, color: gc.textTertiary),
-              )
-            else
-              Padding(
-                padding: const EdgeInsets.only(right: 6),
-                child: AnimatedContainer(
-                  duration: const Duration(milliseconds: 220),
-                  curve: Curves.easeOutBack,
-                  width: 28,
-                  height: 28,
-                  decoration: BoxDecoration(
-                    color: taken ? gc.sage : Colors.transparent,
-                    shape: BoxShape.circle,
-                    border: Border.all(color: taken ? gc.sage : gc.border, width: 2),
-                  ),
-                  child: AnimatedSwitcher(
-                    duration: const Duration(milliseconds: 320),
-                    switchInCurve: Curves.elasticOut,
-                    transitionBuilder: (child, a) => ScaleTransition(scale: a, child: child),
-                    child: taken
-                        ? Icon(PhosphorIconsBold.check, key: const ValueKey(1), size: 14, color: gc.bg)
-                        : const SizedBox(key: ValueKey(0)),
-                  ),
+                    Text(
+                      supp.name,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: AppTheme.f(
+                        14.5,
+                        weight: FontWeight.w800,
+                        color: off ? gc.textSecondary : gc.text,
+                      ),
+                    ),
+                    if (detail.isNotEmpty) ...[
+                      const SizedBox(height: 2),
+                      Row(
+                        children: [
+                          Icon(
+                            at != null
+                                ? PhosphorIconsFill.bellSimpleRinging
+                                : PhosphorIconsFill.calendarBlank,
+                            size: 11,
+                            color: gc.textTertiary,
+                          ),
+                          const SizedBox(width: 4),
+                          Flexible(
+                            child: Text(
+                              detail,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: AppTheme.f(11.5, weight: FontWeight.w600, color: gc.textSecondary),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ],
                 ),
               ),
-          ]),
+              if (off)
+                Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: Icon(PhosphorIconsBold.pencilSimple, size: 15, color: gc.textTertiary),
+                )
+              else
+                Padding(
+                  padding: const EdgeInsets.only(right: 6),
+                  child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 220),
+                    curve: Curves.easeOutBack,
+                    width: 28,
+                    height: 28,
+                    decoration: BoxDecoration(
+                      color: taken ? gc.sage : Colors.transparent,
+                      shape: BoxShape.circle,
+                      border: Border.all(color: taken ? gc.sage : gc.border, width: 2),
+                    ),
+                    child: AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 320),
+                      switchInCurve: Curves.elasticOut,
+                      transitionBuilder: (child, a) => ScaleTransition(scale: a, child: child),
+                      child: taken
+                          ? Icon(PhosphorIconsBold.check, key: const ValueKey(1), size: 14, color: gc.bg)
+                          : const SizedBox(key: ValueKey(0)),
+                    ),
+                  ),
+                ),
+            ],
+          ),
         ),
       ),
     );
@@ -1154,98 +1449,121 @@ String _clock(BuildContext context, int minuteOfDay) =>
     TimeOfDay(hour: minuteOfDay ~/ 60, minute: minuteOfDay % 60).format(context);
 
 Future<void> showSupplementInfo(BuildContext context, Supplement supp) => _sheet<void>(context, (sheet) {
-      final gc = sheet.gc;
-      final s = fit.supplements.where((x) => x.id == supp.id).firstOrNull;
-      if (s == null) return const SizedBox.shrink();
-      final day = fit.nutritionDay;
-      final dueToday = s.dueOn(day);
-      final taken = fit.takenOn(day).contains(s.id);
-      final at = fit.supplementTime(s);
-      final days = [for (var i = 13; i >= 0; i--) shiftDays(day, -i)];
-      final due = days.where(s.dueOn).toList();
-      final done = due.where((d) => fit.takenOn(d).contains(s.id)).length;
-      Widget line(IconData icon, String label, String value) => Padding(
-            padding: const EdgeInsets.symmetric(vertical: 9),
-            child: Row(children: [
-              Icon(icon, size: 16, color: gc.textTertiary),
-              const SizedBox(width: 10),
-              Text(label, style: AppTheme.f(13, weight: FontWeight.w600, color: gc.textSecondary)),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Text(value,
-                    textAlign: TextAlign.right,
-                    style: AppTheme.f(13.5, weight: FontWeight.w800, color: gc.text)),
-              ),
-            ]),
-          );
-      return _sheetFrame(sheet, [
-        Center(child: FoodSticker(photo: _suppPhoto(s), name: s.name, size: 104, tilt: false)),
-        const SizedBox(height: 12),
-        SheetTitle(s.name, subtitle: s.dose.isEmpty ? null : s.dose),
-        const SizedBox(height: 16),
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 4),
-          decoration: BoxDecoration(color: gc.bgRaised2, borderRadius: BorderRadius.circular(18)),
-          child: Column(children: [
-            line(PhosphorIconsRegular.calendarBlank, t.suppWhen, _suppDays(s)),
-            line(PhosphorIconsRegular.bellSimpleRinging, t.suppRemind, at == null ? t.suppNoReminder : _clock(sheet, at)),
-            if (s.from != null && s.from!.isAfter(day)) line(PhosphorIconsRegular.flagBanner, t.suppStarts, t.shortDate(s.from!)),
-            if (s.until != null) line(PhosphorIconsRegular.flagCheckered, t.suppEnds, t.shortDate(s.until!)),
-          ]),
+  final gc = sheet.gc;
+  final s = fit.supplements.where((x) => x.id == supp.id).firstOrNull;
+  if (s == null) return const SizedBox.shrink();
+  final day = fit.nutritionDay;
+  final dueToday = s.dueOn(day);
+  final taken = fit.takenOn(day).contains(s.id);
+  final at = fit.supplementTime(s);
+  final days = [for (var i = 13; i >= 0; i--) shiftDays(day, -i)];
+  final due = days.where(s.dueOn).toList();
+  final done = due.where((d) => fit.takenOn(d).contains(s.id)).length;
+  Widget line(IconData icon, String label, String value) => Padding(
+    padding: const EdgeInsets.symmetric(vertical: 9),
+    child: Row(
+      children: [
+        Icon(icon, size: 16, color: gc.textTertiary),
+        const SizedBox(width: 10),
+        Text(
+          label,
+          style: AppTheme.f(13, weight: FontWeight.w600, color: gc.textSecondary),
         ),
-        const SizedBox(height: 18),
-        Row(children: [
-          Expanded(child: _kicker(gc, t.suppHistory.toUpperCase())),
-          if (due.isNotEmpty)
-            Text(t.suppTakenOf(done, due.length), style: AppTheme.f(12, weight: FontWeight.w800, color: gc.textSecondary)),
-        ]),
-        const SizedBox(height: 10),
-        Row(children: [
-          for (final d in days)
-            Expanded(
-              child: Center(
-                child: Container(
-                  width: 16,
-                  height: 16,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: fit.takenOn(d).contains(s.id) ? gc.sage : Colors.transparent,
-                    border: Border.all(
-                      color: fit.takenOn(d).contains(s.id)
-                          ? gc.sage
-                          : s.dueOn(d)
-                              ? gc.textTertiary
-                              : gc.border.withValues(alpha: 0.5),
-                      width: d == day ? 2 : 1.4,
-                    ),
+        const SizedBox(width: 12),
+        Expanded(
+          child: Text(
+            value,
+            textAlign: TextAlign.right,
+            style: AppTheme.f(13.5, weight: FontWeight.w800, color: gc.text),
+          ),
+        ),
+      ],
+    ),
+  );
+  return _sheetFrame(sheet, [
+    Center(
+      child: FoodSticker(photo: _suppPhoto(s), name: s.name, size: 104, tilt: false),
+    ),
+    const SizedBox(height: 12),
+    SheetTitle(s.name, subtitle: s.dose.isEmpty ? null : s.dose),
+    const SizedBox(height: 16),
+    Container(
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 4),
+      decoration: BoxDecoration(color: gc.bgRaised2, borderRadius: BorderRadius.circular(18)),
+      child: Column(
+        children: [
+          line(PhosphorIconsRegular.calendarBlank, t.suppWhen, _suppDays(s)),
+          line(
+            PhosphorIconsRegular.bellSimpleRinging,
+            t.suppRemind,
+            at == null ? t.suppNoReminder : _clock(sheet, at),
+          ),
+          if (s.from != null && s.from!.isAfter(day))
+            line(PhosphorIconsRegular.flagBanner, t.suppStarts, t.shortDate(s.from!)),
+          if (s.until != null) line(PhosphorIconsRegular.flagCheckered, t.suppEnds, t.shortDate(s.until!)),
+        ],
+      ),
+    ),
+    const SizedBox(height: 18),
+    Row(
+      children: [
+        Expanded(child: _kicker(gc, t.suppHistory.toUpperCase())),
+        if (due.isNotEmpty)
+          Text(
+            t.suppTakenOf(done, due.length),
+            style: AppTheme.f(12, weight: FontWeight.w800, color: gc.textSecondary),
+          ),
+      ],
+    ),
+    const SizedBox(height: 10),
+    Row(
+      children: [
+        for (final d in days)
+          Expanded(
+            child: Center(
+              child: Container(
+                width: 16,
+                height: 16,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: fit.takenOn(d).contains(s.id) ? gc.sage : Colors.transparent,
+                  border: Border.all(
+                    color: fit.takenOn(d).contains(s.id)
+                        ? gc.sage
+                        : s.dueOn(d)
+                        ? gc.textTertiary
+                        : gc.border.withValues(alpha: 0.5),
+                    width: d == day ? 2 : 1.4,
                   ),
                 ),
               ),
             ),
-        ]),
-        const SizedBox(height: 22),
-        if (dueToday)
-          PrimaryButton(
-            label: taken ? t.suppUnmark : t.suppMarkTaken,
-            bg: taken ? gc.bgRaised2 : null,
-            fg: taken ? gc.text : null,
-            onTap: () {
-              HapticFeedback.selectionClick();
-              fit.toggleSupplement(s.id);
-              Navigator.of(sheet).pop();
-            },
           ),
-        const SizedBox(height: 10),
-        GhostButton(
-          label: t.suppEdit,
-          icon: PhosphorIconsBold.pencilSimple,
-          onTap: () {
-            Navigator.of(sheet).pop();
-            showSupplementEditor(context, supp: s);
-          },
-        ),
-      ]);
-    });
+      ],
+    ),
+    const SizedBox(height: 22),
+    if (dueToday)
+      PrimaryButton(
+        label: taken ? t.suppUnmark : t.suppMarkTaken,
+        bg: taken ? gc.bgRaised2 : null,
+        fg: taken ? gc.text : null,
+        onTap: () {
+          HapticFeedback.selectionClick();
+          fit.toggleSupplement(s.id);
+          Navigator.of(sheet).pop();
+        },
+      ),
+    const SizedBox(height: 10),
+    GhostButton(
+      label: t.suppEdit,
+      icon: PhosphorIconsBold.pencilSimple,
+      onTap: () {
+        Navigator.of(sheet).pop();
+        showSupplementEditor(context, supp: s);
+      },
+    ),
+  ]);
+});
 
 Future<void> showSupplementEditor(BuildContext context, {Supplement? supp, String name = ''}) =>
     showAppSheet<void>(
@@ -1317,8 +1635,16 @@ class _SupplementEditorState extends State<_SupplementEditor> with _StickerDraft
     final from = _from.isAfter(_today) || _repeat == _Repeat.every ? _from : null;
     final until = _until;
     if (supp == null) {
-      fit.addSupplement(name,
-          dose: _dose.text, photo: _photo, at: _at, days: _savedDays, every: _savedEvery, from: from, until: until);
+      fit.addSupplement(
+        name,
+        dose: _dose.text,
+        photo: _photo,
+        at: _at,
+        days: _savedDays,
+        every: _savedEvery,
+        from: from,
+        until: until,
+      );
     } else {
       fit.updateSupplement(
         supp.id,
@@ -1353,21 +1679,21 @@ class _SupplementEditorState extends State<_SupplementEditor> with _StickerDraft
   }
 
   Future<DateTime?> _date(DateTime initial, DateTime first) => showDatePicker(
-        context: context,
-        initialDate: initial.isBefore(first) ? first : initial,
-        firstDate: first,
-        lastDate: _today.add(const Duration(days: 730)),
-      );
+    context: context,
+    initialDate: initial.isBefore(first) ? first : initial,
+    firstDate: first,
+    lastDate: _today.add(const Duration(days: 730)),
+  );
 
   Supplement get _preview => Supplement(
-        id: '',
-        name: _name.text,
-        at: _at,
-        days: _savedDays,
-        every: _savedEvery,
-        from: _from,
-        until: _until,
-      );
+    id: '',
+    name: _name.text,
+    at: _at,
+    days: _savedDays,
+    every: _savedEvery,
+    from: _from,
+    until: _until,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -1395,18 +1721,16 @@ class _SupplementEditorState extends State<_SupplementEditor> with _StickerDraft
     }
 
     Widget part(String value, VoidCallback dec, VoidCallback inc) => StepperControl(
-          value: value,
-          minWidth: 40,
-          btnSize: 34,
-          gap: 10,
-          fontSize: 24,
-          onDec: dec,
-          onInc: inc,
-        );
-    Widget section(String title) => Padding(
-          padding: const EdgeInsets.only(top: 20, bottom: 10),
-          child: _kicker(gc, title.toUpperCase()),
-        );
+      value: value,
+      minWidth: 40,
+      btnSize: 34,
+      gap: 10,
+      fontSize: 24,
+      onDec: dec,
+      onInc: inc,
+    );
+    Widget section(String title) =>
+        Padding(padding: const EdgeInsets.only(top: 20, bottom: 10), child: _kicker(gc, title.toUpperCase()));
     final at = _at;
     final start = fit.weekStartDay;
     final tomorrow = _today.add(const Duration(days: 1));
@@ -1421,31 +1745,41 @@ class _SupplementEditorState extends State<_SupplementEditor> with _StickerDraft
       const SizedBox(height: 10),
       SizedBox(
         height: 64,
-        child: ListView(scrollDirection: Axis.horizontal, clipBehavior: Clip.none, children: [
-          for (final p in _suppPresets) ...[option(p), const SizedBox(width: 10)],
-          for (final p in [_cutPhoto, _plainPhoto])
-            if (p != null) ...[option(p), const SizedBox(width: 10)],
-          if (widget.supp != null && !isAssetPhoto(widget.supp!.photo) && widget.supp!.photo.isNotEmpty) ...[
-            option(widget.supp!.photo),
-            const SizedBox(width: 10),
-          ],
-          Pressable(
-            onTap: _working ? () {} : _pick,
-            child: Container(
-              width: 64,
-              height: 64,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(18),
-                border: Border.all(color: gc.border),
+        child: ListView(
+          scrollDirection: Axis.horizontal,
+          clipBehavior: Clip.none,
+          children: [
+            for (final p in _suppPresets) ...[option(p), const SizedBox(width: 10)],
+            for (final p in [_cutPhoto, _plainPhoto])
+              if (p != null) ...[option(p), const SizedBox(width: 10)],
+            if (widget.supp != null &&
+                !isAssetPhoto(widget.supp!.photo) &&
+                widget.supp!.photo.isNotEmpty) ...[
+              option(widget.supp!.photo),
+              const SizedBox(width: 10),
+            ],
+            Pressable(
+              onTap: _working ? () {} : _pick,
+              child: Container(
+                width: 64,
+                height: 64,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(18),
+                  border: Border.all(color: gc.border),
+                ),
+                child: _working
+                    ? Center(
+                        child: SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator(strokeWidth: 2.2, color: gc.accent),
+                        ),
+                      )
+                    : Icon(PhosphorIconsRegular.camera, size: 22, color: gc.accent),
               ),
-              child: _working
-                  ? Center(
-                      child: SizedBox(
-                          width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2.2, color: gc.accent)))
-                  : Icon(PhosphorIconsRegular.camera, size: 22, color: gc.accent),
             ),
-          ),
-        ]),
+          ],
+        ),
       ),
       if (_draft != null) ...[
         const SizedBox(height: 10),
@@ -1464,11 +1798,19 @@ class _SupplementEditorState extends State<_SupplementEditor> with _StickerDraft
       _TextInput(controller: _dose, hint: t.suppDoseHint, label: t.suppDose),
       section(t.suppWhen),
       Center(
-        child: SegToggle([
-          SegOption(t.suppDaily, _repeat == _Repeat.daily, () => setState(() => _repeat = _Repeat.daily)),
-          SegOption(t.suppSomeDays, _repeat == _Repeat.days, () => setState(() => _repeat = _Repeat.days)),
-          SegOption(t.suppEveryShort, _repeat == _Repeat.every, () => setState(() => _repeat = _Repeat.every)),
-        ], fontSize: 12.5, hPad: 12),
+        child: SegToggle(
+          [
+            SegOption(t.suppDaily, _repeat == _Repeat.daily, () => setState(() => _repeat = _Repeat.daily)),
+            SegOption(t.suppSomeDays, _repeat == _Repeat.days, () => setState(() => _repeat = _Repeat.days)),
+            SegOption(
+              t.suppEveryShort,
+              _repeat == _Repeat.every,
+              () => setState(() => _repeat = _Repeat.every),
+            ),
+          ],
+          fontSize: 12.5,
+          hPad: 12,
+        ),
       ),
       AnimatedSize(
         duration: const Duration(milliseconds: 220),
@@ -1476,49 +1818,71 @@ class _SupplementEditorState extends State<_SupplementEditor> with _StickerDraft
         child: switch (_repeat) {
           _Repeat.daily => const SizedBox(width: double.infinity),
           _Repeat.days => Padding(
-              padding: const EdgeInsets.only(top: 12),
-              child: Row(children: [
+            padding: const EdgeInsets.only(top: 12),
+            child: Row(
+              children: [
                 for (var i = 0; i < 7; i++)
-                  Builder(builder: (context) {
-                    final d = (start - 1 + i) % 7 + 1;
-                    final on = _days & (1 << d) != 0;
-                    return Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 3),
-                        child: Pressable(
-                          scale: 0.92,
-                          onTap: () {
-                            HapticFeedback.selectionClick();
-                            setState(() => _days ^= 1 << d);
-                          },
-                          child: AnimatedContainer(
-                            duration: const Duration(milliseconds: 160),
-                            height: 40,
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                              color: on ? gc.accent : gc.bgRaised2,
-                              borderRadius: BorderRadius.circular(13),
+                  Builder(
+                    builder: (context) {
+                      final d = (start - 1 + i) % 7 + 1;
+                      final on = _days & (1 << d) != 0;
+                      return Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 3),
+                          child: Pressable(
+                            scale: 0.92,
+                            onTap: () {
+                              HapticFeedback.selectionClick();
+                              setState(() => _days ^= 1 << d);
+                            },
+                            child: AnimatedContainer(
+                              duration: const Duration(milliseconds: 160),
+                              height: 40,
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                color: on ? gc.accent : gc.bgRaised2,
+                                borderRadius: BorderRadius.circular(13),
+                              ),
+                              child: Text(
+                                t.weekdayInitial(d),
+                                style: AppTheme.f(
+                                  13.5,
+                                  weight: FontWeight.w800,
+                                  color: on ? gc.onEmber : gc.textSecondary,
+                                ),
+                              ),
                             ),
-                            child: Text(t.weekdayInitial(d),
-                                style: AppTheme.f(13.5, weight: FontWeight.w800, color: on ? gc.onEmber : gc.textSecondary)),
                           ),
                         ),
-                      ),
-                    );
-                  }),
-              ]),
+                      );
+                    },
+                  ),
+              ],
             ),
+          ),
           _Repeat.every => Padding(
-              padding: const EdgeInsets.only(top: 12),
-              child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                Text(t.suppEveryLead, style: AppTheme.f(15, weight: FontWeight.w700, color: gc.textSecondary)),
+            padding: const EdgeInsets.only(top: 12),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  t.suppEveryLead,
+                  style: AppTheme.f(15, weight: FontWeight.w700, color: gc.textSecondary),
+                ),
                 const SizedBox(width: 10),
-                part('$_every', () => setState(() => _every = math.max(2, _every - 1)),
-                    () => setState(() => _every = math.min(60, _every + 1))),
+                part(
+                  '$_every',
+                  () => setState(() => _every = math.max(2, _every - 1)),
+                  () => setState(() => _every = math.min(60, _every + 1)),
+                ),
                 const SizedBox(width: 10),
-                Text(t.suppEveryTail(_every), style: AppTheme.f(15, weight: FontWeight.w700, color: gc.textSecondary)),
-              ]),
+                Text(
+                  t.suppEveryTail(_every),
+                  style: AppTheme.f(15, weight: FontWeight.w700, color: gc.textSecondary),
+                ),
+              ],
             ),
+          ),
         },
       ),
       const SizedBox(height: 16),
@@ -1542,65 +1906,111 @@ class _SupplementEditorState extends State<_SupplementEditor> with _StickerDraft
             ? const SizedBox(width: double.infinity)
             : Padding(
                 padding: const EdgeInsets.only(top: 14),
-                child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                  part((at ~/ 60).toString().padLeft(2, '0'), () => setState(() => _at = (at - 60 + 1440) % 1440),
-                      () => setState(() => _at = (at + 60) % 1440)),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 6),
-                    child: Text(':', style: AppTheme.f(24, weight: FontWeight.w700, color: gc.textTertiary)),
-                  ),
-                  part((at % 60).toString().padLeft(2, '0'), () => setState(() => _at = (at - 5 + 1440) % 1440),
-                      () => setState(() => _at = (at + 5) % 1440)),
-                ]),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    part(
+                      (at ~/ 60).toString().padLeft(2, '0'),
+                      () => setState(() => _at = (at - 60 + 1440) % 1440),
+                      () => setState(() => _at = (at + 60) % 1440),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 6),
+                      child: Text(
+                        ':',
+                        style: AppTheme.f(24, weight: FontWeight.w700, color: gc.textTertiary),
+                      ),
+                    ),
+                    part(
+                      (at % 60).toString().padLeft(2, '0'),
+                      () => setState(() => _at = (at - 5 + 1440) % 1440),
+                      () => setState(() => _at = (at + 5) % 1440),
+                    ),
+                  ],
+                ),
               ),
       ),
       section(t.suppStarts),
-      Wrap(spacing: 7, runSpacing: 7, children: [
-        _Chip(label: t.nutritionToday, selected: _from == _today, onTap: () => setState(() => _from = _today)),
-        _Chip(label: t.suppTomorrow, selected: _from == tomorrow, onTap: () => setState(() => _from = tomorrow)),
-        _Chip(
-          label: fromCustom ? t.shortDate(_from) : t.suppPickDate,
-          icon: PhosphorIconsBold.calendarBlank,
-          selected: fromCustom,
-          onTap: () async {
-            final d = await _date(_from, _today);
-            if (d == null) return;
-            setState(() {
-              _from = d;
-              final u = _until;
-              if (u != null && u.isBefore(d)) _until = null;
-            });
-          },
-        ),
-      ]),
+      Wrap(
+        spacing: 7,
+        runSpacing: 7,
+        children: [
+          _Chip(
+            label: t.nutritionToday,
+            selected: _from == _today,
+            onTap: () => setState(() => _from = _today),
+          ),
+          _Chip(
+            label: t.suppTomorrow,
+            selected: _from == tomorrow,
+            onTap: () => setState(() => _from = tomorrow),
+          ),
+          _Chip(
+            label: fromCustom ? t.shortDate(_from) : t.suppPickDate,
+            icon: PhosphorIconsBold.calendarBlank,
+            selected: fromCustom,
+            onTap: () async {
+              final d = await _date(_from, _today);
+              if (d == null) return;
+              setState(() {
+                _from = d;
+                final u = _until;
+                if (u != null && u.isBefore(d)) _until = null;
+              });
+            },
+          ),
+        ],
+      ),
       section(t.suppEnds),
-      Wrap(spacing: 7, runSpacing: 7, children: [
-        _Chip(label: t.suppNever, selected: _until == null, onTap: () => setState(() => _until = null)),
-        _Chip(label: t.suppOneWeek, selected: _until == untilWeek, onTap: () => setState(() => _until = untilWeek)),
-        _Chip(label: t.suppOneMonth, selected: _until == untilMonth, onTap: () => setState(() => _until = untilMonth)),
-        _Chip(
-          label: untilCustom ? t.shortDate(_until!) : t.suppPickDate,
-          icon: PhosphorIconsBold.calendarBlank,
-          selected: untilCustom,
-          onTap: () async {
-            final d = await _date(_until ?? plus(13), _from);
-            if (d != null) setState(() => _until = d);
-          },
-        ),
-      ]),
+      Wrap(
+        spacing: 7,
+        runSpacing: 7,
+        children: [
+          _Chip(label: t.suppNever, selected: _until == null, onTap: () => setState(() => _until = null)),
+          _Chip(
+            label: t.suppOneWeek,
+            selected: _until == untilWeek,
+            onTap: () => setState(() => _until = untilWeek),
+          ),
+          _Chip(
+            label: t.suppOneMonth,
+            selected: _until == untilMonth,
+            onTap: () => setState(() => _until = untilMonth),
+          ),
+          _Chip(
+            label: untilCustom ? t.shortDate(_until!) : t.suppPickDate,
+            icon: PhosphorIconsBold.calendarBlank,
+            selected: untilCustom,
+            onTap: () async {
+              final d = await _date(_until ?? plus(13), _from);
+              if (d != null) setState(() => _until = d);
+            },
+          ),
+        ],
+      ),
       const SizedBox(height: 18),
       Container(
         padding: const EdgeInsets.fromLTRB(14, 12, 14, 12),
-        decoration: BoxDecoration(color: gc.accent.withValues(alpha: 0.08), borderRadius: BorderRadius.circular(16)),
-        child: Row(children: [
-          Icon(at == null ? PhosphorIconsFill.calendarCheck : PhosphorIconsFill.bellSimpleRinging,
-              size: 15, color: gc.accent),
-          const SizedBox(width: 10),
-          Expanded(
-            child: Text(_suppSchedule(context, _preview),
-                style: AppTheme.f(12.5, weight: FontWeight.w700, color: gc.text, height: 1.35)),
-          ),
-        ]),
+        decoration: BoxDecoration(
+          color: gc.accent.withValues(alpha: 0.08),
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Row(
+          children: [
+            Icon(
+              at == null ? PhosphorIconsFill.calendarCheck : PhosphorIconsFill.bellSimpleRinging,
+              size: 15,
+              color: gc.accent,
+            ),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Text(
+                _suppSchedule(context, _preview),
+                style: AppTheme.f(12.5, weight: FontWeight.w700, color: gc.text, height: 1.35),
+              ),
+            ),
+          ],
+        ),
       ),
       const SizedBox(height: 14),
       PrimaryButton(label: t.save, onTap: _save),
@@ -1609,7 +2019,10 @@ class _SupplementEditorState extends State<_SupplementEditor> with _StickerDraft
         Center(
           child: TextButton(
             onPressed: _remove,
-            child: Text(t.delete, style: AppTheme.f(13, weight: FontWeight.w700, color: gc.danger)),
+            child: Text(
+              t.delete,
+              style: AppTheme.f(13, weight: FontWeight.w700, color: gc.danger),
+            ),
           ),
         ),
       ],
@@ -1650,36 +2063,61 @@ class _ChartCard extends StatelessWidget {
       child: SoftCard(
         radius: 24,
         padding: const EdgeInsets.fromLTRB(16, 14, 16, 12),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Row(children: [
-            Icon(icon, size: 14, color: color),
-            const SizedBox(width: 7),
-            Expanded(child: _kicker(gc, title.toUpperCase())),
-            Icon(PhosphorIconsBold.caretRight, size: 12, color: gc.textTertiary),
-          ]),
-          const SizedBox(height: 10),
-          Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
-            Text.rich(TextSpan(children: [
-              TextSpan(text: value, style: AppTheme.f(26, weight: FontWeight.w800, color: gc.text, height: 1)),
-              if (unit.isNotEmpty)
-                TextSpan(text: ' $unit', style: AppTheme.f(12.5, weight: FontWeight.w600, color: gc.textSecondary)),
-            ])),
-            const SizedBox(width: 14),
-            Expanded(
-              child: Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
-                for (final l in lines)
-                  Text(l,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: AppTheme.f(11.5, weight: FontWeight.w600, color: gc.textSecondary, height: 1.4)),
-              ]),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Icon(icon, size: 14, color: color),
+                const SizedBox(width: 7),
+                Expanded(child: _kicker(gc, title.toUpperCase())),
+                Icon(PhosphorIconsBold.caretRight, size: 12, color: gc.textTertiary),
+              ],
             ),
-          ]),
-          if (chart != null) ...[
-            const SizedBox(height: 8),
-            chart!,
+            const SizedBox(height: 10),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text.rich(
+                  TextSpan(
+                    children: [
+                      TextSpan(
+                        text: value,
+                        style: AppTheme.f(26, weight: FontWeight.w800, color: gc.text, height: 1),
+                      ),
+                      if (unit.isNotEmpty)
+                        TextSpan(
+                          text: ' $unit',
+                          style: AppTheme.f(12.5, weight: FontWeight.w600, color: gc.textSecondary),
+                        ),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: 14),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      for (final l in lines)
+                        Text(
+                          l,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: AppTheme.f(
+                            11.5,
+                            weight: FontWeight.w600,
+                            color: gc.textSecondary,
+                            height: 1.4,
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            if (chart != null) ...[const SizedBox(height: 8), chart!],
           ],
-        ]),
+        ),
       ),
     );
   }
@@ -1704,8 +2142,8 @@ class _WeightTile extends StatelessWidget {
         diff.abs() < 0.05
             ? t.weightGoalReached
             : diff < 0
-                ? t.weightToLose(fit.weightLabel(-diff))
-                : t.weightToGain(fit.weightLabel(diff)),
+            ? t.weightToLose(fit.weightLabel(-diff))
+            : t.weightToGain(fit.weightLabel(diff)),
     ];
     return _ChartCard(
       icon: PhosphorIconsFill.scales,
@@ -1770,13 +2208,17 @@ class _WeekTile extends StatelessWidget {
       title: t.weekAverage,
       value: w == null ? '—' : '${fit.energyOf(w.kcal)}',
       unit: w == null ? '' : fit.energyUnit,
-      lines: w == null ? [t.weekNoData] : [t.weekProteinAvg(w.protein), t.weekDaysOnTarget(w.kcalMet, w.days)],
+      lines: w == null
+          ? [t.weekNoData]
+          : [t.weekProteinAvg(w.protein), t.weekDaysOnTarget(w.kcalMet, w.days)],
       chart: w == null
           ? null
           : ValueLineChart(
               values: [
                 for (final d in days)
-                  d.isAfter(today) || fit.entriesOn(d).isEmpty ? null : fit.energyOf(fit.totalOn(d).kcal).toDouble(),
+                  d.isAfter(today) || fit.entriesOn(d).isEmpty
+                      ? null
+                      : fit.energyOf(fit.totalOn(d).kcal).toDouble(),
               ],
               labels: [for (final d in days) t.weekdayInitial(d.weekday)],
               format: (v) => '${v.round()}',
@@ -1808,14 +2250,23 @@ class _Chip extends StatelessWidget {
       scale: 0.94,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 13, vertical: 9),
-        decoration: BoxDecoration(color: selected ? gc.accent : gc.bgRaised2, borderRadius: BorderRadius.circular(100)),
-        child: Row(mainAxisSize: MainAxisSize.min, children: [
-          if (icon != null) ...[
-            Icon(icon, size: 12, color: selected ? gc.onEmber : gc.textSecondary),
-            const SizedBox(width: 6),
+        decoration: BoxDecoration(
+          color: selected ? gc.accent : gc.bgRaised2,
+          borderRadius: BorderRadius.circular(100),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (icon != null) ...[
+              Icon(icon, size: 12, color: selected ? gc.onEmber : gc.textSecondary),
+              const SizedBox(width: 6),
+            ],
+            Text(
+              label,
+              style: AppTheme.f(12.5, weight: FontWeight.w700, color: selected ? gc.onEmber : gc.text),
+            ),
           ],
-          Text(label, style: AppTheme.f(12.5, weight: FontWeight.w700, color: selected ? gc.onEmber : gc.text)),
-        ]),
+        ),
       ),
     );
   }

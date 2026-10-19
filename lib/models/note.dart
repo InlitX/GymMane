@@ -37,28 +37,27 @@ class GymNote {
     String? text,
     List<String>? media,
     bool? pinned,
-  }) =>
-      GymNote(
-        id: id,
-        exerciseId: exerciseId ?? this.exerciseId,
-        date: date ?? this.date,
-        kind: kind ?? this.kind,
-        text: text ?? this.text,
-        media: media ?? this.media,
-        createdAt: createdAt,
-        pinned: pinned ?? this.pinned,
-      );
+  }) => GymNote(
+    id: id,
+    exerciseId: exerciseId ?? this.exerciseId,
+    date: date ?? this.date,
+    kind: kind ?? this.kind,
+    text: text ?? this.text,
+    media: media ?? this.media,
+    createdAt: createdAt,
+    pinned: pinned ?? this.pinned,
+  );
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'x': exerciseId,
-        'd': date.toIso8601String(),
-        'k': kind.index,
-        't': text,
-        if (media.isNotEmpty) 'm': media,
-        'c': createdAt.toIso8601String(),
-        if (pinned) 'p': true,
-      };
+    'id': id,
+    'x': exerciseId,
+    'd': date.toIso8601String(),
+    'k': kind.index,
+    't': text,
+    if (media.isNotEmpty) 'm': media,
+    'c': createdAt.toIso8601String(),
+    if (pinned) 'p': true,
+  };
 
   factory GymNote.fromJson(Map<String, dynamic> j) {
     final created = DateTime.tryParse((j['c'] ?? '') as String) ?? DateTime.now();

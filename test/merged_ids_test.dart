@@ -18,10 +18,17 @@ void main() {
   test('routines, history and favourites move to the exercise that stays', () {
     final data = withMergedExercises({
       'routines': [
-        {'id': 'r1', 'ex': [old, 'other']},
+        {
+          'id': 'r1',
+          'ex': [old, 'other'],
+        },
       ],
       'sessions': [
-        {'ex': [{'id': old, 'n': 'Old name'}]},
+        {
+          'ex': [
+            {'id': old, 'n': 'Old name'},
+          ],
+        },
       ],
       'favorites': {old: true},
     });
@@ -33,7 +40,9 @@ void main() {
   test('a routine that already had both keeps it once', () {
     final data = withMergedExercises({
       'routines': [
-        {'ex': [kept, old]},
+        {
+          'ex': [kept, old],
+        },
       ],
       'favorites': {kept: false, old: true},
     });

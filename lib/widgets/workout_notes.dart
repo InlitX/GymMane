@@ -35,24 +35,37 @@ class WorkoutNoteStrip extends StatelessWidget {
             color: onDark ? gc.bgRaised2 : gc.bgRaised,
             borderRadius: BorderRadius.circular(12),
           ),
-          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            for (var i = 0; i < notes.length; i++) ...[
-              if (i > 0) const SizedBox(height: 6),
-              Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 1.5),
-                  child: Icon(_iconOf(notes[i]), size: 13, color: gc.accent),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              for (var i = 0; i < notes.length; i++) ...[
+                if (i > 0) const SizedBox(height: 6),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 1.5),
+                      child: Icon(_iconOf(notes[i]), size: 13, color: gc.accent),
+                    ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        notes[i].text.trim().replaceAll(RegExp(r'\s*\n\s*'), ' · '),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: AppTheme.f(
+                          12.5,
+                          weight: FontWeight.w600,
+                          color: gc.textSecondary,
+                          height: 1.3,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: Text(notes[i].text.trim().replaceAll(RegExp(r'\s*\n\s*'), ' · '),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: AppTheme.f(12.5, weight: FontWeight.w600, color: gc.textSecondary, height: 1.3)),
-                ),
-              ]),
+              ],
             ],
-          ]),
+          ),
         ),
       ),
     );
@@ -89,60 +102,77 @@ String _exerciseTitle(String id) {
 }
 
 Future<void> showWorkoutNotesSheet(BuildContext context, String exerciseId) => showAppSheet<void>(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (sheet) => AnimatedBuilder(
-        animation: fit,
-        builder: (sheet, _) {
-          final gc = sheet.gc;
-          final notes = fit.workoutNotesFor(exerciseId);
-          return _sheetBox(sheet, [
-            SheetTitle(t.workoutNotesTitle, subtitle: _exerciseTitle(exerciseId)),
-            const SizedBox(height: 16),
-            for (final n in notes) ...[
-              Container(
-                padding: const EdgeInsets.fromLTRB(14, 12, 8, 12),
-                decoration: BoxDecoration(color: gc.bgRaised2, borderRadius: BorderRadius.circular(18)),
-                child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                  Expanded(
-                    child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                      Row(children: [
-                        Icon(_iconOf(n), size: 12, color: gc.accent),
-                        const SizedBox(width: 6),
-                        Flexible(
-                          child: Text(
+  context: context,
+  isScrollControlled: true,
+  backgroundColor: Colors.transparent,
+  builder: (sheet) => AnimatedBuilder(
+    animation: fit,
+    builder: (sheet, _) {
+      final gc = sheet.gc;
+      final notes = fit.workoutNotesFor(exerciseId);
+      return _sheetBox(sheet, [
+        SheetTitle(t.workoutNotesTitle, subtitle: _exerciseTitle(exerciseId)),
+        const SizedBox(height: 16),
+        for (final n in notes) ...[
+          Container(
+            padding: const EdgeInsets.fromLTRB(14, 12, 8, 12),
+            decoration: BoxDecoration(color: gc.bgRaised2, borderRadius: BorderRadius.circular(18)),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Icon(_iconOf(n), size: 12, color: gc.accent),
+                          const SizedBox(width: 6),
+                          Flexible(
+                            child: Text(
                               n.pinned
                                   ? t.workoutNoteEvery
                                   : DateUtils.isSameDay(n.date, DateTime.now())
-                                      ? t.workoutNoteNext
-                                      : t.workoutNoteFromLast(t.shortDate(n.date)),
-                              style: AppTheme.f(11, weight: FontWeight.w700, color: gc.accent, letterSpacing: 0.3)),
-                        ),
-                      ]),
+                                  ? t.workoutNoteNext
+                                  : t.workoutNoteFromLast(t.shortDate(n.date)),
+                              style: AppTheme.f(
+                                11,
+                                weight: FontWeight.w700,
+                                color: gc.accent,
+                                letterSpacing: 0.3,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                       const SizedBox(height: 6),
-                      Text(n.text.trim(), style: AppTheme.f(14.5, weight: FontWeight.w500, color: gc.text, height: 1.4)),
-                    ]),
+                      Text(
+                        n.text.trim(),
+                        style: AppTheme.f(14.5, weight: FontWeight.w500, color: gc.text, height: 1.4),
+                      ),
+                    ],
                   ),
-                  RoundAction(
-                    label: t.editNote,
-                    onTap: () => showWorkoutNoteEditor(sheet, exerciseId, note: n),
-                    child: Icon(PhosphorIconsRegular.pencilSimple, size: 15, color: gc.textSecondary),
-                  ),
-                ]),
-              ),
-              const SizedBox(height: 10),
-            ],
-            const SizedBox(height: 4),
-            GhostButton(
-              label: t.newNote,
-              icon: PhosphorIconsRegular.plus,
-              onTap: () => showWorkoutNoteEditor(sheet, exerciseId),
+                ),
+                RoundAction(
+                  label: t.editNote,
+                  onTap: () => showWorkoutNoteEditor(sheet, exerciseId, note: n),
+                  child: Icon(PhosphorIconsRegular.pencilSimple, size: 15, color: gc.textSecondary),
+                ),
+              ],
             ),
-          ]);
-        },
-      ),
-    );
+          ),
+          const SizedBox(height: 10),
+        ],
+        const SizedBox(height: 4),
+        GhostButton(
+          label: t.newNote,
+          icon: PhosphorIconsRegular.plus,
+          onTap: () => showWorkoutNoteEditor(sheet, exerciseId),
+        ),
+      ]);
+    },
+  ),
+);
 
 Future<void> showWorkoutNoteEditor(BuildContext context, String exerciseId, {GymNote? note}) =>
     showAppSheet<void>(
@@ -182,7 +212,9 @@ class _WorkoutNoteEditorState extends State<_WorkoutNoteEditor> {
       id: old?.id,
       exerciseId: widget.exerciseId,
       date: old?.date ?? DateTime.now(),
-      kind: _every ? (old?.kind == NoteKind.plan ? NoteKind.note : old?.kind ?? NoteKind.note) : NoteKind.plan,
+      kind: _every
+          ? (old?.kind == NoteKind.plan ? NoteKind.note : old?.kind ?? NoteKind.note)
+          : NoteKind.plan,
       text: _text.text,
       media: old?.media ?? const [],
       pinned: _every,
@@ -227,20 +259,36 @@ class _WorkoutNoteEditorState extends State<_WorkoutNoteEditor> {
               borderRadius: BorderRadius.circular(16),
               border: Border.all(color: on ? gc.accent : gc.border, width: on ? 1.4 : 1),
             ),
-            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Row(children: [
-                Icon(every ? PhosphorIconsFill.pushPin : PhosphorIconsFill.arrowBendDownRight,
-                    size: 14, color: on ? gc.accent : gc.textTertiary),
-                const SizedBox(width: 6),
-                Flexible(
-                  child: Text(every ? t.workoutNoteEvery : t.workoutNoteNext,
-                      style: AppTheme.f(13, weight: FontWeight.w800, color: on ? gc.text : gc.textSecondary)),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Icon(
+                      every ? PhosphorIconsFill.pushPin : PhosphorIconsFill.arrowBendDownRight,
+                      size: 14,
+                      color: on ? gc.accent : gc.textTertiary,
+                    ),
+                    const SizedBox(width: 6),
+                    Flexible(
+                      child: Text(
+                        every ? t.workoutNoteEvery : t.workoutNoteNext,
+                        style: AppTheme.f(
+                          13,
+                          weight: FontWeight.w800,
+                          color: on ? gc.text : gc.textSecondary,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ]),
-              const SizedBox(height: 4),
-              Text(every ? t.workoutNoteEveryHint : t.workoutNoteNextHint,
-                  style: AppTheme.f(11.5, weight: FontWeight.w500, color: gc.textSecondary, height: 1.3)),
-            ]),
+                const SizedBox(height: 4),
+                Text(
+                  every ? t.workoutNoteEveryHint : t.workoutNoteNextHint,
+                  style: AppTheme.f(11.5, weight: FontWeight.w500, color: gc.textSecondary, height: 1.3),
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -275,11 +323,10 @@ class _WorkoutNoteEditorState extends State<_WorkoutNoteEditor> {
       ),
       const SizedBox(height: 12),
       IntrinsicHeight(
-        child: Row(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-          _choice(gc, true),
-          const SizedBox(width: 8),
-          _choice(gc, false),
-        ]),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [_choice(gc, true), const SizedBox(width: 8), _choice(gc, false)],
+        ),
       ),
       const SizedBox(height: 18),
       PrimaryButton(label: t.save, onTap: _save),
@@ -288,7 +335,10 @@ class _WorkoutNoteEditorState extends State<_WorkoutNoteEditor> {
         Center(
           child: TextButton(
             onPressed: _delete,
-            child: Text(t.delete, style: AppTheme.f(13, weight: FontWeight.w700, color: gc.danger)),
+            child: Text(
+              t.delete,
+              style: AppTheme.f(13, weight: FontWeight.w700, color: gc.danger),
+            ),
           ),
         ),
       ],

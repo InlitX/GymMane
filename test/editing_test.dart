@@ -17,11 +17,9 @@ void main() {
   });
 
   LoggedSession log(String name, double kg, {int daysAgo = 0}) {
-    final s = LoggedSession(
-      DateTime.now().subtract(Duration(days: daysAgo)),
-      600,
-      [LoggedExercise('e-$name', name, 'chest', [LoggedSet(5, kg)])],
-    );
+    final s = LoggedSession(DateTime.now().subtract(Duration(days: daysAgo)), 600, [
+      LoggedExercise('e-$name', name, 'chest', [LoggedSet(5, kg)]),
+    ]);
     fit.sessions.add(s);
     return s;
   }
@@ -115,7 +113,6 @@ void main() {
   });
 
   test('a backup without the flag does not silently re-ask', () {
-
     expect(fit.importJson('{"profile":{"name":"Legacy"}}'), true);
     expect(fit.onboarded, true);
   });

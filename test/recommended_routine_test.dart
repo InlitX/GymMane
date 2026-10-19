@@ -8,24 +8,60 @@ import 'package:gymmane/models/exercise.dart';
 import 'package:gymmane/services/exercise_match.dart';
 
 const _mainPath = {
-  'warm-up': ["Yuri's Shoulder Band Warmup", 'Wrist Prep', 'Squat Sky Reaches', 'Deadbugs', 'Arch Hang',
-    'Parallel Bar Support Hold', 'Bodyweight Squat', 'Push-up'],
+  'warm-up': [
+    "Yuri's Shoulder Band Warmup",
+    'Wrist Prep',
+    'Squat Sky Reaches',
+    'Deadbugs',
+    'Arch Hang',
+    'Parallel Bar Support Hold',
+    'Bodyweight Squat',
+    'Push-up',
+  ],
   'pull-up': ['Scapular Pulls', 'Arch Hang', 'Pull-up Negatives', 'Pull-up', 'Weighted Pull-up'],
-  'squat': ['Assisted Squat', 'Bodyweight Squat', 'Split Squats', 'Bulgarian Split Squat', 'Beginner Shrimp Squat',
-    'Intermediate Shrimp Squat', 'Advanced Shrimp Squat', 'Weighted Shrimp Squat'],
+  'squat': [
+    'Assisted Squat',
+    'Bodyweight Squat',
+    'Split Squats',
+    'Bulgarian Split Squat',
+    'Beginner Shrimp Squat',
+    'Intermediate Shrimp Squat',
+    'Advanced Shrimp Squat',
+    'Weighted Shrimp Squat',
+  ],
   'dip': ['Parallel Bar Support Hold', 'Negative Dip', 'Chest Dip', 'Weighted Tricep Dips'],
-  'hinge': ['Bodyweight Romanian Deadlift', 'Bodyweight Single-Leg Deadlift', 'Banded Nordic Curl Negative',
-    'Banded Nordic Curl', 'Nordic Curl'],
+  'hinge': [
+    'Bodyweight Romanian Deadlift',
+    'Bodyweight Single-Leg Deadlift',
+    'Banded Nordic Curl Negative',
+    'Banded Nordic Curl',
+    'Nordic Curl',
+  ],
   'row': ['Vertical Row', 'Incline Row', 'Horizontal Row', 'Wide Row', 'Weighted Inverted Row'],
   'push-up': ['Wall Push-up', 'Incline Push-up', 'Push-up', 'Diamond Push-up', 'Pseudo Planche Push-up'],
   'core': ['Plank', 'Ring Ab Rollout', 'Banded Pallof Press', 'Reverse Hyperextension'],
 };
 
 const _added = [
-  'yuris-shoulder-band-warmup', 'wrist-prep', 'arch-hang', 'parallel-bar-support-hold', 'assisted-squat',
-  'bulgarian-split-squat', 'beginner-shrimp-squat', 'intermediate-shrimp-squat', 'weighted-shrimp-squat',
-  'negative-dip', 'bodyweight-romanian-deadlift', 'bodyweight-single-leg-deadlift', 'banded-nordic-curl-negative',
-  'banded-nordic-curl', 'nordic-curl', 'vertical-row', 'incline-row', 'wide-row', 'weighted-inverted-row',
+  'yuris-shoulder-band-warmup',
+  'wrist-prep',
+  'arch-hang',
+  'parallel-bar-support-hold',
+  'assisted-squat',
+  'bulgarian-split-squat',
+  'beginner-shrimp-squat',
+  'intermediate-shrimp-squat',
+  'weighted-shrimp-squat',
+  'negative-dip',
+  'bodyweight-romanian-deadlift',
+  'bodyweight-single-leg-deadlift',
+  'banded-nordic-curl-negative',
+  'banded-nordic-curl',
+  'nordic-curl',
+  'vertical-row',
+  'incline-row',
+  'wide-row',
+  'weighted-inverted-row',
   'pseudo-planche-push-up',
 ];
 
@@ -54,8 +90,13 @@ void main() {
   });
 
   test('bisagra y remo tienen sus escalones propios', () {
-    for (final id in ['bodyweight-romanian-deadlift', 'bodyweight-single-leg-deadlift', 'banded-nordic-curl-negative',
-      'banded-nordic-curl', 'nordic-curl']) {
+    for (final id in [
+      'bodyweight-romanian-deadlift',
+      'bodyweight-single-leg-deadlift',
+      'banded-nordic-curl-negative',
+      'banded-nordic-curl',
+      'nordic-curl',
+    ]) {
       expect(byId[id]?.primary, 'hamstrings', reason: id);
     }
     for (final id in ['vertical-row', 'incline-row', 'wide-row', 'weighted-inverted-row']) {
@@ -69,7 +110,13 @@ void main() {
   });
 
   test('lo que pide barra, banco o anclaje no sale en Sin material', () {
-    for (final id in ['arch-hang', 'parallel-bar-support-hold', 'negative-dip', 'nordic-curl', 'incline-row']) {
+    for (final id in [
+      'arch-hang',
+      'parallel-bar-support-hold',
+      'negative-dip',
+      'nordic-curl',
+      'incline-row',
+    ]) {
       expect(isNoKit(byId[id]!), isFalse, reason: id);
     }
     for (final id in ['bodyweight-romanian-deadlift', 'bodyweight-single-leg-deadlift', 'wrist-prep']) {

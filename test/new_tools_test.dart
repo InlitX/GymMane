@@ -68,9 +68,11 @@ void main() {
   });
 
   test('DOTS toma tus mejores marcas al abrirla', () {
-    fit.sessions.add(LoggedSession(DateTime.now(), 600, [
-      LoggedExercise('qXTaZnJ', 'Barbell Full Squat', 'quads', [LoggedSet(5, 120)]),
-    ]));
+    fit.sessions.add(
+      LoggedSession(DateTime.now(), 600, [
+        LoggedExercise('qXTaZnJ', 'Barbell Full Squat', 'quads', [LoggedSet(5, 120)]),
+      ]),
+    );
     fit.openTool('dots');
     expect(fit.dotsSquat, closeTo(140, 0.1));
     fit.closeTool();

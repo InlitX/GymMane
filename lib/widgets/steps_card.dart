@@ -41,8 +41,10 @@ class StepsCard extends StatelessWidget {
             children: [
               Text(t.stepsNoAccess, style: AppTheme.f(14.5, color: gc.text)),
               const SizedBox(height: 2),
-              Text(t.stepsGrant,
-                  style: AppTheme.f(12, weight: FontWeight.w500, color: gc.textSecondary)),
+              Text(
+                t.stepsGrant,
+                style: AppTheme.f(12, weight: FontWeight.w500, color: gc.textSecondary),
+              ),
             ],
           ),
         ),
@@ -65,9 +67,10 @@ class StepsCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              FitText(t.stepsToday.toUpperCase(),
-                  style: AppTheme.f(9.5,
-                      weight: FontWeight.w600, color: gc.textTertiary, letterSpacing: 0.9)),
+              FitText(
+                t.stepsToday.toUpperCase(),
+                style: AppTheme.f(9.5, weight: FontWeight.w600, color: gc.textTertiary, letterSpacing: 0.9),
+              ),
               const SizedBox(height: 6),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.baseline,
@@ -77,13 +80,17 @@ class StepsCard extends StatelessWidget {
                     child: FittedBox(
                       fit: BoxFit.scaleDown,
                       alignment: Alignment.centerLeft,
-                      child: RollIn(stepCount(today),
-                          style: AppTheme.f(23, weight: FontWeight.w800, color: gc.text)),
+                      child: RollIn(
+                        stepCount(today),
+                        style: AppTheme.f(23, weight: FontWeight.w800, color: gc.text),
+                      ),
                     ),
                   ),
                   const SizedBox(width: 5),
-                  Text(t.stepsOfGoal(stepCount(goal)),
-                      style: AppTheme.f(11, weight: FontWeight.w600, color: gc.textSecondary)),
+                  Text(
+                    t.stepsOfGoal(stepCount(goal)),
+                    style: AppTheme.f(11, weight: FontWeight.w600, color: gc.textSecondary),
+                  ),
                 ],
               ),
               const SizedBox(height: 12),
@@ -136,9 +143,10 @@ class StepsCard extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 6),
-        Text(t.weekdayInitial(day.weekday),
-            style: AppTheme.f(9,
-                weight: FontWeight.w700, color: today ? gc.text : gc.textTertiary)),
+        Text(
+          t.weekdayInitial(day.weekday),
+          style: AppTheme.f(9, weight: FontWeight.w700, color: today ? gc.text : gc.textTertiary),
+        ),
       ],
     );
   }
@@ -168,11 +176,17 @@ void showStepsSheet(BuildContext context) {
           children: [
             const SheetHandle(),
             const SizedBox(height: 20),
-            Text(t.stepsGoal, textAlign: TextAlign.center, style: AppTheme.f(19, color: gc.text)),
+            Text(
+              t.stepsGoal,
+              textAlign: TextAlign.center,
+              style: AppTheme.f(19, color: gc.text),
+            ),
             const SizedBox(height: 6),
-            Text(t.stepsTodayCount(stepCount(fit.stepsToday)),
-                textAlign: TextAlign.center,
-                style: AppTheme.f(12.5, weight: FontWeight.w500, color: gc.textSecondary)),
+            Text(
+              t.stepsTodayCount(stepCount(fit.stepsToday)),
+              textAlign: TextAlign.center,
+              style: AppTheme.f(12.5, weight: FontWeight.w500, color: gc.textSecondary),
+            ),
             const SizedBox(height: 20),
             Center(
               child: StepperControl(
@@ -192,9 +206,15 @@ void showStepsSheet(BuildContext context) {
                     Icon(icon, size: 16, color: gc.accent),
                     const SizedBox(width: 12),
                     Expanded(
-                      child: Text(text,
-                          style: AppTheme.f(12.5,
-                              weight: FontWeight.w500, color: gc.textSecondary, height: 1.4)),
+                      child: Text(
+                        text,
+                        style: AppTheme.f(
+                          12.5,
+                          weight: FontWeight.w500,
+                          color: gc.textSecondary,
+                          height: 1.4,
+                        ),
+                      ),
                     ),
                   ],
                 ),

@@ -38,10 +38,11 @@ void main() {
     fit.setLanguage('es');
     fit.toggleFavorite(kFirstId);
     fit.saveNote(
-        exerciseId: kFirstId,
-        date: DateTime.now(),
-        kind: NoteKind.plan,
-        text: 'Subir 2.5 kg la próxima');
+      exerciseId: kFirstId,
+      date: DateTime.now(),
+      kind: NoteKind.plan,
+      text: 'Subir 2.5 kg la próxima',
+    );
     fit.addBodyweight(74.5);
     final r = fit.createRoutine('Empuje');
     fit.toggleRoutineExercise(r, kFirstId);
@@ -133,7 +134,6 @@ void main() {
   });
 
   test('old backups with the previous notes format still load', () {
-
     const old = '{"notes":{"abc":"vieja nota"},"profile":{"name":"Legacy"}}';
     expect(fit.importJson(old), true);
     expect(fit.profile.name, 'Legacy');

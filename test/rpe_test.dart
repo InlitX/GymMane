@@ -84,7 +84,8 @@ void main() {
     });
 
     test('Hevy trae su RPE y una columna RIR se convierte', () {
-      const hevy = '"title","start_time","end_time","description","exercise_title","superset_id",'
+      const hevy =
+          '"title","start_time","end_time","description","exercise_title","superset_id",'
           '"exercise_notes","set_index","set_type","weight_kg","reps","distance_km","duration_seconds","rpe"\n'
           '"Push","19 Sep 2026, 10:00","19 Sep 2026, 11:00","","Bench Press (Barbell)","","",0,"normal",100,5,,,8\n';
       final hevySets = parseImport(hevy).sessions.single.exercises.single.sets;

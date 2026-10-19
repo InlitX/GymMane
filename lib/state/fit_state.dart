@@ -51,7 +51,21 @@ part 'tools_state.dart';
 part 'workout_state.dart';
 
 class FitState extends FitCore
-    with ToolsState, LibraryState, SettingsState, NotesState, PlacesState, MeasuresState, MomentsState, TimelineState, StatsState, StepsState, NutritionState, AwardsState, RoutinesState, WorkoutState {
+    with
+        ToolsState,
+        LibraryState,
+        SettingsState,
+        NotesState,
+        PlacesState,
+        MeasuresState,
+        MomentsState,
+        TimelineState,
+        StatsState,
+        StepsState,
+        NutritionState,
+        AwardsState,
+        RoutinesState,
+        WorkoutState {
   void loadFromStore() {
     final data = withMergedExercises(Store.instance.load());
     _loading = true;
@@ -90,41 +104,58 @@ class FitState extends FitCore
         ..addAll(((data['checkins'] as List?) ?? []).cast<String>());
       routines
         ..clear()
-        ..addAll(((data['routines'] as List?) ?? [])
-            .map((e) => Routine.fromJson((e as Map).cast<String, dynamic>())));
+        ..addAll(
+          ((data['routines'] as List?) ?? []).map(
+            (e) => Routine.fromJson((e as Map).cast<String, dynamic>()),
+          ),
+        );
       weeklyPlan
         ..clear()
-        ..addAll(((data['weeklyPlan'] as Map?) ?? {})
-            .map((k, v) => MapEntry(int.parse(k as String), v as String)));
+        ..addAll(
+          ((data['weeklyPlan'] as Map?) ?? {}).map((k, v) => MapEntry(int.parse(k as String), v as String)),
+        );
       _loadPlanExtras(data);
       customExercises
         ..clear()
-        ..addAll(((data['custom'] as List?) ?? [])
-            .map((e) => Exercise.fromJson((e as Map).cast<String, dynamic>())));
+        ..addAll(
+          ((data['custom'] as List?) ?? []).map((e) => Exercise.fromJson((e as Map).cast<String, dynamic>())),
+        );
       _loadMedia(data);
       _loadRepsOnly(data);
       _loadExerciseRest(data);
       sessions
         ..clear()
-        ..addAll(((data['sessions'] as List?) ?? [])
-            .map((e) => LoggedSession.fromJson((e as Map).cast<String, dynamic>())));
+        ..addAll(
+          ((data['sessions'] as List?) ?? []).map(
+            (e) => LoggedSession.fromJson((e as Map).cast<String, dynamic>()),
+          ),
+        );
       bodyweight
         ..clear()
-        ..addAll(((data['bodyweight'] as List?) ?? [])
-            .map((e) => BodyweightEntry.fromJson((e as Map).cast<String, dynamic>())));
+        ..addAll(
+          ((data['bodyweight'] as List?) ?? []).map(
+            (e) => BodyweightEntry.fromJson((e as Map).cast<String, dynamic>()),
+          ),
+        );
       _loadMeasures(data);
       _loadShots(data);
       awards
         ..clear()
-        ..addAll(((data['awards'] as Map?) ?? const {}).map((k, v) =>
-            MapEntry(k as String, DateTime.tryParse(v as String? ?? '') ?? DateTime.now())));
+        ..addAll(
+          ((data['awards'] as Map?) ?? const {}).map(
+            (k, v) => MapEntry(k as String, DateTime.tryParse(v as String? ?? '') ?? DateTime.now()),
+          ),
+        );
       awardsSeen
         ..clear()
         ..addAll(((data['awardsSeen'] as List?) ?? const []).cast<String>());
       moments
         ..clear()
-        ..addAll(((data['moments'] as List?) ?? const [])
-            .map((e) => Moment.fromJson((e as Map).cast<String, dynamic>())));
+        ..addAll(
+          ((data['moments'] as List?) ?? const []).map(
+            (e) => Moment.fromJson((e as Map).cast<String, dynamic>()),
+          ),
+        );
       photoIntervalDays = (data['photoEvery'] as num?)?.toInt() ?? 30;
       bodyTimeline = data['bodyTl'] as bool? ?? false;
       loadNutrition((data['nutrition'] as Map?)?.cast<String, dynamic>());
@@ -181,37 +212,56 @@ class FitState extends FitCore
       ..addAll(((data['levelStay'] as List?) ?? const []).cast<String>());
     levelSeen
       ..clear()
-      ..addAll(((data['levelSeen'] as Map?) ?? const {}).map((k, v) => MapEntry(k as String, (v as num).toInt())));
+      ..addAll(
+        ((data['levelSeen'] as Map?) ?? const {}).map((k, v) => MapEntry(k as String, (v as num).toInt())),
+      );
     exerciseGoals
       ..clear()
-      ..addAll(((data['goals'] as Map?) ?? const {}).map((k, v) {
-        final g = (v as Map).cast<String, dynamic>();
-        final due = (g['d'] as num?)?.toInt();
-        return MapEntry(k as String,
-            (target: (g['t'] as num).toDouble(), due: due == null ? null : DateTime.fromMillisecondsSinceEpoch(due)));
-      }));
+      ..addAll(
+        ((data['goals'] as Map?) ?? const {}).map((k, v) {
+          final g = (v as Map).cast<String, dynamic>();
+          final due = (g['d'] as num?)?.toInt();
+          return MapEntry(k as String, (
+            target: (g['t'] as num).toDouble(),
+            due: due == null ? null : DateTime.fromMillisecondsSinceEpoch(due),
+          ));
+        }),
+      );
     levelShown
       ..clear()
-      ..addAll(((data['levelShown'] as Map?) ?? const {})
-          .map((k, v) => MapEntry(k as String, (v as List).map((x) => (x as num).toInt()).toList())));
+      ..addAll(
+        ((data['levelShown'] as Map?) ?? const {}).map(
+          (k, v) => MapEntry(k as String, (v as List).map((x) => (x as num).toInt()).toList()),
+        ),
+      );
     exerciseBar
       ..clear()
-      ..addAll(((data['barKg'] as Map?) ?? const {})
-          .map((k, v) => MapEntry(k as String, (v as num).toDouble())));
+      ..addAll(
+        ((data['barKg'] as Map?) ?? const {}).map((k, v) => MapEntry(k as String, (v as num).toDouble())),
+      );
     videoMarks
       ..clear()
-      ..addAll(((data['marks'] as Map?) ?? const {}).map((k, v) => MapEntry(
+      ..addAll(
+        ((data['marks'] as Map?) ?? const {}).map(
+          (k, v) => MapEntry(
             k as String,
             (v as Map).map((i, ms) => MapEntry(int.parse(i as String), (ms as num).toInt())),
-          )));
+          ),
+        ),
+      );
     modeOverride
       ..clear()
-      ..addAll(((data['exMode'] as Map?) ?? const {}).map((k, v) => MapEntry(k as String, v as String))
-        ..removeWhere((_, v) => !const ['weight', 'cardio', 'time'].contains(v)));
+      ..addAll(
+        ((data['exMode'] as Map?) ?? const {}).map((k, v) => MapEntry(k as String, v as String))
+          ..removeWhere((_, v) => !const ['weight', 'cardio', 'time'].contains(v)),
+      );
     secondaryOverride
       ..clear()
-      ..addAll(((data['exSecondary'] as Map?) ?? const {})
-          .map((k, v) => MapEntry(k as String, (v as List).whereType<String>().toList())));
+      ..addAll(
+        ((data['exSecondary'] as Map?) ?? const {}).map(
+          (k, v) => MapEntry(k as String, (v as List).whereType<String>().toList()),
+        ),
+      );
     _builtInExercises = null;
     bgDim = (data['bgDim'] as num?)?.toDouble() ?? 0.55;
     showFocus = data['showFocus'] as bool? ?? true;
@@ -240,8 +290,9 @@ class FitState extends FitCore
     trainAgainMin = SettingsState.trainAgainOptions.contains(again) ? again : 0;
     progressStep
       ..clear()
-      ..addAll(((data['progress'] as Map?) ?? const {})
-          .map((k, v) => MapEntry(k as String, (v as num).toDouble())));
+      ..addAll(
+        ((data['progress'] as Map?) ?? const {}).map((k, v) => MapEntry(k as String, (v as num).toDouble())),
+      );
     autoWarmup
       ..clear()
       ..addAll(((data['warmup'] as List?) ?? const []).cast<String>());
@@ -250,10 +301,14 @@ class FitState extends FitCore
   void _loadPlanExtras(Map<String, dynamic> data) {
     planExtras
       ..clear()
-      ..addAll(((data['planExtras'] as Map?) ?? const {}).map((k, v) => MapEntry(
+      ..addAll(
+        ((data['planExtras'] as Map?) ?? const {}).map(
+          (k, v) => MapEntry(
             int.parse(k as String),
             (v as List).cast<String>().where((id) => id != weeklyPlan[int.parse(k)]).toList(),
-          )))
+          ),
+        ),
+      )
       ..removeWhere((_, v) => v.isEmpty);
     rotation = data['rotation'] as bool? ?? false;
     rotationIds
@@ -262,8 +317,11 @@ class FitState extends FitCore
     rotationNextId = data['rotationNext'] as String? ?? '';
     planMoves
       ..clear()
-      ..addAll(((data['planMoves'] as Map?) ?? const {})
-          .map((k, v) => MapEntry(k as String, (v as List).cast<String>().toList())));
+      ..addAll(
+        ((data['planMoves'] as Map?) ?? const {}).map(
+          (k, v) => MapEntry(k as String, (v as List).cast<String>().toList()),
+        ),
+      );
   }
 
   void _restoreLiveSession(Map<String, dynamic> data) {
@@ -333,9 +391,11 @@ class FitState extends FitCore
   void _loadShots(Map<String, dynamic> data, {Map<String, String>? restored}) {
     shots
       ..clear()
-      ..addAll(((data['shots'] as List?) ?? const [])
-          .map((e) => ProgressEntry.fromJson((e as Map).cast<String, dynamic>()))
-          .where((e) => !e.isEmpty));
+      ..addAll(
+        ((data['shots'] as List?) ?? const [])
+            .map((e) => ProgressEntry.fromJson((e as Map).cast<String, dynamic>()))
+            .where((e) => !e.isEmpty),
+      );
     if (restored == null) return;
     for (var i = 0; i < shots.length; i++) {
       final e = shots[i];
@@ -352,9 +412,11 @@ class FitState extends FitCore
   void _loadMeasures(Map<String, dynamic> data) {
     measures
       ..clear()
-      ..addAll(((data['measures'] as List?) ?? const [])
-          .map((e) => BodyMeasure.fromJson((e as Map).cast<String, dynamic>()))
-          .where((m) => kMeasureKeys.contains(m.key)));
+      ..addAll(
+        ((data['measures'] as List?) ?? const [])
+            .map((e) => BodyMeasure.fromJson((e as Map).cast<String, dynamic>()))
+            .where((m) => kMeasureKeys.contains(m.key)),
+      );
   }
 
   void _loadPlaces(Map<String, dynamic> data) {
@@ -377,21 +439,20 @@ class FitState extends FitCore
 
     var seq = 0;
     GymNote legacy(String exId, DateTime when, String text) => GymNote(
-          id: 'n${when.microsecondsSinceEpoch}${seq++}',
-          exerciseId: exId,
-          date: _dayKey(when),
-          kind: NoteKind.note,
-          text: text,
-          createdAt: when,
-        );
+      id: 'n${when.microsecondsSinceEpoch}${seq++}',
+      exerciseId: exId,
+      date: _dayKey(when),
+      kind: NoteKind.note,
+      text: text,
+      createdAt: when,
+    );
 
     (data['exNotes'] as Map?)?.forEach((k, v) {
       for (final e in (v as List)) {
         final m = (e as Map).cast<String, dynamic>();
         final text = ((m['t'] ?? '') as String).trim();
         if (text.isEmpty) continue;
-        notes.add(legacy(
-            k as String, DateTime.tryParse((m['d'] ?? '') as String) ?? DateTime.now(), text));
+        notes.add(legacy(k as String, DateTime.tryParse((m['d'] ?? '') as String) ?? DateTime.now(), text));
       }
     });
     if (raw is Map) {
@@ -404,96 +465,98 @@ class FitState extends FitCore
 
   @override
   Map<String, dynamic> toJson() => {
-        'profile': profile.toJson(),
-        'dark': dark,
-        'theme': themePref,
-        'units': units,
-        'language': language,
-        'rest': restSeconds,
-        'alarmSound': alarmSound,
-        'alarmSoundName': alarmSoundName,
-        'bg': bgPattern,
-        'heatTone': heatTone,
-        'bgDim': bgDim,
-        'showFocus': showFocus,
-        'showRecs': showRecommended,
-        'showWeek': showWeekStats,
-        'showRoutineRow': showRoutineRow,
-        'levelHints': levelHints,
-        'toastSound': toastSound,
-        'heatLabels': heatmapLabels,
-        if (hideShots) 'hideShots': true,
-        'weekStart': weekStartDay,
-        'autoAdvance': autoAdvance,
-        'keepAwake': keepScreenOn,
-        'countdown': startCountdown,
-        'gamify': gamification,
-        'rpe': logRpe,
-        'effort': effortScale,
-        'stepKg': stepKg,
-        'stepLb': stepLb,
-        'demo': demoSize,
-        'demoLoop': demoLoop,
-        'layout': sessionLayout,
-        'heatRange': heatmapRange,
-        'alarmStyle': alarmStyle,
-        'noSuggest': noSuggest.toList(),
-        'archived': archived.toList(),
-        'levelStay': levelStay.toList(),
-        'levelSeen': Map.of(levelSeen),
-        'levelShown': Map.of(levelShown),
-        'goals': exerciseGoals.map((k, g) => MapEntry(k, {'t': g.target, if (g.due != null) 'd': g.due!.millisecondsSinceEpoch})),
-        'barKg': exerciseBar,
-        'marks': videoMarks.map((k, v) => MapEntry(k, v.map((i, ms) => MapEntry('$i', ms)))),
-        'exMode': modeOverride,
-        'exSecondary': secondaryOverride,
-        'trainAt': trainReminderMin,
-        'trainSmart': smartReminder,
-        if (trainAgainMin > 0) 'trainAgain': trainAgainMin,
-        'alarmAskedAt': alarmAskedAt,
-        'onboarded': onboarded,
-        'favorites': favorites,
-        'notes': notes.map((n) => n.toJson()).toList(),
-        'places': places.map((p) => p.toJson()).toList(),
-        'place': activePlaceId,
-        'checkins': checkins.toList(),
-        'routines': routines.map((r) => r.toJson()).toList(),
-        'weeklyPlan': weeklyPlan.map((k, v) => MapEntry(k.toString(), v)),
-        'planExtras': planExtras.map((k, v) => MapEntry(k.toString(), v)),
-        'multiPlan': multiPlan,
-        if (rotation) 'rotation': rotation,
-        if (rotationIds.isNotEmpty) 'rotationIds': rotationIds,
-        if (rotationNextId.isNotEmpty) 'rotationNext': rotationNextId,
-        if (planMoves.isNotEmpty) 'planMoves': planMoves,
-        'custom': customExercises.map((e) => e.toJson()).toList(),
-        'media': exerciseMedia,
-        'exRest': exerciseRest,
-        'progress': progressStep,
-        'warmup': autoWarmup.toList(),
-        'repsOnly': repsOnly.toList(),
-        'repsOnlyOff': repsOnlyOff.toList(),
-        'eachSide': eachSide.toList(),
-        'eachSideOff': eachSideOff.toList(),
-        if (assistedOn.isNotEmpty) 'assisted': assistedOn.toList(),
-        if (assistedOff.isNotEmpty) 'assistedOff': assistedOff.toList(),
-        'sessions': sessions.map((s) => s.toJson()).toList(),
-        'bodyweight': bodyweight.map((b) => b.toJson()).toList(),
-        'measures': measures.map((m) => m.toJson()).toList(),
-        'shots': shots.map((s) => s.toJson()).toList(),
-        'awards': awards.map((k, v) => MapEntry(k, v.toIso8601String())),
-        'awardsSeen': awardsSeen.toList(),
-        'moments': moments.map((m) => m.toJson()).toList(),
-        'photoEvery': photoIntervalDays,
-        'bodyTl': bodyTimeline,
-        'nutrition': nutritionJson(),
-        'steps': stepsJson(),
-        if (session != null && !session!.complete) ...{
-          'live': session!.toJson(),
-          'liveStart': _runningSince?.toIso8601String(),
-          'liveElapsed': _elapsedBefore,
-          'livePaused': sessionPaused,
-        },
-      };
+    'profile': profile.toJson(),
+    'dark': dark,
+    'theme': themePref,
+    'units': units,
+    'language': language,
+    'rest': restSeconds,
+    'alarmSound': alarmSound,
+    'alarmSoundName': alarmSoundName,
+    'bg': bgPattern,
+    'heatTone': heatTone,
+    'bgDim': bgDim,
+    'showFocus': showFocus,
+    'showRecs': showRecommended,
+    'showWeek': showWeekStats,
+    'showRoutineRow': showRoutineRow,
+    'levelHints': levelHints,
+    'toastSound': toastSound,
+    'heatLabels': heatmapLabels,
+    if (hideShots) 'hideShots': true,
+    'weekStart': weekStartDay,
+    'autoAdvance': autoAdvance,
+    'keepAwake': keepScreenOn,
+    'countdown': startCountdown,
+    'gamify': gamification,
+    'rpe': logRpe,
+    'effort': effortScale,
+    'stepKg': stepKg,
+    'stepLb': stepLb,
+    'demo': demoSize,
+    'demoLoop': demoLoop,
+    'layout': sessionLayout,
+    'heatRange': heatmapRange,
+    'alarmStyle': alarmStyle,
+    'noSuggest': noSuggest.toList(),
+    'archived': archived.toList(),
+    'levelStay': levelStay.toList(),
+    'levelSeen': Map.of(levelSeen),
+    'levelShown': Map.of(levelShown),
+    'goals': exerciseGoals.map(
+      (k, g) => MapEntry(k, {'t': g.target, if (g.due != null) 'd': g.due!.millisecondsSinceEpoch}),
+    ),
+    'barKg': exerciseBar,
+    'marks': videoMarks.map((k, v) => MapEntry(k, v.map((i, ms) => MapEntry('$i', ms)))),
+    'exMode': modeOverride,
+    'exSecondary': secondaryOverride,
+    'trainAt': trainReminderMin,
+    'trainSmart': smartReminder,
+    if (trainAgainMin > 0) 'trainAgain': trainAgainMin,
+    'alarmAskedAt': alarmAskedAt,
+    'onboarded': onboarded,
+    'favorites': favorites,
+    'notes': notes.map((n) => n.toJson()).toList(),
+    'places': places.map((p) => p.toJson()).toList(),
+    'place': activePlaceId,
+    'checkins': checkins.toList(),
+    'routines': routines.map((r) => r.toJson()).toList(),
+    'weeklyPlan': weeklyPlan.map((k, v) => MapEntry(k.toString(), v)),
+    'planExtras': planExtras.map((k, v) => MapEntry(k.toString(), v)),
+    'multiPlan': multiPlan,
+    if (rotation) 'rotation': rotation,
+    if (rotationIds.isNotEmpty) 'rotationIds': rotationIds,
+    if (rotationNextId.isNotEmpty) 'rotationNext': rotationNextId,
+    if (planMoves.isNotEmpty) 'planMoves': planMoves,
+    'custom': customExercises.map((e) => e.toJson()).toList(),
+    'media': exerciseMedia,
+    'exRest': exerciseRest,
+    'progress': progressStep,
+    'warmup': autoWarmup.toList(),
+    'repsOnly': repsOnly.toList(),
+    'repsOnlyOff': repsOnlyOff.toList(),
+    'eachSide': eachSide.toList(),
+    'eachSideOff': eachSideOff.toList(),
+    if (assistedOn.isNotEmpty) 'assisted': assistedOn.toList(),
+    if (assistedOff.isNotEmpty) 'assistedOff': assistedOff.toList(),
+    'sessions': sessions.map((s) => s.toJson()).toList(),
+    'bodyweight': bodyweight.map((b) => b.toJson()).toList(),
+    'measures': measures.map((m) => m.toJson()).toList(),
+    'shots': shots.map((s) => s.toJson()).toList(),
+    'awards': awards.map((k, v) => MapEntry(k, v.toIso8601String())),
+    'awardsSeen': awardsSeen.toList(),
+    'moments': moments.map((m) => m.toJson()).toList(),
+    'photoEvery': photoIntervalDays,
+    'bodyTl': bodyTimeline,
+    'nutrition': nutritionJson(),
+    'steps': stepsJson(),
+    if (session != null && !session!.complete) ...{
+      'live': session!.toJson(),
+      'liveStart': _runningSince?.toIso8601String(),
+      'liveElapsed': _elapsedBefore,
+      'livePaused': sessionPaused,
+    },
+  };
 
   void resetAllData() {
     _saveDebounce?.cancel();
@@ -606,12 +669,14 @@ class FitState extends FitCore
     return true;
   }
 
-  void applyBackup(Map<String, dynamic> backup,
-      {Map<String, String>? restoredMedia,
-      Map<String, String>? restoredNoteMedia,
-      Map<String, String>? restoredShots,
-      Map<String, String>? restoredMoments,
-      Map<String, String>? restoredFoods}) {
+  void applyBackup(
+    Map<String, dynamic> backup, {
+    Map<String, String>? restoredMedia,
+    Map<String, String>? restoredNoteMedia,
+    Map<String, String>? restoredShots,
+    Map<String, String>? restoredMoments,
+    Map<String, String>? restoredFoods,
+  }) {
     final map = withMergedExercises(backup);
     if (restoredMedia != null) restoredMedia = withMergedExercises(restoredMedia).cast<String, String>();
     _loading = true;
@@ -635,28 +700,37 @@ class FitState extends FitCore
       ..addAll(((map['checkins'] as List?) ?? []).cast<String>());
     routines
       ..clear()
-      ..addAll(((map['routines'] as List?) ?? [])
-          .map((e) => Routine.fromJson((e as Map).cast<String, dynamic>())));
+      ..addAll(
+        ((map['routines'] as List?) ?? []).map((e) => Routine.fromJson((e as Map).cast<String, dynamic>())),
+      );
     weeklyPlan
       ..clear()
-      ..addAll(((map['weeklyPlan'] as Map?) ?? {})
-          .map((k, v) => MapEntry(int.parse(k as String), v as String)));
+      ..addAll(
+        ((map['weeklyPlan'] as Map?) ?? {}).map((k, v) => MapEntry(int.parse(k as String), v as String)),
+      );
     _loadPlanExtras(map);
     customExercises
       ..clear()
-      ..addAll(((map['custom'] as List?) ?? [])
-          .map((e) => Exercise.fromJson((e as Map).cast<String, dynamic>())));
+      ..addAll(
+        ((map['custom'] as List?) ?? []).map((e) => Exercise.fromJson((e as Map).cast<String, dynamic>())),
+      );
     _loadMedia(map, restored: restoredMedia);
     _loadRepsOnly(map);
     _loadExerciseRest(map);
     sessions
       ..clear()
-      ..addAll(((map['sessions'] as List?) ?? [])
-          .map((e) => LoggedSession.fromJson((e as Map).cast<String, dynamic>())));
+      ..addAll(
+        ((map['sessions'] as List?) ?? []).map(
+          (e) => LoggedSession.fromJson((e as Map).cast<String, dynamic>()),
+        ),
+      );
     bodyweight
       ..clear()
-      ..addAll(((map['bodyweight'] as List?) ?? [])
-          .map((e) => BodyweightEntry.fromJson((e as Map).cast<String, dynamic>())));
+      ..addAll(
+        ((map['bodyweight'] as List?) ?? []).map(
+          (e) => BodyweightEntry.fromJson((e as Map).cast<String, dynamic>()),
+        ),
+      );
     _loadMeasures(map);
     _loadShots(map, restored: restoredShots);
     _loadAwards(map);
@@ -677,8 +751,11 @@ class FitState extends FitCore
   void _loadAwards(Map<String, dynamic> map) {
     awards
       ..clear()
-      ..addAll(((map['awards'] as Map?) ?? const {}).map((k, v) =>
-          MapEntry(k as String, DateTime.tryParse(v as String? ?? '') ?? DateTime.now())));
+      ..addAll(
+        ((map['awards'] as Map?) ?? const {}).map(
+          (k, v) => MapEntry(k as String, DateTime.tryParse(v as String? ?? '') ?? DateTime.now()),
+        ),
+      );
     awardsSeen
       ..clear()
       ..addAll(((map['awardsSeen'] as List?) ?? const []).cast<String>());
@@ -688,12 +765,12 @@ class FitState extends FitCore
   void _loadMoments(Map<String, dynamic> map, {Map<String, String>? restored}) {
     moments
       ..clear()
-      ..addAll(((map['moments'] as List?) ?? const [])
-          .map((e) => Moment.fromJson((e as Map).cast<String, dynamic>()))
-          .map((m) => restored == null
-              ? m
-              : Moment(m.date, restored[m.file] ?? m.file, note: m.note))
-          .where((m) => m.file.isNotEmpty));
+      ..addAll(
+        ((map['moments'] as List?) ?? const [])
+            .map((e) => Moment.fromJson((e as Map).cast<String, dynamic>()))
+            .map((m) => restored == null ? m : Moment(m.date, restored[m.file] ?? m.file, note: m.note))
+            .where((m) => m.file.isNotEmpty),
+      );
   }
 
   void _remapNoteMedia(Map<String, String> restored) {
@@ -708,8 +785,7 @@ class FitState extends FitCore
     }
   }
 
-  static String _normName(String s) =>
-      s.toLowerCase().replaceAll(RegExp(r'[^a-z0-9]+'), ' ').trim();
+  static String _normName(String s) => s.toLowerCase().replaceAll(RegExp(r'[^a-z0-9]+'), ' ').trim();
 
   @override
   void syncTrainReminder() {
@@ -725,8 +801,7 @@ class FitState extends FitCore
     );
   }
 
-  int get reminderMinute =>
-      (smartReminder ? usualStartMinute : null) ?? trainReminderMin ?? 19 * 60;
+  int get reminderMinute => (smartReminder ? usualStartMinute : null) ?? trainReminderMin ?? 19 * 60;
 
   Set<int> get reminderWeekdays {
     if (smartReminder) {
@@ -773,7 +848,8 @@ class FitState extends FitCore
     return made;
   }
 
-  static const planTemplate = '{\n'
+  static const planTemplate =
+      '{\n'
       '  "program": "Upper Lower",\n'
       '  "unit": "kg",\n'
       '  "routines": [\n'
@@ -790,7 +866,8 @@ class FitState extends FitCore
       '  ]\n'
       '}';
 
-  static const planWeeksTemplate = '{"program": "12 weeks", "weeks": [\n'
+  static const planWeeksTemplate =
+      '{"program": "12 weeks", "weeks": [\n'
       '  {"name": "Week 1", "routines": [{"name": "Day A", "exercises": [{"name": "Barbell Full Squat", "sets": 3, "reps": 8}]}]},\n'
       '  {"name": "Week 2", "routines": [{"name": "Day A", "exercises": [{"name": "Barbell Full Squat", "sets": 4, "reps": 8}]}]}\n'
       ']}';
@@ -806,7 +883,8 @@ class FitState extends FitCore
       '- ${t.planBody(profile.sex == 'female' ? t.female : t.male, profile.age, heightLabel(profile.heightCm), weightLabel(profile.weightKg))}',
       '- ${t.planDays(weeklyTarget)}',
       if (sessions.isEmpty) '- ${t.planNoHistory}' else '- ${t.planHistory(recent)}',
-      if (records.isNotEmpty) '- ${t.planBestLifts}: ${records.map((r) => '${r.name} ${recordLabel(r)}').join('; ')}',
+      if (records.isNotEmpty)
+        '- ${t.planBestLifts}: ${records.map((r) => '${r.name} ${recordLabel(r)}').join('; ')}',
       t.planAskFirst,
       '',
       t.planIntro,
@@ -820,7 +898,9 @@ class FitState extends FitCore
       final local = exerciseName(ex);
       final label = local == ex.name ? ex.name : '${ex.name} ($local)';
       final mode = modeOf(ex.id);
-      lines.add('$label | ${ex.primary} | ${ex.equipment} | ${ex.difficulty}${mode.isEmpty ? '' : ' | $mode'}');
+      lines.add(
+        '$label | ${ex.primary} | ${ex.equipment} | ${ex.difficulty}${mode.isEmpty ? '' : ' | $mode'}',
+      );
     }
     return lines.join('\n');
   }
@@ -842,13 +922,14 @@ class FitState extends FitCore
     final gear = kEquipment.contains(item.equipment) ? item.equipment! : 'Other';
     final level = kDifficulties.contains(item.level) ? item.level! : 'Beginner';
     final id = addCustomExercise(
-        name: item.name,
-        primary: muscle,
-        equipment: gear,
-        difficulty: level,
-        steps: item.steps,
-        mode: item.mode,
-        secondary: item.secondary);
+      name: item.name,
+      primary: muscle,
+      equipment: gear,
+      difficulty: level,
+      steps: item.steps,
+      mode: item.mode,
+      secondary: item.secondary,
+    );
     return exerciseById(id);
   }
 
@@ -876,8 +957,10 @@ class FitState extends FitCore
       r.exerciseIds.length == ids.length &&
       [for (var i = 0; i < ids.length; i++) r.exerciseIds[i] == ids[i]].every((x) => x);
 
-  ({int routines, int added, List<String> missed}) applyPlan(List<PlanRoutine> plans,
-      {bool schedule = false}) {
+  ({int routines, int added, List<String> missed}) applyPlan(
+    List<PlanRoutine> plans, {
+    bool schedule = false,
+  }) {
     var made = 0, added = 0;
     final missed = <String>[];
     for (final plan in plans) {
@@ -944,7 +1027,8 @@ class FitState extends FitCore
     if (simple && explicit.isEmpty) return const [];
     return [
       ...explicit,
-      for (var i = working; i < wanted.clamp(0, 20); i++) PlannedSet(reps: item.reps, weightKg: item.weightKg),
+      for (var i = working; i < wanted.clamp(0, 20); i++)
+        PlannedSet(reps: item.reps, weightKg: item.weightKg),
     ];
   }
 
@@ -961,7 +1045,10 @@ class FitState extends FitCore
             'name': routineTitle(r),
             if (r.group.isNotEmpty) 'group': r.group,
             if (withSchedule)
-              'days': [for (var d = 1; d <= 7; d++) if (plannedOn(d, r.id)) d],
+              'days': [
+                for (var d = 1; d <= 7; d++)
+                  if (plannedOn(d, r.id)) d,
+              ],
             'exercises': [
               for (final id in r.exerciseIds)
                 if (exerciseById(id) case final ex?)
@@ -1001,7 +1088,10 @@ class FitState extends FitCore
   String planSummaryText(List<Routine> list) {
     final out = <String>[];
     for (final r in list) {
-      final days = [for (var d = 1; d <= 7; d++) if (plannedOn(d, r.id)) t.weekdayShort(d)];
+      final days = [
+        for (var d = 1; d <= 7; d++)
+          if (plannedOn(d, r.id)) t.weekdayShort(d),
+      ];
       out.add(days.isEmpty ? routineTitle(r) : '${routineTitle(r)} · ${days.join(', ')}');
       for (final id in r.exerciseIds) {
         final ex = exerciseById(id);
@@ -1032,8 +1122,11 @@ class FitState extends FitCore
         final hint = (pe.muscle ?? '').toLowerCase();
         final primary =
             match?.primary ?? (kFilterMuscles.contains(hint) ? hint : guessMuscle(pe.name) ?? 'other');
-        exs.add(LoggedExercise(id, match?.name ?? pe.name, primary,
-            [for (final s in pe.sets) LoggedSet(s.reps, s.weightKg, rpe: s.rpe)]));
+        exs.add(
+          LoggedExercise(id, match?.name ?? pe.name, primary, [
+            for (final s in pe.sets) LoggedSet(s.reps, s.weightKg, rpe: s.rpe),
+          ]),
+        );
       }
       if (exs.isEmpty) continue;
       final ls = LoggedSession(ps.date, ps.durationSec, exs);

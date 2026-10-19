@@ -165,23 +165,11 @@ const List<ProgramTemplate> kProgramTemplates = [
       ('Barbell Bench Press', 5),
       ('Barbell Row', 5),
     ], weekday: 1),
-    ProgramDay('Workout B', [
-      ('Barbell Squat', 5),
-      ('Overhead Press', 5),
-      ('Deadlift', 1),
-    ], weekday: 3),
+    ProgramDay('Workout B', [('Barbell Squat', 5), ('Overhead Press', 5), ('Deadlift', 1)], weekday: 3),
   ]),
   ProgramTemplate('startingstrength', 'Starting Strength', [
-    ProgramDay('Workout A', [
-      ('Barbell Squat', 3),
-      ('Barbell Bench Press', 3),
-      ('Deadlift', 1),
-    ], weekday: 1),
-    ProgramDay('Workout B', [
-      ('Barbell Squat', 3),
-      ('Overhead Press', 3),
-      ('Barbell Row', 3),
-    ], weekday: 3),
+    ProgramDay('Workout A', [('Barbell Squat', 3), ('Barbell Bench Press', 3), ('Deadlift', 1)], weekday: 1),
+    ProgramDay('Workout B', [('Barbell Squat', 3), ('Overhead Press', 3), ('Barbell Row', 3)], weekday: 3),
   ]),
   ProgramTemplate('rr', 'Recommended Routine', [
     ProgramDay('Recommended Routine', [
@@ -219,12 +207,7 @@ const List<ProgramTemplate> kProgramTemplates = [
     ], weekday: 5),
   ]),
   ProgramTemplate('home', 'No Kit', [
-    ProgramDay('Home A', [
-      ('Push Up', 3),
-      ('Pull Up', 3),
-      ('Bodyweight Squat', 3),
-      ('Plank', 3),
-    ], weekday: 2),
+    ProgramDay('Home A', [('Push Up', 3), ('Pull Up', 3), ('Bodyweight Squat', 3), ('Plank', 3)], weekday: 2),
     ProgramDay('Home B', [
       ('Triceps Dip', 3),
       ('Chin Up', 3),

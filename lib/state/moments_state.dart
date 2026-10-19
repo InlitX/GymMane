@@ -7,14 +7,13 @@ class Moment {
   final String file;
   final String note;
 
-  Map<String, dynamic> toJson() =>
-      {'d': date.toIso8601String(), 'f': file, if (note.isNotEmpty) 'n': note};
+  Map<String, dynamic> toJson() => {'d': date.toIso8601String(), 'f': file, if (note.isNotEmpty) 'n': note};
 
   factory Moment.fromJson(Map<String, dynamic> j) => Moment(
-        DateTime.tryParse((j['d'] as String?) ?? '') ?? DateTime.now(),
-        (j['f'] as String?) ?? '',
-        note: (j['n'] as String?) ?? '',
-      );
+    DateTime.tryParse((j['d'] as String?) ?? '') ?? DateTime.now(),
+    (j['f'] as String?) ?? '',
+    note: (j['n'] as String?) ?? '',
+  );
 }
 
 mixin MomentsState on FitCore {

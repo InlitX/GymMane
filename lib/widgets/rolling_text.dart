@@ -166,8 +166,5 @@ class _RollingChar extends StatelessWidget {
     );
   }
 
-  static const _tight = TextHeightBehavior(
-    applyHeightToFirstAscent: false,
-    applyHeightToLastDescent: false,
-  );
+  static const _tight = TextHeightBehavior(applyHeightToFirstAscent: false, applyHeightToLastDescent: false);
 }

@@ -50,7 +50,10 @@ class AwardsScreen extends StatelessWidget {
       children: [
         Text(label, style: AppTheme.f(19, color: gc.text)),
         const SizedBox(width: 8),
-        Text('$count', style: AppTheme.f(16, weight: FontWeight.w600, color: gc.textTertiary)),
+        Text(
+          '$count',
+          style: AppTheme.f(16, weight: FontWeight.w600, color: gc.textTertiary),
+        ),
       ],
     );
   }
@@ -79,14 +82,15 @@ class AwardsScreen extends StatelessWidget {
       onTap: () => showMedalSheet(context, id),
       child: Container(
         padding: const EdgeInsets.fromLTRB(12, 16, 12, 14),
-        decoration: BoxDecoration(
-          color: gc.bgRaised,
-          borderRadius: BorderRadius.circular(20),
-        ),
+        decoration: BoxDecoration(color: gc.bgRaised, borderRadius: BorderRadius.circular(20)),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Flexible(child: FittedBox(child: Medal(id: id, size: 96, locked: !won))),
+            Flexible(
+              child: FittedBox(
+                child: Medal(id: id, size: 96, locked: !won),
+              ),
+            ),
             const SizedBox(height: 14),
             Text(
               awardName(id),

@@ -265,110 +265,132 @@ class _CutoutEditorState extends State<_CutoutEditor> {
         color: gc.bgRaised,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
       ),
-      child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-        const SheetHandle(),
-        const SizedBox(height: 16),
-        SheetTitle(t.cutoutEdit, subtitle: t.cutoutEditHint),
-        const SizedBox(height: 14),
-        Expanded(
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(24),
-            child: ColoredBox(
-              color: gc.bg,
-              child: LayoutBuilder(builder: (context, box) {
-                _box = box.biggest;
-                if (photo == null || mask == null) {
-                  return Center(
-                    child: SizedBox(
-                        width: 24, height: 24, child: CircularProgressIndicator(strokeWidth: 2.2, color: gc.accent)),
-                  );
-                }
-                return GestureDetector(
-                  behavior: HitTestBehavior.opaque,
-                  onScaleStart: _onStart,
-                  onScaleUpdate: _onUpdate,
-                  onScaleEnd: _onEnd,
-                  onTapUp: _onTap,
-                  child: Stack(children: [
-                    Positioned.fill(
-                      child: CustomPaint(
-                        painter: _CutoutPainter(
-                          photo: photo,
-                          mask: mask,
-                          strokes: [..._live],
-                          fitted: _fitted,
-                          scale: _scale,
-                          offset: _offset,
-                          imageWidth: widget.draft.width,
-                          dim: gc.bg,
-                          edge: gc.accent,
-                        ),
-                      ),
-                    ),
-                    if (_busy)
-                      Positioned(
-                        top: 12,
-                        right: 12,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          const SheetHandle(),
+          const SizedBox(height: 16),
+          SheetTitle(t.cutoutEdit, subtitle: t.cutoutEditHint),
+          const SizedBox(height: 14),
+          Expanded(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(24),
+              child: ColoredBox(
+                color: gc.bg,
+                child: LayoutBuilder(
+                  builder: (context, box) {
+                    _box = box.biggest;
+                    if (photo == null || mask == null) {
+                      return Center(
                         child: SizedBox(
-                            width: 18, height: 18, child: CircularProgressIndicator(strokeWidth: 2, color: gc.accent)),
+                          width: 24,
+                          height: 24,
+                          child: CircularProgressIndicator(strokeWidth: 2.2, color: gc.accent),
+                        ),
+                      );
+                    }
+                    return GestureDetector(
+                      behavior: HitTestBehavior.opaque,
+                      onScaleStart: _onStart,
+                      onScaleUpdate: _onUpdate,
+                      onScaleEnd: _onEnd,
+                      onTapUp: _onTap,
+                      child: Stack(
+                        children: [
+                          Positioned.fill(
+                            child: CustomPaint(
+                              painter: _CutoutPainter(
+                                photo: photo,
+                                mask: mask,
+                                strokes: [..._live],
+                                fitted: _fitted,
+                                scale: _scale,
+                                offset: _offset,
+                                imageWidth: widget.draft.width,
+                                dim: gc.bg,
+                                edge: gc.accent,
+                              ),
+                            ),
+                          ),
+                          if (_busy)
+                            Positioned(
+                              top: 12,
+                              right: 12,
+                              child: SizedBox(
+                                width: 18,
+                                height: 18,
+                                child: CircularProgressIndicator(strokeWidth: 2, color: gc.accent),
+                              ),
+                            ),
+                        ],
                       ),
-                  ]),
-                );
-              }),
-            ),
-          ),
-        ),
-        const SizedBox(height: 14),
-        Row(children: [
-          SegToggle([
-            SegOption(t.cutoutErase, _erase, () => setState(() => _erase = true)),
-            SegOption(t.cutoutRestore, !_erase, () => setState(() => _erase = false)),
-          ], fontSize: 13),
-          const Spacer(),
-          for (var i = 0; i < _brushes.length; i++)
-            GestureDetector(
-              behavior: HitTestBehavior.opaque,
-              onTap: () {
-                HapticFeedback.selectionClick();
-                setState(() => _brush = i);
-              },
-              child: SizedBox(
-                width: 34,
-                height: 40,
-                child: Center(
-                  child: AnimatedContainer(
-                    duration: const Duration(milliseconds: 160),
-                    width: 8.0 + i * 7,
-                    height: 8.0 + i * 7,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: i == _brush ? gc.accent : gc.textTertiary.withValues(alpha: 0.5),
-                    ),
-                  ),
+                    );
+                  },
                 ),
               ),
             ),
-        ]),
-        const SizedBox(height: 12),
-        Row(children: [
-          RoundAction(
-            label: t.undo,
-            size: 50,
-            onTap: _undo,
-            child: Icon(PhosphorIconsBold.arrowCounterClockwise, size: 18,
-                color: _history.isEmpty ? gc.textTertiary : gc.text),
           ),
-          const SizedBox(width: 10),
-          RoundAction(
-            label: t.cutoutReset,
-            size: 50,
-            onTap: _reset,
-            child: Icon(PhosphorIconsBold.sparkle, size: 18, color: gc.textSecondary),
+          const SizedBox(height: 14),
+          Row(
+            children: [
+              SegToggle([
+                SegOption(t.cutoutErase, _erase, () => setState(() => _erase = true)),
+                SegOption(t.cutoutRestore, !_erase, () => setState(() => _erase = false)),
+              ], fontSize: 13),
+              const Spacer(),
+              for (var i = 0; i < _brushes.length; i++)
+                GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTap: () {
+                    HapticFeedback.selectionClick();
+                    setState(() => _brush = i);
+                  },
+                  child: SizedBox(
+                    width: 34,
+                    height: 40,
+                    child: Center(
+                      child: AnimatedContainer(
+                        duration: const Duration(milliseconds: 160),
+                        width: 8.0 + i * 7,
+                        height: 8.0 + i * 7,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: i == _brush ? gc.accent : gc.textTertiary.withValues(alpha: 0.5),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+            ],
           ),
-          const SizedBox(width: 10),
-          Expanded(child: PrimaryButton(label: t.done, height: 50, onTap: _done)),
-        ]),
-      ]),
+          const SizedBox(height: 12),
+          Row(
+            children: [
+              RoundAction(
+                label: t.undo,
+                size: 50,
+                onTap: _undo,
+                child: Icon(
+                  PhosphorIconsBold.arrowCounterClockwise,
+                  size: 18,
+                  color: _history.isEmpty ? gc.textTertiary : gc.text,
+                ),
+              ),
+              const SizedBox(width: 10),
+              RoundAction(
+                label: t.cutoutReset,
+                size: 50,
+                onTap: _reset,
+                child: Icon(PhosphorIconsBold.sparkle, size: 18, color: gc.textSecondary),
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: PrimaryButton(label: t.done, height: 50, onTap: _done),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }
@@ -430,9 +452,13 @@ class _CutoutPainter extends CustomPainter {
     }
     canvas.restore();
     canvas.drawImageRect(
-        photo, src, fitted, Paint()
-          ..filterQuality = FilterQuality.medium
-          ..blendMode = BlendMode.srcIn);
+      photo,
+      src,
+      fitted,
+      Paint()
+        ..filterQuality = FilterQuality.medium
+        ..blendMode = BlendMode.srcIn,
+    );
     canvas.restore();
     canvas.restore();
   }

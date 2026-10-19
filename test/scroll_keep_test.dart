@@ -22,7 +22,12 @@ void main() {
 
     final list = find.byKey(const PageStorageKey('exercises'));
     double offset() => tester
-        .state<ScrollableState>(find.descendant(of: find.byKey(const PageStorageKey('exercises')), matching: find.byType(Scrollable)))
+        .state<ScrollableState>(
+          find.descendant(
+            of: find.byKey(const PageStorageKey('exercises')),
+            matching: find.byType(Scrollable),
+          ),
+        )
         .position
         .pixels;
     await tester.drag(list, const Offset(0, -2500));

@@ -168,8 +168,7 @@ void main() {
     test('reset wipes the lot and puts you back at the welcome', () async {
       routineWithThree();
       fit.addBodyweight(75);
-      fit.saveNote(
-          exerciseId: a, date: DateTime.now(), kind: NoteKind.note, text: 'una nota');
+      fit.saveNote(exerciseId: a, date: DateTime.now(), kind: NoteKind.note, text: 'una nota');
       fit.toggleFavorite(a);
       fit.updateProfile(name: 'Alex');
       fit.startRoutine(fit.routines.single);

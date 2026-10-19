@@ -98,9 +98,11 @@ void main() {
     test('con historia de más de un año llega hasta el primer entreno', () {
       fit.setHeatmapRange('year');
       final old = DateTime.now().subtract(const Duration(days: 500));
-      fit.sessions.add(LoggedSession(old, 1800, [
-        LoggedExercise('x', 'X', 'chest', [LoggedSet(8, 50)]),
-      ]));
+      fit.sessions.add(
+        LoggedSession(old, 1800, [
+          LoggedExercise('x', 'X', 'chest', [LoggedSet(8, 50)]),
+        ]),
+      );
       final weeks = fit.heatmapShownWeeks;
       expect(weeks, greaterThan(53));
       final first = fit.heatmapShownDate(0);
@@ -140,7 +142,8 @@ void main() {
       expect(text.startsWith('%PDF-1.4'), isTrue);
       expect(text.trimRight().endsWith('%%EOF'), isTrue);
       expect(RegExp(r'/Type /Page ').allMatches(text).length, 1);
-      String hex(String v) => '<FEFF${v.codeUnits.map((u) => u.toRadixString(16).padLeft(4, '0').toUpperCase()).join()}>';
+      String hex(String v) =>
+          '<FEFF${v.codeUnits.map((u) => u.toRadixString(16).padLeft(4, '0').toUpperCase()).join()}>';
       expect(text, contains('/Author ${hex('InlitX')}'));
       expect(text, contains('/Lang (es)'));
       expect(text, contains('<dc:creator><rdf:Seq><rdf:li>InlitX</rdf:li></rdf:Seq></dc:creator>'));
@@ -181,7 +184,13 @@ void main() {
 
   group('#224 notas en el entreno', () {
     test('una nota fijada sale siempre en el entreno', () {
-      fit.saveNote(exerciseId: 'row', date: ago(10), kind: NoteKind.note, text: 'Asiento en el 2', pinned: true);
+      fit.saveNote(
+        exerciseId: 'row',
+        date: ago(10),
+        kind: NoteKind.note,
+        text: 'Asiento en el 2',
+        pinned: true,
+      );
       logged('row', 5, [LoggedSet(8, 40)]);
       expect(fit.workoutNotesFor('row').map((n) => n.text), ['Asiento en el 2']);
     });
@@ -238,7 +247,9 @@ void main() {
 
   group('#228 editar series registradas', () {
     test('cambiar el peso no borra el tiempo, el tipo ni el RPE', () {
-      final e = LoggedExercise('plank', 'Plank', 'abdomen', [LoggedSet(0, 10, sec: 45, rpe: 8, kind: SetKind.drop)]);
+      final e = LoggedExercise('plank', 'Plank', 'abdomen', [
+        LoggedSet(0, 10, sec: 45, rpe: 8, kind: SetKind.drop),
+      ]);
       fit.sessions.add(LoggedSession(ago(1), 600, [e]));
       fit.bumpLoggedWeight(e, 0, 1);
       expect(e.sets.single.sec, 45);
@@ -399,9 +410,21 @@ void main() {
     test('el mes lista sus entrenos, del más nuevo al más viejo', () {
       final n = DateTime.now();
       final month = DateTime(n.year, n.month);
-      fit.sessions.add(LoggedSession(DateTime(n.year, n.month, 1, 18), 1800, [LoggedExercise('a', 'A', 'chest', [LoggedSet(8, 60)])]));
-      fit.sessions.add(LoggedSession(DateTime(n.year, n.month, 2, 18), 2400, [LoggedExercise('a', 'A', 'chest', [LoggedSet(8, 62.5), LoggedSet(8, 62.5)])]));
-      fit.sessions.add(LoggedSession(DateTime(n.year, n.month - 1, 20, 18), 600, [LoggedExercise('a', 'A', 'chest', [LoggedSet(8, 50)])]));
+      fit.sessions.add(
+        LoggedSession(DateTime(n.year, n.month, 1, 18), 1800, [
+          LoggedExercise('a', 'A', 'chest', [LoggedSet(8, 60)]),
+        ]),
+      );
+      fit.sessions.add(
+        LoggedSession(DateTime(n.year, n.month, 2, 18), 2400, [
+          LoggedExercise('a', 'A', 'chest', [LoggedSet(8, 62.5), LoggedSet(8, 62.5)]),
+        ]),
+      );
+      fit.sessions.add(
+        LoggedSession(DateTime(n.year, n.month - 1, 20, 18), 600, [
+          LoggedExercise('a', 'A', 'chest', [LoggedSet(8, 50)]),
+        ]),
+      );
       final list = fit.sessionsInMonth(month);
       expect(list.length, 2);
       expect(list.first.day.day, 2);
@@ -444,7 +467,10 @@ void main() {
     });
 
     test('la mejor serie de una plancha es la más larga', () {
-      final e = LoggedExercise('plank', 'Plank', 'abdomen', [LoggedSet(0, 0, sec: 45), LoggedSet(0, 0, sec: 60)]);
+      final e = LoggedExercise('plank', 'Plank', 'abdomen', [
+        LoggedSet(0, 0, sec: 45),
+        LoggedSet(0, 0, sec: 60),
+      ]);
       expect(fit.topSetOf(e)!.sec, 60);
     });
   });
@@ -472,10 +498,16 @@ void main() {
 
   testWidgets('#227 una hoja larga se cierra tirando hacia abajo', (tester) async {
     late BuildContext ctx;
-    await tester.pumpWidget(MaterialApp(home: Builder(builder: (c) {
-      ctx = c;
-      return const SizedBox();
-    })));
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Builder(
+          builder: (c) {
+            ctx = c;
+            return const SizedBox();
+          },
+        ),
+      ),
+    );
     showAppSheet<void>(
       context: ctx,
       builder: (_) => SingleChildScrollView(

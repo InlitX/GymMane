@@ -15,25 +15,25 @@ import 'glass.dart';
 import 'ui_kit.dart';
 
 Color noteKindColor(GymColors gc, NoteKind k) => switch (k) {
-      NoteKind.note => gc.info,
-      NoteKind.plan => gc.warn,
-      NoteKind.done => gc.sage,
-      NoteKind.pain => gc.danger,
-    };
+  NoteKind.note => gc.info,
+  NoteKind.plan => gc.warn,
+  NoteKind.done => gc.sage,
+  NoteKind.pain => gc.danger,
+};
 
 String noteKindLabel(NoteKind k) => switch (k) {
-      NoteKind.note => t.noteKindNote,
-      NoteKind.plan => t.noteKindPlan,
-      NoteKind.done => t.noteKindDone,
-      NoteKind.pain => t.noteKindPain,
-    };
+  NoteKind.note => t.noteKindNote,
+  NoteKind.plan => t.noteKindPlan,
+  NoteKind.done => t.noteKindDone,
+  NoteKind.pain => t.noteKindPain,
+};
 
 IconData noteKindIcon(NoteKind k) => switch (k) {
-      NoteKind.note => PhosphorIconsRegular.notePencil,
-      NoteKind.plan => PhosphorIconsRegular.crosshair,
-      NoteKind.done => PhosphorIconsRegular.checkCircle,
-      NoteKind.pain => PhosphorIconsRegular.warning,
-    };
+  NoteKind.note => PhosphorIconsRegular.notePencil,
+  NoteKind.plan => PhosphorIconsRegular.crosshair,
+  NoteKind.done => PhosphorIconsRegular.checkCircle,
+  NoteKind.pain => PhosphorIconsRegular.warning,
+};
 
 String noteDayLabel(DateTime d) {
   final now = DateTime.now();
@@ -75,9 +75,11 @@ class NoteCalendar extends StatelessWidget {
           children: [
             _arrow(gc, PhosphorIconsBold.caretLeft, t.notePrevMonth, () => onMonth(-1)),
             Expanded(
-              child: Text(t.monthYear(month),
-                  textAlign: TextAlign.center,
-                  style: AppTheme.f(15, weight: FontWeight.w700, color: gc.text)),
+              child: Text(
+                t.monthYear(month),
+                textAlign: TextAlign.center,
+                style: AppTheme.f(15, weight: FontWeight.w700, color: gc.text),
+              ),
             ),
             _arrow(gc, PhosphorIconsBold.caretRight, t.noteNextMonth, () => onMonth(1)),
           ],
@@ -87,10 +89,11 @@ class NoteCalendar extends StatelessWidget {
           children: [
             for (int i = 0; i < 7; i++)
               Expanded(
-                child: Text(t.weekdayInitial(fit.weekdayAt(i)).toUpperCase(),
-                    textAlign: TextAlign.center,
-                    style: AppTheme.f(10.5,
-                        weight: FontWeight.w600, color: gc.textTertiary, letterSpacing: 1)),
+                child: Text(
+                  t.weekdayInitial(fit.weekdayAt(i)).toUpperCase(),
+                  textAlign: TextAlign.center,
+                  style: AppTheme.f(10.5, weight: FontWeight.w600, color: gc.textTertiary, letterSpacing: 1),
+                ),
               ),
           ],
         ),
@@ -113,19 +116,19 @@ class NoteCalendar extends StatelessWidget {
   }
 
   Widget _arrow(GymColors gc, IconData icon, String label, VoidCallback onTap) => Semantics(
-        button: true,
-        label: label,
-        child: GestureDetector(
-          behavior: HitTestBehavior.opaque,
-          onTap: onTap,
-          child: Container(
-            width: 34,
-            height: 34,
-            decoration: BoxDecoration(color: gc.bgRaised2, shape: BoxShape.circle),
-            child: Icon(icon, size: 13, color: gc.text),
-          ),
-        ),
-      );
+    button: true,
+    label: label,
+    child: GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: onTap,
+      child: Container(
+        width: 34,
+        height: 34,
+        decoration: BoxDecoration(color: gc.bgRaised2, shape: BoxShape.circle),
+        child: Icon(icon, size: 13, color: gc.text),
+      ),
+    ),
+  );
 
   Widget _cell(GymColors gc, DateTime day, DateTime today) {
     final kinds = kindsOn(day);
@@ -151,14 +154,18 @@ class NoteCalendar extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('${day.day}',
-                  style: AppTheme.f(13.5,
-                      weight: isToday || on ? FontWeight.w700 : FontWeight.w500,
-                      color: on
-                          ? gc.text
-                          : isToday
-                              ? gc.ember
-                              : gc.textSecondary)),
+              Text(
+                '${day.day}',
+                style: AppTheme.f(
+                  13.5,
+                  weight: isToday || on ? FontWeight.w700 : FontWeight.w500,
+                  color: on
+                      ? gc.text
+                      : isToday
+                      ? gc.ember
+                      : gc.textSecondary,
+                ),
+              ),
               const SizedBox(height: 4),
               SizedBox(
                 height: 5,
@@ -170,10 +177,7 @@ class NoteCalendar extends StatelessWidget {
                       Container(
                         width: 5,
                         height: 5,
-                        decoration: BoxDecoration(
-                          color: noteKindColor(gc, k),
-                          shape: BoxShape.circle,
-                        ),
+                        decoration: BoxDecoration(color: noteKindColor(gc, k), shape: BoxShape.circle),
                       ),
                     ],
                   ],
@@ -232,18 +236,16 @@ class NoteKindBadge extends StatelessWidget {
     final color = noteKindColor(context.gc, kind);
     return Container(
       padding: EdgeInsets.symmetric(horizontal: compact ? 7 : 9, vertical: compact ? 3 : 4),
-      decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.14),
-        borderRadius: BorderRadius.circular(8),
-      ),
+      decoration: BoxDecoration(color: color.withValues(alpha: 0.14), borderRadius: BorderRadius.circular(8)),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           Icon(noteKindIcon(kind), size: compact ? 10 : 12, color: color),
           SizedBox(width: compact ? 4 : 5),
-          Text(noteKindLabel(kind).toUpperCase(),
-              style: AppTheme.f(compact ? 9.5 : 10.5,
-                  weight: FontWeight.w600, color: color, letterSpacing: 1)),
+          Text(
+            noteKindLabel(kind).toUpperCase(),
+            style: AppTheme.f(compact ? 9.5 : 10.5, weight: FontWeight.w600, color: color, letterSpacing: 1),
+          ),
         ],
       ),
     );
@@ -274,27 +276,27 @@ class NoteKindPicker extends StatelessWidget {
                   duration: const Duration(milliseconds: 160),
                   padding: const EdgeInsets.symmetric(vertical: 12),
                   decoration: BoxDecoration(
-                    color: selected == kind
-                        ? noteKindColor(gc, kind).withValues(alpha: 0.16)
-                        : gc.bgRaised,
+                    color: selected == kind ? noteKindColor(gc, kind).withValues(alpha: 0.16) : gc.bgRaised,
                     borderRadius: BorderRadius.circular(18),
                   ),
                   child: Column(
                     children: [
-                      Icon(noteKindIcon(kind),
-                          size: 18,
-                          color: selected == kind ? noteKindColor(gc, kind) : gc.textTertiary),
+                      Icon(
+                        noteKindIcon(kind),
+                        size: 18,
+                        color: selected == kind ? noteKindColor(gc, kind) : gc.textTertiary,
+                      ),
                       const SizedBox(height: 6),
                       FittedBox(
                         fit: BoxFit.scaleDown,
                         child: Text(
                           noteKindLabel(kind),
                           maxLines: 1,
-                          style: AppTheme.f(11.5,
-                              weight: FontWeight.w600,
-                              color: selected == kind
-                                  ? noteKindColor(gc, kind)
-                                  : gc.textSecondary),
+                          style: AppTheme.f(
+                            11.5,
+                            weight: FontWeight.w600,
+                            color: selected == kind ? noteKindColor(gc, kind) : gc.textSecondary,
+                          ),
                         ),
                       ),
                     ],
@@ -310,12 +312,7 @@ class NoteKindPicker extends StatelessWidget {
 }
 
 class NoteFilterBar extends StatelessWidget {
-  const NoteFilterBar({
-    super.key,
-    required this.selected,
-    required this.counts,
-    required this.onPick,
-  });
+  const NoteFilterBar({super.key, required this.selected, required this.counts, required this.onPick});
 
   final NoteKind? selected;
   final Map<NoteKind, int> counts;
@@ -330,37 +327,32 @@ class NoteFilterBar extends StatelessWidget {
       required Color color,
       required bool on,
       required VoidCallback onTap,
-    }) =>
-        GestureDetector(
-          behavior: HitTestBehavior.opaque,
-          onTap: onTap,
-          child: Container(
-            margin: const EdgeInsets.only(right: 8),
-            padding: const EdgeInsets.symmetric(horizontal: 13, vertical: 8),
-            decoration: BoxDecoration(
-              color: on ? color.withValues(alpha: 0.16) : gc.bgRaised,
-              borderRadius: BorderRadius.circular(100),
-              border: Border.all(color: on ? color : gc.border),
-            ),
-            child: Center(
-              child: Text(label,
-                  style: AppTheme.f(12.5,
-                      weight: FontWeight.w600, color: on ? color : gc.textSecondary)),
-            ),
+    }) => GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: onTap,
+      child: Container(
+        margin: const EdgeInsets.only(right: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 13, vertical: 8),
+        decoration: BoxDecoration(
+          color: on ? color.withValues(alpha: 0.16) : gc.bgRaised,
+          borderRadius: BorderRadius.circular(100),
+          border: Border.all(color: on ? color : gc.border),
+        ),
+        child: Center(
+          child: Text(
+            label,
+            style: AppTheme.f(12.5, weight: FontWeight.w600, color: on ? color : gc.textSecondary),
           ),
-        );
+        ),
+      ),
+    );
 
     return SizedBox(
       height: 38,
       child: ListView(
         scrollDirection: Axis.horizontal,
         children: [
-          chip(
-            label: t.noteFilterAll,
-            color: gc.ember,
-            on: selected == null,
-            onTap: () => onPick(null),
-          ),
+          chip(label: t.noteFilterAll, color: gc.ember, on: selected == null, onTap: () => onPick(null)),
           for (final kind in NoteKind.values)
             if ((counts[kind] ?? 0) > 0)
               chip(
@@ -376,13 +368,7 @@ class NoteFilterBar extends StatelessWidget {
 }
 
 class NoteCard extends StatelessWidget {
-  const NoteCard({
-    super.key,
-    required this.note,
-    this.showExercise = true,
-    this.showDate = true,
-    this.onTap,
-  });
+  const NoteCard({super.key, required this.note, this.showExercise = true, this.showDate = true, this.onTap});
 
   final GymNote note;
   final bool showExercise;
@@ -403,10 +389,7 @@ class NoteCard extends StatelessWidget {
       child: Container(
         margin: const EdgeInsets.only(bottom: 10),
         clipBehavior: Clip.antiAlias,
-        decoration: BoxDecoration(
-          color: gc.bgRaised,
-          borderRadius: BorderRadius.circular(18),
-        ),
+        decoration: BoxDecoration(color: gc.bgRaised, borderRadius: BorderRadius.circular(18)),
         child: Stack(
           children: [
             Positioned.fill(child: CustomPaint(painter: _NoteRail(color))),
@@ -438,16 +421,20 @@ class NoteCard extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 9),
-                  Text(note.title,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: AppTheme.f(15, weight: FontWeight.w600, color: gc.text, height: 1.3)),
+                  Text(
+                    note.title,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: AppTheme.f(15, weight: FontWeight.w600, color: gc.text, height: 1.3),
+                  ),
                   if (note.body.isNotEmpty) ...[
                     const SizedBox(height: 4),
-                    Text(note.body,
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
-                        style: AppTheme.f(13, weight: FontWeight.w500, color: gc.textSecondary, height: 1.4)),
+                    Text(
+                      note.body,
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
+                      style: AppTheme.f(13, weight: FontWeight.w500, color: gc.textSecondary, height: 1.4),
+                    ),
                   ],
                   if (note.media.isNotEmpty) ...[
                     const SizedBox(height: 12),
@@ -608,8 +595,10 @@ class NoteThumb extends StatelessWidget {
                   borderRadius: BorderRadius.circular(16),
                 ),
                 alignment: Alignment.center,
-                child: Text(badge!,
-                    style: AppTheme.f(14, weight: FontWeight.w700, color: Colors.white)),
+                child: Text(
+                  badge!,
+                  style: AppTheme.f(14, weight: FontWeight.w700, color: Colors.white),
+                ),
               ),
             ),
           if (onRemove != null)
@@ -624,10 +613,7 @@ class NoteThumb extends StatelessWidget {
                   child: Container(
                     width: 24,
                     height: 24,
-                    decoration: BoxDecoration(
-                      color: gc.bgRaised2,
-                      shape: BoxShape.circle,
-                    ),
+                    decoration: BoxDecoration(color: gc.bgRaised2, shape: BoxShape.circle),
                     child: Icon(PhosphorIconsBold.x, size: 11, color: gc.text),
                   ),
                 ),
@@ -640,17 +626,21 @@ class NoteThumb extends StatelessWidget {
 }
 
 Future<void> showNoteMedia(BuildContext context, List<String> media, int index, {String? scope}) =>
-    Navigator.of(context).push(PageRouteBuilder<void>(
-      opaque: false,
-      barrierDismissible: true,
-      barrierColor: const Color(0xF2000000),
-      barrierLabel: t.cancel,
-      transitionDuration: const Duration(milliseconds: 360),
-      reverseTransitionDuration: const Duration(milliseconds: 300),
-      pageBuilder: (_, _, _) => _MediaViewer(media: media, start: index, scope: scope),
-      transitionsBuilder: (_, animation, _, child) =>
-          FadeTransition(opacity: CurvedAnimation(parent: animation, curve: Curves.easeOut), child: child),
-    ));
+    Navigator.of(context).push(
+      PageRouteBuilder<void>(
+        opaque: false,
+        barrierDismissible: true,
+        barrierColor: const Color(0xF2000000),
+        barrierLabel: t.cancel,
+        transitionDuration: const Duration(milliseconds: 360),
+        reverseTransitionDuration: const Duration(milliseconds: 300),
+        pageBuilder: (_, _, _) => _MediaViewer(media: media, start: index, scope: scope),
+        transitionsBuilder: (_, animation, _, child) => FadeTransition(
+          opacity: CurvedAnimation(parent: animation, curve: Curves.easeOut),
+          child: child,
+        ),
+      ),
+    );
 
 class _MediaViewer extends StatefulWidget {
   const _MediaViewer({required this.media, required this.start, this.scope});
@@ -723,8 +713,10 @@ class _MediaViewerState extends State<_MediaViewer> {
                     ),
                     const Spacer(),
                     if (widget.media.length > 1)
-                      Text('${_index + 1}/${widget.media.length}',
-                          style: AppTheme.f(14, weight: FontWeight.w600, color: Colors.white)),
+                      Text(
+                        '${_index + 1}/${widget.media.length}',
+                        style: AppTheme.f(14, weight: FontWeight.w600, color: Colors.white),
+                      ),
                     const SizedBox(width: 10),
                   ],
                 ),
@@ -781,13 +773,10 @@ class _FullVideoState extends State<_FullVideo> {
   Widget build(BuildContext context) {
     final c = _c;
     if (_failed) {
-      return const Center(
-          child: Icon(PhosphorIconsRegular.videoCamera, size: 48, color: Colors.white38));
+      return const Center(child: Icon(PhosphorIconsRegular.videoCamera, size: 48, color: Colors.white38));
     }
     if (c == null) {
-      return const Center(
-        child: CupertinoActivityIndicator(radius: 13, color: Colors.white70),
-      );
+      return const Center(child: CupertinoActivityIndicator(radius: 13, color: Colors.white70));
     }
     return GestureDetector(
       onTap: () => setState(() => c.value.isPlaying ? c.pause() : c.play()),

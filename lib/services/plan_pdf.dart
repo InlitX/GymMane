@@ -45,10 +45,12 @@ Future<void> sharePlanPdf(List<Routine> routines, {bool week = false}) async {
     final file = File('${dir.path}/gymmane-${name.isEmpty ? 'plan' : name}.pdf');
     await file.writeAsBytes(bytes);
     final title = week ? sentenceCase(t.weeklyPlan) : fit.routineTitle(routines.first);
-    await SharePlus.instance.share(ShareParams(
-      files: [XFile(file.path, mimeType: 'application/pdf')],
-      subject: title,
-    ));
+    await SharePlus.instance.share(
+      ShareParams(
+        files: [XFile(file.path, mimeType: 'application/pdf')],
+        subject: title,
+      ),
+    );
   } catch (_) {}
 }
 
@@ -123,18 +125,29 @@ class _PlanDoc {
 
   double _x(double left, double width) => rtl ? _pageW - left - width : left;
 
-  TextStyle _st(double size, {FontWeight weight = FontWeight.w600, Color color = _ink, double spacing = 0, double? height}) =>
-      TextStyle(
-        fontFamily: 'Nunito',
-        fontSize: size,
-        fontWeight: weight,
-        color: color,
-        letterSpacing: spacing,
-        height: height,
-      );
+  TextStyle _st(
+    double size, {
+    FontWeight weight = FontWeight.w600,
+    Color color = _ink,
+    double spacing = 0,
+    double? height,
+  }) => TextStyle(
+    fontFamily: 'Nunito',
+    fontSize: size,
+    fontWeight: weight,
+    color: color,
+    letterSpacing: spacing,
+    height: height,
+  );
 
-  TextPainter _measure(String text, TextStyle style, double width,
-      {int maxLines = 1, TextAlign align = TextAlign.start, bool ltr = false}) {
+  TextPainter _measure(
+    String text,
+    TextStyle style,
+    double width, {
+    int maxLines = 1,
+    TextAlign align = TextAlign.start,
+    bool ltr = false,
+  }) {
     final tp = TextPainter(
       text: TextSpan(text: text, style: style),
       textDirection: ltr ? TextDirection.ltr : _dir,
@@ -148,8 +161,16 @@ class _PlanDoc {
 
   void _add(_Op op) => pages.last.add(op);
 
-  double _text(String text, TextStyle style, double left, double top, double width,
-      {int maxLines = 1, TextAlign align = TextAlign.start, bool ltr = false}) {
+  double _text(
+    String text,
+    TextStyle style,
+    double left,
+    double top,
+    double width, {
+    int maxLines = 1,
+    TextAlign align = TextAlign.start,
+    bool ltr = false,
+  }) {
     final tp = _measure(text, style, width, maxLines: maxLines, align: align, ltr: ltr);
     final x = _x(left, width);
     _add((c) => tp.paint(c, Offset(x, top)));
@@ -157,7 +178,10 @@ class _PlanDoc {
   }
 
   void _rect(double left, double top, double width, double height, Color color, {double radius = 0}) {
-    final r = RRect.fromRectAndRadius(Rect.fromLTWH(_x(left, width), top, width, height), Radius.circular(radius));
+    final r = RRect.fromRectAndRadius(
+      Rect.fromLTWH(_x(left, width), top, width, height),
+      Radius.circular(radius),
+    );
     _add((c) => c.drawRRect(r, Paint()..color = color));
   }
 
@@ -191,15 +215,32 @@ class _PlanDoc {
     final logo = Rect.fromLTWH(_x(_margin, 26), _y, 26, 26);
     _add((c) => _logo(c, logo));
     _text('GymMane', _st(14, weight: FontWeight.w900), _margin + 34, _y + 4, 140);
-    final who = [if (fit.profile.name.trim().isNotEmpty) fit.profile.name.trim(), t.shortDateYear(now)].join(' · ');
+    final who = [
+      if (fit.profile.name.trim().isNotEmpty) fit.profile.name.trim(),
+      t.shortDateYear(now),
+    ].join(' · ');
     _text(who, _st(9, color: _faint), _pageW - _margin - 220, _y + 8, 220, align: TextAlign.end);
     _y += 50;
-    _y += _text(t.pdfKicker, _st(8.5, weight: FontWeight.w800, color: _accent, spacing: 1.8), _margin, _y, _contentW);
+    _y += _text(
+      t.pdfKicker,
+      _st(8.5, weight: FontWeight.w800, color: _accent, spacing: 1.8),
+      _margin,
+      _y,
+      _contentW,
+    );
     _y += 4;
     final title = week ? sentenceCase(t.weeklyPlan) : fit.routineTitle(routines.first);
     _y += _text(title, _st(30, weight: FontWeight.w900, height: 1.1), _margin, _y, _contentW, maxLines: 2);
-    final days = week ? const <String>[] : [for (final d in _weekdays) if (fit.plannedOn(d, routines.first.id)) t.weekdayShort(d)];
-    final sub = [if (!week && routines.first.group.isNotEmpty) routines.first.group, if (days.isNotEmpty) days.join(', ')];
+    final days = week
+        ? const <String>[]
+        : [
+            for (final d in _weekdays)
+              if (fit.plannedOn(d, routines.first.id)) t.weekdayShort(d),
+          ];
+    final sub = [
+      if (!week && routines.first.group.isNotEmpty) routines.first.group,
+      if (days.isNotEmpty) days.join(', '),
+    ];
     if (sub.isNotEmpty) {
       _y += 2;
       _y += _text(sub.join(' · '), _st(11, color: _sub), _margin, _y, _contentW);
@@ -210,7 +251,9 @@ class _PlanDoc {
     final trainDays = week
         ? _weekdays.where((d) => fit.planIdsOn(d).isNotEmpty).length
         : _weekdays.where((d) => fit.plannedOn(d, routines.first.id)).length;
-    final minutes = routines.isEmpty ? 0 : (routines.fold<int>(0, (n, r) => n + _minutesOf(r)) / routines.length / 5).round() * 5;
+    final minutes = routines.isEmpty
+        ? 0
+        : (routines.fold<int>(0, (n, r) => n + _minutesOf(r)) / routines.length / 5).round() * 5;
     final stats = <(String, String)>[
       if (trainDays > 0) ('$trainDays', t.pdfStatDays),
       if (week) ('${routines.length}', t.routines),
@@ -223,9 +266,22 @@ class _PlanDoc {
     for (var i = 0; i < stats.length; i++) {
       final left = _margin + i * (w + gap);
       _rect(left, _y, w, h, _soft, radius: 12);
-      _text(stats[i].$1, _st(19, weight: FontWeight.w900), left + 12, _y + 9, w - 24,
-          ltr: true, align: rtl ? TextAlign.right : TextAlign.left);
-      _text(stats[i].$2, _st(7, weight: FontWeight.w800, color: _faint, spacing: 1), left + 12, _y + 34, w - 24);
+      _text(
+        stats[i].$1,
+        _st(19, weight: FontWeight.w900),
+        left + 12,
+        _y + 9,
+        w - 24,
+        ltr: true,
+        align: rtl ? TextAlign.right : TextAlign.left,
+      );
+      _text(
+        stats[i].$2,
+        _st(7, weight: FontWeight.w800, color: _faint, spacing: 1),
+        left + 12,
+        _y + 34,
+        w - 24,
+      );
     }
     _y += h + 22;
   }
@@ -239,7 +295,9 @@ class _PlanDoc {
       final planned = fit.plannedSets(r, id).where((p) => p.kind != SetKind.warmup);
       final work = planned.map((p) => p.sec ?? 0).fold<int>(0, math.max);
       sec += sets * (work > 0 ? work : 40);
-      if (!fit.chainsToNext(r, id)) sec += math.max(0, sets - 1) * (fit.routineRest(r.id, id) ?? fit.restFor(id)) + 90;
+      if (!fit.chainsToNext(r, id)) {
+        sec += math.max(0, sets - 1) * (fit.routineRest(r.id, id) ?? fit.restFor(id)) + 90;
+      }
     }
     return ((sec / 60) / 5).round() * 5;
   }
@@ -250,13 +308,15 @@ class _PlanDoc {
     const gap = 6.0;
     final cellW = (_contentW - gap * 6) / 7;
     final cells = <(int, List<Routine>)>[
-      for (final d in _weekdays) (d, [for (final id in fit.planIdsOn(d)) ?fit.routines.where((r) => r.id == id).firstOrNull]),
+      for (final d in _weekdays)
+        (d, [for (final id in fit.planIdsOn(d)) ?fit.routines.where((r) => r.id == id).firstOrNull]),
     ];
     var height = 0.0;
     final names = <List<TextPainter>>[];
     for (final (_, list) in cells) {
       final ps = [
-        for (final r in list.take(3)) _measure(fit.routineTitle(r), _st(9.5, weight: FontWeight.w800), cellW - 20, maxLines: 2),
+        for (final r in list.take(3))
+          _measure(fit.routineTitle(r), _st(9.5, weight: FontWeight.w800), cellW - 20, maxLines: 2),
       ];
       names.add(ps);
       final h = ps.isEmpty ? 14.0 : ps.fold<double>(0, (s, p) => s + p.height + 9);
@@ -269,19 +329,37 @@ class _PlanDoc {
       final top = _y;
       _rect(left, top, cellW, height, list.isEmpty ? _paper : _soft, radius: 10);
       if (list.isEmpty) {
-        final box = RRect.fromRectAndRadius(Rect.fromLTWH(_x(left, cellW), top, cellW, height), const Radius.circular(10));
-        _add((c) => c.drawRRect(
+        final box = RRect.fromRectAndRadius(
+          Rect.fromLTWH(_x(left, cellW), top, cellW, height),
+          const Radius.circular(10),
+        );
+        _add(
+          (c) => c.drawRRect(
             box.deflate(0.4),
             Paint()
               ..color = _line
               ..style = PaintingStyle.stroke
-              ..strokeWidth = 0.8));
+              ..strokeWidth = 0.8,
+          ),
+        );
       }
-      _text(t.weekdayShort(day).toUpperCase(), _st(8, weight: FontWeight.w800, color: list.isEmpty ? _faint : _accent, spacing: 1.2),
-          left + 7, top + 9, cellW - 14);
+      _text(
+        t.weekdayShort(day).toUpperCase(),
+        _st(8, weight: FontWeight.w800, color: list.isEmpty ? _faint : _accent, spacing: 1.2),
+        left + 7,
+        top + 9,
+        cellW - 14,
+      );
       var y = top + 25;
       if (list.isEmpty) {
-        _text(t.restDayShort, _st(9, weight: FontWeight.w600, color: _faint), left + 7, y, cellW - 14, maxLines: 2);
+        _text(
+          t.restDayShort,
+          _st(9, weight: FontWeight.w600, color: _faint),
+          left + 7,
+          y,
+          cellW - 14,
+          maxLines: 2,
+        );
       }
       for (var k = 0; k < names[i].length; k++) {
         final r = list[k];
@@ -296,7 +374,13 @@ class _PlanDoc {
   }
 
   void _rotation(List<Routine> list) {
-    _y += _text(t.planRotation.toUpperCase(), _st(8, weight: FontWeight.w800, color: _accent, spacing: 1.4), _margin, _y, _contentW);
+    _y += _text(
+      t.planRotation.toUpperCase(),
+      _st(8, weight: FontWeight.w800, color: _accent, spacing: 1.4),
+      _margin,
+      _y,
+      _contentW,
+    );
     _y += 8;
     var x = 0.0;
     const h = 26.0;
@@ -335,18 +419,27 @@ class _PlanDoc {
   }
 
   double _textWidth(String s, TextStyle st) {
-    final tp = TextPainter(text: TextSpan(text: s, style: st), textDirection: _dir)..layout();
+    final tp = TextPainter(
+      text: TextSpan(text: s, style: st),
+      textDirection: _dir,
+    )..layout();
     final w = tp.width;
     tp.dispose();
     return w;
   }
 
   static const _cThumb = 0.0, _cName = 46.0;
-  static const _cSets = _contentW - 232, _cReps = _contentW - 186, _cWeight = _contentW - 122, _cRest = _contentW - 56;
+  static const _cSets = _contentW - 232,
+      _cReps = _contentW - 186,
+      _cWeight = _contentW - 122,
+      _cRest = _contentW - 56;
   static const _wSets = 40.0, _wReps = 60.0, _wWeight = 62.0, _wRest = 56.0;
 
   void _routine(Routine r, {bool head = true}) {
-    final days = [for (final d in _weekdays) if (fit.plannedOn(d, r.id)) t.weekdayShort(d)];
+    final days = [
+      for (final d in _weekdays)
+        if (fit.plannedOn(d, r.id)) t.weekdayShort(d),
+    ];
     _room(120);
     _index++;
     if (head) _routineHead(r, days);
@@ -356,10 +449,13 @@ class _PlanDoc {
       final ex = fit.exerciseById(ids[i]);
       if (ex == null) continue;
       final row = _rowHeight(r, ex);
-      _room(row, onBreak: () {
-        _routineHead(r, days, again: true);
-        _tableHead();
-      });
+      _room(
+        row,
+        onBreak: () {
+          _routineHead(r, days, again: true);
+          _tableHead();
+        },
+      );
       _row(r, ex, i, row);
     }
     _chainFrom = null;
@@ -372,13 +468,34 @@ class _PlanDoc {
     final top = _y;
     final badge = again ? 18.0 : 24.0;
     _rect(_margin - 1, top + (again ? 0 : 1), badge, badge, folderHue(r), radius: badge / 2);
-    _text('$_index', _st(again ? 9 : 11.5, weight: FontWeight.w900), _margin - 1, top + (again ? 2.5 : 5), badge,
-        align: TextAlign.center, ltr: true);
-    final title = again ? '${fit.routineTitle(r)} ·  ${t.exerciseCount(r.exerciseIds.length)}' : fit.routineTitle(r);
-    final h = _text(title, _st(again ? 12 : 17, weight: FontWeight.w900), _margin + badge + 9, top, _contentW - 150 - badge);
+    _text(
+      '$_index',
+      _st(again ? 9 : 11.5, weight: FontWeight.w900),
+      _margin - 1,
+      top + (again ? 2.5 : 5),
+      badge,
+      align: TextAlign.center,
+      ltr: true,
+    );
+    final title = again
+        ? '${fit.routineTitle(r)} ·  ${t.exerciseCount(r.exerciseIds.length)}'
+        : fit.routineTitle(r);
+    final h = _text(
+      title,
+      _st(again ? 12 : 17, weight: FontWeight.w900),
+      _margin + badge + 9,
+      top,
+      _contentW - 150 - badge,
+    );
     if (days.isNotEmpty) {
-      _text(days.join(' · ').toUpperCase(), _st(8.5, weight: FontWeight.w800, color: _accent, spacing: 1.1),
-          _pageW - _margin - 140, top + (again ? 3 : 6), 140, align: TextAlign.end);
+      _text(
+        days.join(' · ').toUpperCase(),
+        _st(8.5, weight: FontWeight.w800, color: _accent, spacing: 1.1),
+        _pageW - _margin - 140,
+        top + (again ? 3 : 6),
+        140,
+        align: TextAlign.end,
+      );
     }
     _y = top + h + 2;
     if (!again) {
@@ -399,7 +516,14 @@ class _PlanDoc {
     _text(t.exercisesCaps, st, _margin + _cName, _y, _cSets - _cName - 8);
     _text(t.setsCaps, st, _margin + _cSets, _y, _wSets, align: TextAlign.center);
     _text(t.repsCol, st, _margin + _cReps, _y, _wReps, align: TextAlign.center);
-    _text(t.weightCol(fit.units).replaceAll(RegExp(r'\s*\(.*\)'), ''), st, _margin + _cWeight, _y, _wWeight, align: TextAlign.center);
+    _text(
+      t.weightCol(fit.units).replaceAll(RegExp(r'\s*\(.*\)'), ''),
+      st,
+      _margin + _cWeight,
+      _y,
+      _wWeight,
+      align: TextAlign.center,
+    );
     _text(t.rest, st, _margin + _cRest, _y, _wRest, align: TextAlign.center);
     _y += 14;
     _rect(_margin, _y, _contentW, 0.8, _line);
@@ -416,7 +540,12 @@ class _PlanDoc {
   }
 
   double _rowHeight(Routine r, Exercise ex) {
-    final name = _measure(exerciseName(ex), _st(11.5, weight: FontWeight.w800), _cSets - _cName - 8, maxLines: 2);
+    final name = _measure(
+      exerciseName(ex),
+      _st(11.5, weight: FontWeight.w800),
+      _cSets - _cName - 8,
+      maxLines: 2,
+    );
     final detail = _measure(_detail(r, ex), _st(9, color: _sub), _cSets - _cName - 8);
     return math.max(46.0, name.height + detail.height + 18);
   }
@@ -440,7 +569,10 @@ class _PlanDoc {
         else if (p.reps != null)
           '${p.reps}',
     ]);
-    final kgs = [for (final p in planned) if (p.weightKg != null && p.weightKg! > 0) p.weightKg!];
+    final kgs = [
+      for (final p in planned)
+        if (p.weightKg != null && p.weightKg! > 0) p.weightKg!,
+    ];
     String weight;
     if (kgs.isEmpty) {
       weight = '—';
@@ -462,8 +594,14 @@ class _PlanDoc {
     if (art != null) {
       _add((c) => _drawArt(c, art, box));
     } else if (exerciseName(ex).isNotEmpty) {
-      _text(String.fromCharCode(exerciseName(ex).runes.first).toUpperCase(), _st(14, weight: FontWeight.w900, color: _faint),
-          _margin + _cThumb, mid - 10, 36, align: TextAlign.center);
+      _text(
+        String.fromCharCode(exerciseName(ex).runes.first).toUpperCase(),
+        _st(14, weight: FontWeight.w900, color: _faint),
+        _margin + _cThumb,
+        mid - 10,
+        36,
+        align: TextAlign.center,
+      );
     }
     final nameW = _cSets - _cName - 8;
     final name = _measure(exerciseName(ex), _st(11.5, weight: FontWeight.w800), nameW, maxLines: 2);
@@ -479,43 +617,57 @@ class _PlanDoc {
     final rest = fit.routineRest(r.id, ex.id) ?? fit.restFor(ex.id);
     final value = _st(11, weight: FontWeight.w800);
     final count = fit.routineSets(r, ex.id);
-    _text('$count', _st(13, weight: FontWeight.w900), _margin + _cSets, mid - 13, _wSets, align: TextAlign.center);
+    _text(
+      '$count',
+      _st(13, weight: FontWeight.w900),
+      _margin + _cSets,
+      mid - 13,
+      _wSets,
+      align: TextAlign.center,
+    );
     final dots = math.min(count, 6);
     const dot = 4.6, step = 6.4;
     final dx = _margin + _cSets + (_wSets - (dots * step - (step - dot))) / 2;
     for (var k = 0; k < dots; k++) {
       final o = Rect.fromLTWH(_x(dx + k * step, dot), mid + 6, dot, dot);
-      _add((c) => c.drawOval(
+      _add(
+        (c) => c.drawOval(
           o,
           Paint()
             ..color = _faint
             ..style = PaintingStyle.stroke
-            ..strokeWidth = 0.7));
+            ..strokeWidth = 0.7,
+        ),
+      );
     }
     _text(reps, value, _margin + _cReps, mid - 8, _wReps, align: TextAlign.center, ltr: true);
     _text(weight, value, _margin + _cWeight, mid - 8, _wWeight, align: TextAlign.center, ltr: true);
     _text(
-        chained
-            ? t.superset
-            : rest <= 0
-                ? t.restOff
-                : durationLabel(rest),
-        chained ? _st(8.5, weight: FontWeight.w800, color: _accent) : value,
-        _margin + _cRest,
-        mid - (chained ? 6 : 8),
-        _wRest,
-        align: TextAlign.center);
+      chained
+          ? t.superset
+          : rest <= 0
+          ? t.restOff
+          : durationLabel(rest),
+      chained ? _st(8.5, weight: FontWeight.w800, color: _accent) : value,
+      _margin + _cRest,
+      mid - (chained ? 6 : 8),
+      _wRest,
+      align: TextAlign.center,
+    );
     final from = _chainFrom;
     if (from != null && from.$1 == pages.length) {
       final x = _x(_margin - 12, 0);
       final a = Offset(x, from.$2), b = Offset(x, mid);
-      _add((c) => c.drawLine(
+      _add(
+        (c) => c.drawLine(
           a,
           b,
           Paint()
             ..color = _accent
             ..strokeWidth = 2
-            ..strokeCap = StrokeCap.round));
+            ..strokeCap = StrokeCap.round,
+        ),
+      );
     }
     _chainFrom = chained ? (pages.length, mid) : null;
     _y += height;
@@ -535,7 +687,10 @@ class _PlanDoc {
   }
 
   void _logo(Canvas c, Rect r) {
-    c.drawRRect(RRect.fromRectAndRadius(r, Radius.circular(r.width * 0.24)), Paint()..color = const Color(0xFF0B0B0B));
+    c.drawRRect(
+      RRect.fromRectAndRadius(r, Radius.circular(r.width * 0.24)),
+      Paint()..color = const Color(0xFF0B0B0B),
+    );
     final src = Rect.fromLTWH(0, 0, runner.width.toDouble(), runner.height.toDouble());
     final h = r.height * 0.72;
     final w = h * src.width / src.height;
@@ -543,14 +698,15 @@ class _PlanDoc {
     c.saveLayer(dst, Paint());
     c.drawImageRect(runner, src, dst, Paint()..filterQuality = FilterQuality.high);
     c.drawRect(
-        dst,
-        Paint()
-          ..blendMode = BlendMode.srcIn
-          ..shader = const LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [Color(0xFFEBC1A3), Color(0xFFB98A6E)],
-          ).createShader(dst));
+      dst,
+      Paint()
+        ..blendMode = BlendMode.srcIn
+        ..shader = const LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [Color(0xFFEBC1A3), Color(0xFFB98A6E)],
+        ).createShader(dst),
+    );
     c.restore();
   }
 
@@ -563,12 +719,13 @@ class _PlanDoc {
     c.translate(_pageW / 2, _pageH / 2 + 30);
     c.rotate(-0.12);
     c.drawImageRect(
-        runner,
-        src,
-        Rect.fromCenter(center: Offset.zero, width: w, height: h),
-        Paint()
-          ..filterQuality = FilterQuality.high
-          ..colorFilter = ColorFilter.mode(_accent.withValues(alpha: 0.045), BlendMode.srcIn));
+      runner,
+      src,
+      Rect.fromCenter(center: Offset.zero, width: w, height: h),
+      Paint()
+        ..filterQuality = FilterQuality.high
+        ..colorFilter = ColorFilter.mode(_accent.withValues(alpha: 0.045), BlendMode.srcIn),
+    );
     c.restore();
     for (final op in pages[index]) {
       op(c);
@@ -581,17 +738,28 @@ class _PlanDoc {
     c.drawRect(const Rect.fromLTWH(_margin, y - 10, _contentW, 0.6), Paint()..color = _line);
     _logo(c, Rect.fromLTWH(_x(_margin, 12), y - 1, 12, 12));
     final brand = TextPainter(
-      text: TextSpan(children: [
-        TextSpan(text: 'GymMane', style: _st(8.5, weight: FontWeight.w900)),
-        TextSpan(text: '  ·  ${t.pdfFooter}', style: _st(8, color: _faint)),
-      ]),
+      text: TextSpan(
+        children: [
+          TextSpan(
+            text: 'GymMane',
+            style: _st(8.5, weight: FontWeight.w900),
+          ),
+          TextSpan(
+            text: '  ·  ${t.pdfFooter}',
+            style: _st(8, color: _faint),
+          ),
+        ],
+      ),
       textDirection: _dir,
       maxLines: 1,
       ellipsis: '…',
     )..layout(minWidth: _contentW - 80, maxWidth: _contentW - 80);
     brand.paint(c, Offset(_x(_margin + 18, _contentW - 80), y));
     final page = TextPainter(
-      text: TextSpan(text: '${index + 1} / ${pages.length}', style: _st(8.5, weight: FontWeight.w700, color: _faint)),
+      text: TextSpan(
+        text: '${index + 1} / ${pages.length}',
+        style: _st(8.5, weight: FontWeight.w700, color: _faint),
+      ),
       textDirection: TextDirection.ltr,
       textAlign: rtl ? TextAlign.left : TextAlign.right,
     )..layout(minWidth: 60, maxWidth: 60);
@@ -628,7 +796,8 @@ String _isoDate(DateTime d) {
 
 String _xml(String s) => s.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
 
-String _xmp(String title, String subject, String keywords, String lang, DateTime now) => '''
+String _xmp(String title, String subject, String keywords, String lang, DateTime now) =>
+    '''
 <?xpacket begin="\u{FEFF}" id="W5M0MpCehiHzreSzNTczkc9d"?>
 <x:xmpmeta xmlns:x="adobe:ns:meta/">
 <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
@@ -685,22 +854,31 @@ Uint8List _writePdf(List<(int, int, Uint8List)> pages, String title, DateTime no
   final date = _pdfDate(now);
   final xmp = Uint8List.fromList(utf8.encode(_xmp(title, subject, keywords, lang, now)));
   final kids = [for (var i = 0; i < n; i++) '${5 + i * 3} 0 R'].join(' ');
-  obj(1, '<< /Type /Catalog /Pages 2 0 R /Metadata 4 0 R /Lang ($lang) /ViewerPreferences << /DisplayDocTitle true >> >>');
+  obj(
+    1,
+    '<< /Type /Catalog /Pages 2 0 R /Metadata 4 0 R /Lang ($lang) /ViewerPreferences << /DisplayDocTitle true >> >>',
+  );
   obj(2, '<< /Type /Pages /Kids [$kids] /Count $n >>');
-  obj(3,
-      '<< /Title ${utf16(title)} /Author ${utf16(_author)} /Subject ${utf16(subject)} /Keywords ${utf16(keywords)} '
-      '/Creator ${utf16('$_app · $_site')} /Producer ${utf16('$_app by $_author')} /CreationDate ($date) /ModDate ($date) >>');
+  obj(
+    3,
+    '<< /Title ${utf16(title)} /Author ${utf16(_author)} /Subject ${utf16(subject)} /Keywords ${utf16(keywords)} '
+    '/Creator ${utf16('$_app · $_site')} /Producer ${utf16('$_app by $_author')} /CreationDate ($date) /ModDate ($date) >>',
+  );
   obj(4, '<< /Type /Metadata /Subtype /XML /Length ${xmp.length} >>', xmp);
   for (var i = 0; i < n; i++) {
     final (pw, ph, data) = pages[i];
     final page = 5 + i * 3, content = page + 1, image = page + 2;
     final draw = latin1.encode('q $_pageW 0 0 $_pageH 0 0 cm /Im0 Do Q');
-    obj(page,
-        '<< /Type /Page /Parent 2 0 R /MediaBox [0 0 $_pageW $_pageH] /Resources << /XObject << /Im0 $image 0 R >> >> /Contents $content 0 R >>');
+    obj(
+      page,
+      '<< /Type /Page /Parent 2 0 R /MediaBox [0 0 $_pageW $_pageH] /Resources << /XObject << /Im0 $image 0 R >> >> /Contents $content 0 R >>',
+    );
     obj(content, '<< /Length ${draw.length} >>', Uint8List.fromList(draw));
-    obj(image,
-        '<< /Type /XObject /Subtype /Image /Width $pw /Height $ph /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /FlateDecode /Length ${data.length} >>',
-        data);
+    obj(
+      image,
+      '<< /Type /XObject /Subtype /Image /Width $pw /Height $ph /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /FlateDecode /Length ${data.length} >>',
+      data,
+    );
   }
   final xref = out.length;
   w('xref\n0 ${offsets.length + 1}\n0000000000 65535 f \n');

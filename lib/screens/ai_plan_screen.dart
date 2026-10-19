@@ -54,17 +54,23 @@ class _AiPlanScreenState extends State<AiPlanScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(children: [
-                    Icon(PhosphorIconsRegular.shieldCheck, size: 18, color: gc.sage),
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: Text(t.fullyOffline.toUpperCase(),
-                          style: AppTheme.f(12, weight: FontWeight.w700, color: gc.sage, letterSpacing: 1.4)),
-                    ),
-                  ]),
+                  Row(
+                    children: [
+                      Icon(PhosphorIconsRegular.shieldCheck, size: 18, color: gc.sage),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: Text(
+                          t.fullyOffline.toUpperCase(),
+                          style: AppTheme.f(12, weight: FontWeight.w700, color: gc.sage, letterSpacing: 1.4),
+                        ),
+                      ),
+                    ],
+                  ),
                   const SizedBox(height: 10),
-                  Text(t.aiIntro,
-                      style: AppTheme.f(13, weight: FontWeight.w500, color: gc.textSecondary, height: 1.5)),
+                  Text(
+                    t.aiIntro,
+                    style: AppTheme.f(13, weight: FontWeight.w500, color: gc.textSecondary, height: 1.5),
+                  ),
                   const SizedBox(height: 18),
                   for (var i = 0; i < _steps.length; i++) ...[
                     if (i > 0) const SizedBox(height: 12),
@@ -92,34 +98,48 @@ class _AiPlanScreenState extends State<AiPlanScreen> {
                 filled: true,
                 fillColor: gc.bgRaised,
                 contentPadding: const EdgeInsets.all(16),
-                border: OutlineInputBorder(borderRadius: BorderRadius.circular(20), borderSide: BorderSide.none),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(20),
+                  borderSide: BorderSide.none,
+                ),
               ),
             ),
             const SizedBox(height: 10),
-            Row(children: [
-              _chip(gc, PhosphorIconsRegular.clipboardText, t.pasteAction, _paste),
-              const SizedBox(width: 8),
-              _chip(gc, PhosphorIconsRegular.fileArrowUp, t.chooseFile, _file),
-              Expanded(
-                child: GestureDetector(
-                  behavior: HitTestBehavior.opaque,
-                  onTap: () => setState(() => _format = !_format),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
-                    child: Text(t.showFormat,
+            Row(
+              children: [
+                _chip(gc, PhosphorIconsRegular.clipboardText, t.pasteAction, _paste),
+                const SizedBox(width: 8),
+                _chip(gc, PhosphorIconsRegular.fileArrowUp, t.chooseFile, _file),
+                Expanded(
+                  child: GestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    onTap: () => setState(() => _format = !_format),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
+                      child: Text(
+                        t.showFormat,
                         textAlign: TextAlign.end,
-                        style: AppTheme.f(12.5, weight: FontWeight.w600, color: gc.accent)),
+                        style: AppTheme.f(12.5, weight: FontWeight.w600, color: gc.accent),
+                      ),
+                    ),
                   ),
                 ),
-              ),
-            ]),
+              ],
+            ),
             if (_format) ...[
               const SizedBox(height: 8),
               Container(
                 padding: const EdgeInsets.all(14),
                 decoration: BoxDecoration(color: gc.bgRaised, borderRadius: BorderRadius.circular(16)),
-                child: SelectableText(FitState.planTemplate,
-                    style: TextStyle(fontFamily: 'monospace', fontSize: 11.5, color: gc.textSecondary, height: 1.4)),
+                child: SelectableText(
+                  FitState.planTemplate,
+                  style: TextStyle(
+                    fontFamily: 'monospace',
+                    fontSize: 11.5,
+                    color: gc.textSecondary,
+                    height: 1.4,
+                  ),
+                ),
               ),
             ],
             const SizedBox(height: 14),
@@ -129,10 +149,7 @@ class _AiPlanScreenState extends State<AiPlanScreen> {
               fg: _answer.text.trim().isEmpty ? gc.textTertiary : gc.onEmber,
               onTap: _import,
             ),
-            if (_unreadable || _added > 0 || _missed.isNotEmpty) ...[
-              const SizedBox(height: 18),
-              _result(gc),
-            ],
+            if (_unreadable || _added > 0 || _missed.isNotEmpty) ...[const SizedBox(height: 18), _result(gc)],
           ],
         ),
       ),
@@ -142,18 +159,24 @@ class _AiPlanScreenState extends State<AiPlanScreen> {
   List<String> get _steps => [t.aiStepCopy, t.aiStepAsk, t.aiStepPaste];
 
   Widget _chip(GymColors gc, IconData icon, String label, VoidCallback onTap) => GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: onTap,
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 9),
-          decoration: BoxDecoration(color: gc.bgRaised, borderRadius: BorderRadius.circular(100)),
-          child: Row(mainAxisSize: MainAxisSize.min, children: [
-            Icon(icon, size: 15, color: gc.text),
-            const SizedBox(width: 7),
-            Text(label, style: AppTheme.f(12.5, weight: FontWeight.w600, color: gc.text)),
-          ]),
-        ),
-      );
+    behavior: HitTestBehavior.opaque,
+    onTap: onTap,
+    child: Container(
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 9),
+      decoration: BoxDecoration(color: gc.bgRaised, borderRadius: BorderRadius.circular(100)),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, size: 15, color: gc.text),
+          const SizedBox(width: 7),
+          Text(
+            label,
+            style: AppTheme.f(12.5, weight: FontWeight.w600, color: gc.text),
+          ),
+        ],
+      ),
+    ),
+  );
 
   Widget _step(GymColors gc, int n, String text) {
     return Row(
@@ -164,11 +187,18 @@ class _AiPlanScreenState extends State<AiPlanScreen> {
           height: 22,
           alignment: Alignment.center,
           decoration: BoxDecoration(color: gc.emberSoft, shape: BoxShape.circle),
-          child: Text('$n', style: AppTheme.f(12, weight: FontWeight.w700, color: gc.ember)),
+          child: Text(
+            '$n',
+            style: AppTheme.f(12, weight: FontWeight.w700, color: gc.ember),
+          ),
         ),
         const SizedBox(width: 12),
         Expanded(
-            child: Text(text, style: AppTheme.f(13, weight: FontWeight.w500, color: gc.text, height: 1.45))),
+          child: Text(
+            text,
+            style: AppTheme.f(13, weight: FontWeight.w500, color: gc.text, height: 1.45),
+          ),
+        ),
       ],
     );
   }
@@ -189,24 +219,31 @@ class _AiPlanScreenState extends State<AiPlanScreen> {
             _unreadable
                 ? t.planFailed
                 : good
-                    ? '${t.routinesAdded(_routines)} · ${t.exerciseCount(_added)}'
-                    : t.planNothing,
+                ? '${t.routinesAdded(_routines)} · ${t.exerciseCount(_added)}'
+                : t.planNothing,
             style: AppTheme.f(13.5, weight: FontWeight.w600, color: good ? gc.sage : gc.text),
           ),
           if (_missed.isNotEmpty) ...[
             const SizedBox(height: 8),
-            Text(t.aiMissing(_missed.length),
-                style: AppTheme.f(12, weight: FontWeight.w600, color: gc.textSecondary)),
+            Text(
+              t.aiMissing(_missed.length),
+              style: AppTheme.f(12, weight: FontWeight.w600, color: gc.textSecondary),
+            ),
             const SizedBox(height: 4),
-            Text(_missed.join(' · '),
-                style: AppTheme.f(12, weight: FontWeight.w500, color: gc.textTertiary, height: 1.4)),
+            Text(
+              _missed.join(' · '),
+              style: AppTheme.f(12, weight: FontWeight.w500, color: gc.textTertiary, height: 1.4),
+            ),
           ],
           if (good) ...[
             const SizedBox(height: 10),
             GestureDetector(
               behavior: HitTestBehavior.opaque,
               onTap: fit.backFromAiPlan,
-              child: Text(t.routines, style: AppTheme.f(13, weight: FontWeight.w700, color: gc.accent)),
+              child: Text(
+                t.routines,
+                style: AppTheme.f(13, weight: FontWeight.w700, color: gc.accent),
+              ),
             ),
           ],
         ],
@@ -217,8 +254,13 @@ class _AiPlanScreenState extends State<AiPlanScreen> {
   Future<void> _copy() async {
     await Clipboard.setData(ClipboardData(text: fit.planRequestText()));
     if (!mounted) return;
-    showNotchToast(context, t.copiedDone,
-        subtitle: t.aiStepAsk, icon: PhosphorIconsFill.copy, accent: context.gc.sage);
+    showNotchToast(
+      context,
+      t.copiedDone,
+      subtitle: t.aiStepAsk,
+      icon: PhosphorIconsFill.copy,
+      accent: context.gc.sage,
+    );
   }
 
   Future<void> _export() async {
@@ -227,9 +269,7 @@ class _AiPlanScreenState extends State<AiPlanScreen> {
       final file = File('${dir.path}/gymmane-exercises.txt');
       await file.writeAsString(fit.planRequestText());
       if (!mounted) return;
-      await SharePlus.instance.share(
-        ShareParams(files: [XFile(file.path)], subject: 'GymMane exercises'),
-      );
+      await SharePlus.instance.share(ShareParams(files: [XFile(file.path)], subject: 'GymMane exercises'));
     } catch (_) {}
   }
 

@@ -13,9 +13,7 @@ DateTime _dayKey(DateTime d) => DateTime(d.year, d.month, d.day);
 DateTime shiftDays(DateTime d, int n) => DateTime(d.year, d.month, d.day + n);
 
 int daysBetween(DateTime from, DateTime to) =>
-    DateTime.utc(to.year, to.month, to.day)
-        .difference(DateTime.utc(from.year, from.month, from.day))
-        .inDays;
+    DateTime.utc(to.year, to.month, to.day).difference(DateTime.utc(from.year, from.month, from.day)).inDays;
 
 const int kHeatmapDays = 84;
 

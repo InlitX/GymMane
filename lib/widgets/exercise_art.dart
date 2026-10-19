@@ -170,21 +170,20 @@ class _ExerciseArtState extends State<ExerciseArt> with SingleTickerProviderStat
     } else if (widget.live && art.frames.length > 1 && _c != null) {
       final c = _c!;
       child = RepaintBoundary(
-        child: CustomPaint(
-          painter: _ArtPainter(art, gc.text, c),
-          size: Size.infinite,
-        ),
+        child: CustomPaint(painter: _ArtPainter(art, gc.text, c), size: Size.infinite),
       );
     } else {
-      child = LayoutBuilder(builder: (context, box) {
-        final size = box.biggest;
-        if (!size.isFinite || size.isEmpty) return const SizedBox.shrink();
-        return RawImage(
-          image: _still(art, size, MediaQuery.devicePixelRatioOf(context), gc.text).clone(),
-          width: size.width,
-          height: size.height,
-        );
-      });
+      child = LayoutBuilder(
+        builder: (context, box) {
+          final size = box.biggest;
+          if (!size.isFinite || size.isEmpty) return const SizedBox.shrink();
+          return RawImage(
+            image: _still(art, size, MediaQuery.devicePixelRatioOf(context), gc.text).clone(),
+            width: size.width,
+            height: size.height,
+          );
+        },
+      );
     }
 
     return Container(
@@ -200,8 +199,8 @@ class _ExerciseArtState extends State<ExerciseArt> with SingleTickerProviderStat
   }
 
   Widget _fallback(GymColors gc, double height) => Center(
-        child: Icon(PhosphorIconsRegular.barbell, size: height * 0.32, color: gc.textTertiary),
-      );
+    child: Icon(PhosphorIconsRegular.barbell, size: height * 0.32, color: gc.textTertiary),
+  );
 }
 
 class _ArtPainter extends CustomPainter {
@@ -251,6 +250,5 @@ class _ArtPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(_ArtPainter old) =>
-      old.art != art || old.color != color || old.anim != anim;
+  bool shouldRepaint(_ArtPainter old) => old.art != art || old.color != color || old.anim != anim;
 }

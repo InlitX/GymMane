@@ -148,9 +148,7 @@ mixin ToolsState on FitCore {
 
   List<({double weight, int count})> platesPerSide(double displayTarget, double displayBar) {
     final stock = plateStockDisplay;
-    final steps = stock == null
-        ? _plateSteps
-        : (stock.keys.toList()..sort((a, b) => b.compareTo(a)));
+    final steps = stock == null ? _plateSteps : (stock.keys.toList()..sort((a, b) => b.compareTo(a)));
     double perSide = math.max(0, (displayTarget - displayBar) / 2);
     final out = <({double weight, int count})>[];
     for (final p in steps) {
@@ -194,9 +192,7 @@ mixin ToolsState on FitCore {
     if (target <= bar) return null;
     final parts = platesPerSide(target, bar);
     if (parts.isEmpty) return null;
-    return parts
-        .map((p) => p.count == 1 ? fmt(p.weight) : '${fmt(p.weight)}×${p.count}')
-        .join(' · ');
+    return parts.map((p) => p.count == 1 ? fmt(p.weight) : '${fmt(p.weight)}×${p.count}').join(' · ');
   }
 
   List<({String pct, int reps, double weight})> get warmupSets {
@@ -204,11 +200,7 @@ mixin ToolsState on FitCore {
     final step = isLb ? 5.0 : 2.5;
     final target = toDisplayWeight(warmupTarget);
     return spec
-        .map((s) => (
-              pct: '${s.$1}%',
-              reps: s.$2,
-              weight: _roundTo(target * s.$1 / 100, step),
-            ))
+        .map((s) => (pct: '${s.$1}%', reps: s.$2, weight: _roundTo(target * s.$1 / 100, step)))
         .toList();
   }
 
@@ -223,9 +215,15 @@ mixin ToolsState on FitCore {
     return (v * 100).round() / 100;
   }
 
-  void bumpRmWeight(double d) { rmWeight = _clamp(rmWeight + d, 0, null); notifyListeners(); }
+  void bumpRmWeight(double d) {
+    rmWeight = _clamp(rmWeight + d, 0, null);
+    notifyListeners();
+  }
 
-  void bumpRmPct(int d) { rmPct = (rmPct + d).clamp(30, 100); notifyListeners(); }
+  void bumpRmPct(int d) {
+    rmPct = (rmPct + d).clamp(30, 100);
+    notifyListeners();
+  }
 
   double get rmAtPct {
     final target = toDisplayWeight(rmResult * rmPct / 100);
@@ -233,35 +231,80 @@ mixin ToolsState on FitCore {
     return target <= bar ? _roundTo(target, isLb ? 5.0 : 2.5) : loadableTotal(target, bar);
   }
 
-  void bumpRmReps(int d) { rmReps = _clamp(rmReps + d.toDouble(), 1, 20).round(); notifyListeners(); }
+  void bumpRmReps(int d) {
+    rmReps = _clamp(rmReps + d.toDouble(), 1, 20).round();
+    notifyListeners();
+  }
 
-  void bumpBmiHeight(double d) { bmiHeight = _clamp(bmiHeight + d, 100, 250); notifyListeners(); }
+  void bumpBmiHeight(double d) {
+    bmiHeight = _clamp(bmiHeight + d, 100, 250);
+    notifyListeners();
+  }
 
-  void bumpBmiWeight(double d) { bmiWeight = _clamp(bmiWeight + d, 30, 250); notifyListeners(); }
+  void bumpBmiWeight(double d) {
+    bmiWeight = _clamp(bmiWeight + d, 30, 250);
+    notifyListeners();
+  }
 
-  void bumpCalAge(int d) { calAge = _clamp(calAge + d.toDouble(), 10, 90).round(); notifyListeners(); }
+  void bumpCalAge(int d) {
+    calAge = _clamp(calAge + d.toDouble(), 10, 90).round();
+    notifyListeners();
+  }
 
-  void bumpCalHeight(double d) { calHeight = _clamp(calHeight + d, 100, 250); notifyListeners(); }
+  void bumpCalHeight(double d) {
+    calHeight = _clamp(calHeight + d, 100, 250);
+    notifyListeners();
+  }
 
-  void bumpCalWeight(double d) { calWeight = _clamp(calWeight + d, 30, 250); notifyListeners(); }
+  void bumpCalWeight(double d) {
+    calWeight = _clamp(calWeight + d, 30, 250);
+    notifyListeners();
+  }
 
-  void setCalSex(String s) { calSex = s; notifyListeners(); }
+  void setCalSex(String s) {
+    calSex = s;
+    notifyListeners();
+  }
 
-  void setCalActivity(double a) { calActivity = a; notifyListeners(); }
+  void setCalActivity(double a) {
+    calActivity = a;
+    notifyListeners();
+  }
 
-  void bumpBfHeight(double d) { bfHeight = _clamp(bfHeight + d, 100, 250); notifyListeners(); }
+  void bumpBfHeight(double d) {
+    bfHeight = _clamp(bfHeight + d, 100, 250);
+    notifyListeners();
+  }
 
-  void bumpBfNeck(double d) { bfNeck = _clamp(bfNeck + d, 20, 60); notifyListeners(); }
+  void bumpBfNeck(double d) {
+    bfNeck = _clamp(bfNeck + d, 20, 60);
+    notifyListeners();
+  }
 
-  void bumpBfWaist(double d) { bfWaist = _clamp(bfWaist + d, 40, 200); notifyListeners(); }
+  void bumpBfWaist(double d) {
+    bfWaist = _clamp(bfWaist + d, 40, 200);
+    notifyListeners();
+  }
 
-  void bumpBfHip(double d) { bfHip = _clamp(bfHip + d, 40, 200); notifyListeners(); }
+  void bumpBfHip(double d) {
+    bfHip = _clamp(bfHip + d, 40, 200);
+    notifyListeners();
+  }
 
-  void setBfSex(String s) { bfSex = s; notifyListeners(); }
+  void setBfSex(String s) {
+    bfSex = s;
+    notifyListeners();
+  }
 
-  void bumpPlateTarget(double d) { plateTarget = _clamp(plateTarget + d, 0, null); notifyListeners(); }
+  void bumpPlateTarget(double d) {
+    plateTarget = _clamp(plateTarget + d, 0, null);
+    notifyListeners();
+  }
 
-  void setPlateBar(double b) { plateBar = fromDisplayWeight(b); notifyListeners(); }
+  void setPlateBar(double b) {
+    plateBar = fromDisplayWeight(b);
+    notifyListeners();
+  }
 
   double get plateBarDisplay => _round1(toDisplayWeight(plateBar));
 
@@ -274,15 +317,30 @@ mixin ToolsState on FitCore {
     return fromDisplayWeight(_roundTo(toDisplayWeight(kg), isLb ? 5.0 : 2.5));
   }
 
-  void bumpRpeWeight(double d) { rpeWeight = _clamp(rpeWeight + d, 0, null); notifyListeners(); }
+  void bumpRpeWeight(double d) {
+    rpeWeight = _clamp(rpeWeight + d, 0, null);
+    notifyListeners();
+  }
 
-  void bumpRpeReps(int d) { rpeReps = (rpeReps + d).clamp(1, 12); notifyListeners(); }
+  void bumpRpeReps(int d) {
+    rpeReps = (rpeReps + d).clamp(1, 12);
+    notifyListeners();
+  }
 
-  void bumpRpe(double d) { rpeRpe = (rpeRpe + d).clamp(6, 10).toDouble(); notifyListeners(); }
+  void bumpRpe(double d) {
+    rpeRpe = (rpeRpe + d).clamp(6, 10).toDouble();
+    notifyListeners();
+  }
 
-  void bumpRpeTargetReps(int d) { rpeTargetReps = (rpeTargetReps + d).clamp(1, 12); notifyListeners(); }
+  void bumpRpeTargetReps(int d) {
+    rpeTargetReps = (rpeTargetReps + d).clamp(1, 12);
+    notifyListeners();
+  }
 
-  void bumpRpeTarget(double d) { rpeTargetRpe = (rpeTargetRpe + d).clamp(6, 10).toDouble(); notifyListeners(); }
+  void bumpRpeTarget(double d) {
+    rpeTargetRpe = (rpeTargetRpe + d).clamp(6, 10).toDouble();
+    notifyListeners();
+  }
 
   double get dotsTotal => dotsSquat + dotsBench + dotsDeadlift;
 
@@ -321,15 +379,30 @@ mixin ToolsState on FitCore {
     return 4;
   }
 
-  void setDotsSex(String s) { dotsSex = s; notifyListeners(); }
+  void setDotsSex(String s) {
+    dotsSex = s;
+    notifyListeners();
+  }
 
-  void bumpDotsBody(double d) { dotsBody = _clamp(dotsBody + d, 30, 250); notifyListeners(); }
+  void bumpDotsBody(double d) {
+    dotsBody = _clamp(dotsBody + d, 30, 250);
+    notifyListeners();
+  }
 
-  void bumpDotsSquat(double d) { dotsSquat = _clamp(dotsSquat + d, 0, null); notifyListeners(); }
+  void bumpDotsSquat(double d) {
+    dotsSquat = _clamp(dotsSquat + d, 0, null);
+    notifyListeners();
+  }
 
-  void bumpDotsBench(double d) { dotsBench = _clamp(dotsBench + d, 0, null); notifyListeners(); }
+  void bumpDotsBench(double d) {
+    dotsBench = _clamp(dotsBench + d, 0, null);
+    notifyListeners();
+  }
 
-  void bumpDotsDeadlift(double d) { dotsDeadlift = _clamp(dotsDeadlift + d, 0, null); notifyListeners(); }
+  void bumpDotsDeadlift(double d) {
+    dotsDeadlift = _clamp(dotsDeadlift + d, 0, null);
+    notifyListeners();
+  }
 
   double get ffmiLean => ffmiWeight * (1 - ffmiBf / 100);
 
@@ -347,13 +420,28 @@ mixin ToolsState on FitCore {
     return 4;
   }
 
-  void setFfmiSex(String s) { ffmiSex = s; notifyListeners(); }
+  void setFfmiSex(String s) {
+    ffmiSex = s;
+    notifyListeners();
+  }
 
-  void bumpFfmiHeight(double d) { ffmiHeight = _clamp(ffmiHeight + d, 100, 250); notifyListeners(); }
+  void bumpFfmiHeight(double d) {
+    ffmiHeight = _clamp(ffmiHeight + d, 100, 250);
+    notifyListeners();
+  }
 
-  void bumpFfmiWeight(double d) { ffmiWeight = _clamp(ffmiWeight + d, 30, 300); notifyListeners(); }
+  void bumpFfmiWeight(double d) {
+    ffmiWeight = _clamp(ffmiWeight + d, 30, 300);
+    notifyListeners();
+  }
 
-  void bumpFfmiBf(double d) { ffmiBf = _clamp(ffmiBf + d, 3, 60); notifyListeners(); }
+  void bumpFfmiBf(double d) {
+    ffmiBf = _clamp(ffmiBf + d, 3, 60);
+    notifyListeners();
+  }
 
-  void bumpWarmupTarget(double d) { warmupTarget = _clamp(warmupTarget + d, 0, null); notifyListeners(); }
+  void bumpWarmupTarget(double d) {
+    warmupTarget = _clamp(warmupTarget + d, 0, null);
+    notifyListeners();
+  }
 }

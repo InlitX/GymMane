@@ -66,56 +66,55 @@ class SearchField extends StatelessWidget {
     return Container(
       height: 48,
       padding: const EdgeInsets.only(left: 16, right: 6),
-      decoration: BoxDecoration(
-        color: color ?? gc.bgRaised,
-        borderRadius: BorderRadius.circular(100),
-      ),
-      child: Row(children: [
-        SvgPathIcon(Ic.search, size: 16, color: gc.textSecondary),
-        const SizedBox(width: 10),
-        Expanded(
-          child: TextField(
-            controller: controller,
-            onChanged: onChanged,
-            style: AppTheme.f(14, weight: FontWeight.w500, color: gc.text),
-            cursorColor: gc.accent,
-            decoration: InputDecoration(
-              isCollapsed: true,
-              border: InputBorder.none,
-              hintText: hint,
-              hintStyle: AppTheme.f(14, weight: FontWeight.w500, color: gc.textSecondary),
+      decoration: BoxDecoration(color: color ?? gc.bgRaised, borderRadius: BorderRadius.circular(100)),
+      child: Row(
+        children: [
+          SvgPathIcon(Ic.search, size: 16, color: gc.textSecondary),
+          const SizedBox(width: 10),
+          Expanded(
+            child: TextField(
+              controller: controller,
+              onChanged: onChanged,
+              style: AppTheme.f(14, weight: FontWeight.w500, color: gc.text),
+              cursorColor: gc.accent,
+              decoration: InputDecoration(
+                isCollapsed: true,
+                border: InputBorder.none,
+                hintText: hint,
+                hintStyle: AppTheme.f(14, weight: FontWeight.w500, color: gc.textSecondary),
+              ),
             ),
           ),
-        ),
-        ValueListenableBuilder<TextEditingValue>(
-          valueListenable: controller,
-          builder: (context, value, _) => value.text.isEmpty
-              ? const SizedBox(width: 10)
-              : Semantics(
-                  button: true,
-                  label: MaterialLocalizations.of(context).deleteButtonTooltip,
-                  child: GestureDetector(
-                    behavior: HitTestBehavior.opaque,
-                    onTap: () {
-                      controller.clear();
-                      onChanged('');
-                    },
-                    child: SizedBox(
-                      width: 40,
-                      height: 48,
-                      child: Center(
-                        child: Container(
-                          width: 20,
-                          height: 20,
-                          decoration: BoxDecoration(color: gc.bgRaised2, shape: BoxShape.circle),
-                          child: Center(child: SvgPathIcon(Ic.close, size: 10, color: gc.textSecondary)),
+          ValueListenableBuilder<TextEditingValue>(
+            valueListenable: controller,
+            builder: (context, value, _) => value.text.isEmpty
+                ? const SizedBox(width: 10)
+                : Semantics(
+                    button: true,
+                    label: MaterialLocalizations.of(context).deleteButtonTooltip,
+                    child: GestureDetector(
+                      behavior: HitTestBehavior.opaque,
+                      onTap: () {
+                        controller.clear();
+                        onChanged('');
+                      },
+                      child: SizedBox(
+                        width: 40,
+                        height: 48,
+                        child: Center(
+                          child: Container(
+                            width: 20,
+                            height: 20,
+                            decoration: BoxDecoration(color: gc.bgRaised2, shape: BoxShape.circle),
+                            child: Center(child: SvgPathIcon(Ic.close, size: 10, color: gc.textSecondary)),
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-        ),
-      ]),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -142,17 +141,20 @@ class TinySwitch extends StatelessWidget {
       child: Container(
         width: 20,
         height: 20,
-        decoration: BoxDecoration(
-          color: on ? gc.onEmber : gc.textTertiary,
-          shape: BoxShape.circle,
-        ),
+        decoration: BoxDecoration(color: on ? gc.onEmber : gc.textTertiary, shape: BoxShape.circle),
       ),
     );
   }
 }
 
 class Pressable extends StatefulWidget {
-  const Pressable({super.key, required this.child, required this.onTap, this.scale = 0.965, this.onLongPress});
+  const Pressable({
+    super.key,
+    required this.child,
+    required this.onTap,
+    this.scale = 0.965,
+    this.onLongPress,
+  });
 
   final Widget child;
   final VoidCallback? onTap;
@@ -205,17 +207,16 @@ class GhostButton extends StatelessWidget {
         height: 46,
         padding: const EdgeInsets.symmetric(horizontal: 20),
         alignment: Alignment.center,
-        decoration: BoxDecoration(
-          color: context.gc.bgRaised2,
-          borderRadius: BorderRadius.circular(100),
-        ),
+        decoration: BoxDecoration(color: context.gc.bgRaised2, borderRadius: BorderRadius.circular(100)),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             Icon(icon, size: 16, color: gc.ember),
             const SizedBox(width: 8),
-            Text(titleCase(label),
-                style: AppTheme.f(13.5, weight: FontWeight.w700, color: gc.text)),
+            Text(
+              titleCase(label),
+              style: AppTheme.f(13.5, weight: FontWeight.w700, color: gc.text),
+            ),
           ],
         ),
       ),
@@ -231,16 +232,13 @@ class SheetHandle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Center(
-        child: Container(
-          width: 40,
-          height: 4,
-          margin: margin,
-          decoration: BoxDecoration(
-            color: color ?? context.gc.bgRaised2,
-            borderRadius: BorderRadius.circular(2),
-          ),
-        ),
-      );
+    child: Container(
+      width: 40,
+      height: 4,
+      margin: margin,
+      decoration: BoxDecoration(color: color ?? context.gc.bgRaised2, borderRadius: BorderRadius.circular(2)),
+    ),
+  );
 }
 
 class SheetTitle extends StatelessWidget {
@@ -255,12 +253,18 @@ class SheetTitle extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(text, textAlign: TextAlign.center, style: AppTheme.f(17, weight: FontWeight.w700, color: gc.text)),
+        Text(
+          text,
+          textAlign: TextAlign.center,
+          style: AppTheme.f(17, weight: FontWeight.w700, color: gc.text),
+        ),
         if (subtitle != null) ...[
           const SizedBox(height: 4),
-          Text(subtitle!,
-              textAlign: TextAlign.center,
-              style: AppTheme.f(12, weight: FontWeight.w500, color: gc.textSecondary, height: 1.35)),
+          Text(
+            subtitle!,
+            textAlign: TextAlign.center,
+            style: AppTheme.f(12, weight: FontWeight.w500, color: gc.textSecondary, height: 1.35),
+          ),
         ],
       ],
     );
@@ -310,10 +314,7 @@ class OptionGroup extends StatelessWidget {
         : Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              for (var i = 0; i < items.length; i++) ...[
-                if (i > 0) divider,
-                _OptionRow(items[i]),
-              ],
+              for (var i = 0; i < items.length; i++) ...[if (i > 0) divider, _OptionRow(items[i])],
             ],
           );
     return ClipRRect(
@@ -342,39 +343,54 @@ class _OptionRow extends StatelessWidget {
           constraints: const BoxConstraints(minHeight: 50),
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 16, vertical: o.detail == null ? 0 : 11),
-            child: Row(children: [
-              if (o.leading != null) ...[
-                o.leading!,
-                const SizedBox(width: 12),
-              ] else if (o.icon != null) ...[
-                Icon(o.icon, size: 19, color: o.danger ? gc.danger : (o.selected ? gc.ember : gc.textSecondary)),
-                const SizedBox(width: 14),
-              ],
-              Expanded(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(o.label,
-                        style: AppTheme.f(14.5,
-                            weight: o.selected ? FontWeight.w800 : FontWeight.w600, color: tone)),
-                    if (o.detail != null) ...[
-                      const SizedBox(height: 2),
-                      Text(o.detail!,
-                          style: AppTheme.f(12, weight: FontWeight.w500, color: gc.textSecondary, height: 1.3)),
+            child: Row(
+              children: [
+                if (o.leading != null) ...[
+                  o.leading!,
+                  const SizedBox(width: 12),
+                ] else if (o.icon != null) ...[
+                  Icon(
+                    o.icon,
+                    size: 19,
+                    color: o.danger ? gc.danger : (o.selected ? gc.ember : gc.textSecondary),
+                  ),
+                  const SizedBox(width: 14),
+                ],
+                Expanded(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        o.label,
+                        style: AppTheme.f(
+                          14.5,
+                          weight: o.selected ? FontWeight.w800 : FontWeight.w600,
+                          color: tone,
+                        ),
+                      ),
+                      if (o.detail != null) ...[
+                        const SizedBox(height: 2),
+                        Text(
+                          o.detail!,
+                          style: AppTheme.f(
+                            12,
+                            weight: FontWeight.w500,
+                            color: gc.textSecondary,
+                            height: 1.3,
+                          ),
+                        ),
+                      ],
                     ],
-                  ],
+                  ),
                 ),
-              ),
-              if (o.selected) ...[
-                const SizedBox(width: 10),
-                Icon(PhosphorIconsFill.checkCircle, size: 18, color: gc.ember),
+                if (o.selected) ...[
+                  const SizedBox(width: 10),
+                  Icon(PhosphorIconsFill.checkCircle, size: 18, color: gc.ember),
+                ],
+                if (o.trailing != null) ...[const SizedBox(width: 6), o.trailing!],
               ],
-              if (o.trailing != null) ...[
-                const SizedBox(width: 6),
-                o.trailing!,
-              ],
-            ]),
+            ),
           ),
         ),
       ),
@@ -427,9 +443,9 @@ class RoundBtn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => RoundAction(
-        onTap: onTap,
-        child: SvgPathIcon(icon, size: 16, color: iconColor ?? context.gc.text),
-      );
+    onTap: onTap,
+    child: SvgPathIcon(icon, size: 16, color: iconColor ?? context.gc.text),
+  );
 }
 
 class ScreenHeader extends StatelessWidget {
@@ -466,16 +482,21 @@ class ScreenHeader extends StatelessWidget {
               if (badge == null)
                 ScreenTitle(title, size: titleSize, spacing: titleSpacing)
               else
-                Row(children: [
-                  Flexible(child: ScreenTitle(title, size: titleSize, spacing: titleSpacing)),
-                  const SizedBox(width: 8),
-                  badge!,
-                ]),
+                Row(
+                  children: [
+                    Flexible(
+                      child: ScreenTitle(title, size: titleSize, spacing: titleSpacing),
+                    ),
+                    const SizedBox(width: 8),
+                    badge!,
+                  ],
+                ),
               if (subtitle != null) ...[
                 const SizedBox(height: 2),
-                Text(subtitle!,
-                    style: AppTheme.f(12.5,
-                        weight: FontWeight.w500, color: gc.textSecondary)),
+                Text(
+                  subtitle!,
+                  style: AppTheme.f(12.5, weight: FontWeight.w500, color: gc.textSecondary),
+                ),
               ],
             ],
           ),
@@ -502,12 +523,23 @@ class BetaTag extends StatelessWidget {
         borderRadius: BorderRadius.circular(100),
         border: Border.all(color: gc.accent.withValues(alpha: 0.4), width: 0.8),
       ),
-      child: Row(mainAxisSize: MainAxisSize.min, children: [
-        Icon(PhosphorIconsFill.flask, size: small ? 9 : 10.5, color: gc.accent),
-        const SizedBox(width: 3),
-        Text(label.toUpperCase(),
-            style: AppTheme.f(small ? 8.5 : 9.5, weight: FontWeight.w800, color: gc.accent, letterSpacing: 1.1, height: 1.1)),
-      ]),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(PhosphorIconsFill.flask, size: small ? 9 : 10.5, color: gc.accent),
+          const SizedBox(width: 3),
+          Text(
+            label.toUpperCase(),
+            style: AppTheme.f(
+              small ? 8.5 : 9.5,
+              weight: FontWeight.w800,
+              color: gc.accent,
+              letterSpacing: 1.1,
+              height: 1.1,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -517,7 +549,8 @@ String sentenceCase(String s) {
   return s[0] + s.substring(1).toLowerCase();
 }
 
-ReorderItemProxyDecorator liftedRow(double radius) => (child, _, animation) => AnimatedBuilder(
+ReorderItemProxyDecorator liftedRow(double radius) =>
+    (child, _, animation) => AnimatedBuilder(
       animation: animation,
       child: child,
       builder: (context, kid) {
@@ -553,10 +586,10 @@ class FitText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => FittedBox(
-        fit: BoxFit.scaleDown,
-        alignment: AlignmentDirectional.centerStart,
-        child: Text(text, maxLines: 1, style: style),
-      );
+    fit: BoxFit.scaleDown,
+    alignment: AlignmentDirectional.centerStart,
+    child: Text(text, maxLines: 1, style: style),
+  );
 }
 
 String titleCase(String s) {
@@ -572,8 +605,10 @@ class ScreenTitle extends StatelessWidget {
   final double size;
   final double spacing;
   @override
-  Widget build(BuildContext context) =>
-      MarqueeText(titleCase(text), style: AppTheme.f(size, weight: FontWeight.w800, color: context.gc.text));
+  Widget build(BuildContext context) => MarqueeText(
+    titleCase(text),
+    style: AppTheme.f(size, weight: FontWeight.w800, color: context.gc.text),
+  );
 }
 
 class MarqueeText extends StatefulWidget {
@@ -635,50 +670,52 @@ class _MarqueeTextState extends State<MarqueeText> with SingleTickerProviderStat
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(builder: (context, box) {
-      final tp = TextPainter(
-        text: TextSpan(text: widget.text, style: widget.style),
-        textDirection: Directionality.of(context),
-        textScaler: MediaQuery.textScalerOf(context),
-        maxLines: 1,
-      )..layout();
-      final fits = tp.width <= box.maxWidth;
-      _sync(fits ? 0 : tp.width + _gap, MediaQuery.disableAnimationsOf(context));
-      final plain = Text(widget.text, maxLines: 1, overflow: TextOverflow.ellipsis, style: widget.style);
-      if (fits) return plain;
-      final rtl = Directionality.of(context) == TextDirection.rtl;
-      return GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: _toggle,
-        child: SizedBox(
-          width: box.maxWidth,
-          height: tp.height,
-          child: ClipRect(
-            child: AnimatedBuilder(
-              animation: _c,
-              builder: (context, child) {
-                final total = _holdMs + _scrollMs;
-                final ms = _c.value * total;
-                final dx = ms <= _holdMs ? 0.0 : (ms - _holdMs) / _scrollMs * _run;
-                return Transform.translate(offset: Offset(rtl ? dx : -dx, 0), child: child);
-              },
-              child: OverflowBox(
-                alignment: rtl ? Alignment.centerRight : Alignment.centerLeft,
-                maxWidth: double.infinity,
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(widget.text, maxLines: 1, softWrap: false, style: widget.style),
-                    const SizedBox(width: _gap),
-                    Text(widget.text, maxLines: 1, softWrap: false, style: widget.style),
-                  ],
+    return LayoutBuilder(
+      builder: (context, box) {
+        final tp = TextPainter(
+          text: TextSpan(text: widget.text, style: widget.style),
+          textDirection: Directionality.of(context),
+          textScaler: MediaQuery.textScalerOf(context),
+          maxLines: 1,
+        )..layout();
+        final fits = tp.width <= box.maxWidth;
+        _sync(fits ? 0 : tp.width + _gap, MediaQuery.disableAnimationsOf(context));
+        final plain = Text(widget.text, maxLines: 1, overflow: TextOverflow.ellipsis, style: widget.style);
+        if (fits) return plain;
+        final rtl = Directionality.of(context) == TextDirection.rtl;
+        return GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onTap: _toggle,
+          child: SizedBox(
+            width: box.maxWidth,
+            height: tp.height,
+            child: ClipRect(
+              child: AnimatedBuilder(
+                animation: _c,
+                builder: (context, child) {
+                  final total = _holdMs + _scrollMs;
+                  final ms = _c.value * total;
+                  final dx = ms <= _holdMs ? 0.0 : (ms - _holdMs) / _scrollMs * _run;
+                  return Transform.translate(offset: Offset(rtl ? dx : -dx, 0), child: child);
+                },
+                child: OverflowBox(
+                  alignment: rtl ? Alignment.centerRight : Alignment.centerLeft,
+                  maxWidth: double.infinity,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(widget.text, maxLines: 1, softWrap: false, style: widget.style),
+                      const SizedBox(width: _gap),
+                      Text(widget.text, maxLines: 1, softWrap: false, style: widget.style),
+                    ],
+                  ),
                 ),
               ),
             ),
           ),
-        ),
-      );
-    });
+        );
+      },
+    );
   }
 }
 
@@ -689,8 +726,10 @@ class Kicker extends StatelessWidget {
   final double size;
   final double spacing;
   @override
-  Widget build(BuildContext context) =>
-      Text(text, style: AppTheme.f(size, weight: FontWeight.w600, color: color, letterSpacing: spacing));
+  Widget build(BuildContext context) => Text(
+    text,
+    style: AppTheme.f(size, weight: FontWeight.w600, color: color, letterSpacing: spacing),
+  );
 }
 
 class StepperControl extends StatelessWidget {
@@ -721,19 +760,25 @@ class StepperControl extends StatelessWidget {
   Widget build(BuildContext context) {
     final gc = context.gc;
     Widget btn(String glyph, VoidCallback onTap) => GestureDetector(
-          onTap: onTap,
-          child: Container(
-            width: btnSize,
-            height: btnSize,
-            decoration: BoxDecoration(color: gc.bgRaised2, borderRadius: BorderRadius.circular(btnRadius)),
-            alignment: Alignment.center,
-            child: Text(glyph, style: TextStyle(color: gc.text, fontSize: fontSize + 2, height: 1, fontWeight: FontWeight.w500)),
-          ),
-        );
+      onTap: onTap,
+      child: Container(
+        width: btnSize,
+        height: btnSize,
+        decoration: BoxDecoration(color: gc.bgRaised2, borderRadius: BorderRadius.circular(btnRadius)),
+        alignment: Alignment.center,
+        child: Text(
+          glyph,
+          style: TextStyle(color: gc.text, fontSize: fontSize + 2, height: 1, fontWeight: FontWeight.w500),
+        ),
+      ),
+    );
     Widget label = Container(
       constraints: BoxConstraints(minWidth: minWidth),
       alignment: Alignment.center,
-      child: RollingText(value, style: AppTheme.f(fontSize, weight: FontWeight.w700, color: gc.text)),
+      child: RollingText(
+        value,
+        style: AppTheme.f(fontSize, weight: FontWeight.w700, color: gc.text),
+      ),
     );
     if (onEdit != null) {
       label = GestureDetector(behavior: HitTestBehavior.opaque, onTap: onEdit, child: label);
@@ -774,7 +819,12 @@ class ToolRow extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Flexible(child: Text(sentenceCase(label), style: AppTheme.f(14.5, weight: FontWeight.w500, color: gc.text))),
+            Flexible(
+              child: Text(
+                sentenceCase(label),
+                style: AppTheme.f(14.5, weight: FontWeight.w500, color: gc.text),
+              ),
+            ),
             const SizedBox(width: 12),
             control,
           ],
@@ -796,12 +846,14 @@ class ToolGroup extends StatelessWidget {
       borderRadius: BorderRadius.circular(20),
       child: ColoredBox(
         color: gc.bgRaised,
-        child: Column(children: [
-          for (var i = 0; i < rows.length; i++) ...[
-            if (i > 0) Divider(height: 1, thickness: 1, indent: 16, endIndent: 16, color: gc.border),
-            rows[i]._line(context),
+        child: Column(
+          children: [
+            for (var i = 0; i < rows.length; i++) ...[
+              if (i > 0) Divider(height: 1, thickness: 1, indent: 16, endIndent: 16, color: gc.border),
+              rows[i]._line(context),
+            ],
           ],
-        ]),
+        ),
       ),
     );
   }
@@ -839,9 +891,14 @@ class SegToggle extends StatelessWidget {
                   color: o.selected ? gc.ember : Colors.transparent,
                   borderRadius: BorderRadius.circular(100),
                 ),
-                child: Text(o.label,
-                    style: AppTheme.f(fontSize,
-                        weight: FontWeight.w600, color: o.selected ? gc.onEmber : gc.textSecondary)),
+                child: Text(
+                  o.label,
+                  style: AppTheme.f(
+                    fontSize,
+                    weight: FontWeight.w600,
+                    color: o.selected ? gc.onEmber : gc.textSecondary,
+                  ),
+                ),
               ),
             ),
         ],
@@ -860,14 +917,11 @@ class DashedRail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Center(
-        child: SizedBox(
-          width: thickness,
-          child: CustomPaint(
-            size: Size.infinite,
-            painter: _DashPainter(color, dash, gap, thickness),
-          ),
-        ),
-      );
+    child: SizedBox(
+      width: thickness,
+      child: CustomPaint(size: Size.infinite, painter: _DashPainter(color, dash, gap, thickness)),
+    ),
+  );
 }
 
 class _DashPainter extends CustomPainter {
@@ -882,11 +936,7 @@ class _DashPainter extends CustomPainter {
       ..strokeWidth = thickness
       ..strokeCap = StrokeCap.round;
     for (double y = 0; y < size.height; y += dash + gap) {
-      canvas.drawLine(
-        Offset(size.width / 2, y),
-        Offset(size.width / 2, math.min(y + dash, size.height)),
-        p,
-      );
+      canvas.drawLine(Offset(size.width / 2, y), Offset(size.width / 2, math.min(y + dash, size.height)), p);
     }
   }
 
@@ -921,8 +971,10 @@ class Pill extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: hPad, vertical: vPad),
         decoration: BoxDecoration(color: bg, borderRadius: BorderRadius.circular(100)),
-        child: Text(titleCase(label),
-            style: AppTheme.f(fontSize, weight: FontWeight.w600, color: fg)),
+        child: Text(
+          titleCase(label),
+          style: AppTheme.f(fontSize, weight: FontWeight.w600, color: fg),
+        ),
       ),
     );
   }
@@ -959,16 +1011,15 @@ class PrimaryButton extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            if (icon != null) ...[
-              SvgPathIcon(icon!, size: 15, color: f),
-              const SizedBox(width: 9),
-            ],
+            if (icon != null) ...[SvgPathIcon(icon!, size: 15, color: f), const SizedBox(width: 9)],
             Flexible(
               child: FittedBox(
                 fit: BoxFit.scaleDown,
-                child: Text(titleCase(label),
-                    maxLines: 1,
-                    style: AppTheme.f(15.5, weight: FontWeight.w700, color: f, letterSpacing: 0.2)),
+                child: Text(
+                  titleCase(label),
+                  maxLines: 1,
+                  style: AppTheme.f(15.5, weight: FontWeight.w700, color: f, letterSpacing: 0.2),
+                ),
               ),
             ),
           ],

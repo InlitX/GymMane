@@ -10,9 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 String _slideToToday(String text) {
   final data = jsonDecode(text) as Map<String, dynamic>;
   final sessions = (data['sessions'] as List).cast<Map<String, dynamic>>();
-  final newest = sessions
-      .map((s) => DateTime.parse(s['d'] as String))
-      .reduce((a, b) => a.isAfter(b) ? a : b);
+  final newest = sessions.map((s) => DateTime.parse(s['d'] as String)).reduce((a, b) => a.isAfter(b) ? a : b);
   final target = DateTime.now().subtract(const Duration(days: 1));
   final shift = Duration(days: target.difference(newest).inDays);
 
@@ -88,8 +86,11 @@ void main() {
     final cur = fixtureVolume(30, 0);
     final prev = fixtureVolume(60, 30);
     expect(fit.volume30dKg, closeTo(cur, 0.5));
-    expect(fit.volumeChangePct, (((cur - prev) / prev) * 100).round(),
-        reason: 'crecimiento real vs. mes anterior');
+    expect(
+      fit.volumeChangePct,
+      (((cur - prev) / prev) * 100).round(),
+      reason: 'crecimiento real vs. mes anterior',
+    );
   });
 
   test('personal records are the best set ever, not the last one', () {
@@ -132,8 +133,7 @@ void main() {
   test('bodyweight reads newest-first and the profile agrees', () {
     expect(fit.latestBodyweight!.kg, closeTo(75.2, 0.01));
     expect(fit.bodyweightHistory.first.kg, closeTo(75.2, 0.01));
-    expect(fit.bodyweightSeries.first, greaterThan(fit.bodyweightSeries.last),
-        reason: 'bajó de 78 a 75.2');
+    expect(fit.bodyweightSeries.first, greaterThan(fit.bodyweightSeries.last), reason: 'bajó de 78 a 75.2');
   });
 
   test('a day sheet shows what was really done that day', () {

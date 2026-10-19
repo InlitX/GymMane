@@ -66,20 +66,20 @@ Future<ui.Image> _backImage(String? handle, String title, String? date) {
   final canvas = Canvas(recorder);
 
   TextPainter paint(String text, double size, FontWeight weight, double spacing) => TextPainter(
-        text: TextSpan(
-          text: text,
-          style: TextStyle(
-            fontFamily: AppTheme.round,
-            fontSize: size,
-            fontWeight: weight,
-            letterSpacing: spacing,
-            color: const Color(0xFFFFFFFF),
-            height: 1.12,
-          ),
-        ),
-        textDirection: TextDirection.ltr,
-        textAlign: TextAlign.center,
-      )..layout(maxWidth: width);
+    text: TextSpan(
+      text: text,
+      style: TextStyle(
+        fontFamily: AppTheme.round,
+        fontSize: size,
+        fontWeight: weight,
+        letterSpacing: spacing,
+        color: const Color(0xFFFFFFFF),
+        height: 1.12,
+      ),
+    ),
+    textDirection: TextDirection.ltr,
+    textAlign: TextAlign.center,
+  )..layout(maxWidth: width);
 
   final lines = <(TextPainter, double)>[
     if (handle != null) (paint('@$handle', px * 0.055, FontWeight.w600, 0.5), px * 0.055),
@@ -150,8 +150,7 @@ class _MedalSpinState extends State<MedalSpin> with SingleTickerProviderStateMix
 
   Future<void> _load() async {
     try {
-      final program =
-          await (_programOnce ??= ui.FragmentProgram.fromAsset('assets/shaders/medal.frag'));
+      final program = await (_programOnce ??= ui.FragmentProgram.fromAsset('assets/shaders/medal.frag'));
       final icon = await _iconImage(medalLook(widget.id).icon);
       final at = fit.awardWonAt(widget.id);
       final back = await _backImage(
@@ -274,7 +273,9 @@ class _MedalSpinState extends State<MedalSpin> with SingleTickerProviderStateMix
         width: widget.size,
         height: widget.size,
         child: shader == null || icon == null || back == null
-            ? Center(child: Medal(id: widget.id, size: widget.size * 0.86, locked: widget.locked))
+            ? Center(
+                child: Medal(id: widget.id, size: widget.size * 0.86, locked: widget.locked),
+              )
             : RepaintBoundary(
                 child: CustomPaint(
                   painter: _MedalPainter(
@@ -354,6 +355,5 @@ class _MedalPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(_MedalPainter old) =>
-      old.shader != shader || old.icon != icon || old.locked != locked;
+  bool shouldRepaint(_MedalPainter old) => old.shader != shader || old.icon != icon || old.locked != locked;
 }

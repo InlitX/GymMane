@@ -39,14 +39,23 @@ class _RingPainter extends CustomPainter {
     canvas.scale(size.width / 40);
     const center = Offset(20, 20);
     const r = 16.0;
-    final t = Paint()..style = PaintingStyle.stroke..strokeWidth = 4..color = track;
+    final t = Paint()
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 4
+      ..color = track;
     canvas.drawCircle(center, r, t);
     final a = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = 4
       ..strokeCap = StrokeCap.round
       ..color = accent;
-    canvas.drawArc(Rect.fromCircle(center: center, radius: r), -math.pi / 2, pct / 100 * 2 * math.pi, false, a);
+    canvas.drawArc(
+      Rect.fromCircle(center: center, radius: r),
+      -math.pi / 2,
+      pct / 100 * 2 * math.pi,
+      false,
+      a,
+    );
   }
 
   @override
@@ -95,8 +104,11 @@ class VolumeChart extends StatelessWidget {
                       FittedBox(
                         fit: BoxFit.scaleDown,
                         alignment: Alignment.centerLeft,
-                        child: Text(f == 1 ? '${label(top)} $unit'.trim() : label(top * f),
-                            maxLines: 1, style: style),
+                        child: Text(
+                          f == 1 ? '${label(top)} $unit'.trim() : label(top * f),
+                          maxLines: 1,
+                          style: style,
+                        ),
                       ),
                   ],
                 ),
@@ -142,10 +154,8 @@ class _VolumePainter extends CustomPainter {
     final maxV = points.reduce(math.max);
     if (maxV <= 0) return;
 
-    Offset m(int i) => Offset(
-          size.width * i / (points.length - 1),
-          bottom - (bottom - top) * (points[i] / maxV),
-        );
+    Offset m(int i) =>
+        Offset(size.width * i / (points.length - 1), bottom - (bottom - top) * (points[i] / maxV));
 
     final line = Path()..moveTo(m(0).dx, m(0).dy);
     for (var i = 1; i < points.length; i++) {
@@ -156,7 +166,12 @@ class _VolumePainter extends CustomPainter {
       ..lineTo(size.width, size.height)
       ..lineTo(0, size.height)
       ..close();
-    canvas.drawPath(area, Paint()..color = gc.accentSoft..style = PaintingStyle.fill);
+    canvas.drawPath(
+      area,
+      Paint()
+        ..color = gc.accentSoft
+        ..style = PaintingStyle.fill,
+    );
     canvas.drawPath(
       line,
       Paint()
@@ -168,7 +183,14 @@ class _VolumePainter extends CustomPainter {
     );
     final end = m(points.length - 1);
     canvas.drawCircle(end, 5, Paint()..color = gc.bgRaised);
-    canvas.drawCircle(end, 5, Paint()..color = gc.accent..style = PaintingStyle.stroke..strokeWidth = 3);
+    canvas.drawCircle(
+      end,
+      5,
+      Paint()
+        ..color = gc.accent
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 3,
+    );
   }
 
   @override
@@ -185,7 +207,17 @@ class _VolumePainter extends CustomPainter {
   final rough = (hi - lo) / 4;
   final mag = math.pow(10, (math.log(rough) / math.ln10).floor()).toDouble();
   final r = rough / mag;
-  final step = (r <= 1 ? 1 : r <= 2 ? 2 : r <= 2.5 ? 2.5 : r <= 5 ? 5 : 10) * mag;
+  final step =
+      (r <= 1
+          ? 1
+          : r <= 2
+          ? 2
+          : r <= 2.5
+          ? 2.5
+          : r <= 5
+          ? 5
+          : 10) *
+      mag;
   final a = (lo / step).floorToDouble() * step;
   var n = (((hi / step).ceilToDouble() * step - a) / step).round();
   if (n < 2) n = 2;
@@ -222,12 +254,13 @@ class ChartScale extends StatelessWidget {
     final style = AppTheme.f(fontSize, weight: FontWeight.w600, color: gc.textTertiary, height: 1);
     final scaler = MediaQuery.textScalerOf(context);
     final width = marks
-        .map((m) => (TextPainter(
-              text: TextSpan(text: m.$2, style: style),
-              textDirection: TextDirection.ltr,
-              textScaler: scaler,
-            )..layout())
-            .width)
+        .map(
+          (m) => (TextPainter(
+            text: TextSpan(text: m.$2, style: style),
+            textDirection: TextDirection.ltr,
+            textScaler: scaler,
+          )..layout()).width,
+        )
         .reduce(math.max);
     return LayoutBuilder(
       builder: (context, box) => Row(
@@ -314,7 +347,14 @@ class _SparkPainter extends CustomPainter {
     );
     final end = m(values.length - 1);
     canvas.drawCircle(end, 4, Paint()..color = dotBg);
-    canvas.drawCircle(end, 4, Paint()..color = color..style = PaintingStyle.stroke..strokeWidth = 2.5);
+    canvas.drawCircle(
+      end,
+      4,
+      Paint()
+        ..color = color
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 2.5,
+    );
   }
 
   @override
@@ -333,7 +373,9 @@ class TrendChart extends StatelessWidget {
     final gc = context.gc;
     final label = scale;
     final bounds = label == null || values.length < 2 ? null : niceBounds(values);
-    final chart = CustomPaint(painter: _TrendPainter(values, color ?? gc.accent, gc.bgRaised, gc.border, bounds));
+    final chart = CustomPaint(
+      painter: _TrendPainter(values, color ?? gc.accent, gc.bgRaised, gc.border, bounds),
+    );
     return SizedBox(
       height: height,
       width: double.infinity,
@@ -400,8 +442,14 @@ class _TrendPainter extends CustomPainter {
     final line = Path()..moveTo(pts.first.dx, pts.first.dy);
     for (var i = 0; i < n - 1; i++) {
       final dx = (pts[i + 1].dx - pts[i].dx) / 3;
-      line.cubicTo(pts[i].dx + dx, pts[i].dy + tangent[i] * dx, pts[i + 1].dx - dx,
-          pts[i + 1].dy - tangent[i + 1] * dx, pts[i + 1].dx, pts[i + 1].dy);
+      line.cubicTo(
+        pts[i].dx + dx,
+        pts[i].dy + tangent[i] * dx,
+        pts[i + 1].dx - dx,
+        pts[i + 1].dy - tangent[i + 1] * dx,
+        pts[i + 1].dx,
+        pts[i + 1].dy,
+      );
     }
     final area = Path.from(line)
       ..lineTo(pts.last.dx, size.height)
@@ -428,7 +476,14 @@ class _TrendPainter extends CustomPainter {
     final end = pts.last;
     canvas.drawCircle(end, 8, Paint()..color = color.withValues(alpha: 0.22));
     canvas.drawCircle(end, 4.5, Paint()..color = dotBg);
-    canvas.drawCircle(end, 4.5, Paint()..color = color..style = PaintingStyle.stroke..strokeWidth = 2.5);
+    canvas.drawCircle(
+      end,
+      4.5,
+      Paint()
+        ..color = color
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 2.5,
+    );
   }
 
   @override
@@ -466,84 +521,108 @@ class Heatmap extends StatelessWidget {
     final top = named ? 16.0 : 0.0;
     final labelStyle = AppTheme.f(9, weight: FontWeight.w600, color: gc.textTertiary);
     final yearStyle = AppTheme.f(9, weight: FontWeight.w800, color: gc.textSecondary);
-    return LayoutBuilder(builder: (context, c) {
-      var cell = cellSize ?? (c.maxWidth - side - gap * (cols - 1)) / cols;
-      if (cellSize == null && c.hasBoundedHeight) cell = math.min(cell, (c.maxHeight - top - gap * (rows - 1)) / rows);
-      Widget box(int i) {
-        final level = i < levels.length ? levels[i] : -1;
-        if (level < 0) return SizedBox(width: cell, height: cell);
-        return GestureDetector(
-          behavior: HitTestBehavior.opaque,
-          onTap: onTapDay == null ? null : () => onTapDay!(i),
-          child: Container(
-            width: cell,
-            height: cell,
-            decoration: BoxDecoration(color: _color(level, gc), borderRadius: BorderRadius.circular(3)),
+    return LayoutBuilder(
+      builder: (context, c) {
+        var cell = cellSize ?? (c.maxWidth - side - gap * (cols - 1)) / cols;
+        if (cellSize == null && c.hasBoundedHeight) {
+          cell = math.min(cell, (c.maxHeight - top - gap * (rows - 1)) / rows);
+        }
+        Widget box(int i) {
+          final level = i < levels.length ? levels[i] : -1;
+          if (level < 0) return SizedBox(width: cell, height: cell);
+          return GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onTap: onTapDay == null ? null : () => onTapDay!(i),
+            child: Container(
+              width: cell,
+              height: cell,
+              decoration: BoxDecoration(color: _color(level, gc), borderRadius: BorderRadius.circular(3)),
+            ),
+          );
+        }
+
+        Widget spaced(Axis axis, List<Widget> items) {
+          final out = <Widget>[];
+          for (var i = 0; i < items.length; i++) {
+            if (i > 0) {
+              out.add(
+                SizedBox(width: axis == Axis.horizontal ? gap : 0, height: axis == Axis.vertical ? gap : 0),
+              );
+            }
+            out.add(items[i]);
+          }
+          return axis == Axis.horizontal
+              ? Row(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: out,
+                )
+              : Column(mainAxisSize: MainAxisSize.min, children: out);
+        }
+
+        final grid = spaced(Axis.horizontal, [
+          for (var col = 0; col < cols; col++)
+            spaced(Axis.vertical, [for (var r = 0; r < rows; r++) box(col * rows + r)]),
+        ]);
+        if (!named) return grid;
+
+        final months = <Widget>[];
+        int? lastMonth;
+        for (var col = 0; col < cols; col++) {
+          final day = shiftDays(start, col * rows);
+          final month = day.month;
+          if (month != lastMonth && (col > 0 || shiftDays(start, 0).day <= 7)) {
+            final year = cellSize != null && month == 1;
+            months.add(
+              Positioned(
+                left: side + col * (cell + gap),
+                top: 0,
+                child: Text(year ? '${day.year}' : t.monthShort(month), style: year ? yearStyle : labelStyle),
+              ),
+            );
+          }
+          lastMonth = month;
+        }
+        return SizedBox(
+          width: side + cols * cell + (cols - 1) * gap,
+          height: top + rows * cell + (rows - 1) * gap,
+          child: Stack(
+            clipBehavior: Clip.none,
+            children: [
+              ...months,
+              if (weekdays)
+                Positioned(
+                  left: 0,
+                  top: top,
+                  child: spaced(Axis.vertical, [
+                    for (var r = 0; r < rows; r++)
+                      SizedBox(
+                        width: side,
+                        height: cell,
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(t.weekdayInitial(shiftDays(start, r).weekday), style: labelStyle),
+                        ),
+                      ),
+                  ]),
+                ),
+              Positioned(left: side, top: top, child: grid),
+            ],
           ),
         );
-      }
-
-      Widget spaced(Axis axis, List<Widget> items) {
-        final out = <Widget>[];
-        for (var i = 0; i < items.length; i++) {
-          if (i > 0) out.add(SizedBox(width: axis == Axis.horizontal ? gap : 0, height: axis == Axis.vertical ? gap : 0));
-          out.add(items[i]);
-        }
-        return axis == Axis.horizontal
-            ? Row(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start, children: out)
-            : Column(mainAxisSize: MainAxisSize.min, children: out);
-      }
-
-      final grid = spaced(Axis.horizontal, [
-        for (var col = 0; col < cols; col++) spaced(Axis.vertical, [for (var r = 0; r < rows; r++) box(col * rows + r)]),
-      ]);
-      if (!named) return grid;
-
-      final months = <Widget>[];
-      int? lastMonth;
-      for (var col = 0; col < cols; col++) {
-        final day = shiftDays(start, col * rows);
-        final month = day.month;
-        if (month != lastMonth && (col > 0 || shiftDays(start, 0).day <= 7)) {
-          final year = cellSize != null && month == 1;
-          months.add(Positioned(
-            left: side + col * (cell + gap),
-            top: 0,
-            child: Text(year ? '${day.year}' : t.monthShort(month), style: year ? yearStyle : labelStyle),
-          ));
-        }
-        lastMonth = month;
-      }
-      return SizedBox(
-        width: side + cols * cell + (cols - 1) * gap,
-        height: top + rows * cell + (rows - 1) * gap,
-        child: Stack(clipBehavior: Clip.none, children: [
-          ...months,
-          if (weekdays)
-          Positioned(
-            left: 0,
-            top: top,
-            child: spaced(Axis.vertical, [
-              for (var r = 0; r < rows; r++)
-                SizedBox(
-                  width: side,
-                  height: cell,
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(t.weekdayInitial(shiftDays(start, r).weekday), style: labelStyle),
-                  ),
-                ),
-            ]),
-          ),
-          Positioned(left: side, top: top, child: grid),
-        ]),
-      );
-    });
+      },
+    );
   }
 }
 
 class HeatmapYear extends StatelessWidget {
-  const HeatmapYear({super.key, required this.levels, required this.firstDay, this.onTapDay, this.weekdays = true});
+  const HeatmapYear({
+    super.key,
+    required this.levels,
+    required this.firstDay,
+    this.onTapDay,
+    this.weekdays = true,
+  });
   final List<int> levels;
   final DateTime firstDay;
   final void Function(int index)? onTapDay;
@@ -555,44 +634,49 @@ class HeatmapYear extends StatelessWidget {
   Widget build(BuildContext context) {
     final gc = context.gc;
     final labelStyle = AppTheme.f(9, weight: FontWeight.w600, color: gc.textTertiary);
-    return Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      if (weekdays)
-        Padding(
-          padding: const EdgeInsets.only(top: 16),
-          child: Column(children: [
-            for (var r = 0; r < 7; r++)
-              Container(
-                width: 16,
-                height: cell,
-                margin: EdgeInsets.only(top: r == 0 ? 0 : 4),
-                alignment: Alignment.centerLeft,
-                child: Text(t.weekdayInitial(shiftDays(firstDay, r).weekday), style: labelStyle),
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (weekdays)
+          Padding(
+            padding: const EdgeInsets.only(top: 16),
+            child: Column(
+              children: [
+                for (var r = 0; r < 7; r++)
+                  Container(
+                    width: 16,
+                    height: cell,
+                    margin: EdgeInsets.only(top: r == 0 ? 0 : 4),
+                    alignment: Alignment.centerLeft,
+                    child: Text(t.weekdayInitial(shiftDays(firstDay, r).weekday), style: labelStyle),
+                  ),
+              ],
+            ),
+          ),
+        Expanded(
+          child: ShaderMask(
+            shaderCallback: (r) => const LinearGradient(
+              colors: [Color(0x00FFFFFF), Color(0xFFFFFFFF)],
+              stops: [0, 0.08],
+            ).createShader(r),
+            blendMode: BlendMode.dstIn,
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              reverse: true,
+              padding: const EdgeInsets.only(left: 18),
+              child: Heatmap(
+                levels: levels,
+                firstDay: firstDay,
+                labels: true,
+                weekdays: false,
+                cellSize: cell,
+                onTapDay: onTapDay,
               ),
-          ]),
-        ),
-      Expanded(
-        child: ShaderMask(
-          shaderCallback: (r) => const LinearGradient(
-            colors: [Color(0x00FFFFFF), Color(0xFFFFFFFF)],
-            stops: [0, 0.08],
-          ).createShader(r),
-          blendMode: BlendMode.dstIn,
-          child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            reverse: true,
-            padding: const EdgeInsets.only(left: 18),
-            child: Heatmap(
-              levels: levels,
-              firstDay: firstDay,
-              labels: true,
-              weekdays: false,
-              cellSize: cell,
-              onTapDay: onTapDay,
             ),
           ),
         ),
-      ),
-    ]);
+      ],
+    );
   }
 }
 
@@ -609,7 +693,10 @@ class SplitBars extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(e.name, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: gc.text)),
+              Text(
+                e.name,
+                style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: gc.text),
+              ),
               Text('${e.pct}%', style: TextStyle(fontSize: 13, color: gc.textSecondary)),
             ],
           ),
@@ -633,7 +720,12 @@ class SplitBars extends StatelessWidget {
 enum EmblemVariant { settings, complete, about }
 
 class Emblem extends StatelessWidget {
-  const Emblem({super.key, required this.size, this.variant = EmblemVariant.complete, this.ringEmber = false});
+  const Emblem({
+    super.key,
+    required this.size,
+    this.variant = EmblemVariant.complete,
+    this.ringEmber = false,
+  });
   final double size;
   final EmblemVariant variant;
   final bool ringEmber;
@@ -674,8 +766,14 @@ class _EmblemPainter extends CustomPainter {
 
     if (variant != EmblemVariant.settings) {
       final ringColor = variant == EmblemVariant.about ? gc.border : gc.accent;
-      canvas.drawCircle(const Offset(50, 50), 47,
-          Paint()..style = PaintingStyle.stroke..strokeWidth = 2..color = ringColor);
+      canvas.drawCircle(
+        const Offset(50, 50),
+        47,
+        Paint()
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 2
+          ..color = ringColor,
+      );
     }
 
     final starPaint = Paint()..color = variant == EmblemVariant.settings ? gc.accent : starColor;
@@ -691,8 +789,14 @@ class _EmblemPainter extends CustomPainter {
     final innerR = variant == EmblemVariant.settings ? 22.0 : 24.0;
     canvas.drawCircle(const Offset(50, 50), innerR, Paint()..color = gc.bgRaised2);
     if (variant != EmblemVariant.settings) {
-      canvas.drawCircle(const Offset(50, 50), 24,
-          Paint()..style = PaintingStyle.stroke..strokeWidth = 2..color = gc.accent);
+      canvas.drawCircle(
+        const Offset(50, 50),
+        24,
+        Paint()
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 2
+          ..color = gc.accent,
+      );
     }
 
     final facePaint = Paint()

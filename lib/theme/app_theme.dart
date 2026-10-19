@@ -24,11 +24,7 @@ class AppTheme {
         onSurface: gc.text,
         error: const Color(0xFFE5563B),
       ),
-      textTheme: base.textTheme.apply(
-        fontFamily: sans,
-        bodyColor: gc.text,
-        displayColor: gc.text,
-      ),
+      textTheme: base.textTheme.apply(fontFamily: sans, bodyColor: gc.text, displayColor: gc.text),
       splashColor: Colors.transparent,
       highlightColor: Colors.transparent,
       dividerColor: gc.border,
@@ -37,16 +33,25 @@ class AppTheme {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(28)),
         hourMinuteShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         hourMinuteColor: WidgetStateColor.resolveWith(
-            (s) => s.contains(WidgetState.selected) ? gc.accentSoft : gc.bgRaised2),
+          (s) => s.contains(WidgetState.selected) ? gc.accentSoft : gc.bgRaised2,
+        ),
         hourMinuteTextColor: WidgetStateColor.resolveWith(
-            (s) => s.contains(WidgetState.selected) ? gc.accent : gc.text),
+          (s) => s.contains(WidgetState.selected) ? gc.accent : gc.text,
+        ),
         dayPeriodColor: WidgetStateColor.resolveWith(
-            (s) => s.contains(WidgetState.selected) ? gc.accentSoft : Colors.transparent),
+          (s) => s.contains(WidgetState.selected) ? gc.accentSoft : Colors.transparent,
+        ),
         dayPeriodTextColor: WidgetStateColor.resolveWith(
-            (s) => s.contains(WidgetState.selected) ? gc.accent : gc.textSecondary),
+          (s) => s.contains(WidgetState.selected) ? gc.accent : gc.textSecondary,
+        ),
         dayPeriodBorderSide: BorderSide(color: gc.border),
         helpTextStyle: TextStyle(
-            fontFamily: sans, fontSize: 12, fontWeight: FontWeight.w700, letterSpacing: 1.2, color: gc.textSecondary),
+          fontFamily: sans,
+          fontSize: 12,
+          fontWeight: FontWeight.w700,
+          letterSpacing: 1.2,
+          color: gc.textSecondary,
+        ),
         entryModeIconColor: gc.textSecondary,
         cancelButtonStyle: TextButton.styleFrom(foregroundColor: gc.textSecondary),
         confirmButtonStyle: TextButton.styleFrom(foregroundColor: gc.accent),
@@ -61,15 +66,14 @@ class AppTheme {
     Color? color,
     double? letterSpacing,
     double height = 1.0,
-  }) =>
-      TextStyle(
-        fontFamily: disp,
-        fontSize: size,
-        fontWeight: weight,
-        color: color,
-        letterSpacing: letterSpacing,
-        height: height,
-      );
+  }) => TextStyle(
+    fontFamily: disp,
+    fontSize: size,
+    fontWeight: weight,
+    color: color,
+    letterSpacing: letterSpacing,
+    height: height,
+  );
 
   static TextStyle f(
     double size, {
@@ -77,15 +81,14 @@ class AppTheme {
     Color? color,
     double? letterSpacing,
     double height = 1.15,
-  }) =>
-      TextStyle(
-        fontFamily: round,
-        fontSize: size,
-        fontWeight: weight,
-        color: color,
-        letterSpacing: letterSpacing,
-        height: height,
-      );
+  }) => TextStyle(
+    fontFamily: round,
+    fontSize: size,
+    fontWeight: weight,
+    color: color,
+    letterSpacing: letterSpacing,
+    height: height,
+  );
 
   static TextStyle s(
     double size, {
@@ -93,13 +96,12 @@ class AppTheme {
     Color? color,
     double? letterSpacing,
     double height = 1.35,
-  }) =>
-      TextStyle(
-        fontFamily: sans,
-        fontSize: size,
-        fontWeight: weight,
-        color: color,
-        letterSpacing: letterSpacing,
-        height: height,
-      );
+  }) => TextStyle(
+    fontFamily: sans,
+    fontSize: size,
+    fontWeight: weight,
+    color: color,
+    letterSpacing: letterSpacing,
+    height: height,
+  );
 }

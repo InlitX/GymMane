@@ -9,12 +9,12 @@ import 'package:gymmane/theme/app_theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Widget _host(Widget Function() screen) => MaterialApp(
-      theme: AppTheme.dark,
-      home: AnimatedBuilder(
-        animation: fit,
-        builder: (_, _) => Scaffold(body: screen()),
-      ),
-    );
+  theme: AppTheme.dark,
+  home: AnimatedBuilder(
+    animation: fit,
+    builder: (_, _) => Scaffold(body: screen()),
+  ),
+);
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -111,8 +111,7 @@ void main() {
     expect(find.text(t.noteYesterday.toUpperCase()), findsOneWidget);
   });
 
-  testWidgets('back from the list view lands on the calendar, not out of the journal',
-      (tester) async {
+  testWidgets('back from the list view lands on the calendar, not out of the journal', (tester) async {
     fit.goNotes(all: true);
     await tester.pumpWidget(_host(NotesScreen.new));
 

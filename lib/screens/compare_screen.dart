@@ -49,8 +49,7 @@ class CompareScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 6, 20, 0),
               child: SegToggle([
-                for (final p in poses)
-                  SegOption(t.poseName(p), p == pose, () => fit.setComparePose(p)),
+                for (final p in poses) SegOption(t.poseName(p), p == pose, () => fit.setComparePose(p)),
               ]),
             ),
           Expanded(
@@ -73,14 +72,20 @@ class CompareScreen extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(t.daysApart(fit.compareDays),
-                          style: AppTheme.d(18, weight: FontWeight.w700, color: gc.text)),
+                      Text(
+                        t.daysApart(fit.compareDays),
+                        style: AppTheme.d(18, weight: FontWeight.w700, color: gc.text),
+                      ),
                       if (delta != null) ...[
                         const SizedBox(height: 2),
-                        Text('${delta > 0 ? '+' : ''}${fmt(delta)} ${fit.units}',
-                            style: AppTheme.s(13,
-                                weight: FontWeight.w600,
-                                color: delta == 0 ? gc.textSecondary : gc.accent)),
+                        Text(
+                          '${delta > 0 ? '+' : ''}${fmt(delta)} ${fit.units}',
+                          style: AppTheme.s(
+                            13,
+                            weight: FontWeight.w600,
+                            color: delta == 0 ? gc.textSecondary : gc.accent,
+                          ),
+                        ),
                       ],
                     ],
                   ),
@@ -102,27 +107,26 @@ class CompareScreen extends StatelessWidget {
     String selectedId,
     ValueChanged<String> onPick,
     Color tint,
-  ) =>
-      SizedBox(
-        height: 44,
-        child: ListView(
-          scrollDirection: Axis.horizontal,
-          padding: const EdgeInsets.fromLTRB(20, 4, 20, 4),
-          children: [
-            for (final e in entries)
-              Padding(
-                padding: const EdgeInsets.only(right: 8),
-                child: Pill(
-                  label: t.shortDate(e.date),
-                  bg: e.id == selectedId ? tint.withValues(alpha: 0.18) : gc.bgRaised,
-                  fg: e.id == selectedId ? tint : gc.textTertiary,
-                  fontSize: 12,
-                  onTap: () => onPick(e.id),
-                ),
-              ),
-          ],
-        ),
-      );
+  ) => SizedBox(
+    height: 44,
+    child: ListView(
+      scrollDirection: Axis.horizontal,
+      padding: const EdgeInsets.fromLTRB(20, 4, 20, 4),
+      children: [
+        for (final e in entries)
+          Padding(
+            padding: const EdgeInsets.only(right: 8),
+            child: Pill(
+              label: t.shortDate(e.date),
+              bg: e.id == selectedId ? tint.withValues(alpha: 0.18) : gc.bgRaised,
+              fg: e.id == selectedId ? tint : gc.textTertiary,
+              fontSize: 12,
+              onTap: () => onPick(e.id),
+            ),
+          ),
+      ],
+    ),
+  );
 
   Widget _shot(GymColors gc, ProgressEntry entry, String? pose) {
     final name = pose == null ? (entry.media.isEmpty ? null : entry.media.first) : entry.shot(pose);
@@ -140,14 +144,20 @@ class CompareScreen extends StatelessWidget {
             clipBehavior: Clip.antiAlias,
             child: path == null
                 ? Icon(PhosphorIconsRegular.imageSquare, size: 22, color: gc.textTertiary)
-                : Image.file(File(path), fit: BoxFit.cover, gaplessPlayback: true,
+                : Image.file(
+                    File(path),
+                    fit: BoxFit.cover,
+                    gaplessPlayback: true,
                     errorBuilder: (_, _, _) =>
-                        Icon(PhosphorIconsRegular.imageSquare, size: 22, color: gc.textTertiary)),
+                        Icon(PhosphorIconsRegular.imageSquare, size: 22, color: gc.textTertiary),
+                  ),
           ),
         ),
         const SizedBox(height: 8),
-        Text(t.shortDateYear(entry.date),
-            style: AppTheme.s(11.5, weight: FontWeight.w600, color: gc.textSecondary)),
+        Text(
+          t.shortDateYear(entry.date),
+          style: AppTheme.s(11.5, weight: FontWeight.w600, color: gc.textSecondary),
+        ),
       ],
     );
   }

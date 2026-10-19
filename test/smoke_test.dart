@@ -16,12 +16,11 @@ void main() {
     fit.session = null;
     fit.sessions
       ..clear()
-      ..add(LoggedSession(DateTime.now(), 1800, [
-        LoggedExercise('EIeI8Vf', 'Barbell Bench Press', 'chest', [
-          LoggedSet(10, 60),
-          LoggedSet(8, 65),
+      ..add(
+        LoggedSession(DateTime.now(), 1800, [
+          LoggedExercise('EIeI8Vf', 'Barbell Bench Press', 'chest', [LoggedSet(10, 60), LoggedSet(8, 65)]),
         ]),
-      ]));
+      );
   });
 
   Future<void> visit(WidgetTester tester, String route) async {
@@ -53,10 +52,16 @@ void main() {
 
   testWidgets('the share sheet builds a card for every kind', (tester) async {
     for (final kind in ShareKind.values) {
-      await tester.pumpWidget(MaterialApp(
-        theme: AppTheme.dark,
-        home: Scaffold(body: Center(child: ShareCard(kind: kind, gc: GymColors.dark))),
-      ));
+      await tester.pumpWidget(
+        MaterialApp(
+          theme: AppTheme.dark,
+          home: Scaffold(
+            body: Center(
+              child: ShareCard(kind: kind, gc: GymColors.dark),
+            ),
+          ),
+        ),
+      );
       await tester.pump(const Duration(milliseconds: 200));
       expect(tester.takeException(), isNull, reason: 'la lámina $kind reventó');
     }

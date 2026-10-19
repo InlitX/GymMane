@@ -60,7 +60,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   Future<void> _pickPhoto() async {
     final source = await pickPhotoSource(context);
     if (source == null) return;
-    final shot = await ImagePicker().pickImage(source: source, maxWidth: 512, maxHeight: 512, imageQuality: 80);
+    final shot = await ImagePicker().pickImage(
+      source: source,
+      maxWidth: 512,
+      maxHeight: 512,
+      imageQuality: 80,
+    );
     if (shot == null) return;
     final bytes = await shot.readAsBytes();
     if (!mounted) return;
@@ -77,44 +82,51 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         child: Pressable(
           onTap: _pickPhoto,
           scale: 0.95,
-          child: Column(children: [
-            SizedBox(
-              width: 104,
-              height: 104,
-              child: Stack(clipBehavior: Clip.none, children: [
-                Container(
-                  width: 104,
-                  height: 104,
-                  clipBehavior: Clip.antiAlias,
-                  decoration: BoxDecoration(color: gc.bgRaised, shape: BoxShape.circle),
-                  foregroundDecoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(color: gc.border, width: 1.5),
-                  ),
-                  child: bytes == null
-                      ? Icon(PhosphorIconsRegular.user, size: 42, color: gc.textTertiary)
-                      : Image.memory(bytes, fit: BoxFit.cover, gaplessPlayback: true),
-                ),
-                Positioned(
-                  right: 0,
-                  bottom: 2,
-                  child: Container(
-                    width: 34,
-                    height: 34,
-                    decoration: BoxDecoration(
-                      color: gc.accent,
-                      shape: BoxShape.circle,
-                      border: Border.all(color: gc.bg, width: 3),
+          child: Column(
+            children: [
+              SizedBox(
+                width: 104,
+                height: 104,
+                child: Stack(
+                  clipBehavior: Clip.none,
+                  children: [
+                    Container(
+                      width: 104,
+                      height: 104,
+                      clipBehavior: Clip.antiAlias,
+                      decoration: BoxDecoration(color: gc.bgRaised, shape: BoxShape.circle),
+                      foregroundDecoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(color: gc.border, width: 1.5),
+                      ),
+                      child: bytes == null
+                          ? Icon(PhosphorIconsRegular.user, size: 42, color: gc.textTertiary)
+                          : Image.memory(bytes, fit: BoxFit.cover, gaplessPlayback: true),
                     ),
-                    child: Icon(PhosphorIconsBold.camera, size: 15, color: gc.onEmber),
-                  ),
+                    Positioned(
+                      right: 0,
+                      bottom: 2,
+                      child: Container(
+                        width: 34,
+                        height: 34,
+                        decoration: BoxDecoration(
+                          color: gc.accent,
+                          shape: BoxShape.circle,
+                          border: Border.all(color: gc.bg, width: 3),
+                        ),
+                        child: Icon(PhosphorIconsBold.camera, size: 15, color: gc.onEmber),
+                      ),
+                    ),
+                  ],
                 ),
-              ]),
-            ),
-            const SizedBox(height: 10),
-            Text(bytes == null ? t.onbPhotoAdd : t.onbPhotoChange,
-                style: AppTheme.f(13, weight: FontWeight.w700, color: gc.accent)),
-          ]),
+              ),
+              const SizedBox(height: 10),
+              Text(
+                bytes == null ? t.onbPhotoAdd : t.onbPhotoChange,
+                style: AppTheme.f(13, weight: FontWeight.w700, color: gc.accent),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -188,8 +200,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             onTap: _finish,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
-              child: Text(t.skip2,
-                  style: AppTheme.f(12.5, weight: FontWeight.w600, color: gc.textTertiary)),
+              child: Text(
+                t.skip2,
+                style: AppTheme.f(12.5, weight: FontWeight.w600, color: gc.textTertiary),
+              ),
             ),
           ),
         ],
@@ -219,8 +233,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               label: _index == _last
                   ? t.welcomeStart
                   : _index == 2 && fit.profile.photo.isEmpty
-                      ? t.onbPhotoLater
-                      : t.next,
+                  ? t.onbPhotoLater
+                  : t.next,
               onTap: () => _index == _last ? _finish() : _go(_index + 1),
             ),
           ),
@@ -245,14 +259,19 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              _in(0, Padding(padding: const EdgeInsets.only(left: 4), child: _label(gc, t.onbStep(step, _last)))),
+              _in(
+                0,
+                Padding(padding: const EdgeInsets.only(left: 4), child: _label(gc, t.onbStep(step, _last))),
+              ),
               const SizedBox(height: 10),
               _in(
                 1,
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 4),
-                  child: Text(title,
-                      style: AppTheme.f(30, weight: FontWeight.w800, color: gc.text, height: 1.12)),
+                  child: Text(
+                    title,
+                    style: AppTheme.f(30, weight: FontWeight.w800, color: gc.text, height: 1.12),
+                  ),
                 ),
               ),
               const SizedBox(height: 10),
@@ -260,8 +279,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 2,
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 4),
-                  child: Text(why,
-                      style: AppTheme.f(13.5, weight: FontWeight.w500, color: gc.textSecondary, height: 1.45)),
+                  child: Text(
+                    why,
+                    style: AppTheme.f(13.5, weight: FontWeight.w500, color: gc.textSecondary, height: 1.45),
+                  ),
                 ),
               ),
               const SizedBox(height: 26),
@@ -273,8 +294,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     );
   }
 
-  Widget _label(GymColors gc, String text) => Text(text.toUpperCase(),
-      style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.3));
+  Widget _label(GymColors gc, String text) => Text(
+    text.toUpperCase(),
+    style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.3),
+  );
 
   Widget _group(GymColors gc, List<Widget> rows) {
     return Container(
@@ -284,7 +307,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         children: [
           for (var i = 0; i < rows.length; i++) ...[
             if (i > 0)
-              Divider(height: 1, thickness: 1, indent: 16, endIndent: 16, color: gc.border.withValues(alpha: 0.6)),
+              Divider(
+                height: 1,
+                thickness: 1,
+                indent: 16,
+                endIndent: 16,
+                color: gc.border.withValues(alpha: 0.6),
+              ),
             rows[i],
           ],
         ],
@@ -293,9 +322,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   }
 
   Widget _rowIcon(GymColors gc, IconData icon, {Color? color}) => Padding(
-        padding: const EdgeInsets.only(right: 14),
-        child: SizedBox(width: 22, child: Icon(icon, size: 19, color: color ?? gc.textSecondary)),
-      );
+    padding: const EdgeInsets.only(right: 14),
+    child: SizedBox(width: 22, child: Icon(icon, size: 19, color: color ?? gc.textSecondary)),
+  );
 
   Widget _welcome(GymColors gc) {
     return LayoutBuilder(
@@ -310,8 +339,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               _in(
                 0,
                 Center(
-                  child: Image.asset('assets/img/runner.png',
-                      height: 196, opacity: const AlwaysStoppedAnimation(0.9)),
+                  child: Image.asset(
+                    'assets/img/runner.png',
+                    height: 196,
+                    opacity: const AlwaysStoppedAnimation(0.9),
+                  ),
                 ),
               ),
               const SizedBox(height: 26),
@@ -319,8 +351,15 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 1,
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 4),
-                  child: Text(t.welcomeKicker.toUpperCase(),
-                      style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.6)),
+                  child: Text(
+                    t.welcomeKicker.toUpperCase(),
+                    style: AppTheme.f(
+                      10.5,
+                      weight: FontWeight.w700,
+                      color: gc.textTertiary,
+                      letterSpacing: 1.6,
+                    ),
+                  ),
                 ),
               ),
               const SizedBox(height: 8),
@@ -328,8 +367,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 2,
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 4),
-                  child: Text('GymMane',
-                      style: AppTheme.f(44, weight: FontWeight.w800, color: gc.text, height: 1)),
+                  child: Text(
+                    'GymMane',
+                    style: AppTheme.f(44, weight: FontWeight.w800, color: gc.text, height: 1),
+                  ),
                 ),
               ),
               const SizedBox(height: 12),
@@ -337,8 +378,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 3,
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 4),
-                  child: Text(t.welcomeBlurb,
-                      style: AppTheme.f(14.5, weight: FontWeight.w500, color: gc.textSecondary, height: 1.5)),
+                  child: Text(
+                    t.welcomeBlurb,
+                    style: AppTheme.f(14.5, weight: FontWeight.w500, color: gc.textSecondary, height: 1.5),
+                  ),
                 ),
               ),
               const SizedBox(height: 22),
@@ -358,25 +401,30 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   }
 
   Widget _promise(GymColors gc, IconData icon, String title, String why) => Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(padding: const EdgeInsets.only(top: 1), child: _rowIcon(gc, icon)),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(title, style: AppTheme.f(14.5, weight: FontWeight.w600, color: gc.text)),
-                  const SizedBox(height: 3),
-                  Text(why,
-                      style: AppTheme.f(12.5, weight: FontWeight.w500, color: gc.textSecondary, height: 1.4)),
-                ],
+    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+    child: Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(padding: const EdgeInsets.only(top: 1), child: _rowIcon(gc, icon)),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title,
+                style: AppTheme.f(14.5, weight: FontWeight.w600, color: gc.text),
               ),
-            ),
-          ],
+              const SizedBox(height: 3),
+              Text(
+                why,
+                style: AppTheme.f(12.5, weight: FontWeight.w500, color: gc.textSecondary, height: 1.4),
+              ),
+            ],
+          ),
         ),
-      );
+      ],
+    ),
+  );
 
   Widget _nameStep(GymColors gc) {
     return _step(
@@ -446,31 +494,44 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         ),
         _valueRow(gc, PhosphorIconsRegular.cake, t.ageLabel, '${p.age}', editAge),
         _valueRow(gc, PhosphorIconsRegular.ruler, t.heightLabel, fit.heightLabel(p.heightCm), editHeight),
-        _valueRow(gc, PhosphorIconsRegular.scales, t.weightLabel, fit.weightLabel(p.weightKg), editBodyWeight),
+        _valueRow(
+          gc,
+          PhosphorIconsRegular.scales,
+          t.weightLabel,
+          fit.weightLabel(p.weightKg),
+          editBodyWeight,
+        ),
       ]),
     );
   }
 
   Widget _bodyRow(GymColors gc, IconData icon, String label, Widget control) => ConstrainedBox(
-        constraints: const BoxConstraints(minHeight: 58),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          child: Row(
-            children: [
-              _rowIcon(gc, icon),
-              Expanded(
-                child: Text(sentenceCase(label),
-                    style: AppTheme.f(14.5, weight: FontWeight.w500, color: gc.text)),
-              ),
-              const SizedBox(width: 12),
-              control,
-            ],
+    constraints: const BoxConstraints(minHeight: 58),
+    child: Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      child: Row(
+        children: [
+          _rowIcon(gc, icon),
+          Expanded(
+            child: Text(
+              sentenceCase(label),
+              style: AppTheme.f(14.5, weight: FontWeight.w500, color: gc.text),
+            ),
           ),
-        ),
-      );
+          const SizedBox(width: 12),
+          control,
+        ],
+      ),
+    ),
+  );
 
-  Widget _valueRow(GymColors gc, IconData icon, String label, String value,
-      Future<void> Function(BuildContext) edit) {
+  Widget _valueRow(
+    GymColors gc,
+    IconData icon,
+    String label,
+    String value,
+    Future<void> Function(BuildContext) edit,
+  ) {
     return Semantics(
       button: true,
       label: sentenceCase(label),
@@ -482,11 +543,17 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           gc,
           icon,
           label,
-          Row(mainAxisSize: MainAxisSize.min, children: [
-            Text(value, style: AppTheme.f(15.5, weight: FontWeight.w700, color: gc.text)),
-            const SizedBox(width: 8),
-            Icon(PhosphorIconsBold.caretRight, size: 13, color: gc.textTertiary),
-          ]),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                value,
+                style: AppTheme.f(15.5, weight: FontWeight.w700, color: gc.text),
+              ),
+              const SizedBox(width: 8),
+              Icon(PhosphorIconsBold.caretRight, size: 13, color: gc.textTertiary),
+            ],
+          ),
         ),
       ),
     );
@@ -507,7 +574,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           children: [
             _label(gc, t.weeklyGoal),
             const SizedBox(height: 8),
-            Text(t.perWeek(goal), style: AppTheme.f(22, weight: FontWeight.w800, color: gc.text)),
+            Text(
+              t.perWeek(goal),
+              style: AppTheme.f(22, weight: FontWeight.w800, color: gc.text),
+            ),
             const SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -530,9 +600,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           color: n <= goal ? gc.ember : gc.bgRaised2,
                           shape: BoxShape.circle,
                         ),
-                        child: Text('$n',
-                            style: AppTheme.f(13.5,
-                                weight: FontWeight.w800, color: n <= goal ? gc.onEmber : gc.textTertiary)),
+                        child: Text(
+                          '$n',
+                          style: AppTheme.f(
+                            13.5,
+                            weight: FontWeight.w800,
+                            color: n <= goal ? gc.onEmber : gc.textTertiary,
+                          ),
+                        ),
                       ),
                     ),
                   ),
@@ -595,9 +670,15 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 ],
               ),
               const Spacer(),
-              Text(u, style: AppTheme.f(30, weight: FontWeight.w800, color: on ? gc.ember : gc.text, height: 1)),
+              Text(
+                u,
+                style: AppTheme.f(30, weight: FontWeight.w800, color: on ? gc.ember : gc.text, height: 1),
+              ),
               const SizedBox(height: 6),
-              Text(sample, style: AppTheme.f(11.5, weight: FontWeight.w600, color: gc.textTertiary)),
+              Text(
+                sample,
+                style: AppTheme.f(11.5, weight: FontWeight.w600, color: gc.textTertiary),
+              ),
             ],
           ),
         ),
@@ -637,10 +718,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                             Padding(
                               padding: const EdgeInsets.only(left: 4),
                               child: _label(
-                                  gc,
-                                  _places.length > 1
-                                      ? '${t.placePresetName(preset)} · ${t.onbPlaceGear}'
-                                      : t.onbPlaceGear),
+                                gc,
+                                _places.length > 1
+                                    ? '${t.placePresetName(preset)} · ${t.onbPlaceGear}'
+                                    : t.onbPlaceGear,
+                              ),
                             ),
                             const SizedBox(height: 10),
                             Wrap(
@@ -696,12 +778,19 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(t.placePresetName(preset),
-                        style: AppTheme.f(14.5,
-                            weight: on ? FontWeight.w800 : FontWeight.w600, color: on ? gc.ember : gc.text)),
+                    Text(
+                      t.placePresetName(preset),
+                      style: AppTheme.f(
+                        14.5,
+                        weight: on ? FontWeight.w800 : FontWeight.w600,
+                        color: on ? gc.ember : gc.text,
+                      ),
+                    ),
                     const SizedBox(height: 2),
-                    Text(t.exerciseCount(n),
-                        style: AppTheme.f(12, weight: FontWeight.w500, color: gc.textSecondary)),
+                    Text(
+                      t.exerciseCount(n),
+                      style: AppTheme.f(12, weight: FontWeight.w500, color: gc.textSecondary),
+                    ),
                   ],
                 ),
               ),
@@ -730,24 +819,24 @@ class _Glow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => IgnorePointer(
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-            gradient: RadialGradient(
-              center: const Alignment(0.9, -0.85),
-              radius: 1.1,
-              colors: [gc.ember.withValues(alpha: 0.12), gc.bg.withValues(alpha: 0)],
-            ),
-          ),
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              gradient: RadialGradient(
-                center: const Alignment(-0.9, 0.9),
-                radius: 1.0,
-                colors: [gc.brass.withValues(alpha: 0.07), gc.bg.withValues(alpha: 0)],
-              ),
-            ),
-            child: const SizedBox.expand(),
+    child: DecoratedBox(
+      decoration: BoxDecoration(
+        gradient: RadialGradient(
+          center: const Alignment(0.9, -0.85),
+          radius: 1.1,
+          colors: [gc.ember.withValues(alpha: 0.12), gc.bg.withValues(alpha: 0)],
+        ),
+      ),
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          gradient: RadialGradient(
+            center: const Alignment(-0.9, 0.9),
+            radius: 1.0,
+            colors: [gc.brass.withValues(alpha: 0.07), gc.bg.withValues(alpha: 0)],
           ),
         ),
-      );
+        child: const SizedBox.expand(),
+      ),
+    ),
+  );
 }

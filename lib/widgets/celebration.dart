@@ -31,14 +31,12 @@ class Confetti extends StatefulWidget {
 }
 
 class _ConfettiState extends State<Confetti> with SingleTickerProviderStateMixin {
-  late final AnimationController _c = AnimationController(
-    vsync: this,
-    duration: const Duration(milliseconds: 3400),
-  )
-    ..addStatusListener((s) {
-      if (s == AnimationStatus.completed) widget.onDone();
-    })
-    ..forward();
+  late final AnimationController _c =
+      AnimationController(vsync: this, duration: const Duration(milliseconds: 3400))
+        ..addStatusListener((s) {
+          if (s == AnimationStatus.completed) widget.onDone();
+        })
+        ..forward();
 
   late final List<_Bit> _bits = _spawn();
 
@@ -49,19 +47,21 @@ class _ConfettiState extends State<Confetti> with SingleTickerProviderStateMixin
       for (var i = 0; i < 34; i++) {
         final angle = (62 + r.nextDouble() * 24) * math.pi / 180;
         final speed = 1250 + r.nextDouble() * 650;
-        out.add(_Bit(
-          left: side == 0,
-          vx: math.cos(angle) * speed * (side == 0 ? 1 : -1),
-          vy: -math.sin(angle) * speed,
-          delay: r.nextDouble() * 0.12,
-          color: widget.colors[r.nextInt(widget.colors.length)],
-          shape: r.nextInt(3),
-          size: 0.8 + r.nextDouble() * 0.5,
-          spin: (r.nextDouble() - 0.5) * 9,
-          flip: 5 + r.nextDouble() * 7,
-          phase: r.nextDouble() * math.pi * 2,
-          sway: 10 + r.nextDouble() * 22,
-        ));
+        out.add(
+          _Bit(
+            left: side == 0,
+            vx: math.cos(angle) * speed * (side == 0 ? 1 : -1),
+            vy: -math.sin(angle) * speed,
+            delay: r.nextDouble() * 0.12,
+            color: widget.colors[r.nextInt(widget.colors.length)],
+            shape: r.nextInt(3),
+            size: 0.8 + r.nextDouble() * 0.5,
+            spin: (r.nextDouble() - 0.5) * 9,
+            flip: 5 + r.nextDouble() * 7,
+            phase: r.nextDouble() * math.pi * 2,
+            sway: 10 + r.nextDouble() * 22,
+          ),
+        );
       }
     }
     return out;
@@ -76,10 +76,7 @@ class _ConfettiState extends State<Confetti> with SingleTickerProviderStateMixin
   @override
   Widget build(BuildContext context) {
     return RepaintBoundary(
-      child: CustomPaint(
-        size: Size.infinite,
-        painter: _ConfettiPainter(_bits, _c),
-      ),
+      child: CustomPaint(size: Size.infinite, painter: _ConfettiPainter(_bits, _c)),
     );
   }
 }

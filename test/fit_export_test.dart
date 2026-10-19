@@ -7,7 +7,10 @@ import 'package:gymmane/services/fit_export.dart';
 void main() {
   final session = LoggedSession(DateTime(2026, 9, 27, 19, 30), 3000, [
     LoggedExercise('b', 'Barbell Bench Press', 'chest', [LoggedSet(8, 80), LoggedSet(6, 85)]),
-    LoggedExercise('s', 'Barbell Full Squat', 'quads', [LoggedSet(5, 100, kind: SetKind.warmup), LoggedSet(5, 120)]),
+    LoggedExercise('s', 'Barbell Full Squat', 'quads', [
+      LoggedSet(5, 100, kind: SetKind.warmup),
+      LoggedSet(5, 120),
+    ]),
   ]);
 
   test('el fichero FIT es válido', () {

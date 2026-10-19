@@ -66,7 +66,10 @@ class HealthSteps {
     final now = DateTime.now().millisecondsSinceEpoch;
     final ranges = [
       for (final day in days)
-        [_start(day), math.max(_start(day) + 1, math.min(_start(DateTime(day.year, day.month, day.day + 1)), now))],
+        [
+          _start(day),
+          math.max(_start(day) + 1, math.min(_start(DateTime(day.year, day.month, day.day + 1)), now)),
+        ],
     ];
     try {
       final counts = await _channel.invokeListMethod<int>('readSteps', {'ranges': ranges});

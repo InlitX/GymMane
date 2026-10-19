@@ -50,8 +50,7 @@ void main() {
 
   test('a medal is won once and keeps the day it was won', () {
     fit.sessions.addAll([
-      for (var i = 0; i < 100; i++)
-        LoggedSession(DateTime.now().subtract(Duration(days: i)), 1800, const []),
+      for (var i = 0; i < 100; i++) LoggedSession(DateTime.now().subtract(Duration(days: i)), 1800, const []),
     ]);
     fit.refreshAwards();
 
@@ -74,8 +73,11 @@ void main() {
     fit.loadFromStore();
 
     expect(fit.hasAward(AwardId.firstWorkout), true);
-    expect(fit.pendingAwards, contains(AwardId.firstWorkout),
-        reason: 'se ganaba en silencio y aparecía en el perfil sin animación');
+    expect(
+      fit.pendingAwards,
+      contains(AwardId.firstWorkout),
+      reason: 'se ganaba en silencio y aparecía en el perfil sin animación',
+    );
   });
 
   test('a medal already celebrated does not come back on the next launch', () {

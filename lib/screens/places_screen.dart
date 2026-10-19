@@ -38,10 +38,7 @@ class PlacesScreen extends StatelessWidget {
                 Text(t.placesHint, style: AppTheme.s(13, color: gc.textSecondary, height: 1.5)),
                 const SizedBox(height: 18),
                 if (places.isEmpty) _empty(context, gc),
-                for (final place in places) ...[
-                  _card(context, gc, place),
-                  const SizedBox(height: 12),
-                ],
+                for (final place in places) ...[_card(context, gc, place), const SizedBox(height: 12)],
                 const SizedBox(height: 4),
                 GestureDetector(
                   behavior: HitTestBehavior.opaque,
@@ -58,9 +55,10 @@ class PlacesScreen extends StatelessWidget {
                       children: [
                         Icon(PhosphorIconsRegular.plus, size: 16, color: gc.ember),
                         const SizedBox(width: 8),
-                        Text(t.placeNew,
-                            style: AppTheme.d(13,
-                                weight: FontWeight.w600, color: gc.text, letterSpacing: 1)),
+                        Text(
+                          t.placeNew,
+                          style: AppTheme.d(13, weight: FontWeight.w600, color: gc.text, letterSpacing: 1),
+                        ),
                       ],
                     ),
                   ),
@@ -74,57 +72,59 @@ class PlacesScreen extends StatelessWidget {
   }
 
   Widget _empty(BuildContext context, GymColors gc) => Container(
-        margin: const EdgeInsets.only(bottom: 16),
-        padding: const EdgeInsets.fromLTRB(20, 22, 20, 20),
-        decoration: BoxDecoration(
-          color: gc.bgRaised,
-          border: Border.all(color: gc.border),
-          borderRadius: BorderRadius.circular(20),
+    margin: const EdgeInsets.only(bottom: 16),
+    padding: const EdgeInsets.fromLTRB(20, 22, 20, 20),
+    decoration: BoxDecoration(
+      color: gc.bgRaised,
+      border: Border.all(color: gc.border),
+      borderRadius: BorderRadius.circular(20),
+    ),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          t.placeEmptyTitle,
+          style: AppTheme.d(17, weight: FontWeight.w700, color: gc.text),
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        const SizedBox(height: 6),
+        Text(t.placeEmptyBody, style: AppTheme.s(13, color: gc.textSecondary, height: 1.5)),
+        const SizedBox(height: 16),
+        Row(
           children: [
-            Text(t.placeEmptyTitle,
-                style: AppTheme.d(17, weight: FontWeight.w700, color: gc.text)),
-            const SizedBox(height: 6),
-            Text(t.placeEmptyBody,
-                style: AppTheme.s(13, color: gc.textSecondary, height: 1.5)),
-            const SizedBox(height: 16),
-            Row(
-              children: [
-                for (final preset in kPlacePresets) ...[
-                  if (preset != kPlacePresets.first) const SizedBox(width: 8),
-                  Expanded(
-                    child: GestureDetector(
-                      behavior: HitTestBehavior.opaque,
-                      onTap: () => fit.setActivePlace(fit.addPresetPlace(preset)),
-                      child: Container(
-                        height: 44,
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          color: gc.bgRaised2,
-                          border: Border.all(color: gc.border),
-                          borderRadius: BorderRadius.circular(14),
-                        ),
-                        child: FittedBox(
-                          fit: BoxFit.scaleDown,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8),
-                            child: Text(t.placePresetName(preset),
-                                maxLines: 1,
-                                style: AppTheme.s(13,
-                                    weight: FontWeight.w600, color: gc.text)),
-                          ),
+            for (final preset in kPlacePresets) ...[
+              if (preset != kPlacePresets.first) const SizedBox(width: 8),
+              Expanded(
+                child: GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTap: () => fit.setActivePlace(fit.addPresetPlace(preset)),
+                  child: Container(
+                    height: 44,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: gc.bgRaised2,
+                      border: Border.all(color: gc.border),
+                      borderRadius: BorderRadius.circular(14),
+                    ),
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                        child: Text(
+                          t.placePresetName(preset),
+                          maxLines: 1,
+                          style: AppTheme.s(13, weight: FontWeight.w600, color: gc.text),
                         ),
                       ),
                     ),
                   ),
-                ],
-              ],
-            ),
+                ),
+              ),
+            ],
           ],
         ),
-      );
+      ],
+    ),
+  );
 
   Widget _card(BuildContext context, GymColors gc, GymPlace place) {
     final on = fit.activePlaceId == place.id;
@@ -155,9 +155,7 @@ class PlacesScreen extends StatelessWidget {
                         shape: BoxShape.circle,
                         border: Border.all(color: on ? gc.ember : gc.textTertiary, width: 1.5),
                       ),
-                      child: on
-                          ? Icon(PhosphorIconsBold.check, size: 14, color: gc.onEmber)
-                          : null,
+                      child: on ? Icon(PhosphorIconsBold.check, size: 14, color: gc.onEmber) : null,
                     ),
                   ),
                 ),
@@ -169,18 +167,21 @@ class PlacesScreen extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(place.name,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: AppTheme.d(17, weight: FontWeight.w700, color: gc.text)),
+                        Text(
+                          place.name,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: AppTheme.d(17, weight: FontWeight.w700, color: gc.text),
+                        ),
                         const SizedBox(height: 2),
                         Text(
-                            on
-                                ? '${t.placeActiveNow} · ${t.placeExercises(fit.placeExerciseCount(place))}'
-                                : '${t.placeExercises(fit.placeExerciseCount(place))} · ${t.placeTapToUse}',
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            style: AppTheme.s(12, color: on ? gc.ember : gc.textTertiary)),
+                          on
+                              ? '${t.placeActiveNow} · ${t.placeExercises(fit.placeExerciseCount(place))}'
+                              : '${t.placeExercises(fit.placeExerciseCount(place))} · ${t.placeTapToUse}',
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: AppTheme.s(12, color: on ? gc.ember : gc.textTertiary),
+                        ),
                       ],
                     ),
                   ),
@@ -217,17 +218,15 @@ class PlacesScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(t.placeGearLabel,
-                    style: AppTheme.s(10,
-                        weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.5)),
+                Text(
+                  t.placeGearLabel,
+                  style: AppTheme.s(10, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.5),
+                ),
                 const SizedBox(height: 10),
                 Wrap(
                   spacing: 8,
                   runSpacing: 8,
-                  children: [
-                    for (final gear in kEquipment)
-                      _gearChip(gc, place, gear),
-                  ],
+                  children: [for (final gear in kEquipment) _gearChip(gc, place, gear)],
                 ),
                 if (place.equipment.contains('Barbell')) ...[
                   const SizedBox(height: 14),
@@ -236,17 +235,16 @@ class PlacesScreen extends StatelessWidget {
                     onTap: () => _editPlates(context, place),
                     child: Container(
                       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-                      decoration: BoxDecoration(
-                        color: gc.bgRaised2,
-                        borderRadius: BorderRadius.circular(14),
-                      ),
+                      decoration: BoxDecoration(color: gc.bgRaised2, borderRadius: BorderRadius.circular(14)),
                       child: Row(
                         children: [
                           Icon(PhosphorIconsRegular.circlesThree, size: 17, color: gc.textSecondary),
                           const SizedBox(width: 12),
                           Expanded(
-                            child: Text(t.placePlates,
-                                style: AppTheme.s(13, weight: FontWeight.w600, color: gc.text)),
+                            child: Text(
+                              t.placePlates,
+                              style: AppTheme.s(13, weight: FontWeight.w600, color: gc.text),
+                            ),
                           ),
                           Text(
                             place.plates.isEmpty ? t.platesAll : t.platesOwned(place.plates.length),
@@ -287,12 +285,16 @@ class PlacesScreen extends StatelessWidget {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(on ? PhosphorIconsBold.check : PhosphorIconsBold.plus,
-                  size: 10, color: on ? gc.ember : gc.textTertiary),
+              Icon(
+                on ? PhosphorIconsBold.check : PhosphorIconsBold.plus,
+                size: 10,
+                color: on ? gc.ember : gc.textTertiary,
+              ),
               const SizedBox(width: 6),
-              Text(t.equipment(gear),
-                  style: AppTheme.s(12.5,
-                      weight: FontWeight.w600, color: on ? gc.text : gc.textSecondary)),
+              Text(
+                t.equipment(gear),
+                style: AppTheme.s(12.5, weight: FontWeight.w600, color: on ? gc.text : gc.textSecondary),
+              ),
             ],
           ),
         ),
@@ -324,13 +326,17 @@ class PlacesScreen extends StatelessWidget {
                 children: [
                   const SheetHandle(),
                   const SizedBox(height: 18),
-                  Text(t.placePlates,
-                      textAlign: TextAlign.center,
-                      style: AppTheme.d(14, weight: FontWeight.w700, color: gc.text, letterSpacing: 2)),
+                  Text(
+                    t.placePlates,
+                    textAlign: TextAlign.center,
+                    style: AppTheme.d(14, weight: FontWeight.w700, color: gc.text, letterSpacing: 2),
+                  ),
                   const SizedBox(height: 4),
-                  Text(current.name,
-                      textAlign: TextAlign.center,
-                      style: AppTheme.s(12.5, color: gc.textSecondary)),
+                  Text(
+                    current.name,
+                    textAlign: TextAlign.center,
+                    style: AppTheme.s(12.5, color: gc.textSecondary),
+                  ),
                   const SizedBox(height: 20),
                   ToolRow(
                     label: t.barWeight,
@@ -340,25 +346,35 @@ class PlacesScreen extends StatelessWidget {
                       btnSize: 28,
                       gap: 8,
                       fontSize: 14,
-                      onDec: () => setSheet(() =>
-                          fit.setPlaceBar(place.id, fit.fromDisplayWeight(bar - fit.plateStep))),
-                      onInc: () => setSheet(() =>
-                          fit.setPlaceBar(place.id, fit.fromDisplayWeight(bar + fit.plateStep))),
+                      onDec: () => setSheet(
+                        () => fit.setPlaceBar(place.id, fit.fromDisplayWeight(bar - fit.plateStep)),
+                      ),
+                      onInc: () => setSheet(
+                        () => fit.setPlaceBar(place.id, fit.fromDisplayWeight(bar + fit.plateStep)),
+                      ),
                     ),
                   ),
                   const SizedBox(height: 18),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(t.platePairs,
-                          style: AppTheme.s(10,
-                              weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.5)),
+                      Text(
+                        t.platePairs,
+                        style: AppTheme.s(
+                          10,
+                          weight: FontWeight.w700,
+                          color: gc.textTertiary,
+                          letterSpacing: 1.5,
+                        ),
+                      ),
                       if (current.plates.isNotEmpty)
                         GestureDetector(
                           behavior: HitTestBehavior.opaque,
                           onTap: () => setSheet(() => fit.clearPlates(place.id)),
-                          child: Text(t.platesAll,
-                              style: AppTheme.s(12, weight: FontWeight.w600, color: gc.accent)),
+                          child: Text(
+                            t.platesAll,
+                            style: AppTheme.s(12, weight: FontWeight.w600, color: gc.accent),
+                          ),
                         ),
                     ],
                   ),
@@ -378,8 +394,13 @@ class PlacesScreen extends StatelessWidget {
     );
   }
 
-  Widget _plateRow(GymColors gc, String placeId, GymPlace place, double size,
-      void Function(VoidCallback) setSheet) {
+  Widget _plateRow(
+    GymColors gc,
+    String placeId,
+    GymPlace place,
+    double size,
+    void Function(VoidCallback) setSheet,
+  ) {
     final kg = fit.fromDisplayWeight(size);
     final pairs = fit.platePairs(place, kg);
     return ToolRow(

@@ -289,8 +289,7 @@ void main() {
       for (final template in kProgramTemplates) {
         for (final day in template.days) {
           for (final (name, _) in day.exercises) {
-            expect(fit.matchExerciseByName(name), isNotNull,
-                reason: '${template.name} · $name');
+            expect(fit.matchExerciseByName(name), isNotNull, reason: '${template.name} · $name');
           }
         }
       }
@@ -351,8 +350,11 @@ void main() {
 
   group('hábitos (recordatorio inteligente)', () {
     void logAt(DateTime when, int minutes) {
-      fit.sessions.add(LoggedSession(when, minutes * 60,
-          [LoggedExercise(bench(), 'Bench', 'chest', [LoggedSet(5, 60)])]));
+      fit.sessions.add(
+        LoggedSession(when, minutes * 60, [
+          LoggedExercise(bench(), 'Bench', 'chest', [LoggedSet(5, 60)]),
+        ]),
+      );
     }
 
     test('sin historial no hay hábito', () {
@@ -375,8 +377,11 @@ void main() {
     test('el foco de hoy sigue siendo uno de los tres días', () {
       final today = DateTime.now();
       for (var week = 1; week <= 3; week++) {
-        fit.sessions.add(LoggedSession(today.subtract(Duration(days: 7 * week)), 3600,
-            [LoggedExercise(bench(), 'Bench', 'chest', [LoggedSet(5, 60)])]));
+        fit.sessions.add(
+          LoggedSession(today.subtract(Duration(days: 7 * week)), 3600, [
+            LoggedExercise(bench(), 'Bench', 'chest', [LoggedSet(5, 60)]),
+          ]),
+        );
       }
       expect(fit.familyOnWeekday(today.weekday), 'push');
       expect(fit.suggestedFocus.muscles, contains('chest'));

@@ -24,9 +24,7 @@ ImportResult? parseFitNotes(List<int> bytes) {
   final db = SqliteDb.open(bytes);
   if (db == null || !db.has('training_log') || !db.has('exercise')) return null;
 
-  final categories = {
-    for (final c in db.rows('Category')) _int(c['_id']): _text(c['name']),
-  };
+  final categories = {for (final c in db.rows('Category')) _int(c['_id']): _text(c['name'])};
   final exercises = {
     for (final e in db.rows('exercise'))
       _int(e['_id']): (
@@ -57,11 +55,7 @@ ImportResult? parseFitNotes(List<int> bytes) {
     parsed.sets.add(ParsedSet(reps, _double(log['metric_weight'])));
   }
 
-  return ImportResult(
-    ImportFormat.fitnotes,
-    byDay.values.toList(),
-    weights: _weights(db),
-  );
+  return ImportResult(ImportFormat.fitnotes, byDay.values.toList(), weights: _weights(db));
 }
 
 List<ParsedWeight> _weights(SqliteDb db) {

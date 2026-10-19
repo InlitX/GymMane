@@ -51,17 +51,19 @@ void main() {
     for (var week = 0; week < 104; week++) {
       for (final day in [0, 3]) {
         final when = start.add(Duration(days: week * 7 + day));
-        fit.sessions.add(LoggedSession(when, 3600 + week, [
-          LoggedExercise(bench.id, bench.name, bench.primary, [
-            LoggedSet(10, 60 + week * 0.25, rpe: 8),
-            LoggedSet(8, 60 + week * 0.25),
-            LoggedSet(6, 60 + week * 0.25, kind: SetKind.failure),
+        fit.sessions.add(
+          LoggedSession(when, 3600 + week, [
+            LoggedExercise(bench.id, bench.name, bench.primary, [
+              LoggedSet(10, 60 + week * 0.25, rpe: 8),
+              LoggedSet(8, 60 + week * 0.25),
+              LoggedSet(6, 60 + week * 0.25, kind: SetKind.failure),
+            ]),
+            LoggedExercise(squat.id, squat.name, squat.primary, [
+              LoggedSet(5, 100 + week * 0.5, kind: SetKind.warmup),
+              LoggedSet(5, 100 + week * 0.5),
+            ]),
           ]),
-          LoggedExercise(squat.id, squat.name, squat.primary, [
-            LoggedSet(5, 100 + week * 0.5, kind: SetKind.warmup),
-            LoggedSet(5, 100 + week * 0.5),
-          ]),
-        ]));
+        );
       }
       fit.bodyweight.add(BodyweightEntry(start.add(Duration(days: week * 7)), 80 - week * 0.05));
     }
@@ -73,7 +75,10 @@ void main() {
     fit.setBgDim(0.72);
 
     final custom = fit.addCustomExercise(
-        name: 'Sentadilla búlgara', primary: 'quads', equipment: 'Bodyweight');
+      name: 'Sentadilla búlgara',
+      primary: 'quads',
+      equipment: 'Bodyweight',
+    );
     await fit.attachExerciseMedia(custom, await source('custom.png', png));
     await fit.attachExerciseMedia(bench.id, await source('bench.mp4', mp4));
     await fit.setBgPhoto(await source('bg.png', png));
@@ -245,12 +250,14 @@ void main() {
     expect(fit.awards.length, awardsBefore);
     expect(awardsBefore, greaterThan(0));
     expect(fit.moments.single.note, 'Primer día');
-    expect(File('${tmp.path}/${fit.moments.single.file}').existsSync(), isTrue,
-        reason: 'la foto del momento no viajó en la copia');
+    expect(
+      File('${tmp.path}/${fit.moments.single.file}').existsSync(),
+      isTrue,
+      reason: 'la foto del momento no viajó en la copia',
+    );
   });
 
-  test('vuelven la rutina con sus series, su cadena y su grupo, y el sitio con sus discos',
-      () async {
+  test('vuelven la rutina con sus series, su cadena y su grupo, y el sitio con sus discos', () async {
     await seedTwoYears();
     final zip = await buildBackupZip();
     fit.resetAllData();
@@ -289,14 +296,16 @@ void main() {
     fit.setExerciseGoal(bench.id, 120, DateTime(2027, 1, 1));
     fit.toggleMultiPlan();
     final custom = fit.customExercises.single;
-    fit.updateCustomExercise(custom.id,
-        name: custom.name,
-        primary: custom.primary,
-        equipment: custom.equipment,
-        difficulty: custom.difficulty,
-        steps: const [],
-        mode: '',
-        aliases: const ['Bulgarian split squat']);
+    fit.updateCustomExercise(
+      custom.id,
+      name: custom.name,
+      primary: custom.primary,
+      equipment: custom.equipment,
+      difficulty: custom.difficulty,
+      steps: const [],
+      mode: '',
+      aliases: const ['Bulgarian split squat'],
+    );
 
     final zip = await buildBackupZip();
     fit.resetAllData();

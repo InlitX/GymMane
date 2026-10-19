@@ -45,14 +45,21 @@ class StartSheet extends StatelessWidget {
         children: [
           const SheetHandle(),
           const SizedBox(height: 16),
-          Text(day == null ? t.startTitle : t.logTitle,
-              style: AppTheme.f(21, weight: FontWeight.w700, color: gc.text)),
+          Text(
+            day == null ? t.startTitle : t.logTitle,
+            style: AppTheme.f(21, weight: FontWeight.w700, color: gc.text),
+          ),
           const SizedBox(height: 4),
-          Text(t.longDate(day ?? DateTime.now()),
-              style: AppTheme.f(12.5, weight: FontWeight.w500, color: gc.textSecondary)),
+          Text(
+            t.longDate(day ?? DateTime.now()),
+            style: AppTheme.f(12.5, weight: FontWeight.w500, color: gc.textSecondary),
+          ),
           if (day != null) ...[
             const SizedBox(height: 12),
-            Text(t.logHint, style: AppTheme.f(12.5, weight: FontWeight.w500, color: gc.textTertiary)),
+            Text(
+              t.logHint,
+              style: AppTheme.f(12.5, weight: FontWeight.w500, color: gc.textTertiary),
+            ),
           ],
           const SizedBox(height: 18),
           Flexible(
@@ -60,24 +67,28 @@ class StartSheet extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  for (final r in planned) ...[
-                    _plannedCard(context, gc, r),
-                    const SizedBox(height: 10),
-                  ],
+                  for (final r in planned) ...[_plannedCard(context, gc, r), const SizedBox(height: 10)],
                   if (others.isNotEmpty) ...[
                     _label(gc, t.yourRoutines),
-                    for (final r in others) ...[
-                      _routineRow(context, gc, r),
-                      const SizedBox(height: 8),
-                    ],
+                    for (final r in others) ...[_routineRow(context, gc, r), const SizedBox(height: 8)],
                     const SizedBox(height: 6),
                   ],
                   _label(gc, t.orStartFrom),
-                  _option(context, gc, PhosphorIconsRegular.listPlus, t.pickExercisesOption,
-                      () => fit.startPicking(on: day)),
+                  _option(
+                    context,
+                    gc,
+                    PhosphorIconsRegular.listPlus,
+                    t.pickExercisesOption,
+                    () => fit.startPicking(on: day),
+                  ),
                   const SizedBox(height: 8),
-                  _option(context, gc, PhosphorIconsRegular.person, t.chooseFocusOption,
-                      () => fit.startWorkout(null, day)),
+                  _option(
+                    context,
+                    gc,
+                    PhosphorIconsRegular.person,
+                    t.chooseFocusOption,
+                    () => fit.startWorkout(null, day),
+                  ),
                 ],
               ),
             ),
@@ -88,10 +99,12 @@ class StartSheet extends StatelessWidget {
   }
 
   Widget _label(GymColors gc, String text) => Padding(
-        padding: const EdgeInsets.only(left: 4, bottom: 8),
-        child: Text(text.toUpperCase(),
-            style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.2)),
-      );
+    padding: const EdgeInsets.only(left: 4, bottom: 8),
+    child: Text(
+      text.toUpperCase(),
+      style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.2),
+    ),
+  );
 
   Widget _plannedCard(BuildContext context, GymColors gc, Routine r) {
     return GestureDetector(
@@ -104,32 +117,40 @@ class StartSheet extends StatelessWidget {
           border: Border.all(color: gc.ember.withValues(alpha: 0.4)),
           borderRadius: BorderRadius.circular(20),
         ),
-        child: Row(children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(day == null ? t.todaysRoutine : t.plannedRoutine,
-                    style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.brass, letterSpacing: 1.2)),
-                const SizedBox(height: 6),
-                Text(fit.routineTitle(r),
+        child: Row(
+          children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    day == null ? t.todaysRoutine : t.plannedRoutine,
+                    style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.brass, letterSpacing: 1.2),
+                  ),
+                  const SizedBox(height: 6),
+                  Text(
+                    fit.routineTitle(r),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: AppTheme.f(18, weight: FontWeight.w700, color: gc.text)),
-                const SizedBox(height: 2),
-                Text(t.exerciseCount(r.exerciseIds.length),
-                    style: AppTheme.f(12.5, weight: FontWeight.w500, color: gc.textSecondary)),
-              ],
+                    style: AppTheme.f(18, weight: FontWeight.w700, color: gc.text),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    t.exerciseCount(r.exerciseIds.length),
+                    style: AppTheme.f(12.5, weight: FontWeight.w500, color: gc.textSecondary),
+                  ),
+                ],
+              ),
             ),
-          ),
-          const SizedBox(width: 12),
-          Container(
-            width: 46,
-            height: 46,
-            decoration: BoxDecoration(color: gc.ember, shape: BoxShape.circle),
-            child: Icon(PhosphorIconsFill.play, size: 18, color: gc.onEmber),
-          ),
-        ]),
+            const SizedBox(width: 12),
+            Container(
+              width: 46,
+              height: 46,
+              decoration: BoxDecoration(color: gc.ember, shape: BoxShape.circle),
+              child: Icon(PhosphorIconsFill.play, size: 18, color: gc.onEmber),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -141,41 +162,53 @@ class StartSheet extends StatelessWidget {
       child: SoftCard(
         radius: 16,
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 13),
-        child: Row(children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(r.group.isEmpty ? fit.routineTitle(r) : '${r.group} · ${fit.routineTitle(r)}',
+        child: Row(
+          children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    r.group.isEmpty ? fit.routineTitle(r) : '${r.group} · ${fit.routineTitle(r)}',
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: AppTheme.f(14.5, weight: FontWeight.w600, color: gc.text)),
-                const SizedBox(height: 2),
-                Text(t.exerciseCount(r.exerciseIds.length),
-                    style: AppTheme.f(11.5, weight: FontWeight.w500, color: gc.textTertiary)),
-              ],
+                    style: AppTheme.f(14.5, weight: FontWeight.w600, color: gc.text),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    t.exerciseCount(r.exerciseIds.length),
+                    style: AppTheme.f(11.5, weight: FontWeight.w500, color: gc.textTertiary),
+                  ),
+                ],
+              ),
             ),
-          ),
-          const SizedBox(width: 10),
-          Icon(PhosphorIconsFill.play, size: 14, color: gc.textSecondary),
-        ]),
+            const SizedBox(width: 10),
+            Icon(PhosphorIconsFill.play, size: 14, color: gc.textSecondary),
+          ],
+        ),
       ),
     );
   }
 
-  Widget _option(
-      BuildContext context, GymColors gc, IconData icon, String label, VoidCallback action) {
+  Widget _option(BuildContext context, GymColors gc, IconData icon, String label, VoidCallback action) {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () => _go(context, action),
       child: SoftCard(
         radius: 16,
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
-        child: Row(children: [
-          Icon(icon, size: 19, color: gc.textSecondary),
-          const SizedBox(width: 13),
-          Expanded(child: Text(label, style: AppTheme.f(14.5, weight: FontWeight.w600, color: gc.text))),
-        ]),
+        child: Row(
+          children: [
+            Icon(icon, size: 19, color: gc.textSecondary),
+            const SizedBox(width: 13),
+            Expanded(
+              child: Text(
+                label,
+                style: AppTheme.f(14.5, weight: FontWeight.w600, color: gc.text),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

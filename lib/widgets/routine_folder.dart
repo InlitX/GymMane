@@ -133,16 +133,22 @@ class RoutineFolder extends StatelessWidget {
                       children: [
                         Expanded(
                           child: Text.rich(
-                            TextSpan(children: [
-                              TextSpan(text: fit.routineTitle(r)),
-                              WidgetSpan(
-                                alignment: PlaceholderAlignment.middle,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(left: 4),
-                                  child: Icon(PhosphorIconsBold.caretRight, size: 13, color: gc.textSecondary),
+                            TextSpan(
+                              children: [
+                                TextSpan(text: fit.routineTitle(r)),
+                                WidgetSpan(
+                                  alignment: PlaceholderAlignment.middle,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(left: 4),
+                                    child: Icon(
+                                      PhosphorIconsBold.caretRight,
+                                      size: 13,
+                                      color: gc.textSecondary,
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ]),
+                              ],
+                            ),
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                             style: AppTheme.f(16, weight: FontWeight.w800, color: gc.text, height: 1.15),
@@ -157,7 +163,10 @@ class RoutineFolder extends StatelessWidget {
                             child: Container(
                               width: 30,
                               height: 30,
-                              decoration: BoxDecoration(color: gc.text.withValues(alpha: 0.1), shape: BoxShape.circle),
+                              decoration: BoxDecoration(
+                                color: gc.text.withValues(alpha: 0.1),
+                                shape: BoxShape.circle,
+                              ),
                               child: Icon(PhosphorIconsBold.dotsThreeVertical, size: 16, color: gc.text),
                             ),
                           ),
@@ -188,16 +197,25 @@ class RoutineFolder extends StatelessWidget {
                 behavior: HitTestBehavior.opaque,
                 onTap: n > 0 ? () => fit.startRoutine(r) : () => fit.openRoutine(r.id),
                 child: Center(
-                  child: Row(mainAxisSize: MainAxisSize.min, children: [
-                    Icon(n > 0 ? PhosphorIconsFill.play : PhosphorIconsBold.plus, size: 12, color: gc.textSecondary),
-                    const SizedBox(width: 7),
-                    Flexible(
-                      child: Text(n > 0 ? titleCase(t.startWorkout) : t.addExercises,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        n > 0 ? PhosphorIconsFill.play : PhosphorIconsBold.plus,
+                        size: 12,
+                        color: gc.textSecondary,
+                      ),
+                      const SizedBox(width: 7),
+                      Flexible(
+                        child: Text(
+                          n > 0 ? titleCase(t.startWorkout) : t.addExercises,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: AppTheme.f(13.5, weight: FontWeight.w700, color: gc.textSecondary)),
-                    ),
-                  ]),
+                          style: AppTheme.f(13.5, weight: FontWeight.w700, color: gc.textSecondary),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -208,8 +226,11 @@ class RoutineFolder extends StatelessWidget {
   }
 
   Widget _line(Color c, double width) => FractionallySizedBox(
-        alignment: Alignment.centerLeft,
-        widthFactor: width,
-        child: Container(height: 2.5, decoration: BoxDecoration(color: c, borderRadius: BorderRadius.circular(2))),
-      );
+    alignment: Alignment.centerLeft,
+    widthFactor: width,
+    child: Container(
+      height: 2.5,
+      decoration: BoxDecoration(color: c, borderRadius: BorderRadius.circular(2)),
+    ),
+  );
 }

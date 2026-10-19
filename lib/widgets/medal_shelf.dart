@@ -16,10 +16,7 @@ class MedalShelf extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final order = [
-      ...AwardId.values.where(fit.hasAward),
-      ...AwardId.values.where((a) => !fit.hasAward(a)),
-    ];
+    final order = [...AwardId.values.where(fit.hasAward), ...AwardId.values.where((a) => !fit.hasAward(a))];
     return SizedBox(
       height: size + 32,
       child: ListView.separated(
@@ -58,8 +55,7 @@ class MedalShelf extends StatelessWidget {
                         child: Container(
                           width: 9,
                           height: 9,
-                          decoration:
-                              BoxDecoration(color: context.gc.accent, shape: BoxShape.circle),
+                          decoration: BoxDecoration(color: context.gc.accent, shape: BoxShape.circle),
                         ),
                       ),
                   ],
@@ -73,8 +69,12 @@ class MedalShelf extends StatelessWidget {
                     maxLines: 2,
                     textAlign: TextAlign.center,
                     overflow: TextOverflow.ellipsis,
-                    style: AppTheme.f(9.5,
-                        weight: FontWeight.w600, color: context.gc.textSecondary, height: 1.15),
+                    style: AppTheme.f(
+                      9.5,
+                      weight: FontWeight.w600,
+                      color: context.gc.textSecondary,
+                      height: 1.15,
+                    ),
                   ),
                 ),
               ],
@@ -118,22 +118,31 @@ class _MedalSheet extends StatelessWidget {
           const SheetHandle(margin: EdgeInsets.only(bottom: 22)),
           MedalSpin(id: id, size: 236, locked: !won),
           const SizedBox(height: 8),
-          Text(t.awardSpinHint,
-              style: AppTheme.f(11.5, weight: FontWeight.w500, color: gc.textTertiary)),
+          Text(
+            t.awardSpinHint,
+            style: AppTheme.f(11.5, weight: FontWeight.w500, color: gc.textTertiary),
+          ),
           const SizedBox(height: 22),
-          Text(awardName(id), textAlign: TextAlign.center, style: AppTheme.f(21, color: gc.text)),
+          Text(
+            awardName(id),
+            textAlign: TextAlign.center,
+            style: AppTheme.f(21, color: gc.text),
+          ),
           const SizedBox(height: 8),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 22),
-            child: Text(awardLine(id),
-                textAlign: TextAlign.center,
-                style: AppTheme.f(13,
-                    weight: FontWeight.w500, color: gc.textSecondary, height: 1.45)),
+            child: Text(
+              awardLine(id),
+              textAlign: TextAlign.center,
+              style: AppTheme.f(13, weight: FontWeight.w500, color: gc.textSecondary, height: 1.45),
+            ),
           ),
           const SizedBox(height: 18),
           if (won && at != null)
-            Text(t.awardWonOn(t.shortDateYear(at)),
-                style: AppTheme.f(12.5, weight: FontWeight.w600, color: gc.textTertiary))
+            Text(
+              t.awardWonOn(t.shortDateYear(at)),
+              style: AppTheme.f(12.5, weight: FontWeight.w600, color: gc.textTertiary),
+            )
           else
             _progress(gc),
         ],
@@ -159,8 +168,10 @@ class _MedalSheet extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 10),
-        Text('${medalShort(value)} / ${medalShort(goal)}',
-            style: AppTheme.f(12.5, weight: FontWeight.w600, color: gc.textTertiary)),
+        Text(
+          '${medalShort(value)} / ${medalShort(goal)}',
+          style: AppTheme.f(12.5, weight: FontWeight.w600, color: gc.textTertiary),
+        ),
       ],
     );
   }

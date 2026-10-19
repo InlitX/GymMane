@@ -14,8 +14,9 @@ void main() {
     calls = [];
     platformSaysEnabled = true;
     AndroidFlutterLocalNotificationsPlugin.registerWith();
-    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
-        .setMockMethodCallHandler(channel, (call) async {
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(channel, (
+      call,
+    ) async {
       calls.add(call);
       switch (call.method) {
         case 'areNotificationsEnabled':
@@ -31,8 +32,7 @@ void main() {
   });
 
   tearDown(() {
-    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
-        .setMockMethodCallHandler(channel, null);
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(channel, null);
   });
 
   List<String> methods() => calls.map((c) => c.method).toList();
@@ -53,16 +53,14 @@ void main() {
   test('scheduling actually reaches the platform', () async {
     await ready();
     await RestAlarm.instance.schedule(const Duration(seconds: 90));
-    expect(methods(), contains('zonedSchedule'),
-        reason: 'si esto falta, para Android el aviso no existe');
+    expect(methods(), contains('zonedSchedule'), reason: 'si esto falta, para Android el aviso no existe');
   });
 
   test('it schedules even when the platform claims notifications are off', () async {
     await ready();
     platformSaysEnabled = false;
     await RestAlarm.instance.schedule(const Duration(seconds: 90));
-    expect(methods(), contains('zonedSchedule'),
-        reason: 'no nos negamos la alarma a nosotros mismos');
+    expect(methods(), contains('zonedSchedule'), reason: 'no nos negamos la alarma a nosotros mismos');
   });
 
   test('the permission is asked once, not on every set', () async {

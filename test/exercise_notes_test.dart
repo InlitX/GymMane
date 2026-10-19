@@ -10,12 +10,12 @@ import 'package:gymmane/widgets/note_kit.dart';
 import 'package:gymmane/widgets/ui_kit.dart';
 
 Widget _host(Widget Function() screen) => MaterialApp(
-      theme: AppTheme.dark,
-      home: AnimatedBuilder(
-        animation: fit,
-        builder: (_, _) => Scaffold(body: screen()),
-      ),
-    );
+  theme: AppTheme.dark,
+  home: AnimatedBuilder(
+    animation: fit,
+    builder: (_, _) => Scaffold(body: screen()),
+  ),
+);
 
 const _exId = 'barbell-bench-press';
 
@@ -68,8 +68,7 @@ void main() {
     expect(find.text(t.noteNoneForExercise), findsNothing);
   });
 
-  testWidgets('with none written the sheet says so instead of showing an empty list',
-      (tester) async {
+  testWidgets('with none written the sheet says so instead of showing an empty list', (tester) async {
     await tester.pumpWidget(_host(ExerciseDetailScreen.new));
     expect(find.text(t.noteNoneForExercise), findsOneWidget);
   });
@@ -89,8 +88,7 @@ void main() {
   testWidgets('the journal scoped to one exercise leaves the rest out', (tester) async {
     final other = fit.allExercises.firstWhere((e) => e.id != exId).id;
     addNotes(2);
-    fit.saveNote(
-        exerciseId: other, date: DateTime.now(), kind: NoteKind.note, text: 'de otro sitio');
+    fit.saveNote(exerciseId: other, date: DateTime.now(), kind: NoteKind.note, text: 'de otro sitio');
     fit.persistNow();
 
     fit.goNotes(exerciseId: exId, all: true);
@@ -102,8 +100,7 @@ void main() {
 
   testWidgets('the kind filter narrows the journal down', (tester) async {
     addNotes(2);
-    fit.saveNote(
-        exerciseId: exId, date: DateTime.now(), kind: NoteKind.pain, text: 'me tira el hombro');
+    fit.saveNote(exerciseId: exId, date: DateTime.now(), kind: NoteKind.pain, text: 'me tira el hombro');
     fit.persistNow();
 
     fit.goNotes(all: true);
@@ -128,13 +125,7 @@ void main() {
   test('editing a note keeps its place instead of adding a second one', () {
     addNotes(1);
     final note = fit.notes.single;
-    fit.saveNote(
-      id: note.id,
-      exerciseId: exId,
-      date: note.date,
-      kind: NoteKind.plan,
-      text: 'subir a 82.5',
-    );
+    fit.saveNote(id: note.id, exerciseId: exId, date: note.date, kind: NoteKind.plan, text: 'subir a 82.5');
 
     expect(fit.notes, hasLength(1));
     expect(fit.notes.single.kind, NoteKind.plan);
@@ -148,10 +139,11 @@ void main() {
 
   test('the title is the first line and the body the rest', () {
     fit.saveNote(
-        exerciseId: exId,
-        date: DateTime.now(),
-        kind: NoteKind.note,
-        text: 'Codos dentro\ny bajar despacio');
+      exerciseId: exId,
+      date: DateTime.now(),
+      kind: NoteKind.note,
+      text: 'Codos dentro\ny bajar despacio',
+    );
     final n = fit.notes.single;
     expect(n.title, 'Codos dentro');
     expect(n.body, 'y bajar despacio');

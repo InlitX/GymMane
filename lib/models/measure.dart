@@ -21,8 +21,8 @@ class BodyMeasure {
   Map<String, dynamic> toJson() => {'d': date.toIso8601String(), 'k': key, 'v': value};
 
   factory BodyMeasure.fromJson(Map<String, dynamic> j) => BodyMeasure(
-        DateTime.tryParse((j['d'] ?? '') as String) ?? DateTime.now(),
-        (j['k'] ?? '') as String,
-        ((j['v'] ?? 0) as num).toDouble(),
-      );
+    DateTime.tryParse((j['d'] ?? '') as String) ?? DateTime.now(),
+    (j['k'] ?? '') as String,
+    ((j['v'] ?? 0) as num).toDouble(),
+  );
 }

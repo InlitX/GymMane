@@ -4,7 +4,6 @@ import 'package:gymmane/state/fit_state.dart';
 
 void main() {
   testWidgets('selecting a muscle updates the Train screen immediately', (tester) async {
-
     fit.onboarded = true;
     fit.route = 'train';
     fit.trainStep = 'select';

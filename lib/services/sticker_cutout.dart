@@ -99,12 +99,7 @@ Uint8List _region((int, int, Uint8List, int, int) args) {
   while (head < tail) {
     final p = queue[head++];
     final px = p % w, py = p ~/ w;
-    for (final q in [
-      if (px > 0) p - 1,
-      if (px < w - 1) p + 1,
-      if (py > 0) p - w,
-      if (py < h - 1) p + w,
-    ]) {
+    for (final q in [if (px > 0) p - 1, if (px < w - 1) p + 1, if (py > 0) p - w, if (py < h - 1) p + w]) {
       if (out[q] != 0) continue;
       if (diff(q, seed) <= 34 && diff(p, q) <= 10 && (wall[q] == 0 || diff(q, seed) <= 14)) {
         out[q] = 1;
@@ -141,8 +136,11 @@ Future<(int, int, Uint8List)?> _decode(Uint8List bytes, int maxSide) async {
     ui.Image image = first;
     if (scale < 1) {
       first.dispose();
-      final codec = await ui.instantiateImageCodec(bytes,
-          targetWidth: (w * scale).round(), targetHeight: (h * scale).round());
+      final codec = await ui.instantiateImageCodec(
+        bytes,
+        targetWidth: (w * scale).round(),
+        targetHeight: (h * scale).round(),
+      );
       image = (await codec.getNextFrame()).image;
     }
     final data = await image.toByteData(format: ui.ImageByteFormat.rawStraightRgba);
@@ -192,10 +190,14 @@ Uint8List? cutoutMask(int w, int h, Uint8List src, {bool force = false}) {
 
   final border = <int>[];
   for (var x = 0; x < w; x++) {
-    border..add(x)..add((h - 1) * w + x);
+    border
+      ..add(x)
+      ..add((h - 1) * w + x);
   }
   for (var r = 1; r < h - 1; r++) {
-    border..add(r * w)..add(r * w + w - 1);
+    border
+      ..add(r * w)
+      ..add(r * w + w - 1);
   }
   final my = _median([for (final i in border) y[i]]);
   final mb = _median([for (final i in border) cb[i]]);
@@ -230,12 +232,7 @@ Uint8List? cutoutMask(int w, int h, Uint8List src, {bool force = false}) {
   while (head < tail) {
     final p = queue[head++];
     final px = p % w, py = p ~/ w;
-    for (final q in [
-      if (px > 0) p - 1,
-      if (px < w - 1) p + 1,
-      if (py > 0) p - w,
-      if (py < h - 1) p + w,
-    ]) {
+    for (final q in [if (px > 0) p - 1, if (px < w - 1) p + 1, if (py > 0) p - w, if (py < h - 1) p + w]) {
       if (bg[q] != 0 || wall[q] != 0) continue;
       if (dist(p, q) <= step && (toBg(q) <= globalLimit || shadow(q))) {
         bg[q] = 1;
@@ -443,12 +440,7 @@ void _keepMain(Uint8List m, int w, int h) {
       ax += px;
       ay += py;
       if (px == 0 || py == 0 || px == w - 1 || py == h - 1) edge++;
-      for (final q in [
-        if (px > 0) p - 1,
-        if (px < w - 1) p + 1,
-        if (py > 0) p - w,
-        if (py < h - 1) p + w,
-      ]) {
+      for (final q in [if (px > 0) p - 1, if (px < w - 1) p + 1, if (py > 0) p - w, if (py < h - 1) p + w]) {
         if (m[q] == 1 && label[q] == 0) {
           label[q] = id;
           queue[tail++] = q;

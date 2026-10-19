@@ -108,7 +108,9 @@ class NutritionWidgets {
     await HomeWidget.saveWidgetData<String>('nutri_day', _stamp(today));
     await HomeWidget.saveWidgetData<String>('nutri_dec', decimalSeparator);
     await HomeWidget.saveWidgetData<String>(
-        'nutri_geo', VesselWidgetGeometry.fractions().map((v) => v.toStringAsFixed(5)).join(','));
+      'nutri_geo',
+      VesselWidgetGeometry.fractions().map((v) => v.toStringAsFixed(5)).join(','),
+    );
     await HomeWidget.saveWidgetData<String>('nutri_text', _hex(day.text));
     await HomeWidget.saveWidgetData<String>('nutri_text_night', _hex(night.text));
     await HomeWidget.saveWidgetData<String>('nutri_done', _hex(day.sage));
@@ -221,8 +223,14 @@ class NutritionWidgets {
     }
   }
 
-  static Future<void> _both(WidgetRender render, Widget Function(GymColors) build, String key, Size size,
-      GymColors day, GymColors night) async {
+  static Future<void> _both(
+    WidgetRender render,
+    Widget Function(GymColors) build,
+    String key,
+    Size size,
+    GymColors day,
+    GymColors night,
+  ) async {
     await render(build(day), key, size);
     if (!identical(day, night)) {
       await render(build(night), '${key}_night', size);

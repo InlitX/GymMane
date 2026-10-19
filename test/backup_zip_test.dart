@@ -56,14 +56,13 @@ void main() {
     expect(names, contains('media/videos/${slugify(exerciseName(bench))}.mp4'));
     expect(archive.findFile('media/images/${slugify(exerciseName(pushUp))}.png')!.readBytes(), png);
 
-    final data = jsonDecode(utf8.decode(archive.findFile(kBackupJsonEntry)!.readBytes()!))
-        as Map<String, dynamic>;
+    final data =
+        jsonDecode(utf8.decode(archive.findFile(kBackupJsonEntry)!.readBytes()!)) as Map<String, dynamic>;
     expect((data['media'] as Map)[pushUp.id], 'media/images/${slugify(exerciseName(pushUp))}.png');
   });
 
   test('two exercises with the same name do not overwrite each other', () async {
-    final id = fit.addCustomExercise(
-        name: exerciseName(pushUp), primary: 'chest', equipment: 'Bodyweight');
+    final id = fit.addCustomExercise(name: exerciseName(pushUp), primary: 'chest', equipment: 'Bodyweight');
     await fit.attachExerciseMedia(pushUp.id, await source('a.png', png));
     await fit.attachExerciseMedia(id, await source('b.png', png));
 
@@ -114,16 +113,16 @@ void main() {
 
   test('the zip carries the photos hanging off a note and brings them back', () async {
     fit.saveNote(
-        exerciseId: pushUp.id,
-        date: DateTime(2026, 9, 3),
-        kind: NoteKind.done,
-        text: 'Primera dominada limpia',
-        media: [(await MediaStore.importFor('note', await source('shot.png', png)))!]);
+      exerciseId: pushUp.id,
+      date: DateTime(2026, 9, 3),
+      kind: NoteKind.done,
+      text: 'Primera dominada limpia',
+      media: [(await MediaStore.importFor('note', await source('shot.png', png)))!],
+    );
 
     final zip = await buildBackupZip();
     final archive = ZipDecoder().decodeBytes(zip);
-    expect(archive.files.map((f) => f.name),
-        contains('media/notes/2026-09-03-primera-dominada-limpia.png'));
+    expect(archive.files.map((f) => f.name), contains('media/notes/2026-09-03-primera-dominada-limpia.png'));
 
     fit.resetAllData();
     expect(await restoreBackupZip(zip), true);
@@ -136,15 +135,18 @@ void main() {
 
   test('a 1.0 backup with the old per-exercise notes lands in the journal', () {
     expect(
-        fit.importJson(jsonEncode({
+      fit.importJson(
+        jsonEncode({
           'profile': {'name': 'Alex'},
           'exNotes': {
             pushUp.id: [
               {'d': '2026-07-16T17:12:08.558090', 't': 'Subir a 82.5 la próxima.'},
             ],
           },
-        })),
-        true);
+        }),
+      ),
+      true,
+    );
 
     final note = fit.notesFor(pushUp.id).single;
     expect(note.text, 'Subir a 82.5 la próxima.');
@@ -154,11 +156,12 @@ void main() {
 
   test('a note whose file is gone does not sink the backup', () async {
     fit.saveNote(
-        exerciseId: pushUp.id,
-        date: DateTime(2026, 9, 3),
-        kind: NoteKind.note,
-        text: 'sin foto',
-        media: const ['note-desaparecida.png']);
+      exerciseId: pushUp.id,
+      date: DateTime(2026, 9, 3),
+      kind: NoteKind.note,
+      text: 'sin foto',
+      media: const ['note-desaparecida.png'],
+    );
 
     final zip = await buildBackupZip();
     fit.resetAllData();

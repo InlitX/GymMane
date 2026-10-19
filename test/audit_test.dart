@@ -42,16 +42,13 @@ void main() {
 
   group('warm-ups never inflate anything', () {
     LoggedSession session(int daysAgo, List<LoggedSet> sets) => LoggedSession(
-          shiftDays(DateTime.now(), -daysAgo).add(const Duration(hours: 12)),
-          1800,
-          [LoggedExercise('EIeI8Vf', 'Bench', 'chest', sets)],
-        );
+      shiftDays(DateTime.now(), -daysAgo).add(const Duration(hours: 12)),
+      1800,
+      [LoggedExercise('EIeI8Vf', 'Bench', 'chest', sets)],
+    );
 
     test('a heavy warm-up does not become a record', () {
-      fit.sessions.add(session(1, [
-        LoggedSet(12, 90, kind: SetKind.warmup),
-        LoggedSet(5, 80),
-      ]));
+      fit.sessions.add(session(1, [LoggedSet(12, 90, kind: SetKind.warmup), LoggedSet(5, 80)]));
 
       final pr = fit.personalRecords.single;
       expect(pr.best, 80, reason: 'el récord sale de las series efectivas');
@@ -59,15 +56,16 @@ void main() {
     });
 
     test('warm-up sets stay out of the muscle map', () {
-      fit.sessions.add(session(1, [
-        LoggedSet(10, 20, kind: SetKind.warmup),
-        LoggedSet(10, 20, kind: SetKind.warmup),
-        LoggedSet(8, 80),
-      ]));
+      fit.sessions.add(
+        session(1, [
+          LoggedSet(10, 20, kind: SetKind.warmup),
+          LoggedSet(10, 20, kind: SetKind.warmup),
+          LoggedSet(8, 80),
+        ]),
+      );
 
       expect(fit.muscleSetsOver(7)['chest'], 1);
-      expect(
-          fit.muscleSetsBetween(shiftDays(DateTime.now(), -7), DateTime.now())['chest'], 1);
+      expect(fit.muscleSetsBetween(shiftDays(DateTime.now(), -7), DateTime.now())['chest'], 1);
     });
 
     test('a session of nothing but warm-up leaves no records behind', () {
@@ -110,12 +108,16 @@ void main() {
   group('the numbers add up', () {
     test('the all-time totals match what was logged', () {
       fit.sessions
-        ..add(LoggedSession(DateTime.now(), 3600, [
-          LoggedExercise('a', 'A', 'chest', [LoggedSet(10, 50), LoggedSet(10, 50)]),
-        ]))
-        ..add(LoggedSession(shiftDays(DateTime.now(), -2), 1800, [
-          LoggedExercise('b', 'B', 'back', [LoggedSet(5, 100)]),
-        ]));
+        ..add(
+          LoggedSession(DateTime.now(), 3600, [
+            LoggedExercise('a', 'A', 'chest', [LoggedSet(10, 50), LoggedSet(10, 50)]),
+          ]),
+        )
+        ..add(
+          LoggedSession(shiftDays(DateTime.now(), -2), 1800, [
+            LoggedExercise('b', 'B', 'back', [LoggedSet(5, 100)]),
+          ]),
+        );
 
       expect(fit.totalSessions, 2);
       expect(fit.totalSets, 3);
@@ -125,10 +127,12 @@ void main() {
     });
 
     test('the muscle split adds up to 100 and never counts a muscle twice', () {
-      fit.sessions.add(LoggedSession(DateTime.now(), 1800, [
-        LoggedExercise('a', 'A', 'chest', [LoggedSet(10, 50)]),
-        LoggedExercise('b', 'B', 'quads', [LoggedSet(10, 50)]),
-      ]));
+      fit.sessions.add(
+        LoggedSession(DateTime.now(), 1800, [
+          LoggedExercise('a', 'A', 'chest', [LoggedSet(10, 50)]),
+          LoggedExercise('b', 'B', 'quads', [LoggedSet(10, 50)]),
+        ]),
+      );
 
       final split = fit.muscleSplit;
       expect(split.fold(0, (a, e) => a + e.pct), closeTo(100, 1));
@@ -145,9 +149,11 @@ void main() {
 
     test('the volume chart only ever climbs and ends at the 30-day total', () {
       for (int i = 0; i < 10; i++) {
-        fit.sessions.add(LoggedSession(shiftDays(DateTime.now(), -i * 2), 1800, [
-          LoggedExercise('a', 'A', 'chest', [LoggedSet(10, 50)]),
-        ]));
+        fit.sessions.add(
+          LoggedSession(shiftDays(DateTime.now(), -i * 2), 1800, [
+            LoggedExercise('a', 'A', 'chest', [LoggedSet(10, 50)]),
+          ]),
+        );
       }
 
       final points = fit.volumeChartPoints;
@@ -158,9 +164,11 @@ void main() {
     });
 
     test('the heatmap lights the days that were trained and nothing else', () {
-      fit.sessions.add(LoggedSession(DateTime.now(), 1800, [
-        LoggedExercise('a', 'A', 'chest', [LoggedSet(10, 50)]),
-      ]));
+      fit.sessions.add(
+        LoggedSession(DateTime.now(), 1800, [
+          LoggedExercise('a', 'A', 'chest', [LoggedSet(10, 50)]),
+        ]),
+      );
 
       final levels = fit.heatmapLevels;
       expect(levels.length, kHeatmapDays);

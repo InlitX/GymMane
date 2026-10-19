@@ -46,7 +46,15 @@ mixin NutritionState on FitCore, ToolsState, StatsState {
     final base = tdee > 0 ? tdee : (kg * 30).round();
     final aim = weightGoalKg <= 0 ? 0.0 : weightGoalKg - kg;
     final cutting = aim < -0.5, bulking = aim > 0.5;
-    final kcal = (base + (cutting ? -500 : bulking ? 300 : 0)).clamp(1200, 9000).toInt();
+    final kcal =
+        (base +
+                (cutting
+                    ? -500
+                    : bulking
+                    ? 300
+                    : 0))
+            .clamp(1200, 9000)
+            .toInt();
     final protein = (kg * (cutting ? 2.0 : 1.8)).round();
     final fat = (kg * 0.8).round();
     final carbs = math.max(0, ((kcal - protein * 4 - fat * 9) / 4).round());
@@ -97,7 +105,13 @@ mixin NutritionState on FitCore, ToolsState, StatsState {
     final rest = restGoals;
     if (rest == null || isTrainingDay(day)) return activeGoals;
     final a = activeGoals;
-    return rest.copyWith(waterMl: a.waterMl, glassMl: a.glassMl, fiber: a.fiber, sugar: a.sugar, sodium: a.sodium);
+    return rest.copyWith(
+      waterMl: a.waterMl,
+      glassMl: a.glassMl,
+      fiber: a.fiber,
+      sugar: a.sugar,
+      sodium: a.sodium,
+    );
   }
 
   static const double _liftMet = 5;
@@ -321,17 +335,17 @@ mixin NutritionState on FitCore, ToolsState, StatsState {
   }
 
   FoodEntry entryFor(FoodItem food, {double servings = 1, Meal? meal, bool cooked = false}) => FoodEntry(
-        id: _newId('e'),
-        at: _stampFor(nutritionDay),
-        meal: meal ?? defaultMeal,
-        name: food.name,
-        foodId: food.id,
-        servings: servings <= 0 ? 1 : servings,
-        grams: food.grams,
-        liquid: food.liquid,
-        cooked: cooked && food.canCook ? food.cookedYield : 0,
-        per: food.macros,
-      );
+    id: _newId('e'),
+    at: _stampFor(nutritionDay),
+    meal: meal ?? defaultMeal,
+    name: food.name,
+    foodId: food.id,
+    servings: servings <= 0 ? 1 : servings,
+    grams: food.grams,
+    liquid: food.liquid,
+    cooked: cooked && food.canCook ? food.cookedYield : 0,
+    per: food.macros,
+  );
 
   FoodEntry logFood(FoodItem food, {double servings = 1, Meal? meal, bool cooked = false}) {
     final e = entryFor(food, servings: servings, meal: meal, cooked: cooked);
@@ -421,9 +435,9 @@ mixin NutritionState on FitCore, ToolsState, StatsState {
   }
 
   List<Batch> get activeBatches => [
-        for (final b in batches)
-          if (!b.finished) b,
-      ]..sort((a, b) => b.created.compareTo(a.created));
+    for (final b in batches)
+      if (!b.finished) b,
+  ]..sort((a, b) => b.created.compareTo(a.created));
 
   void _batchTake(String id, double grams) {
     if (!id.startsWith('p') || grams == 0) return;
@@ -433,7 +447,12 @@ mixin NutritionState on FitCore, ToolsState, StatsState {
     batches[i] = b.copyWith(leftGrams: (b.leftGrams - grams).clamp(0, b.totalGrams).toDouble());
   }
 
-  Batch? saveBatch({String? id, required String name, required List<FoodEntry> items, double cookedGrams = 0}) {
+  Batch? saveBatch({
+    String? id,
+    required String name,
+    required List<FoodEntry> items,
+    double cookedGrams = 0,
+  }) {
     final clean = name.trim();
     if (clean.isEmpty || items.isEmpty) return null;
     final i = id == null ? -1 : batches.indexWhere((b) => b.id == id);
@@ -446,7 +465,13 @@ mixin NutritionState on FitCore, ToolsState, StatsState {
       notifyListeners();
       return batches[i];
     }
-    final draft = Batch(id: _newId('p'), name: clean, items: items, created: DateTime.now(), cookedGrams: cookedGrams);
+    final draft = Batch(
+      id: _newId('p'),
+      name: clean,
+      items: items,
+      created: DateTime.now(),
+      cookedGrams: cookedGrams,
+    );
     if (draft.totalGrams <= 0) return null;
     final b = draft.copyWith(leftGrams: draft.totalGrams);
     batches.add(b);
@@ -531,7 +556,10 @@ mixin NutritionState on FitCore, ToolsState, StatsState {
 
   List<WaterSip> waterSipsOn(DateTime day) {
     final key = _dayKey(day);
-    return [for (final w in waterLog) if (_dayKey(w.at) == key) w];
+    return [
+      for (final w in waterLog)
+        if (_dayKey(w.at) == key) w,
+    ];
   }
 
   void removeWaterSip(WaterSip sip) {
@@ -580,16 +608,22 @@ mixin NutritionState on FitCore, ToolsState, StatsState {
   List<FoodItem> get favoriteFoodItems => [for (final id in favoriteFoods) ?foodById(id)];
 
   Recipe dishRecipe(ReadyDish d) => Recipe(
-        id: '$kDishPrefix${d.id}',
-        name: d.nameFor(appLanguage),
-        items: [
-          for (final (slug, grams, cooked) in d.items)
-            if (FoodLibrary.byId('$kLibraryPrefix$slug')?.item(appLanguage) case final f?)
-              entryFor(f, servings: (cooked && f.canCook ? grams / f.cookedYield : grams) / f.grams, cooked: cooked),
-        ],
-      );
+    id: '$kDishPrefix${d.id}',
+    name: d.nameFor(appLanguage),
+    items: [
+      for (final (slug, grams, cooked) in d.items)
+        if (FoodLibrary.byId('$kLibraryPrefix$slug')?.item(appLanguage) case final f?)
+          entryFor(
+            f,
+            servings: (cooked && f.canCook ? grams / f.cookedYield : grams) / f.grams,
+            cooked: cooked,
+          ),
+    ],
+  );
 
-  List<Recipe> searchDishes(String query) => [for (final d in FoodLibrary.searchDishes(query, appLanguage)) dishRecipe(d)];
+  List<Recipe> searchDishes(String query) => [
+    for (final d in FoodLibrary.searchDishes(query, appLanguage)) dishRecipe(d),
+  ];
 
   bool isOwnRecipe(String id) => recipes.any((r) => r.id == id);
 
@@ -686,7 +720,10 @@ mixin NutritionState on FitCore, ToolsState, StatsState {
 
   MealPlan? planOn(DateTime day) => mealPlanById(mealWeek[day.weekday] ?? '');
 
-  List<int> planDays(String id) => [for (final e in mealWeek.entries) if (e.value == id) e.key]..sort();
+  List<int> planDays(String id) => [
+    for (final e in mealWeek.entries)
+      if (e.value == id) e.key,
+  ]..sort();
 
   MealPlan createMealPlan({String name = '', bool fromDay = false}) {
     final at = DateTime.now();
@@ -694,7 +731,9 @@ mixin NutritionState on FitCore, ToolsState, StatsState {
       id: _newId('mp'),
       name: name.trim().isEmpty ? t.mealPlanDefault(mealPlans.length + 1) : name.trim(),
       color: mealPlans.length,
-      items: fromDay ? [for (final e in entriesOn(nutritionDay)) e.copyWith(id: _newId('pe'), at: at)] : const [],
+      items: fromDay
+          ? [for (final e in entriesOn(nutritionDay)) e.copyWith(id: _newId('pe'), at: at)]
+          : const [],
     );
     mealPlans.add(plan);
     _persist();
@@ -710,7 +749,9 @@ mixin NutritionState on FitCore, ToolsState, StatsState {
       id: '',
       name: t.mealPlanDefault(mealPlans.length + 1),
       color: mealPlans.length,
-      items: fromDay ? [for (final e in entriesOn(nutritionDay)) e.copyWith(id: _newId('pe'), at: at)] : const [],
+      items: fromDay
+          ? [for (final e in entriesOn(nutritionDay)) e.copyWith(id: _newId('pe'), at: at)]
+          : const [],
     );
   }
 
@@ -761,7 +802,16 @@ mixin NutritionState on FitCore, ToolsState, StatsState {
 
   void addPlanItem(String id, FoodEntry e) {
     final p = mealPlanById(id);
-    if (p != null) _putPlan(p.copyWith(items: [...p.items, e.copyWith(id: _newId('pe'))]));
+    if (p != null) {
+      _putPlan(
+        p.copyWith(
+          items: [
+            ...p.items,
+            e.copyWith(id: _newId('pe')),
+          ],
+        ),
+      );
+    }
   }
 
   void updatePlanItem(String id, FoodEntry e) {
@@ -771,7 +821,16 @@ mixin NutritionState on FitCore, ToolsState, StatsState {
 
   void removePlanItem(String id, String entryId) {
     final p = mealPlanById(id);
-    if (p != null) _putPlan(p.copyWith(items: [for (final x in p.items) if (x.id != entryId) x]));
+    if (p != null) {
+      _putPlan(
+        p.copyWith(
+          items: [
+            for (final x in p.items)
+              if (x.id != entryId) x,
+          ],
+        ),
+      );
+    }
   }
 
   MealPlan? duplicateMealPlan(String id) {
@@ -822,7 +881,10 @@ mixin NutritionState on FitCore, ToolsState, StatsState {
 
   String exportMealPlansJson(List<MealPlan> chosen) {
     final plans = [for (final p in chosen) mealPlanById(p.id) ?? p];
-    final used = {for (final p in plans) for (final e in p.items) e.meal.id};
+    final used = {
+      for (final p in plans)
+        for (final e in p.items) e.meal.id,
+    };
     return const JsonEncoder.withIndent('  ').convert({
       'kind': mealPlanTag,
       'v': 1,
@@ -835,7 +897,12 @@ mixin NutritionState on FitCore, ToolsState, StatsState {
           {
             'n': p.name,
             'days': planDays(p.id),
-            'i': [for (final e in p.items) e.toJson()..remove('id')..remove('at')],
+            'i': [
+              for (final e in p.items)
+                e.toJson()
+                  ..remove('id')
+                  ..remove('at'),
+            ],
           },
       ],
     });
@@ -857,7 +924,8 @@ mixin NutritionState on FitCore, ToolsState, StatsState {
     final names = (data['meals'] as Map?)?.cast<String, dynamic>() ?? const {};
     names.forEach((id, name) {
       if (slotIds.contains(id) || name is! String || name.trim().isEmpty) return;
-      final slot = mealSlots.where((s) => s.name.trim().toLowerCase() == name.trim().toLowerCase()).firstOrNull ??
+      final slot =
+          mealSlots.where((s) => s.name.trim().toLowerCase() == name.trim().toLowerCase()).firstOrNull ??
           addMealSlot(name);
       if (slot != null) mapped[id] = slot.meal;
     });
@@ -869,21 +937,27 @@ mixin NutritionState on FitCore, ToolsState, StatsState {
       final items = <FoodEntry>[];
       for (final r in (p['i'] as List?) ?? const []) {
         if (r is! Map) continue;
-        final e = FoodEntry.fromJson({...r.cast<String, dynamic>(), 'id': _newId('pe'), 'at': at.toIso8601String()});
+        final e = FoodEntry.fromJson({
+          ...r.cast<String, dynamic>(),
+          'id': _newId('pe'),
+          'at': at.toIso8601String(),
+        });
         final meal = mapped[e.meal.id] ?? (slotIds.contains(e.meal.id) ? e.meal : Meal.snacks);
         final local = e.foodId.isEmpty || foodById(e.foodId) != null || e.foodId.startsWith('a:');
-        items.add(FoodEntry(
-          id: e.id,
-          at: e.at,
-          meal: meal,
-          name: e.name,
-          foodId: local && !e.foodId.startsWith('p') ? e.foodId : '',
-          servings: e.servings,
-          grams: e.grams,
-          liquid: e.liquid,
-          cooked: e.cooked,
-          per: e.per,
-        ));
+        items.add(
+          FoodEntry(
+            id: e.id,
+            at: e.at,
+            meal: meal,
+            name: e.name,
+            foodId: local && !e.foodId.startsWith('p') ? e.foodId : '',
+            servings: e.servings,
+            grams: e.grams,
+            liquid: e.liquid,
+            cooked: e.cooked,
+            per: e.per,
+          ),
+        );
       }
       final name = (p['n'] as String? ?? '').trim();
       final plan = MealPlan(
@@ -958,7 +1032,10 @@ mixin NutritionState on FitCore, ToolsState, StatsState {
 
   Set<String> moveMeal(Meal from, Meal to) {
     if (from == to) return const {};
-    return moveEntries({for (final e in entriesOn(nutritionDay)) if (e.meal == from) e.id}, to);
+    return moveEntries({
+      for (final e in entriesOn(nutritionDay))
+        if (e.meal == from) e.id,
+    }, to);
   }
 
   Set<String> moveEntries(Set<String> ids, Meal to) {
@@ -1041,15 +1118,18 @@ mixin NutritionState on FitCore, ToolsState, StatsState {
     final i = id == null ? -1 : foods.indexWhere((f) => f.id == id);
     if (i >= 0) {
       final old = foods[i];
-      if (old.photo.isNotEmpty && old.photo != photo && !isAssetPhoto(old.photo)) MediaStore.delete(old.photo);
+      if (old.photo.isNotEmpty && old.photo != photo && !isAssetPhoto(old.photo)) {
+        MediaStore.delete(old.photo);
+      }
       foods[i] = old.copyWith(
-          name: clean,
-          photo: photo,
-          serving: serving.trim(),
-          grams: grams,
-          liquid: liquid,
-          macros: macros,
-          cookedYield: cookedYield);
+        name: clean,
+        photo: photo,
+        serving: serving.trim(),
+        grams: grams,
+        liquid: liquid,
+        macros: macros,
+        cookedYield: cookedYield,
+      );
       _persist();
       notifyListeners();
       return foods[i];
@@ -1081,7 +1161,10 @@ mixin NutritionState on FitCore, ToolsState, StatsState {
 
   bool isShakeFood(String id) => shakeFoods.contains(id);
 
-  List<FoodItem> get shakeFoodItems => [for (final f in foodsByUse) if (shakeFoods.contains(f.id)) f];
+  List<FoodItem> get shakeFoodItems => [
+    for (final f in foodsByUse)
+      if (shakeFoods.contains(f.id)) f,
+  ];
 
   void setShakeTag(String id, bool on) {
     if (on) {
@@ -1170,7 +1253,9 @@ mixin NutritionState on FitCore, ToolsState, StatsState {
       clearUntil: clearUntil,
     );
     if (next.every > 1 && next.from == null) next = next.copyWith(from: _dayKey(DateTime.now()));
-    if (old.photo.isNotEmpty && old.photo != next.photo && !isAssetPhoto(old.photo)) MediaStore.delete(old.photo);
+    if (old.photo.isNotEmpty && old.photo != next.photo && !isAssetPhoto(old.photo)) {
+      MediaStore.delete(old.photo);
+    }
     supplements[i] = next;
     syncSupplementReminder();
     _persist();
@@ -1179,7 +1264,10 @@ mixin NutritionState on FitCore, ToolsState, StatsState {
 
   int? supplementTime(Supplement s) => s.at ?? supplementReminderMin;
 
-  List<Supplement> supplementsDueOn(DateTime day) => [for (final s in supplements) if (s.dueOn(day)) s];
+  List<Supplement> supplementsDueOn(DateTime day) => [
+    for (final s in supplements)
+      if (s.dueOn(day)) s,
+  ];
 
   void removeSupplement(String id) {
     final gone = supplements.where((s) => s.id == id).firstOrNull;
@@ -1243,7 +1331,10 @@ mixin NutritionState on FitCore, ToolsState, StatsState {
         (
           at: d.at,
           names: [for (final s in d.items) s.name],
-          doses: [for (final s in d.items) if (s.dose.isNotEmpty) '${s.name} ${s.dose}'],
+          doses: [
+            for (final s in d.items)
+              if (s.dose.isNotEmpty) '${s.name} ${s.dose}',
+          ],
         ),
     ]);
   }
@@ -1259,7 +1350,11 @@ mixin NutritionState on FitCore, ToolsState, StatsState {
   }
 
   bool get hasNutritionData =>
-      foodLog.isNotEmpty || waterLog.isNotEmpty || foods.isNotEmpty || recipes.isNotEmpty || batches.isNotEmpty;
+      foodLog.isNotEmpty ||
+      waterLog.isNotEmpty ||
+      foods.isNotEmpty ||
+      recipes.isNotEmpty ||
+      batches.isNotEmpty;
 
   void setNutritionDay(DateTime day) {
     final key = _dayKey(day);
@@ -1285,44 +1380,49 @@ mixin NutritionState on FitCore, ToolsState, StatsState {
   void backFromNutrition() => popRoute();
 
   Map<String, dynamic> nutritionJson() => {
-        'foods': foods.map((f) => f.toJson()).toList(),
-        'log': foodLog.map((e) => e.toJson()).toList(),
-        'water': waterLog.map((w) => w.toJson()).toList(),
-        'supps': supplements.map((s) => s.toJson()).toList(),
-        'taken': supplementsTaken.map((k, v) => MapEntry(k, v.toList())),
-        'goals': nutritionGoals.toJson(),
-        'goalsSet': nutritionGoalsSet,
-        if (restGoals != null) 'rest': restGoals!.toJson(),
-        if (addBurned) 'burned': true,
-        if (!nutritionBeta) 'betaOff': true,
-        if (useKj) 'kj': true,
-        if (!vesselMotion) 'still': true,
-        if (weightGoalKg > 0) 'wGoal': weightGoalKg,
-        'suppAt': ?supplementReminderMin,
-        if (recipes.isNotEmpty) 'recipes': recipes.map((r) => r.toJson()).toList(),
-        if (favoriteFoods.isNotEmpty) 'fav': favoriteFoods,
-        if (batches.isNotEmpty) 'batches': batches.map((b) => b.toJson()).toList(),
-        'meals': mealSlots.map((m) => m.toJson()).toList(),
-        if (mealPlans.isNotEmpty) 'plans': mealPlans.map((p) => p.toJson()).toList(),
-        if (mealWeek.isNotEmpty) 'planWeek': mealWeek.map((k, v) => MapEntry('$k', v)),
-        'trkKnown': [for (final t in Tracker.values) t.name],
-        'trackers': [for (final t in Tracker.values) if (trackers.contains(t)) t.name],
-        if (shakeFoodId.isNotEmpty) 'shake': shakeFoodId,
-        'shakes': shakeFoods,
-      };
+    'foods': foods.map((f) => f.toJson()).toList(),
+    'log': foodLog.map((e) => e.toJson()).toList(),
+    'water': waterLog.map((w) => w.toJson()).toList(),
+    'supps': supplements.map((s) => s.toJson()).toList(),
+    'taken': supplementsTaken.map((k, v) => MapEntry(k, v.toList())),
+    'goals': nutritionGoals.toJson(),
+    'goalsSet': nutritionGoalsSet,
+    if (restGoals != null) 'rest': restGoals!.toJson(),
+    if (addBurned) 'burned': true,
+    if (!nutritionBeta) 'betaOff': true,
+    if (useKj) 'kj': true,
+    if (!vesselMotion) 'still': true,
+    if (weightGoalKg > 0) 'wGoal': weightGoalKg,
+    'suppAt': ?supplementReminderMin,
+    if (recipes.isNotEmpty) 'recipes': recipes.map((r) => r.toJson()).toList(),
+    if (favoriteFoods.isNotEmpty) 'fav': favoriteFoods,
+    if (batches.isNotEmpty) 'batches': batches.map((b) => b.toJson()).toList(),
+    'meals': mealSlots.map((m) => m.toJson()).toList(),
+    if (mealPlans.isNotEmpty) 'plans': mealPlans.map((p) => p.toJson()).toList(),
+    if (mealWeek.isNotEmpty) 'planWeek': mealWeek.map((k, v) => MapEntry('$k', v)),
+    'trkKnown': [for (final t in Tracker.values) t.name],
+    'trackers': [
+      for (final t in Tracker.values)
+        if (trackers.contains(t)) t.name,
+    ],
+    if (shakeFoodId.isNotEmpty) 'shake': shakeFoodId,
+    'shakes': shakeFoods,
+  };
 
   void loadNutrition(Map<String, dynamic>? j, {Map<String, String>? restored}) {
     _dropCaches();
     List<Map<String, dynamic>> list(String k) => [
-          for (final e in (j?[k] as List?) ?? const [])
-            if (e is Map) e.cast<String, dynamic>(),
-        ];
+      for (final e in (j?[k] as List?) ?? const [])
+        if (e is Map) e.cast<String, dynamic>(),
+    ];
     foods
       ..clear()
-      ..addAll(list('foods').map(FoodItem.fromJson).where((f) => f.id.isNotEmpty).map((f) {
-        if (restored == null || f.photo.isEmpty || isAssetPhoto(f.photo)) return f;
-        return f.copyWith(photo: restored[f.photo] ?? '');
-      }));
+      ..addAll(
+        list('foods').map(FoodItem.fromJson).where((f) => f.id.isNotEmpty).map((f) {
+          if (restored == null || f.photo.isEmpty || isAssetPhoto(f.photo)) return f;
+          return f.copyWith(photo: restored[f.photo] ?? '');
+        }),
+      );
     foodLog
       ..clear()
       ..addAll(list('log').map(FoodEntry.fromJson).where((e) => e.id.isNotEmpty));
@@ -1331,10 +1431,12 @@ mixin NutritionState on FitCore, ToolsState, StatsState {
       ..addAll(list('water').map(WaterSip.fromJson).where((w) => w.ml > 0));
     supplements
       ..clear()
-      ..addAll(list('supps').map(Supplement.fromJson).where((s) => s.id.isNotEmpty && s.name.isNotEmpty).map((s) {
-        if (restored == null || s.photo.isEmpty || isAssetPhoto(s.photo)) return s;
-        return s.copyWith(photo: restored[s.photo] ?? '');
-      }));
+      ..addAll(
+        list('supps').map(Supplement.fromJson).where((s) => s.id.isNotEmpty && s.name.isNotEmpty).map((s) {
+          if (restored == null || s.photo.isEmpty || isAssetPhoto(s.photo)) return s;
+          return s.copyWith(photo: restored[s.photo] ?? '');
+        }),
+      );
     supplementsTaken.clear();
     final taken = j?['taken'];
     if (taken is Map) {
@@ -1379,7 +1481,9 @@ mixin NutritionState on FitCore, ToolsState, StatsState {
     if (week is Map) {
       week.forEach((k, v) {
         final day = int.tryParse('$k');
-        if (day != null && day >= 1 && day <= 7 && v is String && mealPlans.any((p) => p.id == v)) mealWeek[day] = v;
+        if (day != null && day >= 1 && day <= 7 && v is String && mealPlans.any((p) => p.id == v)) {
+          mealWeek[day] = v;
+        }
       });
     }
     trackers.clear();
@@ -1390,8 +1494,13 @@ mixin NutritionState on FitCore, ToolsState, StatsState {
       final knownList = j?['trkKnown'];
       final known = knownList is List
           ? knownList.whereType<String>().toSet()
-          : {for (final t in Tracker.values) if (t != Tracker.plans) t.name};
-      trackers.addAll(Tracker.values.where((t) => !known.contains(t.name) && !kTrackersOffByDefault.contains(t)));
+          : {
+              for (final t in Tracker.values)
+                if (t != Tracker.plans) t.name,
+            };
+      trackers.addAll(
+        Tracker.values.where((t) => !known.contains(t.name) && !kTrackersOffByDefault.contains(t)),
+      );
     } else {
       trackers.addAll(Tracker.values.where((t) => !kTrackersOffByDefault.contains(t)));
     }
@@ -1400,9 +1509,11 @@ mixin NutritionState on FitCore, ToolsState, StatsState {
     final tagged = j?['shakes'];
     shakeFoods
       ..clear()
-      ..addAll(tagged is List
-          ? {...tagged.whereType<String>().where((id) => foods.any((f) => f.id == id))}
-          : [if (shakeFoodId.isNotEmpty) shakeFoodId]);
+      ..addAll(
+        tagged is List
+            ? {...tagged.whereType<String>().where((id) => foods.any((f) => f.id == id))}
+            : [if (shakeFoodId.isNotEmpty) shakeFoodId],
+      );
     if (!shakeFoods.contains(shakeFoodId)) shakeFoodId = shakeFoods.isEmpty ? '' : shakeFoods.first;
     nutritionDay = _dayKey(DateTime.now());
     syncSupplementReminder();

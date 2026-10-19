@@ -4,10 +4,10 @@ import 'package:gymmane/state/fit_state.dart';
 
 void main() {
   LoggedSession session(int daysAgo, String exId, String primary, int sets) => LoggedSession(
-        DateTime.now().subtract(Duration(days: daysAgo)),
-        1800,
-        [LoggedExercise(exId, exId, primary, List.generate(sets, (_) => LoggedSet(10, 60)))],
-      );
+    DateTime.now().subtract(Duration(days: daysAgo)),
+    1800,
+    [LoggedExercise(exId, exId, primary, List.generate(sets, (_) => LoggedSet(10, 60)))],
+  );
 
   setUp(() => fit.sessions.clear());
   tearDown(() => fit.sessions.clear());

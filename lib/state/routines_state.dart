@@ -46,17 +46,14 @@ mixin RoutinesState on FitCore, LibraryState {
     final last = {for (final r in routines) r.id: lastDoneOf(r.id)};
     final order = {for (final (i, r) in routines.indexed) r.id: i};
     return [...routines]..sort((a, b) {
-        final la = last[a.id], lb = last[b.id];
-        if (la != null && lb != null && la != lb) return lb.compareTo(la);
-        if ((la == null) != (lb == null)) return la == null ? 1 : -1;
-        return order[a.id]!.compareTo(order[b.id]!);
-      });
+      final la = last[a.id], lb = last[b.id];
+      if (la != null && lb != null && la != lb) return lb.compareTo(la);
+      if ((la == null) != (lb == null)) return la == null ? 1 : -1;
+      return order[a.id]!.compareTo(order[b.id]!);
+    });
   }
 
-  List<String> planIdsOn(int weekday) => [
-        ?weeklyPlan[weekday],
-        if (multiPlan) ...?planExtras[weekday],
-      ];
+  List<String> planIdsOn(int weekday) => [?weeklyPlan[weekday], if (multiPlan) ...?planExtras[weekday]];
 
   static String _moveKey(DateTime d) =>
       '${d.year}-${d.month.toString().padLeft(2, '0')}-${d.day.toString().padLeft(2, '0')}';
@@ -85,7 +82,8 @@ mixin RoutinesState on FitCore, LibraryState {
     final today = _dayKey(DateTime.now());
     final done = [
       for (final s in sessions)
-        if (_dayKey(s.day) == key && s.routineId != null && rotationIds.contains(s.routineId)) ?_routine(s.routineId!),
+        if (_dayKey(s.day) == key && s.routineId != null && rotationIds.contains(s.routineId))
+          ?_routine(s.routineId!),
     ];
     if (key.isBefore(today) || done.isNotEmpty) return done;
     return [?rotationNext];
@@ -287,8 +285,7 @@ mixin RoutinesState on FitCore, LibraryState {
     return out;
   }
 
-  List<Routine> routinesInGroup(String group) =>
-      routines.where((r) => r.group == group).toList();
+  List<Routine> routinesInGroup(String group) => routines.where((r) => r.group == group).toList();
 
   void setRoutineGroup(String id, String group) {
     final r = _routine(id);
@@ -314,7 +311,9 @@ mixin RoutinesState on FitCore, LibraryState {
     made.exerciseIds.addAll(source.exerciseIds);
     made.sets.addAll(source.sets);
     made.chained.addAll(source.chained);
-    made.plan.addAll({for (final e in source.plan.entries) e.key: [...e.value]});
+    made.plan.addAll({
+      for (final e in source.plan.entries) e.key: [...e.value],
+    });
     made.rest.addAll(source.rest);
     made.group = source.group;
     made.color = source.color;
@@ -496,9 +495,11 @@ mixin RoutinesState on FitCore, LibraryState {
       final next = [...planned];
       if (delta > 0) {
         for (var i = 0; i < delta && next.length < 20; i++) {
-          next.add(next
-              .lastWhere((s) => s.kind != SetKind.warmup, orElse: () => const PlannedSet())
-              .copyWith(kind: SetKind.normal));
+          next.add(
+            next
+                .lastWhere((s) => s.kind != SetKind.warmup, orElse: () => const PlannedSet())
+                .copyWith(kind: SetKind.normal),
+          );
         }
       } else {
         for (var i = 0; i < -delta; i++) {

@@ -126,9 +126,7 @@ class _AwardCelebrationState extends State<AwardCelebration> with TickerProvider
                 ),
               ),
               Positioned.fill(
-                child: RepaintBoundary(
-                  child: CustomPaint(painter: _ConfettiPainter(_fall, _bits)),
-                ),
+                child: RepaintBoundary(child: CustomPaint(painter: _ConfettiPainter(_fall, _bits))),
               ),
               Positioned.fill(
                 child: SafeArea(
@@ -160,8 +158,7 @@ class _AwardCelebrationState extends State<AwardCelebration> with TickerProvider
                                     ),
                                     child: const SizedBox.expand(),
                                   ),
-                                  MedalSpin(
-                                      id: widget.id, size: medal, spinIn: true, faceFront: true),
+                                  MedalSpin(id: widget.id, size: medal, spinIn: true, faceFront: true),
                                 ],
                               ),
                             ),
@@ -174,10 +171,12 @@ class _AwardCelebrationState extends State<AwardCelebration> with TickerProvider
                           Text(
                             t.awardUnlocked.toUpperCase(),
                             textAlign: TextAlign.center,
-                            style: AppTheme.f(11.5,
-                                weight: FontWeight.w700,
-                                color: gc.textSecondary,
-                                letterSpacing: 2.6),
+                            style: AppTheme.f(
+                              11.5,
+                              weight: FontWeight.w700,
+                              color: gc.textSecondary,
+                              letterSpacing: 2.6,
+                            ),
                           ),
                         ),
                         const SizedBox(height: 12),
@@ -197,8 +196,12 @@ class _AwardCelebrationState extends State<AwardCelebration> with TickerProvider
                           Text(
                             awardLine(widget.id),
                             textAlign: TextAlign.center,
-                            style: AppTheme.f(13.5,
-                                weight: FontWeight.w500, color: gc.textSecondary, height: 1.45),
+                            style: AppTheme.f(
+                              13.5,
+                              weight: FontWeight.w500,
+                              color: gc.textSecondary,
+                              height: 1.45,
+                            ),
                           ),
                         ),
                         const Spacer(),
@@ -207,9 +210,10 @@ class _AwardCelebrationState extends State<AwardCelebration> with TickerProvider
                         if (_toast != null)
                           Padding(
                             padding: const EdgeInsets.only(bottom: 14),
-                            child: Text(_toast!,
-                                style: AppTheme.f(12.5,
-                                    weight: FontWeight.w600, color: gc.textSecondary)),
+                            child: Text(
+                              _toast!,
+                              style: AppTheme.f(12.5, weight: FontWeight.w600, color: gc.textSecondary),
+                            ),
                           ),
                         _fade(0.6, 1, PrimaryButton(label: t.awardNice, onTap: widget.onClose)),
                         const SizedBox(height: 4),
@@ -224,8 +228,7 @@ class _AwardCelebrationState extends State<AwardCelebration> with TickerProvider
                               child: Text(
                                 _saving ? '…' : t.awardSaveImage,
                                 textAlign: TextAlign.center,
-                                style: AppTheme.f(13.5,
-                                    weight: FontWeight.w700, color: gc.textSecondary),
+                                style: AppTheme.f(13.5, weight: FontWeight.w700, color: gc.textSecondary),
                               ),
                             ),
                           ),
@@ -269,31 +272,41 @@ class _SaveCard extends StatelessWidget {
         child: Stack(
           children: [
             Positioned.fill(
-              child: CustomPaint(
-                painter: _ConfettiPainter(const AlwaysStoppedAnimation(0.4), bits),
-              ),
+              child: CustomPaint(painter: _ConfettiPainter(const AlwaysStoppedAnimation(0.4), bits)),
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(28, 36, 28, 32),
               child: Column(
                 children: [
-                  Text('GymMane', style: AppTheme.f(17, weight: FontWeight.w800, color: gc.text)),
+                  Text(
+                    'GymMane',
+                    style: AppTheme.f(17, weight: FontWeight.w800, color: gc.text),
+                  ),
                   const Spacer(),
                   Medal(id: id, size: 208),
                   const SizedBox(height: 36),
-                  Text(t.awardUnlocked.toUpperCase(),
-                      textAlign: TextAlign.center,
-                      style: AppTheme.f(10.5,
-                          weight: FontWeight.w700, color: gc.textSecondary, letterSpacing: 2.4)),
+                  Text(
+                    t.awardUnlocked.toUpperCase(),
+                    textAlign: TextAlign.center,
+                    style: AppTheme.f(
+                      10.5,
+                      weight: FontWeight.w700,
+                      color: gc.textSecondary,
+                      letterSpacing: 2.4,
+                    ),
+                  ),
                   const SizedBox(height: 10),
-                  Text(awardName(id),
-                      textAlign: TextAlign.center,
-                      style: AppTheme.f(30, weight: FontWeight.w800, color: gc.text)),
+                  Text(
+                    awardName(id),
+                    textAlign: TextAlign.center,
+                    style: AppTheme.f(30, weight: FontWeight.w800, color: gc.text),
+                  ),
                   const SizedBox(height: 8),
-                  Text(awardLine(id),
-                      textAlign: TextAlign.center,
-                      style: AppTheme.f(13,
-                          weight: FontWeight.w500, color: gc.textSecondary, height: 1.4)),
+                  Text(
+                    awardLine(id),
+                    textAlign: TextAlign.center,
+                    style: AppTheme.f(13, weight: FontWeight.w500, color: gc.textSecondary, height: 1.4),
+                  ),
                   const Spacer(),
                   _Signature(gc: gc, at: at),
                 ],
@@ -328,18 +341,24 @@ class _Signature extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(fit.displayName,
-                    style: AppTheme.f(15, weight: FontWeight.w700, color: gc.text)),
-                Text('@${fit.profileHandle}',
-                    style: AppTheme.f(12.5, weight: FontWeight.w500, color: gc.textSecondary)),
+                Text(
+                  fit.displayName,
+                  style: AppTheme.f(15, weight: FontWeight.w700, color: gc.text),
+                ),
+                Text(
+                  '@${fit.profileHandle}',
+                  style: AppTheme.f(12.5, weight: FontWeight.w500, color: gc.textSecondary),
+                ),
               ],
             ),
           ],
         ),
         if (date != null) ...[
           const SizedBox(height: 16),
-          Text(t.shortDateYear(date),
-              style: AppTheme.f(11.5, weight: FontWeight.w600, color: gc.textTertiary)),
+          Text(
+            t.shortDateYear(date),
+            style: AppTheme.f(11.5, weight: FontWeight.w600, color: gc.textTertiary),
+          ),
         ],
       ],
     );

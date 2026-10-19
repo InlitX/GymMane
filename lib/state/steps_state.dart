@@ -28,15 +28,14 @@ mixin StepsState on FitCore {
     stepsGoal = ((j?['goal'] as num?)?.toInt() ?? 8000).clamp(1000, 50000);
     stepsByDay
       ..clear()
-      ..addAll(((j?['days'] as Map?) ?? const {})
-          .map((k, v) => MapEntry(k as String, (v as num).toInt())));
+      ..addAll(((j?['days'] as Map?) ?? const {}).map((k, v) => MapEntry(k as String, (v as num).toInt())));
   }
 
   Map<String, dynamic> stepsJson() => {
-        if (stepsOn) 'on': true,
-        if (stepsGoal != 8000) 'goal': stepsGoal,
-        if (stepsByDay.isNotEmpty) 'days': stepsByDay,
-      };
+    if (stepsOn) 'on': true,
+    if (stepsGoal != 8000) 'goal': stepsGoal,
+    if (stepsByDay.isNotEmpty) 'days': stepsByDay,
+  };
 
   Future<void> refreshSteps() => _stepsRunning ??= _syncSteps().whenComplete(() => _stepsRunning = null);
 

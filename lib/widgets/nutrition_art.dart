@@ -20,7 +20,14 @@ extension NutritionColors on GymColors {
 }
 
 class CalorieRing extends StatelessWidget {
-  const CalorieRing({super.key, required this.pct, this.size = 150, this.stroke = 13, this.child, this.color});
+  const CalorieRing({
+    super.key,
+    required this.pct,
+    this.size = 150,
+    this.stroke = 13,
+    this.child,
+    this.color,
+  });
 
   final double pct;
   final double size;
@@ -74,10 +81,14 @@ class _CalorieRingPainter extends CustomPainter {
     final c = size.center(Offset.zero);
     final r = size.shortestSide / 2 - stroke / 2;
     final rect = Rect.fromCircle(center: c, radius: r);
-    canvas.drawCircle(c, r, Paint()
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = stroke
-      ..color = track);
+    canvas.drawCircle(
+      c,
+      r,
+      Paint()
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = stroke
+        ..color = track,
+    );
     if (pct <= 0.002) return;
     final first = math.min(pct, 1.0);
     final sweep = first * 2 * math.pi;
@@ -143,24 +154,26 @@ class MacroTrack extends StatelessWidget {
       child: SizedBox(
         height: height,
         width: double.infinity,
-        child: Stack(children: [
-          TweenAnimationBuilder<double>(
-            tween: Tween(end: pct.clamp(0.0, 1.0)),
-            duration: const Duration(milliseconds: 800),
-            curve: Curves.easeOutCubic,
-            builder: (context, v, _) => FractionallySizedBox(
-              widthFactor: v,
-              heightFactor: 1,
-              alignment: Alignment.centerLeft,
-              child: DecoratedBox(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(height),
-                  gradient: LinearGradient(colors: [Color.lerp(color, Colors.white, 0.18)!, color]),
+        child: Stack(
+          children: [
+            TweenAnimationBuilder<double>(
+              tween: Tween(end: pct.clamp(0.0, 1.0)),
+              duration: const Duration(milliseconds: 800),
+              curve: Curves.easeOutCubic,
+              builder: (context, v, _) => FractionallySizedBox(
+                widthFactor: v,
+                heightFactor: 1,
+                alignment: Alignment.centerLeft,
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(height),
+                    gradient: LinearGradient(colors: [Color.lerp(color, Colors.white, 0.18)!, color]),
+                  ),
                 ),
               ),
             ),
-          ),
-        ]),
+          ],
+        ),
       ),
     );
   }
@@ -197,22 +210,26 @@ class FoodSticker extends StatelessWidget {
     Widget art;
     if (asset || file != null) {
       final image = asset
-          ? Image.asset(assetOfPhoto(photo),
+          ? Image.asset(
+              assetOfPhoto(photo),
               width: size,
               height: size,
               fit: BoxFit.contain,
               gaplessPlayback: true,
               cacheWidth: cache,
               opacity: dim ? _faded : null,
-              errorBuilder: (_, _, _) => _Placeholder(name: name, size: size, gc: gc))
-          : Image.file(file!,
+              errorBuilder: (_, _, _) => _Placeholder(name: name, size: size, gc: gc),
+            )
+          : Image.file(
+              file!,
               width: size,
               height: size,
               fit: BoxFit.contain,
               gaplessPlayback: true,
               cacheWidth: cache,
               opacity: dim ? _faded : null,
-              errorBuilder: (_, _, _) => _Placeholder(name: name, size: size, gc: gc));
+              errorBuilder: (_, _, _) => _Placeholder(name: name, size: size, gc: gc),
+            );
       art = !shadow
           ? image
           : Stack(
@@ -238,10 +255,13 @@ class FoodSticker extends StatelessWidget {
     } else {
       art = _Placeholder(name: name, size: size, gc: gc);
     }
-    return SizedBox(width: size, height: size, child: Transform.rotate(angle: angle, child: art));
+    return SizedBox(
+      width: size,
+      height: size,
+      child: Transform.rotate(angle: angle, child: art),
+    );
   }
 }
-
 
 class _Stretch extends GradientTransform {
   const _Stretch(this.x);
@@ -283,7 +303,11 @@ class _Placeholder extends StatelessWidget {
             stops: const [0, 0.62, 0.8, 1],
           ),
           boxShadow: [
-            BoxShadow(color: Colors.black.withValues(alpha: 0.3), blurRadius: size * 0.08, offset: Offset(0, size * 0.04)),
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.3),
+              blurRadius: size * 0.08,
+              offset: Offset(0, size * 0.04),
+            ),
           ],
         ),
         child: Center(
@@ -323,8 +347,10 @@ class PhotoVessel extends StatefulWidget {
 }
 
 class _PhotoVesselState extends State<PhotoVessel> with SingleTickerProviderStateMixin {
-  late final AnimationController _spin = AnimationController(vsync: this, duration: const Duration(seconds: 14))
-    ..addListener(_tick);
+  late final AnimationController _spin = AnimationController(
+    vsync: this,
+    duration: const Duration(seconds: 14),
+  )..addListener(_tick);
   final _phase = ValueNotifier<double>(0);
   final _streams = <ImageStream>[];
   final _listeners = <ImageStreamListener>[];
@@ -340,16 +366,16 @@ class _PhotoVesselState extends State<PhotoVessel> with SingleTickerProviderStat
   Size _size = Size.zero;
 
   _VesselPainter _painter(double level) => _VesselPainter(
-        image: _image!,
-        mask: _mask!,
-        texture: _texture,
-        level: level,
-        spin: _phase,
-        top: widget.top,
-        bottom: widget.bottom,
-        curve: widget.curve,
-        liquid: widget.liquid,
-      );
+    image: _image!,
+    mask: _mask!,
+    texture: _texture,
+    level: level,
+    spin: _phase,
+    top: widget.top,
+    bottom: widget.bottom,
+    curve: widget.curve,
+    liquid: widget.liquid,
+  );
 
   void _freeze() {
     if (_image == null || _mask == null || _size.isEmpty) return;
@@ -427,7 +453,11 @@ class _PhotoVesselState extends State<PhotoVessel> with SingleTickerProviderStat
         if (mounted) setState(() => set(info.image));
       });
       final provider = fit
-          ? ResizeImage(AssetImage(asset), height: (widget.height * dpr).round(), policy: ResizeImagePolicy.fit)
+          ? ResizeImage(
+              AssetImage(asset),
+              height: (widget.height * dpr).round(),
+              policy: ResizeImagePolicy.fit,
+            )
           : AssetImage(asset) as ImageProvider;
       _streams.add(provider.resolve(config)..addListener(l));
       _listeners.add(l);
@@ -497,7 +527,9 @@ Color shakeColor(FoodItem? shake) {
   final name = foldText('${shake?.name ?? ''} ${FoodLibrary.byId(shake?.id ?? '')?.names['en'] ?? ''}');
   bool has(List<String> words) => words.any(name.contains);
   if (has(['choc', 'cacao', 'cocoa', 'kakao', 'coffee', 'cafe', 'mocha'])) return const Color(0xFF8A5A3C);
-  if (has(['fresa', 'strawberr', 'berry', 'frutos rojos', 'erdbeer', 'fraise'])) return const Color(0xFFE3A7AE);
+  if (has(['fresa', 'strawberr', 'berry', 'frutos rojos', 'erdbeer', 'fraise'])) {
+    return const Color(0xFFE3A7AE);
+  }
   if (has(['platano', 'banana', 'mango'])) return const Color(0xFFE6D08E);
   return const Color(0xFFE2D5BC);
 }
@@ -528,13 +560,13 @@ class VesselLook {
   );
 
   static VesselLook shake(Color liquid) => VesselLook(
-        asset: 'assets/img/vessel-shake.webp',
-        top: 0.407,
-        bottom: 0.975,
-        curve: 0.066,
-        liquid: liquid,
-        texture: 'assets/img/shake-texture.webp',
-      );
+    asset: 'assets/img/vessel-shake.webp',
+    top: 0.407,
+    bottom: 0.975,
+    curve: 0.066,
+    liquid: liquid,
+    texture: 'assets/img/shake-texture.webp',
+  );
 }
 
 ui.Picture paintVesselFrame({
@@ -594,14 +626,38 @@ class _VesselPainter extends CustomPainter {
   ColorFilter get _flavor {
     double k(double c, double b) => (c / b).clamp(0.0, 2.0);
     return ColorFilter.matrix([
-      k(liquid.r, _textureBase.r), 0, 0, 0, 0,
-      0, k(liquid.g, _textureBase.g), 0, 0, 0,
-      0, 0, k(liquid.b, _textureBase.b), 0, 0,
-      0, 0, 0, 1, 0,
+      k(liquid.r, _textureBase.r),
+      0,
+      0,
+      0,
+      0,
+      0,
+      k(liquid.g, _textureBase.g),
+      0,
+      0,
+      0,
+      0,
+      0,
+      k(liquid.b, _textureBase.b),
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
     ]);
   }
 
-  void _wrapped(Canvas canvas, ui.Image tex, double w, double y0, double y1, double turn, ColorFilter? filter) {
+  void _wrapped(
+    Canvas canvas,
+    ui.Image tex,
+    double w,
+    double y0,
+    double y1,
+    double turn,
+    ColorFilter? filter,
+  ) {
     const strips = 24;
     final r = w / 2;
     final tile = tex.width / 4;
@@ -662,11 +718,13 @@ class _VesselPainter extends CustomPainter {
       canvas.drawRect(
         r,
         Paint()
-          ..shader = LinearGradient(colors: [
-            Colors.white.withValues(alpha: 0),
-            Colors.white.withValues(alpha: alpha),
-            Colors.white.withValues(alpha: 0),
-          ]).createShader(r),
+          ..shader = LinearGradient(
+            colors: [
+              Colors.white.withValues(alpha: 0),
+              Colors.white.withValues(alpha: alpha),
+              Colors.white.withValues(alpha: 0),
+            ],
+          ).createShader(r),
       );
     }
 
@@ -683,7 +741,8 @@ class _VesselPainter extends CustomPainter {
         if (y0 < surface + eh * 0.6) break;
         final path = Path();
         for (var x = 0.0; x <= w; x += 2) {
-          final y = y0 +
+          final y =
+              y0 +
               math.sin(x / w * math.pi * (3 + k) + phase * math.pi * 2 * (1 + k * 0.5)) * 2.2 +
               math.sin(x / w * math.pi * 7 - phase * math.pi * 4) * 1.1;
           x == 0 ? path.moveTo(x, y) : path.lineTo(x, y);
@@ -708,8 +767,11 @@ class _VesselPainter extends CustomPainter {
           ..strokeWidth = 0.7
           ..color = Colors.white.withValues(alpha: 0.55 * fade),
       );
-      canvas.drawCircle(Offset(x - r * 0.35, y - r * 0.35), r * 0.3,
-          Paint()..color = Colors.white.withValues(alpha: 0.7 * fade));
+      canvas.drawCircle(
+        Offset(x - r * 0.35, y - r * 0.35),
+        r * 0.3,
+        Paint()..color = Colors.white.withValues(alpha: 0.7 * fade),
+      );
     }
   }
 
@@ -723,24 +785,31 @@ class _VesselPainter extends CustomPainter {
     canvas.save();
     canvas.clipRect(dst.deflate(4));
     canvas.drawImageRect(
-        mask, src(mask), dst, Paint()..colorFilter = const ColorFilter.mode(Color(0x33000000), BlendMode.srcIn));
+      mask,
+      src(mask),
+      dst,
+      Paint()..colorFilter = const ColorFilter.mode(Color(0x33000000), BlendMode.srcIn),
+    );
     if (level > 0.004) {
       final eh = w * curve * 2;
       final floor = h * bottom, ceil = h * top + eh * 0.5;
       final surface = floor - (floor - ceil) * level;
       final tau = math.pi * 2;
-      final tilt = (math.sin(phase * tau * 3) * 0.045 + math.sin(phase * tau * 7 + 1.3) * 0.012) *
+      final tilt =
+          (math.sin(phase * tau * 3) * 0.045 + math.sin(phase * tau * 7 + 1.3) * 0.012) *
           math.min(1.0, level * 4);
       final slope = math.tan(tilt);
       final reach = (slope.abs() * w / 2) + 2;
       final body = Rect.fromLTRB(0, surface - reach, w, h);
       canvas.save();
-      canvas.clipPath(Path()
-        ..moveTo(0, surface - slope * w / 2)
-        ..lineTo(w, surface + slope * w / 2)
-        ..lineTo(w, h)
-        ..lineTo(0, h)
-        ..close());
+      canvas.clipPath(
+        Path()
+          ..moveTo(0, surface - slope * w / 2)
+          ..lineTo(w, surface + slope * w / 2)
+          ..lineTo(w, h)
+          ..lineTo(0, h)
+          ..close(),
+      );
       if (tex != null) {
         _wrapped(canvas, tex, w, surface - reach, h, phase * 2, _flavor);
         canvas.drawRect(
@@ -821,8 +890,10 @@ class _VesselPainter extends CustomPainter {
       for (var i = 0; i <= 48; i++) {
         final a = 0.12 + (math.pi - 0.24) * i / 48;
         final ripple = math.sin(a * 9 - phase * tau * 10) * eh * 0.035;
-        final p = Offset(face.center.dx + math.cos(a) * (face.width / 2 - 0.5),
-            face.center.dy + math.sin(a) * (face.height / 2 - 0.5) + ripple);
+        final p = Offset(
+          face.center.dx + math.cos(a) * (face.width / 2 - 0.5),
+          face.center.dy + math.sin(a) * (face.height / 2 - 0.5) + ripple,
+        );
         i == 0 ? front.moveTo(p.dx, p.dy) : front.lineTo(p.dx, p.dy);
       }
       canvas.drawPath(
@@ -842,11 +913,7 @@ class _VesselPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(_VesselPainter o) =>
-      o.level != level ||
-      o.image != image ||
-      o.mask != mask ||
-      o.texture != texture ||
-      o.liquid != liquid;
+      o.level != level || o.image != image || o.mask != mask || o.texture != texture || o.liquid != liquid;
 }
 
 class FoodPlate extends StatelessWidget {
@@ -872,33 +939,40 @@ class FoodPlate extends StatelessWidget {
     return SizedBox(
       width: size,
       height: size,
-      child: Stack(clipBehavior: Clip.none, children: [
-        Positioned.fill(
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              gradient: RadialGradient(
-                colors: [
-                  Color.lerp(gc.bgRaised2, Colors.white, 0.05)!,
-                  gc.bgRaised2,
-                  Color.lerp(gc.bgRaised2, Colors.white, 0.09)!,
-                  Color.lerp(gc.bgRaised2, Colors.black, 0.25)!,
+      child: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          Positioned.fill(
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                gradient: RadialGradient(
+                  colors: [
+                    Color.lerp(gc.bgRaised2, Colors.white, 0.05)!,
+                    gc.bgRaised2,
+                    Color.lerp(gc.bgRaised2, Colors.white, 0.09)!,
+                    Color.lerp(gc.bgRaised2, Colors.black, 0.25)!,
+                  ],
+                  stops: const [0, 0.7, 0.86, 1],
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.35),
+                    blurRadius: size * 0.08,
+                    offset: Offset(0, size * 0.04),
+                  ),
                 ],
-                stops: const [0, 0.7, 0.86, 1],
               ),
-              boxShadow: [
-                BoxShadow(color: Colors.black.withValues(alpha: 0.35), blurRadius: size * 0.08, offset: Offset(0, size * 0.04)),
-              ],
             ),
           ),
-        ),
-        for (var i = 0; i < shown.length; i++)
-          Positioned(
-            left: size / 2 + layout[i].$1 * size - layout[i].$3 * size / 2,
-            top: size / 2 + layout[i].$2 * size - layout[i].$3 * size / 2,
-            child: FoodSticker(photo: shown[i].$1, name: shown[i].$2, size: layout[i].$3 * size),
-          ),
-      ]),
+          for (var i = 0; i < shown.length; i++)
+            Positioned(
+              left: size / 2 + layout[i].$1 * size - layout[i].$3 * size / 2,
+              top: size / 2 + layout[i].$2 * size - layout[i].$3 * size / 2,
+              child: FoodSticker(photo: shown[i].$1, name: shown[i].$2, size: layout[i].$3 * size),
+            ),
+        ],
+      ),
     );
   }
 }
@@ -989,8 +1063,10 @@ class _ValueLinePainter extends CustomPainter {
 
   static const _top = 30.0, _bottom = 26.0;
 
-  TextPainter _text(String s, TextStyle style) =>
-      TextPainter(text: TextSpan(text: s, style: style), textDirection: TextDirection.ltr)..layout();
+  TextPainter _text(String s, TextStyle style) => TextPainter(
+    text: TextSpan(text: s, style: style),
+    textDirection: TextDirection.ltr,
+  )..layout();
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -1116,7 +1192,11 @@ class _ValueLinePainter extends CustomPainter {
       final hot = i == highlight;
       final tag = _text(
         labels[i],
-        AppTheme.f(10.5, weight: hot ? FontWeight.w800 : FontWeight.w700, color: hot ? gc.text : gc.textTertiary),
+        AppTheme.f(
+          10.5,
+          weight: hot ? FontWeight.w800 : FontWeight.w700,
+          color: hot ? gc.text : gc.textTertiary,
+        ),
       );
       tag.paint(canvas, Offset(xOf(i) - tag.width / 2, size.height - tag.height - 2));
     }
@@ -1148,8 +1228,14 @@ class _ValueLinePainter extends CustomPainter {
     final path = Path()..moveTo(p.first.dx, p.first.dy);
     for (var i = 0; i < n - 1; i++) {
       final dx = (p[i + 1].dx - p[i].dx) / 3;
-      path.cubicTo(p[i].dx + dx, p[i].dy + tan[i] * dx, p[i + 1].dx - dx, p[i + 1].dy - tan[i + 1] * dx,
-          p[i + 1].dx, p[i + 1].dy);
+      path.cubicTo(
+        p[i].dx + dx,
+        p[i].dy + tan[i] * dx,
+        p[i + 1].dx - dx,
+        p[i + 1].dy - tan[i + 1] * dx,
+        p[i + 1].dx,
+        p[i + 1].dy,
+      );
     }
     return path;
   }

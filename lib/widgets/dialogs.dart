@@ -11,30 +11,29 @@ AlertDialog appDialog(
   required Widget title,
   required Widget content,
   required List<Widget> actions,
-}) =>
-    AlertDialog(
-      backgroundColor: gc.bgRaised,
-      insetPadding: const EdgeInsets.symmetric(horizontal: 28),
-      titlePadding: const EdgeInsets.fromLTRB(24, 24, 24, 10),
-      contentPadding: const EdgeInsets.fromLTRB(24, 0, 24, 8),
-      actionsPadding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(26)),
-      title: title,
-      content: content,
-      actions: actions,
-    );
+}) => AlertDialog(
+  backgroundColor: gc.bgRaised,
+  insetPadding: const EdgeInsets.symmetric(horizontal: 28),
+  titlePadding: const EdgeInsets.fromLTRB(24, 24, 24, 10),
+  contentPadding: const EdgeInsets.fromLTRB(24, 0, 24, 8),
+  actionsPadding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(26)),
+  title: title,
+  content: content,
+  actions: actions,
+);
 
-Widget dialogAction(String label, Color color, VoidCallback onPressed, {bool strong = true}) =>
-    TextButton(
-      onPressed: onPressed,
-      style: TextButton.styleFrom(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
-      ),
-      child: Text(titleCase(label),
-          style: AppTheme.f(14,
-              weight: strong ? FontWeight.w700 : FontWeight.w600, color: color)),
-    );
+Widget dialogAction(String label, Color color, VoidCallback onPressed, {bool strong = true}) => TextButton(
+  onPressed: onPressed,
+  style: TextButton.styleFrom(
+    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
+  ),
+  child: Text(
+    titleCase(label),
+    style: AppTheme.f(14, weight: strong ? FontWeight.w700 : FontWeight.w600, color: color),
+  ),
+);
 
 Future<bool> askConfirm(
   BuildContext context, {
@@ -49,13 +48,21 @@ Future<bool> askConfirm(
     context: context,
     builder: (dctx) => appDialog(
       gc,
-      title: Text(title, style: AppTheme.f(19, weight: FontWeight.w800, color: gc.text)),
-      content: Text(body,
-          style: AppTheme.f(13.5,
-              weight: FontWeight.w500, color: gc.textSecondary, height: 1.45)),
+      title: Text(
+        title,
+        style: AppTheme.f(19, weight: FontWeight.w800, color: gc.text),
+      ),
+      content: Text(
+        body,
+        style: AppTheme.f(13.5, weight: FontWeight.w500, color: gc.textSecondary, height: 1.45),
+      ),
       actions: [
-        dialogAction(cancelLabel ?? t.cancel, gc.textSecondary, () => Navigator.of(dctx).pop(false),
-            strong: false),
+        dialogAction(
+          cancelLabel ?? t.cancel,
+          gc.textSecondary,
+          () => Navigator.of(dctx).pop(false),
+          strong: false,
+        ),
         dialogAction(confirmLabel, danger ? gc.danger : gc.accent, () => Navigator.of(dctx).pop(true)),
       ],
     ),
@@ -76,7 +83,10 @@ Future<String?> askText(
     context: context,
     builder: (dctx) => appDialog(
       gc,
-      title: Text(title, style: AppTheme.d(18, weight: FontWeight.w700, color: gc.text)),
+      title: Text(
+        title,
+        style: AppTheme.d(18, weight: FontWeight.w700, color: gc.text),
+      ),
       content: TextField(
         controller: controller,
         autofocus: true,
@@ -116,7 +126,10 @@ Future<double?> askNumber(
     context: context,
     builder: (dctx) => appDialog(
       gc,
-      title: Text(titleCase(title), style: AppTheme.f(19, weight: FontWeight.w800, color: gc.text)),
+      title: Text(
+        titleCase(title),
+        style: AppTheme.f(19, weight: FontWeight.w800, color: gc.text),
+      ),
       content: TextField(
         controller: controller,
         autofocus: true,

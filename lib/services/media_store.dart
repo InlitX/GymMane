@@ -24,8 +24,7 @@ class MediaStore {
   @visibleForTesting
   static set directory(String? path) => _dir = path;
 
-  static String? pathFor(String basename) =>
-      (_dir == null || basename.isEmpty) ? null : '$_dir/$basename';
+  static String? pathFor(String basename) => (_dir == null || basename.isEmpty) ? null : '$_dir/$basename';
 
   static Future<String?> importFor(String exerciseId, String srcPath) async {
     if (_dir == null) return null;

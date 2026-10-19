@@ -52,7 +52,10 @@ class _TrainScreenState extends State<TrainScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 RoundBtn(icon: Ic.closeThin, onTap: fit.closeTrain),
-                Text(titleCase(t.train), style: AppTheme.f(18, weight: FontWeight.w800, color: gc.text)),
+                Text(
+                  titleCase(t.train),
+                  style: AppTheme.f(18, weight: FontWeight.w800, color: gc.text),
+                ),
                 const SizedBox(width: 36),
               ],
             ),
@@ -67,7 +70,12 @@ class _TrainScreenState extends State<TrainScreen> {
                   ),
                 ),
                 if (review) ...[
-                  const Positioned(left: 0, right: 0, bottom: 0, child: EdgeBlur(top: false, height: 112, sigma: 11, shade: 0.35)),
+                  const Positioned(
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    child: EdgeBlur(top: false, height: 112, sigma: 11, shade: 0.35),
+                  ),
                   Positioned(left: 0, right: 0, bottom: 0, child: _startBar(context, gc)),
                 ],
               ],
@@ -96,26 +104,27 @@ class _TrainScreenState extends State<TrainScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(t.step1.toUpperCase(),
-            style: AppTheme.f(10.5,
-                weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.5)),
+        Text(
+          t.step1.toUpperCase(),
+          style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.5),
+        ),
         const SizedBox(height: 4),
-        Text(t.chooseFocus, style: AppTheme.f(28, weight: FontWeight.w800, color: gc.text)),
+        Text(
+          t.chooseFocus,
+          style: AppTheme.f(28, weight: FontWeight.w800, color: gc.text),
+        ),
         const SizedBox(height: 18),
         Container(
           padding: const EdgeInsets.all(14),
-          decoration: BoxDecoration(
-            color: gc.bgRaised,
-            borderRadius: BorderRadius.circular(24),
-          ),
-          child: BodyMap(
-            selected: fit.selectedMuscles.toSet(),
-            onToggle: fit.toggleMuscle,
-          ),
+          decoration: BoxDecoration(color: gc.bgRaised, borderRadius: BorderRadius.circular(24)),
+          child: BodyMap(selected: fit.selectedMuscles.toSet(), onToggle: fit.toggleMuscle),
         ),
         const SizedBox(height: 6),
-        Text(t.tapMuscles,
-            textAlign: TextAlign.center, style: AppTheme.f(12, weight: FontWeight.w500, color: gc.textTertiary)),
+        Text(
+          t.tapMuscles,
+          textAlign: TextAlign.center,
+          style: AppTheme.f(12, weight: FontWeight.w500, color: gc.textTertiary),
+        ),
         const SizedBox(height: 14),
         Container(
           constraints: const BoxConstraints(minHeight: 38),
@@ -136,56 +145,82 @@ class _TrainScreenState extends State<TrainScreen> {
           onTap: fit.trainContinue,
         ),
         const SizedBox(height: 26),
-        Text(t.orStartWith.toUpperCase(),
-            style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.5)),
+        Text(
+          t.orStartWith.toUpperCase(),
+          style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.5),
+        ),
         const SizedBox(height: 10),
         IntrinsicHeight(
-          child: Row(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-            Expanded(
-              child: _kindCard(gc, 'warmup', PhosphorIconsRegular.fire, t.warmupFocus, t.warmupFocusHint),
-            ),
-            const SizedBox(width: 10),
-            Expanded(
-              child: _kindCard(gc, 'cardio', PhosphorIconsRegular.heartbeat, t.cardioFocus, t.cardioFocusHint),
-            ),
-          ]),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Expanded(
+                child: _kindCard(gc, 'warmup', PhosphorIconsRegular.fire, t.warmupFocus, t.warmupFocusHint),
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: _kindCard(
+                  gc,
+                  'cardio',
+                  PhosphorIconsRegular.heartbeat,
+                  t.cardioFocus,
+                  t.cardioFocusHint,
+                ),
+              ),
+            ],
+          ),
         ),
       ],
     );
   }
 
   Widget _kindCard(GymColors gc, String kind, IconData icon, String title, String hint) => Pressable(
-        onTap: () => fit.startKindWorkout(kind),
-        child: Container(
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(color: gc.bgRaised, borderRadius: BorderRadius.circular(20)),
-          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Container(
-              width: 36,
-              height: 36,
-              decoration: BoxDecoration(color: gc.accentSoft, borderRadius: BorderRadius.circular(12)),
-              child: Icon(icon, size: 19, color: gc.accent),
-            ),
-            const SizedBox(height: 14),
-            Text(title, style: AppTheme.f(15, weight: FontWeight.w700, color: gc.text)),
-            const SizedBox(height: 3),
-            Text(hint, style: AppTheme.f(12, weight: FontWeight.w500, color: gc.textSecondary, height: 1.3)),
-          ]),
-        ),
-      );
+    onTap: () => fit.startKindWorkout(kind),
+    child: Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(color: gc.bgRaised, borderRadius: BorderRadius.circular(20)),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            width: 36,
+            height: 36,
+            decoration: BoxDecoration(color: gc.accentSoft, borderRadius: BorderRadius.circular(12)),
+            child: Icon(icon, size: 19, color: gc.accent),
+          ),
+          const SizedBox(height: 14),
+          Text(
+            title,
+            style: AppTheme.f(15, weight: FontWeight.w700, color: gc.text),
+          ),
+          const SizedBox(height: 3),
+          Text(
+            hint,
+            style: AppTheme.f(12, weight: FontWeight.w500, color: gc.textSecondary, height: 1.3),
+          ),
+        ],
+      ),
+    ),
+  );
 
   Widget _chip(GymColors gc, String id) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(color: gc.emberSoft, borderRadius: BorderRadius.circular(100)),
-      child: Row(mainAxisSize: MainAxisSize.min, children: [
-        Text(t.muscle(id), style: AppTheme.f(13, weight: FontWeight.w600, color: gc.ember)),
-        const SizedBox(width: 6),
-        GestureDetector(
-          onTap: () => fit.toggleMuscle(id),
-          child: SvgPathIcon(Ic.closeThin, size: 12, color: gc.ember),
-        ),
-      ]),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            t.muscle(id),
+            style: AppTheme.f(13, weight: FontWeight.w600, color: gc.ember),
+          ),
+          const SizedBox(width: 6),
+          GestureDetector(
+            onTap: () => fit.toggleMuscle(id),
+            child: SvgPathIcon(Ic.closeThin, size: 12, color: gc.ember),
+          ),
+        ],
+      ),
     );
   }
 
@@ -199,7 +234,9 @@ class _TrainScreenState extends State<TrainScreen> {
     ];
     final gear = gearHere.contains(_gear) ? _gear : null;
     final exercises = gear == null ? all : all.where((e) => e.equipment == gear).toList();
-    final seeded = searching ? const <Exercise>[] : exercises.where((e) => fit.pickSeed.contains(e.id)).toList();
+    final seeded = searching
+        ? const <Exercise>[]
+        : exercises.where((e) => fit.pickSeed.contains(e.id)).toList();
     final others = searching ? exercises : exercises.where((e) => !fit.pickSeed.contains(e.id)).toList();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -215,10 +252,19 @@ class _TrainScreenState extends State<TrainScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(t.step2.toUpperCase(),
-                      style: AppTheme.f(10.5,
-                          weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.5)),
-                  Text(t.buildSession, style: AppTheme.f(22, weight: FontWeight.w800, color: gc.text)),
+                  Text(
+                    t.step2.toUpperCase(),
+                    style: AppTheme.f(
+                      10.5,
+                      weight: FontWeight.w700,
+                      color: gc.textTertiary,
+                      letterSpacing: 1.5,
+                    ),
+                  ),
+                  Text(
+                    t.buildSession,
+                    style: AppTheme.f(22, weight: FontWeight.w800, color: gc.text),
+                  ),
                 ],
               ),
             ),
@@ -230,16 +276,20 @@ class _TrainScreenState extends State<TrainScreen> {
         if (gearHere.length > 1) ...[
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
-            child: Row(children: [
-              _gearChip(gc, t.allExercisesShort, gear == null, null),
-              for (final e in gearHere) _gearChip(gc, t.equipment(e), gear == e, e),
-            ]),
+            child: Row(
+              children: [
+                _gearChip(gc, t.allExercisesShort, gear == null, null),
+                for (final e in gearHere) _gearChip(gc, t.equipment(e), gear == e, e),
+              ],
+            ),
           ),
           const SizedBox(height: 14),
         ],
         if (!searching && all.isNotEmpty) ...[
-          Text(t.pickedHint(all.length),
-              style: AppTheme.f(12, weight: FontWeight.w500, color: gc.textTertiary)),
+          Text(
+            t.pickedHint(all.length),
+            style: AppTheme.f(12, weight: FontWeight.w500, color: gc.textTertiary),
+          ),
           const SizedBox(height: 12),
         ],
         if (exercises.isEmpty)
@@ -247,42 +297,35 @@ class _TrainScreenState extends State<TrainScreen> {
         else ...[
           if (seeded.isNotEmpty) ...[
             _sectionLabel(gc, t.suggestedPicks),
-            for (final ex in seeded) ...[
-              _pickRow(context, gc, ex),
-              const SizedBox(height: 10),
-            ],
-            if (others.isNotEmpty) ...[
-              const SizedBox(height: 10),
-              _sectionLabel(gc, t.moreOptions),
-            ],
+            for (final ex in seeded) ...[_pickRow(context, gc, ex), const SizedBox(height: 10)],
+            if (others.isNotEmpty) ...[const SizedBox(height: 10), _sectionLabel(gc, t.moreOptions)],
           ],
-          for (final ex in others) ...[
-            _pickRow(context, gc, ex),
-            const SizedBox(height: 10),
-          ],
+          for (final ex in others) ...[_pickRow(context, gc, ex), const SizedBox(height: 10)],
         ],
       ],
     );
   }
 
   Widget _sectionLabel(GymColors gc, String label) => Padding(
-        padding: const EdgeInsets.only(bottom: 10, left: 2),
-        child: Text(label.toUpperCase(),
-            style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.3)),
-      );
+    padding: const EdgeInsets.only(bottom: 10, left: 2),
+    child: Text(
+      label.toUpperCase(),
+      style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.3),
+    ),
+  );
 
   Widget _gearChip(GymColors gc, String label, bool on, String? value) => Padding(
-        padding: const EdgeInsets.only(right: 8),
-        child: Pill(
-          label: label,
-          bg: on ? gc.ember : gc.bgRaised2,
-          fg: on ? gc.onEmber : gc.textSecondary,
-          onTap: () => setState(() => _gear = value),
-          hPad: 12,
-          vPad: 6,
-          fontSize: 12,
-        ),
-      );
+    padding: const EdgeInsets.only(right: 8),
+    child: Pill(
+      label: label,
+      bg: on ? gc.ember : gc.bgRaised2,
+      fg: on ? gc.onEmber : gc.textSecondary,
+      onTap: () => setState(() => _gear = value),
+      hPad: 12,
+      vPad: 6,
+      fontSize: 12,
+    ),
+  );
 
   Widget _searchRow(BuildContext context, GymColors gc) {
     final hasQuery = _q.isNotEmpty;
@@ -292,37 +335,36 @@ class _TrainScreenState extends State<TrainScreen> {
           child: Container(
             height: 48,
             padding: const EdgeInsets.symmetric(horizontal: 16),
-            decoration: BoxDecoration(
-              color: gc.bgRaised,
-              borderRadius: BorderRadius.circular(100),
+            decoration: BoxDecoration(color: gc.bgRaised, borderRadius: BorderRadius.circular(100)),
+            child: Row(
+              children: [
+                SvgPathIcon(Ic.search, size: 16, color: gc.textSecondary),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: TextField(
+                    controller: _searchCtrl,
+                    onChanged: (v) => setState(() => _q = v),
+                    style: AppTheme.f(14, weight: FontWeight.w500, color: gc.text),
+                    cursorColor: gc.accent,
+                    decoration: InputDecoration(
+                      isCollapsed: true,
+                      border: InputBorder.none,
+                      hintText: t.searchAllExercises,
+                      hintStyle: AppTheme.f(14, weight: FontWeight.w500, color: gc.textSecondary),
+                    ),
+                  ),
+                ),
+                if (hasQuery)
+                  GestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    onTap: _clearSearch,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 6),
+                      child: SvgPathIcon(Ic.closeThin, size: 14, color: gc.textSecondary),
+                    ),
+                  ),
+              ],
             ),
-            child: Row(children: [
-              SvgPathIcon(Ic.search, size: 16, color: gc.textSecondary),
-              const SizedBox(width: 10),
-              Expanded(
-                child: TextField(
-                  controller: _searchCtrl,
-                  onChanged: (v) => setState(() => _q = v),
-                  style: AppTheme.f(14, weight: FontWeight.w500, color: gc.text),
-                  cursorColor: gc.accent,
-                  decoration: InputDecoration(
-                    isCollapsed: true,
-                    border: InputBorder.none,
-                    hintText: t.searchAllExercises,
-                    hintStyle: AppTheme.f(14, weight: FontWeight.w500, color: gc.textSecondary),
-                  ),
-                ),
-              ),
-              if (hasQuery)
-                GestureDetector(
-                  behavior: HitTestBehavior.opaque,
-                  onTap: _clearSearch,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 6),
-                    child: SvgPathIcon(Ic.closeThin, size: 14, color: gc.textSecondary),
-                  ),
-                ),
-            ]),
           ),
         ),
         const SizedBox(width: 10),
@@ -347,17 +389,18 @@ class _TrainScreenState extends State<TrainScreen> {
         ),
         const SizedBox(width: 10),
         GestureDetector(
-          onTap: () => showCreateExerciseSheet(context, initialName: _q, onCreated: (id) {
-            fit.togglePick(id);
-            _clearSearch();
-          }),
+          onTap: () => showCreateExerciseSheet(
+            context,
+            initialName: _q,
+            onCreated: (id) {
+              fit.togglePick(id);
+              _clearSearch();
+            },
+          ),
           child: Container(
             width: 48,
             height: 48,
-            decoration: BoxDecoration(
-              color: gc.emberSoft,
-              borderRadius: BorderRadius.circular(14),
-            ),
+            decoration: BoxDecoration(color: gc.emberSoft, borderRadius: BorderRadius.circular(14)),
             child: Icon(PhosphorIconsRegular.plus, size: 20, color: gc.ember),
           ),
         ),
@@ -371,19 +414,27 @@ class _TrainScreenState extends State<TrainScreen> {
         padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 8),
         child: Column(
           children: [
-            Text(t.noExercisesMatch,
-                style: AppTheme.f(15, weight: FontWeight.w600, color: gc.text)),
+            Text(
+              t.noExercisesMatch,
+              style: AppTheme.f(15, weight: FontWeight.w600, color: gc.text),
+            ),
             const SizedBox(height: 10),
             GestureDetector(
               behavior: HitTestBehavior.opaque,
-              onTap: () => showCreateExerciseSheet(context, initialName: _q, onCreated: (id) {
-                fit.togglePick(id);
-                _clearSearch();
-              }),
+              onTap: () => showCreateExerciseSheet(
+                context,
+                initialName: _q,
+                onCreated: (id) {
+                  fit.togglePick(id);
+                  _clearSearch();
+                },
+              ),
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                child: Text(t.createItInstead,
-                    style: AppTheme.f(13, weight: FontWeight.w600, color: gc.accent)),
+                child: Text(
+                  t.createItInstead,
+                  style: AppTheme.f(13, weight: FontWeight.w600, color: gc.accent),
+                ),
               ),
             ),
           ],
@@ -394,11 +445,16 @@ class _TrainScreenState extends State<TrainScreen> {
       padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 8),
       child: Column(
         children: [
-          Text(t.nothingForFocus,
-              style: AppTheme.f(15, weight: FontWeight.w600, color: gc.text)),
+          Text(
+            t.nothingForFocus,
+            style: AppTheme.f(15, weight: FontWeight.w600, color: gc.text),
+          ),
           const SizedBox(height: 4),
-          Text(t.goBackPick,
-              textAlign: TextAlign.center, style: AppTheme.f(13, weight: FontWeight.w500, color: gc.textSecondary)),
+          Text(
+            t.goBackPick,
+            textAlign: TextAlign.center,
+            style: AppTheme.f(13, weight: FontWeight.w500, color: gc.textSecondary),
+          ),
         ],
       ),
     );
@@ -418,37 +474,44 @@ class _TrainScreenState extends State<TrainScreen> {
           border: Border.all(color: picked ? gc.ember : gc.border),
           borderRadius: BorderRadius.circular(16),
         ),
-        child: Row(children: [
-          GestureDetector(
-            onTap: () => showExercisePreview(context, ex, suggestions: true),
-            child: SizedBox(width: 44, child: ExerciseMedia(ex: ex, height: 44, radius: 12)),
-          ),
-          const SizedBox(width: 14),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(exerciseName(ex), style: AppTheme.f(14, weight: FontWeight.w600, color: gc.text)),
-                const SizedBox(height: 2),
-                Text(fit.lastSummaryFor(ex.id) ?? muscleLabel(ex.primary),
+        child: Row(
+          children: [
+            GestureDetector(
+              onTap: () => showExercisePreview(context, ex, suggestions: true),
+              child: SizedBox(width: 44, child: ExerciseMedia(ex: ex, height: 44, radius: 12)),
+            ),
+            const SizedBox(width: 14),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    exerciseName(ex),
+                    style: AppTheme.f(14, weight: FontWeight.w600, color: gc.text),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    fit.lastSummaryFor(ex.id) ?? muscleLabel(ex.primary),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: AppTheme.f(12, weight: FontWeight.w500, color: gc.textSecondary)),
-              ],
+                    style: AppTheme.f(12, weight: FontWeight.w500, color: gc.textSecondary),
+                  ),
+                ],
+              ),
             ),
-          ),
-          const SizedBox(width: 10),
-          Container(
-            width: 26,
-            height: 26,
-            decoration: BoxDecoration(
-              color: picked ? gc.ember : Colors.transparent,
-              shape: BoxShape.circle,
-              border: Border.all(color: picked ? gc.ember : gc.textTertiary, width: 2),
+            const SizedBox(width: 10),
+            Container(
+              width: 26,
+              height: 26,
+              decoration: BoxDecoration(
+                color: picked ? gc.ember : Colors.transparent,
+                shape: BoxShape.circle,
+                border: Border.all(color: picked ? gc.ember : gc.textTertiary, width: 2),
+              ),
+              child: picked ? Center(child: SvgPathIcon(Ic.checkBold, size: 13, color: gc.onEmber)) : null,
             ),
-            child: picked ? Center(child: SvgPathIcon(Ic.checkBold, size: 13, color: gc.onEmber)) : null,
-          ),
-        ]),
+          ],
+        ),
       ),
     );
   }

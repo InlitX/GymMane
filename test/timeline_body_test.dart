@@ -11,18 +11,18 @@ import 'package:gymmane/theme/app_theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Widget _host(Widget Function() screen) => MaterialApp(
-      theme: AppTheme.dark,
-      home: AnimatedBuilder(
-        animation: fit,
-        builder: (_, _) => Scaffold(body: screen()),
-      ),
-    );
+  theme: AppTheme.dark,
+  home: AnimatedBuilder(
+    animation: fit,
+    builder: (_, _) => Scaffold(body: screen()),
+  ),
+);
 
 LoggedSession _session(int daysAgo, String primary, int sets) => LoggedSession(
-      DateTime.now().subtract(Duration(days: daysAgo)),
-      1800,
-      [LoggedExercise('x$daysAgo', 'x$daysAgo', primary, List.generate(sets, (_) => LoggedSet(10, 60)))],
-    );
+  DateTime.now().subtract(Duration(days: daysAgo)),
+  1800,
+  [LoggedExercise('x$daysAgo', 'x$daysAgo', primary, List.generate(sets, (_) => LoggedSet(10, 60)))],
+);
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();

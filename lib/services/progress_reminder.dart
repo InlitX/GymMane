@@ -15,20 +15,20 @@ class ProgressReminder {
   bool enabled = true;
 
   AndroidNotificationDetails get _android => AndroidNotificationDetails(
-        'progress_photo',
-        t.notifPhotoChannel,
-        channelDescription: t.notifPhotoChannelWhy,
-        importance: Importance.defaultImportance,
-        priority: Priority.defaultPriority,
-        playSound: true,
-      );
+    'progress_photo',
+    t.notifPhotoChannel,
+    channelDescription: t.notifPhotoChannelWhy,
+    importance: Importance.defaultImportance,
+    priority: Priority.defaultPriority,
+    playSound: true,
+  );
 
   DarwinNotificationDetails get _darwin => const DarwinNotificationDetails(
-        presentAlert: true,
-        presentBanner: true,
-        presentList: true,
-        presentSound: true,
-      );
+    presentAlert: true,
+    presentBanner: true,
+    presentList: true,
+    presentSound: true,
+  );
 
   Future<void> scheduleFor(DateTime day, int intervalDays) async {
     if (!enabled) return;

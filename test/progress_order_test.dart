@@ -26,13 +26,11 @@ void main() {
 
   void logSessions() {
     for (var i = 1; i <= 6; i++) {
-      fit.sessions.add(LoggedSession(
-        DateTime.now().subtract(Duration(days: i * 3)),
-        3600,
-        [
+      fit.sessions.add(
+        LoggedSession(DateTime.now().subtract(Duration(days: i * 3)), 3600, [
           LoggedExercise(bench.id, bench.name, bench.primary, [LoggedSet(8, 70)]),
-        ],
-      ));
+        ]),
+      );
     }
   }
 
@@ -63,8 +61,11 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text(t.measures), findsNothing, reason: 'sin medidas, no hay tarjeta de medidas');
-    expect(find.text(t.setupMeasures), findsOneWidget,
-        reason: 'lo que falta se cuenta una sola vez, en la tarjeta de arranque');
+    expect(
+      find.text(t.setupMeasures),
+      findsOneWidget,
+      reason: 'lo que falta se cuenta una sola vez, en la tarjeta de arranque',
+    );
   });
 
   testWidgets('the card shows up as soon as there is something to show', (tester) async {
@@ -76,8 +77,11 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text(t.measures), findsWidgets);
-    expect(find.byIcon(PhosphorIconsFill.checkCircle), findsWidgets,
-        reason: 'lo ya hecho se queda listado, pero con su tic');
+    expect(
+      find.byIcon(PhosphorIconsFill.checkCircle),
+      findsWidgets,
+      reason: 'lo ya hecho se queda listado, pero con su tic',
+    );
   });
 
   testWidgets('a fresh install leads with what to fill in and still shows the empty grid', (tester) async {
@@ -89,7 +93,10 @@ void main() {
     final volume = await yOf(tester, t.tileVolume30.toUpperCase());
 
     expect(setup, lessThan(volume));
-    expect(find.text(t.consistency.toUpperCase()), findsOneWidget,
-        reason: 'la rejilla vacía invita a rellenarla');
+    expect(
+      find.text(t.consistency.toUpperCase()),
+      findsOneWidget,
+      reason: 'la rejilla vacía invita a rellenarla',
+    );
   });
 }

@@ -36,8 +36,11 @@ Future<Uint8List> buildBackupZip() async {
     if (bytes == null || bytes.isEmpty) continue;
     final ex = fit.exerciseById(entry.key);
     final dir = MediaStore.isVideo(entry.value) ? _videosDir : _imagesDir;
-    final name = _uniqueName(used, slugify(ex == null ? entry.key : exerciseName(ex)),
-        MediaStore.extOf(entry.value));
+    final name = _uniqueName(
+      used,
+      slugify(ex == null ? entry.key : exerciseName(ex)),
+      MediaStore.extOf(entry.value),
+    );
     archive.addFile(ArchiveFile.noCompress('$dir/$name', bytes.length, bytes));
     paths[entry.key] = '$dir/$name';
   }
@@ -76,7 +79,8 @@ Future<Uint8List> buildBackupZip() async {
     if (momentMedia.containsKey(moment.file)) continue;
     final bytes = await MediaStore.readBytes(moment.file);
     if (bytes == null || bytes.isEmpty) continue;
-    final path = '$_momentsDir/${_day(moment.date)}-${momentMedia.length + 1}'
+    final path =
+        '$_momentsDir/${_day(moment.date)}-${momentMedia.length + 1}'
         '.${MediaStore.extOf(moment.file)}';
     used.add(path);
     archive.addFile(ArchiveFile.noCompress(path, bytes.length, bytes));
@@ -108,7 +112,8 @@ Future<Uint8List> buildBackupZip() async {
   }
 
   archive.addFile(
-      ArchiveFile.string(kBackupJsonEntry, const JsonEncoder.withIndent('  ').convert(Store.finite(data))));
+    ArchiveFile.string(kBackupJsonEntry, const JsonEncoder.withIndent('  ').convert(Store.finite(data))),
+  );
   return ZipEncoder().encodeBytes(archive);
 }
 
@@ -199,12 +204,14 @@ Future<bool> restoreBackupZip(Uint8List zipBytes) async {
     if (bytes != null) alarmBase = await AlarmStore.saveBytes(alarmName, bytes);
   }
 
-  fit.applyBackup(data,
-      restoredMedia: restored,
-      restoredNoteMedia: restoredNotes,
-      restoredShots: restoredShots,
-      restoredMoments: restoredMoments,
-      restoredFoods: restoredFoods);
+  fit.applyBackup(
+    data,
+    restoredMedia: restored,
+    restoredNoteMedia: restoredNotes,
+    restoredShots: restoredShots,
+    restoredMoments: restoredMoments,
+    restoredFoods: restoredFoods,
+  );
   if (alarmBase != null) {
     fit.setAlarmSound(alarmBase, (data['alarmSoundName'] as String?) ?? alarmBase);
   } else {
@@ -246,12 +253,32 @@ String _uniqueName(Set<String> used, String slug, String ext) {
 }
 
 const Map<String, String> _fold = {
-  'á': 'a', 'à': 'a', 'ä': 'a', 'â': 'a', 'ã': 'a', 'å': 'a',
-  'é': 'e', 'è': 'e', 'ë': 'e', 'ê': 'e',
-  'í': 'i', 'ì': 'i', 'ï': 'i', 'î': 'i',
-  'ó': 'o', 'ò': 'o', 'ö': 'o', 'ô': 'o', 'õ': 'o',
-  'ú': 'u', 'ù': 'u', 'ü': 'u', 'û': 'u',
-  'ñ': 'n', 'ç': 'c', 'ß': 'ss',
+  'á': 'a',
+  'à': 'a',
+  'ä': 'a',
+  'â': 'a',
+  'ã': 'a',
+  'å': 'a',
+  'é': 'e',
+  'è': 'e',
+  'ë': 'e',
+  'ê': 'e',
+  'í': 'i',
+  'ì': 'i',
+  'ï': 'i',
+  'î': 'i',
+  'ó': 'o',
+  'ò': 'o',
+  'ö': 'o',
+  'ô': 'o',
+  'õ': 'o',
+  'ú': 'u',
+  'ù': 'u',
+  'ü': 'u',
+  'û': 'u',
+  'ñ': 'n',
+  'ç': 'c',
+  'ß': 'ss',
 };
 
 String slugify(String name) {
@@ -264,8 +291,5 @@ String slugify(String name) {
       buffer.write('-');
     }
   }
-  return buffer
-      .toString()
-      .replaceAll(RegExp('-+'), '-')
-      .replaceAll(RegExp(r'^-|-$'), '');
+  return buffer.toString().replaceAll(RegExp('-+'), '-').replaceAll(RegExp(r'^-|-$'), '');
 }

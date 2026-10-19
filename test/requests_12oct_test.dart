@@ -15,10 +15,10 @@ void main() {
   });
 
   LoggedSession at(int daysAgo, List<LoggedSet> sets) => LoggedSession(
-        shiftDays(DateTime.now(), -daysAgo).add(const Duration(hours: 18)),
-        600,
-        [LoggedExercise('push', 'push', 'chest', sets)],
-      );
+    shiftDays(DateTime.now(), -daysAgo).add(const Duration(hours: 18)),
+    600,
+    [LoggedExercise('push', 'push', 'chest', sets)],
+  );
 
   test('#187 el mapa reparte los tonos por volumen y el día sin peso queda abajo', () {
     fit.sessions

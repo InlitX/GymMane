@@ -156,21 +156,23 @@ class _BodyCanvas extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(builder: (context, c) {
-      final w = c.maxWidth;
-      final scale = w / bodyViewW;
-      return GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTapUp: onTap == null
-            ? null
-            : (d) {
-                final p = Offset(d.localPosition.dx / scale, d.localPosition.dy / scale);
-                final id = muscleAt(p);
-                if (id != null) onTap!(id);
-              },
-        child: CustomPaint(size: Size(w, w * kBodyAspect), painter: painter),
-      );
-    });
+    return LayoutBuilder(
+      builder: (context, c) {
+        final w = c.maxWidth;
+        final scale = w / bodyViewW;
+        return GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onTapUp: onTap == null
+              ? null
+              : (d) {
+                  final p = Offset(d.localPosition.dx / scale, d.localPosition.dy / scale);
+                  final id = muscleAt(p);
+                  if (id != null) onTap!(id);
+                },
+          child: CustomPaint(size: Size(w, w * kBodyAspect), painter: painter),
+        );
+      },
+    );
   }
 }
 
@@ -189,8 +191,13 @@ class BodyPainter extends CustomPainter {
     final bodyMain = gc.bgRaised2;
     final bodyLite = Color.lerp(gc.bgRaised2, gc.textTertiary, 0.14)!;
 
-    void fill(String d, Color c) =>
-        canvas.drawPath(svgPath(d), Paint()..color = c..style = PaintingStyle.fill..isAntiAlias = true);
+    void fill(String d, Color c) => canvas.drawPath(
+      svgPath(d),
+      Paint()
+        ..color = c
+        ..style = PaintingStyle.fill
+        ..isAntiAlias = true,
+    );
 
     for (final d in bodyBaseMain) {
       fill(d, bodyMain);
@@ -219,8 +226,7 @@ class BodyPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(BodyPainter old) =>
-      old.gc != gc || old.token != token || old.outline != outline;
+  bool shouldRepaint(BodyPainter old) => old.gc != gc || old.token != token || old.outline != outline;
 }
 
 Color untrainedColor(GymColors gc, int? days) {

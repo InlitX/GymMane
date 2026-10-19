@@ -154,8 +154,15 @@ void main() {
       final back = Exercise.fromJson(ex.toJson());
       expect(back.steps, ex.steps);
       expect(back.mode, 'time');
-      fit.updateCustomExercise(mine,
-          name: 'Row', primary: 'back', equipment: 'Other', difficulty: 'Beginner', steps: ['Only'], mode: '');
+      fit.updateCustomExercise(
+        mine,
+        name: 'Row',
+        primary: 'back',
+        equipment: 'Other',
+        difficulty: 'Beginner',
+        steps: ['Only'],
+        mode: '',
+      );
       expect(fit.exerciseById(mine)!.steps, ['Only']);
       expect(fit.modeOf(mine), '');
     });
@@ -272,12 +279,14 @@ void main() {
 
   group('reading plans', () {
     test('an AI plan with weeks, days, reps, weight and supersets', () {
-      final plans = parsePlan('Here you go!\n```json\n'
-          '{"program": "Base", "unit": "lb", "weeks": ['
-          '{"name": "Week 1", "routines": [{"name": "A", "days": ["Monday", "jue"], "exercises": ['
-          '{"name": "Barbell Bench Press", "sets": 3, "reps": "8-10", "weight": 135, "rest": "2 min", "superset": true},'
-          '{"name": "Barbell Bent Over Row", "sets": 3, "reps": 8}]}]},'
-          '{"name": "Week 2", "routines": [{"name": "A", "exercises": ["Pull Up"]}]}]}\n```');
+      final plans = parsePlan(
+        'Here you go!\n```json\n'
+        '{"program": "Base", "unit": "lb", "weeks": ['
+        '{"name": "Week 1", "routines": [{"name": "A", "days": ["Monday", "jue"], "exercises": ['
+        '{"name": "Barbell Bench Press", "sets": 3, "reps": "8-10", "weight": 135, "rest": "2 min", "superset": true},'
+        '{"name": "Barbell Bent Over Row", "sets": 3, "reps": 8}]}]},'
+        '{"name": "Week 2", "routines": [{"name": "A", "exercises": ["Pull Up"]}]}]}\n```',
+      );
       expect(plans.length, 2);
       expect(plans.first.group, 'Base · Week 1');
       expect(plans.first.days, [1, 4]);
@@ -290,8 +299,10 @@ void main() {
     });
 
     test('a csv plan', () {
-      final plans = parsePlan('routine;exercise;sets;reps;weight\n'
-          'Push;Barbell Bench Press;4;8;60\nPush;Push Up;3;15;\nLegs;Barbell Full Squat;5;5;100');
+      final plans = parsePlan(
+        'routine;exercise;sets;reps;weight\n'
+        'Push;Barbell Bench Press;4;8;60\nPush;Push Up;3;15;\nLegs;Barbell Full Squat;5;5;100',
+      );
       expect(plans.map((p) => p.name), ['Push', 'Legs']);
       expect(plans.first.items.first.weightKg, 60);
       expect(plans.last.items.single.sets, 5);
@@ -302,7 +313,8 @@ void main() {
     });
 
     test('importing builds planned sets, supersets and the week, once', () {
-      final text = '{"routines": [{"name": "Upper", "days": [2], "exercises": ['
+      final text =
+          '{"routines": [{"name": "Upper", "days": [2], "exercises": ['
           '{"name": "Barbell Bench Press", "sets": 2, "reps": 8, "weight": 60, "superset": true,'
           ' "plan": [{"type": "warmup", "reps": 10, "weight": 30}]},'
           '{"name": "Barbell Bent Over Row", "sets": 3}]}]}';
@@ -323,7 +335,11 @@ void main() {
 
     test('a shared plan round-trips to another phone, custom exercises included', () {
       final mine = fit.addCustomExercise(
-          name: 'Landmine Twist', primary: 'obliques', equipment: 'Barbell', steps: ['Twist']);
+        name: 'Landmine Twist',
+        primary: 'obliques',
+        equipment: 'Barbell',
+        steps: ['Twist'],
+      );
       final bench = idOf('Barbell Bench Press');
       final r = routineWith([bench, mine], name: 'Mixed');
       fit.setRoutineGroup(r.id, 'Couple');
@@ -363,10 +379,13 @@ void main() {
 
     test('a hard chest day tires the chest and it recovers in a few days', () {
       final now = DateTime(2026, 9, 18, 18);
-      fit.sessions.add(LoggedSession(now.subtract(const Duration(hours: 1)), 3600, [
-        LoggedExercise(idOf('Barbell Bench Press'), 'Bench', 'chest',
-            [for (var i = 0; i < 8; i++) LoggedSet(8, 80, rpe: 9)]),
-      ]));
+      fit.sessions.add(
+        LoggedSession(now.subtract(const Duration(hours: 1)), 3600, [
+          LoggedExercise(idOf('Barbell Bench Press'), 'Bench', 'chest', [
+            for (var i = 0; i < 8; i++) LoggedSet(8, 80, rpe: 9),
+          ]),
+        ]),
+      );
       final fresh = fit.muscleRecovery(now: now);
       expect(fresh['chest'], lessThan(0.3));
       expect(fresh['quads'], 1);
@@ -406,7 +425,8 @@ void main() {
   });
 
   group('lyfta', () {
-    const csv = '﻿Title,Date,Duration,Description,Notes,Exercise,Exercise Note,Superset id,Weight,Reps,'
+    const csv =
+        '﻿Title,Date,Duration,Description,Notes,Exercise,Exercise Note,Superset id,Weight,Reps,'
         'RIR/RPE,Distance,Time,Set Type,RecordLevel: gold/silver/bronze,RecordType: 1RM / max_weight / volume / reps\n'
         'Pull Day,2026-04-17 16:00:05,01:19:33,"A plan, with commas",,Barbell Bent Over Row,,,60.000,10,,,,NORMAL_SET,,\n'
         'Pull Day,2026-04-17 16:00:05,01:19:33,"A plan, with commas",,Barbell Bent Over Row,,,70.000,8,,,,NORMAL_SET,1,1\n'

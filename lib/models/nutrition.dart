@@ -87,36 +87,36 @@ class Macros {
   }
 
   Macros operator +(Macros o) => Macros(
-        kcal: kcal + o.kcal,
-        protein: protein + o.protein,
-        carbs: carbs + o.carbs,
-        fat: fat + o.fat,
-        fiber: fiber + o.fiber,
-        sugar: sugar + o.sugar,
-        sodium: sodium + o.sodium,
-        animal: animal + o.animal,
-        sat: sat + o.sat,
-        mono: mono + o.mono,
-        poly: poly + o.poly,
-        aminoProtein: aminoProtein + o.aminoProtein,
-        amino: _addAmino(amino, o.amino),
-      );
+    kcal: kcal + o.kcal,
+    protein: protein + o.protein,
+    carbs: carbs + o.carbs,
+    fat: fat + o.fat,
+    fiber: fiber + o.fiber,
+    sugar: sugar + o.sugar,
+    sodium: sodium + o.sodium,
+    animal: animal + o.animal,
+    sat: sat + o.sat,
+    mono: mono + o.mono,
+    poly: poly + o.poly,
+    aminoProtein: aminoProtein + o.aminoProtein,
+    amino: _addAmino(amino, o.amino),
+  );
 
   Macros operator *(double k) => Macros(
-        kcal: kcal * k,
-        protein: protein * k,
-        carbs: carbs * k,
-        fat: fat * k,
-        fiber: fiber * k,
-        sugar: sugar * k,
-        sodium: sodium * k,
-        animal: animal * k,
-        sat: sat * k,
-        mono: mono * k,
-        poly: poly * k,
-        aminoProtein: aminoProtein * k,
-        amino: [for (final a in amino) a * k],
-      );
+    kcal: kcal * k,
+    protein: protein * k,
+    carbs: carbs * k,
+    fat: fat * k,
+    fiber: fiber * k,
+    sugar: sugar * k,
+    sodium: sodium * k,
+    animal: animal * k,
+    sat: sat * k,
+    mono: mono * k,
+    poly: poly * k,
+    aminoProtein: aminoProtein * k,
+    amino: [for (final a in amino) a * k],
+  );
 
   bool get isEmpty => kcal <= 0 && protein <= 0 && carbs <= 0 && fat <= 0;
 
@@ -146,22 +146,22 @@ class Macros {
   }
 
   Map<String, dynamic> toJson() => {
-        if (kcal > 0) 'k': kcal,
-        if (protein > 0) 'p': protein,
-        if (carbs > 0) 'c': carbs,
-        if (fat > 0) 'f': fat,
-        if (fiber > 0) 'fi': fiber,
-        if (sugar > 0) 'su': sugar,
-        if (sodium > 0) 'na': sodium,
-        if (animal > 0) 'an': animal,
-        if (sat > 0) 'sa': sat,
-        if (mono > 0) 'mu': mono,
-        if (poly > 0) 'po': poly,
-        if (aminoProtein > 0 && amino.length == Amino.values.length) ...{
-          'ap': aminoProtein,
-          'aa': [for (final a in amino) (a * 1000).round() / 1000],
-        },
-      };
+    if (kcal > 0) 'k': kcal,
+    if (protein > 0) 'p': protein,
+    if (carbs > 0) 'c': carbs,
+    if (fat > 0) 'f': fat,
+    if (fiber > 0) 'fi': fiber,
+    if (sugar > 0) 'su': sugar,
+    if (sodium > 0) 'na': sodium,
+    if (animal > 0) 'an': animal,
+    if (sat > 0) 'sa': sat,
+    if (mono > 0) 'mu': mono,
+    if (poly > 0) 'po': poly,
+    if (aminoProtein > 0 && amino.length == Amino.values.length) ...{
+      'ap': aminoProtein,
+      'aa': [for (final a in amino) (a * 1000).round() / 1000],
+    },
+  };
 
   factory Macros.fromJson(Map<String, dynamic>? j) {
     final aa = [for (final v in (j?['aa'] as List?) ?? const []) _num(v)];
@@ -198,7 +198,23 @@ bool isAssetPhoto(String photo) => photo.startsWith('asset:');
 
 String assetOfPhoto(String photo) => photo.substring(6);
 
-enum FoodCat { fruit, veg, meat, fish, egg, dairy, grain, bakery, legume, nut, oil, pantry, drink, sauce, spice }
+enum FoodCat {
+  fruit,
+  veg,
+  meat,
+  fish,
+  egg,
+  dairy,
+  grain,
+  bakery,
+  legume,
+  nut,
+  oil,
+  pantry,
+  drink,
+  sauce,
+  spice,
+}
 
 class FoodItem {
   const FoodItem({
@@ -243,43 +259,42 @@ class FoodItem {
     bool? liquid,
     Macros? macros,
     double? cookedYield,
-  }) =>
-      FoodItem(
-        id: id,
-        name: name ?? this.name,
-        photo: photo ?? this.photo,
-        serving: serving ?? this.serving,
-        grams: grams ?? this.grams,
-        liquid: liquid ?? this.liquid,
-        portion: portion,
-        portionGrams: portionGrams,
-        macros: macros ?? this.macros,
-        cookedYield: cookedYield ?? this.cookedYield,
-        approx: approx,
-        cat: cat,
-      );
+  }) => FoodItem(
+    id: id,
+    name: name ?? this.name,
+    photo: photo ?? this.photo,
+    serving: serving ?? this.serving,
+    grams: grams ?? this.grams,
+    liquid: liquid ?? this.liquid,
+    portion: portion,
+    portionGrams: portionGrams,
+    macros: macros ?? this.macros,
+    cookedYield: cookedYield ?? this.cookedYield,
+    approx: approx,
+    cat: cat,
+  );
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'n': name,
-        if (photo.isNotEmpty) 'ph': photo,
-        if (serving.isNotEmpty) 's': serving,
-        if (grams > 0) 'g': grams,
-        if (liquid) 'lq': true,
-        if (cookedYield > 0) 'cy': cookedYield,
-        'm': macros.toJson(),
-      };
+    'id': id,
+    'n': name,
+    if (photo.isNotEmpty) 'ph': photo,
+    if (serving.isNotEmpty) 's': serving,
+    if (grams > 0) 'g': grams,
+    if (liquid) 'lq': true,
+    if (cookedYield > 0) 'cy': cookedYield,
+    'm': macros.toJson(),
+  };
 
   factory FoodItem.fromJson(Map<String, dynamic> j) => FoodItem(
-        id: j['id'] as String? ?? '',
-        name: j['n'] as String? ?? '',
-        photo: j['ph'] as String? ?? '',
-        serving: j['s'] as String? ?? '',
-        grams: _num(j['g']),
-        liquid: j['lq'] as bool? ?? false,
-        cookedYield: _num(j['cy']).clamp(0, 5).toDouble(),
-        macros: Macros.fromJson((j['m'] as Map?)?.cast<String, dynamic>()),
-      );
+    id: j['id'] as String? ?? '',
+    name: j['n'] as String? ?? '',
+    photo: j['ph'] as String? ?? '',
+    serving: j['s'] as String? ?? '',
+    grams: _num(j['g']),
+    liquid: j['lq'] as bool? ?? false,
+    cookedYield: _num(j['cy']).clamp(0, 5).toDouble(),
+    macros: Macros.fromJson((j['m'] as Map?)?.cast<String, dynamic>()),
+  );
 }
 
 class FoodEntry {
@@ -313,7 +328,8 @@ class FoodEntry {
 
   double get shownGrams => cooked > 0 ? totalGrams * cooked : totalGrams;
 
-  FoodEntry copyWith({String? id, DateTime? at, double? servings, Meal? meal, String? name, Macros? per}) => FoodEntry(
+  FoodEntry copyWith({String? id, DateTime? at, double? servings, Meal? meal, String? name, Macros? per}) =>
+      FoodEntry(
         id: id ?? this.id,
         at: at ?? this.at,
         meal: meal ?? this.meal,
@@ -327,30 +343,30 @@ class FoodEntry {
       );
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'at': at.toIso8601String(),
-        'ml': meal.id,
-        'n': name,
-        if (foodId.isNotEmpty) 'fd': foodId,
-        if (servings != 1) 'x': servings,
-        if (grams > 0) 'g': grams,
-        if (liquid) 'lq': true,
-        if (cooked > 0) 'ck': cooked,
-        'm': per.toJson(),
-      };
+    'id': id,
+    'at': at.toIso8601String(),
+    'ml': meal.id,
+    'n': name,
+    if (foodId.isNotEmpty) 'fd': foodId,
+    if (servings != 1) 'x': servings,
+    if (grams > 0) 'g': grams,
+    if (liquid) 'lq': true,
+    if (cooked > 0) 'ck': cooked,
+    'm': per.toJson(),
+  };
 
   factory FoodEntry.fromJson(Map<String, dynamic> j) => FoodEntry(
-        id: j['id'] as String? ?? '',
-        at: DateTime.tryParse(j['at'] as String? ?? '') ?? DateTime.now(),
-        meal: Meal(j['ml'] as String? ?? Meal.snacks.id),
-        name: j['n'] as String? ?? '',
-        foodId: j['fd'] as String? ?? '',
-        servings: _servings(j['x']),
-        grams: _num(j['g']),
-        liquid: j['lq'] as bool? ?? false,
-        cooked: _num(j['ck']).clamp(0, 5).toDouble(),
-        per: Macros.fromJson((j['m'] as Map?)?.cast<String, dynamic>()),
-      );
+    id: j['id'] as String? ?? '',
+    at: DateTime.tryParse(j['at'] as String? ?? '') ?? DateTime.now(),
+    meal: Meal(j['ml'] as String? ?? Meal.snacks.id),
+    name: j['n'] as String? ?? '',
+    foodId: j['fd'] as String? ?? '',
+    servings: _servings(j['x']),
+    grams: _num(j['g']),
+    liquid: j['lq'] as bool? ?? false,
+    cooked: _num(j['ck']).clamp(0, 5).toDouble(),
+    per: Macros.fromJson((j['m'] as Map?)?.cast<String, dynamic>()),
+  );
 }
 
 double _servings(Object? v) {
@@ -372,13 +388,13 @@ class Recipe {
   Map<String, dynamic> toJson() => {'id': id, 'n': name, 'i': items.map((e) => e.toJson()).toList()};
 
   factory Recipe.fromJson(Map<String, dynamic> j) => Recipe(
-        id: j['id'] as String? ?? '',
-        name: j['n'] as String? ?? '',
-        items: [
-          for (final e in (j['i'] as List?) ?? const [])
-            if (e is Map) FoodEntry.fromJson(e.cast<String, dynamic>()),
-        ],
-      );
+    id: j['id'] as String? ?? '',
+    name: j['n'] as String? ?? '',
+    items: [
+      for (final e in (j['i'] as List?) ?? const [])
+        if (e is Map) FoodEntry.fromJson(e.cast<String, dynamic>()),
+    ],
+  );
 }
 
 class MealPlan {
@@ -391,27 +407,30 @@ class MealPlan {
 
   Macros get total => items.fold(Macros.zero, (s, e) => s + e.total);
 
-  List<FoodEntry> itemsOf(Meal meal) => [for (final e in items) if (e.meal == meal) e];
+  List<FoodEntry> itemsOf(Meal meal) => [
+    for (final e in items)
+      if (e.meal == meal) e,
+  ];
 
   MealPlan copyWith({String? name, List<FoodEntry>? items, int? color}) =>
       MealPlan(id: id, name: name ?? this.name, items: items ?? this.items, color: color ?? this.color);
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'n': name,
-        if (color >= 0) 'c': color,
-        'i': items.map((e) => e.toJson()).toList(),
-      };
+    'id': id,
+    'n': name,
+    if (color >= 0) 'c': color,
+    'i': items.map((e) => e.toJson()).toList(),
+  };
 
   factory MealPlan.fromJson(Map<String, dynamic> j) => MealPlan(
-        id: j['id'] as String? ?? '',
-        name: j['n'] as String? ?? '',
-        color: (j['c'] as num?)?.toInt() ?? -1,
-        items: [
-          for (final e in (j['i'] as List?) ?? const [])
-            if (e is Map) FoodEntry.fromJson(e.cast<String, dynamic>()),
-        ],
-      );
+    id: j['id'] as String? ?? '',
+    name: j['n'] as String? ?? '',
+    color: (j['c'] as num?)?.toInt() ?? -1,
+    items: [
+      for (final e in (j['i'] as List?) ?? const [])
+        if (e is Map) FoodEntry.fromJson(e.cast<String, dynamic>()),
+    ],
+  );
 }
 
 class WaterSip {
@@ -423,9 +442,9 @@ class WaterSip {
   Map<String, dynamic> toJson() => {'at': at.toIso8601String(), 'ml': ml};
 
   factory WaterSip.fromJson(Map<String, dynamic> j) => WaterSip(
-        DateTime.tryParse(j['at'] as String? ?? '') ?? DateTime.now(),
-        ((j['ml'] as num?)?.toInt() ?? 0).clamp(0, 5000),
-      );
+    DateTime.tryParse(j['at'] as String? ?? '') ?? DateTime.now(),
+    ((j['ml'] as num?)?.toInt() ?? 0).clamp(0, 5000),
+  );
 }
 
 class Supplement {
@@ -476,18 +495,17 @@ class Supplement {
     DateTime? from,
     DateTime? until,
     bool clearUntil = false,
-  }) =>
-      Supplement(
-        id: id,
-        name: name ?? this.name,
-        dose: dose ?? this.dose,
-        photo: photo ?? this.photo,
-        at: clearAt ? null : (at ?? this.at),
-        days: days ?? this.days,
-        every: every ?? this.every,
-        from: from ?? this.from,
-        until: clearUntil ? null : (until ?? this.until),
-      );
+  }) => Supplement(
+    id: id,
+    name: name ?? this.name,
+    dose: dose ?? this.dose,
+    photo: photo ?? this.photo,
+    at: clearAt ? null : (at ?? this.at),
+    days: days ?? this.days,
+    every: every ?? this.every,
+    from: from ?? this.from,
+    until: clearUntil ? null : (until ?? this.until),
+  );
 
   static String _date(DateTime d) =>
       '${d.year}-${d.month.toString().padLeft(2, '0')}-${d.day.toString().padLeft(2, '0')}';
@@ -498,28 +516,28 @@ class Supplement {
   }
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'n': name,
-        if (dose.isNotEmpty) 'd': dose,
-        if (photo.isNotEmpty) 'p': photo,
-        'at': ?at,
-        if (days != 0) 'w': days,
-        if (every > 1) 'e': every,
-        if (from != null) 'f': _date(from!),
-        if (until != null) 'u': _date(until!),
-      };
+    'id': id,
+    'n': name,
+    if (dose.isNotEmpty) 'd': dose,
+    if (photo.isNotEmpty) 'p': photo,
+    'at': ?at,
+    if (days != 0) 'w': days,
+    if (every > 1) 'e': every,
+    if (from != null) 'f': _date(from!),
+    if (until != null) 'u': _date(until!),
+  };
 
   factory Supplement.fromJson(Map<String, dynamic> j) => Supplement(
-        id: j['id'] as String? ?? '',
-        name: j['n'] as String? ?? '',
-        dose: j['d'] as String? ?? '',
-        photo: j['p'] as String? ?? '',
-        at: (j['at'] as num?)?.toInt().clamp(0, 24 * 60 - 1),
-        days: ((j['w'] as num?)?.toInt() ?? 0) & 0xFE,
-        every: ((j['e'] as num?)?.toInt() ?? 1).clamp(1, 90),
-        from: _readDate(j['f']),
-        until: _readDate(j['u']),
-      );
+    id: j['id'] as String? ?? '',
+    name: j['n'] as String? ?? '',
+    dose: j['d'] as String? ?? '',
+    photo: j['p'] as String? ?? '',
+    at: (j['at'] as num?)?.toInt().clamp(0, 24 * 60 - 1),
+    days: ((j['w'] as num?)?.toInt() ?? 0) & 0xFE,
+    every: ((j['e'] as num?)?.toInt() ?? 1).clamp(1, 90),
+    from: _readDate(j['f']),
+    until: _readDate(j['u']),
+  );
 }
 
 class NutritionGoals {
@@ -557,21 +575,29 @@ class NutritionGoals {
     int? fiber,
     int? sugar,
     int? sodium,
-  }) =>
-      NutritionGoals(
-        kcal: kcal ?? this.kcal,
-        protein: protein ?? this.protein,
-        carbs: carbs ?? this.carbs,
-        fat: fat ?? this.fat,
-        waterMl: waterMl ?? this.waterMl,
-        glassMl: glassMl ?? this.glassMl,
-        fiber: fiber ?? this.fiber,
-        sugar: sugar ?? this.sugar,
-        sodium: sodium ?? this.sodium,
-      );
+  }) => NutritionGoals(
+    kcal: kcal ?? this.kcal,
+    protein: protein ?? this.protein,
+    carbs: carbs ?? this.carbs,
+    fat: fat ?? this.fat,
+    waterMl: waterMl ?? this.waterMl,
+    glassMl: glassMl ?? this.glassMl,
+    fiber: fiber ?? this.fiber,
+    sugar: sugar ?? this.sugar,
+    sodium: sodium ?? this.sodium,
+  );
 
-  Map<String, dynamic> toJson() =>
-      {'k': kcal, 'p': protein, 'c': carbs, 'f': fat, 'w': waterMl, 'g': glassMl, 'fi': fiber, 'su': sugar, 'na': sodium};
+  Map<String, dynamic> toJson() => {
+    'k': kcal,
+    'p': protein,
+    'c': carbs,
+    'f': fat,
+    'w': waterMl,
+    'g': glassMl,
+    'fi': fiber,
+    'su': sugar,
+    'na': sodium,
+  };
 
   factory NutritionGoals.fromJson(Map<String, dynamic>? j) {
     const d = NutritionGoals();
@@ -624,22 +650,22 @@ class Batch {
   Macros get per100 => totalGrams <= 0 ? Macros.zero : total * (100 / totalGrams);
 
   Batch copyWith({String? name, List<FoodEntry>? items, double? cookedGrams, double? leftGrams}) => Batch(
-        id: id,
-        name: name ?? this.name,
-        items: items ?? this.items,
-        created: created,
-        cookedGrams: cookedGrams ?? this.cookedGrams,
-        leftGrams: leftGrams ?? this.leftGrams,
-      );
+    id: id,
+    name: name ?? this.name,
+    items: items ?? this.items,
+    created: created,
+    cookedGrams: cookedGrams ?? this.cookedGrams,
+    leftGrams: leftGrams ?? this.leftGrams,
+  );
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'n': name,
-        'i': items.map((e) => e.toJson()).toList(),
-        'at': created.toIso8601String(),
-        if (cookedGrams > 0) 'cg': cookedGrams,
-        'left': leftGrams,
-      };
+    'id': id,
+    'n': name,
+    'i': items.map((e) => e.toJson()).toList(),
+    'at': created.toIso8601String(),
+    if (cookedGrams > 0) 'cg': cookedGrams,
+    'left': leftGrams,
+  };
 
   static Batch? fromJson(Map<String, dynamic> j) {
     final id = j['id'] as String? ?? '';
@@ -679,4 +705,10 @@ enum Tracker {
   plans,
 }
 
-const kTrackersOffByDefault = {Tracker.fiber, Tracker.animal, Tracker.quality, Tracker.fats, Tracker.sugarSodium};
+const kTrackersOffByDefault = {
+  Tracker.fiber,
+  Tracker.animal,
+  Tracker.quality,
+  Tracker.fats,
+  Tracker.sugarSodium,
+};

@@ -38,17 +38,23 @@ class ExerciseMedia extends StatelessWidget {
     final path = media.isEmpty ? null : MediaStore.pathFor(media);
     if (path == null) {
       return ExerciseArt(
-          slug: ex.art,
-          height: height,
-          radius: radius,
-          live: live,
-          bordered: bordered,
-          loops: loops);
+        slug: ex.art,
+        height: height,
+        radius: radius,
+        live: live,
+        bordered: bordered,
+        loops: loops,
+      );
     }
     final isVideo = MediaStore.isVideo(media);
     if (isVideo && live) {
       return _VideoTile(
-          key: ValueKey(path), path: path, height: height, radius: radius, short: loops != null);
+        key: ValueKey(path),
+        path: path,
+        height: height,
+        radius: radius,
+        short: loops != null,
+      );
     }
     return _MediaFrame(
       height: height,
@@ -71,16 +77,11 @@ class ExerciseMedia extends StatelessWidget {
 }
 
 Widget _fallbackIcon(BuildContext context, double height) => Center(
-      child: Icon(PhosphorIconsRegular.barbell,
-          size: height * 0.32, color: context.gc.textTertiary),
-    );
+  child: Icon(PhosphorIconsRegular.barbell, size: height * 0.32, color: context.gc.textTertiary),
+);
 
 class _MediaFrame extends StatelessWidget {
-  const _MediaFrame(
-      {required this.child,
-      required this.height,
-      required this.radius,
-      this.bordered = true});
+  const _MediaFrame({required this.child, required this.height, required this.radius, this.bordered = true});
   final Widget child;
   final double height;
   final double radius;
@@ -110,19 +111,23 @@ class _VideoPoster extends StatelessWidget {
   Widget build(BuildContext context) {
     final gc = context.gc;
     return Center(
-      child: Icon(PhosphorIconsFill.playCircle,
-          size: (height * 0.34).clamp(18.0, 54.0), color: gc.textSecondary),
+      child: Icon(
+        PhosphorIconsFill.playCircle,
+        size: (height * 0.34).clamp(18.0, 54.0),
+        color: gc.textSecondary,
+      ),
     );
   }
 }
 
 class _VideoTile extends StatefulWidget {
-  const _VideoTile(
-      {super.key,
-      required this.path,
-      required this.height,
-      required this.radius,
-      this.short = false});
+  const _VideoTile({
+    super.key,
+    required this.path,
+    required this.height,
+    required this.radius,
+    this.short = false,
+  });
   final String path;
   final double height;
   final double radius;
@@ -179,19 +184,17 @@ class _VideoTileState extends State<_VideoTile> {
       child = FittedBox(
         fit: BoxFit.contain,
         clipBehavior: Clip.hardEdge,
-        child: SizedBox(
-          width: _c!.value.size.width,
-          height: _c!.value.size.height,
-          child: VideoPlayer(_c!),
-        ),
+        child: SizedBox(width: _c!.value.size.width, height: _c!.value.size.height, child: VideoPlayer(_c!)),
       );
     } else if (_failed) {
       child = _fallbackIcon(context, widget.height);
     } else {
-      child = Stack(children: [
-        Positioned.fill(child: Shimmer(radius: widget.radius)),
-        const Center(child: CupertinoActivityIndicator()),
-      ]);
+      child = Stack(
+        children: [
+          Positioned.fill(child: Shimmer(radius: widget.radius)),
+          const Center(child: CupertinoActivityIndicator()),
+        ],
+      );
     }
     return _MediaFrame(height: widget.height, radius: widget.radius, child: child);
   }

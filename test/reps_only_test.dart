@@ -22,9 +22,11 @@ void main() {
     fit.clearExFilters();
   });
 
-  void log(String id, double kg) => fit.sessions.add(LoggedSession(DateTime.now(), 600, [
-        LoggedExercise(id, 'x', 'chest', [LoggedSet(8, kg)])
-      ]));
+  void log(String id, double kg) => fit.sessions.add(
+    LoggedSession(DateTime.now(), 600, [
+      LoggedExercise(id, 'x', 'chest', [LoggedSet(8, kg)]),
+    ]),
+  );
 
   test('a bodyweight exercise starts without weight, a barbell one does not', () {
     expect(fit.isRepsOnly(pullUp.id), true);

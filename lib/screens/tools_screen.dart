@@ -52,28 +52,28 @@ class ToolsScreen extends StatelessWidget {
       scale: 0.96,
       child: Container(
         padding: const EdgeInsets.fromLTRB(14, 12, 14, 16),
-        decoration: BoxDecoration(
-          color: gc.bgRaised,
-          borderRadius: BorderRadius.circular(20),
-        ),
+        decoration: BoxDecoration(color: gc.bgRaised, borderRadius: BorderRadius.circular(20)),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
             ToolArt(tool.id),
             const Spacer(),
-            Text(t.toolName(tool.id),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: AppTheme.f(14.5, weight: FontWeight.w700, color: gc.text)),
+            Text(
+              t.toolName(tool.id),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: AppTheme.f(14.5, weight: FontWeight.w700, color: gc.text),
+            ),
             const SizedBox(height: 2),
             SizedBox(
               height: 31 * scale,
-              child: Text(t.toolDesc(tool.id),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: AppTheme.f(11.5,
-                      weight: FontWeight.w500, color: gc.textSecondary, height: 1.3)),
+              child: Text(
+                t.toolDesc(tool.id),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: AppTheme.f(11.5, weight: FontWeight.w500, color: gc.textSecondary, height: 1.3),
+              ),
             ),
           ],
         ),

@@ -103,10 +103,14 @@ void main() {
   });
 
   testWidgets('el widget de hoy dice hecho o no sin poner el día', (tester) async {
-    Future<void> show(bool done) => tester.pumpWidget(Directionality(
-          textDirection: TextDirection.ltr,
-          child: Center(child: TodayWidgetView(gc: GymColors.dark, done: done, planned: true, streak: 0)),
-        ));
+    Future<void> show(bool done) => tester.pumpWidget(
+      Directionality(
+        textDirection: TextDirection.ltr,
+        child: Center(
+          child: TodayWidgetView(gc: GymColors.dark, done: done, planned: true, streak: 0),
+        ),
+      ),
+    );
     await show(false);
     expect(find.text('${DateTime.now().day}'), findsNothing);
     expect(find.byIcon(Icons.fitness_center_rounded), findsOneWidget);
@@ -115,23 +119,29 @@ void main() {
   });
 
   testWidgets('el widget de la semana cuenta los días hechos', (tester) async {
-    await tester.pumpWidget(Directionality(
-      textDirection: TextDirection.ltr,
-      child: Center(
-        child: WeekWidgetView(
-          gc: GymColors.dark,
-          done: const [true, false, true, false, false, false, false],
-          goal: 4,
+    await tester.pumpWidget(
+      Directionality(
+        textDirection: TextDirection.ltr,
+        child: Center(
+          child: WeekWidgetView(
+            gc: GymColors.dark,
+            done: const [true, false, true, false, false, false, false],
+            goal: 4,
+          ),
         ),
       ),
-    ));
+    );
     expect(find.text('2'), findsOneWidget);
     expect(find.text('/4'), findsOneWidget);
     expect(find.byIcon(Icons.check_rounded), findsNWidgets(2));
     final geo = WeekWidgetView.geometry(const Size(320, 150));
     final origin = tester.getTopLeft(find.byType(WeekWidgetView));
     final dots = find.byWidgetPredicate(
-        (w) => w is Container && w.decoration is BoxDecoration && (w.decoration as BoxDecoration).shape == BoxShape.circle);
+      (w) =>
+          w is Container &&
+          w.decoration is BoxDecoration &&
+          (w.decoration as BoxDecoration).shape == BoxShape.circle,
+    );
     expect(dots, findsNWidgets(7));
     for (var i = 0; i < 7; i++) {
       final c = tester.getCenter(dots.at(i)) - origin;
@@ -162,7 +172,8 @@ void main() {
     });
 
     test('su columna RIR/RPE se entiende en las dos escalas', () {
-      const csv = 'Title,Date,Duration,Description,Notes,Exercise,Exercise Note,Superset id,Weight,Reps,'
+      const csv =
+          'Title,Date,Duration,Description,Notes,Exercise,Exercise Note,Superset id,Weight,Reps,'
           'RIR/RPE,Distance,Time,Set Type,RecordLevel: gold/silver/bronze,RecordType: 1RM / max_weight / volume / reps\n'
           'Pull,2026-04-17 16:00:05,01:00:00,,,Barbell Curl,,,30.000,10,2,,,NORMAL_SET,,\n'
           'Pull,2026-04-17 16:00:05,01:00:00,,,Barbell Curl,,,30.000,8,8.5,,,NORMAL_SET,,\n'

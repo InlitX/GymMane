@@ -9,12 +9,12 @@ import 'package:gymmane/theme/app_theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Widget _host(Widget Function() screen) => MaterialApp(
-      theme: AppTheme.dark,
-      home: AnimatedBuilder(
-        animation: fit,
-        builder: (_, _) => Scaffold(body: screen()),
-      ),
-    );
+  theme: AppTheme.dark,
+  home: AnimatedBuilder(
+    animation: fit,
+    builder: (_, _) => Scaffold(body: screen()),
+  ),
+);
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -51,8 +51,7 @@ void main() {
     final list = fit.exercisesFiltered;
     expect(list, isNotEmpty);
     expect(list.every((e) => e.equipment == 'Dumbbell' || e.equipment == 'Bodyweight'), true);
-    expect(list.any((e) => e.equipment == 'Bodyweight'), true,
-        reason: 'sin material siempre se puede');
+    expect(list.any((e) => e.equipment == 'Bodyweight'), true, reason: 'sin material siempre se puede');
     expect(list.length, lessThan(fit.allExercises.length));
   });
 

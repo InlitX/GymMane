@@ -10,14 +10,13 @@ void main() {
 
   test('csv has a header and one row per set', () {
     final csv = store.exportCsv([
-      _session(DateTime(2026, 7, 14), 'Barbell Bench Press', [
-        LoggedSet(10, 60),
-        LoggedSet(8, 70),
-      ]),
+      _session(DateTime(2026, 7, 14), 'Barbell Bench Press', [LoggedSet(10, 60), LoggedSet(8, 70)]),
     ]);
     final lines = csv.trim().split('\n');
-    expect(lines.first,
-        'date,exercise,muscle,set,reps,weight_kg,volume_kg,est_1rm_kg,distance_km,duration_s,rpe');
+    expect(
+      lines.first,
+      'date,exercise,muscle,set,reps,weight_kg,volume_kg,est_1rm_kg,distance_km,duration_s,rpe',
+    );
     expect(lines.length, 3);
     expect(lines[1], startsWith('2026-07-14,Barbell Bench Press,chest,1,10,60,600,'));
     expect(lines[2], contains(',2,8,70,560,'));
@@ -68,7 +67,9 @@ void main() {
   });
 
   test('no sessions still yields a valid header-only file', () {
-    expect(store.exportCsv([]).trim(),
-        'date,exercise,muscle,set,reps,weight_kg,volume_kg,est_1rm_kg,distance_km,duration_s,rpe');
+    expect(
+      store.exportCsv([]).trim(),
+      'date,exercise,muscle,set,reps,weight_kg,volume_kg,est_1rm_kg,distance_km,duration_s,rpe',
+    );
   });
 }

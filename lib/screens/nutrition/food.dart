@@ -1,25 +1,29 @@
 part of '../nutrition_screen.dart';
 
-Future<void> showAddFoodSheet(BuildContext context, Meal meal, {ValueChanged<FoodEntry>? onPick, bool focus = false}) =>
-    _sheet<void>(context, (_) => _AddFoodSheet(meal: meal, onPick: onPick, focus: focus));
+Future<void> showAddFoodSheet(
+  BuildContext context,
+  Meal meal, {
+  ValueChanged<FoodEntry>? onPick,
+  bool focus = false,
+}) => _sheet<void>(context, (_) => _AddFoodSheet(meal: meal, onPick: onPick, focus: focus));
 
 String catName(FoodCat c) => switch (c) {
-      FoodCat.fruit => t.catFruit,
-      FoodCat.veg => t.catVeg,
-      FoodCat.meat => t.catMeat,
-      FoodCat.fish => t.catFish,
-      FoodCat.egg => t.catEgg,
-      FoodCat.dairy => t.catDairy,
-      FoodCat.grain => t.catGrain,
-      FoodCat.bakery => t.catBakery,
-      FoodCat.legume => t.catLegume,
-      FoodCat.nut => t.catNut,
-      FoodCat.oil => t.catOil,
-      FoodCat.pantry => t.catPantry,
-      FoodCat.drink => t.catDrink,
-      FoodCat.sauce => t.catSauce,
-      FoodCat.spice => t.catSpice,
-    };
+  FoodCat.fruit => t.catFruit,
+  FoodCat.veg => t.catVeg,
+  FoodCat.meat => t.catMeat,
+  FoodCat.fish => t.catFish,
+  FoodCat.egg => t.catEgg,
+  FoodCat.dairy => t.catDairy,
+  FoodCat.grain => t.catGrain,
+  FoodCat.bakery => t.catBakery,
+  FoodCat.legume => t.catLegume,
+  FoodCat.nut => t.catNut,
+  FoodCat.oil => t.catOil,
+  FoodCat.pantry => t.catPantry,
+  FoodCat.drink => t.catDrink,
+  FoodCat.sauce => t.catSauce,
+  FoodCat.spice => t.catSpice,
+};
 
 const _catSlug = {
   FoodCat.fruit: 'banana',
@@ -95,128 +99,161 @@ class _AddFoodSheetState extends State<_AddFoodSheet> {
   }
 
   Widget _section(GymColors gc, String title, {String? trailing}) => Padding(
-        padding: const EdgeInsets.only(top: 20, bottom: 10, left: 2),
-        child: Row(children: [
-          Expanded(child: _kicker(gc, title.toUpperCase())),
-          if (trailing != null) Text(trailing, style: AppTheme.f(11, weight: FontWeight.w700, color: gc.textTertiary)),
-        ]),
-      );
+    padding: const EdgeInsets.only(top: 20, bottom: 10, left: 2),
+    child: Row(
+      children: [
+        Expanded(child: _kicker(gc, title.toUpperCase())),
+        if (trailing != null)
+          Text(
+            trailing,
+            style: AppTheme.f(11, weight: FontWeight.w700, color: gc.textTertiary),
+          ),
+      ],
+    ),
+  );
 
   Widget _grid(List<FoodItem> foods, {bool quick = false}) => SliverGrid.builder(
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 3,
-          mainAxisSpacing: 12,
-          crossAxisSpacing: 10,
-          childAspectRatio: 0.66,
-        ),
-        itemCount: foods.length,
-        itemBuilder: (context, i) => _FoodTile(
-          food: foods[i],
-          onTap: () => quick ? _open(foods[i]) : _info(foods[i]),
-          onLongPress: () => quick ? _info(foods[i]) : _open(foods[i]),
-        ),
-      );
+    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+      crossAxisCount: 3,
+      mainAxisSpacing: 12,
+      crossAxisSpacing: 10,
+      childAspectRatio: 0.66,
+    ),
+    itemCount: foods.length,
+    itemBuilder: (context, i) => _FoodTile(
+      food: foods[i],
+      onTap: () => quick ? _open(foods[i]) : _info(foods[i]),
+      onLongPress: () => quick ? _info(foods[i]) : _open(foods[i]),
+    ),
+  );
 
   Widget _cats(GymColors gc) => SizedBox(
-        height: 92,
-        child: ListView(
-          scrollDirection: Axis.horizontal,
-          clipBehavior: Clip.none,
-          children: [
-            _catChip(
-              gc,
-              selected: _dishes,
-              label: t.readyDishes,
-              art: FoodPlate(
-                items: [
-                  for (final s in const ['rice', 'chicken-breast', 'broccoli'])
-                    ('asset:assets/food/$s.webp', s),
-                ],
-                size: 50,
-              ),
-              onTap: () => setState(() {
-                _dishes = !_dishes;
-                _cat = null;
-              }),
-            ),
-            const SizedBox(width: 6),
-            for (final c in FoodCat.values) ...[
-              Pressable(
-                onTap: () {
-                  HapticFeedback.selectionClick();
-                  setState(() {
-                    _cat = _cat == c ? null : c;
-                    _dishes = false;
-                  });
-                },
-                scale: 0.93,
-                child: SizedBox(
-                  width: 70,
-                  child: Column(children: [
-                    AnimatedContainer(
-                      duration: const Duration(milliseconds: 200),
-                      width: 62,
-                      height: 62,
-                      decoration: BoxDecoration(
-                        color: _cat == c ? gc.accentSoft : gc.bgRaised2,
-                        borderRadius: BorderRadius.circular(20),
-                        border: Border.all(color: _cat == c ? gc.accent.withValues(alpha: 0.75) : Colors.transparent, width: 1.5),
-                      ),
-                      alignment: Alignment.center,
-                      child: FoodSticker(photo: catPhoto(c), name: catName(c), size: 46, tilt: false, shadow: false),
-                    ),
-                    const SizedBox(height: 6),
-                    Text(catName(c),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: AppTheme.f(11, weight: FontWeight.w700, color: _cat == c ? gc.accent : gc.textSecondary)),
-                  ]),
-                ),
-              ),
-              const SizedBox(width: 6),
+    height: 92,
+    child: ListView(
+      scrollDirection: Axis.horizontal,
+      clipBehavior: Clip.none,
+      children: [
+        _catChip(
+          gc,
+          selected: _dishes,
+          label: t.readyDishes,
+          art: FoodPlate(
+            items: [
+              for (final s in const ['rice', 'chicken-breast', 'broccoli']) ('asset:assets/food/$s.webp', s),
             ],
-          ],
+            size: 50,
+          ),
+          onTap: () => setState(() {
+            _dishes = !_dishes;
+            _cat = null;
+          }),
         ),
-      );
-
-  Widget _catChip(GymColors gc,
-          {required bool selected, required String label, required Widget art, required VoidCallback onTap}) =>
-      Pressable(
-        onTap: () {
-          HapticFeedback.selectionClick();
-          onTap();
-        },
-        scale: 0.93,
-        child: SizedBox(
-          width: 70,
-          child: Column(children: [
-            AnimatedContainer(
-              duration: const Duration(milliseconds: 200),
-              width: 62,
-              height: 62,
-              decoration: BoxDecoration(
-                color: selected ? gc.accentSoft : gc.bgRaised2,
-                borderRadius: BorderRadius.circular(20),
-                border: Border.all(color: selected ? gc.accent.withValues(alpha: 0.75) : Colors.transparent, width: 1.5),
+        const SizedBox(width: 6),
+        for (final c in FoodCat.values) ...[
+          Pressable(
+            onTap: () {
+              HapticFeedback.selectionClick();
+              setState(() {
+                _cat = _cat == c ? null : c;
+                _dishes = false;
+              });
+            },
+            scale: 0.93,
+            child: SizedBox(
+              width: 70,
+              child: Column(
+                children: [
+                  AnimatedContainer(
+                    duration: const Duration(milliseconds: 200),
+                    width: 62,
+                    height: 62,
+                    decoration: BoxDecoration(
+                      color: _cat == c ? gc.accentSoft : gc.bgRaised2,
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(
+                        color: _cat == c ? gc.accent.withValues(alpha: 0.75) : Colors.transparent,
+                        width: 1.5,
+                      ),
+                    ),
+                    alignment: Alignment.center,
+                    child: FoodSticker(
+                      photo: catPhoto(c),
+                      name: catName(c),
+                      size: 46,
+                      tilt: false,
+                      shadow: false,
+                    ),
+                  ),
+                  const SizedBox(height: 6),
+                  Text(
+                    catName(c),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: AppTheme.f(
+                      11,
+                      weight: FontWeight.w700,
+                      color: _cat == c ? gc.accent : gc.textSecondary,
+                    ),
+                  ),
+                ],
               ),
-              alignment: Alignment.center,
-              child: art,
             ),
-            const SizedBox(height: 6),
-            Text(label,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: AppTheme.f(11, weight: FontWeight.w700, color: selected ? gc.accent : gc.textSecondary)),
-          ]),
-        ),
-      );
+          ),
+          const SizedBox(width: 6),
+        ],
+      ],
+    ),
+  );
+
+  Widget _catChip(
+    GymColors gc, {
+    required bool selected,
+    required String label,
+    required Widget art,
+    required VoidCallback onTap,
+  }) => Pressable(
+    onTap: () {
+      HapticFeedback.selectionClick();
+      onTap();
+    },
+    scale: 0.93,
+    child: SizedBox(
+      width: 70,
+      child: Column(
+        children: [
+          AnimatedContainer(
+            duration: const Duration(milliseconds: 200),
+            width: 62,
+            height: 62,
+            decoration: BoxDecoration(
+              color: selected ? gc.accentSoft : gc.bgRaised2,
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(
+                color: selected ? gc.accent.withValues(alpha: 0.75) : Colors.transparent,
+                width: 1.5,
+              ),
+            ),
+            alignment: Alignment.center,
+            child: art,
+          ),
+          const SizedBox(height: 6),
+          Text(
+            label,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: AppTheme.f(11, weight: FontWeight.w700, color: selected ? gc.accent : gc.textSecondary),
+          ),
+        ],
+      ),
+    ),
+  );
 
   Widget _recipeRow(Recipe r) => _FoodRow(
-        leading: FoodPlate(items: _plateOf(r.items), size: 40),
-        title: r.name,
-        detail: '${_energy(r.total.kcal)} · ${t.recipeItems(r.items.length)}',
-        onTap: () => _openRecipe(r),
-      );
+    leading: FoodPlate(items: _plateOf(r.items), size: 40),
+    title: r.name,
+    detail: '${_energy(r.total.kcal)} · ${t.recipeItems(r.items.length)}',
+    onTap: () => _openRecipe(r),
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -229,7 +266,12 @@ class _AddFoodSheetState extends State<_AddFoodSheet> {
     final mine = _cat != null || _dishes ? const <FoodItem>[] : fit.searchFoods(q);
     final library = [
       if (!_dishes)
-        for (final f in FoodLibrary.search(q, appLanguage, cat: _cat, limit: _cat != null && q.isEmpty ? 200 : 60))
+        for (final f in FoodLibrary.search(
+          q,
+          appLanguage,
+          cat: _cat,
+          limit: _cat != null && q.isEmpty ? 200 : 60,
+        ))
           f.item(appLanguage),
     ];
     final recents = browsing ? const <FoodItem>[] : fit.recentLibraryFoods;
@@ -237,28 +279,30 @@ class _AddFoodSheetState extends State<_AddFoodSheet> {
     return _sheetSlivers(heightFactor: 0.92, context, [
       SheetTitle(picking ? t.prepAddIngredient : t.addToMeal(mealInSentence(widget.meal))),
       const SizedBox(height: 14),
-      Row(children: [
-        Expanded(
-          child: _SearchInput(
-            controller: _query,
-            focus: _focus,
-            hint: t.searchFoodsHint,
-            onChanged: (_) => setState(() {}),
+      Row(
+        children: [
+          Expanded(
+            child: _SearchInput(
+              controller: _query,
+              focus: _focus,
+              hint: t.searchFoodsHint,
+              onChanged: (_) => setState(() {}),
+            ),
           ),
-        ),
-        if (!picking) ...[
-          const SizedBox(width: 8),
-          RoundAction(
-            label: t.newFood,
-            size: 48,
-            onTap: () {
-              Navigator.of(context).pop();
-              showFoodEditor(context, name: q);
-            },
-            child: Icon(PhosphorIconsRegular.camera, size: 19, color: gc.text),
-          ),
+          if (!picking) ...[
+            const SizedBox(width: 8),
+            RoundAction(
+              label: t.newFood,
+              size: 48,
+              onTap: () {
+                Navigator.of(context).pop();
+                showFoodEditor(context, name: q);
+              },
+              child: Icon(PhosphorIconsRegular.camera, size: 19, color: gc.text),
+            ),
+          ],
         ],
-      ]),
+      ),
       const SizedBox(height: 14),
       _cats(gc),
       if (recipes.isNotEmpty || (!picking && _cat == null && q.isEmpty)) ...[
@@ -293,27 +337,35 @@ class _AddFoodSheetState extends State<_AddFoodSheet> {
       if (!browsing && recipes.isEmpty && mine.isEmpty && recents.isEmpty)
         Padding(
           padding: const EdgeInsets.only(top: 22),
-          child: Text(t.searchFoodsEmpty,
-              textAlign: TextAlign.center, style: AppTheme.s(13, color: gc.textSecondary, height: 1.45)),
+          child: Text(
+            t.searchFoodsEmpty,
+            textAlign: TextAlign.center,
+            style: AppTheme.s(13, color: gc.textSecondary, height: 1.45),
+          ),
         ),
       if (nothing)
         Padding(
           padding: const EdgeInsets.only(top: 26),
-          child: Column(children: [
-            Text(t.searchFoodsNone(q),
-                textAlign: TextAlign.center, style: AppTheme.s(13, color: gc.textSecondary, height: 1.45)),
-            if (!picking && q.isNotEmpty) ...[
-              const SizedBox(height: 14),
-              PrimaryButton(
-                label: t.createFoodNamed(q),
-                height: 50,
-                onTap: () {
-                  Navigator.of(context).pop();
-                  showFoodEditor(context, name: q);
-                },
+          child: Column(
+            children: [
+              Text(
+                t.searchFoodsNone(q),
+                textAlign: TextAlign.center,
+                style: AppTheme.s(13, color: gc.textSecondary, height: 1.45),
               ),
+              if (!picking && q.isNotEmpty) ...[
+                const SizedBox(height: 14),
+                PrimaryButton(
+                  label: t.createFoodNamed(q),
+                  height: 50,
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    showFoodEditor(context, name: q);
+                  },
+                ),
+              ],
             ],
-          ]),
+          ),
         ),
       const SizedBox(height: 18),
       if (!picking)
@@ -330,7 +382,12 @@ class _AddFoodSheetState extends State<_AddFoodSheet> {
 }
 
 class _SearchInput extends StatelessWidget {
-  const _SearchInput({required this.controller, required this.focus, required this.hint, required this.onChanged});
+  const _SearchInput({
+    required this.controller,
+    required this.focus,
+    required this.hint,
+    required this.onChanged,
+  });
 
   final TextEditingController controller;
   final FocusNode focus;
@@ -344,43 +401,45 @@ class _SearchInput extends StatelessWidget {
       height: 48,
       padding: const EdgeInsets.only(left: 16, right: 6),
       decoration: BoxDecoration(color: gc.bgRaised2, borderRadius: BorderRadius.circular(100)),
-      child: Row(children: [
-        Icon(PhosphorIconsBold.magnifyingGlass, size: 16, color: gc.textSecondary),
-        const SizedBox(width: 10),
-        Expanded(
-          child: TextField(
-            controller: controller,
-            focusNode: focus,
-            onChanged: onChanged,
-            textInputAction: TextInputAction.search,
-            style: AppTheme.f(14.5, weight: FontWeight.w600, color: gc.text),
-            cursorColor: gc.accent,
-            decoration: InputDecoration(
-              isCollapsed: true,
-              border: InputBorder.none,
-              hintText: hint,
-              hintStyle: AppTheme.f(14.5, weight: FontWeight.w500, color: gc.textTertiary),
+      child: Row(
+        children: [
+          Icon(PhosphorIconsBold.magnifyingGlass, size: 16, color: gc.textSecondary),
+          const SizedBox(width: 10),
+          Expanded(
+            child: TextField(
+              controller: controller,
+              focusNode: focus,
+              onChanged: onChanged,
+              textInputAction: TextInputAction.search,
+              style: AppTheme.f(14.5, weight: FontWeight.w600, color: gc.text),
+              cursorColor: gc.accent,
+              decoration: InputDecoration(
+                isCollapsed: true,
+                border: InputBorder.none,
+                hintText: hint,
+                hintStyle: AppTheme.f(14.5, weight: FontWeight.w500, color: gc.textTertiary),
+              ),
             ),
           ),
-        ),
-        ValueListenableBuilder<TextEditingValue>(
-          valueListenable: controller,
-          builder: (context, v, _) => v.text.isEmpty
-              ? const SizedBox(width: 10)
-              : GestureDetector(
-                  behavior: HitTestBehavior.opaque,
-                  onTap: () {
-                    controller.clear();
-                    onChanged('');
-                  },
-                  child: SizedBox(
-                    width: 38,
-                    height: 48,
-                    child: Icon(PhosphorIconsBold.xCircle, size: 18, color: gc.textTertiary),
+          ValueListenableBuilder<TextEditingValue>(
+            valueListenable: controller,
+            builder: (context, v, _) => v.text.isEmpty
+                ? const SizedBox(width: 10)
+                : GestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    onTap: () {
+                      controller.clear();
+                      onChanged('');
+                    },
+                    child: SizedBox(
+                      width: 38,
+                      height: 48,
+                      child: Icon(PhosphorIconsBold.xCircle, size: 18, color: gc.textTertiary),
+                    ),
                   ),
-                ),
-        ),
-      ]),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -400,31 +459,36 @@ class _FoodTile extends StatelessWidget {
       onTap: onTap,
       onLongPress: onLongPress,
       scale: 0.94,
-      child: Column(children: [
-        AspectRatio(
-          aspectRatio: 1,
-          child: Container(
-            decoration: BoxDecoration(color: gc.bgRaised2, borderRadius: BorderRadius.circular(24)),
-            padding: const EdgeInsets.all(9),
-            child: LayoutBuilder(
-              builder: (context, c) => FoodSticker(photo: f.photo, name: f.name, size: c.maxWidth, tilt: false, shadow: false),
+      child: Column(
+        children: [
+          AspectRatio(
+            aspectRatio: 1,
+            child: Container(
+              decoration: BoxDecoration(color: gc.bgRaised2, borderRadius: BorderRadius.circular(24)),
+              padding: const EdgeInsets.all(9),
+              child: LayoutBuilder(
+                builder: (context, c) =>
+                    FoodSticker(photo: f.photo, name: f.name, size: c.maxWidth, tilt: false, shadow: false),
+              ),
             ),
           ),
-        ),
-        const SizedBox(height: 6),
-        Text(f.name,
+          const SizedBox(height: 6),
+          Text(
+            f.name,
             maxLines: 2,
             textAlign: TextAlign.center,
             overflow: TextOverflow.ellipsis,
-            style: AppTheme.f(11.5, weight: FontWeight.w700, color: gc.text, height: 1.2)),
-        const SizedBox(height: 2),
-        Text(
-          '${f.approx ? '≈ ' : ''}${_energy(f.macros.kcal)}${f.isLibrary ? ' · 100 ${_unitOf(f.liquid)}' : ''}',
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-          style: AppTheme.f(10, weight: FontWeight.w600, color: gc.textTertiary),
-        ),
-      ]),
+            style: AppTheme.f(11.5, weight: FontWeight.w700, color: gc.text, height: 1.2),
+          ),
+          const SizedBox(height: 2),
+          Text(
+            '${f.approx ? '≈ ' : ''}${_energy(f.macros.kcal)}${f.isLibrary ? ' · 100 ${_unitOf(f.liquid)}' : ''}',
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: AppTheme.f(10, weight: FontWeight.w600, color: gc.textTertiary),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -447,31 +511,44 @@ class _FoodRow extends StatelessWidget {
         margin: const EdgeInsets.only(bottom: 6),
         padding: const EdgeInsets.fromLTRB(10, 9, 12, 9),
         decoration: BoxDecoration(color: gc.bgRaised2, borderRadius: BorderRadius.circular(16)),
-        child: Row(children: [
-          SizedBox(width: 38, height: 38, child: Center(child: leading)),
-          const SizedBox(width: 10),
-          Expanded(
-            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text(title,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: AppTheme.f(14, weight: FontWeight.w700, color: gc.text)),
-              const SizedBox(height: 2),
-              Text(detail,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: AppTheme.f(11.5, weight: FontWeight.w600, color: gc.textSecondary)),
-            ]),
-          ),
-          Icon(PhosphorIconsBold.plus, size: 15, color: gc.accent),
-        ]),
+        child: Row(
+          children: [
+            SizedBox(width: 38, height: 38, child: Center(child: leading)),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: AppTheme.f(14, weight: FontWeight.w700, color: gc.text),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    detail,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: AppTheme.f(11.5, weight: FontWeight.w600, color: gc.textSecondary),
+                  ),
+                ],
+              ),
+            ),
+            Icon(PhosphorIconsBold.plus, size: 15, color: gc.accent),
+          ],
+        ),
       ),
     );
   }
 }
 
-Future<bool?> showFoodInfoSheet(BuildContext context, FoodItem food, Meal meal, {ValueChanged<FoodEntry>? onPick}) =>
-    _sheet<bool>(context, (_) => _FoodInfoSheet(food: food, meal: meal, onPick: onPick));
+Future<bool?> showFoodInfoSheet(
+  BuildContext context,
+  FoodItem food,
+  Meal meal, {
+  ValueChanged<FoodEntry>? onPick,
+}) => _sheet<bool>(context, (_) => _FoodInfoSheet(food: food, meal: meal, onPick: onPick));
 
 class _FoodInfoSheet extends StatelessWidget {
   const _FoodInfoSheet({required this.food, required this.meal, this.onPick});
@@ -495,61 +572,89 @@ class _FoodInfoSheet extends StatelessWidget {
     ];
     final sum = split.fold(0.0, (s, p) => s + p.$1);
     Widget legend((double, Color, String) p) => Expanded(
-          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Row(children: [
-              Container(width: 8, height: 8, decoration: BoxDecoration(color: p.$2, shape: BoxShape.circle)),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                width: 8,
+                height: 8,
+                decoration: BoxDecoration(color: p.$2, shape: BoxShape.circle),
+              ),
               const SizedBox(width: 6),
               Flexible(
-                child: Text(sentenceCase(p.$3),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: AppTheme.f(11.5, weight: FontWeight.w700, color: gc.textSecondary)),
+                child: Text(
+                  sentenceCase(p.$3),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: AppTheme.f(11.5, weight: FontWeight.w700, color: gc.textSecondary),
+                ),
               ),
-            ]),
-            const SizedBox(height: 3),
-            Text(sum <= 0 ? '—' : '${(p.$1 / sum * 100).round()} %',
-                style: AppTheme.f(16, weight: FontWeight.w800, color: gc.text)),
-          ]),
-        );
+            ],
+          ),
+          const SizedBox(height: 3),
+          Text(
+            sum <= 0 ? '—' : '${(p.$1 / sum * 100).round()} %',
+            style: AppTheme.f(16, weight: FontWeight.w800, color: gc.text),
+          ),
+        ],
+      ),
+    );
     Widget fact(IconData icon, String label, String value) => Container(
-          margin: const EdgeInsets.only(top: 8),
-          padding: const EdgeInsets.fromLTRB(14, 12, 16, 12),
-          decoration: BoxDecoration(color: gc.bgRaised2, borderRadius: BorderRadius.circular(18)),
-          child: Row(children: [
-            Icon(icon, size: 16, color: gc.textSecondary),
-            const SizedBox(width: 10),
-            Text(label, style: AppTheme.f(13, weight: FontWeight.w600, color: gc.textSecondary)),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Text(value,
-                  textAlign: TextAlign.end,
-                  style: AppTheme.f(13.5, weight: FontWeight.w800, color: gc.text)),
+      margin: const EdgeInsets.only(top: 8),
+      padding: const EdgeInsets.fromLTRB(14, 12, 16, 12),
+      decoration: BoxDecoration(color: gc.bgRaised2, borderRadius: BorderRadius.circular(18)),
+      child: Row(
+        children: [
+          Icon(icon, size: 16, color: gc.textSecondary),
+          const SizedBox(width: 10),
+          Text(
+            label,
+            style: AppTheme.f(13, weight: FontWeight.w600, color: gc.textSecondary),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Text(
+              value,
+              textAlign: TextAlign.end,
+              style: AppTheme.f(13.5, weight: FontWeight.w800, color: gc.text),
             ),
-          ]),
-        );
+          ),
+        ],
+      ),
+    );
     return _sheetFrame(context, [
       _FoodHero(photo: f.photo, name: f.name, favId: f.id),
       const SizedBox(height: 6),
-      SheetTitle(f.name,
-          subtitle: [
-            if (f.cat != null) catName(f.cat!),
-            if (per100) t.per100Line(_energy(m.kcal), unit) else if (f.serving.isNotEmpty) f.serving,
-          ].join(' · ')),
+      SheetTitle(
+        f.name,
+        subtitle: [
+          if (f.cat != null) catName(f.cat!),
+          if (per100) t.per100Line(_energy(m.kcal), unit) else if (f.serving.isNotEmpty) f.serving,
+        ].join(' · '),
+      ),
       const SizedBox(height: 16),
       Container(
         padding: const EdgeInsets.fromLTRB(16, 14, 16, 16),
         decoration: BoxDecoration(color: gc.bgRaised2, borderRadius: BorderRadius.circular(20)),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          _kicker(gc, t.energySplit.toUpperCase()),
-          const SizedBox(height: 12),
-          _SplitBar(parts: [for (final p in split) (p.$1, p.$2)]),
-          const SizedBox(height: 12),
-          Row(children: [for (final p in split) legend(p)]),
-        ]),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _kicker(gc, t.energySplit.toUpperCase()),
+            const SizedBox(height: 12),
+            _SplitBar(parts: [for (final p in split) (p.$1, p.$2)]),
+            const SizedBox(height: 12),
+            Row(children: [for (final p in split) legend(p)]),
+          ],
+        ),
       ),
       if (f.isLibrary && f.portion != null && f.portionGrams > 0)
-        fact(PhosphorIconsBold.forkKnife, t.typicalServing,
-            '${portionName(f.portion!)} · ${f.portionGrams.round()} $unit · ${_energy(m.kcal * f.portionGrams / f.grams)}'),
+        fact(
+          PhosphorIconsBold.forkKnife,
+          t.typicalServing,
+          '${portionName(f.portion!)} · ${f.portionGrams.round()} $unit · ${_energy(m.kcal * f.portionGrams / f.grams)}',
+        ),
       if (f.canCook) fact(PhosphorIconsBold.cookingPot, t.cookedLabel, t.cookedYieldLine(fmt(f.cookedYield))),
       const SizedBox(height: 12),
       _ValueRows(
@@ -560,7 +665,12 @@ class _FoodInfoSheet extends StatelessWidget {
             ? null
             : () {
                 Navigator.of(context).pop();
-                showFoodEditor(context, food: f.isLibrary ? null : f, from: f.isLibrary ? f : null, meal: meal);
+                showFoodEditor(
+                  context,
+                  food: f.isLibrary ? null : f,
+                  from: f.isLibrary ? f : null,
+                  meal: meal,
+                );
               },
       ),
       if (m.fat >= 1 && m.sat + m.mono + m.poly > 0) ...[const SizedBox(height: 12), _FatTypesCard(of: m)],
@@ -577,9 +687,13 @@ class _FoodInfoSheet extends StatelessWidget {
   }
 }
 
-Future<bool?> showLogFoodSheet(BuildContext context, FoodItem food, Meal meal,
-        {ValueChanged<FoodEntry>? onPick, FoodEntry? initial}) =>
-    _sheet<bool>(context, (_) => _LogFoodSheet(food: food, meal: meal, onPick: onPick, initial: initial));
+Future<bool?> showLogFoodSheet(
+  BuildContext context,
+  FoodItem food,
+  Meal meal, {
+  ValueChanged<FoodEntry>? onPick,
+  FoodEntry? initial,
+}) => _sheet<bool>(context, (_) => _LogFoodSheet(food: food, meal: meal, onPick: onPick, initial: initial));
 
 class _AmountDial extends StatelessWidget {
   const _AmountDial({
@@ -609,16 +723,21 @@ class _AmountDial extends StatelessWidget {
   double get _step => !_oz
       ? step
       : step <= 1
-          ? 0.1
-          : liquid!
-              ? 0.5
-              : 0.25;
+      ? 0.1
+      : liquid!
+      ? 0.5
+      : 0.25;
 
   String get _unit => liquid == null ? unit : _amtUnit(liquid!);
 
   Future<void> _type(BuildContext context) async {
     final k = _k;
-    final v = await askNumber(context, title: t.amountIn(_unit), initial: fmt(_round(value / k)), decimal: true);
+    final v = await askNumber(
+      context,
+      title: t.amountIn(_unit),
+      initial: fmt(_round(value / k)),
+      decimal: true,
+    );
     if (v != null && v > 0) onChanged((v * k).clamp(min <= 0 ? step : min, max * 4).toDouble());
   }
 
@@ -631,35 +750,43 @@ class _AmountDial extends StatelessWidget {
     final dec = decimals || _oz;
     final shown = dec ? fmt(_round(value / k)) : '${value.round()}';
     final lo = min / k, hi = max / k;
-    return Column(children: [
-      GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: () => _type(context),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.baseline,
-          textBaseline: TextBaseline.alphabetic,
-          children: [
-            RollingText(decimalText(shown), style: AppTheme.f(54, weight: FontWeight.w800, color: gc.text, height: 1.05)),
-            const SizedBox(width: 8),
-            Text(_unit, style: AppTheme.f(19, weight: FontWeight.w700, color: gc.textSecondary)),
-            const SizedBox(width: 6),
-            Icon(PhosphorIconsBold.pencilSimple, size: 13, color: gc.textTertiary),
-          ],
+    return Column(
+      children: [
+        GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onTap: () => _type(context),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.baseline,
+            textBaseline: TextBaseline.alphabetic,
+            children: [
+              RollingText(
+                decimalText(shown),
+                style: AppTheme.f(54, weight: FontWeight.w800, color: gc.text, height: 1.05),
+              ),
+              const SizedBox(width: 8),
+              Text(
+                _unit,
+                style: AppTheme.f(19, weight: FontWeight.w700, color: gc.textSecondary),
+              ),
+              const SizedBox(width: 6),
+              Icon(PhosphorIconsBold.pencilSimple, size: 13, color: gc.textTertiary),
+            ],
+          ),
         ),
-      ),
-      const SizedBox(height: 6),
-      RulerPicker(
-        value: (value / k).clamp(lo, hi).toDouble(),
-        min: lo,
-        max: hi,
-        step: _step,
-        majorEvery: 10,
-        height: 72,
-        label: (v) => dec ? fmt(_round(v)) : '${v.round()}',
-        onChanged: (v) => onChanged(v * k),
-      ),
-    ]);
+        const SizedBox(height: 6),
+        RulerPicker(
+          value: (value / k).clamp(lo, hi).toDouble(),
+          min: lo,
+          max: hi,
+          step: _step,
+          majorEvery: 10,
+          height: 72,
+          label: (v) => dec ? fmt(_round(v)) : '${v.round()}',
+          onChanged: (v) => onChanged(v * k),
+        ),
+      ],
+    );
   }
 }
 
@@ -687,8 +814,10 @@ class _QuickChip extends StatelessWidget {
           borderRadius: BorderRadius.circular(100),
           border: Border.all(color: selected ? gc.accent.withValues(alpha: 0.7) : Colors.transparent),
         ),
-        child: Text(label,
-            style: AppTheme.f(12.5, weight: FontWeight.w700, color: selected ? gc.accent : gc.textSecondary)),
+        child: Text(
+          label,
+          style: AppTheme.f(12.5, weight: FontWeight.w700, color: selected ? gc.accent : gc.textSecondary),
+        ),
       ),
     );
   }
@@ -706,46 +835,73 @@ class _ValueRows extends StatelessWidget {
   Widget build(BuildContext context) {
     final gc = context.gc;
     Widget row(String label, String value, Color dot) => Padding(
-          padding: const EdgeInsets.symmetric(vertical: 9),
-          child: Row(children: [
-            Container(width: 7, height: 7, decoration: BoxDecoration(color: dot, shape: BoxShape.circle)),
-            const SizedBox(width: 10),
-            Expanded(child: Text(label, style: AppTheme.f(13.5, weight: FontWeight.w600, color: gc.textSecondary))),
-            Text(value, style: AppTheme.f(14, weight: FontWeight.w800, color: gc.text)),
-          ]),
-        );
+      padding: const EdgeInsets.symmetric(vertical: 9),
+      child: Row(
+        children: [
+          Container(
+            width: 7,
+            height: 7,
+            decoration: BoxDecoration(color: dot, shape: BoxShape.circle),
+          ),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Text(
+              label,
+              style: AppTheme.f(13.5, weight: FontWeight.w600, color: gc.textSecondary),
+            ),
+          ),
+          Text(
+            value,
+            style: AppTheme.f(14, weight: FontWeight.w800, color: gc.text),
+          ),
+        ],
+      ),
+    );
     return Container(
       padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
       decoration: BoxDecoration(color: gc.bgRaised2, borderRadius: BorderRadius.circular(20)),
-      child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-        Row(children: [
-          Expanded(child: _kicker(gc, title.toUpperCase())),
-          if (approx) ...[
-            Icon(PhosphorIconsBold.approximateEquals, size: 12, color: gc.warn),
-            const SizedBox(width: 4),
-            Text(t.approxValues, style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.warn)),
-            const SizedBox(width: 10),
-          ],
-          if (onEdit != null)
-            GestureDetector(
-              behavior: HitTestBehavior.opaque,
-              onTap: onEdit,
-              child: Row(children: [
-                Icon(PhosphorIconsBold.pencilSimple, size: 13, color: gc.accent),
-                const SizedBox(width: 5),
-                Text(t.editValues, style: AppTheme.f(12, weight: FontWeight.w800, color: gc.accent)),
-              ]),
-            ),
-        ]),
-        const SizedBox(height: 4),
-        row(sentenceCase(t.kcalLabel), _energy(per.kcal), gc.text),
-        row(sentenceCase(t.macroProtein), '${_g(per.protein)} g', gc.protein),
-        row(sentenceCase(t.macroCarbs), '${_g(per.carbs)} g', gc.carbs),
-        row(sentenceCase(t.macroFat), '${_g(per.fat)} g', gc.fat),
-        if (per.fiber > 0) row(t.fiberLabel, '${_g(per.fiber)} g', gc.sage),
-        if (per.sugar > 0) row(t.sugarLabel, '${_g(per.sugar)} g', gc.warn),
-        if (per.sodium > 0) row(t.sodiumLabel, '${per.sodium.round()} mg', gc.info),
-      ]),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Row(
+            children: [
+              Expanded(child: _kicker(gc, title.toUpperCase())),
+              if (approx) ...[
+                Icon(PhosphorIconsBold.approximateEquals, size: 12, color: gc.warn),
+                const SizedBox(width: 4),
+                Text(
+                  t.approxValues,
+                  style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.warn),
+                ),
+                const SizedBox(width: 10),
+              ],
+              if (onEdit != null)
+                GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTap: onEdit,
+                  child: Row(
+                    children: [
+                      Icon(PhosphorIconsBold.pencilSimple, size: 13, color: gc.accent),
+                      const SizedBox(width: 5),
+                      Text(
+                        t.editValues,
+                        style: AppTheme.f(12, weight: FontWeight.w800, color: gc.accent),
+                      ),
+                    ],
+                  ),
+                ),
+            ],
+          ),
+          const SizedBox(height: 4),
+          row(sentenceCase(t.kcalLabel), _energy(per.kcal), gc.text),
+          row(sentenceCase(t.macroProtein), '${_g(per.protein)} g', gc.protein),
+          row(sentenceCase(t.macroCarbs), '${_g(per.carbs)} g', gc.carbs),
+          row(sentenceCase(t.macroFat), '${_g(per.fat)} g', gc.fat),
+          if (per.fiber > 0) row(t.fiberLabel, '${_g(per.fiber)} g', gc.sage),
+          if (per.sugar > 0) row(t.sugarLabel, '${_g(per.sugar)} g', gc.warn),
+          if (per.sodium > 0) row(t.sodiumLabel, '${per.sodium.round()} mg', gc.info),
+        ],
+      ),
     );
   }
 }
@@ -763,43 +919,51 @@ class _FoodHero extends StatelessWidget {
     final gc = context.gc;
     return SizedBox(
       height: size + 20,
-      child: Stack(alignment: Alignment.center, children: [
-        Container(
-          width: size * 1.7,
-          height: size * 1.25,
-          decoration: BoxDecoration(
-            gradient: RadialGradient(colors: [gc.accent.withValues(alpha: 0.16), gc.accent.withValues(alpha: 0)]),
-          ),
-        ),
-        TweenAnimationBuilder<double>(
-          tween: Tween(begin: 0.82, end: 1),
-          duration: const Duration(milliseconds: 520),
-          curve: Curves.easeOutBack,
-          builder: (context, s, child) => Transform.scale(scale: s, child: child),
-          child: FoodSticker(photo: photo, name: name, size: size),
-        ),
-        if (favId != null && favId!.isNotEmpty)
-          Positioned(
-            top: 0,
-            right: 0,
-            child: AnimatedBuilder(
-              animation: fit,
-              builder: (context, _) {
-                final on = fit.isFavoriteFood(favId!);
-                return RoundAction(
-                  label: t.favouritesOnly,
-                  size: 42,
-                  onTap: () {
-                    HapticFeedback.lightImpact();
-                    fit.toggleFavoriteFood(favId!);
-                  },
-                  child: Icon(on ? PhosphorIconsFill.star : PhosphorIconsRegular.star,
-                      size: 19, color: on ? gc.accent : gc.textSecondary),
-                );
-              },
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          Container(
+            width: size * 1.7,
+            height: size * 1.25,
+            decoration: BoxDecoration(
+              gradient: RadialGradient(
+                colors: [gc.accent.withValues(alpha: 0.16), gc.accent.withValues(alpha: 0)],
+              ),
             ),
           ),
-      ]),
+          TweenAnimationBuilder<double>(
+            tween: Tween(begin: 0.82, end: 1),
+            duration: const Duration(milliseconds: 520),
+            curve: Curves.easeOutBack,
+            builder: (context, s, child) => Transform.scale(scale: s, child: child),
+            child: FoodSticker(photo: photo, name: name, size: size),
+          ),
+          if (favId != null && favId!.isNotEmpty)
+            Positioned(
+              top: 0,
+              right: 0,
+              child: AnimatedBuilder(
+                animation: fit,
+                builder: (context, _) {
+                  final on = fit.isFavoriteFood(favId!);
+                  return RoundAction(
+                    label: t.favouritesOnly,
+                    size: 42,
+                    onTap: () {
+                      HapticFeedback.lightImpact();
+                      fit.toggleFavoriteFood(favId!);
+                    },
+                    child: Icon(
+                      on ? PhosphorIconsFill.star : PhosphorIconsRegular.star,
+                      size: 19,
+                      color: on ? gc.accent : gc.textSecondary,
+                    ),
+                  );
+                },
+              ),
+            ),
+        ],
+      ),
     );
   }
 }
@@ -818,14 +982,14 @@ class _LogFoodSheet extends StatefulWidget {
 }
 
 List<double> _gramSteps(FoodItem f) => switch (f.cat) {
-      FoodCat.spice => [1, 2, 5],
-      FoodCat.oil || FoodCat.sauce => [5, 10, 15],
-      FoodCat.nut => [15, 30, 50],
-      FoodCat.grain || FoodCat.legume => [40, 60, 80],
-      FoodCat.meat || FoodCat.fish => [100, 150, 200],
-      _ when f.liquid => [200, 330, 500],
-      _ => [50, 100, 200],
-    };
+  FoodCat.spice => [1, 2, 5],
+  FoodCat.oil || FoodCat.sauce => [5, 10, 15],
+  FoodCat.nut => [15, 30, 50],
+  FoodCat.grain || FoodCat.legume => [40, 60, 80],
+  FoodCat.meat || FoodCat.fish => [100, 150, 200],
+  _ when f.liquid => [200, 330, 500],
+  _ => [50, 100, 200],
+};
 
 bool _fineGrams(FoodItem f) => f.cat == FoodCat.spice || f.cat == FoodCat.oil || f.cat == FoodCat.sauce;
 
@@ -860,15 +1024,22 @@ class _LogFoodSheetState extends State<_LogFoodSheet> {
     final out = <(String, double)>[];
     if (_cooked) {
       return [
-        for (final g in [100.0, 150.0, 200.0, 250.0, 300.0]) (_amount(_snapAmt(g, f.liquid), f.liquid), _snapAmt(g, f.liquid)),
+        for (final g in [100.0, 150.0, 200.0, 250.0, 300.0])
+          (_amount(_snapAmt(g, f.liquid), f.liquid), _snapAmt(g, f.liquid)),
       ];
     }
     if (f.isLibrary && f.portion != null && f.portionGrams > 0) {
       for (final n in [1, 2]) {
-        out.add(('${portionName(f.portion!, n)} · ${_amount(f.portionGrams * n, f.liquid)}', (f.portionGrams * n).roundToDouble()));
+        out.add((
+          '${portionName(f.portion!, n)} · ${_amount(f.portionGrams * n, f.liquid)}',
+          (f.portionGrams * n).roundToDouble(),
+        ));
       }
     } else if (!f.isLibrary && f.grams > 0) {
-      out.add(('${f.serving.isEmpty ? t.servingsLabel : f.serving} · ${_amount(f.grams, f.liquid)}', f.grams.roundToDouble()));
+      out.add((
+        '${f.serving.isEmpty ? t.servingsLabel : f.serving} · ${_amount(f.grams, f.liquid)}',
+        f.grams.roundToDouble(),
+      ));
     }
     for (final raw in _gramSteps(f)) {
       final g = _fineGrams(f) ? raw : _snapAmt(raw, f.liquid);
@@ -879,7 +1050,12 @@ class _LogFoodSheetState extends State<_LogFoodSheet> {
 
   void _editValues() {
     Navigator.of(context).pop();
-    showFoodEditor(context, food: _food.isLibrary ? null : _food, from: _food.isLibrary ? _food : null, meal: _meal);
+    showFoodEditor(
+      context,
+      food: _food.isLibrary ? null : _food,
+      from: _food.isLibrary ? _food : null,
+      meal: _meal,
+    );
   }
 
   @override
@@ -894,22 +1070,32 @@ class _LogFoodSheetState extends State<_LogFoodSheet> {
     return _sheetFrame(context, [
       _FoodHero(photo: food.photo, name: food.name, favId: food.id),
       const SizedBox(height: 6),
-      SheetTitle(food.name,
-          subtitle: food.isLibrary
-              ? '${t.per100Line(_energy(shownPer.kcal), unit)}${_cooked ? ' · ${t.cookedLabel.toLowerCase()}' : ''}'
-              : (food.serving.isEmpty ? null : food.serving)),
+      SheetTitle(
+        food.name,
+        subtitle: food.isLibrary
+            ? '${t.per100Line(_energy(shownPer.kcal), unit)}${_cooked ? ' · ${t.cookedLabel.toLowerCase()}' : ''}'
+            : (food.serving.isEmpty ? null : food.serving),
+      ),
       const SizedBox(height: 16),
       if (food.canCook) ...[
         Center(
           child: SegToggle([
-            SegOption(t.rawLabel, !_cooked, () => setState(() {
-                  if (_cooked) _grams = (_grams / _food.cookedYield / 5).round() * 5.0;
-                  _cooked = false;
-                })),
-            SegOption(t.cookedLabel, _cooked, () => setState(() {
-                  if (!_cooked) _grams = (_grams * _food.cookedYield / 5).round() * 5.0;
-                  _cooked = true;
-                })),
+            SegOption(
+              t.rawLabel,
+              !_cooked,
+              () => setState(() {
+                if (_cooked) _grams = (_grams / _food.cookedYield / 5).round() * 5.0;
+                _cooked = false;
+              }),
+            ),
+            SegOption(
+              t.cookedLabel,
+              _cooked,
+              () => setState(() {
+                if (!_cooked) _grams = (_grams * _food.cookedYield / 5).round() * 5.0;
+                _cooked = true;
+              }),
+            ),
           ]),
         ),
         const SizedBox(height: 4),
@@ -926,8 +1112,16 @@ class _LogFoodSheetState extends State<_LogFoodSheet> {
           unit: unit,
           liquid: food.liquid,
           min: 0,
-          max: _fineGrams(food) ? 200 : food.liquid ? 2000 : 1000,
-          step: _fineGrams(food) ? 1 : food.liquid ? 10 : 5,
+          max: _fineGrams(food)
+              ? 200
+              : food.liquid
+              ? 2000
+              : 1000,
+          step: _fineGrams(food)
+              ? 1
+              : food.liquid
+              ? 10
+              : 5,
           onChanged: (v) => setState(() => _grams = v),
         )
       else
@@ -944,12 +1138,18 @@ class _LogFoodSheetState extends State<_LogFoodSheet> {
         const SizedBox(height: 10),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
-          child: Row(children: [
-            for (final p in _presets) ...[
-              _QuickChip(label: p.$1, selected: (p.$2 - _grams).abs() < 0.5, onTap: () => setState(() => _grams = p.$2)),
-              const SizedBox(width: 7),
+          child: Row(
+            children: [
+              for (final p in _presets) ...[
+                _QuickChip(
+                  label: p.$1,
+                  selected: (p.$2 - _grams).abs() < 0.5,
+                  onTap: () => setState(() => _grams = p.$2),
+                ),
+                const SizedBox(width: 7),
+              ],
             ],
-          ]),
+          ),
         ),
       ],
       const SizedBox(height: 16),
@@ -970,8 +1170,8 @@ class _LogFoodSheetState extends State<_LogFoodSheet> {
         label: widget.initial != null
             ? t.save
             : picking
-                ? t.prepAddIngredient
-                : t.logAmount(_energy(total.kcal)),
+            ? t.prepAddIngredient
+            : t.logAmount(_energy(total.kcal)),
         onTap: () {
           if (_servings <= 0) {
             HapticFeedback.heavyImpact();
@@ -996,7 +1196,10 @@ class _LogFoodSheetState extends State<_LogFoodSheet> {
               Navigator.of(context).pop();
               showFoodEditor(context, food: food);
             },
-            child: Text(t.editFood, style: AppTheme.f(13, weight: FontWeight.w700, color: gc.textSecondary)),
+            child: Text(
+              t.editFood,
+              style: AppTheme.f(13, weight: FontWeight.w700, color: gc.textSecondary),
+            ),
           ),
         ),
       ],
@@ -1068,7 +1271,10 @@ class _EntrySheetState extends State<_EntrySheet> {
           child: Container(
             width: 76,
             height: 76,
-            decoration: BoxDecoration(color: gc.warn.withValues(alpha: 0.14), borderRadius: BorderRadius.circular(26)),
+            decoration: BoxDecoration(
+              color: gc.warn.withValues(alpha: 0.14),
+              borderRadius: BorderRadius.circular(26),
+            ),
             child: Icon(PhosphorIconsFill.lightning, size: 30, color: gc.warn),
           ),
         ),
@@ -1111,11 +1317,17 @@ class _EntrySheetState extends State<_EntrySheet> {
         control: GestureDetector(
           behavior: HitTestBehavior.opaque,
           onTap: _pickDay,
-          child: Row(mainAxisSize: MainAxisSize.min, children: [
-            Text(_dayName(_day), style: AppTheme.f(14, weight: FontWeight.w800, color: gc.accent)),
-            const SizedBox(width: 6),
-            Icon(PhosphorIconsBold.calendarBlank, size: 15, color: gc.accent),
-          ]),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                _dayName(_day),
+                style: AppTheme.f(14, weight: FontWeight.w800, color: gc.accent),
+              ),
+              const SizedBox(width: 6),
+              Icon(PhosphorIconsBold.calendarBlank, size: 15, color: gc.accent),
+            ],
+          ),
         ),
       ),
       const SizedBox(height: 18),
@@ -1144,33 +1356,42 @@ class _EntrySheetState extends State<_EntrySheet> {
         },
       ),
       const SizedBox(height: 8),
-      Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-        TextButton(
-          onPressed: () {
-            final copy = fit.repeatEntry(e.copyWith(servings: _servings));
-            Navigator.of(context).pop();
-            if (copy != null) _loggedToast(context, copy);
-          },
-          child: Text(t.repeatEntry, style: AppTheme.f(13, weight: FontWeight.w700, color: gc.textSecondary)),
-        ),
-        TextButton(
-          onPressed: () {
-            final gone = fit.removeEntry(e.id);
-            Navigator.of(context).pop();
-            if (gone == null) return;
-            showNotchToast(
-              context,
-              t.entryRemoved,
-              subtitle: name,
-              icon: PhosphorIconsRegular.trash,
-              accent: gc.danger,
-              action: t.undo,
-              onTap: () => fit.restoreEntry(gone),
-            );
-          },
-          child: Text(t.delete, style: AppTheme.f(13, weight: FontWeight.w700, color: gc.danger)),
-        ),
-      ]),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          TextButton(
+            onPressed: () {
+              final copy = fit.repeatEntry(e.copyWith(servings: _servings));
+              Navigator.of(context).pop();
+              if (copy != null) _loggedToast(context, copy);
+            },
+            child: Text(
+              t.repeatEntry,
+              style: AppTheme.f(13, weight: FontWeight.w700, color: gc.textSecondary),
+            ),
+          ),
+          TextButton(
+            onPressed: () {
+              final gone = fit.removeEntry(e.id);
+              Navigator.of(context).pop();
+              if (gone == null) return;
+              showNotchToast(
+                context,
+                t.entryRemoved,
+                subtitle: name,
+                icon: PhosphorIconsRegular.trash,
+                accent: gc.danger,
+                action: t.undo,
+                onTap: () => fit.restoreEntry(gone),
+              );
+            },
+            child: Text(
+              t.delete,
+              style: AppTheme.f(13, weight: FontWeight.w700, color: gc.danger),
+            ),
+          ),
+        ],
+      ),
     ]);
   }
 }
@@ -1213,7 +1434,11 @@ class _EntryValuesSheetState extends State<_EntryValuesSheet> {
       const SizedBox(height: 10),
       _MacroInputs(kcal: _kcal, protein: _p, carbs: _c, fat: _f),
       const SizedBox(height: 10),
-      Text(t.editValuesHint, textAlign: TextAlign.center, style: AppTheme.s(11.5, color: context.gc.textTertiary, height: 1.4)),
+      Text(
+        t.editValuesHint,
+        textAlign: TextAlign.center,
+        style: AppTheme.s(11.5, color: context.gc.textTertiary, height: 1.4),
+      ),
       const SizedBox(height: 18),
       PrimaryButton(
         label: t.save,
@@ -1260,31 +1485,43 @@ class _NumberField extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.fromLTRB(12, 10, 12, 8),
       decoration: BoxDecoration(color: gc.bgRaised2, borderRadius: BorderRadius.circular(16)),
-      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        FitText(label, style: AppTheme.f(9.5, weight: FontWeight.w700, color: color, letterSpacing: 0.9)),
-        Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
-          Expanded(
-            child: TextField(
-              controller: controller,
-              keyboardType: const TextInputType.numberWithOptions(decimal: true),
-              inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9.,]'))],
-              style: AppTheme.f(19, weight: FontWeight.w800, color: gc.text),
-              cursorColor: color,
-              decoration: InputDecoration(
-                isDense: true,
-                border: InputBorder.none,
-                hintText: '0',
-                hintStyle: AppTheme.f(19, weight: FontWeight.w800, color: gc.textTertiary),
-                contentPadding: const EdgeInsets.only(top: 4),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          FitText(
+            label,
+            style: AppTheme.f(9.5, weight: FontWeight.w700, color: color, letterSpacing: 0.9),
+          ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Expanded(
+                child: TextField(
+                  controller: controller,
+                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                  inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9.,]'))],
+                  style: AppTheme.f(19, weight: FontWeight.w800, color: gc.text),
+                  cursorColor: color,
+                  decoration: InputDecoration(
+                    isDense: true,
+                    border: InputBorder.none,
+                    hintText: '0',
+                    hintStyle: AppTheme.f(19, weight: FontWeight.w800, color: gc.textTertiary),
+                    contentPadding: const EdgeInsets.only(top: 4),
+                  ),
+                ),
               ),
-            ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 3),
+                child: Text(
+                  suffix,
+                  style: AppTheme.f(11, weight: FontWeight.w700, color: gc.textSecondary),
+                ),
+              ),
+            ],
           ),
-          Padding(
-            padding: const EdgeInsets.only(bottom: 3),
-            child: Text(suffix, style: AppTheme.f(11, weight: FontWeight.w700, color: gc.textSecondary)),
-          ),
-        ]),
-      ]),
+        ],
+      ),
     );
   }
 }
@@ -1301,58 +1538,90 @@ class _MacroInputs extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final gc = context.gc;
-    return Column(children: [
-      Row(children: [
-        Expanded(
-          child: _NumberField(
-              label: fit.energyUnit.toUpperCase(), controller: kcal, color: gc.text, suffix: fit.energyUnit),
+    return Column(
+      children: [
+        Row(
+          children: [
+            Expanded(
+              child: _NumberField(
+                label: fit.energyUnit.toUpperCase(),
+                controller: kcal,
+                color: gc.text,
+                suffix: fit.energyUnit,
+              ),
+            ),
+            const SizedBox(width: 8),
+            Expanded(
+              child: _NumberField(label: t.macroProtein, controller: protein, color: gc.protein),
+            ),
+          ],
         ),
-        const SizedBox(width: 8),
-        Expanded(child: _NumberField(label: t.macroProtein, controller: protein, color: gc.protein)),
-      ]),
-      const SizedBox(height: 8),
-      Row(children: [
-        Expanded(child: _NumberField(label: t.macroCarbs, controller: carbs, color: gc.carbs)),
-        const SizedBox(width: 8),
-        Expanded(child: _NumberField(label: t.macroFat, controller: fat, color: gc.fat)),
-      ]),
-      ListenableBuilder(
-        listenable: Listenable.merge([kcal, protein, carbs, fat]),
-        builder: (context, _) {
-          final est = fit.energyOf(_read(protein) * 4 + _read(carbs) * 4 + _read(fat) * 9);
-          final typed = _read(kcal);
-          final off = est > 0 && (typed <= 0 || ((est - typed).abs() > 40 && (est - typed).abs() / est > 0.25));
-          return AnimatedSize(
-            duration: const Duration(milliseconds: 200),
-            curve: Curves.easeOutCubic,
-            child: !off
-                ? const SizedBox(width: double.infinity)
-                : Padding(
-                    padding: const EdgeInsets.only(top: 10),
-                    child: Row(children: [
-                      Icon(PhosphorIconsBold.calculator, size: 14, color: typed > 0 ? gc.warn : gc.textTertiary),
-                      const SizedBox(width: 8),
-                      Expanded(
-                        child: Text(t.kcalFromMacros('$est ${fit.energyUnit}'),
-                            style: AppTheme.f(12, weight: FontWeight.w600, color: typed > 0 ? gc.warn : gc.textSecondary)),
+        const SizedBox(height: 8),
+        Row(
+          children: [
+            Expanded(
+              child: _NumberField(label: t.macroCarbs, controller: carbs, color: gc.carbs),
+            ),
+            const SizedBox(width: 8),
+            Expanded(
+              child: _NumberField(label: t.macroFat, controller: fat, color: gc.fat),
+            ),
+          ],
+        ),
+        ListenableBuilder(
+          listenable: Listenable.merge([kcal, protein, carbs, fat]),
+          builder: (context, _) {
+            final est = fit.energyOf(_read(protein) * 4 + _read(carbs) * 4 + _read(fat) * 9);
+            final typed = _read(kcal);
+            final off =
+                est > 0 && (typed <= 0 || ((est - typed).abs() > 40 && (est - typed).abs() / est > 0.25));
+            return AnimatedSize(
+              duration: const Duration(milliseconds: 200),
+              curve: Curves.easeOutCubic,
+              child: !off
+                  ? const SizedBox(width: double.infinity)
+                  : Padding(
+                      padding: const EdgeInsets.only(top: 10),
+                      child: Row(
+                        children: [
+                          Icon(
+                            PhosphorIconsBold.calculator,
+                            size: 14,
+                            color: typed > 0 ? gc.warn : gc.textTertiary,
+                          ),
+                          const SizedBox(width: 8),
+                          Expanded(
+                            child: Text(
+                              t.kcalFromMacros('$est ${fit.energyUnit}'),
+                              style: AppTheme.f(
+                                12,
+                                weight: FontWeight.w600,
+                                color: typed > 0 ? gc.warn : gc.textSecondary,
+                              ),
+                            ),
+                          ),
+                          GestureDetector(
+                            behavior: HitTestBehavior.opaque,
+                            onTap: () {
+                              HapticFeedback.selectionClick();
+                              kcal.text = '$est';
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                              child: Text(
+                                t.useValue,
+                                style: AppTheme.f(12.5, weight: FontWeight.w800, color: gc.accent),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                      GestureDetector(
-                        behavior: HitTestBehavior.opaque,
-                        onTap: () {
-                          HapticFeedback.selectionClick();
-                          kcal.text = '$est';
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                          child: Text(t.useValue, style: AppTheme.f(12.5, weight: FontWeight.w800, color: gc.accent)),
-                        ),
-                      ),
-                    ]),
-                  ),
-          );
-        },
-      ),
-    ]);
+                    ),
+            );
+          },
+        ),
+      ],
+    );
   }
 }
 
@@ -1447,23 +1716,29 @@ class _TextInput extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.fromLTRB(14, 10, 14, 10),
       decoration: BoxDecoration(color: gc.bgRaised2, borderRadius: BorderRadius.circular(16)),
-      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        if (label != null)
-          Text(label!, style: AppTheme.f(9.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 0.9)),
-        TextField(
-          controller: controller,
-          textCapitalization: TextCapitalization.sentences,
-          style: AppTheme.f(15.5, weight: FontWeight.w700, color: gc.text),
-          cursorColor: gc.accent,
-          decoration: InputDecoration(
-            isDense: true,
-            border: InputBorder.none,
-            hintText: hint,
-            hintStyle: AppTheme.f(15.5, weight: FontWeight.w600, color: gc.textTertiary),
-            contentPadding: const EdgeInsets.only(top: 4),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (label != null)
+            Text(
+              label!,
+              style: AppTheme.f(9.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 0.9),
+            ),
+          TextField(
+            controller: controller,
+            textCapitalization: TextCapitalization.sentences,
+            style: AppTheme.f(15.5, weight: FontWeight.w700, color: gc.text),
+            cursorColor: gc.accent,
+            decoration: InputDecoration(
+              isDense: true,
+              border: InputBorder.none,
+              hintText: hint,
+              hintStyle: AppTheme.f(15.5, weight: FontWeight.w600, color: gc.textTertiary),
+              contentPadding: const EdgeInsets.only(top: 4),
+            ),
           ),
-        ),
-      ]),
+        ],
+      ),
     );
   }
 }
@@ -1475,8 +1750,10 @@ Future<void> showFoodEditor(
   Meal? meal,
   bool asShake = false,
   String name = '',
-}) =>
-    _sheet<void>(context, (_) => _FoodEditor(food: food, from: from, meal: meal, asShake: asShake, name: name));
+}) => _sheet<void>(
+  context,
+  (_) => _FoodEditor(food: food, from: from, meal: meal, asShake: asShake, name: name),
+);
 
 class _PhotoChoice extends StatelessWidget {
   const _PhotoChoice({
@@ -1501,26 +1778,33 @@ class _PhotoChoice extends StatelessWidget {
       opacity: ready ? 1 : 0.4,
       child: Pressable(
         onTap: ready ? onTap : () {},
-        child: Column(children: [
-          AnimatedContainer(
-            duration: const Duration(milliseconds: 180),
-            width: 74,
-            height: 74,
-            padding: const EdgeInsets.all(6),
-            decoration: BoxDecoration(
-              color: gc.bgRaised2,
-              borderRadius: BorderRadius.circular(20),
-              border: Border.all(color: selected ? gc.accent : gc.border, width: selected ? 2 : 1),
+        child: Column(
+          children: [
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 180),
+              width: 74,
+              height: 74,
+              padding: const EdgeInsets.all(6),
+              decoration: BoxDecoration(
+                color: gc.bgRaised2,
+                borderRadius: BorderRadius.circular(20),
+                border: Border.all(color: selected ? gc.accent : gc.border, width: selected ? 2 : 1),
+              ),
+              child: ready
+                  ? FoodSticker(photo: photo!, name: name, size: 60, tilt: false, shadow: false)
+                  : Icon(PhosphorIconsRegular.scissors, size: 22, color: gc.textTertiary),
             ),
-            child: ready
-                ? FoodSticker(photo: photo!, name: name, size: 60, tilt: false, shadow: false)
-                : Icon(PhosphorIconsRegular.scissors, size: 22, color: gc.textTertiary),
-          ),
-          const SizedBox(height: 6),
-          Text(label,
-              style: AppTheme.f(12,
-                  weight: selected ? FontWeight.w800 : FontWeight.w600, color: selected ? gc.text : gc.textSecondary)),
-        ]),
+            const SizedBox(height: 6),
+            Text(
+              label,
+              style: AppTheme.f(
+                12,
+                weight: selected ? FontWeight.w800 : FontWeight.w600,
+                color: selected ? gc.text : gc.textSecondary,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -1561,7 +1845,12 @@ mixin _StickerDrafts<T extends StatefulWidget> on State<T> {
   Future<void> _pick() async {
     final source = await pickPhotoSource(context);
     if (source == null) return;
-    final shot = await ImagePicker().pickImage(source: source, maxWidth: 1400, maxHeight: 1400, imageQuality: 92);
+    final shot = await ImagePicker().pickImage(
+      source: source,
+      maxWidth: 1400,
+      maxHeight: 1400,
+      imageQuality: 92,
+    );
     if (shot == null || !mounted) return;
     final bytes = await File(shot.path).readAsBytes();
     setState(() => _working = true);
@@ -1615,43 +1904,55 @@ mixin _StickerDrafts<T extends StatefulWidget> on State<T> {
 
   Widget _photoChoices(String name) {
     final gc = context.gc;
-    return Column(children: [
-      Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-        _PhotoChoice(
-          photo: _cutPhoto,
-          name: name,
-          label: t.cutoutTry,
-          selected: _cutPhoto != null && _photo == _cutPhoto,
-          onTap: () => _choose(_cutPhoto),
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            _PhotoChoice(
+              photo: _cutPhoto,
+              name: name,
+              label: t.cutoutTry,
+              selected: _cutPhoto != null && _photo == _cutPhoto,
+              onTap: () => _choose(_cutPhoto),
+            ),
+            const SizedBox(width: 14),
+            _PhotoChoice(
+              photo: _plainPhoto,
+              name: name,
+              label: t.cutoutKeep,
+              selected: _photo == _plainPhoto,
+              onTap: () => _choose(_plainPhoto),
+            ),
+          ],
         ),
-        const SizedBox(width: 14),
-        _PhotoChoice(
-          photo: _plainPhoto,
-          name: name,
-          label: t.cutoutKeep,
-          selected: _photo == _plainPhoto,
-          onTap: () => _choose(_plainPhoto),
-        ),
-      ]),
-      if (_draft != null) ...[
-        const SizedBox(height: 12),
-        Pressable(
-          onTap: _retouch,
-          scale: 0.95,
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-            decoration:
-                BoxDecoration(color: gc.accent.withValues(alpha: 0.12), borderRadius: BorderRadius.circular(100)),
-            child: Row(mainAxisSize: MainAxisSize.min, children: [
-              Icon(PhosphorIconsBold.paintBrush, size: 14, color: gc.accent),
-              const SizedBox(width: 7),
-              Text(_draft!.found ? t.cutoutEdit : t.cutoutByHand,
-                  style: AppTheme.f(12.5, weight: FontWeight.w800, color: gc.accent)),
-            ]),
+        if (_draft != null) ...[
+          const SizedBox(height: 12),
+          Pressable(
+            onTap: _retouch,
+            scale: 0.95,
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+              decoration: BoxDecoration(
+                color: gc.accent.withValues(alpha: 0.12),
+                borderRadius: BorderRadius.circular(100),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(PhosphorIconsBold.paintBrush, size: 14, color: gc.accent),
+                  const SizedBox(width: 7),
+                  Text(
+                    _draft!.found ? t.cutoutEdit : t.cutoutByHand,
+                    style: AppTheme.f(12.5, weight: FontWeight.w800, color: gc.accent),
+                  ),
+                ],
+              ),
+            ),
           ),
-        ),
+        ],
       ],
-    ]);
+    );
   }
 }
 
@@ -1758,12 +2059,14 @@ class _FoodEditorState extends State<_FoodEditor> with _StickerDrafts {
   Widget build(BuildContext context) {
     final gc = context.gc;
     return _sheetFrame(context, [
-      SheetTitle(widget.food != null
-          ? t.editFood
-          : widget.from != null
-              ? t.editValues
-              : t.newFood,
-          subtitle: widget.from != null ? t.editLibraryHint : null),
+      SheetTitle(
+        widget.food != null
+            ? t.editFood
+            : widget.from != null
+            ? t.editValues
+            : t.newFood,
+        subtitle: widget.from != null ? t.editLibraryHint : null,
+      ),
       const SizedBox(height: 16),
       Center(
         child: Pressable(
@@ -1772,29 +2075,41 @@ class _FoodEditorState extends State<_FoodEditor> with _StickerDrafts {
             width: 136,
             height: 136,
             child: _working
-                ? Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-                    SizedBox(
-                      width: 26,
-                      height: 26,
-                      child: CircularProgressIndicator(strokeWidth: 2.4, color: gc.accent),
-                    ),
-                    const SizedBox(height: 12),
-                    Text(t.cutoutWorking, style: AppTheme.f(12, weight: FontWeight.w600, color: gc.textSecondary)),
-                  ])
+                ? Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        width: 26,
+                        height: 26,
+                        child: CircularProgressIndicator(strokeWidth: 2.4, color: gc.accent),
+                      ),
+                      const SizedBox(height: 12),
+                      Text(
+                        t.cutoutWorking,
+                        style: AppTheme.f(12, weight: FontWeight.w600, color: gc.textSecondary),
+                      ),
+                    ],
+                  )
                 : _photo.isEmpty
-                    ? Container(
-                        decoration: BoxDecoration(
-                          color: gc.bgRaised2,
-                          borderRadius: BorderRadius.circular(34),
-                          border: Border.all(color: gc.border),
+                ? Container(
+                    decoration: BoxDecoration(
+                      color: gc.bgRaised2,
+                      borderRadius: BorderRadius.circular(34),
+                      border: Border.all(color: gc.border),
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(PhosphorIconsRegular.camera, size: 30, color: gc.accent),
+                        const SizedBox(height: 8),
+                        Text(
+                          t.addPhoto,
+                          style: AppTheme.f(12.5, weight: FontWeight.w700, color: gc.text),
                         ),
-                        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-                          Icon(PhosphorIconsRegular.camera, size: 30, color: gc.accent),
-                          const SizedBox(height: 8),
-                          Text(t.addPhoto, style: AppTheme.f(12.5, weight: FontWeight.w700, color: gc.text)),
-                        ]),
-                      )
-                    : FoodSticker(photo: _photo, name: _name.text, size: 136, tilt: false),
+                      ],
+                    ),
+                  )
+                : FoodSticker(photo: _photo, name: _name.text, size: 136, tilt: false),
           ),
         ),
       ),
@@ -1802,40 +2117,69 @@ class _FoodEditorState extends State<_FoodEditor> with _StickerDrafts {
       if (_plainPhoto != null && !_working)
         _photoChoices(_name.text)
       else
-        Text(t.foodPhotoHint, textAlign: TextAlign.center, style: AppTheme.s(12, color: gc.textTertiary)),
+        Text(
+          t.foodPhotoHint,
+          textAlign: TextAlign.center,
+          style: AppTheme.s(12, color: gc.textTertiary),
+        ),
       const SizedBox(height: 16),
       _TextInput(controller: _name, hint: t.foodNameHint, label: t.nameLabel),
       const SizedBox(height: 8),
-      Row(children: [
-        Expanded(flex: 3, child: _TextInput(controller: _serving, hint: t.servingHint, label: t.servingLabel)),
-        const SizedBox(width: 8),
-        Expanded(
-          flex: 2,
-          child: _NumberField(
-              label: t.servingWeight, controller: _grams, color: gc.textTertiary, suffix: _amtUnit(_base?.liquid ?? false)),
-        ),
-      ]),
+      Row(
+        children: [
+          Expanded(
+            flex: 3,
+            child: _TextInput(controller: _serving, hint: t.servingHint, label: t.servingLabel),
+          ),
+          const SizedBox(width: 8),
+          Expanded(
+            flex: 2,
+            child: _NumberField(
+              label: t.servingWeight,
+              controller: _grams,
+              color: gc.textTertiary,
+              suffix: _amtUnit(_base?.liquid ?? false),
+            ),
+          ),
+        ],
+      ),
       const SizedBox(height: 14),
-      Text(t.perServing, style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.1)),
+      Text(
+        t.perServing,
+        style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.1),
+      ),
       const SizedBox(height: 8),
       _MacroInputs(kcal: _kcal, protein: _p, carbs: _c, fat: _f),
       const SizedBox(height: 8),
       if (_extras)
-        Row(children: [
-          Expanded(child: _NumberField(label: t.fiberLabel.toUpperCase(), controller: _fi, color: gc.sage)),
-          const SizedBox(width: 8),
-          Expanded(child: _NumberField(label: t.sugarLabel.toUpperCase(), controller: _su, color: gc.warn)),
-          const SizedBox(width: 8),
-          Expanded(
-            child: _NumberField(
-                label: t.sodiumLabel.toUpperCase(), controller: _na, color: gc.textSecondary, suffix: 'mg'),
-          ),
-        ])
+        Row(
+          children: [
+            Expanded(
+              child: _NumberField(label: t.fiberLabel.toUpperCase(), controller: _fi, color: gc.sage),
+            ),
+            const SizedBox(width: 8),
+            Expanded(
+              child: _NumberField(label: t.sugarLabel.toUpperCase(), controller: _su, color: gc.warn),
+            ),
+            const SizedBox(width: 8),
+            Expanded(
+              child: _NumberField(
+                label: t.sodiumLabel.toUpperCase(),
+                controller: _na,
+                color: gc.textSecondary,
+                suffix: 'mg',
+              ),
+            ),
+          ],
+        )
       else
         Center(
           child: TextButton(
             onPressed: () => setState(() => _extras = true),
-            child: Text(t.moreNutrients, style: AppTheme.f(12.5, weight: FontWeight.w700, color: gc.accent)),
+            child: Text(
+              t.moreNutrients,
+              style: AppTheme.f(12.5, weight: FontWeight.w700, color: gc.accent),
+            ),
           ),
         ),
       const SizedBox(height: 10),
@@ -1847,7 +2191,10 @@ class _FoodEditorState extends State<_FoodEditor> with _StickerDrafts {
         Center(
           child: TextButton(
             onPressed: _delete,
-            child: Text(t.delete, style: AppTheme.f(13, weight: FontWeight.w700, color: gc.danger)),
+            child: Text(
+              t.delete,
+              style: AppTheme.f(13, weight: FontWeight.w700, color: gc.danger),
+            ),
           ),
         ),
       ],
@@ -1881,19 +2228,30 @@ class _ShakeToggle extends StatelessWidget {
             borderRadius: BorderRadius.circular(18),
             border: Border.all(color: on ? gc.protein.withValues(alpha: 0.45) : gc.border),
           ),
-          child: Row(children: [
-            Image.asset('assets/img/peek-shake.webp', width: 30, height: 36, fit: BoxFit.contain),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Text(t.shakeTag, style: AppTheme.f(14, weight: FontWeight.w700, color: gc.text)),
-                const SizedBox(height: 2),
-                Text(t.shakeTagHint, style: AppTheme.f(12, weight: FontWeight.w500, color: gc.textSecondary)),
-              ]),
-            ),
-            const SizedBox(width: 10),
-            TinySwitch(on: on),
-          ]),
+          child: Row(
+            children: [
+              Image.asset('assets/img/peek-shake.webp', width: 30, height: 36, fit: BoxFit.contain),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      t.shakeTag,
+                      style: AppTheme.f(14, weight: FontWeight.w700, color: gc.text),
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      t.shakeTagHint,
+                      style: AppTheme.f(12, weight: FontWeight.w500, color: gc.textSecondary),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 10),
+              TinySwitch(on: on),
+            ],
+          ),
         ),
       ),
     );

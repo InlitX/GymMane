@@ -39,16 +39,16 @@ class _ShareSheetState extends State<_ShareSheet> {
   bool _busy = false;
 
   List<ShareKind> get _available => [
-        ShareKind.streak,
-        ShareKind.body,
-        if (fit.comparePair != null) ShareKind.compare,
-      ];
+    ShareKind.streak,
+    ShareKind.body,
+    if (fit.comparePair != null) ShareKind.compare,
+  ];
 
   String _label(ShareKind k) => switch (k) {
-        ShareKind.streak => t.shareStreak,
-        ShareKind.body => t.shareBody,
-        ShareKind.compare => t.shareCompare,
-      };
+    ShareKind.streak => t.shareStreak,
+    ShareKind.body => t.shareBody,
+    ShareKind.compare => t.shareCompare,
+  };
 
   Future<void> _share() async {
     if (_busy) return;
@@ -68,7 +68,12 @@ class _ShareSheetState extends State<_ShareSheet> {
       await SharePlus.instance.share(ShareParams(files: [XFile(file.path)], subject: 'GymMane'));
     } catch (_) {
       if (mounted) {
-        showNotchToast(context, t.shareFailed, icon: PhosphorIconsFill.warningCircle, accent: context.gc.warn);
+        showNotchToast(
+          context,
+          t.shareFailed,
+          icon: PhosphorIconsFill.warningCircle,
+          accent: context.gc.warn,
+        );
       }
     } finally {
       if (mounted) setState(() => _busy = false);
@@ -100,8 +105,10 @@ class _ShareSheetState extends State<_ShareSheet> {
               child: Row(
                 children: [
                   Expanded(
-                    child: Text(t.sharePick,
-                        style: AppTheme.f(20, weight: FontWeight.w800, color: gc.text)),
+                    child: Text(
+                      t.sharePick,
+                      style: AppTheme.f(20, weight: FontWeight.w800, color: gc.text),
+                    ),
                   ),
                 ],
               ),
@@ -143,9 +150,11 @@ class _ShareSheetState extends State<_ShareSheet> {
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 10, 20, 6),
-              child: Text(t.shareHint,
-                  textAlign: TextAlign.center,
-                  style: AppTheme.f(11.5, weight: FontWeight.w500, color: gc.textTertiary, height: 1.4)),
+              child: Text(
+                t.shareHint,
+                textAlign: TextAlign.center,
+                style: AppTheme.f(11.5, weight: FontWeight.w500, color: gc.textTertiary, height: 1.4),
+              ),
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 6, 20, 16),

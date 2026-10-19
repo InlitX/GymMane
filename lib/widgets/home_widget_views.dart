@@ -17,14 +17,14 @@ const _kBorder = 1.0;
 Color _heat(int level, GymColors gc) => level < 0
     ? Colors.transparent
     : level == 0
-        ? gc.heatEmpty
-        : heatLevelColor(gc, level);
+    ? gc.heatEmpty
+    : heatLevelColor(gc, level);
 
 BoxDecoration _card(GymColors gc, bool framed, double radius) => BoxDecoration(
-      color: gc.bgRaised,
-      borderRadius: framed ? BorderRadius.circular(radius) : null,
-      border: framed ? Border.all(color: gc.border, width: _kBorder) : null,
-    );
+  color: gc.bgRaised,
+  borderRadius: framed ? BorderRadius.circular(radius) : null,
+  border: framed ? Border.all(color: gc.border, width: _kBorder) : null,
+);
 
 class HeatmapWidgetView extends StatelessWidget {
   const HeatmapWidgetView({
@@ -53,9 +53,7 @@ class HeatmapWidgetView extends StatelessWidget {
     final cell = ((gridH - (rows - 1) * vgap) / rows).clamp(4.0, 40.0);
     final cols = math.max(1, ((gridW + vgap) / (cell + vgap)).floor());
 
-    final hgap = cols > 1
-        ? ((gridW - cols * cell) / (cols - 1)).clamp(vgap, cell)
-        : 0.0;
+    final hgap = cols > 1 ? ((gridW - cols * cell) / (cols - 1)).clamp(vgap, cell) : 0.0;
 
     final need = cols * rows;
     final start = math.max(0, levels.length - need);
@@ -78,26 +76,32 @@ class HeatmapWidgetView extends StatelessWidget {
             child: Row(
               children: [
                 Expanded(
-                  child: Text('GymMane',
-                      maxLines: 1,
-                      overflow: TextOverflow.clip,
-                      softWrap: false,
-                      style: TextStyle(
-                          fontFamily: _kDisplay,
-                          fontSize: 16,
-                          height: 1.2,
-                          fontWeight: FontWeight.w800,
-                          color: gc.text)),
+                  child: Text(
+                    'GymMane',
+                    maxLines: 1,
+                    overflow: TextOverflow.clip,
+                    softWrap: false,
+                    style: TextStyle(
+                      fontFamily: _kDisplay,
+                      fontSize: 16,
+                      height: 1.2,
+                      fontWeight: FontWeight.w800,
+                      color: gc.text,
+                    ),
+                  ),
                 ),
                 Icon(Icons.local_fire_department_rounded, size: 15, color: gc.accent),
                 const SizedBox(width: 3),
-                Text('$streak',
-                    style: TextStyle(
-                        fontFamily: _kDisplay,
-                        fontSize: 15,
-                        height: 1.2,
-                        fontWeight: FontWeight.w700,
-                        color: gc.accent)),
+                Text(
+                  '$streak',
+                  style: TextStyle(
+                    fontFamily: _kDisplay,
+                    fontSize: 15,
+                    height: 1.2,
+                    fontWeight: FontWeight.w700,
+                    color: gc.accent,
+                  ),
+                ),
               ],
             ),
           ),
@@ -165,12 +169,15 @@ class StatsWidgetView extends StatelessWidget {
             children: [
               Icon(Icons.local_fire_department_rounded, size: 16, color: gc.accent),
               const SizedBox(width: 4),
-              Text(titleCase(t.streakCaps),
-                  style: TextStyle(
-                      fontFamily: _kDisplay,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w800,
-                      color: gc.text)),
+              Text(
+                titleCase(t.streakCaps),
+                style: TextStyle(
+                  fontFamily: _kDisplay,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w800,
+                  color: gc.text,
+                ),
+              ),
             ],
           ),
           const SizedBox(height: 14),
@@ -181,18 +188,23 @@ class StatsWidgetView extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.baseline,
               textBaseline: TextBaseline.alphabetic,
               children: [
-                Text('$streak',
-                    style: TextStyle(
-                        fontFamily: _kDisplay,
-                        fontSize: 46,
-                        height: 1,
-                        fontWeight: FontWeight.w700,
-                        color: gc.text)),
+                Text(
+                  '$streak',
+                  style: TextStyle(
+                    fontFamily: _kDisplay,
+                    fontSize: 46,
+                    height: 1,
+                    fontWeight: FontWeight.w700,
+                    color: gc.text,
+                  ),
+                ),
                 const SizedBox(width: 6),
                 Padding(
                   padding: const EdgeInsets.only(bottom: 6),
-                  child: Text(t.daysUnit(streak),
-                      style: TextStyle(fontFamily: _kBody, fontSize: 14, color: gc.textSecondary)),
+                  child: Text(
+                    t.daysUnit(streak),
+                    style: TextStyle(fontFamily: _kBody, fontSize: 14, color: gc.textSecondary),
+                  ),
                 ),
               ],
             ),
@@ -215,27 +227,36 @@ class StatsWidgetView extends StatelessWidget {
       child: Container(
         height: 44,
         padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 9),
-        decoration: BoxDecoration(
-          color: gc.bgRaised2,
-          borderRadius: BorderRadius.circular(12),
-        ),
+        decoration: BoxDecoration(color: gc.bgRaised2, borderRadius: BorderRadius.circular(12)),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(value,
-                maxLines: 1,
-                style: TextStyle(
-                    fontFamily: _kDisplay, fontSize: 16, fontWeight: FontWeight.w700, color: gc.text)),
+            Text(
+              value,
+              maxLines: 1,
+              style: TextStyle(
+                fontFamily: _kDisplay,
+                fontSize: 16,
+                fontWeight: FontWeight.w700,
+                color: gc.text,
+              ),
+            ),
             const SizedBox(height: 1),
             FittedBox(
               fit: BoxFit.scaleDown,
               alignment: Alignment.centerLeft,
-              child: Text(label,
-                  maxLines: 1,
-                  softWrap: false,
-                  style: TextStyle(
-                      fontFamily: _kBody, fontSize: 9.5, letterSpacing: 0.3, color: gc.textSecondary)),
+              child: Text(
+                label,
+                maxLines: 1,
+                softWrap: false,
+                style: TextStyle(
+                  fontFamily: _kBody,
+                  fontSize: 9.5,
+                  letterSpacing: 0.3,
+                  color: gc.textSecondary,
+                ),
+              ),
             ),
           ],
         ),
@@ -279,14 +300,16 @@ class TodayWidgetView extends StatelessWidget {
           decoration: BoxDecoration(
             color: done ? gc.accent : (rest ? gc.sageSoft : Colors.transparent),
             shape: BoxShape.circle,
-            border: done || rest ? null : Border.all(color: planned ? gc.brass : gc.border, width: side * 0.035),
+            border: done || rest
+                ? null
+                : Border.all(color: planned ? gc.brass : gc.border, width: side * 0.035),
           ),
           child: Center(
             child: done
                 ? Icon(Icons.check_rounded, size: side * 0.34, color: gc.bgRaised)
                 : rest
-                    ? Icon(Icons.local_cafe_rounded, size: side * 0.24, color: gc.sage)
-                    : Icon(Icons.fitness_center_rounded, size: side * 0.22, color: tone),
+                ? Icon(Icons.local_cafe_rounded, size: side * 0.24, color: gc.sage)
+                : Icon(Icons.fitness_center_rounded, size: side * 0.22, color: tone),
           ),
         ),
       ),
@@ -343,36 +366,45 @@ class WeekWidgetView extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(t.thisWeek.toUpperCase(),
-                        maxLines: 1,
-                        overflow: TextOverflow.clip,
-                        softWrap: false,
-                        style: TextStyle(
-                            fontFamily: _kBody,
-                            fontSize: 10.5,
-                            height: 1.2,
-                            fontWeight: FontWeight.w700,
-                            letterSpacing: 1.2,
-                            color: gc.textTertiary)),
+                    Text(
+                      t.thisWeek.toUpperCase(),
+                      maxLines: 1,
+                      overflow: TextOverflow.clip,
+                      softWrap: false,
+                      style: TextStyle(
+                        fontFamily: _kBody,
+                        fontSize: 10.5,
+                        height: 1.2,
+                        fontWeight: FontWeight.w700,
+                        letterSpacing: 1.2,
+                        color: gc.textTertiary,
+                      ),
+                    ),
                     const SizedBox(height: 4),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.baseline,
                       textBaseline: TextBaseline.alphabetic,
                       children: [
-                        Text('$count',
-                            style: TextStyle(
-                                fontFamily: _kDisplay,
-                                fontSize: 30,
-                                height: 1,
-                                fontWeight: FontWeight.w800,
-                                color: gc.text)),
-                        Text('/$goal',
-                            style: TextStyle(
-                                fontFamily: _kDisplay,
-                                fontSize: 16,
-                                height: 1,
-                                fontWeight: FontWeight.w700,
-                                color: gc.textSecondary)),
+                        Text(
+                          '$count',
+                          style: TextStyle(
+                            fontFamily: _kDisplay,
+                            fontSize: 30,
+                            height: 1,
+                            fontWeight: FontWeight.w800,
+                            color: gc.text,
+                          ),
+                        ),
+                        Text(
+                          '/$goal',
+                          style: TextStyle(
+                            fontFamily: _kDisplay,
+                            fontSize: 16,
+                            height: 1,
+                            fontWeight: FontWeight.w700,
+                            color: gc.textSecondary,
+                          ),
+                        ),
                       ],
                     ),
                   ],
@@ -399,13 +431,16 @@ class WeekWidgetView extends StatelessWidget {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text(t.weekdayInitial(fit.weekdayAt(i)),
-                          style: TextStyle(
-                              fontFamily: _kBody,
-                              fontSize: 10,
-                              height: 1.2,
-                              fontWeight: FontWeight.w700,
-                              color: gc.textTertiary)),
+                      Text(
+                        t.weekdayInitial(fit.weekdayAt(i)),
+                        style: TextStyle(
+                          fontFamily: _kBody,
+                          fontSize: 10,
+                          height: 1.2,
+                          fontWeight: FontWeight.w700,
+                          color: gc.textTertiary,
+                        ),
+                      ),
                       const SizedBox(height: 6),
                       Container(
                         width: dot,
@@ -414,9 +449,7 @@ class WeekWidgetView extends StatelessWidget {
                           color: done[i] ? gc.ember : gc.bgRaised2,
                           shape: BoxShape.circle,
                         ),
-                        child: done[i]
-                            ? Icon(Icons.check_rounded, size: 17, color: gc.onEmber)
-                            : null,
+                        child: done[i] ? Icon(Icons.check_rounded, size: 17, color: gc.onEmber) : null,
                       ),
                     ],
                   ),
@@ -467,15 +500,18 @@ class BodyWidgetView extends StatelessWidget {
             child: Row(
               children: [
                 Expanded(
-                  child: Text(titleCase(t.muscleMap),
-                      maxLines: 1,
-                      overflow: TextOverflow.clip,
-                      softWrap: false,
-                      style: TextStyle(
-                          fontFamily: _kDisplay,
-                          fontSize: 15,
-                          fontWeight: FontWeight.w800,
-                          color: gc.text)),
+                  child: Text(
+                    titleCase(t.muscleMap),
+                    maxLines: 1,
+                    overflow: TextOverflow.clip,
+                    softWrap: false,
+                    style: TextStyle(
+                      fontFamily: _kDisplay,
+                      fontSize: 15,
+                      fontWeight: FontWeight.w800,
+                      color: gc.text,
+                    ),
+                  ),
                 ),
                 for (int i = 1; i <= heatLevels; i++) ...[
                   if (i > 1) const SizedBox(width: 3),
@@ -489,8 +525,10 @@ class BodyWidgetView extends StatelessWidget {
                   ),
                 ],
                 const SizedBox(width: 8),
-                Text(t.daysShort(days),
-                    style: TextStyle(fontFamily: _kBody, fontSize: 10.5, color: gc.textSecondary)),
+                Text(
+                  t.daysShort(days),
+                  style: TextStyle(fontFamily: _kBody, fontSize: 10.5, color: gc.textSecondary),
+                ),
               ],
             ),
           ),
@@ -522,16 +560,16 @@ class VesselWidgetGeometry {
   static const pillTop = 122.0;
 
   static List<double> fractions() => [
-        vesselLeft / size.width,
-        vesselTop / size.height,
-        vesselHeight / size.height,
-        columnLeft / size.width,
-        valueBaseline / size.height,
-        valueSize / size.height,
-        (columnRight - columnLeft) / size.width,
-        barTop / size.height,
-        barHeight / size.height,
-      ];
+    vesselLeft / size.width,
+    vesselTop / size.height,
+    vesselHeight / size.height,
+    columnLeft / size.width,
+    valueBaseline / size.height,
+    valueSize / size.height,
+    (columnRight - columnLeft) / size.width,
+    barTop / size.height,
+    barHeight / size.height,
+  ];
 }
 
 class VesselWidgetView extends StatelessWidget {
@@ -566,100 +604,129 @@ class VesselWidgetView extends StatelessWidget {
       width: g.width,
       height: g.height,
       decoration: _card(gc, framed, 24),
-      child: Stack(children: [
-        Positioned(
-          left: -34,
-          top: 34,
-          child: Container(
-            width: 120,
-            height: 120,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              gradient: RadialGradient(colors: [tone.withValues(alpha: 0.18), tone.withValues(alpha: 0)]),
+      child: Stack(
+        children: [
+          Positioned(
+            left: -34,
+            top: 34,
+            child: Container(
+              width: 120,
+              height: 120,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                gradient: RadialGradient(colors: [tone.withValues(alpha: 0.18), tone.withValues(alpha: 0)]),
+              ),
             ),
           ),
-        ),
-        Positioned(
-          left: left,
-          top: 16,
-          width: width,
-          child: Row(children: [
-            Icon(icon, size: 13, color: tone),
-            const SizedBox(width: 4),
-            Expanded(
-              child: FittedBox(
-                fit: BoxFit.scaleDown,
-                alignment: Alignment.centerLeft,
-                child: Text(title.toUpperCase(),
-                    maxLines: 1,
-                    style: TextStyle(
+          Positioned(
+            left: left,
+            top: 16,
+            width: width,
+            child: Row(
+              children: [
+                Icon(icon, size: 13, color: tone),
+                const SizedBox(width: 4),
+                Expanded(
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      title.toUpperCase(),
+                      maxLines: 1,
+                      style: TextStyle(
                         fontFamily: _kDisplay,
                         fontSize: 11,
                         fontWeight: FontWeight.w800,
                         letterSpacing: 1,
-                        color: gc.textSecondary)),
-              ),
+                        color: gc.textSecondary,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ]),
-        ),
-        if (text != null)
-          Positioned(
-            left: left,
-            top: 40,
-            width: width,
-            bottom: 14,
-            child: Text(text,
+          ),
+          if (text != null)
+            Positioned(
+              left: left,
+              top: 40,
+              width: width,
+              bottom: 14,
+              child: Text(
+                text,
                 maxLines: 5,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
-                    fontFamily: _kBody, fontSize: 11, height: 1.3, fontWeight: FontWeight.w600, color: gc.textSecondary)),
-          )
-        else ...[
-          Positioned(
-            left: left,
-            top: VesselWidgetGeometry.valueBaseline + 4,
-            width: width,
-            child: FittedBox(
-              fit: BoxFit.scaleDown,
-              alignment: Alignment.centerLeft,
-              child: Text(goal,
-                  maxLines: 1,
-                  style: TextStyle(
-                      fontFamily: _kBody, fontSize: 12, fontWeight: FontWeight.w700, color: gc.textSecondary)),
-            ),
-          ),
-          Positioned(
-            left: left,
-            top: VesselWidgetGeometry.barTop,
-            width: width,
-            height: VesselWidgetGeometry.barHeight,
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                  color: gc.bgRaised2, borderRadius: BorderRadius.circular(VesselWidgetGeometry.barHeight)),
-            ),
-          ),
-          Positioned(
-            left: left,
-            top: VesselWidgetGeometry.pillTop,
-            width: width,
-            height: 22,
-            child: Container(
-              alignment: Alignment.center,
-              padding: const EdgeInsets.symmetric(horizontal: 6),
-              decoration: BoxDecoration(
-                color: tone.withValues(alpha: 0.16),
-                borderRadius: BorderRadius.circular(11),
+                  fontFamily: _kBody,
+                  fontSize: 11,
+                  height: 1.3,
+                  fontWeight: FontWeight.w600,
+                  color: gc.textSecondary,
+                ),
               ),
+            )
+          else ...[
+            Positioned(
+              left: left,
+              top: VesselWidgetGeometry.valueBaseline + 4,
+              width: width,
               child: FittedBox(
                 fit: BoxFit.scaleDown,
-                child: Text(pill,
-                    maxLines: 1,
-                    style: TextStyle(fontFamily: _kDisplay, fontSize: 11.5, fontWeight: FontWeight.w800, color: tone)),
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  goal,
+                  maxLines: 1,
+                  style: TextStyle(
+                    fontFamily: _kBody,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w700,
+                    color: gc.textSecondary,
+                  ),
+                ),
               ),
             ),
-          ),
+            Positioned(
+              left: left,
+              top: VesselWidgetGeometry.barTop,
+              width: width,
+              height: VesselWidgetGeometry.barHeight,
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  color: gc.bgRaised2,
+                  borderRadius: BorderRadius.circular(VesselWidgetGeometry.barHeight),
+                ),
+              ),
+            ),
+            Positioned(
+              left: left,
+              top: VesselWidgetGeometry.pillTop,
+              width: width,
+              height: 22,
+              child: Container(
+                alignment: Alignment.center,
+                padding: const EdgeInsets.symmetric(horizontal: 6),
+                decoration: BoxDecoration(
+                  color: tone.withValues(alpha: 0.16),
+                  borderRadius: BorderRadius.circular(11),
+                ),
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Text(
+                    pill,
+                    maxLines: 1,
+                    style: TextStyle(
+                      fontFamily: _kDisplay,
+                      fontSize: 11.5,
+                      fontWeight: FontWeight.w800,
+                      color: tone,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
         ],
-      ]),
+      ),
     );
   }
 }
@@ -696,28 +763,49 @@ class KcalWidgetView extends StatelessWidget {
     final ring = size.height - 30;
     final text = message;
     Widget macro(IconData icon, String label, double value, int target, Color color) => Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
           children: [
-            Row(children: [
-              Icon(icon, size: 11, color: color),
-              const SizedBox(width: 4),
-              Expanded(
-                child: Text(sentenceCase(label),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                        fontFamily: _kBody, fontSize: 10.5, fontWeight: FontWeight.w700, color: gc.textSecondary)),
+            Icon(icon, size: 11, color: color),
+            const SizedBox(width: 4),
+            Expanded(
+              child: Text(
+                sentenceCase(label),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  fontFamily: _kBody,
+                  fontSize: 10.5,
+                  fontWeight: FontWeight.w700,
+                  color: gc.textSecondary,
+                ),
               ),
-              Text('${value.round()}',
-                  style: TextStyle(fontFamily: _kDisplay, fontSize: 11, fontWeight: FontWeight.w800, color: gc.text)),
-              Text(' / $target g',
-                  style: TextStyle(
-                      fontFamily: _kBody, fontSize: 10, fontWeight: FontWeight.w600, color: gc.textTertiary)),
-            ]),
-            const SizedBox(height: 4),
-            MacroTrack(pct: target <= 0 ? 0 : value / target, color: color, height: 5),
+            ),
+            Text(
+              '${value.round()}',
+              style: TextStyle(
+                fontFamily: _kDisplay,
+                fontSize: 11,
+                fontWeight: FontWeight.w800,
+                color: gc.text,
+              ),
+            ),
+            Text(
+              ' / $target g',
+              style: TextStyle(
+                fontFamily: _kBody,
+                fontSize: 10,
+                fontWeight: FontWeight.w600,
+                color: gc.textTertiary,
+              ),
+            ),
           ],
-        );
+        ),
+        const SizedBox(height: 4),
+        MacroTrack(pct: target <= 0 ? 0 : value / target, color: color, height: 5),
+      ],
+    );
     return Theme(
       data: ThemeData(extensions: [gc]),
       child: Container(
@@ -727,65 +815,95 @@ class KcalWidgetView extends StatelessWidget {
         decoration: _card(gc, framed, 24),
         child: text != null
             ? Center(
-                child: Text(text,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontFamily: _kBody, fontSize: 12, fontWeight: FontWeight.w600, color: gc.textSecondary)),
+                child: Text(
+                  text,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontFamily: _kBody,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                    color: gc.textSecondary,
+                  ),
+                ),
               )
-            : Row(children: [
-                CalorieRing(
-                  pct: goal <= 0 ? 0 : kcal / goal,
-                  size: ring,
-                  stroke: 10,
-                  child: Column(mainAxisSize: MainAxisSize.min, children: [
-                    FittedBox(
-                      fit: BoxFit.scaleDown,
-                      child: Text('${left.abs()}',
-                          style: TextStyle(
+            : Row(
+                children: [
+                  CalorieRing(
+                    pct: goal <= 0 ? 0 : kcal / goal,
+                    size: ring,
+                    stroke: 10,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Text(
+                            '${left.abs()}',
+                            style: TextStyle(
                               fontFamily: _kDisplay,
                               fontSize: 25,
                               height: 1.05,
                               fontWeight: FontWeight.w800,
-                              color: left < 0 ? gc.danger : gc.text)),
+                              color: left < 0 ? gc.danger : gc.text,
+                            ),
+                          ),
+                        ),
+                        Text(
+                          left < 0 ? t.kcalOver : sentenceCase(t.kcalRemaining),
+                          style: TextStyle(
+                            fontFamily: _kBody,
+                            fontSize: 9.5,
+                            fontWeight: FontWeight.w700,
+                            color: gc.textSecondary,
+                          ),
+                        ),
+                      ],
                     ),
-                    Text(left < 0 ? t.kcalOver : sentenceCase(t.kcalRemaining),
-                        style: TextStyle(
-                            fontFamily: _kBody, fontSize: 9.5, fontWeight: FontWeight.w700, color: gc.textSecondary)),
-                  ]),
-                ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
                           crossAxisAlignment: CrossAxisAlignment.baseline,
                           textBaseline: TextBaseline.alphabetic,
                           children: [
                             Icon(PhosphorIconsFill.fire, size: 15, color: gc.warn),
                             const SizedBox(width: 4),
-                            Text('$kcal',
-                                style: TextStyle(
-                                    fontFamily: _kDisplay, fontSize: 18, fontWeight: FontWeight.w800, color: gc.text)),
-                            Flexible(
-                              child: Text(' / $goal $unit',
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                      fontFamily: _kBody,
-                                      fontSize: 11,
-                                      fontWeight: FontWeight.w700,
-                                      color: gc.textTertiary)),
+                            Text(
+                              '$kcal',
+                              style: TextStyle(
+                                fontFamily: _kDisplay,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w800,
+                                color: gc.text,
+                              ),
                             ),
-                          ]),
-                      macro(PhosphorIconsFill.egg, t.macroProtein, protein, goals.$1, gc.protein),
-                      macro(PhosphorIconsFill.grains, t.macroCarbs, carbs, goals.$2, gc.carbs),
-                      macro(PhosphorIconsFill.drop, t.macroFat, fat, goals.$3, gc.fat),
-                    ],
+                            Flexible(
+                              child: Text(
+                                ' / $goal $unit',
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontFamily: _kBody,
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.w700,
+                                  color: gc.textTertiary,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        macro(PhosphorIconsFill.egg, t.macroProtein, protein, goals.$1, gc.protein),
+                        macro(PhosphorIconsFill.grains, t.macroCarbs, carbs, goals.$2, gc.carbs),
+                        macro(PhosphorIconsFill.drop, t.macroFat, fat, goals.$3, gc.fat),
+                      ],
+                    ),
                   ),
-                ),
-              ]),
+                ],
+              ),
       ),
     );
   }

@@ -30,13 +30,13 @@ class Beeper {
   }
 
   AudioContext _context(AndroidAudioFocus focus) => AudioContext(
-        android: AudioContextAndroid(
-          contentType: AndroidContentType.sonification,
-          usageType: _loud ? AndroidUsageType.alarm : AndroidUsageType.notification,
-          audioFocus: focus,
-        ),
-        iOS: AudioContextIOS(category: AVAudioSessionCategory.ambient, options: const {}),
-      );
+    android: AudioContextAndroid(
+      contentType: AndroidContentType.sonification,
+      usageType: _loud ? AndroidUsageType.alarm : AndroidUsageType.notification,
+      audioFocus: focus,
+    ),
+    iOS: AudioContextIOS(category: AVAudioSessionCategory.ambient, options: const {}),
+  );
 
   Future<bool> _ready() async {
     if (_player != null) return true;
@@ -107,14 +107,16 @@ class Beeper {
         _chime = await _write(dir, 'gm_chime1.wav', chimeWav());
         final p = AudioPlayer();
         await p.setReleaseMode(ReleaseMode.stop);
-        await p.setAudioContext(AudioContext(
-          android: const AudioContextAndroid(
-            contentType: AndroidContentType.sonification,
-            usageType: AndroidUsageType.notification,
-            audioFocus: AndroidAudioFocus.none,
+        await p.setAudioContext(
+          AudioContext(
+            android: const AudioContextAndroid(
+              contentType: AndroidContentType.sonification,
+              usageType: AndroidUsageType.notification,
+              audioFocus: AndroidAudioFocus.none,
+            ),
+            iOS: AudioContextIOS(category: AVAudioSessionCategory.ambient, options: const {}),
           ),
-          iOS: AudioContextIOS(category: AVAudioSessionCategory.ambient, options: const {}),
-        ));
+        );
         _soft = p;
       }
       await _soft!.stop();
@@ -135,7 +137,8 @@ class Beeper {
         final attack = a * a * (3 - 2 * a);
         final body = math.exp(-t * decay);
         final shine = math.exp(-t * decay * 2.6);
-        final wave = math.sin(2 * math.pi * hz * t) +
+        final wave =
+            math.sin(2 * math.pi * hz * t) +
             math.sin(2 * math.pi * hz * 2 * t) * 0.18 * shine +
             math.sin(2 * math.pi * hz * 3 * t) * 0.05 * shine;
         samples[i] += wave * gain * attack * body;

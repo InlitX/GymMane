@@ -35,13 +35,25 @@ void main() {
   });
 
   test('un ejercicio propio guarda su tipo y sobrevive a la copia', () {
-    final id = fit.addCustomExercise(name: 'Pole spin', primary: 'back', equipment: 'Other', kind: 'calisthenics');
+    final id = fit.addCustomExercise(
+      name: 'Pole spin',
+      primary: 'back',
+      equipment: 'Other',
+      kind: 'calisthenics',
+    );
     expect(kindOfId(id), 'calisthenics');
     final back = Exercise.fromJson(fit.exerciseById(id)!.toJson());
     expect(back.kind, 'calisthenics');
     final ex = fit.exerciseById(id)!;
-    fit.updateCustomExercise(id,
-        name: ex.name, primary: ex.primary, equipment: ex.equipment, difficulty: ex.difficulty, steps: [], mode: '');
+    fit.updateCustomExercise(
+      id,
+      name: ex.name,
+      primary: ex.primary,
+      equipment: ex.equipment,
+      difficulty: ex.difficulty,
+      steps: [],
+      mode: '',
+    );
     expect(kindOfId(id), 'calisthenics');
     final plain = fit.addCustomExercise(name: 'Row', primary: 'back', equipment: 'Cable');
     expect(kindOfId(plain), 'strength');

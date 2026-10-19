@@ -100,7 +100,14 @@ Uint8List workoutFit(LoggedSession session, {bool pounds = false}) {
 
   w.data(1, [(4, end), (1, 0), (1, 4)]);
 
-  w.define(3, 19, const [(253, 4, 0x86), (2, 4, 0x86), (7, 4, 0x86), (8, 4, 0x86), (0, 1, 0x00), (1, 1, 0x00)]);
+  w.define(3, 19, const [
+    (253, 4, 0x86),
+    (2, 4, 0x86),
+    (7, 4, 0x86),
+    (8, 4, 0x86),
+    (0, 1, 0x00),
+    (1, 1, 0x00),
+  ]);
   w.data(3, [(4, end), (4, start), (4, duration * 1000), (4, duration * 1000), (1, 9), (1, 1)]);
 
   w.define(4, 18, const [
@@ -115,9 +122,28 @@ Uint8List workoutFit(LoggedSession session, {bool pounds = false}) {
     (0, 1, 0x00),
     (1, 1, 0x00),
   ]);
-  w.data(4, [(4, end), (4, start), (4, duration * 1000), (4, duration * 1000), (1, 10), (1, 20), (2, 0), (2, 1), (1, 8), (1, 1)]);
+  w.data(4, [
+    (4, end),
+    (4, start),
+    (4, duration * 1000),
+    (4, duration * 1000),
+    (1, 10),
+    (1, 20),
+    (2, 0),
+    (2, 1),
+    (1, 8),
+    (1, 1),
+  ]);
 
-  w.define(5, 34, const [(253, 4, 0x86), (0, 4, 0x86), (1, 2, 0x84), (2, 1, 0x00), (3, 1, 0x00), (4, 1, 0x00), (5, 4, 0x86)]);
+  w.define(5, 34, const [
+    (253, 4, 0x86),
+    (0, 4, 0x86),
+    (1, 2, 0x84),
+    (2, 1, 0x00),
+    (3, 1, 0x00),
+    (4, 1, 0x00),
+    (5, 4, 0x86),
+  ]);
   w.data(5, [(4, end), (4, duration * 1000), (2, 1), (1, 0), (1, 26), (1, 1), (4, end + offset)]);
 
   return w.bytes();
@@ -178,8 +204,22 @@ class _FitWriter {
 }
 
 const _crcTable = [
-  0x0000, 0xCC01, 0xD801, 0x1400, 0xF001, 0x3C00, 0x2800, 0xE401,
-  0xA001, 0x6C00, 0x7800, 0xB401, 0x5000, 0x9C01, 0x8801, 0x4400,
+  0x0000,
+  0xCC01,
+  0xD801,
+  0x1400,
+  0xF001,
+  0x3C00,
+  0x2800,
+  0xE401,
+  0xA001,
+  0x6C00,
+  0x7800,
+  0xB401,
+  0x5000,
+  0x9C01,
+  0x8801,
+  0x4400,
 ];
 
 int fitCrc(List<int> bytes) {

@@ -21,14 +21,9 @@ void main() {
   });
 
   LoggedSession log({int daysAgo = 0, List<LoggedSet>? sets}) {
-    final s = LoggedSession(
-      DateTime.now().subtract(Duration(days: daysAgo)),
-      1800,
-      [
-        LoggedExercise(bench.id, bench.name, bench.primary,
-            sets ?? [LoggedSet(10, 60), LoggedSet(8, 70)])
-      ],
-    );
+    final s = LoggedSession(DateTime.now().subtract(Duration(days: daysAgo)), 1800, [
+      LoggedExercise(bench.id, bench.name, bench.primary, sets ?? [LoggedSet(10, 60), LoggedSet(8, 70)]),
+    ]);
     fit.sessions.add(s);
     return s;
   }

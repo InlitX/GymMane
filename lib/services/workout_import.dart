@@ -23,9 +23,7 @@ enum ImportFormat {
 
 extension ImportFormatX on ImportFormat {
   bool get isWeights =>
-      this == ImportFormat.hevyWeights ||
-      this == ImportFormat.strongWeights ||
-      this == ImportFormat.weights;
+      this == ImportFormat.hevyWeights || this == ImportFormat.strongWeights || this == ImportFormat.weights;
 }
 
 class ParsedSet {
@@ -171,15 +169,43 @@ const _formats = <ImportFormat, _Fmt>{
 };
 
 const _genericDateCols = [
-  'date', 'fecha', 'datum', 'data', 'day', 'dia', 'día', 'timestamp', 'start_time', 'time',
+  'date',
+  'fecha',
+  'datum',
+  'data',
+  'day',
+  'dia',
+  'día',
+  'timestamp',
+  'start_time',
+  'time',
 ];
 const _genericExerciseCols = [
-  'exercise', 'exercise name', 'exercise_name', 'ejercicio', 'exercicio', 'exercício',
-  'übung', 'ubung', 'uebung', 'esercizio', 'exercice', 'name', 'nombre',
+  'exercise',
+  'exercise name',
+  'exercise_name',
+  'ejercicio',
+  'exercicio',
+  'exercício',
+  'übung',
+  'ubung',
+  'uebung',
+  'esercizio',
+  'exercice',
+  'name',
+  'nombre',
 ];
 const _genericRepCols = [
-  'reps', 'rep', 'repetitions', 'repeticiones', 'repetições', 'repeticoes',
-  'wiederholungen', 'ripetizioni', 'répétitions', 'repetitions_count',
+  'reps',
+  'rep',
+  'repetitions',
+  'repeticiones',
+  'repetições',
+  'repeticoes',
+  'wiederholungen',
+  'ripetizioni',
+  'répétitions',
+  'repetitions_count',
 ];
 const _genericWeightCols = ['weight', 'peso', 'gewicht', 'poids', 'carga'];
 
@@ -373,7 +399,8 @@ ImportResult parseImport(String csv, {bool isLb = false}) {
       return parsed;
     });
     exercise.sets.add(
-        ParsedSet(reps, kg, rpe: _effort(cell(row, fmt.rpe), cell(row, fmt.rir), cell(row, fmt.effort))));
+      ParsedSet(reps, kg, rpe: _effort(cell(row, fmt.rpe), cell(row, fmt.rir), cell(row, fmt.effort))),
+    );
   }
 
   return ImportResult(format, sessions.values.toList());
@@ -473,12 +500,7 @@ int _openGymDuration(Map<String, dynamic> workout) {
   return seconds > 24 * 3600 ? 0 : seconds;
 }
 
-double _weightKg({
-  required String kg,
-  required String lb,
-  required String plain,
-  required bool plainIsLb,
-}) {
+double _weightKg({required String kg, required String lb, required String plain, required bool plainIsLb}) {
   final inKg = _number(kg);
   if (inKg != null) return inKg;
   final inLb = _number(lb);
@@ -525,16 +547,27 @@ int _parseDuration(String s) {
 }
 
 const _months = {
-  'jan': 1, 'feb': 2, 'mar': 3, 'apr': 4, 'may': 5, 'jun': 6,
-  'jul': 7, 'aug': 8, 'sep': 9, 'oct': 10, 'nov': 11, 'dec': 12,
+  'jan': 1,
+  'feb': 2,
+  'mar': 3,
+  'apr': 4,
+  'may': 5,
+  'jun': 6,
+  'jul': 7,
+  'aug': 8,
+  'sep': 9,
+  'oct': 10,
+  'nov': 11,
+  'dec': 12,
 };
 
 DateTime? _parseDate(String s) {
   if (s.isEmpty) return null;
   final iso = DateTime.tryParse(s.replaceFirst(' ', 'T'));
   if (iso != null) return iso;
-  final m = RegExp(r'^(\d{1,2})\s+([A-Za-z]{3})[a-z]*\s+(\d{4})(?:,?\s+(\d{1,2}):(\d{2}))?')
-      .firstMatch(s.trim());
+  final m = RegExp(
+    r'^(\d{1,2})\s+([A-Za-z]{3})[a-z]*\s+(\d{4})(?:,?\s+(\d{1,2}):(\d{2}))?',
+  ).firstMatch(s.trim());
   if (m == null) return null;
   final month = _months[m.group(2)!.toLowerCase()];
   if (month == null) return null;

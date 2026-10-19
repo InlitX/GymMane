@@ -210,8 +210,7 @@ void main() {
       expect(s.durationSec, 3600);
       expect(s.exercises.length, 3, reason: 'el ejercicio que no está en el catálogo se cae');
       expect(s.exercises.first.id, 'EIeI8Vf');
-      expect(s.exercises.first.sets.length, 2,
-          reason: 'fuera el calentamiento y la serie sin marcar');
+      expect(s.exercises.first.sets.length, 2, reason: 'fuera el calentamiento y la serie sin marcar');
       expect(s.exercises.first.sets.first.weightKg, 60);
       expect(s.exercises[1].id, 'NbVPDMW');
       expect(s.exercises.last.name, 'Sled Drag');
@@ -259,7 +258,8 @@ void main() {
   });
 
   group('Fitbod', () {
-    const csv = 'Date,Exercise,Reps,Weight(kg),Duration(s),Distance(m),Incline,Resistance,isWarmup,Note,multiplier\n'
+    const csv =
+        'Date,Exercise,Reps,Weight(kg),Duration(s),Distance(m),Incline,Resistance,isWarmup,Note,multiplier\n'
         '2024-03-04 18:02:11 +0000,Barbell Bench Press,10,40.0,0.0,0.0,0.0,0.0,true,,1.0\n'
         '2024-03-04 18:02:11 +0000,Barbell Bench Press,8,60.0,0.0,0.0,0.0,0.0,false,,1.0\n'
         '2024-03-04 18:02:11 +0000,Barbell Bench Press,8,62.5,0.0,0.0,0.0,0.0,false,,1.0\n'

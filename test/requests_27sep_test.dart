@@ -247,7 +247,9 @@ void main() {
     final id = idOf('Barbell Bench Press');
     fit.setVideoMark(id, 1, 40000);
     expect(fit.videoMark(id, 1), 40000);
-    expect(fit.toJson()['marks'], {id: {'1': 40000}});
+    expect(fit.toJson()['marks'], {
+      id: {'1': 40000},
+    });
     fit.setVideoMark(id, 1, null);
     expect(fit.videoMarks, isEmpty);
     fit.setVideoMark(id, 0, 1000);
@@ -349,7 +351,9 @@ void main() {
       fit.togglePlanDay(1, c.id);
       fit.deleteRoutine(a.id);
       expect(fit.planIdsOn(1), [b.id, c.id]);
-      expect(fit.toJson()['planExtras'], {'1': [c.id]});
+      expect(fit.toJson()['planExtras'], {
+        '1': [c.id],
+      });
       fit.toggleMultiPlan();
       expect(fit.planIdsOn(1), [b.id], reason: 'apagado se ignoran las extra');
     });
@@ -392,12 +396,18 @@ void main() {
   group('#99 músculos secundarios propios', () {
     test('se guardan, viajan en la copia y cuentan en las series', () {
       final id = fit.addCustomExercise(
-          name: 'Thruster', primary: 'quads', equipment: 'Dumbbell', secondary: ['shoulders', 'quads', 'triceps']);
+        name: 'Thruster',
+        primary: 'quads',
+        equipment: 'Dumbbell',
+        secondary: ['shoulders', 'quads', 'triceps'],
+      );
       final ex = fit.exerciseById(id)!;
       expect(ex.secondary, ['shoulders', 'triceps'], reason: 'sin repetir el principal');
       final json = ex.toJson();
       expect(json['s'], ['shoulders', 'triceps']);
-      fit.sessions.add(logged(DateTime.now(), [LoggedSet(8, 20), LoggedSet(8, 20)], id: id, primary: 'quads'));
+      fit.sessions.add(
+        logged(DateTime.now(), [LoggedSet(8, 20), LoggedSet(8, 20)], id: id, primary: 'quads'),
+      );
       expect(fit.muscleSetsOver(7)['shoulders'], 1);
     });
   });

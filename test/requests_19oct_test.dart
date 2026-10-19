@@ -183,9 +183,11 @@ void main() {
   group('#81 entreno que pasa de medianoche', () {
     test('cuenta en el día en que empezó', () {
       final end = day(0, 1);
-      fit.sessions.add(LoggedSession(end, 2 * 3600, [
-        LoggedExercise(bench(), 'Bench Press', 'chest', [LoggedSet(8, 60)]),
-      ]));
+      fit.sessions.add(
+        LoggedSession(end, 2 * 3600, [
+          LoggedExercise(bench(), 'Bench Press', 'chest', [LoggedSet(8, 60)]),
+        ]),
+      );
       expect(fit.trainedToday, isFalse);
       expect(fit.sessionsOn(day(-1)).length, 1);
       expect(fit.sessionsOn(DateTime.now()), isEmpty);

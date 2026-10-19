@@ -3,7 +3,6 @@ import 'package:gymmane/state/fit_state.dart';
 
 void main() {
   test('full workout loop populates real stats', () {
-
     fit.sessions.clear();
     fit.selectedMuscles.clear();
     fit.route = 'home';

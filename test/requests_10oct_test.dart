@@ -22,8 +22,7 @@ void main() {
         expect(kFilterMuscles, contains(m));
         fit.setMuscleFilter(m);
         expect(fit.exercisesFiltered, isNotEmpty, reason: m);
-        expect(
-            fit.exercisesFiltered.every((e) => e.primary == m || e.secondary.contains(m)), isTrue);
+        expect(fit.exercisesFiltered.every((e) => e.primary == m || e.secondary.contains(m)), isTrue);
         fit.setMuscleFilter(m);
       }
     });
@@ -31,23 +30,22 @@ void main() {
 
   group('#183 ejercicio por tiempo sin peso', () {
     test('uno propio por tiempo con barra empieza sin peso', () {
-      final id = fit.addCustomExercise(
-          name: 'Sweep', primary: 'abdomen', equipment: 'Barbell', mode: 'time');
+      final id = fit.addCustomExercise(name: 'Sweep', primary: 'abdomen', equipment: 'Barbell', mode: 'time');
       expect(fit.isRepsOnly(id), isTrue);
     });
 
     test('si ya lo hizo con peso, el peso sigue', () {
-      final id = fit.addCustomExercise(
-          name: 'Sweep', primary: 'abdomen', equipment: 'Barbell', mode: 'time');
-      fit.sessions.add(LoggedSession(DateTime.now(), 600, [
-        LoggedExercise(id, 'Sweep', 'abdomen', [LoggedSet(0, 10, sec: 30)]),
-      ]));
+      final id = fit.addCustomExercise(name: 'Sweep', primary: 'abdomen', equipment: 'Barbell', mode: 'time');
+      fit.sessions.add(
+        LoggedSession(DateTime.now(), 600, [
+          LoggedExercise(id, 'Sweep', 'abdomen', [LoggedSet(0, 10, sec: 30)]),
+        ]),
+      );
       expect(fit.isRepsOnly(id), isFalse);
     });
 
     test('se puede volver a poner el peso', () {
-      final id = fit.addCustomExercise(
-          name: 'Sweep', primary: 'abdomen', equipment: 'Barbell', mode: 'time');
+      final id = fit.addCustomExercise(name: 'Sweep', primary: 'abdomen', equipment: 'Barbell', mode: 'time');
       fit.toggleRepsOnly(id);
       expect(fit.isRepsOnly(id), isFalse);
     });
@@ -56,7 +54,9 @@ void main() {
       expect(fit.isRepsOnly('kettlebell-farmer-carry'), isFalse);
       expect(fit.isRepsOnly('cable-pallof-hold'), isFalse);
       expect(fit.isRepsOnly('jump-rope'), isTrue);
-      final barbell = fit.allExercises.firstWhere((e) => e.equipment == 'Barbell' && fit.modeOf(e.id).isEmpty);
+      final barbell = fit.allExercises.firstWhere(
+        (e) => e.equipment == 'Barbell' && fit.modeOf(e.id).isEmpty,
+      );
       expect(fit.isRepsOnly(barbell.id), isFalse);
     });
   });

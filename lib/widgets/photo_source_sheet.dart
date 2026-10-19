@@ -8,10 +8,10 @@ import 'glass.dart';
 import 'ui_kit.dart';
 
 Future<ImageSource?> pickPhotoSource(BuildContext context) => showAppSheet<ImageSource>(
-      context: context,
-      backgroundColor: Colors.transparent,
-      builder: (_) => const PhotoSourceSheet(),
-    );
+  context: context,
+  backgroundColor: Colors.transparent,
+  builder: (_) => const PhotoSourceSheet(),
+);
 
 class PhotoSourceSheet extends StatelessWidget {
   const PhotoSourceSheet({super.key});
@@ -32,10 +32,16 @@ class PhotoSourceSheet extends StatelessWidget {
           const SheetHandle(),
           const SizedBox(height: 18),
           OptionGroup([
-            OptionItem(t.takePhoto,
-                icon: PhosphorIconsRegular.camera, onTap: () => Navigator.of(context).pop(ImageSource.camera)),
-            OptionItem(t.chooseGallery,
-                icon: PhosphorIconsRegular.image, onTap: () => Navigator.of(context).pop(ImageSource.gallery)),
+            OptionItem(
+              t.takePhoto,
+              icon: PhosphorIconsRegular.camera,
+              onTap: () => Navigator.of(context).pop(ImageSource.camera),
+            ),
+            OptionItem(
+              t.chooseGallery,
+              icon: PhosphorIconsRegular.image,
+              onTap: () => Navigator.of(context).pop(ImageSource.gallery),
+            ),
           ]),
         ],
       ),

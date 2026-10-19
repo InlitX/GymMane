@@ -14,16 +14,19 @@ void main() {
 
     test('lee series por ejercicio y varias rutinas', () {
       final plans = parsePlan(
-          '{"routines":[{"name":"A","exercises":[{"name":"Squat","sets":5}]},'
-          '{"title":"B","ejercicios":[{"exercise":"Deadlift"}]}]}');
+        '{"routines":[{"name":"A","exercises":[{"name":"Squat","sets":5}]},'
+        '{"title":"B","ejercicios":[{"exercise":"Deadlift"}]}]}',
+      );
       expect(plans.length, 2);
       expect(plans.first.items.single.sets, 5);
       expect(plans.last.name, 'B');
     });
 
     test('aguanta la prosa y las vallas de código de una IA', () {
-      final plans = parsePlan('Sure! Here you go:\n```json\n'
-          '{"name":"Full body","exercises":["Squat"]}\n```\nEnjoy.');
+      final plans = parsePlan(
+        'Sure! Here you go:\n```json\n'
+        '{"name":"Full body","exercises":["Squat"]}\n```\nEnjoy.',
+      );
       expect(plans.single.name, 'Full body');
     });
 
@@ -38,8 +41,9 @@ void main() {
 
     test('crea la rutina, empareja los nombres y guarda las series', () {
       final result = fit.importPlan(
-          '{"name":"Empuje","exercises":[{"name":"Barbell Bench Press","sets":5},'
-          '{"name":"no existe este ejercicio"}]}');
+        '{"name":"Empuje","exercises":[{"name":"Barbell Bench Press","sets":5},'
+        '{"name":"no existe este ejercicio"}]}',
+      );
       expect(result.added, 1);
       expect(result.missed, ['no existe este ejercicio']);
       expect(result.readable, isTrue);

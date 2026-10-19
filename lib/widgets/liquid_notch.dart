@@ -13,13 +13,13 @@ class LiquidNotchFrame {
   final double width, height, y, neck, shoulder, opacity;
 
   static LiquidNotchFrame lerp(LiquidNotchFrame a, LiquidNotchFrame b, double t) => LiquidNotchFrame(
-        ui.lerpDouble(a.width, b.width, t)!,
-        ui.lerpDouble(a.height, b.height, t)!,
-        ui.lerpDouble(a.y, b.y, t)!,
-        ui.lerpDouble(a.neck, b.neck, t)!,
-        ui.lerpDouble(a.shoulder, b.shoulder, t)!,
-        ui.lerpDouble(a.opacity, b.opacity, t)!,
-      );
+    ui.lerpDouble(a.width, b.width, t)!,
+    ui.lerpDouble(a.height, b.height, t)!,
+    ui.lerpDouble(a.y, b.y, t)!,
+    ui.lerpDouble(a.neck, b.neck, t)!,
+    ui.lerpDouble(a.shoulder, b.shoulder, t)!,
+    ui.lerpDouble(a.opacity, b.opacity, t)!,
+  );
 
   static const _enter = <(double, LiquidNotchFrame)>[
     (0, LiquidNotchFrame(0, 0, 47, 0, 0, 0)),
@@ -109,7 +109,10 @@ class _LiquidNotchState extends State<LiquidNotch> with SingleTickerProviderStat
     final previous = _interrupted;
     if (previous == null) return sampled;
     return LiquidNotchFrame.lerp(
-        previous, sampled, Curves.easeOut.transform((_controller.value / .4).clamp(0.0, 1.0)));
+      previous,
+      sampled,
+      Curves.easeOut.transform((_controller.value / .4).clamp(0.0, 1.0)),
+    );
   }
 
   @override
@@ -153,68 +156,66 @@ class _LiquidNotchState extends State<LiquidNotch> with SingleTickerProviderStat
 
   @override
   Widget build(BuildContext context) => LayoutBuilder(
-        builder: (context, bounds) {
-          final scale = (bounds.maxWidth / 390).clamp(.5, 1.2);
-          final source = widget.sourceRect;
-          final origin = Offset(source.center.dx, source.bottom - 49 * scale);
-          return AnimatedBuilder(
-            animation: _controller,
-            builder: (context, _) {
-              final frame = _frame;
-              final extra = widget.extraHeight * (frame.width / 307).clamp(0.0, 1.0);
-              final target = Rect.fromCenter(
-                center: Offset(origin.dx, origin.dy + (frame.y + extra / 2) * scale),
-                width: frame.width * scale,
-                height: (frame.height + extra) * scale,
-              );
-              return Stack(
-                clipBehavior: Clip.none,
-                children: [
-                  Positioned.fill(
-                    child: IgnorePointer(
-                      child: CustomPaint(
-                        painter: _LiquidPainter(
-                          source: source,
-                          target: target,
-                          neck: frame.neck * scale,
-                          shoulder: frame.shoulder * scale,
-                          sourceColor: widget.sourceColor,
-                          pillColor: widget.pillColor,
-                          cap: 36 * scale,
-                        ),
-                      ),
+    builder: (context, bounds) {
+      final scale = (bounds.maxWidth / 390).clamp(.5, 1.2);
+      final source = widget.sourceRect;
+      final origin = Offset(source.center.dx, source.bottom - 49 * scale);
+      return AnimatedBuilder(
+        animation: _controller,
+        builder: (context, _) {
+          final frame = _frame;
+          final extra = widget.extraHeight * (frame.width / 307).clamp(0.0, 1.0);
+          final target = Rect.fromCenter(
+            center: Offset(origin.dx, origin.dy + (frame.y + extra / 2) * scale),
+            width: frame.width * scale,
+            height: (frame.height + extra) * scale,
+          );
+          return Stack(
+            clipBehavior: Clip.none,
+            children: [
+              Positioned.fill(
+                child: IgnorePointer(
+                  child: CustomPaint(
+                    painter: _LiquidPainter(
+                      source: source,
+                      target: target,
+                      neck: frame.neck * scale,
+                      shoulder: frame.shoulder * scale,
+                      sourceColor: widget.sourceColor,
+                      pillColor: widget.pillColor,
+                      cap: 36 * scale,
                     ),
                   ),
-                  if (frame.opacity > 0 && frame.width > 0)
-                    Positioned.fromRect(
-                      rect: target,
-                      child: IgnorePointer(
-                        ignoring: !widget.visible,
-                        child: ExcludeSemantics(
-                          excluding: !widget.visible || frame.opacity < .6,
-                          child: Semantics(
-                            liveRegion: true,
-                            child: GestureDetector(
-                              onTap: widget.onTap,
-                              behavior: HitTestBehavior.opaque,
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(math.min(target.height / 2, 36 * scale)),
-                                child: Opacity(
-                                  opacity: frame.opacity,
-                                  child: ImageFiltered(
-                                    enabled: frame.opacity < 1 && !_reduced,
-                                    imageFilter: ui.ImageFilter.blur(
-                                      sigmaX: (1 - frame.opacity) * 3,
-                                      sigmaY: (1 - frame.opacity) * 3,
-                                    ),
-                                    child: FittedBox(
-                                      fit: BoxFit.contain,
-                                      child: SizedBox(
-                                        width: 307,
-                                        height: 53 + widget.extraHeight,
-                                        child: widget.child,
-                                      ),
-                                    ),
+                ),
+              ),
+              if (frame.opacity > 0 && frame.width > 0)
+                Positioned.fromRect(
+                  rect: target,
+                  child: IgnorePointer(
+                    ignoring: !widget.visible,
+                    child: ExcludeSemantics(
+                      excluding: !widget.visible || frame.opacity < .6,
+                      child: Semantics(
+                        liveRegion: true,
+                        child: GestureDetector(
+                          onTap: widget.onTap,
+                          behavior: HitTestBehavior.opaque,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(math.min(target.height / 2, 36 * scale)),
+                            child: Opacity(
+                              opacity: frame.opacity,
+                              child: ImageFiltered(
+                                enabled: frame.opacity < 1 && !_reduced,
+                                imageFilter: ui.ImageFilter.blur(
+                                  sigmaX: (1 - frame.opacity) * 3,
+                                  sigmaY: (1 - frame.opacity) * 3,
+                                ),
+                                child: FittedBox(
+                                  fit: BoxFit.contain,
+                                  child: SizedBox(
+                                    width: 307,
+                                    height: 53 + widget.extraHeight,
+                                    child: widget.child,
                                   ),
                                 ),
                               ),
@@ -223,12 +224,14 @@ class _LiquidNotchState extends State<LiquidNotch> with SingleTickerProviderStat
                         ),
                       ),
                     ),
-                ],
-              );
-            },
+                  ),
+                ),
+            ],
           );
         },
       );
+    },
+  );
 }
 
 class _LiquidPainter extends CustomPainter {
@@ -272,8 +275,11 @@ class _LiquidPainter extends CustomPainter {
       ..cubicTo(x + attach, bottom - 8, x + neck, waistY + 6, x + neck, waistY)
       ..cubicTo(x + neck, waistY - 4, x + shoulder * .43, y, x + shoulder, y)
       ..close();
-    final silhouette =
-        Path.combine(PathOperation.union, sourcePath, Path.combine(PathOperation.union, bridge, drop));
+    final silhouette = Path.combine(
+      PathOperation.union,
+      sourcePath,
+      Path.combine(PathOperation.union, bridge, drop),
+    );
     final shader = ui.Gradient.linear(
       Offset(x, source.bottom - 2),
       Offset(x, (target.top + target.height * .62).clamp(source.bottom + 1, double.infinity)),
@@ -372,7 +378,9 @@ class _ToastSession {
     active = request;
     final key = GlobalKey<_ToastHostState>();
     hostKey = key;
-    entry = OverlayEntry(builder: (_) => _ToastHost(key: key, session: this, request: request));
+    entry = OverlayEntry(
+      builder: (_) => _ToastHost(key: key, session: this, request: request),
+    );
     overlay.insert(entry!);
   }
 
@@ -491,10 +499,9 @@ class _ToastHostState extends State<_ToastHost> {
   @override
   Widget build(BuildContext context) {
     final view = View.of(context);
-    final media = MediaQueryData.fromView(view).copyWith(
-      disableAnimations: widget.request.reducedMotion,
-      textScaler: MediaQuery.textScalerOf(context),
-    );
+    final media = MediaQueryData.fromView(
+      view,
+    ).copyWith(disableAnimations: widget.request.reducedMotion, textScaler: MediaQuery.textScalerOf(context));
     return Positioned.fill(
       child: widget.request.themes.wrap(
         MediaQuery(
@@ -534,8 +541,12 @@ class _ToastContent extends StatelessWidget {
   const _ToastContent({required this.request});
   final _ToastRequest request;
 
-  static final subStyle = AppTheme.f(11.5,
-      weight: FontWeight.w600, color: Colors.white.withValues(alpha: 0.6), height: 1.2);
+  static final subStyle = AppTheme.f(
+    11.5,
+    weight: FontWeight.w600,
+    color: Colors.white.withValues(alpha: 0.6),
+    height: 1.2,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -551,7 +562,10 @@ class _ToastContent extends StatelessWidget {
               Container(
                 width: 35,
                 height: 35,
-                decoration: BoxDecoration(color: request.accent.withValues(alpha: 0.18), shape: BoxShape.circle),
+                decoration: BoxDecoration(
+                  color: request.accent.withValues(alpha: 0.18),
+                  shape: BoxShape.circle,
+                ),
                 child: Icon(icon, size: 18, color: request.accent),
               ),
               const SizedBox(width: 11),
@@ -561,10 +575,12 @@ class _ToastContent extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(request.title,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: AppTheme.f(14, weight: FontWeight.w800, color: Colors.white, height: 1.1)),
+                  Text(
+                    request.title,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: AppTheme.f(14, weight: FontWeight.w800, color: Colors.white, height: 1.1),
+                  ),
                   if (request.subtitle != null && request.subtitle!.isNotEmpty) ...[
                     const SizedBox(height: 3),
                     Text(request.subtitle!, maxLines: 3, overflow: TextOverflow.ellipsis, style: subStyle),
@@ -574,7 +590,10 @@ class _ToastContent extends StatelessWidget {
             ),
             if (action != null) ...[
               const SizedBox(width: 8),
-              Text(action, style: AppTheme.f(13, weight: FontWeight.w800, color: request.accent)),
+              Text(
+                action,
+                style: AppTheme.f(13, weight: FontWeight.w800, color: request.accent),
+              ),
             ],
           ],
         ),

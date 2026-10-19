@@ -25,8 +25,7 @@ mixin PlacesState on FitCore, LibraryState {
   }
 
   @override
-  bool fitsHere(Exercise ex) =>
-      activePlace == null || gearHere.contains(ex.equipment) || isCustom(ex.id);
+  bool fitsHere(Exercise ex) => activePlace == null || gearHere.contains(ex.equipment) || isCustom(ex.id);
 
   int placeExerciseCount(GymPlace place) {
     final gear = {...place.equipment, 'Bodyweight'};
@@ -35,9 +34,7 @@ mixin PlacesState on FitCore, LibraryState {
 
   List<Exercise> alternativesHere(Exercise ex, int n) {
     if (fitsHere(ex)) return const [];
-    final pool = allExercises
-        .where((e) => e.id != ex.id && e.primary == ex.primary && fitsHere(e))
-        .toList();
+    final pool = allExercises.where((e) => e.id != ex.id && e.primary == ex.primary && fitsHere(e)).toList();
     pool.sort((a, b) {
       int rank(Exercise e) {
         if (favorites[e.id] == true) return 0;
@@ -60,9 +57,9 @@ mixin PlacesState on FitCore, LibraryState {
   }
 
   String addPresetPlace(String preset) => addPlace(
-        t.placePresetName(preset),
-        equipment: (kPlacePresetGear[preset] ?? const ['Bodyweight']).toSet(),
-      );
+    t.placePresetName(preset),
+    equipment: (kPlacePresetGear[preset] ?? const ['Bodyweight']).toSet(),
+  );
 
   void renamePlace(String id, String name) {
     final i = places.indexWhere((p) => p.id == id);
@@ -174,8 +171,7 @@ mixin PlacesState on FitCore, LibraryState {
   @override
   List<Exercise> exercisesMatching(String query) => super
       .exercisesMatching(query)
-      .where((ex) =>
-          (!exNoGearOnly || isNoKit(ex)) && (!exMineOnly || isCustom(ex.id)) && fitsHere(ex))
+      .where((ex) => (!exNoGearOnly || isNoKit(ex)) && (!exMineOnly || isCustom(ex.id)) && fitsHere(ex))
       .toList();
 
   @override

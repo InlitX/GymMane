@@ -11,12 +11,15 @@ mixin LibraryState on FitCore {
   List<Exercise>? _builtInExercises;
 
   List<Exercise> get allExercises => [
-        ...(_builtInExercises ??= [
-          for (final e in kExercises)
-            if (secondaryOverride[e.id] case final s?) e.copyWith(secondary: _cleanSecondary(e.primary, s)) else e,
-        ]),
-        ...customExercises,
-      ];
+    ...(_builtInExercises ??= [
+      for (final e in kExercises)
+        if (secondaryOverride[e.id] case final s?)
+          e.copyWith(secondary: _cleanSecondary(e.primary, s))
+        else
+          e,
+    ]),
+    ...customExercises,
+  ];
 
   bool hasSecondaryOverride(String id) => secondaryOverride.containsKey(id);
 
@@ -47,7 +50,8 @@ mixin LibraryState on FitCore {
     notifyListeners();
   }
 
-  static bool _sameMuscles(List<String> a, List<String> b) => a.length == b.length && a.toSet().containsAll(b);
+  static bool _sameMuscles(List<String> a, List<String> b) =>
+      a.length == b.length && a.toSet().containsAll(b);
 
   bool fitsHere(Exercise ex) => true;
 
@@ -147,9 +151,7 @@ mixin LibraryState on FitCore {
       if (isArchived(ex.id) != exArchivedOnly) return false;
       if (exFavouritesOnly && favorites[ex.id] != true) return false;
       if (!matchesSearch(ex)) return false;
-      if (exMuscleFilter != null &&
-          ex.primary != exMuscleFilter &&
-          !ex.secondary.contains(exMuscleFilter)) {
+      if (exMuscleFilter != null && ex.primary != exMuscleFilter && !ex.secondary.contains(exMuscleFilter)) {
         return false;
       }
       if (exDifficultyFilter != null && ex.difficulty != exDifficultyFilter) return false;
@@ -169,20 +171,16 @@ mixin LibraryState on FitCore {
     final seats = [
       for (var i = 0; i < list.length; i++)
         (ex: list[i], muscle: order[list[i].primary] ?? kMuscles.length, seat: i),
-    ]..sort((a, b) =>
-        a.muscle == b.muscle ? a.seat.compareTo(b.seat) : a.muscle.compareTo(b.muscle));
+    ]..sort((a, b) => a.muscle == b.muscle ? a.seat.compareTo(b.seat) : a.muscle.compareTo(b.muscle));
     return [for (final s in seats) s.ex];
   }
 
-  Exercise get activeExercise =>
-      exerciseById(activeExerciseId ?? '') ?? kExercises.first;
+  Exercise get activeExercise => exerciseById(activeExerciseId ?? '') ?? kExercises.first;
 
   List<String> activeExerciseSteps(Exercise ex) => exerciseSteps(ex);
 
-  List<Exercise> similarExercises(Exercise ex, int n) => allExercises
-      .where((e) => e.id != ex.id && e.primary == ex.primary)
-      .take(n)
-      .toList();
+  List<Exercise> similarExercises(Exercise ex, int n) =>
+      allExercises.where((e) => e.id != ex.id && e.primary == ex.primary).take(n).toList();
 
   String addCustomExercise({
     required String name,
@@ -196,19 +194,21 @@ mixin LibraryState on FitCore {
     String kind = '',
   }) {
     final id = 'c${DateTime.now().microsecondsSinceEpoch}-${_customSeq++}';
-    customExercises.add(Exercise(
-      id: id,
-      name: name.trim(),
-      primary: primary,
-      secondary: _cleanSecondary(primary, secondary),
-      equipment: equipment,
-      difficulty: difficulty,
-      art: '',
-      steps: _cleanSteps(steps),
-      mode: kExerciseModeIds.contains(mode) ? mode : '',
-      aliases: _cleanAliases(name, aliases),
-      kind: kExerciseKinds.contains(kind) ? kind : '',
-    ));
+    customExercises.add(
+      Exercise(
+        id: id,
+        name: name.trim(),
+        primary: primary,
+        secondary: _cleanSecondary(primary, secondary),
+        equipment: equipment,
+        difficulty: difficulty,
+        art: '',
+        steps: _cleanSteps(steps),
+        mode: kExerciseModeIds.contains(mode) ? mode : '',
+        aliases: _cleanAliases(name, aliases),
+        kind: kExerciseKinds.contains(kind) ? kind : '',
+      ),
+    );
     _persist();
     notifyListeners();
     return id;
@@ -245,9 +245,9 @@ mixin LibraryState on FitCore {
   }
 
   static List<String> _cleanSecondary(String primary, List<String> raw) => [
-        for (final m in kMuscles)
-          if (m.id != primary && raw.contains(m.id)) m.id,
-      ];
+    for (final m in kMuscles)
+      if (m.id != primary && raw.contains(m.id)) m.id,
+  ];
 
   static List<String> _cleanAliases(String name, List<String> raw) {
     final seen = {name.trim().toLowerCase()};
@@ -260,9 +260,9 @@ mixin LibraryState on FitCore {
   static final _bullet = RegExp(r'^(\d+[.)]|[-•*])\s*');
 
   static List<String> _cleanSteps(List<String> raw) => [
-        for (final s in raw.map((s) => s.trim().replaceFirst(_bullet, '')))
-          if (s.isNotEmpty) s,
-      ];
+    for (final s in raw.map((s) => s.trim().replaceFirst(_bullet, '')))
+      if (s.isNotEmpty) s,
+  ];
 
   String modeOf(String id) {
     final forced = modeOverride[id];
@@ -280,9 +280,8 @@ mixin LibraryState on FitCore {
   bool runsClock(String id) => modeOf(id).isNotEmpty;
 
   void setExerciseMode(String id, String mode) {
-    final base = customExercises.where((e) => e.id == id).map((e) => e.mode).firstOrNull ??
-        kExerciseModes[id] ??
-        '';
+    final base =
+        customExercises.where((e) => e.id == id).map((e) => e.mode).firstOrNull ?? kExerciseModes[id] ?? '';
     final wanted = mode == 'weight' ? '' : mode;
     if (wanted == base) {
       modeOverride.remove(id);
@@ -306,9 +305,9 @@ mixin LibraryState on FitCore {
   }
 
   List<Exercise> mergeTargets(String fromId) => [
-        for (final e in allExercises)
-          if (e.id != fromId && modeOf(e.id) == modeOf(fromId)) e,
-      ];
+    for (final e in allExercises)
+      if (e.id != fromId && modeOf(e.id) == modeOf(fromId)) e,
+  ];
 
   void mergeExerciseInto(String fromId, String toId) {
     final to = exerciseById(toId);

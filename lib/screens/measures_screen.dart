@@ -71,9 +71,15 @@ class _MeasureRow extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(t.measureName(measureKey),
-                        style: AppTheme.s(12,
-                            weight: FontWeight.w600, color: gc.textSecondary, letterSpacing: 1)),
+                    Text(
+                      t.measureName(measureKey),
+                      style: AppTheme.s(
+                        12,
+                        weight: FontWeight.w600,
+                        color: gc.textSecondary,
+                        letterSpacing: 1,
+                      ),
+                    ),
                     const SizedBox(height: 6),
                     if (latest == null)
                       Text(t.measureNoneYet, style: AppTheme.s(14, color: gc.textTertiary))
@@ -81,14 +87,17 @@ class _MeasureRow extends StatelessWidget {
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          Text(fit.measureValue(measureKey, latest.value),
-                              style: AppTheme.d(26, weight: FontWeight.w700, color: gc.text)),
+                          Text(
+                            fit.measureValue(measureKey, latest.value),
+                            style: AppTheme.d(26, weight: FontWeight.w700, color: gc.text),
+                          ),
                           const SizedBox(width: 4),
                           Padding(
                             padding: const EdgeInsets.only(bottom: 3),
-                            child: Text(fit.measureUnit(measureKey),
-                                style: AppTheme.d(13,
-                                    weight: FontWeight.w600, color: gc.textSecondary)),
+                            child: Text(
+                              fit.measureUnit(measureKey),
+                              style: AppTheme.d(13, weight: FontWeight.w600, color: gc.textSecondary),
+                            ),
                           ),
                           if (change != null && change != 0) ...[
                             const SizedBox(width: 10),
@@ -96,9 +105,11 @@ class _MeasureRow extends StatelessWidget {
                               padding: const EdgeInsets.only(bottom: 3),
                               child: Text(
                                 '${change > 0 ? '+' : ''}${fmt(change)}',
-                                style: AppTheme.s(12.5,
-                                    weight: FontWeight.w600,
-                                    color: change > 0 ? gc.sage : gc.accent),
+                                style: AppTheme.s(
+                                  12.5,
+                                  weight: FontWeight.w600,
+                                  color: change > 0 ? gc.sage : gc.accent,
+                                ),
                               ),
                             ),
                           ],
@@ -128,11 +139,11 @@ class _MeasureRow extends StatelessWidget {
 }
 
 Future<void> showMeasureSheet(BuildContext context, String key) => showAppSheet<void>(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (_) => _MeasureSheet(measureKey: key),
-    );
+  context: context,
+  isScrollControlled: true,
+  backgroundColor: Colors.transparent,
+  builder: (_) => _MeasureSheet(measureKey: key),
+);
 
 class _MeasureSheet extends StatefulWidget {
   const _MeasureSheet({required this.measureKey});
@@ -215,24 +226,28 @@ class _MeasureSheetState extends State<_MeasureSheet> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Row(children: [
-                    Expanded(
-                      child: Text(t.measureName(_key),
-                          style: AppTheme.f(17, weight: FontWeight.w800, color: gc.text)),
-                    ),
-                    Semantics(
-                      button: true,
-                      label: t.measureName(_key),
-                      child: GestureDetector(
-                        behavior: HitTestBehavior.opaque,
-                        onTap: _type,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8),
-                          child: Icon(PhosphorIconsRegular.keyboard, size: 20, color: gc.textSecondary),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          t.measureName(_key),
+                          style: AppTheme.f(17, weight: FontWeight.w800, color: gc.text),
                         ),
                       ),
-                    ),
-                  ]),
+                      Semantics(
+                        button: true,
+                        label: t.measureName(_key),
+                        child: GestureDetector(
+                          behavior: HitTestBehavior.opaque,
+                          onTap: _type,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8),
+                            child: Icon(PhosphorIconsRegular.keyboard, size: 20, color: gc.textSecondary),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                   const SizedBox(height: 6),
                   Center(
                     child: Row(
@@ -240,11 +255,15 @@ class _MeasureSheetState extends State<_MeasureSheet> {
                       crossAxisAlignment: CrossAxisAlignment.baseline,
                       textBaseline: TextBaseline.alphabetic,
                       children: [
-                        RollingText(_show(_value),
-                            style: AppTheme.f(54, weight: FontWeight.w800, color: gc.text, height: 1.1)),
+                        RollingText(
+                          _show(_value),
+                          style: AppTheme.f(54, weight: FontWeight.w800, color: gc.text, height: 1.1),
+                        ),
                         const SizedBox(width: 6),
-                        Text(fit.measureUnit(_key),
-                            style: AppTheme.f(18, weight: FontWeight.w700, color: gc.textSecondary)),
+                        Text(
+                          fit.measureUnit(_key),
+                          style: AppTheme.f(18, weight: FontWeight.w700, color: gc.textSecondary),
+                        ),
                       ],
                     ),
                   ),
@@ -262,9 +281,15 @@ class _MeasureSheetState extends State<_MeasureSheet> {
                   PrimaryButton(label: t.save, onTap: _save, height: 54),
                   if (history.isNotEmpty) ...[
                     const SizedBox(height: 22),
-                    Text(t.measureHistory,
-                        style: AppTheme.d(12,
-                            weight: FontWeight.w600, color: gc.textSecondary, letterSpacing: 2)),
+                    Text(
+                      t.measureHistory,
+                      style: AppTheme.d(
+                        12,
+                        weight: FontWeight.w600,
+                        color: gc.textSecondary,
+                        letterSpacing: 2,
+                      ),
+                    ),
                     const SizedBox(height: 10),
                     for (final m in history.take(6)) _historyRow(gc, m),
                   ],
@@ -278,31 +303,33 @@ class _MeasureSheetState extends State<_MeasureSheet> {
   }
 
   Widget _historyRow(GymColors gc, BodyMeasure m) => Padding(
-        padding: const EdgeInsets.symmetric(vertical: 7),
-        child: Row(
-          children: [
-            Expanded(
-              child: Text(t.shortDateYear(m.date), style: AppTheme.s(12.5, color: gc.textSecondary)),
-            ),
-            Text(fit.measureLabel(m.key, m.value),
-                style: AppTheme.s(13.5, weight: FontWeight.w600, color: gc.text)),
-            const SizedBox(width: 8),
-            Semantics(
-              button: true,
-              label: t.delete,
-              child: GestureDetector(
-                behavior: HitTestBehavior.opaque,
-                onTap: () {
-                  fit.deleteMeasure(m);
-                  setState(() {});
-                },
-                child: Padding(
-                  padding: const EdgeInsets.all(6),
-                  child: SvgPathIcon(Ic.close, size: 12, color: gc.textTertiary),
-                ),
-              ),
-            ),
-          ],
+    padding: const EdgeInsets.symmetric(vertical: 7),
+    child: Row(
+      children: [
+        Expanded(
+          child: Text(t.shortDateYear(m.date), style: AppTheme.s(12.5, color: gc.textSecondary)),
         ),
-      );
+        Text(
+          fit.measureLabel(m.key, m.value),
+          style: AppTheme.s(13.5, weight: FontWeight.w600, color: gc.text),
+        ),
+        const SizedBox(width: 8),
+        Semantics(
+          button: true,
+          label: t.delete,
+          child: GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onTap: () {
+              fit.deleteMeasure(m);
+              setState(() {});
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(6),
+              child: SvgPathIcon(Ic.close, size: 12, color: gc.textTertiary),
+            ),
+          ),
+        ),
+      ],
+    ),
+  );
 }

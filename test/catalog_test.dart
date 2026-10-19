@@ -16,7 +16,9 @@ void main() {
         continue;
       }
       final frames = file.readAsLinesSync().where((l) => l.trim().isNotEmpty).toList();
-      if (frames.length < 2 || frames.length > 3) broken.add('${e.name}: ${frames.length} frames, esperaba 2 o 3');
+      if (frames.length < 2 || frames.length > 3) {
+        broken.add('${e.name}: ${frames.length} frames, esperaba 2 o 3');
+      }
       for (final d in frames) {
         try {
           parseSvgPathData(d);
@@ -30,8 +32,11 @@ void main() {
 
   test('almost every exercise ships an illustration', () {
     final sinArte = kExercises.where((e) => e.art.isEmpty).map((e) => e.name).toList();
-    expect(sinArte.length, lessThan(kExercises.length ~/ 20),
-        reason: 'demasiados ejercicios sin ilustración: $sinArte');
+    expect(
+      sinArte.length,
+      lessThan(kExercises.length ~/ 20),
+      reason: 'demasiados ejercicios sin ilustración: $sinArte',
+    );
   });
 
   test('no orphan art sitting unused in assets', () {

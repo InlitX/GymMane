@@ -60,7 +60,11 @@ class _RulerPickerState extends State<RulerPicker> {
     final wanted = _indexOf(widget.value);
     if (wanted != _index && _scroll.hasClients && !_scroll.position.isScrollingNotifier.value) {
       _index = wanted;
-      _scroll.animateTo(wanted * _gap, duration: const Duration(milliseconds: 260), curve: Curves.easeOutCubic);
+      _scroll.animateTo(
+        wanted * _gap,
+        duration: const Duration(milliseconds: 260),
+        curve: Curves.easeOutCubic,
+      );
     }
   }
 
@@ -86,57 +90,61 @@ class _RulerPickerState extends State<RulerPicker> {
   Widget build(BuildContext context) {
     final gc = context.gc;
     final vertical = widget.axis == Axis.vertical;
-    return LayoutBuilder(builder: (context, box) {
-      final side = (vertical ? widget.height : box.maxWidth) / 2 - _gap / 2;
-      return SizedBox(
-        height: widget.height,
-        child: Stack(
-          alignment: vertical ? Alignment.centerRight : Alignment.topCenter,
-          children: [
-            ShaderMask(
-              blendMode: BlendMode.dstIn,
-              shaderCallback: (r) => LinearGradient(
-                begin: vertical ? Alignment.topCenter : Alignment.centerLeft,
-                end: vertical ? Alignment.bottomCenter : Alignment.centerRight,
-                colors: const [Color(0x00000000), Color(0xFF000000), Color(0xFF000000), Color(0x00000000)],
-                stops: const [0, 0.18, 0.82, 1],
-              ).createShader(r),
-              child: NotificationListener<ScrollNotification>(
-                onNotification: _onScroll,
-                child: ListView.builder(
-                  controller: _scroll,
-                  scrollDirection: widget.axis,
-                  reverse: vertical,
-                  physics: const _SnapPhysics(_gap),
-                  padding: vertical ? EdgeInsets.symmetric(vertical: side) : EdgeInsets.symmetric(horizontal: side),
-                  itemExtent: _gap,
-                  itemCount: _count,
-                  itemBuilder: (context, i) {
-                    final major = i % widget.majorEvery == 0;
-                    final half = !major && widget.majorEvery % 2 == 0 && i % (widget.majorEvery ~/ 2) == 0;
-                    return _Tick(
-                      major: major,
-                      half: half,
-                      vertical: vertical,
-                      label: major ? (widget.label ?? _plain)(_valueAt(i)) : null,
-                      color: gc.textTertiary,
-                      labelColor: gc.textSecondary,
-                    );
-                  },
+    return LayoutBuilder(
+      builder: (context, box) {
+        final side = (vertical ? widget.height : box.maxWidth) / 2 - _gap / 2;
+        return SizedBox(
+          height: widget.height,
+          child: Stack(
+            alignment: vertical ? Alignment.centerRight : Alignment.topCenter,
+            children: [
+              ShaderMask(
+                blendMode: BlendMode.dstIn,
+                shaderCallback: (r) => LinearGradient(
+                  begin: vertical ? Alignment.topCenter : Alignment.centerLeft,
+                  end: vertical ? Alignment.bottomCenter : Alignment.centerRight,
+                  colors: const [Color(0x00000000), Color(0xFF000000), Color(0xFF000000), Color(0x00000000)],
+                  stops: const [0, 0.18, 0.82, 1],
+                ).createShader(r),
+                child: NotificationListener<ScrollNotification>(
+                  onNotification: _onScroll,
+                  child: ListView.builder(
+                    controller: _scroll,
+                    scrollDirection: widget.axis,
+                    reverse: vertical,
+                    physics: const _SnapPhysics(_gap),
+                    padding: vertical
+                        ? EdgeInsets.symmetric(vertical: side)
+                        : EdgeInsets.symmetric(horizontal: side),
+                    itemExtent: _gap,
+                    itemCount: _count,
+                    itemBuilder: (context, i) {
+                      final major = i % widget.majorEvery == 0;
+                      final half = !major && widget.majorEvery % 2 == 0 && i % (widget.majorEvery ~/ 2) == 0;
+                      return _Tick(
+                        major: major,
+                        half: half,
+                        vertical: vertical,
+                        label: major ? (widget.label ?? _plain)(_valueAt(i)) : null,
+                        color: gc.textTertiary,
+                        labelColor: gc.textSecondary,
+                      );
+                    },
+                  ),
                 ),
               ),
-            ),
-            IgnorePointer(
-              child: Container(
-                width: vertical ? 44 : 3,
-                height: vertical ? 3 : 44,
-                decoration: BoxDecoration(color: gc.accent, borderRadius: BorderRadius.circular(2)),
+              IgnorePointer(
+                child: Container(
+                  width: vertical ? 44 : 3,
+                  height: vertical ? 3 : 44,
+                  decoration: BoxDecoration(color: gc.accent, borderRadius: BorderRadius.circular(2)),
+                ),
               ),
-            ),
-          ],
-        ),
-      );
-    });
+            ],
+          ),
+        );
+      },
+    );
   }
 
   static String _plain(double v) => v == v.roundToDouble() ? '${v.round()}' : '$v';
@@ -169,7 +177,11 @@ class _Tick extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             if (label != null) ...[
-              Text(label!, maxLines: 1, style: AppTheme.f(12, weight: FontWeight.w700, color: labelColor)),
+              Text(
+                label!,
+                maxLines: 1,
+                style: AppTheme.f(12, weight: FontWeight.w700, color: labelColor),
+              ),
               const SizedBox(width: 10),
             ],
             Container(
@@ -200,7 +212,11 @@ class _Tick extends StatelessWidget {
           ),
           if (label != null) ...[
             const SizedBox(height: 10),
-            Text(label!, maxLines: 1, style: AppTheme.f(12, weight: FontWeight.w700, color: labelColor)),
+            Text(
+              label!,
+              maxLines: 1,
+              style: AppTheme.f(12, weight: FontWeight.w700, color: labelColor),
+            ),
           ],
         ],
       ),
@@ -257,7 +273,9 @@ Future<double?> askRuler(
   String? clearLabel,
 }) {
   var current = value.clamp(min, max).toDouble();
-  final decimals = step == step.roundToDouble() ? 0 : (step < 0.1 || step * 10 != (step * 10).roundToDouble() ? 2 : 1);
+  final decimals = step == step.roundToDouble()
+      ? 0
+      : (step < 0.1 || step * 10 != (step * 10).roundToDouble() ? 2 : 1);
   String show(double v) => format != null ? format(v) : decimalText(v.toStringAsFixed(decimals));
   return showAppSheet<double>(
     context: context,
@@ -270,10 +288,16 @@ Future<double?> askRuler(
           crossAxisAlignment: CrossAxisAlignment.baseline,
           textBaseline: TextBaseline.alphabetic,
           children: [
-            RollingText(show(current), style: AppTheme.f(54, weight: FontWeight.w800, color: gc.text, height: 1.1)),
+            RollingText(
+              show(current),
+              style: AppTheme.f(54, weight: FontWeight.w800, color: gc.text, height: 1.1),
+            ),
             if (unit.isNotEmpty) ...[
               const SizedBox(width: 6),
-              Text(unit, style: AppTheme.f(18, weight: FontWeight.w700, color: gc.textSecondary)),
+              Text(
+                unit,
+                style: AppTheme.f(18, weight: FontWeight.w700, color: gc.textSecondary),
+              ),
             ],
           ],
         );
@@ -300,35 +324,45 @@ Future<double?> askRuler(
             children: [
               const SheetHandle(),
               const SizedBox(height: 14),
-              Row(children: [
-                Expanded(
-                  child: Text(titleCase(title),
-                      style: AppTheme.f(15, weight: FontWeight.w700, color: gc.textSecondary)),
-                ),
-                Semantics(
-                  button: true,
-                  label: title,
-                  child: GestureDetector(
-                    behavior: HitTestBehavior.opaque,
-                    onTap: () async {
-                      final typed = await askNumber(sheet,
-                          title: title, initial: show(current), decimal: step != step.roundToDouble());
-                      if (typed == null) return;
-                      setSheet(() => current = ((typed.clamp(min, max) / step).round() * step).toDouble());
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(8),
-                      child: Icon(PhosphorIconsRegular.keyboard, size: 20, color: gc.textSecondary),
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      titleCase(title),
+                      style: AppTheme.f(15, weight: FontWeight.w700, color: gc.textSecondary),
                     ),
                   ),
-                ),
-              ]),
+                  Semantics(
+                    button: true,
+                    label: title,
+                    child: GestureDetector(
+                      behavior: HitTestBehavior.opaque,
+                      onTap: () async {
+                        final typed = await askNumber(
+                          sheet,
+                          title: title,
+                          initial: show(current),
+                          decimal: step != step.roundToDouble(),
+                        );
+                        if (typed == null) return;
+                        setSheet(() => current = ((typed.clamp(min, max) / step).round() * step).toDouble());
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(8),
+                        child: Icon(PhosphorIconsRegular.keyboard, size: 20, color: gc.textSecondary),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
               const SizedBox(height: 10),
               if (vertical)
-                Row(children: [
-                  Expanded(child: Center(child: reading)),
-                  SizedBox(width: 130, child: ruler),
-                ])
+                Row(
+                  children: [
+                    Expanded(child: Center(child: reading)),
+                    SizedBox(width: 130, child: ruler),
+                  ],
+                )
               else ...[
                 Center(child: reading),
                 const SizedBox(height: 18),
@@ -336,9 +370,11 @@ Future<double?> askRuler(
               ],
               if (hint != null) ...[
                 const SizedBox(height: 14),
-                Text(hint,
-                    textAlign: TextAlign.center,
-                    style: AppTheme.f(12, weight: FontWeight.w500, color: gc.textTertiary, height: 1.4)),
+                Text(
+                  hint,
+                  textAlign: TextAlign.center,
+                  style: AppTheme.f(12, weight: FontWeight.w500, color: gc.textTertiary, height: 1.4),
+                ),
               ],
               const SizedBox(height: 18),
               PrimaryButton(label: t.set, onTap: () => Navigator.of(sheet).pop(current)),
@@ -349,8 +385,10 @@ Future<double?> askRuler(
                   child: SizedBox(
                     height: 48,
                     child: Center(
-                      child: Text(clearLabel,
-                          style: AppTheme.f(14, weight: FontWeight.w600, color: gc.textSecondary)),
+                      child: Text(
+                        clearLabel,
+                        style: AppTheme.f(14, weight: FontWeight.w600, color: gc.textSecondary),
+                      ),
                     ),
                   ),
                 ),

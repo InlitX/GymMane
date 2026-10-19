@@ -50,9 +50,7 @@ class _RiseFlag extends InheritedWidget {
 
 List<Widget> riseAll(List<Widget> children) {
   var i = 0;
-  return [
-    for (final c in children) c is SizedBox && c.child == null ? c : Rise(index: i++, child: c),
-  ];
+  return [for (final c in children) c is SizedBox && c.child == null ? c : Rise(index: i++, child: c)];
 }
 
 class Rise extends StatefulWidget {
@@ -69,8 +67,10 @@ class _RiseState extends State<Rise> with SingleTickerProviderStateMixin {
   static const _motion = 560;
 
   late final int _delay = 40 + widget.index.clamp(0, 7) * 70;
-  late final AnimationController _c =
-      AnimationController(vsync: this, duration: Duration(milliseconds: _delay + _motion));
+  late final AnimationController _c = AnimationController(
+    vsync: this,
+    duration: Duration(milliseconds: _delay + _motion),
+  );
   late final Animation<double> _v = CurvedAnimation(
     parent: _c,
     curve: Interval(_delay / (_delay + _motion), 1, curve: Curves.easeOutCubic),
@@ -166,7 +166,10 @@ class _RollInState extends State<RollIn> with SingleTickerProviderStateMixin {
       );
     }
     final chars = widget.text.characters.toList();
-    final digits = [for (var i = 0; i < chars.length; i++) if (_isDigit(chars[i])) i];
+    final digits = [
+      for (var i = 0; i < chars.length; i++)
+        if (_isDigit(chars[i])) i,
+    ];
     final total = int.parse(digits.map((i) => chars[i]).join());
     final scaler = MediaQuery.textScalerOf(context);
     final line = scaler.scale(widget.style.fontSize ?? 14) * (widget.style.height ?? 1.2);
@@ -212,9 +215,9 @@ class _RollInState extends State<RollIn> with SingleTickerProviderStateMixin {
     final low = pos.floor();
     final frac = pos - low;
     Widget digit(int v, double dy) => Transform.translate(
-          offset: Offset(0, dy),
-          child: Text('${v % 10}', style: widget.style, textHeightBehavior: _tight),
-        );
+      offset: Offset(0, dy),
+      child: Text('${v % 10}', style: widget.style, textHeightBehavior: _tight),
+    );
     return Opacity(
       opacity: place == 0 ? 1 : scaled.clamp(0.0, 1.0),
       child: ClipRect(
@@ -224,10 +227,7 @@ class _RollInState extends State<RollIn> with SingleTickerProviderStateMixin {
           child: Stack(
             alignment: Alignment.center,
             clipBehavior: Clip.none,
-            children: [
-              digit(low, -frac * line),
-              if (frac > 0.001) digit(low + 1, (1 - frac) * line),
-            ],
+            children: [digit(low, -frac * line), if (frac > 0.001) digit(low + 1, (1 - frac) * line)],
           ),
         ),
       ),

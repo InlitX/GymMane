@@ -449,7 +449,13 @@ void main() {
     });
 
     test('sin peso cocinado ni gramos no se crea el lote', () {
-      final quick = FoodEntry(id: 'x', at: DateTime.now(), meal: Meal.lunch, name: 'a', per: const Macros(kcal: 100));
+      final quick = FoodEntry(
+        id: 'x',
+        at: DateTime.now(),
+        meal: Meal.lunch,
+        name: 'a',
+        per: const Macros(kcal: 100),
+      );
       expect(fit.saveBatch(name: 'Nada', items: [quick]), isNull);
       expect(fit.saveBatch(name: 'Con peso', items: [quick], cookedGrams: 300), isNotNull);
     });
@@ -585,7 +591,9 @@ void main() {
     });
 
     test('quien ya tenía rastreadores guardados ve los planes al actualizar', () {
-      fit.loadNutrition({'trackers': ['calories', 'water']});
+      fit.loadNutrition({
+        'trackers': ['calories', 'water'],
+      });
       expect(fit.trackerOn(Tracker.plans), isTrue);
       expect(fit.trackerOn(Tracker.protein), isFalse);
     });
@@ -661,11 +669,15 @@ void main() {
     test('un suplemento puede tocar algunos días, cada X días y con fecha de fin', () {
       final monday = DateTime(2026, 10, 5);
       final someDays = Supplement(id: 'a', name: 'Omega', days: (1 << 1) | (1 << 3) | (1 << 5));
-      expect([for (var i = 0; i < 7; i++) someDays.dueOn(monday.add(Duration(days: i)))],
-          [true, false, true, false, true, false, false]);
+      expect(
+        [for (var i = 0; i < 7; i++) someDays.dueOn(monday.add(Duration(days: i)))],
+        [true, false, true, false, true, false, false],
+      );
       final every3 = Supplement(id: 'b', name: 'Zinc', every: 3, from: monday);
-      expect([for (var i = 0; i < 7; i++) every3.dueOn(monday.add(Duration(days: i)))],
-          [true, false, false, true, false, false, true]);
+      expect(
+        [for (var i = 0; i < 7; i++) every3.dueOn(monday.add(Duration(days: i)))],
+        [true, false, false, true, false, false, true],
+      );
       final short = Supplement(id: 'c', name: 'Melatonina', from: monday, until: DateTime(2026, 10, 6));
       expect(short.dueOn(DateTime(2026, 10, 4)), isFalse);
       expect(short.dueOn(DateTime(2026, 10, 6, 23)), isTrue);
@@ -702,7 +714,10 @@ void main() {
       final draft = fit.draftMealPlan();
       expect(fit.mealPlans, isEmpty);
       final saved = fit.saveMealPlan(
-        draft.copyWith(name: 'Lunes', items: [fit.entryFor(lib('Huevo'), servings: 2).copyWith(meal: Meal.breakfast)]),
+        draft.copyWith(
+          name: 'Lunes',
+          items: [fit.entryFor(lib('Huevo'), servings: 2).copyWith(meal: Meal.breakfast)],
+        ),
         {1, 3},
       );
       expect(fit.mealPlans.single.name, 'Lunes');
@@ -715,10 +730,12 @@ void main() {
 
     test('el progreso del plan de hoy cuenta las comidas ya apuntadas', () {
       final plan = fit.saveMealPlan(
-        fit.draftMealPlan().copyWith(items: [
-          fit.entryFor(lib('Huevo')).copyWith(meal: Meal.breakfast),
-          fit.entryFor(lib('Arroz blanco')).copyWith(meal: Meal.lunch),
-        ]),
+        fit.draftMealPlan().copyWith(
+          items: [
+            fit.entryFor(lib('Huevo')).copyWith(meal: Meal.breakfast),
+            fit.entryFor(lib('Arroz blanco')).copyWith(meal: Meal.lunch),
+          ],
+        ),
         {fit.nutritionDay.weekday},
       );
       expect(fit.planProgress(plan, fit.nutritionDay), (done: 0, total: 2));

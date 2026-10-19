@@ -84,12 +84,14 @@ List<PlanRoutine> parsePlan(String raw) {
     final items = _items(_value(map, _listKeys), lb);
     if (items.isEmpty) return;
     final own = _string(_value(map, _groupKeys));
-    out.add(PlanRoutine(
-      _string(_value(map, _nameKeys)),
-      items,
-      group: own.isNotEmpty ? own : group,
-      days: _days(_value(map, _dayKeys)),
-    ));
+    out.add(
+      PlanRoutine(
+        _string(_value(map, _nameKeys)),
+        items,
+        group: own.isNotEmpty ? own : group,
+        days: _days(_value(map, _dayKeys)),
+      ),
+    );
   }
 
   void addRoutines(List<Object?> list, String group) {
@@ -267,13 +269,15 @@ List<PlanSet> _planSets(Object? raw, bool lb) {
   final out = <PlanSet>[];
   for (final s in raw) {
     if (s is! Map<Object?, Object?>) continue;
-    out.add(PlanSet(
-      reps: _int(_value(s, _repKeys)),
-      weightKg: _weight(_value(s, _weightKeys), lb || _value(s, ['lbs', 'lb']) != null),
-      kind: _kind(_value(s, ['type', 'kind', 'tipo', 'settype'])),
-      sec: _seconds(_value(s, _timeKeys)),
-      km: _double(_value(s, _distanceKeys)),
-    ));
+    out.add(
+      PlanSet(
+        reps: _int(_value(s, _repKeys)),
+        weightKg: _weight(_value(s, _weightKeys), lb || _value(s, ['lbs', 'lb']) != null),
+        kind: _kind(_value(s, ['type', 'kind', 'tipo', 'settype'])),
+        sec: _seconds(_value(s, _timeKeys)),
+        km: _double(_value(s, _distanceKeys)),
+      ),
+    );
   }
   return out;
 }
@@ -295,25 +299,27 @@ List<PlanItem> _items(Object? raw, bool lb) {
     final info = custom is Map<Object?, Object?> ? custom : const <Object?, Object?>{};
     final steps = _value(info, ['steps', 'howto', 'pasos', 'instructions']);
     final superset = _value(entry, ['superset', 'supersetwithnext', 'linked', 'chain']);
-    out.add(PlanItem(
-      name.isEmpty ? id : name,
-      _int(_value(entry, _setKeys)),
-      id: id.isEmpty ? null : id,
-      reps: _int(_value(entry, _repKeys)),
-      weightKg: _weight(_value(entry, _weightKeys), itemLb),
-      restSec: _seconds(_value(entry, _restKeys)),
-      superset: superset == true || (superset is String && superset.toLowerCase() == 'true'),
-      plan: _planSets(_value(entry, ['plan', 'setplan', 'setsplan', 'detail']), itemLb),
-      muscle: _string(_value(info, ['muscle', 'primary', 'musculo'])),
-      equipment: _string(_value(info, ['equipment', 'material', 'gear'])),
-      level: _string(_value(info, ['level', 'difficulty', 'nivel'])),
-      steps: steps is List ? steps.whereType<String>().toList() : const [],
-      mode: _string(_value(info, ['track', 'mode', 'type'])),
-      secondary: switch (_value(info, ['secondary', 'secondarymuscles'])) {
-        final List list => list.whereType<String>().toList(),
-        _ => const [],
-      },
-    ));
+    out.add(
+      PlanItem(
+        name.isEmpty ? id : name,
+        _int(_value(entry, _setKeys)),
+        id: id.isEmpty ? null : id,
+        reps: _int(_value(entry, _repKeys)),
+        weightKg: _weight(_value(entry, _weightKeys), itemLb),
+        restSec: _seconds(_value(entry, _restKeys)),
+        superset: superset == true || (superset is String && superset.toLowerCase() == 'true'),
+        plan: _planSets(_value(entry, ['plan', 'setplan', 'setsplan', 'detail']), itemLb),
+        muscle: _string(_value(info, ['muscle', 'primary', 'musculo'])),
+        equipment: _string(_value(info, ['equipment', 'material', 'gear'])),
+        level: _string(_value(info, ['level', 'difficulty', 'nivel'])),
+        steps: steps is List ? steps.whereType<String>().toList() : const [],
+        mode: _string(_value(info, ['track', 'mode', 'type'])),
+        secondary: switch (_value(info, ['secondary', 'secondarymuscles'])) {
+          final List list => list.whereType<String>().toList(),
+          _ => const [],
+        },
+      ),
+    );
   }
   return out;
 }
@@ -387,13 +393,15 @@ List<PlanRoutine> _parseCsv(String raw) {
       groups[key] = g;
       schedule[key] = _days(cell(r, days));
     }
-    grouped[key]!.add(PlanItem(
-      name,
-      _int(cell(r, sets)),
-      reps: _int(cell(r, reps)),
-      weightKg: _weight(cell(r, weight), lb),
-      restSec: _seconds(cell(r, rest)),
-    ));
+    grouped[key]!.add(
+      PlanItem(
+        name,
+        _int(cell(r, sets)),
+        reps: _int(cell(r, reps)),
+        weightKg: _weight(cell(r, weight), lb),
+        restSec: _seconds(cell(r, rest)),
+      ),
+    );
   }
   return [
     for (final key in order)

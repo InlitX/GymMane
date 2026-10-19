@@ -18,22 +18,13 @@ void main() {
     setAppLanguage('en');
   });
 
-  testWidgets('Activity shows duration and distance for logged timed sets', (
-    tester,
-  ) async {
+  testWidgets('Activity shows duration and distance for logged timed sets', (tester) async {
     final day = DateTime(2026, 10, 12);
     fit.sessions.add(
       LoggedSession(DateTime(2026, 10, 12, 18), 1800, [
-        LoggedExercise('plank', 'Plank', 'abdomen', [
-          LoggedSet(0, 0, sec: 45),
-          LoggedSet(0, 0, sec: 70),
-        ]),
-        LoggedExercise('outdoor-run', 'Outdoor Run', 'quads', [
-          LoggedSet(0, 0, sec: 1800, km: 5.25),
-        ]),
-        LoggedExercise('barbell-bench-press', 'Barbell Bench Press', 'chest', [
-          LoggedSet(8, 60),
-        ]),
+        LoggedExercise('plank', 'Plank', 'abdomen', [LoggedSet(0, 0, sec: 45), LoggedSet(0, 0, sec: 70)]),
+        LoggedExercise('outdoor-run', 'Outdoor Run', 'quads', [LoggedSet(0, 0, sec: 1800, km: 5.25)]),
+        LoggedExercise('barbell-bench-press', 'Barbell Bench Press', 'chest', [LoggedSet(8, 60)]),
       ]),
     );
 
@@ -42,10 +33,8 @@ void main() {
         theme: AppTheme.dark,
         home: Scaffold(
           body: Builder(
-            builder: (context) => TextButton(
-              onPressed: () => showDaySheet(context, day),
-              child: const Text('Open Activity'),
-            ),
+            builder: (context) =>
+                TextButton(onPressed: () => showDaySheet(context, day), child: const Text('Open Activity')),
           ),
         ),
       ),

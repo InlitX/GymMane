@@ -74,8 +74,10 @@ class TimerPanel extends StatelessWidget {
                         color: gc.bgRaised2,
                         borderRadius: const BorderRadius.vertical(top: Radius.circular(18)),
                       ),
-                      child: Text(label.toUpperCase(),
-                          style: AppTheme.f(11, weight: FontWeight.w800, color: gc.text, letterSpacing: 2)),
+                      child: Text(
+                        label.toUpperCase(),
+                        style: AppTheme.f(11, weight: FontWeight.w800, color: gc.text, letterSpacing: 2),
+                      ),
                     ),
                   ),
                   _nudge(gc, '+15', onPlus),
@@ -100,17 +102,26 @@ class TimerPanel extends StatelessWidget {
                       const SizedBox(width: 10),
                       Column(
                         children: [
-                          RollingText(clockLabel(remaining),
-                              countsDown: true,
-                              style: AppTheme.f(36, weight: FontWeight.w800, color: gc.text, height: 1.05)),
+                          RollingText(
+                            clockLabel(remaining),
+                            countsDown: true,
+                            style: AppTheme.f(36, weight: FontWeight.w800, color: gc.text, height: 1.05),
+                          ),
                           const SizedBox(height: 4),
                           ConstrainedBox(
                             constraints: const BoxConstraints(maxWidth: 150),
                             child: FittedBox(
                               fit: BoxFit.scaleDown,
-                              child: Text(hint.toUpperCase(),
-                                  maxLines: 1,
-                                  style: AppTheme.f(10, weight: FontWeight.w800, color: accent, letterSpacing: 1.6)),
+                              child: Text(
+                                hint.toUpperCase(),
+                                maxLines: 1,
+                                style: AppTheme.f(
+                                  10,
+                                  weight: FontWeight.w800,
+                                  color: accent,
+                                  letterSpacing: 1.6,
+                                ),
+                              ),
                             ),
                           ),
                         ],
@@ -129,18 +140,23 @@ class TimerPanel extends StatelessWidget {
   }
 
   Widget _stat(GymColors gc, String value, String caption, CrossAxisAlignment align) => Column(
-        crossAxisAlignment: align,
-        children: [
-          RollingText(value, style: AppTheme.f(19, weight: FontWeight.w800, color: gc.text, height: 1.1)),
-          const SizedBox(height: 3),
-          FittedBox(
-            fit: BoxFit.scaleDown,
-            child: Text(caption.toUpperCase(),
-                maxLines: 1,
-                style: AppTheme.f(9.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.5)),
-          ),
-        ],
-      );
+    crossAxisAlignment: align,
+    children: [
+      RollingText(
+        value,
+        style: AppTheme.f(19, weight: FontWeight.w800, color: gc.text, height: 1.1),
+      ),
+      const SizedBox(height: 3),
+      FittedBox(
+        fit: BoxFit.scaleDown,
+        child: Text(
+          caption.toUpperCase(),
+          maxLines: 1,
+          style: AppTheme.f(9.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.5),
+        ),
+      ),
+    ],
+  );
 
   Widget _nudge(GymColors gc, String glyph, VoidCallback? onTap) {
     if (onTap == null) return const SizedBox(width: 56);
@@ -159,7 +175,10 @@ class TimerPanel extends StatelessWidget {
           margin: const EdgeInsets.only(bottom: 4),
           alignment: Alignment.center,
           decoration: BoxDecoration(color: gc.bgRaised, borderRadius: BorderRadius.circular(100)),
-          child: Text(glyph, style: AppTheme.f(12.5, weight: FontWeight.w800, color: gc.textSecondary)),
+          child: Text(
+            glyph,
+            style: AppTheme.f(12.5, weight: FontWeight.w800, color: gc.textSecondary),
+          ),
         ),
       ),
     );
@@ -175,29 +194,31 @@ class _Ticks extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(builder: (context, box) {
-      const tick = 3.0, gap = 5.5;
-      final n = ((box.maxWidth + gap) / (tick + gap)).floor();
-      final drained = ((1 - left) * n).floor();
-      return SizedBox(
-        height: 22,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            for (var i = 0; i < n; i++)
-              AnimatedContainer(
-                duration: const Duration(milliseconds: 380),
-                curve: Curves.easeOut,
-                width: tick,
-                height: i < drained ? 14 : 22,
-                decoration: BoxDecoration(
-                  color: i < drained ? dim : lit,
-                  borderRadius: BorderRadius.circular(2),
+    return LayoutBuilder(
+      builder: (context, box) {
+        const tick = 3.0, gap = 5.5;
+        final n = ((box.maxWidth + gap) / (tick + gap)).floor();
+        final drained = ((1 - left) * n).floor();
+        return SizedBox(
+          height: 22,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              for (var i = 0; i < n; i++)
+                AnimatedContainer(
+                  duration: const Duration(milliseconds: 380),
+                  curve: Curves.easeOut,
+                  width: tick,
+                  height: i < drained ? 14 : 22,
+                  decoration: BoxDecoration(
+                    color: i < drained ? dim : lit,
+                    borderRadius: BorderRadius.circular(2),
+                  ),
                 ),
-              ),
-          ],
-        ),
-      );
-    });
+            ],
+          ),
+        );
+      },
+    );
   }
 }

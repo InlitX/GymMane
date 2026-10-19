@@ -61,8 +61,11 @@ void main() {
     fit.session = null;
     fit.loadFromStore();
 
-    expect(fit.sessionElapsed, greaterThanOrEqualTo(600),
-        reason: 'los 10 minutos pasaron aunque la app estuviera muerta');
+    expect(
+      fit.sessionElapsed,
+      greaterThanOrEqualTo(600),
+      reason: 'los 10 minutos pasaron aunque la app estuviera muerta',
+    );
     expect(fit.sessionPaused, false);
   });
 
@@ -84,10 +87,16 @@ void main() {
 
     killAndReopen();
 
-    expect(fit.session!.restRemaining, isNotNull,
-        reason: 'la alarma sigue programada, así que la cuenta tiene que seguir en pantalla');
-    expect(fit.session!.restRemaining, lessThanOrEqualTo(left),
-        reason: 'el descanso cuenta por reloj, no se reinicia');
+    expect(
+      fit.session!.restRemaining,
+      isNotNull,
+      reason: 'la alarma sigue programada, así que la cuenta tiene que seguir en pantalla',
+    );
+    expect(
+      fit.session!.restRemaining,
+      lessThanOrEqualTo(left),
+      reason: 'el descanso cuenta por reloj, no se reinicia',
+    );
   });
 
   test('a rest whose time already passed is not resurrected', () {
@@ -122,7 +131,10 @@ void main() {
     startAndLog();
     fit.finishSession();
     fit.persistNow();
-    expect(Store.instance.load().containsKey('live'), false,
-        reason: 'la sesión completa ya está en el historial');
+    expect(
+      Store.instance.load().containsKey('live'),
+      false,
+      reason: 'la sesión completa ya está en el historial',
+    );
   });
 }

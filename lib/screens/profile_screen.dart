@@ -24,10 +24,10 @@ import 'share_sheet.dart';
 const List<String> kProfileBadges = ['gold', 'blue', 'green'];
 
 Color badgeColor(String id) => switch (id) {
-      'blue' => const Color(0xFF4A9EEB),
-      'green' => const Color(0xFF54B979),
-      _ => const Color(0xFFE8B84B),
-    };
+  'blue' => const Color(0xFF4A9EEB),
+  'green' => const Color(0xFF54B979),
+  _ => const Color(0xFFE8B84B),
+};
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -45,8 +45,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
     if (source == null) return;
     setState(() => _busy = true);
     try {
-      final shot = await ImagePicker()
-          .pickImage(source: source, maxWidth: 1600, maxHeight: 900, imageQuality: 82);
+      final shot = await ImagePicker().pickImage(
+        source: source,
+        maxWidth: 1600,
+        maxHeight: 900,
+        imageQuality: 82,
+      );
       if (shot == null) return;
       fit.setProfileBanner(await File(shot.path).readAsBytes());
     } catch (_) {
@@ -62,15 +66,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
     setState(() => _busy = true);
     try {
       if (source == ImageSource.gallery) {
-        final shots = await ImagePicker()
-            .pickMultiImage(maxWidth: 1440, maxHeight: 1920, imageQuality: 88);
+        final shots = await ImagePicker().pickMultiImage(maxWidth: 1440, maxHeight: 1920, imageQuality: 88);
         for (final shot in shots) {
           await fit.addMoment(shot.path);
         }
         return;
       }
-      final shot = await ImagePicker()
-          .pickImage(source: source, maxWidth: 1440, maxHeight: 1920, imageQuality: 88);
+      final shot = await ImagePicker().pickImage(
+        source: source,
+        maxWidth: 1440,
+        maxHeight: 1920,
+        imageQuality: 88,
+      );
       if (shot == null) return;
       await fit.addMoment(shot.path);
     } catch (_) {
@@ -85,84 +92,101 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return RiseScope(
       id: 'profile',
       child: CustomScrollView(
-      slivers: [
-        SliverPersistentHeader(
-          pinned: true,
-          delegate: _ProfileHeader(
-            gc: gc,
-            top: MediaQuery.paddingOf(context).top,
-            onBanner: _pickBanner,
-            onEdit: () => showProfileSheet(context),
-            onShare: () => showShareSheet(context),
-          ),
-        ),
-        SliverToBoxAdapter(
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(20, 6, 0, 0),
-            child: Rise(index: 0, child: _stats(gc)),
-          ),
-        ),
-        SliverToBoxAdapter(
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(20, 24, 20, 110),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                if (fit.gamification) ...[
-                  Rise(
-                    index: 1,
-                    child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-                      _heading(gc, t.awardsTitle, count: '${fit.awardCount}', onMore: fit.goAwards),
-                      const SizedBox(height: 16),
-                      const MedalShelf(size: 66),
-                    ]),
-                  ),
-                  const SizedBox(height: 30),
-                ],
-                Rise(
-                  index: 2,
-                  child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-                    _heading(gc, t.snapshots,
-                        count: fit.momentCount > 0 ? '${fit.momentCount}' : null,
-                        onMore: fit.goMoments,
-                        onAdd: fit.momentCount > 0 ? _snapshot : null),
-                    const SizedBox(height: 16),
-                    _photoCards(gc),
-                  ]),
-                ),
-                if (fit.sessions.isNotEmpty) ...[
-                  const SizedBox(height: 30),
-                  Rise(
-                    index: 3,
-                    child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-                      _heading(gc, t.historyTitle, count: '${fit.sessions.length}', onMore: fit.goHistory),
-                      const SizedBox(height: 16),
-                      for (final s in _latest) ...[
-                        WorkoutHistoryCard(session: s),
-                        const SizedBox(height: 10),
-                      ],
-                    ]),
-                  ),
-                ],
-                const SizedBox(height: 30),
-                Rise(
-                  index: 4,
-                  child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-                    _heading(gc, t.yearTitle),
-                    const SizedBox(height: 16),
-                    _year(gc),
-                  ]),
-                ),
-              ],
+        slivers: [
+          SliverPersistentHeader(
+            pinned: true,
+            delegate: _ProfileHeader(
+              gc: gc,
+              top: MediaQuery.paddingOf(context).top,
+              onBanner: _pickBanner,
+              onEdit: () => showProfileSheet(context),
+              onShare: () => showShareSheet(context),
             ),
           ),
-        ),
-      ],
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(20, 6, 0, 0),
+              child: Rise(index: 0, child: _stats(gc)),
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(20, 24, 20, 110),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  if (fit.gamification) ...[
+                    Rise(
+                      index: 1,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          _heading(gc, t.awardsTitle, count: '${fit.awardCount}', onMore: fit.goAwards),
+                          const SizedBox(height: 16),
+                          const MedalShelf(size: 66),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 30),
+                  ],
+                  Rise(
+                    index: 2,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        _heading(
+                          gc,
+                          t.snapshots,
+                          count: fit.momentCount > 0 ? '${fit.momentCount}' : null,
+                          onMore: fit.goMoments,
+                          onAdd: fit.momentCount > 0 ? _snapshot : null,
+                        ),
+                        const SizedBox(height: 16),
+                        _photoCards(gc),
+                      ],
+                    ),
+                  ),
+                  if (fit.sessions.isNotEmpty) ...[
+                    const SizedBox(height: 30),
+                    Rise(
+                      index: 3,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          _heading(
+                            gc,
+                            t.historyTitle,
+                            count: '${fit.sessions.length}',
+                            onMore: fit.goHistory,
+                          ),
+                          const SizedBox(height: 16),
+                          for (final s in _latest) ...[
+                            WorkoutHistoryCard(session: s),
+                            const SizedBox(height: 10),
+                          ],
+                        ],
+                      ),
+                    ),
+                  ],
+                  const SizedBox(height: 30),
+                  Rise(
+                    index: 4,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [_heading(gc, t.yearTitle), const SizedBox(height: 16), _year(gc)],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
 
-  List<LoggedSession> get _latest => ([...fit.sessions]..sort((a, b) => b.day.compareTo(a.day))).take(2).toList();
+  List<LoggedSession> get _latest =>
+      ([...fit.sessions]..sort((a, b) => b.day.compareTo(a.day))).take(2).toList();
 
   Widget _year(GymColors gc) {
     final months = fit.sessionsByMonth;
@@ -182,9 +206,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             children: [
               Expanded(child: _yearStat(gc, '${fit.sessionsThisYear}', '', t.statWorkouts)),
               Expanded(child: _yearStat(gc, lifted.$1, lifted.$2, t.statLifted)),
-              Expanded(
-                child: _yearStat(gc, '${fit.monthsTrainedThisYear}', '/12', t.yearMonths),
-              ),
+              Expanded(child: _yearStat(gc, '${fit.monthsTrainedThisYear}', '/12', t.yearMonths)),
             ],
           ),
           const SizedBox(height: 20),
@@ -198,21 +220,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   Expanded(
                     child: GestureDetector(
                       behavior: HitTestBehavior.opaque,
-                      onTap: months[m - 1] > 0 ? () => fit.goHistory(month: DateTime(DateTime.now().year, m)) : null,
+                      onTap: months[m - 1] > 0
+                          ? () => fit.goHistory(month: DateTime(DateTime.now().year, m))
+                          : null,
                       child: TweenAnimationBuilder<double>(
-                      tween: Tween(begin: 0, end: months[m - 1] / peak),
-                      duration: Duration(milliseconds: 650 + m * 35),
-                      curve: Curves.easeOutCubic,
-                      builder: (context, v, _) => Container(
-                        height: 6 + 52 * v,
-                        decoration: BoxDecoration(
-                          color: m == thisMonth
-                              ? gc.ember
-                              : (months[m - 1] > 0 ? gc.textTertiary : gc.bgRaised2),
-                          borderRadius: BorderRadius.circular(5),
+                        tween: Tween(begin: 0, end: months[m - 1] / peak),
+                        duration: Duration(milliseconds: 650 + m * 35),
+                        curve: Curves.easeOutCubic,
+                        builder: (context, v, _) => Container(
+                          height: 6 + 52 * v,
+                          decoration: BoxDecoration(
+                            color: m == thisMonth
+                                ? gc.ember
+                                : (months[m - 1] > 0 ? gc.textTertiary : gc.bgRaised2),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
                         ),
                       ),
-                    ),
                     ),
                   ),
                 ],
@@ -228,9 +252,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   child: Text(
                     t.monthInitial(m),
                     textAlign: TextAlign.center,
-                    style: AppTheme.f(9.5,
-                        weight: FontWeight.w600,
-                        color: m == thisMonth ? gc.text : gc.textTertiary),
+                    style: AppTheme.f(
+                      9.5,
+                      weight: FontWeight.w600,
+                      color: m == thisMonth ? gc.text : gc.textTertiary,
+                    ),
                   ),
                 ),
               ],
@@ -240,10 +266,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
             const SizedBox(height: 16),
             Row(
               children: [
-                Text('${t.yearBestMonth} · ',
-                    style: AppTheme.f(12, weight: FontWeight.w500, color: gc.textTertiary)),
-                Text(t.monthName(best),
-                    style: AppTheme.f(12, weight: FontWeight.w700, color: gc.textSecondary)),
+                Text(
+                  '${t.yearBestMonth} · ',
+                  style: AppTheme.f(12, weight: FontWeight.w500, color: gc.textTertiary),
+                ),
+                Text(
+                  t.monthName(best),
+                  style: AppTheme.f(12, weight: FontWeight.w700, color: gc.textSecondary),
+                ),
               ],
             ),
           ],
@@ -260,18 +290,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
           crossAxisAlignment: CrossAxisAlignment.baseline,
           textBaseline: TextBaseline.alphabetic,
           children: [
-            RollIn(value, style: AppTheme.f(26, weight: FontWeight.w800, color: gc.text)),
+            RollIn(
+              value,
+              style: AppTheme.f(26, weight: FontWeight.w800, color: gc.text),
+            ),
             if (unit.isNotEmpty)
-              Text(unit,
-                  style: AppTheme.f(12.5, weight: FontWeight.w600, color: gc.textSecondary)),
+              Text(
+                unit,
+                style: AppTheme.f(12.5, weight: FontWeight.w600, color: gc.textSecondary),
+              ),
           ],
         ),
         const SizedBox(height: 5),
-        Text(label.toUpperCase(),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: AppTheme.f(9.5,
-                weight: FontWeight.w600, color: gc.textTertiary, letterSpacing: 0.9)),
+        Text(
+          label.toUpperCase(),
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: AppTheme.f(9.5, weight: FontWeight.w600, color: gc.textTertiary, letterSpacing: 0.9),
+        ),
       ],
     );
   }
@@ -285,7 +321,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
           Text(title, style: AppTheme.f(21, color: gc.text)),
           if (count != null) ...[
             const SizedBox(width: 9),
-            Text(count, style: AppTheme.f(17, weight: FontWeight.w600, color: gc.textTertiary)),
+            Text(
+              count,
+              style: AppTheme.f(17, weight: FontWeight.w600, color: gc.textTertiary),
+            ),
           ],
           const Spacer(),
           if (onAdd != null) ...[
@@ -332,19 +371,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(label.toUpperCase(),
-                  style: AppTheme.f(10.5,
-                      weight: FontWeight.w600, color: gc.textTertiary, letterSpacing: 0.9)),
+              Text(
+                label.toUpperCase(),
+                style: AppTheme.f(10.5, weight: FontWeight.w600, color: gc.textTertiary, letterSpacing: 0.9),
+              ),
               const SizedBox(height: 7),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.baseline,
                 textBaseline: TextBaseline.alphabetic,
                 children: [
-                  RollIn(value, style: AppTheme.f(23, weight: FontWeight.w800, color: gc.text)),
+                  RollIn(
+                    value,
+                    style: AppTheme.f(23, weight: FontWeight.w800, color: gc.text),
+                  ),
                   if (unit.isNotEmpty) ...[
                     const SizedBox(width: 4),
-                    Text(unit,
-                        style: AppTheme.f(12, weight: FontWeight.w500, color: gc.textSecondary)),
+                    Text(
+                      unit,
+                      style: AppTheme.f(12, weight: FontWeight.w500, color: gc.textSecondary),
+                    ),
                   ],
                 ],
               ),
@@ -368,26 +413,28 @@ class _ProfileScreenState extends State<ProfileScreen> {
         scale: 0.97,
         child: SizedBox(
           height: h + 20,
-          child: LayoutBuilder(builder: (context, box) {
-            const n = 4;
-            final step = math.min(w * 0.78, (box.maxWidth - w) / (n - 1));
-            return Stack(
-              clipBehavior: Clip.none,
-              children: [
-                for (var i = 0; i < n; i++)
-                  Positioned(
-                    left: i * step,
-                    top: i.isOdd ? 14 : 6,
-                    width: w,
-                    height: h,
-                    child: Transform.rotate(
-                      angle: _turns[i % _turns.length],
-                      child: i < shots.length ? _shot(gc, shots[i]) : _ghost(gc),
+          child: LayoutBuilder(
+            builder: (context, box) {
+              const n = 4;
+              final step = math.min(w * 0.78, (box.maxWidth - w) / (n - 1));
+              return Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  for (var i = 0; i < n; i++)
+                    Positioned(
+                      left: i * step,
+                      top: i.isOdd ? 14 : 6,
+                      width: w,
+                      height: h,
+                      child: Transform.rotate(
+                        angle: _turns[i % _turns.length],
+                        child: i < shots.length ? _shot(gc, shots[i]) : _ghost(gc),
+                      ),
                     ),
-                  ),
-              ],
-            );
-          }),
+                ],
+              );
+            },
+          ),
         ),
       ),
     );
@@ -402,7 +449,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-              color: Colors.black.withValues(alpha: dark ? 0.5 : 0.16), blurRadius: 12, offset: const Offset(0, 4)),
+            color: Colors.black.withValues(alpha: dark ? 0.5 : 0.16),
+            blurRadius: 12,
+            offset: const Offset(0, 4),
+          ),
         ],
       ),
       child: ClipRRect(borderRadius: BorderRadius.circular(13), child: child),
@@ -410,24 +460,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Widget _shot(GymColors gc, String file) => _frame(
-        gc,
-        Image.file(File(MediaStore.pathFor(file) ?? ''),
-            fit: BoxFit.cover,
-            width: double.infinity,
-            height: double.infinity,
-            errorBuilder: (_, _, _) => ColoredBox(color: gc.bgRaised2)),
-      );
+    gc,
+    Image.file(
+      File(MediaStore.pathFor(file) ?? ''),
+      fit: BoxFit.cover,
+      width: double.infinity,
+      height: double.infinity,
+      errorBuilder: (_, _, _) => ColoredBox(color: gc.bgRaised2),
+    ),
+  );
 
   Widget _ghost(GymColors gc) => Opacity(
-        opacity: 0.55,
-        child: _frame(
-          gc,
-          ColoredBox(
-            color: gc.bgRaised2,
-            child: Center(child: Icon(PhosphorIconsRegular.image, size: 22, color: gc.textTertiary)),
-          ),
-        ),
-      );
+    opacity: 0.55,
+    child: _frame(
+      gc,
+      ColoredBox(
+        color: gc.bgRaised2,
+        child: Center(child: Icon(PhosphorIconsRegular.image, size: 22, color: gc.textTertiary)),
+      ),
+    ),
+  );
 }
 
 class _ProfileHeader extends SliverPersistentHeaderDelegate {
@@ -519,29 +571,25 @@ class _ProfileHeader extends SliverPersistentHeaderDelegate {
           Positioned(
             top: top + 9,
             right: 16,
-            child: Row(children: [
-              _round(PhosphorIconsRegular.shareNetwork, onShare),
-              const SizedBox(width: 10),
-              _round(PhosphorIconsRegular.gearSix, fit.goPreferences),
-            ]),
+            child: Row(
+              children: [
+                _round(PhosphorIconsRegular.shareNetwork, onShare),
+                const SizedBox(width: 10),
+                _round(PhosphorIconsRegular.gearSix, fit.goPreferences),
+              ],
+            ),
           ),
           Positioned(
             left: 20,
             right: 20,
             bottom: 18,
-            child: Opacity(
-              opacity: (1 - shrunk * 2).clamp(0.0, 1.0),
-              child: _full(p),
-            ),
+            child: Opacity(opacity: (1 - shrunk * 2).clamp(0.0, 1.0), child: _full(p)),
           ),
           Positioned(
             left: 20,
             top: top + 6,
             height: 44,
-            child: Opacity(
-              opacity: ((shrunk - 0.62) / 0.38).clamp(0.0, 1.0),
-              child: _compact(p),
-            ),
+            child: Opacity(opacity: ((shrunk - 0.62) / 0.38).clamp(0.0, 1.0), child: _compact(p)),
           ),
         ],
       ),
@@ -555,8 +603,7 @@ class _ProfileHeader extends SliverPersistentHeaderDelegate {
       child: Container(
         width: 38,
         height: 38,
-        decoration:
-            BoxDecoration(color: Colors.black.withValues(alpha: 0.5), shape: BoxShape.circle),
+        decoration: BoxDecoration(color: Colors.black.withValues(alpha: 0.5), shape: BoxShape.circle),
         child: Icon(icon, size: 18, color: Colors.white),
       ),
     );
@@ -572,15 +619,19 @@ class _ProfileHeader extends SliverPersistentHeaderDelegate {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(children: [
-              Text(fit.displayName, style: AppTheme.f(15.5, color: gc.text)),
-              if (p.badge.isNotEmpty) ...[
-                const SizedBox(width: 5),
-                Icon(PhosphorIconsFill.sealCheck, size: 14, color: badgeColor(p.badge)),
+            Row(
+              children: [
+                Text(fit.displayName, style: AppTheme.f(15.5, color: gc.text)),
+                if (p.badge.isNotEmpty) ...[
+                  const SizedBox(width: 5),
+                  Icon(PhosphorIconsFill.sealCheck, size: 14, color: badgeColor(p.badge)),
+                ],
               ],
-            ]),
-            Text('@${fit.profileHandle}',
-                style: AppTheme.f(11.5, weight: FontWeight.w500, color: gc.textSecondary)),
+            ),
+            Text(
+              '@${fit.profileHandle}',
+              style: AppTheme.f(11.5, weight: FontWeight.w500, color: gc.textSecondary),
+            ),
           ],
         ),
       ],
@@ -602,29 +653,32 @@ class _ProfileHeader extends SliverPersistentHeaderDelegate {
               onTap: onEdit,
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
-                decoration: BoxDecoration(
-                  color: gc.bgRaised2,
-                  borderRadius: BorderRadius.circular(100),
+                decoration: BoxDecoration(color: gc.bgRaised2, borderRadius: BorderRadius.circular(100)),
+                child: Text(
+                  t.editProfile,
+                  style: AppTheme.f(13.5, weight: FontWeight.w600, color: gc.text),
                 ),
-                child: Text(t.editProfile,
-                    style: AppTheme.f(13.5, weight: FontWeight.w600, color: gc.text)),
               ),
             ),
           ],
         ),
         const SizedBox(height: 13),
-        Row(children: [
-          Flexible(
-            child: Text(p.name,
+        Row(
+          children: [
+            Flexible(
+              child: Text(
+                p.name,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: AppTheme.f(24, weight: FontWeight.w800, color: gc.text)),
-          ),
-          if (p.badge.isNotEmpty) ...[
-            const SizedBox(width: 7),
-            Icon(PhosphorIconsFill.sealCheck, size: 19, color: badgeColor(p.badge)),
+                style: AppTheme.f(24, weight: FontWeight.w800, color: gc.text),
+              ),
+            ),
+            if (p.badge.isNotEmpty) ...[
+              const SizedBox(width: 7),
+              Icon(PhosphorIconsFill.sealCheck, size: 19, color: badgeColor(p.badge)),
+            ],
           ],
-        ]),
+        ),
         const SizedBox(height: 4),
         Text(
           '@${fit.profileHandle}  ·  ${fit.weightLabel(p.weightKg)}',
@@ -633,27 +687,28 @@ class _ProfileHeader extends SliverPersistentHeaderDelegate {
           style: AppTheme.f(13, weight: FontWeight.w500, color: gc.textSecondary),
         ),
         if (fit.gamification) ...[
-        const SizedBox(height: 8),
-        Row(children: [
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-            decoration: BoxDecoration(
-              color: gc.bgRaised2,
-              borderRadius: BorderRadius.circular(100),
-            ),
-            child: Text(t.levelShort(fit.athleteLevel),
-                style: AppTheme.f(12, weight: FontWeight.w700, color: gc.text)),
+          const SizedBox(height: 8),
+          Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                decoration: BoxDecoration(color: gc.bgRaised2, borderRadius: BorderRadius.circular(100)),
+                child: Text(
+                  t.levelShort(fit.athleteLevel),
+                  style: AppTheme.f(12, weight: FontWeight.w700, color: gc.text),
+                ),
+              ),
+              const SizedBox(width: 8),
+              Flexible(
+                child: Text(
+                  t.levelToNext(fit.sessionsToNextLevel, fit.athleteLevel + 1),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: AppTheme.f(12, weight: FontWeight.w500, color: gc.textTertiary),
+                ),
+              ),
+            ],
           ),
-          const SizedBox(width: 8),
-          Flexible(
-            child: Text(
-              t.levelToNext(fit.sessionsToNextLevel, fit.athleteLevel + 1),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: AppTheme.f(12, weight: FontWeight.w500, color: gc.textTertiary),
-            ),
-          ),
-        ]),
         ],
       ],
     );

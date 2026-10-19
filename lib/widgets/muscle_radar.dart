@@ -41,11 +41,11 @@ class _MuscleRadarCardState extends State<MuscleRadarCard> {
 
   Map<String, double> _month() {
     final now = DateTime.now();
-    final raw = fit.muscleSetsBetween(DateTime(now.year, now.month, now.day - 29), now.add(const Duration(minutes: 1)));
-    return {
-      for (final id in _axes)
-        id: (raw[id] ?? 0) + (raw[_merged[id]] ?? 0),
-    };
+    final raw = fit.muscleSetsBetween(
+      DateTime(now.year, now.month, now.day - 29),
+      now.add(const Duration(minutes: 1)),
+    );
+    return {for (final id in _axes) id: (raw[id] ?? 0) + (raw[_merged[id]] ?? 0)};
   }
 
   @override
@@ -66,38 +66,45 @@ class _MuscleRadarCardState extends State<MuscleRadarCard> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(t.radarTitle, style: AppTheme.f(21, weight: FontWeight.w800, color: gc.text)),
+          Text(
+            t.radarTitle,
+            style: AppTheme.f(21, weight: FontWeight.w800, color: gc.text),
+          ),
           const SizedBox(height: 4),
-          Text(t.radarHint, style: AppTheme.f(13, weight: FontWeight.w500, color: gc.textSecondary)),
+          Text(
+            t.radarHint,
+            style: AppTheme.f(13, weight: FontWeight.w500, color: gc.textSecondary),
+          ),
           const SizedBox(height: 10),
           AspectRatio(
             aspectRatio: 1,
-            child: LayoutBuilder(builder: (context, c) {
-              final side = c.maxWidth;
-              final icon = side * 0.165;
-              final radius = side / 2 - _gap - icon;
-              return TweenAnimationBuilder<double>(
-                tween: Tween(begin: 0, end: 1),
-                duration: const Duration(milliseconds: 950),
-                curve: Curves.easeOutCubic,
-                builder: (context, grow, _) => Stack(
-                  children: [
-                    Positioned.fill(
-                      child: CustomPaint(
-                        painter: _RadarPainter(
-                          gc: gc,
-                          values: [for (final id in _axes) top <= 0 ? 0 : sets[id]! / top * grow],
-                          radius: radius,
-                          picked: picked == null ? -1 : _axes.indexOf(picked),
+            child: LayoutBuilder(
+              builder: (context, c) {
+                final side = c.maxWidth;
+                final icon = side * 0.165;
+                final radius = side / 2 - _gap - icon;
+                return TweenAnimationBuilder<double>(
+                  tween: Tween(begin: 0, end: 1),
+                  duration: const Duration(milliseconds: 950),
+                  curve: Curves.easeOutCubic,
+                  builder: (context, grow, _) => Stack(
+                    children: [
+                      Positioned.fill(
+                        child: CustomPaint(
+                          painter: _RadarPainter(
+                            gc: gc,
+                            values: [for (final id in _axes) top <= 0 ? 0 : sets[id]! / top * grow],
+                            radius: radius,
+                            picked: picked == null ? -1 : _axes.indexOf(picked),
+                          ),
                         ),
                       ),
-                    ),
-                    for (var i = 0; i < _axes.length; i++)
-                      _figure(gc, i, side, radius, icon, sets),
-                  ],
-                ),
-              );
-            }),
+                      for (var i = 0; i < _axes.length; i++) _figure(gc, i, side, radius, icon, sets),
+                    ],
+                  ),
+                );
+              },
+            ),
           ),
           const SizedBox(height: 6),
           AnimatedSwitcher(
@@ -107,12 +114,16 @@ class _MuscleRadarCardState extends State<MuscleRadarCard> {
               picked != null
                   ? '${t.muscle(picked)} · ${t.setCount(sets[picked]!.round())}'
                   : top <= 0
-                      ? t.radarEmpty
-                      : behind.isEmpty
-                          ? t.radarBalanced
-                          : t.radarFocus(behind.map(t.muscle).join(', ')),
+                  ? t.radarEmpty
+                  : behind.isEmpty
+                  ? t.radarBalanced
+                  : t.radarFocus(behind.map(t.muscle).join(', ')),
               textAlign: TextAlign.center,
-              style: AppTheme.f(13, weight: FontWeight.w600, color: picked != null ? gc.text : gc.textSecondary),
+              style: AppTheme.f(
+                13,
+                weight: FontWeight.w600,
+                color: picked != null ? gc.text : gc.textSecondary,
+              ),
             ),
           ),
         ],
@@ -145,7 +156,9 @@ class _MuscleRadarCardState extends State<MuscleRadarCard> {
             scale: on ? 1.14 : 1,
             duration: const Duration(milliseconds: 220),
             curve: Curves.easeOutBack,
-            child: CustomPaint(painter: MuscleFigurePainter(gc: gc, muscle: id)),
+            child: CustomPaint(
+              painter: MuscleFigurePainter(gc: gc, muscle: id),
+            ),
           ),
         ),
       ),
@@ -229,22 +242,22 @@ class MuscleFigurePainter extends CustomPainter {
   static final _content = <String, Rect>{};
 
   static Rect content(String id) => _content.putIfAbsent(id, () {
-        final box = crop(id).intersect(_half(id));
-        var l = double.infinity, t = double.infinity, r = -double.infinity, b = -double.infinity;
-        for (final d in [...bodyBaseMain, ...bodyBaseLite]) {
-          for (final m in svgPath(d).computeMetrics()) {
-            for (var at = 0.0; at < m.length; at += 2) {
-              final p = m.getTangentForOffset(at)?.position;
-              if (p == null || !box.contains(p)) continue;
-              l = math.min(l, p.dx);
-              t = math.min(t, p.dy);
-              r = math.max(r, p.dx);
-              b = math.max(b, p.dy);
-            }
-          }
+    final box = crop(id).intersect(_half(id));
+    var l = double.infinity, t = double.infinity, r = -double.infinity, b = -double.infinity;
+    for (final d in [...bodyBaseMain, ...bodyBaseLite]) {
+      for (final m in svgPath(d).computeMetrics()) {
+        for (var at = 0.0; at < m.length; at += 2) {
+          final p = m.getTangentForOffset(at)?.position;
+          if (p == null || !box.contains(p)) continue;
+          l = math.min(l, p.dx);
+          t = math.min(t, p.dy);
+          r = math.max(r, p.dx);
+          b = math.max(b, p.dy);
         }
-        return l.isFinite ? Rect.fromLTRB(l, t, r, b) : box;
-      });
+      }
+    }
+    return l.isFinite ? Rect.fromLTRB(l, t, r, b) : box;
+  });
 
   @override
   void paint(Canvas canvas, Size size) {

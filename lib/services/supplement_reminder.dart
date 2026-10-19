@@ -19,20 +19,20 @@ class SupplementReminder {
       _queue = _queue.then((_) => job()).catchError((Object e) => debugPrint('Aviso de suplementos: $e'));
 
   AndroidNotificationDetails get _android => AndroidNotificationDetails(
-        'supplement_reminder',
-        t.notifSuppChannel,
-        channelDescription: t.notifSuppChannelWhy,
-        importance: Importance.defaultImportance,
-        priority: Priority.defaultPriority,
-        playSound: true,
-      );
+    'supplement_reminder',
+    t.notifSuppChannel,
+    channelDescription: t.notifSuppChannelWhy,
+    importance: Importance.defaultImportance,
+    priority: Priority.defaultPriority,
+    playSound: true,
+  );
 
   DarwinNotificationDetails get _darwin => const DarwinNotificationDetails(
-        presentAlert: true,
-        presentBanner: true,
-        presentList: true,
-        presentSound: true,
-      );
+    presentAlert: true,
+    presentBanner: true,
+    presentList: true,
+    presentSound: true,
+  );
 
   Future<void> cancel() => _serial(_cancel);
 

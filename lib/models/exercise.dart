@@ -43,46 +43,45 @@ class Exercise {
     String? mode,
     List<String>? aliases,
     String? kind,
-  }) =>
-      Exercise(
-        id: id,
-        name: name ?? this.name,
-        primary: primary ?? this.primary,
-        secondary: secondary ?? this.secondary,
-        equipment: equipment ?? this.equipment,
-        difficulty: difficulty ?? this.difficulty,
-        art: art,
-        steps: steps ?? this.steps,
-        mode: mode ?? this.mode,
-        aliases: aliases ?? this.aliases,
-        kind: kind ?? this.kind,
-      );
+  }) => Exercise(
+    id: id,
+    name: name ?? this.name,
+    primary: primary ?? this.primary,
+    secondary: secondary ?? this.secondary,
+    equipment: equipment ?? this.equipment,
+    difficulty: difficulty ?? this.difficulty,
+    art: art,
+    steps: steps ?? this.steps,
+    mode: mode ?? this.mode,
+    aliases: aliases ?? this.aliases,
+    kind: kind ?? this.kind,
+  );
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'n': name,
-        'p': primary,
-        'e': equipment,
-        'd': difficulty,
-        if (secondary.isNotEmpty) 's': secondary,
-        if (steps.isNotEmpty) 'st': steps,
-        if (mode.isNotEmpty) 'k': mode,
-        if (aliases.isNotEmpty) 'a': aliases,
-        if (kind.isNotEmpty) 'ty': kind,
-      };
+    'id': id,
+    'n': name,
+    'p': primary,
+    'e': equipment,
+    'd': difficulty,
+    if (secondary.isNotEmpty) 's': secondary,
+    if (steps.isNotEmpty) 'st': steps,
+    if (mode.isNotEmpty) 'k': mode,
+    if (aliases.isNotEmpty) 'a': aliases,
+    if (kind.isNotEmpty) 'ty': kind,
+  };
   factory Exercise.fromJson(Map<String, dynamic> j) => Exercise(
-        id: j['id'] as String,
-        name: j['n'] as String,
-        primary: j['p'] as String,
-        secondary: ((j['s'] as List?) ?? const []).whereType<String>().where((m) => m != j['p']).toList(),
-        equipment: (j['e'] as String?) ?? 'Other',
-        difficulty: (j['d'] as String?) ?? 'Beginner',
-        art: '',
-        steps: ((j['st'] as List?) ?? const []).whereType<String>().toList(),
-        mode: kExerciseModeIds.contains(j['k']) ? j['k'] as String : '',
-        aliases: ((j['a'] as List?) ?? const []).whereType<String>().toList(),
-        kind: kExerciseKinds.contains(j['ty']) ? j['ty'] as String : '',
-      );
+    id: j['id'] as String,
+    name: j['n'] as String,
+    primary: j['p'] as String,
+    secondary: ((j['s'] as List?) ?? const []).whereType<String>().where((m) => m != j['p']).toList(),
+    equipment: (j['e'] as String?) ?? 'Other',
+    difficulty: (j['d'] as String?) ?? 'Beginner',
+    art: '',
+    steps: ((j['st'] as List?) ?? const []).whereType<String>().toList(),
+    mode: kExerciseModeIds.contains(j['k']) ? j['k'] as String : '',
+    aliases: ((j['a'] as List?) ?? const []).whereType<String>().toList(),
+    kind: kExerciseKinds.contains(j['ty']) ? j['ty'] as String : '',
+  );
 }
 
 const List<String> kExerciseModeIds = ['cardio', 'time'];

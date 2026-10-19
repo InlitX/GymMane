@@ -29,21 +29,32 @@ class ToolDetailScreen extends StatelessWidget {
             const SizedBox(height: 20),
             Container(
               padding: const EdgeInsets.fromLTRB(22, 24, 22, 24),
-              decoration: BoxDecoration(
-                color: gc.bgRaised,
-                borderRadius: BorderRadius.circular(24),
-              ),
-              child: Column(children: [
-                Text(t.result.toUpperCase(),
-                    style: AppTheme.f(10.5,
-                        weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.6)),
-                const SizedBox(height: 8),
-                Text(meta.$2,
+              decoration: BoxDecoration(color: gc.bgRaised, borderRadius: BorderRadius.circular(24)),
+              child: Column(
+                children: [
+                  Text(
+                    t.result.toUpperCase(),
+                    style: AppTheme.f(
+                      10.5,
+                      weight: FontWeight.w700,
+                      color: gc.textTertiary,
+                      letterSpacing: 1.6,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    meta.$2,
                     textAlign: TextAlign.center,
-                    style: AppTheme.f(40, weight: FontWeight.w800, color: gc.text)),
-                const SizedBox(height: 8),
-                Text(meta.$3, style: AppTheme.f(13, weight: FontWeight.w500, color: gc.textSecondary), textAlign: TextAlign.center),
-              ]),
+                    style: AppTheme.f(40, weight: FontWeight.w800, color: gc.text),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    meta.$3,
+                    style: AppTheme.f(13, weight: FontWeight.w500, color: gc.textSecondary),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ),
             ),
             const SizedBox(height: 18),
             ..._grouped(_inputs(context, gc, id)),
@@ -85,19 +96,29 @@ class ToolDetailScreen extends StatelessWidget {
       case 'rm':
         return (t.toolTitle('rm'), '${fit.weightValue(fit.rmResult)} ${fit.units}', t.toolResultHint('rm'));
       case 'bmi':
-
         return (t.toolTitle('bmi'), fmt(fit.bmiVal), t.bmiCategory(fit.bmiCat));
       case 'cal':
         return (t.toolTitle('cal'), '${fit.tdee} kcal', t.toolResultHint('cal'));
       case 'bf':
         return (t.toolTitle('bf'), '${fmt(fit.bfVal)}%', t.toolResultHint('bf'));
       case 'plate':
-        return (t.toolTitle('plate'), '${fit.weightValue(fit.plateTarget)} ${fit.units}', t.toolResultHint('plate'));
+        return (
+          t.toolTitle('plate'),
+          '${fit.weightValue(fit.plateTarget)} ${fit.units}',
+          t.toolResultHint('plate'),
+        );
       case 'warmup':
-        return (t.toolTitle('warmup'), '${fit.weightValue(fit.warmupTarget)} ${fit.units}', t.toolResultHint('warmup'));
+        return (
+          t.toolTitle('warmup'),
+          '${fit.weightValue(fit.warmupTarget)} ${fit.units}',
+          t.toolResultHint('warmup'),
+        );
       case 'rpe':
-        return (t.toolTitle('rpe'), '${fit.weightValue(fit.rpeResult)} ${fit.units}',
-            t.rpeResultHint(fit.rpeTargetReps, fmt(fit.rpeTargetRpe)));
+        return (
+          t.toolTitle('rpe'),
+          '${fit.weightValue(fit.rpeResult)} ${fit.units}',
+          t.rpeResultHint(fit.rpeTargetReps, fmt(fit.rpeTargetRpe)),
+        );
       case 'dots':
         return (t.toolTitle('dots'), fmt(fit.dotsScore), t.dotsLevelName(fit.dotsLevel));
       case 'wilks':
@@ -113,19 +134,91 @@ class ToolDetailScreen extends StatelessWidget {
     switch (id) {
       case 'rm':
         return [
-          ToolRow(label: t.weightLifted, control: StepperControl(value: '${fit.weightValue(fit.rmWeight)} ${fit.units}', onDec: () => fit.bumpRmWeight(-fit.fromDisplayWeight(fit.weightStep)), onInc: () => fit.bumpRmWeight(fit.fromDisplayWeight(fit.weightStep)), onEdit: () => _editNumber(context, title: t.weightLifted, current: fit.toDisplayWeight(fit.rmWeight), decimal: true, apply: (v) => fit.bumpRmWeight(fit.fromDisplayWeight(v) - fit.rmWeight)))),
+          ToolRow(
+            label: t.weightLifted,
+            control: StepperControl(
+              value: '${fit.weightValue(fit.rmWeight)} ${fit.units}',
+              onDec: () => fit.bumpRmWeight(-fit.fromDisplayWeight(fit.weightStep)),
+              onInc: () => fit.bumpRmWeight(fit.fromDisplayWeight(fit.weightStep)),
+              onEdit: () => _editNumber(
+                context,
+                title: t.weightLifted,
+                current: fit.toDisplayWeight(fit.rmWeight),
+                decimal: true,
+                apply: (v) => fit.bumpRmWeight(fit.fromDisplayWeight(v) - fit.rmWeight),
+              ),
+            ),
+          ),
           const SizedBox(height: 10),
-          ToolRow(label: t.repsPerformed, control: StepperControl(value: '${fit.rmReps}', minWidth: 40, onDec: () => fit.bumpRmReps(-1), onInc: () => fit.bumpRmReps(1), onEdit: () => _editNumber(context, title: t.repsPerformed, current: fit.rmReps.toDouble(), decimal: false, apply: (v) => fit.bumpRmReps(v.round() - fit.rmReps)))),
+          ToolRow(
+            label: t.repsPerformed,
+            control: StepperControl(
+              value: '${fit.rmReps}',
+              minWidth: 40,
+              onDec: () => fit.bumpRmReps(-1),
+              onInc: () => fit.bumpRmReps(1),
+              onEdit: () => _editNumber(
+                context,
+                title: t.repsPerformed,
+                current: fit.rmReps.toDouble(),
+                decimal: false,
+                apply: (v) => fit.bumpRmReps(v.round() - fit.rmReps),
+              ),
+            ),
+          ),
           const SizedBox(height: 10),
-          ToolRow(label: t.rmPercent, control: StepperControl(value: '${fit.rmPct}%', minWidth: 52, onDec: () => fit.bumpRmPct(-1), onInc: () => fit.bumpRmPct(1), onEdit: () => _editNumber(context, title: t.rmPercent, current: fit.rmPct.toDouble(), decimal: false, apply: (v) => fit.bumpRmPct(v.round() - fit.rmPct)))),
+          ToolRow(
+            label: t.rmPercent,
+            control: StepperControl(
+              value: '${fit.rmPct}%',
+              minWidth: 52,
+              onDec: () => fit.bumpRmPct(-1),
+              onInc: () => fit.bumpRmPct(1),
+              onEdit: () => _editNumber(
+                context,
+                title: t.rmPercent,
+                current: fit.rmPct.toDouble(),
+                decimal: false,
+                apply: (v) => fit.bumpRmPct(v.round() - fit.rmPct),
+              ),
+            ),
+          ),
           const SizedBox(height: 10),
           _rmPctCard(context, gc),
         ];
       case 'bmi':
         return [
-          ToolRow(label: t.heightLabel, control: StepperControl(value: fit.heightLabel(fit.bmiHeight), onDec: () => fit.bumpBmiHeight(-fit.heightStep), onInc: () => fit.bumpBmiHeight(fit.heightStep), onEdit: () => _editNumber(context, title: t.heightLabel, current: fit.toDisplayCm(fit.bmiHeight), decimal: true, apply: (v) => fit.bumpBmiHeight(fit.fromDisplayCm(v) - fit.bmiHeight)))),
+          ToolRow(
+            label: t.heightLabel,
+            control: StepperControl(
+              value: fit.heightLabel(fit.bmiHeight),
+              onDec: () => fit.bumpBmiHeight(-fit.heightStep),
+              onInc: () => fit.bumpBmiHeight(fit.heightStep),
+              onEdit: () => _editNumber(
+                context,
+                title: t.heightLabel,
+                current: fit.toDisplayCm(fit.bmiHeight),
+                decimal: true,
+                apply: (v) => fit.bumpBmiHeight(fit.fromDisplayCm(v) - fit.bmiHeight),
+              ),
+            ),
+          ),
           const SizedBox(height: 10),
-          ToolRow(label: t.weightLabel, control: StepperControl(value: '${fit.weightValue(fit.bmiWeight)} ${fit.units}', onDec: () => fit.bumpBmiWeight(-fit.fromDisplayWeight(fit.isLb ? 1 : 0.5)), onInc: () => fit.bumpBmiWeight(fit.fromDisplayWeight(fit.isLb ? 1 : 0.5)), onEdit: () => _editNumber(context, title: t.weightLabel, current: fit.toDisplayWeight(fit.bmiWeight), decimal: true, apply: (v) => fit.bumpBmiWeight(fit.fromDisplayWeight(v) - fit.bmiWeight)))),
+          ToolRow(
+            label: t.weightLabel,
+            control: StepperControl(
+              value: '${fit.weightValue(fit.bmiWeight)} ${fit.units}',
+              onDec: () => fit.bumpBmiWeight(-fit.fromDisplayWeight(fit.isLb ? 1 : 0.5)),
+              onInc: () => fit.bumpBmiWeight(fit.fromDisplayWeight(fit.isLb ? 1 : 0.5)),
+              onEdit: () => _editNumber(
+                context,
+                title: t.weightLabel,
+                current: fit.toDisplayWeight(fit.bmiWeight),
+                decimal: true,
+                apply: (v) => fit.bumpBmiWeight(fit.fromDisplayWeight(v) - fit.bmiWeight),
+              ),
+            ),
+          ),
         ];
       case 'cal':
         return [
@@ -137,11 +230,54 @@ class ToolDetailScreen extends StatelessWidget {
             ]),
           ),
           const SizedBox(height: 10),
-          ToolRow(label: t.ageLabel, control: StepperControl(value: '${fit.calAge}', minWidth: 40, onDec: () => fit.bumpCalAge(-1), onInc: () => fit.bumpCalAge(1), onEdit: () => _editNumber(context, title: t.ageLabel, current: fit.calAge.toDouble(), decimal: false, apply: (v) => fit.bumpCalAge(v.round() - fit.calAge)))),
+          ToolRow(
+            label: t.ageLabel,
+            control: StepperControl(
+              value: '${fit.calAge}',
+              minWidth: 40,
+              onDec: () => fit.bumpCalAge(-1),
+              onInc: () => fit.bumpCalAge(1),
+              onEdit: () => _editNumber(
+                context,
+                title: t.ageLabel,
+                current: fit.calAge.toDouble(),
+                decimal: false,
+                apply: (v) => fit.bumpCalAge(v.round() - fit.calAge),
+              ),
+            ),
+          ),
           const SizedBox(height: 10),
-          ToolRow(label: t.heightLabel, control: StepperControl(value: fit.heightLabel(fit.calHeight), onDec: () => fit.bumpCalHeight(-fit.heightStep), onInc: () => fit.bumpCalHeight(fit.heightStep), onEdit: () => _editNumber(context, title: t.heightLabel, current: fit.toDisplayCm(fit.calHeight), decimal: true, apply: (v) => fit.bumpCalHeight(fit.fromDisplayCm(v) - fit.calHeight)))),
+          ToolRow(
+            label: t.heightLabel,
+            control: StepperControl(
+              value: fit.heightLabel(fit.calHeight),
+              onDec: () => fit.bumpCalHeight(-fit.heightStep),
+              onInc: () => fit.bumpCalHeight(fit.heightStep),
+              onEdit: () => _editNumber(
+                context,
+                title: t.heightLabel,
+                current: fit.toDisplayCm(fit.calHeight),
+                decimal: true,
+                apply: (v) => fit.bumpCalHeight(fit.fromDisplayCm(v) - fit.calHeight),
+              ),
+            ),
+          ),
           const SizedBox(height: 10),
-          ToolRow(label: t.weightLabel, control: StepperControl(value: '${fit.weightValue(fit.calWeight)} ${fit.units}', onDec: () => fit.bumpCalWeight(-fit.fromDisplayWeight(fit.isLb ? 1 : 0.5)), onInc: () => fit.bumpCalWeight(fit.fromDisplayWeight(fit.isLb ? 1 : 0.5)), onEdit: () => _editNumber(context, title: t.weightLabel, current: fit.toDisplayWeight(fit.calWeight), decimal: true, apply: (v) => fit.bumpCalWeight(fit.fromDisplayWeight(v) - fit.calWeight)))),
+          ToolRow(
+            label: t.weightLabel,
+            control: StepperControl(
+              value: '${fit.weightValue(fit.calWeight)} ${fit.units}',
+              onDec: () => fit.bumpCalWeight(-fit.fromDisplayWeight(fit.isLb ? 1 : 0.5)),
+              onInc: () => fit.bumpCalWeight(fit.fromDisplayWeight(fit.isLb ? 1 : 0.5)),
+              onEdit: () => _editNumber(
+                context,
+                title: t.weightLabel,
+                current: fit.toDisplayWeight(fit.calWeight),
+                decimal: true,
+                apply: (v) => fit.bumpCalWeight(fit.fromDisplayWeight(v) - fit.calWeight),
+              ),
+            ),
+          ),
           const SizedBox(height: 10),
           _activityCard(gc),
           const SizedBox(height: 10),
@@ -149,17 +285,87 @@ class ToolDetailScreen extends StatelessWidget {
         ];
       case 'bf':
         return [
-          ToolRow(label: t.heightLabel, control: StepperControl(value: fit.heightLabel(fit.bfHeight), onDec: () => fit.bumpBfHeight(-fit.heightStep), onInc: () => fit.bumpBfHeight(fit.heightStep), onEdit: () => _editNumber(context, title: t.heightLabel, current: fit.toDisplayCm(fit.bfHeight), decimal: true, apply: (v) => fit.bumpBfHeight(fit.fromDisplayCm(v) - fit.bfHeight)))),
+          ToolRow(
+            label: t.heightLabel,
+            control: StepperControl(
+              value: fit.heightLabel(fit.bfHeight),
+              onDec: () => fit.bumpBfHeight(-fit.heightStep),
+              onInc: () => fit.bumpBfHeight(fit.heightStep),
+              onEdit: () => _editNumber(
+                context,
+                title: t.heightLabel,
+                current: fit.toDisplayCm(fit.bfHeight),
+                decimal: true,
+                apply: (v) => fit.bumpBfHeight(fit.fromDisplayCm(v) - fit.bfHeight),
+              ),
+            ),
+          ),
           const SizedBox(height: 10),
-          ToolRow(label: t.neck, control: StepperControl(value: fit.cmLabel(fit.bfNeck), onDec: () => fit.bumpBfNeck(-fit.girthStep), onInc: () => fit.bumpBfNeck(fit.girthStep), onEdit: () => _editNumber(context, title: t.neck, current: fit.toDisplayCm(fit.bfNeck), decimal: true, apply: (v) => fit.bumpBfNeck(fit.fromDisplayCm(v) - fit.bfNeck)))),
+          ToolRow(
+            label: t.neck,
+            control: StepperControl(
+              value: fit.cmLabel(fit.bfNeck),
+              onDec: () => fit.bumpBfNeck(-fit.girthStep),
+              onInc: () => fit.bumpBfNeck(fit.girthStep),
+              onEdit: () => _editNumber(
+                context,
+                title: t.neck,
+                current: fit.toDisplayCm(fit.bfNeck),
+                decimal: true,
+                apply: (v) => fit.bumpBfNeck(fit.fromDisplayCm(v) - fit.bfNeck),
+              ),
+            ),
+          ),
           const SizedBox(height: 10),
-          ToolRow(label: t.waist, control: StepperControl(value: fit.cmLabel(fit.bfWaist), onDec: () => fit.bumpBfWaist(-fit.girthStep), onInc: () => fit.bumpBfWaist(fit.girthStep), onEdit: () => _editNumber(context, title: t.waist, current: fit.toDisplayCm(fit.bfWaist), decimal: true, apply: (v) => fit.bumpBfWaist(fit.fromDisplayCm(v) - fit.bfWaist)))),
+          ToolRow(
+            label: t.waist,
+            control: StepperControl(
+              value: fit.cmLabel(fit.bfWaist),
+              onDec: () => fit.bumpBfWaist(-fit.girthStep),
+              onInc: () => fit.bumpBfWaist(fit.girthStep),
+              onEdit: () => _editNumber(
+                context,
+                title: t.waist,
+                current: fit.toDisplayCm(fit.bfWaist),
+                decimal: true,
+                apply: (v) => fit.bumpBfWaist(fit.fromDisplayCm(v) - fit.bfWaist),
+              ),
+            ),
+          ),
           const SizedBox(height: 10),
-          ToolRow(label: t.hip, control: StepperControl(value: fit.cmLabel(fit.bfHip), onDec: () => fit.bumpBfHip(-fit.girthStep), onInc: () => fit.bumpBfHip(fit.girthStep), onEdit: () => _editNumber(context, title: t.hip, current: fit.toDisplayCm(fit.bfHip), decimal: true, apply: (v) => fit.bumpBfHip(fit.fromDisplayCm(v) - fit.bfHip)))),
+          ToolRow(
+            label: t.hip,
+            control: StepperControl(
+              value: fit.cmLabel(fit.bfHip),
+              onDec: () => fit.bumpBfHip(-fit.girthStep),
+              onInc: () => fit.bumpBfHip(fit.girthStep),
+              onEdit: () => _editNumber(
+                context,
+                title: t.hip,
+                current: fit.toDisplayCm(fit.bfHip),
+                decimal: true,
+                apply: (v) => fit.bumpBfHip(fit.fromDisplayCm(v) - fit.bfHip),
+              ),
+            ),
+          ),
         ];
       case 'plate':
         return [
-          ToolRow(label: t.targetWeight, control: StepperControl(value: '${fit.weightValue(fit.plateTarget)} ${fit.units}', onDec: () => fit.bumpPlateTarget(-fit.fromDisplayWeight(fit.weightStep)), onInc: () => fit.bumpPlateTarget(fit.fromDisplayWeight(fit.weightStep)), onEdit: () => _editNumber(context, title: t.targetWeight, current: fit.toDisplayWeight(fit.plateTarget), decimal: true, apply: (v) => fit.bumpPlateTarget(fit.fromDisplayWeight(v) - fit.plateTarget)))),
+          ToolRow(
+            label: t.targetWeight,
+            control: StepperControl(
+              value: '${fit.weightValue(fit.plateTarget)} ${fit.units}',
+              onDec: () => fit.bumpPlateTarget(-fit.fromDisplayWeight(fit.weightStep)),
+              onInc: () => fit.bumpPlateTarget(fit.fromDisplayWeight(fit.weightStep)),
+              onEdit: () => _editNumber(
+                context,
+                title: t.targetWeight,
+                current: fit.toDisplayWeight(fit.plateTarget),
+                decimal: true,
+                apply: (v) => fit.bumpPlateTarget(fit.fromDisplayWeight(v) - fit.plateTarget),
+              ),
+            ),
+          ),
           const SizedBox(height: 10),
           _barWeightCard(gc),
           const SizedBox(height: 10),
@@ -167,7 +373,21 @@ class ToolDetailScreen extends StatelessWidget {
         ];
       case 'warmup':
         return [
-          ToolRow(label: t.workingWeight, control: StepperControl(value: '${fit.weightValue(fit.warmupTarget)} ${fit.units}', onDec: () => fit.bumpWarmupTarget(-fit.fromDisplayWeight(fit.weightStep)), onInc: () => fit.bumpWarmupTarget(fit.fromDisplayWeight(fit.weightStep)), onEdit: () => _editNumber(context, title: t.workingWeight, current: fit.toDisplayWeight(fit.warmupTarget), decimal: true, apply: (v) => fit.bumpWarmupTarget(fit.fromDisplayWeight(v) - fit.warmupTarget)))),
+          ToolRow(
+            label: t.workingWeight,
+            control: StepperControl(
+              value: '${fit.weightValue(fit.warmupTarget)} ${fit.units}',
+              onDec: () => fit.bumpWarmupTarget(-fit.fromDisplayWeight(fit.weightStep)),
+              onInc: () => fit.bumpWarmupTarget(fit.fromDisplayWeight(fit.weightStep)),
+              onEdit: () => _editNumber(
+                context,
+                title: t.workingWeight,
+                current: fit.toDisplayWeight(fit.warmupTarget),
+                decimal: true,
+                apply: (v) => fit.bumpWarmupTarget(fit.fromDisplayWeight(v) - fit.warmupTarget),
+              ),
+            ),
+          ),
           const SizedBox(height: 10),
           _warmupCard(gc),
         ];
@@ -175,26 +395,78 @@ class ToolDetailScreen extends StatelessWidget {
         final step = fit.fromDisplayWeight(fit.weightStep);
         return [
           _sectionLabel(gc, t.rpeYourSet),
-          ToolRow(label: t.weightLifted, control: StepperControl(value: '${fit.weightValue(fit.rpeWeight)} ${fit.units}', onDec: () => fit.bumpRpeWeight(-step), onInc: () => fit.bumpRpeWeight(step), onEdit: () => _editNumber(context, title: t.weightLifted, current: fit.toDisplayWeight(fit.rpeWeight), decimal: true, apply: (v) => fit.bumpRpeWeight(fit.fromDisplayWeight(v) - fit.rpeWeight)))),
-          ToolRow(label: t.repsPerformed, control: StepperControl(value: '${fit.rpeReps}', minWidth: 40, onDec: () => fit.bumpRpeReps(-1), onInc: () => fit.bumpRpeReps(1))),
-          ToolRow(label: t.rpeEffortLabel, control: StepperControl(value: fmt(fit.rpeRpe), minWidth: 40, onDec: () => fit.bumpRpe(-0.5), onInc: () => fit.bumpRpe(0.5))),
+          ToolRow(
+            label: t.weightLifted,
+            control: StepperControl(
+              value: '${fit.weightValue(fit.rpeWeight)} ${fit.units}',
+              onDec: () => fit.bumpRpeWeight(-step),
+              onInc: () => fit.bumpRpeWeight(step),
+              onEdit: () => _editNumber(
+                context,
+                title: t.weightLifted,
+                current: fit.toDisplayWeight(fit.rpeWeight),
+                decimal: true,
+                apply: (v) => fit.bumpRpeWeight(fit.fromDisplayWeight(v) - fit.rpeWeight),
+              ),
+            ),
+          ),
+          ToolRow(
+            label: t.repsPerformed,
+            control: StepperControl(
+              value: '${fit.rpeReps}',
+              minWidth: 40,
+              onDec: () => fit.bumpRpeReps(-1),
+              onInc: () => fit.bumpRpeReps(1),
+            ),
+          ),
+          ToolRow(
+            label: t.rpeEffortLabel,
+            control: StepperControl(
+              value: fmt(fit.rpeRpe),
+              minWidth: 40,
+              onDec: () => fit.bumpRpe(-0.5),
+              onInc: () => fit.bumpRpe(0.5),
+            ),
+          ),
           _sectionLabel(gc, t.rpeGoal),
-          ToolRow(label: t.repsCol, control: StepperControl(value: '${fit.rpeTargetReps}', minWidth: 40, onDec: () => fit.bumpRpeTargetReps(-1), onInc: () => fit.bumpRpeTargetReps(1))),
-          ToolRow(label: t.rpeEffortLabel, control: StepperControl(value: fmt(fit.rpeTargetRpe), minWidth: 40, onDec: () => fit.bumpRpeTarget(-0.5), onInc: () => fit.bumpRpeTarget(0.5))),
+          ToolRow(
+            label: t.repsCol,
+            control: StepperControl(
+              value: '${fit.rpeTargetReps}',
+              minWidth: 40,
+              onDec: () => fit.bumpRpeTargetReps(-1),
+              onInc: () => fit.bumpRpeTargetReps(1),
+            ),
+          ),
+          ToolRow(
+            label: t.rpeEffortLabel,
+            control: StepperControl(
+              value: fmt(fit.rpeTargetRpe),
+              minWidth: 40,
+              onDec: () => fit.bumpRpeTarget(-0.5),
+              onInc: () => fit.bumpRpeTarget(0.5),
+            ),
+          ),
           _note(gc, '${t.rpeOneRmLine(fit.weightLabel(fit.rpeOneRm))}\n${t.rpeExplain}'),
         ];
       case 'dots':
       case 'wilks':
         final step = fit.fromDisplayWeight(fit.weightStep);
         Widget lift(String label, double kg, void Function(double) bump) => ToolRow(
-              label: label,
-              control: StepperControl(
-                value: '${fit.weightValue(kg)} ${fit.units}',
-                onDec: () => bump(-step),
-                onInc: () => bump(step),
-                onEdit: () => _editNumber(context, title: label, current: fit.toDisplayWeight(kg), decimal: true, apply: (v) => bump(fit.fromDisplayWeight(v) - kg)),
-              ),
-            );
+          label: label,
+          control: StepperControl(
+            value: '${fit.weightValue(kg)} ${fit.units}',
+            onDec: () => bump(-step),
+            onInc: () => bump(step),
+            onEdit: () => _editNumber(
+              context,
+              title: label,
+              current: fit.toDisplayWeight(kg),
+              decimal: true,
+              apply: (v) => bump(fit.fromDisplayWeight(v) - kg),
+            ),
+          ),
+        );
         return [
           ToolRow(
             label: t.sexLabel,
@@ -208,7 +480,10 @@ class ToolDetailScreen extends StatelessWidget {
           lift(t.dotsSquat, fit.dotsSquat, fit.bumpDotsSquat),
           lift(t.dotsBench, fit.dotsBench, fit.bumpDotsBench),
           lift(t.dotsDeadlift, fit.dotsDeadlift, fit.bumpDotsDeadlift),
-          _note(gc, '${t.dotsTotalLine(fit.weightLabel(fit.dotsTotal))}\n${id == 'wilks' ? t.wilksExplain : t.dotsExplain}'),
+          _note(
+            gc,
+            '${t.dotsTotalLine(fit.weightLabel(fit.dotsTotal))}\n${id == 'wilks' ? t.wilksExplain : t.dotsExplain}',
+          ),
         ];
       case 'ffmi':
         return [
@@ -219,9 +494,52 @@ class ToolDetailScreen extends StatelessWidget {
               SegOption(t.female, fit.ffmiSex == 'female', () => fit.setFfmiSex('female')),
             ]),
           ),
-          ToolRow(label: t.heightLabel, control: StepperControl(value: fit.heightLabel(fit.ffmiHeight), onDec: () => fit.bumpFfmiHeight(-fit.heightStep), onInc: () => fit.bumpFfmiHeight(fit.heightStep), onEdit: () => _editNumber(context, title: t.heightLabel, current: fit.toDisplayCm(fit.ffmiHeight), decimal: true, apply: (v) => fit.bumpFfmiHeight(fit.fromDisplayCm(v) - fit.ffmiHeight)))),
-          ToolRow(label: t.weightLabel, control: StepperControl(value: '${fit.weightValue(fit.ffmiWeight)} ${fit.units}', onDec: () => fit.bumpFfmiWeight(-fit.fromDisplayWeight(fit.isLb ? 1 : 0.5)), onInc: () => fit.bumpFfmiWeight(fit.fromDisplayWeight(fit.isLb ? 1 : 0.5)), onEdit: () => _editNumber(context, title: t.weightLabel, current: fit.toDisplayWeight(fit.ffmiWeight), decimal: true, apply: (v) => fit.bumpFfmiWeight(fit.fromDisplayWeight(v) - fit.ffmiWeight)))),
-          ToolRow(label: t.ffmiBodyFat, control: StepperControl(value: '${fmt(fit.ffmiBf)}%', minWidth: 52, onDec: () => fit.bumpFfmiBf(-0.5), onInc: () => fit.bumpFfmiBf(0.5), onEdit: () => _editNumber(context, title: t.ffmiBodyFat, current: fit.ffmiBf, decimal: true, apply: (v) => fit.bumpFfmiBf(v - fit.ffmiBf)))),
+          ToolRow(
+            label: t.heightLabel,
+            control: StepperControl(
+              value: fit.heightLabel(fit.ffmiHeight),
+              onDec: () => fit.bumpFfmiHeight(-fit.heightStep),
+              onInc: () => fit.bumpFfmiHeight(fit.heightStep),
+              onEdit: () => _editNumber(
+                context,
+                title: t.heightLabel,
+                current: fit.toDisplayCm(fit.ffmiHeight),
+                decimal: true,
+                apply: (v) => fit.bumpFfmiHeight(fit.fromDisplayCm(v) - fit.ffmiHeight),
+              ),
+            ),
+          ),
+          ToolRow(
+            label: t.weightLabel,
+            control: StepperControl(
+              value: '${fit.weightValue(fit.ffmiWeight)} ${fit.units}',
+              onDec: () => fit.bumpFfmiWeight(-fit.fromDisplayWeight(fit.isLb ? 1 : 0.5)),
+              onInc: () => fit.bumpFfmiWeight(fit.fromDisplayWeight(fit.isLb ? 1 : 0.5)),
+              onEdit: () => _editNumber(
+                context,
+                title: t.weightLabel,
+                current: fit.toDisplayWeight(fit.ffmiWeight),
+                decimal: true,
+                apply: (v) => fit.bumpFfmiWeight(fit.fromDisplayWeight(v) - fit.ffmiWeight),
+              ),
+            ),
+          ),
+          ToolRow(
+            label: t.ffmiBodyFat,
+            control: StepperControl(
+              value: '${fmt(fit.ffmiBf)}%',
+              minWidth: 52,
+              onDec: () => fit.bumpFfmiBf(-0.5),
+              onInc: () => fit.bumpFfmiBf(0.5),
+              onEdit: () => _editNumber(
+                context,
+                title: t.ffmiBodyFat,
+                current: fit.ffmiBf,
+                decimal: true,
+                apply: (v) => fit.bumpFfmiBf(v - fit.ffmiBf),
+              ),
+            ),
+          ),
           _note(gc, '${t.ffmiLeanLine(fit.weightLabel(fit.ffmiLean))}\n${t.ffmiExplain}'),
         ];
       default:
@@ -230,15 +548,20 @@ class ToolDetailScreen extends StatelessWidget {
   }
 
   Widget _sectionLabel(GymColors gc, String label) => Padding(
-        padding: const EdgeInsets.fromLTRB(4, 6, 4, 0),
-        child: Text(label.toUpperCase(),
-            style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.4)),
-      );
+    padding: const EdgeInsets.fromLTRB(4, 6, 4, 0),
+    child: Text(
+      label.toUpperCase(),
+      style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.4),
+    ),
+  );
 
   Widget _note(GymColors gc, String text) => Padding(
-        padding: const EdgeInsets.fromLTRB(4, 4, 4, 0),
-        child: Text(text, style: AppTheme.f(12, weight: FontWeight.w500, color: gc.textSecondary, height: 1.5)),
-      );
+    padding: const EdgeInsets.fromLTRB(4, 4, 4, 0),
+    child: Text(
+      text,
+      style: AppTheme.f(12, weight: FontWeight.w500, color: gc.textSecondary, height: 1.5),
+    ),
+  );
 
   Future<void> _editNumber(
     BuildContext context, {
@@ -272,14 +595,21 @@ class ToolDetailScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(t.activityLevel, style: AppTheme.f(13, weight: FontWeight.w600, color: gc.textSecondary)),
+          Text(
+            t.activityLevel,
+            style: AppTheme.f(13, weight: FontWeight.w600, color: gc.textSecondary),
+          ),
           const SizedBox(height: 10),
-          Wrap(spacing: 6, runSpacing: 6, children: [
-            pill(t.activityName('Sedentary'), 1.2),
-            pill(t.activityName('Light'), 1.375),
-            pill(t.activityName('Moderate'), 1.55),
-            pill(t.activityName('Active'), 1.725),
-          ]),
+          Wrap(
+            spacing: 6,
+            runSpacing: 6,
+            children: [
+              pill(t.activityName('Sedentary'), 1.2),
+              pill(t.activityName('Light'), 1.375),
+              pill(t.activityName('Moderate'), 1.55),
+              pill(t.activityName('Active'), 1.725),
+            ],
+          ),
         ],
       ),
     );
@@ -287,24 +617,34 @@ class ToolDetailScreen extends StatelessWidget {
 
   Widget _macros(GymColors gc) {
     Widget card(String label, String value) => Expanded(
-          child: SoftCard(
-            radius: 20,
-            borderColor: Colors.transparent,
-            padding: const EdgeInsets.all(12),
-            child: Column(children: [
-              Text(label, style: AppTheme.f(10, weight: FontWeight.w600, color: gc.textSecondary)),
-              const SizedBox(height: 4),
-              Text(value, style: AppTheme.f(16, weight: FontWeight.w700, color: gc.text)),
-            ]),
-          ),
-        );
-    return Row(children: [
-      card(t.macroProtein, '${fit.calProtein}g'),
-      const SizedBox(width: 10),
-      card(t.macroCarbs, '${fit.calCarbs}g'),
-      const SizedBox(width: 10),
-      card(t.macroFat, '${fit.calFat}g'),
-    ]);
+      child: SoftCard(
+        radius: 20,
+        borderColor: Colors.transparent,
+        padding: const EdgeInsets.all(12),
+        child: Column(
+          children: [
+            Text(
+              label,
+              style: AppTheme.f(10, weight: FontWeight.w600, color: gc.textSecondary),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              value,
+              style: AppTheme.f(16, weight: FontWeight.w700, color: gc.text),
+            ),
+          ],
+        ),
+      ),
+    );
+    return Row(
+      children: [
+        card(t.macroProtein, '${fit.calProtein}g'),
+        const SizedBox(width: 10),
+        card(t.macroCarbs, '${fit.calCarbs}g'),
+        const SizedBox(width: 10),
+        card(t.macroFat, '${fit.calFat}g'),
+      ],
+    );
   }
 
   Widget _barWeightCard(GymColors gc) {
@@ -316,9 +656,14 @@ class ToolDetailScreen extends StatelessWidget {
           child: Container(
             padding: const EdgeInsets.all(8),
             alignment: Alignment.center,
-            decoration: BoxDecoration(color: active ? gc.ember : gc.bgRaised2, borderRadius: BorderRadius.circular(10)),
-            child: Text('${fmt(v)} ${fit.units}',
-                style: AppTheme.f(13, weight: FontWeight.w600, color: active ? gc.onEmber : gc.textSecondary)),
+            decoration: BoxDecoration(
+              color: active ? gc.ember : gc.bgRaised2,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Text(
+              '${fmt(v)} ${fit.units}',
+              style: AppTheme.f(13, weight: FontWeight.w600, color: active ? gc.onEmber : gc.textSecondary),
+            ),
           ),
         ),
       );
@@ -332,14 +677,16 @@ class ToolDetailScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(t.barWeight, style: AppTheme.f(13, weight: FontWeight.w600, color: gc.textSecondary)),
+          Text(
+            t.barWeight,
+            style: AppTheme.f(13, weight: FontWeight.w600, color: gc.textSecondary),
+          ),
           const SizedBox(height: 10),
-          Row(children: [
-            for (int i = 0; i < bars.length; i++) ...[
-              if (i > 0) const SizedBox(width: 8),
-              opt(bars[i]),
+          Row(
+            children: [
+              for (int i = 0; i < bars.length; i++) ...[if (i > 0) const SizedBox(width: 8), opt(bars[i])],
             ],
-          ]),
+          ),
         ],
       ),
     );
@@ -356,10 +703,16 @@ class ToolDetailScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(t.perSide, style: AppTheme.f(13, weight: FontWeight.w600, color: gc.textSecondary)),
+          Text(
+            t.perSide,
+            style: AppTheme.f(13, weight: FontWeight.w600, color: gc.textSecondary),
+          ),
           const SizedBox(height: 10),
           if (rows.isEmpty)
-            Text(t.justTheBar, style: AppTheme.f(13, weight: FontWeight.w500, color: gc.textSecondary))
+            Text(
+              t.justTheBar,
+              style: AppTheme.f(13, weight: FontWeight.w500, color: gc.textSecondary),
+            )
           else
             for (final p in rows)
               Padding(
@@ -367,14 +720,22 @@ class ToolDetailScreen extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('${fmt(p.weight)} ${fit.units}', style: AppTheme.f(14, weight: FontWeight.w600, color: gc.text)),
-                    Text(t.perSideCount(p.count), style: AppTheme.f(13, weight: FontWeight.w500, color: gc.textSecondary)),
+                    Text(
+                      '${fmt(p.weight)} ${fit.units}',
+                      style: AppTheme.f(14, weight: FontWeight.w600, color: gc.text),
+                    ),
+                    Text(
+                      t.perSideCount(p.count),
+                      style: AppTheme.f(13, weight: FontWeight.w500, color: gc.textSecondary),
+                    ),
                   ],
                 ),
               ),
           if (loadable < target - 0.01)
-            Text(t.plateAchievable('${fmt(loadable)} ${fit.units}'),
-                style: AppTheme.f(12, weight: FontWeight.w500, color: gc.brass)),
+            Text(
+              t.plateAchievable('${fmt(loadable)} ${fit.units}'),
+              style: AppTheme.f(12, weight: FontWeight.w500, color: gc.brass),
+            ),
         ],
       ),
     );
@@ -397,18 +758,27 @@ class ToolDetailScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(t.rmAtPercent('${fit.rmPct}%'),
-                      style: AppTheme.f(13, weight: FontWeight.w500, color: gc.textSecondary)),
+                  Text(
+                    t.rmAtPercent('${fit.rmPct}%'),
+                    style: AppTheme.f(13, weight: FontWeight.w500, color: gc.textSecondary),
+                  ),
                   if (plates.isNotEmpty) ...[
                     const SizedBox(height: 3),
-                    Text(plates.map((p) => p.count == 1 ? fmt(p.weight) : '${fmt(p.weight)}×${p.count}').join(' · '),
-                        style: AppTheme.f(11.5, weight: FontWeight.w500, color: gc.textTertiary)),
+                    Text(
+                      plates
+                          .map((p) => p.count == 1 ? fmt(p.weight) : '${fmt(p.weight)}×${p.count}')
+                          .join(' · '),
+                      style: AppTheme.f(11.5, weight: FontWeight.w500, color: gc.textTertiary),
+                    ),
                   ],
                 ],
               ),
             ),
             const SizedBox(width: 12),
-            Text('${fmt(weight)} ${fit.units}', style: AppTheme.f(17, weight: FontWeight.w800, color: gc.text)),
+            Text(
+              '${fmt(weight)} ${fit.units}',
+              style: AppTheme.f(17, weight: FontWeight.w800, color: gc.text),
+            ),
           ],
         ),
       ),
@@ -432,8 +802,14 @@ class ToolDetailScreen extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('${sets[i].pct} · ${t.repCount(sets[i].reps)}', style: AppTheme.f(13, weight: FontWeight.w500, color: gc.textSecondary)),
-                  Text('${fmt(sets[i].weight)} ${fit.units}', style: AppTheme.f(15, weight: FontWeight.w700, color: gc.text)),
+                  Text(
+                    '${sets[i].pct} · ${t.repCount(sets[i].reps)}',
+                    style: AppTheme.f(13, weight: FontWeight.w500, color: gc.textSecondary),
+                  ),
+                  Text(
+                    '${fmt(sets[i].weight)} ${fit.units}',
+                    style: AppTheme.f(15, weight: FontWeight.w700, color: gc.text),
+                  ),
                 ],
               ),
             ),
@@ -467,42 +843,57 @@ void showPlateSheet(BuildContext context, double displayTarget, {double? startBa
               const SizedBox(height: 16),
               SheetTitle(t.toolTitle('plate')),
               const SizedBox(height: 4),
-              Text('${fmt(displayTarget)} ${fit.units}',
-                  textAlign: TextAlign.center,
-                  style: AppTheme.f(30, weight: FontWeight.w700, color: gc.ember)),
+              Text(
+                '${fmt(displayTarget)} ${fit.units}',
+                textAlign: TextAlign.center,
+                style: AppTheme.f(30, weight: FontWeight.w700, color: gc.ember),
+              ),
               const SizedBox(height: 18),
-              Text(t.barWeight,
-                  style: AppTheme.f(10, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.5)),
+              Text(
+                t.barWeight,
+                style: AppTheme.f(10, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.5),
+              ),
               const SizedBox(height: 8),
-              Row(children: [
-                for (final option in fit.barOptions) ...[
-                  if (option != fit.barOptions.first) const SizedBox(width: 8),
-                  Expanded(
-                    child: GestureDetector(
-                      behavior: HitTestBehavior.opaque,
-                      onTap: () => setSheet(() => bar = option),
-                      child: Container(
-                        padding: const EdgeInsets.all(10),
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          color: bar == option ? gc.ember : gc.bgRaised2,
-                          borderRadius: BorderRadius.circular(10),
+              Row(
+                children: [
+                  for (final option in fit.barOptions) ...[
+                    if (option != fit.barOptions.first) const SizedBox(width: 8),
+                    Expanded(
+                      child: GestureDetector(
+                        behavior: HitTestBehavior.opaque,
+                        onTap: () => setSheet(() => bar = option),
+                        child: Container(
+                          padding: const EdgeInsets.all(10),
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            color: bar == option ? gc.ember : gc.bgRaised2,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Text(
+                            '${fmt(option)} ${fit.units}',
+                            style: AppTheme.f(
+                              13,
+                              weight: FontWeight.w600,
+                              color: bar == option ? gc.onEmber : gc.textSecondary,
+                            ),
+                          ),
                         ),
-                        child: Text('${fmt(option)} ${fit.units}',
-                            style: AppTheme.f(13,
-                                weight: FontWeight.w600,
-                                color: bar == option ? gc.onEmber : gc.textSecondary)),
                       ),
                     ),
-                  ),
+                  ],
                 ],
-              ]),
+              ),
               const SizedBox(height: 18),
-              Text(t.perSide,
-                  style: AppTheme.f(10, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.5)),
+              Text(
+                t.perSide,
+                style: AppTheme.f(10, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.5),
+              ),
               const SizedBox(height: 10),
               if (rows.isEmpty)
-                Text(t.justTheBar, style: AppTheme.f(13, weight: FontWeight.w500, color: gc.textSecondary))
+                Text(
+                  t.justTheBar,
+                  style: AppTheme.f(13, weight: FontWeight.w500, color: gc.textSecondary),
+                )
               else
                 for (final p in rows)
                   Padding(
@@ -510,16 +901,23 @@ void showPlateSheet(BuildContext context, double displayTarget, {double? startBa
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('${fmt(p.weight)} ${fit.units}',
-                            style: AppTheme.f(14, weight: FontWeight.w600, color: gc.text)),
-                        Text(t.perSideCount(p.count), style: AppTheme.f(13, weight: FontWeight.w500, color: gc.textSecondary)),
+                        Text(
+                          '${fmt(p.weight)} ${fit.units}',
+                          style: AppTheme.f(14, weight: FontWeight.w600, color: gc.text),
+                        ),
+                        Text(
+                          t.perSideCount(p.count),
+                          style: AppTheme.f(13, weight: FontWeight.w500, color: gc.textSecondary),
+                        ),
                       ],
                     ),
                   ),
               if (loadable < displayTarget - 0.01) ...[
                 const SizedBox(height: 2),
-                Text(t.plateAchievable('${fmt(loadable)} ${fit.units}'),
-                    style: AppTheme.f(12, weight: FontWeight.w500, color: gc.brass)),
+                Text(
+                  t.plateAchievable('${fmt(loadable)} ${fit.units}'),
+                  style: AppTheme.f(12, weight: FontWeight.w500, color: gc.brass),
+                ),
               ],
               const SizedBox(height: 18),
               PrimaryButton(label: t.done, onTap: () => Navigator.of(sheet).pop()),

@@ -140,9 +140,11 @@ void main() {
   group('músculos sin entrenar', () {
     test('cuenta los días desde la última serie del músculo principal', () {
       final now = DateTime.now();
-      fit.sessions.add(LoggedSession(now.subtract(const Duration(days: 9)), 600, [
-        LoggedExercise(bench(), 'Bench Press', 'chest', [LoggedSet(8, 60)]),
-      ]));
+      fit.sessions.add(
+        LoggedSession(now.subtract(const Duration(days: 9)), 600, [
+          LoggedExercise(bench(), 'Bench Press', 'chest', [LoggedSet(8, 60)]),
+        ]),
+      );
       final days = fit.daysSinceTrained();
       expect(days['chest'], 9);
       expect(days['quads'], isNull);
@@ -176,9 +178,11 @@ void main() {
     });
 
     test('copiar la serie anterior y mover ejercicios', () {
-      fit.sessions.add(LoggedSession(day(-2), 600, [
-        LoggedExercise(bench(), 'Bench Press', 'chest', [LoggedSet(6, 82.5)]),
-      ]));
+      fit.sessions.add(
+        LoggedSession(day(-2), 600, [
+          LoggedExercise(bench(), 'Bench Press', 'chest', [LoggedSet(6, 82.5)]),
+        ]),
+      );
       final r = routine('P');
       fit.startRoutine(r);
       fit.endCountdown();

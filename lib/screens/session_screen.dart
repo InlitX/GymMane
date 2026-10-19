@@ -16,18 +16,18 @@ import '../widgets/exercise_media.dart';
 import '../widgets/exercise_preview.dart';
 import '../widgets/glass.dart';
 import '../widgets/liquid_notch.dart';
-import '../widgets/set_kind.dart';
-import '../widgets/share_cards.dart';
 import '../widgets/rolling_text.dart';
 import '../widgets/ruler_picker.dart';
+import '../widgets/set_kind.dart';
+import '../widgets/share_cards.dart';
 import '../widgets/svg_icon.dart';
 import '../widgets/timer_panel.dart';
 import '../widgets/ui_kit.dart';
 import '../widgets/workout_notes.dart';
 import 'exercises_screen.dart';
-import 'tool_detail_screen.dart';
 import 'share_sheet.dart';
 import 'sticker_screen.dart';
+import 'tool_detail_screen.dart';
 
 class SessionScreen extends StatelessWidget {
   const SessionScreen({super.key});
@@ -83,8 +83,7 @@ class SessionScreen extends StatelessWidget {
                         locked,
                         GestureDetector(
                           onTap: () => showExercisePreview(context, def),
-                          child: ExerciseMedia(
-                              ex: def, height: 104, radius: 18, live: true, loops: loops),
+                          child: ExerciseMedia(ex: def, height: 104, radius: 18, live: true, loops: loops),
                         ),
                       ),
                     ),
@@ -113,17 +112,14 @@ class SessionScreen extends StatelessWidget {
           child: fit.holding && fit.holdEx == exIdx
               ? Padding(padding: const EdgeInsets.only(bottom: 16), child: _holdCard(gc))
               : s.restRemaining != null
-                  ? Padding(padding: const EdgeInsets.only(bottom: 16), child: _restCard(context, gc, s))
-                  : const SizedBox(width: double.infinity),
+              ? Padding(padding: const EdgeInsets.only(bottom: 16), child: _restCard(context, gc, s))
+              : const SizedBox(width: double.infinity),
         ),
         _ExerciseStage(
           index: exIdx,
           child: Container(
             padding: const EdgeInsets.fromLTRB(_cardPad, 16, _cardPad, 16),
-            decoration: BoxDecoration(
-              color: gc.bgRaised,
-              borderRadius: BorderRadius.circular(20),
-            ),
+            decoration: BoxDecoration(color: gc.bgRaised, borderRadius: BorderRadius.circular(20)),
             child: Column(
               children: [
                 Padding(
@@ -131,8 +127,15 @@ class SessionScreen extends StatelessWidget {
                   child: _setsHeader(gc, mode, repsOnly, ex != null && fit.isEachSide(ex.id)),
                 ),
                 for (int j = 0; j < (ex?.sets.length ?? 0); j++) ...[
-                  _swipeToDelete(context, gc, exIdx, j, ex!.sets[j], locked,
-                      _setRow(gc, exIdx, j, ex.sets[j], repsOnly, locked)),
+                  _swipeToDelete(
+                    context,
+                    gc,
+                    exIdx,
+                    j,
+                    ex!.sets[j],
+                    locked,
+                    _setRow(gc, exIdx, j, ex.sets[j], repsOnly, locked),
+                  ),
                 ],
                 if (!repsOnly && mode.isEmpty && ex != null) _guard(locked, _plateRow(context, gc, ex)),
                 const SizedBox(height: 10),
@@ -143,10 +146,7 @@ class SessionScreen extends StatelessWidget {
                     child: Row(
                       children: [
                         Expanded(child: _dashedAction(gc, t.addSet, () => fit.addSet(exIdx))),
-                        if (second != null) ...[
-                          const SizedBox(width: 8),
-                          Expanded(child: second),
-                        ],
+                        if (second != null) ...[const SizedBox(width: 8), Expanded(child: second)],
                       ],
                     ),
                   ),
@@ -159,57 +159,67 @@ class SessionScreen extends StatelessWidget {
         _guard(
           locked,
           Row(
-          children: [
-            Expanded(
-              child: GhostButton(
-                label: t.addExercise,
-                icon: PhosphorIconsRegular.plus,
-                onTap: () => showAddToSessionSheet(context),
-              ),
-            ),
-            const SizedBox(width: 10),
-            Semantics(
-              button: true,
-              label: t.addNote,
-              child: GestureDetector(
-                behavior: HitTestBehavior.opaque,
-                onTap: () => ex == null ? fit.openNoteEditor() : showWorkoutNoteEditor(context, ex.id),
-                child: Container(
-                  width: 46,
-                  height: 46,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(14),
-                  ),
-                  child: Icon(PhosphorIconsRegular.notePencil, size: 17, color: gc.ember),
+            children: [
+              Expanded(
+                child: GhostButton(
+                  label: t.addExercise,
+                  icon: PhosphorIconsRegular.plus,
+                  onTap: () => showAddToSessionSheet(context),
                 ),
               ),
-            ),
-          ],
+              const SizedBox(width: 10),
+              Semantics(
+                button: true,
+                label: t.addNote,
+                child: GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTap: () => ex == null ? fit.openNoteEditor() : showWorkoutNoteEditor(context, ex.id),
+                  child: Container(
+                    width: 46,
+                    height: 46,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(14)),
+                    child: Icon(PhosphorIconsRegular.notePencil, size: 17, color: gc.ember),
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
         const SizedBox(height: 16),
-        Row(children: [
-          _circleBtn(gc, Ic.chevronLeft, fit.prevExercise, enabled: !locked && exIdx > 0),
-          const SizedBox(width: 10),
-          Expanded(child: _mainAction(gc, ex, exIdx, s.exercises.length, locked)),
-          const SizedBox(width: 10),
-          _circleBtn(gc, Ic.chevronRightBold, fit.nextExercise,
-              enabled: !locked && exIdx < s.exercises.length - 1),
-        ]),
+        Row(
+          children: [
+            _circleBtn(gc, Ic.chevronLeft, fit.prevExercise, enabled: !locked && exIdx > 0),
+            const SizedBox(width: 10),
+            Expanded(child: _mainAction(gc, ex, exIdx, s.exercises.length, locked)),
+            const SizedBox(width: 10),
+            _circleBtn(
+              gc,
+              Ic.chevronRightBold,
+              fit.nextExercise,
+              enabled: !locked && exIdx < s.exercises.length - 1,
+            ),
+          ],
+        ),
         const SizedBox(height: 10),
         _guard(
           locked,
-          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            if (ex != null && s.exercises.length > 1) ...[
-              Flexible(
-                child: _textAction(gc, t.dropExerciseAction,
-                    () => _confirmDrop(context, exIdx, t.catalogName(ex.id, ex.name))),
-              ),
-              Container(width: 1, height: 12, color: gc.border),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              if (ex != null && s.exercises.length > 1) ...[
+                Flexible(
+                  child: _textAction(
+                    gc,
+                    t.dropExerciseAction,
+                    () => _confirmDrop(context, exIdx, t.catalogName(ex.id, ex.name)),
+                  ),
+                ),
+                Container(width: 1, height: 12, color: gc.border),
+              ],
+              Flexible(child: _textAction(gc, titleCase(t.finishSession), fit.finishSession)),
             ],
-            Flexible(child: _textAction(gc, titleCase(t.finishSession), fit.finishSession)),
-          ]),
+          ),
         ),
       ],
     );
@@ -222,44 +232,48 @@ class SessionScreen extends StatelessWidget {
     final locked = fit.sessionLocked && !s.manual;
     return SafeArea(
       bottom: false,
-      child: Stack(children: [
-        Positioned.fill(
-          child: Column(children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(20, 12, 20, 10),
-              child: s.manual ? _manualBar(context, gc, s) : _liveBar(gc, locked),
-            ),
-            Expanded(
-              child: NotificationListener<ScrollNotification>(
-                onNotification: (_) => true,
-                child: SingleChildScrollView(
-                  padding: EdgeInsets.fromLTRB(16, 4, 16, 32 + bottom + (docked ? 84 : 0)),
-                  child: _listActive(context, gc, s),
+      child: Stack(
+        children: [
+          Positioned.fill(
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 12, 20, 10),
+                  child: s.manual ? _manualBar(context, gc, s) : _liveBar(gc, locked),
                 ),
-              ),
+                Expanded(
+                  child: NotificationListener<ScrollNotification>(
+                    onNotification: (_) => true,
+                    child: SingleChildScrollView(
+                      padding: EdgeInsets.fromLTRB(16, 4, 16, 32 + bottom + (docked ? 84 : 0)),
+                      child: _listActive(context, gc, s),
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ]),
-        ),
-        Positioned(
-          left: 12,
-          right: 12,
-          bottom: 12 + bottom,
-          child: AnimatedSwitcher(
-            duration: const Duration(milliseconds: 260),
-            switchInCurve: Curves.easeOutCubic,
-            switchOutCurve: Curves.easeInCubic,
-            transitionBuilder: (child, a) => SlideTransition(
-              position: Tween(begin: const Offset(0, 1.4), end: Offset.zero).animate(a),
-              child: FadeTransition(opacity: a, child: child),
-            ),
-            child: fit.holding && fit.holdEx >= 0
-                ? KeyedSubtree(key: const ValueKey('hold'), child: _ticking(() => _holdDock(gc)))
-                : s.restRemaining != null
-                    ? KeyedSubtree(key: const ValueKey('rest'), child: _restDock(context, gc, s))
-                    : const SizedBox(key: ValueKey('none'), width: double.infinity),
           ),
-        ),
-      ]),
+          Positioned(
+            left: 12,
+            right: 12,
+            bottom: 12 + bottom,
+            child: AnimatedSwitcher(
+              duration: const Duration(milliseconds: 260),
+              switchInCurve: Curves.easeOutCubic,
+              switchOutCurve: Curves.easeInCubic,
+              transitionBuilder: (child, a) => SlideTransition(
+                position: Tween(begin: const Offset(0, 1.4), end: Offset.zero).animate(a),
+                child: FadeTransition(opacity: a, child: child),
+              ),
+              child: fit.holding && fit.holdEx >= 0
+                  ? KeyedSubtree(key: const ValueKey('hold'), child: _ticking(() => _holdDock(gc)))
+                  : s.restRemaining != null
+                  ? KeyedSubtree(key: const ValueKey('rest'), child: _restDock(context, gc, s))
+                  : const SizedBox(key: ValueKey('none'), width: double.infinity),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -292,21 +306,29 @@ class SessionScreen extends StatelessWidget {
   Widget _listStats(GymColors gc, WorkoutSession s) {
     final count = fit.sessionSetCount;
     Widget stat(String label, Widget value) => Expanded(
-          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            FitText(label, style: AppTheme.f(10, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1)),
-            const SizedBox(height: 3),
-            value,
-          ]),
-        );
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          FitText(
+            label,
+            style: AppTheme.f(10, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1),
+          ),
+          const SizedBox(height: 3),
+          value,
+        ],
+      ),
+    );
     final style = AppTheme.f(17, weight: FontWeight.w800, color: gc.text);
     return Container(
       padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
       decoration: BoxDecoration(color: gc.bgRaised, borderRadius: BorderRadius.circular(18)),
-      child: Row(children: [
-        stat(t.duration, _ticking(() => RollingText(fit.elapsedLabel, style: style))),
-        stat(t.volume, FitText('${fit.weightValue(fit.sessionVolumeKg)} ${fit.units}', style: style)),
-        stat(t.setsCaps, RollingText('${count.done}/${count.total}', style: style)),
-      ]),
+      child: Row(
+        children: [
+          stat(t.duration, _ticking(() => RollingText(fit.elapsedLabel, style: style))),
+          stat(t.volume, FitText('${fit.weightValue(fit.sessionVolumeKg)} ${fit.units}', style: style)),
+          stat(t.setsCaps, RollingText('${count.done}/${count.total}', style: style)),
+        ],
+      ),
     );
   }
 
@@ -331,62 +353,88 @@ class SessionScreen extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8),
-            child: Row(children: [
-              _guard(
-                locked,
-                GestureDetector(
-                  onTap: def == null ? null : () => showExercisePreview(context, def),
-                  child: SizedBox(
-                    width: 46,
-                    height: 46,
-                    child: def == null
-                        ? const SizedBox.shrink()
-                        : ExerciseMedia(ex: def, height: 46, radius: 12, live: false),
-                  ),
-                ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                  Text(t.catalogName(ex.id, ex.name),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: AppTheme.f(16, weight: FontWeight.w800, color: done ? gc.sage : gc.text, height: 1.15)),
-                  const SizedBox(height: 3),
-                  Row(children: [
-                    if (linked) ...[
-                      Icon(PhosphorIconsRegular.link, size: 11, color: gc.brass),
-                      const SizedBox(width: 4),
-                      Text(t.superset,
-                          style: AppTheme.f(11, weight: FontWeight.w700, color: gc.brass, letterSpacing: 0.3)),
-                      Text('  ·  ', style: AppTheme.f(11, weight: FontWeight.w500, color: gc.textTertiary)),
-                    ],
-                    Flexible(
-                      child: Text(muscleLabel(ex.primary),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: AppTheme.f(11.5, weight: FontWeight.w600, color: gc.textTertiary)),
-                    ),
-                  ]),
-                ]),
-              ),
-              _guard(
-                locked,
-                Semantics(
-                  button: true,
-                  label: t.moreOptions,
-                  child: GestureDetector(
-                    behavior: HitTestBehavior.opaque,
-                    onTap: () => _listExerciseMenu(context, i),
+            child: Row(
+              children: [
+                _guard(
+                  locked,
+                  GestureDetector(
+                    onTap: def == null ? null : () => showExercisePreview(context, def),
                     child: SizedBox(
-                      width: 40,
-                      height: 44,
-                      child: Icon(PhosphorIconsBold.dotsThree, size: 20, color: gc.textSecondary),
+                      width: 46,
+                      height: 46,
+                      child: def == null
+                          ? const SizedBox.shrink()
+                          : ExerciseMedia(ex: def, height: 46, radius: 12, live: false),
                     ),
                   ),
                 ),
-              ),
-            ]),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        t.catalogName(ex.id, ex.name),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: AppTheme.f(
+                          16,
+                          weight: FontWeight.w800,
+                          color: done ? gc.sage : gc.text,
+                          height: 1.15,
+                        ),
+                      ),
+                      const SizedBox(height: 3),
+                      Row(
+                        children: [
+                          if (linked) ...[
+                            Icon(PhosphorIconsRegular.link, size: 11, color: gc.brass),
+                            const SizedBox(width: 4),
+                            Text(
+                              t.superset,
+                              style: AppTheme.f(
+                                11,
+                                weight: FontWeight.w700,
+                                color: gc.brass,
+                                letterSpacing: 0.3,
+                              ),
+                            ),
+                            Text(
+                              '  ·  ',
+                              style: AppTheme.f(11, weight: FontWeight.w500, color: gc.textTertiary),
+                            ),
+                          ],
+                          Flexible(
+                            child: Text(
+                              muscleLabel(ex.primary),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: AppTheme.f(11.5, weight: FontWeight.w600, color: gc.textTertiary),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                _guard(
+                  locked,
+                  Semantics(
+                    button: true,
+                    label: t.moreOptions,
+                    child: GestureDetector(
+                      behavior: HitTestBehavior.opaque,
+                      onTap: () => _listExerciseMenu(context, i),
+                      child: SizedBox(
+                        width: 40,
+                        height: 44,
+                        child: Icon(PhosphorIconsBold.dotsThree, size: 20, color: gc.textSecondary),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
           if (fit.workoutNotesFor(ex.id).isNotEmpty)
             Padding(
@@ -399,8 +447,24 @@ class SessionScreen extends StatelessWidget {
             child: _setsHeader(gc, mode, repsOnly, fit.isEachSide(ex.id), list: true),
           ),
           for (var j = 0; j < ex.sets.length; j++)
-            _swipeToDelete(context, gc, i, j, ex.sets[j], locked,
-                _setRow(gc, i, j, ex.sets[j], repsOnly, locked, list: true, prev: j < prev.length ? prev[j] : null)),
+            _swipeToDelete(
+              context,
+              gc,
+              i,
+              j,
+              ex.sets[j],
+              locked,
+              _setRow(
+                gc,
+                i,
+                j,
+                ex.sets[j],
+                repsOnly,
+                locked,
+                list: true,
+                prev: j < prev.length ? prev[j] : null,
+              ),
+            ),
           const SizedBox(height: 6),
           _guard(
             locked,
@@ -418,9 +482,16 @@ class SessionScreen extends StatelessWidget {
                   decoration: BoxDecoration(color: gc.bgRaised2, borderRadius: BorderRadius.circular(12)),
                   child: FittedBox(
                     fit: BoxFit.scaleDown,
-                    child: Text(t.addSet,
-                        maxLines: 1,
-                        style: AppTheme.f(12.5, weight: FontWeight.w700, color: gc.textSecondary, letterSpacing: 0.4)),
+                    child: Text(
+                      t.addSet,
+                      maxLines: 1,
+                      style: AppTheme.f(
+                        12.5,
+                        weight: FontWeight.w700,
+                        color: gc.textSecondary,
+                        letterSpacing: 0.4,
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -461,49 +532,86 @@ class SessionScreen extends StatelessWidget {
               const SizedBox(height: 14),
               OptionGroup([
                 if (!fit.sessionPaused && !s.manual)
-                  OptionItem(t.swapExercise, icon: PhosphorIconsRegular.arrowsLeftRight, onTap: () {
-                    Navigator.pop(sheet);
-                    showSwapExerciseSheet(context, i);
-                  }),
+                  OptionItem(
+                    t.swapExercise,
+                    icon: PhosphorIconsRegular.arrowsLeftRight,
+                    onTap: () {
+                      Navigator.pop(sheet);
+                      showSwapExerciseSheet(context, i);
+                    },
+                  ),
                 if (fit.lastSummaryFor(ex.id) != null)
-                  OptionItem(sentenceCase(t.history), icon: PhosphorIconsRegular.clockCounterClockwise, onTap: () {
-                    Navigator.pop(sheet);
-                    showExerciseHistorySheet(context, ex.id);
-                  }),
+                  OptionItem(
+                    sentenceCase(t.history),
+                    icon: PhosphorIconsRegular.clockCounterClockwise,
+                    onTap: () {
+                      Navigator.pop(sheet);
+                      showExerciseHistorySheet(context, ex.id);
+                    },
+                  ),
                 if (mode != 'cardio' && repsOnly)
-                  OptionItem(sentenceCase(t.addWeightAction), icon: PhosphorIconsRegular.barbell, onTap: () {
-                    Navigator.pop(sheet);
-                    fit.toggleRepsOnly(ex.id);
-                  })
+                  OptionItem(
+                    sentenceCase(t.addWeightAction),
+                    icon: PhosphorIconsRegular.barbell,
+                    onTap: () {
+                      Navigator.pop(sheet);
+                      fit.toggleRepsOnly(ex.id);
+                    },
+                  )
                 else if (mode.isEmpty && fit.hasWarmup(i))
-                  OptionItem(t.removeWarmup, icon: PhosphorIconsRegular.fire, onTap: () {
-                    Navigator.pop(sheet);
-                    fit.removeWarmupSets(i);
-                  })
+                  OptionItem(
+                    t.removeWarmup,
+                    icon: PhosphorIconsRegular.fire,
+                    onTap: () {
+                      Navigator.pop(sheet);
+                      fit.removeWarmupSets(i);
+                    },
+                  )
                 else if (mode.isEmpty)
-                  OptionItem(sentenceCase(t.addWarmup), icon: PhosphorIconsRegular.fire, onTap: () {
+                  OptionItem(
+                    sentenceCase(t.addWarmup),
+                    icon: PhosphorIconsRegular.fire,
+                    onTap: () {
+                      Navigator.pop(sheet);
+                      fit.addWarmupSets(i);
+                    },
+                  ),
+                OptionItem(
+                  t.addNote,
+                  icon: PhosphorIconsRegular.notePencil,
+                  onTap: () {
                     Navigator.pop(sheet);
-                    fit.addWarmupSets(i);
-                  }),
-                OptionItem(t.addNote, icon: PhosphorIconsRegular.notePencil, onTap: () {
-                  Navigator.pop(sheet);
-                  showWorkoutNoteEditor(context, ex.id);
-                }),
+                    showWorkoutNoteEditor(context, ex.id);
+                  },
+                ),
                 if (i > 0)
-                  OptionItem(t.moveUp, icon: PhosphorIconsRegular.arrowUp, onTap: () {
-                    Navigator.pop(sheet);
-                    fit.moveSessionExercise(i, -1);
-                  }),
+                  OptionItem(
+                    t.moveUp,
+                    icon: PhosphorIconsRegular.arrowUp,
+                    onTap: () {
+                      Navigator.pop(sheet);
+                      fit.moveSessionExercise(i, -1);
+                    },
+                  ),
                 if (i < s.exercises.length - 1)
-                  OptionItem(t.moveDown, icon: PhosphorIconsRegular.arrowDown, onTap: () {
-                    Navigator.pop(sheet);
-                    fit.moveSessionExercise(i, 1);
-                  }),
+                  OptionItem(
+                    t.moveDown,
+                    icon: PhosphorIconsRegular.arrowDown,
+                    onTap: () {
+                      Navigator.pop(sheet);
+                      fit.moveSessionExercise(i, 1);
+                    },
+                  ),
                 if (s.exercises.length > 1)
-                  OptionItem(t.dropExerciseAction, icon: PhosphorIconsRegular.trash, danger: true, onTap: () {
-                    Navigator.pop(sheet);
-                    _confirmDrop(context, i, name);
-                  }),
+                  OptionItem(
+                    t.dropExerciseAction,
+                    icon: PhosphorIconsRegular.trash,
+                    danger: true,
+                    onTap: () {
+                      Navigator.pop(sheet);
+                      _confirmDrop(context, i, name);
+                    },
+                  ),
               ]),
             ],
           ),
@@ -519,28 +627,30 @@ class SessionScreen extends StatelessWidget {
     VoidCallback inc,
     double minW, {
     required void Function(BuildContext) onEdit,
-  }) =>
-      Builder(
-        builder: (context) => GestureDetector(
-          behavior: HitTestBehavior.opaque,
-          onTap: () => onEdit(context),
-          child: SizedBox(
-            height: 44,
-            child: Center(
-              child: Container(
-                height: 34,
-                alignment: Alignment.center,
-                padding: const EdgeInsets.symmetric(horizontal: 6),
-                decoration: BoxDecoration(color: gc.bgRaised2, borderRadius: BorderRadius.circular(10)),
-                child: FittedBox(
-                  fit: BoxFit.scaleDown,
-                  child: RollingText(value, style: AppTheme.f(15, weight: FontWeight.w700, color: gc.text)),
-                ),
+  }) => Builder(
+    builder: (context) => GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: () => onEdit(context),
+      child: SizedBox(
+        height: 44,
+        child: Center(
+          child: Container(
+            height: 34,
+            alignment: Alignment.center,
+            padding: const EdgeInsets.symmetric(horizontal: 6),
+            decoration: BoxDecoration(color: gc.bgRaised2, borderRadius: BorderRadius.circular(10)),
+            child: FittedBox(
+              fit: BoxFit.scaleDown,
+              child: RollingText(
+                value,
+                style: AppTheme.f(15, weight: FontWeight.w700, color: gc.text),
               ),
             ),
           ),
         ),
-      );
+      ),
+    ),
+  );
 
   String _prevLabel(LoggedSet p) {
     if ((p.km ?? 0) > 0 || p.sec != null) return fit.loggedSetLabel(p);
@@ -554,7 +664,11 @@ class SessionScreen extends StatelessWidget {
       textAlign: TextAlign.center,
       style: AppTheme.f(12.5, weight: FontWeight.w600, color: gc.textTertiary),
     );
-    if (prev == null || locked) return Center(child: FittedBox(fit: BoxFit.scaleDown, child: text));
+    if (prev == null || locked) {
+      return Center(
+        child: FittedBox(fit: BoxFit.scaleDown, child: text),
+      );
+    }
     return Semantics(
       button: true,
       label: t.usePrevious,
@@ -577,12 +691,18 @@ class SessionScreen extends StatelessWidget {
               ),
               child: FittedBox(
                 fit: BoxFit.scaleDown,
-                child: Row(mainAxisSize: MainAxisSize.min, children: [
-                  Icon(PhosphorIconsBold.arrowBendDownRight, size: 10, color: gc.textSecondary),
-                  const SizedBox(width: 3),
-                  Text(_prevLabel(prev),
-                      maxLines: 1, style: AppTheme.f(12.5, weight: FontWeight.w600, color: gc.textSecondary)),
-                ]),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(PhosphorIconsBold.arrowBendDownRight, size: 10, color: gc.textSecondary),
+                    const SizedBox(width: 3),
+                    Text(
+                      _prevLabel(prev),
+                      maxLines: 1,
+                      style: AppTheme.f(12.5, weight: FontWeight.w600, color: gc.textSecondary),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
@@ -612,8 +732,11 @@ class SessionScreen extends StatelessWidget {
               width: 30,
               height: 30,
               decoration: BoxDecoration(color: live ? gc.bgRaised2 : gc.ember, shape: BoxShape.circle),
-              child: Icon(live ? PhosphorIconsFill.stop : PhosphorIconsFill.play,
-                  size: 13, color: live ? gc.text : gc.onEmber),
+              child: Icon(
+                live ? PhosphorIconsFill.stop : PhosphorIconsFill.play,
+                size: 13,
+                color: live ? gc.text : gc.onEmber,
+              ),
             ),
           ),
         ),
@@ -621,99 +744,129 @@ class SessionScreen extends StatelessWidget {
     );
   }
 
-  Widget _dockFrame(GymColors gc, {required double progress, required Color tint, required Widget child}) => Container(
+  Widget _dockFrame(GymColors gc, {required double progress, required Color tint, required Widget child}) =>
+      Container(
         height: 72,
         decoration: BoxDecoration(
           color: gc.bgRaised2,
           borderRadius: BorderRadius.circular(22),
           border: Border.all(color: gc.border),
-          boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.28), blurRadius: 24, offset: const Offset(0, 8))],
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.28),
+              blurRadius: 24,
+              offset: const Offset(0, 8),
+            ),
+          ],
         ),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(21),
-          child: Stack(children: [
-            Positioned.fill(
-              child: AnimatedFractionallySizedBox(
-                duration: const Duration(milliseconds: 320),
-                curve: Curves.easeOutCubic,
-                alignment: AlignmentDirectional.centerStart,
-                widthFactor: progress.clamp(0.0, 1.0),
-                child: ColoredBox(color: tint.withValues(alpha: 0.16)),
+          child: Stack(
+            children: [
+              Positioned.fill(
+                child: AnimatedFractionallySizedBox(
+                  duration: const Duration(milliseconds: 320),
+                  curve: Curves.easeOutCubic,
+                  alignment: AlignmentDirectional.centerStart,
+                  widthFactor: progress.clamp(0.0, 1.0),
+                  child: ColoredBox(color: tint.withValues(alpha: 0.16)),
+                ),
               ),
-            ),
-            Positioned.fill(child: child),
-          ]),
-        ),
-      );
-
-  Widget _dockButton(GymColors gc, String label, VoidCallback onTap,
-          {bool strong = false, String? semantic, IconData? icon}) =>
-      Semantics(
-        button: true,
-        label: semantic ?? label,
-        child: Pressable(
-          scale: 0.94,
-          onTap: onTap,
-          child: Container(
-            height: 44,
-            constraints: const BoxConstraints(minWidth: 44),
-            padding: const EdgeInsets.symmetric(horizontal: 12),
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              color: strong ? gc.ember : gc.bgRaised,
-              borderRadius: BorderRadius.circular(14),
-            ),
-            child: icon != null
-                ? Icon(icon, size: 16, color: strong ? gc.onEmber : gc.text)
-                : Text(label,
-                    maxLines: 1,
-                    style: AppTheme.f(13, weight: FontWeight.w800, color: strong ? gc.onEmber : gc.text)),
+              Positioned.fill(child: child),
+            ],
           ),
         ),
       );
 
+  Widget _dockButton(
+    GymColors gc,
+    String label,
+    VoidCallback onTap, {
+    bool strong = false,
+    String? semantic,
+    IconData? icon,
+  }) => Semantics(
+    button: true,
+    label: semantic ?? label,
+    child: Pressable(
+      scale: 0.94,
+      onTap: onTap,
+      child: Container(
+        height: 44,
+        constraints: const BoxConstraints(minWidth: 44),
+        padding: const EdgeInsets.symmetric(horizontal: 12),
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          color: strong ? gc.ember : gc.bgRaised,
+          borderRadius: BorderRadius.circular(14),
+        ),
+        child: icon != null
+            ? Icon(icon, size: 16, color: strong ? gc.onEmber : gc.text)
+            : Text(
+                label,
+                maxLines: 1,
+                style: AppTheme.f(13, weight: FontWeight.w800, color: strong ? gc.onEmber : gc.text),
+              ),
+      ),
+    ),
+  );
+
   Widget _restDock(BuildContext context, GymColors gc, WorkoutSession s) => Dismissible(
-        key: const ValueKey('rest-dock'),
-        resizeDuration: null,
-        onDismissed: (_) {
-          HapticFeedback.lightImpact();
-          fit.skipRest();
-        },
-        child: _ticking(() {
-          final left = s.restRemaining ?? 0;
-          final total = fit.restTotal <= 0 ? 1 : fit.restTotal;
-          return _dockFrame(
-            gc,
-            progress: left / total,
-            tint: gc.accent,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12),
-              child: Row(children: [
-                _dockButton(gc, '−15', () => fit.nudgeRest(-15), semantic: t.decrease),
-                Expanded(
-                  child: Semantics(
-                    button: true,
-                    label: t.restTimer,
-                    child: GestureDetector(
-                      behavior: HitTestBehavior.opaque,
-                      onTap: () => _editRest(context, s),
-                      child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-                        FitText(t.liveResting.toUpperCase(),
-                            style: AppTheme.f(9.5, weight: FontWeight.w800, color: gc.accent, letterSpacing: 1.2)),
-                        RollingText(clockLabel(left),
-                            style: AppTheme.f(24, weight: FontWeight.w800, color: gc.text, height: 1.1)),
-                      ]),
+    key: const ValueKey('rest-dock'),
+    resizeDuration: null,
+    onDismissed: (_) {
+      HapticFeedback.lightImpact();
+      fit.skipRest();
+    },
+    child: _ticking(() {
+      final left = s.restRemaining ?? 0;
+      final total = fit.restTotal <= 0 ? 1 : fit.restTotal;
+      return _dockFrame(
+        gc,
+        progress: left / total,
+        tint: gc.accent,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12),
+          child: Row(
+            children: [
+              _dockButton(gc, '−15', () => fit.nudgeRest(-15), semantic: t.decrease),
+              Expanded(
+                child: Semantics(
+                  button: true,
+                  label: t.restTimer,
+                  child: GestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    onTap: () => _editRest(context, s),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        FitText(
+                          t.liveResting.toUpperCase(),
+                          style: AppTheme.f(
+                            9.5,
+                            weight: FontWeight.w800,
+                            color: gc.accent,
+                            letterSpacing: 1.2,
+                          ),
+                        ),
+                        RollingText(
+                          clockLabel(left),
+                          style: AppTheme.f(24, weight: FontWeight.w800, color: gc.text, height: 1.1),
+                        ),
+                      ],
                     ),
                   ),
                 ),
-                _dockButton(gc, '+15', () => fit.nudgeRest(15), semantic: t.increase),
-                const SizedBox(width: 8),
-                _dockButton(gc, t.skipShort, fit.skipRest, strong: true),
-              ]),
-            ),
-          );
-        }),
+              ),
+              _dockButton(gc, '+15', () => fit.nudgeRest(15), semantic: t.increase),
+              const SizedBox(width: 8),
+              _dockButton(gc, t.skipShort, fit.skipRest, strong: true),
+            ],
+          ),
+        ),
       );
+    }),
+  );
 
   Widget _holdDock(GymColors gc) {
     final lead = fit.holdLead;
@@ -723,31 +876,48 @@ class SessionScreen extends StatelessWidget {
     final label = lead > 0
         ? (fit.switchingSides ? t.switchSides : t.getReady)
         : fit.holdSides > 1
-            ? t.sideOfTwo('${fit.holdSide + 1}')
-            : t.holdLabel;
+        ? t.sideOfTwo('${fit.holdSide + 1}')
+        : t.holdLabel;
     return _dockFrame(
       gc,
       progress: 1 - left / total,
       tint: gc.ember,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12),
-        child: Row(children: [
-          _dockButton(gc, '', fit.toggleHoldPause,
+        child: Row(
+          children: [
+            _dockButton(
+              gc,
+              '',
+              fit.toggleHoldPause,
               semantic: fit.holdPaused ? t.resumeWorkout : t.pauseWorkout,
-              icon: fit.holdPaused ? PhosphorIconsFill.play : PhosphorIconsFill.pause),
-          const SizedBox(width: 10),
-          Expanded(
-            child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.center, children: [
-              FitText(
-                  [label.toUpperCase(), if (ex != null) t.catalogName(ex.id, ex.name)].join(' · '),
-                  style: AppTheme.f(9.5, weight: FontWeight.w800, color: gc.ember, letterSpacing: 1)),
-              RollingText(clockLabel(left), style: AppTheme.f(24, weight: FontWeight.w800, color: gc.text, height: 1.1)),
-            ]),
-          ),
-          _dockButton(gc, fit.holdPaused ? t.finishHoldNow : t.stopLabel,
+              icon: fit.holdPaused ? PhosphorIconsFill.play : PhosphorIconsFill.pause,
+            ),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  FitText(
+                    [label.toUpperCase(), if (ex != null) t.catalogName(ex.id, ex.name)].join(' · '),
+                    style: AppTheme.f(9.5, weight: FontWeight.w800, color: gc.ember, letterSpacing: 1),
+                  ),
+                  RollingText(
+                    clockLabel(left),
+                    style: AppTheme.f(24, weight: FontWeight.w800, color: gc.text, height: 1.1),
+                  ),
+                ],
+              ),
+            ),
+            _dockButton(
+              gc,
+              fit.holdPaused ? t.finishHoldNow : t.stopLabel,
               fit.holdPaused ? fit.completeHold : fit.stopHold,
-              strong: true),
-        ]),
+              strong: true,
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -772,49 +942,66 @@ class SessionScreen extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
             decoration: BoxDecoration(color: gc.bgRaised2, borderRadius: BorderRadius.circular(100)),
-            child: Row(mainAxisSize: MainAxisSize.min, children: [
-              Icon(PhosphorIconsRegular.link, size: 11, color: gc.brass),
-              const SizedBox(width: 5),
-              Text(t.superset,
-                  style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.brass, letterSpacing: 0.5)),
-            ]),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(PhosphorIconsRegular.link, size: 11, color: gc.brass),
+                const SizedBox(width: 5),
+                Text(
+                  t.superset,
+                  style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.brass, letterSpacing: 0.5),
+                ),
+              ],
+            ),
           ),
           const SizedBox(height: 8),
         ],
-        Text(ex == null ? '' : t.catalogName(ex.id, ex.name),
-            style: AppTheme.f(26, weight: FontWeight.w700, color: gc.text)),
+        Text(
+          ex == null ? '' : t.catalogName(ex.id, ex.name),
+          style: AppTheme.f(26, weight: FontWeight.w700, color: gc.text),
+        ),
         const SizedBox(height: 8),
-        Row(children: [
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-            decoration: BoxDecoration(color: gc.emberSoft, borderRadius: BorderRadius.circular(100)),
-            child: Text(muscleLabel(ex?.primary ?? ''),
-                style: AppTheme.f(12, weight: FontWeight.w600, color: gc.ember)),
-          ),
-          if (ex != null && !fit.sessionPaused && fit.session?.manual != true) ...[
-            const SizedBox(width: 8),
-            Semantics(
-              button: true,
-              label: t.swapExercise,
-              child: Pressable(
-                scale: 0.94,
-                onTap: () => showSwapExerciseSheet(context, fit.session!.currentIndex),
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(100),
-                    border: Border.all(color: gc.border),
-                  ),
-                  child: Row(mainAxisSize: MainAxisSize.min, children: [
-                    Icon(PhosphorIconsRegular.arrowsLeftRight, size: 12, color: gc.textSecondary),
-                    const SizedBox(width: 5),
-                    Text(t.swapShort, style: AppTheme.f(12, weight: FontWeight.w600, color: gc.textSecondary)),
-                  ]),
-                ),
+        Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              decoration: BoxDecoration(color: gc.emberSoft, borderRadius: BorderRadius.circular(100)),
+              child: Text(
+                muscleLabel(ex?.primary ?? ''),
+                style: AppTheme.f(12, weight: FontWeight.w600, color: gc.ember),
               ),
             ),
+            if (ex != null && !fit.sessionPaused && fit.session?.manual != true) ...[
+              const SizedBox(width: 8),
+              Semantics(
+                button: true,
+                label: t.swapExercise,
+                child: Pressable(
+                  scale: 0.94,
+                  onTap: () => showSwapExerciseSheet(context, fit.session!.currentIndex),
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(100),
+                      border: Border.all(color: gc.border),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(PhosphorIconsRegular.arrowsLeftRight, size: 12, color: gc.textSecondary),
+                        const SizedBox(width: 5),
+                        Text(
+                          t.swapShort,
+                          style: AppTheme.f(12, weight: FontWeight.w600, color: gc.textSecondary),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ],
-        ]),
+        ),
         if (ex != null && fit.workoutNotesFor(ex.id).isNotEmpty) ...[
           const SizedBox(height: 12),
           WorkoutNoteStrip(exerciseId: ex.id, onDark: true),
@@ -824,17 +1011,23 @@ class SessionScreen extends StatelessWidget {
           GestureDetector(
             behavior: HitTestBehavior.opaque,
             onTap: () => showExerciseHistorySheet(context, ex.id),
-            child: Row(children: [
-              Text(t.last,
-                  style: AppTheme.f(11, weight: FontWeight.w600, color: gc.textTertiary, letterSpacing: 0.4)),
-              const SizedBox(width: 8),
-              Flexible(
-                child: Text(fit.lastSummaryFor(ex.id)!,
-                    style: AppTheme.f(12, weight: FontWeight.w600, color: gc.textSecondary)),
-              ),
-              const SizedBox(width: 4),
-              Icon(PhosphorIconsRegular.caretRight, size: 11, color: gc.textTertiary),
-            ]),
+            child: Row(
+              children: [
+                Text(
+                  t.last,
+                  style: AppTheme.f(11, weight: FontWeight.w600, color: gc.textTertiary, letterSpacing: 0.4),
+                ),
+                const SizedBox(width: 8),
+                Flexible(
+                  child: Text(
+                    fit.lastSummaryFor(ex.id)!,
+                    style: AppTheme.f(12, weight: FontWeight.w600, color: gc.textSecondary),
+                  ),
+                ),
+                const SizedBox(width: 4),
+                Icon(PhosphorIconsRegular.caretRight, size: 11, color: gc.textTertiary),
+              ],
+            ),
           ),
           if (fit.nextTargetLabel(ex.id) != null) _nextRow(gc, ex.id),
         ],
@@ -853,26 +1046,42 @@ class SessionScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Row(children: [
-              Expanded(
-                child: Text(fit.sessionProgressLabel,
-                    style: AppTheme.f(12, weight: FontWeight.w600, color: gc.textSecondary, letterSpacing: 0.4)),
-              ),
-              if (!locked)
-                Row(mainAxisSize: MainAxisSize.min, children: [
-                  Icon(PhosphorIconsRegular.listBullets, size: 14, color: gc.textSecondary),
-                  const SizedBox(width: 5),
-                  Text(t.allExercisesShort,
-                      style: AppTheme.f(11.5, weight: FontWeight.w600, color: gc.textSecondary)),
-                ]),
-            ]),
-            const SizedBox(height: 9),
-            Row(children: [
-              for (var i = 0; i < n; i++) ...[
-                if (i > 0) SizedBox(width: n > 12 ? 2 : 4),
-                Expanded(child: _stripSegment(gc, s, i)),
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    fit.sessionProgressLabel,
+                    style: AppTheme.f(
+                      12,
+                      weight: FontWeight.w600,
+                      color: gc.textSecondary,
+                      letterSpacing: 0.4,
+                    ),
+                  ),
+                ),
+                if (!locked)
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(PhosphorIconsRegular.listBullets, size: 14, color: gc.textSecondary),
+                      const SizedBox(width: 5),
+                      Text(
+                        t.allExercisesShort,
+                        style: AppTheme.f(11.5, weight: FontWeight.w600, color: gc.textSecondary),
+                      ),
+                    ],
+                  ),
               ],
-            ]),
+            ),
+            const SizedBox(height: 9),
+            Row(
+              children: [
+                for (var i = 0; i < n; i++) ...[
+                  if (i > 0) SizedBox(width: n > 12 ? 2 : 4),
+                  Expanded(child: _stripSegment(gc, s, i)),
+                ],
+              ],
+            ),
           ],
         ),
       ),
@@ -906,8 +1115,15 @@ class SessionScreen extends StatelessWidget {
     );
   }
 
-  Widget _swipeToDelete(BuildContext context, GymColors gc, int exIdx, int j, SessionSet st,
-      bool locked, Widget child) {
+  Widget _swipeToDelete(
+    BuildContext context,
+    GymColors gc,
+    int exIdx,
+    int j,
+    SessionSet st,
+    bool locked,
+    Widget child,
+  ) {
     if (locked) return child;
     return Dismissible(
       key: ObjectKey(st),
@@ -957,38 +1173,50 @@ class SessionScreen extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(t.nextTime,
-              style: AppTheme.f(11, weight: FontWeight.w600, color: gc.brass, letterSpacing: 0.4)),
+          Text(
+            t.nextTime,
+            style: AppTheme.f(11, weight: FontWeight.w600, color: gc.brass, letterSpacing: 0.4),
+          ),
           const SizedBox(width: 8),
           Expanded(
-            child: LayoutBuilder(builder: (context, box) {
-              final main = TextSpan(
-                text: fit.nextTargetLabel(id),
-                style: AppTheme.f(12,
-                    weight: FontWeight.w600, color: target.up ? gc.ember : gc.textSecondary),
-              );
-              if (target.up) return Text.rich(main);
-              final holdStyle = AppTheme.f(11.5, weight: FontWeight.w400, color: gc.textTertiary);
-              final why = target.deload ? t.nextDeload(fit.stallStreak(id)) : t.nextHold;
-              final both = TextSpan(children: [main, TextSpan(text: ' · $why', style: holdStyle)]);
-              final painter = TextPainter(
-                text: both,
-                textDirection: Directionality.of(context),
-                textScaler: MediaQuery.textScalerOf(context),
-                maxLines: 1,
-              )..layout(maxWidth: box.maxWidth);
-              final fits = !painter.didExceedMaxLines;
-              painter.dispose();
-              if (fits) return Text.rich(both);
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text.rich(main),
-                  const SizedBox(height: 2),
-                  Text(why, style: holdStyle),
-                ],
-              );
-            }),
+            child: LayoutBuilder(
+              builder: (context, box) {
+                final main = TextSpan(
+                  text: fit.nextTargetLabel(id),
+                  style: AppTheme.f(
+                    12,
+                    weight: FontWeight.w600,
+                    color: target.up ? gc.ember : gc.textSecondary,
+                  ),
+                );
+                if (target.up) return Text.rich(main);
+                final holdStyle = AppTheme.f(11.5, weight: FontWeight.w400, color: gc.textTertiary);
+                final why = target.deload ? t.nextDeload(fit.stallStreak(id)) : t.nextHold;
+                final both = TextSpan(
+                  children: [
+                    main,
+                    TextSpan(text: ' · $why', style: holdStyle),
+                  ],
+                );
+                final painter = TextPainter(
+                  text: both,
+                  textDirection: Directionality.of(context),
+                  textScaler: MediaQuery.textScalerOf(context),
+                  maxLines: 1,
+                )..layout(maxWidth: box.maxWidth);
+                final fits = !painter.didExceedMaxLines;
+                painter.dispose();
+                if (fits) return Text.rich(both);
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text.rich(main),
+                    const SizedBox(height: 2),
+                    Text(why, style: holdStyle),
+                  ],
+                );
+              },
+            ),
           ),
         ],
       ),
@@ -1019,29 +1247,28 @@ class SessionScreen extends StatelessWidget {
     final s = AppTheme.f(11, weight: FontWeight.w600, color: gc.textSecondary, letterSpacing: 0.4);
 
     Widget label(String t) => FittedBox(
-          fit: BoxFit.scaleDown,
-          alignment: Alignment.center,
-          child: Text(t, maxLines: 1, softWrap: false, style: s),
-        );
+      fit: BoxFit.scaleDown,
+      alignment: Alignment.center,
+      child: Text(t, maxLines: 1, softWrap: false, style: s),
+    );
     final effort = _showsEffort(mode);
     final gap = effort ? _tightGap : _gap;
-    return Row(children: [
-      SizedBox(width: _numCol, child: label(t.setCol)),
-      if (list) ...[
+    return Row(
+      children: [
+        SizedBox(width: _numCol, child: label(t.setCol)),
+        if (list) ...[SizedBox(width: gap), Expanded(flex: _prevFlex, child: label(t.previousCol))],
+        for (final h in _headers(mode, repsOnly, sided)) ...[
+          SizedBox(width: gap),
+          Expanded(flex: _cellFlex, child: label(h)),
+        ],
+        if (effort) ...[
+          SizedBox(width: gap),
+          SizedBox(width: _effortCol, child: label(fit.usesRir ? 'RIR' : 'RPE')),
+        ],
         SizedBox(width: gap),
-        Expanded(flex: _prevFlex, child: label(t.previousCol)),
+        const SizedBox(width: _checkCol),
       ],
-      for (final h in _headers(mode, repsOnly, sided)) ...[
-        SizedBox(width: gap),
-        Expanded(flex: _cellFlex, child: label(h)),
-      ],
-      if (effort) ...[
-        SizedBox(width: gap),
-        SizedBox(width: _effortCol, child: label(fit.usesRir ? 'RIR' : 'RPE')),
-      ],
-      SizedBox(width: gap),
-      const SizedBox(width: _checkCol),
-    ]);
+    );
   }
 
   Widget _liveBar(GymColors gc, bool locked) {
@@ -1052,92 +1279,107 @@ class SessionScreen extends StatelessWidget {
           Flexible(child: _lockedChip(gc))
         else
           Flexible(
-            child: Row(children: [
-              _stepOutButton(gc),
-              const SizedBox(width: 10),
-              Container(
-                width: 8,
-                height: 8,
-                decoration: BoxDecoration(
-                    color: fit.sessionPaused ? gc.textTertiary : gc.ember, shape: BoxShape.circle),
-              ),
-              const SizedBox(width: 8),
-              Flexible(
-                child: Text(
-                  fit.sessionPaused ? t.paused : t.inProgress,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: AppTheme.f(12,
+            child: Row(
+              children: [
+                _stepOutButton(gc),
+                const SizedBox(width: 10),
+                Container(
+                  width: 8,
+                  height: 8,
+                  decoration: BoxDecoration(
+                    color: fit.sessionPaused ? gc.textTertiary : gc.ember,
+                    shape: BoxShape.circle,
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Flexible(
+                  child: Text(
+                    fit.sessionPaused ? t.paused : t.inProgress,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: AppTheme.f(
+                      12,
                       weight: FontWeight.w600,
                       color: fit.sessionPaused ? gc.textTertiary : gc.ember,
-                      letterSpacing: 0.4),
+                      letterSpacing: 0.4,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        Row(
+          children: [
+            _ticking(
+              () => RollingText(
+                fit.elapsedLabel,
+                style: AppTheme.f(
+                  18,
+                  weight: FontWeight.w700,
+                  color: fit.sessionPaused ? gc.textSecondary : gc.text,
                 ),
               ),
-            ]),
-          ),
-        Row(children: [
-          _ticking(() => RollingText(fit.elapsedLabel,
-              style: AppTheme.f(18,
-                  weight: FontWeight.w700, color: fit.sessionPaused ? gc.textSecondary : gc.text))),
-          const SizedBox(width: 2),
-          if (!locked)
-            Semantics(
-              button: true,
-              label: t.lockWorkout,
-              child: GestureDetector(
-                behavior: HitTestBehavior.opaque,
-                onTap: () => _setLock(true),
-                child: SizedBox(
-                  width: 44,
-                  height: 48,
-                  child: Center(
-                    child: Container(
-                      width: 36,
-                      height: 36,
-                      decoration: BoxDecoration(
-                        color: gc.bgRaised2,
-                        shape: BoxShape.circle,
-                        border: Border.all(color: gc.border),
+            ),
+            const SizedBox(width: 2),
+            if (!locked)
+              Semantics(
+                button: true,
+                label: t.lockWorkout,
+                child: GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTap: () => _setLock(true),
+                  child: SizedBox(
+                    width: 44,
+                    height: 48,
+                    child: Center(
+                      child: Container(
+                        width: 36,
+                        height: 36,
+                        decoration: BoxDecoration(
+                          color: gc.bgRaised2,
+                          shape: BoxShape.circle,
+                          border: Border.all(color: gc.border),
+                        ),
+                        child: Icon(PhosphorIconsRegular.fingerprint, size: 17, color: gc.text),
                       ),
-                      child: Icon(PhosphorIconsRegular.fingerprint, size: 17, color: gc.text),
+                    ),
+                  ),
+                ),
+              ),
+            const SizedBox(width: 2),
+            _guard(
+              locked,
+              Semantics(
+                button: true,
+                label: fit.sessionPaused ? t.resumeWorkout : t.pauseWorkout,
+                child: GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTap: fit.toggleSessionPause,
+                  child: SizedBox(
+                    width: 48,
+                    height: 48,
+                    child: Center(
+                      child: Container(
+                        width: 36,
+                        height: 36,
+                        decoration: BoxDecoration(
+                          color: fit.sessionPaused ? gc.ember : gc.bgRaised2,
+                          shape: BoxShape.circle,
+                          border: Border.all(color: fit.sessionPaused ? gc.ember : gc.border),
+                        ),
+                        child: Icon(
+                          fit.sessionPaused ? PhosphorIconsFill.play : PhosphorIconsFill.pause,
+                          size: 16,
+                          color: fit.sessionPaused ? gc.onEmber : gc.text,
+                        ),
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
-          const SizedBox(width: 2),
-          _guard(
-            locked,
-            Semantics(
-            button: true,
-            label: fit.sessionPaused ? t.resumeWorkout : t.pauseWorkout,
-            child: GestureDetector(
-              behavior: HitTestBehavior.opaque,
-              onTap: fit.toggleSessionPause,
-              child: SizedBox(
-                width: 48,
-                height: 48,
-                child: Center(
-                  child: Container(
-                    width: 36,
-                    height: 36,
-                    decoration: BoxDecoration(
-                      color: fit.sessionPaused ? gc.ember : gc.bgRaised2,
-                      shape: BoxShape.circle,
-                      border: Border.all(color: fit.sessionPaused ? gc.ember : gc.border),
-                    ),
-                    child: Icon(
-                      fit.sessionPaused ? PhosphorIconsFill.play : PhosphorIconsFill.pause,
-                      size: 16,
-                      color: fit.sessionPaused ? gc.onEmber : gc.text,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          ),
-        ]),
+          ],
+        ),
       ],
     );
   }
@@ -1145,73 +1387,85 @@ class SessionScreen extends StatelessWidget {
   Widget _lockedChip(GymColors gc) => _HoldToUnlock(onUnlock: () => _setLock(false));
 
   Widget _stepOutButton(GymColors gc) => RoundAction(
-        label: t.stepOutOfWorkout,
-        onTap: fit.stepOutOfSession,
-        child: Icon(PhosphorIconsBold.caretDown, size: 15, color: gc.text),
-      );
+    label: t.stepOutOfWorkout,
+    onTap: fit.stepOutOfSession,
+    child: Icon(PhosphorIconsBold.caretDown, size: 15, color: gc.text),
+  );
 
   Widget _manualBar(BuildContext context, GymColors gc, WorkoutSession s) {
     final start = fit.manualStart ?? s.loggedAt ?? DateTime.now();
     final minutes = fit.manualMinutes;
-    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Row(children: [
-        _stepOutButton(gc),
-        const SizedBox(width: 12),
-        Icon(PhosphorIconsRegular.calendarPlus, size: 15, color: gc.brass),
-        const SizedBox(width: 8),
-        Expanded(
-          child: Text(
-            '${t.logging} · ${t.longDate(start)}',
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: AppTheme.f(12.5, weight: FontWeight.w700, color: gc.brass, letterSpacing: 0.6),
-          ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            _stepOutButton(gc),
+            const SizedBox(width: 12),
+            Icon(PhosphorIconsRegular.calendarPlus, size: 15, color: gc.brass),
+            const SizedBox(width: 8),
+            Expanded(
+              child: Text(
+                '${t.logging} · ${t.longDate(start)}',
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: AppTheme.f(12.5, weight: FontWeight.w700, color: gc.brass, letterSpacing: 0.6),
+              ),
+            ),
+          ],
         ),
-      ]),
-      const SizedBox(height: 12),
-      Row(children: [
-        _manualChip(
-          gc,
-          PhosphorIconsRegular.clock,
-          TimeOfDay.fromDateTime(start).format(context),
-          t.manualStartTime,
-          () async {
-            final v = await askRuler(context,
-                title: t.manualStartTime,
-                value: (start.hour * 60 + start.minute).toDouble(),
-                min: 0,
-                max: 24 * 60 - 5,
-                step: 5,
-                majorEvery: 12,
-                format: (v) => TimeOfDay(hour: v.round() ~/ 60, minute: v.round() % 60).format(context),
-                tickLabel: (v) => '${v.round() ~/ 60}');
-            if (v != null) fit.setManualStart(v.round());
-          },
+        const SizedBox(height: 12),
+        Row(
+          children: [
+            _manualChip(
+              gc,
+              PhosphorIconsRegular.clock,
+              TimeOfDay.fromDateTime(start).format(context),
+              t.manualStartTime,
+              () async {
+                final v = await askRuler(
+                  context,
+                  title: t.manualStartTime,
+                  value: (start.hour * 60 + start.minute).toDouble(),
+                  min: 0,
+                  max: 24 * 60 - 5,
+                  step: 5,
+                  majorEvery: 12,
+                  format: (v) => TimeOfDay(hour: v.round() ~/ 60, minute: v.round() % 60).format(context),
+                  tickLabel: (v) => '${v.round() ~/ 60}',
+                );
+                if (v != null) fit.setManualStart(v.round());
+              },
+            ),
+            const SizedBox(width: 8),
+            _manualChip(
+              gc,
+              PhosphorIconsRegular.timer,
+              minutes == 0 ? t.manualDurationUnset : '$minutes min',
+              t.manualDuration,
+              () async {
+                final v = await askRuler(
+                  context,
+                  title: t.manualDuration,
+                  value: (minutes == 0 ? 60 : minutes).toDouble(),
+                  min: 5,
+                  max: 240,
+                  step: 5,
+                  majorEvery: 6,
+                  format: (v) => '${v.round()} min',
+                  tickLabel: (v) => '${v.round()}',
+                );
+                if (v != null) fit.setManualMinutes(v.round());
+              },
+            ),
+          ],
         ),
-        const SizedBox(width: 8),
-        _manualChip(
-          gc,
-          PhosphorIconsRegular.timer,
-          minutes == 0 ? t.manualDurationUnset : '$minutes min',
-          t.manualDuration,
-          () async {
-            final v = await askRuler(context,
-                title: t.manualDuration,
-                value: (minutes == 0 ? 60 : minutes).toDouble(),
-                min: 5,
-                max: 240,
-                step: 5,
-                majorEvery: 6,
-                format: (v) => '${v.round()} min',
-                tickLabel: (v) => '${v.round()}');
-            if (v != null) fit.setManualMinutes(v.round());
-          },
-        ),
-      ]),
-    ]);
+      ],
+    );
   }
 
-  Widget _manualChip(GymColors gc, IconData icon, String value, String label, VoidCallback onTap) => Semantics(
+  Widget _manualChip(GymColors gc, IconData icon, String value, String label, VoidCallback onTap) =>
+      Semantics(
         button: true,
         label: label,
         child: Pressable(
@@ -1223,16 +1477,30 @@ class SessionScreen extends StatelessWidget {
               borderRadius: BorderRadius.circular(100),
               border: Border.all(color: gc.border),
             ),
-            child: Row(mainAxisSize: MainAxisSize.min, children: [
-              Icon(icon, size: 15, color: gc.brass),
-              const SizedBox(width: 8),
-              Text(value, style: AppTheme.f(13.5, weight: FontWeight.w700, color: gc.text)),
-            ]),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(icon, size: 15, color: gc.brass),
+                const SizedBox(width: 8),
+                Text(
+                  value,
+                  style: AppTheme.f(13.5, weight: FontWeight.w700, color: gc.text),
+                ),
+              ],
+            ),
           ),
         ),
       );
 
-  List<Widget> _cells(GymColors gc, int exIdx, int j, SessionSet st, String mode, bool repsOnly, {bool list = false}) {
+  List<Widget> _cells(
+    GymColors gc,
+    int exIdx,
+    int j,
+    SessionSet st,
+    String mode,
+    bool repsOnly, {
+    bool list = false,
+  }) {
     final cardio = mode == 'cardio';
     Widget Function(
       GymColors gc,
@@ -1241,85 +1509,86 @@ class SessionScreen extends StatelessWidget {
       VoidCallback inc,
       double minW, {
       required void Function(BuildContext) onEdit,
-    }) step = list ? _pillCell : _miniStepper;
+    })
+    step = list ? _pillCell : _miniStepper;
     Widget reps() => step(
-          gc,
-          '${st.reps}',
-          () => fit.bumpSessionReps(exIdx, j, -1),
-          () => fit.bumpSessionReps(exIdx, j, 1),
-          22,
-          onEdit: (context) => _ruler(
-            context,
-            title: t.repsTitle,
-            value: st.reps.toDouble(),
-            max: 100,
-            step: 1,
-            majorEvery: 5,
-            onSave: (v) => fit.setSessionReps(exIdx, j, v.round()),
-          ),
-        );
+      gc,
+      '${st.reps}',
+      () => fit.bumpSessionReps(exIdx, j, -1),
+      () => fit.bumpSessionReps(exIdx, j, 1),
+      22,
+      onEdit: (context) => _ruler(
+        context,
+        title: t.repsTitle,
+        value: st.reps.toDouble(),
+        max: 100,
+        step: 1,
+        majorEvery: 5,
+        onSave: (v) => fit.setSessionReps(exIdx, j, v.round()),
+      ),
+    );
     Widget weight() => step(
-          gc,
-          fit.weightValue(st.weight),
-          () => fit.bumpSessionWeight(exIdx, j, -1),
-          () => fit.bumpSessionWeight(exIdx, j, 1),
-          26,
-          onEdit: (context) => _ruler(
-            context,
-            title: t.weightTitle(fit.units.toUpperCase()),
-            value: fit.toDisplayWeight(st.weight),
-            max: fit.isLb ? 660 : 300,
-            step: fit.isLb ? 1 : 0.5,
-            majorEvery: 10,
-            unit: fit.units,
-            onSave: (v) => fit.setSessionWeightShown(exIdx, j, v),
-          ),
-        );
+      gc,
+      fit.weightValue(st.weight),
+      () => fit.bumpSessionWeight(exIdx, j, -1),
+      () => fit.bumpSessionWeight(exIdx, j, 1),
+      26,
+      onEdit: (context) => _ruler(
+        context,
+        title: t.weightTitle(fit.units.toUpperCase()),
+        value: fit.toDisplayWeight(st.weight),
+        max: fit.isLb ? 660 : 300,
+        step: fit.isLb ? 1 : 0.5,
+        majorEvery: 10,
+        unit: fit.units,
+        onSave: (v) => fit.setSessionWeightShown(exIdx, j, v),
+      ),
+    );
     Widget time() => step(
-          gc,
-          durationLabel(st.sec ?? 0),
-          () => fit.bumpSessionSeconds(exIdx, j, cardio ? -60 : -15),
-          () => fit.bumpSessionSeconds(exIdx, j, cardio ? 60 : 15),
-          34,
-          onEdit: (context) => cardio
-              ? _ruler(
-                  context,
-                  title: t.timeMinutesTitle,
-                  value: ((st.sec ?? 0) / 60).roundToDouble(),
-                  max: 300,
-                  step: 1,
-                  majorEvery: 5,
-                  unit: 'min',
-                  onSave: (v) => fit.setSessionSeconds(exIdx, j, (v * 60).round()),
-                )
-              : _ruler(
-                  context,
-                  title: t.timeSecondsTitle,
-                  value: (st.sec ?? 0).toDouble(),
-                  max: 900,
-                  step: 5,
-                  majorEvery: 6,
-                  format: (v) => clockLabel(v.round()),
-                  onSave: (v) => fit.setSessionSeconds(exIdx, j, v.round()),
-                ),
-        );
+      gc,
+      durationLabel(st.sec ?? 0),
+      () => fit.bumpSessionSeconds(exIdx, j, cardio ? -60 : -15),
+      () => fit.bumpSessionSeconds(exIdx, j, cardio ? 60 : 15),
+      34,
+      onEdit: (context) => cardio
+          ? _ruler(
+              context,
+              title: t.timeMinutesTitle,
+              value: ((st.sec ?? 0) / 60).roundToDouble(),
+              max: 300,
+              step: 1,
+              majorEvery: 5,
+              unit: 'min',
+              onSave: (v) => fit.setSessionSeconds(exIdx, j, (v * 60).round()),
+            )
+          : _ruler(
+              context,
+              title: t.timeSecondsTitle,
+              value: (st.sec ?? 0).toDouble(),
+              max: 900,
+              step: 5,
+              majorEvery: 6,
+              format: (v) => clockLabel(v.round()),
+              onSave: (v) => fit.setSessionSeconds(exIdx, j, v.round()),
+            ),
+    );
     Widget distance() => step(
-          gc,
-          fit.distanceValue(st.km ?? 0),
-          () => fit.bumpSessionDistance(exIdx, j, -1),
-          () => fit.bumpSessionDistance(exIdx, j, 1),
-          30,
-          onEdit: (context) => _ruler(
-            context,
-            title: t.distanceTitle(fit.distanceUnit),
-            value: fit.toDisplayKm(st.km ?? 0),
-            max: 100,
-            step: 0.1,
-            majorEvery: 10,
-            unit: fit.distanceUnit,
-            onSave: (v) => fit.setSessionDistanceShown(exIdx, j, v),
-          ),
-        );
+      gc,
+      fit.distanceValue(st.km ?? 0),
+      () => fit.bumpSessionDistance(exIdx, j, -1),
+      () => fit.bumpSessionDistance(exIdx, j, 1),
+      30,
+      onEdit: (context) => _ruler(
+        context,
+        title: t.distanceTitle(fit.distanceUnit),
+        value: fit.toDisplayKm(st.km ?? 0),
+        max: 100,
+        step: 0.1,
+        majorEvery: 10,
+        unit: fit.distanceUnit,
+        onSave: (v) => fit.setSessionDistanceShown(exIdx, j, v),
+      ),
+    );
     return switch (mode) {
       'cardio' => [distance(), time()],
       'time' => [time(), if (!repsOnly) weight()],
@@ -1328,13 +1597,21 @@ class SessionScreen extends StatelessWidget {
   }
 
   List<String> _headers(String mode, bool repsOnly, bool sided) => switch (mode) {
-        'cardio' => [t.distanceCol(fit.distanceUnit.toUpperCase()), t.timeCol],
-        'time' => [sided ? t.timePerSideCol : t.timeCol, if (!repsOnly) t.weightCol(fit.units.toUpperCase())],
-        _ => [t.repsCol, if (!repsOnly) t.weightCol(fit.units.toUpperCase())],
-      };
+    'cardio' => [t.distanceCol(fit.distanceUnit.toUpperCase()), t.timeCol],
+    'time' => [sided ? t.timePerSideCol : t.timeCol, if (!repsOnly) t.weightCol(fit.units.toUpperCase())],
+    _ => [t.repsCol, if (!repsOnly) t.weightCol(fit.units.toUpperCase())],
+  };
 
-  Widget _setRow(GymColors gc, int exIdx, int j, SessionSet st, bool repsOnly, bool locked,
-      {bool list = false, LoggedSet? prev}) {
+  Widget _setRow(
+    GymColors gc,
+    int exIdx,
+    int j,
+    SessionSet st,
+    bool repsOnly,
+    bool locked, {
+    bool list = false,
+    LoggedSet? prev,
+  }) {
     final mode = fit.modeOf(fit.session?.exercises[exIdx].id ?? '');
     return Builder(
       builder: (ctx) => GestureDetector(
@@ -1350,8 +1627,17 @@ class SessionScreen extends StatelessWidget {
     );
   }
 
-  Widget _setRowBody(GymColors gc, int exIdx, int j, SessionSet st, bool repsOnly, bool locked, String mode,
-      {bool list = false, LoggedSet? prev}) {
+  Widget _setRowBody(
+    GymColors gc,
+    int exIdx,
+    int j,
+    SessionSet st,
+    bool repsOnly,
+    bool locked,
+    String mode, {
+    bool list = false,
+    LoggedSet? prev,
+  }) {
     final effort = _showsEffort(mode);
     final gap = effort ? _tightGap : _gap;
     return Container(
@@ -1361,65 +1647,67 @@ class SessionScreen extends StatelessWidget {
         color: st.done ? gc.sageSoft : Colors.transparent,
         borderRadius: BorderRadius.circular(14),
       ),
-      child: Row(children: [
-        SizedBox(
-          width: _numCol,
-          child: Builder(
-            builder: (ctx) => Semantics(
+      child: Row(
+        children: [
+          SizedBox(
+            width: _numCol,
+            child: Builder(
+              builder: (ctx) => Semantics(
+                button: true,
+                label: t.setType,
+                child: GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTap: locked ? null : () => _kindSheet(ctx, exIdx, j, st.kind),
+                  child: _setBadge(gc, exIdx, j, st),
+                ),
+              ),
+            ),
+          ),
+          if (list) ...[
+            SizedBox(width: gap),
+            Expanded(flex: _prevFlex, child: _prevCell(gc, exIdx, j, prev, locked)),
+          ],
+          for (final cell in _cells(gc, exIdx, j, st, mode, repsOnly, list: list)) ...[
+            SizedBox(width: gap),
+            Expanded(flex: list ? _cellFlex : 1, child: cell),
+          ],
+          if (effort) ...[
+            SizedBox(width: gap),
+            SizedBox(width: _effortCol, child: _effortCell(gc, exIdx, j, st, mode, locked)),
+          ],
+          SizedBox(width: gap),
+          if (list && !st.done && _holdable(exIdx, st))
+            _holdCell(gc, exIdx, j)
+          else
+            Semantics(
               button: true,
-              label: t.setType,
+              checked: st.done,
+              label: t.markSet(j + 1),
               child: GestureDetector(
                 behavior: HitTestBehavior.opaque,
-                onTap: locked ? null : () => _kindSheet(ctx, exIdx, j, st.kind),
-                child: _setBadge(gc, exIdx, j, st),
-              ),
-            ),
-          ),
-        ),
-        if (list) ...[
-          SizedBox(width: gap),
-          Expanded(flex: _prevFlex, child: _prevCell(gc, exIdx, j, prev, locked)),
-        ],
-        for (final cell in _cells(gc, exIdx, j, st, mode, repsOnly, list: list)) ...[
-          SizedBox(width: gap),
-          Expanded(flex: list ? _cellFlex : 1, child: cell),
-        ],
-        if (effort) ...[
-          SizedBox(width: gap),
-          SizedBox(width: _effortCol, child: _effortCell(gc, exIdx, j, st, mode, locked)),
-        ],
-        SizedBox(width: gap),
-        if (list && !st.done && _holdable(exIdx, st))
-          _holdCell(gc, exIdx, j)
-        else
-        Semantics(
-          button: true,
-          checked: st.done,
-          label: t.markSet(j + 1),
-          child: GestureDetector(
-            behavior: HitTestBehavior.opaque,
-            onTap: () => list ? fit.toggleSetAt(exIdx, j) : fit.toggleSet(exIdx, j),
-            child: SizedBox(
-              width: 44,
-              height: 44,
-              child: Center(
-                child: Container(
-                width: 28,
-                height: 28,
-                decoration: BoxDecoration(
-                  color: st.done ? gc.sage : Colors.transparent,
-                  shape: BoxShape.circle,
-                  border: Border.all(color: st.done ? gc.sage : gc.textTertiary, width: 2),
-                ),
-                  child: st.done
-                      ? Center(child: SvgPathIcon(Ic.checkBold, size: 14, color: Colors.white))
-                      : null,
+                onTap: () => list ? fit.toggleSetAt(exIdx, j) : fit.toggleSet(exIdx, j),
+                child: SizedBox(
+                  width: 44,
+                  height: 44,
+                  child: Center(
+                    child: Container(
+                      width: 28,
+                      height: 28,
+                      decoration: BoxDecoration(
+                        color: st.done ? gc.sage : Colors.transparent,
+                        shape: BoxShape.circle,
+                        border: Border.all(color: st.done ? gc.sage : gc.textTertiary, width: 2),
+                      ),
+                      child: st.done
+                          ? Center(child: SvgPathIcon(Ic.checkBold, size: 14, color: Colors.white))
+                          : null,
+                    ),
+                  ),
                 ),
               ),
             ),
-          ),
-        ),
-      ]),
+        ],
+      ),
     );
   }
 
@@ -1461,8 +1749,11 @@ class SessionScreen extends StatelessWidget {
                 ),
                 child: Text(
                   rpe == null ? '–' : fmt(fit.usesRir ? 10 - rpe : rpe),
-                  style: AppTheme.f(14,
-                      weight: FontWeight.w700, color: rpe == null ? gc.textTertiary : gc.text),
+                  style: AppTheme.f(
+                    14,
+                    weight: FontWeight.w700,
+                    color: rpe == null ? gc.textTertiary : gc.text,
+                  ),
                 ),
               ),
             ),
@@ -1474,37 +1765,38 @@ class SessionScreen extends StatelessWidget {
 
   Future<void> _editEffort(BuildContext context, int exIdx, int j, double? rpe) async {
     final rir = fit.usesRir;
-    final v = await askRuler(context,
-        title: rir ? 'RIR' : 'RPE',
-        value: rir ? 10 - (rpe ?? 8) : rpe ?? 8,
-        min: rir ? 0 : 1,
-        max: rir ? 9 : 10,
-        step: 0.5,
-        majorEvery: 2,
-        format: (v) => fmt(v),
-        hint: rir ? t.rirHint : t.rpeHint,
-        clearLabel: rpe == null ? null : t.none);
+    final v = await askRuler(
+      context,
+      title: rir ? 'RIR' : 'RPE',
+      value: rir ? 10 - (rpe ?? 8) : rpe ?? 8,
+      min: rir ? 0 : 1,
+      max: rir ? 9 : 10,
+      step: 0.5,
+      majorEvery: 2,
+      format: (v) => fmt(v),
+      hint: rir ? t.rirHint : t.rpeHint,
+      clearLabel: rpe == null ? null : t.none,
+    );
     if (v == null) return;
     fit.setSessionRpe(exIdx, j, v.isNaN ? null : (rir ? 10 - v : v));
   }
 
   Widget _dashedAction(GymColors gc, String label, VoidCallback onTap) => GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: onTap,
-        child: Container(
-          padding: const EdgeInsets.all(10),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: FittedBox(
-            fit: BoxFit.scaleDown,
-            child: Text(label,
-                maxLines: 1,
-                style: AppTheme.f(13,
-                    weight: FontWeight.w600, color: gc.textSecondary, letterSpacing: 0.4)),
-          ),
+    behavior: HitTestBehavior.opaque,
+    onTap: onTap,
+    child: Container(
+      padding: const EdgeInsets.all(10),
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(12)),
+      child: FittedBox(
+        fit: BoxFit.scaleDown,
+        child: Text(
+          label,
+          maxLines: 1,
+          style: AppTheme.f(13, weight: FontWeight.w600, color: gc.textSecondary, letterSpacing: 0.4),
         ),
-      );
+      ),
+    ),
+  );
 
   Widget _plateRow(BuildContext context, GymColors gc, SessionExercise ex) {
     final exercise = fit.exerciseById(ex.id);
@@ -1518,8 +1810,11 @@ class SessionScreen extends StatelessWidget {
       label: t.toolTitle('plate'),
       child: GestureDetector(
         behavior: HitTestBehavior.opaque,
-        onTap: () => showPlateSheet(context, fit.toDisplayWeight(next.weight),
-            startBar: fit.barFor(ex.id, equipment: exercise.equipment)),
+        onTap: () => showPlateSheet(
+          context,
+          fit.toDisplayWeight(next.weight),
+          startBar: fit.barFor(ex.id, equipment: exercise.equipment),
+        ),
         child: Padding(
           padding: const EdgeInsets.fromLTRB(_rowPad, 8, _rowPad, 0),
           child: Row(
@@ -1527,10 +1822,12 @@ class SessionScreen extends StatelessWidget {
               Icon(PhosphorIconsRegular.circlesThree, size: 13, color: gc.textTertiary),
               const SizedBox(width: 7),
               Expanded(
-                child: Text(t.platesPerSide(hint),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: AppTheme.f(11.5, weight: FontWeight.w500, color: gc.textTertiary)),
+                child: Text(
+                  t.platesPerSide(hint),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: AppTheme.f(11.5, weight: FontWeight.w500, color: gc.textTertiary),
+                ),
               ),
               const SizedBox(width: 6),
               Icon(PhosphorIconsRegular.caretRight, size: 12, color: gc.textTertiary),
@@ -1553,16 +1850,18 @@ class SessionScreen extends StatelessWidget {
     final base = st.kind == SetKind.warmup
         ? tag
         : tag.isEmpty
-            ? '$working'
-            : '$working·$tag';
+        ? '$working'
+        : '$working·$tag';
     final text = st.rpe == null || fit.logRpe ? base : '$base${fit.effortTag(st.rpe!)}';
     return FittedBox(
       fit: BoxFit.scaleDown,
       alignment: Alignment.centerLeft,
-      child: Text(text,
-          maxLines: 1,
-          softWrap: false,
-          style: AppTheme.f(16, weight: FontWeight.w700, color: _kindColor(gc, st.kind))),
+      child: Text(
+        text,
+        maxLines: 1,
+        softWrap: false,
+        style: AppTheme.f(16, weight: FontWeight.w700, color: _kindColor(gc, st.kind)),
+      ),
     );
   }
 
@@ -1589,9 +1888,15 @@ class SessionScreen extends StatelessWidget {
                 children: [
                   const SheetHandle(),
                   const SizedBox(height: 18),
-                  Text(t.setType,
-                      style: AppTheme.f(12,
-                          weight: FontWeight.w600, color: gc.textSecondary, letterSpacing: 0.4)),
+                  Text(
+                    t.setType,
+                    style: AppTheme.f(
+                      12,
+                      weight: FontWeight.w600,
+                      color: gc.textSecondary,
+                      letterSpacing: 0.4,
+                    ),
+                  ),
                   const SizedBox(height: 12),
                   SetKindOptions(
                     current: kindNow,
@@ -1608,12 +1913,17 @@ class SessionScreen extends StatelessWidget {
                     },
                     child: SizedBox(
                       height: 48,
-                      child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                        Icon(PhosphorIconsRegular.trash, size: 16, color: gc.danger),
-                        const SizedBox(width: 8),
-                        Text(t.deleteSet,
-                            style: AppTheme.f(14, weight: FontWeight.w600, color: gc.danger)),
-                      ]),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(PhosphorIconsRegular.trash, size: 16, color: gc.danger),
+                          const SizedBox(width: 8),
+                          Text(
+                            t.deleteSet,
+                            style: AppTheme.f(14, weight: FontWeight.w600, color: gc.danger),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ],
@@ -1624,6 +1934,7 @@ class SessionScreen extends StatelessWidget {
       ),
     );
   }
+
   Widget _miniStepper(
     GymColors gc,
     String value,
@@ -1633,26 +1944,26 @@ class SessionScreen extends StatelessWidget {
     required void Function(BuildContext) onEdit,
   }) {
     Widget b(String g, String semantic, VoidCallback t) => Semantics(
-          button: true,
-          label: semantic,
-          child: GestureDetector(
-            behavior: HitTestBehavior.opaque,
-            onTap: t,
-            child: SizedBox(
-              width: 34,
-              height: 44,
-              child: Center(
-                child: Container(
-                  width: 28,
-                  height: 28,
-                  decoration: BoxDecoration(color: gc.bgRaised2, borderRadius: BorderRadius.circular(8)),
-                  alignment: Alignment.center,
-                  child: Text(g, style: TextStyle(color: gc.text, fontSize: 17, height: 1)),
-                ),
-              ),
+      button: true,
+      label: semantic,
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: t,
+        child: SizedBox(
+          width: 34,
+          height: 44,
+          child: Center(
+            child: Container(
+              width: 28,
+              height: 28,
+              decoration: BoxDecoration(color: gc.bgRaised2, borderRadius: BorderRadius.circular(8)),
+              alignment: Alignment.center,
+              child: Text(g, style: TextStyle(color: gc.text, fontSize: 17, height: 1)),
             ),
           ),
-        );
+        ),
+      ),
+    );
     return Builder(
       builder: (context) => FittedBox(
         fit: BoxFit.scaleDown,
@@ -1662,19 +1973,21 @@ class SessionScreen extends StatelessWidget {
             b('–', t.decrease, dec),
             const SizedBox(width: 3),
             GestureDetector(
-            behavior: HitTestBehavior.opaque,
-            onTap: () => onEdit(context),
-            child: Container(
-              constraints: BoxConstraints(minWidth: minW),
-              padding: const EdgeInsets.symmetric(vertical: 4),
-              alignment: Alignment.center,
-              child: RollingText(value,
-                  style: AppTheme.f(15, weight: FontWeight.w700, color: gc.text)),
+              behavior: HitTestBehavior.opaque,
+              onTap: () => onEdit(context),
+              child: Container(
+                constraints: BoxConstraints(minWidth: minW),
+                padding: const EdgeInsets.symmetric(vertical: 4),
+                alignment: Alignment.center,
+                child: RollingText(
+                  value,
+                  style: AppTheme.f(15, weight: FontWeight.w700, color: gc.text),
+                ),
+              ),
             ),
-          ),
-          const SizedBox(width: 3),
-          b('+', t.increase, inc),
-        ],
+            const SizedBox(width: 3),
+            b('+', t.increase, inc),
+          ],
         ),
       ),
     );
@@ -1691,16 +2004,18 @@ class SessionScreen extends StatelessWidget {
     String unit = '',
     String Function(double)? format,
   }) async {
-    final v = await askRuler(context,
-        title: title,
-        value: value,
-        min: 0,
-        max: max,
-        step: step,
-        unit: unit,
-        majorEvery: majorEvery,
-        format: format,
-        tickLabel: format);
+    final v = await askRuler(
+      context,
+      title: title,
+      value: value,
+      min: 0,
+      max: max,
+      step: step,
+      unit: unit,
+      majorEvery: majorEvery,
+      format: format,
+      tickLabel: format,
+    );
     if (v != null) onSave(v);
   }
 
@@ -1716,10 +2031,10 @@ class SessionScreen extends StatelessWidget {
       label: lead > 0
           ? (fit.switchingSides ? t.switchSides : t.getReady)
           : fit.modeOf(fit.session?.exercises[fit.holdEx].id ?? '') == 'cardio'
-              ? t.kindCardio
-              : fit.holdSides > 1
-                  ? t.sideOfTwo('${fit.holdSide + 1}')
-                  : t.holdLabel,
+          ? t.kindCardio
+          : fit.holdSides > 1
+          ? t.sideOfTwo('${fit.holdSide + 1}')
+          : t.holdLabel,
       remaining: lead > 0 ? lead : fit.holdRemaining ?? 0,
       total: lead > 0 ? WorkoutState.holdLeadIn : fit.holdTotal,
       elapsed: fit.elapsedLabel,
@@ -1733,27 +2048,29 @@ class SessionScreen extends StatelessWidget {
   }
 
   Widget _restCard(BuildContext context, GymColors gc, WorkoutSession s) => Dismissible(
-        key: ValueKey(s.restEndsAt ?? s.restFrozen),
-        resizeDuration: null,
-        onDismissed: (_) {
-          HapticFeedback.lightImpact();
-          fit.skipRest();
-        },
-        child: _ticking(() => _restPanel(context, gc, s)),
-      );
+    key: ValueKey(s.restEndsAt ?? s.restFrozen),
+    resizeDuration: null,
+    onDismissed: (_) {
+      HapticFeedback.lightImpact();
+      fit.skipRest();
+    },
+    child: _ticking(() => _restPanel(context, gc, s)),
+  );
 
   Future<void> _editRest(BuildContext context, WorkoutSession s) async {
-    final v = await askRuler(context,
-        title: t.restTimer,
-        value: (((s.restRemaining ?? fit.restTotal) / 5).round() * 5).toDouble(),
-        min: 5,
-        max: 600,
-        step: 5,
-        majorEvery: 6,
-        format: (v) => clockLabel(v.round()),
-        tickLabel: (v) => clockLabel(v.round()),
-        hint: t.swipeToSkipHint,
-        clearLabel: t.liveSkipRest);
+    final v = await askRuler(
+      context,
+      title: t.restTimer,
+      value: (((s.restRemaining ?? fit.restTotal) / 5).round() * 5).toDouble(),
+      min: 5,
+      max: 600,
+      step: 5,
+      majorEvery: 6,
+      format: (v) => clockLabel(v.round()),
+      tickLabel: (v) => clockLabel(v.round()),
+      hint: t.swipeToSkipHint,
+      clearLabel: t.liveSkipRest,
+    );
     if (v == null || fit.session != s) return;
     if (v.isNaN) {
       fit.skipRest();
@@ -1783,13 +2100,15 @@ class SessionScreen extends StatelessWidget {
     final pending = ex == null ? -1 : ex.sets.indexWhere((st) => !st.done);
     if (pending >= 0 && ex != null && fit.runsClock(ex.id) && (ex.sets[pending].sec ?? 30) > 0) {
       if (fit.holding && fit.holdEx == exIdx) {
-        return _ticking(() => PrimaryButton(
-              label: fit.holdPaused
-                  ? t.finishHoldNow
-                  : '${t.stopLabel} · ${durationLabel(fit.holdRemaining ?? 0)}',
-              onTap: fit.holdPaused ? fit.completeHold : fit.stopHold,
-              height: 56,
-            ));
+        return _ticking(
+          () => PrimaryButton(
+            label: fit.holdPaused
+                ? t.finishHoldNow
+                : '${t.stopLabel} · ${durationLabel(fit.holdRemaining ?? 0)}',
+            onTap: fit.holdPaused ? fit.completeHold : fit.stopHold,
+            height: 56,
+          ),
+        );
       }
       return PrimaryButton(
         label: t.startHold(fit.holdLength(ex.id, ex.sets[pending].sec ?? 30)),
@@ -1805,26 +2124,26 @@ class SessionScreen extends StatelessWidget {
       return PrimaryButton(label: t.nextExercise, onTap: fit.goNextPending, height: 56);
     }
     if (exIdx < total - 1) {
-      return _guard(
-          locked, PrimaryButton(label: t.nextExercise, onTap: fit.nextExercise, height: 56));
+      return _guard(locked, PrimaryButton(label: t.nextExercise, onTap: fit.nextExercise, height: 56));
     }
-    return _guard(
-        locked, PrimaryButton(label: t.finishSession, onTap: fit.finishSession, height: 56));
+    return _guard(locked, PrimaryButton(label: t.finishSession, onTap: fit.finishSession, height: 56));
   }
 
   Widget _textAction(GymColors gc, String label, VoidCallback onTap) => Semantics(
-        button: true,
-        child: GestureDetector(
-          behavior: HitTestBehavior.opaque,
-          onTap: onTap,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-            child: Text(label,
-                textAlign: TextAlign.center,
-                style: AppTheme.f(12, weight: FontWeight.w600, color: gc.textTertiary)),
-          ),
+    button: true,
+    child: GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+        child: Text(
+          label,
+          textAlign: TextAlign.center,
+          style: AppTheme.f(12, weight: FontWeight.w600, color: gc.textTertiary),
         ),
-      );
+      ),
+    ),
+  );
 
   Widget _circleBtn(GymColors gc, List<IconPath> icon, VoidCallback onTap, {bool enabled = true}) {
     return Semantics(
@@ -1839,9 +2158,7 @@ class SessionScreen extends StatelessWidget {
             color: enabled ? gc.bgRaised : Colors.transparent,
             shape: BoxShape.circle,
           ),
-          child: Center(
-            child: SvgPathIcon(icon, size: 18, color: enabled ? gc.text : gc.textTertiary),
-          ),
+          child: Center(child: SvgPathIcon(icon, size: 18, color: enabled ? gc.text : gc.textTertiary)),
         ),
       ),
     );
@@ -1863,24 +2180,26 @@ class SessionScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Rise(index: 0, child: _finishHero(context, gc, prs: prs, streak: streak, goalHit: goalHit)),
+            Rise(
+              index: 0,
+              child: _finishHero(context, gc, prs: prs, streak: streak, goalHit: goalHit),
+            ),
             const SizedBox(height: 18),
             Rise(
               index: 1,
-              child: Row(children: [
-                Expanded(child: _sumCard(gc, t.duration, fit.summaryDurationLabel)),
-                const SizedBox(width: 10),
-                Expanded(child: _countUp(sets.toDouble(), (v) => _sumCard(gc, t.setsCaps, '${v.round()}'))),
-                const SizedBox(width: 10),
-                Expanded(child: _countUp(vol, (v) => _sumCard(gc, t.volume, fit.volumeLabel(v)))),
-              ]),
+              child: Row(
+                children: [
+                  Expanded(child: _sumCard(gc, t.duration, fit.summaryDurationLabel)),
+                  const SizedBox(width: 10),
+                  Expanded(child: _countUp(sets.toDouble(), (v) => _sumCard(gc, t.setsCaps, '${v.round()}'))),
+                  const SizedBox(width: 10),
+                  Expanded(child: _countUp(vol, (v) => _sumCard(gc, t.volume, fit.volumeLabel(v)))),
+                ],
+              ),
             ),
             if (vsLast == null || vsLast > 0) ...[
               const SizedBox(height: 10),
-              Rise(
-                index: 2,
-                child: vsLast != null ? _vsLastCard(gc, vol, vsLast) : _firstTimeCard(gc),
-              ),
+              Rise(index: 2, child: vsLast != null ? _vsLastCard(gc, vol, vsLast) : _firstTimeCard(gc)),
             ],
             AnimatedSize(
               duration: const Duration(milliseconds: 280),
@@ -1900,27 +2219,29 @@ class SessionScreen extends StatelessWidget {
             const SizedBox(height: 18),
             Rise(
               index: 3,
-              child: Row(children: [
-                Expanded(
-                  child: next == null
-                      ? PrimaryButton(label: t.done, onTap: fit.saveAndExit)
-                      : PrimaryButton(label: t.done, bg: gc.bgRaised, fg: gc.text, onTap: fit.saveAndExit),
-                ),
-                const SizedBox(width: 10),
-                Semantics(
-                  button: true,
-                  label: t.share,
-                  child: GestureDetector(
-                    onTap: () => showShareSheet(context, initial: ShareKind.streak),
-                    child: Container(
-                      width: 56,
-                      height: 56,
-                      decoration: BoxDecoration(color: gc.bgRaised, shape: BoxShape.circle),
-                      child: Icon(PhosphorIconsRegular.shareNetwork, size: 20, color: gc.text),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: next == null
+                        ? PrimaryButton(label: t.done, onTap: fit.saveAndExit)
+                        : PrimaryButton(label: t.done, bg: gc.bgRaised, fg: gc.text, onTap: fit.saveAndExit),
+                  ),
+                  const SizedBox(width: 10),
+                  Semantics(
+                    button: true,
+                    label: t.share,
+                    child: GestureDetector(
+                      onTap: () => showShareSheet(context, initial: ShareKind.streak),
+                      child: Container(
+                        width: 56,
+                        height: 56,
+                        decoration: BoxDecoration(color: gc.bgRaised, shape: BoxShape.circle),
+                        child: Icon(PhosphorIconsRegular.shareNetwork, size: 20, color: gc.text),
+                      ),
                     ),
                   ),
-                ),
-              ]),
+                ],
+              ),
             ),
             const SizedBox(height: 10),
             Rise(
@@ -1971,20 +2292,25 @@ class SessionScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(t.nextToday.toUpperCase(),
-              style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.accent, letterSpacing: 1.4)),
+          Text(
+            t.nextToday.toUpperCase(),
+            style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.accent, letterSpacing: 1.4),
+          ),
           const SizedBox(height: 7),
-          Text(fit.routineTitle(next),
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              style: AppTheme.f(22, weight: FontWeight.w800, color: gc.text, height: 1.15)),
+          Text(
+            fit.routineTitle(next),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: AppTheme.f(22, weight: FontWeight.w800, color: gc.text, height: 1.15),
+          ),
           const SizedBox(height: 5),
           Text(
-              [
-                t.exerciseCount(next.exerciseIds.length),
-                if (today.length > 1) t.routineOfDay(today.indexOf(next) + 1, today.length),
-              ].join(' · '),
-              style: AppTheme.f(13, weight: FontWeight.w500, color: gc.textSecondary)),
+            [
+              t.exerciseCount(next.exerciseIds.length),
+              if (today.length > 1) t.routineOfDay(today.indexOf(next) + 1, today.length),
+            ].join(' · '),
+            style: AppTheme.f(13, weight: FontWeight.w500, color: gc.textSecondary),
+          ),
           const SizedBox(height: 16),
           PrimaryButton(label: t.startWorkout, icon: Ic.play, height: 52, onTap: fit.startNextRoutine),
         ],
@@ -2001,7 +2327,11 @@ class SessionScreen extends StatelessWidget {
       showNotchToast(context, t.routineUpdated, icon: PhosphorIconsFill.listChecks, accent: accent);
       return;
     }
-    final name = await askText(context, title: t.routineName, initial: fit.filedSession?.name ?? t.newRoutineName);
+    final name = await askText(
+      context,
+      title: t.routineName,
+      initial: fit.filedSession?.name ?? t.newRoutineName,
+    );
     if (name == null || !context.mounted || fit.saveSessionAsRoutine(name).isEmpty) return;
     showNotchToast(context, t.savedAsRoutine, icon: PhosphorIconsFill.listChecks, accent: accent);
   }
@@ -2010,29 +2340,35 @@ class SessionScreen extends StatelessWidget {
     final gc = context.gc;
     final changes = fit.sessionRoutineChanges;
     Widget row(IconData icon, Color color, String text) => Padding(
-          padding: const EdgeInsets.symmetric(vertical: 6),
-          child: Row(children: [
-            Container(
-              width: 26,
-              height: 26,
-              decoration: BoxDecoration(color: color.withValues(alpha: 0.16), shape: BoxShape.circle),
-              child: Icon(icon, size: 13, color: color),
+      padding: const EdgeInsets.symmetric(vertical: 6),
+      child: Row(
+        children: [
+          Container(
+            width: 26,
+            height: 26,
+            decoration: BoxDecoration(color: color.withValues(alpha: 0.16), shape: BoxShape.circle),
+            child: Icon(icon, size: 13, color: color),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Text(
+              text,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: AppTheme.f(14, weight: FontWeight.w600, color: gc.text),
             ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Text(text,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: AppTheme.f(14, weight: FontWeight.w600, color: gc.text)),
-            ),
-          ]),
-        );
+          ),
+        ],
+      ),
+    );
     final ok = await showAppDialog<bool>(
       context: context,
       builder: (dctx) => appDialog(
         gc,
-        title: Text(t.saveChangesTitle(fit.routineTitle(routine)),
-            style: AppTheme.f(19, weight: FontWeight.w800, color: gc.text)),
+        title: Text(
+          t.saveChangesTitle(fit.routineTitle(routine)),
+          style: AppTheme.f(19, weight: FontWeight.w800, color: gc.text),
+        ),
         content: ConstrainedBox(
           constraints: BoxConstraints(maxHeight: MediaQuery.sizeOf(dctx).height * 0.45),
           child: SingleChildScrollView(
@@ -2040,15 +2376,20 @@ class SessionScreen extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(t.saveChangesBody,
-                    style: AppTheme.f(13.5, weight: FontWeight.w500, color: gc.textSecondary, height: 1.45)),
+                Text(
+                  t.saveChangesBody,
+                  style: AppTheme.f(13.5, weight: FontWeight.w500, color: gc.textSecondary, height: 1.45),
+                ),
                 const SizedBox(height: 12),
                 for (final e in changes.added) row(PhosphorIconsBold.plus, gc.sage, exerciseName(e)),
                 for (final e in changes.removed) row(PhosphorIconsBold.minus, gc.danger, exerciseName(e)),
                 if (changes.reordered) row(PhosphorIconsBold.arrowsDownUp, gc.brass, t.routineOrderChanged),
                 for (final c in changes.sets)
-                  row(c.to > c.from ? PhosphorIconsBold.plus : PhosphorIconsBold.minus, gc.brass,
-                      '${exerciseName(c.ex)} · ${c.from} → ${c.to} ${t.statSets.toLowerCase()}'),
+                  row(
+                    c.to > c.from ? PhosphorIconsBold.plus : PhosphorIconsBold.minus,
+                    gc.brass,
+                    '${exerciseName(c.ex)} · ${c.from} → ${c.to} ${t.statSets.toLowerCase()}',
+                  ),
               ],
             ),
           ),
@@ -2063,23 +2404,24 @@ class SessionScreen extends StatelessWidget {
   }
 
   Widget _countUp(double to, Widget Function(double v) builder) => TweenAnimationBuilder<double>(
-        tween: Tween(begin: 0, end: to),
-        duration: const Duration(milliseconds: 1100),
-        curve: Curves.easeOutCubic,
-        builder: (context, v, _) => builder(v),
-      );
+    tween: Tween(begin: 0, end: to),
+    duration: const Duration(milliseconds: 1100),
+    curve: Curves.easeOutCubic,
+    builder: (context, v, _) => builder(v),
+  );
 
-  Widget _finishHero(BuildContext context, GymColors gc,
-      {required int prs, required int streak, required bool goalHit}) {
+  Widget _finishHero(
+    BuildContext context,
+    GymColors gc, {
+    required int prs,
+    required int streak,
+    required bool goalHit,
+  }) {
     final filed = fit.sessionRoutine == null ? fit.filedSession : null;
     return ClipRRect(
       borderRadius: BorderRadius.circular(24),
       child: Container(
-        decoration: BoxDecoration(
-          color: gc.bgRaised,
-
-          borderRadius: BorderRadius.circular(24),
-        ),
+        decoration: BoxDecoration(color: gc.bgRaised, borderRadius: BorderRadius.circular(24)),
         child: Stack(
           children: [
             Positioned(
@@ -2105,36 +2447,45 @@ class SessionScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(children: [
-                    Text(t.sessionComplete.toUpperCase(),
-                        style: AppTheme.f(11, weight: FontWeight.w600, color: gc.brass, letterSpacing: 1.4)),
-                    if (prs > 0) ...[
-                      const SizedBox(width: 8),
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                        decoration:
-                            BoxDecoration(color: gc.accentSoft, borderRadius: BorderRadius.circular(100)),
-                        child: Text(t.prCount(prs),
-                            style: AppTheme.f(10, weight: FontWeight.w700, color: gc.accent)),
+                  Row(
+                    children: [
+                      Text(
+                        t.sessionComplete.toUpperCase(),
+                        style: AppTheme.f(11, weight: FontWeight.w600, color: gc.brass, letterSpacing: 1.4),
                       ),
+                      if (prs > 0) ...[
+                        const SizedBox(width: 8),
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                          decoration: BoxDecoration(
+                            color: gc.accentSoft,
+                            borderRadius: BorderRadius.circular(100),
+                          ),
+                          child: Text(
+                            t.prCount(prs),
+                            style: AppTheme.f(10, weight: FontWeight.w700, color: gc.accent),
+                          ),
+                        ),
+                      ],
                     ],
-                  ]),
+                  ),
                   const SizedBox(height: 8),
                   ConstrainedBox(
                     constraints: const BoxConstraints(maxWidth: 210),
-                    child: Text(t.finishHeadline(prs: prs, streak: streak, goalHit: goalHit),
-                        style: AppTheme.f(28, weight: FontWeight.w700, color: gc.text, height: 1.05)),
+                    child: Text(
+                      t.finishHeadline(prs: prs, streak: streak, goalHit: goalHit),
+                      style: AppTheme.f(28, weight: FontWeight.w700, color: gc.text, height: 1.05),
+                    ),
                   ),
                   const SizedBox(height: 8),
                   ConstrainedBox(
                     constraints: const BoxConstraints(maxWidth: 230),
-                    child: Text(t.finishBody(prs: prs, streak: streak, goalHit: goalHit),
-                        style: AppTheme.f(13, weight: FontWeight.w500, color: gc.textSecondary, height: 1.35)),
+                    child: Text(
+                      t.finishBody(prs: prs, streak: streak, goalHit: goalHit),
+                      style: AppTheme.f(13, weight: FontWeight.w500, color: gc.textSecondary, height: 1.35),
+                    ),
                   ),
-                  if (filed != null) ...[
-                    const SizedBox(height: 14),
-                    _namePill(context, gc, filed),
-                  ],
+                  if (filed != null) ...[const SizedBox(height: 14), _namePill(context, gc, filed)],
                 ],
               ),
             ),
@@ -2151,7 +2502,12 @@ class SessionScreen extends StatelessWidget {
       label: t.sessionName,
       child: GestureDetector(
         onTap: () async {
-          final v = await askText(context, title: t.sessionName, initial: name ?? '', hint: t.sessionNameHint);
+          final v = await askText(
+            context,
+            title: t.sessionName,
+            initial: name ?? '',
+            hint: t.sessionNameHint,
+          );
           if (v != null) fit.renameSession(filed, v);
         },
         child: ConstrainedBox(
@@ -2162,17 +2518,29 @@ class SessionScreen extends StatelessWidget {
               color: name == null ? gc.bgRaised2 : gc.accentSoft,
               borderRadius: BorderRadius.circular(100),
             ),
-            child: Row(mainAxisSize: MainAxisSize.min, children: [
-              Icon(PhosphorIconsRegular.pencilSimple, size: 13, color: name == null ? gc.textSecondary : gc.accent),
-              const SizedBox(width: 6),
-              Flexible(
-                child: Text(name ?? t.nameWorkout,
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  PhosphorIconsRegular.pencilSimple,
+                  size: 13,
+                  color: name == null ? gc.textSecondary : gc.accent,
+                ),
+                const SizedBox(width: 6),
+                Flexible(
+                  child: Text(
+                    name ?? t.nameWorkout,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: AppTheme.f(12.5,
-                        weight: FontWeight.w700, color: name == null ? gc.textSecondary : gc.accent)),
-              ),
-            ]),
+                    style: AppTheme.f(
+                      12.5,
+                      weight: FontWeight.w700,
+                      color: name == null ? gc.textSecondary : gc.accent,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -2186,64 +2554,91 @@ class SessionScreen extends StatelessWidget {
     return SoftCard(
       radius: 16,
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-      child: Row(children: [
-        SvgPathIcon(Ic.trendUp, size: 16, color: up ? gc.sage : gc.textTertiary),
-        const SizedBox(width: 12),
-        Expanded(
-          child: Text(t.vsLastTime,
-              style: AppTheme.f(11, weight: FontWeight.w600, color: gc.textSecondary, letterSpacing: 0.4)),
-        ),
-        Text('${up ? '+' : ''}$pct%',
-            style: AppTheme.f(16, weight: FontWeight.w700, color: up ? gc.sage : gc.textSecondary)),
-      ]),
+      child: Row(
+        children: [
+          SvgPathIcon(Ic.trendUp, size: 16, color: up ? gc.sage : gc.textTertiary),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Text(
+              t.vsLastTime,
+              style: AppTheme.f(11, weight: FontWeight.w600, color: gc.textSecondary, letterSpacing: 0.4),
+            ),
+          ),
+          Text(
+            '${up ? '+' : ''}$pct%',
+            style: AppTheme.f(16, weight: FontWeight.w700, color: up ? gc.sage : gc.textSecondary),
+          ),
+        ],
+      ),
     );
   }
 
   Widget _levelUpCard(BuildContext context, GymColors gc, ({Exercise from, Exercise to, int reps}) level) {
     final inRoutine = fit.levelUpInRoutine;
     Widget link(String label, VoidCallback onTap) => GestureDetector(
-          behavior: HitTestBehavior.opaque,
-          onTap: onTap,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 8),
-            child: Text(label, style: AppTheme.f(13, weight: FontWeight.w600, color: gc.textSecondary)),
-          ),
-        );
+      behavior: HitTestBehavior.opaque,
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 8),
+        child: Text(
+          label,
+          style: AppTheme.f(13, weight: FontWeight.w600, color: gc.textSecondary),
+        ),
+      ),
+    );
     return SoftCard(
       radius: 20,
       padding: const EdgeInsets.fromLTRB(14, 14, 14, 8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Row(children: [
-            Semantics(
-              button: true,
-              label: t.levelUpSee,
-              child: GestureDetector(
-                onTap: () => showExercisePreview(context, level.to),
-                child: SizedBox(width: 64, child: ExerciseMedia(ex: level.to, height: 64, radius: 14)),
+          Row(
+            children: [
+              Semantics(
+                button: true,
+                label: t.levelUpSee,
+                child: GestureDetector(
+                  onTap: () => showExercisePreview(context, level.to),
+                  child: SizedBox(width: 64, child: ExerciseMedia(ex: level.to, height: 64, radius: 14)),
+                ),
               ),
-            ),
-            const SizedBox(width: 14),
-            Expanded(
-              child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Row(children: [
-                  Icon(PhosphorIconsBold.trendUp, size: 13, color: gc.sage),
-                  const SizedBox(width: 6),
-                  Text(t.levelUpKicker,
-                      style: AppTheme.f(10.5, weight: FontWeight.w800, color: gc.sage, letterSpacing: 1.3)),
-                ]),
-                const SizedBox(height: 4),
-                Text(exerciseName(level.to),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: AppTheme.f(17, weight: FontWeight.w800, color: gc.text)),
-                const SizedBox(height: 3),
-                Text(t.levelUpBody(level.reps, exerciseName(level.from)),
-                    style: AppTheme.f(12.5, weight: FontWeight.w500, color: gc.textSecondary, height: 1.35)),
-              ]),
-            ),
-          ]),
+              const SizedBox(width: 14),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Icon(PhosphorIconsBold.trendUp, size: 13, color: gc.sage),
+                        const SizedBox(width: 6),
+                        Text(
+                          t.levelUpKicker,
+                          style: AppTheme.f(
+                            10.5,
+                            weight: FontWeight.w800,
+                            color: gc.sage,
+                            letterSpacing: 1.3,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      exerciseName(level.to),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: AppTheme.f(17, weight: FontWeight.w800, color: gc.text),
+                    ),
+                    const SizedBox(height: 3),
+                    Text(
+                      t.levelUpBody(level.reps, exerciseName(level.from)),
+                      style: AppTheme.f(12.5, weight: FontWeight.w500, color: gc.textSecondary, height: 1.35),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
           const SizedBox(height: 12),
           Pressable(
             onTap: () {
@@ -2255,34 +2650,46 @@ class SessionScreen extends StatelessWidget {
               final routine = fit.levelUpSwap();
               if (routine == null) return;
               HapticFeedback.lightImpact();
-              showNotchToast(context, t.levelUpSwapped(name, routine),
-                  icon: PhosphorIconsFill.checkCircle, accent: gc.sage);
+              showNotchToast(
+                context,
+                t.levelUpSwapped(name, routine),
+                icon: PhosphorIconsFill.checkCircle,
+                accent: gc.sage,
+              );
             },
             child: Container(
               height: 46,
               alignment: Alignment.center,
               decoration: BoxDecoration(color: gc.sageSoft, borderRadius: BorderRadius.circular(100)),
-              child: Text(inRoutine ? t.levelUpSwap(fit.routineTitle(fit.sessionRoutine!)) : t.levelUpSee,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: AppTheme.f(14, weight: FontWeight.w700, color: gc.sage)),
+              child: Text(
+                inRoutine ? t.levelUpSwap(fit.routineTitle(fit.sessionRoutine!)) : t.levelUpSee,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: AppTheme.f(14, weight: FontWeight.w700, color: gc.sage),
+              ),
             ),
           ),
           const SizedBox(height: 2),
-          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            link(t.levelUpLater, fit.levelUpLater),
-            Text('·', style: AppTheme.f(13, color: gc.textTertiary)),
-            link(t.levelUpStay, () {
-              final undo = fit.levelUpStay();
-              if (undo == null) return;
-              showNotchToast(context, t.levelUpStayed,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              link(t.levelUpLater, fit.levelUpLater),
+              Text('·', style: AppTheme.f(13, color: gc.textTertiary)),
+              link(t.levelUpStay, () {
+                final undo = fit.levelUpStay();
+                if (undo == null) return;
+                showNotchToast(
+                  context,
+                  t.levelUpStayed,
                   icon: PhosphorIconsRegular.bellSlash,
                   accent: gc.accent,
                   action: t.undo,
                   onTap: undo,
-                  duration: const Duration(milliseconds: 3600));
-            }),
-          ]),
+                  duration: const Duration(milliseconds: 3600),
+                );
+              }),
+            ],
+          ),
         ],
       ),
     );
@@ -2292,11 +2699,18 @@ class SessionScreen extends StatelessWidget {
     return SoftCard(
       radius: 16,
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-      child: Row(children: [
-        SvgPathIcon(Ic.flame, size: 16, color: gc.accent),
-        const SizedBox(width: 12),
-        Expanded(child: Text(t.firstTime, style: AppTheme.f(13, weight: FontWeight.w500, color: gc.textSecondary))),
-      ]),
+      child: Row(
+        children: [
+          SvgPathIcon(Ic.flame, size: 16, color: gc.accent),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Text(
+              t.firstTime,
+              style: AppTheme.f(13, weight: FontWeight.w500, color: gc.textSecondary),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -2307,10 +2721,15 @@ class SessionScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          FitText(label,
-              style: AppTheme.f(10, weight: FontWeight.w600, color: gc.textSecondary, letterSpacing: 0.4)),
+          FitText(
+            label,
+            style: AppTheme.f(10, weight: FontWeight.w600, color: gc.textSecondary, letterSpacing: 0.4),
+          ),
           const SizedBox(height: 4),
-          FitText(value, style: AppTheme.f(18, weight: FontWeight.w700, color: gc.text)),
+          FitText(
+            value,
+            style: AppTheme.f(18, weight: FontWeight.w700, color: gc.text),
+          ),
         ],
       ),
     );
@@ -2343,8 +2762,10 @@ void showAddToSessionSheet(BuildContext context) {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        Text(t.addExercise,
-                            style: AppTheme.f(15, weight: FontWeight.w700, color: gc.text, letterSpacing: 0.4)),
+                        Text(
+                          t.addExercise,
+                          style: AppTheme.f(15, weight: FontWeight.w700, color: gc.text, letterSpacing: 0.4),
+                        ),
                         const SizedBox(height: 14),
                         SearchField(
                           controller: search,
@@ -2353,9 +2774,15 @@ void showAddToSessionSheet(BuildContext context) {
                           onChanged: (_) => setSheet(() {}),
                         ),
                         const SizedBox(height: 12),
-                        Text(q.isEmpty ? t.suggested.toUpperCase() : t.results.toUpperCase(),
-                            style: AppTheme.f(11,
-                                weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.5)),
+                        Text(
+                          q.isEmpty ? t.suggested.toUpperCase() : t.results.toUpperCase(),
+                          style: AppTheme.f(
+                            11,
+                            weight: FontWeight.w700,
+                            color: gc.textTertiary,
+                            letterSpacing: 1.5,
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -2367,7 +2794,10 @@ void showAddToSessionSheet(BuildContext context) {
                         if (list.isEmpty)
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 18),
-                            child: Text(t.noMatches, style: AppTheme.f(13, weight: FontWeight.w500, color: gc.textSecondary)),
+                            child: Text(
+                              t.noMatches,
+                              style: AppTheme.f(13, weight: FontWeight.w500, color: gc.textSecondary),
+                            ),
                           ),
                         for (final ex in list) _addRow(sheetCtx, gc, ex),
                       ],
@@ -2430,11 +2860,20 @@ void showSwapExerciseSheet(BuildContext context, int exIdx) {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        Text(titleCase(t.swapExercise),
-                            style: AppTheme.f(19, weight: FontWeight.w800, color: gc.text)),
+                        Text(
+                          titleCase(t.swapExercise),
+                          style: AppTheme.f(19, weight: FontWeight.w800, color: gc.text),
+                        ),
                         const SizedBox(height: 4),
-                        Text(started ? t.swapKeepsDone : t.swapHint(t.catalogName(from.id, from.name)),
-                            style: AppTheme.f(12.5, weight: FontWeight.w500, color: gc.textSecondary, height: 1.4)),
+                        Text(
+                          started ? t.swapKeepsDone : t.swapHint(t.catalogName(from.id, from.name)),
+                          style: AppTheme.f(
+                            12.5,
+                            weight: FontWeight.w500,
+                            color: gc.textSecondary,
+                            height: 1.4,
+                          ),
+                        ),
                         const SizedBox(height: 14),
                         SearchField(
                           controller: search,
@@ -2443,8 +2882,17 @@ void showSwapExerciseSheet(BuildContext context, int exIdx) {
                           onChanged: (_) => setSheet(() {}),
                         ),
                         const SizedBox(height: 12),
-                        Text(q.isEmpty ? t.swapSameMuscle(muscleLabel(from.primary)).toUpperCase() : t.results.toUpperCase(),
-                            style: AppTheme.f(11, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.5)),
+                        Text(
+                          q.isEmpty
+                              ? t.swapSameMuscle(muscleLabel(from.primary)).toUpperCase()
+                              : t.results.toUpperCase(),
+                          style: AppTheme.f(
+                            11,
+                            weight: FontWeight.w700,
+                            color: gc.textTertiary,
+                            letterSpacing: 1.5,
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -2456,8 +2904,10 @@ void showSwapExerciseSheet(BuildContext context, int exIdx) {
                         if (list.isEmpty)
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 18),
-                            child: Text(t.noMatches,
-                                style: AppTheme.f(13, weight: FontWeight.w500, color: gc.textSecondary)),
+                            child: Text(
+                              t.noMatches,
+                              style: AppTheme.f(13, weight: FontWeight.w500, color: gc.textSecondary),
+                            ),
                           ),
                         for (final ex in list) _swapRow(sheetCtx, gc, ex, () => pick(ex)),
                       ],
@@ -2490,34 +2940,40 @@ Widget _swapRow(BuildContext sheetCtx, GymColors gc, Exercise ex, VoidCallback o
         child: Container(
           padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(color: gc.bgRaised2, borderRadius: BorderRadius.circular(14)),
-          child: Row(children: [
-            GestureDetector(
-              onTap: () => showExercisePreview(sheetCtx, ex),
-              child: SizedBox(width: 44, child: ExerciseMedia(ex: ex, height: 44, radius: 10)),
-            ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(exerciseName(ex),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: AppTheme.f(13.5, weight: FontWeight.w600, color: gc.text)),
-                  const SizedBox(height: 2),
-                  Text(detail,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: AppTheme.f(11, weight: FontWeight.w500, color: gc.textSecondary)),
-                ],
+          child: Row(
+            children: [
+              GestureDetector(
+                onTap: () => showExercisePreview(sheetCtx, ex),
+                child: SizedBox(width: 44, child: ExerciseMedia(ex: ex, height: 44, radius: 10)),
               ),
-            ),
-            if (fit.favorites[ex.id] == true) ...[
-              Icon(PhosphorIconsFill.star, size: 13, color: gc.accent),
-              const SizedBox(width: 8),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      exerciseName(ex),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: AppTheme.f(13.5, weight: FontWeight.w600, color: gc.text),
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      detail,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: AppTheme.f(11, weight: FontWeight.w500, color: gc.textSecondary),
+                    ),
+                  ],
+                ),
+              ),
+              if (fit.favorites[ex.id] == true) ...[
+                Icon(PhosphorIconsFill.star, size: 13, color: gc.accent),
+                const SizedBox(width: 8),
+              ],
+              Icon(PhosphorIconsRegular.arrowsLeftRight, size: 15, color: gc.textSecondary),
             ],
-            Icon(PhosphorIconsRegular.arrowsLeftRight, size: 15, color: gc.textSecondary),
-          ]),
+          ),
         ),
       ),
     ),
@@ -2541,32 +2997,39 @@ Widget _addRow(BuildContext sheetCtx, GymColors gc, Exercise ex) {
         opacity: already ? 0.45 : 1,
         child: Container(
           padding: const EdgeInsets.all(10),
-          decoration: BoxDecoration(
-            color: gc.bgRaised2,
-            borderRadius: BorderRadius.circular(14),
-          ),
-          child: Row(children: [
-            GestureDetector(
-              onTap: () => showExercisePreview(sheetCtx, ex),
-              child: SizedBox(width: 44, child: ExerciseMedia(ex: ex, height: 44, radius: 10)),
-            ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(exerciseName(ex),
+          decoration: BoxDecoration(color: gc.bgRaised2, borderRadius: BorderRadius.circular(14)),
+          child: Row(
+            children: [
+              GestureDetector(
+                onTap: () => showExercisePreview(sheetCtx, ex),
+                child: SizedBox(width: 44, child: ExerciseMedia(ex: ex, height: 44, radius: 10)),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      exerciseName(ex),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: AppTheme.f(13.5, weight: FontWeight.w600, color: gc.text)),
-                  const SizedBox(height: 2),
-                  Text(muscleLabel(ex.primary), style: AppTheme.f(11, weight: FontWeight.w500, color: gc.textSecondary)),
-                ],
+                      style: AppTheme.f(13.5, weight: FontWeight.w600, color: gc.text),
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      muscleLabel(ex.primary),
+                      style: AppTheme.f(11, weight: FontWeight.w500, color: gc.textSecondary),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            Icon(already ? PhosphorIconsRegular.check : PhosphorIconsRegular.plus,
-                size: 16, color: gc.textSecondary),
-          ]),
+              Icon(
+                already ? PhosphorIconsRegular.check : PhosphorIconsRegular.plus,
+                size: 16,
+                color: gc.textSecondary,
+              ),
+            ],
+          ),
         ),
       ),
     ),
@@ -2604,11 +3067,14 @@ class _ExerciseStageState extends State<_ExerciseStage> {
     final gc = context.gc;
     final where = fit.inSuperset ? '${t.superset} · ${fit.sessionProgressLabel}' : fit.sessionProgressLabel;
     HapticFeedback.mediumImpact();
-    showNotchToast(context, t.catalogName(ex.id, ex.name),
-        subtitle: where,
-        icon: fit.inSuperset ? PhosphorIconsBold.link : PhosphorIconsBold.arrowRight,
-        accent: fit.inSuperset ? gc.brass : gc.ember,
-        duration: const Duration(milliseconds: 1900));
+    showNotchToast(
+      context,
+      t.catalogName(ex.id, ex.name),
+      subtitle: where,
+      icon: fit.inSuperset ? PhosphorIconsBold.link : PhosphorIconsBold.arrowRight,
+      accent: fit.inSuperset ? gc.brass : gc.ember,
+      duration: const Duration(milliseconds: 1900),
+    );
   }
 
   @override
@@ -2633,13 +3099,8 @@ class _ExerciseStageState extends State<_ExerciseStage> {
           ),
         );
       },
-      layoutBuilder: (currentChild, previousChildren) => Stack(
-        alignment: Alignment.topCenter,
-        children: [
-          ...previousChildren,
-          ?currentChild,
-        ],
-      ),
+      layoutBuilder: (currentChild, previousChildren) =>
+          Stack(alignment: Alignment.topCenter, children: [...previousChildren, ?currentChild]),
       child: KeyedSubtree(key: ValueKey(current), child: widget.child),
     );
   }
@@ -2669,13 +3130,17 @@ void showSessionOverview(BuildContext context) {
             children: [
               const SheetHandle(),
               const SizedBox(height: 18),
-              Text(titleCase(t.workoutOverview),
-                  style: AppTheme.f(19, weight: FontWeight.w800, color: gc.text)),
+              Text(
+                titleCase(t.workoutOverview),
+                style: AppTheme.f(19, weight: FontWeight.w800, color: gc.text),
+              ),
               const SizedBox(height: 4),
               ValueListenableBuilder<int>(
                 valueListenable: fit.clock,
-                builder: (_, _, _) => Text('${t.exerciseCount(s.exercises.length)} · ${fit.elapsedLabel}',
-                    style: AppTheme.f(12.5, weight: FontWeight.w500, color: gc.textSecondary)),
+                builder: (_, _, _) => Text(
+                  '${t.exerciseCount(s.exercises.length)} · ${fit.elapsedLabel}',
+                  style: AppTheme.f(12.5, weight: FontWeight.w500, color: gc.textSecondary),
+                ),
               ),
               const SizedBox(height: 16),
               Flexible(
@@ -2683,7 +3148,7 @@ void showSessionOverview(BuildContext context) {
                   shrinkWrap: true,
                   buildDefaultDragHandles: false,
                   itemCount: s.exercises.length,
-                  onReorder: fit.reorderSessionExercise,
+                  onReorderItem: fit.reorderSessionExercise,
                   onReorderStart: reorderPicked,
                   onReorderEnd: reorderDropped,
                   proxyDecorator: liftedRow(16),
@@ -2691,9 +3156,11 @@ void showSessionOverview(BuildContext context) {
                 ),
               ),
               const SizedBox(height: 6),
-              Text(t.dragToReorder,
-                  textAlign: TextAlign.center,
-                  style: AppTheme.f(11, weight: FontWeight.w500, color: gc.textTertiary)),
+              Text(
+                t.dragToReorder,
+                textAlign: TextAlign.center,
+                style: AppTheme.f(11, weight: FontWeight.w500, color: gc.textTertiary),
+              ),
             ],
           ),
         );
@@ -2715,8 +3182,7 @@ Widget _overviewRow(BuildContext sheet, GymColors gc, WorkoutSession s, int i) {
     decoration: BoxDecoration(
       color: current ? gc.bgRaised2 : Colors.transparent,
       borderRadius: BorderRadius.circular(16),
-      border: Border.all(
-          color: current ? gc.ember.withValues(alpha: 0.6) : gc.border.withValues(alpha: 0.6)),
+      border: Border.all(color: current ? gc.ember.withValues(alpha: 0.6) : gc.border.withValues(alpha: 0.6)),
     ),
     child: GestureDetector(
       behavior: HitTestBehavior.opaque,
@@ -2726,61 +3192,79 @@ Widget _overviewRow(BuildContext sheet, GymColors gc, WorkoutSession s, int i) {
       },
       child: Padding(
         padding: const EdgeInsets.fromLTRB(10, 8, 4, 8),
-        child: Row(children: [
-          Container(
-            width: 26,
-            height: 26,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              color: all ? gc.sage : (current ? gc.ember : gc.bgRaised2),
-              shape: BoxShape.circle,
+        child: Row(
+          children: [
+            Container(
+              width: 26,
+              height: 26,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                color: all ? gc.sage : (current ? gc.ember : gc.bgRaised2),
+                shape: BoxShape.circle,
+              ),
+              child: all
+                  ? SvgPathIcon(Ic.checkBold, size: 12, color: Colors.white)
+                  : Text(
+                      '${i + 1}',
+                      style: AppTheme.f(
+                        11.5,
+                        weight: FontWeight.w700,
+                        color: current ? gc.onEmber : gc.textSecondary,
+                      ),
+                    ),
             ),
-            child: all
-                ? SvgPathIcon(Ic.checkBold, size: 12, color: Colors.white)
-                : Text('${i + 1}',
-                    style: AppTheme.f(11.5,
-                        weight: FontWeight.w700, color: current ? gc.onEmber : gc.textSecondary)),
-          ),
-          const SizedBox(width: 10),
-          if (def != null) ...[
-            SizedBox(width: 40, child: ExerciseMedia(ex: def, height: 40, radius: 10, bordered: false)),
             const SizedBox(width: 10),
-          ],
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(t.catalogName(e.id, e.name),
+            if (def != null) ...[
+              SizedBox(width: 40, child: ExerciseMedia(ex: def, height: 40, radius: 10, bordered: false)),
+              const SizedBox(width: 10),
+            ],
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    t.catalogName(e.id, e.name),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: AppTheme.f(14, weight: FontWeight.w600, color: gc.text)),
-                const SizedBox(height: 2),
-                Row(children: [
-                  Text(t.setsDoneOf(done, e.sets.length),
-                      style: AppTheme.f(11.5,
-                          weight: FontWeight.w500, color: all ? gc.sage : gc.textSecondary)),
-                  if (current) ...[
-                    Text(' · ', style: AppTheme.f(11.5, color: gc.textTertiary)),
-                    Text(t.nowLabel,
-                        style: AppTheme.f(11.5, weight: FontWeight.w700, color: gc.ember)),
-                  ],
-                  if (linked) ...[
-                    const SizedBox(width: 6),
-                    Icon(PhosphorIconsRegular.link, size: 12, color: gc.brass),
-                  ],
-                ]),
-              ],
+                    style: AppTheme.f(14, weight: FontWeight.w600, color: gc.text),
+                  ),
+                  const SizedBox(height: 2),
+                  Row(
+                    children: [
+                      Text(
+                        t.setsDoneOf(done, e.sets.length),
+                        style: AppTheme.f(
+                          11.5,
+                          weight: FontWeight.w500,
+                          color: all ? gc.sage : gc.textSecondary,
+                        ),
+                      ),
+                      if (current) ...[
+                        Text(' · ', style: AppTheme.f(11.5, color: gc.textTertiary)),
+                        Text(
+                          t.nowLabel,
+                          style: AppTheme.f(11.5, weight: FontWeight.w700, color: gc.ember),
+                        ),
+                      ],
+                      if (linked) ...[
+                        const SizedBox(width: 6),
+                        Icon(PhosphorIconsRegular.link, size: 12, color: gc.brass),
+                      ],
+                    ],
+                  ),
+                ],
+              ),
             ),
-          ),
-          ReorderableDragStartListener(
-            index: i,
-            child: SizedBox(
-              width: 40,
-              height: 44,
-              child: Icon(PhosphorIconsRegular.dotsSixVertical, size: 18, color: gc.textTertiary),
+            ReorderableDragStartListener(
+              index: i,
+              child: SizedBox(
+                width: 40,
+                height: 44,
+                child: Icon(PhosphorIconsRegular.dotsSixVertical, size: 18, color: gc.textTertiary),
+              ),
             ),
-          ),
-        ]),
+          ],
+        ),
       ),
     ),
   );
@@ -2808,14 +3292,21 @@ void showExerciseHistorySheet(BuildContext context, String exerciseId) {
           children: [
             const SheetHandle(),
             const SizedBox(height: 18),
-            Text(ex == null ? '' : exerciseName(ex),
-                style: AppTheme.f(19, weight: FontWeight.w800, color: gc.text)),
+            Text(
+              ex == null ? '' : exerciseName(ex),
+              style: AppTheme.f(19, weight: FontWeight.w800, color: gc.text),
+            ),
             const SizedBox(height: 4),
-            Text(titleCase(t.history),
-                style: AppTheme.f(12.5, weight: FontWeight.w500, color: gc.textSecondary)),
+            Text(
+              titleCase(t.history),
+              style: AppTheme.f(12.5, weight: FontWeight.w500, color: gc.textSecondary),
+            ),
             const SizedBox(height: 14),
             if (history.isEmpty)
-              Text(t.noHistory, style: AppTheme.f(13, weight: FontWeight.w500, color: gc.textSecondary)),
+              Text(
+                t.noHistory,
+                style: AppTheme.f(13, weight: FontWeight.w500, color: gc.textSecondary),
+              ),
             for (var i = 0; i < history.length; i++)
               Container(
                 padding: const EdgeInsets.symmetric(vertical: 12),
@@ -2829,13 +3320,21 @@ void showExerciseHistorySheet(BuildContext context, String exerciseId) {
                   children: [
                     SizedBox(
                       width: 92,
-                      child: Text(t.shortDate(history[i].date),
-                          style: AppTheme.f(13, weight: FontWeight.w600, color: gc.text)),
+                      child: Text(
+                        t.shortDate(history[i].date),
+                        style: AppTheme.f(13, weight: FontWeight.w600, color: gc.text),
+                      ),
                     ),
                     Expanded(
-                      child: Text(fit.setsSummary(history[i].ex.sets),
-                          style: AppTheme.f(12.5,
-                              weight: FontWeight.w500, color: gc.textSecondary, height: 1.4)),
+                      child: Text(
+                        fit.setsSummary(history[i].ex.sets),
+                        style: AppTheme.f(
+                          12.5,
+                          weight: FontWeight.w500,
+                          color: gc.textSecondary,
+                          height: 1.4,
+                        ),
+                      ),
                     ),
                   ],
                 ),
@@ -2909,16 +3408,17 @@ class _HoldToUnlock extends StatefulWidget {
 }
 
 class _HoldToUnlockState extends State<_HoldToUnlock> with SingleTickerProviderStateMixin {
-  late final AnimationController _hold = AnimationController(
-    vsync: this,
-    duration: const Duration(milliseconds: 650),
-    reverseDuration: const Duration(milliseconds: 220),
-  )..addStatusListener((s) {
-      if (s == AnimationStatus.completed) {
-        HapticFeedback.mediumImpact();
-        widget.onUnlock();
-      }
-    });
+  late final AnimationController _hold =
+      AnimationController(
+        vsync: this,
+        duration: const Duration(milliseconds: 650),
+        reverseDuration: const Duration(milliseconds: 220),
+      )..addStatusListener((s) {
+        if (s == AnimationStatus.completed) {
+          HapticFeedback.mediumImpact();
+          widget.onUnlock();
+        }
+      });
   DateTime? _last;
   int _taps = 0;
 
@@ -2965,37 +3465,40 @@ class _HoldToUnlockState extends State<_HoldToUnlock> with SingleTickerProviderS
               scale: 1 - 0.04 * v,
               child: Container(
                 padding: const EdgeInsets.fromLTRB(6, 6, 14, 6),
-                decoration: BoxDecoration(
-                  color: gc.emberSoft,
-                  borderRadius: BorderRadius.circular(100),
-                ),
-                child: Row(mainAxisSize: MainAxisSize.min, children: [
-                  SizedBox(
-                    width: 26,
-                    height: 26,
-                    child: Stack(alignment: Alignment.center, children: [
-                      SizedBox.expand(
-                        child: CircularProgressIndicator(
-                          value: v,
-                          strokeWidth: 2.4,
-                          strokeCap: StrokeCap.round,
-                          color: gc.ember,
-                          backgroundColor: gc.ember.withValues(alpha: 0.15),
-                        ),
+                decoration: BoxDecoration(color: gc.emberSoft, borderRadius: BorderRadius.circular(100)),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    SizedBox(
+                      width: 26,
+                      height: 26,
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          SizedBox.expand(
+                            child: CircularProgressIndicator(
+                              value: v,
+                              strokeWidth: 2.4,
+                              strokeCap: StrokeCap.round,
+                              color: gc.ember,
+                              backgroundColor: gc.ember.withValues(alpha: 0.15),
+                            ),
+                          ),
+                          Icon(PhosphorIconsFill.fingerprint, size: 14, color: gc.ember),
+                        ],
                       ),
-                      Icon(PhosphorIconsFill.fingerprint, size: 14, color: gc.ember),
-                    ]),
-                  ),
-                  const SizedBox(width: 8),
-                  Flexible(
-                    child: Text(
-                      t.holdToUnlock,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: AppTheme.f(12, weight: FontWeight.w800, color: gc.ember),
                     ),
-                  ),
-                ]),
+                    const SizedBox(width: 8),
+                    Flexible(
+                      child: Text(
+                        t.holdToUnlock,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: AppTheme.f(12, weight: FontWeight.w800, color: gc.ember),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             );
           },

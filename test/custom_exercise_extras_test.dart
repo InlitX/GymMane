@@ -20,11 +20,11 @@ void main() {
   });
 
   String calfLifts() => fit.addCustomExercise(
-        name: 'Calf lifts',
-        primary: 'calves',
-        equipment: 'Bodyweight',
-        aliases: [' Toe lifts ', '', 'calf lifts', 'Toe Lifts', 'Heel raises'],
-      );
+    name: 'Calf lifts',
+    primary: 'calves',
+    equipment: 'Bodyweight',
+    aliases: [' Toe lifts ', '', 'calf lifts', 'Toe Lifts', 'Heel raises'],
+  );
 
   test('los alias se limpian: sin vacíos, sin repetir y sin el propio nombre', () {
     final id = calfLifts();
@@ -52,11 +52,26 @@ void main() {
   test('editar sin tocar los alias los conserva', () {
     final id = calfLifts();
     final ex = fit.exerciseById(id)!;
-    fit.updateCustomExercise(id,
-        name: 'Calf raise', primary: ex.primary, equipment: ex.equipment, difficulty: ex.difficulty, steps: [], mode: '');
+    fit.updateCustomExercise(
+      id,
+      name: 'Calf raise',
+      primary: ex.primary,
+      equipment: ex.equipment,
+      difficulty: ex.difficulty,
+      steps: [],
+      mode: '',
+    );
     expect(fit.exerciseById(id)!.aliases, ['Toe lifts', 'Heel raises']);
-    fit.updateCustomExercise(id,
-        name: 'Calf raise', primary: ex.primary, equipment: ex.equipment, difficulty: ex.difficulty, steps: [], mode: '', aliases: []);
+    fit.updateCustomExercise(
+      id,
+      name: 'Calf raise',
+      primary: ex.primary,
+      equipment: ex.equipment,
+      difficulty: ex.difficulty,
+      steps: [],
+      mode: '',
+      aliases: [],
+    );
     expect(fit.exerciseById(id)!.aliases, isEmpty);
   });
 

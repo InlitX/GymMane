@@ -73,16 +73,24 @@ class _NoteEditScreenState extends State<NoteEditScreen> {
 
   Future<void> _addMedia() async {
     try {
-      final res = await FilePicker.platform.pickFiles(type: FileType.media, allowMultiple: true);
-      for (final f in res?.files ?? const <PlatformFile>[]) {
+      final files = await FilePicker.pickFiles(type: FileType.media);
+
+      for (final f in files) {
         final path = f.path;
         if (path == null) continue;
+
         final saved = await fit.importNoteMedia(path);
         if (saved == null) continue;
+
         _added.add(saved);
-        if (mounted) setState(() => _media.add(saved));
+
+        if (mounted) {
+          setState(() => _media.add(saved));
+        }
       }
-    } catch (_) {}
+    } catch (e, st) {
+      debugPrint('Failed to add media: $e\n$st');
+    }
   }
 
   Future<void> _confirmDelete() async {
@@ -136,10 +144,7 @@ class _NoteEditScreenState extends State<NoteEditScreen> {
                   const SizedBox(height: 22),
                   _label(gc, t.noteTextLabel),
                   Container(
-                    decoration: BoxDecoration(
-                      color: gc.bgRaised,
-                      borderRadius: BorderRadius.circular(16),
-                    ),
+                    decoration: BoxDecoration(color: gc.bgRaised, borderRadius: BorderRadius.circular(16)),
                     padding: const EdgeInsets.fromLTRB(16, 6, 16, 6),
                     child: TextField(
                       controller: _text,
@@ -164,48 +169,50 @@ class _NoteEditScreenState extends State<NoteEditScreen> {
                     borderRadius: BorderRadius.circular(20),
                     child: ColoredBox(
                       color: gc.bgRaised,
-                      child: Column(children: [
-                        _row(
-                          gc,
-                          icon: PhosphorIconsRegular.calendarBlank,
-                          label: t.noteDateLabel,
-                          value: t.shortDateYear(_date),
-                          onTap: _pickDate,
-                        ),
-                        Divider(height: 1, thickness: 1, indent: 16, endIndent: 16, color: gc.border),
-                        _row(
-                          gc,
-                          icon: PhosphorIconsRegular.barbell,
-                          label: t.noteExerciseLabel,
-                          value: exercise == null ? t.noteGeneral : exerciseName(exercise),
-                          muted: exercise == null,
-                          trailing: exercise == null
-                              ? null
-                              : Semantics(
-                                  button: true,
-                                  label: t.noteGeneral,
-                                  child: GestureDetector(
-                                    onTap: () => setState(() => _exerciseId = ''),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(6),
-                                      child: Icon(PhosphorIconsBold.x, size: 13, color: gc.textTertiary),
-                                    ),
-                                  ),
-                                ),
-                          onTap: _pickExercise,
-                        ),
-                        if (exercise != null) ...[
+                      child: Column(
+                        children: [
+                          _row(
+                            gc,
+                            icon: PhosphorIconsRegular.calendarBlank,
+                            label: t.noteDateLabel,
+                            value: t.shortDateYear(_date),
+                            onTap: _pickDate,
+                          ),
                           Divider(height: 1, thickness: 1, indent: 16, endIndent: 16, color: gc.border),
                           _row(
                             gc,
-                            icon: PhosphorIconsRegular.pushPin,
-                            label: t.notePinWorkout,
-                            value: '',
-                            trailing: TinySwitch(on: _pinned),
-                            onTap: () => setState(() => _pinned = !_pinned),
+                            icon: PhosphorIconsRegular.barbell,
+                            label: t.noteExerciseLabel,
+                            value: exercise == null ? t.noteGeneral : exerciseName(exercise),
+                            muted: exercise == null,
+                            trailing: exercise == null
+                                ? null
+                                : Semantics(
+                                    button: true,
+                                    label: t.noteGeneral,
+                                    child: GestureDetector(
+                                      onTap: () => setState(() => _exerciseId = ''),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(6),
+                                        child: Icon(PhosphorIconsBold.x, size: 13, color: gc.textTertiary),
+                                      ),
+                                    ),
+                                  ),
+                            onTap: _pickExercise,
                           ),
+                          if (exercise != null) ...[
+                            Divider(height: 1, thickness: 1, indent: 16, endIndent: 16, color: gc.border),
+                            _row(
+                              gc,
+                              icon: PhosphorIconsRegular.pushPin,
+                              label: t.notePinWorkout,
+                              value: '',
+                              trailing: TinySwitch(on: _pinned),
+                              onTap: () => setState(() => _pinned = !_pinned),
+                            ),
+                          ],
                         ],
-                      ]),
+                      ),
                     ),
                   ),
                   const SizedBox(height: 22),
@@ -228,11 +235,12 @@ class _NoteEditScreenState extends State<NoteEditScreen> {
   }
 
   Widget _label(GymColors gc, String text) => Padding(
-        padding: const EdgeInsets.only(bottom: 10),
-        child: Text(text,
-            style: AppTheme.f(11,
-                weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.4)),
-      );
+    padding: const EdgeInsets.only(bottom: 10),
+    child: Text(
+      text,
+      style: AppTheme.f(11, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.4),
+    ),
+  );
 
   Widget _row(
     GymColors gc, {
@@ -242,35 +250,42 @@ class _NoteEditScreenState extends State<NoteEditScreen> {
     required VoidCallback onTap,
     Widget? trailing,
     bool muted = false,
-  }) =>
-      GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: onTap,
-        child: SizedBox(
-          height: 54,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Row(
-              children: [
-                Icon(icon, size: 19, color: gc.textSecondary),
-                const SizedBox(width: 14),
-                Text(sentenceCase(label), style: AppTheme.f(14.5, weight: FontWeight.w500, color: gc.text)),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Text(value,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      textAlign: TextAlign.right,
-                      style: AppTheme.f(13,
-                          weight: FontWeight.w600, color: muted ? gc.textTertiary : gc.textSecondary)),
-                ),
-                const SizedBox(width: 6),
-                trailing ?? Icon(PhosphorIconsRegular.caretRight, size: 15, color: gc.textTertiary),
-              ],
+  }) => GestureDetector(
+    behavior: HitTestBehavior.opaque,
+    onTap: onTap,
+    child: SizedBox(
+      height: 54,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: Row(
+          children: [
+            Icon(icon, size: 19, color: gc.textSecondary),
+            const SizedBox(width: 14),
+            Text(
+              sentenceCase(label),
+              style: AppTheme.f(14.5, weight: FontWeight.w500, color: gc.text),
             ),
-          ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Text(
+                value,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.right,
+                style: AppTheme.f(
+                  13,
+                  weight: FontWeight.w600,
+                  color: muted ? gc.textTertiary : gc.textSecondary,
+                ),
+              ),
+            ),
+            const SizedBox(width: 6),
+            trailing ?? Icon(PhosphorIconsRegular.caretRight, size: 15, color: gc.textTertiary),
+          ],
         ),
-      );
+      ),
+    ),
+  );
 
   Widget _mediaGrid(GymColors gc) {
     return Wrap(
@@ -296,16 +311,16 @@ class _NoteEditScreenState extends State<NoteEditScreen> {
             child: Container(
               width: 74,
               height: 74,
-              decoration: BoxDecoration(
-                color: gc.bgRaised,
-                borderRadius: BorderRadius.circular(18),
-              ),
+              decoration: BoxDecoration(color: gc.bgRaised, borderRadius: BorderRadius.circular(18)),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Icon(PhosphorIconsRegular.images, size: 20, color: gc.textSecondary),
                   const SizedBox(height: 5),
-                  Text(t.noteAttach, style: AppTheme.f(10.5, weight: FontWeight.w500, color: gc.textTertiary)),
+                  Text(
+                    t.noteAttach,
+                    style: AppTheme.f(10.5, weight: FontWeight.w500, color: gc.textTertiary),
+                  ),
                 ],
               ),
             ),
@@ -379,23 +394,20 @@ class _ExercisePickerSheetState extends State<_ExercisePickerSheet> {
             ),
             const SizedBox(height: 12),
             Flexible(
-              child: OptionGroup(
-                scroll: true,
-                [
+              child: OptionGroup(scroll: true, [
+                OptionItem(
+                  t.noteGeneral,
+                  icon: PhosphorIconsRegular.notebook,
+                  selected: widget.current.isEmpty,
+                  onTap: () => Navigator.of(context).pop(''),
+                ),
+                for (final ex in results)
                   OptionItem(
-                    t.noteGeneral,
-                    icon: PhosphorIconsRegular.notebook,
-                    selected: widget.current.isEmpty,
-                    onTap: () => Navigator.of(context).pop(''),
+                    exerciseName(ex),
+                    selected: widget.current == ex.id,
+                    onTap: () => Navigator.of(context).pop(ex.id),
                   ),
-                  for (final ex in results)
-                    OptionItem(
-                      exerciseName(ex),
-                      selected: widget.current == ex.id,
-                      onTap: () => Navigator.of(context).pop(ex.id),
-                    ),
-                ],
-              ),
+              ]),
             ),
           ],
         ),

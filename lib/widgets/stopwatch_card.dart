@@ -54,24 +54,25 @@ class _StopwatchCardState extends State<StopwatchCard> {
     final running = _sw.isRunning;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
-      decoration: BoxDecoration(
-        color: gc.bgRaised,
-        borderRadius: BorderRadius.circular(20),
-      ),
+      decoration: BoxDecoration(color: gc.bgRaised, borderRadius: BorderRadius.circular(20)),
       child: Row(
         children: [
           Icon(PhosphorIconsRegular.timer, size: 20, color: running ? gc.text : gc.textSecondary),
           const SizedBox(width: 14),
-          Text(label,
-              style: AppTheme.f(28, weight: FontWeight.w800, color: gc.text, height: 1)),
+          Text(
+            label,
+            style: AppTheme.f(28, weight: FontWeight.w800, color: gc.text, height: 1),
+          ),
           const Spacer(),
           if (s > 0)
             GestureDetector(
               onTap: _reset,
               child: Padding(
                 padding: const EdgeInsets.only(right: 14),
-                child: Text(titleCase(t.reset),
-                    style: AppTheme.f(12.5, weight: FontWeight.w600, color: gc.textSecondary)),
+                child: Text(
+                  titleCase(t.reset),
+                  style: AppTheme.f(12.5, weight: FontWeight.w600, color: gc.textSecondary),
+                ),
               ),
             ),
           GestureDetector(
@@ -80,8 +81,11 @@ class _StopwatchCardState extends State<StopwatchCard> {
               width: 44,
               height: 44,
               decoration: BoxDecoration(color: running ? gc.bgRaised2 : gc.ember, shape: BoxShape.circle),
-              child: Icon(running ? PhosphorIconsFill.pause : PhosphorIconsFill.play,
-                  size: 20, color: running ? gc.text : gc.onEmber),
+              child: Icon(
+                running ? PhosphorIconsFill.pause : PhosphorIconsFill.play,
+                size: 20,
+                color: running ? gc.text : gc.onEmber,
+              ),
             ),
           ),
         ],

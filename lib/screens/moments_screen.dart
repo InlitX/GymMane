@@ -33,15 +33,18 @@ class _MomentsScreenState extends State<MomentsScreen> {
     setState(() => _busy = true);
     try {
       if (source == ImageSource.gallery) {
-        final shots = await ImagePicker()
-            .pickMultiImage(maxWidth: 1440, maxHeight: 1920, imageQuality: 88);
+        final shots = await ImagePicker().pickMultiImage(maxWidth: 1440, maxHeight: 1920, imageQuality: 88);
         for (final shot in shots) {
           await fit.addMoment(shot.path);
         }
         return;
       }
-      final shot = await ImagePicker()
-          .pickImage(source: source, maxWidth: 1440, maxHeight: 1920, imageQuality: 88);
+      final shot = await ImagePicker().pickImage(
+        source: source,
+        maxWidth: 1440,
+        maxHeight: 1920,
+        imageQuality: 88,
+      );
       if (shot == null) return;
       await fit.addMoment(shot.path);
     } catch (_) {
@@ -53,14 +56,15 @@ class _MomentsScreenState extends State<MomentsScreen> {
   void _open(Moment moment) {
     final path = MediaStore.pathFor(moment.file) ?? '';
     if (path.isEmpty) return;
-    Navigator.of(context).push(PageRouteBuilder<void>(
-      opaque: false,
-      barrierColor: Colors.transparent,
-      transitionDuration: const Duration(milliseconds: 280),
-      reverseTransitionDuration: const Duration(milliseconds: 220),
-      pageBuilder: (_, animation, _) =>
-          _PhotoView(moment: moment, path: path, animation: animation),
-    ));
+    Navigator.of(context).push(
+      PageRouteBuilder<void>(
+        opaque: false,
+        barrierColor: Colors.transparent,
+        transitionDuration: const Duration(milliseconds: 280),
+        reverseTransitionDuration: const Duration(milliseconds: 220),
+        pageBuilder: (_, animation, _) => _PhotoView(moment: moment, path: path, animation: animation),
+      ),
+    );
   }
 
   void _press(Moment moment) {
@@ -150,29 +154,26 @@ class _MomentsScreenState extends State<MomentsScreen> {
                       ),
                     ]
                   : [
-                RoundAction(
-                  onTap: () => setState(() => _grouped = !_grouped),
-                  label: t.photosCard,
-                  child: Icon(
-                      _grouped
-                          ? PhosphorIconsRegular.squaresFour
-                          : PhosphorIconsRegular.rows,
-                      size: 17,
-                      color: context.gc.text),
-                ),
-                const SizedBox(width: 8),
-                RoundAction(
-                  onTap: _add,
-                  label: t.snapNow,
-                  child: Icon(PhosphorIconsRegular.camera, size: 17, color: context.gc.text),
-                ),
-              ],
+                      RoundAction(
+                        onTap: () => setState(() => _grouped = !_grouped),
+                        label: t.photosCard,
+                        child: Icon(
+                          _grouped ? PhosphorIconsRegular.squaresFour : PhosphorIconsRegular.rows,
+                          size: 17,
+                          color: context.gc.text,
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      RoundAction(
+                        onTap: _add,
+                        label: t.snapNow,
+                        child: Icon(PhosphorIconsRegular.camera, size: 17, color: context.gc.text),
+                      ),
+                    ],
             ),
             const SizedBox(height: 18),
             Expanded(
-              child: shots.isEmpty
-                  ? _empty(gc)
-                  : (_grouped ? _byDate(gc, shots) : _plainGrid(gc, shots)),
+              child: shots.isEmpty ? _empty(gc) : (_grouped ? _byDate(gc, shots) : _plainGrid(gc, shots)),
             ),
           ],
         ),
@@ -247,9 +248,11 @@ class _MomentsScreenState extends State<MomentsScreen> {
           borderRadius: BorderRadius.circular(20),
           child: Hero(
             tag: moment.file,
-            child: Image.file(File(path),
-                fit: BoxFit.cover,
-                errorBuilder: (_, _, _) => ColoredBox(color: gc.bgRaised2)),
+            child: Image.file(
+              File(path),
+              fit: BoxFit.cover,
+              errorBuilder: (_, _, _) => ColoredBox(color: gc.bgRaised2),
+            ),
           ),
         ),
       ),
@@ -267,10 +270,11 @@ class _MomentsScreenState extends State<MomentsScreen> {
           const SizedBox(height: 6),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 40),
-            child: Text(t.momentsEmptyHint,
-                textAlign: TextAlign.center,
-                style: AppTheme.f(12.5,
-                    weight: FontWeight.w500, color: gc.textTertiary, height: 1.45)),
+            child: Text(
+              t.momentsEmptyHint,
+              textAlign: TextAlign.center,
+              style: AppTheme.f(12.5, weight: FontWeight.w500, color: gc.textTertiary, height: 1.45),
+            ),
           ),
           const SizedBox(height: 18),
           GhostButton(label: t.snapNow, icon: PhosphorIconsRegular.camera, onTap: _add),
@@ -284,32 +288,40 @@ class _MomentsScreenState extends State<MomentsScreen> {
     return GestureDetector(
       onTap: () => _press(moment),
       onLongPress: () => _hold(moment),
-      child: _picked(gc, moment, ClipRRect(
-        borderRadius: BorderRadius.circular(14),
-        child: Stack(
-          fit: StackFit.expand,
-          children: [
-            Hero(
-              tag: moment.file,
-              child: Image.file(File(path),
+      child: _picked(
+        gc,
+        moment,
+        ClipRRect(
+          borderRadius: BorderRadius.circular(14),
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
+              Hero(
+                tag: moment.file,
+                child: Image.file(
+                  File(path),
                   fit: BoxFit.cover,
-                  errorBuilder: (_, _, _) => ColoredBox(color: gc.bgRaised2)),
-            ),
-            Positioned(
-              left: 0,
-              right: 0,
-              bottom: 0,
-              child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 5),
-                color: Colors.black.withValues(alpha: 0.45),
-                child: Text(t.shortDate(moment.date),
-                    textAlign: TextAlign.center,
-                    style: AppTheme.f(10.5, weight: FontWeight.w600, color: Colors.white)),
+                  errorBuilder: (_, _, _) => ColoredBox(color: gc.bgRaised2),
+                ),
               ),
-            ),
-          ],
+              Positioned(
+                left: 0,
+                right: 0,
+                bottom: 0,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(vertical: 5),
+                  color: Colors.black.withValues(alpha: 0.45),
+                  child: Text(
+                    t.shortDate(moment.date),
+                    textAlign: TextAlign.center,
+                    style: AppTheme.f(10.5, weight: FontWeight.w600, color: Colors.white),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
-      )),
+      ),
     );
   }
 }

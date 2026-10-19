@@ -106,8 +106,11 @@ void main() {
 
     final left = fit.session!.restRemaining!;
     fit.session!.restEndsAt = fit.session!.restEndsAt!.subtract(const Duration(seconds: 30));
-    expect(fit.session!.restRemaining, lessThanOrEqualTo(left - 29),
-        reason: 'el tiempo que pasa fuera de la app cuenta igual');
+    expect(
+      fit.session!.restRemaining,
+      lessThanOrEqualTo(left - 29),
+      reason: 'el tiempo que pasa fuera de la app cuenta igual',
+    );
 
     fit.session!.restEndsAt = DateTime.now().subtract(const Duration(seconds: 1));
     expect(fit.session!.restRemaining, isNull, reason: 'un descanso vencido no se queda clavado');
@@ -165,9 +168,11 @@ void main() {
     expect(fit.heatmapLevels.length, kHeatmapDays);
     final last = fit.heatmapDate(kHeatmapDays - 1);
     final today = DateTime.now();
-    expect(DateTime(last.year, last.month, last.day),
-        DateTime(today.year, today.month, today.day),
-        reason: 'the last cell is today');
+    expect(
+      DateTime(last.year, last.month, last.day),
+      DateTime(today.year, today.month, today.day),
+      reason: 'the last cell is today',
+    );
   });
 
   test('day summary reflects a logged session', () {

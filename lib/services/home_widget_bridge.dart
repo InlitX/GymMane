@@ -97,69 +97,60 @@ class HomeWidgetBridge {
           heatmapKey,
           heatmapSize,
           (gc) => HeatmapWidgetView(
-                gc: gc,
-                levels: levels,
-                streak: fit.currentStreak,
-                size: heatmapSize,
-                framed: framed,
-              ),
+            gc: gc,
+            levels: levels,
+            streak: fit.currentStreak,
+            size: heatmapSize,
+            framed: framed,
+          ),
         ),
         (
           'StatsWidgetProvider',
           statsKey,
           statsSize,
           (gc) => StatsWidgetView(
-                gc: gc,
-                streak: fit.currentStreak,
-                sessionsThisWeek: fit.daysDoneThisWeek,
-                goalPct: fit.goalPct,
-                size: statsSize,
-                framed: framed,
-              ),
+            gc: gc,
+            streak: fit.currentStreak,
+            sessionsThisWeek: fit.daysDoneThisWeek,
+            goalPct: fit.goalPct,
+            size: statsSize,
+            framed: framed,
+          ),
         ),
         (
           'BodyWidgetProvider',
           bodyKey,
           bodySize,
-          (gc) => BodyWidgetView(
-                gc: gc,
-                intensity: heat,
-                days: bodyDays,
-                size: bodySize,
-                framed: framed,
-              ),
+          (gc) => BodyWidgetView(gc: gc, intensity: heat, days: bodyDays, size: bodySize, framed: framed),
         ),
         (
           'TodayWidgetProvider',
           todayKey,
           todaySize,
           (gc) => TodayWidgetView(
-                gc: gc,
-                done: fit.todayPlanDone,
-                planned: plannedToday,
-                rest: !plannedToday,
-                streak: fit.currentStreak,
-                size: todaySize,
-                framed: framed,
-              ),
+            gc: gc,
+            done: fit.todayPlanDone,
+            planned: plannedToday,
+            rest: !plannedToday,
+            streak: fit.currentStreak,
+            size: todaySize,
+            framed: framed,
+          ),
         ),
-        for (final (key, planned, rest) in [
-          (todayPlanKey, true, false),
-          (todayRestKey, false, true),
-        ])
+        for (final (key, planned, rest) in [(todayPlanKey, true, false), (todayRestKey, false, true)])
           (
             'TodayWidgetProvider',
             key,
             todaySize,
             (gc) => TodayWidgetView(
-                  gc: gc,
-                  done: false,
-                  planned: planned,
-                  rest: rest,
-                  streak: 0,
-                  size: todaySize,
-                  framed: framed,
-                ),
+              gc: gc,
+              done: false,
+              planned: planned,
+              rest: rest,
+              streak: 0,
+              size: todaySize,
+              framed: framed,
+            ),
           ),
         (
           'WeekWidgetProvider',
@@ -172,12 +163,12 @@ class HomeWidgetBridge {
           weekFreshKey,
           weekSize,
           (gc) => WeekWidgetView(
-                gc: gc,
-                done: List.filled(7, false),
-                goal: fit.weeklyTarget,
-                size: weekSize,
-                framed: framed,
-              ),
+            gc: gc,
+            done: List.filled(7, false),
+            goal: fit.weeklyTarget,
+            size: weekSize,
+            framed: framed,
+          ),
         ),
       ];
       for (final (provider, key, size, build) in views) {
@@ -197,14 +188,17 @@ class HomeWidgetBridge {
       if (everyone) _allPainted = today;
       await HomeWidget.saveWidgetData<String>('today_stamp', _stamp(now));
       final plan = [
-        for (var d = 1; d <= 7; d++) fit.routineOn(now.add(Duration(days: d - now.weekday))) != null ? '1' : '0',
+        for (var d = 1; d <= 7; d++)
+          fit.routineOn(now.add(Duration(days: d - now.weekday))) != null ? '1' : '0',
       ];
       await HomeWidget.saveWidgetData<String>('today_week', plan.join());
       await HomeWidget.saveWidgetData<String>('week_start', _stamp(fit.weekStartDate));
       await HomeWidget.saveWidgetData<String>('week_first', '${fit.weekStartDay}');
       await HomeWidget.saveWidgetData<String>('week_done', [for (final d in week) d ? '1' : '0'].join());
       await HomeWidget.saveWidgetData<String>(
-          'week_geo', WeekWidgetView.geometry(weekSize, framed: framed).map((v) => v.toStringAsFixed(5)).join(','));
+        'week_geo',
+        WeekWidgetView.geometry(weekSize, framed: framed).map((v) => v.toStringAsFixed(5)).join(','),
+      );
       await HomeWidget.saveWidgetData<String>('week_ring', _hex(day.ember));
       await HomeWidget.saveWidgetData<String>('week_ring_night', _hex(night.ember));
       if (_ios) {
@@ -239,8 +233,6 @@ class HomeWidgetBridge {
   static Future<void> _render(Widget view, String key, Size size) =>
       HomeWidget.renderFlutterWidget(view, key: key, logicalSize: size, pixelRatio: 3);
 
-  static Future<void> _reload(String android, String ios) => HomeWidget.updateWidget(
-        qualifiedAndroidName: '$_pkg.$android',
-        iOSName: ios,
-      );
+  static Future<void> _reload(String android, String ios) =>
+      HomeWidget.updateWidget(qualifiedAndroidName: '$_pkg.$android', iOSName: ios);
 }

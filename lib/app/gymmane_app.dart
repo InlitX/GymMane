@@ -39,24 +39,24 @@ class _GymManeAppState extends State<GymManeApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'GymMane',
-        debugShowCheckedModeBanner: false,
-        theme: AppTheme.light,
-        darkTheme: _look.$3 ? AppTheme.amoled : AppTheme.dark,
-        themeMode: _look.$1,
-        locale: _look.$2,
-        supportedLocales: AppLocalizations.supportedLocales,
-        localizationsDelegates: const [
-          AppLocalizations.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-        builder: (context, child) => MediaQuery.withClampedTextScaling(
-          maxScaleFactor: GymManeApp.maxTextScale,
-          child: _ButtonNavScrim(child: child!),
-        ),
-        home: const AppShell(),
+      title: 'GymMane',
+      debugShowCheckedModeBanner: false,
+      theme: AppTheme.light,
+      darkTheme: _look.$3 ? AppTheme.amoled : AppTheme.dark,
+      themeMode: _look.$1,
+      locale: _look.$2,
+      supportedLocales: AppLocalizations.supportedLocales,
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      builder: (context, child) => MediaQuery.withClampedTextScaling(
+        maxScaleFactor: GymManeApp.maxTextScale,
+        child: _ButtonNavScrim(child: child!),
+      ),
+      home: const AppShell(),
     );
   }
 }

@@ -12,13 +12,7 @@ class IconPath {
 }
 
 class SvgPathIcon extends StatelessWidget {
-  const SvgPathIcon(
-    this.paths, {
-    super.key,
-    required this.size,
-    required this.color,
-    this.viewBox = 24,
-  });
+  const SvgPathIcon(this.paths, {super.key, required this.size, required this.color, this.viewBox = 24});
 
   final List<IconPath> paths;
   final double size;
@@ -64,31 +58,56 @@ class _IconPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(_IconPainter old) =>
-      old.color != color || old.paths != paths || old.viewBox != viewBox;
+  bool shouldRepaint(_IconPainter old) => old.color != color || old.paths != paths || old.viewBox != viewBox;
 }
 
 class Ic {
   Ic._();
-  static const flame = [IconPath('M12 2c1 4-3 5-3 9a3 3 0 0 0 6 0c0-1.5-.5-2-1-3 2 1 3 3 3 5a5 5 0 0 1-10 0c0-5 4-6 5-11z', fill: true)];
-  static const play = [IconPath('M8.2 6.1v11.8a1.4 1.4 0 0 0 2.1 1.2l9.2-5.9a1.4 1.4 0 0 0 0-2.4l-9.2-5.9a1.4 1.4 0 0 0-2.1 1.2z', fill: true)];
+  static const flame = [
+    IconPath(
+      'M12 2c1 4-3 5-3 9a3 3 0 0 0 6 0c0-1.5-.5-2-1-3 2 1 3 3 3 5a5 5 0 0 1-10 0c0-5 4-6 5-11z',
+      fill: true,
+    ),
+  ];
+  static const play = [
+    IconPath(
+      'M8.2 6.1v11.8a1.4 1.4 0 0 0 2.1 1.2l9.2-5.9a1.4 1.4 0 0 0 0-2.4l-9.2-5.9a1.4 1.4 0 0 0-2.1 1.2z',
+      fill: true,
+    ),
+  ];
   static const barbell = [IconPath('M6 4v16M18 4v16M2 9h4M18 9h4M2 15h4M18 15h4M6 12h12', strokeWidth: 2)];
   static const barbellThin = [IconPath('M6 7v10M18 7v10M2 12h4M18 12h4M9 9v6M15 9v6', strokeWidth: 1.8)];
-  static const wrench = [IconPath('M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.77z', strokeWidth: 2)];
+  static const wrench = [
+    IconPath(
+      'M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.77z',
+      strokeWidth: 2,
+    ),
+  ];
   static const checkBold = [IconPath('M4 12l5 5L20 6', strokeWidth: 3)];
   static const close = [IconPath('M6 6l12 12M18 6L6 18', strokeWidth: 2.5)];
   static const closeThin = [IconPath('M6 6l12 12M18 6L6 18', strokeWidth: 3)];
   static const chevronLeft = [IconPath('M15 18l-6-6 6-6', strokeWidth: 2.5)];
   static const chevronRight = [IconPath('M9 18l6-6-6-6', strokeWidth: 2)];
   static const chevronRightBold = [IconPath('M9 18l6-6-6-6', strokeWidth: 2.5)];
-  static const search = [IconPath('M11 11m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0', strokeWidth: 2), IconPath('M21 21l-4.35-4.35', strokeWidth: 2)];
-  static const star = [IconPath('M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 21 12 17.77 5.82 21 7 14.14l-5-4.87 6.91-1.01z', strokeWidth: 1.8)];
+  static const search = [
+    IconPath('M11 11m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0', strokeWidth: 2),
+    IconPath('M21 21l-4.35-4.35', strokeWidth: 2),
+  ];
+  static const star = [
+    IconPath(
+      'M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 21 12 17.77 5.82 21 7 14.14l-5-4.87 6.91-1.01z',
+      strokeWidth: 1.8,
+    ),
+  ];
   static const trendUp = [IconPath('M4 16l6-6 4 4 6-8', strokeWidth: 3)];
   static const house = [IconPath('M3 11l9-8 9 8M5 10v10h14V10', strokeWidth: 2)];
   static const bars = [IconPath('M4 20V10M12 20V4M20 20v-7', strokeWidth: 2)];
   static const gear = [
     IconPath('M12 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0', strokeWidth: 2),
-    IconPath('M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 11-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 112.83-2.83l.06.06A1.65 1.65 0 009 4.6a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09A1.65 1.65 0 0015.4 4.6a1.65 1.65 0 001.82.33l.06-.06a2 2 0 112.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z', strokeWidth: 2),
+    IconPath(
+      'M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 11-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 112.83-2.83l.06.06A1.65 1.65 0 009 4.6a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09A1.65 1.65 0 0015.4 4.6a1.65 1.65 0 001.82.33l.06-.06a2 2 0 112.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z',
+      strokeWidth: 2,
+    ),
   ];
   static const toolCard = [IconPath('M4 4h16v16H4z'), IconPath('M8 9h8M8 13h5')];
   static const layers = [IconPath('M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5', strokeWidth: 2)];

@@ -21,20 +21,20 @@ class TrainReminder {
       _queue = _queue.then((_) => job()).catchError((Object e) => debugPrint('Aviso de entreno: $e'));
 
   AndroidNotificationDetails get _android => AndroidNotificationDetails(
-        'train_reminder',
-        t.notifTrainChannel,
-        channelDescription: t.notifTrainChannelWhy,
-        importance: Importance.defaultImportance,
-        priority: Priority.defaultPriority,
-        playSound: true,
-      );
+    'train_reminder',
+    t.notifTrainChannel,
+    channelDescription: t.notifTrainChannelWhy,
+    importance: Importance.defaultImportance,
+    priority: Priority.defaultPriority,
+    playSound: true,
+  );
 
   DarwinNotificationDetails get _darwin => const DarwinNotificationDetails(
-        presentAlert: true,
-        presentBanner: true,
-        presentList: true,
-        presentSound: true,
-      );
+    presentAlert: true,
+    presentBanner: true,
+    presentList: true,
+    presentSound: true,
+  );
 
   Future<void> cancel() => _serial(_cancel);
 
@@ -53,8 +53,7 @@ class TrainReminder {
     required Set<int> weekdays,
     bool skipToday = false,
     int againMinutes = 0,
-  }) =>
-      _serial(() => _schedule(minuteOfDay, weekdays, skipToday, againMinutes));
+  }) => _serial(() => _schedule(minuteOfDay, weekdays, skipToday, againMinutes));
 
   Future<void> _schedule(int minuteOfDay, Set<int> weekdays, bool skipToday, int againMinutes) async {
     if (!enabled) return;
@@ -104,7 +103,9 @@ class TrainReminder {
 Future<AndroidScheduleMode> reminderMode(FlutterLocalNotificationsPlugin plugin) async {
   try {
     final android = plugin.resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>();
-    if (await android?.canScheduleExactNotifications() ?? false) return AndroidScheduleMode.exactAllowWhileIdle;
+    if (await android?.canScheduleExactNotifications() ?? false) {
+      return AndroidScheduleMode.exactAllowWhileIdle;
+    }
   } catch (_) {}
   return AndroidScheduleMode.inexactAllowWhileIdle;
 }

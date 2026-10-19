@@ -23,8 +23,7 @@ mixin NotesState on FitCore, LibraryState {
     return list;
   }
 
-  List<GymNote> notesFor(String exerciseId) =>
-      notesSorted.where((n) => n.exerciseId == exerciseId).toList();
+  List<GymNote> notesFor(String exerciseId) => notesSorted.where((n) => n.exerciseId == exerciseId).toList();
 
   GymNote? noteById(String? id) {
     if (id == null) return null;
@@ -36,8 +35,7 @@ mixin NotesState on FitCore, LibraryState {
 
   GymNote? get editingNote => noteById(editingNoteId);
 
-  List<GymNote> get notesInScope =>
-      noteScope.isEmpty ? notesSorted : notesFor(noteScope);
+  List<GymNote> get notesInScope => noteScope.isEmpty ? notesSorted : notesFor(noteScope);
 
   List<GymNote> get notesFiltered {
     final scoped = notesInScope;
@@ -58,9 +56,8 @@ mixin NotesState on FitCore, LibraryState {
     return seen;
   }
 
-  int get notesInMonth => notesInScope
-      .where((n) => n.date.year == noteMonth.year && n.date.month == noteMonth.month)
-      .length;
+  int get notesInMonth =>
+      notesInScope.where((n) => n.date.year == noteMonth.year && n.date.month == noteMonth.month).length;
 
   void showNoteMonth(int delta) {
     noteMonth = DateTime(noteMonth.year, noteMonth.month + delta);
@@ -114,16 +111,18 @@ mixin NotesState on FitCore, LibraryState {
     final index = id == null ? -1 : notes.indexWhere((n) => n.id == id);
 
     if (index < 0) {
-      notes.add(GymNote(
-        id: 'n${DateTime.now().microsecondsSinceEpoch}-${_noteSeq++}',
-        exerciseId: exerciseId,
-        date: day,
-        kind: kind,
-        text: body,
-        media: [...media],
-        createdAt: DateTime.now(),
-        pinned: (pinned ?? false) && exerciseId.isNotEmpty,
-      ));
+      notes.add(
+        GymNote(
+          id: 'n${DateTime.now().microsecondsSinceEpoch}-${_noteSeq++}',
+          exerciseId: exerciseId,
+          date: day,
+          kind: kind,
+          text: body,
+          media: [...media],
+          createdAt: DateTime.now(),
+          pinned: (pinned ?? false) && exerciseId.isNotEmpty,
+        ),
+      );
     } else {
       final old = notes[index];
       for (final m in old.media) {
@@ -163,8 +162,7 @@ mixin NotesState on FitCore, LibraryState {
       if (lastDone == null || day.isAfter(lastDone)) lastDone = day;
     }
     final since = lastDone ?? today.subtract(const Duration(days: 30));
-    final next = mine.where((n) =>
-        !n.pinned && n.kind == NoteKind.plan && !n.date.isBefore(since));
+    final next = mine.where((n) => !n.pinned && n.kind == NoteKind.plan && !n.date.isBefore(since));
     return [...mine.where((n) => n.pinned), ...next.take(1)];
   }
 

@@ -1,4 +1,3 @@
-
 const Map<String, String> kExerciseNameIt = {
   'EIeI8Vf': 'Panca piana con bilanciere',
   'SpYC0Kp': 'Panca piana con manubri',

@@ -70,8 +70,11 @@ void main() {
       expect(list, isNotEmpty);
       final firstSecondary = list.indexWhere((e) => e.primary != 'back');
       final lastPrimary = list.lastIndexWhere((e) => e.primary == 'back');
-      expect(firstSecondary == -1 || firstSecondary > lastPrimary, true,
-          reason: 'los de espalda van antes que los que solo la tocan de apoyo');
+      expect(
+        firstSecondary == -1 || firstSecondary > lastPrimary,
+        true,
+        reason: 'los de espalda van antes que los que solo la tocan de apoyo',
+      );
       fit.clearExFilters();
     });
 
@@ -103,8 +106,11 @@ void main() {
 
   group('finish screen tells the truth', () {
     void logSession(String exId, double kg) {
-      fit.sessions.add(LoggedSession(DateTime.now().subtract(const Duration(days: 3)), 600,
-          [LoggedExercise(exId, 'X', 'chest', [LoggedSet(5, kg)])]));
+      fit.sessions.add(
+        LoggedSession(DateTime.now().subtract(const Duration(days: 3)), 600, [
+          LoggedExercise(exId, 'X', 'chest', [LoggedSet(5, kg)]),
+        ]),
+      );
     }
 
     void doWorkout(double kg) {
@@ -132,10 +138,14 @@ void main() {
     });
 
     test('the headline changes with what actually happened', () {
-      expect(t.finishHeadline(prs: 1, streak: 0, goalHit: false),
-          isNot(t.finishHeadline(prs: 0, streak: 0, goalHit: false)));
-      expect(t.finishHeadline(prs: 0, streak: 0, goalHit: true),
-          isNot(t.finishHeadline(prs: 0, streak: 0, goalHit: false)));
+      expect(
+        t.finishHeadline(prs: 1, streak: 0, goalHit: false),
+        isNot(t.finishHeadline(prs: 0, streak: 0, goalHit: false)),
+      );
+      expect(
+        t.finishHeadline(prs: 0, streak: 0, goalHit: true),
+        isNot(t.finishHeadline(prs: 0, streak: 0, goalHit: false)),
+      );
       setAppLanguage('es');
       expect(t.finishHeadline(prs: 2, streak: 0, goalHit: false), 'Récord personal nuevo');
       expect(t.finishBody(prs: 2, streak: 0, goalHit: false), contains('2 ejercicios'));
@@ -155,7 +165,6 @@ void main() {
   });
 
   group('light theme belongs to the same family as dark', () {
-
     double lin(double c) => c <= 0.03928 ? c / 12.92 : math.pow((c + 0.055) / 1.055, 2.4).toDouble();
     double lum(Color c) => 0.2126 * lin(c.r) + 0.7152 * lin(c.g) + 0.0722 * lin(c.b);
     double contrast(Color a, Color b) {
@@ -180,7 +189,6 @@ void main() {
     });
 
     test('the light accent reads on bone', () {
-
       expect(contrast(GymColors.light.bg, GymColors.light.accent), greaterThanOrEqualTo(4.5));
     });
 

@@ -32,18 +32,18 @@ class LibraryFood {
   String nameFor(String lang) => names[lang] ?? names[lang.split('_').first] ?? names['en'] ?? '';
 
   FoodItem item(String lang) => FoodItem(
-        id: id,
-        name: nameFor(lang),
-        photo: 'asset:$asset',
-        grams: 100,
-        liquid: liquid,
-        portion: portion,
-        portionGrams: portionGrams,
-        macros: per100,
-        cookedYield: cookedYield,
-        approx: approx,
-        cat: cat,
-      );
+    id: id,
+    name: nameFor(lang),
+    photo: 'asset:$asset',
+    grams: 100,
+    liquid: liquid,
+    portion: portion,
+    portionGrams: portionGrams,
+    macros: per100,
+    cookedYield: cookedYield,
+    approx: approx,
+    cat: cat,
+  );
 }
 
 class ReadyDish {
@@ -80,9 +80,9 @@ class FoodLibrary {
   static bool get ready => foods.isNotEmpty;
 
   static Future<void> load() => _loading ??= Future.wait([
-        rootBundle.loadString('assets/data/foods.tsv').then(parse),
-        rootBundle.loadString('assets/data/dishes.tsv').then(parseDishes),
-      ]);
+    rootBundle.loadString('assets/data/foods.tsv').then(parse),
+    rootBundle.loadString('assets/data/dishes.tsv').then(parseDishes),
+  ]);
 
   static void parseDishes(String tsv) {
     final lines = tsv.split('\n').where((l) => l.trim().isNotEmpty).toList();
@@ -94,18 +94,20 @@ class FoodLibrary {
     for (final line in lines.skip(1)) {
       final c = line.split('\t');
       if (c.length <= items) continue;
-      dishes.add(ReadyDish(
-        id: c[0],
-        names: {
-          for (var i = 1; i < items; i++)
-            if (c[i].isNotEmpty) head[i]: c[i],
-        },
-        items: [
-          for (final part in c[items].split(' '))
-            if (part.split(':') case [final slug, final amount] when slug.isNotEmpty)
-              (slug, double.tryParse(amount.replaceAll('c', '')) ?? 0, amount.endsWith('c')),
-        ],
-      ));
+      dishes.add(
+        ReadyDish(
+          id: c[0],
+          names: {
+            for (var i = 1; i < items; i++)
+              if (c[i].isNotEmpty) head[i]: c[i],
+          },
+          items: [
+            for (final part in c[items].split(' '))
+              if (part.split(':') case [final slug, final amount] when slug.isNotEmpty)
+                (slug, double.tryParse(amount.replaceAll('c', '')) ?? 0, amount.endsWith('c')),
+          ],
+        ),
+      );
     }
   }
 
@@ -139,8 +141,9 @@ class FoodLibrary {
       final c = line.split('\t');
       if (c.length < 13) continue;
       final aaText = cell(c, 'aa');
-      final amino =
-          aaText.isEmpty ? const <double>[] : [for (final v in aaText.split(',')) double.tryParse(v) ?? 0];
+      final amino = aaText.isEmpty
+          ? const <double>[]
+          : [for (final v in aaText.split(',')) double.tryParse(v) ?? 0];
       final hasAmino = amino.length == Amino.values.length;
       final f = LibraryFood(
         id: c[0],
@@ -178,9 +181,9 @@ class FoodLibrary {
   static LibraryFood? byId(String id) => _byId[id];
 
   static List<LibraryFood> inCat(FoodCat cat) => [
-        for (final f in foods)
-          if (f.cat == cat) f,
-      ];
+    for (final f in foods)
+      if (f.cat == cat) f,
+  ];
 
   static List<LibraryFood> search(String query, String lang, {FoodCat? cat, int limit = 60}) {
     final q = foldText(query.trim());
@@ -188,7 +191,8 @@ class FoodLibrary {
     final words = q.split(RegExp(r'\s+'));
     final starts = RegExp('(^|\\s)${RegExp.escape(words.first)}');
     final folded = _folded[lang] ??= [
-      for (final f in foods) (foldText(f.nameFor(lang)), '${foldText(f.nameFor(lang))} ${foldText(f.names['en'] ?? '')}'),
+      for (final f in foods)
+        (foldText(f.nameFor(lang)), '${foldText(f.nameFor(lang))} ${foldText(f.names['en'] ?? '')}'),
     ];
     final scored = <(int, LibraryFood)>[];
     for (var i = 0; i < foods.length; i++) {
@@ -199,12 +203,12 @@ class FoodLibrary {
       final score = name == q
           ? 0
           : name.startsWith(q)
-              ? 1
-              : starts.hasMatch(name)
-                  ? 2
-                  : name.contains(words.first)
-                      ? 3
-                      : 4;
+          ? 1
+          : starts.hasMatch(name)
+          ? 2
+          : name.contains(words.first)
+          ? 3
+          : 4;
       scored.add((score * 1000 + name.length, f));
     }
     scored.sort((a, b) => a.$1.compareTo(b.$1));

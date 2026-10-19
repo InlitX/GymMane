@@ -45,9 +45,7 @@ class HomeFolder extends StatelessWidget {
             children: [
               Positioned.fill(
                 top: 26,
-                child: CustomPaint(
-                  painter: _BackPainter(Color.lerp(gc.bgRaised, gc.bg, dark ? 0.45 : 0.6)!),
-                ),
+                child: CustomPaint(painter: _BackPainter(Color.lerp(gc.bgRaised, gc.bg, dark ? 0.45 : 0.6)!)),
               ),
               Positioned(left: 10, right: 10, top: 22, height: _front + 6, child: peek),
               Positioned.fill(
@@ -64,23 +62,29 @@ class HomeFolder extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Row(children: [
-                          Flexible(
-                            child: FittedBox(
-                              fit: BoxFit.scaleDown,
-                              alignment: Alignment.centerLeft,
-                              child: Text(title,
+                        Row(
+                          children: [
+                            Flexible(
+                              child: FittedBox(
+                                fit: BoxFit.scaleDown,
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  title,
                                   maxLines: 1,
-                                  style: AppTheme.f(15.5, weight: FontWeight.w800, color: gc.text)),
+                                  style: AppTheme.f(15.5, weight: FontWeight.w800, color: gc.text),
+                                ),
+                              ),
                             ),
-                          ),
-                          if (badge != null) ...[const SizedBox(width: 7), badge!],
-                        ]),
+                            if (badge != null) ...[const SizedBox(width: 7), badge!],
+                          ],
+                        ),
                         const Spacer(),
-                        Text(detail,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: AppTheme.f(11, weight: FontWeight.w600, color: gc.textSecondary)),
+                        Text(
+                          detail,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: AppTheme.f(11, weight: FontWeight.w600, color: gc.textSecondary),
+                        ),
                       ],
                     ),
                   ),
@@ -193,7 +197,11 @@ class _Fan extends StatelessWidget {
     return LayoutBuilder(
       builder: (context, box) {
         final n = math.min(children.length, 3);
-        final order = n == 3 ? [0, 1, 2] : n == 2 ? [0, 1] : [2];
+        final order = n == 3
+            ? [0, 1, 2]
+            : n == 2
+            ? [0, 1]
+            : [2];
         return Stack(
           clipBehavior: Clip.none,
           children: [
@@ -226,7 +234,10 @@ class RoutinesPeek extends StatelessWidget {
       height: 50,
       children: [
         for (final c in colors.reversed)
-          _Sheet(color: Color.lerp(c, Colors.black, dark ? 0.12 : 0)!, ink: Color.lerp(c, Colors.black, 0.45)!),
+          _Sheet(
+            color: Color.lerp(c, Colors.black, dark ? 0.12 : 0)!,
+            ink: Color.lerp(c, Colors.black, 0.45)!,
+          ),
       ],
     );
   }
@@ -245,7 +256,9 @@ class _Sheet extends StatelessWidget {
       decoration: BoxDecoration(
         color: color,
         borderRadius: BorderRadius.circular(9),
-        boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.18), blurRadius: 6, offset: const Offset(0, 2))],
+        boxShadow: [
+          BoxShadow(color: Colors.black.withValues(alpha: 0.18), blurRadius: 6, offset: const Offset(0, 2)),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -255,7 +268,10 @@ class _Sheet extends StatelessWidget {
               widthFactor: f,
               child: Container(
                 height: 3,
-                decoration: BoxDecoration(color: ink.withValues(alpha: 0.4), borderRadius: BorderRadius.circular(2)),
+                decoration: BoxDecoration(
+                  color: ink.withValues(alpha: 0.4),
+                  borderRadius: BorderRadius.circular(2),
+                ),
               ),
             ),
             const SizedBox(height: 5),
@@ -292,7 +308,11 @@ class ToolsPeek extends StatelessWidget {
               borderRadius: BorderRadius.circular(12),
               border: Border.all(color: Colors.white.withValues(alpha: dark ? 0.06 : 0)),
               boxShadow: [
-                BoxShadow(color: Colors.black.withValues(alpha: dark ? 0.35 : 0.1), blurRadius: 6, offset: const Offset(0, 2)),
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: dark ? 0.35 : 0.1),
+                  blurRadius: 6,
+                  offset: const Offset(0, 2),
+                ),
               ],
             ),
             child: Icon(icon, size: 19, color: tint),
@@ -331,7 +351,11 @@ class NotesPeek extends StatelessWidget {
                       bottomRight: Radius.circular(12),
                     ),
                     boxShadow: [
-                      BoxShadow(color: Colors.black.withValues(alpha: 0.2), blurRadius: 5, offset: const Offset(0, 2)),
+                      BoxShadow(
+                        color: Colors.black.withValues(alpha: 0.2),
+                        blurRadius: 5,
+                        offset: const Offset(0, 2),
+                      ),
                     ],
                   ),
                   child: Column(

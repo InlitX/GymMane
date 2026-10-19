@@ -25,39 +25,39 @@ Future<void> sharePlan(List<Routine> routines, {String? title}) async {
   final name = title ?? fit.routineTitle(routines.first);
   try {
     final dir = await getTemporaryDirectory();
-    final slug = name
-        .toLowerCase()
-        .replaceAll(RegExp(r'[^a-z0-9]+'), '-')
-        .replaceAll(RegExp(r'^-+|-+$'), '');
+    final slug = name.toLowerCase().replaceAll(RegExp(r'[^a-z0-9]+'), '-').replaceAll(RegExp(r'^-+|-+$'), '');
     final file = File('${dir.path}/gymmane-${slug.isEmpty ? 'plan' : slug}.json');
     await file.writeAsString(fit.exportPlanJson(routines));
-    await SharePlus.instance.share(ShareParams(
-      files: [XFile(file.path, mimeType: 'application/json')],
-      text: '${fit.planSummaryText(routines)}\n\n${t.shareMessage(name)}',
-      subject: name,
-    ));
+    await SharePlus.instance.share(
+      ShareParams(
+        files: [XFile(file.path, mimeType: 'application/json')],
+        text: '${fit.planSummaryText(routines)}\n\n${t.shareMessage(name)}',
+        subject: name,
+      ),
+    );
   } catch (_) {}
 }
 
 Future<String?> pickTextFile() async {
   try {
-    final result = await FilePicker.platform.pickFiles(withData: true);
-    if (result == null) return null;
-    final picked = result.files.single;
-    final bytes = picked.bytes ?? (picked.path == null ? null : await File(picked.path!).readAsBytes());
-    return bytes == null ? null : utf8.decode(bytes, allowMalformed: true);
-  } catch (_) {
+    final picked = await FilePicker.pickFile();
+
+    if (picked == null) return null;
+
+    final bytes = await picked.readAsBytes();
+    return utf8.decode(bytes, allowMalformed: true);
+  } catch (e, st) {
+    debugPrint('Failed to read text file: $e\n$st');
     return null;
   }
 }
 
-Future<void> showPlanImportSheet(BuildContext context, {String? text}) =>
-    showAppSheet<void>(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (_) => _PlanImportSheet(initial: text),
-    );
+Future<void> showPlanImportSheet(BuildContext context, {String? text}) => showAppSheet<void>(
+  context: context,
+  isScrollControlled: true,
+  backgroundColor: Colors.transparent,
+  builder: (_) => _PlanImportSheet(initial: text),
+);
 
 class _PlanImportSheet extends StatefulWidget {
   const _PlanImportSheet({this.initial});
@@ -144,10 +144,15 @@ class _PlanImportSheetState extends State<_PlanImportSheet> {
           children: [
             const SheetHandle(),
             const SizedBox(height: 18),
-            Text(titleCase(t.importRoutines), style: AppTheme.f(19, weight: FontWeight.w800, color: gc.text)),
+            Text(
+              titleCase(t.importRoutines),
+              style: AppTheme.f(19, weight: FontWeight.w800, color: gc.text),
+            ),
             const SizedBox(height: 6),
-            Text(t.importPasteHint,
-                style: AppTheme.f(12.5, weight: FontWeight.w500, color: gc.textSecondary, height: 1.4)),
+            Text(
+              t.importPasteHint,
+              style: AppTheme.f(12.5, weight: FontWeight.w500, color: gc.textSecondary, height: 1.4),
+            ),
             const SizedBox(height: 14),
             if (_field) ...[
               TextField(
@@ -163,30 +168,41 @@ class _PlanImportSheetState extends State<_PlanImportSheet> {
                   filled: true,
                   fillColor: gc.bgRaised2,
                   contentPadding: const EdgeInsets.all(14),
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: BorderSide.none),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(16),
+                    borderSide: BorderSide.none,
+                  ),
                 ),
               ),
               const SizedBox(height: 10),
-              Row(children: [
-                _action(gc, PhosphorIconsRegular.clipboardText, t.pasteAction, _paste),
-                const SizedBox(width: 8),
-                _action(gc, PhosphorIconsRegular.fileArrowUp, t.chooseFile, _file),
-              ]),
+              Row(
+                children: [
+                  _action(gc, PhosphorIconsRegular.clipboardText, t.pasteAction, _paste),
+                  const SizedBox(width: 8),
+                  _action(gc, PhosphorIconsRegular.fileArrowUp, t.chooseFile, _file),
+                ],
+              ),
             ],
             if (preview != null && preview.routines > 0) ...[
               const SizedBox(height: 18),
-              Text('${t.routineCount(preview.routines)} · ${t.exerciseCount(preview.added)}'.toUpperCase(),
-                  style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.3)),
+              Text(
+                '${t.routineCount(preview.routines)} · ${t.exerciseCount(preview.added)}'.toUpperCase(),
+                style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.3),
+              ),
               const SizedBox(height: 10),
               for (final p in _plans)
                 if (p.items.isNotEmpty) _planCard(gc, p),
               if (preview.missed.isNotEmpty) ...[
                 const SizedBox(height: 4),
-                Text(t.aiMissing(preview.missed.length),
-                    style: AppTheme.f(12, weight: FontWeight.w600, color: gc.warn)),
+                Text(
+                  t.aiMissing(preview.missed.length),
+                  style: AppTheme.f(12, weight: FontWeight.w600, color: gc.warn),
+                ),
                 const SizedBox(height: 4),
-                Text(preview.missed.join(' · '),
-                    style: AppTheme.f(12, weight: FontWeight.w500, color: gc.textTertiary, height: 1.4)),
+                Text(
+                  preview.missed.join(' · '),
+                  style: AppTheme.f(12, weight: FontWeight.w500, color: gc.textTertiary, height: 1.4),
+                ),
               ],
               if (hasDays) ...[
                 const SizedBox(height: 12),
@@ -195,22 +211,28 @@ class _PlanImportSheetState extends State<_PlanImportSheet> {
                   onTap: () => setState(() => _schedule = !_schedule),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8),
-                    child: Row(children: [
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(t.useTheirSchedule,
-                                style: AppTheme.f(14, weight: FontWeight.w600, color: gc.text)),
-                            const SizedBox(height: 2),
-                            Text(t.useTheirScheduleHint,
-                                style: AppTheme.f(11.5, weight: FontWeight.w500, color: gc.textSecondary)),
-                          ],
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                t.useTheirSchedule,
+                                style: AppTheme.f(14, weight: FontWeight.w600, color: gc.text),
+                              ),
+                              const SizedBox(height: 2),
+                              Text(
+                                t.useTheirScheduleHint,
+                                style: AppTheme.f(11.5, weight: FontWeight.w500, color: gc.textSecondary),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                      const SizedBox(width: 12),
-                      TinySwitch(on: _schedule),
-                    ]),
+                        const SizedBox(width: 12),
+                        TinySwitch(on: _schedule),
+                      ],
+                    ),
                   ),
                 ),
               ],
@@ -218,14 +240,18 @@ class _PlanImportSheetState extends State<_PlanImportSheet> {
               PrimaryButton(label: t.addToMyRoutines, onTap: _apply),
             ] else if (_text.text.trim().isNotEmpty) ...[
               const SizedBox(height: 16),
-              Row(children: [
-                Icon(PhosphorIconsRegular.warningCircle, size: 16, color: gc.warn),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: Text(t.nothingToImport,
-                      style: AppTheme.f(13, weight: FontWeight.w600, color: gc.textSecondary)),
-                ),
-              ]),
+              Row(
+                children: [
+                  Icon(PhosphorIconsRegular.warningCircle, size: 16, color: gc.warn),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      t.nothingToImport,
+                      style: AppTheme.f(13, weight: FontWeight.w600, color: gc.textSecondary),
+                    ),
+                  ),
+                ],
+              ),
               if (!_field) ...[
                 const SizedBox(height: 10),
                 Align(
@@ -246,18 +272,24 @@ class _PlanImportSheetState extends State<_PlanImportSheet> {
   }
 
   Widget _action(GymColors gc, IconData icon, String label, VoidCallback onTap) => GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: onTap,
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 9),
-          decoration: BoxDecoration(color: gc.bgRaised2, borderRadius: BorderRadius.circular(100)),
-          child: Row(mainAxisSize: MainAxisSize.min, children: [
-            Icon(icon, size: 15, color: gc.text),
-            const SizedBox(width: 7),
-            Text(label, style: AppTheme.f(12.5, weight: FontWeight.w600, color: gc.text)),
-          ]),
-        ),
-      );
+    behavior: HitTestBehavior.opaque,
+    onTap: onTap,
+    child: Container(
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 9),
+      decoration: BoxDecoration(color: gc.bgRaised2, borderRadius: BorderRadius.circular(100)),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, size: 15, color: gc.text),
+          const SizedBox(width: 7),
+          Text(
+            label,
+            style: AppTheme.f(12.5, weight: FontWeight.w600, color: gc.text),
+          ),
+        ],
+      ),
+    ),
+  );
 
   Widget _planCard(GymColors gc, PlanRoutine p) {
     final meta = [
@@ -269,31 +301,37 @@ class _PlanImportSheetState extends State<_PlanImportSheet> {
       margin: const EdgeInsets.only(bottom: 8),
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(color: gc.bgRaised2, borderRadius: BorderRadius.circular(16)),
-      child: Row(children: [
-        Container(
-          width: 38,
-          height: 38,
-          decoration: BoxDecoration(color: gc.emberSoft, borderRadius: BorderRadius.circular(11)),
-          child: Icon(PhosphorIconsRegular.listChecks, size: 19, color: gc.ember),
-        ),
-        const SizedBox(width: 12),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(p.name.isEmpty ? t.newRoutineName : p.name,
+      child: Row(
+        children: [
+          Container(
+            width: 38,
+            height: 38,
+            decoration: BoxDecoration(color: gc.emberSoft, borderRadius: BorderRadius.circular(11)),
+            child: Icon(PhosphorIconsRegular.listChecks, size: 19, color: gc.ember),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  p.name.isEmpty ? t.newRoutineName : p.name,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: AppTheme.f(14, weight: FontWeight.w600, color: gc.text)),
-              const SizedBox(height: 2),
-              Text(meta,
+                  style: AppTheme.f(14, weight: FontWeight.w600, color: gc.text),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  meta,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
-                  style: AppTheme.f(11.5, weight: FontWeight.w500, color: gc.textSecondary)),
-            ],
+                  style: AppTheme.f(11.5, weight: FontWeight.w500, color: gc.textSecondary),
+                ),
+              ],
+            ),
           ),
-        ),
-      ]),
+        ],
+      ),
     );
   }
 }

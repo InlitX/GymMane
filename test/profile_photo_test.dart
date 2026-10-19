@@ -11,17 +11,17 @@ final _png = base64Decode(
 );
 
 Widget _host() => MaterialApp(
-      theme: AppTheme.dark,
-      home: Scaffold(body: Center(child: ProfileAvatar())),
-    );
+  theme: AppTheme.dark,
+  home: Scaffold(body: Center(child: ProfileAvatar())),
+);
 
 Widget _liveHost() => MaterialApp(
-      theme: AppTheme.dark,
-      home: AnimatedBuilder(
-        animation: fit,
-        builder: (_, _) => Scaffold(body: Center(child: ProfileAvatar())),
-      ),
-    );
+  theme: AppTheme.dark,
+  home: AnimatedBuilder(
+    animation: fit,
+    builder: (_, _) => Scaffold(body: Center(child: ProfileAvatar())),
+  ),
+);
 
 final photo = find.byWidgetPredicate(
   (w) => w is Image && w.image is MemoryImage,
@@ -34,7 +34,6 @@ final defaultPhoto = find.byWidgetPredicate(
 );
 
 void main() {
-
   tearDown(() {
     fit.clearProfilePhoto();
     fit.persistNow();
