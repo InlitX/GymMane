@@ -17,6 +17,7 @@ import '../models/note.dart';
 import '../models/nutrition.dart';
 import '../models/place.dart';
 import '../models/profile.dart';
+import '../models/progression.dart';
 import '../models/progress_shot.dart';
 import '../models/workout.dart';
 import '../services/alarm_store.dart';
@@ -212,6 +213,7 @@ class FitState extends FitCore
       ..clear()
       ..addAll(((data['exSecondary'] as Map?) ?? const {})
           .map((k, v) => MapEntry(k as String, (v as List).whereType<String>().toList())));
+    plateBar = (data['plateBar'] as num?)?.toDouble();
     _builtInExercises = null;
     bgDim = (data['bgDim'] as num?)?.toDouble() ?? 0.55;
     showFocus = data['showFocus'] as bool? ?? true;
@@ -224,6 +226,12 @@ class FitState extends FitCore
     heatmapLabels = data['heatLabels'] as bool? ?? true;
     hideShots = data['hideShots'] as bool? ?? false;
     multiPlan = data['multiPlan'] as bool? ?? false;
+    savedPlans
+      ..clear()
+      ..addAll(((data['savedPlans'] as List?) ?? const [])
+          .map((e) => SavedPlan.fromJson((e as Map).cast<String, dynamic>())));
+    currentPlanId = data['planId'] as String? ?? '';
+    if (!savedPlans.any((p) => p.id == currentPlanId)) currentPlanId = '';
     final weekStart = data['weekStart'];
     weekStartDay = SettingsState.weekStarts.contains(weekStart) ? weekStart as int : DateTime.monday;
     autoAdvance = data['autoAdvance'] as bool? ?? true;
@@ -242,6 +250,10 @@ class FitState extends FitCore
       ..clear()
       ..addAll(((data['progress'] as Map?) ?? const {})
           .map((k, v) => MapEntry(k as String, (v as num).toDouble())));
+    progressRules
+      ..clear()
+      ..addAll(((data['progressRules'] as Map?) ?? const {}).map(
+          (k, v) => MapEntry(k as String, ProgressRule.fromJson(Map<String, dynamic>.from(v as Map)))));
     autoWarmup
       ..clear()
       ..addAll(((data['warmup'] as List?) ?? const []).cast<String>());
@@ -444,6 +456,7 @@ class FitState extends FitCore
         'levelShown': Map.of(levelShown),
         'goals': exerciseGoals.map((k, g) => MapEntry(k, {'t': g.target, if (g.due != null) 'd': g.due!.millisecondsSinceEpoch})),
         'barKg': exerciseBar,
+        if (plateBar != null) 'plateBar': plateBar,
         'marks': videoMarks.map((k, v) => MapEntry(k, v.map((i, ms) => MapEntry('$i', ms)))),
         'exMode': modeOverride,
         'exSecondary': secondaryOverride,
@@ -461,6 +474,8 @@ class FitState extends FitCore
         'weeklyPlan': weeklyPlan.map((k, v) => MapEntry(k.toString(), v)),
         'planExtras': planExtras.map((k, v) => MapEntry(k.toString(), v)),
         'multiPlan': multiPlan,
+        if (savedPlans.isNotEmpty) 'savedPlans': savedPlansLive.map((p) => p.toJson()).toList(),
+        if (currentPlanId.isNotEmpty) 'planId': currentPlanId,
         if (rotation) 'rotation': rotation,
         if (rotationIds.isNotEmpty) 'rotationIds': rotationIds,
         if (rotationNextId.isNotEmpty) 'rotationNext': rotationNextId,
@@ -469,6 +484,8 @@ class FitState extends FitCore
         'media': exerciseMedia,
         'exRest': exerciseRest,
         'progress': progressStep,
+        if (progressRules.isNotEmpty)
+          'progressRules': progressRules.map((k, v) => MapEntry(k, v.toJson())),
         'warmup': autoWarmup.toList(),
         'repsOnly': repsOnly.toList(),
         'repsOnlyOff': repsOnlyOff.toList(),
@@ -525,6 +542,8 @@ class FitState extends FitCore
     weeklyPlan.clear();
     planExtras.clear();
     multiPlan = false;
+    savedPlans.clear();
+    currentPlanId = '';
     rotation = false;
     rotationIds.clear();
     rotationNextId = '';
@@ -539,6 +558,7 @@ class FitState extends FitCore
     assistedOff.clear();
     exerciseRest.clear();
     progressStep.clear();
+    progressRules.clear();
     autoWarmup.clear();
     noSuggest.clear();
     archived.clear();
@@ -548,6 +568,7 @@ class FitState extends FitCore
     exerciseGoals.clear();
     videoMarks.clear();
     exerciseBar.clear();
+    plateBar = null;
     modeOverride.clear();
     secondaryOverride.clear();
     _builtInExercises = null;
@@ -852,8 +873,8 @@ class FitState extends FitCore
     return exerciseById(id);
   }
 
-  ({int routines, int added, List<String> missed}) previewPlan(List<PlanRoutine> plans) {
-    var made = 0, added = 0;
+  ({int routines, int added, List<String> missed, int owned}) previewPlan(List<PlanRoutine> plans) {
+    var made = 0, added = 0, owned = 0;
     final missed = <String>[];
     for (final plan in plans) {
       var found = 0;
@@ -866,9 +887,28 @@ class FitState extends FitCore
         }
       }
       if (found > 0) made++;
+      if (found > 0 && ownsPlan(plan)) owned++;
       added += found;
     }
-    return (routines: made, added: added, missed: missed);
+    return (routines: made, added: added, missed: missed, owned: owned);
+  }
+
+  Routine? _ownedRoutine(PlanRoutine plan, List<String> ids) {
+    final name = plan.name.isEmpty ? t.newRoutineName : plan.name;
+    return routines.where((r) => _sameRoutine(r, name, ids) && r.group == plan.group).firstOrNull;
+  }
+
+  bool ownsPlan(PlanRoutine plan) {
+    final ids = <String>[];
+    for (final item in plan.items) {
+      final ex = _planExercise(item);
+      if (ex == null) {
+        if ((item.muscle ?? '').isNotEmpty) return false;
+        continue;
+      }
+      if (!ids.contains(ex.id)) ids.add(ex.id);
+    }
+    return ids.isNotEmpty && _ownedRoutine(plan, ids) != null;
   }
 
   bool _sameRoutine(Routine r, String name, List<String> ids) =>
@@ -877,7 +917,7 @@ class FitState extends FitCore
       [for (var i = 0; i < ids.length; i++) r.exerciseIds[i] == ids[i]].every((x) => x);
 
   ({int routines, int added, List<String> missed}) applyPlan(List<PlanRoutine> plans,
-      {bool schedule = false}) {
+      {bool schedule = false, bool copies = false}) {
     var made = 0, added = 0;
     final missed = <String>[];
     for (final plan in plans) {
@@ -893,8 +933,7 @@ class FitState extends FitCore
       }
       if (picked.isEmpty) continue;
       final name = plan.name.isEmpty ? t.newRoutineName : plan.name;
-      final ids = [for (final p in picked) p.$1.id];
-      final existing = routines.where((r) => _sameRoutine(r, name, ids) && r.group == plan.group).firstOrNull;
+      final existing = copies ? null : _ownedRoutine(plan, [for (final p in picked) p.$1.id]);
       final id = existing?.id ?? createRoutine(name);
       if (existing == null) {
         setRoutineGroup(id, plan.group);
@@ -948,7 +987,7 @@ class FitState extends FitCore
     ];
   }
 
-  static const _kindNames = ['normal', 'warmup', 'drop', 'failure', 'restpause'];
+  static const _kindNames = ['normal', 'warmup', 'drop', 'failure', 'restpause', 'cluster'];
 
   String exportPlanJson(List<Routine> list, {bool withSchedule = true}) {
     return encodePlan({

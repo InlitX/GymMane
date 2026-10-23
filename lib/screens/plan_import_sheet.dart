@@ -110,8 +110,8 @@ class _PlanImportSheetState extends State<_PlanImportSheet> {
     _parse();
   }
 
-  void _apply() {
-    final result = fit.applyPlan(_plans, schedule: _schedule);
+  void _apply({bool copies = false}) {
+    final result = fit.applyPlan(_plans, schedule: _schedule, copies: copies);
     final gc = context.gc;
     showNotchToast(
       context,
@@ -130,6 +130,7 @@ class _PlanImportSheetState extends State<_PlanImportSheet> {
     final gc = context.gc;
     final preview = _plans.isEmpty ? null : fit.previewPlan(_plans);
     final hasDays = _plans.any((p) => p.days.isNotEmpty);
+    final allOwned = preview != null && preview.routines > 0 && preview.owned == preview.routines;
     return Container(
       padding: sheetPad(context).add(EdgeInsets.only(bottom: MediaQuery.viewInsetsOf(context).bottom)),
       constraints: BoxConstraints(maxHeight: MediaQuery.sizeOf(context).height * 0.9),
@@ -214,8 +215,26 @@ class _PlanImportSheetState extends State<_PlanImportSheet> {
                   ),
                 ),
               ],
+              if (allOwned) ...[
+                const SizedBox(height: 12),
+                Row(children: [
+                  Icon(PhosphorIconsRegular.checkCircle, size: 16, color: gc.sage),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(t.importAlreadyHave,
+                        style: AppTheme.f(12.5, weight: FontWeight.w600, color: gc.textSecondary, height: 1.35)),
+                  ),
+                ]),
+              ],
               const SizedBox(height: 16),
-              PrimaryButton(label: t.addToMyRoutines, onTap: _apply),
+              if (allOwned)
+                GhostButton(
+                  label: t.importAsCopy,
+                  icon: PhosphorIconsRegular.copy,
+                  onTap: () => _apply(copies: true),
+                )
+              else
+                PrimaryButton(label: t.addToMyRoutines, onTap: _apply),
             ] else if (_text.text.trim().isNotEmpty) ...[
               const SizedBox(height: 16),
               Row(children: [
@@ -293,6 +312,14 @@ class _PlanImportSheetState extends State<_PlanImportSheet> {
             ],
           ),
         ),
+        if (fit.ownsPlan(p)) ...[
+          const SizedBox(width: 8),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 4),
+            decoration: BoxDecoration(color: gc.sageSoft, borderRadius: BorderRadius.circular(100)),
+            child: Text(t.importOwned, style: AppTheme.f(11, weight: FontWeight.w700, color: gc.sage)),
+          ),
+        ],
       ]),
     );
   }

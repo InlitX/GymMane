@@ -231,6 +231,7 @@ int _kind(Object? v) {
   if (s.startsWith('drop')) return 2;
   if (s.startsWith('fail') || s.startsWith('fallo') || s == 'amrap') return 3;
   if (s.startsWith('restpause') || s == 'rp') return 4;
+  if (s.startsWith('cluster') || s == 'c') return 5;
   return 0;
 }
 
