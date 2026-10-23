@@ -72,12 +72,18 @@ const float BACK_SPAN = 0.92;
 float backAt(vec2 xy) {
   vec2 uv = vec2(0.5 - xy.x / BACK_SPAN * 0.5, 0.5 - xy.y / BACK_SPAN * 0.5);
   if (uv.x < 0.0 || uv.x > 1.0 || uv.y < 0.0 || uv.y > 1.0) return 0.0;
+#ifdef IMPELLER_TARGET_OPENGLES
+  uv.y = 1.0 - uv.y;
+#endif
   return texture(uBack, uv).a;
 }
 
 float iconAt(vec2 xy) {
   vec2 uv = vec2(0.5 + xy.x / uIconSpan * 0.5, 0.5 - xy.y / uIconSpan * 0.5);
   if (uv.x < 0.0 || uv.x > 1.0 || uv.y < 0.0 || uv.y > 1.0) return 0.0;
+#ifdef IMPELLER_TARGET_OPENGLES
+  uv.y = 1.0 - uv.y;
+#endif
   return texture(uIcon, uv).a;
 }
 
