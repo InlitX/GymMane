@@ -219,6 +219,12 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
   List<SessionSet> _fromPlan(String id, List<PlannedSet> planned) {
     final working = planned.where((p) => p.kind != SetKind.warmup).length;
     final base = _workingOpeners(id, count: working == 0 ? 1 : working);
+    if (_drivesSets(id) && base.length != working) {
+      planned = [
+        ...planned.where((p) => p.kind == SetKind.warmup),
+        for (var i = 0; i < base.length; i++) const PlannedSet(),
+      ];
+    }
     final first = base.isEmpty ? SessionSet(10, 0, false) : base.first;
     final warmWeight = fromDisplayWeight(_roundTo(toDisplayWeight(first.weight * 0.5), plateStep));
     final out = <SessionSet>[];
@@ -226,9 +232,10 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
     for (final p in planned) {
       final warm = p.kind == SetKind.warmup;
       final b = warm || base.isEmpty ? first : base[(w++).clamp(0, base.length - 1)];
+      final own = !warm && _drivesReps(id);
       out.add(SessionSet(
-        p.reps ?? (warm ? 10 : b.reps),
-        p.weightKg ?? (warm ? warmWeight : b.weight),
+        own ? b.reps : p.reps ?? (warm ? 10 : b.reps),
+        own ? b.weight : p.weightKg ?? (warm ? warmWeight : b.weight),
         false,
         kind: p.kind,
         sec: p.sec ?? b.sec,
@@ -265,17 +272,13 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
     if (mode.isNotEmpty) {
       base = _modeOpeners(mode, last);
     } else if (last.isNotEmpty) {
-      if (needsDeload(id)) {
-        base = last.map((l) => SessionSet(l.reps, deloadWeight(id, l.weight), false)).toList();
-      } else {
-        final bump = _progressBump(id, last) * (isAssisted(id) ? -1 : 1);
-        base = last.map((l) => SessionSet(l.reps, math.max(0.0, l.weight + bump), false)).toList();
-      }
+      final plan = hasProgress(id) ? _nextPlan(id) : null;
+      base = plan?.sets ?? last.map((l) => SessionSet(l.reps, l.weight, false)).toList();
     } else {
       final w = isRepsOnly(id) ? 0.0 : 20.0;
       base = [for (var i = 0; i < kDefaultRoutineSets; i++) SessionSet(10, w, false)];
     }
-    if (count == null || count == base.length) return base;
+    if (count == null || count == base.length || _drivesSets(id)) return base;
     if (count < base.length) return base.take(count).toList();
     final fill = base.last;
     return [
@@ -284,67 +287,167 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
     ];
   }
 
+  bool _drivesSets(String id) => hasProgress(id) && progressRule(id).kind == ProgressKind.volume;
+
+  bool _drivesReps(String id) {
+    if (!hasProgress(id)) return false;
+    final kind = progressRule(id).kind;
+    return kind == ProgressKind.double || kind == ProgressKind.volume || kind == ProgressKind.amrap;
+  }
+
   static const deloadAfter = 3;
 
   int stallStreak(String id) {
     final h = exerciseHistory(id);
     if (h.isEmpty) return 0;
+    final rule = progressRule(id);
     final load = headlineWeight(h.first.ex);
+    bool same(LoggedExercise e) => (headlineWeight(e) - load).abs() <= 0.01;
+    int total(List<LoggedSet> l) => l.fold(0, (sum, x) => sum + x.reps);
     var n = 0;
-    for (final r in h) {
-      final sets = r.ex.workingSets;
-      if (sets.isEmpty || (headlineWeight(r.ex) - load).abs() > 0.01) break;
-      final target = sets.first.reps;
-      if (target <= 0 || sets.every((s) => s.reps >= target)) break;
+    for (var i = 0; i < h.length; i++) {
+      final sets = h[i].ex.workingSets;
+      if (sets.isEmpty || !same(h[i].ex)) break;
+      if (rule.usesRange) {
+        if (sets.every((s) => s.reps >= rule.high)) break;
+        final older = i + 1 < h.length ? h[i + 1].ex : null;
+        if (older == null || older.workingSets.isEmpty || !same(older)) break;
+        if (total(sets) > total(older.workingSets)) break;
+      } else {
+        final target = sets.first.reps;
+        if (target <= 0 || sets.every((s) => s.reps >= target)) break;
+      }
       n++;
     }
     return n;
   }
 
   bool needsDeload(String id) =>
-      hasProgress(id) && modeOf(id).isEmpty && !isRepsOnly(id) && stallStreak(id) >= deloadAfter;
+      hasProgress(id) && modeOf(id).isEmpty && !isRepsOnly(id) && stallStreak(id) >= progressRule(id).fails;
 
   double deloadWeight(String id, double from) {
     final step = progressStep[id] ?? fromDisplayWeight(weightStep);
     if (isAssisted(id)) return from + step;
     final grid = weightStep;
     final shown = toDisplayWeight(from);
-    var next = (shown * 0.9 / grid).round() * grid;
+    var next = (shown * (100 - progressRule(id).deloadPct) / 100 / grid).round() * grid;
     if (next >= shown) next = shown - grid;
     return _round3(fromDisplayWeight(math.max(0.0, next)));
   }
 
-  ({double weightKg, int reps, bool up, bool deload})? nextTarget(String id) {
+  ({List<SessionSet> sets, double weightKg, int reps, NextMove move})? _nextPlan(String id) {
     if (modeOf(id).isNotEmpty) return null;
+    final rule = progressRule(id);
+    if (rule.kind == ProgressKind.manual) return null;
     final last = lastSetsFor(id).where((l) => l.counts).toList();
     if (last.isEmpty) return null;
     final reps = last.first.reps;
     if (reps <= 0) return null;
-    final hit = last.every((l) => l.reps >= reps);
-    if (isRepsOnly(id)) return (weightKg: 0, reps: hit ? reps + 1 : reps, up: hit, deload: false);
+    if (isRepsOnly(id)) {
+      final hit = last.every((l) => l.reps >= reps);
+      return (
+        sets: [for (final l in last) SessionSet(hit ? l.reps + 1 : l.reps, l.weight, false)],
+        weightKg: 0.0,
+        reps: hit ? reps + 1 : reps,
+        move: hit ? NextMove.reps : NextMove.hold,
+      );
+    }
     final step = progressStep[id] ?? fromDisplayWeight(weightStep);
     final assisted = isAssisted(id);
     final load = assisted ? last.map((l) => l.weight).reduce(math.min) : last.map((l) => l.weight).reduce(math.max);
-    if (!hit && needsDeload(id)) return (weightKg: deloadWeight(id, load), reps: reps, up: false, deload: true);
-    if (assisted) return (weightKg: hit ? math.max(0.0, load - step) : load, reps: reps, up: hit, deload: false);
-    return (weightKg: hit ? load + step : load, reps: reps, up: hit, deload: false);
+    double heavier(double w, [int times = 1]) => assisted ? math.max(0.0, w - step * times) : w + step * times;
+    final volume = rule.kind == ProgressKind.volume;
+
+    List<SessionSet> shaped(int Function(LoggedSet l) repsOf, double Function(double w) weightOf, [int? count]) => [
+          for (var i = 0; i < (count ?? last.length); i++)
+            SessionSet(repsOf(last[math.min(i, last.length - 1)]), weightOf(last[math.min(i, last.length - 1)].weight), false),
+        ];
+
+    ({List<SessionSet> sets, double weightKg, int reps, NextMove move}) deload(int r) => (
+          sets: shaped((_) => r, (w) => deloadWeight(id, w), volume ? rule.sets : null),
+          weightKg: deloadWeight(id, load),
+          reps: r,
+          move: NextMove.deload,
+        );
+
+    switch (rule.kind) {
+      case ProgressKind.double:
+      case ProgressKind.volume:
+        final top = last.every((l) => l.reps >= rule.high);
+        if (top && volume && last.length < rule.maxSets) {
+          return (sets: shaped((_) => rule.low, (w) => w, last.length + 1), weightKg: load, reps: rule.low, move: NextMove.addSet);
+        }
+        if (top) {
+          return (
+            sets: shaped((_) => rule.low, heavier, volume ? rule.sets : null),
+            weightKg: heavier(load),
+            reps: rule.low,
+            move: NextMove.up,
+          );
+        }
+        if (needsDeload(id)) return deload(rule.low);
+        int more(LoggedSet l) => (l.reps + 1).clamp(rule.low, rule.high);
+        return (sets: shaped(more, (w) => w), weightKg: load, reps: more(last.first), move: NextMove.reps);
+      case ProgressKind.amrap:
+        final open = last.last.reps;
+        final hit = last.take(last.length - 1).every((l) => l.reps >= reps) && open >= reps;
+        if (hit) {
+          final times = open >= reps * 2 ? 2 : 1;
+          return (
+            sets: shaped((_) => reps, (w) => heavier(w, times)),
+            weightKg: heavier(load, times),
+            reps: reps,
+            move: NextMove.up,
+          );
+        }
+        if (needsDeload(id)) return deload(reps);
+        return (sets: shaped((_) => reps, (w) => w), weightKg: load, reps: reps, move: NextMove.hold);
+      case ProgressKind.manual:
+      case ProgressKind.linear:
+        final hit = last.every((l) => l.reps >= reps);
+        if (!hit && needsDeload(id)) return deload(reps);
+        if (hit) return (sets: shaped((l) => l.reps, heavier), weightKg: heavier(load), reps: reps, move: NextMove.up);
+        return (sets: shaped((l) => l.reps, (w) => w), weightKg: load, reps: reps, move: NextMove.hold);
+    }
+  }
+
+  ({double weightKg, int reps, bool up, bool deload, NextMove move, int sets, List<int> perSet})? nextTarget(String id) {
+    final plan = _nextPlan(id);
+    if (plan == null) return null;
+    final move = plan.move;
+    return (
+      weightKg: plan.weightKg,
+      reps: plan.reps,
+      up: move == NextMove.up || move == NextMove.reps || move == NextMove.addSet,
+      deload: move == NextMove.deload,
+      move: move,
+      sets: plan.sets.length,
+      perSet: [for (final s in plan.sets) s.reps],
+    );
+  }
+
+  String? nextWhy(String id) {
+    final target = nextTarget(id);
+    if (target == null) return null;
+    final amrap = progressRule(id).kind == ProgressKind.amrap && !isRepsOnly(id);
+    return switch (target.move) {
+      NextMove.deload => t.nextDeload(stallStreak(id)),
+      NextMove.reps => isRepsOnly(id) ? null : t.nextMoreReps,
+      NextMove.addSet => t.nextAddSet,
+      NextMove.hold => amrap ? t.nextAmrap : t.nextHold,
+      NextMove.up => amrap ? t.nextAmrap : null,
+    };
   }
 
   String? nextTargetLabel(String id) {
     final target = nextTarget(id);
     if (target == null) return null;
     if (isRepsOnly(id)) return '${target.reps} ${t.repsCol.toLowerCase()}';
-    return '${weightLabel(target.weightKg)} × ${target.reps}';
-  }
-
-  double _progressBump(String id, List<LoggedSet> last) {
-    final step = progressStep[id] ?? 0;
-    if (step <= 0) return 0;
-    final working = last.where((l) => l.counts).toList();
-    if (working.isEmpty) return 0;
-    final target = working.first.reps;
-    if (working.any((l) => l.reps < target)) return 0;
-    return step;
+    final reps = target.move == NextMove.reps && target.perSet.toSet().length > 1
+        ? target.perSet.join('/')
+        : '${target.reps}';
+    final main = '${weightLabel(target.weightKg)} × $reps';
+    return target.move == NextMove.addSet ? '${target.sets} × $main' : main;
   }
 
   void _beginSession(List<Exercise> exs,
@@ -450,6 +553,12 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
     sessionLocked = false;
     resetRoute('home');
     notifyListeners();
+  }
+
+  bool isDayPartial(int i) {
+    if (!isSessionDay(i)) return false;
+    final day = dateForWeekday(i);
+    return routinesOn(day).length > 1 && pendingRoutinesOn(day).isNotEmpty;
   }
 
   bool get todayPlanDone {
@@ -1046,6 +1155,26 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
     return gone;
   }
 
+  SessionSet? duplicateSet(int exIdx, int setIdx) {
+    final s = session;
+    if (s == null || exIdx < 0 || exIdx >= s.exercises.length) return null;
+    final sets = s.exercises[exIdx].sets;
+    if (setIdx < 0 || setIdx >= sets.length) return null;
+    final copy = sets[setIdx].copy();
+    sets.insert(setIdx + 1, copy);
+    _persist();
+    notifyListeners();
+    return copy;
+  }
+
+  void removeSetObject(int exIdx, SessionSet set) {
+    final s = session;
+    if (s == null || exIdx < 0 || exIdx >= s.exercises.length) return;
+    if (!s.exercises[exIdx].sets.remove(set)) return;
+    _persist();
+    notifyListeners();
+  }
+
   void insertSet(int exIdx, int setIdx, SessionSet set) {
     final s = session;
     if (s == null || exIdx < 0 || exIdx >= s.exercises.length) return;
@@ -1334,7 +1463,7 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
       for (final e in s.exercises) {
         final doneSets = e.sets.where((st) => st.done).map((st) => st.logged).toList();
         if (doneSets.isNotEmpty) {
-          logged.add(LoggedExercise(e.id, e.name, e.primary, doneSets));
+          logged.add(LoggedExercise(e.id, e.name, e.primary, doneSets, incline: lastIncline(e.id)));
         }
       }
       final entry = LoggedSession(s.loggedAt ?? DateTime.now(), s.summaryDuration ?? 0, logged, routineId: s.routineId, name: s.name);
@@ -1349,6 +1478,7 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
       _filed = null;
       summaryPrs = 0;
       summaryVsLast = null;
+      summaryFirstTime = false;
       summaryLevelUp = null;
     }
     persistNow();
@@ -1477,7 +1607,8 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
   double get summaryVolumeKg => (session?.summaryVolume ?? 0).toDouble();
 
   int summaryPrs = 0;
-  double? summaryVsLast;
+  int? summaryVsLast;
+  bool summaryFirstTime = false;
 
   void _computeSummaryHighlights(LoggedSession entry) {
     var prs = 0;
@@ -1500,7 +1631,24 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
         break;
       }
     }
-    summaryVsLast = previous?.volume;
+    summaryFirstTime = previous == null;
+    summaryVsLast = previous == null ? null : _vsLastPct(entry, previous);
+  }
+
+  int? _vsLastPct(LoggedSession now, LoggedSession before) {
+    final shared = now.exercises.map((e) => e.id).toSet()
+      ..retainAll(before.exercises.map((e) => e.id));
+    Iterable<LoggedExercise> pick(LoggedSession s) => s.exercises.where((e) => shared.contains(e.id));
+    double volume(LoggedSession s) => pick(s).fold(0.0, (sum, e) => sum + e.volume);
+    double reps(LoggedSession s) =>
+        pick(s).expand((e) => e.workingSets).fold(0.0, (sum, x) => sum + x.reps);
+    var a = volume(now), b = volume(before);
+    if (a <= 0 || b <= 0) {
+      a = reps(now);
+      b = reps(before);
+    }
+    if (b <= 0) return null;
+    return ((a - b) / b * 100).round();
   }
 
   ({Exercise from, Exercise to, int reps})? summaryLevelUp;
