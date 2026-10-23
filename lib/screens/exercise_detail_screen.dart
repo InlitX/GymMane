@@ -6,6 +6,7 @@ import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 import '../l10n/l10n.dart';
 import '../models/exercise.dart';
+import '../models/progression.dart';
 import '../models/workout.dart';
 import '../services/exercise_match.dart';
 import '../state/fit_state.dart';
@@ -323,7 +324,7 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
                         fit.isAssisted(ex.id),
                         () => fit.toggleAssisted(ex.id),
                       ),
-                      _progressRow(gc, ex.id),
+                      _progressRow(context, gc, ex.id),
                       _switchRow(
                         gc,
                         PhosphorIconsRegular.fire,
@@ -334,8 +335,12 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
                       ),
                     ],
                   ]),
-                  const SizedBox(height: 20),
-                  const StopwatchCard(),
+                  if (fit.runsClock(ex.id)) ...[
+                    const SizedBox(height: 24),
+                    _section(gc, t.stopwatch),
+                    const SizedBox(height: 10),
+                    const StopwatchCard(),
+                  ],
                   if (fit.alternativesHere(ex, 3).isNotEmpty) ...[
                     const SizedBox(height: 24),
                     _notHere(gc, ex),
@@ -1222,10 +1227,9 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
               children: [
                 Text(t.nextTime,
                     style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.3)),
-                if (!target.up) ...[
+                if (fit.nextWhy(id) case final why?) ...[
                   const SizedBox(height: 2),
-                  Text(target.deload ? t.nextDeload(fit.stallStreak(id)) : t.nextHold,
-                      style: AppTheme.f(11.5, weight: FontWeight.w500, color: gc.textTertiary)),
+                  Text(why, style: AppTheme.f(11.5, weight: FontWeight.w500, color: gc.textTertiary)),
                 ],
               ],
             ),
@@ -1272,72 +1276,197 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
     );
   }
 
-  Widget _progressRow(GymColors gc, String id) {
+  String _kindName(ProgressKind k) => switch (k) {
+        ProgressKind.manual => t.progManual,
+        ProgressKind.linear => t.progLinear,
+        ProgressKind.double => t.progDouble,
+        ProgressKind.volume => t.progVolume,
+        ProgressKind.amrap => t.progAmrap,
+      };
+
+  String _kindHint(ProgressKind k) => switch (k) {
+        ProgressKind.manual => t.progManualHint,
+        ProgressKind.linear => t.progLinearHint,
+        ProgressKind.double => t.progDoubleHint,
+        ProgressKind.volume => t.progVolumeHint,
+        ProgressKind.amrap => t.progAmrapHint,
+      };
+
+  Widget _progressRow(BuildContext context, GymColors gc, String id) {
+    final kind = fit.progressRule(id).kind;
     final on = fit.hasProgress(id);
-    final step = fit.weightLabel(fit.progressFor(id) ?? 0);
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-      child: Column(
-        children: [
-          Semantics(
-            button: true,
-            toggled: on,
-            child: GestureDetector(
-              behavior: HitTestBehavior.opaque,
-              onTap: () => fit.toggleProgress(id),
-              child: Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(right: 14),
-                    child: SizedBox(
-                      width: 22,
-                      child: SvgPathIcon(Ic.trendUp,
-                          size: 19, color: on ? gc.text : gc.textSecondary),
-                    ),
-                  ),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(t.autoProgress,
-                            style: AppTheme.f(14.5, weight: FontWeight.w500, color: gc.text)),
-                        const SizedBox(height: 3),
-                        Text(
-                            on
-                                ? t.autoProgressHint(step)
-                                : t.autoProgressHint(
-                                    fit.weightLabel(fit.fromDisplayWeight(fit.weightStep))),
-                            style: AppTheme.f(11.5,
-                                weight: FontWeight.w500, color: gc.textSecondary, height: 1.3)),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  TinySwitch(on: on),
-                ],
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: () => _pickProgression(context, id),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        child: Row(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(right: 14),
+              child: SizedBox(
+                width: 22,
+                child: SvgPathIcon(Ic.trendUp, size: 19, color: on ? gc.text : gc.textSecondary),
               ),
             ),
-          ),
-          if (on) ...[
-            const SizedBox(height: 12),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                _cardLabel(gc, t.weightLabel),
-                StepperControl(
-                  value: step,
-                  minWidth: 62,
-                  btnSize: 30,
-                  gap: 6,
-                  fontSize: 14,
-                  btnRadius: 10,
-                  onDec: () => fit.bumpProgressStep(id, -1),
-                  onInc: () => fit.bumpProgressStep(id, 1),
-                ),
-              ],
+            Expanded(
+              child: Text(t.progression, style: AppTheme.f(14.5, weight: FontWeight.w500, color: gc.text)),
             ),
+            const SizedBox(width: 12),
+            Text(_kindName(kind), style: AppTheme.f(13, weight: FontWeight.w600, color: on ? gc.accent : gc.textSecondary)),
+            const SizedBox(width: 6),
+            Icon(PhosphorIconsRegular.caretRight, size: 15, color: gc.textTertiary),
           ],
-        ],
+        ),
+      ),
+    );
+  }
+
+  void _pickProgression(BuildContext context, String id) {
+    showAppSheet<void>(
+      context: context,
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
+      builder: (sheet) => AnimatedBuilder(
+        animation: fit,
+        builder: (sheet, _) {
+          final gc = sheet.gc;
+          final rule = fit.progressRule(id);
+          final on = fit.hasProgress(id);
+          void set(ProgressRule r) => fit.setProgressRule(id, r);
+          Widget stepper(String value, VoidCallback dec, VoidCallback inc, {bool tight = false}) => StepperControl(
+                value: value,
+                minWidth: tight ? 28 : 44,
+                btnSize: tight ? 28 : 30,
+                gap: tight ? 2 : 4,
+                fontSize: 14,
+                btnRadius: 10,
+                onDec: dec,
+                onInc: inc,
+              );
+          Widget line(String label, List<Widget> controls) => Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                child: Row(children: [
+                  Expanded(child: FitText(label, style: AppTheme.f(13.5, weight: FontWeight.w500, color: gc.text))),
+                  const SizedBox(width: 10),
+                  for (var i = 0; i < controls.length; i++) ...[
+                    if (i > 0)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 4),
+                        child: Text('–', style: AppTheme.f(13, weight: FontWeight.w600, color: gc.textTertiary)),
+                      ),
+                    controls[i],
+                  ],
+                ]),
+              );
+          final params = <Widget>[
+            Semantics(
+              button: true,
+              toggled: on,
+              child: GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: () => fit.toggleProgress(id),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  child: Row(children: [
+                    Expanded(
+                      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                        Text(t.progApply, style: AppTheme.f(14, weight: FontWeight.w500, color: gc.text)),
+                        if (!on) ...[
+                          const SizedBox(height: 3),
+                          Text(t.progApplyHint,
+                              style: AppTheme.f(11.5, weight: FontWeight.w500, color: gc.textSecondary, height: 1.3)),
+                        ],
+                      ]),
+                    ),
+                    const SizedBox(width: 12),
+                    TinySwitch(on: on),
+                  ]),
+                ),
+              ),
+            ),
+            if (on)
+              line(t.progStep, [
+                stepper(fit.weightLabel(fit.progressFor(id) ?? 0), () => fit.bumpProgressStep(id, -1),
+                    () => fit.bumpProgressStep(id, 1)),
+              ]),
+            if (rule.usesRange)
+              line(t.progRange, [
+                stepper('${rule.low}', () => set(rule.copyWith(low: rule.low - 1)),
+                    () => set(rule.copyWith(low: rule.low + 1, high: math.max(rule.high, rule.low + 2))), tight: true),
+                stepper('${rule.high}', () => set(rule.copyWith(high: rule.high - 1)),
+                    () => set(rule.copyWith(high: rule.high + 1)), tight: true),
+              ]),
+            if (rule.kind == ProgressKind.volume)
+              line(t.progSets, [
+                stepper('${rule.sets}', () => set(rule.copyWith(sets: rule.sets - 1)),
+                    () => set(rule.copyWith(sets: rule.sets + 1, maxSets: math.max(rule.maxSets, rule.sets + 2))), tight: true),
+                stepper('${rule.maxSets}', () => set(rule.copyWith(maxSets: rule.maxSets - 1)),
+                    () => set(rule.copyWith(maxSets: rule.maxSets + 1)), tight: true),
+              ]),
+            if (on) ...[
+              line(t.progDeload, [
+                stepper(t.progFails(rule.fails), () => set(rule.copyWith(fails: rule.fails - 1)),
+                    () => set(rule.copyWith(fails: rule.fails + 1))),
+              ]),
+              line(t.progDeloadPct, [
+                stepper('${rule.deloadPct} %', () => set(rule.copyWith(deloadPct: rule.deloadPct - 5)),
+                    () => set(rule.copyWith(deloadPct: rule.deloadPct + 5))),
+              ]),
+            ],
+          ];
+          return ConstrainedBox(
+            constraints: BoxConstraints(maxHeight: MediaQuery.sizeOf(sheet).height * 0.9),
+            child: Container(
+              decoration: BoxDecoration(
+                color: gc.bgRaised,
+                borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
+              ),
+              child: SingleChildScrollView(
+                padding: sheetPad(sheet),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    const SheetHandle(),
+                    const SizedBox(height: 16),
+                    SheetTitle(t.progression),
+                    const SizedBox(height: 14),
+                    OptionGroup([
+                      for (final k in ProgressKind.values)
+                        OptionItem(
+                          _kindName(k),
+                          detail: k == rule.kind ? _kindHint(k) : null,
+                          selected: k == rule.kind,
+                          onTap: () => set(rule.copyWith(kind: k)),
+                        ),
+                    ]),
+                    AnimatedSize(
+                      duration: const Duration(milliseconds: 240),
+                      curve: Curves.easeOutCubic,
+                      alignment: Alignment.topCenter,
+                      child: rule.kind == ProgressKind.manual
+                          ? const SizedBox(width: double.infinity)
+                          : Container(
+                              margin: const EdgeInsets.only(top: 12),
+                              decoration: BoxDecoration(
+                                border: Border.all(color: gc.border),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: Column(children: [
+                                for (var i = 0; i < params.length; i++) ...[
+                                  if (i > 0) Divider(height: 1, thickness: 1, indent: 16, endIndent: 16, color: gc.border),
+                                  params[i],
+                                ],
+                              ]),
+                            ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
+        },
       ),
     );
   }
