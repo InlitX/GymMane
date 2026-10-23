@@ -25,6 +25,7 @@ mixin NutritionState on FitCore, ToolsState, StatsState {
   String shakeFoodId = '';
   final List<String> shakeFoods = [];
   DateTime nutritionDay = _dayKey(DateTime.now());
+  DateTime _nutritionSetOn = _dayKey(DateTime.now());
   int _foodSeq = 0;
 
   static String _dk(DateTime d) =>
@@ -104,8 +105,18 @@ mixin NutritionState on FitCore, ToolsState, StatsState {
 
   int burnedOn(DateTime day) {
     final key = _dayKey(day);
-    final secs = sessions.where((s) => _dayKey(s.day) == key).fold<int>(0, (n, s) => n + s.durationSec);
-    return ((_liftMet - 1) * _nutritionWeight * secs / 3600).round();
+    var kcal = 0.0;
+    for (final s in sessions.where((s) => _dayKey(s.day) == key)) {
+      var cardioSec = 0;
+      for (final e in s.exercises) {
+        final c = cardioKcal(s, e);
+        if (c == null) continue;
+        kcal += c.active;
+        cardioSec += c.sec;
+      }
+      kcal += (_liftMet - 1) * _nutritionWeight * math.max(0, s.durationSec - cardioSec) / 3600;
+    }
+    return kcal.round();
   }
 
   int kcalBudgetOn(DateTime day) => goalsFor(day).kcal + (addBurned ? burnedOn(day) : 0);
@@ -217,6 +228,24 @@ mixin NutritionState on FitCore, ToolsState, StatsState {
   }
 
   Macros totalOn(DateTime day) => entriesOn(day).fold(Macros.zero, (s, e) => s + e.total);
+
+  ({double kcal, double protein}) leftAfter(Macros adding, {Macros replacing = Macros.zero}) {
+    final day = nutritionDay;
+    final eaten = totalOn(day) + replacing * -1 + adding;
+    return (kcal: kcalBudgetOn(day) - eaten.kcal, protein: goalsFor(day).protein - eaten.protein);
+  }
+
+  double? fillGrams(FoodItem food, {Macros replacing = Macros.zero}) {
+    if (!food.byWeight || food.macros.kcal <= 0) return null;
+    final left = leftAfter(Macros.zero, replacing: replacing);
+    if (left.kcal <= 0) return null;
+    final perGram = food.macros * (1 / food.grams);
+    var grams = left.kcal / perGram.kcal;
+    if (trackerOn(Tracker.protein) && perGram.protein * 100 >= 8 && left.protein > 0) {
+      grams = math.min(grams, left.protein / perGram.protein);
+    }
+    return grams >= 1 ? grams : null;
+  }
 
   int waterOn(DateTime day) {
     var index = _waterByDay;
@@ -509,7 +538,8 @@ mixin NutritionState on FitCore, ToolsState, StatsState {
       final ms = int.tryParse(p[1]);
       if (ms == null) continue;
       final at = DateTime.fromMillisecondsSinceEpoch(ms);
-      if (_dayKey(at) != today) continue;
+      final day = _dayKey(at);
+      if (day.isAfter(today) || today.difference(day).inDays > 7) continue;
       if (p[0] == 'w') {
         final ml = int.tryParse(p[2]) ?? 0;
         if (ml <= 0) continue;
@@ -1265,6 +1295,15 @@ mixin NutritionState on FitCore, ToolsState, StatsState {
     final key = _dayKey(day);
     final today = _dayKey(DateTime.now());
     nutritionDay = key.isAfter(today) ? today : key;
+    _nutritionSetOn = today;
+    notifyListeners();
+  }
+
+  void rollNutritionDay() {
+    final today = _dayKey(DateTime.now());
+    if (_nutritionSetOn == today) return;
+    if (nutritionDay == _nutritionSetOn) nutritionDay = today;
+    _nutritionSetOn = today;
     notifyListeners();
   }
 
@@ -1278,6 +1317,7 @@ mixin NutritionState on FitCore, ToolsState, StatsState {
   void goNutrition() {
     if (!nutritionBeta) return;
     nutritionDay = _dayKey(DateTime.now());
+    _nutritionSetOn = nutritionDay;
     FoodLibrary.load().then((_) => notifyListeners());
     pushRoute('nutrition');
   }
@@ -1405,6 +1445,7 @@ mixin NutritionState on FitCore, ToolsState, StatsState {
           : [if (shakeFoodId.isNotEmpty) shakeFoodId]);
     if (!shakeFoods.contains(shakeFoodId)) shakeFoodId = shakeFoods.isEmpty ? '' : shakeFoods.first;
     nutritionDay = _dayKey(DateTime.now());
+    _nutritionSetOn = nutritionDay;
     syncSupplementReminder();
   }
 }

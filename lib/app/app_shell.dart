@@ -236,6 +236,7 @@ class _AppShellState extends State<AppShell> with WidgetsBindingObserver {
       fit.persistNow();
     }
     if (state == AppLifecycleState.resumed) {
+      fit.rollNutritionDay();
       NutritionWidgets.takePending();
       fit.refreshAlarmPermission();
       fit.syncRest();
