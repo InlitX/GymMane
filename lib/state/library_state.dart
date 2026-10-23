@@ -3,6 +3,7 @@ part of 'fit_state.dart';
 mixin LibraryState on FitCore {
   String exSearch = '';
   String? exMuscleFilter;
+  String? exZoneFilter;
   String? exDifficultyFilter;
   String? exEquipmentFilter;
   String? exKindFilter;
@@ -95,6 +96,7 @@ mixin LibraryState on FitCore {
   void clearExFilters() {
     exSearch = '';
     exMuscleFilter = null;
+    exZoneFilter = null;
     exDifficultyFilter = null;
     exEquipmentFilter = null;
     exKindFilter = null;
@@ -105,8 +107,20 @@ mixin LibraryState on FitCore {
 
   void setMuscleFilter(String id) {
     exMuscleFilter = exMuscleFilter == id ? null : id;
+    exZoneFilter = null;
     notifyListeners();
   }
+
+  void setZoneFilter(String? zone) {
+    exZoneFilter = zone;
+    exMuscleFilter = null;
+    notifyListeners();
+  }
+
+  int zoneCount(String zone) => musclesCount(kBodyZones[zone] ?? const []);
+
+  int musclesCount(List<String> muscles) =>
+      allExercises.where((ex) => !isArchived(ex.id) && muscles.contains(ex.primary)).length;
 
   void setDifficultyFilter(String d) {
     exDifficultyFilter = exDifficultyFilter == d ? null : d;
@@ -152,11 +166,18 @@ mixin LibraryState on FitCore {
           !ex.secondary.contains(exMuscleFilter)) {
         return false;
       }
+      final zone = kBodyZones[exZoneFilter];
+      if (zone != null && !zone.contains(ex.primary) && !ex.secondary.any(zone.contains)) return false;
       if (exDifficultyFilter != null && ex.difficulty != exDifficultyFilter) return false;
       if (exEquipmentFilter != null && ex.equipment != exEquipmentFilter) return false;
       if (exKindFilter != null && kindOf(ex) != exKindFilter) return false;
       return true;
     }).toList();
+    final zone = kBodyZones[exZoneFilter];
+    if (zone != null) {
+      final inside = _groupedByMuscle(list.where((ex) => zone.contains(ex.primary)).toList());
+      return [...inside, ..._groupedByMuscle(list.where((ex) => !zone.contains(ex.primary)).toList())];
+    }
     final muscle = exMuscleFilter;
     if (muscle == null) return _groupedByMuscle(list);
     final primary = list.where((ex) => ex.primary == muscle);
@@ -319,7 +340,7 @@ mixin LibraryState on FitCore {
       final from = s.exercises[i];
       final j = s.exercises.indexWhere((e) => e.id == toId);
       if (j < 0) {
-        s.exercises[i] = LoggedExercise(to.id, to.name, to.primary, from.sets);
+        s.exercises[i] = LoggedExercise(to.id, to.name, to.primary, from.sets, incline: from.incline, kcal: from.kcal);
       } else {
         s.exercises[j].sets.addAll(from.sets);
         s.exercises.removeAt(i);

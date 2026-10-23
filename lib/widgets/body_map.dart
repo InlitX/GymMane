@@ -175,16 +175,20 @@ class _BodyCanvas extends StatelessWidget {
 }
 
 class BodyPainter extends CustomPainter {
-  BodyPainter({required this.gc, required this.color, required this.token, this.outline});
+  BodyPainter({required this.gc, required this.color, required this.token, this.outline, this.crop});
 
   final GymColors gc;
   final Color Function(String id) color;
   final String token;
   final String? outline;
+  final Rect? crop;
 
   @override
   void paint(Canvas canvas, Size size) {
-    canvas.scale(size.width / bodyViewW);
+    final view = crop ?? const Rect.fromLTWH(0, 0, bodyViewW, bodyViewH);
+    canvas.clipRect(Offset.zero & size);
+    canvas.scale(size.width / view.width);
+    canvas.translate(-view.left, -view.top);
 
     final bodyMain = gc.bgRaised2;
     final bodyLite = Color.lerp(gc.bgRaised2, gc.textTertiary, 0.14)!;
@@ -220,7 +224,7 @@ class BodyPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(BodyPainter old) =>
-      old.gc != gc || old.token != token || old.outline != outline;
+      old.gc != gc || old.token != token || old.outline != outline || old.crop != crop;
 }
 
 Color untrainedColor(GymColors gc, int? days) {
@@ -249,6 +253,49 @@ class BodyUntrainedMap extends StatelessWidget {
         token: 'u${keys.map((k) => '$k${days[k] ?? 'n'}').join(',')}',
         color: (id) => untrainedColor(gc, days[id]),
         outline: focus,
+      ),
+    );
+  }
+}
+
+final Map<String, Rect> _zoneViews = {};
+
+Rect bodyViewFor(List<String> muscles) => _zoneViews.putIfAbsent(muscles.join(','), () {
+      const half = bodyViewW / 2;
+      var front = false, back = false;
+      for (final id in muscles) {
+        for (final d in muscleFills[id] ?? const <String>[]) {
+          if (svgPath(d).getBounds().center.dx < half) {
+            front = true;
+          } else {
+            back = true;
+          }
+        }
+      }
+      if (front == back) return const Rect.fromLTWH(0, 0, bodyViewW, bodyViewH);
+      return Rect.fromLTWH(front ? 0 : half, 0, half, bodyViewH);
+    });
+
+class BodyZoneArt extends StatelessWidget {
+  const BodyZoneArt({super.key, required this.muscles, required this.height, this.color});
+
+  final List<String> muscles;
+  final double height;
+  final Color? color;
+
+  @override
+  Widget build(BuildContext context) {
+    final gc = context.gc;
+    final view = bodyViewFor(muscles);
+    final idle = idleMuscle(gc);
+    final on = color ?? heatRamp(gc, fit.heatTone)[2];
+    return CustomPaint(
+      size: Size(height * view.width / view.height, height),
+      painter: BodyPainter(
+        gc: gc,
+        token: 'z${muscles.join(',')}$on',
+        crop: view,
+        color: (id) => muscles.contains(id) ? on : idle,
       ),
     );
   }

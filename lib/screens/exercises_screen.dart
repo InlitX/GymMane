@@ -13,6 +13,7 @@ import '../services/media_store.dart';
 import '../state/fit_state.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
+import '../widgets/body_map.dart';
 import '../widgets/exercise_media.dart';
 import '../widgets/glass.dart';
 import '../widgets/svg_icon.dart';
@@ -186,6 +187,20 @@ class _ExercisesScreenState extends State<ExercisesScreen> {
       scrollDirection: Axis.horizontal,
       clipBehavior: Clip.none,
       child: Row(children: [
+        Pill(
+          label: fit.exZoneFilter != null
+              ? t.muscleGroupName(fit.exZoneFilter!)
+              : fit.exMuscleFilter != null
+                  ? muscleLabel(fit.exMuscleFilter!)
+                  : t.byZone,
+          bg: fit.exZoneFilter == null && fit.exMuscleFilter == null ? gc.bgRaised2 : gc.ember,
+          fg: fit.exZoneFilter == null && fit.exMuscleFilter == null ? gc.textSecondary : gc.onEmber,
+          onTap: () => showBodyZones(context),
+          hPad: 14,
+          vPad: 7,
+          fontSize: 12.5,
+        ),
+        const SizedBox(width: 8),
         Pill(
           label: active > 0 ? '${t.filters} · $active' : t.filters,
           bg: active > 0 ? gc.ember : gc.bgRaised2,
@@ -915,4 +930,160 @@ Widget _chipRow(List<_FilterChipData> chips, GymColors gc,
       ],
     ]),
   );
+}
+
+Future<void> showBodyZones(BuildContext context) => showAppSheet<void>(
+      context: context,
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
+      builder: (sheet) {
+        final gc = sheet.gc;
+        void pick(VoidCallback apply) {
+          HapticFeedback.selectionClick();
+          apply();
+          Navigator.of(sheet).pop();
+        }
+
+        return Container(
+          padding: sheetPad(sheet),
+          constraints: BoxConstraints(maxHeight: MediaQuery.sizeOf(sheet).height * 0.9),
+          decoration: BoxDecoration(
+            color: gc.bgRaised,
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              const SheetHandle(),
+              const SizedBox(height: 18),
+              Text(t.byZone, style: AppTheme.f(19, weight: FontWeight.w800, color: gc.text)),
+              const SizedBox(height: 6),
+              Flexible(
+                child: SingleChildScrollView(
+                  child: LayoutBuilder(builder: (context, box) {
+                    final w = (box.maxWidth - 16) / 3;
+                    final singles = [for (final z in kBodyZones.values) if (z.length == 1) z.single];
+                    Widget card(String m) => SizedBox(
+                          width: w,
+                          child: _ZoneCard(
+                            muscles: [m],
+                            label: muscleLabel(m),
+                            selected: fit.exMuscleFilter == m,
+                            onTap: () => pick(() => fit.setMuscleFilter(m)),
+                          ),
+                        );
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        const SizedBox(height: 12),
+                        Wrap(spacing: 8, runSpacing: 8, children: [for (final m in singles) card(m)]),
+                        for (final zone in kBodyZones.entries)
+                          if (zone.value.length > 1) ...[
+                          _ZoneHeader(
+                            zone: zone.key,
+                            selected: fit.exZoneFilter == zone.key,
+                            onTap: () => pick(() => fit.setZoneFilter(fit.exZoneFilter == zone.key ? null : zone.key)),
+                          ),
+                          Wrap(spacing: 8, runSpacing: 8, children: [for (final m in zone.value) card(m)]),
+                        ],
+                        const SizedBox(height: 6),
+                      ],
+                    );
+                  }),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+
+class _ZoneHeader extends StatelessWidget {
+  const _ZoneHeader({required this.zone, required this.selected, this.onTap});
+
+  final String zone;
+  final bool selected;
+  final VoidCallback? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final gc = context.gc;
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(2, 18, 2, 10),
+        child: Row(children: [
+          Expanded(
+            child: Text(t.muscleGroupName(zone).toUpperCase(),
+                style: AppTheme.f(11, weight: FontWeight.w700, color: gc.textSecondary, letterSpacing: 1.3)),
+          ),
+          if (onTap != null)
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+              decoration: BoxDecoration(
+                color: selected ? gc.ember : gc.bgRaised2,
+                borderRadius: BorderRadius.circular(100),
+              ),
+              child: Text('${t.allExercisesShort} · ${fit.zoneCount(zone)}',
+                  style: AppTheme.f(11.5, weight: FontWeight.w700, color: selected ? gc.onEmber : gc.textSecondary)),
+            ),
+        ]),
+      ),
+    );
+  }
+}
+
+class _ZoneCard extends StatelessWidget {
+  const _ZoneCard({required this.muscles, required this.label, required this.selected, required this.onTap});
+
+  final List<String> muscles;
+  final String label;
+  final bool selected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final gc = context.gc;
+    return Semantics(
+      button: true,
+      selected: selected,
+      label: label,
+      excludeSemantics: true,
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: onTap,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 180),
+          padding: const EdgeInsets.fromLTRB(10, 12, 10, 10),
+          decoration: BoxDecoration(
+            color: gc.bgRaised2,
+            borderRadius: BorderRadius.circular(18),
+            border: Border.all(color: selected ? gc.text : Colors.transparent, width: 1.5),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                height: 92,
+                width: double.infinity,
+                child: FittedBox(child: BodyZoneArt(muscles: muscles, height: 92)),
+              ),
+              const SizedBox(height: 10),
+              Text(label,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: AppTheme.f(13, weight: FontWeight.w700, color: gc.text)),
+              const SizedBox(height: 1),
+              Text(t.exerciseCount(fit.musclesCount(muscles)),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: AppTheme.f(11, weight: FontWeight.w500, color: gc.textSecondary)),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 }
