@@ -48,7 +48,7 @@ class _ExercisePreviewState extends State<_ExercisePreview> {
   }
 
   Future<void> _load(String path) async {
-    final c = VideoPlayerController.file(File(path));
+    final c = VideoPlayerController.file(File(path), videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true));
     setState(() => _video = c);
     try {
       await c.initialize();

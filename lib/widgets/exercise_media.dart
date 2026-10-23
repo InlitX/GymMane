@@ -50,6 +50,12 @@ class ExerciseMedia extends StatelessWidget {
       return _VideoTile(
           key: ValueKey(path), path: path, height: height, radius: radius, short: loops != null);
     }
+    if (isVideo && ex.art.isNotEmpty) {
+      return Stack(children: [
+        ExerciseArt(slug: ex.art, height: height, radius: radius, bordered: bordered),
+        Positioned(right: 6, bottom: 6, child: _PlayBadge(height: height)),
+      ]);
+    }
     return _MediaFrame(
       height: height,
       radius: radius,
@@ -116,6 +122,23 @@ class _VideoPoster extends StatelessWidget {
   }
 }
 
+class _PlayBadge extends StatelessWidget {
+  const _PlayBadge({required this.height});
+  final double height;
+
+  @override
+  Widget build(BuildContext context) {
+    final gc = context.gc;
+    final size = (height * 0.2).clamp(16.0, 30.0);
+    return Container(
+      width: size,
+      height: size,
+      decoration: BoxDecoration(color: gc.bg.withValues(alpha: 0.72), shape: BoxShape.circle),
+      child: Icon(PhosphorIconsFill.play, size: size * 0.5, color: gc.text),
+    );
+  }
+}
+
 class _VideoTile extends StatefulWidget {
   const _VideoTile(
       {super.key,
@@ -146,7 +169,7 @@ class _VideoTileState extends State<_VideoTile> {
 
   Future<void> _load() async {
     try {
-      final c = VideoPlayerController.file(File(widget.path));
+      final c = VideoPlayerController.file(File(widget.path), videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true));
       await c.initialize();
       await c.setLooping(true);
       await c.setVolume(0);
