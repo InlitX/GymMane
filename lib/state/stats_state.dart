@@ -422,6 +422,68 @@ mixin StatsState on FitCore, ToolsState, LibraryState, SettingsState, TimelineSt
 
   bool loggedDistance(LoggedExercise e) => isCardio(e.id) || e.sets.any((s) => (s.km ?? 0) > 0);
 
+  static const double _walkRunMpm = 120;
+  static const _walkRunIds = {'running', 'walking', 'treadmill-incline-walk', 'hiking'};
+  static final _walkRunName = RegExp(r'\b(walk|run|jog|treadmill|hik|camin|corr|carrer|trot|cinta|sender|marcha)');
+
+  bool walksOrRuns(LoggedExercise e) =>
+      _walkRunIds.contains(e.id) || (isCustom(e.id) && _walkRunName.hasMatch(e.name.toLowerCase()));
+
+  double _weightOn(DateTime day) {
+    BodyweightEntry? best;
+    for (final b in bodyweight) {
+      if (!b.date.isAfter(day) && (best == null || b.date.isAfter(best.date))) best = b;
+    }
+    final kg = best?.kg ?? latestBodyweight?.kg ?? profile.weightKg;
+    return kg > 0 ? kg : 75;
+  }
+
+  ({int active, int total, int sec, bool own})? cardioKcal(LoggedSession s, LoggedExercise e) {
+    if (!walksOrRuns(e)) return null;
+    final grade = (e.incline ?? 0) / 100;
+    final kg = _weightOn(s.day);
+    var active = 0.0, total = 0.0;
+    var sec = 0;
+    for (final st in e.sets) {
+      final km = st.km ?? 0, t = st.sec ?? 0;
+      if (km <= 0 || t <= 0) continue;
+      final min = t / 60;
+      final speed = km * 1000 / min;
+      final vo2 = speed < _walkRunMpm
+          ? 0.1 * speed + 1.8 * speed * grade + 3.5
+          : 0.2 * speed + 0.9 * speed * grade + 3.5;
+      total += vo2 * kg * min / 200;
+      active += (vo2 - 3.5) * kg * min / 200;
+      sec += t;
+    }
+    final own = e.kcal;
+    if (own != null) return (active: own, total: own + (3.5 * kg * sec / 60 / 200).round(), sec: sec, own: true);
+    if (sec == 0) return null;
+    return (active: active.round(), total: total.round(), sec: sec, own: false);
+  }
+
+  double? lastIncline(String id) {
+    for (final s in sessions.reversed) {
+      for (final e in s.exercises) {
+        if (e.id == id && e.incline != null) return e.incline;
+      }
+    }
+    return null;
+  }
+
+  void setLoggedIncline(LoggedExercise e, double pct) {
+    final v = (pct.clamp(0, 40) * 2).round() / 2;
+    e.incline = v > 0 ? v : null;
+    persistNow();
+    notifyListeners();
+  }
+
+  void setLoggedKcal(LoggedExercise e, int? kcal) {
+    e.kcal = kcal?.clamp(0, 9999);
+    persistNow();
+    notifyListeners();
+  }
+
   void setLoggedWeightShown(LoggedExercise e, int i, double shown) =>
       setLoggedWeight(e, i, fromDisplayWeight(shown));
 
@@ -940,6 +1002,34 @@ mixin StatsState on FitCore, ToolsState, LibraryState, SettingsState, TimelineSt
   }
 
   String? strengthExerciseId;
+
+  static const _ratioSteps = {
+    'EIeI8Vf': ([0.8, 1.15, 1.5, 2.0], [0.5, 0.7, 1.0, 1.3]),
+    'qXTaZnJ': ([1.0, 1.4, 1.9, 2.5], [0.75, 1.1, 1.5, 1.9]),
+    'ila4NZS': ([1.25, 1.75, 2.25, 3.0], [1.0, 1.35, 1.75, 2.3]),
+    'Kyd9Rz5': ([0.5, 0.7, 0.95, 1.25], [0.35, 0.45, 0.65, 0.85]),
+    'kTbSH9h': ([0.5, 0.7, 0.95, 1.25], [0.35, 0.45, 0.65, 0.85]),
+    'eZyBC3j': ([0.6, 0.85, 1.15, 1.5], [0.4, 0.6, 0.8, 1.05]),
+  };
+
+  ({double ratio, int level, double toNext})? relativeStrength(String id) {
+    final steps = _ratioSteps[id];
+    final body = latestBodyweight?.kg ?? profile.weightKg;
+    if (steps == null || body <= 0) return null;
+    final since = DateTime.now().subtract(const Duration(days: 90));
+    var best = 0.0;
+    for (final h in exerciseHistory(id)) {
+      if (h.date.isBefore(since)) break;
+      best = math.max(best, h.ex.bestOneRm);
+    }
+    if (best <= 0) return null;
+    final ratio = best / body;
+    final cuts = profile.sex == 'female' ? steps.$2 : steps.$1;
+    final level = cuts.where((c) => ratio >= c).length;
+    final lo = level == 0 ? 0.0 : cuts[level - 1];
+    final toNext = level >= cuts.length ? 1.0 : ((ratio - lo) / (cuts[level] - lo)).clamp(0.0, 1.0);
+    return (ratio: ratio, level: level, toNext: toNext);
+  }
 
   List<({String id, String name, int sessions})> get trackedExercises {
     final count = <String, int>{};
