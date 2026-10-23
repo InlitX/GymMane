@@ -5,6 +5,76 @@ const int kDefaultRoutineSets = 3;
 mixin RoutinesState on FitCore, LibraryState {
   String? activeRoutineId;
   int _routineSeq = 0;
+  final List<SavedPlan> savedPlans = [];
+  String currentPlanId = '';
+
+  SavedPlan _snapshot(String id, String name) => SavedPlan(
+        id,
+        name,
+        Map.of(weeklyPlan),
+        {for (final e in planExtras.entries) e.key: List.of(e.value)},
+        multi: multiPlan,
+      );
+
+  List<SavedPlan> get savedPlansLive => [
+        for (final p in savedPlans) p.id == currentPlanId ? _snapshot(p.id, p.name) : p,
+      ];
+
+  void _storeCurrentPlan() {
+    final i = savedPlans.indexWhere((p) => p.id == currentPlanId);
+    if (i >= 0) savedPlans[i] = _snapshot(currentPlanId, savedPlans[i].name);
+  }
+
+  void savePlanAs(String name, {bool empty = false}) {
+    final n = name.trim();
+    if (n.isEmpty) return;
+    _storeCurrentPlan();
+    if (empty && currentPlanId.isEmpty && weeklyPlan.isNotEmpty) {
+      final mine = 'p${DateTime.now().microsecondsSinceEpoch}-${_routineSeq++}';
+      savedPlans.add(_snapshot(mine, t.planMine));
+    }
+    final id = 'p${DateTime.now().microsecondsSinceEpoch}-${_routineSeq++}';
+    if (empty) {
+      weeklyPlan.clear();
+      planExtras.clear();
+    }
+    savedPlans.add(_snapshot(id, n));
+    currentPlanId = id;
+    _planChanged();
+  }
+
+  void switchPlan(String id) {
+    if (id == currentPlanId) return;
+    final i = savedPlans.indexWhere((p) => p.id == id);
+    if (i < 0) return;
+    _storeCurrentPlan();
+    final p = savedPlans[i];
+    weeklyPlan
+      ..clear()
+      ..addAll(p.week);
+    planExtras
+      ..clear()
+      ..addAll({for (final e in p.extras.entries) e.key: List.of(e.value)});
+    multiPlan = p.multi;
+    currentPlanId = id;
+    _planChanged();
+  }
+
+  void renamePlan(String id, String name) {
+    final n = name.trim();
+    final i = savedPlans.indexWhere((p) => p.id == id);
+    if (i < 0 || n.isEmpty) return;
+    savedPlans[i].name = n;
+    _persist();
+    notifyListeners();
+  }
+
+  void deletePlan(String id) {
+    savedPlans.removeWhere((p) => p.id == id);
+    if (currentPlanId == id) currentPlanId = '';
+    _persist();
+    notifyListeners();
+  }
 
   void goRoutines() => pushRoute('routines');
 
@@ -367,6 +437,9 @@ mixin RoutinesState on FitCore, LibraryState {
       final extras = planExtras[day]!;
       weeklyPlan[day] = extras.removeAt(0);
       if (extras.isEmpty) planExtras.remove(day);
+    }
+    for (final p in savedPlans) {
+      p.drop(id);
     }
     if (activeRoutineId == id) activeRoutineId = null;
   }

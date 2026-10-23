@@ -86,6 +86,10 @@ class RoutinesScreen extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
                 child: Column(children: [for (int i = 0; i < 7; i++) _dayRow(context, gc, i)]),
               ),
+            if (!fit.rotation && fit.routines.isNotEmpty) ...[
+              const SizedBox(height: 10),
+              _plansRow(context, gc),
+            ],
             const SizedBox(height: 26),
             Text(t.yourRoutines, style: AppTheme.f(12, weight: FontWeight.w600, color: gc.textSecondary, letterSpacing: 1.5)),
             const SizedBox(height: 10),
@@ -192,7 +196,123 @@ class RoutinesScreen extends StatelessWidget {
     );
   }
 
-  Widget _shareOption(GymColors gc, IconData icon, String title, String hint, VoidCallback onTap) {
+  Widget _plansRow(BuildContext context, GymColors gc) {
+    Widget chip(String label, bool active, VoidCallback onTap, {IconData? icon}) => GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onTap: onTap,
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 13, vertical: 8),
+            decoration: BoxDecoration(
+              color: active ? gc.ember : gc.bgRaised,
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(color: active ? gc.ember : gc.border),
+            ),
+            child: Row(mainAxisSize: MainAxisSize.min, children: [
+              if (icon != null) ...[
+                Icon(icon, size: 13, color: gc.textSecondary),
+                const SizedBox(width: 5),
+              ],
+              Text(label,
+                  style: AppTheme.f(12.5,
+                      weight: FontWeight.w600, color: active ? gc.onEmber : (icon != null ? gc.textSecondary : gc.text))),
+            ]),
+          ),
+        );
+
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(children: [
+        for (final p in fit.savedPlans) ...[
+          chip(p.name, p.id == fit.currentPlanId, () {
+            if (p.id == fit.currentPlanId) return _planMenu(context, p);
+            HapticFeedback.selectionClick();
+            fit.switchPlan(p.id);
+          }),
+          const SizedBox(width: 8),
+        ],
+        chip(t.planNew, false, () => _newPlanSheet(context), icon: PhosphorIconsBold.plus),
+      ]),
+    );
+  }
+
+  Future<void> _namePlan(BuildContext context, {required bool empty}) async {
+    final name = await askText(context, title: t.planName, hint: t.planNameHint);
+    if (name != null && name.trim().isNotEmpty) fit.savePlanAs(name, empty: empty);
+  }
+
+  void _newPlanSheet(BuildContext context) {
+    final gc = context.gc;
+    showAppSheet<void>(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (sheet) => Container(
+        padding: sheetPad(sheet),
+        decoration: BoxDecoration(
+          color: gc.bgRaised,
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            const SheetHandle(),
+            const SizedBox(height: 16),
+            SheetTitle(t.planNew, subtitle: t.plansHint),
+            const SizedBox(height: 14),
+            _shareOption(gc, PhosphorIconsRegular.floppyDisk, t.planSaveWeek, t.planSaveWeekHint, () {
+              Navigator.pop(sheet);
+              _namePlan(context, empty: false);
+            }, trailing: PhosphorIconsRegular.caretRight),
+            _shareOption(gc, PhosphorIconsRegular.calendarBlank, t.planEmptyWeek, t.planEmptyWeekHint, () {
+              Navigator.pop(sheet);
+              _namePlan(context, empty: true);
+            }, trailing: PhosphorIconsRegular.caretRight),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _planMenu(BuildContext context, SavedPlan p) {
+    final gc = context.gc;
+    showAppSheet<void>(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (sheet) => Container(
+        padding: sheetPad(sheet),
+        decoration: BoxDecoration(
+          color: gc.bgRaised,
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            const SheetHandle(),
+            const SizedBox(height: 16),
+            SheetTitle(p.name, subtitle: t.plansHint),
+            const SizedBox(height: 14),
+            OptionGroup([
+              OptionItem(t.planRename, icon: PhosphorIconsRegular.pencilSimple, onTap: () async {
+                Navigator.pop(sheet);
+                final name = await askText(context, title: t.planName, initial: p.name, hint: t.planNameHint);
+                if (name != null) fit.renamePlan(p.id, name);
+              }),
+              OptionItem(t.planDelete, icon: PhosphorIconsRegular.trash, danger: true, onTap: () async {
+                Navigator.pop(sheet);
+                final ok = await askConfirm(context,
+                    title: t.planDelete, body: t.planDeleteBody, confirmLabel: t.delete, danger: true);
+                if (ok) fit.deletePlan(p.id);
+              }),
+            ]),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _shareOption(GymColors gc, IconData icon, String title, String hint, VoidCallback onTap,
+      {IconData trailing = PhosphorIconsRegular.shareNetwork}) {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: onTap,
@@ -224,7 +344,7 @@ class RoutinesScreen extends StatelessWidget {
               ],
             ),
           ),
-          Icon(PhosphorIconsRegular.shareNetwork, size: 16, color: gc.textSecondary),
+          Icon(trailing, size: 16, color: gc.textSecondary),
         ]),
       ),
     );
