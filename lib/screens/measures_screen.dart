@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
@@ -145,15 +147,15 @@ class _MeasureSheet extends StatefulWidget {
 
 class _MeasureSheetState extends State<_MeasureSheet> {
   static const _rangesCm = {
-    'neck': (20.0, 70.0, 38.0),
-    'shoulders': (70.0, 180.0, 115.0),
-    'chest': (60.0, 180.0, 100.0),
-    'arm': (15.0, 70.0, 34.0),
-    'forearm': (15.0, 50.0, 28.0),
-    'waist': (40.0, 180.0, 84.0),
-    'hips': (50.0, 180.0, 98.0),
-    'thigh': (30.0, 100.0, 56.0),
-    'calf': (20.0, 70.0, 38.0),
+    'neck': (15.0, 80.0, 38.0),
+    'shoulders': (25.0, 200.0, 115.0),
+    'chest': (40.0, 200.0, 100.0),
+    'arm': (10.0, 80.0, 34.0),
+    'forearm': (10.0, 60.0, 28.0),
+    'waist': (30.0, 200.0, 84.0),
+    'hips': (40.0, 200.0, 98.0),
+    'thigh': (20.0, 120.0, 56.0),
+    'calf': (15.0, 80.0, 38.0),
   };
 
   String get _key => widget.measureKey;
@@ -161,11 +163,20 @@ class _MeasureSheetState extends State<_MeasureSheet> {
   double get _step => _pct ? 0.5 : (fit.isInches ? 0.25 : 0.5);
   int get _major => _pct ? 10 : (fit.isInches ? 4 : 10);
 
-  (double, double) get _range {
+  (double, double) get _baseRange {
     if (_pct) return (3, 60);
     final r = _rangesCm[_key] ?? (10.0, 200.0, 50.0);
     return (_snap(fit.toDisplayCm(r.$1)), _snap(fit.toDisplayCm(r.$2)));
   }
+
+  (double, double) _around(double v) {
+    final (lo, hi) = _baseRange;
+    return (math.min(lo, v), math.max(hi, v));
+  }
+
+  late (double, double) _range = _around(_value);
+
+  double get _typedMax => _pct ? 100 : _snap(fit.toDisplayCm(400));
 
   double _snap(double v) => (v / _step).round() * _step;
 
@@ -187,8 +198,12 @@ class _MeasureSheetState extends State<_MeasureSheet> {
   Future<void> _type() async {
     final typed = await askNumber(context, title: t.measureName(_key), initial: _show(_value), decimal: true);
     if (typed == null || !mounted) return;
-    final (lo, hi) = _range;
-    setState(() => _value = _snap(typed.clamp(lo, hi)));
+    if (typed <= 0) return;
+    final v = math.max(_step, _snap(typed.clamp(_step, _typedMax)));
+    setState(() {
+      _value = v;
+      _range = _around(v);
+    });
   }
 
   @override
