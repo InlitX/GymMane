@@ -131,7 +131,7 @@ class SessionScreen extends StatelessWidget {
                   child: _setsHeader(gc, mode, repsOnly, ex != null && fit.isEachSide(ex.id)),
                 ),
                 for (int j = 0; j < (ex?.sets.length ?? 0); j++) ...[
-                  _swipeToDelete(context, gc, exIdx, j, ex!.sets[j], locked,
+                  _swipeSet(context, gc, exIdx, j, ex!.sets[j], locked,
                       _setRow(gc, exIdx, j, ex.sets[j], repsOnly, locked)),
                 ],
                 if (!repsOnly && mode.isEmpty && ex != null) _guard(locked, _plateRow(context, gc, ex)),
@@ -399,7 +399,7 @@ class SessionScreen extends StatelessWidget {
             child: _setsHeader(gc, mode, repsOnly, fit.isEachSide(ex.id), list: true),
           ),
           for (var j = 0; j < ex.sets.length; j++)
-            _swipeToDelete(context, gc, i, j, ex.sets[j], locked,
+            _swipeSet(context, gc, i, j, ex.sets[j], locked,
                 _setRow(gc, i, j, ex.sets[j], repsOnly, locked, list: true, prev: j < prev.length ? prev[j] : null)),
           const SizedBox(height: 6),
           _guard(
@@ -906,13 +906,23 @@ class SessionScreen extends StatelessWidget {
     );
   }
 
-  Widget _swipeToDelete(BuildContext context, GymColors gc, int exIdx, int j, SessionSet st,
+  Widget _swipeSet(BuildContext context, GymColors gc, int exIdx, int j, SessionSet st,
       bool locked, Widget child) {
     if (locked) return child;
     return Dismissible(
       key: ObjectKey(st),
-      direction: DismissDirection.endToStart,
+      dismissThresholds: const {DismissDirection.startToEnd: 0.5},
       background: Container(
+        margin: const EdgeInsets.only(bottom: 2),
+        padding: const EdgeInsets.only(left: 18),
+        alignment: Alignment.centerLeft,
+        decoration: BoxDecoration(
+          color: gc.sage.withValues(alpha: 0.16),
+          borderRadius: BorderRadius.circular(14),
+        ),
+        child: Icon(PhosphorIconsRegular.copy, size: 18, color: gc.sage),
+      ),
+      secondaryBackground: Container(
         margin: const EdgeInsets.only(bottom: 2),
         padding: const EdgeInsets.only(right: 18),
         alignment: Alignment.centerRight,
@@ -922,8 +932,28 @@ class SessionScreen extends StatelessWidget {
         ),
         child: Icon(PhosphorIconsRegular.trash, size: 18, color: gc.danger),
       ),
+      confirmDismiss: (dir) async {
+        if (dir != DismissDirection.startToEnd) return true;
+        _duplicateSet(context, exIdx, j);
+        return false;
+      },
       onDismissed: (_) => _deleteSet(context, exIdx, j),
       child: child,
+    );
+  }
+
+  void _duplicateSet(BuildContext context, int exIdx, int j) {
+    final copy = fit.duplicateSet(exIdx, j);
+    if (copy == null) return;
+    HapticFeedback.lightImpact();
+    showNotchToast(
+      context,
+      t.setDuplicated,
+      icon: PhosphorIconsFill.copy,
+      accent: context.gc.sage,
+      action: t.undo,
+      onTap: () => fit.removeSetObject(exIdx, copy),
+      duration: const Duration(milliseconds: 3200),
     );
   }
 
@@ -967,9 +997,9 @@ class SessionScreen extends StatelessWidget {
                 style: AppTheme.f(12,
                     weight: FontWeight.w600, color: target.up ? gc.ember : gc.textSecondary),
               );
-              if (target.up) return Text.rich(main);
+              final why = fit.nextWhy(id);
+              if (why == null) return Text.rich(main);
               final holdStyle = AppTheme.f(11.5, weight: FontWeight.w400, color: gc.textTertiary);
-              final why = target.deload ? t.nextDeload(fit.stallStreak(id)) : t.nextHold;
               final both = TextSpan(children: [main, TextSpan(text: ' · $why', style: holdStyle)]);
               final painter = TextPainter(
                 text: both,
@@ -1875,11 +1905,11 @@ class SessionScreen extends StatelessWidget {
                 Expanded(child: _countUp(vol, (v) => _sumCard(gc, t.volume, fit.volumeLabel(v)))),
               ]),
             ),
-            if (vsLast == null || vsLast > 0) ...[
+            if (vsLast != null || fit.summaryFirstTime) ...[
               const SizedBox(height: 10),
               Rise(
                 index: 2,
-                child: vsLast != null ? _vsLastCard(gc, vol, vsLast) : _firstTimeCard(gc),
+                child: vsLast != null ? _vsLastCard(gc, vsLast) : _firstTimeCard(gc),
               ),
             ],
             AnimatedSize(
@@ -2179,10 +2209,8 @@ class SessionScreen extends StatelessWidget {
     );
   }
 
-  Widget _vsLastCard(GymColors gc, double now, double before) {
-    final diff = now - before;
-    final up = diff >= 0;
-    final pct = ((diff / before) * 100).round();
+  Widget _vsLastCard(GymColors gc, int pct) {
+    final up = pct >= 0;
     return SoftCard(
       radius: 16,
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
