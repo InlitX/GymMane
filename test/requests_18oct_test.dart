@@ -196,14 +196,17 @@ void main() {
     });
   });
   group('widgets de nutrición', () {
-    test('lo tocado en el widget se apunta con su hora y lo de otro día se ignora', () {
+    test('lo tocado en el widget se apunta con su hora, en su día, y lo muy viejo se ignora', () {
       final now = DateTime.now();
       final ms = now.subtract(const Duration(minutes: 5)).millisecondsSinceEpoch;
-      final old = now.subtract(const Duration(days: 2)).millisecondsSinceEpoch;
+      final twoDays = now.subtract(const Duration(days: 2));
+      final old = twoDays.millisecondsSinceEpoch;
+      final stale = now.subtract(const Duration(days: 10)).millisecondsSinceEpoch;
       final food = fit.saveFood(name: 'Batido', macros: const Macros(kcal: 120, protein: 24));
       final before = fit.waterOn(now);
-      final n = fit.takeWidgetLog('w,$ms,250;w,$old,250;s,$ms,${food.id};x,1,2;w,bad,3');
-      expect(n, 2);
+      final n = fit.takeWidgetLog('w,$ms,250;w,$old,250;w,$stale,250;s,$ms,${food.id};x,1,2;w,bad,3');
+      expect(n, 3);
+      expect(fit.waterOn(twoDays), 250);
       expect(fit.waterOn(now), before + 250);
       expect(fit.totalOn(now).protein.round(), 24);
       expect(fit.waterSipsOn(now).last.at.millisecondsSinceEpoch, ms);

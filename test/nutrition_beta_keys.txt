@@ -113,3 +113,10 @@ shakeNone
 shakeMarkLabel
 shakeNew
 shakeUntag
+proteinSource
+proteinMixedShort
+fillDay
+leftAfterKcal
+leftAfterBoth
+leftAfterOver
+perDayUnit
