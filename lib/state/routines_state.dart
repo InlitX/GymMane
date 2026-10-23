@@ -112,10 +112,57 @@ mixin RoutinesState on FitCore, LibraryState {
     return last;
   }
 
+  List<Routine> get activeRoutines => [for (final r in routines) if (!r.archived) r];
+
+  List<Routine> get archivedRoutines => [for (final r in routines) if (r.archived) r];
+
+  bool showArchivedRoutines = false;
+
+  void toggleArchivedRoutines() {
+    showArchivedRoutines = !showArchivedRoutines;
+    notifyListeners();
+  }
+
+  VoidCallback? archiveRoutine(String id, bool on) {
+    final r = _routine(id);
+    if (r == null || r.archived == on) return null;
+    final week = {...weeklyPlan};
+    final extras = {for (final e in planExtras.entries) e.key: [...e.value]};
+    final moves = {for (final e in planMoves.entries) e.key: [...e.value]};
+    final rotation = [...rotationIds];
+    final next = rotationNextId;
+    r.archived = on;
+    if (on) _unplanRoutine(id);
+    _persist();
+    syncTrainReminder();
+    notifyListeners();
+    if (!on) return null;
+    return () {
+      r.archived = false;
+      weeklyPlan
+        ..clear()
+        ..addAll(week);
+      planExtras
+        ..clear()
+        ..addAll(extras);
+      planMoves
+        ..clear()
+        ..addAll(moves);
+      rotationIds
+        ..clear()
+        ..addAll(rotation);
+      rotationNextId = next;
+      _persist();
+      syncTrainReminder();
+      notifyListeners();
+    };
+  }
+
   List<Routine> get routinesByLastDone {
-    final last = {for (final r in routines) r.id: lastDoneOf(r.id)};
-    final order = {for (final (i, r) in routines.indexed) r.id: i};
-    return [...routines]..sort((a, b) {
+    final active = activeRoutines;
+    final last = {for (final r in active) r.id: lastDoneOf(r.id)};
+    final order = {for (final (i, r) in active.indexed) r.id: i};
+    return [...active]..sort((a, b) {
         final la = last[a.id], lb = last[b.id];
         if (la != null && lb != null && la != lb) return lb.compareTo(la);
         if ((la == null) != (lb == null)) return la == null ? 1 : -1;
@@ -351,14 +398,14 @@ mixin RoutinesState on FitCore, LibraryState {
 
   List<String> get routineGroups {
     final out = <String>[];
-    for (final r in routines) {
+    for (final r in activeRoutines) {
       if (r.group.isNotEmpty && !out.contains(r.group)) out.add(r.group);
     }
     return out;
   }
 
   List<Routine> routinesInGroup(String group) =>
-      routines.where((r) => r.group == group).toList();
+      routines.where((r) => r.group == group && !r.archived).toList();
 
   void setRoutineGroup(String id, String group) {
     final r = _routine(id);
@@ -417,12 +464,20 @@ mixin RoutinesState on FitCore, LibraryState {
   }
 
   void _dropRoutine(String id) {
+    _unplanRoutine(id);
+    routines.removeWhere((r) => r.id == id);
+    _fixRotationNext();
+    for (final p in savedPlans) {
+      p.drop(id);
+    }
+  }
+
+  void _unplanRoutine(String id) {
     final i = rotationIds.indexOf(id);
     if (i >= 0) {
       if (rotationNextId == id) rotationNextId = rotationIds[(i + 1) % rotationIds.length];
       rotationIds.removeAt(i);
     }
-    routines.removeWhere((r) => r.id == id);
     _fixRotationNext();
     weeklyPlan.removeWhere((_, v) => v == id);
     for (final extras in planExtras.values) {
@@ -437,9 +492,6 @@ mixin RoutinesState on FitCore, LibraryState {
       final extras = planExtras[day]!;
       weeklyPlan[day] = extras.removeAt(0);
       if (extras.isEmpty) planExtras.remove(day);
-    }
-    for (final p in savedPlans) {
-      p.drop(id);
     }
     if (activeRoutineId == id) activeRoutineId = null;
   }

@@ -232,7 +232,8 @@ class Routine {
       Map<String, List<PlannedSet>>? plan,
       Map<String, int>? rest,
       this.group = '',
-      this.color = -1})
+      this.color = -1,
+      this.archived = false})
       : sets = sets ?? {},
         chained = chained ?? {},
         plan = plan ?? {},
@@ -241,6 +242,7 @@ class Routine {
   String name;
   String group;
   int color;
+  bool archived;
   final List<String> exerciseIds;
   final Map<String, int> sets;
   final Set<String> chained;
@@ -256,6 +258,7 @@ class Routine {
         if (chained.isNotEmpty) 'c': chained.toList(),
         if (group.isNotEmpty) 'g': group,
         if (color >= 0) 'k': color,
+        if (archived) 'a': true,
         if (plan.isNotEmpty)
           'p': plan.map((k, v) => MapEntry(k, v.map((s) => s.toJson()).toList())),
       };
@@ -274,5 +277,6 @@ class Routine {
             .map((k, v) => MapEntry(k as String, ((v as num).toInt()).clamp(0, 600))),
         group: (j['g'] as String?) ?? '',
         color: (j['k'] as num?)?.toInt() ?? -1,
+        archived: j['a'] == true,
       );
 }
