@@ -86,7 +86,7 @@ class HomeWidgetBridge {
       final bodySize = _ios ? const Size(320, 336) : const Size(320, 220);
       final todaySize = _ios ? const Size(155, 155) : const Size(120, 120);
       const weekSize = Size(320, 150);
-      final week = [for (var i = 0; i < 7; i++) fit.isDayDone(i)];
+      final week = [for (var i = 0; i < 7; i++) fit.isDayDone(i) && !fit.isDayPartial(i)];
       final levels = fit.heatmapWeeksFor(26);
       final heat = fit.muscleHeatOver(bodyDays);
       final plannedToday = fit.todayRoutine != null;
