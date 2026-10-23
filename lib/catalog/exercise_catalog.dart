@@ -495,8 +495,8 @@ const List<Exercise> kExercises = [
   Exercise(
     id: '7zdxRTl',
     name: 'Leg Press',
-    primary: 'glutes',
-    secondary: ['hamstrings', 'calves'],
+    primary: 'quads',
+    secondary: ['glutes', 'hamstrings'],
     equipment: 'Machine',
     difficulty: 'Beginner',
     art: 'leg-press',
@@ -2286,8 +2286,8 @@ const List<Exercise> kExercises = [
   Exercise(
     id: 'IpONWYv',
     name: 'Dumbbell Side Bend',
-    primary: 'abdomen',
-    secondary: ['obliques'],
+    primary: 'obliques',
+    secondary: ['abdomen'],
     equipment: 'Dumbbell',
     difficulty: 'Intermediate',
     art: 'dumbbell-side-bend',
@@ -2444,8 +2444,8 @@ const List<Exercise> kExercises = [
   Exercise(
     id: '6bOA1Oi',
     name: 'Weighted Side Bend (On Stability Ball)',
-    primary: 'abdomen',
-    secondary: ['obliques'],
+    primary: 'obliques',
+    secondary: ['abdomen'],
     equipment: 'Weighted',
     difficulty: 'Intermediate',
     art: 'ball-side-bend',
@@ -7186,6 +7186,14 @@ const List<String> kFilterMuscles = [
   'chest', 'back', 'trapezius', 'lowerback', 'shoulders', 'biceps', 'triceps', 'forearm', 'abdomen', 'obliques',
   'quads', 'glutes', 'hamstrings', 'calves'
 ];
+const Map<String, List<String>> kBodyZones = {
+  'Chest': ['chest'],
+  'Back': ['back', 'trapezius', 'lowerback'],
+  'Shoulders': ['shoulders'],
+  'Arms': ['biceps', 'triceps', 'forearm'],
+  'Core': ['abdomen', 'obliques'],
+  'Legs': ['quads', 'glutes', 'hamstrings', 'calves'],
+};
 const List<String> kDifficulties = ['Beginner', 'Intermediate', 'Advanced'];
 
 const List<String> kEquipment = [
