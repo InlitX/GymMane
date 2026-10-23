@@ -61,6 +61,8 @@ abstract class FitCore extends ChangeNotifier {
 
   final Map<String, double> progressStep = {};
 
+  final Map<String, ProgressRule> progressRules = {};
+
   final Set<String> autoWarmup = {};
 
   final Set<String> repsOnly = {};

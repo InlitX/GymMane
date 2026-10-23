@@ -359,13 +359,30 @@ mixin SettingsState on FitCore, ToolsState, LibraryState {
 
   double? progressFor(String exerciseId) => progressStep[exerciseId];
 
-  bool hasProgress(String exerciseId) => (progressStep[exerciseId] ?? 0) > 0;
+  bool hasProgress(String exerciseId) =>
+      (progressStep[exerciseId] ?? 0) > 0 && progressRule(exerciseId).kind != ProgressKind.manual;
+
+  ProgressRule progressRule(String exerciseId) => progressRules[exerciseId] ?? const ProgressRule();
+
+  void setProgressRule(String exerciseId, ProgressRule rule) {
+    final was = progressRule(exerciseId).kind;
+    if (rule.kind != was && (rule.kind == ProgressKind.amrap || was == ProgressKind.amrap)) {
+      rule = rule.copyWith(fails: rule.kind == ProgressKind.amrap ? 1 : 3);
+    }
+    progressRules[exerciseId] = rule;
+    if (rule.kind != was && rule.kind != ProgressKind.manual && (progressStep[exerciseId] ?? 0) <= 0) {
+      progressStep[exerciseId] = fromDisplayWeight(weightStep);
+    }
+    _persist();
+    notifyListeners();
+  }
 
   void toggleProgress(String exerciseId) {
     if (hasProgress(exerciseId)) {
       progressStep.remove(exerciseId);
     } else {
       progressStep[exerciseId] = fromDisplayWeight(weightStep);
+      if (progressRule(exerciseId).kind == ProgressKind.manual) progressRules.remove(exerciseId);
     }
     _persist();
     notifyListeners();
