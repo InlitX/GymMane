@@ -3340,18 +3340,6 @@ abstract class AppLocalizations {
   /// **'When the last set of an exercise is ticked, the workout moves on.'**
   String get autoAdvanceHint;
 
-  /// No description provided for @autoProgress.
-  ///
-  /// In en, this message translates to:
-  /// **'Add weight next time'**
-  String get autoProgress;
-
-  /// No description provided for @autoProgressHint.
-  ///
-  /// In en, this message translates to:
-  /// **'Hit every rep and the next session starts {w} heavier.'**
-  String autoProgressHint(String w);
-
   /// No description provided for @placePlates.
   ///
   /// In en, this message translates to:
@@ -8829,6 +8817,354 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'+{n} more'**
   String historyMore(int n);
+
+  /// No description provided for @stopwatch.
+  ///
+  /// In en, this message translates to:
+  /// **'Stopwatch'**
+  String get stopwatch;
+
+  /// No description provided for @proteinSource.
+  ///
+  /// In en, this message translates to:
+  /// **'Protein source'**
+  String get proteinSource;
+
+  /// No description provided for @proteinMixedShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Mixed'**
+  String get proteinMixedShort;
+
+  /// No description provided for @kcalActive.
+  ///
+  /// In en, this message translates to:
+  /// **'active'**
+  String get kcalActive;
+
+  /// No description provided for @kcalEstimated.
+  ///
+  /// In en, this message translates to:
+  /// **'estimated'**
+  String get kcalEstimated;
+
+  /// No description provided for @kcalYours.
+  ///
+  /// In en, this message translates to:
+  /// **'your value'**
+  String get kcalYours;
+
+  /// No description provided for @kcalTotalRest.
+  ///
+  /// In en, this message translates to:
+  /// **'{value} in total, counting what you burn at rest'**
+  String kcalTotalRest(String value);
+
+  /// No description provided for @inclineLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Incline'**
+  String get inclineLabel;
+
+  /// No description provided for @kcalUseOwn.
+  ///
+  /// In en, this message translates to:
+  /// **'Use my value'**
+  String get kcalUseOwn;
+
+  /// No description provided for @kcalBackToEstimate.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to the estimate'**
+  String get kcalBackToEstimate;
+
+  /// No description provided for @kcalNeedsData.
+  ///
+  /// In en, this message translates to:
+  /// **'Add distance and time to estimate the calories'**
+  String get kcalNeedsData;
+
+  /// No description provided for @kcalHowEstimated.
+  ///
+  /// In en, this message translates to:
+  /// **'Estimated from distance, time, incline and your weight (ACSM formula).'**
+  String get kcalHowEstimated;
+
+  /// No description provided for @kcalOwnTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Active calories'**
+  String get kcalOwnTitle;
+
+  /// No description provided for @planMine.
+  ///
+  /// In en, this message translates to:
+  /// **'My plan'**
+  String get planMine;
+
+  /// No description provided for @planNew.
+  ///
+  /// In en, this message translates to:
+  /// **'New plan'**
+  String get planNew;
+
+  /// No description provided for @planSaveWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Save this week'**
+  String get planSaveWeek;
+
+  /// No description provided for @planSaveWeekHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep the current week as a plan you can come back to'**
+  String get planSaveWeekHint;
+
+  /// No description provided for @planEmptyWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Start an empty week'**
+  String get planEmptyWeek;
+
+  /// No description provided for @planEmptyWeekHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Your current week stays saved as a plan'**
+  String get planEmptyWeekHint;
+
+  /// No description provided for @planName.
+  ///
+  /// In en, this message translates to:
+  /// **'Plan name'**
+  String get planName;
+
+  /// No description provided for @planRename.
+  ///
+  /// In en, this message translates to:
+  /// **'Rename'**
+  String get planRename;
+
+  /// No description provided for @planDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete plan'**
+  String get planDelete;
+
+  /// No description provided for @plansHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Changes to the week are saved in the selected plan'**
+  String get plansHint;
+
+  /// No description provided for @progression.
+  ///
+  /// In en, this message translates to:
+  /// **'Progression'**
+  String get progression;
+
+  /// No description provided for @progManual.
+  ///
+  /// In en, this message translates to:
+  /// **'Manual'**
+  String get progManual;
+
+  /// No description provided for @progManualHint.
+  ///
+  /// In en, this message translates to:
+  /// **'No suggestions: you choose every weight.'**
+  String get progManualHint;
+
+  /// No description provided for @progLinear.
+  ///
+  /// In en, this message translates to:
+  /// **'Linear'**
+  String get progLinear;
+
+  /// No description provided for @progLinearHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Hit every rep and the weight goes up.'**
+  String get progLinearHint;
+
+  /// No description provided for @progDouble.
+  ///
+  /// In en, this message translates to:
+  /// **'Double progression'**
+  String get progDouble;
+
+  /// No description provided for @progDoubleHint.
+  ///
+  /// In en, this message translates to:
+  /// **'More reps up to the top of the range, then more weight.'**
+  String get progDoubleHint;
+
+  /// No description provided for @progVolume.
+  ///
+  /// In en, this message translates to:
+  /// **'Reps, sets and weight'**
+  String get progVolume;
+
+  /// No description provided for @progVolumeHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Reps to the top, then one more set, then more weight.'**
+  String get progVolumeHint;
+
+  /// No description provided for @progAmrap.
+  ///
+  /// In en, this message translates to:
+  /// **'Last set all-out'**
+  String get progAmrap;
+
+  /// No description provided for @progAmrapHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Last set: as many reps as you can. Double the target and it jumps twice.'**
+  String get progAmrapHint;
+
+  /// No description provided for @progStep.
+  ///
+  /// In en, this message translates to:
+  /// **'Weight jump'**
+  String get progStep;
+
+  /// No description provided for @progRange.
+  ///
+  /// In en, this message translates to:
+  /// **'Rep range'**
+  String get progRange;
+
+  /// No description provided for @progSets.
+  ///
+  /// In en, this message translates to:
+  /// **'Sets'**
+  String get progSets;
+
+  /// No description provided for @progDeload.
+  ///
+  /// In en, this message translates to:
+  /// **'Lighter after'**
+  String get progDeload;
+
+  /// No description provided for @progFails.
+  ///
+  /// In en, this message translates to:
+  /// **'{n, plural, =1{1 miss} other{{n} misses}}'**
+  String progFails(int n);
+
+  /// No description provided for @progDeloadPct.
+  ///
+  /// In en, this message translates to:
+  /// **'Lighten by'**
+  String get progDeloadPct;
+
+  /// No description provided for @progApply.
+  ///
+  /// In en, this message translates to:
+  /// **'Fill in the next workout'**
+  String get progApply;
+
+  /// No description provided for @progApplyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Off, it only shows as a suggestion.'**
+  String get progApplyHint;
+
+  /// No description provided for @nextMoreReps.
+  ///
+  /// In en, this message translates to:
+  /// **'same weight, one more rep'**
+  String get nextMoreReps;
+
+  /// No description provided for @nextAddSet.
+  ///
+  /// In en, this message translates to:
+  /// **'one more set'**
+  String get nextAddSet;
+
+  /// No description provided for @nextAmrap.
+  ///
+  /// In en, this message translates to:
+  /// **'last set: as many as you can'**
+  String get nextAmrap;
+
+  /// No description provided for @fillDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Fill your day · {amount}'**
+  String fillDay(String amount);
+
+  /// No description provided for @leftAfterKcal.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ll have {kcal} left'**
+  String leftAfterKcal(String kcal);
+
+  /// No description provided for @leftAfterBoth.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ll have {kcal} and {grams} g protein left'**
+  String leftAfterBoth(String kcal, String grams);
+
+  /// No description provided for @leftAfterOver.
+  ///
+  /// In en, this message translates to:
+  /// **'{kcal} over your goal'**
+  String leftAfterOver(String kcal);
+
+  /// No description provided for @perDayUnit.
+  ///
+  /// In en, this message translates to:
+  /// **'{unit} a day'**
+  String perDayUnit(String unit);
+
+  /// No description provided for @byZone.
+  ///
+  /// In en, this message translates to:
+  /// **'By area'**
+  String get byZone;
+
+  /// No description provided for @importAlreadyHave.
+  ///
+  /// In en, this message translates to:
+  /// **'You already have these routines. You can add them again as a copy.'**
+  String get importAlreadyHave;
+
+  /// No description provided for @importAsCopy.
+  ///
+  /// In en, this message translates to:
+  /// **'Add as a copy'**
+  String get importAsCopy;
+
+  /// No description provided for @importOwned.
+  ///
+  /// In en, this message translates to:
+  /// **'Already yours'**
+  String get importOwned;
+
+  /// No description provided for @setDuplicated.
+  ///
+  /// In en, this message translates to:
+  /// **'Set duplicated'**
+  String get setDuplicated;
+
+  /// No description provided for @setTypeCluster.
+  ///
+  /// In en, this message translates to:
+  /// **'Cluster'**
+  String get setTypeCluster;
+
+  /// No description provided for @setTypeClusterInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'One set split into small blocks with 15–30 seconds between them. Log the total reps.'**
+  String get setTypeClusterInfo;
+
+  /// No description provided for @timesBodyweight.
+  ///
+  /// In en, this message translates to:
+  /// **'{value}× your bodyweight'**
+  String timesBodyweight(String value);
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

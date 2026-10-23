@@ -1831,14 +1831,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get autoAdvanceHint => 'When the last set of an exercise is ticked, the workout moves on.';
 
   @override
-  String get autoProgress => 'Add weight next time';
-
-  @override
-  String autoProgressHint(String w) {
-    return 'Hit every rep and the next session starts $w heavier.';
-  }
-
-  @override
   String get placePlates => 'Plates and bar';
 
   @override
@@ -4983,5 +4975,197 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String historyMore(int n) {
     return '+$n more';
+  }
+
+  @override
+  String get stopwatch => 'Stopwatch';
+
+  @override
+  String get proteinSource => 'Protein source';
+
+  @override
+  String get proteinMixedShort => 'Mixed';
+
+  @override
+  String get kcalActive => 'active';
+
+  @override
+  String get kcalEstimated => 'estimated';
+
+  @override
+  String get kcalYours => 'your value';
+
+  @override
+  String kcalTotalRest(String value) {
+    return '$value in total, counting what you burn at rest';
+  }
+
+  @override
+  String get inclineLabel => 'Incline';
+
+  @override
+  String get kcalUseOwn => 'Use my value';
+
+  @override
+  String get kcalBackToEstimate => 'Back to the estimate';
+
+  @override
+  String get kcalNeedsData => 'Add distance and time to estimate the calories';
+
+  @override
+  String get kcalHowEstimated => 'Estimated from distance, time, incline and your weight (ACSM formula).';
+
+  @override
+  String get kcalOwnTitle => 'Active calories';
+
+  @override
+  String get planMine => 'My plan';
+
+  @override
+  String get planNew => 'New plan';
+
+  @override
+  String get planSaveWeek => 'Save this week';
+
+  @override
+  String get planSaveWeekHint => 'Keep the current week as a plan you can come back to';
+
+  @override
+  String get planEmptyWeek => 'Start an empty week';
+
+  @override
+  String get planEmptyWeekHint => 'Your current week stays saved as a plan';
+
+  @override
+  String get planName => 'Plan name';
+
+  @override
+  String get planRename => 'Rename';
+
+  @override
+  String get planDelete => 'Delete plan';
+
+  @override
+  String get plansHint => 'Changes to the week are saved in the selected plan';
+
+  @override
+  String get progression => 'Progression';
+
+  @override
+  String get progManual => 'Manual';
+
+  @override
+  String get progManualHint => 'No suggestions: you choose every weight.';
+
+  @override
+  String get progLinear => 'Linear';
+
+  @override
+  String get progLinearHint => 'Hit every rep and the weight goes up.';
+
+  @override
+  String get progDouble => 'Double progression';
+
+  @override
+  String get progDoubleHint => 'More reps up to the top of the range, then more weight.';
+
+  @override
+  String get progVolume => 'Reps, sets and weight';
+
+  @override
+  String get progVolumeHint => 'Reps to the top, then one more set, then more weight.';
+
+  @override
+  String get progAmrap => 'Last set all-out';
+
+  @override
+  String get progAmrapHint => 'Last set: as many reps as you can. Double the target and it jumps twice.';
+
+  @override
+  String get progStep => 'Weight jump';
+
+  @override
+  String get progRange => 'Rep range';
+
+  @override
+  String get progSets => 'Sets';
+
+  @override
+  String get progDeload => 'Lighter after';
+
+  @override
+  String progFails(int n) {
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n misses', one: '1 miss');
+    return '$_temp0';
+  }
+
+  @override
+  String get progDeloadPct => 'Lighten by';
+
+  @override
+  String get progApply => 'Fill in the next workout';
+
+  @override
+  String get progApplyHint => 'Off, it only shows as a suggestion.';
+
+  @override
+  String get nextMoreReps => 'same weight, one more rep';
+
+  @override
+  String get nextAddSet => 'one more set';
+
+  @override
+  String get nextAmrap => 'last set: as many as you can';
+
+  @override
+  String fillDay(String amount) {
+    return 'Fill your day · $amount';
+  }
+
+  @override
+  String leftAfterKcal(String kcal) {
+    return 'You\'ll have $kcal left';
+  }
+
+  @override
+  String leftAfterBoth(String kcal, String grams) {
+    return 'You\'ll have $kcal and $grams g protein left';
+  }
+
+  @override
+  String leftAfterOver(String kcal) {
+    return '$kcal over your goal';
+  }
+
+  @override
+  String perDayUnit(String unit) {
+    return '$unit a day';
+  }
+
+  @override
+  String get byZone => 'By area';
+
+  @override
+  String get importAlreadyHave => 'You already have these routines. You can add them again as a copy.';
+
+  @override
+  String get importAsCopy => 'Add as a copy';
+
+  @override
+  String get importOwned => 'Already yours';
+
+  @override
+  String get setDuplicated => 'Set duplicated';
+
+  @override
+  String get setTypeCluster => 'Cluster';
+
+  @override
+  String get setTypeClusterInfo =>
+      'One set split into small blocks with 15–30 seconds between them. Log the total reps.';
+
+  @override
+  String timesBodyweight(String value) {
+    return '$value× your bodyweight';
   }
 }

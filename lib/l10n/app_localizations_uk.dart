@@ -1833,14 +1833,6 @@ class AppLocalizationsUk extends AppLocalizations {
       'Коли останній підхід вправи позначено, тренування автоматично переходить до наступної.';
 
   @override
-  String get autoProgress => 'Додати вагу наступного разу';
-
-  @override
-  String autoProgressHint(String w) {
-    return 'Виконай усі повторення, і наступне тренування почнеться з додаванням $w.';
-  }
-
-  @override
   String get placePlates => 'Диски та гриф';
 
   @override
@@ -4443,7 +4435,7 @@ class AppLocalizationsUk extends AppLocalizations {
   }
 
   @override
-  String get planDeleteBody => 'Your logged days stay as they are.';
+  String get planDeleteBody => 'Ваші програми залишаться. Видаляється лише цей збережений тиждень.';
 
   @override
   String get sectionBeta => 'Бета';
@@ -4636,7 +4628,7 @@ class AppLocalizationsUk extends AppLocalizations {
   String get planEdit => 'Edit plan';
 
   @override
-  String get planNameHint => 'Plan name';
+  String get planNameHint => 'Літо, подорож…';
 
   @override
   String get planDaysQuestion => 'Which days?';
@@ -5051,5 +5043,197 @@ class AppLocalizationsUk extends AppLocalizations {
   @override
   String historyMore(int n) {
     return 'ще $n';
+  }
+
+  @override
+  String get stopwatch => 'Секундомір';
+
+  @override
+  String get proteinSource => 'Protein source';
+
+  @override
+  String get proteinMixedShort => 'Mixed';
+
+  @override
+  String get kcalActive => 'активні';
+
+  @override
+  String get kcalEstimated => 'оцінка';
+
+  @override
+  String get kcalYours => 'ваше значення';
+
+  @override
+  String kcalTotalRest(String value) {
+    return '$value загалом, з урахуванням витрат у спокої';
+  }
+
+  @override
+  String get inclineLabel => 'Нахил';
+
+  @override
+  String get kcalUseOwn => 'Вказати своє';
+
+  @override
+  String get kcalBackToEstimate => 'Повернути оцінку';
+
+  @override
+  String get kcalNeedsData => 'Додайте дистанцію і час, щоб оцінити калорії';
+
+  @override
+  String get kcalHowEstimated => 'Оцінка за дистанцією, часом, нахилом і вашою вагою (формула ACSM).';
+
+  @override
+  String get kcalOwnTitle => 'Активні калорії';
+
+  @override
+  String get planMine => 'Мій план';
+
+  @override
+  String get planNew => 'Новий план';
+
+  @override
+  String get planSaveWeek => 'Зберегти цей тиждень';
+
+  @override
+  String get planSaveWeekHint => 'Збережіть поточний тиждень як план, до якого можна повернутися';
+
+  @override
+  String get planEmptyWeek => 'Почати порожній тиждень';
+
+  @override
+  String get planEmptyWeekHint => 'Поточний тиждень залишиться збереженим як план';
+
+  @override
+  String get planName => 'Назва плану';
+
+  @override
+  String get planRename => 'Перейменувати';
+
+  @override
+  String get planDelete => 'Видалити план';
+
+  @override
+  String get plansHint => 'Зміни тижня зберігаються в обраному плані';
+
+  @override
+  String get progression => 'Прогресія';
+
+  @override
+  String get progManual => 'Вручну';
+
+  @override
+  String get progManualHint => 'Без підказок: ви самі обираєте кожну вагу.';
+
+  @override
+  String get progLinear => 'Лінійна';
+
+  @override
+  String get progLinearHint => 'Виконали всі повторення — вага зростає.';
+
+  @override
+  String get progDouble => 'Подвійна прогресія';
+
+  @override
+  String get progDoubleHint => 'Більше повторень до верхньої межі, потім більша вага.';
+
+  @override
+  String get progVolume => 'Повтори, підходи й вага';
+
+  @override
+  String get progVolumeHint => 'Повтори до верху, потім ще підхід, потім більша вага.';
+
+  @override
+  String get progAmrap => 'Останній підхід до відмови';
+
+  @override
+  String get progAmrapHint => 'Останній підхід: скільки зможете. Подвоїте ціль — вага зросте вдвічі.';
+
+  @override
+  String get progStep => 'Крок ваги';
+
+  @override
+  String get progRange => 'Діапазон повторень';
+
+  @override
+  String get progSets => 'Підходи';
+
+  @override
+  String get progDeload => 'Легше після';
+
+  @override
+  String progFails(int n) {
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n невдач', one: '1 невдачі');
+    return '$_temp0';
+  }
+
+  @override
+  String get progDeloadPct => 'Знизити на';
+
+  @override
+  String get progApply => 'Заповнювати наступне тренування';
+
+  @override
+  String get progApplyHint => 'Вимкнено: лише підказка.';
+
+  @override
+  String get nextMoreReps => 'та сама вага, на повтор більше';
+
+  @override
+  String get nextAddSet => 'на підхід більше';
+
+  @override
+  String get nextAmrap => 'останній підхід: скільки зможете';
+
+  @override
+  String fillDay(String amount) {
+    return 'Fill your day · $amount';
+  }
+
+  @override
+  String leftAfterKcal(String kcal) {
+    return 'You\'ll have $kcal left';
+  }
+
+  @override
+  String leftAfterBoth(String kcal, String grams) {
+    return 'You\'ll have $kcal and $grams g protein left';
+  }
+
+  @override
+  String leftAfterOver(String kcal) {
+    return '$kcal over your goal';
+  }
+
+  @override
+  String perDayUnit(String unit) {
+    return '$unit a day';
+  }
+
+  @override
+  String get byZone => 'За зонами';
+
+  @override
+  String get importAlreadyHave => 'Ці програми у вас уже є. Можна додати їх ще раз як копію.';
+
+  @override
+  String get importAsCopy => 'Додати копію';
+
+  @override
+  String get importOwned => 'Уже є';
+
+  @override
+  String get setDuplicated => 'Підхід скопійовано';
+
+  @override
+  String get setTypeCluster => 'Кластер';
+
+  @override
+  String get setTypeClusterInfo =>
+      'Підхід, розбитий на короткі блоки з паузою 15–30 секунд. Записуйте загальну кількість повторень.';
+
+  @override
+  String timesBodyweight(String value) {
+    return '$value× вашої ваги';
   }
 }

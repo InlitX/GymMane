@@ -1836,14 +1836,6 @@ class AppLocalizationsNl extends AppLocalizations {
       'Wanneer de laatste set van een oefening is afgevinkt, gaat de training automatisch naar de volgende.';
 
   @override
-  String get autoProgress => 'Volgende keer gewicht toevoegen';
-
-  @override
-  String autoProgressHint(String w) {
-    return 'Haal alle herhalingen en de volgende training begint met $w extra.';
-  }
-
-  @override
   String get placePlates => 'Schijven en stang';
 
   @override
@@ -4417,7 +4409,7 @@ class AppLocalizationsNl extends AppLocalizations {
   }
 
   @override
-  String get planDeleteBody => 'Your logged days stay as they are.';
+  String get planDeleteBody => 'Je routines blijven. Alleen deze opgeslagen week wordt verwijderd.';
 
   @override
   String get sectionBeta => 'Bèta';
@@ -4610,7 +4602,7 @@ class AppLocalizationsNl extends AppLocalizations {
   String get planEdit => 'Edit plan';
 
   @override
-  String get planNameHint => 'Plan name';
+  String get planNameHint => 'Zomer, reis…';
 
   @override
   String get planDaysQuestion => 'Which days?';
@@ -5018,5 +5010,198 @@ class AppLocalizationsNl extends AppLocalizations {
   @override
   String historyMore(int n) {
     return '+$n meer';
+  }
+
+  @override
+  String get stopwatch => 'Stopwatch';
+
+  @override
+  String get proteinSource => 'Protein source';
+
+  @override
+  String get proteinMixedShort => 'Mixed';
+
+  @override
+  String get kcalActive => 'actief';
+
+  @override
+  String get kcalEstimated => 'geschat';
+
+  @override
+  String get kcalYours => 'jouw waarde';
+
+  @override
+  String kcalTotalRest(String value) {
+    return '$value in totaal, inclusief wat je in rust verbrandt';
+  }
+
+  @override
+  String get inclineLabel => 'Helling';
+
+  @override
+  String get kcalUseOwn => 'Mijn waarde gebruiken';
+
+  @override
+  String get kcalBackToEstimate => 'Terug naar de schatting';
+
+  @override
+  String get kcalNeedsData => 'Voeg afstand en tijd toe om de calorieën te schatten';
+
+  @override
+  String get kcalHowEstimated => 'Geschat op basis van afstand, tijd, helling en je gewicht (ACSM-formule).';
+
+  @override
+  String get kcalOwnTitle => 'Actieve calorieën';
+
+  @override
+  String get planMine => 'Mijn plan';
+
+  @override
+  String get planNew => 'Nieuw plan';
+
+  @override
+  String get planSaveWeek => 'Deze week opslaan';
+
+  @override
+  String get planSaveWeekHint => 'Bewaar de huidige week als plan om naar terug te gaan';
+
+  @override
+  String get planEmptyWeek => 'Begin een lege week';
+
+  @override
+  String get planEmptyWeekHint => 'Je huidige week blijft bewaard als plan';
+
+  @override
+  String get planName => 'Naam van het plan';
+
+  @override
+  String get planRename => 'Hernoemen';
+
+  @override
+  String get planDelete => 'Plan verwijderen';
+
+  @override
+  String get plansHint => 'Wijzigingen in de week worden in het gekozen plan opgeslagen';
+
+  @override
+  String get progression => 'Progressie';
+
+  @override
+  String get progManual => 'Handmatig';
+
+  @override
+  String get progManualHint => 'Geen suggesties: jij kiest elk gewicht.';
+
+  @override
+  String get progLinear => 'Lineair';
+
+  @override
+  String get progLinearHint => 'Haal alle herhalingen en het gewicht gaat omhoog.';
+
+  @override
+  String get progDouble => 'Dubbele progressie';
+
+  @override
+  String get progDoubleHint => 'Meer herhalingen tot de bovenkant van het bereik, dan meer gewicht.';
+
+  @override
+  String get progVolume => 'Herhalingen, sets en gewicht';
+
+  @override
+  String get progVolumeHint => 'Herhalingen tot de top, dan een set extra, dan meer gewicht.';
+
+  @override
+  String get progAmrap => 'Laatste set voluit';
+
+  @override
+  String get progAmrapHint =>
+      'Laatste set: zoveel herhalingen als je kunt. Verdubbel het doel en het gaat dubbel omhoog.';
+
+  @override
+  String get progStep => 'Gewichtsstap';
+
+  @override
+  String get progRange => 'Herhalingsbereik';
+
+  @override
+  String get progSets => 'Sets';
+
+  @override
+  String get progDeload => 'Lichter na';
+
+  @override
+  String progFails(int n) {
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n missers', one: '1 misser');
+    return '$_temp0';
+  }
+
+  @override
+  String get progDeloadPct => 'Verlagen met';
+
+  @override
+  String get progApply => 'Volgende training invullen';
+
+  @override
+  String get progApplyHint => 'Uit: verschijnt alleen als suggestie.';
+
+  @override
+  String get nextMoreReps => 'zelfde gewicht, één herhaling meer';
+
+  @override
+  String get nextAddSet => 'één set extra';
+
+  @override
+  String get nextAmrap => 'laatste set: zoveel als je kunt';
+
+  @override
+  String fillDay(String amount) {
+    return 'Fill your day · $amount';
+  }
+
+  @override
+  String leftAfterKcal(String kcal) {
+    return 'You\'ll have $kcal left';
+  }
+
+  @override
+  String leftAfterBoth(String kcal, String grams) {
+    return 'You\'ll have $kcal and $grams g protein left';
+  }
+
+  @override
+  String leftAfterOver(String kcal) {
+    return '$kcal over your goal';
+  }
+
+  @override
+  String perDayUnit(String unit) {
+    return '$unit a day';
+  }
+
+  @override
+  String get byZone => 'Per zone';
+
+  @override
+  String get importAlreadyHave => 'Je hebt deze routines al. Je kunt ze opnieuw als kopie toevoegen.';
+
+  @override
+  String get importAsCopy => 'Als kopie toevoegen';
+
+  @override
+  String get importOwned => 'Heb je al';
+
+  @override
+  String get setDuplicated => 'Set gedupliceerd';
+
+  @override
+  String get setTypeCluster => 'Cluster';
+
+  @override
+  String get setTypeClusterInfo =>
+      'Eén set opgedeeld in kleine blokken met 15–30 seconden ertussen. Noteer het totaal aantal herhalingen.';
+
+  @override
+  String timesBodyweight(String value) {
+    return '$value× je lichaamsgewicht';
   }
 }

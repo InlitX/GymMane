@@ -1833,14 +1833,6 @@ class AppLocalizationsTr extends AppLocalizations {
       'Bir egzersizin son seti işaretlendiğinde antrenman otomatik olarak sonrakine geçer.';
 
   @override
-  String get autoProgress => 'Bir dahaki sefere ağırlık ekle';
-
-  @override
-  String autoProgressHint(String w) {
-    return 'Tüm tekrarları tamamladığında sonraki antrenman $w daha ağır başlar.';
-  }
-
-  @override
   String get placePlates => 'Plakalar ve bar';
 
   @override
@@ -4409,7 +4401,7 @@ class AppLocalizationsTr extends AppLocalizations {
   }
 
   @override
-  String get planDeleteBody => 'Your logged days stay as they are.';
+  String get planDeleteBody => 'Rutinlerin kalır. Sadece bu kayıtlı hafta silinir.';
 
   @override
   String get sectionBeta => 'Beta';
@@ -4602,7 +4594,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get planEdit => 'Edit plan';
 
   @override
-  String get planNameHint => 'Plan name';
+  String get planNameHint => 'Yaz, seyahat…';
 
   @override
   String get planDaysQuestion => 'Which days?';
@@ -5010,5 +5002,202 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String historyMore(int n) {
     return '+$n daha';
+  }
+
+  @override
+  String get stopwatch => 'Kronometre';
+
+  @override
+  String get proteinSource => 'Protein source';
+
+  @override
+  String get proteinMixedShort => 'Mixed';
+
+  @override
+  String get kcalActive => 'aktif';
+
+  @override
+  String get kcalEstimated => 'tahmini';
+
+  @override
+  String get kcalYours => 'senin değerin';
+
+  @override
+  String kcalTotalRest(String value) {
+    return 'toplam $value, dinlenirken yaktıkların dahil';
+  }
+
+  @override
+  String get inclineLabel => 'Eğim';
+
+  @override
+  String get kcalUseOwn => 'Kendi değerimi kullan';
+
+  @override
+  String get kcalBackToEstimate => 'Tahmine dön';
+
+  @override
+  String get kcalNeedsData => 'Kaloriyi tahmin etmek için mesafe ve süre ekle';
+
+  @override
+  String get kcalHowEstimated => 'Mesafe, süre, eğim ve kilona göre tahmin edildi (ACSM formülü).';
+
+  @override
+  String get kcalOwnTitle => 'Aktif kalori';
+
+  @override
+  String get planMine => 'Planım';
+
+  @override
+  String get planNew => 'Yeni plan';
+
+  @override
+  String get planSaveWeek => 'Bu haftayı kaydet';
+
+  @override
+  String get planSaveWeekHint => 'Mevcut haftayı dönebileceğin bir plan olarak sakla';
+
+  @override
+  String get planEmptyWeek => 'Boş bir hafta başlat';
+
+  @override
+  String get planEmptyWeekHint => 'Mevcut haftan plan olarak kayıtlı kalır';
+
+  @override
+  String get planName => 'Plan adı';
+
+  @override
+  String get planRename => 'Yeniden adlandır';
+
+  @override
+  String get planDelete => 'Planı sil';
+
+  @override
+  String get plansHint => 'Haftadaki değişiklikler seçili plana kaydedilir';
+
+  @override
+  String get progression => 'İlerleme';
+
+  @override
+  String get progManual => 'Manuel';
+
+  @override
+  String get progManualHint => 'Öneri yok: her ağırlığı sen seçersin.';
+
+  @override
+  String get progLinear => 'Doğrusal';
+
+  @override
+  String get progLinearHint => 'Tüm tekrarları yap, ağırlık artsın.';
+
+  @override
+  String get progDouble => 'Çift ilerleme';
+
+  @override
+  String get progDoubleHint => 'Aralığın üstüne kadar daha çok tekrar, sonra daha çok ağırlık.';
+
+  @override
+  String get progVolume => 'Tekrar, set ve ağırlık';
+
+  @override
+  String get progVolumeHint => 'Tekrarlar üste kadar, sonra bir set daha, sonra daha çok ağırlık.';
+
+  @override
+  String get progAmrap => 'Son set sonuna kadar';
+
+  @override
+  String get progAmrapHint => 'Son set: yapabildiğin kadar tekrar. Hedefi ikiye katlarsan iki kat artar.';
+
+  @override
+  String get progStep => 'Ağırlık artışı';
+
+  @override
+  String get progRange => 'Tekrar aralığı';
+
+  @override
+  String get progSets => 'Setler';
+
+  @override
+  String get progDeload => 'Hafiflet:';
+
+  @override
+  String progFails(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n başarısızlıktan sonra',
+      one: '1 başarısızlıktan sonra',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get progDeloadPct => 'Azalt';
+
+  @override
+  String get progApply => 'Sonraki antrenmanı doldur';
+
+  @override
+  String get progApplyHint => 'Kapalıyken sadece öneri olarak görünür.';
+
+  @override
+  String get nextMoreReps => 'aynı ağırlık, bir tekrar fazla';
+
+  @override
+  String get nextAddSet => 'bir set fazla';
+
+  @override
+  String get nextAmrap => 'son set: yapabildiğin kadar';
+
+  @override
+  String fillDay(String amount) {
+    return 'Fill your day · $amount';
+  }
+
+  @override
+  String leftAfterKcal(String kcal) {
+    return 'You\'ll have $kcal left';
+  }
+
+  @override
+  String leftAfterBoth(String kcal, String grams) {
+    return 'You\'ll have $kcal and $grams g protein left';
+  }
+
+  @override
+  String leftAfterOver(String kcal) {
+    return '$kcal over your goal';
+  }
+
+  @override
+  String perDayUnit(String unit) {
+    return '$unit a day';
+  }
+
+  @override
+  String get byZone => 'Bölgeye göre';
+
+  @override
+  String get importAlreadyHave => 'Bu programlar sende zaten var. Kopya olarak yeniden ekleyebilirsin.';
+
+  @override
+  String get importAsCopy => 'Kopya olarak ekle';
+
+  @override
+  String get importOwned => 'Zaten var';
+
+  @override
+  String get setDuplicated => 'Set kopyalandı';
+
+  @override
+  String get setTypeCluster => 'Cluster';
+
+  @override
+  String get setTypeClusterInfo =>
+      'Aralarında 15–30 saniye olan küçük bloklara bölünmüş bir set. Toplam tekrarı yaz.';
+
+  @override
+  String timesBodyweight(String value) {
+    return 'vücut ağırlığının $value×';
   }
 }

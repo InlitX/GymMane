@@ -1786,14 +1786,6 @@ class AppLocalizationsKo extends AppLocalizations {
   String get autoAdvanceHint => '운동의 마지막 세트를 체크하면 자동으로 다음 운동으로 넘어갑니다.';
 
   @override
-  String get autoProgress => '다음에 중량 추가';
-
-  @override
-  String autoProgressHint(String w) {
-    return '모든 반복을 성공하면 다음 운동은 $w 더 높은 중량으로 시작합니다.';
-  }
-
-  @override
   String get placePlates => '원판과 바';
 
   @override
@@ -4280,7 +4272,7 @@ class AppLocalizationsKo extends AppLocalizations {
   }
 
   @override
-  String get planDeleteBody => 'Your logged days stay as they are.';
+  String get planDeleteBody => '루틴은 그대로 남아요. 저장된 이 주만 삭제됩니다.';
 
   @override
   String get sectionBeta => '베타';
@@ -4472,7 +4464,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get planEdit => 'Edit plan';
 
   @override
-  String get planNameHint => 'Plan name';
+  String get planNameHint => '여름, 여행…';
 
   @override
   String get planDaysQuestion => 'Which days?';
@@ -4876,5 +4868,196 @@ class AppLocalizationsKo extends AppLocalizations {
   @override
   String historyMore(int n) {
     return '+$n개 더';
+  }
+
+  @override
+  String get stopwatch => '스톱워치';
+
+  @override
+  String get proteinSource => 'Protein source';
+
+  @override
+  String get proteinMixedShort => 'Mixed';
+
+  @override
+  String get kcalActive => '활동';
+
+  @override
+  String get kcalEstimated => '추정';
+
+  @override
+  String get kcalYours => '내 값';
+
+  @override
+  String kcalTotalRest(String value) {
+    return '휴식 중 소모 포함 총 $value';
+  }
+
+  @override
+  String get inclineLabel => '경사';
+
+  @override
+  String get kcalUseOwn => '내 값 사용';
+
+  @override
+  String get kcalBackToEstimate => '추정치로 돌아가기';
+
+  @override
+  String get kcalNeedsData => '칼로리를 추정하려면 거리와 시간을 입력하세요';
+
+  @override
+  String get kcalHowEstimated => '거리, 시간, 경사, 체중으로 추정 (ACSM 공식).';
+
+  @override
+  String get kcalOwnTitle => '활동 칼로리';
+
+  @override
+  String get planMine => '내 플랜';
+
+  @override
+  String get planNew => '새 플랜';
+
+  @override
+  String get planSaveWeek => '이번 주 저장';
+
+  @override
+  String get planSaveWeekHint => '현재 주를 언제든 돌아갈 수 있는 플랜으로 저장';
+
+  @override
+  String get planEmptyWeek => '빈 주로 시작';
+
+  @override
+  String get planEmptyWeekHint => '현재 주는 플랜으로 저장됩니다';
+
+  @override
+  String get planName => '플랜 이름';
+
+  @override
+  String get planRename => '이름 바꾸기';
+
+  @override
+  String get planDelete => '플랜 삭제';
+
+  @override
+  String get plansHint => '주간 변경 사항은 선택한 플랜에 저장됩니다';
+
+  @override
+  String get progression => '점진적 과부하';
+
+  @override
+  String get progManual => '수동';
+
+  @override
+  String get progManualHint => '제안 없음: 무게는 직접 정해요.';
+
+  @override
+  String get progLinear => '선형';
+
+  @override
+  String get progLinearHint => '모든 반복을 채우면 무게가 올라가요.';
+
+  @override
+  String get progDouble => '더블 프로그레션';
+
+  @override
+  String get progDoubleHint => '범위 상단까지 반복을 늘리고, 그다음 무게를 올려요.';
+
+  @override
+  String get progVolume => '반복, 세트, 무게';
+
+  @override
+  String get progVolumeHint => '상단까지 반복, 그다음 세트 하나 추가, 그다음 무게 증가.';
+
+  @override
+  String get progAmrap => '마지막 세트는 한계까지';
+
+  @override
+  String get progAmrapHint => '마지막 세트: 할 수 있는 만큼. 목표의 두 배면 두 단계 올라가요.';
+
+  @override
+  String get progStep => '무게 증가폭';
+
+  @override
+  String get progRange => '반복 범위';
+
+  @override
+  String get progSets => '세트';
+
+  @override
+  String get progDeload => '가볍게: 실패';
+
+  @override
+  String progFails(int n) {
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n회 후', one: '1회 후');
+    return '$_temp0';
+  }
+
+  @override
+  String get progDeloadPct => '감량 폭';
+
+  @override
+  String get progApply => '다음 운동에 채우기';
+
+  @override
+  String get progApplyHint => '끄면 제안으로만 보여요.';
+
+  @override
+  String get nextMoreReps => '같은 무게, 1회 더';
+
+  @override
+  String get nextAddSet => '세트 하나 더';
+
+  @override
+  String get nextAmrap => '마지막 세트: 할 수 있는 만큼';
+
+  @override
+  String fillDay(String amount) {
+    return 'Fill your day · $amount';
+  }
+
+  @override
+  String leftAfterKcal(String kcal) {
+    return 'You\'ll have $kcal left';
+  }
+
+  @override
+  String leftAfterBoth(String kcal, String grams) {
+    return 'You\'ll have $kcal and $grams g protein left';
+  }
+
+  @override
+  String leftAfterOver(String kcal) {
+    return '$kcal over your goal';
+  }
+
+  @override
+  String perDayUnit(String unit) {
+    return '$unit a day';
+  }
+
+  @override
+  String get byZone => '부위별';
+
+  @override
+  String get importAlreadyHave => '이미 있는 루틴이에요. 사본으로 다시 추가할 수 있어요.';
+
+  @override
+  String get importAsCopy => '사본으로 추가';
+
+  @override
+  String get importOwned => '이미 있음';
+
+  @override
+  String get setDuplicated => '세트를 복제했어요';
+
+  @override
+  String get setTypeCluster => '클러스터';
+
+  @override
+  String get setTypeClusterInfo => '한 세트를 15~30초 쉬는 작은 블록으로 나눠요. 총 반복 수를 기록하세요.';
+
+  @override
+  String timesBodyweight(String value) {
+    return '체중의 $value배';
   }
 }

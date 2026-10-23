@@ -1757,14 +1757,6 @@ class AppLocalizationsZh extends AppLocalizations {
   String get autoAdvanceHint => '勾选一个动作的最后一组后，训练会自动进入下一个动作。';
 
   @override
-  String get autoProgress => '下次自动加重';
-
-  @override
-  String autoProgressHint(String w) {
-    return '完成全部次数后，下次训练自动增加 $w。';
-  }
-
-  @override
   String get placePlates => '杠铃片和杠铃杆';
 
   @override
@@ -4224,7 +4216,7 @@ class AppLocalizationsZh extends AppLocalizations {
   }
 
   @override
-  String get planDeleteBody => 'Your logged days stay as they are.';
+  String get planDeleteBody => '你的训练安排都会保留，只删除这份保存的周计划。';
 
   @override
   String get sectionBeta => '测试版';
@@ -4415,7 +4407,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get planEdit => 'Edit plan';
 
   @override
-  String get planNameHint => 'Plan name';
+  String get planNameHint => '夏天、旅行…';
 
   @override
   String get planDaysQuestion => 'Which days?';
@@ -4813,6 +4805,197 @@ class AppLocalizationsZh extends AppLocalizations {
   @override
   String historyMore(int n) {
     return '另外 $n 个';
+  }
+
+  @override
+  String get stopwatch => '秒表';
+
+  @override
+  String get proteinSource => 'Protein source';
+
+  @override
+  String get proteinMixedShort => 'Mixed';
+
+  @override
+  String get kcalActive => '活动';
+
+  @override
+  String get kcalEstimated => '估算';
+
+  @override
+  String get kcalYours => '你的数值';
+
+  @override
+  String kcalTotalRest(String value) {
+    return '合计 $value，含静息消耗';
+  }
+
+  @override
+  String get inclineLabel => '坡度';
+
+  @override
+  String get kcalUseOwn => '使用我的数值';
+
+  @override
+  String get kcalBackToEstimate => '恢复估算';
+
+  @override
+  String get kcalNeedsData => '填写距离和时间即可估算热量';
+
+  @override
+  String get kcalHowEstimated => '根据距离、时间、坡度和体重估算（ACSM 公式）。';
+
+  @override
+  String get kcalOwnTitle => '活动热量';
+
+  @override
+  String get planMine => '我的计划';
+
+  @override
+  String get planNew => '新计划';
+
+  @override
+  String get planSaveWeek => '保存本周';
+
+  @override
+  String get planSaveWeekHint => '把当前一周保存为可随时切回的计划';
+
+  @override
+  String get planEmptyWeek => '从空白的一周开始';
+
+  @override
+  String get planEmptyWeekHint => '当前一周会保存为计划';
+
+  @override
+  String get planName => '计划名称';
+
+  @override
+  String get planRename => '重命名';
+
+  @override
+  String get planDelete => '删除计划';
+
+  @override
+  String get plansHint => '对本周的修改会保存到所选计划';
+
+  @override
+  String get progression => '渐进方式';
+
+  @override
+  String get progManual => '手动';
+
+  @override
+  String get progManualHint => '不给建议：每次重量由你决定。';
+
+  @override
+  String get progLinear => '线性';
+
+  @override
+  String get progLinearHint => '完成所有次数就加重。';
+
+  @override
+  String get progDouble => '双重渐进';
+
+  @override
+  String get progDoubleHint => '先把次数加到区间上限，再加重量。';
+
+  @override
+  String get progVolume => '次数、组数和重量';
+
+  @override
+  String get progVolumeHint => '先加次数到上限，再加一组，最后加重量。';
+
+  @override
+  String get progAmrap => '最后一组做到力竭';
+
+  @override
+  String get progAmrapHint => '最后一组：能做多少做多少。达到目标两倍就加两档。';
+
+  @override
+  String get progStep => '加重幅度';
+
+  @override
+  String get progRange => '次数区间';
+
+  @override
+  String get progSets => '组数';
+
+  @override
+  String get progDeload => '失败几次后减重';
+
+  @override
+  String progFails(int n) {
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n 次', one: '1 次');
+    return '$_temp0';
+  }
+
+  @override
+  String get progDeloadPct => '减重幅度';
+
+  @override
+  String get progApply => '自动填好下次训练';
+
+  @override
+  String get progApplyHint => '关闭时只作为建议显示。';
+
+  @override
+  String get nextMoreReps => '同样重量，多做一次';
+
+  @override
+  String get nextAddSet => '多一组';
+
+  @override
+  String get nextAmrap => '最后一组：能做多少做多少';
+
+  @override
+  String fillDay(String amount) {
+    return 'Fill your day · $amount';
+  }
+
+  @override
+  String leftAfterKcal(String kcal) {
+    return 'You\'ll have $kcal left';
+  }
+
+  @override
+  String leftAfterBoth(String kcal, String grams) {
+    return 'You\'ll have $kcal and $grams g protein left';
+  }
+
+  @override
+  String leftAfterOver(String kcal) {
+    return '$kcal over your goal';
+  }
+
+  @override
+  String perDayUnit(String unit) {
+    return '$unit a day';
+  }
+
+  @override
+  String get byZone => '按部位';
+
+  @override
+  String get importAlreadyHave => '你已经有这些计划了，可以作为副本再次添加。';
+
+  @override
+  String get importAsCopy => '添加为副本';
+
+  @override
+  String get importOwned => '已拥有';
+
+  @override
+  String get setDuplicated => '已复制这一组';
+
+  @override
+  String get setTypeCluster => '簇组';
+
+  @override
+  String get setTypeClusterInfo => '把一组拆成几个小段，中间休息 15–30 秒。记录总次数。';
+
+  @override
+  String timesBodyweight(String value) {
+    return '体重的 $value 倍';
   }
 }
 
@@ -6567,14 +6750,6 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get autoAdvanceHint => '勾選某動作的最後一組後，訓練會自動前往下一個動作。';
-
-  @override
-  String get autoProgress => '下次增加重量';
-
-  @override
-  String autoProgressHint(String w) {
-    return '完成所有次數後，下次訓練會從多 $w 的重量開始。';
-  }
 
   @override
   String get placePlates => '槓片與槓鈴桿';
@@ -8963,6 +9138,9 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   }
 
   @override
+  String get planDeleteBody => '你的訓練安排都會保留，只刪除這份儲存的週計畫。';
+
+  @override
   String get sectionBeta => '測試版';
 
   @override
@@ -9009,6 +9187,9 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get nutritionAboutOk => '知道了';
+
+  @override
+  String get planNameHint => '夏天、旅行…';
 
   @override
   String get planFixedWeek => '固定每週';
@@ -9240,5 +9421,165 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   @override
   String historyMore(int n) {
     return '另外 $n 個';
+  }
+
+  @override
+  String get stopwatch => '碼錶';
+
+  @override
+  String get kcalActive => '活動';
+
+  @override
+  String get kcalEstimated => '估算';
+
+  @override
+  String get kcalYours => '你的數值';
+
+  @override
+  String kcalTotalRest(String value) {
+    return '合計 $value，含靜息消耗';
+  }
+
+  @override
+  String get inclineLabel => '坡度';
+
+  @override
+  String get kcalUseOwn => '使用我的數值';
+
+  @override
+  String get kcalBackToEstimate => '恢復估算';
+
+  @override
+  String get kcalNeedsData => '填寫距離和時間即可估算熱量';
+
+  @override
+  String get kcalHowEstimated => '根據距離、時間、坡度和體重估算（ACSM 公式）。';
+
+  @override
+  String get kcalOwnTitle => '活動熱量';
+
+  @override
+  String get planMine => '我的計畫';
+
+  @override
+  String get planNew => '新計畫';
+
+  @override
+  String get planSaveWeek => '儲存本週';
+
+  @override
+  String get planSaveWeekHint => '把目前這週儲存為可隨時切回的計畫';
+
+  @override
+  String get planEmptyWeek => '從空白的一週開始';
+
+  @override
+  String get planEmptyWeekHint => '目前這週會儲存為計畫';
+
+  @override
+  String get planName => '計畫名稱';
+
+  @override
+  String get planRename => '重新命名';
+
+  @override
+  String get planDelete => '刪除計畫';
+
+  @override
+  String get plansHint => '對本週的修改會儲存到所選計畫';
+
+  @override
+  String get progression => '漸進方式';
+
+  @override
+  String get progManual => '手動';
+
+  @override
+  String get progManualHint => '不給建議：每次重量由你決定。';
+
+  @override
+  String get progLinear => '線性';
+
+  @override
+  String get progLinearHint => '完成所有次數就加重。';
+
+  @override
+  String get progDouble => '雙重漸進';
+
+  @override
+  String get progDoubleHint => '先把次數加到區間上限，再加重量。';
+
+  @override
+  String get progVolume => '次數、組數和重量';
+
+  @override
+  String get progVolumeHint => '先加次數到上限，再加一組，最後加重量。';
+
+  @override
+  String get progAmrap => '最後一組做到力竭';
+
+  @override
+  String get progAmrapHint => '最後一組：能做多少做多少。達到目標兩倍就加兩檔。';
+
+  @override
+  String get progStep => '加重幅度';
+
+  @override
+  String get progRange => '次數區間';
+
+  @override
+  String get progSets => '組數';
+
+  @override
+  String get progDeload => '失敗幾次後減重';
+
+  @override
+  String progFails(int n) {
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n 次', one: '1 次');
+    return '$_temp0';
+  }
+
+  @override
+  String get progDeloadPct => '減重幅度';
+
+  @override
+  String get progApply => '自動填好下次訓練';
+
+  @override
+  String get progApplyHint => '關閉時只作為建議顯示。';
+
+  @override
+  String get nextMoreReps => '同樣重量，多做一次';
+
+  @override
+  String get nextAddSet => '多一組';
+
+  @override
+  String get nextAmrap => '最後一組：能做多少做多少';
+
+  @override
+  String get byZone => '按部位';
+
+  @override
+  String get importAlreadyHave => '你已經有這些課表了，可以作為副本再次新增。';
+
+  @override
+  String get importAsCopy => '新增為副本';
+
+  @override
+  String get importOwned => '已擁有';
+
+  @override
+  String get setDuplicated => '已複製這一組';
+
+  @override
+  String get setTypeCluster => '簇組';
+
+  @override
+  String get setTypeClusterInfo => '把一組拆成幾個小段，中間休息 15–30 秒。記錄總次數。';
+
+  @override
+  String timesBodyweight(String value) {
+    return '體重的 $value 倍';
   }
 }

@@ -1839,14 +1839,6 @@ class AppLocalizationsFr extends AppLocalizations {
       'Quand la dernière série d’un exercice est cochée, la séance passe automatiquement au suivant.';
 
   @override
-  String get autoProgress => 'Ajouter du poids la prochaine fois';
-
-  @override
-  String autoProgressHint(String w) {
-    return 'Réussis toutes les répétitions et la prochaine séance commencera avec $w de plus.';
-  }
-
-  @override
   String get placePlates => 'Disques et barre';
 
   @override
@@ -4430,7 +4422,7 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
-  String get planDeleteBody => 'Your logged days stay as they are.';
+  String get planDeleteBody => 'Tes routines restent. Seule cette semaine enregistrée est supprimée.';
 
   @override
   String get sectionBeta => 'Bêta';
@@ -4623,7 +4615,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get planEdit => 'Edit plan';
 
   @override
-  String get planNameHint => 'Plan name';
+  String get planNameHint => 'Été, voyage…';
 
   @override
   String get planDaysQuestion => 'Which days?';
@@ -5031,5 +5023,199 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String historyMore(int n) {
     return '+$n de plus';
+  }
+
+  @override
+  String get stopwatch => 'Chronomètre';
+
+  @override
+  String get proteinSource => 'Protein source';
+
+  @override
+  String get proteinMixedShort => 'Mixed';
+
+  @override
+  String get kcalActive => 'actives';
+
+  @override
+  String get kcalEstimated => 'estimé';
+
+  @override
+  String get kcalYours => 'ta valeur';
+
+  @override
+  String kcalTotalRest(String value) {
+    return '$value au total, en comptant ce que tu brûles au repos';
+  }
+
+  @override
+  String get inclineLabel => 'Inclinaison';
+
+  @override
+  String get kcalUseOwn => 'Utiliser ma valeur';
+
+  @override
+  String get kcalBackToEstimate => 'Revenir à l’estimation';
+
+  @override
+  String get kcalNeedsData => 'Ajoute distance et durée pour estimer les calories';
+
+  @override
+  String get kcalHowEstimated =>
+      'Estimé à partir de la distance, la durée, l’inclinaison et ton poids (formule ACSM).';
+
+  @override
+  String get kcalOwnTitle => 'Calories actives';
+
+  @override
+  String get planMine => 'Mon plan';
+
+  @override
+  String get planNew => 'Nouveau plan';
+
+  @override
+  String get planSaveWeek => 'Enregistrer cette semaine';
+
+  @override
+  String get planSaveWeekHint => 'Garde la semaine actuelle comme un plan où revenir';
+
+  @override
+  String get planEmptyWeek => 'Commencer une semaine vide';
+
+  @override
+  String get planEmptyWeekHint => 'Ta semaine actuelle reste enregistrée comme plan';
+
+  @override
+  String get planName => 'Nom du plan';
+
+  @override
+  String get planRename => 'Renommer';
+
+  @override
+  String get planDelete => 'Supprimer le plan';
+
+  @override
+  String get plansHint => 'Les changements de la semaine sont enregistrés dans le plan choisi';
+
+  @override
+  String get progression => 'Progression';
+
+  @override
+  String get progManual => 'Manuelle';
+
+  @override
+  String get progManualHint => 'Aucune suggestion : tu choisis chaque charge.';
+
+  @override
+  String get progLinear => 'Linéaire';
+
+  @override
+  String get progLinearHint => 'Fais toutes les reps et la charge augmente.';
+
+  @override
+  String get progDouble => 'Double progression';
+
+  @override
+  String get progDoubleHint => 'Plus de reps jusqu\'au haut de la fourchette, puis plus de charge.';
+
+  @override
+  String get progVolume => 'Reps, séries et charge';
+
+  @override
+  String get progVolumeHint => 'Reps jusqu\'au maximum, puis une série de plus, puis plus de charge.';
+
+  @override
+  String get progAmrap => 'Dernière série à fond';
+
+  @override
+  String get progAmrapHint =>
+      'Dernière série : autant de reps que possible. Double l\'objectif et ça monte deux fois.';
+
+  @override
+  String get progStep => 'Saut de charge';
+
+  @override
+  String get progRange => 'Fourchette de reps';
+
+  @override
+  String get progSets => 'Séries';
+
+  @override
+  String get progDeload => 'Plus léger après';
+
+  @override
+  String progFails(int n) {
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n échecs', one: '1 échec');
+    return '$_temp0';
+  }
+
+  @override
+  String get progDeloadPct => 'Alléger de';
+
+  @override
+  String get progApply => 'Remplir la prochaine séance';
+
+  @override
+  String get progApplyHint => 'Désactivé, ce n\'est qu\'une suggestion.';
+
+  @override
+  String get nextMoreReps => 'même charge, une rep de plus';
+
+  @override
+  String get nextAddSet => 'une série de plus';
+
+  @override
+  String get nextAmrap => 'dernière série : autant que possible';
+
+  @override
+  String fillDay(String amount) {
+    return 'Fill your day · $amount';
+  }
+
+  @override
+  String leftAfterKcal(String kcal) {
+    return 'You\'ll have $kcal left';
+  }
+
+  @override
+  String leftAfterBoth(String kcal, String grams) {
+    return 'You\'ll have $kcal and $grams g protein left';
+  }
+
+  @override
+  String leftAfterOver(String kcal) {
+    return '$kcal over your goal';
+  }
+
+  @override
+  String perDayUnit(String unit) {
+    return '$unit a day';
+  }
+
+  @override
+  String get byZone => 'Par zone';
+
+  @override
+  String get importAlreadyHave => 'Vous avez déjà ces routines. Vous pouvez les ajouter à nouveau en copie.';
+
+  @override
+  String get importAsCopy => 'Ajouter en copie';
+
+  @override
+  String get importOwned => 'Déjà là';
+
+  @override
+  String get setDuplicated => 'Série dupliquée';
+
+  @override
+  String get setTypeCluster => 'Cluster';
+
+  @override
+  String get setTypeClusterInfo =>
+      'Une série découpée en petits blocs avec 15 à 30 secondes entre eux. Notez le total de répétitions.';
+
+  @override
+  String timesBodyweight(String value) {
+    return '$value× votre poids de corps';
   }
 }
