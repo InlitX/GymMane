@@ -161,7 +161,7 @@ class ToolDetailScreen extends StatelessWidget {
         return [
           ToolRow(label: t.targetWeight, control: StepperControl(value: '${fit.weightValue(fit.plateTarget)} ${fit.units}', onDec: () => fit.bumpPlateTarget(-fit.fromDisplayWeight(fit.weightStep)), onInc: () => fit.bumpPlateTarget(fit.fromDisplayWeight(fit.weightStep)), onEdit: () => _editNumber(context, title: t.targetWeight, current: fit.toDisplayWeight(fit.plateTarget), decimal: true, apply: (v) => fit.bumpPlateTarget(fit.fromDisplayWeight(v) - fit.plateTarget)))),
           const SizedBox(height: 10),
-          _barWeightCard(gc),
+          _barWeightCard(context, gc),
           const SizedBox(height: 10),
           _perSideCard(gc),
         ];
@@ -307,24 +307,27 @@ class ToolDetailScreen extends StatelessWidget {
     ]);
   }
 
-  Widget _barWeightCard(GymColors gc) {
-    Widget opt(double v) {
-      final active = fit.plateBarDisplay == v;
+  Widget _barWeightCard(BuildContext context, GymColors gc) {
+    final current = fit.plateBarDisplay;
+    final bars = fit.barOptions;
+    final own = !bars.contains(current);
+    Widget opt(String label, bool active, VoidCallback onTap) {
       return Expanded(
         child: GestureDetector(
-          onTap: () => fit.setPlateBar(v),
+          onTap: onTap,
           child: Container(
             padding: const EdgeInsets.all(8),
             alignment: Alignment.center,
             decoration: BoxDecoration(color: active ? gc.ember : gc.bgRaised2, borderRadius: BorderRadius.circular(10)),
-            child: Text('${fmt(v)} ${fit.units}',
+            child: Text(label,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
                 style: AppTheme.f(13, weight: FontWeight.w600, color: active ? gc.onEmber : gc.textSecondary)),
           ),
         ),
       );
     }
 
-    final bars = fit.barOptions;
     return SoftCard(
       radius: 20,
       borderColor: Colors.transparent,
@@ -335,10 +338,12 @@ class ToolDetailScreen extends StatelessWidget {
           Text(t.barWeight, style: AppTheme.f(13, weight: FontWeight.w600, color: gc.textSecondary)),
           const SizedBox(height: 10),
           Row(children: [
-            for (int i = 0; i < bars.length; i++) ...[
-              if (i > 0) const SizedBox(width: 8),
-              opt(bars[i]),
+            for (final v in bars) ...[
+              opt('${fmt(v)} ${fit.units}', current == v, () => fit.setPlateBar(v)),
+              const SizedBox(width: 8),
             ],
+            opt(own ? '${fmt(current)} ${fit.units}' : t.custom, own,
+                () => _editNumber(context, title: t.barWeight, current: current, decimal: true, apply: fit.setPlateBar)),
           ]),
         ],
       ),
@@ -476,26 +481,16 @@ void showPlateSheet(BuildContext context, double displayTarget, {double? startBa
               const SizedBox(height: 8),
               Row(children: [
                 for (final option in fit.barOptions) ...[
-                  if (option != fit.barOptions.first) const SizedBox(width: 8),
-                  Expanded(
-                    child: GestureDetector(
-                      behavior: HitTestBehavior.opaque,
-                      onTap: () => setSheet(() => bar = option),
-                      child: Container(
-                        padding: const EdgeInsets.all(10),
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          color: bar == option ? gc.ember : gc.bgRaised2,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Text('${fmt(option)} ${fit.units}',
-                            style: AppTheme.f(13,
-                                weight: FontWeight.w600,
-                                color: bar == option ? gc.onEmber : gc.textSecondary)),
-                      ),
-                    ),
-                  ),
+                  _sheetBarChip(gc, '${fmt(option)} ${fit.units}', bar == option, () => setSheet(() => bar = option)),
+                  const SizedBox(width: 8),
                 ],
+                _sheetBarChip(
+                    gc,
+                    fit.barOptions.contains(bar) ? t.custom : '${fmt(bar)} ${fit.units}',
+                    !fit.barOptions.contains(bar), () async {
+                  final v = await askNumber(sheet, title: t.barWeight, initial: fmt(bar), decimal: true);
+                  if (v != null && v >= 0) setSheet(() => bar = v);
+                }),
               ]),
               const SizedBox(height: 18),
               Text(t.perSide,
@@ -530,3 +525,22 @@ void showPlateSheet(BuildContext context, double displayTarget, {double? startBa
     ),
   );
 }
+
+Widget _sheetBarChip(GymColors gc, String label, bool active, VoidCallback onTap) => Expanded(
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: onTap,
+        child: Container(
+          padding: const EdgeInsets.all(10),
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color: active ? gc.ember : gc.bgRaised2,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Text(label,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: AppTheme.f(13, weight: FontWeight.w600, color: active ? gc.onEmber : gc.textSecondary)),
+        ),
+      ),
+    );

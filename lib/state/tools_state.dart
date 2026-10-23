@@ -18,7 +18,7 @@ mixin ToolsState on FitCore {
   double bfWaist = 84;
   double bfHip = 95;
   double plateTarget = 100;
-  double plateBar = 20;
+  double? plateBar;
   double warmupTarget = 100;
   double rpeWeight = 100;
   int rpeReps = 5;
@@ -132,11 +132,13 @@ mixin ToolsState on FitCore {
       isLb ? const [45, 35, 25, 10, 5, 2.5] : const [25, 20, 15, 10, 5, 2.5, 1.25];
 
   List<({double weight, int count})> get plateBreakdown =>
-      platesPerSide(toDisplayWeight(plateTarget), toDisplayWeight(plateBar));
+      platesPerSide(toDisplayWeight(plateTarget), plateBarDisplay);
 
   double get defaultBar {
     final placeBar = placeBarKg;
     if (placeBar != null) return _round1(toDisplayWeight(placeBar));
+    final own = plateBar;
+    if (own != null) return _round1(toDisplayWeight(own));
     return isLb ? 45 : 20;
   }
 
@@ -261,9 +263,16 @@ mixin ToolsState on FitCore {
 
   void bumpPlateTarget(double d) { plateTarget = _clamp(plateTarget + d, 0, null); notifyListeners(); }
 
-  void setPlateBar(double b) { plateBar = fromDisplayWeight(b); notifyListeners(); }
+  void setPlateBar(double b) {
+    plateBar = fromDisplayWeight(b.clamp(0, isLb ? 220 : 100).toDouble());
+    _persist();
+    notifyListeners();
+  }
 
-  double get plateBarDisplay => _round1(toDisplayWeight(plateBar));
+  double get plateBarDisplay {
+    final own = plateBar;
+    return own == null ? (isLb ? 45 : 20) : _round1(toDisplayWeight(own));
+  }
 
   static double _effortShare(int reps, double rpe) => rpePercent(reps, rpe) ?? 1 / (1 + reps / 30);
 
