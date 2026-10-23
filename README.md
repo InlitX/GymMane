@@ -17,13 +17,12 @@ Tap the muscles you want to train, log your sets and watch your numbers go up.
   <img alt="Android 7.0+" src="https://img.shields.io/badge/Android-7.0%2B-3DDC84?style=flat&logo=android&logoColor=white" />
   <img alt="License GPLv3" src="https://img.shields.io/badge/Code-GPLv3-C2410C?style=flat&logo=gnu&logoColor=white" />
   <img alt="Art CC BY-SA 4.0" src="https://img.shields.io/badge/Art-CC%20BY--SA%204.0-8A6B41?style=flat&logo=creativecommons&logoColor=white" />
-  <a href="https://crowdin.com/project/gymmane"><img alt="Crowdin" src="https://badges.crowdin.net/gymmane/localized.svg" /></a>
   <a href="https://github.com/InlitX/GymMane/stargazers"><img alt="Stars" src="https://img.shields.io/github/stars/InlitX/GymMane?style=flat&color=D9A184&labelColor=181717&logo=github" /></a>
   <a href="https://github.com/InlitX/GymMane/releases"><img alt="Downloads" src="https://img.shields.io/github/downloads/InlitX/GymMane/total?style=flat&color=D9A184&labelColor=181717&logo=github&label=downloads" /></a>
 </p>
 
 <p>
-  <a href="https://trendshift.io/repositories/107197?utm_source=trendshift-badge&amp;utm_medium=badge&amp;utm_campaign=badge-trendshift-107197" target="_blank" rel="noopener noreferrer"><img src="https://trendshift.io/api/badge/trendshift/repositories/107197/daily?language=Dart" alt="InlitX%2FGymMane | Trendshift" width="250" height="55"/></a>
+  <a href="https://trendshift.io/repositories/107197?utm_source=repository-badge&amp;utm_medium=badge&amp;utm_campaign=badge-repository-107197" target="_blank" rel="noopener noreferrer"><img src="https://trendshift.io/api/badge/repositories/107197" alt="InlitX%2FGymMane | Trendshift" width="250" height="55"/></a>
 </p>
 
 <a href="https://f-droid.org/packages/com.gymmane.app/"><img alt="Get it on F-Droid" src="docs/badges/get-it-on-fdroid.png" height="60" /></a>
@@ -88,30 +87,24 @@ Tap the muscles you want to train, log your sets and watch your numbers go up.
 
 ### Training
 
-- **Body map**, front and back: tap what you want to train
-- Reps, weight and a **rest timer** with your own alarm sound
-- **Set types** (warm-up, working, drop set, to failure) and RPE or RIR
-- **Supersets**: chain an exercise to the next one and skip the rest
-- **Plates per side**, worked out from the kit you own
-- **Routines** you can group, duplicate and schedule, several a day if you
-  like, plus ready-made plans
-- **Next step**: when an exercise gets easy, it offers the harder one
-- A **live notification** with the rest countdown, and a session that
-  survives a reboot
+- Tap the muscles on a **body map** and get a session
+- Reps, weight and a **rest timer** with your own sound
+- Warm-up, drop, failure, rest-pause and cluster sets, with RPE or RIR
+- **Supersets** and **plates per side**
+- **Routines** and weekly plans, or a rotation
+- **Progression** per exercise, so the app sets your next weights
 
 </td>
 <td width="50%" valign="top">
 
 ### Progress
 
-- Volume, streak, weekly goal and **PRs**, all from your own sets
-- An **activity heatmap**, your week rhythm and all-time totals
-- **Strength curves** with estimated 1RM, and your muscle split
-- **Progress photos** on a timeline, or the same timeline drawn as a
-  muscle map
-- Bodyweight and **ten body measurements**, each with its own curve
-- A **profile** with levels and **20 medals**
-- Put your workout on a photo as a **sticker** and share it
+- Volume, streaks, weekly goal and **PRs**
+- **Strength curves** with estimated 1RM and strength per bodyweight
+- An **activity heatmap** and a muscle map of what you trained
+- **Progress photos** on a timeline
+- Bodyweight and **ten body measurements**
+- Levels, **medals** and a sticker to share your workout
 
 </td>
 </tr>
@@ -120,30 +113,23 @@ Tap the muscles you want to train, log your sets and watch your numbers go up.
 
 ### Exercises and tools
 
-- **500+ exercises** with animations and step-by-step instructions
-- Filters by muscle, equipment and level, and **your own exercises**
-- Swap the art of any exercise for **your own photo, GIF or video**
-- **Places**: say what kit you have and only get offered what fits
-- A **training journal** on a calendar, with photos and video
-- **Six calculators**: 1RM, plates, BMI, calories and macros, body fat,
-  warm-up
-- **Five widgets**: today, this week, activity, stats and muscle map
+- **500+ exercises** with animations and instructions
+- Browse by muscle, equipment or level, or add **your own**
+- Use **your own photo, GIF or video** for any exercise
+- **Places**: tell it your kit and it only suggests what fits
+- A **training journal** with photos and video
+- Six **calculators** and five **widgets**
 
 </td>
 <td width="50%" valign="top">
 
 ### Your data
 
-- Export to **CSV** or a full **ZIP backup**, media included, and import
-  it back
-- Bring your history from **Hevy**, **Strong**, **Lyfta**, **FitNotes**,
-  **openGym** or any CSV
-- Send a workout to **Strava** as a `.fit` file
-- **Routine with AI**: export your list, paste it anywhere, import the
-  answer
-- No account, no ads, no analytics and no **internet permission**
-- Photos, videos and notes stay in the app's own storage
-- **17 languages**, light and dark themes, kg or lb
+- **CSV** export and a full **ZIP backup**
+- Import from **Hevy**, **Strong**, **Lyfta**, **FitNotes** or **openGym**
+- Send workouts to **Strava** as a `.fit` file
+- No account, no ads, no analytics, no **internet permission**
+- **17 languages**, light and dark, kg or lb
 - Delete everything in one tap
 
 </td>
@@ -152,27 +138,16 @@ Tap the muscles you want to train, log your sets and watch your numbers go up.
 
 ## Nutrition (beta)
 
-- **500+ foods** with photos, your own foods and dishes
-- Calories and macros against your goal, with **separate goals for rest days**
-- **Water**, **protein shake** and **supplements** with reminders
-- **Meal plans** for each weekday, **meal prep** batches and a weekly summary
-- No scanner and no online database: everything stays on your phone
-- On by default. Don't need it? Turn it off in **Settings › Beta**
-
-## Quick help
-
-- **An exercise disappeared from Suggested:** Long-pressing it hides it only
-  from the Suggested section, not the full exercise list. Tap **Undo** in the
-  toast, or open the exercise details and turn **Suggest in quick workouts** back on.
-- **What does the link icon in a routine do?** It links that exercise to the
-  next one as a superset, so there is no rest between them. Tap it again to
-  unlink them.
+Calories and macros against your goal, 500+ foods with photos, your own foods
+and dishes, water, protein shakes, supplements, meal plans and meal prep. No
+scanner and no online database. Don't need it? Turn it off in
+**Settings › Beta**.
 
 ## Download
 
 Get it from F-Droid, IzzyOnDroid, OpenAPK, Obtainium or the
-[GitHub releases](https://github.com/InlitX/GymMane/releases/latest). On GitHub,
-take the `arm64-v8a` APK if you're not sure which one you need.
+[GitHub releases](https://github.com/InlitX/GymMane/releases/latest). Not sure
+which APK? Take `arm64-v8a`.
 
 | Platform | Status |
 |---|---|
@@ -183,17 +158,15 @@ take the `arm64-v8a` APK if you're not sure which one you need.
 
 ## Privacy
 
-No account, no ads and no analytics. GymMane doesn't even have the internet
-permission, so your training stays on your phone. The permissions it does ask
-for are for the rest timer, its notification and the widgets.
+GymMane doesn't have the internet permission, so your training never leaves
+your phone. The permissions it asks for are for the rest timer, its
+notification and the widgets.
 
 ## Contributing
 
 Bug reports, ideas and pull requests are welcome. For anything big, open an
-issue first. Translations happen on [Crowdin](https://crowdin.com/project/gymmane), and
-[TRANSLATING.md](TRANSLATING.md) explains how to help.
-
-<a href="https://crowdin.com/project/gymmane"><picture><source media="(prefers-color-scheme: dark)" srcset="https://badges.crowdin.net/badge/light/crowdin-on-dark@2x.png" /><img alt="Crowdin | Agile localization for tech companies" src="https://badges.crowdin.net/badge/dark/crowdin-on-light@2x.png" height="40" /></picture></a>
+issue first. Want to translate? Edit your language's file and send a pull
+request, [TRANSLATING.md](TRANSLATING.md) shows how.
 
 ```bash
 git clone https://github.com/InlitX/GymMane.git
