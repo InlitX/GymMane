@@ -5200,4 +5200,13 @@ class AppLocalizationsTr extends AppLocalizations {
   String timesBodyweight(String value) {
     return 'vücut ağırlığının $value×';
   }
+
+  @override
+  String get archiveRoutine => 'Programı arşivle';
+
+  @override
+  String get routineArchived => 'Program arşivlendi';
+
+  @override
+  String get archivedRoutines => 'Arşivlenenler';
 }

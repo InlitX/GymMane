@@ -1386,5 +1386,8 @@
   "setDuplicated": "Set gedupliceerd",
   "setTypeCluster": "Cluster",
   "setTypeClusterInfo": "Eén set opgedeeld in kleine blokken met 15–30 seconden ertussen. Noteer het totaal aantal herhalingen.",
-  "timesBodyweight": "{value}× je lichaamsgewicht"
+  "timesBodyweight": "{value}× je lichaamsgewicht",
+  "archiveRoutine": "Routine archiveren",
+  "routineArchived": "Routine gearchiveerd",
+  "archivedRoutines": "Gearchiveerd"
 }

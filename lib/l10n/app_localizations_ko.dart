@@ -5060,4 +5060,13 @@ class AppLocalizationsKo extends AppLocalizations {
   String timesBodyweight(String value) {
     return '체중의 $value배';
   }
+
+  @override
+  String get archiveRoutine => '루틴 보관';
+
+  @override
+  String get routineArchived => '루틴을 보관했어요';
+
+  @override
+  String get archivedRoutines => '보관함';
 }

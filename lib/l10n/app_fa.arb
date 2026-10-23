@@ -1386,5 +1386,8 @@
   "setDuplicated": "ست کپی شد",
   "setTypeCluster": "کلاستر",
   "setTypeClusterInfo": "یک ست که به بلوک‌های کوچک با ۱۵ تا ۳۰ ثانیه فاصله تقسیم شده. مجموع تکرارها را ثبت کنید.",
-  "timesBodyweight": "{value}× وزن بدن شما"
+  "timesBodyweight": "{value}× وزن بدن شما",
+  "archiveRoutine": "بایگانی روتین",
+  "routineArchived": "روتین بایگانی شد",
+  "archivedRoutines": "بایگانی‌شده"
 }

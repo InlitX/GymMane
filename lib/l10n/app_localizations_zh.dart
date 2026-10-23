@@ -4997,6 +4997,15 @@ class AppLocalizationsZh extends AppLocalizations {
   String timesBodyweight(String value) {
     return '体重的 $value 倍';
   }
+
+  @override
+  String get archiveRoutine => '归档训练计划';
+
+  @override
+  String get routineArchived => '已归档训练计划';
+
+  @override
+  String get archivedRoutines => '已归档';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -9582,4 +9591,13 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String timesBodyweight(String value) {
     return '體重的 $value 倍';
   }
+
+  @override
+  String get archiveRoutine => '封存課表';
+
+  @override
+  String get routineArchived => '已封存課表';
+
+  @override
+  String get archivedRoutines => '已封存';
 }

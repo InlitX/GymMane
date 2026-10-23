@@ -1386,5 +1386,8 @@
   "setDuplicated": "已複製這一組",
   "setTypeCluster": "簇組",
   "setTypeClusterInfo": "把一組拆成幾個小段，中間休息 15–30 秒。記錄總次數。",
-  "timesBodyweight": "體重的 {value} 倍"
+  "timesBodyweight": "體重的 {value} 倍",
+  "archiveRoutine": "封存課表",
+  "routineArchived": "已封存課表",
+  "archivedRoutines": "已封存"
 }

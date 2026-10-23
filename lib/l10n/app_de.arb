@@ -1386,5 +1386,8 @@
   "setDuplicated": "Satz dupliziert",
   "setTypeCluster": "Cluster",
   "setTypeClusterInfo": "Ein Satz, aufgeteilt in kleine Blöcke mit 15–30 Sekunden Pause dazwischen. Trag die Gesamtwiederholungen ein.",
-  "timesBodyweight": "{value}× dein Körpergewicht"
+  "timesBodyweight": "{value}× dein Körpergewicht",
+  "archiveRoutine": "Routine archivieren",
+  "routineArchived": "Routine archiviert",
+  "archivedRoutines": "Archiviert"
 }

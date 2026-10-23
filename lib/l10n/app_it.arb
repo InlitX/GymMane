@@ -1386,5 +1386,8 @@
   "setDuplicated": "Serie duplicata",
   "setTypeCluster": "Cluster",
   "setTypeClusterInfo": "Una serie divisa in piccoli blocchi con 15–30 secondi tra l’uno e l’altro. Segna le ripetizioni totali.",
-  "timesBodyweight": "{value}× il tuo peso corporeo"
+  "timesBodyweight": "{value}× il tuo peso corporeo",
+  "archiveRoutine": "Archivia routine",
+  "routineArchived": "Routine archiviata",
+  "archivedRoutines": "Archiviate"
 }

@@ -5204,4 +5204,13 @@ class AppLocalizationsNl extends AppLocalizations {
   String timesBodyweight(String value) {
     return '$value× je lichaamsgewicht';
   }
+
+  @override
+  String get archiveRoutine => 'Routine archiveren';
+
+  @override
+  String get routineArchived => 'Routine gearchiveerd';
+
+  @override
+  String get archivedRoutines => 'Gearchiveerd';
 }

@@ -1386,5 +1386,8 @@
   "setDuplicated": "已复制这一组",
   "setTypeCluster": "簇组",
   "setTypeClusterInfo": "把一组拆成几个小段，中间休息 15–30 秒。记录总次数。",
-  "timesBodyweight": "体重的 {value} 倍"
+  "timesBodyweight": "体重的 {value} 倍",
+  "archiveRoutine": "归档训练计划",
+  "routineArchived": "已归档训练计划",
+  "archivedRoutines": "已归档"
 }

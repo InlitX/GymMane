@@ -5236,4 +5236,13 @@ class AppLocalizationsUk extends AppLocalizations {
   String timesBodyweight(String value) {
     return '$value× вашої ваги';
   }
+
+  @override
+  String get archiveRoutine => 'Архівувати програму';
+
+  @override
+  String get routineArchived => 'Програму архівовано';
+
+  @override
+  String get archivedRoutines => 'Архів';
 }

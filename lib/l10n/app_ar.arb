@@ -1386,5 +1386,8 @@
   "setDuplicated": "تم نسخ المجموعة",
   "setTypeCluster": "كلستر",
   "setTypeClusterInfo": "مجموعة مقسّمة إلى كتل صغيرة بينها 15–30 ثانية. سجّل مجموع التكرارات.",
-  "timesBodyweight": "{value}× وزن جسمك"
+  "timesBodyweight": "{value}× وزن جسمك",
+  "archiveRoutine": "أرشفة الروتين",
+  "routineArchived": "تمت أرشفة الروتين",
+  "archivedRoutines": "المؤرشفة"
 }

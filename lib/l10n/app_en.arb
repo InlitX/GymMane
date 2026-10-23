@@ -1770,5 +1770,8 @@
   "setTypeCluster": "Cluster",
   "setTypeClusterInfo": "One set split into small blocks with 15–30 seconds between them. Log the total reps.",
   "timesBodyweight": "{value}× your bodyweight",
-  "@timesBodyweight": {"placeholders": {"value": {"type": "String"}}}
+  "@timesBodyweight": {"placeholders": {"value": {"type": "String"}}},
+  "archiveRoutine": "Archive routine",
+  "routineArchived": "Routine archived",
+  "archivedRoutines": "Archived"
 }

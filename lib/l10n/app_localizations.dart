@@ -9165,6 +9165,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{value}× your bodyweight'**
   String timesBodyweight(String value);
+
+  /// No description provided for @archiveRoutine.
+  ///
+  /// In en, this message translates to:
+  /// **'Archive routine'**
+  String get archiveRoutine;
+
+  /// No description provided for @routineArchived.
+  ///
+  /// In en, this message translates to:
+  /// **'Routine archived'**
+  String get routineArchived;
+
+  /// No description provided for @archivedRoutines.
+  ///
+  /// In en, this message translates to:
+  /// **'Archived'**
+  String get archivedRoutines;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

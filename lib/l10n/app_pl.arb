@@ -1386,5 +1386,8 @@
   "setDuplicated": "Seria zduplikowana",
   "setTypeCluster": "Cluster",
   "setTypeClusterInfo": "Seria podzielona na małe bloki z 15–30 sekundami przerwy. Zapisz łączną liczbę powtórzeń.",
-  "timesBodyweight": "{value}× twojej masy ciała"
+  "timesBodyweight": "{value}× twojej masy ciała",
+  "archiveRoutine": "Archiwizuj plan",
+  "routineArchived": "Plan zarchiwizowany",
+  "archivedRoutines": "Zarchiwizowane"
 }

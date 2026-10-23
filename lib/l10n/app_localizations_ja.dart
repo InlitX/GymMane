@@ -5049,4 +5049,13 @@ class AppLocalizationsJa extends AppLocalizations {
   String timesBodyweight(String value) {
     return '体重の$value倍';
   }
+
+  @override
+  String get archiveRoutine => 'ルーティンをアーカイブ';
+
+  @override
+  String get routineArchived => 'ルーティンをアーカイブしました';
+
+  @override
+  String get archivedRoutines => 'アーカイブ';
 }

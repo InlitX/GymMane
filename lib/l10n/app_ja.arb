@@ -1386,5 +1386,8 @@
   "setDuplicated": "セットを複製しました",
   "setTypeCluster": "クラスター",
   "setTypeClusterInfo": "1セットを15〜30秒の休憩を挟んだ小さなブロックに分けます。合計回数を記録します。",
-  "timesBodyweight": "体重の{value}倍"
+  "timesBodyweight": "体重の{value}倍",
+  "archiveRoutine": "ルーティンをアーカイブ",
+  "routineArchived": "ルーティンをアーカイブしました",
+  "archivedRoutines": "アーカイブ"
 }

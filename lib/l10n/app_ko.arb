@@ -1386,5 +1386,8 @@
   "setDuplicated": "세트를 복제했어요",
   "setTypeCluster": "클러스터",
   "setTypeClusterInfo": "한 세트를 15~30초 쉬는 작은 블록으로 나눠요. 총 반복 수를 기록하세요.",
-  "timesBodyweight": "체중의 {value}배"
+  "timesBodyweight": "체중의 {value}배",
+  "archiveRoutine": "루틴 보관",
+  "routineArchived": "루틴을 보관했어요",
+  "archivedRoutines": "보관함"
 }

@@ -1386,5 +1386,8 @@
   "setDuplicated": "Подход скопирован",
   "setTypeCluster": "Кластер",
   "setTypeClusterInfo": "Подход, разбитый на короткие блоки с паузой 15–30 секунд. Записывайте общее число повторений.",
-  "timesBodyweight": "{value}× вашего веса"
+  "timesBodyweight": "{value}× вашего веса",
+  "archiveRoutine": "Архивировать программу",
+  "routineArchived": "Программа в архиве",
+  "archivedRoutines": "Архив"
 }

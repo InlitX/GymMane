@@ -5161,4 +5161,13 @@ class AppLocalizationsFa extends AppLocalizations {
   String timesBodyweight(String value) {
     return '$value× وزن بدن شما';
   }
+
+  @override
+  String get archiveRoutine => 'بایگانی روتین';
+
+  @override
+  String get routineArchived => 'روتین بایگانی شد';
+
+  @override
+  String get archivedRoutines => 'بایگانی‌شده';
 }

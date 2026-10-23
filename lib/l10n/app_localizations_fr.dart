@@ -5218,4 +5218,13 @@ class AppLocalizationsFr extends AppLocalizations {
   String timesBodyweight(String value) {
     return '$value× votre poids de corps';
   }
+
+  @override
+  String get archiveRoutine => 'Archiver la routine';
+
+  @override
+  String get routineArchived => 'Routine archivée';
+
+  @override
+  String get archivedRoutines => 'Archivées';
 }
