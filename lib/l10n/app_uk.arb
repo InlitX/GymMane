@@ -1,28 +1,8 @@
 {
   "@@locale": "uk",
   "languageName": "Українська",
-  "@languageName": {
-    "description": "This language, written in itself. Shown in the language picker."
-  },
   "vsLastMonthLabel": "{pct}% до минулого місяця",
-  "@vsLastMonthLabel": {
-    "placeholders": {
-      "pct": {
-        "type": "String"
-      }
-    }
-  },
   "levelStreakLabel": "Рівень {level} · {streak}",
-  "@levelStreakLabel": {
-    "placeholders": {
-      "level": {
-        "type": "int"
-      },
-      "streak": {
-        "type": "String"
-      }
-    }
-  },
   "save": "ЗБЕРЕГТИ",
   "cancel": "Скасувати",
   "cancelCaps": "СКАСУВАТИ",
@@ -46,14 +26,7 @@
   "routines": "ПРОГРАМИ",
   "tools": "ІНСТРУМЕНТИ",
   "firstSessionHint": "Обери м’язи та запиши перше тренування",
-  "exerciseCount": "{n, plural, one{{n} exercise} other{{n} exercises}}",
-  "@exerciseCount": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
+  "exerciseCount": "{n, plural, =1{{n} вправа} other{{n} вправ}}",
   "pushDay": "ДЕНЬ PUSH",
   "pullDay": "ДЕНЬ PULL",
   "legDay": "НОГИ",
@@ -70,25 +43,11 @@
   "nothingForFocus": "Для цього фокусу вправ немає",
   "goBackPick": "Повернися й обери м’яз, для якого є вправи в бібліотеці.",
   "pickedHint": "Ми підібрали тренування — торкнися, щоб додати або прибрати будь-яку з {n} вправ.",
-  "@pickedHint": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
   "pickAnExercise": "ОБРАТИ ВПРАВУ",
   "searchAllExercises": "Пошук вправи…",
   "noExercisesMatch": "Немає відповідних вправ",
   "createItInstead": "Створити власну вправу",
-  "startCount": "START · {n, plural, one{{n} EXERCISE} other{{n} EXERCISES}}",
-  "@startCount": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
+  "startCount": "ПОЧАТИ · {n, plural, =1{{n} ВПРАВА} other{{n} ВПРАВ}}",
   "inProgress": "ТРИВАЄ",
   "paused": "ПАУЗА",
   "last": "ОСТАННЄ",
@@ -103,78 +62,26 @@
   "setCol": "#",
   "repsCol": "ПОВТОРЕННЯ",
   "weightCol": "ВАГА ({unit})",
-  "@weightCol": {
-    "placeholders": {
-      "unit": {
-        "type": "String"
-      }
-    }
-  },
   "repsTitle": "ПОВТОРЕННЯ",
   "weightTitle": "ВАГА ({unit})",
-  "@weightTitle": {
-    "placeholders": {
-      "unit": {
-        "type": "String"
-      }
-    }
-  },
   "sessionComplete": "ТРЕНУВАННЯ ЗАПИСАНО",
   "finishHeadlinePr": "Новий особистий рекорд",
   "finishHeadlineGoal": "Тижневу ціль досягнуто",
   "finishHeadlineStreak": "Серію збережено",
   "finishHeadlineDefault": "Ще одне тренування позаду",
-  "finishBodyPr": "You lifted more than ever on {prs, plural, one{an exercise} other{{prs} exercises}}. It is in your records now.",
-  "@finishBodyPr": {
-    "placeholders": {
-      "prs": {
-        "type": "int"
-      }
-    }
-  },
+  "finishBodyPr": "Ти підняв більше, ніж будь-коли, у {prs, plural, =1{одній вправі} other{{prs} вправах}}. Результат збережено.",
   "finishBodyGoal": "Ти виконав заплановану кількість тренувань цього тижня.",
   "finishBodyStreak": "{streak} днів поспіль. Найважче — не зупинятися.",
-  "@finishBodyStreak": {
-    "placeholders": {
-      "streak": {
-        "type": "int"
-      }
-    }
-  },
   "finishBodyDefault": "Записано й враховано. Прогрес дає регулярність.",
   "vsLastTime": "ПОРІВНЯНО З МИНУЛИМ РАЗОМ",
   "firstTime": "Перший запис",
-  "prCount": "{n, plural, one{{n} new record} other{{n} new records}}",
-  "@prCount": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
+  "prCount": "{n, plural, =1{{n} новий рекорд} other{{n} нових рекордів}}",
   "duration": "ТРИВАЛІСТЬ",
   "setsCaps": "ПІДХОДИ",
   "exerciseXofY": "ВПРАВА {i} З {n}",
-  "@exerciseXofY": {
-    "placeholders": {
-      "i": {
-        "type": "int"
-      },
-      "n": {
-        "type": "int"
-      }
-    }
-  },
   "decrease": "Зменшити",
   "increase": "Збільшити",
   "markSet": "Позначити підхід {n} як виконаний",
-  "@markSet": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
   "pauseWorkout": "Призупинити тренування",
   "resumeWorkout": "Продовжити тренування",
   "discardTitle": "Відкинути тренування?",
@@ -191,22 +98,8 @@
   "allTimeTime": "ЧАС",
   "allTimeSets": "ПІДХОДИ",
   "consistency": "РЕГУЛЯРНІСТЬ",
-  "sessionsLogged": "{n, plural, one{{n} session logged} other{{n} sessions logged}}",
-  "@sessionsLogged": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
+  "sessionsLogged": "{n, plural, =1{{n} тренування записано} other{{n} тренувань записано}}",
   "streakDays": "Серія {n} днів",
-  "@streakDays": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
   "bodyweight": "ВАГА ТІЛА",
   "logBodyweight": "ЗАПИСАТИ ВАГУ",
   "trackWeight": "Відстежуй вагу з часом",
@@ -218,76 +111,27 @@
   "daysAll": "Усе",
   "weeklyAvgTitle": "Середнє за тиждень",
   "weekOfDate": "Тиждень з {date}",
-  "@weekOfDate": {
-    "placeholders": {
-      "date": {
-        "type": "String"
-      }
-    }
-  },
   "weightChangeRange": "{change} за цей період",
-  "@weightChangeRange": {
-    "placeholders": {
-      "change": {
-        "type": "String"
-      }
-    }
-  },
   "heatLow": "Не тренувалося",
   "heatHigh": "Максимальний обсяг",
   "muscleMapEmpty": "Запиши тренування, і тіло почне підсвічуватися тут.",
   "muscleMapHint": "Торкнися м’яза, щоб побачити, як він працював.",
   "muscleMapBehind": "Відстають: {names}",
-  "@muscleMapBehind": {
-    "placeholders": {
-      "names": {
-        "type": "String"
-      }
-    }
-  },
   "ofTarget": "{pct}% від цілі",
-  "@ofTarget": {
-    "placeholders": {
-      "pct": {
-        "type": "int"
-      }
-    }
-  },
   "muscleSplit": "РОЗПОДІЛ ЗА М’ЯЗАМИ",
   "personalRecords": "ОСОБИСТІ РЕКОРДИ",
   "strength1rm": "СИЛА · ОЦІН. 1ПМ",
   "strengthEmpty": "Запиши вправу двічі, і тут з’явиться крива сили.",
   "oneRmEst": "Оцін. 1ПМ: {w}",
-  "@oneRmEst": {
-    "placeholders": {
-      "w": {
-        "type": "String"
-      }
-    }
-  },
   "restDayShort": "День відпочинку",
   "restDay": "День відпочинку — нічого не записано.",
   "delete": "Видалити",
   "deleteEntry": "Видалити цей запис?",
   "deleteEntryBody": "«{name}» буде видалено з цього дня, рекордів і графіків.",
-  "@deleteEntryBody": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
   "bodyweightHistory": "ІСТОРІЯ",
   "exercisesCaps": "ВПРАВИ",
   "timeCaps": "ЧАС",
-  "libraryCount": "{n, plural, one{{n} exercise in your library} other{{n} exercises in your library}}",
-  "@libraryCount": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
+  "libraryCount": "{n, plural, =1{{n} вправа в бібліотеці} other{{n} вправ у бібліотеці}}",
   "searchExercises": "Пошук вправ",
   "muscleFilter": "М’ЯЗ",
   "levelFilter": "РІВЕНЬ",
@@ -318,16 +162,6 @@
   "notes": "НОТАТКИ",
   "notePlaceholder": "Підказки, техніка, відчуття…",
   "notHere": "Немає {gear} у {place}",
-  "@notHere": {
-    "placeholders": {
-      "gear": {
-        "type": "String"
-      },
-      "place": {
-        "type": "String"
-      }
-    }
-  },
   "notHereWhy": "Заміни на те, що реально можеш використати сьогодні.",
   "altHere": "ЩО МОЖНА РОБИТИ ТУТ",
   "places": "МОЇ МІСЦЯ",
@@ -337,13 +171,6 @@
   "placeNamePlaceholder": "Дім, зал, парк…",
   "placeGearLabel": "ДОСТУПНЕ ОБЛАДНАННЯ",
   "placeExercises": "{n} вправ тут",
-  "@placeExercises": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
   "placeEmptyTitle": "Тренуйся де завгодно",
   "placeEmptyBody": "Місце — це список обладнання, яке там є. Обери одне для початку й відредагуй пізніше.",
   "placeDeleteTitle": "Видалити місце",
@@ -354,22 +181,8 @@
   "placeFilterLabel": "МІСЦЕ",
   "noGearOnly": "Без обладнання",
   "placeActive": "Тренування в {name}",
-  "@placeActive": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
   "journal": "ЩОДЕННИК",
-  "noteCount": "{n, plural, =0{No notes} one{1 note} other{{n} notes}}",
-  "@noteCount": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
+  "noteCount": "{n, plural, =0{Немає нотаток} =1{1 нотатка} other{{n} нотаток}}",
   "noteKindNote": "Нотатка",
   "noteKindPlan": "План",
   "noteKindDone": "Успіх",
@@ -399,24 +212,10 @@
   "noteAddOnDay": "Додати нотатку на цей день",
   "notePrevMonth": "Попередній місяць",
   "noteNextMonth": "Наступний місяць",
-  "noteMonthCount": "{n, plural, =0{No notes this month} one{1 note this month} other{{n} notes this month}}",
-  "@noteMonthCount": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
+  "noteMonthCount": "{n, plural, =0{Немає нотаток цього місяця} =1{1 нотатка цього місяця} other{{n} нотаток цього місяця}}",
   "measures": "ВИМІРИ",
   "measuresHint": "Від шиї до литки — стеж за змінами тіла, а не лише за штангою.",
-  "measureCount": "{n, plural, =0{Nothing logged} one{1 reading} other{{n} readings}}",
-  "@measureCount": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
+  "measureCount": "{n, plural, =0{Немає вимірів} =1{1 вимір} other{{n} вимірів}}",
   "measureNoneYet": "Ще не виміряно",
   "measureHistory": "ІСТОРІЯ",
   "measureNeck": "Шия",
@@ -430,69 +229,25 @@
   "measureCalf": "Литка",
   "measureBodyfat": "Жирова маса",
   "timeline": "ХРОНОЛОГІЯ",
-  "hidePhotos": "Hide photos",
-  "showPhotos": "Show photos",
   "timelineHint": "Та сама поза, те саме місце, те саме світло. За рік не повіриш.",
   "timelineEmptyTitle": "Перше фото запускає відстеження",
-  "photoCount": "{n, plural, =0{No photos} one{1 photo} other{{n} photos}}",
-  "@photoCount": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
+  "photoCount": "{n, plural, =0{Немає фото} =1{1 фото} other{{n} фото}}",
   "poseFront": "Спереду",
   "poseSide": "Збоку",
   "poseBack": "Ззаду",
   "photoEvery": "НАГАДАТИ",
   "photoEveryDays": "Кожні {n} днів",
-  "@photoEveryDays": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
   "photoEveryOff": "Ніколи",
   "timelineEvery": "ГРУПУВАТИ КОЖНІ",
   "custom": "Власне",
-  "photoNextIn": "{n, plural, one{Next photo tomorrow} other{Next photo in {n} days}}",
-  "@photoNextIn": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
+  "photoNextIn": "{n, plural, =1{Наступне фото завтра} other{Наступне фото через {n} днів}}",
   "photoDueNow": "Час для фото — зроби сьогодні",
   "addTodayPhotos": "ДОДАТИ СЬОГОДНІШНІ ФОТО",
   "posePhoto": "Фото: {pose}",
-  "@posePhoto": {
-    "placeholders": {
-      "pose": {
-        "type": "String"
-      }
-    }
-  },
   "compare": "ПОРІВНЯТИ",
   "compareNeedTwo": "Your next photo will show the before and after here.",
   "dayNumber": "День {n}",
-  "@dayNumber": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "daysApart": "{n, plural, =0{Same day} one{1 day apart} other{{n} days apart}}",
-  "@daysApart": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
+  "daysApart": "{n, plural, =0{Того ж дня} =1{Різниця 1 день} other{Різниця {n} днів}}",
   "deleteEntryTitle": "Видалити цей день",
   "deleteDayBody": "Фото цього дня також буде видалено назавжди.",
   "timelinePhotos": "Фото",
@@ -500,35 +255,11 @@
   "timelineBodyEmpty": "Запиши тренування, і карта м’язів почне заповнюватися тут — без фото.",
   "timelineBodyHint": "Створено з твоїх підходів — нічого не завантажується.",
   "timelineWindow": "{from} – {to}",
-  "sessionCount": "{n, plural, =0{No sessions} one{1 session} other{{n} sessions}}",
-  "@sessionCount": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "@timelineWindow": {
-    "placeholders": {
-      "from": {
-        "type": "String"
-      },
-      "to": {
-        "type": "String"
-      }
-    }
-  },
+  "sessionCount": "{n, plural, =0{Немає тренувань} =1{1 тренування} other{{n} тренувань}}",
   "notifPhotoChannel": "Фото прогресу",
   "notifPhotoChannelWhy": "Нагадування, коли час зробити наступне фото прогресу.",
   "notifPhotoTitle": "Час зробити фото прогресу",
   "notifPhotoBody": "{n} днів від попереднього фото. Та сама поза, те саме світло.",
-  "@notifPhotoBody": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
   "share": "ПОДІЛИТИСЯ",
   "sharePick": "Що хочеш показати?",
   "shareStreak": "Серія та регулярність",
@@ -550,34 +281,13 @@
   "setTypeFailure": "До відмови",
   "addWarmup": "РОЗМИНКА",
   "platesPerSide": "На сторону: {plates}",
-  "@platesPerSide": {
-    "placeholders": {
-      "plates": {
-        "type": "String"
-      }
-    }
-  },
   "howTo": "ЯК ВИКОНУВАТИ",
   "similar": "СХОЖІ",
   "primaryLabel": "ОСНОВНИЙ",
   "secondaryLabel": "ДРУГОРЯДНИЙ",
   "none": "Немає",
-  "setCount": "{n, plural, one{{n} set} other{{n} sets}}",
-  "@setCount": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
+  "setCount": "{n, plural, =1{{n} підхід} other{{n} підходів}}",
   "volumeSuffix": "обсяг {v}",
-  "@volumeSuffix": {
-    "placeholders": {
-      "v": {
-        "type": "String"
-      }
-    }
-  },
   "weeklyPlan": "ТИЖНЕВИЙ ПЛАН",
   "yourRoutines": "ТВОЇ ПРОГРАМИ",
   "noRoutines": "Програм ще немає. Створи одну й додай вправи.",
@@ -588,41 +298,13 @@
   "addExercises": "Додати вправи",
   "deleteRoutine": "Видалити цю програму?",
   "exercisesWithCount": "ВПРАВИ · {n}",
-  "@exercisesWithCount": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
   "setDay": "ВСТАНОВИТИ {day}",
-  "@setDay": {
-    "placeholders": {
-      "day": {
-        "type": "String"
-      }
-    }
-  },
   "newRoutineName": "Нова програма",
   "dragToReorder": "Потягніть за ручку з крапками, щоб змінити порядок — у ньому ви тренуєтеся.",
   "reorderHandle": "Змінити порядок: {name}",
-  "@reorderHandle": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
   "removeFromRoutine": "Видалити з програми",
   "dropExercise": "Прибрати цю вправу?",
   "dropExerciseBody": "«{name}» буде вилучено з тренування. Уже записані дані не втратяться.",
-  "@dropExerciseBody": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
   "drop": "Прибрати",
   "resetData": "Видалити всі мої дані",
   "resetTitle": "Видалити все?",
@@ -659,13 +341,6 @@
   "alarmTooLong": "Цей звук довший за 15 секунд",
   "alarmInvalid": "Не вдалося прочитати аудіофайл",
   "alarmChanged": "Звук сигналу встановлено на «{name}»",
-  "@alarmChanged": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
   "alarmChangedDefault": "Відновлено стандартний звук",
   "addActivityWidget": "Додати віджет активності",
   "addStatsWidget": "Додати віджет статистики",
@@ -683,26 +358,12 @@
   "importFromApp": "Імпортувати з іншого застосунку",
   "importUnknownFormat": "У файлі мають бути стовпці дати, вправи, повторень і ваги",
   "importZipNoWeights": "У ZIP немає файлу з вагою",
-  "importWeights": "{n, plural, one{Imported {n} weigh-in} other{Imported {n} weigh-ins}}",
-  "@importWeights": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
+  "importWeights": "{n, plural, =1{{n} вимір ваги імпортовано} other{{n} вимірів ваги імпортовано}}",
   "importReadFailed": "Не вдалося прочитати файл",
   "importUnitTitle": "Які одиниці використовує цей файл?",
   "importUnitBody": "У цьому експорті не вказано одиницю ваги.",
   "importNothing": "Немає нових даних для імпорту",
-  "importDone": "{n, plural, one{Imported {n} session} other{Imported {n} sessions}}",
-  "@importDone": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
+  "importDone": "{n, plural, =1{{n} тренування імпортовано} other{{n} тренувань імпортовано}}",
   "aboutGymmane": "Про GymMane",
   "yourProfile": "ТВІЙ ПРОФІЛЬ",
   "autofills": "Автоматично заповнює калькулятори",
@@ -726,13 +387,6 @@
   "backupFailed": "Не вдалося прочитати резервну копію",
   "nothingToExport": "Поки немає чого експортувати — спочатку запиши тренування",
   "calculatorsCount": "{n} калькуляторів для тренувань",
-  "@calculatorsCount": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
   "result": "РЕЗУЛЬТАТ",
   "weightLifted": "ПІДНЯТА ВАГА",
   "repsPerformed": "ВИКОНАНІ ПОВТОРЕННЯ",
@@ -746,13 +400,6 @@
   "perSide": "НА СТОРОНУ",
   "justTheBar": "Лише гриф.",
   "perSideCount": "× {n} на сторону",
-  "@perSideCount": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
   "toolNameRm": "1ПМ",
   "toolNameBmi": "ІМТ",
   "toolNameCal": "Калорії",
@@ -819,13 +466,6 @@
   "diffIntermediate": "Середній",
   "about": "ПРО ЗАСТОСУНОК",
   "version": "Версія {v}",
-  "@version": {
-    "placeholders": {
-      "v": {
-        "type": "String"
-      }
-    }
-  },
   "aboutBlurb": "Створено тими, хто тренується, для тих, хто тренується.",
   "freeForever": "Безкоштовно назавжди",
   "freeForeverWhy": "Без підписки, без реклами, без платних обмежень.",
@@ -835,42 +475,18 @@
   "yoursToTakeWhy": "Експортуй у CSV будь-коли й видаляй усе однією дією.",
   "whatsInside": "ЩО ВСЕРЕДИНІ",
   "exercisesInside": "{n} вправ",
-  "@exercisesInside": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
   "exercisesInsideWhy": "Кожна має анімацію та покрокові інструкції.",
   "calculatorsInside": "10 калькуляторів",
   "calculatorsInsideWhy": "1ПМ, диски, ІМТ, калорії, жир, FFMI, розминка, вага за RPE і бали сили DOTS та Wilks — усе базується на опублікованих формулах.",
   "mathInside": "Прозорі розрахунки",
   "mathInsideWhy": "Обсяг, рекорди й підходи розраховуються з твоїх даних. Нічого просто для краси.",
   "streakCaps": "СЕРІЯ",
-  "daysUnit": "{n, plural, one{day} other{days}}",
-  "@daysUnit": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
+  "daysUnit": "{n, plural, =1{день} other{днів}}",
   "reset": "СКИНУТИ",
   "welcomeKicker": "ЛАСКАВО ПРОСИМО ДО",
   "welcomeBlurb": "Усе залишається на телефоні. Без облікового запису, без інтернету, без оплати.",
   "welcomeStart": "ПОЧАТИ",
   "onbStep": "КРОК {i} З {n}",
-  "@onbStep": {
-    "placeholders": {
-      "i": {
-        "type": "int"
-      },
-      "n": {
-        "type": "int"
-      }
-    }
-  },
   "onbNameTitle": "Як до тебе звертатися?",
   "onbNameHint": "Твоє ім’я",
   "onbPhotoAdd": "Додати фото",
@@ -883,14 +499,7 @@
   "onbBodyWhy": "Вони використовуються в калькуляторах. Їх можна змінити в Налаштуваннях будь-коли.",
   "onbGoalTitle": "Як часто ти тренуєшся?",
   "onbGoalWhy": "Встановлює тижневу ціль. Будь реалістичним, не надто амбітним.",
-  "perWeek": "{n, plural, one{{n} session a week} other{{n} sessions a week}}",
-  "@perWeek": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
+  "perWeek": "{n, plural, =1{{n} тренування на тиждень} other{{n} тренувань на тиждень}}",
   "onbUnitsTitle": "Кілограми чи фунти?",
   "next": "ДАЛІ",
   "back": "НАЗАД",
@@ -909,17 +518,8 @@
   "addBodyWidget": "Додати віджет карти м’язів",
   "repsOnly": "Лише повторення",
   "repsOnlyHint": "Записувати цю вправу без ваги.",
-  "eachSide": "Each side",
-  "eachSideHint": "The timer runs once per side and the rest starts after both.",
   "useDefaultArt": "Повернути стандартну ілюстрацію",
   "daysShort": "{n} д",
-  "@daysShort": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
   "focusCard": "Фокус на сьогодні",
   "autoAdvance": "Автоматично переходити далі",
   "keepScreenOn": "Не вимикати екран під час тренування",
@@ -929,38 +529,14 @@
   "liveChannel": "Тренування триває",
   "liveChannelWhy": "Показує поточну вправу, підхід і таймер відпочинку під час тренування",
   "liveSet": "Підхід {n} з {total}",
-  "@liveSet": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      },
-      "total": {
-        "type": "int"
-      }
-    }
-  },
   "liveResting": "Відпочинок",
   "liveAllDone": "Усі підходи виконано",
   "autoAdvanceHint": "Коли останній підхід вправи позначено, тренування автоматично переходить до наступної.",
   "placePlates": "Диски та гриф",
   "platesAll": "Усе доступно",
-  "platesOwned": "{n, plural, one{{n} size} other{{n} sizes}}",
-  "@platesOwned": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
+  "platesOwned": "{n, plural, =1{{n} розмір} other{{n} розмірів}}",
   "platePairs": "ПАРИ",
   "plateAchievable": "Найближча доступна вага: {w}",
-  "@plateAchievable": {
-    "placeholders": {
-      "w": {
-        "type": "String"
-      }
-    }
-  },
   "autoWarmup": "Починати з розминкових підходів",
   "autoWarmupHint": "Додає розминкові підходи при відкритті тренування.",
   "trainReminder": "Нагадування про тренування",
@@ -998,48 +574,20 @@
   "reminderSmartHint": "Використовує дні й час, коли ти реально тренуєшся, і мовчить, якщо цього дня тренування вже було.",
   "reminderSmartEmpty": "Запиши ще кілька тренувань, щоб застосунок вивчив звички.",
   "habitFocus": "що ти зазвичай тренуєш у {day}",
-  "@habitFocus": {
-    "placeholders": {
-      "day": {
-        "type": "String"
-      }
-    }
-  },
   "duplicateRoutine": "Дублювати програму",
   "copySuffix": "{name} (копія)",
-  "@copySuffix": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
   "saveAsRoutine": "ЗБЕРЕГТИ ЯК ПРОГРАМУ",
   "savedAsRoutine": "Збережено як програму",
   "templates": "Готові програми",
   "templatesHint": "Класичні програми, складені з твоєї бібліотеки. Потім можна змінити все.",
-  "templateAdded": "{n, plural, one{{n} routine added} other{{n} routines added}}",
-  "@templateAdded": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
+  "templateAdded": "{n, plural, =1{{n} програму додано} other{{n} програм додано}}",
   "tplFullbody": "Три тренування на все тіло на тиждень. Чудово для початку.",
   "tplPpl": "Push, pull і ноги. Три або шість днів на тиждень.",
   "tplUpperlower": "Верх і низ тіла, чотири дні на тиждень.",
   "tplStronglifts": "Два тренування, що чергуються, по п’ять підходів по п’ять.",
   "tplStartingstrength": "Присідання на кожному тренуванні, два тренування чергуються.",
   "tplHome": "Нічого, крім турніка й підлоги.",
-  "dayCount": "{n, plural, one{{n} day} other{{n} days}}",
-  "@dayCount": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
+  "dayCount": "{n, plural, =1{{n} день} other{{n} днів}}",
   "logRpe": "Записувати зусилля (RPE)",
   "rpeHint": "10 = більше жодного повторення; 8 = приблизно два повторення в запасі.",
   "superset": "Суперсет",
@@ -1047,14 +595,7 @@
   "supersetHint": "Без відпочинку між поєднаними вправами — одразу переходиш до наступної.",
   "aiRoutine": "Програма з ШІ",
   "aiIntro": "GymMane ніколи напряму не зв’язується зі ШІ. Ти експортуєш список вправ, вставляєш його в асистент, яким уже користуєшся, а потім імпортуєш відповідь. Нічого саме не залишає телефон.",
-  "aiMissing": "{n, plural, one{1 name was not in your library} other{{n} names were not in your library}}",
-  "@aiMissing": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
+  "aiMissing": "{n, plural, =1{1 назви не було в бібліотеці} other{{n} назв не було в бібліотеці}}",
   "importApps": "Підтримувані застосунки",
   "importOtherCsv": "Будь-який інший CSV з датою, вправою, повтореннями та вагою",
   "importAskApp": "Потрібен інший застосунок? Попроси додати його",
@@ -1141,107 +682,17 @@
   "awardHours100Name": "Сто годин",
   "awardHours100Line": "Сто годин під штангою, з увімкненим таймером.",
   "awardWonOn": "Здобуто {date}",
-  "@awardWonOn": {
-    "placeholders": {
-      "date": {
-        "type": "String"
-      }
-    }
-  },
   "badgeName": "{id, select, gold{Золотий} blue{Синій} green{Зелений} other{Значок}}",
-  "@badgeName": {
-    "placeholders": {
-      "id": {
-        "type": "String"
-      }
-    }
-  },
   "memberSince": "З {date}",
-  "@memberSince": {
-    "placeholders": {
-      "date": {
-        "type": "String"
-      }
-    }
-  },
   "levelShort": "Рівень {n}",
-  "levelToNext": "{n, plural, one{1 workout to level {next}} other{{n} workouts to level {next}}}",
-  "@levelToNext": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      },
-      "next": {
-        "type": "int"
-      }
-    }
-  },
-  "@levelShort": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
+  "levelToNext": "{n, plural, =1{1 тренування до рівня {next}} other{{n} тренувань до рівня {next}}}",
   "heightCm": "{n} см",
-  "@heightCm": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
   "heatToneName": "{id, select, ember{Жар} green{Зелений} blue{Синій} mono{Сірий} other{Колір}}",
-  "@heatToneName": {
-    "placeholders": {
-      "id": {
-        "type": "String"
-      }
-    }
-  },
   "setsThisWeek": "{n} підходів",
-  "@setsThisWeek": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
   "weekOfGoal": "{n} з {goal} цього тижня",
-  "@weekOfGoal": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      },
-      "goal": {
-        "type": "int"
-      }
-    }
-  },
   "momentCount": "{n} фото",
-  "@momentCount": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
   "photosSelected": "Вибрано: {n}",
   "deletePhotosTitle": "Видалити фото ({n})?",
-  "@photosSelected": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "@deletePhotosTitle": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
   "momentsEmptyHint": "Сфотографуй зал, дошку, зібрану штангу — усе, що хочеш запам’ятати. Фото залишаються на телефоні й видимі лише тобі.",
   "awardStreak100Line": "Сто днів поспіль. Це вже не мотивація, а звичка.",
   "coverLabel": "ОБКЛАДИНКА",
@@ -1264,16 +715,6 @@
   "workoutOverview": "Це тренування",
   "allExercisesShort": "Усі",
   "setsDoneOf": "{done}/{total} підходів",
-  "@setsDoneOf": {
-    "placeholders": {
-      "done": {
-        "type": "int"
-      },
-      "total": {
-        "type": "int"
-      }
-    }
-  },
   "nowLabel": "Зараз",
   "deleteWorkout": "Видалити тренування",
   "deleteWorkoutBody": "Це тренування і всі його підходи буде видалено з історії.",
@@ -1300,35 +741,13 @@
   "onbPlaceWhy": "Познач усі місця, де тренуєшся. Пропонуватимемо лише те, що можна зробити в кожному.",
   "onbPlaceGear": "Що у вас там є?",
   "distanceCol": "ДИСТАНЦІЯ ({unit})",
-  "@distanceCol": {
-    "placeholders": {
-      "unit": {
-        "type": "String"
-      }
-    }
-  },
   "timeCol": "ЧАС",
-  "timePerSideCol": "TIME / SIDE",
   "timeMinutesTitle": "Час (хвилини)",
   "timeSecondsTitle": "Час (секунди)",
   "distanceTitle": "Дистанція ({unit})",
-  "@distanceTitle": {
-    "placeholders": {
-      "unit": {
-        "type": "String"
-      }
-    }
-  },
   "holdLabel": "Утримання",
   "stopLabel": "Стоп",
   "startHold": "Старт · {time}",
-  "@startHold": {
-    "placeholders": {
-      "time": {
-        "type": "String"
-      }
-    }
-  },
   "exerciseTypeLabel": "Записувати за",
   "typeReps": "Повтори й вага",
   "typeTime": "Час",
@@ -1360,35 +779,14 @@
   "shareWeek": "Поділитися моїм тижнем",
   "shareWeekHint": "Усі ваші програми й день кожної.",
   "shareMessage": "{name} — відкрийте файл у GymMane, щоб додати.",
-  "@shareMessage": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
   "importRoutines": "Імпортувати програми",
   "importPasteHint": "Вставте програму сюди: поширену з GymMane, відповідь ШІ, JSON або CSV.",
   "pasteAction": "Вставити",
-  "routineCount": "{n, plural, one{1 routine} other{{n} routines}}",
-  "@routineCount": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
+  "routineCount": "{n, plural, =1{1 програма} few{{n} програми} other{{n} програм}}",
   "useTheirSchedule": "Також використати її тижневий розклад",
   "useTheirScheduleHint": "Дні з неї замінять те, що ви запланували на ці дні.",
   "addToMyRoutines": "Додати до моїх програм",
-  "routinesAdded": "{n, plural, one{1 routine added} other{{n} routines added}}",
-  "@routinesAdded": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
+  "routinesAdded": "{n, plural, =1{Додано 1 програму} few{Додано {n} програми} other{Додано {n} програм}}",
   "nothingToImport": "Тут немає нічого, що GymMane може імпортувати",
   "aiStepCopy": "Скопіюйте запит. У ньому ваш список вправ і формат, який читає GymMane.",
   "aiStepAsk": "Вставте його в будь-який ШІ й скажіть, чого хочете: днів на тиждень, мета, скільки тижнів.",
@@ -1401,46 +799,16 @@
   "shareAsFile": "Поділитися файлом",
   "recoveryTab": "Відновлення",
   "recoveryOverall": "Тіло відновлене на {pct}%",
-  "@recoveryOverall": {
-    "placeholders": {
-      "pct": {
-        "type": "int"
-      }
-    }
-  },
   "recoveryAllFresh": "Усе відновлено. Гарний день, щоб тренувати будь-що.",
   "recoveryStill": "Ще відновлюється: {muscles}",
-  "@recoveryStill": {
-    "placeholders": {
-      "muscles": {
-        "type": "String"
-      }
-    }
-  },
   "recoveryTired": "Втома",
   "recoveryFresh": "Свіжий",
   "recoveryHint": "Торкніться м'яза, щоб побачити, наскільки він відновився. Нещодавні підходи важать більше, а важчі (за RPE) — ще більше.",
   "recoveryPct": "Відновлено на {pct}%",
-  "@recoveryPct": {
-    "placeholders": {
-      "pct": {
-        "type": "int"
-      }
-    }
-  },
   "readyInHours": "готово за ~{h} год",
-  "@readyInHours": {
-    "placeholders": {
-      "h": {
-        "type": "int"
-      }
-    }
-  },
   "tplAbcd": "Чотири дні: груди й трицепс, спина й біцепс, ноги, плечі й прес.",
   "tplAbcde": "П'ять днів, одна група на день: груди, спина, ноги, плечі, руки.",
   "elapsedCaps": "МИНУЛО",
-  "tapToChange": "Tap to change",
-  "swipeToSkipHint": "Swipe the timer sideways to skip the rest.",
   "screenLocked": "Екран заблоковано",
   "lockedHint": "Утримуйте відбиток угорі, щоб розблокувати",
   "liveDoneSet": "Підхід виконано",
@@ -1449,13 +817,6 @@
   "liveResume": "Продовжити",
   "liveNext": "Далі",
   "liveUpNext": "Далі: {name}",
-  "@liveUpNext": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
   "stickerOpen": "Поділитися на фото",
   "stickerNoPhoto": "Без фото",
   "stickerWorkout": "Тренування",
@@ -1465,15 +826,6 @@
   "stickerSaved": "Збережено в галерею",
   "stickerWeek": "Цей тиждень",
   "getReady": "Приготуйтеся",
-  "sideOfTwo": "Side {n} of 2",
-  "@sideOfTwo": {
-    "placeholders": {
-      "n": {
-        "type": "String"
-      }
-    }
-  },
-  "switchSides": "Switch sides",
   "stickerGallery": "Галерея",
   "stickerCamera": "Камера",
   "shareIntroTitle": "Поділіться цією програмою",
@@ -1484,13 +836,6 @@
   "radarEmpty": "Потренуйтеся кілька днів, щоб побачити баланс",
   "radarBalanced": "Поки що все збалансовано",
   "radarFocus": "Потрібно більше: {list}",
-  "@radarFocus": {
-    "placeholders": {
-      "list": {
-        "type": "String"
-      }
-    }
-  },
   "countdownReady": "Приготуйтеся",
   "countdownSkip": "Торкніться, щоб почати одразу",
   "countdownSetting": "Зворотний відлік перед стартом",
@@ -1499,38 +844,17 @@
   "rirHint": "0 — більше жодного повторення, 2 — залишалося два.",
   "addWeekWidget": "Додати віджет тижня",
   "gamificationSetting": "Медалі та рівні",
-  "repCount": "{n, plural, one{{n} rep} other{{n} reps}}",
-  "@repCount": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
+  "repCount": "{n, plural, one{{n} повтор} few{{n} повтори} many{{n} повторів} other{{n} повтору}}",
   "prBestSet": "Найкращий підхід",
   "weekStartSetting": "Тиждень починається з",
   "stepOutOfWorkout": "Пауза й вихід",
   "saveToRoutine": "ЗБЕРЕГТИ ЗМІНИ В ПРОГРАМІ",
   "routineUpdated": "Програму оновлено",
   "saveChangesTitle": "Зберегти зміни в {name}?",
-  "@saveChangesTitle": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
   "saveChangesBody": "Наступного разу, коли ти її почнеш, у програмі будуть ці зміни.",
   "routineOrderChanged": "Новий порядок вправ",
   "mineOnly": "Створені вами",
   "createNamed": "Немає? Створити «{name}»",
-  "@createNamed": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
   "orStartWith": "Або почніть з",
   "warmupFocus": "Розминка",
   "warmupFocusHint": "Рухливість і активація, з інвентарем чи без",
@@ -1545,21 +869,7 @@
   "stepsSettingHint": "Показує кроки за сьогодні на головному екрані. Ніщо не залишає телефон.",
   "stepsToday": "Кроки сьогодні",
   "stepsOfGoal": "з {goal}",
-  "@stepsOfGoal": {
-    "placeholders": {
-      "goal": {
-        "type": "String"
-      }
-    }
-  },
   "stepsTodayCount": "Сьогодні кроків: {count}",
-  "@stepsTodayCount": {
-    "placeholders": {
-      "count": {
-        "type": "String"
-      }
-    }
-  },
   "stepsGoal": "Денна ціль кроків",
   "stepsNoAccess": "Немає доступу до кроків",
   "stepsGrant": "Торкнись, щоб дозволити в Health Connect",
@@ -1569,14 +879,7 @@
   "stepsManage": "Керувати дозволом",
   "routineDoneToday": "На сьогодні все · чудова робота",
   "trainAgain": "Тренуватися ще",
-  "lastDoneAgo": "{n, plural, =0{Done today} one{Done yesterday} other{{n} days ago}}",
-  "@lastDoneAgo": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
+  "lastDoneAgo": "{n, plural, =0{Зроблено сьогодні} =1{Зроблено вчора} one{{n} день тому} few{{n} дні тому} many{{n} днів тому} other{{n} дня тому}}",
   "archivedFilter": "Архів",
   "archiveExercise": "Архівувати вправу",
   "restoreExercise": "Відновити",
@@ -1594,64 +897,17 @@
   "multiPlanSetting": "Кілька програм на день",
   "multiPlanHint": "Позначте кожну програму на цей день. Вони йдуть у порядку додавання.",
   "routineOfDay": "{n} з {total} сьогодні",
-  "@routineOfDay": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      },
-      "total": {
-        "type": "int"
-      }
-    }
-  },
   "nextToday": "Далі сьогодні",
   "planAboutMe": "Про мене:",
   "planBody": "{sex}, {age} років, зріст {height}, вага {weight}.",
   "planDays": "Хочу тренуватися {n} днів на тиждень.",
   "planNoHistory": "Тренувань ще немає: вважай мене новачком і будь обережним з обсягом і вагами.",
-  "planHistory": "{n, plural, one{1 workout logged in the last 30 days.} other{{n} workouts logged in the last 30 days.}}",
+  "planHistory": "{n, plural, one{{n} тренування за останні 30 днів.} few{{n} тренування за останні 30 днів.} many{{n} тренувань за останні 30 днів.} other{{n} тренування за останні 30 днів.}}",
   "planBestLifts": "Найкращі нещодавні підходи",
   "planAskFirst": "Якщо ти не знаєш моєї мети (сила, м’язи, схуднення чи загальна форма) або тривалості тренування, спершу спитай мене одним коротким повідомленням. Потім відповідай лише JSON.",
-  "@planBody": {
-    "placeholders": {
-      "sex": {
-        "type": "String"
-      },
-      "age": {
-        "type": "int"
-      },
-      "height": {
-        "type": "String"
-      },
-      "weight": {
-        "type": "String"
-      }
-    }
-  },
-  "@planDays": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "@planHistory": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
   "backToTop": "Угору",
   "deleteExerciseTitle": "Видалити цю вправу?",
   "deleteExerciseBody": "«{name}» буде видалено з бібліотеки та програм. Попередні підходи збережуться.",
-  "@deleteExerciseBody": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
   "exportForStravaHint": "Завантажте в браузері на strava.com/upload/select (застосунок Strava не імпортує файли). З’явиться як силове тренування з вашими підходами.",
   "manualStartTime": "Час початку",
   "manualDuration": "Тривалість",
@@ -1670,88 +926,26 @@
   "groupUngroup": "Прибрати групу, залишити програми",
   "groupDeleteAll": "Видалити групу й програми",
   "groupDeleteTitle": "Видалити «{name}»?",
-  "@groupDeleteTitle": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
   "groupDeleteBody": "Буде видалено: {count}. Історія тренувань збережеться.",
-  "@groupDeleteBody": {
-    "placeholders": {
-      "count": {
-        "type": "String"
-      }
-    }
-  },
   "tplRr": "Класика r/bodyweightfitness: усе тіло три дні на тиждень. Переходь на наступний щабель, коли стане легко.",
   "levelUpKicker": "НАСТУПНИЙ КРОК",
   "levelUpBody": "3×{reps} у «{name}» два тренування поспіль. Готовий до наступного кроку?",
-  "@levelUpBody": {
-    "placeholders": {
-      "reps": {
-        "type": "int"
-      },
-      "name": {
-        "type": "String"
-      }
-    }
-  },
   "levelUpSwap": "Замінити в «{routine}»",
-  "@levelUpSwap": {
-    "placeholders": {
-      "routine": {
-        "type": "String"
-      }
-    }
-  },
   "levelUpSee": "Як виконувати",
   "levelUpLater": "Не зараз",
   "levelUpStay": "Залишити цю",
   "levelUpSwapped": "«{name}» тепер у «{routine}»",
-  "@levelUpSwapped": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      },
-      "routine": {
-        "type": "String"
-      }
-    }
-  },
   "levelUpStayed": "Більше не пропонувати ускладнення для цієї",
   "levelHintsSetting": "Пропонувати наступний крок",
   "heatmapLabelsSetting": "Дні й місяці на карті активності",
   "rmPercent": "ВІДСОТОК",
   "rmAtPercent": "{pct} від твого максимуму",
-  "@rmAtPercent": {
-    "placeholders": {
-      "pct": {
-        "type": "String"
-      }
-    }
-  },
   "copyWorkout": "Скопіювати текстом",
   "goalSet": "Поставити ціль",
   "goalTargetReps": "ЦІЛЬОВІ ПОВТОРИ",
   "goalToGo": "Залишилось {value}",
-  "@goalToGo": {
-    "placeholders": {
-      "value": {
-        "type": "String"
-      }
-    }
-  },
   "goalReached": "Ціль досягнуто",
-  "goalDaysLeft": "{n, plural, one{1 day left} other{{n} days left}}",
-  "@goalDaysLeft": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
+  "goalDaysLeft": "{n, plural, =1{Залишився {n} день} few{Залишилось {n} дні} other{Залишилось {n} днів}}",
   "goalOverdue": "Термін минув",
   "goalDeadline": "ТЕРМІН",
   "goalNoDeadline": "Без терміну",
@@ -1760,22 +954,8 @@
   "aliasesLabel": "Інші назви (необов'язково)",
   "aliasesHint": "Інші назви через кому",
   "alsoCalled": "Також: {names}",
-  "@alsoCalled": {
-    "placeholders": {
-      "names": {
-        "type": "String"
-      }
-    }
-  },
   "addToRoutine": "Додати до програми",
-  "inRoutines": "{n, plural, =0{Not in any routine yet} one{In 1 routine} other{In {n} routines}}",
-  "@inRoutines": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
+  "inRoutines": "{n, plural, =0{Поки в жодній програмі} =1{У 1 програмі} other{У {n} програмах}}",
   "alreadyInRoutine": "Уже є",
   "restInRoutine": "Відпочинок у цій програмі",
   "restInRoutineHint": "Як у вправи",
@@ -1783,22 +963,8 @@
   "swapExercise": "Замінити вправу",
   "swapShort": "Замінити",
   "swapHint": "Замість «{name}», лише сьогодні. Наприкінці можна залишити її в програмі.",
-  "@swapHint": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
   "swapKeepsDone": "Виконані підходи залишаться; нова продовжить решту.",
   "swapSameMuscle": "Той самий м’яз · {muscle}",
-  "@swapSameMuscle": {
-    "placeholders": {
-      "muscle": {
-        "type": "String"
-      }
-    }
-  },
   "swapDoneBefore": "Уже робили",
   "multiPlanSettingHint": "Більше однієї програми в один день тижня.",
   "levelHintsHint": "Коли вправа стає легкою, запропонує складніший варіант.",
@@ -1809,16 +975,6 @@
   "placeTapToUse": "торкніться, щоб тренуватися тут",
   "intervalDays": "днів",
   "goalDaysShort": "{done}/{target} дн.",
-  "@goalDaysShort": {
-    "placeholders": {
-      "done": {
-        "type": "int"
-      },
-      "target": {
-        "type": "int"
-      }
-    }
-  },
   "toolNameRpe": "Вага за RPE",
   "toolTitleRpe": "Вага за RPE",
   "toolDescRpe": "Яку вагу взяти під потрібне зусилля",
@@ -1826,39 +982,15 @@
   "toolTitleDots": "Рівень сили (DOTS)",
   "toolDescDots": "Ваша сила відносно ваги",
   "rpeResultHint": "На {reps} повт. при RPE {rpe}",
-  "@rpeResultHint": {
-    "placeholders": {
-      "reps": {
-        "type": "int"
-      },
-      "rpe": {
-        "type": "String"
-      }
-    }
-  },
   "rpeYourSet": "Підхід, який ви щойно зробили",
   "rpeGoal": "Що хочете зробити",
   "rpeOneRmLine": "Розрахунковий 1ПМ: {value}",
-  "@rpeOneRmLine": {
-    "placeholders": {
-      "value": {
-        "type": "String"
-      }
-    }
-  },
   "rpeExplain": "RPE 10 — більше жодного повтору; 8 — залишалося два.",
   "dotsBestLifts": "Ваші найкращі результати",
   "dotsSquat": "ПРИСІД",
   "dotsBench": "ЖИМ ЛЕЖАЧИ",
   "dotsDeadlift": "СТАНОВА ТЯГА",
   "dotsTotalLine": "Сума: {value}",
-  "@dotsTotalLine": {
-    "placeholders": {
-      "value": {
-        "type": "String"
-      }
-    }
-  },
   "dotsExplain": "Порівнює вашу силу з силою будь-кого, незалежно від ваги. Використайте найкращий разовий результат або розрахунковий 1ПМ.",
   "dotsLevel0": "Новачок",
   "dotsLevel1": "Середній",
@@ -1874,13 +1006,6 @@
   "toolDescFfmi": "Скільки м’язів для твого зросту",
   "ffmiBodyFat": "ЖИРОВА МАСА",
   "ffmiLeanLine": "Знежирена маса: {value}",
-  "@ffmiLeanLine": {
-    "placeholders": {
-      "value": {
-        "type": "String"
-      }
-    }
-  },
   "ffmiExplain": "Як ІМТ, але без жиру: враховує лише знежирену масу. З поправкою на зріст, щоб чесно порівнювати високих і невисоких.",
   "ffmiLevel0": "Нижче середнього",
   "ffmiLevel1": "Середній",
@@ -1903,39 +1028,12 @@
   "prBestWorkout": "Найкраще тренування",
   "mergeExercise": "Об’єднати",
   "mergeExerciseInto": "Об’єднати {name} з…",
-  "@mergeExerciseInto": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
   "mergeExerciseTitle": "Об’єднати вправи?",
   "mergeExerciseBody": "Уся історія «{from}» перейде до «{to}». «{from}» залишиться в бібліотеці. Цю дію не можна скасувати.",
-  "@mergeExerciseBody": {
-    "placeholders": {
-      "from": {
-        "type": "String"
-      },
-      "to": {
-        "type": "String"
-      }
-    }
-  },
   "mergedToast": "Історію об’єднано",
   "nutrition": "Харчування",
   "nutritionHomeEmpty": "Вода, білок і калорії",
   "nutritionHomeDetail": "{energy} · {protein} г білка",
-  "@nutritionHomeDetail": {
-    "placeholders": {
-      "energy": {
-        "type": "String"
-      },
-      "protein": {
-        "type": "int"
-      }
-    }
-  },
   "nutritionToday": "Сьогодні",
   "nutritionYesterday": "Учора",
   "nutritionGoals": "Цілі на день",
@@ -1950,13 +1048,6 @@
   "addSupplement": "Нова добавка",
   "supplementNameHint": "Креатин, вітамін D…",
   "removeSupplementTitle": "Видалити {name}?",
-  "@removeSupplementTitle": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
   "removeSupplementBody": "Дні, коли ти її відмічав, зникнуть разом з нею.",
   "suppCreatine": "Креатин",
   "suppVitaminD": "Вітамін D",
@@ -1977,13 +1068,6 @@
   "cutoutTry": "Вирізати",
   "cutoutKeep": "Усе фото",
   "deleteFoodTitle": "Видалити {name}?",
-  "@deleteFoodTitle": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
   "deleteFoodBody": "Зникне з твоїх продуктів. Уже записане лишиться.",
   "mealBreakfast": "Сніданок",
   "mealLunch": "Обід",
@@ -1991,47 +1075,19 @@
   "mealSnacks": "Перекуси",
   "nothingLogged": "Поки нічого не записано.",
   "addToMeal": "Додати: {meal}",
-  "@addToMeal": {
-    "placeholders": {
-      "meal": {
-        "type": "String"
-      }
-    }
-  },
   "quickAdd": "Швидко додати",
   "quickAddHint": "Лише цифри, без збереження продукту.",
   "quickAddName": "Що це було? (необов’язково)",
   "logFood": "Додати",
   "loggedToast": "Додано: {meal}",
-  "@loggedToast": {
-    "placeholders": {
-      "meal": {
-        "type": "String"
-      }
-    }
-  },
   "entryRemoved": "Видалено",
   "goalsFromProfile": "Розрахувати з профілю",
   "goalsFromProfileHint": "Калорії з профілю, 1,8 г білка і 35 мл води на кг ваги.",
   "kcalEaten": "З’їдено",
   "kcalRemaining": "Лишилося",
   "waterTapHint": "Торкнись склянки: + {amount}",
-  "@waterTapHint": {
-    "placeholders": {
-      "amount": {
-        "type": "String"
-      }
-    }
-  },
   "shakeEmpty": "Торкнись, щоб обрати коктейль",
   "shakeTapHint": "Торкнись: + {name}",
-  "@shakeTapHint": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
   "shakePick": "Твій коктейль",
   "shakePickHint": "Торкнись склянки — і він запишеться одразу.",
   "proteinLetter": "Б",
@@ -2041,22 +1097,8 @@
   "addBurnedHint": "Спалені калорії рахуються за тривалістю тренувань і твоєю вагою.",
   "amountLabel": "Кількість",
   "amountIn": "Кількість ({unit})",
-  "@amountIn": {
-    "placeholders": {
-      "unit": {
-        "type": "String"
-      }
-    }
-  },
   "bodyweightLabel": "Вага",
-  "copiedMealToast": "{count, plural, one{1 food copied} other{{count} foods copied}}",
-  "@copiedMealToast": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
+  "copiedMealToast": "{count, plural, =1{Скопійовано 1 продукт} few{Скопійовано {count} продукти} other{Скопійовано {count} продуктів}}",
   "deleteSavedMealBody": "Уже записане лишиться як є.",
   "fiberLabel": "Клітковина",
   "sugarLabel": "Цукор",
@@ -2066,90 +1108,17 @@
   "mealOptions": "Параметри прийому їжі",
   "moreNutrients": "Клітковина, цукор і натрій",
   "ofGoal": "з {goal} {unit}",
-  "@ofGoal": {
-    "placeholders": {
-      "goal": {
-        "type": "int"
-      },
-      "unit": {
-        "type": "String"
-      }
-    }
-  },
   "per100": "на 100 {unit}",
-  "@per100": {
-    "placeholders": {
-      "unit": {
-        "type": "String"
-      }
-    }
-  },
   "perServingShort": "на порцію",
-  "portionUnit": "{count, plural, one{1 piece} other{{count} pieces}}",
-  "@portionUnit": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
-  "portionSlice": "{count, plural, one{1 slice} other{{count} slices}}",
-  "@portionSlice": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
-  "portionScoop": "{count, plural, one{1 scoop} other{{count} scoops}}",
-  "@portionScoop": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
-  "portionTbsp": "{count, plural, one{1 tbsp} other{{count} tbsp}}",
-  "@portionTbsp": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
-  "portionTsp": "{count, plural, one{1 tsp} other{{count} tsp}}",
-  "@portionTsp": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
-  "portionCup": "{count, plural, one{1 cup} other{{count} cups}}",
-  "@portionCup": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
-  "portionGlass": "{count, plural, one{1 glass} other{{count} glasses}}",
-  "@portionGlass": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
+  "portionUnit": "{count, plural, =1{1 штука} few{{count} штуки} other{{count} штук}}",
+  "portionSlice": "{count, plural, =1{1 скибка} few{{count} скибки} other{{count} скибок}}",
+  "portionScoop": "{count, plural, =1{1 мірна ложка} few{{count} мірні ложки} other{{count} мірних ложок}}",
+  "portionTbsp": "{count, plural, =1{1 ст. л.} other{{count} ст. л.}}",
+  "portionTsp": "{count, plural, =1{1 ч. л.} other{{count} ч. л.}}",
+  "portionCup": "{count, plural, =1{1 чашка} few{{count} чашки} other{{count} чашок}}",
+  "portionGlass": "{count, plural, =1{1 склянка} few{{count} склянки} other{{count} склянок}}",
   "recentFoods": "Недавні",
-  "recipeItems": "{count, plural, one{1 food} other{{count} foods}}",
-  "@recipeItems": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
+  "recipeItems": "{count, plural, =1{1 продукт} few{{count} продукти} other{{count} продуктів}}",
   "renameLabel": "Перейменувати",
   "repeatFrom": "Повторити з",
   "repeatNone": "В інші дні для цього прийому їжі ще нічого немає.",
@@ -2164,13 +1133,6 @@
   "searchFoodsHint": "Пошук продуктів",
   "searchFoodsEmpty": "Шукай серед понад 500 продуктів із фото або додай свої.",
   "searchFoodsNone": "За запитом «{query}» нічого. Створи його як свій продукт.",
-  "@searchFoodsNone": {
-    "placeholders": {
-      "query": {
-        "type": "String"
-      }
-    }
-  },
   "servingWeight": "ГРАМИ",
   "weekAverage": "Цей тиждень",
   "weekAvgEnergy": "У середньому за день",
@@ -2178,69 +1140,17 @@
   "weekEnergyOnTarget": "Калорії в цілі",
   "weekProteinOnTarget": "Білок у цілі",
   "weekProteinAvg": "{grams} г білка на день",
-  "@weekProteinAvg": {
-    "placeholders": {
-      "grams": {
-        "type": "int"
-      }
-    }
-  },
   "weekDaysOnTarget": "{met} з {days} днів у цілі",
-  "@weekDaysOnTarget": {
-    "placeholders": {
-      "met": {
-        "type": "int"
-      },
-      "days": {
-        "type": "int"
-      }
-    }
-  },
-  "weekLoggedDays": "{count, plural, one{1 day logged} other{{count} days logged}}",
-  "@weekLoggedDays": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
+  "weekLoggedDays": "{count, plural, =1{1 день записано} few{{count} дні записано} other{{count} днів записано}}",
   "weekNoData": "Поки нічого не записано",
   "weekOnTargetHint": "У цілі: калорії в межах 10 % від цілі та не менше 90 % білка.",
   "weightGoalLabel": "Цільова вага",
   "weightGoalTitle": "Цільова вага ({unit})",
-  "@weightGoalTitle": {
-    "placeholders": {
-      "unit": {
-        "type": "String"
-      }
-    }
-  },
   "weightGoalLine": "Ціль {weight}",
-  "@weightGoalLine": {
-    "placeholders": {
-      "weight": {
-        "type": "String"
-      }
-    }
-  },
   "weightGoalNone": "Утримуй, щоб задати ціль",
   "weightGoalReached": "Ціль досягнуто",
   "weightToLose": "Скинути ще {weight}",
-  "@weightToLose": {
-    "placeholders": {
-      "weight": {
-        "type": "String"
-      }
-    }
-  },
   "weightToGain": "Набрати ще {weight}",
-  "@weightToGain": {
-    "placeholders": {
-      "weight": {
-        "type": "String"
-      }
-    }
-  },
   "aminoHis": "гістидин",
   "aminoIle": "ізолейцин",
   "aminoLeu": "лейцин",
@@ -2259,36 +1169,12 @@
   "qualityNoDataHint": "Записуй продукти з бази, щоб бачити свої амінокислоти.",
   "qualityAllCovered": "Усі дев’ять незамінних амінокислот покрито.",
   "qualityLimiting": "Бракує: {amino}. Поєднуй із продуктами, де її багато.",
-  "@qualityLimiting": {
-    "placeholders": {
-      "amino": {
-        "type": "String"
-      }
-    }
-  },
   "qualityCoverage": "Пораховано за {pct} % білка: у своїх продуктах немає даних про амінокислоти.",
-  "@qualityCoverage": {
-    "placeholders": {
-      "pct": {
-        "type": "int"
-      }
-    }
-  },
   "fatTypes": "Види жирів",
   "fatSaturated": "Насичені",
   "fatMono": "Мононенас.",
   "fatPoly": "Поліненас.",
   "satLimitLine": "Насичені {grams} г з макс. {limit} г (10 % калорій)",
-  "@satLimitLine": {
-    "placeholders": {
-      "grams": {
-        "type": "String"
-      },
-      "limit": {
-        "type": "int"
-      }
-    }
-  },
   "sugarSodium": "Цукор і натрій",
   "shakeCard": "Протеїновий коктейль",
   "mealOther": "Прийом їжі",
@@ -2313,35 +1199,11 @@
   "prepAddIngredient": "Додати інгредієнт",
   "prepCookedWeight": "ВАГА ГОТОВОГО",
   "prepCookedHint": "Зваж каструлю після готування для точних цифр. Порожньо = загальна сира вага ({grams} г).",
-  "@prepCookedHint": {
-    "placeholders": {
-      "grams": {
-        "type": "String"
-      }
-    }
-  },
   "prepNeedWeight": "Вкажи вагу готового: у деяких інгредієнтів немає грамів.",
   "prepLeftOf": "Лишилося {left} з {total}",
-  "@prepLeftOf": {
-    "placeholders": {
-      "left": {
-        "type": "String"
-      },
-      "total": {
-        "type": "String"
-      }
-    }
-  },
   "prepOfWhatsLeft": "% від залишку",
   "prepAll": "Усе",
   "prepLogAmount": "Записати {grams}",
-  "@prepLogAmount": {
-    "placeholders": {
-      "grams": {
-        "type": "String"
-      }
-    }
-  },
   "prepWeighLeft": "Зважити залишок",
   "prepFinished": "Ця заготовка закінчилась.",
   "approxValues": "Приблизно",
@@ -2349,36 +1211,12 @@
   "editValuesHint": "Змінює лише цей запис. Щоб виправити продукт на майбутнє, зміни його в «Мої продукти».",
   "editLibraryHint": "Збережеться як твій продукт, з тим самим фото",
   "per100Line": "{energy} на 100 {unit}",
-  "@per100Line": {
-    "placeholders": {
-      "energy": {
-        "type": "String"
-      },
-      "unit": {
-        "type": "String"
-      }
-    }
-  },
   "rawLabel": "Сирий",
   "cookedLabel": "Готовий",
   "rawHint": "Вага до готування",
   "cookedHint": "Вага після готування (×{factor} від сирої)",
-  "@cookedHint": {
-    "placeholders": {
-      "factor": {
-        "type": "String"
-      }
-    }
-  },
   "servingsUnit": "порцій",
   "logAmount": "Записати · {energy}",
-  "@logAmount": {
-    "placeholders": {
-      "energy": {
-        "type": "String"
-      }
-    }
-  },
   "catFruit": "Фрукти",
   "catVeg": "Овочі",
   "catMeat": "М’ясо",
@@ -2402,80 +1240,7 @@
   "energySplit": "Звідки калорії",
   "typicalServing": "Звичайна порція",
   "cookedYieldLine": "Важить у {factor} раза більше сирого",
-  "@cookedYieldLine": {
-    "placeholders": {
-      "factor": {
-        "type": "String"
-      }
-    }
-  },
-  "readyDishes": "Dishes",
-  "weightLastLine": "Last weigh-in {weight}",
-  "@weightLastLine": {
-    "placeholders": {
-      "weight": {
-        "type": "String"
-      }
-    }
-  },
-  "proteinAnimalShort": "Animal",
-  "proteinPlantShort": "Plant",
-  "kcalFromMacros": "These macros add up to about {value}",
-  "@kcalFromMacros": {
-    "placeholders": {
-      "value": {
-        "type": "String"
-      }
-    }
-  },
-  "useValue": "Use",
-  "suppRowHint": "Tap to mark · hold for details",
-  "suppPhoto": "Photo",
-  "suppDose": "Dose",
-  "suppDoseHint": "5 g, 2 capsules…",
-  "suppRemind": "Remind me",
-  "mealPlanDefault": "Plan {n}",
-  "@mealPlanDefault": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "mealPlansTitle": "Meal plans",
-  "mealPlanNew": "New plan",
-  "fromPlan": "From {name}",
-  "@fromPlan": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "logPlan": "Log",
-  "planFromDay": "Copy this day",
-  "planNewHint": "Plan your days like your routines, then log a whole meal with one tap.",
-  "planLogDay": "Log the empty meals",
-  "planLogged": "{n, plural, one{1 food logged} other{{n} foods logged}}",
-  "@planLogged": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "planNoPlan": "No plan",
-  "planWeekHint": "Tap a day to give it a plan.",
-  "planDuplicate": "Duplicate",
-  "planDeleteTitle": "Delete {name}?",
-  "@planDeleteTitle": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "planDeleteBody": "Your logged days stay as they are.",
+  "planDeleteBody": "Ваші програми залишаться. Видаляється лише цей збережений тиждень.",
   "sectionBeta": "Бета",
   "nutritionBeta": "Харчування",
   "nutritionBetaHint": "Їжа, вода, білок і добавки. Ще в розробці: дані збережуться, навіть якщо вимкнути.",
@@ -2491,184 +1256,22 @@
   "nutritionAboutBeta": "Якщо чогось бракує, запропонуй це на GitHub. Тільки не сканер і не більшу базу продуктів: окрім приватності, застосунок став би набагато важчим. Харчування не потрібне? Вимкни його в налаштуваннях, дані збережуться.",
   "nutritionAboutSuggest": "Запропонувати ідею",
   "nutritionAboutOk": "Зрозуміло",
-  "planShare": "Share",
-  "planImport": "Import a plan",
-  "planImported": "{n, plural, one{1 plan imported} other{{n} plans imported}}",
-  "@planImported": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "planImportNone": "That file has no meal plans.",
-  "planMoveUp": "Move up",
-  "planMoveDown": "Move down",
-  "cutoutEdit": "Touch up cutout",
-  "cutoutEditHint": "Drag to erase or restore. Tap an area to remove or bring it back whole. Pinch to zoom.",
-  "cutoutErase": "Erase",
-  "cutoutRestore": "Restore",
-  "cutoutReset": "Back to automatic",
-  "cutoutByHand": "Cut out by hand",
-  "notifSuppTitleFor": "Time to take: {names}",
-  "@notifSuppTitleFor": {
-    "placeholders": {
-      "names": {
-        "type": "String"
-      }
-    }
-  },
-  "notifSuppTap": "Tick it off in GymMane once you've taken it.",
-  "suppNoneToday": "Nothing to take today.",
-  "suppOtherDays": "Other days",
-  "suppEveryN": "{n, plural, one{Every day} other{Every {n} days}}",
-  "@suppEveryN": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "suppDaily": "Every day",
-  "suppFromDate": "from {date}",
-  "@suppFromDate": {
-    "placeholders": {
-      "date": {
-        "type": "String"
-      }
-    }
-  },
-  "suppUntilDate": "until {date}",
-  "@suppUntilDate": {
-    "placeholders": {
-      "date": {
-        "type": "String"
-      }
-    }
-  },
-  "suppSomeDays": "Some days",
-  "suppEveryShort": "Every X days",
-  "suppWhen": "When",
-  "suppEveryLead": "Every",
-  "suppEveryTail": "{n, plural, one{day} other{days}}",
-  "@suppEveryTail": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "suppStarts": "Starts",
-  "suppEnds": "Ends",
-  "suppTomorrow": "Tomorrow",
-  "suppPickDate": "Pick a date",
-  "suppNever": "Never",
-  "suppOneWeek": "In 1 week",
-  "suppOneMonth": "In 1 month",
-  "planPickHint": "Pick the plan for this day, or make a new one.",
-  "planSetForDay": "Plan set for {day}",
-  "@planSetForDay": {
-    "placeholders": {
-      "day": {
-        "type": "String"
-      }
-    }
-  },
-  "planSaved": "Plan saved",
-  "planDiscardTitle": "Discard changes?",
-  "planDiscardBody": "What you changed won't be saved.",
-  "planDiscard": "Discard",
-  "planEdit": "Edit plan",
-  "planNameHint": "Plan name",
-  "planDaysQuestion": "Which days?",
-  "planDaysHint": "On those days it shows up in Nutrition so you can log it in one tap.",
-  "planDaysNone": "Pick at least one day, or it won't show up anywhere.",
-  "planNothingToLog": "Those meals are already logged",
-  "planSave": "Save plan",
-  "planToday": "Today's plan",
-  "planLogRest": "Log the rest",
-  "dishNew": "Create my dish",
-  "dishNewHint": "Pick ingredients and amounts, save it and log it in one tap.",
-  "dishEdit": "Edit dish",
-  "dishNameHint": "E.g. Mum's lentils",
-  "dishIngredients": "Ingredients",
-  "dishEmptyHint": "Add what goes in it with the amount you usually eat.",
-  "dishSave": "Save dish",
-  "dishNeedsName": "Give it a name",
-  "dishNeedsItems": "Add at least one ingredient",
-  "suppHistory": "Last 14 days",
-  "suppTakenOf": "{n} of {total} taken",
-  "@suppTakenOf": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      },
-      "total": {
-        "type": "int"
-      }
-    }
-  },
-  "suppNoReminder": "No reminder",
-  "suppMarkTaken": "Mark as taken",
-  "suppUnmark": "Unmark",
-  "suppEdit": "Edit",
-  "mealMoveTo": "Move to",
-  "mealClear": "Clear meal",
-  "mealCleared": "Meal cleared",
-  "movedMealToast": "{count, plural, one{1 food moved} other{{count} foods moved}}",
-  "@movedMealToast": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
-  "repeatWholeDay": "Repeat the whole day",
-  "createFoodNamed": "Create “{name}”",
-  "@createFoodNamed": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "entryDay": "Day",
-  "movedToDay": "Moved",
-  "favFoodsHint": "Tap ☆ on a food",
-  "favFoodsEmpty": "Tap the star on any food to keep it here, one tap away.",
-  "savedMealsCount": "{count, plural, one{1 meal} other{{count} meals}}",
-  "@savedMealsCount": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
-  "savedMealsEmpty": "Save a meal from its ••• menu, or build your own dish.",
-  "sugarLimitLabel": "Sugar limit",
-  "sodiumLimitLabel": "Sodium limit",
-  "waterOptions": "Water options",
-  "waterNone": "No water logged yet.",
-  "waterDailyGoal": "Daily water",
-  "trackersScreen": "Screen",
-  "vesselMotion": "Moving water and shake",
-  "vesselMotionHint": "Turn it off if the screen feels slow: the glasses still fill up, they just stop moving.",
+  "planNameHint": "Літо, подорож…",
+  "hidePhotos": "Hide photos",
+  "showPhotos": "Show photos",
+  "eachSide": "Each side",
+  "eachSideHint": "The timer runs once per side and the rest starts after both.",
+  "timePerSideCol": "TIME / SIDE",
+  "tapToChange": "Tap to change",
+  "swipeToSkipHint": "Swipe the timer sideways to skip the rest.",
+  "sideOfTwo": "Side {n} of 2",
+  "switchSides": "Switch sides",
   "planFixedWeek": "Fixed week",
   "planRotation": "Rotation",
   "rotationTitle": "ROTATION",
   "rotationHint": "Next up is whatever follows your last workout, whatever the day.",
   "rotationEmpty": "Add your routines in the order you’ll do them: A, B, C…",
   "rotationProgress": "{done} of {total} done this round",
-  "@rotationProgress": {
-    "placeholders": {
-      "done": {
-        "type": "int"
-      },
-      "total": {
-        "type": "int"
-      }
-    }
-  },
   "rotationNext": "Next",
   "rotationAdd": "Add routines",
   "rotationPickHint": "They go in the order you tap them.",
@@ -2677,16 +1280,6 @@
   "rotationMakeNext": "Make it the next one",
   "rotationRemove": "Remove from rotation",
   "rotationPlace": "{n} of {total} in the rotation",
-  "@rotationPlace": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      },
-      "total": {
-        "type": "int"
-      }
-    }
-  },
   "moveToDay": "Move to another day",
   "moveToDayHint": "Just this once; your weekly plan stays the same.",
   "movedToast": "Workout moved",
@@ -2696,22 +1289,8 @@
   "untrainedRecent": "Recent",
   "untrainedLong": "Long ago",
   "untrainedWaiting": "Waiting the longest: {list}",
-  "@untrainedWaiting": {
-    "placeholders": {
-      "list": {
-        "type": "String"
-      }
-    }
-  },
   "untrainedAllRecent": "Every muscle got work this week. Nice.",
   "trainedAgo": "{n, plural, =0{Trained today} =1{Trained yesterday} other{{n} days ago}}",
-  "@trainedAgo": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
   "neverTrained": "Not trained yet",
   "layoutSetting": "Workout layout",
   "layoutCards": "Cards",
@@ -2743,26 +1322,12 @@
   "pdfStatDays": "DAYS / WEEK",
   "pdfStatMinutes": "MIN / WORKOUT",
   "pdfMinutes": "≈ {n} min",
-  "@pdfMinutes": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
   "workoutNotesTitle": "Exercise notes",
   "workoutNoteEvery": "Every time",
   "workoutNoteNext": "Next time",
   "workoutNoteEveryHint": "Shows each time you do this exercise. Good for seat or pulley settings.",
   "workoutNoteNextHint": "Shows the next time only, then goes away.",
   "workoutNoteFromLast": "From last time · {date}",
-  "@workoutNoteFromLast": {
-    "placeholders": {
-      "date": {
-        "type": "String"
-      }
-    }
-  },
   "workoutNoteHint": "Seat in hole 2, pulley at 19…",
   "notePinWorkout": "Show during workouts",
   "assistedSetting": "Assisted machine",
@@ -2771,42 +1336,14 @@
   "trainAgainLabel": "Haven’t trained yet? Remind me again",
   "trainAgainOff": "No",
   "trainAgainAfter": "+{n} h",
-  "@trainAgainAfter": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
   "trainAgainHint": "Just once, and only if you haven’t logged a workout that day.",
   "notifTrainAgainBody": "There’s still time to train today.",
   "nextDeload": "lighter: {n} workouts in a row without every rep",
-  "@nextDeload": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
   "historyTitle": "History",
   "historyWorkouts": "{n, plural, one{1 WORKOUT} other{{n} WORKOUTS}}",
-  "@historyWorkouts": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
   "historyEmpty": "No workouts this month",
   "historyEmptyHint": "Swipe sideways or use the arrows to see other months.",
   "historyMore": "+{n} more",
-  "@historyMore": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
   "stopwatch": "Stopwatch",
   "proteinSource": "Protein source",
   "proteinMixedShort": "Mixed",
@@ -2820,13 +1357,6 @@
   "kcalNeedsData": "Add distance and time to estimate the calories",
   "kcalHowEstimated": "Estimated from distance, time, incline and your weight (ACSM formula).",
   "kcalOwnTitle": "Active calories",
-  "@kcalTotalRest": {
-    "placeholders": {
-      "value": {
-        "type": "String"
-      }
-    }
-  },
   "planMine": "My plan",
   "planNew": "New plan",
   "planSaveWeek": "Save this week",
@@ -2853,13 +1383,6 @@
   "progSets": "Sets",
   "progDeload": "Lighter after",
   "progFails": "{n, plural, =1{1 miss} other{{n} misses}}",
-  "@progFails": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
   "progDeloadPct": "Lighten by",
   "progApply": "Fill in the next workout",
   "progApplyHint": "Off, it only shows as a suggestion.",
@@ -2867,48 +1390,10 @@
   "nextAddSet": "one more set",
   "nextAmrap": "last set: as many as you can",
   "fillDay": "Fill your day · {amount}",
-  "@fillDay": {
-    "placeholders": {
-      "amount": {
-        "type": "String"
-      }
-    }
-  },
   "leftAfterKcal": "You'll have {kcal} left",
-  "@leftAfterKcal": {
-    "placeholders": {
-      "kcal": {
-        "type": "String"
-      }
-    }
-  },
   "leftAfterBoth": "You'll have {kcal} and {grams} g protein left",
-  "@leftAfterBoth": {
-    "placeholders": {
-      "kcal": {
-        "type": "String"
-      },
-      "grams": {
-        "type": "String"
-      }
-    }
-  },
   "leftAfterOver": "{kcal} over your goal",
-  "@leftAfterOver": {
-    "placeholders": {
-      "kcal": {
-        "type": "String"
-      }
-    }
-  },
   "perDayUnit": "{unit} a day",
-  "@perDayUnit": {
-    "placeholders": {
-      "unit": {
-        "type": "String"
-      }
-    }
-  },
   "byZone": "By area",
   "importAlreadyHave": "You already have these routines. You can add them again as a copy.",
   "importAsCopy": "Add as a copy",
@@ -2916,12 +1401,5 @@
   "setDuplicated": "Set duplicated",
   "setTypeCluster": "Cluster",
   "setTypeClusterInfo": "One set split into small blocks with 15–30 seconds between them. Log the total reps.",
-  "timesBodyweight": "{value}× your bodyweight",
-  "@timesBodyweight": {
-    "placeholders": {
-      "value": {
-        "type": "String"
-      }
-    }
-  }
+  "timesBodyweight": "{value}× your bodyweight"
 }
