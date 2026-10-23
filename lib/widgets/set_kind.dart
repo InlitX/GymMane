@@ -13,6 +13,7 @@ Color setKindColor(GymColors gc, SetKind kind) => switch (kind) {
       SetKind.drop => gc.info,
       SetKind.failure => gc.danger,
       SetKind.restPause => gc.brass,
+      SetKind.cluster => gc.sage,
       SetKind.normal => gc.text,
     };
 
@@ -21,6 +22,7 @@ String setKindLabel(SetKind kind) => switch (kind) {
       SetKind.drop => t.setTypeDrop,
       SetKind.failure => t.setTypeFailure,
       SetKind.restPause => t.setTypeRestPause,
+      SetKind.cluster => t.setTypeCluster,
       SetKind.normal => t.setTypeNormal,
     };
 
@@ -29,6 +31,7 @@ String setKindTag(SetKind kind) => switch (kind) {
       SetKind.drop => 'D',
       SetKind.failure => 'F',
       SetKind.restPause => 'RP',
+      SetKind.cluster => 'C',
       SetKind.normal => '',
     };
 
@@ -37,6 +40,7 @@ String setKindInfo(SetKind kind) => switch (kind) {
       SetKind.drop => t.setTypeDropInfo,
       SetKind.failure => t.setTypeFailureInfo,
       SetKind.restPause => t.setTypeRestPauseInfo,
+      SetKind.cluster => t.setTypeClusterInfo,
       SetKind.normal => t.setTypeNormalInfo,
     };
 
