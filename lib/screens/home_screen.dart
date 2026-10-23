@@ -363,8 +363,7 @@ class HomeScreen extends StatelessWidget {
   }
 
   Widget _weekDay(BuildContext context, GymColors gc, int i) {
-    final partial = fit.isDayPartial(i);
-    final done = fit.isDayDone(i) && !partial;
+    final done = fit.isDayDone(i) && !fit.isDayPartial(i);
     final isToday = i == fit.todayIndex;
     final isFuture = i > fit.todayIndex;
 
@@ -393,11 +392,9 @@ class HomeScreen extends StatelessWidget {
               decoration: BoxDecoration(
                 color: done ? gc.ember : gc.bgRaised2,
                 shape: BoxShape.circle,
-                border: (isToday || partial) && !done ? Border.all(color: gc.ember, width: 2) : null,
+                border: isToday && !done ? Border.all(color: gc.ember, width: 2) : null,
               ),
-              child: done || partial
-                  ? Center(child: SvgPathIcon(Ic.checkBold, size: 13, color: done ? gc.onEmber : gc.ember))
-                  : null,
+              child: done ? Center(child: SvgPathIcon(Ic.checkBold, size: 13, color: gc.onEmber)) : null,
             ),
           ],
         ),
