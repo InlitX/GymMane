@@ -772,7 +772,7 @@ class _MacroPill extends StatelessWidget {
           child: Text(letter, style: AppTheme.f(8.5, weight: FontWeight.w900, color: color)),
         ),
         const SizedBox(width: 4),
-        Text('${_g(value)}g', style: AppTheme.f(11, weight: FontWeight.w700, color: gc.text)),
+        Text('${value.round()}g', style: AppTheme.f(11, weight: FontWeight.w700, color: gc.text)),
       ]),
     );
   }

@@ -1564,7 +1564,7 @@ class _SupplementEditorState extends State<_SupplementEditor> with _StickerDraft
           selected: fromCustom,
           onTap: () async {
             final d = await _date(_from, _today);
-            if (d == null) return;
+            if (d == null || !mounted) return;
             setState(() {
               _from = d;
               final u = _until;
@@ -1584,7 +1584,7 @@ class _SupplementEditorState extends State<_SupplementEditor> with _StickerDraft
           selected: untilCustom,
           onTap: () async {
             final d = await _date(_until ?? plus(13), _from);
-            if (d != null) setState(() => _until = d);
+            if (d != null && mounted) setState(() => _until = d);
           },
         ),
       ]),
@@ -1769,7 +1769,7 @@ class _WeekTile extends StatelessWidget {
       color: gc.accent,
       title: t.weekAverage,
       value: w == null ? '—' : '${fit.energyOf(w.kcal)}',
-      unit: w == null ? '' : fit.energyUnit,
+      unit: w == null ? '' : t.perDayUnit(fit.energyUnit),
       lines: w == null ? [t.weekNoData] : [t.weekProteinAvg(w.protein), t.weekDaysOnTarget(w.kcalMet, w.days)],
       chart: w == null
           ? null

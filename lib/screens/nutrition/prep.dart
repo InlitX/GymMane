@@ -328,7 +328,7 @@ class _BatchLogSheetState extends State<_BatchLogSheet> {
                 final k = fit.isLb ? _ozOf(false) : 1.0;
                 final v = await askNumber(context,
                     title: t.amountIn(_amtUnit(false)), initial: fmt((_grams / k * 10).round() / 10), decimal: true);
-                if (v != null && v > 0) setState(() => _grams = (v * k).clamp(1, b.leftGrams).toDouble());
+                if (v != null && v > 0 && mounted) setState(() => _grams = (v * k).clamp(1, b.leftGrams).toDouble());
               },
             ),
           ),
