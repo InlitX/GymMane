@@ -44,7 +44,7 @@ class RoutinesScreen extends StatelessWidget {
                     child: Icon(PhosphorIconsRegular.downloadSimple, size: 17, color: gc.text),
                   ),
                 ),
-                if (fit.routines.isNotEmpty) ...[
+                if (fit.activeRoutines.isNotEmpty) ...[
                   const SizedBox(width: 8),
                   Semantics(
                     button: true,
@@ -86,14 +86,14 @@ class RoutinesScreen extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
                 child: Column(children: [for (int i = 0; i < 7; i++) _dayRow(context, gc, i)]),
               ),
-            if (!fit.rotation && fit.routines.isNotEmpty) ...[
+            if (!fit.rotation && fit.activeRoutines.isNotEmpty) ...[
               const SizedBox(height: 10),
               _plansRow(context, gc),
             ],
             const SizedBox(height: 26),
             Text(t.yourRoutines, style: AppTheme.f(12, weight: FontWeight.w600, color: gc.textSecondary, letterSpacing: 1.5)),
             const SizedBox(height: 10),
-            if (fit.routines.isEmpty)
+            if (fit.activeRoutines.isEmpty)
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 26),
                 child: Text(t.noRoutines,
@@ -106,6 +106,11 @@ class RoutinesScreen extends StatelessWidget {
                 const SizedBox(height: 10),
               ],
               _folders(context, fit.routinesInGroup('')),
+            ],
+            if (fit.archivedRoutines.isNotEmpty) ...[
+              const SizedBox(height: 6),
+              _archivedHeader(gc),
+              if (fit.showArchivedRoutines) Opacity(opacity: 0.6, child: _folders(context, fit.archivedRoutines)),
             ],
             const SizedBox(height: 16),
             PrimaryButton(
@@ -138,7 +143,7 @@ class RoutinesScreen extends StatelessWidget {
 
   void _shareMenu(BuildContext context) {
     final gc = context.gc;
-    final planned = fit.routines.where((r) => [for (var d = 1; d <= 7; d++) ...fit.planIdsOn(d)].contains(r.id)).toList();
+    final planned = fit.activeRoutines.where((r) => [for (var d = 1; d <= 7; d++) ...fit.planIdsOn(d)].contains(r.id)).toList();
     showAppSheet<void>(
       context: context,
       backgroundColor: Colors.transparent,
@@ -159,16 +164,16 @@ class RoutinesScreen extends StatelessWidget {
               const SizedBox(height: 18),
               _shareOption(gc, PhosphorIconsRegular.calendarDots, t.shareWeek, t.shareWeekHint, () {
                 Navigator.pop(sheet);
-                sharePlan(planned.isEmpty ? fit.routines : [
+                sharePlan(planned.isEmpty ? fit.activeRoutines : [
                   ...planned,
-                  ...fit.routines.where((r) => !planned.contains(r)),
+                  ...fit.activeRoutines.where((r) => !planned.contains(r)),
                 ], title: t.weeklyPlan);
               }),
               _shareOption(gc, PhosphorIconsRegular.filePdf, t.pdfPlan, t.pdfPlanHint, () {
                 Navigator.pop(sheet);
-                sharePlanPdf(planned.isEmpty ? fit.routines : [
+                sharePlanPdf(planned.isEmpty ? fit.activeRoutines : [
                   ...planned,
-                  ...fit.routines.where((r) => !planned.contains(r)),
+                  ...fit.activeRoutines.where((r) => !planned.contains(r)),
                 ], week: true);
               }),
               const SizedBox(height: 14),
@@ -759,6 +764,42 @@ class RoutinesScreen extends StatelessWidget {
     );
   }
 
+  Widget _archivedHeader(GymColors gc) {
+    final open = fit.showArchivedRoutines;
+    return Semantics(
+      button: true,
+      expanded: open,
+      label: t.archivedRoutines,
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: fit.toggleArchivedRoutines,
+        child: Padding(
+          padding: const EdgeInsets.only(bottom: 8, left: 4, top: 4),
+          child: Row(
+            children: [
+              Icon(PhosphorIconsRegular.archive, size: 15, color: gc.textTertiary),
+              const SizedBox(width: 8),
+              Expanded(
+                child: Text(t.archivedRoutines,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: AppTheme.f(13, weight: FontWeight.w700, color: gc.textSecondary, letterSpacing: 1)),
+              ),
+              Text('${fit.archivedRoutines.length}',
+                  style: AppTheme.f(12, weight: FontWeight.w500, color: gc.textTertiary)),
+              const SizedBox(width: 6),
+              AnimatedRotation(
+                turns: open ? 0.5 : 0,
+                duration: const Duration(milliseconds: 200),
+                child: Icon(PhosphorIconsBold.caretDown, size: 14, color: gc.textTertiary),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   Widget _groupHeader(BuildContext context, GymColors gc, String name, int count) {
     return Semantics(
       button: true,
@@ -1080,6 +1121,21 @@ void showRoutineMenu(BuildContext context, Routine r) {
             OptionItem(t.duplicateRoutine, icon: PhosphorIconsRegular.copy, onTap: () {
               Navigator.pop(sheet);
               fit.duplicateRoutine(r.id);
+            }),
+            OptionItem(r.archived ? t.restoreExercise : t.archiveRoutine,
+                icon: r.archived ? PhosphorIconsRegular.arrowUUpLeft : PhosphorIconsRegular.archive, onTap: () {
+              Navigator.pop(sheet);
+              final undo = fit.archiveRoutine(r.id, !r.archived);
+              if (undo == null) return;
+              showNotchToast(
+                context,
+                t.routineArchived,
+                icon: PhosphorIconsFill.archive,
+                accent: gc.brass,
+                action: t.undo,
+                onTap: undo,
+                duration: const Duration(milliseconds: 3600),
+              );
             }),
             OptionItem(t.delete, icon: PhosphorIconsRegular.trash, danger: true, onTap: () async {
               Navigator.pop(sheet);

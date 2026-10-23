@@ -555,7 +555,7 @@ class WearRoutines extends StatelessWidget {
   Widget build(BuildContext context) {
     final gc = context.gc;
     final planned = fit.todayRoutine;
-    final list = [...fit.routines]
+    final list = [...fit.activeRoutines]
       ..sort((a, b) => (a.id == planned?.id ? 0 : 1) - (b.id == planned?.id ? 0 : 1));
     return WearPage(children: [
       _heading(gc, t.routines),

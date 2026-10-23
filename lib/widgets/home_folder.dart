@@ -219,7 +219,7 @@ class RoutinesPeek extends StatelessWidget {
   Widget build(BuildContext context) {
     final gc = context.gc;
     final dark = gc.bg.computeLuminance() < 0.5;
-    final hues = [for (final r in fit.routines.take(3)) folderHue(r)];
+    final hues = [for (final r in fit.activeRoutines.take(3)) folderHue(r)];
     final colors = hues.isEmpty ? kFolderHues.take(3).toList() : hues;
     return _Fan(
       width: 60,
