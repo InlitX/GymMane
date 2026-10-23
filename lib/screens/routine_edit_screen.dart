@@ -88,15 +88,29 @@ class _RoutineEditScreenState extends State<RoutineEditScreen> {
       child: Stack(
         children: [
           Positioned.fill(
-            child: ListView.builder(
-              padding: EdgeInsets.fromLTRB(20, 12, 20, start ? 104 : 20),
-              itemCount: (list.isEmpty ? 1 : list.length) + (create ? 2 : 1),
-              itemBuilder: (context, i) {
-                if (i == 0) return _header(gc, routine.exerciseIds.length);
-                if (list.isEmpty) return _noMatches(gc);
-                if (i > list.length) return _createLink(gc);
-                return _pickRow(gc, list[i - 1]);
-              },
+            child: CustomScrollView(
+              slivers: [
+                SliverPadding(
+                  padding: const EdgeInsets.fromLTRB(20, 12, 20, 0),
+                  sliver: SliverToBoxAdapter(child: _header(gc, routine.exerciseIds.length)),
+                ),
+                SliverPadding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  sliver: _chosenList(gc),
+                ),
+                SliverPadding(
+                  padding: EdgeInsets.fromLTRB(20, 0, 20, start ? 104 : 20),
+                  sliver: SliverList.builder(
+                    itemCount: (list.isEmpty ? 1 : list.length) + (create ? 2 : 1),
+                    itemBuilder: (context, i) {
+                      if (i == 0) return _searchBar(gc);
+                      if (list.isEmpty) return _noMatches(gc);
+                      if (i > list.length) return _createLink(gc);
+                      return _pickRow(gc, list[i - 1]);
+                    },
+                  ),
+                ),
+              ],
             ),
           ),
           if (start) ...[
@@ -277,20 +291,28 @@ class _RoutineEditScreenState extends State<RoutineEditScreen> {
         else ...[
           Text(t.setsPlannedHint, style: AppTheme.f(11, weight: FontWeight.w500, color: gc.textTertiary)),
           const SizedBox(height: 8),
-          ReorderableListView(
-            shrinkWrap: true,
-            buildDefaultDragHandles: false,
-            physics: const NeverScrollableScrollPhysics(),
-            proxyDecorator: liftedRow(14),
-            onReorderStart: reorderPicked,
-            onReorderEnd: reorderDropped,
-            onReorder: (from, to) => fit.reorderRoutineExercise(routine.id, from, to),
-            children: [
-              for (int i = 0; i < fit.routineExercises(routine).length; i++)
-                _chosenRow(gc, routine, fit.routineExercises(routine)[i], i),
-            ],
-          ),
         ],
+      ],
+    );
+  }
+
+  Widget _chosenList(GymColors gc) {
+    final routine = fit.activeRoutine!;
+    final chosen = fit.routineExercises(routine);
+    return SliverReorderableList(
+      itemCount: chosen.length,
+      proxyDecorator: liftedRow(14),
+      onReorderStart: reorderPicked,
+      onReorderEnd: reorderDropped,
+      onReorder: (from, to) => fit.reorderRoutineExercise(routine.id, from, to),
+      itemBuilder: (context, i) => _chosenRow(gc, routine, chosen[i], i),
+    );
+  }
+
+  Widget _searchBar(GymColors gc) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
         const SizedBox(height: 20),
         SearchField(
           controller: _search,
@@ -317,7 +339,7 @@ class _RoutineEditScreenState extends State<RoutineEditScreen> {
             fontSize: 12,
           ),
         );
-    final picked = (fit.exMuscleFilter == null ? 0 : 1) +
+    final picked = (fit.exMuscleFilter == null && fit.exZoneFilter == null ? 0 : 1) +
         (fit.exEquipmentFilter == null ? 0 : 1) +
         (fit.exDifficultyFilter == null ? 0 : 1);
     return SingleChildScrollView(
