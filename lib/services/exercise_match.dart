@@ -1,4 +1,5 @@
 import '../catalog/exercise_aliases.dart';
+import '../catalog/exercise_catalog.dart' show kFilterMuscles;
 import '../models/exercise.dart';
 
 const _stop = {'the', 'a', 'an', 'with', 'on', 'to', 'and', 'or', 'in', 'for', 'v', 'var'};
@@ -18,7 +19,7 @@ const _syn = {
   'squats': 'squat', 'raises': 'raise', 'extensions': 'extension',
   'flyes': 'fly', 'flies': 'fly', 'flys': 'fly',
   'deadlifts': 'deadlift', 'lunges': 'lunge', 'dips': 'dip', 'pulldowns': 'pulldown',
-  'legs': 'leg', 'arms': 'arm', 'abs': 'abdominal', 'delts': 'deltoid',
+  'calves': 'calf', 'calve': 'calf', 'legs': 'leg', 'arms': 'arm', 'abs': 'abdominal', 'delts': 'deltoid',
   'lever': 'machine', 'smith': 'machine', 'skullcrusher': 'lying triceps extension',
   'skullcrushers': 'lying triceps extension',
   'rdl': 'romanian deadlift', 'sldl': 'stiff leg deadlift',
@@ -55,6 +56,20 @@ final Map<String, String> _keyCache = {};
 
 String _keyOf(String name) => _keyCache.putIfAbsent(name, () => searchKey(name));
 
+String _stem(String w) => w.length > 3 && w.endsWith('s') && !w.endsWith('ss') ? w.substring(0, w.length - 1) : w;
+
+final Map<String, List<String>> _wordCache = {};
+
+List<String> _wordsOf(String name) =>
+    _wordCache.putIfAbsent(name, () => [for (final w in nameTokens(name)) _stem(w)]);
+
+bool _hasWords(List<String> query, String name) {
+  final words = _wordsOf(name);
+  return query.every((q) => words.any((w) => w.startsWith(q)));
+}
+
+String _fold(String raw) => nameTokens(raw).join(' ');
+
 final Map<String, String> _aliasIndex = {
   for (final entry in kExerciseAliases.entries)
     for (final alias in entry.value) sortedKey(alias): entry.key,
@@ -66,15 +81,24 @@ ExerciseFilter exerciseSearch(String query) {
   final plain = query.trim().toLowerCase();
   if (plain.isEmpty) return (_) => true;
   final key = searchKey(query);
+  final words = [for (final w in key.split(' ')) if (w.isNotEmpty) _stem(w)];
+  final folded = _fold(query);
+  final muscles = {
+    for (final m in kFilterMuscles)
+      if (folded.length > 2 && (_fold(muscleLabel(m)).startsWith(folded) || _fold(m).startsWith(folded))) m,
+  };
 
   return (e) {
+    if (muscles.contains(e.primary)) return true;
     final label = exerciseName(e);
     if (e.name.toLowerCase().contains(plain) || label.toLowerCase().contains(plain)) return true;
     if (e.aliases.any((a) => a.toLowerCase().contains(plain))) return true;
     if (key.isEmpty) return false;
     if (_keyOf(e.name).contains(key) || _keyOf(label).contains(key)) return true;
     if (e.aliases.any((a) => _keyOf(a).contains(key))) return true;
-    return kExerciseAliases[e.name]?.any((a) => _keyOf(a).contains(key)) ?? false;
+    if (kExerciseAliases[e.name]?.any((a) => _keyOf(a).contains(key)) ?? false) return true;
+    if (words.isEmpty) return false;
+    return _hasWords(words, e.name) || _hasWords(words, label) || e.aliases.any((a) => _hasWords(words, a));
   };
 }
 
