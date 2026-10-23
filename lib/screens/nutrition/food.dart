@@ -663,10 +663,45 @@ class _AmountDial extends StatelessWidget {
   }
 }
 
+class _LeftAfter extends StatelessWidget {
+  const _LeftAfter({required this.adding, this.replacing});
+
+  final Macros adding;
+  final Macros? replacing;
+
+  @override
+  Widget build(BuildContext context) {
+    final gc = context.gc;
+    final left = fit.leftAfter(adding, replacing: replacing ?? Macros.zero);
+    final kcal = fit.energyOf(left.kcal);
+    final over = kcal < 0;
+    final protein = fit.trackerOn(Tracker.protein) && left.protein > 0.5 ? left.protein : null;
+    final text = over
+        ? t.leftAfterOver(_energy(-left.kcal))
+        : protein == null
+            ? t.leftAfterKcal(_energy(left.kcal))
+            : t.leftAfterBoth(_energy(left.kcal), '${protein.round()}');
+    return Padding(
+      padding: const EdgeInsets.only(top: 8),
+      child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+        Icon(over ? PhosphorIconsBold.warningCircle : PhosphorIconsBold.hourglassMedium,
+            size: 12, color: over ? gc.warn : gc.textTertiary),
+        const SizedBox(width: 5),
+        Flexible(
+          child: Text(text,
+              textAlign: TextAlign.center,
+              style: AppTheme.f(11.5, weight: FontWeight.w600, color: over ? gc.warn : gc.textTertiary)),
+        ),
+      ]),
+    );
+  }
+}
+
 class _QuickChip extends StatelessWidget {
-  const _QuickChip({required this.label, required this.selected, required this.onTap});
+  const _QuickChip({required this.label, required this.selected, required this.onTap, this.icon});
 
   final String label;
+  final IconData? icon;
   final bool selected;
   final VoidCallback onTap;
 
@@ -687,8 +722,14 @@ class _QuickChip extends StatelessWidget {
           borderRadius: BorderRadius.circular(100),
           border: Border.all(color: selected ? gc.accent.withValues(alpha: 0.7) : Colors.transparent),
         ),
-        child: Text(label,
-            style: AppTheme.f(12.5, weight: FontWeight.w700, color: selected ? gc.accent : gc.textSecondary)),
+        child: Row(mainAxisSize: MainAxisSize.min, children: [
+          if (icon != null) ...[
+            Icon(icon, size: 13, color: gc.accent),
+            const SizedBox(width: 5),
+          ],
+          Text(label,
+              style: AppTheme.f(12.5, weight: FontWeight.w700, color: selected || icon != null ? gc.accent : gc.textSecondary)),
+        ]),
       ),
     );
   }
@@ -877,6 +918,17 @@ class _LogFoodSheetState extends State<_LogFoodSheet> {
     return out;
   }
 
+  double? get _fill {
+    if (widget.onPick != null) return null;
+    final raw = fit.fillGrams(_food, replacing: widget.initial?.total ?? Macros.zero);
+    if (raw == null) return null;
+    final shown = _cooked ? raw * _food.cookedYield : raw;
+    final fine = _fineGrams(_food);
+    final g = fine ? shown.floorToDouble() : math.max(5.0, (shown / 5).floor() * 5.0);
+    final top = fine ? 200.0 : _food.liquid ? 2000.0 : 1000.0;
+    return g > top ? null : g;
+  }
+
   void _editValues() {
     Navigator.of(context).pop();
     showFoodEditor(context, food: _food.isLibrary ? null : _food, from: _food.isLibrary ? _food : null, meal: _meal);
@@ -945,6 +997,15 @@ class _LogFoodSheetState extends State<_LogFoodSheet> {
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(children: [
+            if (_fill case final fill?) ...[
+              _QuickChip(
+                label: t.fillDay(_amount(fill, food.liquid)),
+                icon: PhosphorIconsBold.target,
+                selected: (fill - _grams).abs() < 0.5,
+                onTap: () => setState(() => _grams = fill),
+              ),
+              const SizedBox(width: 7),
+            ],
             for (final p in _presets) ...[
               _QuickChip(label: p.$1, selected: (p.$2 - _grams).abs() < 0.5, onTap: () => setState(() => _grams = p.$2)),
               const SizedBox(width: 7),
@@ -954,6 +1015,7 @@ class _LogFoodSheetState extends State<_LogFoodSheet> {
       ],
       const SizedBox(height: 16),
       _macroSummary(context, total),
+      if (!picking && fit.trackerOn(Tracker.calories)) _LeftAfter(adding: total, replacing: widget.initial?.total),
       const SizedBox(height: 12),
       _ValueRows(
         per: shownPer,
@@ -1564,6 +1626,7 @@ mixin _StickerDrafts<T extends StatefulWidget> on State<T> {
     final shot = await ImagePicker().pickImage(source: source, maxWidth: 1400, maxHeight: 1400, imageQuality: 92);
     if (shot == null || !mounted) return;
     final bytes = await File(shot.path).readAsBytes();
+    if (!mounted) return;
     setState(() => _working = true);
     final draftFuture = prepareCutout(bytes);
     final plain = await makeSticker(bytes, cutout: false);
@@ -1668,6 +1731,7 @@ class _FoodEditorState extends State<_FoodEditor> with _StickerDrafts {
   late final _na = TextEditingController(text: _seed(_base?.macros.sodium ?? 0));
   late bool _extras = _base?.macros.hasExtras ?? false;
   late bool _shake = widget.asShake || (widget.food != null && fit.isShakeFood(widget.food!.id));
+  late double _animalShare = _shareOf(_base?.macros);
   late final _p = TextEditingController(text: _seed(_base?.macros.protein ?? 0));
   late final _c = TextEditingController(text: _seed(_base?.macros.carbs ?? 0));
   late final _f = TextEditingController(text: _seed(_base?.macros.fat ?? 0));
@@ -1704,7 +1768,7 @@ class _FoodEditorState extends State<_FoodEditor> with _StickerDrafts {
       grams: (_read(_grams) * _k).clamp(0, 5000).toDouble(),
       liquid: _base?.liquid ?? false,
       cookedYield: _base?.cookedYield ?? 0,
-      macros: _keepDetail(_macrosOf(_kcal, _p, _c, _f, fiber: _fi, sugar: _su, sodium: _na)),
+      macros: _withSource(_keepDetail(_macrosOf(_kcal, _p, _c, _f, fiber: _fi, sugar: _su, sodium: _na))),
     );
     fit.setShakeTag(saved.id, _shake);
     if (widget.asShake) fit.setShakeFood(saved.id);
@@ -1715,6 +1779,31 @@ class _FoodEditorState extends State<_FoodEditor> with _StickerDrafts {
     if (created) HapticFeedback.lightImpact();
     final meal = widget.meal;
     if (meal != null) showLogFoodSheet(context, saved, meal);
+  }
+
+  static double _shareOf(Macros? m) {
+    if (m == null || m.protein <= 0) return 0;
+    final r = m.animal / m.protein;
+    return r >= 0.75 ? 1 : (r <= 0.25 ? 0 : 0.5);
+  }
+
+  Macros _withSource(Macros m) {
+    if (!fit.trackerOn(Tracker.animal) || _shareOf(m) == _animalShare) return m;
+    return Macros(
+      kcal: m.kcal,
+      protein: m.protein,
+      carbs: m.carbs,
+      fat: m.fat,
+      fiber: m.fiber,
+      sugar: m.sugar,
+      sodium: m.sodium,
+      animal: m.protein * _animalShare,
+      sat: m.sat,
+      mono: m.mono,
+      poly: m.poly,
+      aminoProtein: m.aminoProtein,
+      amino: m.amino,
+    );
   }
 
   Macros _keepDetail(Macros m) {
@@ -1838,6 +1927,26 @@ class _FoodEditorState extends State<_FoodEditor> with _StickerDrafts {
             child: Text(t.moreNutrients, style: AppTheme.f(12.5, weight: FontWeight.w700, color: gc.accent)),
           ),
         ),
+      if (fit.trackerOn(Tracker.animal)) ...[
+        const SizedBox(height: 6),
+        Row(children: [
+          Expanded(
+            child: Text(t.proteinSource, style: AppTheme.f(13, weight: FontWeight.w700, color: gc.textSecondary)),
+          ),
+          SegToggle([
+            for (final (share, label) in [
+              (1.0, t.proteinAnimalShort),
+              (0.5, t.proteinMixedShort),
+              (0.0, t.proteinPlantShort),
+            ])
+              SegOption(label, _animalShare == share, () {
+                HapticFeedback.selectionClick();
+                setState(() => _animalShare = share);
+              }),
+          ], hPad: 11),
+        ]),
+        const SizedBox(height: 4),
+      ],
       const SizedBox(height: 10),
       _ShakeToggle(on: _shake, onTap: () => setState(() => _shake = !_shake)),
       const SizedBox(height: 18),
