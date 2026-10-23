@@ -11,9 +11,8 @@
 - **Bugs and small fixes:** open a pull request straight away.
 - **Anything bigger:** open an issue first so we can agree on the direction
   before you spend an evening on it.
-- **Translations:** on [Crowdin](https://crowdin.com/project/gymmane), see
-  [TRANSLATING.md](TRANSLATING.md). Please don't send changes to the `.arb` files
-  by pull request: Crowdin overwrites them.
+- **Translations:** edit the `.arb` file of your language and send a pull
+  request, see [TRANSLATING.md](TRANSLATING.md).
 
 ## Two rules that never bend
 

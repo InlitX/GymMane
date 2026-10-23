@@ -1,85 +1,59 @@
-<div align="center">
-
 # Translating GymMane
 
-Translations happen on
-**[Crowdin](https://crowdin.com/project/gymmane)**, right in the browser.
-No Dart and no build tools, just text.
+All the app's text lives in one file per language, inside
+[`lib/l10n`](lib/l10n). English is [`app_en.arb`](lib/l10n/app_en.arb) and the
+rest follow the same name: `app_es.arb`, `app_de.arb`, `app_ja.arb`…
 
-<a href="https://crowdin.com/project/gymmane"><img alt="Crowdin" src="https://badges.crowdin.net/gymmane/localized.svg" /></a>
+## Fix or finish a language
 
-<a href="https://crowdin.com/project/gymmane"><picture><source media="(prefers-color-scheme: dark)" srcset="https://badges.crowdin.net/badge/light/crowdin-on-dark@2x.png" /><img alt="Crowdin | Agile localization for tech companies" src="https://badges.crowdin.net/badge/dark/crowdin-on-light@2x.png" height="40" /></picture></a>
+1. Open your language's file, for example `lib/l10n/app_fr.arb`.
+2. Change the text after the colon. Only the text, never the key on the left:
 
-</div>
+   ```json
+   "startWorkout": "COMMENCER LA SÉANCE",
+   ```
 
----
+3. Send a pull request. You can do it all from GitHub in the browser with the
+   pencil icon, no tools needed.
 
-## Translating
+Any string missing from your file shows in English, so you don't have to do
+everything at once.
 
-1. Open the [project on Crowdin](https://crowdin.com/project/gymmane), sign in
-   and pick your language.
-2. Translate or fix any string. New strings show up there as soon as they land
-   in the app.
-3. That's it. Crowdin opens a pull request with every change, and it ships in
-   the next version.
+## Add a new language
 
-Please don't edit the `lib/l10n/app_*.arb` files directly: Crowdin writes those
-files, so changes made by hand get overwritten on the next sync.
+1. Copy `app_en.arb` and name it with your language code, for example
+   `app_id.arb` for Indonesian.
+2. Change `"@@locale": "en"` at the top to your code (`"id"`).
+3. Translate `languageName` first. It's the name shown in the language picker
+   (`Bahasa Indonesia`).
+4. Delete the lines that start with `"@`, they're notes for English only.
+5. Translate what you can and send a pull request.
 
-**Your language isn't there?** Open an
-[issue](https://github.com/InlitX/GymMane/issues) and it gets added. Translate
-`languageName` first: it's the name shown in the app's language picker
-(`Deutsch`, `Français`…).
+If you're not sure about your code, open an issue and I'll help.
 
-The exercise catalogue is separate and optional — see below.
+## A few rules
 
-## Rules of thumb
+- **Keep `{placeholders}` as they are.** Anything in curly braces gets
+  replaced by a number or a name. Move it where your language needs it, but
+  don't translate it.
+- **Plurals** look like `{n, plural, =1{1 set} other{{n} sets}}`. Translate the
+  words inside and use the forms your language needs (`one`, `few`, `many`,
+  `other`…).
+- **Keep it short.** Most text sits on buttons and small cards on a phone.
+- **"GymMane" stays "GymMane".**
+- **Talk to the user informally**: "tú", not "usted"; "du", not "Sie".
 
-- **Leave `{placeholders}` alone.** Anything in curly braces is replaced with a
-  real value at runtime. Move it where your language needs it, but never rename
-  or translate it.
-- **Plurals** look like `{n, plural, =1{1 set} other{{n} sets}}`. Use the forms
-  your language actually needs — `zero`, `one`, `two`, `few`, `many`, `other`.
-- **Shorter wins.** Most of these strings sit on buttons, chips and tabs on a
-  phone. If yours runs much longer than the English, find a tighter wording.
-- **CAPS stay CAPS.** Strings written in capitals are section headers in the UI.
-- **"GymMane" stays "GymMane".** The app name isn't translated.
-- **Address the user informally** — "du" rather than "Sie", "tú" rather than
-  "usted".
-- **You don't have to finish.** Anything you leave out simply shows in English,
-  so nothing ever breaks. Ten strings today, more whenever you feel like it.
+Dates, months and weekdays come from the phone, so there's nothing to
+translate there.
 
-## Dates, months and weekdays
+## Exercise names (optional)
 
-Don't translate them — there is nothing to translate. Calendars, month names and
-weekday initials come from the system's locale data, so they are already correct
-in your language as soon as the app ships it.
+Exercise names and their steps are in a separate, much longer file, for
+example [`lib/l10n/catalog_es.dart`](lib/l10n/catalog_es.dart). Leave it for
+later: without it, the app just shows the English names. If you want to do it,
+open an issue first and I'll tell you how to hook it up.
 
-## The exercise catalogue (optional, big)
+Not sure where a text shows up? Open an
+[issue](https://github.com/InlitX/GymMane/issues) with a screenshot.
 
-Exercise names and their step-by-step instructions live in their own file, for
-example [`lib/l10n/catalog_es.dart`](lib/l10n/catalog_es.dart).
-It's a long file, so treat it as a separate, later job: the app falls back to
-English names for any language that doesn't have one.
-
-To add one: copy `catalog_es.dart` to `catalog_<code>.dart`, rename the two maps
-inside, translate the values, and register them in
-[`lib/l10n/l10n.dart`](lib/l10n/l10n.dart):
-
-```dart
-const Map<String, Map<String, String>> _catalogNames = {'es': kExerciseNameEs, 'de': kExerciseNameDe};
-```
-
-## Questions
-
-Not sure where a string appears? Open an
-[issue](https://github.com/InlitX/GymMane/issues) — a screenshot of the screen
-you're unsure about is the fastest way to get an answer.
-
----
-
-<div align="center">
-
-Translations ship under the project's [GPL-3.0 license](LICENSE).
-
-</div>
+Translations are shared under the project's [GPL-3.0 license](LICENSE).
