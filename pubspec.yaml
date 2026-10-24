@@ -1,7 +1,7 @@
 name: gymmane
 description: "GymMane — an offline, ad-free gym log for Android and iOS."
 publish_to: 'none'
-version: 1.6.0+7
+version: 1.7.0+8
 
 environment:
   sdk: ^3.11.5
