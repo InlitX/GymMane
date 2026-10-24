@@ -323,28 +323,30 @@ class HomeScreen extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       style: AppTheme.f(13, weight: FontWeight.w500, color: gc.textSecondary)),
                   const SizedBox(height: 20),
-                  PrimaryButton(
-                    label: done ? t.trainAgain : t.startWorkout,
-                    icon: Ic.play,
-                    height: 52,
-                    bg: done ? gc.bgRaised2 : null,
-                    fg: done ? gc.text : null,
-                    onTap: isRoutine ? () => fit.startRoutine(routine) : fit.startFocusWorkout,
-                  ),
+                  Row(children: [
+                    Expanded(
+                      child: PrimaryButton(
+                        label: done ? t.trainAgain : t.startWorkout,
+                        icon: Ic.play,
+                        height: 52,
+                        bg: done ? gc.bgRaised2 : null,
+                        fg: done ? gc.text : null,
+                        onTap: isRoutine ? () => fit.startRoutine(routine) : fit.startFocusWorkout,
+                      ),
+                    ),
+                    if (isRoutine && !done) ...[
+                      const SizedBox(width: 10),
+                      RoundAction(
+                        label: t.moreOptions,
+                        size: 52,
+                        onTap: () => showTodayPlanMenu(context, routine),
+                        child: Icon(PhosphorIconsBold.dotsThree, size: 22, color: gc.textSecondary),
+                      ),
+                    ],
+                  ]),
                 ],
               ),
             ),
-            if (isRoutine && !done)
-              Positioned(
-                right: 10,
-                top: 10,
-                child: RoundAction(
-                  label: t.moreOptions,
-                  size: 34,
-                  onTap: () => showTodayPlanMenu(context, routine),
-                  child: Icon(PhosphorIconsBold.dotsThree, size: 16, color: gc.textSecondary),
-                ),
-              ),
           ],
         ),
       ),
