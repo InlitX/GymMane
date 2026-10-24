@@ -623,8 +623,29 @@ class FitState extends FitCore
   bool importJson(String raw) {
     final map = Store.instance.tryParse(raw);
     if (map == null) return false;
-    applyBackup(map);
-    return true;
+    return tryApplyBackup(map);
+  }
+
+  bool tryApplyBackup(Map<String, dynamic> backup,
+      {Map<String, String>? restoredMedia,
+      Map<String, String>? restoredNoteMedia,
+      Map<String, String>? restoredShots,
+      Map<String, String>? restoredMoments,
+      Map<String, String>? restoredFoods}) {
+    final before = jsonDecode(jsonEncode(Store.finite(toJson()))) as Map<String, dynamic>;
+    try {
+      applyBackup(backup,
+          restoredMedia: restoredMedia,
+          restoredNoteMedia: restoredNoteMedia,
+          restoredShots: restoredShots,
+          restoredMoments: restoredMoments,
+          restoredFoods: restoredFoods);
+      return true;
+    } catch (e) {
+      debugPrint('applyBackup failed: $e');
+      applyBackup(before);
+      return false;
+    }
   }
 
   void applyBackup(Map<String, dynamic> backup,

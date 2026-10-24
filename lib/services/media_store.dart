@@ -68,6 +68,18 @@ class MediaStore {
     } catch (_) {}
   }
 
+  static Set<String> names() {
+    if (_dir == null) return {};
+    try {
+      return {
+        for (final f in Directory(_dir!).listSync())
+          if (f is File) f.uri.pathSegments.last,
+      };
+    } catch (_) {
+      return {};
+    }
+  }
+
   static Future<void> clearAll() async {
     if (_dir == null) return;
     try {

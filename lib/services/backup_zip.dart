@@ -112,6 +112,21 @@ Future<Uint8List> buildBackupZip() async {
   return ZipEncoder().encodeBytes(archive);
 }
 
+bool isValidBackupZip(Uint8List zipBytes) {
+  try {
+    final archive = ZipDecoder().decodeBytes(zipBytes);
+    final jsonFile = _findJson(archive);
+    if (jsonFile == null) return false;
+    if (jsonDecode(utf8.decode(jsonFile.readBytes() ?? const [])) is! Map<String, dynamic>) return false;
+    for (final f in archive.files) {
+      if (f.isFile && f.readBytes() == null) return false;
+    }
+    return true;
+  } catch (_) {
+    return false;
+  }
+}
+
 Future<bool> restoreBackupZip(Uint8List zipBytes) async {
   final Archive archive;
   try {
@@ -131,7 +146,7 @@ Future<bool> restoreBackupZip(Uint8List zipBytes) async {
     return false;
   }
 
-  await MediaStore.clearAll();
+  final previous = MediaStore.names();
   final wanted = <String, String>{};
   ((data['media'] as Map?) ?? {}).forEach((k, v) {
     if (k is String && v is String && v.isNotEmpty) wanted[k] = v;
@@ -192,19 +207,29 @@ Future<bool> restoreBackupZip(Uint8List zipBytes) async {
     if (base != null) restoredFoods[e.key] = base;
   }
 
+  final ok = fit.tryApplyBackup(data,
+      restoredMedia: restored,
+      restoredNoteMedia: restoredNotes,
+      restoredShots: restoredShots,
+      restoredMoments: restoredMoments,
+      restoredFoods: restoredFoods);
+  final added = {...restored.values, ...restoredNotes.values, ...restoredShots.values, ...restoredMoments.values, ...restoredFoods.values};
+  if (!ok) {
+    for (final name in added) {
+      await MediaStore.delete(name);
+    }
+    return false;
+  }
+  for (final name in previous) {
+    if (!added.contains(name)) await MediaStore.delete(name);
+  }
+
   final alarmName = data['alarmSound'] as String?;
   String? alarmBase;
   if (alarmName != null && alarmName.isNotEmpty) {
     final bytes = archive.findFile('$_alarmDir/$alarmName')?.readBytes();
     if (bytes != null) alarmBase = await AlarmStore.saveBytes(alarmName, bytes);
   }
-
-  fit.applyBackup(data,
-      restoredMedia: restored,
-      restoredNoteMedia: restoredNotes,
-      restoredShots: restoredShots,
-      restoredMoments: restoredMoments,
-      restoredFoods: restoredFoods);
   if (alarmBase != null) {
     fit.setAlarmSound(alarmBase, (data['alarmSoundName'] as String?) ?? alarmBase);
   } else {
