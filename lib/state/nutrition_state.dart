@@ -515,6 +515,14 @@ mixin NutritionState on FitCore, ToolsState, StatsState {
     notifyListeners();
   }
 
+  void setBatchPortions(String id, int portions) {
+    final i = batches.indexWhere((b) => b.id == id);
+    if (i < 0 || batches[i].portions == portions) return;
+    batches[i] = batches[i].copyWith(portions: portions);
+    _persist();
+    notifyListeners();
+  }
+
   void deleteBatch(String id) {
     batches.removeWhere((b) => b.id == id);
     _persist();

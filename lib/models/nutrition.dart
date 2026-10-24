@@ -602,6 +602,7 @@ class Batch {
     required this.created,
     this.cookedGrams = 0,
     this.leftGrams = 0,
+    this.portions = 4,
   });
 
   final String id;
@@ -610,6 +611,7 @@ class Batch {
   final DateTime created;
   final double cookedGrams;
   final double leftGrams;
+  final int portions;
 
   Macros get total => items.fold(Macros.zero, (s, e) => s + e.total);
 
@@ -623,13 +625,14 @@ class Batch {
 
   Macros get per100 => totalGrams <= 0 ? Macros.zero : total * (100 / totalGrams);
 
-  Batch copyWith({String? name, List<FoodEntry>? items, double? cookedGrams, double? leftGrams}) => Batch(
+  Batch copyWith({String? name, List<FoodEntry>? items, double? cookedGrams, double? leftGrams, int? portions}) => Batch(
         id: id,
         name: name ?? this.name,
         items: items ?? this.items,
         created: created,
         cookedGrams: cookedGrams ?? this.cookedGrams,
         leftGrams: leftGrams ?? this.leftGrams,
+        portions: portions ?? this.portions,
       );
 
   Map<String, dynamic> toJson() => {
@@ -639,6 +642,7 @@ class Batch {
         'at': created.toIso8601String(),
         if (cookedGrams > 0) 'cg': cookedGrams,
         'left': leftGrams,
+        if (portions != 4) 'p': portions,
       };
 
   static Batch? fromJson(Map<String, dynamic> j) {
@@ -654,6 +658,7 @@ class Batch {
       items: items,
       created: DateTime.tryParse(j['at'] as String? ?? '') ?? DateTime.now(),
       cookedGrams: _num(j['cg']),
+      portions: ((j['p'] as num?)?.toInt() ?? 4).clamp(2, 12),
     );
     return b.copyWith(leftGrams: _num(j['left']).clamp(0, b.totalGrams).toDouble());
   }
