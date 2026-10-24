@@ -1389,5 +1389,21 @@
   "timesBodyweight": "{value}× twojej masy ciała",
   "archiveRoutine": "Archiwizuj plan",
   "routineArchived": "Plan zarchiwizowany",
-  "archivedRoutines": "Zarchiwizowane"
+  "archivedRoutines": "Zarchiwizowane",
+  "autoBackup": "Automatyczna kopia",
+  "autoBackupHint": "Zapisuje ZIP ze wszystkimi danymi w wybranym folderze. Zsynchronizuj ten folder z Nextcloud, Syncthing lub inną aplikacją, aby mieć kopię poza telefonem.",
+  "autoBackupFolder": "Wybierz folder",
+  "autoBackupNoFolder": "Brak folderu",
+  "autoBackupOff": "Wyłączona",
+  "autoBackupWorkout": "Po każdym treningu",
+  "autoBackupDaily": "Raz dziennie",
+  "autoBackupWeekly": "Raz w tygodniu",
+  "autoBackupOnLeave": "Po wyjściu z aplikacji",
+  "autoBackupKeep": "Kopie do zachowania",
+  "autoBackupNow": "Zrób kopię teraz",
+  "autoBackupLast": "Ostatnia kopia {when}",
+  "autoBackupNever": "Brak kopii",
+  "autoBackupLost": "Nie udało się zapisać ostatniej kopii. Wybierz folder ponownie.",
+  "autoBackupSaved": "Kopia zapisana",
+  "prepPortions": "Porcje"
 }

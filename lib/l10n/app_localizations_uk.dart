@@ -5245,4 +5245,55 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get archivedRoutines => 'Архів';
+
+  @override
+  String get autoBackup => 'Автокопія';
+
+  @override
+  String get autoBackupHint =>
+      'Зберігає ZIP з усіма даними у вибрану папку. Синхронізуйте її з Nextcloud, Syncthing чи іншим застосунком, щоб копія була не лише на телефоні.';
+
+  @override
+  String get autoBackupFolder => 'Вибрати папку';
+
+  @override
+  String get autoBackupNoFolder => 'Папку не вибрано';
+
+  @override
+  String get autoBackupOff => 'Вимкнено';
+
+  @override
+  String get autoBackupWorkout => 'Після кожного тренування';
+
+  @override
+  String get autoBackupDaily => 'Раз на день';
+
+  @override
+  String get autoBackupWeekly => 'Раз на тиждень';
+
+  @override
+  String get autoBackupOnLeave => 'Коли виходите із застосунку';
+
+  @override
+  String get autoBackupKeep => 'Зберігати копій';
+
+  @override
+  String get autoBackupNow => 'Зробити копію зараз';
+
+  @override
+  String autoBackupLast(String when) {
+    return 'Остання копія $when';
+  }
+
+  @override
+  String get autoBackupNever => 'Копій ще немає';
+
+  @override
+  String get autoBackupLost => 'Не вдалося зберегти останню копію. Виберіть папку знову.';
+
+  @override
+  String get autoBackupSaved => 'Копію збережено';
+
+  @override
+  String get prepPortions => 'Порції';
 }

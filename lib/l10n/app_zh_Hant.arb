@@ -1389,5 +1389,21 @@
   "timesBodyweight": "體重的 {value} 倍",
   "archiveRoutine": "封存課表",
   "routineArchived": "已封存課表",
-  "archivedRoutines": "已封存"
+  "archivedRoutines": "已封存",
+  "autoBackup": "自動備份",
+  "autoBackupHint": "把所有資料打包成 ZIP 存到你選的資料夾。用 Nextcloud、Syncthing 等同步 App 同步這個資料夾，就能在手機之外留一份副本。",
+  "autoBackupFolder": "選擇資料夾",
+  "autoBackupNoFolder": "尚未選擇資料夾",
+  "autoBackupOff": "關閉",
+  "autoBackupWorkout": "每次訓練後",
+  "autoBackupDaily": "每天一次",
+  "autoBackupWeekly": "每週一次",
+  "autoBackupOnLeave": "離開 App 時",
+  "autoBackupKeep": "保留份數",
+  "autoBackupNow": "立即備份",
+  "autoBackupLast": "上次備份 {when}",
+  "autoBackupNever": "還沒有備份",
+  "autoBackupLost": "上次備份沒能儲存，請重新選擇資料夾。",
+  "autoBackupSaved": "備份已儲存",
+  "prepPortions": "份數"
 }

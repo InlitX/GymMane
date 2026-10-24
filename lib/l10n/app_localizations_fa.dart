@@ -5170,4 +5170,55 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String get archivedRoutines => 'بایگانی‌شده';
+
+  @override
+  String get autoBackup => 'پشتیبان خودکار';
+
+  @override
+  String get autoBackupHint =>
+      'یک فایل ZIP با همه داده‌هایت در پوشه‌ای که انتخاب می‌کنی ذخیره می‌کند. آن پوشه را با Nextcloud، Syncthing یا هر برنامه همگام‌سازی وصل کن تا یک نسخه بیرون از گوشی داشته باشی.';
+
+  @override
+  String get autoBackupFolder => 'انتخاب پوشه';
+
+  @override
+  String get autoBackupNoFolder => 'پوشه‌ای انتخاب نشده';
+
+  @override
+  String get autoBackupOff => 'خاموش';
+
+  @override
+  String get autoBackupWorkout => 'بعد از هر تمرین';
+
+  @override
+  String get autoBackupDaily => 'روزی یک بار';
+
+  @override
+  String get autoBackupWeekly => 'هفته‌ای یک بار';
+
+  @override
+  String get autoBackupOnLeave => 'هنگام خروج از برنامه';
+
+  @override
+  String get autoBackupKeep => 'تعداد نسخه‌ها';
+
+  @override
+  String get autoBackupNow => 'الان پشتیبان بگیر';
+
+  @override
+  String autoBackupLast(String when) {
+    return 'آخرین پشتیبان $when';
+  }
+
+  @override
+  String get autoBackupNever => 'هنوز پشتیبانی نیست';
+
+  @override
+  String get autoBackupLost => 'ذخیره آخرین پشتیبان ممکن نشد. دوباره پوشه را انتخاب کن.';
+
+  @override
+  String get autoBackupSaved => 'پشتیبان ذخیره شد';
+
+  @override
+  String get prepPortions => 'وعده‌ها';
 }

@@ -1389,5 +1389,21 @@
   "timesBodyweight": "{value}× вашої ваги",
   "archiveRoutine": "Архівувати програму",
   "routineArchived": "Програму архівовано",
-  "archivedRoutines": "Архів"
+  "archivedRoutines": "Архів",
+  "autoBackup": "Автокопія",
+  "autoBackupHint": "Зберігає ZIP з усіма даними у вибрану папку. Синхронізуйте її з Nextcloud, Syncthing чи іншим застосунком, щоб копія була не лише на телефоні.",
+  "autoBackupFolder": "Вибрати папку",
+  "autoBackupNoFolder": "Папку не вибрано",
+  "autoBackupOff": "Вимкнено",
+  "autoBackupWorkout": "Після кожного тренування",
+  "autoBackupDaily": "Раз на день",
+  "autoBackupWeekly": "Раз на тиждень",
+  "autoBackupOnLeave": "Коли виходите із застосунку",
+  "autoBackupKeep": "Зберігати копій",
+  "autoBackupNow": "Зробити копію зараз",
+  "autoBackupLast": "Остання копія {when}",
+  "autoBackupNever": "Копій ще немає",
+  "autoBackupLost": "Не вдалося зберегти останню копію. Виберіть папку знову.",
+  "autoBackupSaved": "Копію збережено",
+  "prepPortions": "Порції"
 }

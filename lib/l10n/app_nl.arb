@@ -1389,5 +1389,21 @@
   "timesBodyweight": "{value}× je lichaamsgewicht",
   "archiveRoutine": "Routine archiveren",
   "routineArchived": "Routine gearchiveerd",
-  "archivedRoutines": "Gearchiveerd"
+  "archivedRoutines": "Gearchiveerd",
+  "autoBackup": "Automatische back-up",
+  "autoBackupHint": "Slaat een ZIP met al je gegevens op in een map naar keuze. Synchroniseer die map met Nextcloud, Syncthing of een andere app om een kopie buiten je telefoon te hebben.",
+  "autoBackupFolder": "Map kiezen",
+  "autoBackupNoFolder": "Nog geen map",
+  "autoBackupOff": "Uit",
+  "autoBackupWorkout": "Na elke training",
+  "autoBackupDaily": "Eén keer per dag",
+  "autoBackupWeekly": "Eén keer per week",
+  "autoBackupOnLeave": "Als je de app verlaat",
+  "autoBackupKeep": "Kopieën bewaren",
+  "autoBackupNow": "Nu back-up maken",
+  "autoBackupLast": "Laatste back-up {when}",
+  "autoBackupNever": "Nog geen back-up",
+  "autoBackupLost": "De laatste back-up is mislukt. Kies de map opnieuw.",
+  "autoBackupSaved": "Back-up opgeslagen",
+  "prepPortions": "Porties"
 }

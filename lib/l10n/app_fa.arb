@@ -1389,5 +1389,21 @@
   "timesBodyweight": "{value}× وزن بدن شما",
   "archiveRoutine": "بایگانی روتین",
   "routineArchived": "روتین بایگانی شد",
-  "archivedRoutines": "بایگانی‌شده"
+  "archivedRoutines": "بایگانی‌شده",
+  "autoBackup": "پشتیبان خودکار",
+  "autoBackupHint": "یک فایل ZIP با همه داده‌هایت در پوشه‌ای که انتخاب می‌کنی ذخیره می‌کند. آن پوشه را با Nextcloud، Syncthing یا هر برنامه همگام‌سازی وصل کن تا یک نسخه بیرون از گوشی داشته باشی.",
+  "autoBackupFolder": "انتخاب پوشه",
+  "autoBackupNoFolder": "پوشه‌ای انتخاب نشده",
+  "autoBackupOff": "خاموش",
+  "autoBackupWorkout": "بعد از هر تمرین",
+  "autoBackupDaily": "روزی یک بار",
+  "autoBackupWeekly": "هفته‌ای یک بار",
+  "autoBackupOnLeave": "هنگام خروج از برنامه",
+  "autoBackupKeep": "تعداد نسخه‌ها",
+  "autoBackupNow": "الان پشتیبان بگیر",
+  "autoBackupLast": "آخرین پشتیبان {when}",
+  "autoBackupNever": "هنوز پشتیبانی نیست",
+  "autoBackupLost": "ذخیره آخرین پشتیبان ممکن نشد. دوباره پوشه را انتخاب کن.",
+  "autoBackupSaved": "پشتیبان ذخیره شد",
+  "prepPortions": "وعده‌ها"
 }

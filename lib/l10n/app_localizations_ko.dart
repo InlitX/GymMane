@@ -5069,4 +5069,55 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get archivedRoutines => '보관함';
+
+  @override
+  String get autoBackup => '자동 백업';
+
+  @override
+  String get autoBackupHint =>
+      '모든 데이터를 ZIP으로 선택한 폴더에 저장해요. Nextcloud, Syncthing 같은 동기화 앱으로 그 폴더를 동기화하면 휴대폰 밖에도 사본을 둘 수 있어요.';
+
+  @override
+  String get autoBackupFolder => '폴더 선택';
+
+  @override
+  String get autoBackupNoFolder => '폴더 없음';
+
+  @override
+  String get autoBackupOff => '끔';
+
+  @override
+  String get autoBackupWorkout => '운동할 때마다';
+
+  @override
+  String get autoBackupDaily => '하루 한 번';
+
+  @override
+  String get autoBackupWeekly => '일주일에 한 번';
+
+  @override
+  String get autoBackupOnLeave => '앱을 나갈 때';
+
+  @override
+  String get autoBackupKeep => '보관할 개수';
+
+  @override
+  String get autoBackupNow => '지금 백업';
+
+  @override
+  String autoBackupLast(String when) {
+    return '마지막 백업 $when';
+  }
+
+  @override
+  String get autoBackupNever => '아직 백업이 없어요';
+
+  @override
+  String get autoBackupLost => '마지막 백업을 저장하지 못했어요. 폴더를 다시 선택하세요.';
+
+  @override
+  String get autoBackupSaved => '백업을 저장했어요';
+
+  @override
+  String get prepPortions => '나누기';
 }

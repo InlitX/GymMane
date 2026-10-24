@@ -1389,5 +1389,21 @@
   "timesBodyweight": "体重の{value}倍",
   "archiveRoutine": "ルーティンをアーカイブ",
   "routineArchived": "ルーティンをアーカイブしました",
-  "archivedRoutines": "アーカイブ"
+  "archivedRoutines": "アーカイブ",
+  "autoBackup": "自動バックアップ",
+  "autoBackupHint": "すべてのデータを ZIP にして、選んだフォルダに保存します。Nextcloud や Syncthing などの同期アプリでそのフォルダを同期すれば、スマホの外にもコピーを残せます。",
+  "autoBackupFolder": "フォルダを選ぶ",
+  "autoBackupNoFolder": "フォルダ未選択",
+  "autoBackupOff": "オフ",
+  "autoBackupWorkout": "トレーニングのたび",
+  "autoBackupDaily": "1日1回",
+  "autoBackupWeekly": "週1回",
+  "autoBackupOnLeave": "アプリを離れたとき",
+  "autoBackupKeep": "残す数",
+  "autoBackupNow": "今すぐバックアップ",
+  "autoBackupLast": "前回のバックアップ {when}",
+  "autoBackupNever": "まだバックアップはありません",
+  "autoBackupLost": "前回のバックアップを保存できませんでした。フォルダを選び直してください。",
+  "autoBackupSaved": "バックアップを保存しました",
+  "prepPortions": "等分"
 }

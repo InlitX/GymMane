@@ -1389,5 +1389,21 @@
   "timesBodyweight": "体重的 {value} 倍",
   "archiveRoutine": "归档训练计划",
   "routineArchived": "已归档训练计划",
-  "archivedRoutines": "已归档"
+  "archivedRoutines": "已归档",
+  "autoBackup": "自动备份",
+  "autoBackupHint": "把全部数据打包成 ZIP 保存到你选的文件夹。用 Nextcloud、Syncthing 等同步应用同步这个文件夹，就能在手机之外留一份副本。",
+  "autoBackupFolder": "选择文件夹",
+  "autoBackupNoFolder": "尚未选择文件夹",
+  "autoBackupOff": "关闭",
+  "autoBackupWorkout": "每次训练后",
+  "autoBackupDaily": "每天一次",
+  "autoBackupWeekly": "每周一次",
+  "autoBackupOnLeave": "离开应用时",
+  "autoBackupKeep": "保留份数",
+  "autoBackupNow": "立即备份",
+  "autoBackupLast": "上次备份 {when}",
+  "autoBackupNever": "还没有备份",
+  "autoBackupLost": "上次备份没能保存，请重新选择文件夹。",
+  "autoBackupSaved": "备份已保存",
+  "prepPortions": "份数"
 }

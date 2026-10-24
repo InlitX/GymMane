@@ -5224,4 +5224,55 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get archivedRoutines => 'Archiviert';
+
+  @override
+  String get autoBackup => 'Automatische Sicherung';
+
+  @override
+  String get autoBackupHint =>
+      'Speichert eine ZIP mit allen Daten in einem Ordner deiner Wahl. Synchronisiere ihn mit Nextcloud, Syncthing oder einer anderen App, damit die Kopie nicht nur auf dem Handy liegt.';
+
+  @override
+  String get autoBackupFolder => 'Ordner wählen';
+
+  @override
+  String get autoBackupNoFolder => 'Noch kein Ordner';
+
+  @override
+  String get autoBackupOff => 'Aus';
+
+  @override
+  String get autoBackupWorkout => 'Nach jedem Training';
+
+  @override
+  String get autoBackupDaily => 'Einmal am Tag';
+
+  @override
+  String get autoBackupWeekly => 'Einmal pro Woche';
+
+  @override
+  String get autoBackupOnLeave => 'Beim Verlassen der App';
+
+  @override
+  String get autoBackupKeep => 'Kopien behalten';
+
+  @override
+  String get autoBackupNow => 'Jetzt sichern';
+
+  @override
+  String autoBackupLast(String when) {
+    return 'Letzte Sicherung $when';
+  }
+
+  @override
+  String get autoBackupNever => 'Noch keine Sicherung';
+
+  @override
+  String get autoBackupLost => 'Die letzte Sicherung ging nicht. Wähle den Ordner erneut.';
+
+  @override
+  String get autoBackupSaved => 'Sicherung gespeichert';
+
+  @override
+  String get prepPortions => 'Portionen';
 }

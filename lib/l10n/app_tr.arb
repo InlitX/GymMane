@@ -1389,5 +1389,21 @@
   "timesBodyweight": "vücut ağırlığının {value}×",
   "archiveRoutine": "Programı arşivle",
   "routineArchived": "Program arşivlendi",
-  "archivedRoutines": "Arşivlenenler"
+  "archivedRoutines": "Arşivlenenler",
+  "autoBackup": "Otomatik yedek",
+  "autoBackupHint": "Tüm verilerini içeren bir ZIP dosyasını seçtiğin klasöre kaydeder. Bu klasörü Nextcloud, Syncthing veya başka bir uygulamayla eşitleyerek telefon dışında da bir kopya tut.",
+  "autoBackupFolder": "Klasör seç",
+  "autoBackupNoFolder": "Klasör yok",
+  "autoBackupOff": "Kapalı",
+  "autoBackupWorkout": "Her antrenmandan sonra",
+  "autoBackupDaily": "Günde bir",
+  "autoBackupWeekly": "Haftada bir",
+  "autoBackupOnLeave": "Uygulamadan çıkınca",
+  "autoBackupKeep": "Saklanacak kopya",
+  "autoBackupNow": "Şimdi yedekle",
+  "autoBackupLast": "Son yedek {when}",
+  "autoBackupNever": "Henüz yedek yok",
+  "autoBackupLost": "Son yedek kaydedilemedi. Klasörü yeniden seç.",
+  "autoBackupSaved": "Yedek kaydedildi",
+  "prepPortions": "Porsiyon"
 }

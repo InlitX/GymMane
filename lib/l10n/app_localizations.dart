@@ -9183,6 +9183,102 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Archived'**
   String get archivedRoutines;
+
+  /// No description provided for @autoBackup.
+  ///
+  /// In en, this message translates to:
+  /// **'Auto backup'**
+  String get autoBackup;
+
+  /// No description provided for @autoBackupHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Saves a ZIP with all your data to a folder you choose. Point Nextcloud, Syncthing or any sync app at that folder to keep a copy off your phone.'**
+  String get autoBackupHint;
+
+  /// No description provided for @autoBackupFolder.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose folder'**
+  String get autoBackupFolder;
+
+  /// No description provided for @autoBackupNoFolder.
+  ///
+  /// In en, this message translates to:
+  /// **'No folder yet'**
+  String get autoBackupNoFolder;
+
+  /// No description provided for @autoBackupOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Off'**
+  String get autoBackupOff;
+
+  /// No description provided for @autoBackupWorkout.
+  ///
+  /// In en, this message translates to:
+  /// **'After each workout'**
+  String get autoBackupWorkout;
+
+  /// No description provided for @autoBackupDaily.
+  ///
+  /// In en, this message translates to:
+  /// **'Once a day'**
+  String get autoBackupDaily;
+
+  /// No description provided for @autoBackupWeekly.
+  ///
+  /// In en, this message translates to:
+  /// **'Once a week'**
+  String get autoBackupWeekly;
+
+  /// No description provided for @autoBackupOnLeave.
+  ///
+  /// In en, this message translates to:
+  /// **'When you leave the app'**
+  String get autoBackupOnLeave;
+
+  /// No description provided for @autoBackupKeep.
+  ///
+  /// In en, this message translates to:
+  /// **'Copies to keep'**
+  String get autoBackupKeep;
+
+  /// No description provided for @autoBackupNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Back up now'**
+  String get autoBackupNow;
+
+  /// No description provided for @autoBackupLast.
+  ///
+  /// In en, this message translates to:
+  /// **'Last backup {when}'**
+  String autoBackupLast(String when);
+
+  /// No description provided for @autoBackupNever.
+  ///
+  /// In en, this message translates to:
+  /// **'No backup yet'**
+  String get autoBackupNever;
+
+  /// No description provided for @autoBackupLost.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t save the last backup. Choose the folder again.'**
+  String get autoBackupLost;
+
+  /// No description provided for @autoBackupSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup saved'**
+  String get autoBackupSaved;
+
+  /// No description provided for @prepPortions.
+  ///
+  /// In en, this message translates to:
+  /// **'Portions'**
+  String get prepPortions;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

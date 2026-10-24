@@ -5006,6 +5006,56 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get archivedRoutines => '已归档';
+
+  @override
+  String get autoBackup => '自动备份';
+
+  @override
+  String get autoBackupHint => '把全部数据打包成 ZIP 保存到你选的文件夹。用 Nextcloud、Syncthing 等同步应用同步这个文件夹，就能在手机之外留一份副本。';
+
+  @override
+  String get autoBackupFolder => '选择文件夹';
+
+  @override
+  String get autoBackupNoFolder => '尚未选择文件夹';
+
+  @override
+  String get autoBackupOff => '关闭';
+
+  @override
+  String get autoBackupWorkout => '每次训练后';
+
+  @override
+  String get autoBackupDaily => '每天一次';
+
+  @override
+  String get autoBackupWeekly => '每周一次';
+
+  @override
+  String get autoBackupOnLeave => '离开应用时';
+
+  @override
+  String get autoBackupKeep => '保留份数';
+
+  @override
+  String get autoBackupNow => '立即备份';
+
+  @override
+  String autoBackupLast(String when) {
+    return '上次备份 $when';
+  }
+
+  @override
+  String get autoBackupNever => '还没有备份';
+
+  @override
+  String get autoBackupLost => '上次备份没能保存，请重新选择文件夹。';
+
+  @override
+  String get autoBackupSaved => '备份已保存';
+
+  @override
+  String get prepPortions => '份数';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -9600,4 +9650,54 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get archivedRoutines => '已封存';
+
+  @override
+  String get autoBackup => '自動備份';
+
+  @override
+  String get autoBackupHint => '把所有資料打包成 ZIP 存到你選的資料夾。用 Nextcloud、Syncthing 等同步 App 同步這個資料夾，就能在手機之外留一份副本。';
+
+  @override
+  String get autoBackupFolder => '選擇資料夾';
+
+  @override
+  String get autoBackupNoFolder => '尚未選擇資料夾';
+
+  @override
+  String get autoBackupOff => '關閉';
+
+  @override
+  String get autoBackupWorkout => '每次訓練後';
+
+  @override
+  String get autoBackupDaily => '每天一次';
+
+  @override
+  String get autoBackupWeekly => '每週一次';
+
+  @override
+  String get autoBackupOnLeave => '離開 App 時';
+
+  @override
+  String get autoBackupKeep => '保留份數';
+
+  @override
+  String get autoBackupNow => '立即備份';
+
+  @override
+  String autoBackupLast(String when) {
+    return '上次備份 $when';
+  }
+
+  @override
+  String get autoBackupNever => '還沒有備份';
+
+  @override
+  String get autoBackupLost => '上次備份沒能儲存，請重新選擇資料夾。';
+
+  @override
+  String get autoBackupSaved => '備份已儲存';
+
+  @override
+  String get prepPortions => '份數';
 }

@@ -5199,4 +5199,55 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get archivedRoutines => 'المؤرشفة';
+
+  @override
+  String get autoBackup => 'نسخ احتياطي تلقائي';
+
+  @override
+  String get autoBackupHint =>
+      'يحفظ ملف ZIP بكل بياناتك في المجلد الذي تختاره. زامن هذا المجلد مع Nextcloud أو Syncthing أو أي تطبيق مزامنة لتبقى نسخة خارج هاتفك.';
+
+  @override
+  String get autoBackupFolder => 'اختر مجلدًا';
+
+  @override
+  String get autoBackupNoFolder => 'لا يوجد مجلد';
+
+  @override
+  String get autoBackupOff => 'متوقف';
+
+  @override
+  String get autoBackupWorkout => 'بعد كل تمرين';
+
+  @override
+  String get autoBackupDaily => 'مرة في اليوم';
+
+  @override
+  String get autoBackupWeekly => 'مرة في الأسبوع';
+
+  @override
+  String get autoBackupOnLeave => 'عند مغادرة التطبيق';
+
+  @override
+  String get autoBackupKeep => 'عدد النسخ المحفوظة';
+
+  @override
+  String get autoBackupNow => 'انسخ الآن';
+
+  @override
+  String autoBackupLast(String when) {
+    return 'آخر نسخة $when';
+  }
+
+  @override
+  String get autoBackupNever => 'لا توجد نسخ بعد';
+
+  @override
+  String get autoBackupLost => 'تعذّر حفظ آخر نسخة. اختر المجلد مرة أخرى.';
+
+  @override
+  String get autoBackupSaved => 'تم حفظ النسخة';
+
+  @override
+  String get prepPortions => 'حصص';
 }

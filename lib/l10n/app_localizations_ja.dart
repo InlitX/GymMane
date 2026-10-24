@@ -5058,4 +5058,55 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get archivedRoutines => 'アーカイブ';
+
+  @override
+  String get autoBackup => '自動バックアップ';
+
+  @override
+  String get autoBackupHint =>
+      'すべてのデータを ZIP にして、選んだフォルダに保存します。Nextcloud や Syncthing などの同期アプリでそのフォルダを同期すれば、スマホの外にもコピーを残せます。';
+
+  @override
+  String get autoBackupFolder => 'フォルダを選ぶ';
+
+  @override
+  String get autoBackupNoFolder => 'フォルダ未選択';
+
+  @override
+  String get autoBackupOff => 'オフ';
+
+  @override
+  String get autoBackupWorkout => 'トレーニングのたび';
+
+  @override
+  String get autoBackupDaily => '1日1回';
+
+  @override
+  String get autoBackupWeekly => '週1回';
+
+  @override
+  String get autoBackupOnLeave => 'アプリを離れたとき';
+
+  @override
+  String get autoBackupKeep => '残す数';
+
+  @override
+  String get autoBackupNow => '今すぐバックアップ';
+
+  @override
+  String autoBackupLast(String when) {
+    return '前回のバックアップ $when';
+  }
+
+  @override
+  String get autoBackupNever => 'まだバックアップはありません';
+
+  @override
+  String get autoBackupLost => '前回のバックアップを保存できませんでした。フォルダを選び直してください。';
+
+  @override
+  String get autoBackupSaved => 'バックアップを保存しました';
+
+  @override
+  String get prepPortions => '等分';
 }

@@ -5255,4 +5255,55 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get archivedRoutines => 'Zarchiwizowane';
+
+  @override
+  String get autoBackup => 'Automatyczna kopia';
+
+  @override
+  String get autoBackupHint =>
+      'Zapisuje ZIP ze wszystkimi danymi w wybranym folderze. Zsynchronizuj ten folder z Nextcloud, Syncthing lub inną aplikacją, aby mieć kopię poza telefonem.';
+
+  @override
+  String get autoBackupFolder => 'Wybierz folder';
+
+  @override
+  String get autoBackupNoFolder => 'Brak folderu';
+
+  @override
+  String get autoBackupOff => 'Wyłączona';
+
+  @override
+  String get autoBackupWorkout => 'Po każdym treningu';
+
+  @override
+  String get autoBackupDaily => 'Raz dziennie';
+
+  @override
+  String get autoBackupWeekly => 'Raz w tygodniu';
+
+  @override
+  String get autoBackupOnLeave => 'Po wyjściu z aplikacji';
+
+  @override
+  String get autoBackupKeep => 'Kopie do zachowania';
+
+  @override
+  String get autoBackupNow => 'Zrób kopię teraz';
+
+  @override
+  String autoBackupLast(String when) {
+    return 'Ostatnia kopia $when';
+  }
+
+  @override
+  String get autoBackupNever => 'Brak kopii';
+
+  @override
+  String get autoBackupLost => 'Nie udało się zapisać ostatniej kopii. Wybierz folder ponownie.';
+
+  @override
+  String get autoBackupSaved => 'Kopia zapisana';
+
+  @override
+  String get prepPortions => 'Porcje';
 }

@@ -1389,5 +1389,21 @@
   "timesBodyweight": "{value}× вашего веса",
   "archiveRoutine": "Архивировать программу",
   "routineArchived": "Программа в архиве",
-  "archivedRoutines": "Архив"
+  "archivedRoutines": "Архив",
+  "autoBackup": "Автокопия",
+  "autoBackupHint": "Сохраняет ZIP со всеми данными в выбранную папку. Синхронизируйте её с Nextcloud, Syncthing или другим приложением, чтобы копия была не только на телефоне.",
+  "autoBackupFolder": "Выбрать папку",
+  "autoBackupNoFolder": "Папка не выбрана",
+  "autoBackupOff": "Выключено",
+  "autoBackupWorkout": "После каждой тренировки",
+  "autoBackupDaily": "Раз в день",
+  "autoBackupWeekly": "Раз в неделю",
+  "autoBackupOnLeave": "При выходе из приложения",
+  "autoBackupKeep": "Хранить копий",
+  "autoBackupNow": "Сделать копию сейчас",
+  "autoBackupLast": "Последняя копия {when}",
+  "autoBackupNever": "Копий пока нет",
+  "autoBackupLost": "Не удалось сохранить последнюю копию. Выберите папку заново.",
+  "autoBackupSaved": "Копия сохранена",
+  "prepPortions": "Порции"
 }

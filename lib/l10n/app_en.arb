@@ -1773,5 +1773,22 @@
   "@timesBodyweight": {"placeholders": {"value": {"type": "String"}}},
   "archiveRoutine": "Archive routine",
   "routineArchived": "Routine archived",
-  "archivedRoutines": "Archived"
+  "archivedRoutines": "Archived",
+  "autoBackup": "Auto backup",
+  "autoBackupHint": "Saves a ZIP with all your data to a folder you choose. Point Nextcloud, Syncthing or any sync app at that folder to keep a copy off your phone.",
+  "autoBackupFolder": "Choose folder",
+  "autoBackupNoFolder": "No folder yet",
+  "autoBackupOff": "Off",
+  "autoBackupWorkout": "After each workout",
+  "autoBackupDaily": "Once a day",
+  "autoBackupWeekly": "Once a week",
+  "autoBackupOnLeave": "When you leave the app",
+  "autoBackupKeep": "Copies to keep",
+  "autoBackupNow": "Back up now",
+  "autoBackupLast": "Last backup {when}",
+  "@autoBackupLast": {"placeholders": {"when": {"type": "String"}}},
+  "autoBackupNever": "No backup yet",
+  "autoBackupLost": "Couldn't save the last backup. Choose the folder again.",
+  "autoBackupSaved": "Backup saved",
+  "prepPortions": "Portions"
 }

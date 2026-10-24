@@ -5213,4 +5213,55 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get archivedRoutines => 'Gearchiveerd';
+
+  @override
+  String get autoBackup => 'Automatische back-up';
+
+  @override
+  String get autoBackupHint =>
+      'Slaat een ZIP met al je gegevens op in een map naar keuze. Synchroniseer die map met Nextcloud, Syncthing of een andere app om een kopie buiten je telefoon te hebben.';
+
+  @override
+  String get autoBackupFolder => 'Map kiezen';
+
+  @override
+  String get autoBackupNoFolder => 'Nog geen map';
+
+  @override
+  String get autoBackupOff => 'Uit';
+
+  @override
+  String get autoBackupWorkout => 'Na elke training';
+
+  @override
+  String get autoBackupDaily => 'Eén keer per dag';
+
+  @override
+  String get autoBackupWeekly => 'Eén keer per week';
+
+  @override
+  String get autoBackupOnLeave => 'Als je de app verlaat';
+
+  @override
+  String get autoBackupKeep => 'Kopieën bewaren';
+
+  @override
+  String get autoBackupNow => 'Nu back-up maken';
+
+  @override
+  String autoBackupLast(String when) {
+    return 'Laatste back-up $when';
+  }
+
+  @override
+  String get autoBackupNever => 'Nog geen back-up';
+
+  @override
+  String get autoBackupLost => 'De laatste back-up is mislukt. Kies de map opnieuw.';
+
+  @override
+  String get autoBackupSaved => 'Back-up opgeslagen';
+
+  @override
+  String get prepPortions => 'Porties';
 }

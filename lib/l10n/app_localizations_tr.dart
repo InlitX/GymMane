@@ -5209,4 +5209,55 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get archivedRoutines => 'Arşivlenenler';
+
+  @override
+  String get autoBackup => 'Otomatik yedek';
+
+  @override
+  String get autoBackupHint =>
+      'Tüm verilerini içeren bir ZIP dosyasını seçtiğin klasöre kaydeder. Bu klasörü Nextcloud, Syncthing veya başka bir uygulamayla eşitleyerek telefon dışında da bir kopya tut.';
+
+  @override
+  String get autoBackupFolder => 'Klasör seç';
+
+  @override
+  String get autoBackupNoFolder => 'Klasör yok';
+
+  @override
+  String get autoBackupOff => 'Kapalı';
+
+  @override
+  String get autoBackupWorkout => 'Her antrenmandan sonra';
+
+  @override
+  String get autoBackupDaily => 'Günde bir';
+
+  @override
+  String get autoBackupWeekly => 'Haftada bir';
+
+  @override
+  String get autoBackupOnLeave => 'Uygulamadan çıkınca';
+
+  @override
+  String get autoBackupKeep => 'Saklanacak kopya';
+
+  @override
+  String get autoBackupNow => 'Şimdi yedekle';
+
+  @override
+  String autoBackupLast(String when) {
+    return 'Son yedek $when';
+  }
+
+  @override
+  String get autoBackupNever => 'Henüz yedek yok';
+
+  @override
+  String get autoBackupLost => 'Son yedek kaydedilemedi. Klasörü yeniden seç.';
+
+  @override
+  String get autoBackupSaved => 'Yedek kaydedildi';
+
+  @override
+  String get prepPortions => 'Porsiyon';
 }

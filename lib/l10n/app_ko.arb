@@ -1389,5 +1389,21 @@
   "timesBodyweight": "체중의 {value}배",
   "archiveRoutine": "루틴 보관",
   "routineArchived": "루틴을 보관했어요",
-  "archivedRoutines": "보관함"
+  "archivedRoutines": "보관함",
+  "autoBackup": "자동 백업",
+  "autoBackupHint": "모든 데이터를 ZIP으로 선택한 폴더에 저장해요. Nextcloud, Syncthing 같은 동기화 앱으로 그 폴더를 동기화하면 휴대폰 밖에도 사본을 둘 수 있어요.",
+  "autoBackupFolder": "폴더 선택",
+  "autoBackupNoFolder": "폴더 없음",
+  "autoBackupOff": "끔",
+  "autoBackupWorkout": "운동할 때마다",
+  "autoBackupDaily": "하루 한 번",
+  "autoBackupWeekly": "일주일에 한 번",
+  "autoBackupOnLeave": "앱을 나갈 때",
+  "autoBackupKeep": "보관할 개수",
+  "autoBackupNow": "지금 백업",
+  "autoBackupLast": "마지막 백업 {when}",
+  "autoBackupNever": "아직 백업이 없어요",
+  "autoBackupLost": "마지막 백업을 저장하지 못했어요. 폴더를 다시 선택하세요.",
+  "autoBackupSaved": "백업을 저장했어요",
+  "prepPortions": "나누기"
 }
