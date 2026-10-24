@@ -127,6 +127,13 @@ class MainActivity : FlutterActivity() {
         }
 
         HealthBridge.attach(this, MethodChannel(messenger, HealthBridge.CHANNEL))
+        BackupBridge.attach(this, MethodChannel(messenger, BackupBridge.CHANNEL))
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (BackupBridge.onActivityResult(this, requestCode, resultCode, data)) return
+        super.onActivityResult(requestCode, resultCode, data)
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
