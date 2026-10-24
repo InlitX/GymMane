@@ -4,6 +4,7 @@ import 'package:intl/date_symbol_data_local.dart';
 
 import 'app/gymmane_app.dart';
 import 'services/alarm_store.dart';
+import 'services/auto_backup.dart';
 import 'services/device_kind.dart';
 import 'services/home_widget_bridge.dart';
 import 'services/nutrition_widgets.dart';
@@ -47,6 +48,7 @@ Future<void> main() async {
 
   fit.onWidgetsShouldUpdate = HomeWidgetBridge.update;
   NutritionWidgets.watch(HomeWidgetBridge.update);
+  AutoBackup.instance.init();
   runApp(const GymManeApp());
 
   WidgetsBinding.instance.addPostFrameCallback((_) => HomeWidgetBridge.update());
