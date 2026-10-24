@@ -11,6 +11,7 @@ import '../services/media_store.dart';
 import '../state/fit_state.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
+import 'file_thumb.dart';
 import 'glass.dart';
 import 'ui_kit.dart';
 
@@ -562,22 +563,19 @@ class NoteThumb extends StatelessWidget {
     } else if (!photo) {
       inner = Icon(PhosphorIconsFill.playCircle, size: size * 0.38, color: gc.textSecondary);
     } else if (natural) {
-      inner = Image.file(
-        File(path),
+      inner = FileThumb(
+        path,
         height: size,
         fit: BoxFit.contain,
-        gaplessPlayback: true,
         frameBuilder: (_, child, frame, sync) =>
             frame == null && !sync ? SizedBox(width: size, height: size) : child,
         errorBuilder: (_, _, _) => SizedBox(width: size, height: size, child: fallback),
       );
     } else {
-      inner = Image.file(
-        File(path),
+      inner = FileThumb(
+        path,
         width: size,
         height: size,
-        fit: BoxFit.cover,
-        gaplessPlayback: true,
         errorBuilder: (_, _, _) => fallback,
       );
     }

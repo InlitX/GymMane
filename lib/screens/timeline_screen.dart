@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
@@ -13,6 +12,7 @@ import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
 import '../widgets/body_map.dart';
 import '../widgets/dialogs.dart';
+import '../widgets/file_thumb.dart';
 import '../widgets/glass.dart';
 import '../widgets/note_kit.dart';
 import '../widgets/photo_source_sheet.dart';
@@ -641,7 +641,7 @@ class _TimelineScreenState extends State<TimelineScreen> {
               : Stack(
                   fit: StackFit.expand,
                   children: [
-                    Image.file(File(path), fit: BoxFit.cover, gaplessPlayback: true,
+                    FileThumb(path,
                         errorBuilder: (_, _, _) => Icon(PhosphorIconsRegular.imageSquare,
                             size: 20, color: gc.textTertiary)),
                     Positioned(
@@ -676,7 +676,7 @@ class _TimelineScreenState extends State<TimelineScreen> {
       clipBehavior: Clip.antiAlias,
       child: path == null
           ? Icon(PhosphorIconsRegular.imageSquare, size: 18, color: gc.textTertiary)
-          : Image.file(File(path), fit: BoxFit.cover, gaplessPlayback: true,
+          : FileThumb(path,
               errorBuilder: (_, _, _) =>
                   Icon(PhosphorIconsRegular.imageSquare, size: 18, color: gc.textTertiary)),
     );

@@ -26,6 +26,7 @@ import '../theme/app_theme.dart';
 import '../widgets/body_rulers.dart';
 import '../widgets/dialogs.dart';
 import '../widgets/entrance.dart';
+import '../widgets/file_thumb.dart';
 import '../widgets/glass.dart';
 import '../widgets/liquid_notch.dart';
 import '../widgets/photo_source_sheet.dart';
@@ -1200,10 +1201,9 @@ class SettingsScreen extends StatelessWidget {
                         selected: fit.bgPattern == 'photo',
                         leading: ClipRRect(
                           borderRadius: BorderRadius.circular(6),
-                          child: Image.file(File(photo),
+                          child: FileThumb(photo,
                               width: 26,
                               height: 20,
-                              fit: BoxFit.cover,
                               errorBuilder: (_, _, _) => const SizedBox(width: 26, height: 20)),
                         ),
                         onTap: () => setSheet(() => fit.setBgPattern('photo')),

@@ -11,6 +11,7 @@ import '../services/media_store.dart';
 import '../state/fit_state.dart';
 import '../theme/app_colors.dart';
 import 'exercise_art.dart';
+import 'file_thumb.dart';
 import 'shimmer.dart';
 
 const _shortDemo = Duration(seconds: 10);
@@ -63,12 +64,10 @@ class ExerciseMedia extends StatelessWidget {
       radius: radius,
       bordered: bordered,
       child: Center(
-        child: Image.file(
-          File(path),
+        child: FileThumb(
+          path,
           key: ValueKey(media),
           fit: BoxFit.contain,
-          alignment: Alignment.center,
-          gaplessPlayback: true,
           errorBuilder: (_, _, _) => _fallbackIcon(context, height),
         ),
       ),

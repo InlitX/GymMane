@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'dart:math' as math;
 import 'dart:ui' as ui;
 
@@ -18,6 +17,7 @@ import '../widgets/charts.dart';
 import '../widgets/dialogs.dart';
 import '../widgets/entrance.dart';
 import '../widgets/exercise_media.dart';
+import '../widgets/file_thumb.dart';
 import '../widgets/glass.dart';
 import '../widgets/liquid_notch.dart';
 import '../widgets/muscle_radar.dart';
@@ -712,10 +712,11 @@ class ProgressScreen extends StatelessWidget {
                       right: -28 * v,
                       bottom: -28 * v,
                       child: ImageFiltered(
+                        enabled: v > 0.01,
                         imageFilter: ui.ImageFilter.blur(sigmaX: 14 * v, sigmaY: 14 * v, tileMode: TileMode.mirror),
                         child: Transform.scale(
                           scale: 1 + 0.8 * v,
-                          child: Image.file(File(path), fit: BoxFit.cover, gaplessPlayback: true,
+                          child: FileThumb(path,
                               errorBuilder: (_, _, _) =>
                                   Icon(PhosphorIconsRegular.imageSquare, size: 16, color: gc.textTertiary)),
                         ),

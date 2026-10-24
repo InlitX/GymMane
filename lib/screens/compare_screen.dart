@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
@@ -9,6 +7,7 @@ import '../services/media_store.dart';
 import '../state/fit_state.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
+import '../widgets/file_thumb.dart';
 import '../widgets/share_cards.dart';
 import '../widgets/ui_kit.dart';
 import 'share_sheet.dart';
@@ -140,7 +139,7 @@ class CompareScreen extends StatelessWidget {
             clipBehavior: Clip.antiAlias,
             child: path == null
                 ? Icon(PhosphorIconsRegular.imageSquare, size: 22, color: gc.textTertiary)
-                : Image.file(File(path), fit: BoxFit.cover, gaplessPlayback: true,
+                : FileThumb(path,
                     errorBuilder: (_, _, _) =>
                         Icon(PhosphorIconsRegular.imageSquare, size: 22, color: gc.textTertiary)),
           ),

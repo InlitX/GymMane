@@ -13,6 +13,7 @@ import '../state/fit_state.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
 import '../widgets/entrance.dart';
+import '../widgets/file_thumb.dart';
 import '../widgets/medal_shelf.dart';
 import '../widgets/photo_source_sheet.dart';
 import '../widgets/profile_avatar.dart';
@@ -411,8 +412,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Widget _shot(GymColors gc, String file) => _frame(
         gc,
-        Image.file(File(MediaStore.pathFor(file) ?? ''),
-            fit: BoxFit.cover,
+        FileThumb(MediaStore.pathFor(file) ?? '',
             width: double.infinity,
             height: double.infinity,
             errorBuilder: (_, _, _) => ColoredBox(color: gc.bgRaised2)),

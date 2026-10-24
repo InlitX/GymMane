@@ -12,6 +12,7 @@ import '../state/fit_state.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
 import '../widgets/dialogs.dart';
+import '../widgets/file_thumb.dart';
 import '../widgets/photo_source_sheet.dart';
 import '../widgets/ui_kit.dart';
 
@@ -247,9 +248,7 @@ class _MomentsScreenState extends State<MomentsScreen> {
           borderRadius: BorderRadius.circular(20),
           child: Hero(
             tag: moment.file,
-            child: Image.file(File(path),
-                fit: BoxFit.cover,
-                errorBuilder: (_, _, _) => ColoredBox(color: gc.bgRaised2)),
+            child: FileThumb(path, errorBuilder: (_, _, _) => ColoredBox(color: gc.bgRaised2)),
           ),
         ),
       ),
@@ -291,9 +290,7 @@ class _MomentsScreenState extends State<MomentsScreen> {
           children: [
             Hero(
               tag: moment.file,
-              child: Image.file(File(path),
-                  fit: BoxFit.cover,
-                  errorBuilder: (_, _, _) => ColoredBox(color: gc.bgRaised2)),
+              child: FileThumb(path, errorBuilder: (_, _, _) => ColoredBox(color: gc.bgRaised2)),
             ),
             Positioned(
               left: 0,
