@@ -14,6 +14,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../l10n/l10n.dart';
 import '../models/profile.dart';
 import '../services/alarm_store.dart';
+import '../services/auto_backup.dart';
 import '../services/backup_zip.dart';
 import '../services/fitnotes_backup.dart';
 import '../services/home_widget_bridge.dart';
@@ -23,6 +24,7 @@ import '../services/workout_import.dart';
 import '../state/fit_state.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
+import '../widgets/auto_backup_sheet.dart';
 import '../widgets/body_rulers.dart';
 import '../widgets/dialogs.dart';
 import '../widgets/entrance.dart';
@@ -424,10 +426,12 @@ class SettingsScreen extends StatelessWidget {
               (PhosphorIconsRegular.fileCsv, t.exportCsv, () => _exportCsv(context)),
               (PhosphorIconsRegular.fileZip, t.exportBackup, () => _exportBackup(context)),
               (PhosphorIconsRegular.downloadSimple, t.importBackup, () => _importBackup(context)),
+              if (AutoBackup.instance.supported)
+                (PhosphorIconsRegular.clockCounterClockwise, t.autoBackup, () => showAutoBackupSheet(context)),
               (PhosphorIconsRegular.arrowSquareIn, t.importFromApp, () => _openImportApps(context)),
               (PhosphorIconsRegular.export, t.stravaRow, () => showStravaSheet(context)),
               (PhosphorIconsRegular.trash, t.resetData, () => _resetAll(context)),
-            ], danger: 5),
+            ], danger: AutoBackup.instance.supported ? 6 : 5),
             const SizedBox(height: 18),
             _sectionLabel(gc, t.support),
             const SizedBox(height: 8),
