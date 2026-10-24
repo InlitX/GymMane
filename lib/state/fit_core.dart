@@ -121,13 +121,27 @@ abstract class FitCore extends ChangeNotifier {
 
   void refreshAwards({bool silent = false}) {}
 
+  int _dataRev = 0;
+  final Map<Object, (Object?, Object?)> _memo = {};
+
+  T _remember<T>(Object key, T Function() build, [Object? extra]) {
+    final stamp = (_dataRev, sessions.length, checkins.length, extra);
+    final hit = _memo[key];
+    if (hit != null && hit.$1 == stamp) return hit.$2 as T;
+    final value = build();
+    _memo[key] = (stamp, value);
+    return value;
+  }
+
   void _persist() {
+    _dataRev++;
     if (_loading) return;
     _saveDebounce?.cancel();
     _saveDebounce = Timer(const Duration(milliseconds: 400), persistNow);
   }
 
   void persistNow() {
+    _dataRev++;
     _saveDebounce?.cancel();
     _saveDebounce = null;
     if (_loading) return;
