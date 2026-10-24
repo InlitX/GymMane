@@ -1,0 +1,13 @@
+GymMane 1.7.0
+
+• Copias automáticas en la carpeta que elijas
+• Reglas de progresión para cada ejercicio
+• Guarda y cambia de plan semanal
+• Archiva las rutinas que no usas
+• Series cluster, y desliza una serie a la derecha para duplicarla
+• Calorías del cardio y fuerza según tu peso
+• Explora ejercicios por músculo
+• Reparte un lote de comida en raciones iguales
+• Navegación mucho más fluida
+
+Y mucho más. Instálala y descúbrelo.

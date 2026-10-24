@@ -1,0 +1,13 @@
+GymMane 1.7.0
+
+• Automatic backups to a folder you choose
+• Progression rules for each exercise
+• Save and switch weekly plans
+• Archive routines you don't use
+• Cluster sets, and swipe a set right to duplicate it
+• Calories from cardio and strength per bodyweight
+• Browse exercises by muscle
+• Split a meal prep batch into equal portions
+• Much smoother navigation
+
+And a lot more. Install it and find out.
