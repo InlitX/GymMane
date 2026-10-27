@@ -967,7 +967,7 @@ class _RoutineEditScreenState extends State<RoutineEditScreen> {
           t.weightTitle(fit.units.toUpperCase()),
           p.weightKg == null ? (fit.isLb ? 45 : 20) : fit.toDisplayWeight(p.weightKg!),
           fit.isLb ? 660 : 300,
-          fit.isLb ? 1 : 0.5,
+          fit.rulerStep,
           10,
           fit.units,
           (v) => edit(i, v <= 0 ? p.copyWith(autoWeight: true) : p.copyWith(weightKg: fit.fromDisplayWeight(v)))),

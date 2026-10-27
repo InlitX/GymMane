@@ -1299,7 +1299,7 @@ class SessionScreen extends StatelessWidget {
             title: t.weightTitle(fit.units.toUpperCase()),
             value: fit.toDisplayWeight(st.weight),
             max: fit.isLb ? 660 : 300,
-            step: fit.isLb ? 1 : 0.5,
+            step: fit.rulerStep,
             majorEvery: 10,
             unit: fit.units,
             onSave: (v) => fit.setSessionWeightShown(exIdx, j, v),

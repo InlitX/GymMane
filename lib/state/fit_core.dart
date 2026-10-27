@@ -6,6 +6,10 @@ String fmt(num n) {
 }
 
 double _round1(double n) => (n * 10).round() / 10;
+double _roundWeight(double n) {
+  final quarter = (n * 4).round() / 4;
+  return (n - quarter).abs() < 0.005 ? quarter : _round1(n);
+}
 double _round3(double n) => (n * 1000).round() / 1000;
 double _roundTo(double n, double step) => (n / step).round() * step;
 DateTime _dayKey(DateTime d) => DateTime(d.year, d.month, d.day);
@@ -207,11 +211,13 @@ abstract class FitCore extends ChangeNotifier {
 
   double fromDisplayWeight(double shown) => isLb ? shown / _lbPerKg : shown;
 
-  String weightLabel(double kg) => '${fmt(_round1(toDisplayWeight(kg)))} $units';
+  String weightLabel(double kg) => '${fmt(_roundWeight(toDisplayWeight(kg)))} $units';
 
-  String weightValue(double kg) => fmt(_round1(toDisplayWeight(kg)));
+  String weightValue(double kg) => fmt(_roundWeight(toDisplayWeight(kg)));
 
   double get weightStep => isLb ? stepLb : stepKg;
+
+  double get rulerStep => isLb ? (stepLb == 2.5 ? 0.5 : 1) : (stepKg == 1.25 ? 0.25 : 0.5);
   double get plateStep => isLb ? 5 : 2.5;
   String get volumeUnit => isLb ? 'k lb' : 't';
 
