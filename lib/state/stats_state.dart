@@ -1005,7 +1005,8 @@ mixin StatsState on FitCore, ToolsState, LibraryState, SettingsState, TimelineSt
     return setsSummary(sets);
   }
 
-  String setsSummary(List<LoggedSet> sets) => sets.map(loggedSetLabel).join(' · ');
+  String setsSummary(List<LoggedSet> sets) =>
+      sets.map((s) => s.rpe == null ? loggedSetLabel(s) : '${loggedSetLabel(s)} ${effortTag(s.rpe!)}').join(' · ');
 
   String loggedSetLabel(LoggedSet s) {
     final km = s.km ?? 0;
