@@ -12,8 +12,22 @@ import '../widgets/share_cards.dart';
 import '../widgets/ui_kit.dart';
 import 'share_sheet.dart';
 
-class CompareScreen extends StatelessWidget {
+class CompareScreen extends StatefulWidget {
   const CompareScreen({super.key});
+
+  @override
+  State<CompareScreen> createState() => _CompareScreenState();
+}
+
+class _CompareScreenState extends State<CompareScreen> {
+  final _zoom = TransformationController();
+  String? _shown;
+
+  @override
+  void dispose() {
+    _zoom.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +37,11 @@ class CompareScreen extends StatelessWidget {
 
     final poses = fit.posesWithBoth;
     final pose = poses.contains(fit.comparePose) ? fit.comparePose : (poses.isEmpty ? null : poses.first);
+    final shown = '${pair.from.id}|${pair.to.id}|$pose';
+    if (_shown != shown) {
+      _shown = shown;
+      _zoom.value = Matrix4.identity();
+    }
     final delta = fit.compareWeightDelta;
     final entries = fit.timelineAsc;
 
@@ -139,9 +158,19 @@ class CompareScreen extends StatelessWidget {
             clipBehavior: Clip.antiAlias,
             child: path == null
                 ? Icon(PhosphorIconsRegular.imageSquare, size: 22, color: gc.textTertiary)
-                : FileThumb(path,
-                    errorBuilder: (_, _, _) =>
-                        Icon(PhosphorIconsRegular.imageSquare, size: 22, color: gc.textTertiary)),
+                : GestureDetector(
+                    onDoubleTap: () => _zoom.value = Matrix4.identity(),
+                    child: InteractiveViewer(
+                      transformationController: _zoom,
+                      minScale: 1,
+                      maxScale: 5,
+                      child: SizedBox.expand(
+                        child: FileThumb(path,
+                            errorBuilder: (_, _, _) =>
+                                Icon(PhosphorIconsRegular.imageSquare, size: 22, color: gc.textTertiary)),
+                      ),
+                    ),
+                  ),
           ),
         ),
         const SizedBox(height: 8),
