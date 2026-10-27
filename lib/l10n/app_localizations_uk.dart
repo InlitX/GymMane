@@ -2035,6 +2035,9 @@ class AppLocalizationsUk extends AppLocalizations {
   String get supersetLink => 'Поєднати з наступною';
 
   @override
+  String get supersetUnlink => 'Від’єднати від наступної';
+
+  @override
   String get supersetHint => 'Без відпочинку між поєднаними вправами — одразу переходиш до наступної.';
 
   @override
@@ -3847,6 +3850,9 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get perServingShort => 'на порцію';
+
+  @override
+  String get foodCategory => 'CATEGORY';
 
   @override
   String portionUnit(int count) {

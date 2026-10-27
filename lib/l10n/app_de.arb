@@ -596,6 +596,7 @@
   "rpeHint": "10 bedeutet, dass keine Wiederholung mehr möglich ist; bei 8 bleiben zwei Wiederholungen übrig.",
   "superset": "Supersatz",
   "supersetLink": "Mit der nächsten Übung verknüpfen",
+  "supersetUnlink": "Von der nächsten Übung trennen",
   "supersetHint": "Keine Pause zwischen verknüpften Übungen — du gehst direkt zur nächsten.",
   "aiRoutine": "Trainingsplan mit KI",
   "aiIntro": "GymMane spricht nie mit einer KI. Du exportierst deine Übungsliste, fügst sie in einen Assistenten deiner Wahl ein und importierst dessen Antwort wieder. Dein Handy sendet von selbst nichts nach außen.",

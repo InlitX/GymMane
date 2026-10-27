@@ -2043,6 +2043,9 @@ class AppLocalizationsTr extends AppLocalizations {
   String get supersetLink => 'Sonrakiyle eşleştir';
 
   @override
+  String get supersetUnlink => 'Sonrakinden ayır';
+
+  @override
   String get supersetHint => 'Bağlı egzersizler arasında dinlenme yok — doğrudan sonrakine geçersin.';
 
   @override
@@ -3830,6 +3833,9 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get perServingShort => 'porsiyon başına';
+
+  @override
+  String get foodCategory => 'CATEGORY';
 
   @override
   String portionUnit(int count) {

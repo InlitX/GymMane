@@ -243,6 +243,7 @@ class FoodItem {
     bool? liquid,
     Macros? macros,
     double? cookedYield,
+    FoodCat? Function()? cat,
   }) =>
       FoodItem(
         id: id,
@@ -256,7 +257,7 @@ class FoodItem {
         macros: macros ?? this.macros,
         cookedYield: cookedYield ?? this.cookedYield,
         approx: approx,
-        cat: cat,
+        cat: cat == null ? this.cat : cat(),
       );
 
   Map<String, dynamic> toJson() => {
@@ -267,6 +268,7 @@ class FoodItem {
         if (grams > 0) 'g': grams,
         if (liquid) 'lq': true,
         if (cookedYield > 0) 'cy': cookedYield,
+        if (cat != null) 'c': cat!.name,
         'm': macros.toJson(),
       };
 
@@ -279,6 +281,7 @@ class FoodItem {
         liquid: j['lq'] as bool? ?? false,
         cookedYield: _num(j['cy']).clamp(0, 5).toDouble(),
         macros: Macros.fromJson((j['m'] as Map?)?.cast<String, dynamic>()),
+        cat: FoodCat.values.asNameMap()[j['c']],
       );
 }
 

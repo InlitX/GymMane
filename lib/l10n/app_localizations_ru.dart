@@ -2105,6 +2105,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get supersetLink => 'Связать со следующим';
 
   @override
+  String get supersetUnlink => 'Отвязать от следующего';
+
+  @override
   String get supersetHint => 'Между связанными упражнениями отдыха нет: сразу идёшь к следующему.';
 
   @override
@@ -3928,6 +3931,9 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get perServingShort => 'на порцию';
+
+  @override
+  String get foodCategory => 'CATEGORY';
 
   @override
   String portionUnit(int count) {

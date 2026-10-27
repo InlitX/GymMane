@@ -2023,6 +2023,9 @@ class AppLocalizationsFa extends AppLocalizations {
   String get supersetLink => 'وصل به بعدی';
 
   @override
+  String get supersetUnlink => 'جدا کردن از بعدی';
+
+  @override
   String get supersetHint => 'بین حرکات سوپرست استراحت نیست — مستقیم می‌روی سراغ بعدی.';
 
   @override
@@ -3809,6 +3812,9 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String get perServingShort => 'برای هر وعده';
+
+  @override
+  String get foodCategory => 'CATEGORY';
 
   @override
   String portionUnit(int count) {

@@ -2041,6 +2041,9 @@ class AppLocalizationsNl extends AppLocalizations {
   String get supersetLink => 'Koppelen aan de volgende';
 
   @override
+  String get supersetUnlink => 'Loskoppelen van de volgende';
+
+  @override
   String get supersetHint => 'Geen rust tussen gekoppelde oefeningen — je gaat meteen door naar de volgende.';
 
   @override
@@ -3836,6 +3839,9 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get perServingShort => 'per portie';
+
+  @override
+  String get foodCategory => 'CATEGORY';
 
   @override
   String portionUnit(int count) {

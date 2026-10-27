@@ -1949,6 +1949,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get supersetLink => '与下一个动作相连';
 
   @override
+  String get supersetUnlink => '与下一个动作断开';
+
+  @override
   String get supersetHint => '相连的动作之间不休息，直接进入下一个。';
 
   @override
@@ -3673,6 +3676,9 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get perServingShort => '每份';
+
+  @override
+  String get foodCategory => 'CATEGORY';
 
   @override
   String portionUnit(int count) {
@@ -7004,6 +7010,9 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get supersetLink => '與下一個連接';
+
+  @override
+  String get supersetUnlink => '與下一個斷開';
 
   @override
   String get supersetHint => '連接的動作之間不休息 — 直接進入下一個動作。';

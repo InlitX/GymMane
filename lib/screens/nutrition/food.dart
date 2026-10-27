@@ -226,7 +226,7 @@ class _AddFoodSheetState extends State<_AddFoodSheet> {
     final browsing = q.isNotEmpty || _cat != null || _dishes;
     final recipes = _cat != null ? const <Recipe>[] : fit.searchRecipes(q);
     final dishes = _cat != null || (q.isEmpty && !_dishes) ? const <Recipe>[] : fit.searchDishes(q);
-    final mine = _cat != null || _dishes ? const <FoodItem>[] : fit.searchFoods(q);
+    final mine = _dishes ? const <FoodItem>[] : fit.searchFoods(q, cat: _cat);
     final library = [
       if (!_dishes)
         for (final f in FoodLibrary.search(q, appLanguage, cat: _cat, limit: _cat != null && q.isEmpty ? 200 : 60))
@@ -941,7 +941,8 @@ class _LogFoodSheetState extends State<_LogFoodSheet> {
     final unit = _unitOf(food.liquid);
     final total = food.macros * _servings;
     final picking = widget.onPick != null;
-    final shownPer = _cooked ? food.macros * (1 / food.cookedYield) : food.macros;
+    final per100 = food.byWeight ? food.macros * (100 / food.grams) : food.macros;
+    final shownPer = _cooked ? per100 * (1 / food.cookedYield) : per100;
     final perTitle = _cooked ? '${t.per100(unit)} · ${t.cookedLabel.toLowerCase()}' : t.per100(unit);
     return _sheetFrame(context, [
       _FoodHero(photo: food.photo, name: food.name, favId: food.id),
@@ -1161,7 +1162,7 @@ class _EntrySheetState extends State<_EntrySheet> {
       _macroSummary(context, e.per * _servings),
       const SizedBox(height: 12),
       _ValueRows(
-        per: e.per,
+        per: e.grams > 0 ? e.per * (100 / e.grams) : e.per,
         title: e.grams > 0 ? t.per100(unit) : t.perServingShort,
         onEdit: () => showEntryValuesSheet(context, e),
       ),
@@ -1250,11 +1251,13 @@ class _EntryValuesSheet extends StatefulWidget {
 }
 
 class _EntryValuesSheetState extends State<_EntryValuesSheet> {
+  late final double _k = widget.entry.grams > 0 ? 100 / widget.entry.grams : 1;
+  late final _shown = widget.entry.per * _k;
   late final _name = TextEditingController(text: widget.entry.name);
-  late final _kcal = TextEditingController(text: _seed(fit.energyOf(widget.entry.per.kcal).toDouble()));
-  late final _p = TextEditingController(text: _seed(widget.entry.per.protein));
-  late final _c = TextEditingController(text: _seed(widget.entry.per.carbs));
-  late final _f = TextEditingController(text: _seed(widget.entry.per.fat));
+  late final _kcal = TextEditingController(text: _seed(fit.energyOf(_shown.kcal).toDouble()));
+  late final _p = TextEditingController(text: _seed(_shown.protein));
+  late final _c = TextEditingController(text: _seed(_shown.carbs));
+  late final _f = TextEditingController(text: _seed(_shown.fat));
 
   @override
   void dispose() {
@@ -1280,7 +1283,7 @@ class _EntryValuesSheetState extends State<_EntryValuesSheet> {
       PrimaryButton(
         label: t.save,
         onTap: () {
-          final m = _macrosOf(_kcal, _p, _c, _f);
+          final m = _macrosOf(_kcal, _p, _c, _f) * (1 / _k);
           final next = Macros(
             kcal: m.kcal,
             protein: m.protein,
@@ -1732,6 +1735,8 @@ class _FoodEditorState extends State<_FoodEditor> with _StickerDrafts {
   late bool _extras = _base?.macros.hasExtras ?? false;
   late bool _shake = widget.asShake || (widget.food != null && fit.isShakeFood(widget.food!.id));
   late double _animalShare = _shareOf(_base?.macros);
+  late FoodCat? _cat = _base?.cat;
+  bool _per100 = false;
   late final _p = TextEditingController(text: _seed(_base?.macros.protein ?? 0));
   late final _c = TextEditingController(text: _seed(_base?.macros.carbs ?? 0));
   late final _f = TextEditingController(text: _seed(_base?.macros.fat ?? 0));
@@ -1760,15 +1765,19 @@ class _FoodEditorState extends State<_FoodEditor> with _StickerDrafts {
       HapticFeedback.heavyImpact();
       return;
     }
+    var grams = (_read(_grams) * _k).clamp(0, 5000).toDouble();
+    if (_per100 && grams <= 0) grams = 100;
+    final typed = _macrosOf(_kcal, _p, _c, _f, fiber: _fi, sugar: _su, sodium: _na);
     final saved = fit.saveFood(
       id: widget.food?.id,
       name: name,
       photo: _photo,
       serving: _serving.text,
-      grams: (_read(_grams) * _k).clamp(0, 5000).toDouble(),
+      grams: grams,
       liquid: _base?.liquid ?? false,
       cookedYield: _base?.cookedYield ?? 0,
-      macros: _withSource(_keepDetail(_macrosOf(_kcal, _p, _c, _f, fiber: _fi, sugar: _su, sodium: _na))),
+      macros: _withSource(_keepDetail(_per100 ? typed * (grams / 100) : typed)),
+      cat: _cat,
     );
     fit.setShakeTag(saved.id, _shake);
     if (widget.asShake) fit.setShakeFood(saved.id);
@@ -1780,6 +1789,43 @@ class _FoodEditorState extends State<_FoodEditor> with _StickerDrafts {
     final meal = widget.meal;
     if (meal != null) showLogFoodSheet(context, saved, meal);
   }
+
+  void _setPer100(bool on) {
+    if (on == _per100) return;
+    HapticFeedback.selectionClick();
+    final grams = _read(_grams) * _k;
+    if (grams > 0) {
+      final k = on ? 100 / grams : grams / 100;
+      for (final c in [_kcal, _p, _c, _f, _fi, _su, _na]) {
+        final v = _read(c);
+        if (v > 0) c.text = _seed(v * k);
+      }
+    }
+    setState(() => _per100 = on);
+  }
+
+  Widget _catPicker(GymColors gc) => SizedBox(
+        height: 40,
+        child: ListView(
+          scrollDirection: Axis.horizontal,
+          clipBehavior: Clip.none,
+          children: [
+            for (final c in FoodCat.values) ...[
+              Pill(
+                label: catName(c),
+                bg: _cat == c ? gc.accentSoft : gc.bgRaised2,
+                fg: _cat == c ? gc.accent : gc.textSecondary,
+                fontSize: 12.5,
+                onTap: () {
+                  HapticFeedback.selectionClick();
+                  setState(() => _cat = _cat == c ? null : c);
+                },
+              ),
+              const SizedBox(width: 6),
+            ],
+          ],
+        ),
+      );
 
   static double _shareOf(Macros? m) {
     if (m == null || m.protein <= 0) return 0;
@@ -1905,7 +1951,20 @@ class _FoodEditorState extends State<_FoodEditor> with _StickerDrafts {
         ),
       ]),
       const SizedBox(height: 14),
-      Text(t.perServing, style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.1)),
+      Text(t.foodCategory, style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.1)),
+      const SizedBox(height: 8),
+      _catPicker(gc),
+      const SizedBox(height: 14),
+      Row(children: [
+        Expanded(
+          child: Text(_per100 ? t.per100(_unitOf(_base?.liquid ?? false)).toUpperCase() : t.perServing,
+              style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.1)),
+        ),
+        SegToggle([
+          SegOption(t.perServingShort, !_per100, () => _setPer100(false)),
+          SegOption('100 ${_unitOf(_base?.liquid ?? false)}', _per100, () => _setPer100(true)),
+        ], hPad: 11, vPad: 5, fontSize: 11.5),
+      ]),
       const SizedBox(height: 8),
       _MacroInputs(kcal: _kcal, protein: _p, carbs: _c, fat: _f),
       const SizedBox(height: 8),

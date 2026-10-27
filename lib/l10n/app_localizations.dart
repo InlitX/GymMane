@@ -3700,6 +3700,12 @@ abstract class AppLocalizations {
   /// **'Chain with the next one'**
   String get supersetLink;
 
+  /// No description provided for @supersetUnlink.
+  ///
+  /// In en, this message translates to:
+  /// **'Unchain from the next one'**
+  String get supersetUnlink;
+
   /// No description provided for @supersetHint.
   ///
   /// In en, this message translates to:
@@ -6837,6 +6843,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'per serving'**
   String get perServingShort;
+
+  /// No description provided for @foodCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'CATEGORY'**
+  String get foodCategory;
 
   /// No description provided for @portionUnit.
   ///

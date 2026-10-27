@@ -596,6 +596,7 @@
   "rpeHint": "10 表示一次也做不动了，8 表示还能再做两次。",
   "superset": "超级组",
   "supersetLink": "与下一个动作相连",
+  "supersetUnlink": "与下一个动作断开",
   "supersetHint": "相连的动作之间不休息，直接进入下一个。",
   "aiRoutine": "用 AI 生成计划",
   "aiIntro": "GymMane 不会和任何 AI 通信。你把动作清单导出，粘贴给你惯用的助手，再把它的回答导回来。手机不会自己往外发任何东西。",

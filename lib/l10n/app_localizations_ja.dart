@@ -1968,6 +1968,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get supersetLink => '次と連結';
 
   @override
+  String get supersetUnlink => '次との連結を解除';
+
+  @override
   String get supersetHint => '連結した種目の間は休憩なし — そのまま次へ進みます。';
 
   @override
@@ -3718,6 +3721,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get perServingShort => '1食あたり';
+
+  @override
+  String get foodCategory => 'CATEGORY';
 
   @override
   String portionUnit(int count) {

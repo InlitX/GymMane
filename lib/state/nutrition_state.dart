@@ -647,11 +647,11 @@ mixin NutritionState on FitCore, ToolsState, StatsState {
     ];
   }
 
-  List<FoodItem> searchFoods(String query) {
+  List<FoodItem> searchFoods(String query, {FoodCat? cat}) {
     final q = foldText(query.trim());
     return [
       for (final f in foodsByUse)
-        if (q.isEmpty || foldText(f.name).contains(q)) f,
+        if ((q.isEmpty || foldText(f.name).contains(q)) && (cat == null || f.cat == cat)) f,
     ];
   }
 
@@ -1074,6 +1074,7 @@ mixin NutritionState on FitCore, ToolsState, StatsState {
     bool liquid = false,
     double cookedYield = 0,
     Macros macros = Macros.zero,
+    FoodCat? cat,
   }) {
     final clean = name.trim();
     final i = id == null ? -1 : foods.indexWhere((f) => f.id == id);
@@ -1087,7 +1088,8 @@ mixin NutritionState on FitCore, ToolsState, StatsState {
           grams: grams,
           liquid: liquid,
           macros: macros,
-          cookedYield: cookedYield);
+          cookedYield: cookedYield,
+          cat: () => cat);
       _persist();
       notifyListeners();
       return foods[i];
@@ -1101,6 +1103,7 @@ mixin NutritionState on FitCore, ToolsState, StatsState {
       liquid: liquid,
       cookedYield: cookedYield,
       macros: macros,
+      cat: cat,
     );
     foods.add(food);
     _persist();

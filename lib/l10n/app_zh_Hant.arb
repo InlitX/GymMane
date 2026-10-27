@@ -596,6 +596,7 @@
   "rpeHint": "10 = 無法再做一次；8 = 約還能做兩次。",
   "superset": "超級組",
   "supersetLink": "與下一個連接",
+  "supersetUnlink": "與下一個斷開",
   "supersetHint": "連接的動作之間不休息 — 直接進入下一個動作。",
   "aiRoutine": "AI 課表",
   "aiIntro": "GymMane 絕不直接與 AI 通訊。你先匯出動作清單，貼到你已在使用的 AI 助手，再把回覆匯入。任何資料都不會自行離開手機。",

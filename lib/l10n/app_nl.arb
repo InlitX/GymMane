@@ -596,6 +596,7 @@
   "rpeHint": "10 = geen herhaling meer mogelijk; 8 = ongeveer twee herhalingen over.",
   "superset": "Superset",
   "supersetLink": "Koppelen aan de volgende",
+  "supersetUnlink": "Loskoppelen van de volgende",
   "supersetHint": "Geen rust tussen gekoppelde oefeningen — je gaat meteen door naar de volgende.",
   "aiRoutine": "Routine met AI",
   "aiIntro": "GymMane communiceert nooit rechtstreeks met AI. Je exporteert je oefeningenlijst, plakt die in de assistent die je al gebruikt en importeert daarna het antwoord. Niets verlaat je telefoon vanzelf.",

@@ -712,6 +712,7 @@
 
   "superset": "Superset",
   "supersetLink": "Chain with the next one",
+  "supersetUnlink": "Unchain from the next one",
   "supersetHint": "No rest between chained exercises — you go straight to the next one.",
 
   "aiRoutine": "Routine with AI",
@@ -1322,6 +1323,7 @@
   "per100": "per 100 {unit}",
   "@per100": {"placeholders": {"unit": {"type": "String"}}},
   "perServingShort": "per serving",
+  "foodCategory": "CATEGORY",
   "portionUnit": "{count, plural, one{1 piece} other{{count} pieces}}",
   "@portionUnit": {"placeholders": {"count": {"type": "int"}}},
   "portionSlice": "{count, plural, one{1 slice} other{{count} slices}}",

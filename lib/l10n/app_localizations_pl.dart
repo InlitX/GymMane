@@ -2035,6 +2035,9 @@ class AppLocalizationsPl extends AppLocalizations {
   String get supersetLink => 'Połącz z następnym';
 
   @override
+  String get supersetUnlink => 'Odłącz od następnego';
+
+  @override
   String get supersetHint =>
       'Bez odpoczynku między połączonymi ćwiczeniami — przechodzisz od razu do następnego.';
 
@@ -3840,6 +3843,9 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get perServingShort => 'na porcję';
+
+  @override
+  String get foodCategory => 'CATEGORY';
 
   @override
   String portionUnit(int count) {

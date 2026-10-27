@@ -2033,6 +2033,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get supersetLink => 'Chain with the next one';
 
   @override
+  String get supersetUnlink => 'Unchain from the next one';
+
+  @override
   String get supersetHint => 'No rest between chained exercises — you go straight to the next one.';
 
   @override
@@ -3822,6 +3825,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get perServingShort => 'per serving';
+
+  @override
+  String get foodCategory => 'CATEGORY';
 
   @override
   String portionUnit(int count) {

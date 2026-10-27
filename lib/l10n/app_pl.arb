@@ -596,6 +596,7 @@
   "rpeHint": "10 = brak możliwości kolejnego powtórzenia; 8 = około dwa powtórzenia w zapasie.",
   "superset": "Superseria",
   "supersetLink": "Połącz z następnym",
+  "supersetUnlink": "Odłącz od następnego",
   "supersetHint": "Bez odpoczynku między połączonymi ćwiczeniami — przechodzisz od razu do następnego.",
   "aiRoutine": "Plan z AI",
   "aiIntro": "GymMane nigdy nie łączy się bezpośrednio z AI. Eksportujesz listę ćwiczeń, wklejasz ją do używanego asystenta, a potem importujesz jego odpowiedź. Nic samo nie opuszcza telefonu.",

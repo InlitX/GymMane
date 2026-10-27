@@ -1981,6 +1981,9 @@ class AppLocalizationsKo extends AppLocalizations {
   String get supersetLink => '다음과 연결';
 
   @override
+  String get supersetUnlink => '다음과 연결 해제';
+
+  @override
   String get supersetHint => '연결된 운동 사이에는 휴식 없이 바로 다음 운동으로 넘어갑니다.';
 
   @override
@@ -3729,6 +3732,9 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get perServingShort => '1회분당';
+
+  @override
+  String get foodCategory => 'CATEGORY';
 
   @override
   String portionUnit(int count) {

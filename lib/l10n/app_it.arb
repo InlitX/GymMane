@@ -596,6 +596,7 @@
   "rpeHint": "10 è non farne un'altra; 8, che te ne avanzavano due.",
   "superset": "Superserie",
   "supersetLink": "Concatena con il prossimo",
+  "supersetUnlink": "Separa dal prossimo",
   "supersetHint": "Nessun riposo tra gli esercizi concatenati: passi dritto al prossimo.",
   "aiRoutine": "Scheda con l'IA",
   "aiIntro": "GymMane non parla con nessuna IA. Sei tu che esporti la tua lista di esercizi, la incolli nell'assistente che già usi e riporti dentro la sua risposta. Dal telefono non esce niente da solo.",

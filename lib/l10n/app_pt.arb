@@ -596,6 +596,7 @@
   "rpeHint": "10 é não conseguir fazer mais nenhuma repetição; 8, é que sobravam duas.",
   "superset": "Supersérie",
   "supersetLink": "Encadear com o próximo",
+  "supersetUnlink": "Separar do próximo",
   "supersetHint": "Sem descanso entre exercícios encadeados: passa logo ao próximo.",
   "aiRoutine": "Rotina com IA",
   "aiIntro": "O GymMane não fala com nenhuma IA. Você copia a sua lista de exercícios, cola no assistente que a usa e traz a resposta de volta. Do seu celular não sai nada sozinho.",

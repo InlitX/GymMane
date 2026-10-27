@@ -596,6 +596,7 @@
   "rpeHint": "10 = plus aucune répétition possible ; 8 = environ deux répétitions en réserve.",
   "superset": "Superset",
   "supersetLink": "Enchaîner avec le suivant",
+  "supersetUnlink": "Séparer du suivant",
   "supersetHint": "Aucun repos entre les exercices enchaînés — tu passes directement au suivant.",
   "aiRoutine": "Programme avec une IA",
   "aiIntro": "GymMane ne communique jamais directement avec une IA. Tu exportes ta liste d’exercices, tu la colles dans l’assistant que tu utilises déjà, puis tu réimportes sa réponse. Rien ne quitte le téléphone tout seul.",

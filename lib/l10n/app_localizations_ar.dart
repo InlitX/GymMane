@@ -2023,6 +2023,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get supersetLink => 'ربط بالتالي';
 
   @override
+  String get supersetUnlink => 'فصل عن التالي';
+
+  @override
   String get supersetHint => 'لا راحة بين التمارين المرتبطة — تنتقل مباشرة إلى التالي.';
 
   @override
@@ -3819,6 +3822,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get perServingShort => 'لكل حصة';
+
+  @override
+  String get foodCategory => 'CATEGORY';
 
   @override
   String portionUnit(int count) {

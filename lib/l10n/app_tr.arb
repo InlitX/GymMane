@@ -596,6 +596,7 @@
   "rpeHint": "10 = artık tekrar yok; 8 = yaklaşık iki tekrar yedekte.",
   "superset": "Süperset",
   "supersetLink": "Sonrakiyle eşleştir",
+  "supersetUnlink": "Sonrakinden ayır",
   "supersetHint": "Bağlı egzersizler arasında dinlenme yok — doğrudan sonrakine geçersin.",
   "aiRoutine": "Yapay zekâ ile program",
   "aiIntro": "GymMane hiçbir zaman doğrudan bir yapay zekâyla iletişim kurmaz. Egzersiz listesini dışa aktarır, kullandığın asistana yapıştırır ve yanıtını yeniden içe aktarırsın. Hiçbir şey kendiliğinden telefondan çıkmaz.",
