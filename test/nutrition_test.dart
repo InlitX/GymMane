@@ -62,10 +62,10 @@ void main() {
       expect(fit.totalOn(fit.nutritionDay).kcal, 300);
     });
 
-    test('no se puede ir a un día futuro', () {
-      fit.setNutritionDay(shiftDays(DateTime.now(), 3));
+    test('no se puede ir más allá de una semana', () {
+      fit.setNutritionDay(shiftDays(DateTime.now(), 10));
       final now = DateTime.now();
-      expect(fit.nutritionDay, DateTime(now.year, now.month, now.day));
+      expect(fit.nutritionDay, DateTime(now.year, now.month, now.day + 7));
     });
 
     test('borrar un alimento no borra lo que ya se apuntó', () {

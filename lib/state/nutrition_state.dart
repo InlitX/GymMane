@@ -1302,10 +1302,13 @@ mixin NutritionState on FitCore, ToolsState, StatsState {
   bool get hasNutritionData =>
       foodLog.isNotEmpty || waterLog.isNotEmpty || foods.isNotEmpty || recipes.isNotEmpty || batches.isNotEmpty;
 
+  static const kNutritionDaysAhead = 7;
+
   void setNutritionDay(DateTime day) {
     final key = _dayKey(day);
     final today = _dayKey(DateTime.now());
-    nutritionDay = key.isAfter(today) ? today : key;
+    final last = shiftDays(today, kNutritionDaysAhead);
+    nutritionDay = key.isAfter(last) ? last : key;
     _nutritionSetOn = today;
     notifyListeners();
   }

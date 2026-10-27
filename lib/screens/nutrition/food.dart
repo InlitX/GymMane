@@ -1098,7 +1098,7 @@ class _EntrySheetState extends State<_EntrySheet> {
       context: context,
       initialDate: _day,
       firstDate: DateTime(now.year - 5),
-      lastDate: DateTime(now.year, now.month, now.day),
+      lastDate: DateTime(now.year, now.month, now.day + NutritionState.kNutritionDaysAhead),
     );
     if (picked != null && mounted) setState(() => _day = DateTime(picked.year, picked.month, picked.day));
   }

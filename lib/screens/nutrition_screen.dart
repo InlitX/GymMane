@@ -312,12 +312,13 @@ class _WeekStrip extends StatelessWidget {
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
     final days = fit.nutritionWeek;
+    final last = shiftDays(today, NutritionState.kNutritionDaysAhead);
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onHorizontalDragEnd: (d) {
         final v = d.primaryVelocity ?? 0;
         if (v > 200) fit.setNutritionDay(shiftDays(fit.nutritionDay, -7));
-        if (v < -200 && days.last.isBefore(today)) fit.setNutritionDay(shiftDays(fit.nutritionDay, 7));
+        if (v < -200 && days.last.isBefore(last)) fit.setNutritionDay(shiftDays(fit.nutritionDay, 7));
       },
       child: Row(
         children: [
@@ -325,7 +326,7 @@ class _WeekStrip extends StatelessWidget {
             Expanded(
               child: GestureDetector(
                 behavior: HitTestBehavior.opaque,
-                onTap: d.isAfter(today) ? null : () => fit.setNutritionDay(d),
+                onTap: d.isAfter(last) ? null : () => fit.setNutritionDay(d),
                 child: Column(children: [
                   SizedBox(
                     height: 17,
