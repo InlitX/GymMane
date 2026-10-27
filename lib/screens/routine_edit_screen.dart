@@ -204,6 +204,7 @@ class _RoutineEditScreenState extends State<RoutineEditScreen> {
               cursorColor: gc.accent,
               textCapitalization: TextCapitalization.words,
               onChanged: (v) => fit.renameRoutine(_id, v),
+              onTapOutside: (_) => FocusScope.of(context).unfocus(),
               decoration: InputDecoration(
                 isCollapsed: true,
                 border: InputBorder.none,
@@ -690,11 +691,14 @@ class _RoutineEditScreenState extends State<RoutineEditScreen> {
     );
   }
 
+  void _preview(Exercise ex) => showExercisePreview(context, ex,
+      added: () => fit.routineHas(_id, ex.id), onAdd: () => fit.toggleRoutineExercise(_id, ex.id));
+
   Widget _pickRow(GymColors gc, Exercise ex) {
     final inRoutine = fit.routineHas(_id, ex.id);
     return GestureDetector(
       onTap: () => fit.toggleRoutineExercise(_id, ex.id),
-      onLongPress: () => showExercisePreview(context, ex),
+      onLongPress: () => _preview(ex),
       behavior: HitTestBehavior.opaque,
       child: Container(
         margin: const EdgeInsets.only(bottom: 8),
@@ -706,7 +710,7 @@ class _RoutineEditScreenState extends State<RoutineEditScreen> {
         ),
         child: Row(children: [
           GestureDetector(
-            onTap: () => showExercisePreview(context, ex),
+            onTap: () => _preview(ex),
             child: SizedBox(width: 44, child: ExerciseMedia(ex: ex, height: 44, radius: 10)),
           ),
           const SizedBox(width: 12),

@@ -14,21 +14,26 @@ import '../theme/app_theme.dart';
 import 'exercise_media.dart';
 import 'glass.dart';
 import 'shimmer.dart';
+import 'svg_icon.dart';
 import 'ui_kit.dart';
 
-Future<void> showExercisePreview(BuildContext context, Exercise ex, {bool suggestions = false}) {
+Future<void> showExercisePreview(BuildContext context, Exercise ex,
+    {bool suggestions = false, ValueGetter<bool>? added, VoidCallback? onAdd}) {
   HapticFeedback.selectionClick();
+  FocusManager.instance.primaryFocus?.unfocus();
   return showAppDialog<void>(
     context: context,
-    builder: (_) => _ExercisePreview(ex: ex, suggestions: suggestions),
+    builder: (_) => _ExercisePreview(ex: ex, suggestions: suggestions, added: added, onAdd: onAdd),
   );
 }
 
 class _ExercisePreview extends StatefulWidget {
-  const _ExercisePreview({required this.ex, required this.suggestions});
+  const _ExercisePreview({required this.ex, required this.suggestions, this.added, this.onAdd});
 
   final Exercise ex;
   final bool suggestions;
+  final ValueGetter<bool>? added;
+  final VoidCallback? onAdd;
 
   @override
   State<_ExercisePreview> createState() => _ExercisePreviewState();
@@ -109,13 +114,15 @@ class _ExercisePreviewState extends State<_ExercisePreview> {
                             : _VideoStage(controller: video),
                         Positioned(
                           top: 10,
-                          right: 10,
+                          left: widget.onAdd == null ? null : 10,
+                          right: widget.onAdd == null ? 10 : null,
                           child: RoundAction(
                             label: MaterialLocalizations.of(context).closeButtonLabel,
                             onTap: () => Navigator.of(context).pop(),
                             child: Icon(PhosphorIconsBold.x, size: 15, color: gc.text),
                           ),
                         ),
+                        if (widget.onAdd != null) Positioned(top: 10, right: 10, child: _addButton(gc)),
                       ]),
                       Padding(
                         padding: const EdgeInsets.fromLTRB(8, 20, 8, 0),
@@ -163,6 +170,21 @@ class _ExercisePreviewState extends State<_ExercisePreview> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _addButton(GymColors gc) {
+    final on = widget.added?.call() ?? false;
+    return RoundAction(
+      label: on ? t.removeFromRoutine : t.addToRoutine,
+      filled: on,
+      onTap: () {
+        HapticFeedback.selectionClick();
+        widget.onAdd!();
+      },
+      child: on
+          ? SvgPathIcon(Ic.checkBold, size: 14, color: gc.onEmber)
+          : Icon(PhosphorIconsBold.plus, size: 15, color: gc.text),
     );
   }
 
