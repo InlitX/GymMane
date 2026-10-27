@@ -499,6 +499,16 @@ class SessionScreen extends StatelessWidget {
                     Navigator.pop(sheet);
                     fit.moveSessionExercise(i, 1);
                   }),
+                if (i < s.exercises.length - 1)
+                  OptionItem(ex.linkedNext ? t.supersetUnlink : t.supersetLink,
+                      icon: ex.linkedNext ? PhosphorIconsRegular.linkBreak : PhosphorIconsRegular.link, onTap: () {
+                    Navigator.pop(sheet);
+                    fit.toggleSessionLink(i);
+                    if (!s.exercises[i].linkedNext) return;
+                    HapticFeedback.selectionClick();
+                    showNotchToast(context, t.superset,
+                        subtitle: t.supersetHint, icon: PhosphorIconsFill.link, accent: gc.brass);
+                  }),
                 if (s.exercises.length > 1)
                   OptionItem(t.dropExerciseAction, icon: PhosphorIconsRegular.trash, danger: true, onTap: () {
                     Navigator.pop(sheet);
@@ -2800,6 +2810,25 @@ Widget _overviewRow(BuildContext sheet, GymColors gc, WorkoutSession s, int i) {
               ],
             ),
           ),
+          if (i < s.exercises.length - 1)
+            Semantics(
+              button: true,
+              toggled: e.linkedNext,
+              label: t.supersetLink,
+              child: GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: () {
+                  fit.toggleSessionLink(i);
+                  if (e.linkedNext) HapticFeedback.selectionClick();
+                },
+                child: SizedBox(
+                  width: 38,
+                  height: 44,
+                  child: Icon(e.linkedNext ? PhosphorIconsFill.link : PhosphorIconsRegular.link,
+                      size: 17, color: e.linkedNext ? gc.ember : gc.textTertiary),
+                ),
+              ),
+            ),
           ReorderableDragStartListener(
             index: i,
             child: SizedBox(

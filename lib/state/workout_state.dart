@@ -705,6 +705,14 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
     reorderSessionExercise(exIdx, delta > 0 ? to + 1 : to);
   }
 
+  void toggleSessionLink(int exIdx) {
+    final s = session;
+    if (s == null || exIdx < 0 || exIdx >= s.exercises.length - 1) return;
+    s.exercises[exIdx].linkedNext = !s.exercises[exIdx].linkedNext;
+    _persist();
+    notifyListeners();
+  }
+
   double get sessionVolumeKg {
     var kg = 0.0;
     for (final e in session?.exercises ?? const <SessionExercise>[]) {
