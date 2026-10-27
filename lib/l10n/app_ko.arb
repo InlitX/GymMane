@@ -1406,5 +1406,11 @@
   "autoBackupNever": "아직 백업이 없어요",
   "autoBackupLost": "마지막 백업을 저장하지 못했어요. 폴더를 다시 선택하세요.",
   "autoBackupSaved": "백업을 저장했어요",
-  "prepPortions": "나누기"
+  "prepPortions": "나누기",
+  "rotationAddRest": "휴식일 추가",
+  "rotationRestHint": "다음 날 자동으로 넘어가요",
+  "rotationRestToday": "오늘",
+  "rotationSkipRest": "이 휴식일 건너뛰기",
+  "rotationRestUpNext": "다음: {name}",
+  "trainAnyway": "그래도 운동하기"
 }

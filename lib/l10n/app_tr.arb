@@ -1406,5 +1406,11 @@
   "autoBackupNever": "Henüz yedek yok",
   "autoBackupLost": "Son yedek kaydedilemedi. Klasörü yeniden seç.",
   "autoBackupSaved": "Yedek kaydedildi",
-  "prepPortions": "Porsiyon"
+  "prepPortions": "Porsiyon",
+  "rotationAddRest": "Dinlenme günü ekle",
+  "rotationRestHint": "Ertesi gün kendiliğinden geçer",
+  "rotationRestToday": "Bugün",
+  "rotationSkipRest": "Bu dinlenmeyi atla",
+  "rotationRestUpNext": "Sonra: {name}",
+  "trainAnyway": "Yine de antrenman yap"
 }

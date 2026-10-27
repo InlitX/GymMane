@@ -218,4 +218,195 @@ void main() {
       expect(fit.rotationRoutines.map((r) => r.id), [a.id, b.id]);
     });
   });
+
+  group('días de descanso en la rotación', () {
+    setUp(() async {
+      SharedPreferences.setMockInitialValues({});
+      await Store.instance.init();
+      fit.resetAllData();
+      fit.onboarded = true;
+    });
+
+    tearDown(() {
+      if (fit.session != null) fit.saveAndExit();
+    });
+
+    String bench() => fit.matchExerciseByName('Bench Press')!.id;
+
+    Routine routine(String name) {
+      final id = fit.createRoutine(name);
+      fit.toggleRoutineExercise(id, bench());
+      return fit.routines.firstWhere((r) => r.id == id);
+    }
+
+    void train(Routine r, {DateTime? on}) {
+      fit.startRoutine(r, on: on);
+      fit.endCountdown();
+      fit.toggleSet(0, 0);
+      fit.finishSession();
+      fit.saveAndExit();
+    }
+
+    DateTime day(int offset) {
+      final n = DateTime.now();
+      return DateTime(n.year, n.month, n.day + offset, 10);
+    }
+
+    List<String> cycle(List<Object> steps) {
+      fit.setRotation(true);
+      for (final s in steps) {
+        if (s is Routine) {
+          fit.toggleRotationRoutine(s.id);
+        } else {
+          fit.addRotationRest();
+        }
+      }
+      return [...fit.rotationIds];
+    }
+
+    test('el día después de la última toca descanso y al otro sigue la siguiente', () {
+      final legs = routine('Legs'), push = routine('Push');
+      cycle([legs, 'rest', push]);
+      train(legs, on: day(-1));
+
+      expect(fit.restingToday, isTrue);
+      expect(fit.todayRoutine, isNull);
+      expect(fit.rotationNext, isNull);
+      expect(fit.rotationUpcoming?.id, push.id);
+      expect(fit.rotationStep, 1);
+      expect(fit.isTrainingDay(DateTime.now()), isFalse);
+      expect(fit.routinesOn(day(1)).single.id, push.id);
+      expect(fit.rotationRestOn(day(1)), isFalse);
+    });
+
+    test('el descanso pasa solo cuando acaba su día', () {
+      final legs = routine('Legs'), push = routine('Push');
+      cycle([legs, 'rest', push]);
+      train(legs, on: day(-2));
+
+      expect(fit.restingToday, isFalse);
+      expect(fit.rotationNext?.id, push.id);
+      expect(fit.todayRoutine?.id, push.id);
+    });
+
+    test('dos descansos seguidos son dos días', () {
+      final legs = routine('Legs'), push = routine('Push');
+      cycle([legs, 'rest', 'rest', push]);
+      train(legs, on: day(-1));
+
+      expect(fit.restingToday, isTrue);
+      expect(fit.rotationRestOn(day(1)), isTrue);
+      expect(fit.routinesOn(day(1)), isEmpty);
+      expect(fit.routinesOn(day(2)).single.id, push.id);
+    });
+
+    test('hoy entrenado y mañana descanso', () {
+      final legs = routine('Legs'), push = routine('Push');
+      cycle([legs, 'rest', push]);
+      train(legs);
+
+      expect(fit.restingToday, isFalse);
+      expect(fit.todayPlanDone, isTrue);
+      expect(fit.rotationRestOn(day(1)), isTrue);
+      expect(fit.routinesOn(day(2)).single.id, push.id);
+    });
+
+    test('entrenar en un día de descanso sigue la rueda desde esa rutina', () {
+      final legs = routine('Legs'), push = routine('Push'), pull = routine('Pull');
+      cycle([legs, 'rest', push, pull]);
+      train(legs, on: day(-1));
+      expect(fit.restingToday, isTrue);
+
+      train(push);
+      expect(fit.restingToday, isFalse);
+      expect(fit.rotationNext?.id, pull.id);
+    });
+
+    test('saltar el descanso pone hoy la siguiente', () {
+      final legs = routine('Legs'), push = routine('Push');
+      cycle([legs, 'rest', push]);
+      train(legs, on: day(-1));
+
+      fit.skipRotation();
+      expect(fit.restingToday, isFalse);
+      expect(fit.todayRoutine?.id, push.id);
+    });
+
+    test('elegir un descanso como siguiente lo deja para hoy', () {
+      final push = routine('Push'), pull = routine('Pull');
+      final ids = cycle([push, pull, 'rest']);
+      fit.setRotationNext(ids[2]);
+      expect(fit.restingToday, isTrue);
+      expect(fit.rotationUpcoming?.id, push.id);
+    });
+
+    test('quitar el descanso de hoy pasa al siguiente paso', () {
+      final legs = routine('Legs'), push = routine('Push');
+      final ids = cycle([legs, 'rest', push]);
+      train(legs, on: day(-1));
+
+      fit.removeRotationRest(ids[1]);
+      expect(fit.rotationIds, [legs.id, push.id]);
+      expect(fit.todayRoutine?.id, push.id);
+    });
+
+    test('varios descansos, se mueven y se guardan con su día', () {
+      final legs = routine('Legs'), push = routine('Push');
+      final ids = cycle([legs, 'rest', push, 'rest']);
+      expect(ids[1], isNot(ids[3]));
+      train(legs, on: day(-1));
+
+      fit.persistNow();
+      fit.rotationIds.clear();
+      fit.rotationRestDay = null;
+      fit.loadFromStore();
+      expect(fit.rotationIds, ids);
+      expect(fit.restingToday, isTrue);
+
+      fit.reorderRotation(3, 0);
+      expect(fit.rotationIds, [ids[3], legs.id, ids[1], push.id]);
+      expect(fit.restingToday, isTrue);
+      expect(fit.rotationStep, 2);
+    });
+
+    test('solo descansos no es una rotación', () {
+      fit.setRotation(true);
+      fit.addRotationRest();
+      expect(fit.rotating, isFalse);
+      expect(fit.restingToday, isFalse);
+      expect(fit.todayRoutine, isNull);
+    });
+
+    test('sin descansos todo sigue como antes', () {
+      final a = routine('A'), b = routine('B');
+      cycle([a, b]);
+      train(a, on: day(-3));
+      expect(fit.rotationNext?.id, b.id);
+      expect(fit.routinesOn(day(4)).single.id, b.id);
+      expect(fit.rotationRestOn(day(1)), isFalse);
+    });
+
+    test('con rotación el aviso vale para cualquier día', () {
+      final a = routine('A');
+      fit.assignRoutineToDay(DateTime.monday, a.id);
+      expect(fit.reminderWeekdays, {DateTime.monday});
+      cycle([]);
+      expect(fit.reminderWeekdays, isEmpty);
+    });
+
+    test('volver al entreno desde el resumen deja el descanso como estaba', () {
+      final legs = routine('Legs'), push = routine('Push');
+      cycle([legs, 'rest', push]);
+      train(legs, on: day(-1));
+      expect(fit.restingToday, isTrue);
+
+      fit.startRoutine(push);
+      fit.endCountdown();
+      fit.toggleSet(0, 0);
+      fit.finishSession();
+      expect(fit.restingToday, isFalse);
+      fit.continueSession();
+      expect(fit.restingToday, isTrue);
+    });
+  });
 }

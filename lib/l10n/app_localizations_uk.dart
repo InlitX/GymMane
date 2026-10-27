@@ -5302,4 +5302,24 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get prepPortions => 'Порції';
+
+  @override
+  String get rotationAddRest => 'Додати день відпочинку';
+
+  @override
+  String get rotationRestHint => 'Сам зміниться наступного дня';
+
+  @override
+  String get rotationRestToday => 'Сьогодні';
+
+  @override
+  String get rotationSkipRest => 'Пропустити цей відпочинок';
+
+  @override
+  String rotationRestUpNext(String name) {
+    return 'Далі: $name';
+  }
+
+  @override
+  String get trainAnyway => 'Все одно тренуватися';
 }

@@ -1477,8 +1477,8 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
       final entry = LoggedSession(s.loggedAt ?? DateTime.now(), s.summaryDuration ?? 0, logged, routineId: s.routineId, name: s.name);
       sessions.add(entry);
       sessions.sort((a, b) => a.date.compareTo(b.date));
-      _rotationBefore = rotationNextId;
-      _advanceRotation(entry.routineId);
+      _rotationBefore = (rotationNextId, rotationRestDay);
+      _advanceRotation(entry.routineId, entry.date);
       _filed = entry;
       _computeSummaryHighlights(entry);
       _offerLevelUp(entry);
@@ -1749,7 +1749,7 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
   }
 
   LoggedSession? _filed;
-  String? _rotationBefore;
+  (String, DateTime?)? _rotationBefore;
 
   LoggedSession? get filedSession => _filed;
 
@@ -1780,7 +1780,10 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
     if (filed != null) {
       sessions.remove(filed);
       final back = _rotationBefore;
-      if (back != null) rotationNextId = back;
+      if (back != null) {
+        rotationNextId = back.$1;
+        rotationRestDay = back.$2;
+      }
     }
     _filed = null;
     _rotationBefore = null;

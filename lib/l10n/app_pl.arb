@@ -1406,5 +1406,11 @@
   "autoBackupNever": "Brak kopii",
   "autoBackupLost": "Nie udało się zapisać ostatniej kopii. Wybierz folder ponownie.",
   "autoBackupSaved": "Kopia zapisana",
-  "prepPortions": "Porcje"
+  "prepPortions": "Porcje",
+  "rotationAddRest": "Dodaj dzień odpoczynku",
+  "rotationRestHint": "Mija sam następnego dnia",
+  "rotationRestToday": "Dziś",
+  "rotationSkipRest": "Pomiń ten odpoczynek",
+  "rotationRestUpNext": "Potem: {name}",
+  "trainAnyway": "Trenuj mimo to"
 }

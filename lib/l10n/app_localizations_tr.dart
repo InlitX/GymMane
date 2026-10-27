@@ -5266,4 +5266,24 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get prepPortions => 'Porsiyon';
+
+  @override
+  String get rotationAddRest => 'Dinlenme günü ekle';
+
+  @override
+  String get rotationRestHint => 'Ertesi gün kendiliğinden geçer';
+
+  @override
+  String get rotationRestToday => 'Bugün';
+
+  @override
+  String get rotationSkipRest => 'Bu dinlenmeyi atla';
+
+  @override
+  String rotationRestUpNext(String name) {
+    return 'Sonra: $name';
+  }
+
+  @override
+  String get trainAnyway => 'Yine de antrenman yap';
 }

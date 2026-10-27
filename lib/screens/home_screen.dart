@@ -232,20 +232,34 @@ class HomeScreen extends StatelessWidget {
   }
 
   Widget _hero(BuildContext context, GymColors gc) {
-    final routine = fit.todayRoutine;
+    final rest = fit.restingToday ? fit.rotationUpcoming : null;
+    final routine = rest ?? fit.todayRoutine;
     final focus = fit.suggestedFocus;
     final isRoutine = routine != null && routine.exerciseIds.isNotEmpty;
-    final label = isRoutine ? t.todaysRoutine : t.todaysFocus;
-    final title = isRoutine ? fit.routineTitle(routine) : focus.title;
+    final label = rest != null
+        ? t.rotationTitle
+        : isRoutine
+            ? t.todaysRoutine
+            : t.todaysFocus;
+    final title = rest != null
+        ? t.restDayShort
+        : isRoutine
+            ? fit.routineTitle(routine)
+            : focus.title;
     final today = fit.routinesOn(DateTime.now());
-    final done = isRoutine && fit.pendingRoutinesOn(DateTime.now()).isEmpty;
-    final subtitle = done
+    final done = rest == null && isRoutine && fit.pendingRoutinesOn(DateTime.now()).isEmpty;
+    final subtitle = rest != null
+        ? [
+            t.rotationRestUpNext(fit.routineTitle(rest)),
+            t.rotationPlace(fit.rotationStep + 1, fit.rotationSteps.length),
+          ].join(' · ')
+        : done
         ? t.routineDoneToday
         : isRoutine
         ? [
             t.exerciseCount(routine.exerciseIds.length),
             if (fit.rotating)
-              t.rotationPlace(fit.rotationStep + 1, fit.rotationRoutines.length)
+              t.rotationPlace(fit.rotationStep + 1, fit.rotationSteps.length)
             else if (today.length > 1)
               t.routineOfDay(today.indexOf(routine) + 1, today.length),
           ].join(' · ')
@@ -304,6 +318,10 @@ class HomeScreen extends StatelessWidget {
                       ),
                       const SizedBox(width: 7),
                     ],
+                    if (rest != null) ...[
+                      Icon(PhosphorIconsFill.bed, size: 14, color: gc.sage),
+                      const SizedBox(width: 7),
+                    ],
                     Text(label.toUpperCase(),
                         style: AppTheme.f(10.5,
                             weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.4)),
@@ -326,15 +344,19 @@ class HomeScreen extends StatelessWidget {
                   Row(children: [
                     Expanded(
                       child: PrimaryButton(
-                        label: done ? t.trainAgain : t.startWorkout,
+                        label: rest != null
+                            ? t.trainAnyway
+                            : done
+                                ? t.trainAgain
+                                : t.startWorkout,
                         icon: Ic.play,
                         height: 52,
-                        bg: done ? gc.bgRaised2 : null,
-                        fg: done ? gc.text : null,
+                        bg: done || rest != null ? gc.bgRaised2 : null,
+                        fg: done || rest != null ? gc.text : null,
                         onTap: isRoutine ? () => fit.startRoutine(routine) : fit.startFocusWorkout,
                       ),
                     ),
-                    if (isRoutine && !done) ...[
+                    if (isRoutine && !done && rest == null) ...[
                       const SizedBox(width: 10),
                       RoundAction(
                         label: t.moreOptions,
@@ -396,7 +418,11 @@ class HomeScreen extends StatelessWidget {
                 shape: BoxShape.circle,
                 border: isToday && !done ? Border.all(color: gc.ember, width: 2) : null,
               ),
-              child: done ? Center(child: SvgPathIcon(Ic.checkBold, size: 13, color: gc.onEmber)) : null,
+              child: done
+                  ? Center(child: SvgPathIcon(Ic.checkBold, size: 13, color: gc.onEmber))
+                  : fit.rotationRestOn(fit.dateForWeekday(i))
+                      ? Icon(PhosphorIconsFill.bed, size: 14, color: gc.sage)
+                      : null,
             ),
           ],
         ),

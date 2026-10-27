@@ -1406,5 +1406,11 @@
   "autoBackupNever": "还没有备份",
   "autoBackupLost": "上次备份没能保存，请重新选择文件夹。",
   "autoBackupSaved": "备份已保存",
-  "prepPortions": "份数"
+  "prepPortions": "份数",
+  "rotationAddRest": "添加休息日",
+  "rotationRestHint": "第二天会自动跳过",
+  "rotationRestToday": "今天",
+  "rotationSkipRest": "跳过这个休息日",
+  "rotationRestUpNext": "接下来：{name}",
+  "trainAnyway": "照样训练"
 }

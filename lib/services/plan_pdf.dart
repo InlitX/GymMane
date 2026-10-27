@@ -177,7 +177,7 @@ class _PlanDoc {
     _header(routines, week: week, now: now);
     if (week) {
       if (fit.rotation && fit.rotationRoutines.isNotEmpty) {
-        _rotation(fit.rotationRoutines);
+        _rotation(fit.rotationSteps);
       } else {
         _week();
       }
@@ -295,13 +295,14 @@ class _PlanDoc {
     _y += height + 26;
   }
 
-  void _rotation(List<Routine> list) {
+  void _rotation(List<String> list) {
     _y += _text(t.planRotation.toUpperCase(), _st(8, weight: FontWeight.w800, color: _accent, spacing: 1.4), _margin, _y, _contentW);
     _y += 8;
     var x = 0.0;
     const h = 26.0;
     for (var i = 0; i < list.length; i++) {
-      final label = '${i + 1}  ${fit.routineTitle(list[i])}';
+      final routine = fit.routineById(list[i]);
+      final label = '${i + 1}  ${routine == null ? t.restDayShort : fit.routineTitle(routine)}';
       final w = math.min(160.0, _textWidth(label, _st(10, weight: FontWeight.w800))) + 24;
       final arrow = i < list.length - 1 ? 18.0 : 0.0;
       if (x + w > _contentW) {
@@ -309,7 +310,7 @@ class _PlanDoc {
         _y += h + 8;
       }
       _rect(_margin + x, _y, w, h, _soft, radius: 13);
-      _rect(_margin + x + 9, _y + 9, 8, 8, folderHue(list[i]), radius: 4);
+      _rect(_margin + x + 9, _y + 9, 8, 8, routine == null ? _faint : folderHue(routine), radius: 4);
       final fitted = _measure(label, _st(10, weight: FontWeight.w800), w - 24);
       final at = Offset(_x(_margin + x + 20, w - 24), _y + (h - fitted.height) / 2);
       _add((c) => fitted.paint(c, at));

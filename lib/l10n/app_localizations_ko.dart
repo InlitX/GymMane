@@ -5126,4 +5126,24 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get prepPortions => '나누기';
+
+  @override
+  String get rotationAddRest => '휴식일 추가';
+
+  @override
+  String get rotationRestHint => '다음 날 자동으로 넘어가요';
+
+  @override
+  String get rotationRestToday => '오늘';
+
+  @override
+  String get rotationSkipRest => '이 휴식일 건너뛰기';
+
+  @override
+  String rotationRestUpNext(String name) {
+    return '다음: $name';
+  }
+
+  @override
+  String get trainAnyway => '그래도 운동하기';
 }

@@ -1406,5 +1406,11 @@
   "autoBackupNever": "Копій ще немає",
   "autoBackupLost": "Не вдалося зберегти останню копію. Виберіть папку знову.",
   "autoBackupSaved": "Копію збережено",
-  "prepPortions": "Порції"
+  "prepPortions": "Порції",
+  "rotationAddRest": "Додати день відпочинку",
+  "rotationRestHint": "Сам зміниться наступного дня",
+  "rotationRestToday": "Сьогодні",
+  "rotationSkipRest": "Пропустити цей відпочинок",
+  "rotationRestUpNext": "Далі: {name}",
+  "trainAnyway": "Все одно тренуватися"
 }

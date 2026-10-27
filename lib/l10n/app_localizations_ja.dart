@@ -5115,4 +5115,24 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get prepPortions => '等分';
+
+  @override
+  String get rotationAddRest => '休息日を追加';
+
+  @override
+  String get rotationRestHint => '翌日に自動で進みます';
+
+  @override
+  String get rotationRestToday => '今日';
+
+  @override
+  String get rotationSkipRest => 'この休息日をスキップ';
+
+  @override
+  String rotationRestUpNext(String name) {
+    return '次：$name';
+  }
+
+  @override
+  String get trainAnyway => 'それでもトレーニング';
 }

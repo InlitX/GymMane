@@ -1527,5 +1527,11 @@
   "autoBackupNever": "Aún no hay copias",
   "autoBackupLost": "No se pudo guardar la última copia. Vuelve a elegir la carpeta.",
   "autoBackupSaved": "Copia guardada",
-  "prepPortions": "Raciones"
+  "prepPortions": "Raciones",
+  "rotationAddRest": "Añadir día de descanso",
+  "rotationRestHint": "Pasa solo al día siguiente",
+  "rotationRestToday": "Hoy",
+  "rotationSkipRest": "Saltar este descanso",
+  "rotationRestUpNext": "Después: {name}",
+  "trainAnyway": "Entrenar igualmente"
 }

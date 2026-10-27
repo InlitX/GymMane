@@ -1406,5 +1406,11 @@
   "autoBackupNever": "Nenhum backup ainda",
   "autoBackupLost": "Não deu para salvar o último backup. Escolha a pasta de novo.",
   "autoBackupSaved": "Backup salvo",
-  "prepPortions": "Porções"
+  "prepPortions": "Porções",
+  "rotationAddRest": "Adicionar dia de descanso",
+  "rotationRestHint": "Avança sozinho no dia seguinte",
+  "rotationRestToday": "Hoje",
+  "rotationSkipRest": "Pular este descanso",
+  "rotationRestUpNext": "Depois: {name}",
+  "trainAnyway": "Treinar mesmo assim"
 }

@@ -1406,5 +1406,11 @@
   "autoBackupNever": "هنوز پشتیبانی نیست",
   "autoBackupLost": "ذخیره آخرین پشتیبان ممکن نشد. دوباره پوشه را انتخاب کن.",
   "autoBackupSaved": "پشتیبان ذخیره شد",
-  "prepPortions": "وعده‌ها"
+  "prepPortions": "وعده‌ها",
+  "rotationAddRest": "افزودن روز استراحت",
+  "rotationRestHint": "روز بعد خودش رد می‌شود",
+  "rotationRestToday": "امروز",
+  "rotationSkipRest": "رد کردن این استراحت",
+  "rotationRestUpNext": "بعدی: {name}",
+  "trainAnyway": "به هر حال تمرین کن"
 }

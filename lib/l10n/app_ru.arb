@@ -1406,5 +1406,11 @@
   "autoBackupNever": "Копий пока нет",
   "autoBackupLost": "Не удалось сохранить последнюю копию. Выберите папку заново.",
   "autoBackupSaved": "Копия сохранена",
-  "prepPortions": "Порции"
+  "prepPortions": "Порции",
+  "rotationAddRest": "Добавить день отдыха",
+  "rotationRestHint": "Сам сменится на следующий день",
+  "rotationRestToday": "Сегодня",
+  "rotationSkipRest": "Пропустить этот отдых",
+  "rotationRestUpNext": "Дальше: {name}",
+  "trainAnyway": "Всё равно тренироваться"
 }

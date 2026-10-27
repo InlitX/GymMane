@@ -5276,4 +5276,24 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get prepPortions => 'Porzioni';
+
+  @override
+  String get rotationAddRest => 'Aggiungi un giorno di riposo';
+
+  @override
+  String get rotationRestHint => 'Passa da sola il giorno dopo';
+
+  @override
+  String get rotationRestToday => 'Oggi';
+
+  @override
+  String get rotationSkipRest => 'Salta questo riposo';
+
+  @override
+  String rotationRestUpNext(String name) {
+    return 'Poi: $name';
+  }
+
+  @override
+  String get trainAnyway => 'Allenati lo stesso';
 }

@@ -55,6 +55,7 @@ abstract class FitCore extends ChangeNotifier {
   bool rotation = false;
   final List<String> rotationIds = [];
   String rotationNextId = '';
+  DateTime? rotationRestDay;
   final Map<String, List<String>> planMoves = {};
   final List<Exercise> customExercises = [];
   final List<GymPlace> places = [];

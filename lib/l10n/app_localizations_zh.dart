@@ -5062,6 +5062,26 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get prepPortions => '份数';
+
+  @override
+  String get rotationAddRest => '添加休息日';
+
+  @override
+  String get rotationRestHint => '第二天会自动跳过';
+
+  @override
+  String get rotationRestToday => '今天';
+
+  @override
+  String get rotationSkipRest => '跳过这个休息日';
+
+  @override
+  String rotationRestUpNext(String name) {
+    return '接下来：$name';
+  }
+
+  @override
+  String get trainAnyway => '照样训练';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -9709,4 +9729,24 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get prepPortions => '份數';
+
+  @override
+  String get rotationAddRest => '新增休息日';
+
+  @override
+  String get rotationRestHint => '隔天會自動跳過';
+
+  @override
+  String get rotationRestToday => '今天';
+
+  @override
+  String get rotationSkipRest => '跳過這個休息日';
+
+  @override
+  String rotationRestUpNext(String name) {
+    return '接下來：$name';
+  }
+
+  @override
+  String get trainAnyway => '照樣訓練';
 }

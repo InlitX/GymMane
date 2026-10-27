@@ -5270,4 +5270,24 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get prepPortions => 'Porties';
+
+  @override
+  String get rotationAddRest => 'Rustdag toevoegen';
+
+  @override
+  String get rotationRestHint => 'Gaat de volgende dag vanzelf verder';
+
+  @override
+  String get rotationRestToday => 'Vandaag';
+
+  @override
+  String get rotationSkipRest => 'Deze rustdag overslaan';
+
+  @override
+  String rotationRestUpNext(String name) {
+    return 'Daarna: $name';
+  }
+
+  @override
+  String get trainAnyway => 'Toch trainen';
 }

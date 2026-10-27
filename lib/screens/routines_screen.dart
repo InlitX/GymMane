@@ -437,8 +437,9 @@ class RoutinesScreen extends StatelessWidget {
   }
 
   Widget _rotationCard(BuildContext context, GymColors gc) {
-    final list = fit.rotationRoutines;
-    final next = fit.rotationNext;
+    final list = fit.rotationSteps;
+    final step = fit.rotationStep;
+    final routines = fit.rotationRoutines;
     return SoftCard(
       radius: 20,
       borderColor: Colors.transparent,
@@ -448,7 +449,7 @@ class RoutinesScreen extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: Text(list.isEmpty ? t.rotationEmpty : t.rotationHint,
+            child: Text(routines.isEmpty ? t.rotationEmpty : t.rotationHint,
                 style: AppTheme.f(12.5, weight: FontWeight.w500, color: gc.textSecondary, height: 1.35)),
           ),
           if (list.length > 1) ...[
@@ -463,9 +464,9 @@ class RoutinesScreen extends StatelessWidget {
                       duration: const Duration(milliseconds: 260),
                       height: 5,
                       decoration: BoxDecoration(
-                        color: i < fit.rotationStep
+                        color: i < step
                             ? gc.sage
-                            : list[i] == next
+                            : i == step
                                 ? gc.ember
                                 : gc.bgRaised2,
                         borderRadius: BorderRadius.circular(3),
@@ -478,7 +479,7 @@ class RoutinesScreen extends StatelessWidget {
             const SizedBox(height: 6),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: Text(t.rotationProgress(fit.rotationStep, list.length),
+              child: Text(t.rotationProgress(step, list.length),
                   style: AppTheme.f(11.5, weight: FontWeight.w600, color: gc.textTertiary)),
             ),
           ],
@@ -492,29 +493,20 @@ class RoutinesScreen extends StatelessWidget {
             onReorderEnd: reorderDropped,
             onReorder: fit.reorderRotation,
             children: [
-              for (var i = 0; i < list.length; i++) _rotationRow(context, gc, list[i], i, list[i] == next),
+              for (var i = 0; i < list.length; i++)
+                if (RoutinesState.isRestStep(list[i]))
+                  _rotationRestRow(context, gc, list[i], i, i == step)
+                else
+                  _rotationRow(context, gc, fit.routineById(list[i])!, i, i == step,
+                      routines.indexWhere((r) => r.id == list[i])),
             ],
           ),
-          GestureDetector(
-            behavior: HitTestBehavior.opaque,
-            onTap: () => _pickRotation(context),
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(14, 12, 14, 12),
-              child: Row(children: [
-                Container(
-                  width: 30,
-                  height: 30,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(color: gc.border, width: 1.5),
-                  ),
-                  child: Icon(PhosphorIconsBold.plus, size: 13, color: gc.textSecondary),
-                ),
-                const SizedBox(width: 12),
-                Text(t.rotationAdd, style: AppTheme.f(14, weight: FontWeight.w600, color: gc.textSecondary)),
-              ]),
-            ),
-          ),
+          _rotationAddRow(gc, PhosphorIconsBold.plus, t.rotationAdd, () => _pickRotation(context)),
+          if (routines.isNotEmpty)
+            _rotationAddRow(gc, PhosphorIconsRegular.bed, t.rotationAddRest, () {
+              HapticFeedback.selectionClick();
+              fit.addRotationRest();
+            }),
           if (list.length > 1) ...[
             Divider(height: 1, thickness: 1, indent: 12, endIndent: 12, color: gc.border),
             Row(children: [
@@ -527,6 +519,141 @@ class RoutinesScreen extends StatelessWidget {
             ]),
           ],
         ],
+      ),
+    );
+  }
+
+  Widget _rotationAddRow(GymColors gc, IconData icon, String label, VoidCallback onTap) => GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(14, 12, 14, 12),
+          child: Row(children: [
+            Container(
+              width: 30,
+              height: 30,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(color: gc.border, width: 1.5),
+              ),
+              child: Icon(icon, size: 13, color: gc.textSecondary),
+            ),
+            const SizedBox(width: 12),
+            Text(label, style: AppTheme.f(14, weight: FontWeight.w600, color: gc.textSecondary)),
+          ]),
+        ),
+      );
+
+  Widget _rotationRestRow(BuildContext context, GymColors gc, String id, int i, bool isNext) {
+    final done = i < fit.rotationStep;
+    final today = isNext && fit.restingToday;
+    return Container(
+      key: ValueKey('rot-$id'),
+      margin: const EdgeInsets.symmetric(vertical: 2),
+      decoration: BoxDecoration(
+        color: isNext ? gc.sageSoft : gc.bgRaised,
+        borderRadius: BorderRadius.circular(14),
+      ),
+      child: Row(children: [
+        Expanded(
+          child: GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onTap: () => _rotationRestMenu(context, id, isNext),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(10, 10, 4, 10),
+              child: Row(children: [
+                Container(
+                  width: 30,
+                  height: 30,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color: isNext ? gc.sage : (done ? gc.sageSoft : gc.bgRaised2),
+                    shape: BoxShape.circle,
+                  ),
+                  child: done
+                      ? Icon(PhosphorIconsBold.check, size: 13, color: gc.sage)
+                      : Icon(PhosphorIconsFill.bed, size: 14, color: isNext ? gc.bg : gc.textSecondary),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(t.restDayShort,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: AppTheme.f(14.5, weight: FontWeight.w700, color: gc.text)),
+                      const SizedBox(height: 1),
+                      Text(
+                        [
+                          if (today) t.rotationRestToday else if (isNext) t.rotationNext,
+                          t.rotationRestHint,
+                        ].join(' · '),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: AppTheme.f(11.5,
+                            weight: isNext ? FontWeight.w700 : FontWeight.w500,
+                            color: isNext ? gc.sage : gc.textTertiary),
+                      ),
+                    ],
+                  ),
+                ),
+              ]),
+            ),
+          ),
+        ),
+        ReorderableDragStartListener(
+          index: i,
+          child: Semantics(
+            label: t.reorderHandle(t.restDayShort),
+            child: SizedBox(
+              width: 40,
+              height: 48,
+              child: Icon(PhosphorIconsRegular.dotsSixVertical, size: 18, color: gc.textTertiary),
+            ),
+          ),
+        ),
+      ]),
+    );
+  }
+
+  void _rotationRestMenu(BuildContext context, String id, bool isNext) {
+    final gc = context.gc;
+    showAppSheet<void>(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (sheet) => Container(
+        padding: sheetPad(sheet),
+        decoration: BoxDecoration(
+          color: gc.bgRaised,
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            const SheetHandle(),
+            const SizedBox(height: 16),
+            SheetTitle(t.restDayShort, subtitle: t.rotationRestHint),
+            const SizedBox(height: 14),
+            OptionGroup([
+              if (isNext)
+                OptionItem(t.rotationSkipRest, icon: PhosphorIconsRegular.skipForward, onTap: () {
+                  Navigator.pop(sheet);
+                  fit.skipRotation();
+                })
+              else
+                OptionItem(t.rotationMakeNext, icon: PhosphorIconsRegular.flagPennant, onTap: () {
+                  Navigator.pop(sheet);
+                  fit.setRotationNext(id);
+                }),
+              OptionItem(t.rotationRemove, icon: PhosphorIconsRegular.minusCircle, danger: true, onTap: () {
+                Navigator.pop(sheet);
+                fit.removeRotationRest(id);
+              }),
+            ]),
+          ],
+        ),
       ),
     );
   }
@@ -552,8 +679,8 @@ class RoutinesScreen extends StatelessWidget {
         ),
       );
 
-  Widget _rotationRow(BuildContext context, GymColors gc, Routine r, int i, bool isNext) {
-    final letter = String.fromCharCode(65 + i % 26);
+  Widget _rotationRow(BuildContext context, GymColors gc, Routine r, int i, bool isNext, int order) {
+    final letter = String.fromCharCode(65 + order % 26);
     final done = i < fit.rotationStep;
     return Container(
       key: ValueKey('rot-${r.id}'),
@@ -710,7 +837,7 @@ class RoutinesScreen extends StatelessWidget {
                       OptionItem(
                         fit.routineTitle(r),
                         detail: fit.rotationIds.contains(r.id)
-                            ? String.fromCharCode(65 + fit.rotationIds.indexOf(r.id) % 26)
+                            ? String.fromCharCode(65 + fit.rotationRoutines.indexOf(r) % 26)
                             : (r.group.isEmpty ? null : r.group),
                         selected: fit.rotationIds.contains(r.id),
                         onTap: () => fit.toggleRotationRoutine(r.id),

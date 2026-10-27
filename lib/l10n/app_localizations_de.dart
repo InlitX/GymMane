@@ -5281,4 +5281,24 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get prepPortions => 'Portionen';
+
+  @override
+  String get rotationAddRest => 'Ruhetag hinzufügen';
+
+  @override
+  String get rotationRestHint => 'Geht am nächsten Tag von selbst weiter';
+
+  @override
+  String get rotationRestToday => 'Heute';
+
+  @override
+  String get rotationSkipRest => 'Diesen Ruhetag überspringen';
+
+  @override
+  String rotationRestUpNext(String name) {
+    return 'Danach: $name';
+  }
+
+  @override
+  String get trainAnyway => 'Trotzdem trainieren';
 }

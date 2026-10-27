@@ -1406,5 +1406,11 @@
   "autoBackupNever": "Noch keine Sicherung",
   "autoBackupLost": "Die letzte Sicherung ging nicht. Wähle den Ordner erneut.",
   "autoBackupSaved": "Sicherung gespeichert",
-  "prepPortions": "Portionen"
+  "prepPortions": "Portionen",
+  "rotationAddRest": "Ruhetag hinzufügen",
+  "rotationRestHint": "Geht am nächsten Tag von selbst weiter",
+  "rotationRestToday": "Heute",
+  "rotationSkipRest": "Diesen Ruhetag überspringen",
+  "rotationRestUpNext": "Danach: {name}",
+  "trainAnyway": "Trotzdem trainieren"
 }

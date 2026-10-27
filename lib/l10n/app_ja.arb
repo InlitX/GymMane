@@ -1406,5 +1406,11 @@
   "autoBackupNever": "まだバックアップはありません",
   "autoBackupLost": "前回のバックアップを保存できませんでした。フォルダを選び直してください。",
   "autoBackupSaved": "バックアップを保存しました",
-  "prepPortions": "等分"
+  "prepPortions": "等分",
+  "rotationAddRest": "休息日を追加",
+  "rotationRestHint": "翌日に自動で進みます",
+  "rotationRestToday": "今日",
+  "rotationSkipRest": "この休息日をスキップ",
+  "rotationRestUpNext": "次：{name}",
+  "trainAnyway": "それでもトレーニング"
 }

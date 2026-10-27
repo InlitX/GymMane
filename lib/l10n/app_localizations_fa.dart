@@ -5227,4 +5227,24 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String get prepPortions => 'وعده‌ها';
+
+  @override
+  String get rotationAddRest => 'افزودن روز استراحت';
+
+  @override
+  String get rotationRestHint => 'روز بعد خودش رد می‌شود';
+
+  @override
+  String get rotationRestToday => 'امروز';
+
+  @override
+  String get rotationSkipRest => 'رد کردن این استراحت';
+
+  @override
+  String rotationRestUpNext(String name) {
+    return 'بعدی: $name';
+  }
+
+  @override
+  String get trainAnyway => 'به هر حال تمرین کن';
 }

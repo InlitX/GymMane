@@ -1406,5 +1406,11 @@
   "autoBackupNever": "لا توجد نسخ بعد",
   "autoBackupLost": "تعذّر حفظ آخر نسخة. اختر المجلد مرة أخرى.",
   "autoBackupSaved": "تم حفظ النسخة",
-  "prepPortions": "حصص"
+  "prepPortions": "حصص",
+  "rotationAddRest": "أضف يوم راحة",
+  "rotationRestHint": "ينتقل تلقائيًا في اليوم التالي",
+  "rotationRestToday": "اليوم",
+  "rotationSkipRest": "تخطَّ يوم الراحة هذا",
+  "rotationRestUpNext": "التالي: {name}",
+  "trainAnyway": "تمرّن على أي حال"
 }

@@ -5256,4 +5256,24 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get prepPortions => 'حصص';
+
+  @override
+  String get rotationAddRest => 'أضف يوم راحة';
+
+  @override
+  String get rotationRestHint => 'ينتقل تلقائيًا في اليوم التالي';
+
+  @override
+  String get rotationRestToday => 'اليوم';
+
+  @override
+  String get rotationSkipRest => 'تخطَّ يوم الراحة هذا';
+
+  @override
+  String rotationRestUpNext(String name) {
+    return 'التالي: $name';
+  }
+
+  @override
+  String get trainAnyway => 'تمرّن على أي حال';
 }

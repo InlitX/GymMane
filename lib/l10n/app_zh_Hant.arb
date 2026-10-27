@@ -1406,5 +1406,11 @@
   "autoBackupNever": "還沒有備份",
   "autoBackupLost": "上次備份沒能儲存，請重新選擇資料夾。",
   "autoBackupSaved": "備份已儲存",
-  "prepPortions": "份數"
+  "prepPortions": "份數",
+  "rotationAddRest": "新增休息日",
+  "rotationRestHint": "隔天會自動跳過",
+  "rotationRestToday": "今天",
+  "rotationSkipRest": "跳過這個休息日",
+  "rotationRestUpNext": "接下來：{name}",
+  "trainAnyway": "照樣訓練"
 }
