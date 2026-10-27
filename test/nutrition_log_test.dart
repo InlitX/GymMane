@@ -52,6 +52,14 @@ void main() {
       expect(fit.shakeFoodItems.map((f) => f.id), [a.id]);
     });
 
+    test('el batido va a la comida abierta arriba', () {
+      final a = fit.saveFood(name: 'Whey', macros: whey);
+      expect(fit.openMeal, fit.defaultMeal);
+      fit.pickMeal(Meal.dinner);
+      expect(fit.logFood(a, meal: fit.openMeal).meal, Meal.dinner);
+      fit.pickedMeal = null;
+    });
+
     test('quitar la marca del elegido pasa al siguiente marcado', () {
       final a = fit.saveFood(name: 'Whey', macros: whey);
       final b = fit.saveFood(name: 'Vegano', macros: whey);

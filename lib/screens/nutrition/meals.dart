@@ -270,7 +270,6 @@ class _MealTabs extends StatefulWidget {
 }
 
 class _MealTabsState extends State<_MealTabs> {
-  Meal? _meal;
   Meal? _visible;
   final _keys = <Meal, GlobalKey>{};
 
@@ -278,6 +277,7 @@ class _MealTabsState extends State<_MealTabs> {
 
   @override
   void dispose() {
+    fit.pickedMeal = null;
     _scroll.dispose();
     super.dispose();
   }
@@ -305,8 +305,7 @@ class _MealTabsState extends State<_MealTabs> {
     final gc = context.gc;
     final entries = fit.entriesOn(fit.nutritionDay);
     final meals = fit.mealsShown;
-    final picked = _meal;
-    final meal = picked != null && meals.contains(picked) ? picked : fit.defaultMeal;
+    final meal = fit.openMeal;
     _reveal(meal);
     final shown = [
       for (final e in entries)
@@ -326,7 +325,7 @@ class _MealTabsState extends State<_MealTabs> {
               behavior: HitTestBehavior.opaque,
               onTap: () {
                 HapticFeedback.selectionClick();
-                setState(() => _meal = m);
+                fit.pickMeal(m);
               },
               child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
                 AnimatedDefaultTextStyle(

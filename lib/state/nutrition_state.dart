@@ -274,6 +274,18 @@ mixin NutritionState on FitCore, ToolsState, StatsState {
     return mealSlots.any((s) => s.meal == Meal.lunch) ? Meal.lunch : mealSlots.first.meal;
   }
 
+  Meal? pickedMeal;
+
+  Meal get openMeal {
+    final picked = pickedMeal;
+    return picked != null && mealsShown.contains(picked) ? picked : defaultMeal;
+  }
+
+  void pickMeal(Meal meal) {
+    pickedMeal = meal;
+    notifyListeners();
+  }
+
   bool trackerOn(Tracker t) => trackers.contains(t);
 
   void setTracker(Tracker t, bool on) {

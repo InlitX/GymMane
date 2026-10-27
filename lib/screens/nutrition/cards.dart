@@ -768,7 +768,7 @@ class _ShakeTile extends StatelessWidget {
             showShakePicker(context);
             return;
           }
-          final e = fit.logFood(shake);
+          final e = fit.logFood(shake, meal: fit.openMeal);
           _loggedToast(context, e);
         },
         onLongPress: () => showShakePicker(context),
