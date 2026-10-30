@@ -1,6 +1,6 @@
 part of 'fit_state.dart';
 
-mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsState, RoutinesState {
+mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsState, MomentsState, RoutinesState {
   final List<String> selectedMuscles = [];
   final Set<String> sessionPicks = {};
   final Set<String> pickSeed = {};
@@ -656,7 +656,9 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
       _advanceChain(chain, exIdx);
       return;
     }
-    startRest();
+    final sets = session!.exercises[exIdx].sets;
+    final mini = setIdx + 1 < sets.length && const [SetKind.restPause, SetKind.cluster].contains(sets[setIdx + 1].kind);
+    startRest(mini: mini);
     if (autoAdvance || sessionLocked) _advanceWhenDone(exIdx);
   }
 
@@ -837,14 +839,29 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
     });
   }
 
-  void startRest() {
+  bool liveSetIsRecord(int exIdx, int setIdx) {
+    final ex = session?.exercises[exIdx];
+    if (ex == null || setIdx >= ex.sets.length) return false;
+    final target = ex.sets[setIdx];
+    if (!target.done || !target.counts) return false;
+    var best = _bestBefore(ex.id);
+    for (var i = 0; i < setIdx; i++) {
+      final st = ex.sets[i];
+      if (st.done && st.counts) best = _raise(ex.id, st.logged, best);
+    }
+    return _beats(ex.id, target.logged, best);
+  }
+
+  void startRest({bool mini = false}) {
     if (sessionPaused || session?.manual == true) return;
     _restTimer?.cancel();
     RestAlarm.instance.stopSound();
     final exId = session!.exercises.isEmpty
         ? ''
         : session!.exercises[session!.currentIndex.clamp(0, session!.exercises.length - 1)].id;
-    final seconds = routineRest(session!.routineId, exId) ?? restFor(exId);
+    final seconds = mini && miniRestSeconds > 0
+        ? miniRestSeconds
+        : routineRest(session!.routineId, exId) ?? restFor(exId);
     if (seconds <= 0) {
       session!.clearRest();
       notifyListeners();
@@ -1229,9 +1246,11 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
       setSessionReps(exIdx, setIdx, session!.exercises[exIdx].sets[setIdx].reps + d);
 
   void bumpSessionWeight(int exIdx, int setIdx, int dir) {
-    final current = toDisplayWeight(session!.exercises[exIdx].sets[setIdx].weight);
-    final next = _roundTo(current, weightStep) + dir * weightStep;
-    setSessionWeight(exIdx, setIdx, fromDisplayWeight(math.max(0, next)));
+    final id = session!.exercises[exIdx].id;
+    final current = toShownFor(id, session!.exercises[exIdx].sets[setIdx].weight);
+    final step = weightStepFor(id);
+    final next = _roundTo(current, step) + dir * step;
+    setSessionWeight(exIdx, setIdx, fromShownFor(id, math.max(0, next)));
   }
 
   static const _warmupSpec = [(0.4, 10), (0.6, 5), (0.8, 3)];
@@ -1322,7 +1341,7 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
   }
 
   void setSessionWeightShown(int exIdx, int setIdx, double shown) =>
-      setSessionWeight(exIdx, setIdx, fromDisplayWeight(shown));
+      setSessionWeight(exIdx, setIdx, fromShownFor(session!.exercises[exIdx].id, shown));
 
   void removeSessionExercise(int exIdx) {
     final s = session!;
@@ -1480,6 +1499,9 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
       _rotationBefore = (rotationNextId, rotationRestDay);
       _advanceRotation(entry.routineId, entry.date);
       _filed = entry;
+      final photos = _photosFrom;
+      if (photos != null) _moveMoments(photos, entry.date);
+      _photosFrom = null;
       _computeSummaryHighlights(entry);
       _offerLevelUp(entry);
     } else {
@@ -1673,10 +1695,11 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
     if (!levelHints) return;
     final now = DateTime.now().millisecondsSinceEpoch;
     final done = {for (final e in entry.exercises) e.id};
+    final routine = entry.routineId == null ? null : routineById(entry.routineId!);
     ({Exercise from, Exercise to, int reps})? best;
     var bestStep = -1;
     for (final e in entry.exercises) {
-      final next = nextStepOf(e.id);
+      final next = nextStepIn(routine, e.id);
       if (next == null || done.contains(next) || levelStay.contains(e.id) || isArchived(next)) continue;
       if ((levelSeen[e.id] ?? 0) > now || modeOf(e.id).isNotEmpty) continue;
       final from = exerciseById(e.id);
@@ -1693,7 +1716,7 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
         if (before != null) break;
       }
       if (before == null || !_clearsLevel(before.sets, reps)) continue;
-      final step = kProgressions.firstWhere((c) => c.contains(e.id)).indexOf(e.id);
+      final step = stepIndexIn(routine, e.id);
       if (step > bestStep) {
         bestStep = step;
         best = (from: from, to: to, reps: reps);
@@ -1749,6 +1772,7 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
   }
 
   LoggedSession? _filed;
+  DateTime? _photosFrom;
   (String, DateTime?)? _rotationBefore;
 
   LoggedSession? get filedSession => _filed;
@@ -1779,6 +1803,7 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
     final filed = _filed;
     if (filed != null) {
       sessions.remove(filed);
+      _photosFrom = filed.date;
       final back = _rotationBefore;
       if (back != null) {
         rotationNextId = back.$1;
