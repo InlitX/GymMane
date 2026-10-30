@@ -58,6 +58,7 @@ class Macros {
     this.sodium = 0,
     this.animal = 0,
     this.sat = 0,
+    this.trans = 0,
     this.mono = 0,
     this.poly = 0,
     this.aminoProtein = 0,
@@ -73,6 +74,7 @@ class Macros {
   final double sodium;
   final double animal;
   final double sat;
+  final double trans;
   final double mono;
   final double poly;
   final double aminoProtein;
@@ -96,6 +98,7 @@ class Macros {
         sodium: sodium + o.sodium,
         animal: animal + o.animal,
         sat: sat + o.sat,
+        trans: trans + o.trans,
         mono: mono + o.mono,
         poly: poly + o.poly,
         aminoProtein: aminoProtein + o.aminoProtein,
@@ -112,6 +115,7 @@ class Macros {
         sodium: sodium * k,
         animal: animal * k,
         sat: sat * k,
+        trans: trans * k,
         mono: mono * k,
         poly: poly * k,
         aminoProtein: aminoProtein * k,
@@ -122,7 +126,7 @@ class Macros {
 
   bool get hasExtras => fiber > 0 || sugar > 0 || sodium > 0;
 
-  bool get hasFatTypes => sat > 0 || mono > 0 || poly > 0;
+  bool get hasFatTypes => sat > 0 || trans > 0 || mono > 0 || poly > 0;
 
   double get plant => (protein - animal).clamp(0, double.infinity).toDouble();
 
@@ -155,6 +159,7 @@ class Macros {
         if (sodium > 0) 'na': sodium,
         if (animal > 0) 'an': animal,
         if (sat > 0) 'sa': sat,
+        if (trans > 0) 'tf': trans,
         if (mono > 0) 'mu': mono,
         if (poly > 0) 'po': poly,
         if (aminoProtein > 0 && amino.length == Amino.values.length) ...{
@@ -176,6 +181,7 @@ class Macros {
       sodium: _num(j?['na']),
       animal: _num(j?['an']),
       sat: _num(j?['sa']),
+      trans: _num(j?['tf']),
       mono: _num(j?['mu']),
       poly: _num(j?['po']),
       aminoProtein: ok ? _num(j?['ap']) : 0,
