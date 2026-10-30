@@ -549,7 +549,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       gc,
       step: 3,
       title: t.onbUnitsTitle,
-      why: t.autofills,
+      why: t.onbUnitsWhy,
       child: Row(
         children: [
           for (final u in const ['kg', 'lb']) ...[
