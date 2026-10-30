@@ -150,7 +150,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String pickedHint(int n) {
-    return 'Мы собрали тренировку за тебя — нажми, чтобы добавить или убрать любое из $n.';
+    return 'Мы собрали тренировку за тебя — нажми, чтобы добавить или убрать любое из $n упражнений.';
   }
 
   @override
@@ -1235,7 +1235,8 @@ class AppLocalizationsRu extends AppLocalizations {
   String get newRoutineName => 'Новая программа';
 
   @override
-  String get dragToReorder => 'Потяните за ручку с точками, чтобы изменить порядок — в нём вы тренируетесь.';
+  String get dragToReorder =>
+      'Потяни за ручку с точками, чтобы изменить порядок — в этом порядке ты и тренируешься.';
 
   @override
   String reorderHandle(String name) {
@@ -1972,7 +1973,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get focusCard => 'Фокус на сегодня';
 
   @override
-  String get autoAdvance => 'Переходить дальше сам';
+  String get autoAdvance => 'Переходить дальше автоматически';
 
   @override
   String get keepScreenOn => 'Не гасить экран во время тренировки';
@@ -2267,7 +2268,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get awardFirstStepName => 'Первый шаг';
 
   @override
-  String get awardFirstStepLine => 'Добро пожаловать в GymMane. Эта — от заведения.';
+  String get awardFirstStepLine => 'Добро пожаловать в GymMane. Эта медаль — за счёт заведения.';
 
   @override
   String get awardFirstWorkoutName => 'Первая тренировка';
@@ -2496,7 +2497,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get awardWorkouts365Name => 'Триста шестьдесят пять';
 
   @override
-  String get awardWorkouts365Line => 'По тренировке на каждый день года, записаны одна за другой.';
+  String get awardWorkouts365Line => 'Тренировка на каждый день года — одна за другой.';
 
   @override
   String get awardTonnes10Name => 'Десять тонн';
@@ -2593,7 +2594,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get momentsEmptyHint =>
-      'Сфотографируй зал, доску, как ты набрал блины — всё, что хочешь запомнить. Они останутся в телефоне, и видишь их только ты.';
+      'Сфотографируй зал, доску с планом или собранную штангу — всё, что хочешь запомнить. Фото останутся в телефоне, и видишь их только ты.';
 
   @override
   String get awardStreak100Line => 'Сто дней подряд. Это уже не мотивация, это ты.';
@@ -5227,7 +5228,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String nextDeload(int n) {
-    return 'легче: $n тренировки подряд без всех повторов';
+    return 'легче: $n тренировок подряд без выполнения всех повторов';
   }
 
   @override

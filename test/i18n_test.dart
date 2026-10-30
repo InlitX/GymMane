@@ -131,6 +131,16 @@ void main() {
     expect(t.streakDays(1), '1-day streak');
   });
 
+  test('Russian copy is corrected where the literal translation read wrong', () {
+    setAppLanguage('ru');
+    expect(t.autoAdvance, 'Переходить дальше автоматически');
+    expect(t.pickedHint(6), contains('6 упражнений'));
+    expect(t.dragToReorder, contains('в этом порядке'));
+    expect(t.nextDeload(5), contains('5 тренировок'));
+    expect(t.momentsEmptyHint, contains('собранную штангу'));
+    expect(t.awardFirstStepLine, contains('за счёт заведения'));
+  });
+
   test('dates read the Spanish way round', () {
     final d = DateTime(2026, 7, 16);
     setAppLanguage('en');
