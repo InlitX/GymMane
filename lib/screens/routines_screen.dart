@@ -10,6 +10,7 @@ import '../state/fit_state.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
 import '../widgets/dialogs.dart';
+import '../widgets/entrance.dart';
 import '../widgets/glass.dart';
 import '../widgets/liquid_notch.dart';
 import '../widgets/routine_folder.dart';
@@ -23,14 +24,17 @@ class RoutinesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final gc = context.gc;
-    return SafeArea(
+    return RiseScope(
+      id: 'routines',
+      child: SafeArea(
       bottom: false,
       child: SingleChildScrollView(
+        key: const PageStorageKey('routines'),
         clipBehavior: Clip.none,
         padding: const EdgeInsets.fromLTRB(20, 12, 20, 40),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
+          children: riseAll([
             ScreenHeader(
               title: t.routines,
               onBack: fit.backFromRoutines,
@@ -60,10 +64,23 @@ class RoutinesScreen extends StatelessWidget {
             const SizedBox(height: 22),
             Row(children: [
               Expanded(
-                child: Text(fit.rotation ? t.rotationTitle : t.weeklyPlan,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: AppTheme.f(12, weight: FontWeight.w600, color: gc.textSecondary, letterSpacing: 1.5)),
+                child: AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 300),
+                  transitionBuilder: (child, a) => FadeTransition(
+                    opacity: CurvedAnimation(parent: a, curve: const Interval(0.45, 1)),
+                    child: child,
+                  ),
+                  layoutBuilder: (current, previous) =>
+                      Stack(alignment: Alignment.centerLeft, children: [...previous, ?current]),
+                  child: Padding(
+                    key: ValueKey(fit.rotation),
+                    padding: const EdgeInsets.only(left: 4),
+                    child: Text((fit.rotation ? t.rotationTitle : t.weeklyPlan).toUpperCase(),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: _label(gc)),
+                  ),
+                ),
               ),
               const SizedBox(width: 8),
               SegToggle(
@@ -77,22 +94,54 @@ class RoutinesScreen extends StatelessWidget {
               ),
             ]),
             const SizedBox(height: 10),
-            if (fit.rotation)
-              _rotationCard(context, gc)
-            else
-              SoftCard(
-                radius: 20,
-                borderColor: Colors.transparent,
-                padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
-                child: Column(children: [for (int i = 0; i < 7; i++) _dayRow(context, gc, i)]),
+            AnimatedSize(
+              duration: const Duration(milliseconds: 380),
+              curve: Curves.easeOutCubic,
+              alignment: Alignment.topCenter,
+              child: AnimatedSwitcher(
+                duration: const Duration(milliseconds: 320),
+                switchInCurve: Curves.easeOutCubic,
+                switchOutCurve: Curves.easeInCubic,
+                layoutBuilder: (current, previous) =>
+                    Stack(alignment: Alignment.topCenter, children: [...previous, ?current]),
+                transitionBuilder: (child, a) => FadeTransition(
+                  opacity: CurvedAnimation(parent: a, curve: const Interval(0.45, 1)),
+                  child: SlideTransition(
+                    position: Tween(
+                      begin: Offset(child.key == const ValueKey(true) ? 0.06 : -0.06, 0),
+                      end: Offset.zero,
+                    ).animate(a),
+                    child: child,
+                  ),
+                ),
+                child: KeyedSubtree(
+                  key: ValueKey(fit.rotation),
+                  child: fit.rotation
+                      ? _rotationCard(context, gc)
+                      : Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            SoftCard(
+                              radius: 22,
+                              borderColor: Colors.transparent,
+                              padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
+                              child: Column(children: [for (int i = 0; i < 7; i++) _dayRow(context, gc, i)]),
+                            ),
+                            if (fit.activeRoutines.isNotEmpty) ...[
+                              const SizedBox(height: 10),
+                              _plansRow(context, gc),
+                            ],
+                          ],
+                        ),
+                ),
               ),
-            if (!fit.rotation && fit.activeRoutines.isNotEmpty) ...[
-              const SizedBox(height: 10),
-              _plansRow(context, gc),
-            ],
-            const SizedBox(height: 26),
-            Text(t.yourRoutines, style: AppTheme.f(12, weight: FontWeight.w600, color: gc.textSecondary, letterSpacing: 1.5)),
-            const SizedBox(height: 10),
+            ),
+            const SizedBox(height: 30),
+            Padding(
+              padding: const EdgeInsets.only(left: 4),
+              child: Text(t.yourRoutines.toUpperCase(), style: _label(gc)),
+            ),
+            const SizedBox(height: 12),
             if (fit.activeRoutines.isEmpty)
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 26),
@@ -110,7 +159,18 @@ class RoutinesScreen extends StatelessWidget {
             if (fit.archivedRoutines.isNotEmpty) ...[
               const SizedBox(height: 6),
               _archivedHeader(gc),
-              if (fit.showArchivedRoutines) Opacity(opacity: 0.6, child: _folders(context, fit.archivedRoutines)),
+              AnimatedSize(
+                duration: const Duration(milliseconds: 340),
+                curve: Curves.easeOutCubic,
+                alignment: Alignment.topCenter,
+                child: AnimatedOpacity(
+                  duration: const Duration(milliseconds: 260),
+                  opacity: fit.showArchivedRoutines ? 0.6 : 0,
+                  child: fit.showArchivedRoutines
+                      ? _folders(context, fit.archivedRoutines)
+                      : const SizedBox(width: double.infinity),
+                ),
+              ),
             ],
             const SizedBox(height: 16),
             PrimaryButton(
@@ -135,11 +195,15 @@ class RoutinesScreen extends StatelessWidget {
               icon: PhosphorIconsRegular.sparkle,
               onTap: fit.goAiPlan,
             ),
-          ],
+          ]),
         ),
+      ),
       ),
     );
   }
+
+  TextStyle _label(GymColors gc) =>
+      AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.4);
 
   void _shareMenu(BuildContext context) {
     final gc = context.gc;
@@ -860,11 +924,11 @@ class RoutinesScreen extends StatelessWidget {
     final assigned = fit.routinesOn(day);
     final isToday = DateTime.now().weekday == weekday;
     final moved = fit.movedOn(day);
-    return GestureDetector(
+    return Pressable(
+      scale: 0.98,
       onTap: () => _pickRoutine(context, weekday, day),
-      behavior: HitTestBehavior.opaque,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 13),
         child: Row(
           children: [
             Text(t.weekdayShort(weekday),
