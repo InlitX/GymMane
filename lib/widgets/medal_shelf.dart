@@ -16,18 +16,25 @@ class MedalShelf extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final order = [
-      ...AwardId.values.where(fit.hasAward),
-      ...AwardId.values.where((a) => !fit.hasAward(a)),
-    ];
+    final order = fit.profileMedals;
     return SizedBox(
       height: size + 32,
-      child: ListView.separated(
-        scrollDirection: Axis.horizontal,
-        itemCount: order.length,
-        separatorBuilder: (_, _) => const SizedBox(width: 12),
-        itemBuilder: (_, i) => _slot(context, order[i]),
-      ),
+      child: LayoutBuilder(builder: (context, box) {
+        final wide = order.length * (size + 12) + (order.length - 1) * 12;
+        if (wide <= box.maxWidth) {
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [for (final id in order) _slot(context, id)],
+          );
+        }
+        return ListView.separated(
+          scrollDirection: Axis.horizontal,
+          itemCount: order.length,
+          separatorBuilder: (_, _) => const SizedBox(width: 12),
+          itemBuilder: (_, i) => _slot(context, order[i]),
+        );
+      }),
     );
   }
 

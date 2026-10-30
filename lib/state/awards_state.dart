@@ -81,6 +81,21 @@ mixin AwardsState on FitCore, StatsState, SettingsState {
 
   int get awardCount => awards.length;
 
+  bool isProfileMedal(AwardId id) => profile.medals.contains(id.name);
+
+  void toggleProfileMedal(AwardId id) {
+    if (!hasAward(id)) return;
+    isProfileMedal(id) ? profile.medals.remove(id.name) : profile.medals.add(id.name);
+    _persist();
+    notifyListeners();
+  }
+
+  List<AwardId> get profileMedals {
+    final chosen = [for (final id in AwardId.values) if (hasAward(id) && isProfileMedal(id)) id];
+    if (chosen.isNotEmpty) return chosen;
+    return [...AwardId.values.where(hasAward), ...AwardId.values.where((a) => !hasAward(a))];
+  }
+
   List<AwardId> get unseenAwards =>
       AwardId.values.where((a) => hasAward(a) && !awardsSeen.contains(a.name)).toList();
 
