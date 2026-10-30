@@ -28,13 +28,23 @@ mixin MomentsState on FitCore {
 
   int get momentCount => moments.length;
 
-  Future<bool> addMoment(String srcPath, {String note = ''}) async {
+  Future<bool> addMoment(String srcPath, {String note = '', DateTime? date}) async {
     final saved = await MediaStore.importFor('moment', srcPath);
     if (saved == null) return false;
-    moments.add(Moment(DateTime.now(), saved, note: note));
+    moments.add(Moment(date ?? DateTime.now(), saved, note: note));
     _persist();
     notifyListeners();
     return true;
+  }
+
+  List<Moment> momentsOf(LoggedSession s) => [for (final m in moments) if (m.date.isAtSameMomentAs(s.date)) m];
+
+  void _moveMoments(DateTime from, DateTime to) {
+    if (from.isAtSameMomentAs(to)) return;
+    for (var i = 0; i < moments.length; i++) {
+      final m = moments[i];
+      if (m.date.isAtSameMomentAs(from)) moments[i] = Moment(to, m.file, note: m.note);
+    }
   }
 
   void deleteMoment(Moment moment) {

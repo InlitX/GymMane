@@ -11,6 +11,8 @@ import '../services/media_store.dart';
 import '../state/fit_state.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
+import '../widgets/entrance.dart';
+import '../widgets/sheet_page.dart';
 import '../widgets/dialogs.dart';
 import '../widgets/file_thumb.dart';
 import '../widgets/photo_source_sheet.dart';
@@ -32,37 +34,11 @@ class _MomentsScreenState extends State<MomentsScreen> {
     final source = await pickPhotoSource(context);
     if (source == null) return;
     setState(() => _busy = true);
-    try {
-      if (source == ImageSource.gallery) {
-        final shots = await ImagePicker()
-            .pickMultiImage(maxWidth: 1440, maxHeight: 1920, imageQuality: 88);
-        for (final shot in shots) {
-          await fit.addMoment(shot.path);
-        }
-        return;
-      }
-      final shot = await ImagePicker()
-          .pickImage(source: source, maxWidth: 1440, maxHeight: 1920, imageQuality: 88);
-      if (shot == null) return;
-      await fit.addMoment(shot.path);
-    } catch (_) {
-    } finally {
-      if (mounted) setState(() => _busy = false);
-    }
+    await addMomentsFrom(source);
+    if (mounted) setState(() => _busy = false);
   }
 
-  void _open(Moment moment) {
-    final path = MediaStore.pathFor(moment.file) ?? '';
-    if (path.isEmpty) return;
-    Navigator.of(context).push(PageRouteBuilder<void>(
-      opaque: false,
-      barrierColor: Colors.transparent,
-      transitionDuration: const Duration(milliseconds: 280),
-      reverseTransitionDuration: const Duration(milliseconds: 220),
-      pageBuilder: (_, animation, _) =>
-          _PhotoView(moment: moment, path: path, animation: animation),
-    ));
-  }
+  void _open(Moment moment) => openMoment(context, moment);
 
   void _press(Moment moment) {
     if (fit.momentPicks.isEmpty) return _open(moment);
@@ -123,67 +99,80 @@ class _MomentsScreenState extends State<MomentsScreen> {
     final shots = fit.momentsNewest;
     final picks = fit.momentPicks.length;
 
-    return SafeArea(
-      bottom: false,
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(20, 12, 20, 0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            ScreenHeader(
-              title: t.photosCard,
-              onBack: fit.backFromMoments,
-              subtitle: picks > 0
-                  ? t.photosSelected(picks)
-                  : (shots.isEmpty ? null : t.momentCount(shots.length)),
-              actions: picks > 0
-                  ? [
-                      RoundAction(
-                        onTap: _removePicked,
-                        label: t.delete,
-                        child: Icon(PhosphorIconsRegular.trash, size: 17, color: gc.danger),
-                      ),
-                      const SizedBox(width: 8),
-                      RoundAction(
-                        onTap: fit.clearMomentPicks,
-                        label: t.cancel,
-                        child: Icon(PhosphorIconsRegular.x, size: 17, color: gc.text),
-                      ),
-                    ]
-                  : [
+    return RiseScope(
+      id: 'moments',
+      once: false,
+      child: SheetPage(
+        title: t.photosCard,
+        eyebrow: picks > 0 ? t.photosSelected(picks) : t.profile,
+        onBack: fit.backFromMoments,
+        actions: picks > 0
+            ? [
+                RoundAction(
+                  onTap: _removePicked,
+                  label: t.delete,
+                  child: Icon(PhosphorIconsRegular.trash, size: 17, color: gc.danger),
+                ),
+                RoundAction(
+                  onTap: fit.clearMomentPicks,
+                  label: t.cancel,
+                  child: Icon(PhosphorIconsRegular.x, size: 17, color: gc.text),
+                ),
+              ]
+            : [
                 RoundAction(
                   onTap: () => setState(() => _grouped = !_grouped),
                   label: t.photosCard,
-                  child: Icon(
-                      _grouped
-                          ? PhosphorIconsRegular.squaresFour
-                          : PhosphorIconsRegular.rows,
-                      size: 17,
-                      color: context.gc.text),
+                  child: Icon(_grouped ? PhosphorIconsRegular.squaresFour : PhosphorIconsRegular.rows,
+                      size: 17, color: gc.text),
                 ),
-                const SizedBox(width: 8),
                 RoundAction(
                   onTap: _add,
                   label: t.snapNow,
-                  child: Icon(PhosphorIconsRegular.camera, size: 17, color: context.gc.text),
+                  child: Icon(PhosphorIconsRegular.camera, size: 17, color: gc.text),
                 ),
               ],
-            ),
-            const SizedBox(height: 18),
-            Expanded(
-              child: shots.isEmpty
-                  ? _empty(gc)
-                  : (_grouped ? _byDate(gc, shots) : _plainGrid(gc, shots)),
-            ),
-          ],
-        ),
+        children: shots.isEmpty
+            ? [Rise(index: 0, child: _empty(gc))]
+            : [
+                Rise(index: 0, child: _stats(gc, shots)),
+                const SizedBox(height: 22),
+                Rise(index: 1, child: _grouped ? _byDate(gc, shots) : _plainGrid(gc, shots)),
+              ],
       ),
+    );
+  }
+
+  Widget _stats(GymColors gc, List<Moment> shots) {
+    final now = DateTime.now();
+    final month = shots.where((m) => m.date.year == now.year && m.date.month == now.month).length;
+    final days = {for (final m in shots) DateTime(m.date.year, m.date.month, m.date.day)}.length;
+    Widget cell(String value, String label) => Expanded(
+          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            RollIn(value, style: AppTheme.f(26, weight: FontWeight.w800, color: gc.text, height: 1.05)),
+            const SizedBox(height: 5),
+            Text(label.toUpperCase(),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: AppTheme.f(9.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.1)),
+          ]),
+        );
+    return Container(
+      padding: const EdgeInsets.fromLTRB(18, 18, 18, 16),
+      decoration: BoxDecoration(color: gc.bgRaised, borderRadius: BorderRadius.circular(24)),
+      child: Row(children: [
+        cell('${shots.length}', t.photosCard),
+        cell('$month', t.momentsThisMonth),
+        cell('$days', t.momentsDays),
+      ]),
     );
   }
 
   Widget _plainGrid(GymColors gc, List<Moment> shots) {
     return GridView.builder(
-      padding: const EdgeInsets.only(bottom: 110),
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      padding: EdgeInsets.zero,
       itemCount: shots.length,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 3,
@@ -211,8 +200,8 @@ class _MomentsScreenState extends State<MomentsScreen> {
     for (final m in shots) {
       groups.putIfAbsent(_bucket(m.date), () => []).add(m);
     }
-    return ListView(
-      padding: const EdgeInsets.only(bottom: 110),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         for (final entry in groups.entries) ...[
           Padding(
@@ -223,6 +212,7 @@ class _MomentsScreenState extends State<MomentsScreen> {
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemCount: entry.value.length,
+            padding: EdgeInsets.zero,
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 3,
               mainAxisSpacing: 10,
@@ -248,6 +238,7 @@ class _MomentsScreenState extends State<MomentsScreen> {
           borderRadius: BorderRadius.circular(20),
           child: Hero(
             tag: moment.file,
+            flightShuttleBuilder: _photoFlight(path),
             child: FileThumb(path, errorBuilder: (_, _, _) => ColoredBox(color: gc.bgRaised2)),
           ),
         ),
@@ -256,7 +247,8 @@ class _MomentsScreenState extends State<MomentsScreen> {
   }
 
   Widget _empty(GymColors gc) {
-    return Center(
+    return Padding(
+      padding: const EdgeInsets.only(top: 60),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -290,6 +282,7 @@ class _MomentsScreenState extends State<MomentsScreen> {
           children: [
             Hero(
               tag: moment.file,
+              flightShuttleBuilder: _photoFlight(path),
               child: FileThumb(path, errorBuilder: (_, _, _) => ColoredBox(color: gc.bgRaised2)),
             ),
             Positioned(
@@ -309,6 +302,47 @@ class _MomentsScreenState extends State<MomentsScreen> {
       )),
     );
   }
+}
+
+Future<void> addMomentsFrom(ImageSource source, {DateTime? date}) async {
+  try {
+    if (source == ImageSource.gallery) {
+      final shots = await ImagePicker().pickMultiImage(maxWidth: 1440, maxHeight: 1920, imageQuality: 88);
+      for (final shot in shots) {
+        await fit.addMoment(shot.path, date: date);
+      }
+      return;
+    }
+    final shot = await ImagePicker().pickImage(source: source, maxWidth: 1440, maxHeight: 1920, imageQuality: 88);
+    if (shot == null) return;
+    await fit.addMoment(shot.path, date: date);
+  } catch (_) {}
+}
+
+HeroFlightShuttleBuilder _photoFlight(String path) => (_, animation, _, _, _) => AnimatedBuilder(
+      animation: animation,
+      builder: (_, _) => ClipRRect(
+        borderRadius: BorderRadius.circular(ui.lerpDouble(18, 22, animation.value)!),
+        child: SizedBox.expand(
+          child: Image.file(File(path), fit: BoxFit.cover, gaplessPlayback: true),
+        ),
+      ),
+    );
+
+Future<void> openMoment(BuildContext context, Moment moment) async {
+  final path = MediaStore.pathFor(moment.file) ?? '';
+  if (path.isEmpty) return;
+  try {
+    await precacheImage(FileImage(File(path)), context);
+  } catch (_) {}
+  if (!context.mounted) return;
+  await Navigator.of(context).push(PageRouteBuilder<void>(
+    opaque: false,
+    barrierColor: Colors.transparent,
+    transitionDuration: const Duration(milliseconds: 280),
+    reverseTransitionDuration: const Duration(milliseconds: 220),
+    pageBuilder: (_, animation, _) => _PhotoView(moment: moment, path: path, animation: animation),
+  ));
 }
 
 class _PhotoView extends StatelessWidget {
@@ -343,6 +377,7 @@ class _PhotoView extends StatelessWidget {
                     padding: const EdgeInsets.fromLTRB(24, 86, 24, 36),
                     child: Hero(
                       tag: moment.file,
+                      flightShuttleBuilder: _photoFlight(path),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(22),
                         child: Image.file(File(path), fit: BoxFit.contain),
