@@ -103,8 +103,8 @@ void main() {
     await tester.pumpWidget(const GymManeApp());
     await tester.pump();
 
-    final home = tester.getCenter(find.text(t.home));
-    final profile = tester.getCenter(find.text(t.profile.toUpperCase()));
+    final home = tester.getCenter(find.bySemanticsLabel(t.home));
+    final profile = tester.getCenter(find.bySemanticsLabel(t.profile.toUpperCase()));
     final gesture = await tester.startGesture(home);
     await tester.pump(const Duration(milliseconds: 700));
     for (var i = 1; i <= 10; i++) {

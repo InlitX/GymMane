@@ -91,4 +91,24 @@ void main() {
     expect(fit.session, isNull);
     expect(fit.sessions, hasLength(1));
   });
+
+  test('#264 las fotos del entreno siguen a la sesión aunque se siga entrenando', () async {
+    fit.startRoutine(routine(['Barbell Bench Press']));
+    fit.endCountdown();
+    fit.toggleSet(0, 0);
+    fit.finishSession();
+    final first = fit.filedSession!;
+    fit.moments.add(Moment(first.date, 'a.jpg'));
+    fit.moments.add(Moment(first.date.subtract(const Duration(days: 1)), 'b.jpg'));
+    expect(fit.momentsOf(first).map((m) => m.file), ['a.jpg']);
+
+    fit.continueSession();
+    await Future<void>.delayed(const Duration(milliseconds: 5));
+    fit.toggleSet(0, 1);
+    fit.finishSession();
+    final again = fit.filedSession!;
+    expect(again.date.isAtSameMomentAs(first.date), isFalse);
+    expect(fit.momentsOf(again).map((m) => m.file), ['a.jpg']);
+    expect(fit.moments.firstWhere((m) => m.file == 'b.jpg').date.isBefore(first.date), isTrue);
+  });
 }
