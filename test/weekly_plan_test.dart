@@ -346,4 +346,59 @@ void main() {
       expect(fit.planIdsOn(1), [b.id], reason: 'apagado se ignoran las extra');
     });
   });
+
+  group('#284 descanso en la semana fija', () {
+    setUp(() async {
+      SharedPreferences.setMockInitialValues({});
+      await Store.instance.init();
+      fit.resetAllData();
+      fit.onboarded = true;
+    });
+
+    String bench() => fit.matchExerciseByName('Bench Press')!.id;
+
+    Routine routine(String name) {
+      final id = fit.createRoutine(name);
+      fit.toggleRoutineExercise(id, bench());
+      return fit.routines.firstWhere((r) => r.id == id);
+    }
+
+    DateTime day(int offset) {
+      final n = DateTime.now();
+      return DateTime(n.year, n.month, n.day + offset, 10);
+    }
+
+    test('un día sin rutina en una semana con plan es descanso', () {
+      final a = routine('Upper'), b = routine('Lower');
+      fit.assignRoutineToDay(day(2).weekday, a.id);
+      fit.assignRoutineToDay(day(4).weekday, b.id);
+
+      expect(fit.rotating, isFalse);
+      expect(fit.restingToday, isTrue);
+      expect(fit.restOn(day(1)), isTrue);
+      expect(fit.restOn(day(2)), isFalse);
+      expect(fit.restOn(day(-1)), isFalse, reason: 'lo pasado no se marca');
+      final next = fit.nextPlannedAfter(DateTime.now())!;
+      expect(next.routine.id, a.id);
+      expect(next.day.weekday, day(2).weekday);
+    });
+
+    test('sin plan no hay descanso y el día que tiene rutina tampoco', () {
+      final a = routine('Upper');
+      expect(fit.restingToday, isFalse);
+      fit.assignRoutineToDay(DateTime.now().weekday, a.id);
+      expect(fit.restingToday, isFalse);
+      expect(fit.restOn(day(1)), isTrue);
+    });
+
+    test('si se entrena el día de descanso deja de serlo', () {
+      final a = routine('Upper');
+      fit.assignRoutineToDay(day(2).weekday, a.id);
+      fit.startRoutine(a);
+      fit.endCountdown();
+      fit.toggleSet(0, 0);
+      fit.finishSession();
+      expect(fit.restingToday, isFalse);
+    });
+  });
 }
