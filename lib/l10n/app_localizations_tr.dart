@@ -37,7 +37,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get done => 'TAMAM';
 
   @override
-  String get set => 'Set';
+  String get set => 'Ayarla';
 
   @override
   String get home => 'ANA SAYFA';
@@ -196,6 +196,123 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get restOff => 'Kapalı';
+
+  @override
+  String get miniRest => 'Rest-pause ve cluster dinlenmesi';
+
+  @override
+  String get miniRestHint =>
+      'Rest-pause veya cluster setinden önce kısa dinlenme. Diğer setler normal dinlenmeyle devam eder.';
+
+  @override
+  String get gymPass => 'Spor salonu kartı';
+
+  @override
+  String get gymPassEmpty => 'Salonunun kodunu burada sakla, kartı çıkarmadan gir';
+
+  @override
+  String get gymPassAdd => 'Kart ekle';
+
+  @override
+  String get gymPassScan => 'Kodun fotoğrafını çek';
+
+  @override
+  String get gymPassScanHint => 'Telefonunun kamerasıyla';
+
+  @override
+  String get gymPassPhoto => 'Bir fotoğraftan veya ekran görüntüsünden';
+
+  @override
+  String get gymPassPhotoHint => 'Örneğin salonunun uygulamasından bir ekran görüntüsü';
+
+  @override
+  String get gymPassType => 'Numarayı yaz';
+
+  @override
+  String get gymPassTypeHint => 'Barkodlar için: altında yazan numara';
+
+  @override
+  String get gymPassNotFound => 'Bu görselde QR kod yok. Daha net bir tane dene ya da numarayı yaz.';
+
+  @override
+  String get gymPassName => 'Salon adı';
+
+  @override
+  String get gymPassDefaultName => 'Salonum';
+
+  @override
+  String get gymPassCode => 'Kod';
+
+  @override
+  String get gymPassFormat => 'Kod türü';
+
+  @override
+  String get gymPassInvalid => 'Bu numara bu kod türüne uymuyor';
+
+  @override
+  String get gymPassShowHint => 'Okuyucuya tut. Parlaklık kendiliğinden artar.';
+
+  @override
+  String get gymPassDeleted => 'Kart silindi';
+
+  @override
+  String get gymPassEdit => 'Kartı düzenle';
+
+  @override
+  String get gymPassShow => 'Girişte göster';
+
+  @override
+  String get gymPassPrivate => 'Sadece telefonunda kalır. Hiçbir şey yüklenmez.';
+
+  @override
+  String get gymPassColor => 'Renk';
+
+  @override
+  String get gymPassRescan => 'Kodu yeniden oku';
+
+  @override
+  String get gymPassReading => 'Kod okunuyor…';
+
+  @override
+  String get gymPassSettingHint => 'Salon kartın profilinde, girişe hazır';
+
+  @override
+  String get gymPassMember => 'Üye';
+
+  @override
+  String get widgetHintActivity => 'Antrenman günlerinin haritası';
+
+  @override
+  String get widgetHintStats => 'Bu haftanın serisi, hacmi ve antrenmanları';
+
+  @override
+  String get widgetHintBody => 'Çalıştırdığın kaslar';
+
+  @override
+  String get widgetHintToday => 'Bir bakışta: bugün antrenman yaptın mı?';
+
+  @override
+  String get widgetHintWeek => 'Haftalık planın, gün gün';
+
+  @override
+  String get supportHintBug => 'Neyin bozulduğunu GitHub\'da anlat';
+
+  @override
+  String get supportHintFeature => 'Uygulama için bir fikir öner';
+
+  @override
+  String get supportHintStar => 'Daha çok kişinin bulmasına yardım eder';
+
+  @override
+  String get supportHintCoffee => 'Geliştirmeyi destekler. Ücretsiz ve reklamsız';
+
+  @override
+  String get bodyweightNoteHint => 'Not ekle: nasıl hissediyorsun, neyi deniyorsun… (isteğe bağlı)';
+
+  @override
+  String exerciseUnitSwitch(String unit) {
+    return 'Bu egzersizde $unit kullan';
+  }
 
   @override
   String get setCol => '#';
@@ -1302,6 +1419,10 @@ class AppLocalizationsTr extends AppLocalizations {
   String get autofills => 'Hesaplayıcılardaki bilgileri otomatik doldurur';
 
   @override
+  String get onbUnitsWhy =>
+      'Ağırlıklar, ölçüler ve mesafeler için. Ayarlar\'dan istediğin zaman değiştirebilirsin.';
+
+  @override
   String get nameLabel => 'AD';
 
   @override
@@ -2011,6 +2132,9 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get tplPpl => 'İtiş, çekiş ve bacak. Haftada üç veya altı gün.';
+
+  @override
+  String get tplArnold => 'Göğüs ve sırt, omuz ve kollar, bacaklar. Klasik altı günlük split.';
 
   @override
   String get tplUpperlower => 'Üst ve alt vücut, haftada dört gün.';
@@ -5286,4 +5410,214 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get trainAnyway => 'Yine de antrenman yap';
+
+  @override
+  String get healthTitle => 'Sağlık';
+
+  @override
+  String get healthSetting => 'Sağlık verileri';
+
+  @override
+  String get healthSettingHint => 'Health Connect\'ten kalp, uyku ve yaşamsal değerler, İlerleme\'de.';
+
+  @override
+  String get healthPickTitle => 'Sağlık verileri';
+
+  @override
+  String get healthPickHint =>
+      'Health Connect\'ten neyin alınacağını seç. Android her biri için bir kez sorar. Yalnızca okunur ve telefonundan asla çıkmaz.';
+
+  @override
+  String get healthGroupHeart => 'Kalp';
+
+  @override
+  String get healthGroupVitals => 'Yaşamsal değerler';
+
+  @override
+  String get healthGroupActivity => 'Aktivite';
+
+  @override
+  String get healthRestingHr => 'Dinlenme nabzı';
+
+  @override
+  String get healthHeartRate => 'Ortalama nabız';
+
+  @override
+  String get healthHrv => 'Kalp atış hızı değişkenliği';
+
+  @override
+  String get healthSpo2 => 'Kan oksijeni';
+
+  @override
+  String get healthRespiration => 'Solunum hızı';
+
+  @override
+  String get healthBloodPressure => 'Tansiyon';
+
+  @override
+  String get healthTemperature => 'Vücut ısısı';
+
+  @override
+  String get healthSleep => 'Uyku';
+
+  @override
+  String get healthDistance => 'Mesafe';
+
+  @override
+  String get healthFloors => 'Çıkılan kat';
+
+  @override
+  String get healthElevation => 'Kazanılan yükseklik';
+
+  @override
+  String get healthActiveKcal => 'Aktif kalori';
+
+  @override
+  String get healthNoData => 'Henüz veri yok';
+
+  @override
+  String get healthAllow => 'İzin vermek için dokun';
+
+  @override
+  String get healthLast7 => 'Son 7 gün';
+
+  @override
+  String get healthAvg30 => '30 gün ort.';
+
+  @override
+  String get healthLow => 'En düşük';
+
+  @override
+  String get healthHigh => 'En yüksek';
+
+  @override
+  String get healthFrom => 'Health Connect\'ten · son 30 gün';
+
+  @override
+  String get healthBpm => 'atım/dk';
+
+  @override
+  String get healthBreaths => 'nefes/dk';
+
+  @override
+  String get weekTab => 'Hafta';
+
+  @override
+  String get muscleSetsList => 'Kas başına set';
+
+  @override
+  String get fatTrans => 'Trans';
+
+  @override
+  String get fatTypesHint => 'İsteğe bağlı. Etikette yazmayanı boş bırak.';
+
+  @override
+  String get sessionPhotos => 'Antrenman fotoğrafları';
+
+  @override
+  String get sessionPhotosAdd => 'Fotoğraf ekle';
+
+  @override
+  String get sessionPhotosHint => 'Fotoğrafların bölümünde de durur.';
+
+  @override
+  String get ladderTitle => 'İlerleme';
+
+  @override
+  String get ladderHint =>
+      'Adımları kolaydan zora sırala. Üst üste iki antrenmanda 3x8 yaptığında (yavaşlarda 5), GymMane bir sonrakini önerir.';
+
+  @override
+  String get ladderBuiltIn =>
+      'Uygulamanın ilerlemesinden başlar. Adım ekle, çıkar ya da sırala; bu rutine ait olur.';
+
+  @override
+  String get ladderNone => 'Henüz yok. Oluşturmak için dokun.';
+
+  @override
+  String ladderStep(int n, int total) {
+    return 'Adım $n / $total';
+  }
+
+  @override
+  String get ladderAdd => 'Adım ekle';
+
+  @override
+  String get ladderInRoutine => 'Rutinde';
+
+  @override
+  String get ladderClear => 'Uygulamanınkini kullan';
+
+  @override
+  String get ladderPick => 'Bir adım seç';
+
+  @override
+  String get periodWeek => 'bu hafta';
+
+  @override
+  String get periodMonth => 'bu ay';
+
+  @override
+  String get periodYear => 'bu yıl';
+
+  @override
+  String get periodAll => 'tüm zamanlar';
+
+  @override
+  String get settingsSearch => 'Ayarlarda ara';
+
+  @override
+  String get settingsNoResults => 'Bu adla bir ayar yok';
+
+  @override
+  String get settingsGroupApp => 'Uygulaman';
+
+  @override
+  String get settingsGroupHome => 'Ana sayfa ve ekstralar';
+
+  @override
+  String get settingsGroupData => 'Veriler ve yardım';
+
+  @override
+  String get healthAllowAll => 'Hepsini aç';
+
+  @override
+  String get healthSeeAll => 'Tümünü gör';
+
+  @override
+  String get healthPinTitle => 'Kartta';
+
+  @override
+  String get healthPinHint => 'İlerleme kartı için en fazla 3 tane seç.';
+
+  @override
+  String get blurSetting => 'Bulanıklık efektleri';
+
+  @override
+  String get blurSettingHint => 'Cam ve yumuşak kenarlar. Telefonun yavaşlarsa kapat.';
+
+  @override
+  String get lowEndTitle => 'Telefonunun belleği az';
+
+  @override
+  String get lowEndBody =>
+      'Bulanıklığı kapatınca her şey daha akıcı olur. Ayarlar → Genel\'den geri açabilirsin.';
+
+  @override
+  String get lowEndOff => 'Bulanıklığı kapat';
+
+  @override
+  String get lowEndKeep => 'Kalsın';
+
+  @override
+  String get momentsThisMonth => 'Bu ay';
+
+  @override
+  String get momentsDays => 'Fotoğraflı günler';
+
+  @override
+  String get awardsPick => 'Profil için seç';
+
+  @override
+  String get awardsPickHint => 'Profilinde görmek istediklerine dokun';
 }
