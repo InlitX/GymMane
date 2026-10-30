@@ -77,7 +77,17 @@ class HomeFolder extends StatelessWidget {
                           if (badge != null) ...[const SizedBox(width: 7), badge!],
                         ]),
                         const Spacer(),
-                        Text(detail,
+                        Text.rich(
+                            TextSpan(children: [
+                              for (final (i, part) in detail.split('☆').indexed) ...[
+                                if (i > 0)
+                                  WidgetSpan(
+                                    alignment: PlaceholderAlignment.middle,
+                                    child: Icon(PhosphorIconsRegular.star, size: 11, color: gc.textSecondary),
+                                  ),
+                                TextSpan(text: part),
+                              ],
+                            ]),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: AppTheme.f(11, weight: FontWeight.w600, color: gc.textSecondary)),

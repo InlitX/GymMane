@@ -89,7 +89,7 @@ mixin NutritionState on FitCore, ToolsState, StatsState {
 
   bool isTrainingDay(DateTime day) {
     final key = _dayKey(day);
-    if (sessions.any((s) => _dayKey(s.date) == key)) return true;
+    if (_sessionsOnDay(key).isNotEmpty || _sessionsOnDay(shiftDays(key, -1)).any((s) => _dayKey(s.date) == key)) return true;
     if (key != _dayKey(DateTime.now())) return false;
     return hasPlanOn(key);
   }
@@ -106,7 +106,7 @@ mixin NutritionState on FitCore, ToolsState, StatsState {
   int burnedOn(DateTime day) {
     final key = _dayKey(day);
     var kcal = 0.0;
-    for (final s in sessions.where((s) => _dayKey(s.day) == key)) {
+    for (final s in _sessionsOnDay(key)) {
       var cardioSec = 0;
       for (final e in s.exercises) {
         final c = cardioKcal(s, e);
@@ -1352,7 +1352,7 @@ mixin NutritionState on FitCore, ToolsState, StatsState {
 
   Map<String, dynamic> nutritionJson() => {
         'foods': foods.map((f) => f.toJson()).toList(),
-        'log': foodLog.map((e) => e.toJson()).toList(),
+        'log': _stored('log', foodLog, (e) => e.toJson()),
         'water': waterLog.map((w) => w.toJson()).toList(),
         'supps': supplements.map((s) => s.toJson()).toList(),
         'taken': supplementsTaken.map((k, v) => MapEntry(k, v.toList())),

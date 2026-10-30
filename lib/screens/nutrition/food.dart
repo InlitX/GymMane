@@ -563,7 +563,7 @@ class _FoodInfoSheet extends StatelessWidget {
                 showFoodEditor(context, food: f.isLibrary ? null : f, from: f.isLibrary ? f : null, meal: meal);
               },
       ),
-      if (m.fat >= 1 && m.sat + m.mono + m.poly > 0) ...[const SizedBox(height: 12), _FatTypesCard(of: m)],
+      if (m.fat >= 1 && m.hasFatTypes) ...[const SizedBox(height: 12), _FatTypesCard(of: m)],
       if (m.protein >= 5 && m.aminoScores.isNotEmpty) ...[const SizedBox(height: 12), _QualityCard(of: m)],
       const SizedBox(height: 18),
       PrimaryButton(
@@ -1294,6 +1294,7 @@ class _EntryValuesSheetState extends State<_EntryValuesSheet> {
             sodium: old.sodium,
             animal: old.protein <= 0 ? 0 : old.animal / old.protein * m.protein,
             sat: old.sat,
+            trans: old.trans,
             mono: old.mono,
             poly: old.poly,
             aminoProtein: old.protein <= 0 ? 0 : old.aminoProtein / old.protein * m.protein,
@@ -1429,6 +1430,10 @@ Macros _macrosOf(
   TextEditingController? fiber,
   TextEditingController? sugar,
   TextEditingController? sodium,
+  TextEditingController? sat,
+  TextEditingController? trans,
+  TextEditingController? mono,
+  TextEditingController? poly,
 }) {
   final protein = _read(p), carbs = _read(c), fat = _read(f);
   var kcal = fit.kcalFromShown(_read(k));
@@ -1441,6 +1446,10 @@ Macros _macrosOf(
     fiber: fiber == null ? 0 : _read(fiber),
     sugar: sugar == null ? 0 : _read(sugar),
     sodium: sodium == null ? 0 : _read(sodium),
+    sat: sat == null ? 0 : _read(sat),
+    trans: trans == null ? 0 : _read(trans),
+    mono: mono == null ? 0 : _read(mono),
+    poly: poly == null ? 0 : _read(poly),
   );
 }
 
@@ -1732,7 +1741,11 @@ class _FoodEditorState extends State<_FoodEditor> with _StickerDrafts {
   late final _fi = TextEditingController(text: _seed(_base?.macros.fiber ?? 0));
   late final _su = TextEditingController(text: _seed(_base?.macros.sugar ?? 0));
   late final _na = TextEditingController(text: _seed(_base?.macros.sodium ?? 0));
-  late bool _extras = _base?.macros.hasExtras ?? false;
+  late final _sat = TextEditingController(text: _seed(_base?.macros.sat ?? 0));
+  late final _trans = TextEditingController(text: _seed(_base?.macros.trans ?? 0));
+  late final _mono = TextEditingController(text: _seed(_base?.macros.mono ?? 0));
+  late final _poly = TextEditingController(text: _seed(_base?.macros.poly ?? 0));
+  late bool _extras = (_base?.macros.hasExtras ?? false) || (_base?.macros.hasFatTypes ?? false);
   late bool _shake = widget.asShake || (widget.food != null && fit.isShakeFood(widget.food!.id));
   late double _animalShare = _shareOf(_base?.macros);
   late FoodCat? _cat = _base?.cat;
@@ -1752,7 +1765,7 @@ class _FoodEditorState extends State<_FoodEditor> with _StickerDrafts {
 
   @override
   void dispose() {
-    for (final c in [_name, _serving, _grams, _kcal, _p, _c, _f, _fi, _su, _na]) {
+    for (final c in [_name, _serving, _grams, _kcal, _p, _c, _f, _fi, _su, _na, _sat, _trans, _mono, _poly]) {
       c.dispose();
     }
     _dropDrafts();
@@ -1767,7 +1780,8 @@ class _FoodEditorState extends State<_FoodEditor> with _StickerDrafts {
     }
     var grams = (_read(_grams) * _k).clamp(0, 5000).toDouble();
     if (_per100 && grams <= 0) grams = 100;
-    final typed = _macrosOf(_kcal, _p, _c, _f, fiber: _fi, sugar: _su, sodium: _na);
+    final typed = _macrosOf(_kcal, _p, _c, _f,
+        fiber: _fi, sugar: _su, sodium: _na, sat: _sat, trans: _trans, mono: _mono, poly: _poly);
     final saved = fit.saveFood(
       id: widget.food?.id,
       name: name,
@@ -1796,7 +1810,7 @@ class _FoodEditorState extends State<_FoodEditor> with _StickerDrafts {
     final grams = _read(_grams) * _k;
     if (grams > 0) {
       final k = on ? 100 / grams : grams / 100;
-      for (final c in [_kcal, _p, _c, _f, _fi, _su, _na]) {
+      for (final c in [_kcal, _p, _c, _f, _fi, _su, _na, _sat, _trans, _mono, _poly]) {
         final v = _read(c);
         if (v > 0) c.text = _seed(v * k);
       }
@@ -1845,6 +1859,7 @@ class _FoodEditorState extends State<_FoodEditor> with _StickerDrafts {
       sodium: m.sodium,
       animal: m.protein * _animalShare,
       sat: m.sat,
+      trans: m.trans,
       mono: m.mono,
       poly: m.poly,
       aminoProtein: m.aminoProtein,
@@ -1865,9 +1880,10 @@ class _FoodEditorState extends State<_FoodEditor> with _StickerDrafts {
       sugar: m.sugar,
       sodium: m.sodium,
       animal: old.animal * k,
-      sat: old.fat <= 0 ? 0 : old.sat * m.fat / old.fat,
-      mono: old.fat <= 0 ? 0 : old.mono * m.fat / old.fat,
-      poly: old.fat <= 0 ? 0 : old.poly * m.fat / old.fat,
+      sat: m.sat,
+      trans: m.trans,
+      mono: m.mono,
+      poly: m.poly,
       aminoProtein: old.aminoProtein * k,
       amino: [for (final a in old.amino) a * k],
     );
@@ -1968,7 +1984,7 @@ class _FoodEditorState extends State<_FoodEditor> with _StickerDrafts {
       const SizedBox(height: 8),
       _MacroInputs(kcal: _kcal, protein: _p, carbs: _c, fat: _f),
       const SizedBox(height: 8),
-      if (_extras)
+      if (_extras) ...[
         Row(children: [
           Expanded(child: _NumberField(label: t.fiberLabel.toUpperCase(), controller: _fi, color: gc.sage)),
           const SizedBox(width: 8),
@@ -1978,8 +1994,25 @@ class _FoodEditorState extends State<_FoodEditor> with _StickerDrafts {
             child: _NumberField(
                 label: t.sodiumLabel.toUpperCase(), controller: _na, color: gc.textSecondary, suffix: 'mg'),
           ),
-        ])
-      else
+        ]),
+        const SizedBox(height: 14),
+        Text(t.fatTypes.toUpperCase(),
+            style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.1)),
+        const SizedBox(height: 8),
+        Row(children: [
+          Expanded(child: _NumberField(label: t.fatSaturated.toUpperCase(), controller: _sat, color: gc.warn)),
+          const SizedBox(width: 8),
+          Expanded(child: _NumberField(label: t.fatTrans.toUpperCase(), controller: _trans, color: gc.danger)),
+        ]),
+        const SizedBox(height: 8),
+        Row(children: [
+          Expanded(child: _NumberField(label: t.fatMono.toUpperCase(), controller: _mono, color: gc.sage)),
+          const SizedBox(width: 8),
+          Expanded(child: _NumberField(label: t.fatPoly.toUpperCase(), controller: _poly, color: gc.info)),
+        ]),
+        const SizedBox(height: 6),
+        Text(t.fatTypesHint, textAlign: TextAlign.center, style: AppTheme.s(11.5, color: gc.textTertiary, height: 1.4)),
+      ] else
         Center(
           child: TextButton(
             onPressed: () => setState(() => _extras = true),

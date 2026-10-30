@@ -26,10 +26,15 @@ class _HeroCard extends StatelessWidget {
         );
     Widget macro(IconData icon, String label, double value, int goal, Color color) => Expanded(
           child: Column(children: [
-            Text.rich(TextSpan(children: [
-              TextSpan(text: '${value.round()}', style: AppTheme.f(15, weight: FontWeight.w800, color: gc.text)),
-              TextSpan(text: '/${goal}g', style: AppTheme.f(12, weight: FontWeight.w600, color: gc.textSecondary)),
-            ])),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.baseline,
+              textBaseline: TextBaseline.alphabetic,
+              children: [
+                RollingText('${value.round()}', style: AppTheme.f(15, weight: FontWeight.w800, color: gc.text)),
+                Text('/${goal}g', style: AppTheme.f(12, weight: FontWeight.w600, color: gc.textSecondary)),
+              ],
+            ),
             const SizedBox(height: 7),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -142,10 +147,14 @@ class _RingCard extends StatelessWidget {
             FittedBox(
               fit: BoxFit.scaleDown,
               alignment: Alignment.centerLeft,
-              child: Text.rich(TextSpan(children: [
-                TextSpan(text: value, style: AppTheme.f(21, weight: FontWeight.w800, color: gc.text, height: 1.05)),
-                TextSpan(text: ' g', style: AppTheme.f(12, weight: FontWeight.w700, color: gc.textSecondary)),
-              ])),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.baseline,
+                textBaseline: TextBaseline.alphabetic,
+                children: [
+                  RollingText(value, style: AppTheme.f(21, weight: FontWeight.w800, color: gc.text, height: 1.05)),
+                  Text(' g', style: AppTheme.f(12, weight: FontWeight.w700, color: gc.textSecondary)),
+                ],
+              ),
             ),
             const SizedBox(height: 2),
             Text(sub, maxLines: 1, style: AppTheme.f(11, weight: FontWeight.w600, color: gc.textSecondary)),
@@ -531,10 +540,11 @@ class _FatTypesCard extends StatelessWidget {
           Text('${_g(total.fat)} g', style: AppTheme.f(13, weight: FontWeight.w800, color: gc.text)),
         ]),
         const SizedBox(height: 14),
-        _SplitBar(parts: [(total.sat, gc.warn), (total.mono, gc.sage), (total.poly, gc.info)]),
+        _SplitBar(parts: [(total.sat, gc.warn), (total.trans, gc.danger), (total.mono, gc.sage), (total.poly, gc.info)]),
         const SizedBox(height: 14),
         Row(children: [
           legend(gc.warn, t.fatSaturated, total.sat),
+          if (total.trans > 0) legend(gc.danger, t.fatTrans, total.trans),
           legend(gc.sage, t.fatMono, total.mono),
           legend(gc.info, t.fatPoly, total.poly),
         ]),

@@ -17,6 +17,7 @@ import '../services/sticker_cutout.dart';
 import '../state/fit_state.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
+import '../widgets/entrance.dart';
 import '../widgets/charts.dart';
 import '../widgets/dialogs.dart';
 import '../widgets/glass.dart';
@@ -169,7 +170,10 @@ class _NutritionScreenState extends State<NutritionScreen> {
       if (on(Tracker.week)) _WeekTile(),
       if (on(Tracker.weight)) _WeightTile(),
     ];
-    return SafeArea(
+    var order = 0;
+    return RiseScope(
+      id: 'nutrition',
+      child: SafeArea(
       bottom: false,
       child: ListView(
         clipBehavior: Clip.none,
@@ -183,12 +187,6 @@ class _NutritionScreenState extends State<NutritionScreen> {
               onBack: fit.backFromNutrition,
               badge: BetaTag(t.sectionBeta),
               actions: [
-                RoundAction(
-                  label: t.nutritionAboutTitle,
-                  onTap: () => showNutritionAbout(context),
-                  child: Icon(PhosphorIconsRegular.question, size: 17, color: gc.textSecondary),
-                ),
-                const SizedBox(width: 8),
                 RoundAction(
                   label: t.trackersTitle,
                   onTap: () => showTrackersSheet(context),
@@ -241,8 +239,9 @@ class _NutritionScreenState extends State<NutritionScreen> {
               for (final d in detail) ...[const SizedBox(height: 12), d],
             ],
           ])
-            w is SizedBox ? w : _Keep(child: w),
+            w is SizedBox ? w : _Keep(child: Rise(index: order++, child: w)),
         ],
+      ),
       ),
     );
   }
@@ -278,20 +277,31 @@ class _Heading extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final gc = context.gc;
-    return Row(
-      children: [
-        Expanded(child: Text(titleCase(title), style: AppTheme.f(19, color: gc.text))),
-        if (action != null)
-          GestureDetector(
-            behavior: HitTestBehavior.opaque,
-            onTap: onAction,
-            child: Row(children: [
-              Icon(PhosphorIconsBold.plus, size: 13, color: gc.accent),
-              const SizedBox(width: 5),
-              Text(action!, style: AppTheme.f(13, weight: FontWeight.w700, color: gc.accent)),
-            ]),
+    return Padding(
+      padding: const EdgeInsets.only(left: 4),
+      child: Row(
+        children: [
+          Expanded(
+            child: Text(title.toUpperCase(),
+                style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.4)),
           ),
-      ],
+          if (action != null)
+            Pressable(
+              onTap: onAction!,
+              scale: 0.94,
+              child: Container(
+                height: 30,
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                decoration: BoxDecoration(color: gc.bgRaised, borderRadius: BorderRadius.circular(15)),
+                child: Row(mainAxisSize: MainAxisSize.min, children: [
+                  Icon(PhosphorIconsBold.plus, size: 12, color: gc.text),
+                  const SizedBox(width: 5),
+                  Text(action!, style: AppTheme.f(12.5, weight: FontWeight.w700, color: gc.text)),
+                ]),
+              ),
+            ),
+        ],
+      ),
     );
   }
 }
@@ -397,8 +407,8 @@ Widget _sheetFrame(BuildContext context, List<Widget> children, {double heightFa
       height: heightFactor > 0 ? MediaQuery.of(context).size.height * heightFactor : null,
       padding: sheetPad(context, bottom: 18),
       decoration: BoxDecoration(
-        color: gc.bgRaised,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
+        color: fit.dark ? Color.lerp(gc.bg, gc.bgRaised, 0.55) : gc.bg,
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(32)),
       ),
       child: SingleChildScrollView(
         child: Column(
