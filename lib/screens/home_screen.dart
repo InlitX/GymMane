@@ -232,12 +232,14 @@ class HomeScreen extends StatelessWidget {
   }
 
   Widget _hero(BuildContext context, GymColors gc) {
-    final rest = fit.restingToday ? fit.rotationUpcoming : null;
+    final rest = fit.restUpcoming;
     final routine = rest ?? fit.todayRoutine;
     final focus = fit.suggestedFocus;
     final isRoutine = routine != null && routine.exerciseIds.isNotEmpty;
     final label = rest != null
-        ? t.rotationTitle
+        ? fit.rotating
+            ? t.rotationTitle
+            : t.weeklyPlan
         : isRoutine
             ? t.todaysRoutine
             : t.todaysFocus;
@@ -251,7 +253,7 @@ class HomeScreen extends StatelessWidget {
     final subtitle = rest != null
         ? [
             t.rotationRestUpNext(fit.routineTitle(rest)),
-            t.rotationPlace(fit.rotationStep + 1, fit.rotationSteps.length),
+            if (fit.rotating) t.rotationPlace(fit.rotationStep + 1, fit.rotationSteps.length),
           ].join(' · ')
         : done
         ? t.routineDoneToday

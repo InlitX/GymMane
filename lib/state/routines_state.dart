@@ -230,6 +230,17 @@ mixin RoutinesState on FitCore, LibraryState {
 
   bool get restingToday => rotationRestOn(DateTime.now());
 
+  Routine? get restUpcoming {
+    if (rotating) return restingToday ? rotationUpcoming : null;
+    final today = _dayKey(DateTime.now());
+    if (routinesOn(today).isNotEmpty || sessions.any((s) => _dayKey(s.day) == today)) return null;
+    for (var i = 1; i <= 7; i++) {
+      final next = routinesOn(shiftDays(today, i));
+      if (next.isNotEmpty) return next.first;
+    }
+    return null;
+  }
+
   bool rotationRestOn(DateTime day) {
     if (!rotating) return false;
     final key = _dayKey(day);

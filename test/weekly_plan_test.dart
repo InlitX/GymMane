@@ -346,4 +346,68 @@ void main() {
       expect(fit.planIdsOn(1), [b.id], reason: 'apagado se ignoran las extra');
     });
   });
+
+  group('#284 descanso del plan semanal en inicio', () {
+    setUp(() async {
+      SharedPreferences.setMockInitialValues({});
+      await Store.instance.init();
+      fit.resetAllData();
+      fit.onboarded = true;
+    });
+
+    Routine routine(String name) {
+      final id = fit.createRoutine(name);
+      fit.toggleRoutineExercise(id, fit.matchExerciseByName('Bench Press')!.id);
+      return fit.routines.firstWhere((r) => r.id == id);
+    }
+
+    DateTime day(int offset) {
+      final n = DateTime.now();
+      return DateTime(n.year, n.month, n.day + offset, 10);
+    }
+
+    test('hoy sin rutina es descanso y apunta a la siguiente del plan', () {
+      final a = routine('A'), b = routine('B');
+      fit.assignRoutineToDay(day(2).weekday, a.id);
+      fit.assignRoutineToDay(day(4).weekday, b.id);
+      expect(fit.todayRoutine, isNull);
+      expect(fit.restUpcoming, same(a));
+    });
+
+    test('con rutina hoy, entreno hecho o sin plan no hay descanso', () {
+      expect(fit.restUpcoming, isNull, reason: 'sin plan');
+      final a = routine('A');
+      fit.assignRoutineToDay(day(1).weekday, a.id);
+      expect(fit.restUpcoming, same(a));
+      fit.sessions.add(LoggedSession(DateTime.now(), 1800, const []));
+      expect(fit.restUpcoming, isNull, reason: 'ya entrenó hoy');
+      fit.sessions.clear();
+      fit.assignRoutineToDay(DateTime.now().weekday, a.id);
+      expect(fit.restUpcoming, isNull, reason: 'hoy toca');
+    });
+
+    test('mover la de hoy a otro día deja hoy de descanso', () {
+      final a = routine('A');
+      fit.assignRoutineToDay(DateTime.now().weekday, a.id);
+      fit.moveRoutineDay(a.id, DateTime.now(), day(2));
+      expect(fit.restUpcoming, same(a));
+    });
+
+    test('en rotación sigue usando su propio descanso', () {
+      final legs = routine('Legs'), push = routine('Push');
+      fit.setRotation(true);
+      fit.toggleRotationRoutine(legs.id);
+      fit.addRotationRest();
+      fit.toggleRotationRoutine(push.id);
+      expect(fit.restUpcoming, isNull, reason: 'hoy toca Legs');
+
+      fit.startRoutine(legs, on: day(-1));
+      fit.endCountdown();
+      fit.toggleSet(0, 0);
+      fit.finishSession();
+      fit.saveAndExit();
+      expect(fit.restingToday, isTrue);
+      expect(fit.restUpcoming, same(push));
+    });
+  });
 }
