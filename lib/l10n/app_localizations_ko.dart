@@ -37,7 +37,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get done => '완료';
 
   @override
-  String get set => '세트';
+  String get set => '설정';
 
   @override
   String get home => '홈';
@@ -196,6 +196,122 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get restOff => '끔';
+
+  @override
+  String get miniRest => '레스트 포즈·클러스터 휴식';
+
+  @override
+  String get miniRestHint => '레스트 포즈나 클러스터 세트 전에는 짧게 쉬어요. 다른 세트는 평소 휴식 그대로예요.';
+
+  @override
+  String get gymPass => '헬스장 패스';
+
+  @override
+  String get gymPassEmpty => '헬스장 코드를 여기에 저장하고 카드 없이 입장하세요';
+
+  @override
+  String get gymPassAdd => '패스 추가';
+
+  @override
+  String get gymPassScan => '코드 사진 찍기';
+
+  @override
+  String get gymPassScanHint => '휴대폰 카메라로';
+
+  @override
+  String get gymPassPhoto => '사진이나 스크린샷에서';
+
+  @override
+  String get gymPassPhotoHint => '예: 헬스장 앱의 스크린샷';
+
+  @override
+  String get gymPassType => '번호 입력';
+
+  @override
+  String get gymPassTypeHint => '바코드는 아래에 인쇄된 번호를 입력';
+
+  @override
+  String get gymPassNotFound => '이 이미지에 QR 코드가 없어요. 더 선명한 이미지를 쓰거나 번호를 입력하세요.';
+
+  @override
+  String get gymPassName => '헬스장 이름';
+
+  @override
+  String get gymPassDefaultName => '내 헬스장';
+
+  @override
+  String get gymPassCode => '코드';
+
+  @override
+  String get gymPassFormat => '코드 종류';
+
+  @override
+  String get gymPassInvalid => '이 번호는 이 코드 종류에 맞지 않아요';
+
+  @override
+  String get gymPassShowHint => '리더기에 대세요. 밝기는 자동으로 올라가요.';
+
+  @override
+  String get gymPassDeleted => '패스를 삭제했어요';
+
+  @override
+  String get gymPassEdit => '패스 편집';
+
+  @override
+  String get gymPassShow => '입구에서 보여주기';
+
+  @override
+  String get gymPassPrivate => '휴대폰에만 저장돼요. 아무것도 업로드되지 않아요.';
+
+  @override
+  String get gymPassColor => '색상';
+
+  @override
+  String get gymPassRescan => '코드 다시 읽기';
+
+  @override
+  String get gymPassReading => '코드 읽는 중…';
+
+  @override
+  String get gymPassSettingHint => '프로필 속 헬스장 카드, 입구에서 바로';
+
+  @override
+  String get gymPassMember => '회원';
+
+  @override
+  String get widgetHintActivity => '운동한 날 지도';
+
+  @override
+  String get widgetHintStats => '이번 주 연속 기록, 볼륨, 세션';
+
+  @override
+  String get widgetHintBody => '운동한 근육';
+
+  @override
+  String get widgetHintToday => '한눈에: 오늘 운동했나요?';
+
+  @override
+  String get widgetHintWeek => '이번 주 계획을 하루씩';
+
+  @override
+  String get supportHintBug => 'GitHub에서 무엇이 고장 났는지 알려주세요';
+
+  @override
+  String get supportHintFeature => '앱 아이디어 제안하기';
+
+  @override
+  String get supportHintStar => '더 많은 사람이 찾을 수 있게 도와줘요';
+
+  @override
+  String get supportHintCoffee => '개발을 후원해요. 무료, 광고 없음';
+
+  @override
+  String get bodyweightNoteHint => '메모 추가: 컨디션, 시도 중인 것… (선택)';
+
+  @override
+  String exerciseUnitSwitch(String unit) {
+    return '이 운동은 $unit 사용';
+  }
 
   @override
   String get setCol => '#';
@@ -1264,6 +1380,9 @@ class AppLocalizationsKo extends AppLocalizations {
   String get autofills => '계산기에 자동 입력';
 
   @override
+  String get onbUnitsWhy => '무게, 치수, 거리에 쓰여요. 설정에서 언제든 바꿀 수 있어요.';
+
+  @override
   String get nameLabel => '이름';
 
   @override
@@ -1949,6 +2068,9 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get tplPpl => '푸시, 풀, 하체. 주 3일 또는 6일.';
+
+  @override
+  String get tplArnold => '가슴과 등, 어깨와 팔, 하체. 클래식 6일 분할.';
 
   @override
   String get tplUpperlower => '상체와 하체, 주 4일.';
@@ -5146,4 +5268,211 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get trainAnyway => '그래도 운동하기';
+
+  @override
+  String get healthTitle => '건강';
+
+  @override
+  String get healthSetting => '건강 데이터';
+
+  @override
+  String get healthSettingHint => 'Health Connect의 심박, 수면, 활력 징후를 진행 상황에 보여줘요.';
+
+  @override
+  String get healthPickTitle => '건강 데이터';
+
+  @override
+  String get healthPickHint =>
+      'Health Connect에서 가져올 항목을 골라요. Android가 항목마다 한 번씩 물어봐요. 읽기만 하고 휴대폰 밖으로 나가지 않아요.';
+
+  @override
+  String get healthGroupHeart => '심장';
+
+  @override
+  String get healthGroupVitals => '활력 징후';
+
+  @override
+  String get healthGroupActivity => '활동';
+
+  @override
+  String get healthRestingHr => '안정 시 심박수';
+
+  @override
+  String get healthHeartRate => '평균 심박수';
+
+  @override
+  String get healthHrv => '심박 변이도';
+
+  @override
+  String get healthSpo2 => '혈중 산소';
+
+  @override
+  String get healthRespiration => '호흡수';
+
+  @override
+  String get healthBloodPressure => '혈압';
+
+  @override
+  String get healthTemperature => '체온';
+
+  @override
+  String get healthSleep => '수면';
+
+  @override
+  String get healthDistance => '거리';
+
+  @override
+  String get healthFloors => '오른 층수';
+
+  @override
+  String get healthElevation => '상승 고도';
+
+  @override
+  String get healthActiveKcal => '활동 칼로리';
+
+  @override
+  String get healthNoData => '아직 데이터가 없어요';
+
+  @override
+  String get healthAllow => '탭해서 허용';
+
+  @override
+  String get healthLast7 => '최근 7일';
+
+  @override
+  String get healthAvg30 => '30일 평균';
+
+  @override
+  String get healthLow => '최저';
+
+  @override
+  String get healthHigh => '최고';
+
+  @override
+  String get healthFrom => 'Health Connect에서 · 최근 30일';
+
+  @override
+  String get healthBpm => 'bpm';
+
+  @override
+  String get healthBreaths => '회/분';
+
+  @override
+  String get weekTab => '이번 주';
+
+  @override
+  String get muscleSetsList => '근육별 세트';
+
+  @override
+  String get fatTrans => '트랜스';
+
+  @override
+  String get fatTypesHint => '선택 사항. 라벨에 없는 항목은 비워 두세요.';
+
+  @override
+  String get sessionPhotos => '운동 사진';
+
+  @override
+  String get sessionPhotosAdd => '사진 추가';
+
+  @override
+  String get sessionPhotosHint => '내 사진에도 저장돼요.';
+
+  @override
+  String get ladderTitle => '단계별 진행';
+
+  @override
+  String get ladderHint => '쉬운 단계부터 어려운 단계 순으로 정렬하세요. 두 번 연속 8회 3세트를 해내면(느린 동작은 5회) GymMane이 다음 단계를 제안해요.';
+
+  @override
+  String get ladderBuiltIn => '앱의 단계에서 시작해요. 단계를 추가, 삭제, 정렬하면 이 루틴만의 단계가 돼요.';
+
+  @override
+  String get ladderNone => '아직 없어요. 탭해서 만드세요.';
+
+  @override
+  String ladderStep(int n, int total) {
+    return '$total단계 중 $n단계';
+  }
+
+  @override
+  String get ladderAdd => '단계 추가';
+
+  @override
+  String get ladderInRoutine => '루틴에 있음';
+
+  @override
+  String get ladderClear => '앱 단계 사용';
+
+  @override
+  String get ladderPick => '단계 선택';
+
+  @override
+  String get periodWeek => '이번 주';
+
+  @override
+  String get periodMonth => '이번 달';
+
+  @override
+  String get periodYear => '올해';
+
+  @override
+  String get periodAll => '전체 기간';
+
+  @override
+  String get settingsSearch => '설정 검색';
+
+  @override
+  String get settingsNoResults => '그 이름의 설정이 없어요';
+
+  @override
+  String get settingsGroupApp => '내 앱';
+
+  @override
+  String get settingsGroupHome => '홈과 추가 기능';
+
+  @override
+  String get settingsGroupData => '데이터와 도움말';
+
+  @override
+  String get healthAllowAll => '모두 켜기';
+
+  @override
+  String get healthSeeAll => '모두 보기';
+
+  @override
+  String get healthPinTitle => '카드에 표시';
+
+  @override
+  String get healthPinHint => '진행 카드에 최대 3개까지 고르세요.';
+
+  @override
+  String get blurSetting => '흐림 효과';
+
+  @override
+  String get blurSettingHint => '유리와 부드러운 가장자리. 휴대폰이 느리면 꺼 주세요.';
+
+  @override
+  String get lowEndTitle => '휴대폰 메모리가 부족해요';
+
+  @override
+  String get lowEndBody => '흐림을 끄면 훨씬 부드러워져요. 설정 → 일반에서 다시 켤 수 있어요.';
+
+  @override
+  String get lowEndOff => '흐림 끄기';
+
+  @override
+  String get lowEndKeep => '그대로 두기';
+
+  @override
+  String get momentsThisMonth => '이번 달';
+
+  @override
+  String get momentsDays => '사진이 있는 날';
+
+  @override
+  String get awardsPick => '프로필용으로 고르기';
+
+  @override
+  String get awardsPickHint => '프로필에 보이고 싶은 것을 탭하세요';
 }
