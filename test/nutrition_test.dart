@@ -786,4 +786,30 @@ void main() {
     expect(items.single.meal, isNot(slot.meal));
     expect(fit.mealSlots.any((s) => s.meal == items.single.meal), isTrue);
   });
+
+  group('#285 tipos de grasa en alimentos propios', () {
+    test('se guardan, se escalan al apuntar y sobreviven a reabrir', () {
+      final food = fit.saveFood(
+        name: 'Galletas',
+        macros: const Macros(kcal: 200, protein: 3, carbs: 25, fat: 10, sat: 4, trans: 0.5, mono: 3, poly: 2),
+      );
+      fit.logFood(food, servings: 2, meal: Meal.snacks);
+      final total = fit.totalOn(DateTime.now());
+      expect(total.sat, 8);
+      expect(total.trans, 1);
+      expect(total.mono, 6);
+      expect(total.poly, 4);
+
+      fit.persistNow();
+      fit.loadFromStore();
+      final again = fit.foodById(food.id)!.macros;
+      expect(again.trans, 0.5);
+      expect(again.hasFatTypes, isTrue);
+    });
+
+    test('solo trans ya cuenta como tipos de grasa', () {
+      expect(const Macros(fat: 5, trans: 1).hasFatTypes, isTrue);
+      expect(Macros.fromJson(const Macros(trans: 1.2).toJson()).trans, 1.2);
+    });
+  });
 }
