@@ -26,6 +26,7 @@ import '../widgets/ui_kit.dart';
 import '../widgets/workout_notes.dart';
 import 'exercises_screen.dart';
 import 'tool_detail_screen.dart';
+import 'session_photos.dart';
 import 'share_sheet.dart';
 import 'sticker_screen.dart';
 
@@ -128,7 +129,7 @@ class SessionScreen extends StatelessWidget {
               children: [
                 Padding(
                   padding: const EdgeInsets.fromLTRB(_rowPad, 0, _rowPad, 10),
-                  child: _setsHeader(gc, mode, repsOnly, ex != null && fit.isEachSide(ex.id)),
+                  child: _setsHeader(gc, mode, repsOnly, ex != null && fit.isEachSide(ex.id), exId: ex?.id),
                 ),
                 for (int j = 0; j < (ex?.sets.length ?? 0); j++) ...[
                   _swipeSet(context, gc, exIdx, j, ex!.sets[j], locked,
@@ -396,7 +397,7 @@ class SessionScreen extends StatelessWidget {
           const SizedBox(height: 12),
           Padding(
             padding: const EdgeInsets.fromLTRB(8, 0, 8, 6),
-            child: _setsHeader(gc, mode, repsOnly, fit.isEachSide(ex.id), list: true),
+            child: _setsHeader(gc, mode, repsOnly, fit.isEachSide(ex.id), list: true, exId: ex.id),
           ),
           for (var j = 0; j < ex.sets.length; j++)
             _swipeSet(context, gc, i, j, ex.sets[j], locked,
@@ -485,6 +486,12 @@ class SessionScreen extends StatelessWidget {
                     Navigator.pop(sheet);
                     fit.addWarmupSets(i);
                   }),
+                if (mode != 'cardio' && !repsOnly)
+                  OptionItem(t.exerciseUnitSwitch(fit.isLbFor(ex.id) ? 'kg' : 'lb'),
+                      icon: PhosphorIconsRegular.scales, onTap: () {
+                    Navigator.pop(sheet);
+                    fit.setExerciseUnits(ex.id, fit.isLbFor(ex.id) ? 'kg' : 'lb');
+                  }),
                 OptionItem(t.addNote, icon: PhosphorIconsRegular.notePencil, onTap: () {
                   Navigator.pop(sheet);
                   showWorkoutNoteEditor(context, ex.id);
@@ -552,14 +559,15 @@ class SessionScreen extends StatelessWidget {
         ),
       );
 
-  String _prevLabel(LoggedSet p) {
-    if ((p.km ?? 0) > 0 || p.sec != null) return fit.loggedSetLabel(p);
-    return p.weight > 0 ? fit.loggedSetLabel(p) : '×${p.reps}';
+  String _prevLabel(LoggedSet p, int exIdx) {
+    final id = fit.session?.exercises[exIdx].id;
+    if ((p.km ?? 0) > 0 || p.sec != null) return fit.loggedSetLabel(p, id: id);
+    return p.weight > 0 ? fit.loggedSetLabel(p, id: id) : '×${p.reps}';
   }
 
   Widget _prevCell(GymColors gc, int exIdx, int j, LoggedSet? prev, bool locked) {
     final text = Text(
-      prev == null ? '—' : _prevLabel(prev),
+      prev == null ? '—' : _prevLabel(prev, exIdx),
       maxLines: 1,
       textAlign: TextAlign.center,
       style: AppTheme.f(12.5, weight: FontWeight.w600, color: gc.textTertiary),
@@ -590,7 +598,7 @@ class SessionScreen extends StatelessWidget {
                 child: Row(mainAxisSize: MainAxisSize.min, children: [
                   Icon(PhosphorIconsBold.arrowBendDownRight, size: 10, color: gc.textSecondary),
                   const SizedBox(width: 3),
-                  Text(_prevLabel(prev),
+                  Text(_prevLabel(prev, exIdx),
                       maxLines: 1, style: AppTheme.f(12.5, weight: FontWeight.w600, color: gc.textSecondary)),
                 ]),
               ),
@@ -1055,7 +1063,7 @@ class SessionScreen extends StatelessWidget {
   static const _prevFlex = 6;
   static const _cellFlex = 5;
 
-  Widget _setsHeader(GymColors gc, String mode, bool repsOnly, bool sided, {bool list = false}) {
+  Widget _setsHeader(GymColors gc, String mode, bool repsOnly, bool sided, {bool list = false, String? exId}) {
     final s = AppTheme.f(11, weight: FontWeight.w600, color: gc.textSecondary, letterSpacing: 0.4);
 
     Widget label(String t) => FittedBox(
@@ -1071,7 +1079,7 @@ class SessionScreen extends StatelessWidget {
         SizedBox(width: gap),
         Expanded(flex: _prevFlex, child: label(t.previousCol)),
       ],
-      for (final h in _headers(mode, repsOnly, sided)) ...[
+      for (final h in _headers(mode, repsOnly, sided, exId == null ? fit.units : fit.unitsFor(exId))) ...[
         SizedBox(width: gap),
         Expanded(flex: _cellFlex, child: label(h)),
       ],
@@ -1298,20 +1306,21 @@ class SessionScreen extends StatelessWidget {
             onSave: (v) => fit.setSessionReps(exIdx, j, v.round()),
           ),
         );
+    final exId = fit.session!.exercises[exIdx].id;
     Widget weight() => step(
           gc,
-          fit.weightValue(st.weight),
+          fit.weightValueFor(exId, st.weight),
           () => fit.bumpSessionWeight(exIdx, j, -1),
           () => fit.bumpSessionWeight(exIdx, j, 1),
           26,
           onEdit: (context) => _ruler(
             context,
-            title: t.weightTitle(fit.units.toUpperCase()),
-            value: fit.toDisplayWeight(st.weight),
-            max: fit.isLb ? 660 : 300,
-            step: fit.rulerStep,
+            title: t.weightTitle(fit.unitsFor(exId).toUpperCase()),
+            value: fit.toShownFor(exId, st.weight),
+            max: fit.isLbFor(exId) ? 1540 : 700,
+            step: fit.rulerStepFor(exId),
             majorEvery: 10,
-            unit: fit.units,
+            unit: fit.unitsFor(exId),
             onSave: (v) => fit.setSessionWeightShown(exIdx, j, v),
           ),
         );
@@ -1367,10 +1376,10 @@ class SessionScreen extends StatelessWidget {
     };
   }
 
-  List<String> _headers(String mode, bool repsOnly, bool sided) => switch (mode) {
+  List<String> _headers(String mode, bool repsOnly, bool sided, String unit) => switch (mode) {
         'cardio' => [t.distanceCol(fit.distanceUnit.toUpperCase()), t.timeCol],
-        'time' => [sided ? t.timePerSideCol : t.timeCol, if (!repsOnly) t.weightCol(fit.units.toUpperCase())],
-        _ => [t.repsCol, if (!repsOnly) t.weightCol(fit.units.toUpperCase())],
+        'time' => [sided ? t.timePerSideCol : t.timeCol, if (!repsOnly) t.weightCol(unit.toUpperCase())],
+        _ => [t.repsCol, if (!repsOnly) t.weightCol(unit.toUpperCase())],
       };
 
   Widget _setRow(GymColors gc, int exIdx, int j, SessionSet st, bool repsOnly, bool locked,
@@ -1443,18 +1452,22 @@ class SessionScreen extends StatelessWidget {
               width: 44,
               height: 44,
               child: Center(
-                child: Container(
-                width: 28,
-                height: 28,
-                decoration: BoxDecoration(
-                  color: st.done ? gc.sage : Colors.transparent,
-                  shape: BoxShape.circle,
-                  border: Border.all(color: st.done ? gc.sage : gc.textTertiary, width: 2),
-                ),
-                  child: st.done
-                      ? Center(child: SvgPathIcon(Ic.checkBold, size: 14, color: Colors.white))
-                      : null,
-                ),
+                child: Stack(clipBehavior: Clip.none, children: [
+                  Container(
+                    width: 28,
+                    height: 28,
+                    decoration: BoxDecoration(
+                      color: st.done ? gc.sage : Colors.transparent,
+                      shape: BoxShape.circle,
+                      border: Border.all(color: st.done ? gc.sage : gc.textTertiary, width: 2),
+                    ),
+                    child: st.done
+                        ? Center(child: SvgPathIcon(Ic.checkBold, size: 14, color: Colors.white))
+                        : null,
+                  ),
+                  if (fit.liveSetIsRecord(exIdx, j))
+                    Positioned(top: -6, right: -8, child: RecordBadge(label: sentenceCase(t.personalRecord))),
+                ]),
               ),
             ),
           ),
@@ -1933,6 +1946,10 @@ class SessionScreen extends StatelessWidget {
                       child: Rise(index: 3, child: _levelUpCard(context, gc, fit.summaryLevelUp!)),
                     ),
             ),
+            if (fit.filedSession case final filed?) ...[
+              const SizedBox(height: 10),
+              Rise(index: 3, child: SessionPhotos(filed)),
+            ],
             if (next != null) ...[
               const SizedBox(height: 18),
               Rise(index: 3, child: _nextRoutineCard(gc, next)),

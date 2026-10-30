@@ -130,3 +130,34 @@ Future<SetKind?> askSetKind(BuildContext context, SetKind current) {
     ),
   );
 }
+
+class RecordBadge extends StatelessWidget {
+  const RecordBadge({super.key, required this.label, this.size = 18});
+
+  final String label;
+  final double size;
+
+  @override
+  Widget build(BuildContext context) {
+    final gc = context.gc;
+    return Semantics(
+      label: label,
+      child: TweenAnimationBuilder<double>(
+        tween: Tween(begin: 0, end: 1),
+        duration: const Duration(milliseconds: 420),
+        curve: Curves.easeOutBack,
+        builder: (context, v, child) => Transform.scale(scale: v, child: child),
+        child: Container(
+          width: size,
+          height: size,
+          decoration: BoxDecoration(
+            color: gc.bgRaised,
+            shape: BoxShape.circle,
+            border: Border.all(color: gc.brass, width: 1.2),
+          ),
+          child: Icon(PhosphorIconsBold.trophy, size: size * 0.56, color: gc.brass),
+        ),
+      ),
+    );
+  }
+}
