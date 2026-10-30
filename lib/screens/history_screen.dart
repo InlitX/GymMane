@@ -7,6 +7,9 @@ import '../models/workout.dart';
 import '../state/fit_state.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
+import '../widgets/entrance.dart';
+import '../widgets/sheet_page.dart';
+import '../widgets/set_kind.dart';
 import '../widgets/ui_kit.dart';
 import 'progress_screen.dart';
 
@@ -19,8 +22,9 @@ class HistoryScreen extends StatelessWidget {
     final month = fit.historyMonth;
     final list = fit.sessionsInMonth(month);
     final records = fit.recordsBySession();
-    return SafeArea(
-      bottom: false,
+    return RiseScope(
+      id: 'history',
+      once: false,
       child: GestureDetector(
         behavior: HitTestBehavior.translucent,
         onHorizontalDragEnd: (d) {
@@ -32,12 +36,12 @@ class HistoryScreen extends StatelessWidget {
           HapticFeedback.selectionClick();
           fit.shiftHistoryMonth(older ? -1 : 1);
         },
-        child: ListView(
-          padding: const EdgeInsets.fromLTRB(20, 12, 20, 110),
+        child: SheetPage(
+          title: sentenceCase(t.historyTitle),
+          eyebrow: t.profile,
+          onBack: fit.popRoute,
           children: [
-            ScreenHeader(title: sentenceCase(t.historyTitle), onBack: fit.popRoute),
-            const SizedBox(height: 16),
-            _MonthCard(month: month),
+            Rise(index: 0, child: _MonthCard(key: ValueKey(month), month: month)),
             const SizedBox(height: 22),
             if (list.isEmpty)
               _empty(gc)
@@ -45,8 +49,8 @@ class HistoryScreen extends StatelessWidget {
               Text(t.historyWorkouts(list.length),
                   style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.3)),
               const SizedBox(height: 10),
-              for (final s in list) ...[
-                WorkoutHistoryCard(session: s, records: records[s] ?? 0),
+              for (var i = 0; i < list.length; i++) ...[
+                Rise(index: i + 1, child: WorkoutHistoryCard(session: list[i], records: records[list[i]] ?? 0)),
                 const SizedBox(height: 10),
               ],
             ],
@@ -73,7 +77,7 @@ class HistoryScreen extends StatelessWidget {
 }
 
 class _MonthCard extends StatelessWidget {
-  const _MonthCard({required this.month});
+  const _MonthCard({super.key, required this.month});
 
   final DateTime month;
 
@@ -139,7 +143,11 @@ class _MonthCard extends StatelessWidget {
 
   Widget _stat(GymColors gc, String value, String label, int? delta) => Expanded(
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          FitText(value, style: AppTheme.f(19, weight: FontWeight.w800, color: gc.text, height: 1.1)),
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            alignment: Alignment.centerLeft,
+            child: RollIn(value, style: AppTheme.f(21, weight: FontWeight.w800, color: gc.text, height: 1.1)),
+          ),
           const SizedBox(height: 3),
           FitText(label, style: AppTheme.f(9, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1)),
           if (delta != null && delta != 0) ...[
@@ -312,8 +320,12 @@ class WorkoutHistoryCard extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               style: AppTheme.f(13, weight: FontWeight.w600, color: gc.text)),
         ),
+        if (e.workingSets.any(fit.recordSets.contains)) ...[
+          const SizedBox(width: 8),
+          RecordBadge(label: sentenceCase(t.personalRecord), size: 16),
+        ],
         if (top != null) ...[
-          const SizedBox(width: 10),
+          const SizedBox(width: 8),
           Text(fit.loggedSetLabel(top), style: AppTheme.f(12.5, weight: FontWeight.w700, color: gc.textSecondary)),
         ],
       ]),
