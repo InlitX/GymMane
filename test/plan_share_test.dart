@@ -27,6 +27,15 @@ void main() {
       expect(plans.single.name, 'Full body');
     });
 
+    test('el mismo ejercicio repetido suma sus series con sus repeticiones', () {
+      final plans = parsePlan('{"program":"Import Test","unit":"kg","routines":[{"name":"Different Rep Targets",'
+          '"exercises":[{"name":"Lever Shoulder Press","sets":1,"reps":8},'
+          '{"name":"Lever Shoulder Press","sets":2,"reps":12}]}]}');
+      final item = plans.single.items.single;
+      expect(item.sets, 3);
+      expect([for (final p in item.plan) p.reps], [8, 12, 12]);
+    });
+
     test('un archivo que no es un plan devuelve nada', () {
       expect(parsePlan('hola'), isEmpty);
       expect(parsePlan('{"name":"Push"}'), isEmpty);
