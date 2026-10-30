@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 import '../l10n/l10n.dart';
+import '../models/exercise.dart';
 import '../models/progress_shot.dart';
 import '../services/media_store.dart';
 import '../state/fit_state.dart';
@@ -11,7 +12,6 @@ import '../theme/app_theme.dart';
 import 'body_map.dart';
 import 'charts.dart';
 import 'profile_avatar.dart';
-import 'svg_icon.dart';
 
 const Size kShareCardSize = Size(340, 425);
 
@@ -23,57 +23,52 @@ class ShareCard extends StatelessWidget {
   final ShareKind kind;
   final GymColors gc;
 
+  static const _tabular = [FontFeature.tabularFigures()];
+
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
       width: kShareCardSize.width,
       height: kShareCardSize.height,
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [gc.bgRaised, gc.bg],
-          ),
-          borderRadius: BorderRadius.circular(28),
+      padding: const EdgeInsets.fromLTRB(26, 24, 26, 22),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [gc.bgRaised, Color.lerp(gc.bgRaised, gc.bg, 0.7)!],
         ),
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(24, 22, 24, 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+        borderRadius: BorderRadius.circular(32),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Row(
             children: [
-              Row(
-                children: [
-                  Container(
-                    width: 8,
-                    height: 8,
-                    decoration: BoxDecoration(color: gc.accent, shape: BoxShape.circle),
-                  ),
-                  const SizedBox(width: 8),
-                  Text('GymMane',
-                      style: AppTheme.f(13,
-                          weight: FontWeight.w800, color: gc.text, letterSpacing: 0.4)),
-                  const Spacer(),
-                  Text(t.shortDateYear(DateTime.now()),
-                      style: AppTheme.f(11, weight: FontWeight.w500, color: gc.textTertiary)),
-                ],
-              ),
-              const SizedBox(height: 20),
-              Expanded(child: _body()),
-              const SizedBox(height: 14),
-              Container(height: 1, color: gc.border),
-              const SizedBox(height: 10),
-              Row(
-                children: [
-                  const ProfileAvatar(size: 22),
-                  const SizedBox(width: 8),
-                  Text('@${fit.profileHandle}',
-                      style: AppTheme.f(11, weight: FontWeight.w600, color: gc.textTertiary)),
-                ],
-              ),
+              Text('GymMane', style: AppTheme.f(14, weight: FontWeight.w800, color: gc.text, letterSpacing: -0.2)),
+              const Spacer(),
+              Text(t.shortDateYear(DateTime.now()),
+                  style: AppTheme.f(11, weight: FontWeight.w600, color: gc.textTertiary)),
             ],
           ),
-        ),
+          Expanded(child: _body()),
+          Container(height: 1, color: gc.text.withValues(alpha: 0.08)),
+          const SizedBox(height: 14),
+          Row(
+            children: [
+              const ProfileAvatar(size: 26),
+              const SizedBox(width: 10),
+              Flexible(
+                child: Text(fit.displayName,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: AppTheme.f(12.5, weight: FontWeight.w700, color: gc.text)),
+              ),
+              const SizedBox(width: 6),
+              Text('@${fit.profileHandle}',
+                  maxLines: 1, style: AppTheme.f(11.5, weight: FontWeight.w600, color: gc.textTertiary)),
+            ],
+          ),
+        ],
       ),
     );
   }
@@ -84,27 +79,45 @@ class ShareCard extends StatelessWidget {
         ShareKind.compare => _compare(),
       };
 
-  Widget _kicker(String text) => Text(text,
-      style: AppTheme.f(11, weight: FontWeight.w600, color: gc.brass, letterSpacing: 1.5));
+  Widget _label(String text) => Text(text.toUpperCase(),
+      style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.4));
 
-  Widget _stat(String label, String value, {String? unit, Color? color}) => Column(
+  Widget _stats(List<(String, String, String?)> items) => Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(label,
-              style: AppTheme.f(9.5, weight: FontWeight.w600, color: gc.textTertiary, letterSpacing: 1)),
-          const SizedBox(height: 3),
-          RichText(
-            text: TextSpan(
-              text: value,
-              style: AppTheme.f(22, weight: FontWeight.w800, color: color ?? gc.text),
-              children: [
-                if (unit != null)
-                  TextSpan(
-                      text: ' $unit',
-                      style: AppTheme.f(11, weight: FontWeight.w700, color: gc.textSecondary)),
-              ],
+          for (final (label, value, unit) in items)
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  FittedBox(
+                    fit: BoxFit.scaleDown,
+                    alignment: Alignment.centerLeft,
+                    child: Text.rich(
+                      TextSpan(
+                        text: value,
+                        style: AppTheme.f(22, weight: FontWeight.w800, color: gc.text, letterSpacing: -0.4)
+                            .copyWith(fontFeatures: _tabular),
+                        children: [
+                          if (unit != null)
+                            TextSpan(
+                                text: ' $unit',
+                                style: AppTheme.f(12, weight: FontWeight.w700, color: gc.textSecondary)),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  FittedBox(
+                    fit: BoxFit.scaleDown,
+                    alignment: Alignment.centerLeft,
+                    child: Text(label.toUpperCase(),
+                        maxLines: 1,
+                        style: AppTheme.f(9.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.1)),
+                  ),
+                ],
+              ),
             ),
-          ),
         ],
       );
 
@@ -112,64 +125,78 @@ class ShareCard extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _kicker(t.consistency.toUpperCase()),
-        const SizedBox(height: 8),
+        const Spacer(flex: 3),
+        _label(t.consistency),
+        const SizedBox(height: 2),
         Row(
-          crossAxisAlignment: CrossAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.baseline,
+          textBaseline: TextBaseline.alphabetic,
           children: [
-            Text('${fit.currentStreak}',
-                style: AppTheme.f(66, weight: FontWeight.w700, color: gc.text, height: 0.95)),
-            const SizedBox(width: 8),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 8),
-              child: Text(t.shareStreakLabel.toLowerCase(),
-                  style: AppTheme.f(12, weight: FontWeight.w600, color: gc.textSecondary)),
+            ShaderMask(
+              blendMode: BlendMode.srcIn,
+              shaderCallback: (r) => LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [gc.accent, gc.brass],
+              ).createShader(r),
+              child: Text('${fit.currentStreak}',
+                  style: AppTheme.f(104, weight: FontWeight.w800, color: gc.text, height: 1, letterSpacing: -5)
+                      .copyWith(fontFeatures: _tabular)),
             ),
-            const Spacer(),
-            SvgPathIcon(Ic.flame, size: 76, color: gc.accent),
+            const SizedBox(width: 12),
+            Flexible(
+              child: Text(t.shareStreakLabel.toLowerCase(),
+                  maxLines: 2,
+                  style: AppTheme.f(17, weight: FontWeight.w700, color: gc.textSecondary, height: 1.15)),
+            ),
           ],
         ),
-        const SizedBox(height: 4),
-        Text(t.sessionsLogged(fit.sessionsThisWeek),
-            style: AppTheme.f(12, weight: FontWeight.w500, color: gc.textSecondary)),
-        const SizedBox(height: 18),
-        SizedBox(height: 118, child: Heatmap(levels: fit.heatmapWeeksFor(16))),
-        const Spacer(),
-        Row(
-          children: [
-            Expanded(child: _stat(t.shareSessionsLabel, '${fit.totalSessions}')),
-            Expanded(child: _stat(t.statTrained, fit.trainedSpan.$1, unit: fit.trainedSpan.$2)),
-            Expanded(
-                child: _stat(t.shareVolumeLabel, fit.volumeValue(fit.volume30dKg),
-                    unit: fit.volumeUnit, color: gc.accent)),
-          ],
-        ),
+        const Spacer(flex: 2),
+        Heatmap(levels: fit.heatmapWeeksFor(20)),
+        const Spacer(flex: 3),
+        _stats([
+          (t.shareSessionsLabel, '${fit.totalSessions}', null),
+          (t.statTrained, fit.trainedSpan.$1, fit.trainedSpan.$2),
+          (t.shareVolumeLabel, fit.volumeValue(fit.volume30dKg), fit.volumeUnit),
+        ]),
+        const SizedBox(height: 20),
       ],
     );
   }
 
-
   Widget _bodyMap() {
+    final heat = fit.muscleHeatOver(7);
+    final top = (heat.entries.where((e) => e.value > 0).toList()..sort((a, b) => b.value.compareTo(a.value)))
+        .take(3)
+        .map((e) => muscleLabel(e.key))
+        .toList();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _kicker(t.shareWeekOf),
-        const SizedBox(height: 6),
+        const SizedBox(height: 22),
+        _label(t.shareWeekOf),
+        const SizedBox(height: 4),
         Text(t.shareBody,
-            style: AppTheme.f(22, weight: FontWeight.w700, color: gc.text)),
-        const SizedBox(height: 10),
+            style: AppTheme.f(26, weight: FontWeight.w800, color: gc.text, letterSpacing: -0.6, height: 1.1)),
+        if (top.isNotEmpty) ...[
+          const SizedBox(height: 4),
+          Text(top.join(' · '),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: AppTheme.f(12.5, weight: FontWeight.w600, color: gc.textSecondary)),
+        ],
         Expanded(
-          child: Center(
-            child: BodyHeatArt(gc: gc, intensity: fit.muscleHeatOver(7), width: 228),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 12),
+            child: Center(child: FittedBox(child: BodyHeatArt(gc: gc, intensity: heat, width: 250))),
           ),
         ),
-        Row(
-          children: [
-            Expanded(child: _stat(t.shareSessionsLabel, '${fit.sessionsThisWeek}')),
-            Expanded(
-                child: _stat(t.shareStreakLabel, '${fit.currentStreak}', color: gc.accent)),
-          ],
-        ),
+        _stats([
+          (t.shareSessionsLabel, '${fit.sessionsThisWeek}', null),
+          (t.allTimeSets, '${fit.weekSetCount}', null),
+          (t.shareStreakLabel, '${fit.currentStreak}', null),
+        ]),
+        const SizedBox(height: 20),
       ],
     );
   }
@@ -177,7 +204,8 @@ class ShareCard extends StatelessWidget {
   Widget _compare() {
     final pair = fit.comparePair;
     if (pair == null) {
-      return Center(child: Text(t.compareNeedTwo, style: AppTheme.f(13, weight: FontWeight.w500, color: gc.textSecondary)));
+      return Center(
+          child: Text(t.compareNeedTwo, style: AppTheme.f(13, weight: FontWeight.w500, color: gc.textSecondary)));
     }
     final pose = fit.posesWithBoth.contains(fit.comparePose)
         ? fit.comparePose
@@ -187,7 +215,8 @@ class ShareCard extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _kicker(t.daysApart(fit.compareDays).toUpperCase()),
+        const SizedBox(height: 20),
+        _label(t.daysApart(fit.compareDays)),
         const SizedBox(height: 10),
         Expanded(
           child: Row(
@@ -218,6 +247,7 @@ class ShareCard extends StatelessWidget {
           Text('${delta > 0 ? '+' : ''}${fmt(delta)} ${fit.units}',
               style: AppTheme.f(20, weight: FontWeight.w700, color: gc.accent)),
         ],
+        const SizedBox(height: 16),
       ],
     );
   }
