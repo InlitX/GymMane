@@ -300,4 +300,57 @@ void main() {
       fit.saveAndExit();
     });
   });
+
+  group('#287 trofeo en la serie', () {
+    setUp(() async {
+      SharedPreferences.setMockInitialValues({});
+      await Store.instance.init();
+      fit.resetAllData();
+      fit.setUnits('kg');
+    });
+
+    tearDown(() {
+      if (fit.session != null) fit.saveAndExit();
+    });
+
+    LoggedSession day(int ago, String id, List<LoggedSet> sets) => LoggedSession(
+        DateTime.now().subtract(Duration(days: ago)), 1800, [LoggedExercise(id, 'Bench', 'chest', sets)]);
+
+    test('marca la serie que supera lo de antes y no la primera vez', () {
+      final bench = fit.matchExerciseByName('Barbell Bench Press')!.id;
+      final first = LoggedSet(8, 80);
+      final same = LoggedSet(8, 80);
+      final heavier = LoggedSet(3, 90);
+      final moreReps = LoggedSet(10, 80);
+      fit.sessions.addAll([
+        day(4, bench, [first]),
+        day(2, bench, [same, heavier]),
+        day(1, bench, [moreReps, LoggedSet(5, 60)]),
+      ]);
+      final records = fit.recordSets;
+      expect(records.contains(first), isFalse, reason: 'sin nada antes no hay récord');
+      expect(records.contains(same), isFalse);
+      expect(records.contains(heavier), isTrue, reason: 'más peso');
+      expect(records.contains(moreReps), isTrue, reason: 'más repeticiones con el mismo peso');
+      expect(records.length, 2);
+    });
+
+    test('en el entreno la serie hecha que bate la marca lleva trofeo', () {
+      final bench = fit.matchExerciseByName('Barbell Bench Press')!.id;
+      fit.sessions.add(day(3, bench, [LoggedSet(8, 80)]));
+      final id = fit.createRoutine('Pecho');
+      fit.toggleRoutineExercise(id, bench);
+      fit.startRoutine(fit.routines.firstWhere((r) => r.id == id));
+      fit.endCountdown();
+      fit.setSessionReps(0, 0, 8);
+      fit.setSessionWeight(0, 0, 85);
+      expect(fit.liveSetIsRecord(0, 0), isFalse, reason: 'aún sin marcar');
+      fit.toggleSet(0, 0);
+      expect(fit.liveSetIsRecord(0, 0), isTrue);
+      fit.setSessionReps(0, 1, 8);
+      fit.setSessionWeight(0, 1, 85);
+      fit.toggleSet(0, 1);
+      expect(fit.liveSetIsRecord(0, 1), isFalse, reason: 'igualar la serie anterior no es récord');
+    });
+  });
 }
