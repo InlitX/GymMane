@@ -117,6 +117,7 @@ extension GymL10n on AppLocalizations {
   String templateBlurb(String id) => switch (id) {
         'fullbody' => tplFullbody,
         'ppl' => tplPpl,
+        'arnold' => tplArnold,
         'upperlower' => tplUpperlower,
         'abcd' => tplAbcd,
         'abcde' => tplAbcde,

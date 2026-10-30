@@ -172,7 +172,7 @@ abstract class AppLocalizations {
   /// **'DONE'**
   String get done;
 
-  /// No description provided for @set.
+  /// Button that confirms a number you picked, like your weight or height. The verb, not a workout set.
   ///
   /// In en, this message translates to:
   /// **'Set'**
@@ -477,6 +477,234 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Off'**
   String get restOff;
+
+  /// No description provided for @miniRest.
+  ///
+  /// In en, this message translates to:
+  /// **'Rest-pause and cluster rest'**
+  String get miniRest;
+
+  /// No description provided for @miniRestHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Short rest before a rest-pause or cluster set. The other sets keep the usual rest.'**
+  String get miniRestHint;
+
+  /// No description provided for @gymPass.
+  ///
+  /// In en, this message translates to:
+  /// **'Gym pass'**
+  String get gymPass;
+
+  /// No description provided for @gymPassEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep your gym\'s code here and get in without the card'**
+  String get gymPassEmpty;
+
+  /// No description provided for @gymPassAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add pass'**
+  String get gymPassAdd;
+
+  /// No description provided for @gymPassScan.
+  ///
+  /// In en, this message translates to:
+  /// **'Take a photo of the code'**
+  String get gymPassScan;
+
+  /// No description provided for @gymPassScanHint.
+  ///
+  /// In en, this message translates to:
+  /// **'With your phone\'s camera'**
+  String get gymPassScanHint;
+
+  /// No description provided for @gymPassPhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'From a photo or screenshot'**
+  String get gymPassPhoto;
+
+  /// No description provided for @gymPassPhotoHint.
+  ///
+  /// In en, this message translates to:
+  /// **'For example, a screenshot from your gym\'s app'**
+  String get gymPassPhotoHint;
+
+  /// No description provided for @gymPassType.
+  ///
+  /// In en, this message translates to:
+  /// **'Type the number'**
+  String get gymPassType;
+
+  /// No description provided for @gymPassTypeHint.
+  ///
+  /// In en, this message translates to:
+  /// **'For barcodes: the number printed under it'**
+  String get gymPassTypeHint;
+
+  /// No description provided for @gymPassNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No QR code in that picture. Try a sharper one or type the number.'**
+  String get gymPassNotFound;
+
+  /// No description provided for @gymPassName.
+  ///
+  /// In en, this message translates to:
+  /// **'Gym name'**
+  String get gymPassName;
+
+  /// No description provided for @gymPassDefaultName.
+  ///
+  /// In en, this message translates to:
+  /// **'My gym'**
+  String get gymPassDefaultName;
+
+  /// No description provided for @gymPassCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Code'**
+  String get gymPassCode;
+
+  /// No description provided for @gymPassFormat.
+  ///
+  /// In en, this message translates to:
+  /// **'Code type'**
+  String get gymPassFormat;
+
+  /// No description provided for @gymPassInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'That number doesn\'t fit this code type'**
+  String get gymPassInvalid;
+
+  /// No description provided for @gymPassShowHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Hold it to the reader. Brightness goes up on its own.'**
+  String get gymPassShowHint;
+
+  /// No description provided for @gymPassDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Pass deleted'**
+  String get gymPassDeleted;
+
+  /// No description provided for @gymPassEdit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit pass'**
+  String get gymPassEdit;
+
+  /// No description provided for @gymPassShow.
+  ///
+  /// In en, this message translates to:
+  /// **'Show at the door'**
+  String get gymPassShow;
+
+  /// No description provided for @gymPassPrivate.
+  ///
+  /// In en, this message translates to:
+  /// **'Stays on your phone only. Nothing is uploaded.'**
+  String get gymPassPrivate;
+
+  /// No description provided for @gymPassColor.
+  ///
+  /// In en, this message translates to:
+  /// **'Colour'**
+  String get gymPassColor;
+
+  /// No description provided for @gymPassRescan.
+  ///
+  /// In en, this message translates to:
+  /// **'Read the code again'**
+  String get gymPassRescan;
+
+  /// No description provided for @gymPassReading.
+  ///
+  /// In en, this message translates to:
+  /// **'Reading the code…'**
+  String get gymPassReading;
+
+  /// No description provided for @gymPassSettingHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Your gym card in your profile, ready at the door'**
+  String get gymPassSettingHint;
+
+  /// No description provided for @gymPassMember.
+  ///
+  /// In en, this message translates to:
+  /// **'Member'**
+  String get gymPassMember;
+
+  /// No description provided for @widgetHintActivity.
+  ///
+  /// In en, this message translates to:
+  /// **'Your map of trained days'**
+  String get widgetHintActivity;
+
+  /// No description provided for @widgetHintStats.
+  ///
+  /// In en, this message translates to:
+  /// **'Streak, volume and sessions this week'**
+  String get widgetHintStats;
+
+  /// No description provided for @widgetHintBody.
+  ///
+  /// In en, this message translates to:
+  /// **'The muscles you have worked'**
+  String get widgetHintBody;
+
+  /// No description provided for @widgetHintToday.
+  ///
+  /// In en, this message translates to:
+  /// **'At a glance: did you train today?'**
+  String get widgetHintToday;
+
+  /// No description provided for @widgetHintWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Your week\'s plan, day by day'**
+  String get widgetHintWeek;
+
+  /// No description provided for @supportHintBug.
+  ///
+  /// In en, this message translates to:
+  /// **'Tell me what broke, on GitHub'**
+  String get supportHintBug;
+
+  /// No description provided for @supportHintFeature.
+  ///
+  /// In en, this message translates to:
+  /// **'Suggest an idea for the app'**
+  String get supportHintFeature;
+
+  /// No description provided for @supportHintStar.
+  ///
+  /// In en, this message translates to:
+  /// **'Helps more people find it'**
+  String get supportHintStar;
+
+  /// No description provided for @supportHintCoffee.
+  ///
+  /// In en, this message translates to:
+  /// **'Supports development. Free and with no ads'**
+  String get supportHintCoffee;
+
+  /// No description provided for @bodyweightNoteHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a note: how you feel, what you are trying… (optional)'**
+  String get bodyweightNoteHint;
+
+  /// No description provided for @exerciseUnitSwitch.
+  ///
+  /// In en, this message translates to:
+  /// **'Use {unit} for this exercise'**
+  String exerciseUnitSwitch(String unit);
 
   /// No description provided for @setCol.
   ///
@@ -2338,6 +2566,12 @@ abstract class AppLocalizations {
   /// **'Autofills the calculators'**
   String get autofills;
 
+  /// No description provided for @onbUnitsWhy.
+  ///
+  /// In en, this message translates to:
+  /// **'For weights, measurements and distances. You can change it anytime in Settings.'**
+  String get onbUnitsWhy;
+
   /// No description provided for @nameLabel.
   ///
   /// In en, this message translates to:
@@ -3645,6 +3879,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Push, pull and legs. Three or six days a week.'**
   String get tplPpl;
+
+  /// No description provided for @tplArnold.
+  ///
+  /// In en, this message translates to:
+  /// **'Chest and back, shoulders and arms, legs. The classic six-day split.'**
+  String get tplArnold;
 
   /// No description provided for @tplUpperlower.
   ///
@@ -9327,6 +9567,414 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Train anyway'**
   String get trainAnyway;
+
+  /// No description provided for @healthTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Health'**
+  String get healthTitle;
+
+  /// No description provided for @healthSetting.
+  ///
+  /// In en, this message translates to:
+  /// **'Health data'**
+  String get healthSetting;
+
+  /// No description provided for @healthSettingHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Heart, sleep and vitals from Health Connect, in Progress.'**
+  String get healthSettingHint;
+
+  /// No description provided for @healthPickTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Health data'**
+  String get healthPickTitle;
+
+  /// No description provided for @healthPickHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick what to bring from Health Connect. Android asks once for each one. It\'s only read, and it never leaves your phone.'**
+  String get healthPickHint;
+
+  /// No description provided for @healthGroupHeart.
+  ///
+  /// In en, this message translates to:
+  /// **'Heart'**
+  String get healthGroupHeart;
+
+  /// No description provided for @healthGroupVitals.
+  ///
+  /// In en, this message translates to:
+  /// **'Vitals'**
+  String get healthGroupVitals;
+
+  /// No description provided for @healthGroupActivity.
+  ///
+  /// In en, this message translates to:
+  /// **'Activity'**
+  String get healthGroupActivity;
+
+  /// No description provided for @healthRestingHr.
+  ///
+  /// In en, this message translates to:
+  /// **'Resting heart rate'**
+  String get healthRestingHr;
+
+  /// No description provided for @healthHeartRate.
+  ///
+  /// In en, this message translates to:
+  /// **'Average heart rate'**
+  String get healthHeartRate;
+
+  /// No description provided for @healthHrv.
+  ///
+  /// In en, this message translates to:
+  /// **'Heart rate variability'**
+  String get healthHrv;
+
+  /// No description provided for @healthSpo2.
+  ///
+  /// In en, this message translates to:
+  /// **'Blood oxygen'**
+  String get healthSpo2;
+
+  /// No description provided for @healthRespiration.
+  ///
+  /// In en, this message translates to:
+  /// **'Breathing rate'**
+  String get healthRespiration;
+
+  /// No description provided for @healthBloodPressure.
+  ///
+  /// In en, this message translates to:
+  /// **'Blood pressure'**
+  String get healthBloodPressure;
+
+  /// No description provided for @healthTemperature.
+  ///
+  /// In en, this message translates to:
+  /// **'Body temperature'**
+  String get healthTemperature;
+
+  /// No description provided for @healthSleep.
+  ///
+  /// In en, this message translates to:
+  /// **'Sleep'**
+  String get healthSleep;
+
+  /// No description provided for @healthDistance.
+  ///
+  /// In en, this message translates to:
+  /// **'Distance'**
+  String get healthDistance;
+
+  /// No description provided for @healthFloors.
+  ///
+  /// In en, this message translates to:
+  /// **'Floors climbed'**
+  String get healthFloors;
+
+  /// No description provided for @healthElevation.
+  ///
+  /// In en, this message translates to:
+  /// **'Elevation gained'**
+  String get healthElevation;
+
+  /// No description provided for @healthActiveKcal.
+  ///
+  /// In en, this message translates to:
+  /// **'Active calories'**
+  String get healthActiveKcal;
+
+  /// No description provided for @healthNoData.
+  ///
+  /// In en, this message translates to:
+  /// **'No data yet'**
+  String get healthNoData;
+
+  /// No description provided for @healthAllow.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to allow'**
+  String get healthAllow;
+
+  /// No description provided for @healthLast7.
+  ///
+  /// In en, this message translates to:
+  /// **'Last 7 days'**
+  String get healthLast7;
+
+  /// No description provided for @healthAvg30.
+  ///
+  /// In en, this message translates to:
+  /// **'30-day avg'**
+  String get healthAvg30;
+
+  /// No description provided for @healthLow.
+  ///
+  /// In en, this message translates to:
+  /// **'Lowest'**
+  String get healthLow;
+
+  /// No description provided for @healthHigh.
+  ///
+  /// In en, this message translates to:
+  /// **'Highest'**
+  String get healthHigh;
+
+  /// No description provided for @healthFrom.
+  ///
+  /// In en, this message translates to:
+  /// **'From Health Connect · last 30 days'**
+  String get healthFrom;
+
+  /// No description provided for @healthBpm.
+  ///
+  /// In en, this message translates to:
+  /// **'bpm'**
+  String get healthBpm;
+
+  /// No description provided for @healthBreaths.
+  ///
+  /// In en, this message translates to:
+  /// **'br/min'**
+  String get healthBreaths;
+
+  /// No description provided for @weekTab.
+  ///
+  /// In en, this message translates to:
+  /// **'Week'**
+  String get weekTab;
+
+  /// No description provided for @muscleSetsList.
+  ///
+  /// In en, this message translates to:
+  /// **'Sets per muscle'**
+  String get muscleSetsList;
+
+  /// No description provided for @fatTrans.
+  ///
+  /// In en, this message translates to:
+  /// **'Trans'**
+  String get fatTrans;
+
+  /// No description provided for @fatTypesHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Optional. Leave blank what the label doesn\'t say.'**
+  String get fatTypesHint;
+
+  /// No description provided for @sessionPhotos.
+  ///
+  /// In en, this message translates to:
+  /// **'Workout photos'**
+  String get sessionPhotos;
+
+  /// No description provided for @sessionPhotosAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add photos'**
+  String get sessionPhotosAdd;
+
+  /// No description provided for @sessionPhotosHint.
+  ///
+  /// In en, this message translates to:
+  /// **'They\'re also kept in Your photos.'**
+  String get sessionPhotosHint;
+
+  /// No description provided for @ladderTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Progression'**
+  String get ladderTitle;
+
+  /// No description provided for @ladderHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Order the steps from easiest to hardest. When you do 3 sets of 8 two sessions in a row (5 on slow ones), GymMane offers the next step.'**
+  String get ladderHint;
+
+  /// No description provided for @ladderBuiltIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Starts from the app\'s progression. Add, remove or reorder steps and it becomes this routine\'s own.'**
+  String get ladderBuiltIn;
+
+  /// No description provided for @ladderNone.
+  ///
+  /// In en, this message translates to:
+  /// **'None yet. Tap to build one.'**
+  String get ladderNone;
+
+  /// No description provided for @ladderStep.
+  ///
+  /// In en, this message translates to:
+  /// **'Step {n} of {total}'**
+  String ladderStep(int n, int total);
+
+  /// No description provided for @ladderAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add step'**
+  String get ladderAdd;
+
+  /// No description provided for @ladderInRoutine.
+  ///
+  /// In en, this message translates to:
+  /// **'In the routine'**
+  String get ladderInRoutine;
+
+  /// No description provided for @ladderClear.
+  ///
+  /// In en, this message translates to:
+  /// **'Use the app\'s progression'**
+  String get ladderClear;
+
+  /// No description provided for @ladderPick.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick a step'**
+  String get ladderPick;
+
+  /// No description provided for @periodWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'this week'**
+  String get periodWeek;
+
+  /// No description provided for @periodMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'this month'**
+  String get periodMonth;
+
+  /// No description provided for @periodYear.
+  ///
+  /// In en, this message translates to:
+  /// **'this year'**
+  String get periodYear;
+
+  /// No description provided for @periodAll.
+  ///
+  /// In en, this message translates to:
+  /// **'all time'**
+  String get periodAll;
+
+  /// No description provided for @settingsSearch.
+  ///
+  /// In en, this message translates to:
+  /// **'Search settings'**
+  String get settingsSearch;
+
+  /// No description provided for @settingsNoResults.
+  ///
+  /// In en, this message translates to:
+  /// **'No setting with that name'**
+  String get settingsNoResults;
+
+  /// No description provided for @settingsGroupApp.
+  ///
+  /// In en, this message translates to:
+  /// **'Your app'**
+  String get settingsGroupApp;
+
+  /// No description provided for @settingsGroupHome.
+  ///
+  /// In en, this message translates to:
+  /// **'Home and extras'**
+  String get settingsGroupHome;
+
+  /// No description provided for @settingsGroupData.
+  ///
+  /// In en, this message translates to:
+  /// **'Data and help'**
+  String get settingsGroupData;
+
+  /// No description provided for @healthAllowAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn all on'**
+  String get healthAllowAll;
+
+  /// No description provided for @healthSeeAll.
+  ///
+  /// In en, this message translates to:
+  /// **'See all'**
+  String get healthSeeAll;
+
+  /// No description provided for @healthPinTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'On the card'**
+  String get healthPinTitle;
+
+  /// No description provided for @healthPinHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick up to 3 for the Progress card.'**
+  String get healthPinHint;
+
+  /// No description provided for @blurSetting.
+  ///
+  /// In en, this message translates to:
+  /// **'Blur effects'**
+  String get blurSetting;
+
+  /// No description provided for @blurSettingHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Glass and soft edges. Turn it off if your phone feels slow.'**
+  String get blurSettingHint;
+
+  /// No description provided for @lowEndTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your phone is short on memory'**
+  String get lowEndTitle;
+
+  /// No description provided for @lowEndBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Turning blur off makes everything smoother on it. You can bring it back in Settings → General.'**
+  String get lowEndBody;
+
+  /// No description provided for @lowEndOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn blur off'**
+  String get lowEndOff;
+
+  /// No description provided for @lowEndKeep.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep it'**
+  String get lowEndKeep;
+
+  /// No description provided for @momentsThisMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'This month'**
+  String get momentsThisMonth;
+
+  /// No description provided for @momentsDays.
+  ///
+  /// In en, this message translates to:
+  /// **'Days with a photo'**
+  String get momentsDays;
+
+  /// No description provided for @awardsPick.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose for your profile'**
+  String get awardsPick;
+
+  /// No description provided for @awardsPickHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap the ones you want on your profile'**
+  String get awardsPickHint;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

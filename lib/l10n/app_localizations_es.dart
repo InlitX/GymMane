@@ -198,6 +198,124 @@ class AppLocalizationsEs extends AppLocalizations {
   String get restOff => 'Apagado';
 
   @override
+  String get miniRest => 'Descanso en rest-pause y cluster';
+
+  @override
+  String get miniRestHint =>
+      'Descanso corto antes de una serie rest-pause o cluster. Las demás series usan el de siempre.';
+
+  @override
+  String get gymPass => 'Pase del gimnasio';
+
+  @override
+  String get gymPassEmpty => 'Guarda aquí el código de tu gimnasio y entra sin sacar la tarjeta';
+
+  @override
+  String get gymPassAdd => 'Añadir pase';
+
+  @override
+  String get gymPassScan => 'Hacer una foto al código';
+
+  @override
+  String get gymPassScanHint => 'Con la cámara del móvil';
+
+  @override
+  String get gymPassPhoto => 'Desde una foto o captura';
+
+  @override
+  String get gymPassPhotoHint => 'Por ejemplo, una captura de la app de tu gimnasio';
+
+  @override
+  String get gymPassType => 'Escribir el número';
+
+  @override
+  String get gymPassTypeHint => 'Para códigos de barras: el número impreso debajo';
+
+  @override
+  String get gymPassNotFound =>
+      'No hay ningún QR en esa imagen. Prueba con otra más nítida o escribe el número.';
+
+  @override
+  String get gymPassName => 'Nombre del gimnasio';
+
+  @override
+  String get gymPassDefaultName => 'Mi gimnasio';
+
+  @override
+  String get gymPassCode => 'Código';
+
+  @override
+  String get gymPassFormat => 'Tipo de código';
+
+  @override
+  String get gymPassInvalid => 'Ese número no vale para este tipo de código';
+
+  @override
+  String get gymPassShowHint => 'Acércalo al lector. El brillo sube solo.';
+
+  @override
+  String get gymPassDeleted => 'Pase borrado';
+
+  @override
+  String get gymPassEdit => 'Editar pase';
+
+  @override
+  String get gymPassShow => 'Enseñar en la entrada';
+
+  @override
+  String get gymPassPrivate => 'Se queda solo en tu móvil. No se sube a ningún sitio.';
+
+  @override
+  String get gymPassColor => 'Color';
+
+  @override
+  String get gymPassRescan => 'Leer el código otra vez';
+
+  @override
+  String get gymPassReading => 'Leyendo el código…';
+
+  @override
+  String get gymPassSettingHint => 'Tu tarjeta del gimnasio en el perfil, lista para la entrada';
+
+  @override
+  String get gymPassMember => 'Socio';
+
+  @override
+  String get widgetHintActivity => 'Tu mapa de días entrenados';
+
+  @override
+  String get widgetHintStats => 'Racha, volumen y sesiones de la semana';
+
+  @override
+  String get widgetHintBody => 'Los músculos que has trabajado';
+
+  @override
+  String get widgetHintToday => 'De un vistazo: ¿has entrenado hoy?';
+
+  @override
+  String get widgetHintWeek => 'Tu plan de la semana, día a día';
+
+  @override
+  String get supportHintBug => 'Cuéntame qué ha fallado, en GitHub';
+
+  @override
+  String get supportHintFeature => 'Propón una idea para la app';
+
+  @override
+  String get supportHintStar => 'Ayuda a que más gente la encuentre';
+
+  @override
+  String get supportHintCoffee => 'Apoya el desarrollo. Gratis y sin anuncios';
+
+  @override
+  String get bodyweightNoteHint => 'Añade una nota: cómo te sientes, qué estás probando… (opcional)';
+
+  @override
+  String exerciseUnitSwitch(String unit) {
+    return 'Usar $unit en este ejercicio';
+  }
+
+  @override
   String get setCol => '#';
 
   @override
@@ -1300,6 +1418,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get autofills => 'Rellena las calculadoras';
 
   @override
+  String get onbUnitsWhy => 'Para pesos, medidas y distancias. Puedes cambiarlo cuando quieras en Ajustes.';
+
+  @override
   String get nameLabel => 'NOMBRE';
 
   @override
@@ -2001,6 +2122,9 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get tplPpl => 'Empuje, tirón y pierna. Tres o seis días a la semana.';
+
+  @override
+  String get tplArnold => 'Pecho y espalda, hombros y brazos, pierna. El clásico de seis días.';
 
   @override
   String get tplUpperlower => 'Tren superior e inferior, cuatro días a la semana.';
@@ -5294,4 +5418,214 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get trainAnyway => 'Entrenar igualmente';
+
+  @override
+  String get healthTitle => 'Salud';
+
+  @override
+  String get healthSetting => 'Datos de salud';
+
+  @override
+  String get healthSettingHint => 'Corazón, sueño y constantes de Health Connect, en Progreso.';
+
+  @override
+  String get healthPickTitle => 'Datos de salud';
+
+  @override
+  String get healthPickHint =>
+      'Elige qué traer de Health Connect. Android pide permiso una vez para cada uno. Solo se lee y nunca sale del móvil.';
+
+  @override
+  String get healthGroupHeart => 'Corazón';
+
+  @override
+  String get healthGroupVitals => 'Constantes';
+
+  @override
+  String get healthGroupActivity => 'Actividad';
+
+  @override
+  String get healthRestingHr => 'Pulso en reposo';
+
+  @override
+  String get healthHeartRate => 'Pulso medio';
+
+  @override
+  String get healthHrv => 'Variabilidad cardiaca';
+
+  @override
+  String get healthSpo2 => 'Oxígeno en sangre';
+
+  @override
+  String get healthRespiration => 'Frecuencia respiratoria';
+
+  @override
+  String get healthBloodPressure => 'Tensión arterial';
+
+  @override
+  String get healthTemperature => 'Temperatura corporal';
+
+  @override
+  String get healthSleep => 'Sueño';
+
+  @override
+  String get healthDistance => 'Distancia';
+
+  @override
+  String get healthFloors => 'Pisos subidos';
+
+  @override
+  String get healthElevation => 'Desnivel subido';
+
+  @override
+  String get healthActiveKcal => 'Calorías activas';
+
+  @override
+  String get healthNoData => 'Aún sin datos';
+
+  @override
+  String get healthAllow => 'Toca para permitir';
+
+  @override
+  String get healthLast7 => 'Últimos 7 días';
+
+  @override
+  String get healthAvg30 => 'Media 30 días';
+
+  @override
+  String get healthLow => 'Mínimo';
+
+  @override
+  String get healthHigh => 'Máximo';
+
+  @override
+  String get healthFrom => 'De Health Connect · últimos 30 días';
+
+  @override
+  String get healthBpm => 'lpm';
+
+  @override
+  String get healthBreaths => 'resp/min';
+
+  @override
+  String get weekTab => 'Semana';
+
+  @override
+  String get muscleSetsList => 'Series por músculo';
+
+  @override
+  String get fatTrans => 'Trans';
+
+  @override
+  String get fatTypesHint => 'Opcional. Deja en blanco lo que no ponga la etiqueta.';
+
+  @override
+  String get sessionPhotos => 'Fotos del entreno';
+
+  @override
+  String get sessionPhotosAdd => 'Añadir fotos';
+
+  @override
+  String get sessionPhotosHint => 'También se guardan en Tus fotos.';
+
+  @override
+  String get ladderTitle => 'Progresión';
+
+  @override
+  String get ladderHint =>
+      'Ordena los pasos de más fácil a más difícil. Cuando hagas 3 series de 8 dos sesiones seguidas (5 en los lentos), GymMane te propone el siguiente.';
+
+  @override
+  String get ladderBuiltIn =>
+      'Parte de la progresión de la app. Añade, quita u ordena pasos y pasa a ser la de esta rutina.';
+
+  @override
+  String get ladderNone => 'Aún no tiene. Toca para crear una.';
+
+  @override
+  String ladderStep(int n, int total) {
+    return 'Paso $n de $total';
+  }
+
+  @override
+  String get ladderAdd => 'Añadir paso';
+
+  @override
+  String get ladderInRoutine => 'En la rutina';
+
+  @override
+  String get ladderClear => 'Usar la de la app';
+
+  @override
+  String get ladderPick => 'Elige un paso';
+
+  @override
+  String get periodWeek => 'esta semana';
+
+  @override
+  String get periodMonth => 'este mes';
+
+  @override
+  String get periodYear => 'este año';
+
+  @override
+  String get periodAll => 'desde siempre';
+
+  @override
+  String get settingsSearch => 'Buscar ajustes';
+
+  @override
+  String get settingsNoResults => 'Ningún ajuste se llama así';
+
+  @override
+  String get settingsGroupApp => 'Tu app';
+
+  @override
+  String get settingsGroupHome => 'Inicio y extras';
+
+  @override
+  String get settingsGroupData => 'Datos y ayuda';
+
+  @override
+  String get healthAllowAll => 'Activar todo';
+
+  @override
+  String get healthSeeAll => 'Ver todo';
+
+  @override
+  String get healthPinTitle => 'En la tarjeta';
+
+  @override
+  String get healthPinHint => 'Elige hasta 3 para la tarjeta de Progreso.';
+
+  @override
+  String get blurSetting => 'Desenfoque';
+
+  @override
+  String get blurSettingHint => 'Cristal y bordes difuminados. Quítalo si el móvil va lento.';
+
+  @override
+  String get lowEndTitle => 'Tu móvil va justo de memoria';
+
+  @override
+  String get lowEndBody =>
+      'Sin desenfoque todo irá más fluido en él. Puedes volver a ponerlo en Ajustes → General.';
+
+  @override
+  String get lowEndOff => 'Quitar desenfoque';
+
+  @override
+  String get lowEndKeep => 'Dejarlo';
+
+  @override
+  String get momentsThisMonth => 'Este mes';
+
+  @override
+  String get momentsDays => 'Días con foto';
+
+  @override
+  String get awardsPick => 'Elegir para tu perfil';
+
+  @override
+  String get awardsPickHint => 'Toca las que quieres en tu perfil';
 }
