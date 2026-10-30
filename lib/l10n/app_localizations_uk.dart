@@ -37,7 +37,7 @@ class AppLocalizationsUk extends AppLocalizations {
   String get done => 'ГОТОВО';
 
   @override
-  String get set => 'Підхід';
+  String get set => 'Задати';
 
   @override
   String get home => 'ГОЛОВНА';
@@ -196,6 +196,123 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get restOff => 'Вимк.';
+
+  @override
+  String get miniRest => 'Відпочинок у рест-паузі та кластері';
+
+  @override
+  String get miniRestHint =>
+      'Короткий відпочинок перед підходом рест-паузи чи кластера. Інші підходи — зі звичним відпочинком.';
+
+  @override
+  String get gymPass => 'Абонемент у зал';
+
+  @override
+  String get gymPassEmpty => 'Зберігайте тут код свого залу й проходьте без картки';
+
+  @override
+  String get gymPassAdd => 'Додати абонемент';
+
+  @override
+  String get gymPassScan => 'Сфотографувати код';
+
+  @override
+  String get gymPassScanHint => 'Камерою телефона';
+
+  @override
+  String get gymPassPhoto => 'З фото або знімка екрана';
+
+  @override
+  String get gymPassPhotoHint => 'Наприклад, знімок екрана з застосунку вашого залу';
+
+  @override
+  String get gymPassType => 'Ввести номер';
+
+  @override
+  String get gymPassTypeHint => 'Для штрихкодів: номер, надрукований під ним';
+
+  @override
+  String get gymPassNotFound => 'На цьому зображенні немає QR-коду. Спробуйте чіткіше або введіть номер.';
+
+  @override
+  String get gymPassName => 'Назва залу';
+
+  @override
+  String get gymPassDefaultName => 'Мій зал';
+
+  @override
+  String get gymPassCode => 'Код';
+
+  @override
+  String get gymPassFormat => 'Тип коду';
+
+  @override
+  String get gymPassInvalid => 'Цей номер не підходить для цього типу коду';
+
+  @override
+  String get gymPassShowHint => 'Піднесіть до зчитувача. Яскравість підніметься сама.';
+
+  @override
+  String get gymPassDeleted => 'Абонемент видалено';
+
+  @override
+  String get gymPassEdit => 'Змінити абонемент';
+
+  @override
+  String get gymPassShow => 'Показати на вході';
+
+  @override
+  String get gymPassPrivate => 'Зберігається лише на вашому телефоні. Нічого не завантажується.';
+
+  @override
+  String get gymPassColor => 'Колір';
+
+  @override
+  String get gymPassRescan => 'Зчитати код знову';
+
+  @override
+  String get gymPassReading => 'Зчитуємо код…';
+
+  @override
+  String get gymPassSettingHint => 'Картка залу в профілі, готова до входу';
+
+  @override
+  String get gymPassMember => 'Учасник';
+
+  @override
+  String get widgetHintActivity => 'Ваша карта днів тренувань';
+
+  @override
+  String get widgetHintStats => 'Серія, обсяг і тренування за тиждень';
+
+  @override
+  String get widgetHintBody => 'М\'язи, які ви пропрацювали';
+
+  @override
+  String get widgetHintToday => 'Коротко: чи тренувалися ви сьогодні?';
+
+  @override
+  String get widgetHintWeek => 'План тижня по днях';
+
+  @override
+  String get supportHintBug => 'Розкажіть на GitHub, що зламалося';
+
+  @override
+  String get supportHintFeature => 'Запропонуйте ідею для застосунку';
+
+  @override
+  String get supportHintStar => 'Допомагає іншим його знайти';
+
+  @override
+  String get supportHintCoffee => 'Підтримка розробки. Безкоштовно й без реклами';
+
+  @override
+  String get bodyweightNoteHint => 'Додайте нотатку: самопочуття, що пробуєте… (необов\'язково)';
+
+  @override
+  String exerciseUnitSwitch(String unit) {
+    return 'Використовувати $unit у цій вправі';
+  }
 
   @override
   String get setCol => '#';
@@ -1301,6 +1418,9 @@ class AppLocalizationsUk extends AppLocalizations {
   String get autofills => 'Автоматично заповнює калькулятори';
 
   @override
+  String get onbUnitsWhy => 'Для ваги, замірів і відстаней. Це можна змінити будь-коли в Налаштуваннях.';
+
+  @override
   String get nameLabel => 'ІМ’Я';
 
   @override
@@ -2003,6 +2123,9 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get tplPpl => 'Push, pull і ноги. Три або шість днів на тиждень.';
+
+  @override
+  String get tplArnold => 'Груди й спина, плечі й руки, ноги. Класичний шестиденний спліт.';
 
   @override
   String get tplUpperlower => 'Верх і низ тіла, чотири дні на тиждень.';
@@ -5322,4 +5445,213 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get trainAnyway => 'Все одно тренуватися';
+
+  @override
+  String get healthTitle => 'Здоров\'я';
+
+  @override
+  String get healthSetting => 'Дані про здоров\'я';
+
+  @override
+  String get healthSettingHint => 'Серце, сон і показники з Health Connect — у Прогресі.';
+
+  @override
+  String get healthPickTitle => 'Дані про здоров\'я';
+
+  @override
+  String get healthPickHint =>
+      'Виберіть, що брати з Health Connect. Android запитає один раз для кожного. Дані лише читаються й ніколи не залишають телефон.';
+
+  @override
+  String get healthGroupHeart => 'Серце';
+
+  @override
+  String get healthGroupVitals => 'Показники';
+
+  @override
+  String get healthGroupActivity => 'Активність';
+
+  @override
+  String get healthRestingHr => 'Пульс у спокої';
+
+  @override
+  String get healthHeartRate => 'Середній пульс';
+
+  @override
+  String get healthHrv => 'Варіабельність пульсу';
+
+  @override
+  String get healthSpo2 => 'Кисень у крові';
+
+  @override
+  String get healthRespiration => 'Частота дихання';
+
+  @override
+  String get healthBloodPressure => 'Тиск';
+
+  @override
+  String get healthTemperature => 'Температура тіла';
+
+  @override
+  String get healthSleep => 'Сон';
+
+  @override
+  String get healthDistance => 'Дистанція';
+
+  @override
+  String get healthFloors => 'Пройдено поверхів';
+
+  @override
+  String get healthElevation => 'Набір висоти';
+
+  @override
+  String get healthActiveKcal => 'Активні калорії';
+
+  @override
+  String get healthNoData => 'Поки немає даних';
+
+  @override
+  String get healthAllow => 'Торкніться, щоб дозволити';
+
+  @override
+  String get healthLast7 => 'Останні 7 днів';
+
+  @override
+  String get healthAvg30 => 'Середнє за 30 днів';
+
+  @override
+  String get healthLow => 'Мінімум';
+
+  @override
+  String get healthHigh => 'Максимум';
+
+  @override
+  String get healthFrom => 'З Health Connect · останні 30 днів';
+
+  @override
+  String get healthBpm => 'уд/хв';
+
+  @override
+  String get healthBreaths => 'вд/хв';
+
+  @override
+  String get weekTab => 'Тиждень';
+
+  @override
+  String get muscleSetsList => 'Підходи за м\'язами';
+
+  @override
+  String get fatTrans => 'Транс';
+
+  @override
+  String get fatTypesHint => 'Необов’язково. Залиш порожнім те, чого немає на етикетці.';
+
+  @override
+  String get sessionPhotos => 'Фото тренування';
+
+  @override
+  String get sessionPhotosAdd => 'Додати фото';
+
+  @override
+  String get sessionPhotosHint => 'Вони зберігаються й у «Твої фото».';
+
+  @override
+  String get ladderTitle => 'Прогресія';
+
+  @override
+  String get ladderHint =>
+      'Розставте кроки від легкого до важкого. Коли зробите 3 підходи по 8 два тренування поспіль (5 у повільних), GymMane запропонує наступний.';
+
+  @override
+  String get ladderBuiltIn =>
+      'Базується на прогресії застосунку. Додайте, приберіть або переставте кроки — і вона стане прогресією цього тренування.';
+
+  @override
+  String get ladderNone => 'Поки немає. Торкніться, щоб створити.';
+
+  @override
+  String ladderStep(int n, int total) {
+    return 'Крок $n з $total';
+  }
+
+  @override
+  String get ladderAdd => 'Додати крок';
+
+  @override
+  String get ladderInRoutine => 'У тренуванні';
+
+  @override
+  String get ladderClear => 'Взяти із застосунку';
+
+  @override
+  String get ladderPick => 'Виберіть крок';
+
+  @override
+  String get periodWeek => 'цього тижня';
+
+  @override
+  String get periodMonth => 'цього місяця';
+
+  @override
+  String get periodYear => 'цього року';
+
+  @override
+  String get periodAll => 'за весь час';
+
+  @override
+  String get settingsSearch => 'Пошук у налаштуваннях';
+
+  @override
+  String get settingsNoResults => 'Немає налаштування з такою назвою';
+
+  @override
+  String get settingsGroupApp => 'Ваш застосунок';
+
+  @override
+  String get settingsGroupHome => 'Головна й додатково';
+
+  @override
+  String get settingsGroupData => 'Дані й допомога';
+
+  @override
+  String get healthAllowAll => 'Увімкнути все';
+
+  @override
+  String get healthSeeAll => 'Переглянути все';
+
+  @override
+  String get healthPinTitle => 'На картці';
+
+  @override
+  String get healthPinHint => 'Виберіть до 3 для картки «Прогрес».';
+
+  @override
+  String get blurSetting => 'Ефекти розмиття';
+
+  @override
+  String get blurSettingHint => 'Скло й м\'які краї. Вимкніть, якщо телефон гальмує.';
+
+  @override
+  String get lowEndTitle => 'На телефоні мало пам\'яті';
+
+  @override
+  String get lowEndBody => 'Без розмиття все працює плавніше. Повернути можна в Налаштування → Загальні.';
+
+  @override
+  String get lowEndOff => 'Вимкнути розмиття';
+
+  @override
+  String get lowEndKeep => 'Залишити';
+
+  @override
+  String get momentsThisMonth => 'Цього місяця';
+
+  @override
+  String get momentsDays => 'Дні з фото';
+
+  @override
+  String get awardsPick => 'Вибрати для профілю';
+
+  @override
+  String get awardsPickHint => 'Торкніться тих, що хочете бачити в профілі';
 }
