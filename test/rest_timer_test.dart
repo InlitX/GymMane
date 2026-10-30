@@ -130,4 +130,46 @@ void main() {
       expect(fit.trainAgainMin, 120);
     });
   });
+
+  group('#286 descanso corto en rest-pause y cluster', () {
+    setUp(() async {
+      SharedPreferences.setMockInitialValues({});
+      await Store.instance.init();
+      fit.resetAllData();
+      fit.onboarded = true;
+      fit.setRestSeconds(120);
+    });
+
+    void start() {
+      final id = fit.createRoutine('RP');
+      fit.toggleRoutineExercise(id, fit.matchExerciseByName('Bench Press')!.id);
+      fit.startRoutine(fit.routines.firstWhere((r) => r.id == id));
+      fit.endCountdown();
+      fit.addSet(0);
+    }
+
+    test('antes de una serie rest-pause usa el descanso corto', () {
+      fit.setMiniRest(25);
+      start();
+      final last = fit.session!.exercises[0].sets.length - 1;
+      fit.setSetKind(0, last, SetKind.restPause);
+      fit.toggleSet(0, last - 1);
+      expect(fit.restTotal, 25);
+    });
+
+    test('las series normales siguen con el descanso de siempre', () {
+      start();
+      fit.toggleSet(0, 0);
+      expect(fit.restTotal, 120);
+    });
+
+    test('a cero, el cluster usa el descanso normal', () {
+      fit.setMiniRest(0);
+      start();
+      final last = fit.session!.exercises[0].sets.length - 1;
+      fit.setSetKind(0, last, SetKind.cluster);
+      fit.toggleSet(0, last - 1);
+      expect(fit.restTotal, 120);
+    });
+  });
 }
