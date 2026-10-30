@@ -37,7 +37,7 @@ class AppLocalizationsNl extends AppLocalizations {
   String get done => 'KLAAR';
 
   @override
-  String get set => 'Set';
+  String get set => 'Instellen';
 
   @override
   String get home => 'START';
@@ -196,6 +196,123 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get restOff => 'Uit';
+
+  @override
+  String get miniRest => 'Rust bij rest-pause en cluster';
+
+  @override
+  String get miniRestHint =>
+      'Korte rust vóór een rest-pause- of clusterset. De andere sets houden de gewone rust.';
+
+  @override
+  String get gymPass => 'Sportschoolpas';
+
+  @override
+  String get gymPassEmpty => 'Bewaar hier de code van je sportschool en kom binnen zonder pasje';
+
+  @override
+  String get gymPassAdd => 'Pas toevoegen';
+
+  @override
+  String get gymPassScan => 'Maak een foto van de code';
+
+  @override
+  String get gymPassScanHint => 'Met de camera van je telefoon';
+
+  @override
+  String get gymPassPhoto => 'Uit een foto of screenshot';
+
+  @override
+  String get gymPassPhotoHint => 'Bijvoorbeeld een screenshot uit de app van je sportschool';
+
+  @override
+  String get gymPassType => 'Typ het nummer';
+
+  @override
+  String get gymPassTypeHint => 'Voor streepjescodes: het nummer eronder';
+
+  @override
+  String get gymPassNotFound => 'Geen QR-code op die afbeelding. Probeer een scherpere of typ het nummer.';
+
+  @override
+  String get gymPassName => 'Naam van de sportschool';
+
+  @override
+  String get gymPassDefaultName => 'Mijn sportschool';
+
+  @override
+  String get gymPassCode => 'Code';
+
+  @override
+  String get gymPassFormat => 'Soort code';
+
+  @override
+  String get gymPassInvalid => 'Dat nummer past niet bij dit soort code';
+
+  @override
+  String get gymPassShowHint => 'Houd het bij de scanner. De helderheid gaat vanzelf omhoog.';
+
+  @override
+  String get gymPassDeleted => 'Pas verwijderd';
+
+  @override
+  String get gymPassEdit => 'Pas bewerken';
+
+  @override
+  String get gymPassShow => 'Laten zien bij de ingang';
+
+  @override
+  String get gymPassPrivate => 'Blijft alleen op je telefoon. Er wordt niets geüpload.';
+
+  @override
+  String get gymPassColor => 'Kleur';
+
+  @override
+  String get gymPassRescan => 'Code opnieuw lezen';
+
+  @override
+  String get gymPassReading => 'Code lezen…';
+
+  @override
+  String get gymPassSettingHint => 'Je sportschoolpas in je profiel, klaar voor de ingang';
+
+  @override
+  String get gymPassMember => 'Lid';
+
+  @override
+  String get widgetHintActivity => 'Je kaart met trainingsdagen';
+
+  @override
+  String get widgetHintStats => 'Reeks, volume en sessies van deze week';
+
+  @override
+  String get widgetHintBody => 'De spieren die je hebt getraind';
+
+  @override
+  String get widgetHintToday => 'In één oogopslag: heb je vandaag getraind?';
+
+  @override
+  String get widgetHintWeek => 'Je weekplan, dag voor dag';
+
+  @override
+  String get supportHintBug => 'Vertel me op GitHub wat er misging';
+
+  @override
+  String get supportHintFeature => 'Stel een idee voor de app voor';
+
+  @override
+  String get supportHintStar => 'Helpt meer mensen hem te vinden';
+
+  @override
+  String get supportHintCoffee => 'Steunt de ontwikkeling. Gratis en zonder advertenties';
+
+  @override
+  String get bodyweightNoteHint => 'Voeg een notitie toe: hoe je je voelt, wat je probeert… (optioneel)';
+
+  @override
+  String exerciseUnitSwitch(String unit) {
+    return '$unit gebruiken voor deze oefening';
+  }
 
   @override
   String get setCol => '#';
@@ -1304,6 +1421,10 @@ class AppLocalizationsNl extends AppLocalizations {
   String get autofills => 'Vult de calculators automatisch in';
 
   @override
+  String get onbUnitsWhy =>
+      'Voor gewichten, maten en afstanden. Je kunt het altijd wijzigen in Instellingen.';
+
+  @override
   String get nameLabel => 'NAAM';
 
   @override
@@ -2009,6 +2130,9 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get tplPpl => 'Push, pull en benen. Drie of zes dagen per week.';
+
+  @override
+  String get tplArnold => 'Borst en rug, schouders en armen, benen. De klassieke zesdaagse split.';
 
   @override
   String get tplUpperlower => 'Boven- en onderlichaam, vier dagen per week.';
@@ -5290,4 +5414,214 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get trainAnyway => 'Toch trainen';
+
+  @override
+  String get healthTitle => 'Gezondheid';
+
+  @override
+  String get healthSetting => 'Gezondheidsgegevens';
+
+  @override
+  String get healthSettingHint => 'Hart, slaap en vitale waarden uit Health Connect, in Voortgang.';
+
+  @override
+  String get healthPickTitle => 'Gezondheidsgegevens';
+
+  @override
+  String get healthPickHint =>
+      'Kies wat je uit Health Connect haalt. Android vraagt het één keer per waarde. Het wordt alleen gelezen en verlaat nooit je telefoon.';
+
+  @override
+  String get healthGroupHeart => 'Hart';
+
+  @override
+  String get healthGroupVitals => 'Vitale waarden';
+
+  @override
+  String get healthGroupActivity => 'Activiteit';
+
+  @override
+  String get healthRestingHr => 'Rusthartslag';
+
+  @override
+  String get healthHeartRate => 'Gemiddelde hartslag';
+
+  @override
+  String get healthHrv => 'Hartslagvariabiliteit';
+
+  @override
+  String get healthSpo2 => 'Bloedzuurstof';
+
+  @override
+  String get healthRespiration => 'Ademhalingsfrequentie';
+
+  @override
+  String get healthBloodPressure => 'Bloeddruk';
+
+  @override
+  String get healthTemperature => 'Lichaamstemperatuur';
+
+  @override
+  String get healthSleep => 'Slaap';
+
+  @override
+  String get healthDistance => 'Afstand';
+
+  @override
+  String get healthFloors => 'Beklommen verdiepingen';
+
+  @override
+  String get healthElevation => 'Hoogtemeters';
+
+  @override
+  String get healthActiveKcal => 'Actieve calorieën';
+
+  @override
+  String get healthNoData => 'Nog geen gegevens';
+
+  @override
+  String get healthAllow => 'Tik om toe te staan';
+
+  @override
+  String get healthLast7 => 'Laatste 7 dagen';
+
+  @override
+  String get healthAvg30 => 'Gem. 30 dagen';
+
+  @override
+  String get healthLow => 'Laagste';
+
+  @override
+  String get healthHigh => 'Hoogste';
+
+  @override
+  String get healthFrom => 'Uit Health Connect · laatste 30 dagen';
+
+  @override
+  String get healthBpm => 'bpm';
+
+  @override
+  String get healthBreaths => 'ad/min';
+
+  @override
+  String get weekTab => 'Week';
+
+  @override
+  String get muscleSetsList => 'Sets per spier';
+
+  @override
+  String get fatTrans => 'Trans';
+
+  @override
+  String get fatTypesHint => 'Optioneel. Laat leeg wat niet op het etiket staat.';
+
+  @override
+  String get sessionPhotos => 'Trainingsfoto\'s';
+
+  @override
+  String get sessionPhotosAdd => 'Foto\'s toevoegen';
+
+  @override
+  String get sessionPhotosHint => 'Ze staan ook in Jouw foto\'s.';
+
+  @override
+  String get ladderTitle => 'Progressie';
+
+  @override
+  String get ladderHint =>
+      'Zet de stappen van makkelijk naar moeilijk. Doe je twee sessies op rij 3 sets van 8 (5 bij langzame), dan stelt GymMane de volgende voor.';
+
+  @override
+  String get ladderBuiltIn =>
+      'Begint bij de progressie van de app. Voeg stappen toe, haal ze weg of verschuif ze en hij wordt van deze routine.';
+
+  @override
+  String get ladderNone => 'Nog geen. Tik om er een te maken.';
+
+  @override
+  String ladderStep(int n, int total) {
+    return 'Stap $n van $total';
+  }
+
+  @override
+  String get ladderAdd => 'Stap toevoegen';
+
+  @override
+  String get ladderInRoutine => 'In de routine';
+
+  @override
+  String get ladderClear => 'Die van de app gebruiken';
+
+  @override
+  String get ladderPick => 'Kies een stap';
+
+  @override
+  String get periodWeek => 'deze week';
+
+  @override
+  String get periodMonth => 'deze maand';
+
+  @override
+  String get periodYear => 'dit jaar';
+
+  @override
+  String get periodAll => 'altijd';
+
+  @override
+  String get settingsSearch => 'Instellingen zoeken';
+
+  @override
+  String get settingsNoResults => 'Geen instelling met die naam';
+
+  @override
+  String get settingsGroupApp => 'Jouw app';
+
+  @override
+  String get settingsGroupHome => 'Start en extra\'s';
+
+  @override
+  String get settingsGroupData => 'Gegevens en hulp';
+
+  @override
+  String get healthAllowAll => 'Alles aanzetten';
+
+  @override
+  String get healthSeeAll => 'Alles bekijken';
+
+  @override
+  String get healthPinTitle => 'Op de kaart';
+
+  @override
+  String get healthPinHint => 'Kies er tot 3 voor de Voortgang-kaart.';
+
+  @override
+  String get blurSetting => 'Vervagingseffecten';
+
+  @override
+  String get blurSettingHint => 'Glas en zachte randen. Zet ze uit als je telefoon traag voelt.';
+
+  @override
+  String get lowEndTitle => 'Je telefoon heeft weinig geheugen';
+
+  @override
+  String get lowEndBody =>
+      'Zonder vervaging loopt alles soepeler. Je kunt het terugzetten in Instellingen → Algemeen.';
+
+  @override
+  String get lowEndOff => 'Vervaging uitzetten';
+
+  @override
+  String get lowEndKeep => 'Houden';
+
+  @override
+  String get momentsThisMonth => 'Deze maand';
+
+  @override
+  String get momentsDays => 'Dagen met een foto';
+
+  @override
+  String get awardsPick => 'Kiezen voor je profiel';
+
+  @override
+  String get awardsPickHint => 'Tik op de medailles die je op je profiel wilt';
 }
