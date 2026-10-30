@@ -228,12 +228,28 @@ mixin RoutinesState on FitCore, LibraryState {
 
   int get rotationStep => rotationRoutines.isEmpty ? 0 : _rotationCursor.index;
 
-  bool get restingToday => rotationRestOn(DateTime.now());
+  bool get restingToday => restOn(DateTime.now());
+
+  bool restOn(DateTime day) {
+    if (rotating) return rotationRestOn(day);
+    final key = _dayKey(day);
+    if (key.isBefore(_dayKey(DateTime.now())) || _sessionsOnDay(key).isNotEmpty) return false;
+    return routinesOn(key).isEmpty && nextPlannedAfter(key) != null;
+  }
+
+  ({Routine routine, DateTime day})? nextPlannedAfter(DateTime day) {
+    for (var d = 1; d <= 7; d++) {
+      final next = shiftDays(day, d);
+      final on = routinesOn(next);
+      if (on.isNotEmpty) return (routine: on.first, day: next);
+    }
+    return null;
+  }
 
   bool rotationRestOn(DateTime day) {
     if (!rotating) return false;
     final key = _dayKey(day);
-    if (key.isBefore(_dayKey(DateTime.now())) || sessions.any((s) => _dayKey(s.day) == key)) return false;
+    if (key.isBefore(_dayKey(DateTime.now())) || _sessionsOnDay(key).isNotEmpty) return false;
     return _rotationOn(day).isEmpty;
   }
 
@@ -241,8 +257,8 @@ mixin RoutinesState on FitCore, LibraryState {
     final key = _dayKey(day);
     final today = _dayKey(DateTime.now());
     final done = [
-      for (final s in sessions)
-        if (_dayKey(s.day) == key && s.routineId != null && rotationIds.contains(s.routineId)) ?_routine(s.routineId!),
+      for (final s in _sessionsOnDay(key))
+        if (s.routineId != null && rotationIds.contains(s.routineId)) ?_routine(s.routineId!),
     ];
     if (key.isBefore(today) || done.isNotEmpty) return done;
     final steps = rotationSteps;
@@ -413,7 +429,7 @@ mixin RoutinesState on FitCore, LibraryState {
     final left = routinesOn(day);
     final key = _dayKey(day);
     var free = 0;
-    for (final s in sessions.where((s) => _dayKey(s.day) == key)) {
+    for (final s in _sessionsOnDay(key)) {
       final id = s.routineId;
       if (id == null) {
         free++;
@@ -515,6 +531,7 @@ mixin RoutinesState on FitCore, LibraryState {
     made.exerciseIds.addAll(source.exerciseIds);
     made.sets.addAll(source.sets);
     made.chained.addAll(source.chained);
+    made.ladders.addAll([for (final l in source.ladders) [...l]]);
     made.plan.addAll({for (final e in source.plan.entries) e.key: [...e.value]});
     made.rest.addAll(source.rest);
     made.group = source.group;
@@ -591,6 +608,43 @@ mixin RoutinesState on FitCore, LibraryState {
     } else {
       r.exerciseIds.add(exId);
     }
+    _persist();
+    notifyListeners();
+  }
+
+  List<String>? ladderIn(Routine? r, String exId) {
+    if (r == null) return null;
+    for (final l in r.ladders) {
+      if (l.contains(exId)) return l;
+    }
+    return null;
+  }
+
+  List<String>? builtInLadder(String exId) {
+    for (final chain in kProgressions) {
+      if (chain.contains(exId)) return chain;
+    }
+    return null;
+  }
+
+  String? nextStepIn(Routine? r, String exId) {
+    final own = ladderIn(r, exId);
+    if (own == null) return nextStepOf(exId);
+    final at = own.indexOf(exId);
+    return at + 1 < own.length ? own[at + 1] : null;
+  }
+
+  int stepIndexIn(Routine? r, String exId) => (ladderIn(r, exId) ?? builtInLadder(exId) ?? const []).indexOf(exId);
+
+  void setLadder(String routineId, String exId, List<String> steps) {
+    final r = _routine(routineId);
+    if (r == null) return;
+    final clean = <String>[];
+    for (final id in steps) {
+      if (!clean.contains(id) && exerciseById(id) != null) clean.add(id);
+    }
+    r.ladders.removeWhere((l) => l.contains(exId) || clean.any(l.contains));
+    if (clean.length > 1 && clean.contains(exId)) r.ladders.add(clean);
     _persist();
     notifyListeners();
   }
