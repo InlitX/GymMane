@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 
 import '../theme/app_colors.dart';
 
-const double kSheetBlur = 14;
+bool blurEffects = true;
+
+final sheetRecede = ValueNotifier<double>(0);
 
 final glassOpen = ValueNotifier<int>(0);
 final glassShown = ValueNotifier<int>(0);
@@ -13,24 +15,22 @@ mixin _GlassCount<T> on ModalRoute<T> {
   static final _live = <_GlassCount>{};
 
   bool _open = false;
-  bool _handoff = false;
-  bool _handedOff = false;
 
-  bool get blurFull => _handoff;
-  bool get blurOff => _handedOff;
+  static void _recede() {
+    var v = 0.0;
+    for (final r in _live) {
+      final a = r.animation?.value ?? 0;
+      if (a > v) v = a;
+    }
+    sheetRecede.value = Curves.easeOutCubic.transform(v.clamp(0.0, 1.0));
+  }
 
   @override
   void install() {
     super.install();
-    final closing = _live.where((r) => !r._open);
-    if (glassOpen.value == 0 && closing.isNotEmpty) {
-      _handoff = true;
-      for (final r in closing) {
-        r._handedOff = true;
-      }
-    }
     _open = true;
     _live.add(this);
+    animation?.addListener(_recede);
     glassOpen.value++;
     glassShown.value++;
   }
@@ -50,7 +50,9 @@ mixin _GlassCount<T> on ModalRoute<T> {
   @override
   void dispose() {
     _close();
+    animation?.removeListener(_recede);
     if (_live.remove(this)) glassShown.value--;
+    _recede();
     super.dispose();
   }
 }
@@ -74,7 +76,7 @@ Future<T?> showAppSheet<T>({
     isDismissible: isDismissible,
     enableDrag: enableDrag,
     useSafeArea: useSafeArea,
-    modalBarrierColor: Colors.black.withValues(alpha: 0.32),
+    modalBarrierColor: Colors.black.withValues(alpha: 0.38),
     capturedThemes: InheritedTheme.capture(from: context, to: nav.context),
     barrierLabel: MaterialLocalizations.of(context).scrimLabel,
   ));
@@ -93,9 +95,6 @@ class _GlassSheetRoute<T> extends ModalBottomSheetRoute<T> with _GlassCount<T> {
     super.capturedThemes,
     super.barrierLabel,
   });
-
-  @override
-  Widget buildModalBarrier() => _BlurBarrier(route: this, animation: animation!, child: super.buildModalBarrier());
 }
 
 class _PullToClose extends StatefulWidget {
@@ -156,7 +155,7 @@ Future<T?> showAppDialog<T>({required BuildContext context, required WidgetBuild
   return nav.push(_GlassDialogRoute<T>(
     context: context,
     builder: builder,
-    barrierColor: Colors.black.withValues(alpha: 0.36),
+    barrierColor: Colors.black.withValues(alpha: 0.4),
     themes: InheritedTheme.capture(from: context, to: nav.context),
     barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
   ));
@@ -172,9 +171,6 @@ class _GlassDialogRoute<T> extends DialogRoute<T> with _GlassCount<T> {
   });
 
   @override
-  Widget buildModalBarrier() => _BlurBarrier(route: this, animation: animation!, child: super.buildModalBarrier());
-
-  @override
   Widget buildTransitions(
       BuildContext context, Animation<double> animation, Animation<double> secondary, Widget child) {
     final curved = CurvedAnimation(parent: animation, curve: Curves.easeOutBack, reverseCurve: Curves.easeInCubic);
@@ -185,33 +181,6 @@ class _GlassDialogRoute<T> extends DialogRoute<T> with _GlassCount<T> {
   }
 }
 
-class _BlurBarrier extends StatelessWidget {
-  const _BlurBarrier({required this.route, required this.animation, required this.child});
-
-  final _GlassCount route;
-  final Animation<double> animation;
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: animation,
-      child: child,
-      builder: (context, barrier) {
-        if (route.blurOff) return barrier!;
-        final full = route.blurFull && animation.status != AnimationStatus.reverse;
-        final sigma = full
-            ? kSheetBlur
-            : kSheetBlur * Curves.easeOut.transform(animation.value.clamp(0.0, 1.0));
-        if (sigma < 0.3) return barrier!;
-        return BackdropFilter(
-          filter: ui.ImageFilter.blur(sigmaX: sigma, sigmaY: sigma),
-          child: barrier,
-        );
-      },
-    );
-  }
-}
 
 class EdgeBlur extends StatefulWidget {
   const EdgeBlur({super.key, required this.height, this.top = true, this.sigma = 16, this.shade = 1});
@@ -289,10 +258,12 @@ class _EdgeBlurState extends State<EdgeBlur> {
         height: widget.height,
         child: Stack(
           children: [
-            if (program != null)
+            if (!blurEffects)
+              const SizedBox.shrink()
+            else if (program != null)
               for (final f in _layers(program, MediaQuery.devicePixelRatioOf(context)))
                 Positioned.fill(
-                  child: ClipRect(child: BackdropFilter.grouped(filter: f, child: const SizedBox.expand())),
+                  child: ClipRect(child: BackdropFilter(filter: f, child: const SizedBox.expand())),
                 )
             else
               ..._strips(),
@@ -327,7 +298,7 @@ class _EdgeBlurState extends State<EdgeBlur> {
           top: widget.top ? strip * i : widget.height - strip * (i + 1),
           height: strip + 0.5,
           child: ClipRect(
-            child: BackdropFilter.grouped(
+            child: BackdropFilter(
               filter: ui.ImageFilter.blur(
                 sigmaX: widget.sigma * (1 - i / n) * 0.7,
                 sigmaY: widget.sigma * (1 - i / n) * 0.7,
@@ -364,11 +335,12 @@ class GlassSurface extends StatelessWidget {
     return ClipRRect(
       borderRadius: shape,
       child: BackdropFilter.grouped(
+        enabled: blurEffects,
         filter: ui.ImageFilter.blur(sigmaX: blur, sigmaY: blur),
         child: DecoratedBox(
           decoration: BoxDecoration(
             borderRadius: shape,
-            color: tint ?? gc.bgRaised.withValues(alpha: dark ? 0.66 : 0.74),
+            color: blurEffects ? tint ?? gc.bgRaised.withValues(alpha: dark ? 0.66 : 0.74) : gc.bgRaised,
           ),
           child: DecoratedBox(
             decoration: BoxDecoration(
