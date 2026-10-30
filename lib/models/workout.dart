@@ -137,13 +137,15 @@ class LoggedSession {
 }
 
 class BodyweightEntry {
-  BodyweightEntry(this.date, this.kg);
+  BodyweightEntry(this.date, this.kg, {this.note = ''});
   final DateTime date;
   final double kg;
+  final String note;
 
-  Map<String, dynamic> toJson() => {'d': date.toIso8601String(), 'kg': kg};
-  factory BodyweightEntry.fromJson(Map<String, dynamic> j) =>
-      BodyweightEntry(DateTime.parse(j['d'] as String), (j['kg'] as num).toDouble());
+  Map<String, dynamic> toJson() => {'d': date.toIso8601String(), 'kg': kg, if (note.isNotEmpty) 'n': note};
+  factory BodyweightEntry.fromJson(Map<String, dynamic> j) => BodyweightEntry(
+      DateTime.parse(j['d'] as String), (j['kg'] as num).toDouble(),
+      note: j['n'] as String? ?? '');
 }
 
 class PlannedSet {
@@ -231,13 +233,15 @@ class Routine {
       Set<String>? chained,
       Map<String, List<PlannedSet>>? plan,
       Map<String, int>? rest,
+      List<List<String>>? ladders,
       this.group = '',
       this.color = -1,
       this.archived = false})
       : sets = sets ?? {},
         chained = chained ?? {},
         plan = plan ?? {},
-        rest = rest ?? {};
+        rest = rest ?? {},
+        ladders = ladders ?? [];
   final String id;
   String name;
   String group;
@@ -248,10 +252,12 @@ class Routine {
   final Set<String> chained;
   final Map<String, List<PlannedSet>> plan;
   final Map<String, int> rest;
+  final List<List<String>> ladders;
 
   Map<String, dynamic> toJson() => {
         'id': id,
         'n': name,
+        if (ladders.isNotEmpty) 'lad': ladders,
         'ex': exerciseIds,
         if (rest.isNotEmpty) 'r': rest,
         if (sets.isNotEmpty) 's': sets,
@@ -275,6 +281,10 @@ class Routine {
             )),
         rest: ((j['r'] as Map?) ?? const {})
             .map((k, v) => MapEntry(k as String, ((v as num).toInt()).clamp(0, 600))),
+        ladders: [
+          for (final l in (j['lad'] as List?) ?? const [])
+            if (l is List && l.length > 1) l.cast<String>().toList(),
+        ],
         group: (j['g'] as String?) ?? '',
         color: (j['k'] as num?)?.toInt() ?? -1,
         archived: j['a'] == true,
