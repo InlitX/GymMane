@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:gymmane/catalog/exercise_catalog.dart';
 import 'package:gymmane/models/workout.dart';
+import 'package:gymmane/services/plan_share.dart';
 import 'package:gymmane/services/local_store.dart';
 import 'package:gymmane/state/fit_state.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -172,5 +173,57 @@ void main() {
     expect(fit.levelStay, {pushUp});
     expect(fit.levelSeen['negative-dip'], 123);
     expect(fit.levelHints, isFalse);
+  });
+
+  group('#262 progresión propia de la rutina', () {
+    test('un ejercicio sin cadena de la app sube por la de la rutina', () {
+      final bench = fit.matchExerciseByName('Barbell Bench Press')!.id;
+      final incline = fit.matchExerciseByName('Barbell Incline Bench Press')!.id;
+      expect(nextStepOf(bench), isNull);
+      final r = routineWith([bench]);
+      fit.setLadder(r.id, bench, [bench, incline]);
+      expect(fit.nextStepIn(r, bench), incline);
+
+      workout(r, 8);
+      fit.saveAndExit();
+      workout(r, 8);
+      expect(fit.summaryLevelUp?.to.id, incline);
+      fit.levelUpSwap();
+      expect(r.exerciseIds, [incline]);
+      expect(fit.ladderIn(r, incline), [bench, incline], reason: 'la cadena sigue ahí tras subir');
+    });
+
+    test('la de la rutina manda sobre la de la app y puede meter un paso que falta', () {
+      final r = routineWith(['uTBt1HV']);
+      final hang = fit.matchExerciseByName('Dead Hang')?.id ?? fit.allExercises.firstWhere((e) => e.primary == 'back').id;
+      fit.setLadder(r.id, 'uTBt1HV', ['uTBt1HV', hang, 'negative-pull-up']);
+      expect(nextStepOf('uTBt1HV'), 'negative-pull-up');
+      expect(fit.nextStepIn(r, 'uTBt1HV'), hang);
+      expect(fit.nextStepIn(null, 'uTBt1HV'), 'negative-pull-up', reason: 'fuera de la rutina, la de la app');
+    });
+
+    test('se guarda, se copia al duplicar y una cadena de un paso no cuenta', () {
+      final r = routineWith([pushUp]);
+      fit.setLadder(r.id, pushUp, [pushUp, diamond]);
+      fit.persistNow();
+      fit.loadFromStore();
+      final back = fit.routineById(r.id)!;
+      expect(back.ladders, [[pushUp, diamond]]);
+      final copy = fit.routineById(fit.duplicateRoutine(r.id))!;
+      expect(copy.ladders, [[pushUp, diamond]]);
+      fit.setLadder(r.id, pushUp, [pushUp]);
+      expect(fit.routineById(r.id)!.ladders, isEmpty);
+    });
+
+    test('viaja en el JSON de compartir rutinas', () {
+      final r = routineWith([pushUp]);
+      fit.setLadder(r.id, pushUp, [pushUp, diamond]);
+      final json = fit.exportPlanJson([r]);
+      expect(json, contains('"progression"'));
+      fit.resetAllData();
+      fit.applyPlan(parsePlan(json));
+      final made = fit.routines.single;
+      expect(fit.ladderIn(made, pushUp), [pushUp, diamond]);
+    });
   });
 }
