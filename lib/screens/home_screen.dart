@@ -17,6 +17,7 @@ import '../widgets/svg_icon.dart';
 import '../widgets/ui_kit.dart';
 import 'progress_screen.dart';
 import 'routines_screen.dart';
+import 'start_sheet.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -88,6 +89,7 @@ class HomeScreen extends StatelessWidget {
             const SizedBox(height: 14),
             SoftCard(
               radius: 22,
+              borderColor: Colors.transparent,
               padding: const EdgeInsets.fromLTRB(18, 18, 18, 16),
               child: fit.heatmapYear
                   ? HeatmapYear(
@@ -181,7 +183,7 @@ class HomeScreen extends StatelessWidget {
               Text(t.longDate(DateTime.now()),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: AppTheme.f(21, color: gc.text)),
+                  style: AppTheme.f(30, weight: FontWeight.w800, color: gc.text, letterSpacing: -0.8, height: 1.1)),
             ],
           ),
         ),
@@ -220,24 +222,39 @@ class HomeScreen extends StatelessWidget {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: onMore,
-      child: Row(
-        children: [
-          Text(_tc(title), style: AppTheme.f(19, color: gc.text)),
-          const Spacer(),
-          if (onMore != null)
-            Icon(PhosphorIconsBold.caretRight, size: 14, color: gc.textTertiary),
-        ],
+      child: Padding(
+        padding: const EdgeInsets.only(left: 4),
+        child: SizedBox(
+          height: 30,
+          child: Row(
+            children: [
+              Text(title.toUpperCase(),
+                  style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.4)),
+              const Spacer(),
+              if (onMore != null)
+                Container(
+                  height: 28,
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(color: gc.bgRaised, borderRadius: BorderRadius.circular(14)),
+                  child: Text(t.healthSeeAll, style: AppTheme.f(12, weight: FontWeight.w700, color: gc.text)),
+                ),
+            ],
+          ),
+        ),
       ),
     );
   }
 
   Widget _hero(BuildContext context, GymColors gc) {
-    final rest = fit.restingToday ? fit.rotationUpcoming : null;
-    final routine = rest ?? fit.todayRoutine;
+    final resting = fit.restingToday;
+    final next = resting && !fit.rotating ? fit.nextPlannedAfter(DateTime.now()) : null;
+    final rest = !resting ? null : next?.routine ?? fit.rotationUpcoming;
+    final routine = fit.rotating ? rest ?? fit.todayRoutine : fit.todayRoutine;
     final focus = fit.suggestedFocus;
     final isRoutine = routine != null && routine.exerciseIds.isNotEmpty;
     final label = rest != null
-        ? t.rotationTitle
+        ? (fit.rotating ? t.rotationTitle : t.weeklyPlan)
         : isRoutine
             ? t.todaysRoutine
             : t.todaysFocus;
@@ -251,7 +268,10 @@ class HomeScreen extends StatelessWidget {
     final subtitle = rest != null
         ? [
             t.rotationRestUpNext(fit.routineTitle(rest)),
-            t.rotationPlace(fit.rotationStep + 1, fit.rotationSteps.length),
+            if (next != null)
+              t.weekdayShort(next.day.weekday)
+            else
+              t.rotationPlace(fit.rotationStep + 1, fit.rotationSteps.length),
           ].join(' · ')
         : done
         ? t.routineDoneToday
@@ -353,7 +373,11 @@ class HomeScreen extends StatelessWidget {
                         height: 52,
                         bg: done || rest != null ? gc.bgRaised2 : null,
                         fg: done || rest != null ? gc.text : null,
-                        onTap: isRoutine ? () => fit.startRoutine(routine) : fit.startFocusWorkout,
+                        onTap: next != null
+                            ? () => showStartSheet(context)
+                            : isRoutine
+                                ? () => fit.startRoutine(routine)
+                                : fit.startFocusWorkout,
                       ),
                     ),
                     if (isRoutine && !done && rest == null) ...[
@@ -378,6 +402,7 @@ class HomeScreen extends StatelessWidget {
   Widget _weekCard(BuildContext context, GymColors gc) {
     return SoftCard(
       radius: 22,
+      borderColor: Colors.transparent,
       padding: const EdgeInsets.fromLTRB(14, 16, 14, 16),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -420,7 +445,7 @@ class HomeScreen extends StatelessWidget {
               ),
               child: done
                   ? Center(child: SvgPathIcon(Ic.checkBold, size: 13, color: gc.onEmber))
-                  : fit.rotationRestOn(fit.dateForWeekday(i))
+                  : fit.restOn(fit.dateForWeekday(i))
                       ? Icon(PhosphorIconsFill.bed, size: 14, color: gc.sage)
                       : null,
             ),
@@ -433,6 +458,7 @@ class HomeScreen extends StatelessWidget {
   Widget _weekStats(BuildContext context, GymColors gc) {
     return SoftCard(
       radius: 22,
+      borderColor: Colors.transparent,
       padding: const EdgeInsets.fromLTRB(18, 18, 18, 18),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -505,6 +531,7 @@ class HomeScreen extends StatelessWidget {
       onTap: fit.goMoments,
       child: SoftCard(
         radius: 22,
+        borderColor: Colors.transparent,
         padding: const EdgeInsets.fromLTRB(18, 16, 18, 16),
         child: Row(
           children: [
