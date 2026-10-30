@@ -60,14 +60,15 @@ class _MuscleRadarCardState extends State<MuscleRadarCard> {
     ].take(3).toList();
 
     return SoftCard(
-      radius: 20,
+      radius: 22,
       borderColor: Colors.transparent,
-      padding: const EdgeInsets.fromLTRB(18, 20, 18, 18),
+      padding: const EdgeInsets.fromLTRB(18, 18, 18, 18),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(t.radarTitle, style: AppTheme.f(21, weight: FontWeight.w800, color: gc.text)),
-          const SizedBox(height: 4),
+          Text(t.radarTitle.toUpperCase(),
+              style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.3)),
+          const SizedBox(height: 6),
           Text(t.radarHint, style: AppTheme.f(13, weight: FontWeight.w500, color: gc.textSecondary)),
           const SizedBox(height: 10),
           AspectRatio(

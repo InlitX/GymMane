@@ -19,12 +19,15 @@ import '../widgets/entrance.dart';
 import '../widgets/exercise_media.dart';
 import '../widgets/file_thumb.dart';
 import '../widgets/glass.dart';
+import '../widgets/health_cards.dart';
 import '../widgets/liquid_notch.dart';
 import '../widgets/muscle_radar.dart';
 import '../widgets/nutrition_art.dart' show ValueLineChart;
 import '../widgets/rolling_text.dart';
 import '../widgets/ruler_picker.dart';
+import '../widgets/set_kind.dart';
 import '../widgets/ui_kit.dart';
+import 'session_photos.dart';
 import 'share_sheet.dart';
 import 'start_sheet.dart';
 
@@ -53,37 +56,12 @@ class ProgressScreen extends StatelessWidget {
               children: [
                 Expanded(
                   child: Text(t.progressTitle,
-                      style: AppTheme.f(27, weight: FontWeight.w800, color: gc.text)),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: AppTheme.f(30, weight: FontWeight.w800, color: gc.text, letterSpacing: -0.8, height: 1.1)),
                 ),
-                if (fit.sessions.isNotEmpty) ...[
-                  Semantics(
-                    button: true,
-                    label: sentenceCase(t.historyTitle),
-                    child: GestureDetector(
-                      onTap: fit.goHistory,
-                      child: Container(
-                        width: 38,
-                        height: 38,
-                        decoration: BoxDecoration(color: gc.bgRaised, shape: BoxShape.circle),
-                        child: Icon(PhosphorIconsRegular.clockCounterClockwise, size: 17, color: gc.text),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                ],
-                Semantics(
-                  button: true,
-                  label: t.share,
-                  child: GestureDetector(
-                    onTap: () => showShareSheet(context),
-                    child: Container(
-                      width: 38,
-                      height: 38,
-                      decoration: BoxDecoration(color: gc.bgRaised, shape: BoxShape.circle),
-                      child: Icon(PhosphorIconsRegular.shareNetwork, size: 17, color: gc.text),
-                    ),
-                  ),
-                ),
+                const SizedBox(width: 12),
+                _headerActions(context, gc),
               ],
             ),
             const SizedBox(height: 20),
@@ -117,6 +95,42 @@ class ProgressScreen extends StatelessWidget {
     );
   }
 
+  Widget _headerActions(BuildContext context, GymColors gc) {
+    Widget half(String label, VoidCallback onTap, List<Widget> children, EdgeInsets pad) => Semantics(
+          button: true,
+          label: label,
+          child: Pressable(
+            scale: 0.92,
+            onTap: onTap,
+            child: Padding(
+              padding: pad,
+              child: Row(mainAxisSize: MainAxisSize.min, children: children),
+            ),
+          ),
+        );
+    return Container(
+      height: 40,
+      decoration: BoxDecoration(
+        color: gc.bgRaised,
+        borderRadius: BorderRadius.circular(100),
+        border: Border.all(color: gc.border.withValues(alpha: 0.6)),
+      ),
+      child: Row(mainAxisSize: MainAxisSize.min, children: [
+        if (fit.sessions.isNotEmpty) ...[
+          half(sentenceCase(t.historyTitle), fit.goHistory, [
+            Icon(PhosphorIconsBold.clockCounterClockwise, size: 16, color: gc.textSecondary),
+          ], const EdgeInsets.fromLTRB(14, 0, 12, 0)),
+          Container(width: 1, height: 18, color: gc.border),
+        ],
+        half(t.share, () => showShareSheet(context), [
+          Icon(PhosphorIconsBold.export, size: 15, color: gc.accent),
+          const SizedBox(width: 7),
+          Text(sentenceCase(t.share), style: AppTheme.f(13, weight: FontWeight.w700, color: gc.text)),
+        ], EdgeInsets.fromLTRB(fit.sessions.isNotEmpty ? 12 : 14, 0, 16, 0)),
+      ]),
+    );
+  }
+
   Widget _tile(
     GymColors gc, {
     required String label,
@@ -139,8 +153,7 @@ class ProgressScreen extends StatelessWidget {
           Row(children: [
             Expanded(
               child: FitText(label.toUpperCase(),
-                  style: AppTheme.f(10,
-                      weight: FontWeight.w600, color: gc.textTertiary, letterSpacing: 0.9)),
+                  style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.3)),
             ),
             ?badge,
           ]),
@@ -250,8 +263,7 @@ class ProgressScreen extends StatelessWidget {
           Row(
             children: [
               Text(t.consistency.toUpperCase(),
-                  style: AppTheme.f(10,
-                      weight: FontWeight.w600, color: gc.textTertiary, letterSpacing: 0.9)),
+                  style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.3)),
               const Spacer(),
               GestureDetector(
                 behavior: HitTestBehavior.opaque,
@@ -348,8 +360,7 @@ class ProgressScreen extends StatelessWidget {
         children: [
           Row(children: [
             Text(t.thisWeekTitle.toUpperCase(),
-                style: AppTheme.f(10,
-                    weight: FontWeight.w600, color: gc.textTertiary, letterSpacing: 0.9)),
+                style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.3)),
             const Spacer(),
             Text(t.setsThisWeek(sets.fold(0, (a, b) => a + b)),
                 style: AppTheme.f(11.5, weight: FontWeight.w600, color: gc.textSecondary)),
@@ -490,6 +501,7 @@ class ProgressScreen extends StatelessWidget {
       if (prs.isNotEmpty) _PrCard(prs),
       if (fit.shotCount > 0) _timelineCard(gc),
       if (fit.measures.isNotEmpty) _measuresCard(gc),
+      if (fit.healthShown.isNotEmpty) const HealthCard(),
     ];
   }
 
@@ -502,7 +514,8 @@ class ProgressScreen extends StatelessWidget {
       behavior: HitTestBehavior.opaque,
       onTap: fit.goTimeline,
       child: SoftCard(
-        radius: 20,
+        radius: 22,
+        borderColor: Colors.transparent,
         padding: const EdgeInsets.fromLTRB(18, 16, 18, 16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -521,7 +534,7 @@ class ProgressScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(t.timeline,
-                          style: AppTheme.d(14, weight: FontWeight.w600, color: gc.text, letterSpacing: 1)),
+                          style: AppTheme.f(15, weight: FontWeight.w700, color: gc.text)),
                       if (last != null && left != null) ...[
                         const SizedBox(height: 3),
                         Text(fit.photoDue ? t.photoDueNow : t.photoNextIn(left),
@@ -742,16 +755,16 @@ class ProgressScreen extends StatelessWidget {
       behavior: HitTestBehavior.opaque,
       onTap: fit.goMeasures,
       child: SoftCard(
-        radius: 20,
+        radius: 22,
+        borderColor: Colors.transparent,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               children: [
                 Expanded(
-                  child: Text(t.measures,
-                      style: AppTheme.d(14,
-                          weight: FontWeight.w600, color: gc.text, letterSpacing: 1)),
+                  child: Text(t.measures.toUpperCase(),
+                      style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.3)),
                 ),
                 Icon(PhosphorIconsRegular.caretRight, size: 15, color: gc.textTertiary),
               ],
@@ -1018,7 +1031,20 @@ class _BodyweightSheetState extends State<_BodyweightSheet> {
                       for (final e in all.reversed.take(30))
                         Row(children: [
                           Expanded(
-                            child: Text(t.shortDateYear(e.date), style: AppTheme.s(12.5, color: gc.textSecondary)),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(t.shortDateYear(e.date), style: AppTheme.s(12.5, color: gc.textSecondary)),
+                                if (e.note.isNotEmpty)
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 2, bottom: 6, right: 8),
+                                    child: Text(e.note,
+                                        maxLines: 3,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: AppTheme.f(12, weight: FontWeight.w500, color: gc.textTertiary, height: 1.3)),
+                                  ),
+                              ],
+                            ),
                           ),
                           Text(fit.weightLabel(e.kg), style: AppTheme.f(13.5, weight: FontWeight.w700, color: gc.text)),
                           Semantics(
@@ -1059,6 +1085,7 @@ class _MuscleMapCard extends StatefulWidget {
 class _MuscleMapCardState extends State<_MuscleMapCard> {
   int _days = 7;
   String? _focus;
+  bool _list = false;
 
   void _setDays(int d) => setState(() {
         _days = d;
@@ -1070,13 +1097,15 @@ class _MuscleMapCardState extends State<_MuscleMapCard> {
     final gc = context.gc;
     if (_days == 0) return _recoveryCard(gc);
     if (_days < 0) return _untrainedCard(gc);
-    final sets = fit.muscleSetsOver(_days);
-    final heat = fit.muscleHeatOver(_days);
+    final week = _days == 7;
+    final sets = week ? fit.muscleSetsThisWeek : fit.muscleSetsOver(_days);
+    final heat = week ? fit.muscleHeatThisWeek : fit.muscleHeatOver(_days);
     final focus = _focus;
-    final behind = fit.neglectedMuscles(_days);
+    final behind = week ? fit.neglectedThisWeek : fit.neglectedMuscles(_days);
 
     return SoftCard(
-      radius: 20,
+      radius: 22,
+      borderColor: Colors.transparent,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -1121,9 +1150,84 @@ class _MuscleMapCardState extends State<_MuscleMapCard> {
                     style: AppTheme.s(13, color: gc.textSecondary),
                   ),
           ),
+          if (sets.isNotEmpty) ..._muscleList(gc, sets, heat),
         ],
       ),
     );
+  }
+
+  List<Widget> _muscleList(GymColors gc, Map<String, double> sets, Map<String, double> heat) {
+    final ids = sets.keys.toList()..sort((a, b) => sets[b]!.compareTo(sets[a]!));
+    return [
+      const SizedBox(height: 10),
+      Divider(height: 1, thickness: 1, color: gc.border),
+      GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: () => setState(() => _list = !_list),
+        child: SizedBox(
+          height: 44,
+          child: Row(children: [
+            Expanded(
+              child: Text(t.muscleSetsList,
+                  style: AppTheme.f(13.5, weight: FontWeight.w600, color: gc.text)),
+            ),
+            AnimatedRotation(
+              turns: _list ? 0.5 : 0,
+              duration: const Duration(milliseconds: 200),
+              child: Icon(PhosphorIconsBold.caretDown, size: 13, color: gc.textTertiary),
+            ),
+          ]),
+        ),
+      ),
+      AnimatedSize(
+        duration: const Duration(milliseconds: 240),
+        curve: Curves.easeOutCubic,
+        alignment: Alignment.topCenter,
+        child: !_list
+            ? const SizedBox(width: double.infinity)
+            : Column(children: [
+                for (final id in ids)
+                  GestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    onTap: () => setState(() => _focus = _focus == id ? null : id),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 7),
+                      child: Row(children: [
+                        Container(
+                          width: 10,
+                          height: 10,
+                          decoration: BoxDecoration(color: heatColor(gc, heat[id] ?? 0), shape: BoxShape.circle),
+                        ),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: Text(t.muscle(id),
+                              style: AppTheme.f(14,
+                                  weight: _focus == id ? FontWeight.w800 : FontWeight.w600, color: gc.text)),
+                        ),
+                        SizedBox(
+                          width: 64,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(100),
+                            child: LinearProgressIndicator(
+                              value: heat[id] ?? 0,
+                              minHeight: 5,
+                              color: heatColor(gc, heat[id] ?? 0),
+                              backgroundColor: gc.bgRaised2,
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 44,
+                          child: Text(fmt((sets[id]! * 2).round() / 2),
+                              textAlign: TextAlign.end,
+                              style: AppTheme.f(16, weight: FontWeight.w800, color: gc.text)),
+                        ),
+                      ]),
+                    ),
+                  ),
+              ]),
+      ),
+    ];
   }
 
   Widget _header(GymColors gc) => Column(
@@ -1132,7 +1236,7 @@ class _MuscleMapCardState extends State<_MuscleMapCard> {
           Text(t.muscleMap,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: AppTheme.f(10, weight: FontWeight.w600, color: gc.textTertiary, letterSpacing: 0.9)),
+              style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.3)),
           const SizedBox(height: 10),
           Align(
             alignment: AlignmentDirectional.centerStart,
@@ -1140,7 +1244,7 @@ class _MuscleMapCardState extends State<_MuscleMapCard> {
               fit: BoxFit.scaleDown,
               child: SegToggle(
                 [
-                  SegOption(t.days7, _days == 7, () => _setDays(7)),
+                  SegOption(t.weekTab, _days == 7, () => _setDays(7)),
                   SegOption(t.days30, _days == 30, () => _setDays(30)),
                   SegOption(t.recoveryTab, _days == 0, () => _setDays(0)),
                   SegOption(t.untrainedTab, _days < 0, () => _setDays(-1)),
@@ -1160,7 +1264,8 @@ class _MuscleMapCardState extends State<_MuscleMapCard> {
     final empty = fit.sessions.isEmpty;
     final waiting = fit.untrainedLongest();
     return SoftCard(
-      radius: 20,
+      radius: 22,
+      borderColor: Colors.transparent,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -1229,7 +1334,8 @@ class _MuscleMapCardState extends State<_MuscleMapCard> {
     final tired = fit.stillRecovering();
     final focus = _focus;
     return SoftCard(
-      radius: 20,
+      radius: 22,
+      borderColor: Colors.transparent,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -1353,13 +1459,14 @@ class _StrengthCard extends StatelessWidget {
     final id = fit.activeStrengthId;
 
     return SoftCard(
-      radius: 20,
+      radius: 22,
+      borderColor: Colors.transparent,
       padding: const EdgeInsets.fromLTRB(18, 18, 18, 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(t.strength1rm,
-              style: AppTheme.f(10, weight: FontWeight.w600, color: gc.textTertiary, letterSpacing: 0.9)),
+              style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.3)),
           const SizedBox(height: 14),
           if (id == null)
             Text(t.strengthEmpty, style: AppTheme.s(13, color: gc.textSecondary))
@@ -1607,7 +1714,8 @@ class _PrCardState extends State<_PrCard> {
     final rows = _all ? prs : prs.take(_shown).toList();
     final hidden = prs.length - rows.length;
     return SoftCard(
-      radius: 20,
+      radius: 22,
+      borderColor: Colors.transparent,
       padding: const EdgeInsets.fromLTRB(18, 18, 18, 8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -1617,7 +1725,7 @@ class _PrCardState extends State<_PrCard> {
             const SizedBox(width: 7),
             Expanded(
               child: Text(t.personalRecords,
-                  style: AppTheme.f(10, weight: FontWeight.w600, color: gc.textTertiary, letterSpacing: 0.9)),
+                  style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.3)),
             ),
             Text('${prs.length}', style: AppTheme.f(12, weight: FontWeight.w700, color: gc.textSecondary)),
           ]),
@@ -1826,6 +1934,11 @@ class _DaySheet extends StatelessWidget {
           ),
         ),
         _sessionMeta(context, gc, s),
+        if (fit.momentsOf(s).isNotEmpty)
+          Padding(
+            padding: const EdgeInsets.only(top: 4, bottom: 10),
+            child: SessionPhotos(s, framed: false),
+          ),
       ],
     );
   }
@@ -1968,6 +2081,8 @@ class _DaySheet extends StatelessWidget {
   Widget _loggedRow(BuildContext context, GymColors gc, LoggedSession s, LoggedExercise e) {
     final detail = fit.setsSummary(e.sets);
     final kcal = fit.cardioKcal(s, e);
+    final records = fit.recordSets;
+    final broke = [for (final st in e.workingSets) if (records.contains(st)) st];
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),
       child: Row(
@@ -1989,6 +2104,19 @@ class _DaySheet extends StatelessWidget {
                 Text(t.catalogName(e.id, e.name), style: AppTheme.s(13, weight: FontWeight.w600, color: gc.text)),
                 const SizedBox(height: 2),
                 Text(detail, style: AppTheme.s(11, color: gc.textSecondary)),
+                if (broke.isNotEmpty) ...[
+                  const SizedBox(height: 4),
+                  Row(children: [
+                    RecordBadge(label: sentenceCase(t.personalRecord), size: 16),
+                    const SizedBox(width: 6),
+                    Flexible(
+                      child: Text(broke.map(fit.loggedSetLabel).join(' · '),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: AppTheme.s(11, weight: FontWeight.w700, color: gc.brass)),
+                    ),
+                  ]),
+                ],
                 if (kcal != null) ...[
                   const SizedBox(height: 2),
                   Text('${kcal.own ? '' : '≈ '}${fit.energyOf(kcal.active)} ${fit.energyUnit} ${t.kcalActive}',
@@ -2070,6 +2198,13 @@ class _LogBodyweightSheet extends StatefulWidget {
 
 class _LogBodyweightSheetState extends State<_LogBodyweightSheet> {
   late double _shown = ((fit.toDisplayWeight(widget.start)) * 10).round() / 10;
+  final _note = TextEditingController();
+
+  @override
+  void dispose() {
+    _note.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -2112,11 +2247,39 @@ class _LogBodyweightSheetState extends State<_LogBodyweightSheet> {
             label: (v) => '${v.round()}',
             onChanged: (v) => setState(() => _shown = v),
           ),
-          const SizedBox(height: 18),
+          const SizedBox(height: 14),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 4),
+            decoration: BoxDecoration(color: gc.bgRaised2, borderRadius: BorderRadius.circular(16)),
+            child: Row(children: [
+              Icon(PhosphorIconsRegular.notePencil, size: 16, color: gc.textTertiary),
+              const SizedBox(width: 10),
+              Expanded(
+                child: TextField(
+                  controller: _note,
+                  maxLines: 3,
+                  minLines: 1,
+                  maxLength: 200,
+                  textCapitalization: TextCapitalization.sentences,
+                  cursorColor: gc.accent,
+                  style: AppTheme.f(13.5, weight: FontWeight.w600, color: gc.text),
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    counterText: '',
+                    isDense: true,
+                    contentPadding: const EdgeInsets.symmetric(vertical: 10),
+                    hintText: t.bodyweightNoteHint,
+                    hintStyle: AppTheme.f(13.5, weight: FontWeight.w500, color: gc.textTertiary),
+                  ),
+                ),
+              ),
+            ]),
+          ),
+          const SizedBox(height: 16),
           PrimaryButton(
             label: t.save,
             onTap: () {
-              fit.addBodyweight(fit.fromDisplayWeight(_shown));
+              fit.addBodyweight(fit.fromDisplayWeight(_shown), note: _note.text);
               Navigator.of(context).pop();
             },
           ),
