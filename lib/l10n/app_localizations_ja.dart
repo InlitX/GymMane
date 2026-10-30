@@ -37,7 +37,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get done => '完了';
 
   @override
-  String get set => 'セット';
+  String get set => '設定';
 
   @override
   String get home => 'ホーム';
@@ -196,6 +196,122 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get restOff => 'オフ';
+
+  @override
+  String get miniRest => 'レストポーズとクラスターの休憩';
+
+  @override
+  String get miniRestHint => 'レストポーズやクラスターのセットの前は短い休憩。ほかのセットはいつもの休憩のまま。';
+
+  @override
+  String get gymPass => 'ジムのパス';
+
+  @override
+  String get gymPassEmpty => 'ジムのコードをここに保存して、カードなしで入館';
+
+  @override
+  String get gymPassAdd => 'パスを追加';
+
+  @override
+  String get gymPassScan => 'コードを撮影';
+
+  @override
+  String get gymPassScanHint => 'スマホのカメラで';
+
+  @override
+  String get gymPassPhoto => '写真やスクリーンショットから';
+
+  @override
+  String get gymPassPhotoHint => 'たとえばジムのアプリのスクリーンショット';
+
+  @override
+  String get gymPassType => '番号を入力';
+
+  @override
+  String get gymPassTypeHint => 'バーコードの場合：下に印刷された番号';
+
+  @override
+  String get gymPassNotFound => 'その画像にQRコードがありません。もっと鮮明な画像を試すか、番号を入力してください。';
+
+  @override
+  String get gymPassName => 'ジムの名前';
+
+  @override
+  String get gymPassDefaultName => 'マイジム';
+
+  @override
+  String get gymPassCode => 'コード';
+
+  @override
+  String get gymPassFormat => 'コードの種類';
+
+  @override
+  String get gymPassInvalid => 'その番号はこの種類のコードに合いません';
+
+  @override
+  String get gymPassShowHint => 'リーダーにかざしてください。明るさは自動で上がります。';
+
+  @override
+  String get gymPassDeleted => 'パスを削除しました';
+
+  @override
+  String get gymPassEdit => 'パスを編集';
+
+  @override
+  String get gymPassShow => '入口で見せる';
+
+  @override
+  String get gymPassPrivate => 'スマホの中だけに保存。どこにもアップロードされません。';
+
+  @override
+  String get gymPassColor => '色';
+
+  @override
+  String get gymPassRescan => 'コードを読み直す';
+
+  @override
+  String get gymPassReading => 'コードを読み取り中…';
+
+  @override
+  String get gymPassSettingHint => 'ジムのカードをプロフィールに。入口ですぐ出せます';
+
+  @override
+  String get gymPassMember => '会員';
+
+  @override
+  String get widgetHintActivity => 'トレーニングした日のマップ';
+
+  @override
+  String get widgetHintStats => '今週の連続記録・ボリューム・セッション';
+
+  @override
+  String get widgetHintBody => '鍛えた筋肉';
+
+  @override
+  String get widgetHintToday => 'ひと目で：今日はトレーニングした？';
+
+  @override
+  String get widgetHintWeek => '今週のプランを一日ずつ';
+
+  @override
+  String get supportHintBug => '不具合をGitHubで教えてください';
+
+  @override
+  String get supportHintFeature => 'アプリへのアイデアを提案';
+
+  @override
+  String get supportHintStar => 'もっと多くの人に見つけてもらえます';
+
+  @override
+  String get supportHintCoffee => '開発を支援。無料で広告なし';
+
+  @override
+  String get bodyweightNoteHint => 'メモを追加：体調や試していること…（任意）';
+
+  @override
+  String exerciseUnitSwitch(String unit) {
+    return 'この種目は$unitを使う';
+  }
 
   @override
   String get setCol => '#';
@@ -1251,6 +1367,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get autofills => '計算ツールに自動入力';
 
   @override
+  String get onbUnitsWhy => '重量・サイズ・距離に使います。設定からいつでも変更できます。';
+
+  @override
   String get nameLabel => '名前';
 
   @override
@@ -1936,6 +2055,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get tplPpl => 'プッシュ、プル、脚。週3日または6日。';
+
+  @override
+  String get tplArnold => '胸と背中、肩と腕、脚。定番の6日分割。';
 
   @override
   String get tplUpperlower => '上半身・下半身、週4日。';
@@ -5135,4 +5257,211 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get trainAnyway => 'それでもトレーニング';
+
+  @override
+  String get healthTitle => '健康';
+
+  @override
+  String get healthSetting => '健康データ';
+
+  @override
+  String get healthSettingHint => 'Health Connect の心拍・睡眠・バイタルを進捗に表示します。';
+
+  @override
+  String get healthPickTitle => '健康データ';
+
+  @override
+  String get healthPickHint =>
+      'Health Connect から取り込む項目を選んでください。Android が項目ごとに一度だけ許可を求めます。読み取るだけで、端末の外には出ません。';
+
+  @override
+  String get healthGroupHeart => '心臓';
+
+  @override
+  String get healthGroupVitals => 'バイタル';
+
+  @override
+  String get healthGroupActivity => 'アクティビティ';
+
+  @override
+  String get healthRestingHr => '安静時心拍数';
+
+  @override
+  String get healthHeartRate => '平均心拍数';
+
+  @override
+  String get healthHrv => '心拍変動';
+
+  @override
+  String get healthSpo2 => '血中酸素';
+
+  @override
+  String get healthRespiration => '呼吸数';
+
+  @override
+  String get healthBloodPressure => '血圧';
+
+  @override
+  String get healthTemperature => '体温';
+
+  @override
+  String get healthSleep => '睡眠';
+
+  @override
+  String get healthDistance => '距離';
+
+  @override
+  String get healthFloors => '上った階数';
+
+  @override
+  String get healthElevation => '獲得標高';
+
+  @override
+  String get healthActiveKcal => 'アクティブカロリー';
+
+  @override
+  String get healthNoData => 'まだデータがありません';
+
+  @override
+  String get healthAllow => 'タップして許可';
+
+  @override
+  String get healthLast7 => '過去7日間';
+
+  @override
+  String get healthAvg30 => '30日平均';
+
+  @override
+  String get healthLow => '最低';
+
+  @override
+  String get healthHigh => '最高';
+
+  @override
+  String get healthFrom => 'Health Connect より · 過去30日間';
+
+  @override
+  String get healthBpm => 'bpm';
+
+  @override
+  String get healthBreaths => '回/分';
+
+  @override
+  String get weekTab => '週';
+
+  @override
+  String get muscleSetsList => '筋肉ごとのセット数';
+
+  @override
+  String get fatTrans => 'トランス';
+
+  @override
+  String get fatTypesHint => '任意。ラベルにない項目は空欄のままで。';
+
+  @override
+  String get sessionPhotos => 'トレーニングの写真';
+
+  @override
+  String get sessionPhotosAdd => '写真を追加';
+
+  @override
+  String get sessionPhotosHint => '「あなたの写真」にも保存されます。';
+
+  @override
+  String get ladderTitle => 'プログレッション';
+
+  @override
+  String get ladderHint => 'ステップを易しい順に並べます。8回×3セットを2回続けて達成すると（スロー種目は5回）、GymMane が次のステップを提案します。';
+
+  @override
+  String get ladderBuiltIn => 'アプリのプログレッションが元になっています。ステップを追加・削除・並べ替えると、このルーティン専用になります。';
+
+  @override
+  String get ladderNone => 'まだありません。タップして作成。';
+
+  @override
+  String ladderStep(int n, int total) {
+    return 'ステップ $n/$total';
+  }
+
+  @override
+  String get ladderAdd => 'ステップを追加';
+
+  @override
+  String get ladderInRoutine => 'ルーティン内';
+
+  @override
+  String get ladderClear => 'アプリのものを使う';
+
+  @override
+  String get ladderPick => 'ステップを選択';
+
+  @override
+  String get periodWeek => '今週';
+
+  @override
+  String get periodMonth => '今月';
+
+  @override
+  String get periodYear => '今年';
+
+  @override
+  String get periodAll => '全期間';
+
+  @override
+  String get settingsSearch => '設定を検索';
+
+  @override
+  String get settingsNoResults => 'その名前の設定はありません';
+
+  @override
+  String get settingsGroupApp => 'あなたのアプリ';
+
+  @override
+  String get settingsGroupHome => 'ホームとその他';
+
+  @override
+  String get settingsGroupData => 'データとヘルプ';
+
+  @override
+  String get healthAllowAll => 'すべてオン';
+
+  @override
+  String get healthSeeAll => 'すべて見る';
+
+  @override
+  String get healthPinTitle => 'カードに表示';
+
+  @override
+  String get healthPinHint => '進捗カードに最大3つまで選べます。';
+
+  @override
+  String get blurSetting => 'ぼかし効果';
+
+  @override
+  String get blurSettingHint => 'ガラスと柔らかい縁。スマホが重いと感じたらオフに。';
+
+  @override
+  String get lowEndTitle => 'スマホのメモリが少なめです';
+
+  @override
+  String get lowEndBody => 'ぼかしをオフにすると動きがなめらかになります。設定→一般でいつでも戻せます。';
+
+  @override
+  String get lowEndOff => 'ぼかしをオフ';
+
+  @override
+  String get lowEndKeep => 'そのまま';
+
+  @override
+  String get momentsThisMonth => '今月';
+
+  @override
+  String get momentsDays => '写真のある日';
+
+  @override
+  String get awardsPick => 'プロフィール用に選ぶ';
+
+  @override
+  String get awardsPickHint => 'プロフィールに表示したいものをタップ';
 }
