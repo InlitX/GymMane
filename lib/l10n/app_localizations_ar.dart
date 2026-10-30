@@ -37,7 +37,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get done => 'تم';
 
   @override
-  String get set => 'مجموعة';
+  String get set => 'حفظ';
 
   @override
   String get home => 'الرئيسية';
@@ -196,6 +196,123 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get restOff => 'متوقف';
+
+  @override
+  String get miniRest => 'الراحة في rest-pause وcluster';
+
+  @override
+  String get miniRestHint =>
+      'راحة قصيرة قبل مجموعة rest-pause أو cluster. باقي المجموعات تحتفظ بالراحة المعتادة.';
+
+  @override
+  String get gymPass => 'بطاقة النادي';
+
+  @override
+  String get gymPassEmpty => 'احفظ هنا رمز ناديك وادخل دون إخراج البطاقة';
+
+  @override
+  String get gymPassAdd => 'إضافة بطاقة';
+
+  @override
+  String get gymPassScan => 'صوّر الرمز';
+
+  @override
+  String get gymPassScanHint => 'بكاميرا هاتفك';
+
+  @override
+  String get gymPassPhoto => 'من صورة أو لقطة شاشة';
+
+  @override
+  String get gymPassPhotoHint => 'مثلًا لقطة شاشة من تطبيق ناديك';
+
+  @override
+  String get gymPassType => 'اكتب الرقم';
+
+  @override
+  String get gymPassTypeHint => 'للباركود: الرقم المطبوع تحته';
+
+  @override
+  String get gymPassNotFound => 'لا يوجد رمز QR في هذه الصورة. جرّب صورة أوضح أو اكتب الرقم.';
+
+  @override
+  String get gymPassName => 'اسم النادي';
+
+  @override
+  String get gymPassDefaultName => 'ناديّ';
+
+  @override
+  String get gymPassCode => 'الرمز';
+
+  @override
+  String get gymPassFormat => 'نوع الرمز';
+
+  @override
+  String get gymPassInvalid => 'هذا الرقم لا يناسب هذا النوع من الرموز';
+
+  @override
+  String get gymPassShowHint => 'قرّبه من القارئ. يرتفع السطوع تلقائيًا.';
+
+  @override
+  String get gymPassDeleted => 'حُذفت البطاقة';
+
+  @override
+  String get gymPassEdit => 'تعديل البطاقة';
+
+  @override
+  String get gymPassShow => 'إظهار عند المدخل';
+
+  @override
+  String get gymPassPrivate => 'تبقى على هاتفك فقط. لا يُرفع أي شيء.';
+
+  @override
+  String get gymPassColor => 'اللون';
+
+  @override
+  String get gymPassRescan => 'قراءة الرمز من جديد';
+
+  @override
+  String get gymPassReading => 'جارٍ قراءة الرمز…';
+
+  @override
+  String get gymPassSettingHint => 'بطاقة ناديك في ملفك الشخصي، جاهزة عند المدخل';
+
+  @override
+  String get gymPassMember => 'عضو';
+
+  @override
+  String get widgetHintActivity => 'خريطة أيام تمرينك';
+
+  @override
+  String get widgetHintStats => 'السلسلة والحجم والجلسات هذا الأسبوع';
+
+  @override
+  String get widgetHintBody => 'العضلات التي تمرّنتها';
+
+  @override
+  String get widgetHintToday => 'بنظرة سريعة: هل تمرّنت اليوم؟';
+
+  @override
+  String get widgetHintWeek => 'خطة أسبوعك يومًا بيوم';
+
+  @override
+  String get supportHintBug => 'أخبرني بما تعطّل على GitHub';
+
+  @override
+  String get supportHintFeature => 'اقترح فكرة للتطبيق';
+
+  @override
+  String get supportHintStar => 'يساعد المزيد من الناس على إيجاده';
+
+  @override
+  String get supportHintCoffee => 'يدعم التطوير. مجاني وبلا إعلانات';
+
+  @override
+  String get bodyweightNoteHint => 'أضف ملاحظة: كيف تشعر، وما الذي تجرّبه… (اختياري)';
+
+  @override
+  String exerciseUnitSwitch(String unit) {
+    return 'استخدم $unit لهذا التمرين';
+  }
 
   @override
   String get setCol => '#';
@@ -1293,6 +1410,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get autofills => 'يملأ الحاسبات تلقائيًا';
 
   @override
+  String get onbUnitsWhy => 'للأوزان والقياسات والمسافات. يمكنك تغييره متى شئت من الإعدادات.';
+
+  @override
   String get nameLabel => 'الاسم';
 
   @override
@@ -1991,6 +2111,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get tplPpl => 'دفع وسحب وأرجل. ثلاثة أو ستة أيام أسبوعيًا.';
+
+  @override
+  String get tplArnold => 'صدر وظهر، أكتاف وذراعان، أرجل. التقسيم الكلاسيكي على ستة أيام.';
 
   @override
   String get tplUpperlower => 'الجزء العلوي والسفلي، أربعة أيام أسبوعيًا.';
@@ -5276,4 +5399,213 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get trainAnyway => 'تمرّن على أي حال';
+
+  @override
+  String get healthTitle => 'الصحة';
+
+  @override
+  String get healthSetting => 'بيانات الصحة';
+
+  @override
+  String get healthSettingHint => 'القلب والنوم والمؤشرات الحيوية من Health Connect، في التقدم.';
+
+  @override
+  String get healthPickTitle => 'بيانات الصحة';
+
+  @override
+  String get healthPickHint =>
+      'اختر ما تريد جلبه من Health Connect. يطلب Android الإذن مرة واحدة لكل عنصر. تُقرأ فقط ولا تغادر هاتفك أبدًا.';
+
+  @override
+  String get healthGroupHeart => 'القلب';
+
+  @override
+  String get healthGroupVitals => 'المؤشرات الحيوية';
+
+  @override
+  String get healthGroupActivity => 'النشاط';
+
+  @override
+  String get healthRestingHr => 'نبض الراحة';
+
+  @override
+  String get healthHeartRate => 'متوسط النبض';
+
+  @override
+  String get healthHrv => 'تباين نبض القلب';
+
+  @override
+  String get healthSpo2 => 'أكسجين الدم';
+
+  @override
+  String get healthRespiration => 'معدل التنفس';
+
+  @override
+  String get healthBloodPressure => 'ضغط الدم';
+
+  @override
+  String get healthTemperature => 'حرارة الجسم';
+
+  @override
+  String get healthSleep => 'النوم';
+
+  @override
+  String get healthDistance => 'المسافة';
+
+  @override
+  String get healthFloors => 'الطوابق المصعودة';
+
+  @override
+  String get healthElevation => 'الارتفاع المكتسب';
+
+  @override
+  String get healthActiveKcal => 'السعرات النشطة';
+
+  @override
+  String get healthNoData => 'لا توجد بيانات بعد';
+
+  @override
+  String get healthAllow => 'اضغط للسماح';
+
+  @override
+  String get healthLast7 => 'آخر 7 أيام';
+
+  @override
+  String get healthAvg30 => 'متوسط 30 يومًا';
+
+  @override
+  String get healthLow => 'الأدنى';
+
+  @override
+  String get healthHigh => 'الأعلى';
+
+  @override
+  String get healthFrom => 'من Health Connect · آخر 30 يومًا';
+
+  @override
+  String get healthBpm => 'نبضة/د';
+
+  @override
+  String get healthBreaths => 'نفَس/د';
+
+  @override
+  String get weekTab => 'الأسبوع';
+
+  @override
+  String get muscleSetsList => 'المجموعات لكل عضلة';
+
+  @override
+  String get fatTrans => 'متحولة';
+
+  @override
+  String get fatTypesHint => 'اختياري. اترك فارغًا ما لا يذكره الملصق.';
+
+  @override
+  String get sessionPhotos => 'صور التمرين';
+
+  @override
+  String get sessionPhotosAdd => 'إضافة صور';
+
+  @override
+  String get sessionPhotosHint => 'تُحفظ أيضًا في صورك.';
+
+  @override
+  String get ladderTitle => 'التدرج';
+
+  @override
+  String get ladderHint =>
+      'رتّب الخطوات من الأسهل إلى الأصعب. عندما تؤدي 3 مجموعات من 8 في حصتين متتاليتين (5 في البطيئة)، يقترح GymMane الخطوة التالية.';
+
+  @override
+  String get ladderBuiltIn =>
+      'يبدأ من تدرج التطبيق. أضف خطوات أو احذفها أو أعد ترتيبها ليصبح خاصًا بهذا الروتين.';
+
+  @override
+  String get ladderNone => 'لا يوجد بعد. اضغط لإنشاء واحد.';
+
+  @override
+  String ladderStep(int n, int total) {
+    return 'الخطوة $n من $total';
+  }
+
+  @override
+  String get ladderAdd => 'إضافة خطوة';
+
+  @override
+  String get ladderInRoutine => 'في الروتين';
+
+  @override
+  String get ladderClear => 'استخدام تدرج التطبيق';
+
+  @override
+  String get ladderPick => 'اختر خطوة';
+
+  @override
+  String get periodWeek => 'هذا الأسبوع';
+
+  @override
+  String get periodMonth => 'هذا الشهر';
+
+  @override
+  String get periodYear => 'هذا العام';
+
+  @override
+  String get periodAll => 'منذ البداية';
+
+  @override
+  String get settingsSearch => 'ابحث في الإعدادات';
+
+  @override
+  String get settingsNoResults => 'لا يوجد إعداد بهذا الاسم';
+
+  @override
+  String get settingsGroupApp => 'تطبيقك';
+
+  @override
+  String get settingsGroupHome => 'الرئيسية والإضافات';
+
+  @override
+  String get settingsGroupData => 'البيانات والمساعدة';
+
+  @override
+  String get healthAllowAll => 'تشغيل الكل';
+
+  @override
+  String get healthSeeAll => 'عرض الكل';
+
+  @override
+  String get healthPinTitle => 'على البطاقة';
+
+  @override
+  String get healthPinHint => 'اختر حتى 3 لبطاقة التقدّم.';
+
+  @override
+  String get blurSetting => 'تأثيرات الضبابية';
+
+  @override
+  String get blurSettingHint => 'زجاج وحواف ناعمة. أوقفها إن شعرت أن هاتفك بطيء.';
+
+  @override
+  String get lowEndTitle => 'ذاكرة هاتفك محدودة';
+
+  @override
+  String get lowEndBody => 'إيقاف الضبابية يجعل كل شيء أكثر سلاسة. يمكنك إعادتها من الإعدادات ← عام.';
+
+  @override
+  String get lowEndOff => 'إيقاف الضبابية';
+
+  @override
+  String get lowEndKeep => 'إبقاؤها';
+
+  @override
+  String get momentsThisMonth => 'هذا الشهر';
+
+  @override
+  String get momentsDays => 'أيام فيها صورة';
+
+  @override
+  String get awardsPick => 'اختر لملفك الشخصي';
+
+  @override
+  String get awardsPickHint => 'اضغط على ما تريده في ملفك الشخصي';
 }
