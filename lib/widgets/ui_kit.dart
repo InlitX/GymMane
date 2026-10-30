@@ -53,12 +53,14 @@ class SearchField extends StatelessWidget {
     required this.hint,
     required this.onChanged,
     this.color,
+    this.focusNode,
   });
 
   final TextEditingController controller;
   final String hint;
   final ValueChanged<String> onChanged;
   final Color? color;
+  final FocusNode? focusNode;
 
   @override
   Widget build(BuildContext context) {
@@ -75,6 +77,7 @@ class SearchField extends StatelessWidget {
         const SizedBox(width: 10),
         Expanded(
           child: TextField(
+            focusNode: focusNode,
             controller: controller,
             onChanged: onChanged,
             style: AppTheme.f(14, weight: FontWeight.w500, color: gc.text),
@@ -824,27 +827,56 @@ class SegToggle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final gc = context.gc;
+    final picked = options.indexWhere((o) => o.selected);
+    const motion = Duration(milliseconds: 320);
     return Container(
       padding: const EdgeInsets.all(3),
       decoration: BoxDecoration(color: gc.bgRaised2, borderRadius: BorderRadius.circular(100)),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          for (final o in options)
-            GestureDetector(
-              onTap: o.onTap,
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: hPad, vertical: vPad),
-                decoration: BoxDecoration(
-                  color: o.selected ? gc.ember : Colors.transparent,
-                  borderRadius: BorderRadius.circular(100),
+      child: IntrinsicWidth(
+        child: Stack(
+          children: [
+            if (picked >= 0)
+              Positioned.fill(
+                child: AnimatedAlign(
+                  duration: motion,
+                  curve: Curves.easeOutCubic,
+                  alignment: Alignment(options.length < 2 ? 0 : -1 + 2 * picked / (options.length - 1), 0),
+                  child: FractionallySizedBox(
+                    widthFactor: 1 / options.length,
+                    heightFactor: 1,
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(color: gc.ember, borderRadius: BorderRadius.circular(100)),
+                    ),
+                  ),
                 ),
-                child: Text(o.label,
-                    style: AppTheme.f(fontSize,
-                        weight: FontWeight.w600, color: o.selected ? gc.onEmber : gc.textSecondary)),
               ),
+            Row(
+              children: [
+                for (final o in options)
+                  Expanded(
+                    child: GestureDetector(
+                      behavior: HitTestBehavior.opaque,
+                      onTap: () {
+                        if (!o.selected) HapticFeedback.selectionClick();
+                        o.onTap();
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: hPad, vertical: vPad),
+                        child: AnimatedDefaultTextStyle(
+                          duration: motion,
+                          curve: Curves.easeOutCubic,
+                          textAlign: TextAlign.center,
+                          style: AppTheme.f(fontSize,
+                              weight: FontWeight.w600, color: o.selected ? gc.onEmber : gc.textSecondary),
+                          child: Text(o.label, maxLines: 1, softWrap: false),
+                        ),
+                      ),
+                    ),
+                  ),
+              ],
             ),
-        ],
+          ],
+        ),
       ),
     );
   }
