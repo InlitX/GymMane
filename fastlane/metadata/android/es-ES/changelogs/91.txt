@@ -1,0 +1,13 @@
+GymMane 1.8.0
+
+• Sección de Salud con tus datos de Health Connect
+• Trofeos de récord mientras entrenas
+• Pase del gimnasio en tu perfil
+• kg o lb por ejercicio
+• Descanso corto en rest-pause y cluster
+• Descansos en la rotación y progresiones propias
+• Fotos al guardar la sesión
+• Tipos de grasa en nutrición
+• Un rediseño más limpio y fluido
+
+Y mucho más. Instálala y descúbrelo.
