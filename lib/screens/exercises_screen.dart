@@ -29,6 +29,10 @@ class _ExercisesScreenState extends State<ExercisesScreen> {
   late final TextEditingController _c = TextEditingController(text: fit.exSearch);
   final ScrollController _scroll = ScrollController();
   final ValueNotifier<bool> _deep = ValueNotifier(false);
+  final _searchFocus = FocusNode();
+
+  static const _span = 110.0;
+  static const _btn = 40.0;
 
   @override
   void initState() {
@@ -44,6 +48,7 @@ class _ExercisesScreenState extends State<ExercisesScreen> {
   @override
   void dispose() {
     _c.dispose();
+    _searchFocus.dispose();
     _scroll.dispose();
     _deep.dispose();
     super.dispose();
@@ -54,22 +59,17 @@ class _ExercisesScreenState extends State<ExercisesScreen> {
     final gc = context.gc;
     final list = fit.exercisesFiltered;
 
-    return SafeArea(
-      bottom: false,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(20, 12, 20, 12),
-            child: _header(context, gc, list.length),
-          ),
-          Expanded(
-            child: Stack(children: [
+    final pad = MediaQuery.paddingOf(context).top;
+    final searchTop = pad + 12 + 50 + 14;
+    final chipsTop = searchTop + 48 + 10;
+    final contentTop = chipsTop + 34 + 12;
+
+    return Stack(children: [
               Positioned.fill(
                 child: ListView.builder(
               key: const PageStorageKey('exercises'),
               controller: _scroll,
-              padding: const EdgeInsets.fromLTRB(20, 0, 20, 110),
+              padding: EdgeInsets.fromLTRB(20, contentTop, 20, 110),
               itemCount: list.isEmpty ? 1 : list.length,
               itemBuilder: (context, i) {
                 if (list.isEmpty) return _empty(gc);
@@ -83,11 +83,19 @@ class _ExercisesScreenState extends State<ExercisesScreen> {
                       SizedBox(height: i == 0 ? 2 : 22),
                       Padding(
                         padding: const EdgeInsets.fromLTRB(4, 0, 0, 8),
-                        child: Text(muscleLabel(ex.primary).toUpperCase(),
-                            style: AppTheme.f(10.5,
-                                weight: FontWeight.w700,
-                                color: gc.textTertiary,
-                                letterSpacing: 1.3)),
+                        child: Row(children: [
+                          Text(muscleLabel(ex.primary).toUpperCase(),
+                              style: AppTheme.f(10.5,
+                                  weight: FontWeight.w700,
+                                  color: gc.textTertiary,
+                                  letterSpacing: 1.3)),
+                          const SizedBox(width: 7),
+                          Text('${_groupSize(list, i)}',
+                              style: AppTheme.f(10.5,
+                                  weight: FontWeight.w700,
+                                  color: gc.textSecondary,
+                                  letterSpacing: 1.3)),
+                        ]),
                       ),
                     ],
                     _row(gc, ex, first: first, last: last),
@@ -96,6 +104,7 @@ class _ExercisesScreenState extends State<ExercisesScreen> {
               },
                 ),
               ),
+              Positioned.fill(child: _header(context, gc, list.length, pad, searchTop, chipsTop)),
               Positioned(
                 right: 20,
                 bottom: 112,
@@ -123,11 +132,20 @@ class _ExercisesScreenState extends State<ExercisesScreen> {
                   ),
                 ),
               ),
-            ]),
-          ),
-        ],
-      ),
-    );
+            ]);
+  }
+
+  double get _fold {
+    if (!_scroll.hasClients) return 0;
+    return Curves.easeInOut.transform((_scroll.offset / _span).clamp(0.0, 1.0));
+  }
+
+  Future<void> _openSearch() async {
+    HapticFeedback.selectionClick();
+    if (_scroll.hasClients && _scroll.offset > 0) {
+      await _scroll.animateTo(0, duration: const Duration(milliseconds: 420), curve: Curves.easeOutCubic);
+    }
+    if (mounted) _searchFocus.requestFocus();
   }
 
   int get _activeFilters =>
@@ -142,37 +160,155 @@ class _ExercisesScreenState extends State<ExercisesScreen> {
     fit.clearExFilters();
   }
 
-  Widget _header(BuildContext context, GymColors gc, int count) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Row(
-          children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  ScreenTitle(t.exercises),
-                  const SizedBox(height: 4),
-                  Text(t.libraryCount(count),
-                      style: AppTheme.f(13, weight: FontWeight.w500, color: gc.textSecondary)),
-                ],
+  Widget _header(BuildContext context, GymColors gc, int count, double pad, double searchTop, double chipsTop) {
+    final blur = EdgeBlur(height: pad + 70, sigma: 14);
+    return LayoutBuilder(builder: (context, box) {
+      final w = box.maxWidth;
+      return AnimatedBuilder(
+        animation: _scroll,
+        builder: (context, _) {
+          final p = _fold;
+          final y = _scroll.hasClients ? _scroll.offset : 0.0;
+          final plusX = w - 20 - _btn;
+          final searchX = 20 + (plusX - 8 - _btn - 20) * p;
+          final searchY = searchTop + (pad + 12 - searchTop) * p;
+          final searchW = (w - 40) + (_btn - (w - 40)) * p;
+          final searchH = 48 + (_btn - 48) * p;
+          final filterX = plusX - 2 * (_btn + 8);
+          final active = _activeFilters;
+          return Stack(
+            clipBehavior: Clip.none,
+            children: [
+              if (p > 0.001) IgnorePointer(child: Opacity(opacity: p, child: blur)),
+              Positioned(
+                left: 0,
+                right: 0,
+                top: chipsTop - y.clamp(0.0, chipsTop),
+                child: IgnorePointer(
+                  ignoring: p > 0.3,
+                  child: Opacity(
+                    opacity: (1 - p * 1.6).clamp(0.0, 1.0),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: _quickChips(context, gc),
+                    ),
+                  ),
+                ),
               ),
-            ),
-            RoundAction(
-              size: 40,
-              label: t.newExercise,
-              onTap: () => showCreateExerciseSheet(context, initialName: _c.text),
-              child: Icon(PhosphorIconsRegular.plus, size: 17, color: gc.text),
-            ),
-          ],
-        ),
-        const SizedBox(height: 14),
-        SearchField(controller: _c, hint: t.searchExercises, onChanged: fit.setExSearch),
-        const SizedBox(height: 10),
-        _quickChips(context, gc),
-      ],
-    );
+              Positioned(
+                left: 20,
+                right: 20 + _btn + 12 + (_btn + 8) * 2 * p,
+                top: pad + 12 + 6 * p,
+                child: IgnorePointer(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Transform.scale(
+                        scale: 1 - 0.2 * p,
+                        alignment: Alignment.topLeft,
+                        child: ScreenTitle(t.exercises),
+                      ),
+                      Opacity(
+                        opacity: (1 - p * 2).clamp(0.0, 1.0),
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 4),
+                          child: Text(t.libraryCount(count),
+                              style: AppTheme.f(13, weight: FontWeight.w500, color: gc.textSecondary)),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Positioned(
+                left: plusX,
+                top: pad + 12,
+                child: RoundAction(
+                  size: _btn,
+                  label: t.newExercise,
+                  onTap: () => showCreateExerciseSheet(context, initialName: _c.text),
+                  child: Icon(PhosphorIconsRegular.plus, size: 17, color: gc.text),
+                ),
+              ),
+              if (p > 0.4)
+                Positioned(
+                  left: filterX,
+                  top: pad + 12,
+                  child: Opacity(
+                    opacity: ((p - 0.4) / 0.6).clamp(0.0, 1.0),
+                    child: Transform.scale(
+                      scale: 0.8 + 0.2 * ((p - 0.4) / 0.6).clamp(0.0, 1.0),
+                      child: Stack(clipBehavior: Clip.none, children: [
+                        RoundAction(
+                          size: _btn,
+                          label: t.filters,
+                          onTap: () => showExerciseFilters(context, onClear: _c.clear),
+                          child: Icon(PhosphorIconsRegular.slidersHorizontal, size: 17, color: gc.text),
+                        ),
+                        if (active > 0)
+                          Positioned(
+                            right: -2,
+                            top: -2,
+                            child: Container(
+                              width: 17,
+                              height: 17,
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(color: gc.ember, shape: BoxShape.circle),
+                              child: Text('$active',
+                                  style: AppTheme.f(10, weight: FontWeight.w800, color: gc.onEmber)),
+                            ),
+                          ),
+                      ]),
+                    ),
+                  ),
+                ),
+              Positioned(
+                left: searchX,
+                top: searchY,
+                width: searchW,
+                height: searchH,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(searchH / 2),
+                  child: ColoredBox(
+                    color: gc.bgRaised,
+                    child: Stack(children: [
+                      IgnorePointer(
+                        ignoring: p > 0.5,
+                        child: Opacity(
+                          opacity: (1 - p / 0.6).clamp(0.0, 1.0),
+                          child: OverflowBox(
+                            alignment: Alignment.centerLeft,
+                            minWidth: w - 40,
+                            maxWidth: w - 40,
+                            child: SearchField(
+                              controller: _c,
+                              focusNode: _searchFocus,
+                              hint: t.searchExercises,
+                              onChanged: fit.setExSearch,
+                            ),
+                          ),
+                        ),
+                      ),
+                      if (p > 0.45)
+                        Positioned.fill(
+                          child: GestureDetector(
+                            behavior: HitTestBehavior.opaque,
+                            onTap: _openSearch,
+                            child: Opacity(
+                              opacity: ((p - 0.45) / 0.55).clamp(0.0, 1.0),
+                              child: Center(child: SvgPathIcon(Ic.search, size: 16, color: gc.text)),
+                            ),
+                          ),
+                        ),
+                    ]),
+                  ),
+                ),
+              ),
+            ],
+          );
+        },
+      );
+    });
   }
 
   Widget _quickChips(BuildContext context, GymColors gc) {
@@ -314,21 +450,29 @@ class _ExercisesScreenState extends State<ExercisesScreen> {
     );
   }
 
+  static int _groupSize(List<Exercise> list, int from) {
+    var n = 0;
+    while (from + n < list.length && list[from + n].primary == list[from].primary) {
+      n++;
+    }
+    return n;
+  }
+
   Widget _row(GymColors gc, Exercise ex, {required bool first, required bool last}) {
     final fav = fit.favorites[ex.id] ?? false;
     return Container(
       decoration: BoxDecoration(
         color: gc.bgRaised,
         borderRadius: BorderRadius.vertical(
-          top: Radius.circular(first ? 20 : 0),
-          bottom: Radius.circular(last ? 20 : 0),
+          top: Radius.circular(first ? 24 : 0),
+          bottom: Radius.circular(last ? 24 : 0),
         ),
       ),
       child: Column(
         children: [
-          GestureDetector(
-            behavior: HitTestBehavior.opaque,
+          Pressable(
             onTap: () => fit.openExercise(ex.id),
+            scale: 0.985,
             child: Padding(
               padding: const EdgeInsets.fromLTRB(12, 9, 6, 9),
               child: Row(
@@ -369,16 +513,18 @@ class _ExercisesScreenState extends State<ExercisesScreen> {
           ),
           if (!last)
             Container(
-              margin: const EdgeInsets.only(left: 77),
+              margin: const EdgeInsets.only(left: 77, right: 14),
               height: 1,
-              color: gc.border.withValues(alpha: 0.55),
+              color: gc.text.withValues(alpha: 0.06),
             ),
         ],
       ),
     );
   }
 
-  Widget _star(GymColors gc, bool fav) {
+  Widget _star(GymColors gc, bool fav) => _StarPop(on: fav, child: _starIcon(gc, fav));
+
+  Widget _starIcon(GymColors gc, bool fav) {
     return SizedBox(
       width: 18,
       height: 18,
@@ -1084,6 +1230,64 @@ class _ZoneCard extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class _StarPop extends StatefulWidget {
+  const _StarPop({required this.on, required this.child});
+
+  final bool on;
+  final Widget child;
+
+  @override
+  State<_StarPop> createState() => _StarPopState();
+}
+
+class _StarPopState extends State<_StarPop> with SingleTickerProviderStateMixin {
+  late final _pop = AnimationController(vsync: this, duration: const Duration(milliseconds: 620), value: 1);
+
+  @override
+  void didUpdateWidget(_StarPop old) {
+    super.didUpdateWidget(old);
+    if (widget.on && !old.on) {
+      HapticFeedback.lightImpact();
+      _pop.forward(from: 0);
+    }
+  }
+
+  @override
+  void dispose() {
+    _pop.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final gc = context.gc;
+    return AnimatedBuilder(
+      animation: _pop,
+      child: widget.child,
+      builder: (context, child) {
+        final v = _pop.value;
+        final scale = v >= 1 ? 1.0 : 1 + 0.5 * math.sin(v * math.pi) * (1 - v * 0.4);
+        return Stack(
+          clipBehavior: Clip.none,
+          alignment: Alignment.center,
+          children: [
+            if (v < 1)
+              Container(
+                width: 18 + 22 * v,
+                height: 18 + 22 * v,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(color: gc.accent.withValues(alpha: (1 - v) * 0.7), width: 2 * (1 - v) + 0.4),
+                ),
+              ),
+            Transform.scale(scale: scale, child: child),
+          ],
+        );
+      },
     );
   }
 }

@@ -88,7 +88,8 @@ class _ExercisePreviewState extends State<_ExercisePreview> {
     final pad = MediaQuery.viewPaddingOf(context);
     final steps = fit.activeExerciseSteps(ex);
     final video = _video;
-    return Padding(
+    return Center(
+      child: Padding(
       padding: EdgeInsets.fromLTRB(16, pad.top + 24, 16, pad.bottom + 24),
       child: Material(
         color: gc.bgRaised,
@@ -100,9 +101,10 @@ class _ExercisePreviewState extends State<_ExercisePreview> {
         child: AnimatedBuilder(
           animation: fit,
           builder: (context, _) => Column(
+            mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Expanded(
+              Flexible(
                 child: SingleChildScrollView(
                   padding: const EdgeInsets.fromLTRB(12, 12, 12, 24),
                   child: Column(
@@ -113,16 +115,28 @@ class _ExercisePreviewState extends State<_ExercisePreview> {
                             ? ExerciseMedia(ex: ex, height: 250, radius: 20, live: true, bordered: false)
                             : _VideoStage(controller: video),
                         Positioned(
-                          top: 10,
-                          left: widget.onAdd == null ? null : 10,
-                          right: widget.onAdd == null ? 10 : null,
-                          child: RoundAction(
+                          top: 14,
+                          left: widget.onAdd == null ? null : 14,
+                          right: widget.onAdd == null ? 14 : null,
+                          child: Semantics(
+                            button: true,
                             label: MaterialLocalizations.of(context).closeButtonLabel,
-                            onTap: () => Navigator.of(context).pop(),
-                            child: Icon(PhosphorIconsBold.x, size: 15, color: gc.text),
+                            child: Pressable(
+                              onTap: () => Navigator.of(context).pop(),
+                              scale: 0.9,
+                              child: Container(
+                                width: 34,
+                                height: 34,
+                                decoration: BoxDecoration(
+                                  color: Colors.black.withValues(alpha: 0.45),
+                                  shape: BoxShape.circle,
+                                ),
+                                child: const Icon(PhosphorIconsBold.x, size: 14, color: Colors.white),
+                              ),
+                            ),
                           ),
                         ),
-                        if (widget.onAdd != null) Positioned(top: 10, right: 10, child: _addButton(gc)),
+                        if (widget.onAdd != null) Positioned(top: 14, right: 14, child: _addButton(gc)),
                       ]),
                       Padding(
                         padding: const EdgeInsets.fromLTRB(8, 20, 8, 0),
@@ -169,6 +183,7 @@ class _ExercisePreviewState extends State<_ExercisePreview> {
             ],
           ),
         ),
+      ),
       ),
     );
   }
