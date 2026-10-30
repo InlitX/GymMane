@@ -198,6 +198,122 @@ class AppLocalizationsZh extends AppLocalizations {
   String get restOff => '关闭';
 
   @override
+  String get miniRest => '休息暂停与簇组休息';
+
+  @override
+  String get miniRestHint => '休息暂停或簇组前短暂休息，其他组仍按平常休息。';
+
+  @override
+  String get gymPass => '健身房通行证';
+
+  @override
+  String get gymPassEmpty => '把健身房的码存在这里，进门不用掏卡';
+
+  @override
+  String get gymPassAdd => '添加通行证';
+
+  @override
+  String get gymPassScan => '拍下这个码';
+
+  @override
+  String get gymPassScanHint => '用手机相机';
+
+  @override
+  String get gymPassPhoto => '从照片或截图';
+
+  @override
+  String get gymPassPhotoHint => '比如健身房 App 里的截图';
+
+  @override
+  String get gymPassType => '输入号码';
+
+  @override
+  String get gymPassTypeHint => '条形码：输入下方印着的号码';
+
+  @override
+  String get gymPassNotFound => '这张图里没有二维码。换一张更清晰的，或者直接输入号码。';
+
+  @override
+  String get gymPassName => '健身房名称';
+
+  @override
+  String get gymPassDefaultName => '我的健身房';
+
+  @override
+  String get gymPassCode => '号码';
+
+  @override
+  String get gymPassFormat => '码的类型';
+
+  @override
+  String get gymPassInvalid => '这个号码不符合这种码的格式';
+
+  @override
+  String get gymPassShowHint => '对准扫码器即可，亮度会自动调高。';
+
+  @override
+  String get gymPassDeleted => '通行证已删除';
+
+  @override
+  String get gymPassEdit => '编辑通行证';
+
+  @override
+  String get gymPassShow => '进门时出示';
+
+  @override
+  String get gymPassPrivate => '只保存在你的手机上，不会上传任何内容。';
+
+  @override
+  String get gymPassColor => '颜色';
+
+  @override
+  String get gymPassRescan => '重新识别';
+
+  @override
+  String get gymPassReading => '正在识别…';
+
+  @override
+  String get gymPassSettingHint => '健身房卡放在个人资料里，进门随时出示';
+
+  @override
+  String get gymPassMember => '会员';
+
+  @override
+  String get widgetHintActivity => '你的训练日分布图';
+
+  @override
+  String get widgetHintStats => '本周连续天数、训练量和次数';
+
+  @override
+  String get widgetHintBody => '你练过的肌肉';
+
+  @override
+  String get widgetHintToday => '一眼看清：今天练了吗？';
+
+  @override
+  String get widgetHintWeek => '本周计划，按天显示';
+
+  @override
+  String get supportHintBug => '在 GitHub 上告诉我哪里出了问题';
+
+  @override
+  String get supportHintFeature => '为应用提个想法';
+
+  @override
+  String get supportHintStar => '让更多人找到它';
+
+  @override
+  String get supportHintCoffee => '支持开发。免费且无广告';
+
+  @override
+  String get bodyweightNoteHint => '添加备注：感觉如何、在尝试什么…（可选）';
+
+  @override
+  String exerciseUnitSwitch(String unit) {
+    return '此动作使用 $unit';
+  }
+
+  @override
   String get setCol => '#';
 
   @override
@@ -1236,6 +1352,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get autofills => '用于自动填充计算器参数';
 
   @override
+  String get onbUnitsWhy => '用于重量、围度和距离。可随时在设置中更改。';
+
+  @override
   String get nameLabel => '昵称';
 
   @override
@@ -1918,6 +2037,9 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get tplPpl => '推、拉、腿，每周三天或六天。';
+
+  @override
+  String get tplArnold => '胸背、肩臂、腿。经典六天分化。';
 
   @override
   String get tplUpperlower => '上肢和下肢，每周四天。';
@@ -5082,6 +5204,212 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get trainAnyway => '照样训练';
+
+  @override
+  String get healthTitle => '健康';
+
+  @override
+  String get healthSetting => '健康数据';
+
+  @override
+  String get healthSettingHint => '在进度中显示 Health Connect 的心率、睡眠和生命体征。';
+
+  @override
+  String get healthPickTitle => '健康数据';
+
+  @override
+  String get healthPickHint => '选择要从 Health Connect 读取的项目。Android 会为每一项询问一次。数据只读取，永远不会离开手机。';
+
+  @override
+  String get healthGroupHeart => '心脏';
+
+  @override
+  String get healthGroupVitals => '生命体征';
+
+  @override
+  String get healthGroupActivity => '活动';
+
+  @override
+  String get healthRestingHr => '静息心率';
+
+  @override
+  String get healthHeartRate => '平均心率';
+
+  @override
+  String get healthHrv => '心率变异性';
+
+  @override
+  String get healthSpo2 => '血氧';
+
+  @override
+  String get healthRespiration => '呼吸频率';
+
+  @override
+  String get healthBloodPressure => '血压';
+
+  @override
+  String get healthTemperature => '体温';
+
+  @override
+  String get healthSleep => '睡眠';
+
+  @override
+  String get healthDistance => '距离';
+
+  @override
+  String get healthFloors => '爬楼层数';
+
+  @override
+  String get healthElevation => '累计爬升';
+
+  @override
+  String get healthActiveKcal => '活动热量';
+
+  @override
+  String get healthNoData => '暂无数据';
+
+  @override
+  String get healthAllow => '点按以允许';
+
+  @override
+  String get healthLast7 => '最近 7 天';
+
+  @override
+  String get healthAvg30 => '30 天平均';
+
+  @override
+  String get healthLow => '最低';
+
+  @override
+  String get healthHigh => '最高';
+
+  @override
+  String get healthFrom => '来自 Health Connect · 最近 30 天';
+
+  @override
+  String get healthBpm => '次/分';
+
+  @override
+  String get healthBreaths => '次/分';
+
+  @override
+  String get weekTab => '本周';
+
+  @override
+  String get muscleSetsList => '各肌群组数';
+
+  @override
+  String get fatTrans => '反式';
+
+  @override
+  String get fatTypesHint => '可选。标签上没有的留空即可。';
+
+  @override
+  String get sessionPhotos => '训练照片';
+
+  @override
+  String get sessionPhotosAdd => '添加照片';
+
+  @override
+  String get sessionPhotosHint => '也会保存在“你的照片”中。';
+
+  @override
+  String get ladderTitle => '进阶';
+
+  @override
+  String get ladderHint => '按从易到难排列步骤。连续两次训练完成 3 组 8 次（慢速动作 5 次）后，GymMane 会建议下一步。';
+
+  @override
+  String get ladderBuiltIn => '基于应用自带的进阶。添加、删除或重新排序步骤后，它就属于此计划。';
+
+  @override
+  String get ladderNone => '还没有。点按创建。';
+
+  @override
+  String ladderStep(int n, int total) {
+    return '第 $n 步，共 $total 步';
+  }
+
+  @override
+  String get ladderAdd => '添加步骤';
+
+  @override
+  String get ladderInRoutine => '在计划中';
+
+  @override
+  String get ladderClear => '使用应用自带';
+
+  @override
+  String get ladderPick => '选择一个步骤';
+
+  @override
+  String get periodWeek => '本周';
+
+  @override
+  String get periodMonth => '本月';
+
+  @override
+  String get periodYear => '今年';
+
+  @override
+  String get periodAll => '全部时间';
+
+  @override
+  String get settingsSearch => '搜索设置';
+
+  @override
+  String get settingsNoResults => '没有这个名称的设置';
+
+  @override
+  String get settingsGroupApp => '你的应用';
+
+  @override
+  String get settingsGroupHome => '首页与扩展';
+
+  @override
+  String get settingsGroupData => '数据与帮助';
+
+  @override
+  String get healthAllowAll => '全部开启';
+
+  @override
+  String get healthSeeAll => '查看全部';
+
+  @override
+  String get healthPinTitle => '显示在卡片上';
+
+  @override
+  String get healthPinHint => '为进度卡片最多选 3 项。';
+
+  @override
+  String get blurSetting => '模糊效果';
+
+  @override
+  String get blurSettingHint => '玻璃质感与柔和边缘。手机卡顿时可以关闭。';
+
+  @override
+  String get lowEndTitle => '你的手机内存较少';
+
+  @override
+  String get lowEndBody => '关闭模糊后会更流畅。可在 设置 → 通用 中重新开启。';
+
+  @override
+  String get lowEndOff => '关闭模糊';
+
+  @override
+  String get lowEndKeep => '保留';
+
+  @override
+  String get momentsThisMonth => '本月';
+
+  @override
+  String get momentsDays => '有照片的天数';
+
+  @override
+  String get awardsPick => '选择显示在个人资料';
+
+  @override
+  String get awardsPickHint => '点选你想在个人资料中展示的';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -5117,7 +5445,7 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get done => '完成';
 
   @override
-  String get set => '組';
+  String get set => '設定';
 
   @override
   String get home => '首頁';
@@ -5276,6 +5604,122 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get restOff => '關閉';
+
+  @override
+  String get miniRest => '休息暫停與簇組休息';
+
+  @override
+  String get miniRestHint => '休息暫停或簇組前短暫休息，其他組仍照平常休息。';
+
+  @override
+  String get gymPass => '健身房通行證';
+
+  @override
+  String get gymPassEmpty => '把健身房的條碼存在這裡，進門不用拿卡';
+
+  @override
+  String get gymPassAdd => '新增通行證';
+
+  @override
+  String get gymPassScan => '拍下這個條碼';
+
+  @override
+  String get gymPassScanHint => '用手機相機';
+
+  @override
+  String get gymPassPhoto => '從照片或截圖';
+
+  @override
+  String get gymPassPhotoHint => '例如健身房 App 裡的截圖';
+
+  @override
+  String get gymPassType => '輸入號碼';
+
+  @override
+  String get gymPassTypeHint => '條碼：輸入下方印著的號碼';
+
+  @override
+  String get gymPassNotFound => '這張圖裡沒有 QR 碼。換一張更清楚的，或直接輸入號碼。';
+
+  @override
+  String get gymPassName => '健身房名稱';
+
+  @override
+  String get gymPassDefaultName => '我的健身房';
+
+  @override
+  String get gymPassCode => '號碼';
+
+  @override
+  String get gymPassFormat => '條碼類型';
+
+  @override
+  String get gymPassInvalid => '這個號碼不符合此類條碼的格式';
+
+  @override
+  String get gymPassShowHint => '對準掃描器即可，亮度會自動調高。';
+
+  @override
+  String get gymPassDeleted => '通行證已刪除';
+
+  @override
+  String get gymPassEdit => '編輯通行證';
+
+  @override
+  String get gymPassShow => '進門時出示';
+
+  @override
+  String get gymPassPrivate => '只存在你的手機上，不會上傳任何內容。';
+
+  @override
+  String get gymPassColor => '顏色';
+
+  @override
+  String get gymPassRescan => '重新讀取';
+
+  @override
+  String get gymPassReading => '正在讀取…';
+
+  @override
+  String get gymPassSettingHint => '健身房卡放在個人檔案裡，進門隨時出示';
+
+  @override
+  String get gymPassMember => '會員';
+
+  @override
+  String get widgetHintActivity => '你的訓練日分布圖';
+
+  @override
+  String get widgetHintStats => '本週連續天數、訓練量與次數';
+
+  @override
+  String get widgetHintBody => '你練過的肌肉';
+
+  @override
+  String get widgetHintToday => '一眼看清：今天練了嗎？';
+
+  @override
+  String get widgetHintWeek => '本週計畫，逐日顯示';
+
+  @override
+  String get supportHintBug => '在 GitHub 上告訴我哪裡出了問題';
+
+  @override
+  String get supportHintFeature => '為 App 提個想法';
+
+  @override
+  String get supportHintStar => '讓更多人找到它';
+
+  @override
+  String get supportHintCoffee => '支持開發。免費且無廣告';
+
+  @override
+  String get bodyweightNoteHint => '新增備註：感覺如何、在嘗試什麼…（選填）';
+
+  @override
+  String exerciseUnitSwitch(String unit) {
+    return '此動作使用 $unit';
+  }
 
   @override
   String get setCol => '#';
@@ -6316,6 +6760,9 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get autofills => '自動填入計算器';
 
   @override
+  String get onbUnitsWhy => '用於重量、圍度與距離。可隨時在設定中變更。';
+
+  @override
   String get nameLabel => '姓名';
 
   @override
@@ -7000,6 +7447,9 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get tplPpl => '推、拉、腿。每週三天或六天。';
+
+  @override
+  String get tplArnold => '胸背、肩臂、腿。經典六天分化。';
 
   @override
   String get tplUpperlower => '上半身與下半身，每週四天。';
@@ -9749,4 +10199,210 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get trainAnyway => '照樣訓練';
+
+  @override
+  String get healthTitle => '健康';
+
+  @override
+  String get healthSetting => '健康資料';
+
+  @override
+  String get healthSettingHint => '在進度中顯示 Health Connect 的心率、睡眠和生命徵象。';
+
+  @override
+  String get healthPickTitle => '健康資料';
+
+  @override
+  String get healthPickHint => '選擇要從 Health Connect 讀取的項目。Android 會為每一項詢問一次。資料只會讀取，永遠不會離開手機。';
+
+  @override
+  String get healthGroupHeart => '心臟';
+
+  @override
+  String get healthGroupVitals => '生命徵象';
+
+  @override
+  String get healthGroupActivity => '活動';
+
+  @override
+  String get healthRestingHr => '靜止心率';
+
+  @override
+  String get healthHeartRate => '平均心率';
+
+  @override
+  String get healthHrv => '心率變異度';
+
+  @override
+  String get healthSpo2 => '血氧';
+
+  @override
+  String get healthRespiration => '呼吸頻率';
+
+  @override
+  String get healthBloodPressure => '血壓';
+
+  @override
+  String get healthTemperature => '體溫';
+
+  @override
+  String get healthSleep => '睡眠';
+
+  @override
+  String get healthDistance => '距離';
+
+  @override
+  String get healthFloors => '爬升樓層';
+
+  @override
+  String get healthElevation => '累計爬升';
+
+  @override
+  String get healthActiveKcal => '活動熱量';
+
+  @override
+  String get healthNoData => '尚無資料';
+
+  @override
+  String get healthAllow => '輕觸以允許';
+
+  @override
+  String get healthLast7 => '最近 7 天';
+
+  @override
+  String get healthAvg30 => '30 天平均';
+
+  @override
+  String get healthLow => '最低';
+
+  @override
+  String get healthHigh => '最高';
+
+  @override
+  String get healthFrom => '來自 Health Connect · 最近 30 天';
+
+  @override
+  String get healthBpm => '次/分';
+
+  @override
+  String get healthBreaths => '次/分';
+
+  @override
+  String get weekTab => '本週';
+
+  @override
+  String get muscleSetsList => '各肌群組數';
+
+  @override
+  String get fatTrans => '反式';
+
+  @override
+  String get fatTypesHint => '可選。標籤上沒有的留空即可。';
+
+  @override
+  String get sessionPhotos => '訓練照片';
+
+  @override
+  String get sessionPhotosAdd => '新增照片';
+
+  @override
+  String get sessionPhotosHint => '也會保存在「你的照片」中。';
+
+  @override
+  String get ladderTitle => '進階';
+
+  @override
+  String get ladderHint => '依由易到難排列步驟。連續兩次訓練完成 3 組 8 次（慢速動作 5 次）後，GymMane 會建議下一步。';
+
+  @override
+  String get ladderBuiltIn => '以應用程式內建的進階為基礎。新增、刪除或重新排序步驟後，就屬於此課表。';
+
+  @override
+  String get ladderNone => '還沒有。輕觸以建立。';
+
+  @override
+  String ladderStep(int n, int total) {
+    return '第 $n 步，共 $total 步';
+  }
+
+  @override
+  String get ladderAdd => '新增步驟';
+
+  @override
+  String get ladderInRoutine => '在課表中';
+
+  @override
+  String get ladderClear => '使用內建的';
+
+  @override
+  String get ladderPick => '選擇一個步驟';
+
+  @override
+  String get periodWeek => '本週';
+
+  @override
+  String get periodMonth => '本月';
+
+  @override
+  String get periodYear => '今年';
+
+  @override
+  String get periodAll => '全部時間';
+
+  @override
+  String get settingsSearch => '搜尋設定';
+
+  @override
+  String get settingsNoResults => '沒有這個名稱的設定';
+
+  @override
+  String get settingsGroupApp => '你的 App';
+
+  @override
+  String get settingsGroupHome => '首頁與延伸功能';
+
+  @override
+  String get settingsGroupData => '資料與說明';
+
+  @override
+  String get healthAllowAll => '全部開啟';
+
+  @override
+  String get healthSeeAll => '查看全部';
+
+  @override
+  String get healthPinTitle => '顯示在卡片上';
+
+  @override
+  String get healthPinHint => '為進度卡片最多選 3 項。';
+
+  @override
+  String get blurSetting => '模糊效果';
+
+  @override
+  String get blurSettingHint => '玻璃質感與柔和邊緣。手機卡頓時可關閉。';
+
+  @override
+  String get lowEndTitle => '你的手機記憶體較少';
+
+  @override
+  String get lowEndBody => '關閉模糊後會更流暢。可在 設定 → 一般 重新開啟。';
+
+  @override
+  String get lowEndOff => '關閉模糊';
+
+  @override
+  String get lowEndKeep => '保留';
+
+  @override
+  String get momentsThisMonth => '本月';
+
+  @override
+  String get momentsDays => '有照片的天數';
+
+  @override
+  String get awardsPick => '選擇顯示在個人檔案';
+
+  @override
+  String get awardsPickHint => '點選你想在個人檔案展示的';
 }
