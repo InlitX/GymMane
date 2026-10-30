@@ -23,6 +23,7 @@ mixin SettingsState on FitCore, ToolsState, LibraryState {
   String heatmapRange = 'weeks';
   String alarmStyle = 'quiet';
   int restSeconds = 90;
+  int miniRestSeconds = 20;
   String? alarmSound;
   String? alarmSoundName;
 
@@ -40,8 +41,11 @@ mixin SettingsState on FitCore, ToolsState, LibraryState {
   bool hideShots = false;
   bool autoAdvance = true;
   bool keepScreenOn = true;
+  bool blurOn = true;
+  bool lowEndAsked = false;
   bool startCountdown = true;
   bool gamification = true;
+  bool passOn = true;
   bool logRpe = false;
   String effortScale = 'rpe';
   int? trainReminderMin;
@@ -254,6 +258,18 @@ mixin SettingsState on FitCore, ToolsState, LibraryState {
     notifyListeners();
   }
 
+  void togglePass() {
+    passOn = !passOn;
+    _persist();
+    notifyListeners();
+  }
+
+  void setMiniRest(int v) {
+    miniRestSeconds = v <= 0 ? 0 : v.clamp(5, 180);
+    _persist();
+    notifyListeners();
+  }
+
   int restFor(String exerciseId) =>
       exerciseRest[exerciseId] ?? (modeOf(exerciseId) == 'cardio' ? 0 : restSeconds);
 
@@ -355,6 +371,18 @@ mixin SettingsState on FitCore, ToolsState, LibraryState {
     keepScreenOn = !keepScreenOn;
     _persist();
     notifyListeners();
+  }
+
+  void setBlur(bool on) {
+    blurOn = on;
+    blurEffects = on;
+    _persist();
+    notifyListeners();
+  }
+
+  void markLowEndAsked() {
+    lowEndAsked = true;
+    _persist();
   }
 
   double? progressFor(String exerciseId) => progressStep[exerciseId];
