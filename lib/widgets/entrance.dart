@@ -211,9 +211,16 @@ class _RollInState extends State<RollIn> with SingleTickerProviderStateMixin {
     }
     final low = pos.floor();
     final frac = pos - low;
-    Widget digit(int v, double dy) => Transform.translate(
-          offset: Offset(0, dy),
-          child: Text('${v % 10}', style: widget.style, textHeightBehavior: _tight),
+    final rush = math.sin(frac * math.pi);
+    Widget digit(int v, double dy) => Opacity(
+          opacity: (1 - (dy / line).abs()).clamp(0.0, 1.0),
+          child: Transform.translate(
+            offset: Offset(0, dy),
+            child: Transform.scale(
+              scaleY: 1 + 0.12 * rush,
+              child: Text('${v % 10}', style: widget.style, textHeightBehavior: _tight),
+            ),
+          ),
         );
     return Opacity(
       opacity: place == 0 ? 1 : scaled.clamp(0.0, 1.0),
