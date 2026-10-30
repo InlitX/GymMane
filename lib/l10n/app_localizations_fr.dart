@@ -37,7 +37,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get done => 'TERMINÉ';
 
   @override
-  String get set => 'Série';
+  String get set => 'Valider';
 
   @override
   String get home => 'ACCUEIL';
@@ -196,6 +196,124 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get restOff => 'Désactivé';
+
+  @override
+  String get miniRest => 'Repos en rest-pause et cluster';
+
+  @override
+  String get miniRestHint =>
+      'Repos court avant une série rest-pause ou cluster. Les autres séries gardent le repos habituel.';
+
+  @override
+  String get gymPass => 'Pass salle';
+
+  @override
+  String get gymPassEmpty => 'Garde ici le code de ta salle et entre sans sortir ta carte';
+
+  @override
+  String get gymPassAdd => 'Ajouter un pass';
+
+  @override
+  String get gymPassScan => 'Prendre le code en photo';
+
+  @override
+  String get gymPassScanHint => 'Avec l\'appareil photo du téléphone';
+
+  @override
+  String get gymPassPhoto => 'Depuis une photo ou une capture';
+
+  @override
+  String get gymPassPhotoHint => 'Par exemple, une capture de l\'appli de ta salle';
+
+  @override
+  String get gymPassType => 'Saisir le numéro';
+
+  @override
+  String get gymPassTypeHint => 'Pour les codes-barres : le numéro imprimé dessous';
+
+  @override
+  String get gymPassNotFound =>
+      'Aucun QR code sur cette image. Essaie une photo plus nette ou saisis le numéro.';
+
+  @override
+  String get gymPassName => 'Nom de la salle';
+
+  @override
+  String get gymPassDefaultName => 'Ma salle';
+
+  @override
+  String get gymPassCode => 'Code';
+
+  @override
+  String get gymPassFormat => 'Type de code';
+
+  @override
+  String get gymPassInvalid => 'Ce numéro ne correspond pas à ce type de code';
+
+  @override
+  String get gymPassShowHint => 'Approche-le du lecteur. La luminosité monte toute seule.';
+
+  @override
+  String get gymPassDeleted => 'Pass supprimé';
+
+  @override
+  String get gymPassEdit => 'Modifier le pass';
+
+  @override
+  String get gymPassShow => 'Montrer à l\'entrée';
+
+  @override
+  String get gymPassPrivate => 'Reste uniquement sur ton téléphone. Rien n\'est envoyé.';
+
+  @override
+  String get gymPassColor => 'Couleur';
+
+  @override
+  String get gymPassRescan => 'Relire le code';
+
+  @override
+  String get gymPassReading => 'Lecture du code…';
+
+  @override
+  String get gymPassSettingHint => 'Ta carte de salle dans ton profil, prête pour l\'entrée';
+
+  @override
+  String get gymPassMember => 'Membre';
+
+  @override
+  String get widgetHintActivity => 'Ta carte des jours d\'entraînement';
+
+  @override
+  String get widgetHintStats => 'Série, volume et séances de la semaine';
+
+  @override
+  String get widgetHintBody => 'Les muscles que tu as travaillés';
+
+  @override
+  String get widgetHintToday => 'D\'un coup d\'œil : tu t\'es entraîné aujourd\'hui ?';
+
+  @override
+  String get widgetHintWeek => 'Ton plan de la semaine, jour par jour';
+
+  @override
+  String get supportHintBug => 'Dis-moi ce qui a planté, sur GitHub';
+
+  @override
+  String get supportHintFeature => 'Propose une idée pour l\'appli';
+
+  @override
+  String get supportHintStar => 'Aide plus de monde à la trouver';
+
+  @override
+  String get supportHintCoffee => 'Soutient le développement. Gratuit et sans pub';
+
+  @override
+  String get bodyweightNoteHint => 'Ajoute une note : comment tu te sens, ce que tu essaies… (facultatif)';
+
+  @override
+  String exerciseUnitSwitch(String unit) {
+    return 'Utiliser $unit pour cet exercice';
+  }
 
   @override
   String get setCol => '#';
@@ -1306,6 +1424,10 @@ class AppLocalizationsFr extends AppLocalizations {
   String get autofills => 'Remplit automatiquement les calculateurs';
 
   @override
+  String get onbUnitsWhy =>
+      'Pour les poids, les mensurations et les distances. Tu peux changer quand tu veux dans Réglages.';
+
+  @override
   String get nameLabel => 'NOM';
 
   @override
@@ -2012,6 +2134,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get tplPpl => 'Push, pull et jambes. Trois ou six jours par semaine.';
+
+  @override
+  String get tplArnold => 'Pecs et dos, épaules et bras, jambes. Le split classique sur six jours.';
 
   @override
   String get tplUpperlower => 'Haut et bas du corps, quatre jours par semaine.';
@@ -5304,4 +5429,214 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get trainAnyway => 'M’entraîner quand même';
+
+  @override
+  String get healthTitle => 'Santé';
+
+  @override
+  String get healthSetting => 'Données de santé';
+
+  @override
+  String get healthSettingHint => 'Cœur, sommeil et constantes depuis Health Connect, dans Progression.';
+
+  @override
+  String get healthPickTitle => 'Données de santé';
+
+  @override
+  String get healthPickHint =>
+      'Choisis ce que tu importes de Health Connect. Android demande une fois pour chacun. C\'est seulement lu et ça ne quitte jamais ton téléphone.';
+
+  @override
+  String get healthGroupHeart => 'Cœur';
+
+  @override
+  String get healthGroupVitals => 'Constantes';
+
+  @override
+  String get healthGroupActivity => 'Activité';
+
+  @override
+  String get healthRestingHr => 'Fréquence cardiaque au repos';
+
+  @override
+  String get healthHeartRate => 'Fréquence cardiaque moyenne';
+
+  @override
+  String get healthHrv => 'Variabilité cardiaque';
+
+  @override
+  String get healthSpo2 => 'Oxygène sanguin';
+
+  @override
+  String get healthRespiration => 'Fréquence respiratoire';
+
+  @override
+  String get healthBloodPressure => 'Tension artérielle';
+
+  @override
+  String get healthTemperature => 'Température corporelle';
+
+  @override
+  String get healthSleep => 'Sommeil';
+
+  @override
+  String get healthDistance => 'Distance';
+
+  @override
+  String get healthFloors => 'Étages montés';
+
+  @override
+  String get healthElevation => 'Dénivelé positif';
+
+  @override
+  String get healthActiveKcal => 'Calories actives';
+
+  @override
+  String get healthNoData => 'Pas encore de données';
+
+  @override
+  String get healthAllow => 'Touche pour autoriser';
+
+  @override
+  String get healthLast7 => '7 derniers jours';
+
+  @override
+  String get healthAvg30 => 'Moy. 30 jours';
+
+  @override
+  String get healthLow => 'Minimum';
+
+  @override
+  String get healthHigh => 'Maximum';
+
+  @override
+  String get healthFrom => 'Depuis Health Connect · 30 derniers jours';
+
+  @override
+  String get healthBpm => 'bpm';
+
+  @override
+  String get healthBreaths => 'resp/min';
+
+  @override
+  String get weekTab => 'Semaine';
+
+  @override
+  String get muscleSetsList => 'Séries par muscle';
+
+  @override
+  String get fatTrans => 'Trans';
+
+  @override
+  String get fatTypesHint => 'Facultatif. Laisse vide ce que l\'étiquette n\'indique pas.';
+
+  @override
+  String get sessionPhotos => 'Photos de la séance';
+
+  @override
+  String get sessionPhotosAdd => 'Ajouter des photos';
+
+  @override
+  String get sessionPhotosHint => 'Elles restent aussi dans Tes photos.';
+
+  @override
+  String get ladderTitle => 'Progression';
+
+  @override
+  String get ladderHint =>
+      'Classe les étapes de la plus facile à la plus dure. Quand tu fais 3 séries de 8 deux séances d\'affilée (5 pour les lentes), GymMane te propose la suivante.';
+
+  @override
+  String get ladderBuiltIn =>
+      'Part de la progression de l\'app. Ajoute, retire ou réordonne des étapes et elle devient celle de cette routine.';
+
+  @override
+  String get ladderNone => 'Aucune pour l\'instant. Touche pour en créer une.';
+
+  @override
+  String ladderStep(int n, int total) {
+    return 'Étape $n sur $total';
+  }
+
+  @override
+  String get ladderAdd => 'Ajouter une étape';
+
+  @override
+  String get ladderInRoutine => 'Dans la routine';
+
+  @override
+  String get ladderClear => 'Utiliser celle de l\'app';
+
+  @override
+  String get ladderPick => 'Choisis une étape';
+
+  @override
+  String get periodWeek => 'cette semaine';
+
+  @override
+  String get periodMonth => 'ce mois-ci';
+
+  @override
+  String get periodYear => 'cette année';
+
+  @override
+  String get periodAll => 'depuis le début';
+
+  @override
+  String get settingsSearch => 'Rechercher dans les réglages';
+
+  @override
+  String get settingsNoResults => 'Aucun réglage avec ce nom';
+
+  @override
+  String get settingsGroupApp => 'Ton appli';
+
+  @override
+  String get settingsGroupHome => 'Accueil et extras';
+
+  @override
+  String get settingsGroupData => 'Données et aide';
+
+  @override
+  String get healthAllowAll => 'Tout activer';
+
+  @override
+  String get healthSeeAll => 'Tout voir';
+
+  @override
+  String get healthPinTitle => 'Sur la carte';
+
+  @override
+  String get healthPinHint => 'Choisis-en jusqu\'à 3 pour la carte Progrès.';
+
+  @override
+  String get blurSetting => 'Effets de flou';
+
+  @override
+  String get blurSettingHint => 'Verre et bords doux. Désactive-les si ton téléphone rame.';
+
+  @override
+  String get lowEndTitle => 'Ton téléphone manque de mémoire';
+
+  @override
+  String get lowEndBody =>
+      'Sans le flou, tout sera plus fluide. Tu peux le remettre dans Réglages → Général.';
+
+  @override
+  String get lowEndOff => 'Désactiver le flou';
+
+  @override
+  String get lowEndKeep => 'Le garder';
+
+  @override
+  String get momentsThisMonth => 'Ce mois-ci';
+
+  @override
+  String get momentsDays => 'Jours avec photo';
+
+  @override
+  String get awardsPick => 'Choisir pour ton profil';
+
+  @override
+  String get awardsPickHint => 'Touche celles que tu veux sur ton profil';
 }
