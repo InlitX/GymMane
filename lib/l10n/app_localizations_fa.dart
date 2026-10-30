@@ -37,7 +37,7 @@ class AppLocalizationsFa extends AppLocalizations {
   String get done => 'تمام';
 
   @override
-  String get set => 'ست';
+  String get set => 'ذخیره';
 
   @override
   String get home => 'خانه';
@@ -196,6 +196,123 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String get restOff => 'خاموش';
+
+  @override
+  String get miniRest => 'استراحت در rest-pause و cluster';
+
+  @override
+  String get miniRestHint =>
+      'استراحت کوتاه پیش از ست rest-pause یا cluster. بقیه‌ی ست‌ها همان استراحت همیشگی را دارند.';
+
+  @override
+  String get gymPass => 'کارت باشگاه';
+
+  @override
+  String get gymPassEmpty => 'کد باشگاهت را این‌جا نگه دار و بدون کارت وارد شو';
+
+  @override
+  String get gymPassAdd => 'افزودن کارت';
+
+  @override
+  String get gymPassScan => 'از کد عکس بگیر';
+
+  @override
+  String get gymPassScanHint => 'با دوربین گوشی';
+
+  @override
+  String get gymPassPhoto => 'از یک عکس یا اسکرین‌شات';
+
+  @override
+  String get gymPassPhotoHint => 'مثلاً اسکرین‌شاتی از اپ باشگاهت';
+
+  @override
+  String get gymPassType => 'شماره را بنویس';
+
+  @override
+  String get gymPassTypeHint => 'برای بارکدها: شماره‌ای که زیرش چاپ شده';
+
+  @override
+  String get gymPassNotFound => 'در این تصویر کد QR نیست. تصویر واضح‌تری امتحان کن یا شماره را بنویس.';
+
+  @override
+  String get gymPassName => 'نام باشگاه';
+
+  @override
+  String get gymPassDefaultName => 'باشگاه من';
+
+  @override
+  String get gymPassCode => 'کد';
+
+  @override
+  String get gymPassFormat => 'نوع کد';
+
+  @override
+  String get gymPassInvalid => 'این شماره با این نوع کد جور نیست';
+
+  @override
+  String get gymPassShowHint => 'آن را نزدیک دستگاه خوان بگیر. روشنایی خودش زیاد می‌شود.';
+
+  @override
+  String get gymPassDeleted => 'کارت حذف شد';
+
+  @override
+  String get gymPassEdit => 'ویرایش کارت';
+
+  @override
+  String get gymPassShow => 'نشان دادن در ورودی';
+
+  @override
+  String get gymPassPrivate => 'فقط روی گوشی خودت می‌ماند. چیزی آپلود نمی‌شود.';
+
+  @override
+  String get gymPassColor => 'رنگ';
+
+  @override
+  String get gymPassRescan => 'خواندن دوباره‌ی کد';
+
+  @override
+  String get gymPassReading => 'در حال خواندن کد…';
+
+  @override
+  String get gymPassSettingHint => 'کارت باشگاهت در نمایه، آماده‌ی ورود';
+
+  @override
+  String get gymPassMember => 'عضو';
+
+  @override
+  String get widgetHintActivity => 'نقشه‌ی روزهای تمرینت';
+
+  @override
+  String get widgetHintStats => 'زنجیره، حجم و جلسه‌های این هفته';
+
+  @override
+  String get widgetHintBody => 'عضله‌هایی که تمرین داده‌ای';
+
+  @override
+  String get widgetHintToday => 'در یک نگاه: امروز تمرین کرده‌ای؟';
+
+  @override
+  String get widgetHintWeek => 'برنامه‌ی هفته‌ات، روز به روز';
+
+  @override
+  String get supportHintBug => 'در GitHub بگو چه چیزی خراب شد';
+
+  @override
+  String get supportHintFeature => 'یک ایده برای اپ پیشنهاد بده';
+
+  @override
+  String get supportHintStar => 'کمک می‌کند آدم‌های بیشتری پیدایش کنند';
+
+  @override
+  String get supportHintCoffee => 'از توسعه حمایت می‌کند. رایگان و بدون تبلیغ';
+
+  @override
+  String get bodyweightNoteHint => 'یادداشت بگذار: حالت چطور است، چه چیزی را امتحان می‌کنی… (اختیاری)';
+
+  @override
+  String exerciseUnitSwitch(String unit) {
+    return 'در این حرکت از $unit استفاده شود';
+  }
 
   @override
   String get setCol => '#';
@@ -1294,6 +1411,9 @@ class AppLocalizationsFa extends AppLocalizations {
   String get autofills => 'ماشین‌حساب‌ها را پر می‌کند';
 
   @override
+  String get onbUnitsWhy => 'برای وزن، اندازه‌ها و مسافت‌ها. هر وقت خواستی از تنظیمات عوضش کن.';
+
+  @override
   String get nameLabel => 'نام';
 
   @override
@@ -1991,6 +2111,9 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String get tplPpl => 'پرس، کشش و پا. سه یا شش روز در هفته.';
+
+  @override
+  String get tplArnold => 'سینه و پشت، شانه و بازو، پا. اسپلیت کلاسیک شش‌روزه.';
 
   @override
   String get tplUpperlower => 'بالاتنه و پایین‌تنه، چهار روز در هفته.';
@@ -5247,4 +5370,214 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String get trainAnyway => 'به هر حال تمرین کن';
+
+  @override
+  String get healthTitle => 'سلامت';
+
+  @override
+  String get healthSetting => 'داده‌های سلامت';
+
+  @override
+  String get healthSettingHint => 'قلب، خواب و علائم حیاتی از Health Connect، در پیشرفت.';
+
+  @override
+  String get healthPickTitle => 'داده‌های سلامت';
+
+  @override
+  String get healthPickHint =>
+      'انتخاب کن چه چیزی از Health Connect بیاید. اندروید برای هر کدام یک بار اجازه می‌خواهد. فقط خوانده می‌شود و هرگز از گوشی خارج نمی‌شود.';
+
+  @override
+  String get healthGroupHeart => 'قلب';
+
+  @override
+  String get healthGroupVitals => 'علائم حیاتی';
+
+  @override
+  String get healthGroupActivity => 'فعالیت';
+
+  @override
+  String get healthRestingHr => 'ضربان در استراحت';
+
+  @override
+  String get healthHeartRate => 'میانگین ضربان';
+
+  @override
+  String get healthHrv => 'تغییرپذیری ضربان قلب';
+
+  @override
+  String get healthSpo2 => 'اکسیژن خون';
+
+  @override
+  String get healthRespiration => 'تعداد تنفس';
+
+  @override
+  String get healthBloodPressure => 'فشار خون';
+
+  @override
+  String get healthTemperature => 'دمای بدن';
+
+  @override
+  String get healthSleep => 'خواب';
+
+  @override
+  String get healthDistance => 'مسافت';
+
+  @override
+  String get healthFloors => 'طبقه‌های بالارفته';
+
+  @override
+  String get healthElevation => 'ارتفاع طی‌شده';
+
+  @override
+  String get healthActiveKcal => 'کالری فعال';
+
+  @override
+  String get healthNoData => 'هنوز داده‌ای نیست';
+
+  @override
+  String get healthAllow => 'برای اجازه بزن';
+
+  @override
+  String get healthLast7 => '۷ روز اخیر';
+
+  @override
+  String get healthAvg30 => 'میانگین ۳۰ روز';
+
+  @override
+  String get healthLow => 'کمترین';
+
+  @override
+  String get healthHigh => 'بیشترین';
+
+  @override
+  String get healthFrom => 'از Health Connect · ۳۰ روز اخیر';
+
+  @override
+  String get healthBpm => 'ضربه/دقیقه';
+
+  @override
+  String get healthBreaths => 'تنفس/دقیقه';
+
+  @override
+  String get weekTab => 'هفته';
+
+  @override
+  String get muscleSetsList => 'ست‌ها برای هر عضله';
+
+  @override
+  String get fatTrans => 'ترانس';
+
+  @override
+  String get fatTypesHint => 'اختیاری. آنچه روی برچسب نیست را خالی بگذار.';
+
+  @override
+  String get sessionPhotos => 'عکس‌های تمرین';
+
+  @override
+  String get sessionPhotosAdd => 'افزودن عکس';
+
+  @override
+  String get sessionPhotosHint => 'در «عکس‌های تو» هم می‌مانند.';
+
+  @override
+  String get ladderTitle => 'پیشرفت مرحله‌ای';
+
+  @override
+  String get ladderHint =>
+      'مراحل را از آسان به سخت مرتب کن. وقتی دو جلسه پشت سر هم ۳ ست ۸تایی بزنی (در حرکات آهسته ۵)، GymMane مرحله بعد را پیشنهاد می‌دهد.';
+
+  @override
+  String get ladderBuiltIn =>
+      'از پیشرفت خود برنامه شروع می‌شود. مرحله اضافه، حذف یا جابه‌جا کن تا مال همین روتین شود.';
+
+  @override
+  String get ladderNone => 'هنوز ندارد. برای ساختن بزن.';
+
+  @override
+  String ladderStep(int n, int total) {
+    return 'مرحله $n از $total';
+  }
+
+  @override
+  String get ladderAdd => 'افزودن مرحله';
+
+  @override
+  String get ladderInRoutine => 'در روتین';
+
+  @override
+  String get ladderClear => 'استفاده از نسخه برنامه';
+
+  @override
+  String get ladderPick => 'یک مرحله انتخاب کن';
+
+  @override
+  String get periodWeek => 'این هفته';
+
+  @override
+  String get periodMonth => 'این ماه';
+
+  @override
+  String get periodYear => 'امسال';
+
+  @override
+  String get periodAll => 'از ابتدا';
+
+  @override
+  String get settingsSearch => 'جست‌وجو در تنظیمات';
+
+  @override
+  String get settingsNoResults => 'تنظیمی با این نام نیست';
+
+  @override
+  String get settingsGroupApp => 'اپ تو';
+
+  @override
+  String get settingsGroupHome => 'خانه و امکانات بیشتر';
+
+  @override
+  String get settingsGroupData => 'داده‌ها و راهنما';
+
+  @override
+  String get healthAllowAll => 'روشن کردن همه';
+
+  @override
+  String get healthSeeAll => 'دیدن همه';
+
+  @override
+  String get healthPinTitle => 'روی کارت';
+
+  @override
+  String get healthPinHint => 'تا ۳ مورد برای کارت پیشرفت انتخاب کن.';
+
+  @override
+  String get blurSetting => 'جلوه‌های تاری';
+
+  @override
+  String get blurSettingHint => 'شیشه و لبه‌های نرم. اگر گوشی کند است خاموششان کن.';
+
+  @override
+  String get lowEndTitle => 'حافظه‌ی گوشی‌ات کم است';
+
+  @override
+  String get lowEndBody =>
+      'با خاموش کردن تاری همه‌چیز روان‌تر می‌شود. می‌توانی از تنظیمات ← عمومی برش گردانی.';
+
+  @override
+  String get lowEndOff => 'خاموش کردن تاری';
+
+  @override
+  String get lowEndKeep => 'نگه داشتن';
+
+  @override
+  String get momentsThisMonth => 'این ماه';
+
+  @override
+  String get momentsDays => 'روزهای دارای عکس';
+
+  @override
+  String get awardsPick => 'انتخاب برای نمایه';
+
+  @override
+  String get awardsPickHint => 'روی آن‌هایی که در نمایه می‌خواهی بزن';
 }
