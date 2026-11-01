@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:gymmane/l10n/app_localizations.dart';
 import 'package:gymmane/services/local_store.dart';
 import 'package:gymmane/services/rest_alarm.dart';
 import 'package:gymmane/state/fit_state.dart';
@@ -133,5 +134,17 @@ void main() {
       fit.setWeekStart(4);
       expect(fit.weekStartDay, DateTime.saturday, reason: 'solo lunes, sábado o domingo');
     });
+  });
+
+  test('el texto de Apoyo pide primero el café y luego la estrella, en todos los idiomas', () {
+    for (final locale in AppLocalizations.supportedLocales) {
+      final t = lookupAppLocalizations(locale);
+      final body = t.supportThanksBody;
+      expect(t.supportThanksTitle, contains('🤍'), reason: '$locale');
+      expect(body.split('\n\n').length, 2, reason: '$locale: dos párrafos');
+      final coffee = body.indexOf('☕'), star = body.indexOf('⭐');
+      expect(coffee, greaterThan(0), reason: '$locale');
+      expect(star, greaterThan(coffee), reason: '$locale: la estrella va después del café');
+    }
   });
 }
