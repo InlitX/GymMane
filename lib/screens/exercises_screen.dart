@@ -149,11 +149,7 @@ class _ExercisesScreenState extends State<ExercisesScreen> {
   }
 
   int get _activeFilters =>
-      (fit.activePlaceId.isEmpty ? 0 : 1) +
-      (fit.exMuscleFilter == null ? 0 : 1) +
-      (fit.exEquipmentFilter == null ? 0 : 1) +
-      (fit.exDifficultyFilter == null ? 0 : 1) +
-      (fit.exKindFilter == null || fit.exKindFilter == 'cardio' ? 0 : 1);
+      _sheetFilters + (fit.exMuscleFilter == null && fit.exZoneFilter == null ? 0 : 1);
 
   void _clearAll() {
     _c.clear();
@@ -312,96 +308,53 @@ class _ExercisesScreenState extends State<ExercisesScreen> {
   }
 
   Widget _quickChips(BuildContext context, GymColors gc) {
-    final active = _activeFilters;
-    final anyOn = active > 0 ||
-        fit.exKindFilter != null ||
-        fit.exNoGearOnly ||
-        fit.exFavouritesOnly ||
-        fit.exMineOnly ||
-        fit.exArchivedOnly;
+    final sheetOn = _sheetFilters;
+    final zoneOn = fit.exZoneFilter != null || fit.exMuscleFilter != null;
+    final anyOn = sheetOn > 0 || zoneOn || fit.exFavouritesOnly;
+    Widget pill(String label, bool on, VoidCallback onTap) => Pill(
+          label: label,
+          bg: on ? gc.ember : gc.bgRaised2,
+          fg: on ? gc.onEmber : gc.textSecondary,
+          onTap: onTap,
+          hPad: 14,
+          vPad: 7,
+          fontSize: 12.5,
+        );
+    final active = <(String, VoidCallback)>[
+      if (fit.exKindFilter != null) (t.exerciseKind(fit.exKindFilter!), () => fit.setKindFilter(fit.exKindFilter!)),
+      if (fit.exNoGearOnly) (t.noGearOnly, fit.toggleNoGearFilter),
+      if (fit.exEquipmentFilter != null)
+        (t.equipment(fit.exEquipmentFilter!), () => fit.setEquipmentFilter(fit.exEquipmentFilter!)),
+      if (fit.exDifficultyFilter != null)
+        (t.difficulty(fit.exDifficultyFilter!), () => fit.setDifficultyFilter(fit.exDifficultyFilter!)),
+      if (fit.exMineOnly) (t.mineOnly, fit.toggleMineFilter),
+      if (fit.exArchivedOnly) (t.archivedFilter, fit.toggleArchivedFilter),
+      for (final place in fit.places)
+        if (place.id == fit.activePlaceId) (place.name, () => fit.setActivePlace('')),
+    ];
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       clipBehavior: Clip.none,
       child: Row(children: [
-        Pill(
-          label: fit.exZoneFilter != null
+        pill(
+          fit.exZoneFilter != null
               ? t.muscleGroupName(fit.exZoneFilter!)
               : fit.exMuscleFilter != null
                   ? muscleLabel(fit.exMuscleFilter!)
                   : t.byZone,
-          bg: fit.exZoneFilter == null && fit.exMuscleFilter == null ? gc.bgRaised2 : gc.ember,
-          fg: fit.exZoneFilter == null && fit.exMuscleFilter == null ? gc.textSecondary : gc.onEmber,
-          onTap: () => showBodyZones(context),
-          hPad: 14,
-          vPad: 7,
-          fontSize: 12.5,
+          zoneOn,
+          () => showBodyZones(context),
         ),
         const SizedBox(width: 8),
-        Pill(
-          label: active > 0 ? '${t.filters} · $active' : t.filters,
-          bg: active > 0 ? gc.ember : gc.bgRaised2,
-          fg: active > 0 ? gc.onEmber : gc.textSecondary,
-          onTap: () => showExerciseFilters(context, onClear: _c.clear),
-          hPad: 14,
-          vPad: 7,
-          fontSize: 12.5,
-        ),
-        const SizedBox(width: 8),
-        Pill(
-          label: fit.favouriteCount > 0
-              ? '${t.favouritesOnly} · ${fit.favouriteCount}'
-              : t.favouritesOnly,
-          bg: fit.exFavouritesOnly ? gc.ember : gc.bgRaised2,
-          fg: fit.exFavouritesOnly ? gc.onEmber : gc.textSecondary,
-          onTap: fit.toggleFavouritesFilter,
-          hPad: 14,
-          vPad: 7,
-          fontSize: 12.5,
-        ),
-        const SizedBox(width: 8),
-        Pill(
-          label: t.noGearOnly,
-          bg: fit.exNoGearOnly ? gc.ember : gc.bgRaised2,
-          fg: fit.exNoGearOnly ? gc.onEmber : gc.textSecondary,
-          onTap: fit.toggleNoGearFilter,
-          hPad: 14,
-          vPad: 7,
-          fontSize: 12.5,
-        ),
-        const SizedBox(width: 8),
-        Pill(
-          label: t.kindCardio,
-          bg: fit.exKindFilter == 'cardio' ? gc.ember : gc.bgRaised2,
-          fg: fit.exKindFilter == 'cardio' ? gc.onEmber : gc.textSecondary,
-          onTap: () => fit.setKindFilter('cardio'),
-          hPad: 14,
-          vPad: 7,
-          fontSize: 12.5,
-        ),
-        if (fit.customExercises.isNotEmpty || fit.exMineOnly) ...[
+        pill(sheetOn > 0 ? '${t.filters} · $sheetOn' : t.filters, false,
+            () => showExerciseFilters(context, onClear: _c.clear)),
+        for (final (label, off) in active) ...[
           const SizedBox(width: 8),
-          Pill(
-            label: t.mineOnly,
-            bg: fit.exMineOnly ? gc.ember : gc.bgRaised2,
-            fg: fit.exMineOnly ? gc.onEmber : gc.textSecondary,
-            onTap: fit.toggleMineFilter,
-            hPad: 14,
-            vPad: 7,
-            fontSize: 12.5,
-          ),
+          _ActiveFilter(label: label, onTap: off),
         ],
-        if (fit.archived.isNotEmpty) ...[
-          const SizedBox(width: 8),
-          Pill(
-            label: '${t.archivedFilter} · ${fit.archived.length}',
-            bg: fit.exArchivedOnly ? gc.ember : gc.bgRaised2,
-            fg: fit.exArchivedOnly ? gc.onEmber : gc.textSecondary,
-            onTap: fit.toggleArchivedFilter,
-            hPad: 14,
-            vPad: 7,
-            fontSize: 12.5,
-          ),
-        ],
+        const SizedBox(width: 8),
+        pill(fit.favouriteCount > 0 ? '${t.favouritesOnly} · ${fit.favouriteCount}' : t.favouritesOnly,
+            fit.exFavouritesOnly, fit.toggleFavouritesFilter),
         if (anyOn) ...[
           const SizedBox(width: 8),
           Pill(
@@ -536,6 +489,34 @@ class _ExercisesScreenState extends State<ExercisesScreen> {
   }
 }
 
+class _ActiveFilter extends StatelessWidget {
+  const _ActiveFilter({required this.label, required this.onTap});
+
+  final String label;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final gc = context.gc;
+    return Pressable(
+      onTap: () {
+        HapticFeedback.selectionClick();
+        onTap();
+      },
+      scale: 0.94,
+      child: Container(
+        padding: const EdgeInsets.fromLTRB(14, 7, 10, 7),
+        decoration: BoxDecoration(color: gc.ember, borderRadius: BorderRadius.circular(100)),
+        child: Row(mainAxisSize: MainAxisSize.min, children: [
+          Text(titleCase(label), style: AppTheme.f(12.5, weight: FontWeight.w600, color: gc.onEmber)),
+          const SizedBox(width: 6),
+          Icon(PhosphorIconsBold.x, size: 11, color: gc.onEmber.withValues(alpha: 0.8)),
+        ]),
+      ),
+    );
+  }
+}
+
 class _FilterChipData {
   _FilterChipData(this.label, this.active, this.onTap);
   final String label;
@@ -560,13 +541,15 @@ void showCreateExerciseSheet(BuildContext context,
   String mode = editing?.mode ?? '';
   String kind = editing?.kind ?? '';
   bool advanced = false;
+  bool allEquipment = false;
+  String? openZone = kBodyZones.entries.firstWhere((z) => z.value.contains(muscle), orElse: () => kBodyZones.entries.first).key;
   String? mediaPath;
   bool busy = false;
   showAppSheet<void>(
     context: context,
     isScrollControlled: true,
     backgroundColor: gc.bgRaised,
-    shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(24))),
+    shape: sheetShape(gc),
     builder: (sheetCtx) => Padding(
       padding: EdgeInsets.only(bottom: MediaQuery.of(sheetCtx).viewInsets.bottom),
       child: StatefulBuilder(
@@ -603,9 +586,9 @@ void showCreateExerciseSheet(BuildContext context,
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Text(titleCase(editing == null ? t.newExercise : t.editExercise),
-                      style: AppTheme.f(19, weight: FontWeight.w800, color: gc.text)),
-                  const SizedBox(height: 16),
+                  SheetTitle(titleCase(editing == null ? t.newExercise : t.editExercise),
+                      subtitle: editing == null ? t.newExerciseHint : null),
+                  const SizedBox(height: 18),
                   _Shake(
                     count: shakes,
                     child: TextField(
@@ -645,241 +628,346 @@ void showCreateExerciseSheet(BuildContext context,
                           )
                         : const SizedBox(width: double.infinity),
                   ),
-                  const SizedBox(height: 16),
-                  _filterLabel(gc, t.muscleFilter),
-                  const SizedBox(height: 8),
-                  Wrap(spacing: 8, runSpacing: 8, children: [
-                    for (final m in kMuscles)
-                      Pill(
-                        label: t.muscle(m.id),
-                        bg: muscle == m.id ? gc.ember : gc.bgRaised2,
-                        fg: muscle == m.id ? gc.onEmber : gc.textSecondary,
-                        onTap: () => setSheet(() {
-                          muscle = m.id;
-                          secondary.remove(m.id);
-                        }),
-                        vPad: 7,
-                        fontSize: 12,
-                      ),
-                  ]),
-                  const SizedBox(height: 16),
-                  _filterLabel(gc, t.secondaryLabel),
-                  const SizedBox(height: 8),
-                  Wrap(spacing: 8, runSpacing: 8, children: [
-                    for (final m in kMuscles)
-                      if (m.id != muscle)
-                        Pill(
-                          label: t.muscle(m.id),
-                          bg: secondary.contains(m.id) ? gc.ember : gc.bgRaised2,
-                          fg: secondary.contains(m.id) ? gc.onEmber : gc.textSecondary,
-                          onTap: () => setSheet(() {
-                            if (!secondary.remove(m.id)) secondary.add(m.id);
-                          }),
-                          vPad: 7,
-                          fontSize: 12,
-                        ),
-                  ]),
-                  const SizedBox(height: 16),
-                  _filterLabel(gc, t.equipmentLabel),
-                  const SizedBox(height: 8),
-                  Wrap(spacing: 8, runSpacing: 8, children: [
-                    for (final e in kEquipment)
-                      Pill(
-                        label: t.equipment(e),
-                        bg: equipment == e ? gc.ember : gc.bgRaised2,
-                        fg: equipment == e ? gc.onEmber : gc.textSecondary,
-                        onTap: () => setSheet(() => equipment = e),
-                        vPad: 7,
-                        fontSize: 12,
-                      ),
-                  ]),
-                  const SizedBox(height: 16),
-                  _filterLabel(gc, t.levelFilter),
-                  const SizedBox(height: 8),
-                  Wrap(spacing: 8, runSpacing: 8, children: [
-                    for (final d in kDifficulties)
-                      Pill(
-                        label: t.difficulty(d),
-                        bg: difficulty == d ? gc.ember : gc.bgRaised2,
-                        fg: difficulty == d ? gc.onEmber : gc.textSecondary,
-                        onTap: () => setSheet(() => difficulty = d),
-                        vPad: 7,
-                        fontSize: 12,
-                      ),
-                  ]),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 22),
                   _filterLabel(gc, t.exerciseTypeLabel),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 10),
+                  Row(children: [
+                    for (final (i, (id, label, icon)) in [
+                      ('', t.typeReps, PhosphorIconsRegular.barbell),
+                      ('time', t.typeTime, PhosphorIconsRegular.timer),
+                      ('cardio', t.typeCardio, PhosphorIconsRegular.personSimpleRun),
+                    ].indexed) ...[
+                      if (i > 0) const SizedBox(width: 8),
+                      Expanded(
+                        child: Pressable(
+                          scale: 0.96,
+                          onTap: () {
+                            HapticFeedback.selectionClick();
+                            setSheet(() => mode = id);
+                          },
+                          child: AnimatedContainer(
+                            duration: const Duration(milliseconds: 220),
+                            curve: Curves.easeOutCubic,
+                            constraints: const BoxConstraints(minHeight: 88),
+                            padding: const EdgeInsets.fromLTRB(12, 14, 12, 12),
+                            decoration: BoxDecoration(
+                              color: mode == id ? gc.text : gc.bgRaised2,
+                              borderRadius: BorderRadius.circular(18),
+                            ),
+                            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                              Icon(icon, size: 22, color: mode == id ? gc.bg : gc.textSecondary),
+                              const SizedBox(height: 10),
+                              Text(label,
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: AppTheme.f(12.5,
+                                      weight: FontWeight.w700, color: mode == id ? gc.bg : gc.text, height: 1.2)),
+                            ]),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ]),
+                  const SizedBox(height: 22),
+                  _filterLabel(gc, t.muscleFilter),
+                  const SizedBox(height: 10),
                   Wrap(spacing: 8, runSpacing: 8, children: [
-                    for (final (id, label) in [
-                      ('', t.typeReps),
-                      ('time', t.typeTime),
-                      ('cardio', t.typeCardio),
-                    ])
+                    for (final zone in kBodyZones.entries)
                       Pill(
-                        label: label,
-                        bg: mode == id ? gc.ember : gc.bgRaised2,
-                        fg: mode == id ? gc.onEmber : gc.textSecondary,
-                        onTap: () => setSheet(() => mode = id),
-                        vPad: 7,
-                        fontSize: 12,
+                        label: zone.value.length == 1 ? t.muscle(zone.value.single) : t.muscleGroupName(zone.key),
+                        bg: zone.value.contains(muscle) ? gc.ember : gc.bgRaised2,
+                        fg: zone.value.contains(muscle) ? gc.onEmber : gc.textSecondary,
+                        onTap: () {
+                          HapticFeedback.selectionClick();
+                          setSheet(() {
+                            openZone = zone.key;
+                            if (!zone.value.contains(muscle)) {
+                              muscle = zone.value.first;
+                              secondary.remove(muscle);
+                            }
+                          });
+                        },
+                        hPad: 16,
+                        vPad: 9,
+                        fontSize: 13.5,
                       ),
                   ]),
-                  const SizedBox(height: 16),
-                  _filterLabel(gc, t.kindLabel),
-                  const SizedBox(height: 8),
+                  AnimatedSize(
+                    duration: const Duration(milliseconds: 220),
+                    curve: Curves.easeOutCubic,
+                    alignment: Alignment.topCenter,
+                    child: (kBodyZones[openZone]?.length ?? 0) > 1
+                        ? Container(
+                            margin: const EdgeInsets.only(top: 10),
+                            padding: const EdgeInsets.all(10),
+                            decoration: BoxDecoration(color: gc.bgRaised2, borderRadius: BorderRadius.circular(18)),
+                            child: Wrap(spacing: 8, runSpacing: 8, children: [
+                              for (final id in kBodyZones[openZone]!)
+                                Pill(
+                                  label: t.muscle(id),
+                                  bg: muscle == id ? gc.text : gc.bgRaised,
+                                  fg: muscle == id ? gc.bg : gc.textSecondary,
+                                  onTap: () {
+                                    HapticFeedback.selectionClick();
+                                    setSheet(() {
+                                      muscle = id;
+                                      secondary.remove(id);
+                                    });
+                                  },
+                                  vPad: 7,
+                                  fontSize: 12.5,
+                                ),
+                            ]),
+                          )
+                        : const SizedBox(width: double.infinity),
+                  ),
+                  const SizedBox(height: 22),
+                  _filterLabel(gc, t.equipmentLabel),
+                  const SizedBox(height: 10),
                   Builder(builder: (_) {
-                    final shown = kind.isNotEmpty
-                        ? kind
-                        : mode == 'cardio'
-                            ? 'cardio'
-                            : (kCalisthenicsEquipment.contains(equipment) ? 'calisthenics' : 'strength');
+                    const common = ['Bodyweight', 'Dumbbell', 'Barbell', 'Machine', 'Cable', 'Band'];
+                    final rest = [for (final e in kEquipment) if (!common.contains(e)) e];
+                    final all = allEquipment || rest.contains(equipment);
                     return Wrap(spacing: 8, runSpacing: 8, children: [
-                      for (final k in kExerciseKinds)
+                      for (final e in [...common, if (all) ...rest])
                         Pill(
-                          label: t.exerciseKind(k),
-                          bg: shown == k ? gc.ember : gc.bgRaised2,
-                          fg: shown == k ? gc.onEmber : gc.textSecondary,
-                          onTap: () => setSheet(() => kind = k),
-                          vPad: 7,
-                          fontSize: 12,
+                          label: t.equipment(e),
+                          bg: equipment == e ? gc.ember : gc.bgRaised2,
+                          fg: equipment == e ? gc.onEmber : gc.textSecondary,
+                          onTap: () {
+                            HapticFeedback.selectionClick();
+                            setSheet(() => equipment = e);
+                          },
+                          hPad: 14,
+                          vPad: 8,
+                          fontSize: 13,
+                        ),
+                      if (!all)
+                        Pill(
+                          label: '+${rest.length}',
+                          bg: Colors.transparent,
+                          fg: gc.accent,
+                          onTap: () => setSheet(() => allEquipment = true),
+                          hPad: 12,
+                          vPad: 8,
+                          fontSize: 13,
                         ),
                     ]);
                   }),
-                  const SizedBox(height: 16),
-                  _filterLabel(gc, t.howToLabel),
-                  const SizedBox(height: 8),
-                  TextField(
-                    controller: stepsCtrl,
-                    minLines: 3,
-                    maxLines: 8,
-                    keyboardType: TextInputType.multiline,
-                    textCapitalization: TextCapitalization.sentences,
-                    style: AppTheme.f(14, weight: FontWeight.w500, color: gc.text, height: 1.45),
-                    cursorColor: gc.accent,
-                    decoration: InputDecoration(
-                      hintText: t.howToHint,
-                      hintStyle: AppTheme.f(14, weight: FontWeight.w500, color: gc.textTertiary),
-                      filled: true,
-                      fillColor: gc.bgRaised2,
-                      contentPadding: const EdgeInsets.all(14),
-                      enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(14), borderSide: BorderSide(color: gc.border)),
-                      focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(14), borderSide: BorderSide(color: gc.accent)),
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  _filterLabel(gc, t.aliasesLabel),
-                  const SizedBox(height: 8),
-                  TextField(
-                    controller: aliasCtrl,
-                    style: AppTheme.f(14, weight: FontWeight.w500, color: gc.text),
-                    cursorColor: gc.accent,
-                    textCapitalization: TextCapitalization.words,
-                    decoration: InputDecoration(
-                      hintText: t.aliasesHint,
-                      hintStyle: AppTheme.f(14, weight: FontWeight.w500, color: gc.textTertiary),
-                      filled: true,
-                      fillColor: gc.bgRaised2,
-                      contentPadding: const EdgeInsets.all(14),
-                      enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(14), borderSide: BorderSide(color: gc.border)),
-                      focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(14), borderSide: BorderSide(color: gc.accent)),
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  if (editing == null)
-                  GestureDetector(
-                    behavior: HitTestBehavior.opaque,
-                    onTap: () => setSheet(() => advanced = !advanced),
-                    child: Row(
-                      children: [
-                        Icon(advanced ? PhosphorIconsRegular.caretDown : PhosphorIconsRegular.caretRight,
-                            size: 16, color: gc.textSecondary),
-                        const SizedBox(width: 8),
-                        Text(t.advanced,
-                            style: AppTheme.f(11, weight: FontWeight.w700, color: gc.textSecondary, letterSpacing: 1.3)),
-                      ],
-                    ),
-                  ),
-                  if (advanced) ...[
-                    const SizedBox(height: 12),
-                    _filterLabel(gc, t.demoMedia),
-                    const SizedBox(height: 8),
-                    if (mediaPath == null)
-                      GestureDetector(
-                        behavior: HitTestBehavior.opaque,
-                        onTap: pickMedia,
-                        child: Container(
-                          height: 120,
-                          decoration: BoxDecoration(
-                            color: gc.bgRaised2,
-                            borderRadius: BorderRadius.circular(16),
-                            border: Border.all(color: gc.border),
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(PhosphorIconsRegular.uploadSimple, size: 26, color: gc.textSecondary),
-                              const SizedBox(height: 8),
-                              Text(t.addMedia, style: AppTheme.f(13.5, weight: FontWeight.w600, color: gc.textSecondary)),
-                              const SizedBox(height: 2),
-                              Text(t.mediaHint, style: AppTheme.f(11.5, weight: FontWeight.w500, color: gc.textTertiary)),
-                            ],
-                          ),
+                  const SizedBox(height: 22),
+                  Pressable(
+                    scale: 0.98,
+                    onTap: () {
+                      HapticFeedback.selectionClick();
+                      setSheet(() => advanced = !advanced);
+                    },
+                    child: Container(
+                      height: 52,
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      decoration: BoxDecoration(color: gc.bgRaised2, borderRadius: BorderRadius.circular(16)),
+                      child: Row(children: [
+                        Icon(PhosphorIconsRegular.slidersHorizontal, size: 18, color: gc.textSecondary),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: Text(titleCase(t.advanced),
+                              style: AppTheme.f(14.5, weight: FontWeight.w700, color: gc.text)),
                         ),
-                      )
-                    else
-                      Stack(
-                        children: [
-                          Container(
-                            height: 160,
-                            decoration: BoxDecoration(
-                              color: gc.bgRaised2,
-                              borderRadius: BorderRadius.circular(16),
-                              border: Border.all(color: gc.border),
-                            ),
-                            clipBehavior: Clip.antiAlias,
-                            child: mediaIsVideo
-                                ? Center(
-                                    child: Column(mainAxisSize: MainAxisSize.min, children: [
-                                      Icon(PhosphorIconsFill.playCircle, size: 40, color: gc.textSecondary),
-                                      const SizedBox(height: 6),
-                                      Text(t.videoSelected,
-                                          style: AppTheme.f(12, weight: FontWeight.w500, color: gc.textSecondary)),
+                        AnimatedRotation(
+                          turns: advanced ? 0.5 : 0,
+                          duration: const Duration(milliseconds: 220),
+                          curve: Curves.easeOutCubic,
+                          child: Icon(PhosphorIconsBold.caretDown, size: 14, color: gc.textTertiary),
+                        ),
+                      ]),
+                    ),
+                  ),
+                  AnimatedSize(
+                    duration: const Duration(milliseconds: 320),
+                    curve: Curves.easeOutCubic,
+                    alignment: Alignment.topCenter,
+                    child: !advanced
+                        ? const SizedBox(width: double.infinity)
+                        : Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+                            const SizedBox(height: 18),
+                            _filterLabel(gc, t.secondaryLabel),
+                            const SizedBox(height: 8),
+                            Wrap(spacing: 8, runSpacing: 8, children: [
+                              for (final m in kMuscles)
+                                if (m.id != muscle)
+                                  Pill(
+                                    label: t.muscle(m.id),
+                                    bg: secondary.contains(m.id) ? gc.ember : gc.bgRaised2,
+                                    fg: secondary.contains(m.id) ? gc.onEmber : gc.textSecondary,
+                                    onTap: () => setSheet(() {
+                                      if (!secondary.remove(m.id)) secondary.add(m.id);
+                                    }),
+                                    vPad: 7,
+                                    fontSize: 12,
+                                  ),
+                            ]),
+                            const SizedBox(height: 18),
+                            _filterLabel(gc, t.levelFilter),
+                            const SizedBox(height: 8),
+                            SegToggle([
+                              for (final d in kDifficulties)
+                                SegOption(t.difficulty(d), difficulty == d, () => setSheet(() => difficulty = d)),
+                            ], vPad: 8, fontSize: 12.5),
+                            const SizedBox(height: 18),
+                            _filterLabel(gc, t.kindLabel),
+                            const SizedBox(height: 8),
+                            Builder(builder: (_) {
+                              final shown = kind.isNotEmpty
+                                  ? kind
+                                  : mode == 'cardio'
+                                      ? 'cardio'
+                                      : (kCalisthenicsEquipment.contains(equipment) ? 'calisthenics' : 'strength');
+                              return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+                                Wrap(spacing: 8, runSpacing: 8, children: [
+                                  for (final k in kExerciseKinds)
+                                    Pill(
+                                      label: t.exerciseKind(k),
+                                      bg: shown == k ? gc.ember : gc.bgRaised2,
+                                      fg: shown == k ? gc.onEmber : gc.textSecondary,
+                                      onTap: () => setSheet(() => kind = k),
+                                      vPad: 7,
+                                      fontSize: 12,
+                                    ),
+                                ]),
+                                if (shown == 'cardio')
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 10, left: 4),
+                                    child: Row(children: [
+                                      Icon(PhosphorIconsRegular.info, size: 14, color: gc.textTertiary),
+                                      const SizedBox(width: 6),
+                                      Expanded(
+                                        child: Text(t.cardioNoSets,
+                                            style: AppTheme.f(12, weight: FontWeight.w500, color: gc.textTertiary)),
+                                      ),
                                     ]),
-                                  )
-                                : Center(child: Image.file(File(mediaPath!), fit: BoxFit.contain, alignment: Alignment.center)),
-                          ),
-                          Positioned(
-                            top: 8,
-                            right: 8,
-                            child: GestureDetector(
-                              onTap: () => setSheet(() => mediaPath = null),
-                              child: Container(
-                                padding: const EdgeInsets.all(6),
-                                decoration: BoxDecoration(color: gc.bg.withValues(alpha: 0.8), shape: BoxShape.circle),
-                                child: Icon(PhosphorIconsRegular.x, size: 14, color: gc.text),
+                                  ),
+                              ]);
+                            }),
+                            const SizedBox(height: 18),
+                            _filterLabel(gc, t.howToLabel),
+                            const SizedBox(height: 8),
+                            TextField(
+                              controller: stepsCtrl,
+                              minLines: 3,
+                              maxLines: 8,
+                              keyboardType: TextInputType.multiline,
+                              textCapitalization: TextCapitalization.sentences,
+                              style: AppTheme.f(14, weight: FontWeight.w500, color: gc.text, height: 1.45),
+                              cursorColor: gc.accent,
+                              decoration: InputDecoration(
+                                hintText: t.howToHint,
+                                hintStyle: AppTheme.f(14, weight: FontWeight.w500, color: gc.textTertiary),
+                                filled: true,
+                                fillColor: gc.bgRaised2,
+                                contentPadding: const EdgeInsets.all(14),
+                                enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(14), borderSide: BorderSide(color: gc.border)),
+                                focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(14), borderSide: BorderSide(color: gc.accent)),
                               ),
                             ),
-                          ),
-                          Positioned(
-                            bottom: 8,
-                            right: 8,
-                            child: GestureDetector(
-                              onTap: pickMedia,
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                                decoration: BoxDecoration(color: gc.bg.withValues(alpha: 0.8), borderRadius: BorderRadius.circular(100)),
-                                child: Text(t.changeMedia, style: AppTheme.f(11.5, weight: FontWeight.w600, color: gc.text)),
+                            const SizedBox(height: 18),
+                            _filterLabel(gc, t.aliasesLabel),
+                            const SizedBox(height: 8),
+                            TextField(
+                              controller: aliasCtrl,
+                              style: AppTheme.f(14, weight: FontWeight.w500, color: gc.text),
+                              cursorColor: gc.accent,
+                              textCapitalization: TextCapitalization.words,
+                              decoration: InputDecoration(
+                                hintText: t.aliasesHint,
+                                hintStyle: AppTheme.f(14, weight: FontWeight.w500, color: gc.textTertiary),
+                                filled: true,
+                                fillColor: gc.bgRaised2,
+                                contentPadding: const EdgeInsets.all(14),
+                                enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(14), borderSide: BorderSide(color: gc.border)),
+                                focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(14), borderSide: BorderSide(color: gc.accent)),
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                  ],
+                            if (editing == null) ...[
+                              const SizedBox(height: 18),
+                              _filterLabel(gc, t.demoMedia),
+                              const SizedBox(height: 8),
+                    if (mediaPath == null)
+                                GestureDetector(
+                                  behavior: HitTestBehavior.opaque,
+                                  onTap: pickMedia,
+                                  child: Container(
+                                    height: 120,
+                                    decoration: BoxDecoration(
+                                      color: gc.bgRaised2,
+                                      borderRadius: BorderRadius.circular(16),
+                                      border: Border.all(color: gc.border),
+                                    ),
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Icon(PhosphorIconsRegular.uploadSimple, size: 26, color: gc.textSecondary),
+                                        const SizedBox(height: 8),
+                                        Text(t.addMedia, style: AppTheme.f(13.5, weight: FontWeight.w600, color: gc.textSecondary)),
+                                        const SizedBox(height: 2),
+                                        Text(t.mediaHint, style: AppTheme.f(11.5, weight: FontWeight.w500, color: gc.textTertiary)),
+                                      ],
+                                    ),
+                                  ),
+                                )
+                              else
+                                Stack(
+                                  children: [
+                                    Container(
+                                      height: 160,
+                                      decoration: BoxDecoration(
+                                        color: gc.bgRaised2,
+                                        borderRadius: BorderRadius.circular(16),
+                                        border: Border.all(color: gc.border),
+                                      ),
+                                      clipBehavior: Clip.antiAlias,
+                                      child: mediaIsVideo
+                                          ? Center(
+                                              child: Column(mainAxisSize: MainAxisSize.min, children: [
+                                                Icon(PhosphorIconsFill.playCircle, size: 40, color: gc.textSecondary),
+                                                const SizedBox(height: 6),
+                                                Text(t.videoSelected,
+                                                    style: AppTheme.f(12, weight: FontWeight.w500, color: gc.textSecondary)),
+                                              ]),
+                                            )
+                                          : Center(child: Image.file(File(mediaPath!), fit: BoxFit.contain, alignment: Alignment.center)),
+                                    ),
+                                    Positioned(
+                                      top: 8,
+                                      right: 8,
+                                      child: GestureDetector(
+                                        onTap: () => setSheet(() => mediaPath = null),
+                                        child: Container(
+                                          padding: const EdgeInsets.all(6),
+                                          decoration: BoxDecoration(color: gc.bg.withValues(alpha: 0.8), shape: BoxShape.circle),
+                                          child: Icon(PhosphorIconsRegular.x, size: 14, color: gc.text),
+                                        ),
+                                      ),
+                                    ),
+                                    Positioned(
+                                      bottom: 8,
+                                      right: 8,
+                                      child: GestureDetector(
+                                        onTap: pickMedia,
+                                        child: Container(
+                                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                                          decoration: BoxDecoration(color: gc.bg.withValues(alpha: 0.8), borderRadius: BorderRadius.circular(100)),
+                                          child: Text(t.changeMedia, style: AppTheme.f(11.5, weight: FontWeight.w600, color: gc.text)),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                            ],
+                          ]),
+                  ),
                   const SizedBox(height: 20),
                   PrimaryButton(
                     label: editing == null ? t.addExercise : t.saveChanges,
@@ -958,125 +1046,118 @@ void _clearFilters(VoidCallback? onClear) {
   onClear?.call();
 }
 
-void showExerciseFilters(BuildContext context, {VoidCallback? onClear}) {
-  final gc = context.gc;
-  showAppSheet<void>(
-    context: context,
-    backgroundColor: Colors.transparent,
-    isScrollControlled: true,
-    builder: (sheet) => StatefulBuilder(
-      builder: (sheet, setSheet) => Container(
-        padding: sheetPad(sheet),
-        constraints: BoxConstraints(maxHeight: MediaQuery.sizeOf(sheet).height * 0.85),
-        decoration: BoxDecoration(
-          color: gc.bgRaised,
-          border: Border.all(color: gc.border),
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-        ),
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              const SheetHandle(),
-              const SizedBox(height: 18),
-              Text(titleCase(t.filters),
-                  textAlign: TextAlign.center,
-                  style: AppTheme.f(19, weight: FontWeight.w800, color: gc.text)),
-              const SizedBox(height: 18),
-              _filterLabel(gc, t.placeFilterLabel),
-              const SizedBox(height: 8),
-              _chipRow([
-                _FilterChipData(t.placeAll, fit.activePlaceId.isEmpty,
-                    () => setSheet(() => fit.setActivePlace(''))),
-                for (final place in fit.places)
-                  _FilterChipData(place.name, fit.activePlaceId == place.id,
-                      () => setSheet(() => fit.setActivePlace(place.id))),
-                _FilterChipData(fit.places.isEmpty ? t.placeNew : '+', false, () {
-                  Navigator.pop(sheet);
-                  fit.goPlaces();
-                }),
-              ], gc, hPad: 14, vPad: 8, fontSize: 13),
-              const SizedBox(height: 16),
-              _filterLabel(gc, t.kindLabel),
-              const SizedBox(height: 8),
-              _chipRow([
-                for (final k in kExerciseKinds)
-                  _FilterChipData(t.exerciseKind(k), fit.exKindFilter == k,
-                      () => setSheet(() => fit.setKindFilter(k))),
-              ], gc, hPad: 12, vPad: 6, fontSize: 12),
-              const SizedBox(height: 16),
-              _filterLabel(gc, t.muscleFilter),
-              const SizedBox(height: 8),
-              _chipRow([
-                for (final id in kFilterMuscles)
-                  _FilterChipData(muscleLabel(id), fit.exMuscleFilter == id,
-                      () => setSheet(() => fit.setMuscleFilter(id))),
-              ], gc, hPad: 14, vPad: 8, fontSize: 13),
-              const SizedBox(height: 16),
-              _filterLabel(gc, t.equipmentLabel),
-              const SizedBox(height: 8),
-              _chipRow([
-                _FilterChipData(
-                    t.noGearOnly, fit.exNoGearOnly, () => setSheet(fit.toggleNoGearFilter)),
-                for (final e in kFilterEquipment)
-                  _FilterChipData(t.equipment(e), fit.exEquipmentFilter == e,
-                      () => setSheet(() => fit.setEquipmentFilter(e))),
-              ], gc, hPad: 12, vPad: 6, fontSize: 12),
-              const SizedBox(height: 16),
-              _filterLabel(gc, t.levelFilter),
-              const SizedBox(height: 8),
-              _chipRow([
-                for (final d in kDifficulties)
-                  _FilterChipData(t.difficulty(d), fit.exDifficultyFilter == d,
-                      () => setSheet(() => fit.setDifficultyFilter(d))),
-              ], gc, hPad: 12, vPad: 6, fontSize: 12),
-              const SizedBox(height: 22),
-              PrimaryButton(
-                  label: t.libraryCount(fit.exercisesFiltered.length),
-                  onTap: () => Navigator.pop(sheet)),
-              const SizedBox(height: 6),
-              GestureDetector(
-                behavior: HitTestBehavior.opaque,
-                onTap: () => setSheet(() => _clearFilters(onClear)),
-                child: Container(
-                  height: 44,
-                  alignment: Alignment.center,
-                  child: Text(t.clearFilters,
-                      style: AppTheme.f(13, weight: FontWeight.w600, color: gc.accent)),
+void showExerciseFilters(BuildContext context, {VoidCallback? onClear}) => showAppSheet<void>(
+      context: context,
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
+      builder: (_) => _FilterSheet(onClear: onClear),
+    );
+
+bool get _showGroupOn =>
+    fit.customExercises.isNotEmpty || fit.archived.isNotEmpty || fit.exMineOnly || fit.exArchivedOnly;
+
+int get _sheetFilters =>
+    (fit.activePlaceId.isEmpty ? 0 : 1) +
+    (fit.exEquipmentFilter == null && !fit.exNoGearOnly ? 0 : 1) +
+    (fit.exDifficultyFilter == null ? 0 : 1) +
+    (fit.exKindFilter == null ? 0 : 1) +
+    (fit.exMineOnly ? 1 : 0) +
+    (fit.exArchivedOnly ? 1 : 0);
+
+class _FilterSheet extends StatelessWidget {
+  const _FilterSheet({this.onClear});
+
+  final VoidCallback? onClear;
+
+  @override
+  Widget build(BuildContext context) {
+    final gc = context.gc;
+    void tap(VoidCallback apply) {
+      HapticFeedback.selectionClick();
+      apply();
+    }
+
+    Widget group(String label, List<_FilterChipData> chips) => Padding(
+          padding: const EdgeInsets.only(bottom: 22),
+          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Padding(padding: const EdgeInsets.only(left: 2), child: SectionLabel(label)),
+            const SizedBox(height: 10),
+            Wrap(spacing: 8, runSpacing: 8, children: [
+              for (final c in chips)
+                Pill(
+                  label: c.label,
+                  bg: c.active ? gc.ember : gc.bgRaised2,
+                  fg: c.active ? gc.onEmber : gc.textSecondary,
+                  onTap: () => tap(c.onTap),
+                  hPad: 14,
+                  vPad: 8,
+                  fontSize: 13,
                 ),
-              ),
-            ],
-          ),
+            ]),
+          ]),
+        );
+
+    return ListenableBuilder(
+      listenable: fit,
+      builder: (sheet, _) => AppSheet(children: [
+        SheetTitle(titleCase(t.filters)),
+        const SizedBox(height: 22),
+        group(t.kindLabel, [
+          for (final k in kExerciseKinds)
+            _FilterChipData(t.exerciseKind(k), fit.exKindFilter == k, () => fit.setKindFilter(k)),
+        ]),
+        group(t.equipmentLabel, [
+          _FilterChipData(t.noGearOnly, fit.exNoGearOnly, fit.toggleNoGearFilter),
+          for (final e in kFilterEquipment)
+            _FilterChipData(t.equipment(e), fit.exEquipmentFilter == e, () => fit.setEquipmentFilter(e)),
+        ]),
+        group(t.levelFilter, [
+          for (final d in kDifficulties)
+            _FilterChipData(t.difficulty(d), fit.exDifficultyFilter == d, () => fit.setDifficultyFilter(d)),
+        ]),
+        if (_showGroupOn)
+          group(t.filterShowLabel, [
+            if (fit.customExercises.isNotEmpty || fit.exMineOnly)
+              _FilterChipData(t.mineOnly, fit.exMineOnly, fit.toggleMineFilter),
+            if (fit.archived.isNotEmpty || fit.exArchivedOnly)
+              _FilterChipData('${t.archivedFilter} · ${fit.archived.length}', fit.exArchivedOnly,
+                  fit.toggleArchivedFilter),
+          ]),
+        group(t.placeFilterLabel, [
+          if (fit.places.isNotEmpty)
+            _FilterChipData(t.placeAll, fit.activePlaceId.isEmpty, () => fit.setActivePlace('')),
+          for (final place in fit.places)
+            _FilterChipData(place.name, fit.activePlaceId == place.id, () => fit.setActivePlace(place.id)),
+          _FilterChipData(fit.places.isEmpty ? t.placeNew : '+', false, () {
+            Navigator.pop(sheet);
+            fit.goPlaces();
+          }),
+        ]),
+        PrimaryButton(label: t.libraryCount(fit.exercisesFiltered.length), onTap: () => Navigator.pop(sheet)),
+        AnimatedSize(
+          duration: const Duration(milliseconds: 220),
+          curve: Curves.easeOutCubic,
+          alignment: Alignment.topCenter,
+          child: _sheetFilters == 0
+              ? const SizedBox(width: double.infinity)
+              : GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTap: () => tap(() => _clearFilters(onClear)),
+                  child: Container(
+                    height: 44,
+                    margin: const EdgeInsets.only(top: 6),
+                    alignment: Alignment.center,
+                    child: Text(t.clearFilters, style: AppTheme.f(13, weight: FontWeight.w600, color: gc.accent)),
+                  ),
+                ),
         ),
-      ),
-    ),
-  );
+      ]),
+    );
+  }
 }
 
 Widget _filterLabel(GymColors gc, String label) => Text(label.toUpperCase(),
-    style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.3));
-
-Widget _chipRow(List<_FilterChipData> chips, GymColors gc,
-    {required double hPad, required double vPad, required double fontSize}) {
-  return SingleChildScrollView(
-    scrollDirection: Axis.horizontal,
-    child: Row(children: [
-      for (int i = 0; i < chips.length; i++) ...[
-        Pill(
-          label: chips[i].label,
-          bg: chips[i].active ? gc.ember : gc.bgRaised2,
-          fg: chips[i].active ? gc.onEmber : gc.textSecondary,
-          onTap: chips[i].onTap,
-          hPad: hPad,
-          vPad: vPad,
-          fontSize: fontSize,
-        ),
-        if (i < chips.length - 1) const SizedBox(width: 8),
-      ],
-    ]),
-  );
-}
+    style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.4));
 
 Future<void> showBodyZones(BuildContext context) => showAppSheet<void>(
       context: context,
@@ -1093,10 +1174,7 @@ Future<void> showBodyZones(BuildContext context) => showAppSheet<void>(
         return Container(
           padding: sheetPad(sheet),
           constraints: BoxConstraints(maxHeight: MediaQuery.sizeOf(sheet).height * 0.9),
-          decoration: BoxDecoration(
-            color: gc.bgRaised,
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-          ),
+          decoration: sheetDecoration(gc),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,

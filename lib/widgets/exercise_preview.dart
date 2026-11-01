@@ -225,7 +225,7 @@ class _ExercisePreviewState extends State<_ExercisePreview> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(label.toUpperCase(),
-                style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.3)),
+                style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.4)),
             const SizedBox(height: 5),
             Text(value,
                 maxLines: 2,

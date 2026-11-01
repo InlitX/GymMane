@@ -1,10 +1,13 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:gymmane/app/gymmane_app.dart';
 import 'package:gymmane/catalog/exercise_catalog.dart';
 import 'package:gymmane/l10n/l10n.dart';
 import 'package:gymmane/models/workout.dart';
 import 'package:gymmane/services/exercise_match.dart';
 import 'package:gymmane/services/local_store.dart';
 import 'package:gymmane/state/fit_state.dart';
+import 'package:gymmane/widgets/ui_kit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
@@ -266,6 +269,46 @@ void main() {
       expect(fit.notesAllView, isTrue);
       fit.backFromNotes();
       expect(fit.route, 'exercise-detail');
+    });
+  });
+
+  group('hoja de filtros', () {
+    setUp(() async {
+      SharedPreferences.setMockInitialValues({});
+      await Store.instance.init();
+      fit.resetAllData();
+      fit.onboarded = true;
+      setAppLanguage('en');
+    });
+
+    tearDown(fit.clearExFilters);
+
+    testWidgets('lo elegido en la hoja sale arriba como chip y se quita al tocarlo', (tester) async {
+      tester.view.physicalSize = const Size(1080, 2400);
+      tester.view.devicePixelRatio = 2.75;
+      addTearDown(tester.view.reset);
+      fit.route = 'exercises';
+      await tester.pumpWidget(const GymManeApp());
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.text(t.filters));
+      await tester.pumpAndSettle();
+      expect(find.text(titleCase(t.muscleFilter)), findsNothing, reason: 'el músculo va en Zona');
+      await tester.tap(find.text(titleCase(t.difficulty('Beginner'))));
+      await tester.pumpAndSettle();
+      expect(fit.exDifficultyFilter, 'Beginner');
+
+      await tester.tap(find.text(t.libraryCount(fit.exercisesFiltered.length)).last);
+      await tester.pumpAndSettle();
+      expect(find.text('${t.filters} · 1'), findsOneWidget);
+
+      await tester.ensureVisible(find.text(titleCase(t.difficulty('Beginner'))));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text(titleCase(t.difficulty('Beginner'))));
+      await tester.pumpAndSettle();
+      expect(fit.exDifficultyFilter, isNull);
+      expect(find.text(t.filters), findsOneWidget);
+      fit.persistNow();
     });
   });
 
