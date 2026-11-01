@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:barcode/barcode.dart';
 import 'package:flutter/material.dart';
 
 import '../l10n/l10n.dart';
 import '../models/gym_pass.dart';
+import '../services/media_store.dart';
 import '../state/fit_state.dart';
 import '../theme/app_theme.dart';
 import 'routine_folder.dart';
@@ -20,6 +23,7 @@ Barcode barcodeFor(PassFormat f) => switch (f) {
       PassFormat.dataMatrix => Barcode.dataMatrix(),
       PassFormat.pdf417 => Barcode.pdf417(),
       PassFormat.aztec => Barcode.aztec(),
+      PassFormat.photo => Barcode.code128(),
     };
 
 String passFormatLabel(PassFormat f) => switch (f) {
@@ -33,9 +37,11 @@ String passFormatLabel(PassFormat f) => switch (f) {
       PassFormat.dataMatrix => 'Data Matrix',
       PassFormat.pdf417 => 'PDF417',
       PassFormat.aztec => 'Aztec',
+      PassFormat.photo => t.gymPassPictureFormat,
     };
 
-bool passCodeValid(PassFormat f, String code) => code.isNotEmpty && barcodeFor(f).isValid(code);
+bool passCodeValid(PassFormat f, String code) =>
+    code.isNotEmpty && (f == PassFormat.photo || barcodeFor(f).isValid(code));
 
 Color passHue(int hue) => kFolderHues[hue.abs() % kFolderHues.length];
 
@@ -48,6 +54,7 @@ class PassCode extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (format == PassFormat.photo) return PassPhoto(name: code);
     final square = const {PassFormat.qr, PassFormat.dataMatrix, PassFormat.aztec}.contains(format);
     final bars = CustomPaint(painter: _CodePainter(code, format, MediaQuery.devicePixelRatioOf(context)));
     if (square) return AspectRatio(aspectRatio: 1, child: bars);
@@ -67,6 +74,25 @@ class PassCode extends StatelessWidget {
           ),
         ],
       ],
+    );
+  }
+}
+
+class PassPhoto extends StatelessWidget {
+  const PassPhoto({super.key, required this.name});
+
+  final String name;
+
+  @override
+  Widget build(BuildContext context) {
+    final path = MediaStore.pathFor(name);
+    if (path == null) return const SizedBox.shrink();
+    return Image.file(
+      File(path),
+      fit: BoxFit.contain,
+      filterQuality: FilterQuality.high,
+      gaplessPlayback: true,
+      errorBuilder: (_, _, _) => const SizedBox.shrink(),
     );
   }
 }

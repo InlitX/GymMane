@@ -1,4 +1,4 @@
-enum PassFormat { qr, code128, ean13, ean8, upca, code39, itf, dataMatrix, pdf417, aztec }
+enum PassFormat { qr, code128, ean13, ean8, upca, code39, itf, dataMatrix, pdf417, aztec, photo }
 
 PassFormat passFormatFrom(Object? raw) =>
     PassFormat.values.firstWhere((f) => f.name == raw, orElse: () => PassFormat.qr);
@@ -19,6 +19,8 @@ class GymPass {
   final PassFormat format;
   final int hue;
   final String member;
+
+  bool get photo => format == PassFormat.photo;
 
   bool get square => const {PassFormat.qr, PassFormat.dataMatrix, PassFormat.aztec}.contains(format);
 

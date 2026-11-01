@@ -61,12 +61,15 @@ mixin GymPassState on FitCore {
 
   void backFromGymPasses() => popRoute(fallback: 'settings');
 
-  void _loadGymPasses(Map<String, dynamic> data) {
+  void _loadGymPasses(Map<String, dynamic> data, {Map<String, String>? restored}) {
     gymPasses.clear();
     final raw = data['passes'];
     if (raw is List) {
       gymPasses.addAll(raw
           .map((e) => GymPass.fromJson((e as Map).cast<String, dynamic>()))
+          .map((p) => p.photo && restored != null && restored[p.code] != null
+              ? p.copyWith(code: restored[p.code])
+              : p)
           .where((p) => p.code.isNotEmpty));
     }
     lastPassId = data['lastPass'] as String? ?? '';

@@ -1,12 +1,20 @@
+import 'dart:io';
 import 'dart:typed_data';
+import 'dart:ui' as ui;
+
+import 'package:archive/archive.dart';
 
 import 'package:barcode/barcode.dart';
+import 'package:flutter/painting.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:gymmane/models/gym_pass.dart';
+import 'package:gymmane/services/backup_zip.dart';
 import 'package:gymmane/services/local_store.dart';
+import 'package:gymmane/services/media_store.dart';
 import 'package:gymmane/services/pass_scan.dart';
 import 'package:gymmane/state/fit_state.dart';
 import 'package:gymmane/widgets/gym_pass_card.dart';
+import 'package:gymmane/widgets/photo_crop.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Uint8List _qrPixels(String data, int side) {
@@ -90,5 +98,43 @@ void main() {
     expect(fit.gymPasses.first.format, PassFormat.ean13);
     expect(fit.gymPasses.first.hue, 2);
     expect(fit.lastPass!.name, 'Basic-Fit');
+  });
+
+  test('un pase con foto vale sin número y su foto viaja en la copia', () async {
+    final tmp = await Directory.systemTemp.createTemp('gymmane_pass');
+    MediaStore.directory = tmp.path;
+    addTearDown(() async {
+      MediaStore.directory = null;
+      if (tmp.existsSync()) await tmp.delete(recursive: true);
+    });
+    final png = Uint8List.fromList([0x89, 0x50, 0x4E, 0x47, 9, 8, 7]);
+    final name = (await MediaStore.saveBytes('pass', 'png', png))!;
+    expect(passCodeValid(PassFormat.photo, name), isTrue);
+    expect(passCodeValid(PassFormat.photo, ''), isFalse);
+    fit.addGymPass(name: 'Studio', code: name, format: PassFormat.photo);
+    expect(fit.gymPasses.single.photo, isTrue);
+    expect(fit.gymPasses.single.square, isFalse);
+
+    final zip = await buildBackupZip();
+    expect(ZipDecoder().decodeBytes(zip).files.map((f) => f.name), contains('passes/studio.png'));
+    fit.resetAllData();
+    await MediaStore.delete(name);
+    expect(await restoreBackupZip(zip), isTrue);
+    final back = fit.gymPasses.single;
+    expect(back.format, PassFormat.photo);
+    expect(await MediaStore.readBytes(back.code), png);
+  });
+
+  test('el recorte se queda con la zona marcada y girar cambia el lado largo', () async {
+    final recorder = ui.PictureRecorder();
+    Canvas(recorder).drawRect(const Rect.fromLTWH(0, 0, 400, 200), Paint()..color = const Color(0xFFFFFFFF));
+    final image = await recorder.endRecording().toImage(400, 200);
+    final png = (await cropToPng(image, const Rect.fromLTRB(0.25, 0, 0.75, 0.5)))!;
+    final codec = await ui.instantiateImageCodec(png);
+    final out = (await codec.getNextFrame()).image;
+    expect((out.width, out.height), (200, 100));
+    final turned = rotateQuarter(image);
+    expect((turned.width, turned.height), (200, 400));
+    expect(await cropToPng(image, const Rect.fromLTRB(0.5, 0.5, 0.5, 0.5)), isNull);
   });
 }

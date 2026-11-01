@@ -7,6 +7,7 @@ import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 import '../l10n/l10n.dart';
 import '../models/gym_pass.dart';
+import '../services/media_store.dart';
 import '../services/pass_scan.dart';
 import '../services/screen_awake.dart';
 import '../state/fit_state.dart';
@@ -16,6 +17,7 @@ import '../widgets/entrance.dart';
 import '../widgets/glass.dart';
 import '../widgets/gym_pass_card.dart';
 import '../widgets/liquid_notch.dart';
+import '../widgets/photo_crop.dart';
 import '../widgets/routine_folder.dart';
 import '../widgets/sheet_page.dart';
 import '../widgets/ui_kit.dart';
@@ -98,10 +100,7 @@ class GymPassScreen extends StatelessWidget {
       backgroundColor: Colors.transparent,
       builder: (sheet) => Container(
         padding: sheetPad(sheet),
-        decoration: BoxDecoration(
-          color: gc.bgRaised,
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-        ),
+        decoration: sheetDecoration(gc),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -262,7 +261,7 @@ class _PassView extends StatelessWidget {
               const SizedBox(height: 22),
               Container(
                 width: side,
-                padding: EdgeInsets.all(pass.square ? 22 : 20),
+                padding: EdgeInsets.all(pass.photo ? 14 : pass.square ? 22 : 20),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(28),
@@ -271,7 +270,7 @@ class _PassView extends StatelessWidget {
                   ],
                 ),
                 child: SizedBox(
-                  height: pass.square ? side - 44 : side * 0.5,
+                  height: pass.photo ? side * 0.66 : pass.square ? side - 44 : side * 0.5,
                   child: PassCode(code: pass.code, format: pass.format),
                 ),
               ),
@@ -324,10 +323,7 @@ Future<void> addGymPass(BuildContext context) async {
           );
       return Container(
         padding: sheetPad(sheet),
-        decoration: BoxDecoration(
-          color: gc.bgRaised,
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-        ),
+        decoration: sheetDecoration(gc),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -339,6 +335,7 @@ Future<void> addGymPass(BuildContext context) async {
             row(PhosphorIconsRegular.camera, t.gymPassScan, t.gymPassScanHint, 'camera'),
             row(PhosphorIconsRegular.image, t.gymPassPhoto, t.gymPassPhotoHint, 'photo'),
             row(PhosphorIconsRegular.keyboard, t.gymPassType, t.gymPassTypeHint, 'type'),
+            row(PhosphorIconsRegular.frameCorners, t.gymPassPicture, t.gymPassPictureHint, 'picture'),
           ],
         ),
       );
@@ -346,12 +343,41 @@ Future<void> addGymPass(BuildContext context) async {
   );
   if (how == null || !context.mounted) return;
   if (how == 'type') return editGymPass(context, typing: true);
-  final code = await _readCode(context, how == 'camera' ? ImageSource.camera : ImageSource.gallery);
+  void openWith(String name) {
+    if (context.mounted) editGymPass(context, code: name, format: PassFormat.photo);
+  }
+
+  if (how == 'picture') {
+    final source = await pickPhotoFor(context);
+    if (source == null || !context.mounted) return;
+    final name = await pickPassPicture(context, source);
+    if (name != null) openWith(name);
+    return;
+  }
+  final code = await _readCode(context, how == 'camera' ? ImageSource.camera : ImageSource.gallery,
+      onPicture: openWith);
   if (code == null || !context.mounted) return;
   await editGymPass(context, code: code);
 }
 
-Future<String?> _readCode(BuildContext context, ImageSource source) async {
+Future<String?> pickPassPicture(BuildContext context, ImageSource source) async {
+  final XFile? shot;
+  try {
+    shot = await ImagePicker().pickImage(source: source, requestFullMetadata: false);
+  } catch (_) {
+    return null;
+  }
+  if (shot == null || !context.mounted) return null;
+  return _cropPassPicture(context, shot.path);
+}
+
+Future<String?> _cropPassPicture(BuildContext context, String path) async {
+  final png = await showPhotoCrop(context, path, title: t.cropTitle, hint: t.cropHint);
+  if (png == null) return null;
+  return MediaStore.saveBytes('pass', 'png', png);
+}
+
+Future<String?> _readCode(BuildContext context, ImageSource source, {void Function(String name)? onPicture}) async {
   final XFile? shot;
   try {
     shot = await ImagePicker().pickImage(source: source, requestFullMetadata: false);
@@ -365,26 +391,39 @@ Future<String?> _readCode(BuildContext context, ImageSource source) async {
   if (!context.mounted) return null;
   if (code == null) {
     HapticFeedback.heavyImpact();
-    showNotchToast(context, t.gymPassNotFound, icon: PhosphorIconsFill.warningCircle, accent: gc.warn);
+    final path = shot.path;
+    showNotchToast(context, t.gymPassNotFound,
+        icon: PhosphorIconsFill.warningCircle,
+        accent: gc.warn,
+        duration: onPicture == null ? null : const Duration(seconds: 6),
+        action: onPicture == null ? null : t.gymPassUsePicture,
+        onTap: onPicture == null
+            ? null
+            : () async {
+                final name = await _cropPassPicture(context, path);
+                if (name != null) onPicture(name);
+              });
     return null;
   }
   HapticFeedback.mediumImpact();
   return code;
 }
 
-Future<void> editGymPass(BuildContext context, {GymPass? pass, String? code, bool typing = false}) =>
+Future<void> editGymPass(BuildContext context,
+        {GymPass? pass, String? code, PassFormat? format, bool typing = false}) =>
     showAppSheet<void>(
       context: context,
       backgroundColor: Colors.transparent,
       isScrollControlled: true,
-      builder: (_) => _PassEditor(pass: pass, code: code, typing: typing),
+      builder: (_) => _PassEditor(pass: pass, code: code, format: format, typing: typing),
     );
 
 class _PassEditor extends StatefulWidget {
-  const _PassEditor({this.pass, this.code, this.typing = false});
+  const _PassEditor({this.pass, this.code, this.format, this.typing = false});
 
   final GymPass? pass;
   final String? code;
+  final PassFormat? format;
   final bool typing;
 
   @override
@@ -394,7 +433,11 @@ class _PassEditor extends StatefulWidget {
 class _PassEditorState extends State<_PassEditor> {
   late final _name = TextEditingController(text: widget.pass?.name ?? t.gymPassDefaultName);
   late final _code = TextEditingController(text: widget.pass?.code ?? widget.code ?? '');
-  late PassFormat _format = widget.pass?.format ?? (widget.typing ? PassFormat.code128 : PassFormat.qr);
+  late PassFormat _format =
+      widget.pass?.format ?? widget.format ?? (widget.typing ? PassFormat.code128 : PassFormat.qr);
+  late final String? _firstPicture = _format == PassFormat.photo ? _code.text : null;
+  final Set<String> _newPictures = {};
+  bool _saved = false;
   late int _hue = widget.pass?.hue ?? fit.gymPasses.length % kFolderHues.length;
 
   static const _formats = [
@@ -405,11 +448,26 @@ class _PassEditorState extends State<_PassEditor> {
   ];
 
   @override
+  void initState() {
+    super.initState();
+    final first = _firstPicture;
+    if (widget.pass == null && first != null) _newPictures.add(first);
+  }
+
+  @override
   void dispose() {
+    final keep = _saved ? _code.text.trim() : (widget.pass?.code ?? '');
+    for (final name in _newPictures) {
+      if (name != keep) MediaStore.delete(name);
+    }
+    final first = _firstPicture;
+    if (_saved && first != null && widget.pass != null && first != keep) MediaStore.delete(first);
     _name.dispose();
     _code.dispose();
     super.dispose();
   }
+
+  bool get _photo => _format == PassFormat.photo;
 
   bool get _valid => passCodeValid(_format, _code.text.trim());
 
@@ -430,14 +488,32 @@ class _PassEditorState extends State<_PassEditor> {
     } else {
       fit.updateGymPass(d);
     }
+    _saved = true;
     HapticFeedback.lightImpact();
     Navigator.of(context).pop();
+  }
+
+  void _usePicture(String name) {
+    if (!mounted) {
+      MediaStore.delete(name);
+      return;
+    }
+    _newPictures.add(name);
+    setState(() {
+      _code.text = name;
+      _format = PassFormat.photo;
+    });
   }
 
   Future<void> _rescan() async {
     final source = await pickPhotoFor(context);
     if (source == null || !mounted) return;
-    final code = await _readCode(context, source);
+    if (_photo) {
+      final name = await pickPassPicture(context, source);
+      if (name != null) _usePicture(name);
+      return;
+    }
+    final code = await _readCode(context, source, onPicture: _usePicture);
     if (code == null || !mounted) return;
     setState(() {
       _code.text = code;
@@ -476,10 +552,7 @@ class _PassEditorState extends State<_PassEditor> {
     return Container(
       constraints: BoxConstraints(maxHeight: MediaQuery.sizeOf(context).height * 0.92),
       padding: EdgeInsets.only(bottom: MediaQuery.viewInsetsOf(context).bottom),
-      decoration: BoxDecoration(
-        color: gc.bgRaised,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-      ),
+      decoration: sheetDecoration(gc),
       child: SingleChildScrollView(
         padding: sheetPad(context),
         child: Column(
@@ -514,6 +587,7 @@ class _PassEditorState extends State<_PassEditor> {
             ),
             _label(gc, t.gymPassName),
             _field(gc, _name, t.gymPassDefaultName),
+            if (!_photo) ...[
             _label(gc, t.gymPassFormat),
             Wrap(spacing: 8, runSpacing: 8, children: [
               for (final f in _formats)
@@ -538,6 +612,7 @@ class _PassEditorState extends State<_PassEditor> {
             ]),
             _label(gc, t.gymPassCode),
             _field(gc, _code, '0123456789', numeric: true),
+            ],
             _label(gc, t.gymPassColor),
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
               for (var i = 0; i < kFolderHues.length; i++)
@@ -561,8 +636,9 @@ class _PassEditorState extends State<_PassEditor> {
             Center(
               child: TextButton.icon(
                 onPressed: _rescan,
-                icon: Icon(PhosphorIconsRegular.arrowsClockwise, size: 15, color: gc.textSecondary),
-                label: Text(t.gymPassRescan,
+                icon: Icon(_photo ? PhosphorIconsRegular.image : PhosphorIconsRegular.arrowsClockwise,
+                    size: 15, color: gc.textSecondary),
+                label: Text(_photo ? t.gymPassChangePicture : t.gymPassRescan,
                     style: AppTheme.f(13, weight: FontWeight.w700, color: gc.textSecondary)),
               ),
             ),
@@ -586,10 +662,7 @@ Future<ImageSource?> pickPhotoFor(BuildContext context) => showAppSheet<ImageSou
         final gc = sheet.gc;
         return Container(
           padding: sheetPad(sheet),
-          decoration: BoxDecoration(
-            color: gc.bgRaised,
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-          ),
+          decoration: sheetDecoration(gc),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
