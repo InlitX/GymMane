@@ -50,19 +50,19 @@ class _AwardsScreenState extends State<AwardsScreen> {
                   size: 17, color: _picking ? gc.onEmber : gc.text),
             ),
         ],
-        children: [
-          Rise(index: 0, child: _summary(gc, won.length, total)),
+        slivers: [
+          SliverToBoxAdapter(child: Rise(index: 0, child: _summary(gc, won.length, total))),
           if (won.isNotEmpty) ...[
-            const SizedBox(height: 26),
-            Rise(index: 1, child: _section(gc, t.awardsEarned, won.length)),
-            const SizedBox(height: 10),
-            Rise(index: 2, child: _grid(context, won)),
+            const SliverToBoxAdapter(child: SizedBox(height: 26)),
+            SliverToBoxAdapter(child: Rise(index: 1, child: _section(gc, t.awardsEarned, won.length))),
+            const SliverToBoxAdapter(child: SizedBox(height: 10)),
+            _grid(context, won, 2),
           ],
           if (left.isNotEmpty) ...[
-            const SizedBox(height: 26),
-            Rise(index: 3, child: _section(gc, t.awardsLocked, left.length)),
-            const SizedBox(height: 10),
-            Rise(index: 4, child: _grid(context, left)),
+            const SliverToBoxAdapter(child: SizedBox(height: 26)),
+            SliverToBoxAdapter(child: Rise(index: 3, child: _section(gc, t.awardsLocked, left.length))),
+            const SliverToBoxAdapter(child: SizedBox(height: 10)),
+            _grid(context, left, 4),
           ],
         ],
       ),
@@ -149,11 +149,8 @@ class _AwardsScreenState extends State<AwardsScreen> {
     );
   }
 
-  Widget _grid(BuildContext context, List<AwardId> ids) {
-    return GridView.builder(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      padding: EdgeInsets.zero,
+  Widget _grid(BuildContext context, List<AwardId> ids, int rise) {
+    return SliverGrid.builder(
       itemCount: ids.length,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
@@ -161,7 +158,7 @@ class _AwardsScreenState extends State<AwardsScreen> {
         crossAxisSpacing: 10,
         childAspectRatio: 1.02,
       ),
-      itemBuilder: (_, i) => _card(context, ids[i]),
+      itemBuilder: (_, i) => Rise(index: rise, child: _card(context, ids[i])),
     );
   }
 

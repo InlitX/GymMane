@@ -132,12 +132,12 @@ class _MomentsScreenState extends State<MomentsScreen> {
                   child: Icon(PhosphorIconsRegular.camera, size: 17, color: gc.text),
                 ),
               ],
-        children: shots.isEmpty
-            ? [Rise(index: 0, child: _empty(gc))]
+        slivers: shots.isEmpty
+            ? [SliverToBoxAdapter(child: Rise(index: 0, child: _empty(gc)))]
             : [
-                Rise(index: 0, child: _stats(gc, shots)),
-                const SizedBox(height: 22),
-                Rise(index: 1, child: _grouped ? _byDate(gc, shots) : _plainGrid(gc, shots)),
+                SliverToBoxAdapter(child: Rise(index: 0, child: _stats(gc, shots))),
+                const SliverToBoxAdapter(child: SizedBox(height: 22)),
+                if (_grouped) ..._byDate(gc, shots) else _plainGrid(gc, shots),
               ],
       ),
     );
@@ -169,10 +169,7 @@ class _MomentsScreenState extends State<MomentsScreen> {
   }
 
   Widget _plainGrid(GymColors gc, List<Moment> shots) {
-    return GridView.builder(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      padding: EdgeInsets.zero,
+    return SliverGrid.builder(
       itemCount: shots.length,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 3,
@@ -195,35 +192,31 @@ class _MomentsScreenState extends State<MomentsScreen> {
     return '${t.monthName(d.month)} ${d.year}';
   }
 
-  Widget _byDate(GymColors gc, List<Moment> shots) {
+  List<Widget> _byDate(GymColors gc, List<Moment> shots) {
     final groups = <String, List<Moment>>{};
     for (final m in shots) {
       groups.putIfAbsent(_bucket(m.date), () => []).add(m);
     }
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        for (final entry in groups.entries) ...[
-          Padding(
+    return [
+      for (final entry in groups.entries) ...[
+        SliverToBoxAdapter(
+          child: Padding(
             padding: const EdgeInsets.fromLTRB(2, 6, 0, 12),
             child: Text(entry.key, style: AppTheme.f(16, color: gc.text)),
           ),
-          GridView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: entry.value.length,
-            padding: EdgeInsets.zero,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 3,
-              mainAxisSpacing: 10,
-              crossAxisSpacing: 10,
-            ),
-            itemBuilder: (_, i) => _square(gc, entry.value[i]),
+        ),
+        SliverGrid.builder(
+          itemCount: entry.value.length,
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 3,
+            mainAxisSpacing: 10,
+            crossAxisSpacing: 10,
           ),
-          const SizedBox(height: 24),
-        ],
+          itemBuilder: (_, i) => _square(gc, entry.value[i]),
+        ),
+        const SliverToBoxAdapter(child: SizedBox(height: 24)),
       ],
-    );
+    ];
   }
 
   Widget _square(GymColors gc, Moment moment) {
