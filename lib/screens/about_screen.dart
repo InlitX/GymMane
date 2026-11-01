@@ -10,7 +10,7 @@ import '../theme/app_theme.dart';
 import '../widgets/entrance.dart';
 import '../widgets/ui_kit.dart';
 
-const kAppVersion = '1.8.0';
+const kAppVersion = '1.9.0';
 const _kAuthor = 'InlitX';
 const _kAuthorUrl = 'https://github.com/InlitX';
 const _kRepoUrl = 'https://github.com/InlitX/GymMane';
@@ -70,7 +70,7 @@ class AboutScreen extends StatelessWidget {
   }
 
   Widget _sectionLabel(GymColors gc, String label) => Text(label.toUpperCase(),
-      style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.3));
+      style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.4));
 
   Widget _hero(GymColors gc) {
     return Container(
