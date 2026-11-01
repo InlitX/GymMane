@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../catalog/body_art.dart';
 import '../catalog/body_svg.dart';
 import '../state/fit_state.dart';
 import '../theme/app_colors.dart';
@@ -7,15 +8,52 @@ import 'svg_icon.dart';
 
 const double kBodyAspect = bodyViewH / bodyViewW;
 
+BodyArt get currentBody => bodyArtFor(fit.profile.sex);
+
 String? muscleAt(Offset p) {
-  for (final id in muscleFills.keys) {
-    final hits = muscleHits[id];
-    final probes = (hits != null && hits.isNotEmpty) ? hits : muscleFills[id]!;
+  final art = currentBody;
+  for (final id in art.fills.keys) {
+    final hits = art.hits[id];
+    final probes = (hits != null && hits.isNotEmpty) ? hits : art.fills[id]!;
     for (final d in probes) {
       if (svgPath(d).contains(p)) return id;
     }
   }
   return null;
+}
+
+void paintBodyBase(Canvas canvas, BodyArt art, Color main, Color lite) {
+  final paint = Paint()..isAntiAlias = true;
+  final cut = art.head.isNotEmpty;
+  if (cut) {
+    canvas.save();
+    canvas.clipRect(Rect.fromLTRB(-bodyViewW, art.headCut, bodyViewW * 2, bodyViewH * 2));
+  }
+  for (final d in art.base) {
+    canvas.drawPath(svgPath(d), paint..color = main);
+  }
+  for (final d in art.lite) {
+    canvas.drawPath(svgPath(d), paint..color = lite);
+  }
+  if (cut) {
+    canvas.restore();
+    for (final d in art.head) {
+      canvas.drawPath(svgPath(d), paint..color = lite);
+    }
+  }
+}
+
+final Map<String, Path> _muscleClips = {};
+
+void clipMuscles(Canvas canvas, BodyArt art) {
+  if (art.headInner.isEmpty) return;
+  canvas.clipPath(_muscleClips.putIfAbsent(art.id, () {
+    final p = Path()..addRect(Rect.fromLTRB(-bodyViewW, art.headCut, bodyViewW * 2, bodyViewH * 2));
+    for (final d in art.headInner) {
+      p.addPath(svgPath(d), Offset.zero);
+    }
+    return p;
+  }));
 }
 
 Color idleMuscle(GymColors gc) => Color.lerp(gc.bgRaised2, gc.textSecondary, 0.32)!;
@@ -175,8 +213,11 @@ class _BodyCanvas extends StatelessWidget {
 }
 
 class BodyPainter extends CustomPainter {
-  BodyPainter({required this.gc, required this.color, required this.token, this.outline, this.crop});
+  BodyPainter({required this.gc, required this.color, required this.token, this.outline, this.crop, this.quiet = false, BodyArt? art})
+      : art = art ?? currentBody;
 
+  final BodyArt art;
+  final bool quiet;
   final GymColors gc;
   final Color Function(String id) color;
   final String token;
@@ -190,19 +231,16 @@ class BodyPainter extends CustomPainter {
     canvas.scale(size.width / view.width);
     canvas.translate(-view.left, -view.top);
 
-    final bodyMain = gc.bgRaised2;
-    final bodyLite = Color.lerp(gc.bgRaised2, gc.textTertiary, 0.14)!;
+    final bodyMain = quiet ? Color.lerp(gc.bgRaised2, gc.textTertiary, 0.1)! : gc.bgRaised2;
+    final bodyLite = Color.lerp(gc.bgRaised2, gc.textTertiary, quiet ? 0.22 : 0.14)!;
 
     void fill(String d, Color c) =>
         canvas.drawPath(svgPath(d), Paint()..color = c..style = PaintingStyle.fill..isAntiAlias = true);
 
-    for (final d in bodyBaseMain) {
-      fill(d, bodyMain);
-    }
-    for (final d in bodyBaseLite) {
-      fill(d, bodyLite);
-    }
-    for (final entry in muscleFills.entries) {
+    paintBodyBase(canvas, art, bodyMain, bodyLite);
+    canvas.save();
+    clipMuscles(canvas, art);
+    for (final entry in art.fills.entries) {
       final c = color(entry.key);
       for (final d in entry.value) {
         fill(d, c);
@@ -216,15 +254,21 @@ class BodyPainter extends CustomPainter {
         ..style = PaintingStyle.stroke
         ..strokeWidth = 2.5
         ..isAntiAlias = true;
-      for (final d in muscleFills[id] ?? const <String>[]) {
+      for (final d in art.fills[id] ?? const <String>[]) {
         canvas.drawPath(svgPath(d), stroke);
       }
     }
+    canvas.restore();
   }
 
   @override
   bool shouldRepaint(BodyPainter old) =>
-      old.gc != gc || old.token != token || old.outline != outline || old.crop != crop;
+      old.gc != gc ||
+      old.token != token ||
+      old.outline != outline ||
+      old.crop != crop ||
+      old.quiet != quiet ||
+      old.art != art;
 }
 
 Color untrainedColor(GymColors gc, int? days) {
@@ -260,11 +304,11 @@ class BodyUntrainedMap extends StatelessWidget {
 
 final Map<String, Rect> _zoneViews = {};
 
-Rect bodyViewFor(List<String> muscles) => _zoneViews.putIfAbsent(muscles.join(','), () {
+Rect bodyViewFor(List<String> muscles) => _zoneViews.putIfAbsent('${currentBody.id}${muscles.join(',')}', () {
       const half = bodyViewW / 2;
       var front = false, back = false;
       for (final id in muscles) {
-        for (final d in muscleFills[id] ?? const <String>[]) {
+        for (final d in currentBody.fills[id] ?? const <String>[]) {
           if (svgPath(d).getBounds().center.dx < half) {
             front = true;
           } else {
@@ -296,6 +340,41 @@ class BodyZoneArt extends StatelessWidget {
         token: 'z${muscles.join(',')}$on',
         crop: view,
         color: (id) => muscles.contains(id) ? on : idle,
+      ),
+    );
+  }
+}
+
+class MiniBody extends StatelessWidget {
+  const MiniBody({super.key, required this.sets, this.done, required this.height});
+
+  final Map<String, double> sets;
+  final Map<String, double>? done;
+  final double height;
+
+  @override
+  Widget build(BuildContext context) {
+    final gc = context.gc;
+    final top = sets.values.fold(0.0, (a, b) => b > a ? b : a);
+    final idle = idleMuscle(gc);
+    final ramp = heatRamp(gc, fit.heatTone);
+    final faint = Color.lerp(idle, ramp[1], 0.55)!;
+    final ticked = done;
+    Color colorOf(String id) {
+      final n = sets[id] ?? 0;
+      if (n <= 0 || top <= 0) return idle;
+      if (ticked == null) return ramp[((n / top) * (heatLevels - 1)).round().clamp(0, heatLevels - 1)];
+      final d = ticked[id] ?? 0;
+      if (d <= 0) return faint;
+      return Color.lerp(faint, ramp[heatLevels - 1], (d / n).clamp(0.0, 1.0))!;
+    }
+
+    final keys = sets.keys.toList()..sort();
+    final token = 'm${keys.map((k) => '$k${sets[k]!.toStringAsFixed(1)}/${ticked?[k]?.toStringAsFixed(1) ?? '-'}').join(',')}';
+    return RepaintBoundary(
+      child: CustomPaint(
+        size: Size(height / kBodyAspect, height),
+        painter: BodyPainter(gc: gc, token: '$token${fit.heatTone}', color: colorOf, quiet: true),
       ),
     );
   }
