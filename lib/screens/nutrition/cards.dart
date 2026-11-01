@@ -290,7 +290,7 @@ class _QualityCard extends StatelessWidget {
           Text('${_g(grams)} g', style: AppTheme.f(13, weight: FontWeight.w800, color: gc.text)),
         ]);
     return SoftCard(
-      radius: 24,
+      radius: 22,
       padding: const EdgeInsets.fromLTRB(16, 14, 16, 16),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Row(children: [
@@ -530,7 +530,7 @@ class _FatTypesCard extends StatelessWidget {
           ]),
         );
     return SoftCard(
-      radius: 24,
+      radius: 22,
       padding: const EdgeInsets.fromLTRB(16, 14, 16, 16),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Row(children: [
@@ -694,6 +694,7 @@ Future<void> showWaterSheet(BuildContext context) => _sheet<void>(context, (cont
           final day = fit.nutritionDay;
           final g = fit.activeGoals;
           final sips = fit.waterSipsOn(day).reversed.toList();
+          final drinks = [for (final e in fit.entriesOn(day).reversed) if (e.waterMl > 0) e];
           final big = fit.isLb ? 473 : 500;
           String time(DateTime d) => '${d.hour.toString().padLeft(2, '0')}:${d.minute.toString().padLeft(2, '0')}';
           return _sheetFrame(context, [
@@ -714,7 +715,7 @@ Future<void> showWaterSheet(BuildContext context) => _sheet<void>(context, (cont
             const SizedBox(height: 18),
             _kicker(gc, (fit.nutritionOnToday ? t.nutritionToday : t.longDate(day)).toUpperCase()),
             const SizedBox(height: 8),
-            if (sips.isEmpty)
+            if (sips.isEmpty && drinks.isEmpty)
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8),
                 child: Text(t.waterNone, style: AppTheme.s(13, color: gc.textTertiary)),
@@ -723,9 +724,26 @@ Future<void> showWaterSheet(BuildContext context) => _sheet<void>(context, (cont
               ConstrainedBox(
                 constraints: const BoxConstraints(maxHeight: 220),
                 child: SoftCard(
-                  radius: 20,
+                  radius: 22,
                   padding: const EdgeInsets.symmetric(vertical: 4),
                   child: ListView(shrinkWrap: true, padding: EdgeInsets.zero, children: [
+                    for (final e in drinks)
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(16, 14, 20, 14),
+                        child: Row(children: [
+                          Icon(PhosphorIconsFill.forkKnife, size: 15, color: gc.water),
+                          const SizedBox(width: 10),
+                          Text(fit.waterLabel(e.waterMl), style: AppTheme.f(14, weight: FontWeight.w700, color: gc.text)),
+                          const SizedBox(width: 8),
+                          Expanded(
+                            child: Text(e.name,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: AppTheme.f(12.5, weight: FontWeight.w600, color: gc.textSecondary)),
+                          ),
+                          Text(time(e.at), style: AppTheme.f(12, weight: FontWeight.w600, color: gc.textTertiary)),
+                        ]),
+                      ),
                     for (final w in sips)
                       Padding(
                         padding: const EdgeInsets.fromLTRB(16, 6, 6, 6),
@@ -855,7 +873,7 @@ Future<void> showShakePicker(BuildContext context) => _sheet<void>(context, (con
         if (others.isNotEmpty) ...[
           const SizedBox(height: 18),
           Text(t.shakeMarkLabel,
-              style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.1)),
+              style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.4)),
           const SizedBox(height: 8),
           SizedBox(
             height: 44,
@@ -1658,7 +1676,7 @@ class _ChartCard extends StatelessWidget {
       onLongPress: onLongPress,
       scale: 0.98,
       child: SoftCard(
-        radius: 24,
+        radius: 22,
         padding: const EdgeInsets.fromLTRB(16, 14, 16, 12),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Row(children: [

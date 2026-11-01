@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'dart:math' as math;
 
@@ -38,6 +39,7 @@ part 'nutrition/settings.dart';
 part 'nutrition/meals.dart';
 part 'nutrition/food.dart';
 part 'nutrition/plans.dart';
+part 'nutrition/fasting.dart';
 
 String mealInSentence(Meal m) {
   final name = mealName(m);
@@ -157,6 +159,7 @@ class _NutritionScreenState extends State<NutritionScreen> {
     final gc = context.gc;
     bool on(Tracker x) => fit.trackerOn(x);
     final cards = <Widget>[
+      if (on(Tracker.fasting) && fit.nutritionOnToday) _FastingCard(),
       if (on(Tracker.water) || on(Tracker.shake))
         _pair(on(Tracker.water) ? _WaterTile() : null, on(Tracker.shake) ? _ShakeTile() : null),
       if (on(Tracker.supplements)) _SupplementsCard(),
@@ -311,7 +314,7 @@ List<(String, String)> _plateOf(Iterable<FoodEntry> items) => [
     ];
 
 Widget _kicker(GymColors gc, String text) =>
-    Text(text, style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.1));
+    Text(text, style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.4));
 
 class _WeekStrip extends StatelessWidget {
   const _WeekStrip();
@@ -406,10 +409,7 @@ Widget _sheetFrame(BuildContext context, List<Widget> children, {double heightFa
       constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.88),
       height: heightFactor > 0 ? MediaQuery.of(context).size.height * heightFactor : null,
       padding: sheetPad(context, bottom: 18),
-      decoration: BoxDecoration(
-        color: fit.dark ? Color.lerp(gc.bg, gc.bgRaised, 0.55) : gc.bg,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(32)),
-      ),
+      decoration: sheetDecoration(gc),
       child: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -429,10 +429,7 @@ Widget _sheetSlivers(BuildContext context, List<Widget> slivers, {double heightF
       constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.88),
       height: heightFactor > 0 ? MediaQuery.of(context).size.height * heightFactor : null,
       padding: sheetPad(context, bottom: 18),
-      decoration: BoxDecoration(
-        color: gc.bgRaised,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-      ),
+      decoration: sheetDecoration(gc),
       child: CustomScrollView(
         shrinkWrap: heightFactor <= 0,
         slivers: [
@@ -483,10 +480,20 @@ Widget _macroSummary(BuildContext context, Macros m) {
 
 void _loggedToast(BuildContext context, FoodEntry e) {
   HapticFeedback.lightImpact();
+  final day = DateTime(e.at.year, e.at.month, e.at.day);
+  final now = DateTime.now();
+  final today = DateTime(now.year, now.month, now.day);
+  final when = day == fit.nutritionDay
+      ? null
+      : day == shiftDays(today, 1)
+          ? t.tomorrow
+          : day == today
+              ? t.nutritionToday
+              : t.longDate(day);
   showNotchToast(
     context,
     t.loggedToast(mealInSentence(e.meal)),
-    subtitle: e.name.isEmpty ? null : e.name,
+    subtitle: e.name.isEmpty && when == null ? null : [if (e.name.isNotEmpty) e.name, ?when].join(' · '),
     icon: PhosphorIconsFill.forkKnife,
     accent: context.gc.accent,
     action: t.undo,

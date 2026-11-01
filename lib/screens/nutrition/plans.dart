@@ -60,7 +60,7 @@ class _PlansSection extends StatelessWidget {
           onTap: () => showNewPlanSheet(context),
           scale: 0.97,
           child: SoftCard(
-            radius: 24,
+            radius: 22,
             padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
             child: Row(children: [
               Container(
@@ -456,10 +456,7 @@ class _PlanEditorState extends State<_PlanEditor> {
         child: Container(
           height: media.size.height * 0.92,
           padding: EdgeInsets.fromLTRB(20, 12, 20, 14 + media.padding.bottom),
-          decoration: BoxDecoration(
-            color: gc.bgRaised,
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-          ),
+          decoration: sheetDecoration(gc),
           child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
             const SheetHandle(),
             const SizedBox(height: 10),
