@@ -6701,4 +6701,11 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get newExerciseHint => 'Нужно только название. Остальное помогает, но его можно добавить позже.';
+
+  @override
+  String get supportThanksTitle => 'Спасибо, что ты здесь 🤍';
+
+  @override
+  String get supportThanksBody =>
+      'GymMane бесплатен и всегда будет бесплатным, без рекламы и подвохов.\n\nЕсли он помогает тебе тренироваться, угости меня кофе — это поднимет мне настроение ☕\nА если не можешь, ничего страшного: звезда на GitHub тоже ⭐';
 }

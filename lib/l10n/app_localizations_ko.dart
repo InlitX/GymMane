@@ -6376,4 +6376,11 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get newExerciseHint => '이름만 있으면 돼요. 나머지는 나중에 추가해도 돼요.';
+
+  @override
+  String get supportThanksTitle => '함께해 줘서 고마워요 🤍';
+
+  @override
+  String get supportThanksBody =>
+      'GymMane은 앞으로도 계속 무료예요. 광고도, 숨겨진 것도 없어요.\n\n운동에 도움이 된다면 커피 한 잔 사 주시면 하루가 즐거워져요 ☕\n어렵다면 괜찮아요. GitHub 별 하나도 충분히 기뻐요 ⭐';
 }

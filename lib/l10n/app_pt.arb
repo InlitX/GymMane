@@ -1747,5 +1747,8 @@
   "reportShareCsv": "Exportar CSV",
   "reportShareCsvBoth": "Exportar CSV (treinos e nutrição)",
 
-  "newExerciseHint": "Só o nome é obrigatório. O resto ajuda, mas você pode adicionar depois."
+  "newExerciseHint": "Só o nome é obrigatório. O resto ajuda, mas você pode adicionar depois.",
+
+  "supportThanksTitle": "Obrigado por estar aqui 🤍",
+  "supportThanksBody": "O GymMane é grátis e sempre será, sem anúncios e nada escondido.\n\nSe ele te ajuda a treinar, me pagar um café alegra o meu dia ☕\nE se não der, tudo bem: uma estrela no GitHub também ⭐"
 }

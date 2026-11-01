@@ -6566,4 +6566,11 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get newExerciseHint => 'Solo hace falta el nombre. Lo demás ayuda, pero puedes añadirlo luego.';
+
+  @override
+  String get supportThanksTitle => 'Gracias por estar aquí 🤍';
+
+  @override
+  String get supportThanksBody =>
+      'GymMane es gratis y lo será siempre, sin anuncios ni nada escondido.\n\nSi te ayuda a entrenar, invitarme a un café me alegra el día ☕\nY si no puedes, no pasa nada: una estrella en GitHub también ⭐';
 }

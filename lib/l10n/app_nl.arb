@@ -1747,5 +1747,8 @@
   "reportShareCsv": "CSV exporteren",
   "reportShareCsvBoth": "CSV exporteren (trainingen en voeding)",
 
-  "newExerciseHint": "Alleen de naam is verplicht. De rest helpt, maar je kunt het later toevoegen."
+  "newExerciseHint": "Alleen de naam is verplicht. De rest helpt, maar je kunt het later toevoegen.",
+
+  "supportThanksTitle": "Fijn dat je er bent 🤍",
+  "supportThanksBody": "GymMane is gratis en blijft dat, zonder advertenties en zonder addertjes.\n\nHelpt het je bij het trainen? Een kopje koffie maakt mijn dag goed ☕\nEn lukt dat niet, geen probleem: een ster op GitHub ook ⭐"
 }

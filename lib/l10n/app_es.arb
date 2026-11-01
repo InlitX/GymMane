@@ -1932,5 +1932,8 @@
   "notifFastDoneTitle": "Ayuno terminado",
   "notifFastDoneBody": "{n} horas. Ya puedes comer.",
 
-  "newExerciseHint": "Solo hace falta el nombre. Lo demás ayuda, pero puedes añadirlo luego."
+  "newExerciseHint": "Solo hace falta el nombre. Lo demás ayuda, pero puedes añadirlo luego.",
+
+  "supportThanksTitle": "Gracias por estar aquí 🤍",
+  "supportThanksBody": "GymMane es gratis y lo será siempre, sin anuncios ni nada escondido.\n\nSi te ayuda a entrenar, invitarme a un café me alegra el día ☕\nY si no puedes, no pasa nada: una estrella en GitHub también ⭐"
 }

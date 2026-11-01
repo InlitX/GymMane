@@ -1747,5 +1747,8 @@
   "reportShareCsv": "匯出 CSV",
   "reportShareCsvBoth": "匯出 CSV（訓練與營養）",
 
-  "newExerciseHint": "只需填寫名稱。其他資訊有幫助，也可以之後再加。"
+  "newExerciseHint": "只需填寫名稱。其他資訊有幫助，也可以之後再加。",
+
+  "supportThanksTitle": "謝謝你在這裡 🤍",
+  "supportThanksBody": "GymMane 永遠免費，沒有廣告，也沒有任何隱藏收費。\n\n如果它對你的訓練有幫助，請我喝杯咖啡會讓我開心一整天 ☕\n如果不方便也沒關係：在 GitHub 上點一顆星也一樣 ⭐"
 }

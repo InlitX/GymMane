@@ -2244,5 +2244,8 @@
   "notifFastDoneBody": "{n} hours. Your eating window is open.",
   "@notifFastDoneBody": {"placeholders": {"n": {"type": "int"}}},
 
-  "newExerciseHint": "Only the name is required. The rest helps, but you can add it later."
+  "newExerciseHint": "Only the name is required. The rest helps, but you can add it later.",
+
+  "supportThanksTitle": "Thanks for being here 🤍",
+  "supportThanksBody": "GymMane is free and always will be, with no ads and nothing hidden.\n\nIf it helps you train, buying me a coffee makes my day ☕\nAnd if you can't, no worries: a star on GitHub does too ⭐"
 }

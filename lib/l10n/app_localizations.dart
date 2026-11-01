@@ -11571,6 +11571,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Only the name is required. The rest helps, but you can add it later.'**
   String get newExerciseHint;
+
+  /// No description provided for @supportThanksTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Thanks for being here 🤍'**
+  String get supportThanksTitle;
+
+  /// No description provided for @supportThanksBody.
+  ///
+  /// In en, this message translates to:
+  /// **'GymMane is free and always will be, with no ads and nothing hidden.\n\nIf it helps you train, buying me a coffee makes my day ☕\nAnd if you can\'t, no worries: a star on GitHub does too ⭐'**
+  String get supportThanksBody;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

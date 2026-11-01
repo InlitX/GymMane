@@ -6309,6 +6309,13 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get newExerciseHint => '只需填写名称。其他信息有帮助，也可以以后再加。';
+
+  @override
+  String get supportThanksTitle => '谢谢你在这里 🤍';
+
+  @override
+  String get supportThanksBody =>
+      'GymMane 永远免费，没有广告，也没有任何隐藏收费。\n\n如果它对你的训练有帮助，请我喝杯咖啡会让我开心一整天 ☕\n如果不方便也没关系：在 GitHub 上点一颗星也一样 ⭐';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -12027,4 +12034,11 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get newExerciseHint => '只需填寫名稱。其他資訊有幫助，也可以之後再加。';
+
+  @override
+  String get supportThanksTitle => '謝謝你在這裡 🤍';
+
+  @override
+  String get supportThanksBody =>
+      'GymMane 永遠免費，沒有廣告，也沒有任何隱藏收費。\n\n如果它對你的訓練有幫助，請我喝杯咖啡會讓我開心一整天 ☕\n如果不方便也沒關係：在 GitHub 上點一顆星也一樣 ⭐';
 }
