@@ -82,4 +82,56 @@ void main() {
     fit.resetAllData();
     expect(fit.measures, isEmpty);
   });
+
+  test('a custom length follows the unit setting like the built-in ones', () {
+    final id = fit.addCustomMeasure('Wrist');
+    fit.addMeasure(id, 17);
+    expect(fit.measureTitle(id), 'Wrist');
+    expect(fit.measureLabel(id, 17), '17 cm');
+    fit.setUnits('lb');
+    expect(fit.measureUnit(id), 'in');
+    expect(fit.latestMeasure(id)!.value, closeTo(17, 0.001));
+  });
+
+  test('a custom measure with its own unit is never converted', () {
+    final id = fit.addCustomMeasure('Resting pulse', unit: 'bpm', length: false);
+    fit.setUnits('lb');
+    fit.addMeasure(id, 58);
+    expect(fit.latestMeasure(id)!.value, 58);
+    expect(fit.measureLabel(id, 58), '58 bpm');
+    expect(fit.trackedMeasures, contains(id));
+  });
+
+  test('a blank name makes nothing and a deleted measure takes its values with it', () {
+    expect(fit.addCustomMeasure('   '), isEmpty);
+    expect(fit.customMeasures, isEmpty);
+    final id = fit.addCustomMeasure('Wrist');
+    fit.addMeasure(id, 17);
+    fit.addMeasure('waist', 80);
+    fit.deleteCustomMeasure(id);
+    expect(fit.customMeasures, isEmpty);
+    expect(fit.measures.map((m) => m.key), ['waist']);
+  });
+
+  test('custom measures and the reminder survive a reload', () {
+    final id = fit.addCustomMeasure('Body water', unit: '%', length: false);
+    fit.addMeasure(id, 55.5);
+    fit.setMeasureEvery(14);
+    fit.persistNow();
+    fit.loadFromStore();
+    expect(fit.measureTitle(id), 'Body water');
+    expect(fit.isFreeMeasure(id), isTrue);
+    expect(fit.latestMeasure(id)!.value, closeTo(55.5, 0.001));
+    expect(fit.measureEveryDays, 14);
+  });
+
+  test('the reminder counts from the last reading of any measure', () {
+    expect(fit.nextMeasureDue, isNull);
+    fit.setMeasureEvery(7);
+    expect(fit.nextMeasureDue, isNull, reason: 'sin medidas no hay desde cuándo contar');
+    fit.addMeasure('waist', 80, date: DateTime.now().subtract(const Duration(days: 3)));
+    expect(fit.daysUntilMeasure, 4);
+    fit.setMeasureEvery(0);
+    expect(fit.nextMeasureDue, isNull);
+  });
 }
