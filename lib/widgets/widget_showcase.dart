@@ -5,7 +5,7 @@ import '../l10n/l10n.dart';
 import '../theme/app_colors.dart';
 import 'home_widget_views.dart';
 import 'nutrition_art.dart';
-import 'settings_showcase.dart' show ShowcaseDefer;
+import 'settings_showcase.dart' show ShowcaseFrame;
 
 class WidgetShowcase extends StatelessWidget {
   const WidgetShowcase({super.key, this.height = 380});
@@ -198,7 +198,7 @@ class WidgetShowcase extends StatelessWidget {
       ]),
     );
 
-    return ShowcaseDefer(
+    return ShowcaseFrame(
       height: height,
       child: ExcludeSemantics(
       child: IgnorePointer(

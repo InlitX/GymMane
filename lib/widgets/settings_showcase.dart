@@ -22,7 +22,7 @@ class _Collage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final gc = context.gc;
-    return ShowcaseDefer(
+    return ShowcaseFrame(
       height: height,
       child: ExcludeSemantics(
       child: IgnorePointer(
@@ -64,8 +64,8 @@ class _Collage extends StatelessWidget {
   }
 }
 
-class ShowcaseDefer extends StatelessWidget {
-  const ShowcaseDefer({super.key, required this.height, required this.child});
+class ShowcaseFrame extends StatelessWidget {
+  const ShowcaseFrame({super.key, required this.height, required this.child});
 
   final double height;
   final Widget child;
