@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:archive/archive.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:gymmane/catalog/exercise_catalog.dart';
+import 'package:gymmane/models/circuit.dart';
 import 'package:gymmane/models/note.dart';
 import 'package:gymmane/models/workout.dart';
 import 'package:gymmane/services/backup_zip.dart';
@@ -320,5 +321,52 @@ void main() {
     fit.loadFromStore();
     expect(fit.restFor(squat.id), 0);
     expect(fit.heatTone, 'green');
+  });
+
+  test('vuelve lo de la 1.9: circuitos, medidas propias, ayuno, grupos, carnet, Salud y notas por serie', () async {
+    await seedTwoYears();
+    final last = fit.sessions.last;
+    last.exercises.first.sets[0] = LoggedSet(10, 80, note: 'Agarre flojo');
+    final circuit = fit.newCircuit()
+      ..name = 'Core rápido'
+      ..rounds = 4
+      ..steps.add(CircuitStep(pushUp.id, work: 30, rest: 10));
+    fit.saveCircuit(circuit);
+    final arm = fit.addCustomMeasure('Antebrazo', unit: 'cm');
+    fit.setMeasureEvery(14);
+    fit.setFastGoal(18);
+    fit.startFast(at: DateTime.now().subtract(const Duration(hours: 3)));
+    final group = fit.addFoodGroup('Platos preparados');
+    fit.addGymPass(name: 'Gym del barrio', code: '123456');
+    fit.setTextSize('large');
+    fit.setCalmMotion(true);
+    fit.hcWrite = true;
+    fit.hcWeights = true;
+
+    final zip = await buildBackupZip();
+    fit.resetAllData();
+    expect(await restoreBackupZip(zip), isTrue);
+
+    expect(fit.sessions.last.exercises.first.sets.first.note, 'Agarre flojo');
+    expect(fit.circuits.single.name, 'Core rápido');
+    expect(fit.circuits.single.rounds, 4);
+    expect(fit.circuits.single.steps.single.work, 30);
+    expect(fit.customMeasures.map((c) => c.id), contains(arm));
+    expect(fit.measureEveryDays, 14);
+    expect(fit.fastGoalHours, 18);
+    expect(fit.fasting, isTrue);
+    expect(fit.foodGroups.map((g) => g.id), contains(group));
+    expect(fit.gymPasses.single.name, 'Gym del barrio');
+    expect(fit.textSize, 'large');
+    expect(fit.calmMotion, isTrue);
+    expect(fit.hcWrite, isTrue);
+    expect(fit.hcWeights, isTrue);
+
+    fit.persistNow();
+    fit.loadFromStore();
+    expect(fit.circuits.single.name, 'Core rápido');
+    expect(fit.fasting, isTrue);
+    expect(fit.textSize, 'large');
+    expect(fit.hcWrite, isTrue);
   });
 }
