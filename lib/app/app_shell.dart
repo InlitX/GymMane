@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart' show RenderRepaintBoundary;
 import 'package:flutter/services.dart';
 import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
@@ -92,7 +93,9 @@ class _AppShellState extends State<AppShell> with WidgetsBindingObserver, Single
   bool _collapsed = false;
   int _restTick = fit.restDoneTick;
   final _snap = SnapshotController();
-  final _blurSnap = SnapshotController();
+  final _appKey = GlobalKey();
+  ui.Image? _blurred;
+  bool _blurQueued = false;
   bool _changedUnder = false;
 
   @override
@@ -205,7 +208,13 @@ class _AppShellState extends State<AppShell> with WidgetsBindingObserver, Single
   void _fitChanged() {
     if (_snap.allowSnapshotting) _changedUnder = true;
     _syncSnap();
+    if (_blurred != null) {
+      _blurAgain?.cancel();
+      _blurAgain = Timer(const Duration(milliseconds: 350), _queueBlur);
+    }
   }
+
+  Timer? _blurAgain;
 
   void _syncSnap() => scheduleMicrotask(() {
         if (!mounted) return;
@@ -215,16 +224,49 @@ class _AppShellState extends State<AppShell> with WidgetsBindingObserver, Single
         _snap.allowSnapshotting = on;
       });
 
-  void _syncBlurSnap() => scheduleMicrotask(() {
-        if (!mounted) return;
-        final on = blurEffects && sheetRecede.value >= 0.999;
-        if (on != _blurSnap.allowSnapshotting) _blurSnap.allowSnapshotting = on;
-      });
+  void _syncBlurSnap() {
+    final p = sheetRecede.value;
+    if (p <= 0.001 || !blurEffects) {
+      if (_blurred != null) {
+        final old = _blurred;
+        _blurred = null;
+        WidgetsBinding.instance.addPostFrameCallback((_) => old?.dispose());
+      }
+      return;
+    }
+    if (_blurred == null) _queueBlur();
+  }
+
+  void _queueBlur() {
+    if (_blurQueued) return;
+    _blurQueued = true;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _blurQueued = false;
+      if (!mounted || sheetRecede.value <= 0.001 || !blurEffects) return;
+      final box = _appKey.currentContext?.findRenderObject();
+      if (box is! RenderRepaintBoundary || !box.hasSize) return;
+      const scale = 0.3;
+      final ratio = MediaQuery.devicePixelRatioOf(context) * scale;
+      try {
+        final small = box.toImageSync(pixelRatio: ratio);
+        final sigma = 2 * ratio;
+        final recorder = ui.PictureRecorder();
+        Canvas(recorder).drawImage(small, Offset.zero,
+            Paint()..imageFilter = ui.ImageFilter.blur(sigmaX: sigma, sigmaY: sigma, tileMode: TileMode.mirror));
+        final soft = recorder.endRecording().toImageSync(small.width, small.height);
+        small.dispose();
+        final old = _blurred;
+        setState(() => _blurred = soft);
+        old?.dispose();
+      } catch (_) {}
+    });
+  }
 
   @override
   void dispose() {
     sheetRecede.removeListener(_syncBlurSnap);
-    _blurSnap.dispose();
+    _blurAgain?.cancel();
+    _blurred?.dispose();
     glassOpen.removeListener(_syncSnap);
     glassShown.removeListener(_syncSnap);
     fit.removeListener(_fitChanged);
@@ -313,6 +355,7 @@ class _AppShellState extends State<AppShell> with WidgetsBindingObserver, Single
               child: ValueListenableBuilder<double>(
               valueListenable: sheetRecede,
               child: RepaintBoundary(
+              key: _appKey,
               child: BackdropGroup(
               child: Stack(
               children: [
@@ -407,22 +450,43 @@ class _AppShellState extends State<AppShell> with WidgetsBindingObserver, Single
               ),
             ),
             ),
-              builder: (context, p, app) => Transform.scale(
+              builder: (context, p, app) => Stack(fit: StackFit.expand, children: [
+                Transform.scale(
                 scale: 1 - 0.08 * p,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(32 * p),
                   clipBehavior: p > 0.001 ? Clip.antiAlias : Clip.none,
-                  child: SnapshotWidget(
-                    controller: _blurSnap,
-                    mode: SnapshotMode.permissive,
-                    child: ImageFiltered(
-                      enabled: blurEffects && p > 0.01,
-                      imageFilter: ui.ImageFilter.blur(sigmaX: 2.5 * p, sigmaY: 2.5 * p),
-                      child: app,
-                    ),
-                  ),
+                  child: Stack(children: [
+                    app!,
+                    if (_blurred != null && blurEffects && p > 0.01)
+                      Positioned.fill(
+                        child: IgnorePointer(child: CustomPaint(painter: _SoftCopy(_blurred!, p))),
+                      ),
+                    if (p > 0.01)
+                      Positioned.fill(
+                        child: IgnorePointer(
+                          child: DecoratedBox(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(32 * p),
+                              border: Border.all(color: Colors.white.withValues(alpha: 0.10 * p), width: 1.2),
+                            ),
+                          ),
+                        ),
+                      ),
+                  ]),
                 ),
               ),
+                if (p > 0.001)
+                  IgnorePointer(
+                    child: CustomPaint(
+                      painter: _Corners(
+                        scale: 1 - 0.08 * p,
+                        radius: 32 * p,
+                        color: fit.dark ? const Color(0xFF16161A) : const Color(0xFF3A3A3E),
+                      ),
+                    ),
+                  ),
+              ]),
             ),
             ),
           ),
@@ -1050,4 +1114,52 @@ class _LiquidPillState extends State<_LiquidPill> with TickerProviderStateMixin 
       },
     );
   }
+}
+
+class _Corners extends CustomPainter {
+  const _Corners({required this.scale, required this.radius, required this.color});
+
+  final double scale;
+  final double radius;
+  final Color color;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final page = Rect.fromCenter(
+      center: size.center(Offset.zero),
+      width: size.width * scale,
+      height: size.height * scale,
+    );
+    final r = radius * scale;
+    final path = Path()
+      ..fillType = PathFillType.evenOdd
+      ..addRect((Offset.zero & size).inflate(1))
+      ..addRRect(RRect.fromRectAndRadius(page.deflate(0.5), Radius.circular(r)));
+    canvas.drawPath(path, Paint()..color = color..isAntiAlias = true);
+  }
+
+  @override
+  bool shouldRepaint(_Corners old) => old.scale != scale || old.radius != radius || old.color != color;
+}
+
+class _SoftCopy extends CustomPainter {
+  const _SoftCopy(this.image, this.amount);
+
+  final ui.Image image;
+  final double amount;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    canvas.drawImageRect(
+      image,
+      Rect.fromLTWH(0, 0, image.width.toDouble(), image.height.toDouble()),
+      Offset.zero & size,
+      Paint()
+        ..filterQuality = FilterQuality.medium
+        ..color = Color.fromRGBO(0, 0, 0, amount.clamp(0.0, 1.0)),
+    );
+  }
+
+  @override
+  bool shouldRepaint(_SoftCopy old) => old.image != image || old.amount != amount;
 }

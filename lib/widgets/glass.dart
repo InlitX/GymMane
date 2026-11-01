@@ -243,10 +243,7 @@ class _EdgeBlurState extends State<EdgeBlur> {
     }
 
     _filtersFor = key;
-    return _filters = [
-      layer(widget.sigma * 0.35, 0.2, 1),
-      layer(widget.sigma, 0.08, 0.66),
-    ];
+    return _filters = [layer(widget.sigma * 0.8, 0.06, 0.82)];
   }
 
   @override

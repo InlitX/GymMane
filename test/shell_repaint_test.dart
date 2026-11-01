@@ -1,4 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:gymmane/widgets/glass.dart';
 import 'package:gymmane/widgets/ui_kit.dart';
 import 'package:gymmane/app/gymmane_app.dart';
 import 'package:gymmane/l10n/l10n.dart';
@@ -61,5 +63,24 @@ void main() {
     expect(find.text('38'), findsOneWidget, reason: 'la pantalla no se repintó');
     fit.measures.clear();
     fit.persistNow();
+  });
+
+  testWidgets('al abrir una hoja el fondo se suaviza con una copia y al cerrarla se va', (tester) async {
+    blurEffects = true;
+    await open(tester, 'home');
+    final ctx = tester.element(find.byType(Scaffold).first);
+    bool soft() => tester
+        .widgetList<CustomPaint>(find.byType(CustomPaint))
+        .any((c) => c.painter.runtimeType.toString() == '_SoftCopy');
+    showAppSheet<void>(context: ctx, builder: (_) => const SizedBox(height: 200));
+    for (var i = 0; i < 20; i++) {
+      await tester.pump(const Duration(milliseconds: 40));
+    }
+    expect(sheetRecede.value, greaterThan(0.9));
+    expect(soft(), isTrue);
+    Navigator.of(ctx).pop();
+    await tester.pumpAndSettle();
+    expect(sheetRecede.value, 0);
+    expect(soft(), isFalse);
   });
 }

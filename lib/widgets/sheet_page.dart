@@ -14,7 +14,8 @@ class SheetPage extends StatefulWidget {
     super.key,
     required this.title,
     required this.onBack,
-    required this.children,
+    this.children = const [],
+    this.slivers,
     this.eyebrow,
     this.actions = const [],
   });
@@ -24,6 +25,7 @@ class SheetPage extends StatefulWidget {
   final List<Widget> actions;
   final VoidCallback onBack;
   final List<Widget> children;
+  final List<Widget>? slivers;
 
   @override
   State<SheetPage> createState() => _SheetPageState();
@@ -120,6 +122,46 @@ class _SheetPageState extends State<SheetPage> {
               ),
             ),
           ),
+          if (widget.slivers case final slivers?)
+            CustomScrollView(
+              controller: _scroll,
+              slivers: [
+                SliverToBoxAdapter(child: SizedBox(height: header)),
+                AnimatedBuilder(
+                  animation: _scroll,
+                  builder: (context, child) {
+                    final d = ((_y - dockFrom) / 18).clamp(0.0, 1.0);
+                    return DecoratedSliver(
+                      decoration: BoxDecoration(
+                        color: sheet,
+                        borderRadius: BorderRadius.vertical(top: Radius.circular(_corner * (1 - d))),
+                        border: Border.all(color: gc.text.withValues(alpha: 0.06 * (1 - d))),
+                      ),
+                      sliver: SliverMainAxisGroup(slivers: [
+                        SliverToBoxAdapter(
+                          child: Opacity(
+                            opacity: 1 - d,
+                            child: SheetHandle(
+                              color: gc.text.withValues(alpha: 0.14),
+                              margin: const EdgeInsets.only(top: 10),
+                            ),
+                          ),
+                        ),
+                        child!,
+                      ]),
+                    );
+                  },
+                  child: SliverMainAxisGroup(slivers: [
+                    SliverPadding(
+                      padding: EdgeInsets.fromLTRB(_side, 20, _side, pad.bottom + 40),
+                      sliver: SliverMainAxisGroup(slivers: slivers),
+                    ),
+                    const SliverFillRemaining(hasScrollBody: false, child: SizedBox.shrink()),
+                  ]),
+                ),
+              ],
+            )
+          else
           SingleChildScrollView(
             controller: _scroll,
             child: Column(
@@ -155,9 +197,11 @@ class _SheetPageState extends State<SheetPage> {
                       ),
                     );
                   },
-                  child: Padding(
-                    padding: EdgeInsets.fromLTRB(_side, 20, _side, pad.bottom + 40),
-                    child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: widget.children),
+                  child: RepaintBoundary(
+                    child: Padding(
+                      padding: EdgeInsets.fromLTRB(_side, 20, _side, pad.bottom + 40),
+                      child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: widget.children),
+                    ),
                   ),
                 ),
               ],

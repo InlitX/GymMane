@@ -87,6 +87,27 @@ void main() {
     });
   });
 
+  group('tamaño del texto y animaciones', () {
+    setUp(() async {
+      SharedPreferences.setMockInitialValues({});
+      await Store.instance.init();
+      fit.resetAllData();
+      fit.onboarded = true;
+    });
+
+    test('se eligen, se recuerdan y lo raro no entra', () {
+      expect(fit.textFactor, 1.0);
+      fit.setTextSize('large');
+      fit.setTextSize('giant');
+      fit.setCalmMotion(true);
+      fit.persistNow();
+      fit.loadFromStore();
+      expect(fit.textSize, 'large');
+      expect(fit.textFactor, greaterThan(1));
+      expect(fit.calmMotion, isTrue);
+    });
+  });
+
   group('#92 inicio de semana', () {
     setUp(() async {
       SharedPreferences.setMockInitialValues({});

@@ -95,19 +95,20 @@ class _RiseState extends State<Rise> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     if (_animate != true) return widget.child;
-    return AnimatedBuilder(
-      animation: _v,
-      child: widget.child,
-      builder: (context, child) {
-        final v = _v.value;
-        return Opacity(
-          opacity: v,
-          child: Transform.translate(
-            offset: Offset(0, 22 * (1 - v)),
-            child: Transform.scale(scale: 0.97 + 0.03 * v, child: child),
-          ),
-        );
-      },
+    return FadeTransition(
+      opacity: _v,
+      child: AnimatedBuilder(
+        animation: _v,
+        child: RepaintBoundary(child: widget.child),
+        builder: (context, child) {
+          final v = _v.value;
+          return Transform(
+            transform: Matrix4.translationValues(0, 22 * (1 - v), 0)..scaleByDouble(0.97 + 0.03 * v, 0.97 + 0.03 * v, 1, 1),
+            alignment: Alignment.center,
+            child: child,
+          );
+        },
+      ),
     );
   }
 }

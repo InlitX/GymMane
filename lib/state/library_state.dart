@@ -75,12 +75,30 @@ mixin LibraryState on FitCore {
     return null;
   }
 
+  final List<String> _exerciseTrail = [];
+
   void openExercise(String id) {
+    final from = activeExerciseId;
+    if (route == 'exercise-detail' && from != null && from != id) {
+      _exerciseTrail.add(from);
+    } else if (route != 'exercise-detail') {
+      _exerciseTrail.clear();
+    }
     activeExerciseId = id;
     pushRoute('exercise-detail');
   }
 
-  void closeExerciseDetail() => popRoute(fallback: 'exercises');
+  void closeExerciseDetail() {
+    while (route == 'exercise-detail' && _exerciseTrail.isNotEmpty) {
+      final id = _exerciseTrail.removeLast();
+      if (id == activeExerciseId || exerciseById(id) == null) continue;
+      activeExerciseId = id;
+      notifyListeners();
+      return;
+    }
+    _exerciseTrail.clear();
+    popRoute(fallback: 'exercises');
+  }
 
   void toggleFavorite(String id) {
     favorites[id] = !(favorites[id] ?? false);

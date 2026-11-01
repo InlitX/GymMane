@@ -42,6 +42,22 @@ mixin SettingsState on FitCore, ToolsState, LibraryState {
   bool autoAdvance = true;
   bool keepScreenOn = true;
   bool blurOn = true;
+  String textSize = 'normal';
+  bool calmMotion = false;
+  bool showMiniBody = true;
+  bool askCheckIn = true;
+
+  void toggleMiniBody() {
+    showMiniBody = !showMiniBody;
+    _persist();
+    notifyListeners();
+  }
+
+  void toggleAskCheckIn() {
+    askCheckIn = !askCheckIn;
+    _persist();
+    notifyListeners();
+  }
   bool lowEndAsked = false;
   bool startCountdown = true;
   bool gamification = true;
@@ -373,6 +389,27 @@ mixin SettingsState on FitCore, ToolsState, LibraryState {
     notifyListeners();
   }
 
+  static const textSizes = ['small', 'normal', 'large'];
+
+  double get textFactor => switch (textSize) {
+        'small' => 0.9,
+        'large' => 1.12,
+        _ => 1.0,
+      };
+
+  void setTextSize(String size) {
+    if (!textSizes.contains(size) || size == textSize) return;
+    textSize = size;
+    _persist();
+    notifyListeners();
+  }
+
+  void setCalmMotion(bool on) {
+    calmMotion = on;
+    _persist();
+    notifyListeners();
+  }
+
   void setBlur(bool on) {
     blurOn = on;
     blurEffects = on;
@@ -386,6 +423,34 @@ mixin SettingsState on FitCore, ToolsState, LibraryState {
   }
 
   double? progressFor(String exerciseId) => progressStep[exerciseId];
+
+  void setWeightStack(String id, List<double> kg) {
+    final clean = <double>{for (final v in kg) if (v.isFinite && v > 0 && v < 1000) (v * 1000).round() / 1000}.toList()
+      ..sort();
+    if (clean.isEmpty) {
+      weightStacks.remove(id);
+    } else {
+      weightStacks[id] = clean.take(60).toList();
+    }
+    _persist();
+    notifyListeners();
+  }
+
+  static const holdSteps = [0, 5, 10, 15];
+
+  int holdStepFor(String exerciseId) => holdStep[exerciseId] ?? 0;
+
+  void cycleHoldStep(String exerciseId, int dir) {
+    final i = holdSteps.indexOf(holdStepFor(exerciseId));
+    final next = holdSteps[((i < 0 ? 0 : i) + dir).clamp(0, holdSteps.length - 1)];
+    if (next == 0) {
+      holdStep.remove(exerciseId);
+    } else {
+      holdStep[exerciseId] = next;
+    }
+    _persist();
+    notifyListeners();
+  }
 
   bool hasProgress(String exerciseId) =>
       (progressStep[exerciseId] ?? 0) > 0 && progressRule(exerciseId).kind != ProgressKind.manual;

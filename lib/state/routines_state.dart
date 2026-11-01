@@ -93,6 +93,19 @@ mixin RoutinesState on FitCore, LibraryState {
 
   Routine? get activeRoutine => activeRoutineId == null ? null : _routine(activeRoutineId!);
 
+  Map<String, double> routineMuscleSets(Routine r) {
+    final out = <String, double>{};
+    for (final ex in routineExercises(r)) {
+      if (!countsForMuscles(ex.id)) continue;
+      final n = routineSets(r, ex.id).toDouble();
+      out[ex.primary] = (out[ex.primary] ?? 0) + n;
+      for (final m in ex.secondary) {
+        out[m] = (out[m] ?? 0) + n / 2;
+      }
+    }
+    return out;
+  }
+
   List<Exercise> routineExercises(Routine r) {
     final out = <Exercise>[];
     for (final id in r.exerciseIds) {

@@ -34,6 +34,7 @@ Future<void> main() async {
   await RestAlarm.instance.init();
   fit.loadFromStore();
   fit.syncPhotoReminder();
+  fit.syncMeasureReminder();
   fit.syncTrainReminder();
 
   final watch = await DeviceKind.isWatch();

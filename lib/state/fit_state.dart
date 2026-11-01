@@ -15,6 +15,7 @@ import '../l10n/l10n.dart';
 import '../models/exercise.dart';
 import '../models/gym_pass.dart';
 import '../models/live_session.dart';
+import '../models/circuit.dart';
 import '../models/measure.dart';
 import '../models/note.dart';
 import '../models/nutrition.dart';
@@ -40,6 +41,7 @@ import '../services/train_reminder.dart';
 import '../services/workout_import.dart';
 
 part 'awards_state.dart';
+part 'circuit_state.dart';
 part 'fit_core.dart';
 part 'gym_pass_state.dart';
 part 'health_state.dart';
@@ -49,6 +51,7 @@ part 'moments_state.dart';
 part 'notes_state.dart';
 part 'nutrition_state.dart';
 part 'places_state.dart';
+part 'report_state.dart';
 part 'routines_state.dart';
 part 'settings_state.dart';
 part 'stats_state.dart';
@@ -58,7 +61,7 @@ part 'tools_state.dart';
 part 'workout_state.dart';
 
 class FitState extends FitCore
-    with ToolsState, LibraryState, SettingsState, NotesState, PlacesState, GymPassState, MeasuresState, MomentsState, TimelineState, StatsState, StepsState, HealthState, NutritionState, AwardsState, RoutinesState, WorkoutState {
+    with ToolsState, LibraryState, SettingsState, NotesState, PlacesState, GymPassState, MeasuresState, MomentsState, TimelineState, StatsState, StepsState, HealthState, CircuitState, NutritionState, ReportState, AwardsState, RoutinesState, WorkoutState {
   void loadFromStore() {
     final data = withMergedExercises(Store.instance.load());
     _loading = true;
@@ -140,6 +143,7 @@ class FitState extends FitCore
       loadNutrition((data['nutrition'] as Map?)?.cast<String, dynamic>());
       loadSteps((data['steps'] as Map?)?.cast<String, dynamic>());
       loadHealth((data['health'] as Map?)?.cast<String, dynamic>());
+      loadCircuits(data['circuits'] as List?);
       _restoreLiveSession(data);
     }
     _stampMemberSince();
@@ -209,6 +213,11 @@ class FitState extends FitCore
       ..clear()
       ..addAll(((data['barKg'] as Map?) ?? const {})
           .map((k, v) => MapEntry(k as String, (v as num).toDouble())));
+    weightStacks
+      ..clear()
+      ..addAll(((data['stacks'] as Map?) ?? const {}).map((k, v) => MapEntry(
+          k as String,
+          ([for (final x in (v as List)) if (x is num && x.isFinite && x > 0) x.toDouble()]..sort()).take(60).toList())));
     videoMarks
       ..clear()
       ..addAll(((data['marks'] as Map?) ?? const {}).map((k, v) => MapEntry(
@@ -247,6 +256,11 @@ class FitState extends FitCore
     autoAdvance = data['autoAdvance'] as bool? ?? true;
     keepScreenOn = data['keepAwake'] as bool? ?? true;
     blurOn = data['blur'] as bool? ?? true;
+    final size = data['textSize'];
+    textSize = SettingsState.textSizes.contains(size) ? size as String : 'normal';
+    calmMotion = data['calm'] as bool? ?? false;
+    showMiniBody = data['miniBody'] as bool? ?? true;
+    askCheckIn = data['checkIn'] as bool? ?? true;
     blurEffects = blurOn;
     lowEndAsked = data['lowEndAsked'] as bool? ?? false;
     startCountdown = data['countdown'] as bool? ?? true;
@@ -264,6 +278,10 @@ class FitState extends FitCore
       ..clear()
       ..addAll(((data['progress'] as Map?) ?? const {})
           .map((k, v) => MapEntry(k as String, (v as num).toDouble())));
+    holdStep
+      ..clear()
+      ..addAll(((data['holdStep'] as Map?) ?? const {})
+          .map((k, v) => MapEntry(k as String, (v as num).toInt().clamp(0, 60))));
     progressRules
       ..clear()
       ..addAll(((data['progressRules'] as Map?) ?? const {}).map(
@@ -384,11 +402,13 @@ class FitState extends FitCore
   }
 
   void _loadMeasures(Map<String, dynamic> data) {
+    loadCustomMeasures(data);
+    final keys = allMeasureKeys.toSet();
     measures
       ..clear()
       ..addAll(((data['measures'] as List?) ?? const [])
           .map((e) => BodyMeasure.fromJson((e as Map).cast<String, dynamic>()))
-          .where((m) => kMeasureKeys.contains(m.key)));
+          .where((m) => keys.contains(m.key)));
   }
 
   void _loadPlaces(Map<String, dynamic> data) {
@@ -462,6 +482,10 @@ class FitState extends FitCore
         'autoAdvance': autoAdvance,
         'keepAwake': keepScreenOn,
         if (!blurOn) 'blur': false,
+        if (textSize != 'normal') 'textSize': textSize,
+        if (calmMotion) 'calm': true,
+        if (!showMiniBody) 'miniBody': false,
+        if (!askCheckIn) 'checkIn': false,
         if (lowEndAsked) 'lowEndAsked': true,
         'countdown': startCountdown,
         'gamify': gamification,
@@ -482,6 +506,7 @@ class FitState extends FitCore
         'levelShown': Map.of(levelShown),
         'goals': exerciseGoals.map((k, g) => MapEntry(k, {'t': g.target, if (g.due != null) 'd': g.due!.millisecondsSinceEpoch})),
         'barKg': exerciseBar,
+        if (weightStacks.isNotEmpty) 'stacks': weightStacks,
         if (plateBar != null) 'plateBar': plateBar,
         'marks': videoMarks.map((k, v) => MapEntry(k, v.map((i, ms) => MapEntry('$i', ms)))),
         'exMode': modeOverride,
@@ -514,6 +539,7 @@ class FitState extends FitCore
         'exRest': exerciseRest,
         if (exerciseUnits.isNotEmpty) 'exUnits': exerciseUnits,
         'progress': progressStep,
+        if (holdStep.isNotEmpty) 'holdStep': holdStep,
         if (progressRules.isNotEmpty)
           'progressRules': progressRules.map((k, v) => MapEntry(k, v.toJson())),
         'warmup': autoWarmup.toList(),
@@ -526,6 +552,7 @@ class FitState extends FitCore
         'sessions': _stored('sessions', sessions, (s) => s.toJson(), parts: _sessionParts),
         'bodyweight': bodyweight.map((b) => b.toJson()).toList(),
         'measures': measures.map((m) => m.toJson()).toList(),
+        ...customMeasuresJson(),
         'shots': shots.map((s) => s.toJson()).toList(),
         'awards': awards.map((k, v) => MapEntry(k, v.toIso8601String())),
         'awardsSeen': awardsSeen.toList(),
@@ -535,6 +562,7 @@ class FitState extends FitCore
         'nutrition': nutritionJson(),
         'steps': stepsJson(),
         'health': healthJson(),
+        if (circuits.isNotEmpty) 'circuits': circuitsJson(),
         if (session != null && !session!.complete) ...{
           'live': session!.toJson(),
           'liveStart': _runningSince?.toIso8601String(),
@@ -551,6 +579,24 @@ class FitState extends FitCore
         for (final e in s.exercises) ...[e, e.incline, e.kcal, e.sets.length, ...e.sets],
       ];
 
+  void clearWorkouts() {
+    sessions.clear();
+    _filed = null;
+    awards.clear();
+    awardsSeen.clear();
+    pendingAwards.clear();
+    levelStay.clear();
+    levelSeen.clear();
+    levelShown.clear();
+    strengthExerciseId = null;
+    _memo.clear();
+    persistNow();
+    _refreshWidgets();
+    syncTrainReminder();
+    refreshAwards(silent: true);
+    notifyListeners();
+  }
+
   void resetAllData() {
     _saveDebounce?.cancel();
     _sessionTimer?.cancel();
@@ -564,6 +610,9 @@ class FitState extends FitCore
     sessions.clear();
     bodyweight.clear();
     measures.clear();
+    customMeasures.clear();
+    measureEveryDays = 0;
+    ProgressReminder.instance.cancelMeasure();
     shots.clear();
     compareFromId = null;
     compareToId = null;
@@ -572,6 +621,7 @@ class FitState extends FitCore
     loadNutrition(null);
     loadSteps(null);
     loadHealth(null);
+    circuits.clear();
     healthGranted = {};
     awards.clear();
     awardsSeen.clear();
@@ -603,6 +653,7 @@ class FitState extends FitCore
     exerciseRest.clear();
     exerciseUnits.clear();
     progressStep.clear();
+    holdStep.clear();
     progressRules.clear();
     autoWarmup.clear();
     noSuggest.clear();
@@ -613,6 +664,7 @@ class FitState extends FitCore
     exerciseGoals.clear();
     videoMarks.clear();
     exerciseBar.clear();
+    weightStacks.clear();
     plateBar = null;
     modeOverride.clear();
     secondaryOverride.clear();
@@ -628,6 +680,8 @@ class FitState extends FitCore
     profile = Profile();
     showFocus = true;
     showRecommended = true;
+    textSize = 'normal';
+    calmMotion = false;
     showWeekStats = true;
     showRoutineRow = true;
     levelHints = true;
@@ -677,7 +731,8 @@ class FitState extends FitCore
       Map<String, String>? restoredNoteMedia,
       Map<String, String>? restoredShots,
       Map<String, String>? restoredMoments,
-      Map<String, String>? restoredFoods}) {
+      Map<String, String>? restoredFoods,
+      Map<String, String>? restoredPasses}) {
     final before = jsonDecode(jsonEncode(Store.finite(toJson()))) as Map<String, dynamic>;
     try {
       applyBackup(backup,
@@ -685,7 +740,8 @@ class FitState extends FitCore
           restoredNoteMedia: restoredNoteMedia,
           restoredShots: restoredShots,
           restoredMoments: restoredMoments,
-          restoredFoods: restoredFoods);
+          restoredFoods: restoredFoods,
+          restoredPasses: restoredPasses);
       return true;
     } catch (e) {
       debugPrint('applyBackup failed: $e');
@@ -699,7 +755,8 @@ class FitState extends FitCore
       Map<String, String>? restoredNoteMedia,
       Map<String, String>? restoredShots,
       Map<String, String>? restoredMoments,
-      Map<String, String>? restoredFoods}) {
+      Map<String, String>? restoredFoods,
+      Map<String, String>? restoredPasses}) {
     final map = withMergedExercises(backup);
     if (restoredMedia != null) restoredMedia = withMergedExercises(restoredMedia).cast<String, String>();
     _loading = true;
@@ -717,7 +774,7 @@ class FitState extends FitCore
       ..clear()
       ..addAll(((map['favorites'] as Map?) ?? {}).map((k, v) => MapEntry(k as String, v as bool)));
     _loadPlaces(map);
-    _loadGymPasses(map);
+    _loadGymPasses(map, restored: restoredPasses);
     _loadNotes(map);
     if (restoredNoteMedia != null) _remapNoteMedia(restoredNoteMedia);
     checkins
@@ -757,11 +814,13 @@ class FitState extends FitCore
     loadNutrition((map['nutrition'] as Map?)?.cast<String, dynamic>(), restored: restoredFoods);
     loadSteps((map['steps'] as Map?)?.cast<String, dynamic>());
     loadHealth((map['health'] as Map?)?.cast<String, dynamic>());
+    loadCircuits(map['circuits'] as List?);
     _seedCalculatorsFromProfile();
     _loading = false;
     _persist();
     syncTrainReminder();
     syncPhotoReminder();
+    syncMeasureReminder();
     _refreshWidgets();
     notifyListeners();
   }
@@ -1153,7 +1212,7 @@ class FitState extends FitCore
         final primary =
             match?.primary ?? (kFilterMuscles.contains(hint) ? hint : guessMuscle(pe.name) ?? 'other');
         exs.add(LoggedExercise(id, match?.name ?? pe.name, primary,
-            [for (final s in pe.sets) LoggedSet(s.reps, s.weightKg, rpe: s.rpe)]));
+            [for (final s in pe.sets) LoggedSet(s.reps, s.weightKg, rpe: s.rpe, note: s.note, sec: s.sec, km: s.km)]));
       }
       if (exs.isEmpty) continue;
       final ls = LoggedSession(ps.date, ps.durationSec, exs);
