@@ -179,7 +179,8 @@ mixin HealthState on FitCore {
       ..addAll(current);
     if (healthPinned.contains(m)) {
       if (healthPinned.length > 1) healthPinned.remove(m);
-    } else if (healthPinned.length < 3) {
+    } else {
+      if (healthPinned.length >= 3) healthPinned.removeAt(0);
       healthPinned.add(m);
     }
     _persist();

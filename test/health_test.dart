@@ -99,6 +99,18 @@ void main() {
       expect(last.values, [97]);
       expect(HealthMetrics.dayKey(last.day), key(1));
     });
+    test('con 3 en la tarjeta, tocar otra cambia la más antigua', () {
+      fit.healthShown
+        ..clear()
+        ..addAll([HealthMetric.restingHr, HealthMetric.sleep, HealthMetric.activeKcal, HealthMetric.spo2]);
+      fit.healthPinned.clear();
+      fit.toggleHealthPin(HealthMetric.restingHr);
+      expect(fit.healthTop, [HealthMetric.sleep, HealthMetric.activeKcal]);
+      fit.toggleHealthPin(HealthMetric.restingHr);
+      expect(fit.healthTop, [HealthMetric.sleep, HealthMetric.activeKcal, HealthMetric.restingHr]);
+      fit.toggleHealthPin(HealthMetric.spo2);
+      expect(fit.healthTop, [HealthMetric.activeKcal, HealthMetric.restingHr, HealthMetric.spo2]);
+    });
   });
 
   group('#281 cómo se enseñan', () {

@@ -326,7 +326,10 @@ void showHealthPins(BuildContext context) {
                     style: AppTheme.f(12.5, weight: FontWeight.w500, color: gc.textSecondary, height: 1.4)),
                 const SizedBox(height: 16),
                 Flexible(
-                  child: SingleChildScrollView(
+                  child: FloatingActions(
+                    actions: PrimaryButton(label: t.done, onTap: () => Navigator.of(sheet).pop()),
+                    child: SingleChildScrollView(
+                    padding: const EdgeInsets.only(bottom: 84),
                     child: Container(
                       padding: const EdgeInsets.symmetric(horizontal: 14),
                       decoration: BoxDecoration(color: gc.bgRaised2, borderRadius: BorderRadius.circular(18)),
@@ -362,9 +365,8 @@ void showHealthPins(BuildContext context) {
                       ]),
                     ),
                   ),
+                  ),
                 ),
-                const SizedBox(height: 16),
-                PrimaryButton(label: t.done, onTap: () => Navigator.of(sheet).pop()),
               ],
             ),
           ),
