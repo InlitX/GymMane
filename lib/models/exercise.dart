@@ -87,7 +87,7 @@ class Exercise {
 
 const List<String> kExerciseModeIds = ['cardio', 'time'];
 
-const List<String> kExerciseKinds = ['strength', 'calisthenics', 'cardio', 'stretch'];
+const List<String> kExerciseKinds = ['strength', 'calisthenics', 'cardio', 'stretch', 'sport'];
 
 class ToolMeta {
   const ToolMeta(this.id, this.name, this.desc);
