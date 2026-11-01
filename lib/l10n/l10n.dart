@@ -242,6 +242,7 @@ extension GymL10n on AppLocalizations {
         'calisthenics' => kindCalisthenics,
         'cardio' => kindCardio,
         'stretch' => kindStretch,
+        'sport' => kindSport,
         _ => kindStrength,
       };
 
@@ -276,6 +277,8 @@ extension GymL10n on AppLocalizations {
   String longDate(DateTime d) => '${weekday(d.weekday)}, ${shortDate(d)}';
 
   String shortDate(DateTime d) => _dates(DateFormat.MMMd).format(d);
+
+  String clockTime(DateTime d) => _dates(DateFormat.Hm).format(d);
 
   String shortDateYear(DateTime d) => _dates(DateFormat.yMMMd).format(d);
 

@@ -201,8 +201,7 @@ class AppLocalizationsNl extends AppLocalizations {
   String get miniRest => 'Rust bij rest-pause en cluster';
 
   @override
-  String get miniRestHint =>
-      'Korte rust vóór een rest-pause- of clusterset. De andere sets houden de gewone rust.';
+  String get miniRestHint => 'Voor rest-pause- of clustersets';
 
   @override
   String get gymPass => 'Sportschoolpas';
@@ -274,7 +273,7 @@ class AppLocalizationsNl extends AppLocalizations {
   String get gymPassReading => 'Code lezen…';
 
   @override
-  String get gymPassSettingHint => 'Je sportschoolpas in je profiel, klaar voor de ingang';
+  String get gymPassSettingHint => 'Je sportschoolpas in je profiel';
 
   @override
   String get gymPassMember => 'Lid';
@@ -654,6 +653,63 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get clearFilters => 'Filters wissen';
+
+  @override
+  String get quickAddAmount => 'How much you had';
+
+  @override
+  String get homeCardsTitle => 'Kaarten op Start';
+
+  @override
+  String get homeCardsHint => 'Wat je aanzet, verschijnt op Start';
+
+  @override
+  String get homeCardFocus => 'Vandaag';
+
+  @override
+  String get homeCardSteps => 'Stappen';
+
+  @override
+  String get homeCardWeek => 'Deze week';
+
+  @override
+  String get homeCardRoutines => 'Routines';
+
+  @override
+  String get homeCardRecommended => 'Aanbevolen';
+
+  @override
+  String get textSizeSetting => 'Tekstgrootte';
+
+  @override
+  String get textSizeSmall => 'Klein';
+
+  @override
+  String get textSizeNormal => 'Normaal';
+
+  @override
+  String get textSizeLarge => 'Groot';
+
+  @override
+  String get textSizeHint => 'Bovenop de tekstgrootte van je telefoon';
+
+  @override
+  String get calmMotionSetting => 'Minder animaties';
+
+  @override
+  String get calmMotionHint => 'Schermen verschijnen zonder in te schuiven';
+
+  @override
+  String get dishArchive => 'Archive';
+
+  @override
+  String get dishUnarchive => 'Restore';
+
+  @override
+  String get dishArchivedToast => 'Dish archived';
+
+  @override
+  String get filterShowLabel => 'Tonen';
 
   @override
   String get noExercisesFound => 'Geen oefeningen gevonden';
@@ -1953,8 +2009,7 @@ class AppLocalizationsNl extends AppLocalizations {
   String get liveAllDone => 'Alle sets gedaan';
 
   @override
-  String get autoAdvanceHint =>
-      'Wanneer de laatste set van een oefening is afgevinkt, gaat de training automatisch naar de volgende.';
+  String get autoAdvanceHint => 'Gaat door na de laatste set';
 
   @override
   String get placePlates => 'Schijven en stang';
@@ -1996,7 +2051,7 @@ class AppLocalizationsNl extends AppLocalizations {
   String get toastSoundSetting => 'Meldingsgeluid';
 
   @override
-  String get toastSoundHint => 'Een zacht geluidje als er bovenin een melding verschijnt.';
+  String get toastSoundHint => 'Een zacht geluid bij elke melding';
 
   @override
   String get notifTrainChannel => 'Trainingsherinnering';
@@ -3104,19 +3159,19 @@ class AppLocalizationsNl extends AppLocalizations {
   String get homeRoutines => 'Routines op het startscherm';
 
   @override
-  String get homeRoutinesHint => 'Je routines, de laatst gedane eerst. Tik op een routine om te starten.';
+  String get homeRoutinesHint => 'Laatst gedaan eerst';
 
   @override
   String get homeWeekStats => 'Deze week op het startscherm';
 
   @override
-  String get homeWeekStatsHint => 'Volume, sets en PR’s van de week.';
+  String get homeWeekStatsHint => 'Volume, sets en PR’s van de week';
 
   @override
   String get stepsSetting => 'Stappen uit Health Connect';
 
   @override
-  String get stepsSettingHint => 'Toont de stappen van vandaag op Start. Niets verlaat je telefoon.';
+  String get stepsSettingHint => 'Stappen van vandaag op Start';
 
   @override
   String get stepsToday => 'Stappen vandaag';
@@ -3487,16 +3542,16 @@ class AppLocalizationsNl extends AppLocalizations {
   String get swapDoneBefore => 'Eerder gedaan';
 
   @override
-  String get multiPlanSettingHint => 'Meer dan één routine op dezelfde weekdag.';
+  String get multiPlanSettingHint => 'Meer dan één routine op dezelfde weekdag';
 
   @override
-  String get levelHintsHint => 'Wordt een oefening makkelijk, dan stelt hij de zwaardere versie voor.';
+  String get levelHintsHint => 'Stelt de zwaardere versie voor';
 
   @override
-  String get focusCardHint => 'De routine van vandaag, bovenaan op Start.';
+  String get focusCardHint => 'De routine van vandaag, bovenaan op Start';
 
   @override
-  String get gamificationHint => 'Medailles, je niveau en het feestje als je klaar bent.';
+  String get gamificationHint => 'Medailles, level en feestje';
 
   @override
   String get exerciseSettings => 'Instellingen van deze oefening';
@@ -3641,40 +3696,40 @@ class AppLocalizationsNl extends AppLocalizations {
   String get rpeEffortLabel => 'Inspanning (RPE)';
 
   @override
-  String get restRowHint => 'Tussen sets, tenzij de oefening een eigen rust heeft.';
+  String get restRowHint => 'Tussen sets, tenzij de oefening een eigen rust heeft';
 
   @override
-  String get effortRowHint => 'Noteer RPE of RIR bij elke set.';
+  String get effortRowHint => 'Noteer RPE of RIR bij elke set';
 
   @override
-  String get countdownHint => '3, 2, 1 voor de eerste set.';
+  String get countdownHint => '3, 2, 1 voor de eerste set';
 
   @override
-  String get keepScreenOnHint => 'Het scherm blijft aan tijdens het trainen.';
+  String get keepScreenOnHint => 'Het scherm blijft aan tijdens het trainen';
 
   @override
-  String get demoSizeRowHint => 'De tekening van de oefening tijdens de training.';
+  String get demoSizeRowHint => 'De tekening van de oefening tijdens de training';
 
   @override
-  String get demoLoopRowHint => 'Of de animatie herhaalt of stopt.';
+  String get demoLoopRowHint => 'Of de animatie herhaalt of stopt';
 
   @override
-  String get trainReminderRowHint => 'Een herinnering op trainingsdagen.';
+  String get trainReminderRowHint => 'Een herinnering op trainingsdagen';
 
   @override
-  String get alarmSoundRowHint => 'Wat er klinkt als de rust voorbij is.';
+  String get alarmSoundRowHint => 'Wat er klinkt als de rust voorbij is';
 
   @override
-  String get alarmStyleRowHint => 'Of hij afgaat in stille modus.';
+  String get alarmStyleRowHint => 'Of hij afgaat in stille modus';
 
   @override
-  String get recommendedRowHint => 'Oefeningen die we op Start voorstellen.';
+  String get recommendedRowHint => 'Oefeningen die we op Start voorstellen';
 
   @override
   String get weightStepSetting => 'Gewichtsstap';
 
   @override
-  String get weightStepHint => 'Wat de knoppen − en + toevoegen.';
+  String get weightStepHint => 'Wat de knoppen − en + toevoegen';
 
   @override
   String get prBestWorkout => 'Beste training';
@@ -4548,8 +4603,7 @@ class AppLocalizationsNl extends AppLocalizations {
   String get nutritionBeta => 'Voeding';
 
   @override
-  String get nutritionBetaHint =>
-      'Maaltijden, water, eiwit en supplementen. Nog in aanbouw: je gegevens blijven, ook als je het uitzet.';
+  String get nutritionBetaHint => 'Maaltijden, water en supplementen';
 
   @override
   String get nutritionAboutTitle => 'Over voeding';
@@ -5422,7 +5476,7 @@ class AppLocalizationsNl extends AppLocalizations {
   String get healthSetting => 'Gezondheidsgegevens';
 
   @override
-  String get healthSettingHint => 'Hart, slaap en vitale waarden uit Health Connect, in Voortgang.';
+  String get healthSettingHint => 'Health Connect-gegevens in Voortgang';
 
   @override
   String get healthPickTitle => 'Gezondheidsgegevens';
@@ -5478,6 +5532,9 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get healthNoData => 'Nog geen gegevens';
+
+  @override
+  String get healthReadFailed => 'Kon niet worden gelezen';
 
   @override
   String get healthAllow => 'Tik om toe te staan';
@@ -5598,7 +5655,7 @@ class AppLocalizationsNl extends AppLocalizations {
   String get blurSetting => 'Vervagingseffecten';
 
   @override
-  String get blurSettingHint => 'Glas en zachte randen. Zet ze uit als je telefoon traag voelt.';
+  String get blurSettingHint => 'Uit als je telefoon traag is';
 
   @override
   String get lowEndTitle => 'Je telefoon heeft weinig geheugen';
@@ -5624,4 +5681,884 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get awardsPickHint => 'Tik op de medailles die je op je profiel wilt';
+
+  @override
+  String get gymPassPicture => 'Een foto van de code bewaren';
+
+  @override
+  String get gymPassPictureHint => 'Voor codes die de app niet kan lezen: toont je foto op volle helderheid';
+
+  @override
+  String get gymPassPictureFormat => 'Foto';
+
+  @override
+  String get gymPassUsePicture => 'Foto bewaren';
+
+  @override
+  String get gymPassChangePicture => 'Foto wijzigen';
+
+  @override
+  String get cropTitle => 'Snijd de code bij';
+
+  @override
+  String get cropHint => 'Sleep de hoeken tot alleen de code overblijft';
+
+  @override
+  String get rotatePhoto => 'Draaien';
+
+  @override
+  String get cardioNoSets => 'Cardio telt niet mee voor je sets per spier per week';
+
+  @override
+  String get countsAsWater => 'Counts toward water';
+
+  @override
+  String get countsAsWaterHint => 'For shakes made with water: logging it adds to your water too';
+
+  @override
+  String get waterPerServing => 'Water per serving';
+
+  @override
+  String get estOneRm => 'geschatte 1RM';
+
+  @override
+  String get newInWorkout => 'Nieuw in deze training';
+
+  @override
+  String newInWorkoutHint(String routine) {
+    return 'Voeg het toe aan $routine met de sets die je net deed. De rest van de routine blijft hetzelfde.';
+  }
+
+  @override
+  String get addedToRoutine => 'Toegevoegd';
+
+  @override
+  String get addShort => 'Toevoegen';
+
+  @override
+  String get allTimeLifted => 'GETILD';
+
+  @override
+  String get pctBodyweight => '% lichaamsgewicht';
+
+  @override
+  String get ofBodyweight => 'van je lichaamsgewicht';
+
+  @override
+  String get recoveryStateMid => 'Herstelt';
+
+  @override
+  String get recoveryStateReady => 'Klaar';
+
+  @override
+  String recoveringIn(String time) {
+    return 'Herstelt over $time';
+  }
+
+  @override
+  String readyIn(String time) {
+    return 'Klaar over $time';
+  }
+
+  @override
+  String get recoveryReadyNow => 'Klaar om weer te trainen';
+
+  @override
+  String get restAfterThisSet => 'Rust na deze set';
+
+  @override
+  String restUsual(String time) {
+    return 'Normaal: $time';
+  }
+
+  @override
+  String get restJustToday => 'Alleen voor deze set, vandaag';
+
+  @override
+  String get restUseUsual => 'Terug naar je normale rust';
+
+  @override
+  String get restChange => 'Wijzigen';
+
+  @override
+  String get noRestTimer => 'Geen timer';
+
+  @override
+  String get sessionMuscles => 'Spieren in deze training';
+
+  @override
+  String get sessionMusclesHint =>
+      'Vaag moet nog, fel is klaar. Sets per spier, secundaire spieren tellen half.';
+
+  @override
+  String get miniBodySetting => 'Kleine spierkaart bij routines';
+
+  @override
+  String get miniBodySettingHint => 'Spieren per routine';
+
+  @override
+  String get balanceTitle => 'Krachtbalans';
+
+  @override
+  String get balanceWhy => 'Hoe het werkt';
+
+  @override
+  String get balanceGood => 'Je basisoefeningen zijn in balans';
+
+  @override
+  String balanceBehind(String lift, String gap) {
+    return '$lift loopt achter: nog zo’n $gap';
+  }
+
+  @override
+  String get balanceHint =>
+      'Vergelijkt je geschatte 1RM’s van de laatste 4 maanden met klassieke verhoudingen: squat 100%, deadlift 120%, bankdrukken 75%, roeien 52%, overhead press 45%. Een oefening ver onder de rest is meestal een zwak punt.';
+
+  @override
+  String get balanceEven => 'In balans';
+
+  @override
+  String get balanceBehindShort => 'Achter';
+
+  @override
+  String get balanceAheadShort => 'Voor';
+
+  @override
+  String get holdProgress => 'Progressie op tijd';
+
+  @override
+  String get holdProgressHint => 'Telt seconden op als je elke set volhoudt';
+
+  @override
+  String holdProgressOn(int s) {
+    return '+$s s elke keer dat je elke set volhoudt';
+  }
+
+  @override
+  String get paceTitle => 'Weektempo';
+
+  @override
+  String get paceOn => 'Op schema';
+
+  @override
+  String get paceTooFast => 'Sneller dan je bereik';
+
+  @override
+  String get paceTooSlow => 'Langzamer dan je bereik';
+
+  @override
+  String get paceWrongWay => 'De verkeerde kant op';
+
+  @override
+  String get paceDrifting => 'Meer schommeling dan behouden toelaat';
+
+  @override
+  String get paceSetAim => 'Tik om je doel te kiezen';
+
+  @override
+  String get paceBasis => 'Trend van je wegingen van de laatste 3 weken, zodat een zout diner je niet foppt.';
+
+  @override
+  String get paceAimTitle => 'Wat is je doel?';
+
+  @override
+  String get paceAimHint => 'De kaart zegt of je weektempo past';
+
+  @override
+  String get paceLose => 'Afvallen';
+
+  @override
+  String get paceHold => 'Behouden';
+
+  @override
+  String get paceGain => 'Aankomen';
+
+  @override
+  String get paceAuto => 'Automatisch';
+
+  @override
+  String get paceLoseRange => '0,5 tot 1% van je gewicht per week';
+
+  @override
+  String get paceHoldRange => 'Binnen 0,25% per week';
+
+  @override
+  String get paceGainRange => '0,25 tot 0,5% van je gewicht per week';
+
+  @override
+  String get paceAutoHint => 'Uit je streefgewicht';
+
+  @override
+  String get weekShort => 'wk';
+
+  @override
+  String get weightStack => 'Gewichtsblok';
+
+  @override
+  String get weightStackHint =>
+      'De gewichten die deze machine echt heeft. + en −, progressie en deloads komen alleen daarop.';
+
+  @override
+  String get weightStackOff => 'Uit: normale gewichtsstappen';
+
+  @override
+  String get stackFrom => 'Van';
+
+  @override
+  String get stackTo => 'Tot';
+
+  @override
+  String get stackEvery => 'Elke';
+
+  @override
+  String get stackFill => 'Blok vullen';
+
+  @override
+  String get stackTapToFix => 'Tik op een gewicht om een vreemd gewicht te corrigeren of te verwijderen.';
+
+  @override
+  String get stackAddWeight => 'Gewicht toevoegen';
+
+  @override
+  String get stackEditWeight => 'Gewicht op de pin';
+
+  @override
+  String get stackClear => 'Blok verwijderen';
+
+  @override
+  String stackCount(int n) {
+    return '$n gewichten';
+  }
+
+  @override
+  String get healthLinksTitle => 'Met je trainingen';
+
+  @override
+  String get healthLinkHeart => 'Hartslag van je horloge';
+
+  @override
+  String get healthLinkHeartHint => 'Gemiddelde en maximale hartslag van elke training, van welk horloge ook';
+
+  @override
+  String get healthLinkWeight => 'Wegingen uit andere apps';
+
+  @override
+  String get healthLinkWeightHint =>
+      'De wegingen van je weegschaal van de laatste 30 dagen. Overschrijft nooit een die je zelf invulde.';
+
+  @override
+  String get healthLinkDenied => 'Health Connect gaf geen toestemming';
+
+  @override
+  String get healthOpenSettings => 'Openen';
+
+  @override
+  String hrMaxShort(int bpm) {
+    return 'max $bpm';
+  }
+
+  @override
+  String get setNote => 'Notitie bij deze set';
+
+  @override
+  String get setNoteHint => 'Grip, een pijntje, een tip die werkte…';
+
+  @override
+  String setNoteLast(String note) {
+    return 'Vorige keer: $note';
+  }
+
+  @override
+  String get lastTimeNotes => 'Vorige keer';
+
+  @override
+  String setNoteLine(int n, String note) {
+    return 'Set $n · $note';
+  }
+
+  @override
+  String get newMeasure => 'Nieuwe maat';
+
+  @override
+  String get newMeasureHint => 'Wat je wilt volgen: pols, rusthartslag, lichaamsvocht…';
+
+  @override
+  String get measureKindLength => 'Lengte';
+
+  @override
+  String get measureKindLengthHint => 'In cm of inch, zoals de rest';
+
+  @override
+  String get measureKindOther => 'Anders';
+
+  @override
+  String get measureKindOtherHint => 'Met je eigen eenheid';
+
+  @override
+  String get measureUnit => 'Eenheid';
+
+  @override
+  String get measureUnitHint => 'mm, bpm, kg…';
+
+  @override
+  String get measureNameHint => 'Pols, rusthartslag…';
+
+  @override
+  String get measureRename => 'Hernoemen';
+
+  @override
+  String measureDeleteTitle(String name) {
+    return '$name verwijderen?';
+  }
+
+  @override
+  String get measureDeleteBody => 'Alle waarden die je ervoor noteerde gaan ook weg.';
+
+  @override
+  String get measureDelete => 'Deze maat verwijderen';
+
+  @override
+  String get measureEvery => 'Herinner me om te meten';
+
+  @override
+  String measureNextIn(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: 'Over $n dagen',
+      one: 'Morgen',
+      zero: 'Vandaag',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get measureDueNow => 'Tijd om te meten';
+
+  @override
+  String get notifMeasureChannel => 'Lichaamsmaten';
+
+  @override
+  String get notifMeasureChannelWhy => 'Een seintje als het tijd is om opnieuw te meten.';
+
+  @override
+  String get notifMeasureTitle => 'Tijd om te meten';
+
+  @override
+  String notifMeasureBody(int n) {
+    return '$n dagen sinds de vorige keer. Zelfde plek, zelfde tijdstip.';
+  }
+
+  @override
+  String get healthLinkWrite => 'Je trainingen opslaan';
+
+  @override
+  String get healthLinkWriteHint =>
+      'Elke afgeronde training gaat met tijd en soort naar Health Connect, zodat andere apps hem ook tellen. Stuurt ook de laatste 30 dagen.';
+
+  @override
+  String get healthWorkoutTitle => 'Training';
+
+  @override
+  String get circuits => 'Circuits op tijd';
+
+  @override
+  String get circuitsHint => 'Werk en rust op de klok, ronde na ronde';
+
+  @override
+  String get newCircuit => 'Nieuw circuit';
+
+  @override
+  String get editCircuit => 'Circuit bewerken';
+
+  @override
+  String get circuitDefaultName => 'Circuit';
+
+  @override
+  String get circuitNameHint => 'Naam, zoals Core-finisher';
+
+  @override
+  String get circuitRounds => 'Rondes';
+
+  @override
+  String get circuitRoundRest => 'Rust tussen rondes';
+
+  @override
+  String get circuitWork => 'Werk';
+
+  @override
+  String get circuitRest => 'Rust';
+
+  @override
+  String get circuitAdd => 'Oefening toevoegen';
+
+  @override
+  String get circuitEmpty =>
+      'Voeg de oefeningen toe in de volgorde waarin je ze doet. Eén mag twee keer, zoals de zijplank per kant.';
+
+  @override
+  String circuitSummary(int steps, int rounds, String time) {
+    String _temp0 = intl.Intl.pluralLogic(
+      steps,
+      locale: localeName,
+      other: '$steps oefeningen',
+      one: '1 oefening',
+    );
+    String _temp1 = intl.Intl.pluralLogic(
+      rounds,
+      locale: localeName,
+      other: '$rounds rondes',
+      one: '1 ronde',
+    );
+    return '$_temp0 · $_temp1 · $time';
+  }
+
+  @override
+  String get circuitStart => 'Start';
+
+  @override
+  String get circuitGetReady => 'Maak je klaar';
+
+  @override
+  String circuitRoundOf(int n, int total) {
+    return 'Ronde $n van $total';
+  }
+
+  @override
+  String circuitNext(String name) {
+    return 'Hierna: $name';
+  }
+
+  @override
+  String get circuitFinishLine => 'De laatste en klaar';
+
+  @override
+  String get circuitDone => 'Circuit klaar';
+
+  @override
+  String circuitDoneBody(String time) {
+    return '$time · opgeslagen in je geschiedenis';
+  }
+
+  @override
+  String get circuitStopTitle => 'Circuit stoppen?';
+
+  @override
+  String get circuitStopBody => 'Wat je tot nu toe deed, wordt opgeslagen in je geschiedenis.';
+
+  @override
+  String get circuitStop => 'Stoppen';
+
+  @override
+  String get circuitKeepGoing => 'Doorgaan';
+
+  @override
+  String circuitDeleteTitle(String name) {
+    return '$name verwijderen?';
+  }
+
+  @override
+  String get circuitDeleteBody => 'Trainingen die je er al mee deed, blijven in je geschiedenis.';
+
+  @override
+  String get circuitPickExercise => 'Kies een oefening';
+
+  @override
+  String get circuitNoSteps => 'Voeg minstens één oefening toe';
+
+  @override
+  String get circuitPrevious => 'Vorige';
+
+  @override
+  String get circuitUpNext => 'Nu komt';
+
+  @override
+  String get foodGroupNew => 'New category';
+
+  @override
+  String get foodGroupHint => 'Ready meals, frozen…';
+
+  @override
+  String foodGroupCount(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n foods',
+      one: '1 food',
+      zero: 'No foods yet',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String foodGroupDeleteTitle(String name) {
+    return 'Delete $name?';
+  }
+
+  @override
+  String get foodGroupDeleteBody => 'Your foods stay, just without this category.';
+
+  @override
+  String onbHello(String name) {
+    return 'Hoi, $name';
+  }
+
+  @override
+  String get onbPlaceHero => 'oefeningen die je kunt doen';
+
+  @override
+  String get settingsRests => 'Rust';
+
+  @override
+  String get settingsDuring => 'Tijdens het trainen';
+
+  @override
+  String get settingsLook => 'Weergave';
+
+  @override
+  String get importCardTitle => 'Haal je workouts hierheen';
+
+  @override
+  String get importCardBody => 'Uit Hevy, Strong, FitNotes en meer';
+
+  @override
+  String get checkInTitle => 'Hoe was je erbij?';
+
+  @override
+  String get checkInSleep => 'Slaap';
+
+  @override
+  String get checkInEnergy => 'Energie';
+
+  @override
+  String get checkInSkip => 'Optioneel';
+
+  @override
+  String get checkInLevel1 => 'Slecht';
+
+  @override
+  String get checkInLevel2 => 'Matig';
+
+  @override
+  String get checkInLevel3 => 'Oké';
+
+  @override
+  String get checkInLevel4 => 'Goed';
+
+  @override
+  String get checkInLevel5 => 'Top';
+
+  @override
+  String get checkInSetting => 'Slaap en energie';
+
+  @override
+  String get checkInSettingHint => 'Vragen na elke training';
+
+  @override
+  String get readinessTitle => 'Slaap en energie';
+
+  @override
+  String get readinessWaiting => 'Blijf je trainingen beoordelen';
+
+  @override
+  String get readinessWaitingHint =>
+      'Na een paar goede en slechte dagen zie je hoe ze je gewichten veranderen.';
+
+  @override
+  String readinessSleepLess(int n) {
+    return 'Op dagen met weinig slaap til je $n% minder';
+  }
+
+  @override
+  String readinessSleepMore(int n) {
+    return 'Grappig: op dagen met weinig slaap til je $n% meer';
+  }
+
+  @override
+  String get readinessSleepNone => 'Slaap verandert je gewichten nauwelijks';
+
+  @override
+  String readinessEnergyLess(int n) {
+    return 'Op dagen met weinig energie til je $n% minder';
+  }
+
+  @override
+  String readinessEnergyMore(int n) {
+    return 'Op dagen met weinig energie til je toch $n% meer';
+  }
+
+  @override
+  String get readinessEnergyNone => 'Je energie verandert je gewichten nauwelijks';
+
+  @override
+  String get readinessHint => 'Vergelijkt elke geschatte 1RM met je beste van de 90 dagen ervoor.';
+
+  @override
+  String get readinessLast30 => 'Gemiddelde van de laatste 30 dagen';
+
+  @override
+  String get kindSport => 'Sport';
+
+  @override
+  String get clearWorkouts => 'Alleen trainingen wissen';
+
+  @override
+  String get clearWorkoutsNone => 'Er zijn geen trainingen om te wissen';
+
+  @override
+  String clearWorkoutsTitle(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n trainingen wissen?',
+      one: '1 training wissen?',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get clearWorkoutsBody =>
+      'Je geschiedenis, records en medailles verdwijnen. Routines, oefeningen, foto’s, maten, voeding en instellingen blijven. Maak eerst een back-up als je ze terug wilt kunnen halen.';
+
+  @override
+  String get clearWorkoutsConfirm => 'Trainingen wissen';
+
+  @override
+  String get clearWorkoutsDone => 'Trainingen gewist';
+
+  @override
+  String get reportTitle => 'Rapport';
+
+  @override
+  String get reportHint => 'Kies de data en deel het als PDF of CSV';
+
+  @override
+  String get reportCustom => 'Anders';
+
+  @override
+  String get reportPickRange => 'Data kiezen';
+
+  @override
+  String get reportEmpty => 'Niets gelogd tussen deze data.';
+
+  @override
+  String get reportKicker => 'TRAININGSRAPPORT';
+
+  @override
+  String reportDays(int n) {
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n dagen', one: '1 dag');
+    return '$_temp0';
+  }
+
+  @override
+  String get reportWorkouts => 'TRAININGEN';
+
+  @override
+  String get reportPerWeek => 'PER WEEK';
+
+  @override
+  String get reportHours => 'UREN';
+
+  @override
+  String get reportVsPrev => 'De percentages vergelijken met hetzelfde aantal dagen ervoor.';
+
+  @override
+  String get reportRecords => 'Nieuwe records';
+
+  @override
+  String get reportLifts => 'Oefeningen';
+
+  @override
+  String get reportSessionsCol => 'DAGEN';
+
+  @override
+  String get reportBestCol => 'BESTE 1RM';
+
+  @override
+  String get reportChangeCol => 'VERSCHIL';
+
+  @override
+  String get reportBestHint =>
+      'De beste 1RM wordt geschat uit je sets. Het verschil vergelijkt de eerste en laatste dag van de oefening in dit rapport.';
+
+  @override
+  String get reportMuscles => 'Sets per spier';
+
+  @override
+  String get reportBody => 'Lichaam en herstel';
+
+  @override
+  String reportFood(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: 'Voeding · gemiddelde van $n dagen',
+      one: 'Voeding · gemiddelde van 1 dag',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String reportRecordsLine(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n nieuwe records',
+      one: '1 nieuw record',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String reportLiftsLine(int n) {
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n oefeningen', one: '1 oefening');
+    return '$_temp0';
+  }
+
+  @override
+  String reportFoodLine(String kcal, int protein, int days) {
+    return '$kcal en $protein g eiwit per dag · $days dagen gelogd';
+  }
+
+  @override
+  String get reportSharePdf => 'PDF delen';
+
+  @override
+  String get reportShareCsv => 'CSV exporteren';
+
+  @override
+  String get reportShareCsvBoth => 'CSV exporteren (trainingen en voeding)';
+
+  @override
+  String fastMinutes(int n) {
+    return '$n min';
+  }
+
+  @override
+  String fastHours(int n) {
+    return '$n h';
+  }
+
+  @override
+  String fastHoursMinutes(int h, int m) {
+    return '$h h $m min';
+  }
+
+  @override
+  String get fastTracker => 'Intermittent fasting';
+
+  @override
+  String fastTitle(int fast, int eat) {
+    return 'Fasting $fast:$eat';
+  }
+
+  @override
+  String get fastOptions => 'Fasting options';
+
+  @override
+  String get fastWindowOpen => 'Eating window open';
+
+  @override
+  String get fastLeft => 'Left';
+
+  @override
+  String get fastDoneLabel => 'Goal reached';
+
+  @override
+  String get fastIdle => 'Start it after your last meal';
+
+  @override
+  String fastLast(String time) {
+    return 'Last fast: $time';
+  }
+
+  @override
+  String fastStreak(int n) {
+    return '$n in a row';
+  }
+
+  @override
+  String fastReached(String time) {
+    return '$time past your goal';
+  }
+
+  @override
+  String fastEndsAt(String time) {
+    return 'Ends at $time';
+  }
+
+  @override
+  String fastSince(String time) {
+    return 'Since $time';
+  }
+
+  @override
+  String get fastStartedAt => 'When did you start fasting?';
+
+  @override
+  String get fastStart => 'Start fast';
+
+  @override
+  String fastFromMeal(String time) {
+    return 'From $time';
+  }
+
+  @override
+  String get fastEnd => 'End fast';
+
+  @override
+  String get fastCancel => 'Cancel this fast';
+
+  @override
+  String get fastPlan => 'Fasting plan';
+
+  @override
+  String get fastPlanHint => 'Hours fasting : hours to eat';
+
+  @override
+  String get fastThisWeek => 'Last 7 days';
+
+  @override
+  String get fastCount => 'Fasts';
+
+  @override
+  String get fastReachedCount => 'Reached';
+
+  @override
+  String get fastAverage => 'Average';
+
+  @override
+  String get fastHistory => 'Recent fasts';
+
+  @override
+  String get notifFastLiveChannel => 'Fasting in progress';
+
+  @override
+  String get notifFastLiveChannelWhy => 'A quiet countdown while you fast.';
+
+  @override
+  String get notifFastChannel => 'Fasting';
+
+  @override
+  String get notifFastChannelWhy => 'Tells you when your fast is done.';
+
+  @override
+  String get notifFastLiveTitle => 'Fasting';
+
+  @override
+  String notifFastLiveBody(String time) {
+    return 'Your eating window opens at $time';
+  }
+
+  @override
+  String get notifFastDoneTitle => 'Fast done';
+
+  @override
+  String notifFastDoneBody(int n) {
+    return '$n hours. Your eating window is open.';
+  }
+
+  @override
+  String get newExerciseHint =>
+      'Alleen de naam is verplicht. De rest helpt, maar je kunt het later toevoegen.';
 }
