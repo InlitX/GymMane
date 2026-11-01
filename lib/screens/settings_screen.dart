@@ -35,8 +35,12 @@ import '../widgets/file_thumb.dart';
 import '../widgets/glass.dart';
 import '../widgets/liquid_notch.dart';
 import '../widgets/photo_source_sheet.dart';
+import '../widgets/widget_showcase.dart';
+import '../widgets/home_cards_panel.dart';
+import '../widgets/settings_showcase.dart';
 import '../widgets/sheet_page.dart';
 import '../widgets/profile_avatar.dart';
+import '../widgets/report_sheet.dart';
 import '../widgets/ruler_picker.dart';
 import '../widgets/timer_panel.dart';
 import 'profile_screen.dart';
@@ -44,6 +48,7 @@ import 'strava_sheet.dart';
 import '../widgets/health_cards.dart';
 import '../widgets/steps_card.dart';
 import '../widgets/svg_icon.dart';
+import '../widgets/import_card.dart';
 import '../widgets/ui_kit.dart';
 
 const _kRepoUrl = 'https://github.com/InlitX/GymMane';
@@ -60,6 +65,7 @@ class SettingsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final gc = context.gc;
     final id = section;
+    WidgetShowcase.warm(context);
     if (id == null) return _SettingsHome(screen: this);
     return RiseScope(
       id: 'settings-$id',
@@ -164,10 +170,33 @@ class SettingsScreen extends StatelessWidget {
               child: _prefRow(gc, PhosphorIconsRegular.drop, t.blurSetting, TinySwitch(on: fit.blurOn),
                   hint: t.blurSettingHint),
             ),
+            _choiceRow(
+              context,
+              gc,
+              PhosphorIconsRegular.textAa,
+              t.textSizeSetting,
+              [
+                ('small', t.textSizeSmall, PhosphorIconsRegular.textAa),
+                ('normal', t.textSizeNormal, PhosphorIconsRegular.textAa),
+                ('large', t.textSizeLarge, PhosphorIconsRegular.textAa),
+              ],
+              () => fit.textSize,
+              fit.setTextSize,
+              hint: t.textSizeHint,
+            ),
+            GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onTap: () => fit.setCalmMotion(!fit.calmMotion),
+              child: _prefRow(gc, PhosphorIconsRegular.waveSine, t.calmMotionSetting, TinySwitch(on: fit.calmMotion),
+                  hint: t.calmMotionHint),
+            ),
           ]),
+          const SizedBox(height: 22),
+          const LookShowcase(),
         ];
       case 'training':
         return [
+          _subhead(gc, t.settingsRests, top: 6),
           _card(gc, [
                   _prefRow(
                     gc,
@@ -223,6 +252,9 @@ class SettingsScreen extends StatelessWidget {
                     ),
                     hint: t.miniRestHint,
                   ),
+          ]),
+          _subhead(gc, t.settingsDuring),
+          _card(gc, [
                   _choiceRow(
                     context,
                     gc,
@@ -268,6 +300,21 @@ class SettingsScreen extends StatelessWidget {
                   ),
                   GestureDetector(
                     behavior: HitTestBehavior.opaque,
+                    onTap: fit.toggleAskCheckIn,
+                    child: _prefRow(gc, PhosphorIconsRegular.moon, t.checkInSetting,
+                        TinySwitch(on: fit.askCheckIn), hint: t.checkInSettingHint),
+                  ),
+          ]),
+          _subhead(gc, t.routines),
+          _card(gc, [
+                  GestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    onTap: fit.toggleMiniBody,
+                    child: _prefRow(gc, PhosphorIconsRegular.person, t.miniBodySetting,
+                        TinySwitch(on: fit.showMiniBody), hint: t.miniBodySettingHint),
+                  ),
+                  GestureDetector(
+                    behavior: HitTestBehavior.opaque,
                     onTap: fit.toggleMultiPlan,
                     child: _prefRow(gc, PhosphorIconsRegular.stack, t.multiPlanSetting,
                         TinySwitch(on: fit.multiPlan), hint: t.multiPlanSettingHint),
@@ -278,6 +325,9 @@ class SettingsScreen extends StatelessWidget {
                     child: _prefRow(gc, PhosphorIconsRegular.stairs, t.levelHintsSetting,
                         TinySwitch(on: fit.levelHints), hint: t.levelHintsHint),
                   ),
+          ]),
+          _subhead(gc, t.settingsLook),
+          _card(gc, [
                   _choiceRow(
                     context,
                     gc,
@@ -406,44 +456,17 @@ class SettingsScreen extends StatelessWidget {
                   ],
 
           ]),
+          const SizedBox(height: 22),
+          const AlertsShowcase(),
         ];
       case 'home':
         return [
+          HomeCardsPanel(onSteps: () async {
+            if (await fit.setStepsOn(!fit.stepsOn) || !context.mounted) return;
+            showStepsSheet(context);
+          }),
+          const SizedBox(height: 22),
           _card(gc, [
-                  GestureDetector(
-                    behavior: HitTestBehavior.opaque,
-                    onTap: fit.toggleFocusCard,
-                    child: _prefRow(gc, PhosphorIconsRegular.target, t.focusCard,
-                        TinySwitch(on: fit.showFocus), hint: t.focusCardHint),
-                  ),
-                  GestureDetector(
-                    behavior: HitTestBehavior.opaque,
-                    onTap: fit.toggleRecommended,
-                    child: _prefRow(gc, PhosphorIconsRegular.sparkle, t.homeRecommended,
-                        TinySwitch(on: fit.showRecommended), hint: t.recommendedRowHint),
-                  ),
-                  GestureDetector(
-                    behavior: HitTestBehavior.opaque,
-                    onTap: fit.toggleRoutineRow,
-                    child: _prefRow(gc, PhosphorIconsRegular.folders, t.homeRoutines,
-                        TinySwitch(on: fit.showRoutineRow), hint: t.homeRoutinesHint),
-                  ),
-                  GestureDetector(
-                    behavior: HitTestBehavior.opaque,
-                    onTap: fit.toggleWeekStats,
-                    child: _prefRow(gc, PhosphorIconsRegular.chartBar, t.homeWeekStats,
-                        TinySwitch(on: fit.showWeekStats), hint: t.homeWeekStatsHint),
-                  ),
-                  if (fit.stepsAvailable)
-                    GestureDetector(
-                      behavior: HitTestBehavior.opaque,
-                      onTap: () async {
-                        if (await fit.setStepsOn(!fit.stepsOn) || !context.mounted) return;
-                        showStepsSheet(context);
-                      },
-                      child: _prefRow(gc, PhosphorIconsRegular.footprints, t.stepsSetting,
-                          TinySwitch(on: fit.stepsOn), hint: t.stepsSettingHint),
-                    ),
                   if (fit.stepsAvailable)
                     GestureDetector(
                       behavior: HitTestBehavior.opaque,
@@ -475,6 +498,8 @@ class SettingsScreen extends StatelessWidget {
                   ),
 
           ]),
+          const SizedBox(height: 22),
+          const HomeExtrasShowcase(),
         ];
       case 'beta':
         return [
@@ -536,17 +561,22 @@ class SettingsScreen extends StatelessWidget {
               (PhosphorIconsRegular.checkCircle, t.addTodayWidget, () => _addWidget(context, 'TodayWidgetProvider')),
               (PhosphorIconsRegular.calendarCheck, t.addWeekWidget, () => _addWidget(context, 'WeekWidgetProvider')),
           ], hints: [t.widgetHintActivity, t.widgetHintStats, t.widgetHintBody, t.widgetHintToday, t.widgetHintWeek]),
+          const SizedBox(height: 22),
+          const WidgetShowcase(),
         ];
       case 'data':
         return [
+          ImportCard(onTap: () => _openImportApps(context)),
+          const SizedBox(height: 12),
           _linkGroup(gc, [
               (PhosphorIconsRegular.fileCsv, t.exportCsv, () => _exportCsv(context)),
+              (PhosphorIconsRegular.fileText, t.reportTitle, () => showReportSheet(context)),
               (PhosphorIconsRegular.fileZip, t.exportBackup, () => _exportBackup(context)),
               (PhosphorIconsRegular.downloadSimple, t.importBackup, () => _importBackup(context)),
               if (AutoBackup.instance.supported)
                 (PhosphorIconsRegular.clockCounterClockwise, t.autoBackup, () => showAutoBackupSheet(context)),
-              (PhosphorIconsRegular.arrowSquareIn, t.importFromApp, () => _openImportApps(context)),
               (PhosphorIconsRegular.export, t.stravaRow, () => showStravaSheet(context)),
+              (PhosphorIconsRegular.barbell, t.clearWorkouts, () => _clearWorkouts(context)),
               (PhosphorIconsRegular.trash, t.resetData, () => _resetAll(context)),
           ], danger: AutoBackup.instance.supported ? 6 : 5),
         ];
@@ -558,9 +588,37 @@ class SettingsScreen extends StatelessWidget {
               (PhosphorIconsRegular.githubLogo, t.starOnGithub, () => _open(context, _kRepoUrl)),
               (PhosphorIconsRegular.coffee, t.buyCoffee, () => _open(context, _kKofiUrl)),
           ], hints: [t.supportHintBug, t.supportHintFeature, t.supportHintStar, t.supportHintCoffee]),
+          const SizedBox(height: 28),
+          Center(
+            child: ExcludeSemantics(
+              child: Image.asset(
+                'assets/img/support-cat.png',
+                width: 300,
+                filterQuality: FilterQuality.medium,
+              ),
+            ),
+          ),
+          const SizedBox(height: 22),
+          Text(t.supportThanksTitle,
+              textAlign: TextAlign.center,
+              style: AppTheme.f(22, weight: FontWeight.w800, color: gc.text, height: 1.2)),
+          const SizedBox(height: 8),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Text(t.supportThanksBody,
+                textAlign: TextAlign.center,
+                style: AppTheme.f(14, weight: FontWeight.w500, color: gc.textSecondary, height: 1.45)),
+          ),
+          const SizedBox(height: 22),
         ];
     }
   }
+
+  Widget _subhead(GymColors gc, String label, {double top = 18}) => Padding(
+        padding: EdgeInsets.fromLTRB(6, top, 0, 10),
+        child: Text(label.toUpperCase(),
+            style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.4)),
+      );
 
   Widget _card(GymColors gc, List<Widget> rows) => Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
@@ -593,6 +651,8 @@ class SettingsScreen extends StatelessWidget {
         (t.heatmapLabelsSetting, PhosphorIconsRegular.gridNine),
         (t.background, PhosphorIconsRegular.image),
         (t.blurSetting, PhosphorIconsRegular.drop),
+        (t.textSizeSetting, PhosphorIconsRegular.textAa),
+        (t.calmMotionSetting, PhosphorIconsRegular.waveSine),
       ]),
       _Category('training', PhosphorIconsRegular.barbell, _sectionTitle('training'), [
         (t.restTimer, PhosphorIconsRegular.timer),
@@ -602,6 +662,8 @@ class SettingsScreen extends StatelessWidget {
         (t.autoAdvance, PhosphorIconsRegular.skipForward),
         (t.countdownSetting, PhosphorIconsRegular.timer),
         (t.keepScreenOn, PhosphorIconsRegular.sun),
+        (t.checkInSetting, PhosphorIconsRegular.moon),
+        (t.miniBodySetting, PhosphorIconsRegular.person),
         (t.multiPlanSetting, PhosphorIconsRegular.stack),
         (t.levelHintsSetting, PhosphorIconsRegular.stairs),
         (t.layoutSetting, PhosphorIconsRegular.rows),
@@ -638,11 +700,13 @@ class SettingsScreen extends StatelessWidget {
       ]),
       _Category('data', PhosphorIconsRegular.database, _sectionTitle('data'), [
         (t.exportCsv, PhosphorIconsRegular.fileCsv),
+        (t.reportTitle, PhosphorIconsRegular.fileText),
         (t.exportBackup, PhosphorIconsRegular.fileZip),
         (t.importBackup, PhosphorIconsRegular.downloadSimple),
         (t.autoBackup, PhosphorIconsRegular.clockCounterClockwise),
         (t.importFromApp, PhosphorIconsRegular.arrowSquareIn),
         (t.stravaRow, PhosphorIconsRegular.export),
+        (t.clearWorkouts, PhosphorIconsRegular.barbell),
         (t.resetData, PhosphorIconsRegular.trash),
       ]),
       _Category('support', PhosphorIconsRegular.heart, _sectionTitle('support'), [
@@ -762,10 +826,7 @@ class SettingsScreen extends StatelessWidget {
           final now = current();
           return Container(
             padding: sheetPad(sheet),
-            decoration: BoxDecoration(
-              color: gc.bgRaised,
-              borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-            ),
+            decoration: sheetDecoration(gc),
             child: SingleChildScrollView(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -838,14 +899,14 @@ class SettingsScreen extends StatelessWidget {
                 ),
                 child: Row(
                   children: [
-                    _rowIcon(gc, items[i].$1, color: i == danger ? gc.danger : null),
+                    _rowIcon(gc, items[i].$1, color: danger != null && i >= danger ? gc.danger : null),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(items[i].$2,
                               style: AppTheme.f(14.5,
-                                  weight: FontWeight.w500, color: i == danger ? gc.danger : gc.text)),
+                                  weight: FontWeight.w500, color: danger != null && i >= danger ? gc.danger : gc.text)),
                           if (hints != null && i < hints.length) ...[
                             const SizedBox(height: 2),
                             Text(hints[i],
@@ -877,6 +938,22 @@ class SettingsScreen extends StatelessWidget {
     await SharePlus.instance.share(
       ShareParams(files: [XFile(file.path)], subject: 'GymMane workouts'),
     );
+  }
+
+  Future<void> _clearWorkouts(BuildContext context) async {
+    if (fit.sessions.isEmpty) {
+      _snack(context, t.clearWorkoutsNone);
+      return;
+    }
+    final ok = await askConfirm(
+      context,
+      title: t.clearWorkoutsTitle(fit.sessions.length),
+      body: t.clearWorkoutsBody,
+      confirmLabel: t.clearWorkoutsConfirm,
+    );
+    if (!ok) return;
+    fit.clearWorkouts();
+    if (context.mounted) _snack(context, t.clearWorkoutsDone);
   }
 
   Future<void> _resetAll(BuildContext context) async {
@@ -979,10 +1056,7 @@ class SettingsScreen extends StatelessWidget {
       isScrollControlled: true,
       builder: (sheet) => Container(
         padding: sheetPad(sheet),
-        decoration: BoxDecoration(
-          color: gc.bgRaised,
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-        ),
+        decoration: sheetDecoration(gc),
         child: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -1217,10 +1291,7 @@ class SettingsScreen extends StatelessWidget {
       builder: (sheet) => StatefulBuilder(
         builder: (sheet, setSheet) => Container(
           padding: sheetPad(sheet),
-          decoration: BoxDecoration(
-            color: gc.bgRaised,
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-          ),
+          decoration: sheetDecoration(gc),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -1377,10 +1448,7 @@ class SettingsScreen extends StatelessWidget {
           final photo = fit.bgPhotoPath;
           return Container(
             padding: sheetPad(sheet),
-            decoration: BoxDecoration(
-              color: gc.bgRaised,
-              borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-            ),
+            decoration: sheetDecoration(gc),
             child: SingleChildScrollView(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -1567,10 +1635,7 @@ class _LanguageSheet extends StatelessWidget {
     return Container(
       constraints: BoxConstraints(maxHeight: MediaQuery.sizeOf(context).height * 0.66),
       padding: sheetPad(context),
-      decoration: BoxDecoration(
-        color: context.gc.bgRaised,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-      ),
+      decoration: sheetDecoration(context.gc),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -1613,10 +1678,7 @@ class _AlarmSoundSheet extends StatelessWidget {
     final current = fit.alarmSoundName ?? t.alarmDefaultName;
     return Container(
       padding: sheetPad(context),
-      decoration: BoxDecoration(
-        color: context.gc.bgRaised,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-      ),
+      decoration: sheetDecoration(context.gc),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -1667,13 +1729,10 @@ class _ProfileSheetState extends State<_ProfileSheet> {
   Widget build(BuildContext context) {
     final gc = context.gc;
     final p = fit.profile;
-    final sheet = fit.dark ? Color.lerp(gc.bg, gc.bgRaised, 0.55)! : gc.bg;
+    final sheet = gc.bgRaised;
     return Container(
       padding: EdgeInsets.fromLTRB(20, 12, 20, 20 + MediaQuery.of(context).viewInsets.bottom + MediaQuery.paddingOf(context).bottom),
-      decoration: BoxDecoration(
-        color: sheet,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(32)),
-      ),
+      decoration: sheetDecoration(gc),
       child: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -1925,7 +1984,7 @@ class _ProfileSheetState extends State<_ProfileSheet> {
 
   Widget _label(GymColors gc, String t) =>
       Text(t.toUpperCase(),
-          style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.3));
+          style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.4));
 
   Widget _row(GymColors gc, String label, Widget control) {
     return ConstrainedBox(

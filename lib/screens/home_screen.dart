@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../widgets/body_map.dart';
 import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 import '../l10n/l10n.dart';
@@ -12,6 +13,7 @@ import '../widgets/exercise_media.dart';
 import '../widgets/glass.dart';
 import '../widgets/home_folder.dart';
 import '../widgets/routine_folder.dart';
+import '../widgets/scroll_away.dart';
 import '../widgets/steps_card.dart';
 import '../widgets/svg_icon.dart';
 import '../widgets/ui_kit.dart';
@@ -42,31 +44,27 @@ class HomeScreen extends StatelessWidget {
             _topBar(gc),
             const SizedBox(height: 20),
             if (fit.showFocus || fit.todayRoutine?.exerciseIds.isNotEmpty == true) ...[
-              _hero(context, gc),
+              ScrollAway(radius: 26, child: _hero(context, gc)),
               const SizedBox(height: 14),
             ],
-            _weekCard(context, gc),
+            _away(_weekCard(context, gc)),
             if (fit.stepsOn && fit.stepsAvailable) ...[
               const SizedBox(height: 14),
-              StepsCard(),
+              _away(StepsCard()),
             ],
             if (fit.photoDue) ...[
               const SizedBox(height: 14),
-              _photoNudge(gc),
+              _away(_photoNudge(gc)),
             ],
             if (fit.showWeekStats) ...[
               const SizedBox(height: 30),
-              _heading(gc, t.thisWeek),
-              const SizedBox(height: 14),
-              _weekStats(context, gc),
+              _section(gc, t.thisWeek, null, _weekStats(context, gc)),
             ],
             if (fit.showRoutineRow && routines.isNotEmpty) ...[
               const SizedBox(height: 30),
-              _heading(gc, t.routines, onMore: fit.goRoutines),
-              const SizedBox(height: 14),
-              LayoutBuilder(
+              _section(gc, t.routines, fit.goRoutines, LayoutBuilder(
                 builder: (context, box) => SizedBox(
-                  height: 196,
+                  height: routineFolderHeight(context),
                   child: ListView.separated(
                     scrollDirection: Axis.horizontal,
                     clipBehavior: Clip.none,
@@ -82,12 +80,10 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-              ),
+              )),
             ],
             const SizedBox(height: 30),
-            _heading(gc, t.activityLabel, onMore: fit.goProgress),
-            const SizedBox(height: 14),
-            SoftCard(
+            _section(gc, t.activityLabel, fit.goProgress, SoftCard(
               radius: 22,
               borderColor: Colors.transparent,
               padding: const EdgeInsets.fromLTRB(18, 18, 18, 16),
@@ -104,12 +100,10 @@ class HomeScreen extends StatelessWidget {
                       labels: fit.heatmapLabels,
                       onTapDay: (i) => showDaySheet(context, fit.heatmapWeekDate(i)),
                     ),
-            ),
+            )),
             if (fit.showRecommended && recommended.isNotEmpty) ...[
               const SizedBox(height: 30),
-              _heading(gc, t.recommended, onMore: fit.goExercises),
-              const SizedBox(height: 14),
-              SizedBox(
+              _section(gc, t.recommended, fit.goExercises, SizedBox(
                 height: 158,
                 child: ListView.separated(
                   scrollDirection: Axis.horizontal,
@@ -117,10 +111,10 @@ class HomeScreen extends StatelessWidget {
                   separatorBuilder: (_, _) => const SizedBox(width: 12),
                   itemBuilder: (_, i) => _recCard(gc, recommended[i]),
                 ),
-              ),
+              )),
             ],
             const SizedBox(height: 30),
-            Row(
+            _away(Row(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Expanded(
@@ -150,7 +144,7 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ),
               ],
-            ),
+            ), dim: 0),
             if (fit.nutritionBeta) ...[
               const SizedBox(height: 12),
               HomeFolder(
@@ -167,6 +161,20 @@ class HomeScreen extends StatelessWidget {
       ),
     );
   }
+
+  Widget _away(Widget child, {double dim = 0.45}) => ScrollAway(radius: 22, dim: dim, child: child);
+
+  Widget _section(GymColors gc, String title, VoidCallback? onMore, Widget child) => _away(
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            _heading(gc, title, onMore: onMore),
+            const SizedBox(height: 14),
+            child,
+          ],
+        ),
+        dim: 0,
+      );
 
   Widget _topBar(GymColors gc) {
     return Row(
@@ -356,11 +364,19 @@ class HomeScreen extends StatelessWidget {
                             weight: FontWeight.w800, color: gc.text, height: 1.1)),
                   ),
                   const SizedBox(height: 7),
-                  Text(subtitle,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: AppTheme.f(13, weight: FontWeight.w500, color: gc.textSecondary)),
-                  const SizedBox(height: 20),
+                  Row(children: [
+                    if (isRoutine && rest == null && fit.showMiniBody) ...[
+                      MiniBody(sets: fit.routineMuscleSets(routine), height: 38),
+                      const SizedBox(width: 10),
+                    ],
+                    Flexible(
+                      child: Text(subtitle,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: AppTheme.f(13, weight: FontWeight.w500, color: gc.textSecondary)),
+                    ),
+                  ]),
+                  const SizedBox(height: 18),
                   Row(children: [
                     Expanded(
                       child: PrimaryButton(
@@ -592,10 +608,7 @@ void showWeeklyGoalSheet(BuildContext context) {
     builder: (sheet) => StatefulBuilder(
       builder: (sheet, setSheet) => Container(
         padding: sheetPad(sheet),
-        decoration: BoxDecoration(
-          color: gc.bgRaised,
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-        ),
+        decoration: sheetDecoration(gc),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -630,3 +643,4 @@ void showWeeklyGoalSheet(BuildContext context) {
     ),
   );
 }
+

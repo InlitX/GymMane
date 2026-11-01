@@ -6,6 +6,7 @@ import 'package:gymmane/services/local_store.dart';
 import 'package:gymmane/state/fit_state.dart';
 import 'package:gymmane/theme/app_colors.dart';
 import 'package:gymmane/widgets/home_widget_views.dart';
+import 'package:gymmane/widgets/scroll_away.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
@@ -307,6 +308,101 @@ void main() {
         fit.setTrainReminder(null);
         expect(fit.trainReminderMin, isNull);
       });
+    });
+  });
+
+  group('tarjeta que se aleja', () {
+    Future<ScrollController> pump(WidgetTester tester) async {
+      final ctrl = ScrollController();
+      await tester.pumpWidget(MaterialApp(
+        home: Scaffold(
+          body: SingleChildScrollView(
+            controller: ctrl,
+            child: Column(children: [
+              const SizedBox(height: 80),
+              const ScrollAway(child: SizedBox(key: Key('card'), height: 200)),
+              const SizedBox(height: 2000),
+            ]),
+          ),
+        ),
+      ));
+      await tester.pump();
+      return ctrl;
+    }
+
+    double progress(WidgetTester tester) =>
+        tester.state<ScrollAwayState>(find.byType(ScrollAway)).progress.value;
+
+    double opacity(WidgetTester tester) => tester
+        .widget<Opacity>(find.descendant(of: find.byType(ScrollAway), matching: find.byType(Opacity)))
+        .opacity;
+
+    testWidgets('quieta arriba, a medias al bajar y del todo cuando sale', (tester) async {
+      final ctrl = await pump(tester);
+      expect(progress(tester), 0);
+      expect(opacity(tester), 1);
+
+      ctrl.jumpTo(10);
+      await tester.pump();
+      expect(progress(tester), 0);
+
+      ctrl.jumpTo(148);
+      await tester.pump();
+      expect(progress(tester), closeTo(0.5, 0.001));
+      expect(opacity(tester), inExclusiveRange(0, 1));
+
+      ctrl.jumpTo(600);
+      await tester.pump();
+      expect(progress(tester), 1);
+      expect(opacity(tester), 0);
+
+      ctrl.jumpTo(0);
+      await tester.pump();
+      expect(progress(tester), 0);
+      expect(opacity(tester), 1);
+    });
+
+    testWidgets('en cascada: cada tarjeta espera a llegar arriba para irse', (tester) async {
+      final ctrl = ScrollController();
+      await tester.pumpWidget(MaterialApp(
+        home: Scaffold(
+          body: SingleChildScrollView(
+            controller: ctrl,
+            child: const Column(children: [
+              ScrollAway(key: Key('a'), child: SizedBox(height: 200)),
+              ScrollAway(key: Key('b'), child: SizedBox(height: 200)),
+              SizedBox(height: 2000),
+            ]),
+          ),
+        ),
+      ));
+      await tester.pump();
+      double of(String k) => tester.state<ScrollAwayState>(find.byKey(Key(k))).progress.value;
+
+      ctrl.jumpTo(100);
+      await tester.pump();
+      expect(of('a'), closeTo(0.5, 0.001));
+      expect(of('b'), 0);
+
+      ctrl.jumpTo(130);
+      await tester.pump();
+      expect(of('b'), 0);
+
+      ctrl.jumpTo(300);
+      await tester.pump();
+      expect(of('a'), 1);
+      expect(of('b'), inExclusiveRange(0, 1));
+    });
+
+    testWidgets('sin animaciones del sistema no se mueve', (tester) async {
+      await tester.pumpWidget(const MediaQuery(
+        data: MediaQueryData(disableAnimations: true),
+        child: Directionality(
+          textDirection: TextDirection.ltr,
+          child: SingleChildScrollView(child: ScrollAway(child: SizedBox(height: 200))),
+        ),
+      ));
+      expect(find.byType(Transform), findsNothing);
     });
   });
 }
