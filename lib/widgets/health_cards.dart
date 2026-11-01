@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 import '../l10n/l10n.dart';
@@ -12,6 +13,7 @@ import '../theme/app_theme.dart';
 import 'charts.dart';
 import 'entrance.dart';
 import 'glass.dart';
+import 'liquid_notch.dart';
 import 'nutrition_art.dart' show ValueLineChart;
 import 'ui_kit.dart';
 
@@ -38,18 +40,18 @@ String healthGroupName(HealthGroup g) => switch (g) {
     };
 
 IconData healthIcon(HealthMetric m) => switch (m) {
-      HealthMetric.restingHr => PhosphorIconsFill.heart,
-      HealthMetric.heartRate => PhosphorIconsFill.heartbeat,
-      HealthMetric.hrv => PhosphorIconsFill.waveform,
-      HealthMetric.spo2 => PhosphorIconsFill.drop,
-      HealthMetric.respiration => PhosphorIconsFill.wind,
-      HealthMetric.bloodPressure => PhosphorIconsFill.gauge,
-      HealthMetric.temperature => PhosphorIconsFill.thermometer,
-      HealthMetric.sleep => PhosphorIconsFill.moonStars,
-      HealthMetric.distance => PhosphorIconsFill.path,
-      HealthMetric.floors => PhosphorIconsFill.stairs,
-      HealthMetric.elevation => PhosphorIconsFill.mountains,
-      HealthMetric.activeKcal => PhosphorIconsFill.fire,
+      HealthMetric.restingHr => PhosphorIconsRegular.heart,
+      HealthMetric.heartRate => PhosphorIconsRegular.heartbeat,
+      HealthMetric.hrv => PhosphorIconsRegular.waveform,
+      HealthMetric.spo2 => PhosphorIconsRegular.drop,
+      HealthMetric.respiration => PhosphorIconsRegular.wind,
+      HealthMetric.bloodPressure => PhosphorIconsRegular.gauge,
+      HealthMetric.temperature => PhosphorIconsRegular.thermometer,
+      HealthMetric.sleep => PhosphorIconsRegular.moonStars,
+      HealthMetric.distance => PhosphorIconsRegular.path,
+      HealthMetric.floors => PhosphorIconsRegular.stairs,
+      HealthMetric.elevation => PhosphorIconsRegular.mountains,
+      HealthMetric.activeKcal => PhosphorIconsRegular.fire,
     };
 
 Color healthTone(GymColors gc, HealthGroup g) => switch (g) {
@@ -256,6 +258,7 @@ class HealthScreen extends StatelessWidget {
                   style: AppTheme.f(32, weight: FontWeight.w800, color: gc.text, letterSpacing: -0.9, height: 1.05)),
               const SizedBox(height: 4),
               Text(t.healthFrom, style: AppTheme.f(13, weight: FontWeight.w500, color: gc.textSecondary)),
+              const _HealthLinks(),
               for (final g in HealthGroup.values)
                 if (shown.any((m) => m.group == g))
                   Column(
@@ -309,10 +312,7 @@ void showHealthPins(BuildContext context) {
           constraints: BoxConstraints(maxHeight: MediaQuery.sizeOf(sheet).height * 0.85),
           child: Container(
             padding: sheetPad(sheet),
-            decoration: BoxDecoration(
-              color: gc.bgRaised,
-              borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-            ),
+            decoration: sheetDecoration(gc),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -425,7 +425,7 @@ class HealthTile extends StatelessWidget {
               !granted
                   ? t.healthAllow
                   : latest == null
-                      ? t.healthNoData
+                      ? (fit.healthFailed.contains(metric) ? t.healthReadFailed : t.healthNoData)
                       : healthWhen(latest.day),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
@@ -459,10 +459,7 @@ void showHealthPicker(BuildContext context) {
         constraints: BoxConstraints(maxHeight: MediaQuery.sizeOf(sheet).height * 0.9),
         child: Container(
           padding: sheetPad(sheet),
-          decoration: BoxDecoration(
-            color: gc.bgRaised,
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-          ),
+          decoration: sheetDecoration(gc),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -495,7 +492,36 @@ void showHealthPicker(BuildContext context) {
                 ),
               const SizedBox(height: 6),
               Flexible(
-                child: SingleChildScrollView(
+                child: FloatingActions(
+                  actions: Row(children: [
+                    Expanded(
+                      child: Pressable(
+                        onTap: HealthSteps.openSettings,
+                        child: Container(
+                          height: 52,
+                          padding: const EdgeInsets.symmetric(horizontal: 14),
+                          decoration: BoxDecoration(
+                            color: gc.bgRaised2,
+                            borderRadius: BorderRadius.circular(100),
+                          ),
+                          child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                            Icon(PhosphorIconsRegular.shieldCheck, size: 17, color: gc.text),
+                            const SizedBox(width: 8),
+                            Flexible(
+                              child: Text(t.stepsManage,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: AppTheme.f(14, weight: FontWeight.w700, color: gc.text)),
+                            ),
+                          ]),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    SizedBox(width: 112, child: PrimaryButton(label: t.done, onTap: () => Navigator.of(sheet).pop())),
+                  ]),
+                  child: SingleChildScrollView(
+                  padding: const EdgeInsets.only(bottom: 84),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
@@ -520,17 +546,8 @@ void showHealthPicker(BuildContext context) {
                     ],
                   ),
                 ),
-              ),
-              const SizedBox(height: 18),
-              Center(
-                child: GhostButton(
-                  label: t.stepsManage,
-                  icon: PhosphorIconsRegular.shieldCheck,
-                  onTap: HealthSteps.openSettings,
                 ),
               ),
-              const SizedBox(height: 12),
-              PrimaryButton(label: t.done, onTap: () => Navigator.of(sheet).pop()),
             ],
           ),
         ),
@@ -584,10 +601,7 @@ void showHealthDetail(BuildContext context, HealthMetric metric) {
     backgroundColor: Colors.transparent,
     builder: (sheet) => Container(
       padding: sheetPad(sheet),
-      decoration: BoxDecoration(
-        color: gc.bgRaised,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-      ),
+      decoration: sheetDecoration(gc),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -614,7 +628,7 @@ void showHealthDetail(BuildContext context, HealthMetric metric) {
             ],
           ),
           const SizedBox(height: 4),
-          Text(latest == null ? t.healthNoData : healthWhen(latest.day),
+          Text(latest == null ? (fit.healthFailed.contains(metric) ? t.healthReadFailed : t.healthNoData) : healthWhen(latest.day),
               textAlign: TextAlign.center,
               style: AppTheme.f(12.5, weight: FontWeight.w500, color: gc.textTertiary)),
           const SizedBox(height: 20),
@@ -679,4 +693,58 @@ void showHealthDetail(BuildContext context, HealthMetric metric) {
       ),
     ),
   );
+}
+
+class _HealthLinks extends StatelessWidget {
+  const _HealthLinks();
+
+  @override
+  Widget build(BuildContext context) {
+    final gc = context.gc;
+    Widget row(IconData icon, String title, String hint, bool on, Future<bool> Function(bool) set) => Pressable(
+          scale: 0.98,
+          onTap: () async {
+            HapticFeedback.selectionClick();
+            final ok = await set(!on);
+            if (!ok && context.mounted) {
+              showNotchToast(context, t.healthLinkDenied,
+                  icon: PhosphorIconsFill.warningCircle, accent: gc.warn, action: t.healthOpenSettings,
+                  onTap: () => HealthSteps.openSettings());
+            }
+          },
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 13),
+            child: Row(children: [
+              Icon(icon, size: 18, color: on ? gc.accent : gc.textSecondary),
+              const SizedBox(width: 14),
+              Expanded(
+                child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                  Text(title, style: AppTheme.f(14.5, weight: FontWeight.w600, color: gc.text)),
+                  const SizedBox(height: 2),
+                  Text(hint, style: AppTheme.f(11.5, weight: FontWeight.w500, color: gc.textSecondary, height: 1.3)),
+                ]),
+              ),
+              const SizedBox(width: 10),
+              TinySwitch(on: on),
+            ]),
+          ),
+        );
+    return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+      Padding(
+        padding: const EdgeInsets.fromLTRB(4, 24, 0, 10),
+        child: Text(t.healthLinksTitle.toUpperCase(),
+            style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.4)),
+      ),
+      Container(
+        decoration: BoxDecoration(color: gc.bgRaised, borderRadius: BorderRadius.circular(22)),
+        child: Column(children: [
+          row(PhosphorIconsRegular.heartbeat, t.healthLinkHeart, t.healthLinkHeartHint, fit.hcHeart, fit.setHcHeart),
+          Divider(height: 1, thickness: 1, color: gc.border, indent: 48),
+          row(PhosphorIconsRegular.scales, t.healthLinkWeight, t.healthLinkWeightHint, fit.hcWeights, fit.setHcWeights),
+          Divider(height: 1, thickness: 1, color: gc.border, indent: 48),
+          row(PhosphorIconsRegular.barbell, t.healthLinkWrite, t.healthLinkWriteHint, fit.hcWrite, fit.setHcWrite),
+        ]),
+      ),
+    ]);
+  }
 }

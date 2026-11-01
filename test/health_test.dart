@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:gymmane/models/workout.dart';
 import 'package:gymmane/l10n/l10n.dart';
 import 'package:gymmane/services/health_metrics.dart';
 import 'package:gymmane/services/local_store.dart';
@@ -118,6 +119,82 @@ void main() {
       expect(healthValue(HealthMetric.temperature, [37]), '98.6');
       expect(healthUnit(HealthMetric.elevation), 'ft');
       expect(healthValue(HealthMetric.elevation, [100]), '328');
+    });
+  });
+
+  group('Health Connect con tus entrenos', () {
+    setUp(() async {
+      SharedPreferences.setMockInitialValues({});
+      await Store.instance.init();
+      fit.resetAllData();
+    });
+
+    test('los pesajes de otras apps entran una vez y no pisan los tuyos', () {
+      final n = DateTime(2026, 10, 20, 8);
+      fit.bodyweight.add(BodyweightEntry(n, 80));
+      final rows = <List<double>>[
+        [n.add(const Duration(minutes: 30)).millisecondsSinceEpoch.toDouble(), 80.02],
+        [n.add(const Duration(days: 1)).millisecondsSinceEpoch.toDouble(), 79.6],
+        [n.add(const Duration(days: 2)).millisecondsSinceEpoch.toDouble(), 900.0],
+      ];
+      expect(fit.importWeighIns(rows), isTrue);
+      expect(fit.bodyweight.map((b) => b.kg), [80, 79.6]);
+      fit.bodyweight.removeLast();
+      expect(fit.importWeighIns(rows), isFalse, reason: 'uno que borraste no vuelve');
+      expect(fit.bodyweight.length, 1);
+    });
+
+    test('el pulso del entreno sale de las muestras de su hora', () {
+      final end = DateTime(2026, 10, 20, 19);
+      final s = LoggedSession(end, 3600, const []);
+      final inside = end.subtract(const Duration(minutes: 30)).millisecondsSinceEpoch.toDouble();
+      final rows = <List<double>>[
+        [inside, 120.0],
+        [inside + 60000, 150.0],
+        [inside + 120000, 165.0],
+        [end.add(const Duration(hours: 1)).millisecondsSinceEpoch.toDouble(), 70.0],
+      ];
+      expect(fit.applyWorkoutHeart(s, rows), isTrue);
+      expect((s.hrAvg, s.hrMax), (145, 165));
+      final back = LoggedSession.fromJson(s.toJson());
+      expect((back.hrAvg, back.hrMax), (145, 165));
+      expect(fit.applyWorkoutHeart(LoggedSession(end, 60, const []), rows.take(1).toList()), isFalse);
+    });
+
+    test('los interruptores se guardan', () {
+      fit.hcHeart = true;
+      fit.hcSeenWeights.add(42);
+      final j = fit.healthJson();
+      fit.loadHealth(null);
+      expect(fit.hcHeart, isFalse);
+      fit.loadHealth(j);
+      expect((fit.hcHeart, fit.hcWeights), (true, false));
+      expect(fit.hcSeenWeights, {42});
+    });
+  
+    test('un entreno guardado en Salud lleva un id fijo y el tipo que toca', () {
+      final end = DateTime(2026, 11, 2, 19);
+      LoggedExercise ex(String id) => LoggedExercise(id, id, 'legs', [LoggedSet(0, 0, sec: 1200, km: 3)]);
+      final lift = LoggedSession(end, 3600, [ex('barbell-squat'), ex('running')]);
+      final run = LoggedSession(end, 1800, [ex('running')]);
+      final walk = LoggedSession(end, 1800, [ex('treadmill-incline-walk')]);
+      expect(fit.healthWorkoutType(lift), 'strength');
+      expect(fit.healthWorkoutType(run), 'running');
+      expect(fit.healthWorkoutType(walk), 'treadmill');
+      expect(fit.healthWorkoutType(LoggedSession(end, 60, const [])), 'strength');
+      expect(HealthState.healthWorkoutId(lift), 'gymmane-${end.millisecondsSinceEpoch}');
+      expect(HealthState.healthWorkoutId(lift), HealthState.healthWorkoutId(run),
+          reason: 'mismo final, mismo registro: al reanudarlo se actualiza en vez de duplicarse');
+      expect(fit.healthWorkoutNotes(lift), contains(' · '));
+    });
+
+    test('guardar en Salud se recuerda al reabrir', () {
+      fit.hcWrite = true;
+      final j = fit.healthJson();
+      fit.loadHealth(null);
+      expect(fit.hcWrite, isFalse);
+      fit.loadHealth(j);
+      expect(fit.hcWrite, isTrue);
     });
   });
 }

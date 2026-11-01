@@ -65,11 +65,75 @@ class HealthMetrics {
     }
   }
 
-  static Future<List<List<double>>?> read(HealthMetric metric, DateTime from, DateTime to) async {
+  static Future<Set<String>> grantedKeys() async {
+    if (!Platform.isAndroid) return {};
+    try {
+      return {...?await _channel.invokeListMethod<String>('metricsGranted')};
+    } on PlatformException {
+      return {};
+    } on MissingPluginException {
+      return {};
+    }
+  }
+
+  static Future<bool> requestKeys(List<String> keys) async {
+    if (!Platform.isAndroid) return false;
+    try {
+      return await _channel.invokeMethod<bool>('requestMetrics', {'metrics': keys}) ?? false;
+    } on PlatformException {
+      return false;
+    } on MissingPluginException {
+      return false;
+    }
+  }
+
+  static Future<bool> writeWorkout({
+    required String id,
+    required DateTime start,
+    required DateTime end,
+    required String type,
+    required String title,
+    String notes = '',
+    bool manual = false,
+  }) async {
+    if (!Platform.isAndroid) return false;
+    try {
+      return await _channel.invokeMethod<bool>('writeWorkout', {
+            'id': id,
+            'start': start.millisecondsSinceEpoch,
+            'end': end.millisecondsSinceEpoch,
+            'type': type,
+            'title': title,
+            'notes': notes,
+            'manual': manual,
+          }) ??
+          false;
+    } on PlatformException {
+      return false;
+    } on MissingPluginException {
+      return false;
+    }
+  }
+
+  static Future<bool> deleteWorkout(String id) async {
+    if (!Platform.isAndroid) return false;
+    try {
+      return await _channel.invokeMethod<bool>('deleteWorkout', {'id': id}) ?? false;
+    } on PlatformException {
+      return false;
+    } on MissingPluginException {
+      return false;
+    }
+  }
+
+  static Future<List<List<double>>?> read(HealthMetric metric, DateTime from, DateTime to) =>
+      readKey(metric.name, from, to);
+
+  static Future<List<List<double>>?> readKey(String key, DateTime from, DateTime to) async {
     if (!Platform.isAndroid) return null;
     try {
       final rows = await _channel.invokeListMethod<Object?>('readMetric', {
-        'metric': metric.name,
+        'metric': key,
         'from': from.millisecondsSinceEpoch,
         'to': to.millisecondsSinceEpoch,
       });
