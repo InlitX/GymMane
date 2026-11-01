@@ -2,7 +2,8 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 
-import '../catalog/body_svg.dart';
+import '../catalog/body_art.dart';
+import 'body_map.dart' show clipMuscles, currentBody, paintBodyBase;
 import '../l10n/l10n.dart';
 import '../state/fit_state.dart';
 import '../theme/app_colors.dart';
@@ -67,7 +68,7 @@ class _MuscleRadarCardState extends State<MuscleRadarCard> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Text(t.radarTitle.toUpperCase(),
-              style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.3)),
+              style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.4)),
           const SizedBox(height: 6),
           Text(t.radarHint, style: AppTheme.f(13, weight: FontWeight.w500, color: gc.textSecondary)),
           const SizedBox(height: 10),
@@ -212,10 +213,11 @@ class _RadarPainter extends CustomPainter {
 }
 
 class MuscleFigurePainter extends CustomPainter {
-  MuscleFigurePainter({required this.gc, required this.muscle});
+  MuscleFigurePainter({required this.gc, required this.muscle}) : art = currentBody;
 
   final GymColors gc;
   final String muscle;
+  final BodyArt art;
 
   static Rect _half(String id) =>
       _backView.contains(id) ? const Rect.fromLTRB(270, 0, 540, 462) : const Rect.fromLTRB(0, 0, 262, 462);
@@ -229,10 +231,10 @@ class MuscleFigurePainter extends CustomPainter {
 
   static final _content = <String, Rect>{};
 
-  static Rect content(String id) => _content.putIfAbsent(id, () {
+  static Rect content(String id) => _content.putIfAbsent('${currentBody.id}$id', () {
         final box = crop(id).intersect(_half(id));
         var l = double.infinity, t = double.infinity, r = -double.infinity, b = -double.infinity;
-        for (final d in [...bodyBaseMain, ...bodyBaseLite]) {
+        for (final d in [...currentBody.base, ...currentBody.lite, ...currentBody.head]) {
           for (final m in svgPath(d).computeMetrics()) {
             for (var at = 0.0; at < m.length; at += 2) {
               final p = m.getTangentForOffset(at)?.position;
@@ -261,10 +263,9 @@ class MuscleFigurePainter extends CustomPainter {
     canvas.translate(-crop.left, -crop.top);
     canvas.clipRect(_half(muscle));
     final paint = Paint()..isAntiAlias = true;
-    for (final d in [...bodyBaseMain, ...bodyBaseLite]) {
-      canvas.drawPath(svgPath(d), paint..color = skin);
-    }
-    for (final e in muscleFills.entries) {
+    paintBodyBase(canvas, art, skin, skin);
+    clipMuscles(canvas, art);
+    for (final e in art.fills.entries) {
       paint.color = lit.contains(e.key) ? gc.accent : rest;
       for (final d in e.value) {
         canvas.drawPath(svgPath(d), paint);
@@ -273,5 +274,5 @@ class MuscleFigurePainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(MuscleFigurePainter old) => old.gc != gc || old.muscle != muscle;
+  bool shouldRepaint(MuscleFigurePainter old) => old.gc != gc || old.muscle != muscle || old.art != art;
 }

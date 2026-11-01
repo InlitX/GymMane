@@ -83,11 +83,7 @@ class _ShareSheetState extends State<_ShareSheet> {
 
     return Container(
       constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.9),
-      decoration: BoxDecoration(
-        color: gc.bg,
-
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(26)),
-      ),
+      decoration: sheetDecoration(gc),
       clipBehavior: Clip.antiAlias,
       child: SafeArea(
         top: false,
@@ -151,7 +147,7 @@ class _ShareSheetState extends State<_ShareSheet> {
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 6, 20, 16),
-              child: PrimaryButton(label: sentenceCase(t.share), height: 54, onTap: _share),
+              child: PrimaryButton(label: sentenceCase(t.share), height: 52, onTap: _share),
             ),
           ],
         ),

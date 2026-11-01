@@ -365,10 +365,7 @@ class _ExercisePickerSheetState extends State<_ExercisePickerSheet> {
       child: Container(
         height: MediaQuery.of(context).size.height * 0.72,
         padding: sheetPad(context, bottom: 16),
-        decoration: BoxDecoration(
-          color: gc.bgRaised,
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-        ),
+        decoration: sheetDecoration(gc),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [

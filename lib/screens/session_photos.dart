@@ -52,7 +52,7 @@ class _SessionPhotosState extends State<SessionPhotos> {
               const SizedBox(width: 7),
               Expanded(
                 child: Text(t.sessionPhotos.toUpperCase(),
-                    style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.2)),
+                    style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.4)),
               ),
               if (photos.isNotEmpty)
                 Text('${photos.length}', style: AppTheme.f(12, weight: FontWeight.w700, color: gc.textSecondary)),

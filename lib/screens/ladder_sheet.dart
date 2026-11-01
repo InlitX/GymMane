@@ -73,10 +73,7 @@ class _LadderSheetState extends State<_LadderSheet> {
     return Container(
       padding: sheetPad(context),
       constraints: BoxConstraints(maxHeight: MediaQuery.sizeOf(context).height * 0.9),
-      decoration: BoxDecoration(
-        color: gc.bgRaised,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-      ),
+      decoration: sheetDecoration(gc),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -217,10 +214,7 @@ Future<Exercise?> _pickStep(BuildContext context, Exercise base, List<String> ta
         return Container(
           padding: sheetPad(sheet),
           constraints: BoxConstraints(maxHeight: MediaQuery.sizeOf(sheet).height * 0.82),
-          decoration: BoxDecoration(
-            color: gc.bgRaised,
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-          ),
+          decoration: sheetDecoration(gc),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,

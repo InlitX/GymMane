@@ -34,11 +34,7 @@ class StartSheet extends StatelessWidget {
     return Container(
       constraints: BoxConstraints(maxHeight: MediaQuery.sizeOf(context).height * 0.82),
       padding: sheetPad(context),
-      decoration: BoxDecoration(
-        color: gc.bgRaised,
-        border: Border.all(color: gc.border),
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-      ),
+      decoration: sheetDecoration(gc),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -90,7 +86,7 @@ class StartSheet extends StatelessWidget {
   Widget _label(GymColors gc, String text) => Padding(
         padding: const EdgeInsets.only(left: 4, bottom: 8),
         child: Text(text.toUpperCase(),
-            style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.2)),
+            style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.4)),
       );
 
   Widget _plannedCard(BuildContext context, GymColors gc, Routine r) {
@@ -110,7 +106,7 @@ class StartSheet extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(day == null ? t.todaysRoutine : t.plannedRoutine,
-                    style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.brass, letterSpacing: 1.2)),
+                    style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.brass, letterSpacing: 1.4)),
                 const SizedBox(height: 6),
                 Text(fit.routineTitle(r),
                     maxLines: 1,

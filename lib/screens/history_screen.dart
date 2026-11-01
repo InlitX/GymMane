@@ -47,7 +47,7 @@ class HistoryScreen extends StatelessWidget {
               _empty(gc)
             else ...[
               Text(t.historyWorkouts(list.length),
-                  style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.3)),
+                  style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.4)),
               const SizedBox(height: 10),
               for (var i = 0; i < list.length; i++) ...[
                 Rise(index: i + 1, child: WorkoutHistoryCard(session: list[i], records: records[list[i]] ?? 0)),
@@ -238,7 +238,11 @@ class WorkoutHistoryCard extends StatelessWidget {
     final start = TimeOfDay.fromDateTime(s.day);
     final clock = MaterialLocalizations.of(context)
         .formatTimeOfDay(start, alwaysUse24HourFormat: MediaQuery.alwaysUse24HourFormatOf(context));
-    final meta = [clock, if (s.durationSec >= 60) '${(s.durationSec / 60).round()} min'].join(' · ');
+    final meta = [
+      clock,
+      if (s.durationSec >= 60) '${(s.durationSec / 60).round()} min',
+      if (s.hrAvg != null) '\u2665 ${s.hrAvg} · ${t.hrMaxShort(s.hrMax ?? s.hrAvg!)}',
+    ].join(' · ');
     final shown = s.exercises.take(4).toList();
     return Pressable(
       scale: 0.98,
