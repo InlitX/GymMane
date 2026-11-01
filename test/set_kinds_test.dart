@@ -208,4 +208,36 @@ void main() {
       fit.skipRest();
     });
   });
+
+  test('a set note is saved with the workout and comes back next time', () {
+    startChestSession();
+    final id = fit.session!.exercises.first.id;
+    fit.setSessionReps(0, 0, 8);
+    fit.setSessionWeight(0, 0, 60);
+    fit.setSetNote(0, 0, 'Grip slipped');
+    fit.toggleSet(0, 0);
+    fit.finishSession();
+
+    final logged = fit.sessions.single.exercises.single;
+    expect(logged.sets.first.note, 'Grip slipped');
+    expect(fit.lastSetNotes(id), [(1, 'Grip slipped')]);
+    expect(fit.previousSet(id, 0)?.note, 'Grip slipped');
+  });
+
+  test('a blank note is not kept and a long one is cut', () {
+    startChestSession();
+    fit.setSetNote(0, 0, '   ');
+    fit.toggleSet(0, 0);
+    fit.setSetNote(0, 0, 'x' * 400);
+    expect(fit.session!.exercises.first.sets.first.note.length, 280);
+    fit.setSetNote(0, 0, '  ');
+    fit.finishSession();
+    expect(fit.sessions.single.exercises.single.sets.first.note, isEmpty);
+  });
+
+  test('the note of a set survives saving and loading', () {
+    final set = LoggedSet(8, 60, note: 'agarre cerrado');
+    expect(LoggedSet.fromJson(set.toJson()).note, 'agarre cerrado');
+    expect(LoggedSet.fromJson(LoggedSet(8, 60).toJson()).note, isEmpty);
+  });
 }

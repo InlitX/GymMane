@@ -2,8 +2,10 @@ import 'workout.dart';
 
 class SessionSet {
   SessionSet(this.reps, this.weight, this.done,
-      {this.kind = SetKind.normal, this.rpe, this.sec, this.km});
+      {this.kind = SetKind.normal, this.rpe, this.sec, this.km, this.rest, this.note = ''});
   int reps;
+  String note;
+  int? rest;
   double weight;
   bool done;
   SetKind kind;
@@ -13,7 +15,7 @@ class SessionSet {
 
   bool get counts => kind != SetKind.warmup;
 
-  LoggedSet get logged => LoggedSet(reps, weight, kind: kind, rpe: rpe, sec: sec, km: km);
+  LoggedSet get logged => LoggedSet(reps, weight, kind: kind, rpe: rpe, sec: sec, km: km, note: note.trim());
 
   SessionSet copy({bool done = false}) =>
       SessionSet(reps, weight, done, kind: kind, rpe: rpe, sec: sec, km: km);
@@ -26,6 +28,8 @@ class SessionSet {
         if (rpe != null) 'e': rpe,
         if (sec != null) 't': sec,
         if (km != null) 'km': km,
+        if (rest != null) 'rs': rest,
+        if (note.isNotEmpty) 'n': note,
       };
   factory SessionSet.fromJson(Map<String, dynamic> j) => SessionSet(
         (j['r'] as num).toInt(),
@@ -35,6 +39,8 @@ class SessionSet {
         rpe: (j['e'] as num?)?.toDouble(),
         sec: (j['t'] as num?)?.toInt(),
         km: (j['km'] as num?)?.toDouble(),
+        rest: (j['rs'] as num?)?.toInt().clamp(0, 3600),
+        note: j['n'] as String? ?? '',
       );
 }
 

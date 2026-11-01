@@ -75,4 +75,42 @@ void main() {
     expect(fit.dotsSquat, closeTo(140, 0.1));
     fit.closeTool();
   });
+
+  group('equilibrio de fuerza', () {
+    void lift(String id, double kg) {
+      final n = DateTime.now();
+      fit.sessions.add(LoggedSession(DateTime(n.year, n.month, n.day - 3, 18), 3600, [
+        LoggedExercise(id, id, 'chest', [LoggedSet(1, kg)]),
+      ]));
+    }
+
+    test('con menos de tres básicos no dice nada', () {
+      fit.sessions.clear();
+      lift('qXTaZnJ', 100);
+      lift('EIeI8Vf', 75);
+      expect(fit.structuralBalance, isNull);
+    });
+
+    test('señala el que va atrasado y cuánto le falta', () {
+      fit.sessions.clear();
+      lift('qXTaZnJ', 100);
+      lift('ila4NZS', 120);
+      lift('EIeI8Vf', 75);
+      lift('kTbSH9h', 30);
+      final b = fit.structuralBalance!;
+      expect(b.behind, 'Kyd9Rz5');
+      final ohp = b.lifts.firstWhere((l) => l.id == 'Kyd9Rz5');
+      final squat = b.lifts.firstWhere((l) => l.id == 'qXTaZnJ');
+      expect(ohp.target, closeTo(squat.kg * 0.45, 0.01));
+      expect(b.lifts.firstWhere((l) => l.id == 'qXTaZnJ').score, closeTo(1, 0.01));
+    });
+
+    test('todo en proporción no marca a nadie', () {
+      fit.sessions.clear();
+      lift('qXTaZnJ', 100);
+      lift('ila4NZS', 118);
+      lift('EIeI8Vf', 76);
+      expect(fit.structuralBalance!.behind, isNull);
+    });
+  });
 }

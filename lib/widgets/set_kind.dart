@@ -109,10 +109,7 @@ Future<SetKind?> askSetKind(BuildContext context, SetKind current) {
     isScrollControlled: true,
     builder: (sheet) => Container(
       padding: sheetPad(sheet),
-      decoration: BoxDecoration(
-        color: gc.bgRaised,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-      ),
+      decoration: sheetDecoration(gc),
       child: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,

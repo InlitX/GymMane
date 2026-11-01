@@ -199,4 +199,43 @@ void main() {
       expect(fit.onboarded, false);
     });
   });
+
+  group('nuevo en este entreno', () {
+    test('un ejercicio metido de más se puede añadir solo y en su sitio, con sus series', () {
+      final r = fit.createRoutine('Test');
+      fit.toggleRoutineExercise(r, a);
+      fit.toggleRoutineExercise(r, c);
+      fit.startRoutine(fit.routines.single);
+      fit.addExerciseToSession(b);
+      final s = fit.session!;
+      for (var i = 0; i < s.exercises.length; i++) {
+        fit.toggleSet(i, 0);
+      }
+      s.exercises[1].sets.first
+        ..reps = 12
+        ..weight = 30;
+      fit.finishSession();
+      expect(s.exercises.map((e) => e.id), [a, b, c]);
+      expect(fit.sessionExtras.map((e) => e.id), [b]);
+      expect(fit.addExtraToRoutine(b), isTrue);
+      expect(fit.routines.single.exerciseIds, [a, b, c]);
+      final plan = fit.plannedSets(fit.routines.single, b);
+      expect(plan.length, 1);
+      expect((plan.single.reps, plan.single.weightKg), (12, 30.0));
+      expect(fit.sessionExtras, isEmpty);
+      expect(fit.addExtraToRoutine(b), isFalse);
+      fit.saveAndExit();
+    });
+
+    test('sin series hechas o sin rutina no hay nada que ofrecer', () {
+      final r = fit.createRoutine('Test');
+      fit.toggleRoutineExercise(r, a);
+      fit.startRoutine(fit.routines.single);
+      fit.addExerciseToSession(b);
+      fit.toggleSet(0, 0);
+      fit.finishSession();
+      expect(fit.sessionExtras, isEmpty);
+      fit.saveAndExit();
+    });
+  });
 }

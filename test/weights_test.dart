@@ -176,4 +176,51 @@ void main() {
       expect(fit.defaultBar, 15);
     });
   });
+
+  group('pila de pesos de máquina', () {
+    setUp(() async {
+      SharedPreferences.setMockInitialValues({});
+      await Store.instance.init();
+      fit.resetAllData();
+      fit.setUnits('kg');
+    });
+
+    tearDown(() {
+      if (fit.session != null) fit.saveAndExit();
+    });
+
+    String machine() => fit.allExercises.firstWhere((e) => e.equipment == 'Machine').id;
+
+    test('los botones saltan solo entre los pesos de la pila', () {
+      final id = machine();
+      fit.setWeightStack(id, [5, 11.3, 18.1, 25, 11.3, -3]);
+      expect(fit.stackFor(id), [5, 11.3, 18.1, 25]);
+      fit.sessionPicks
+        ..clear()
+        ..add(id);
+      fit.startSession();
+      fit.setSessionWeight(0, 0, 11.3);
+      fit.bumpSessionWeight(0, 0, 1);
+      expect(fit.session!.exercises[0].sets[0].weight, 18.1);
+      fit.bumpSessionWeight(0, 0, 1);
+      fit.bumpSessionWeight(0, 0, 1);
+      expect(fit.session!.exercises[0].sets[0].weight, 25, reason: 'arriba del todo se queda');
+      fit.setSessionWeight(0, 0, 14);
+      fit.bumpSessionWeight(0, 0, -1);
+      expect(fit.session!.exercises[0].sets[0].weight, 11.3);
+    });
+
+    test('la progresión y la descarga caen en la pila', () {
+      final id = machine();
+      fit.setWeightStack(id, [20, 27.5, 34, 41, 48]);
+      expect(fit.snapToStack(id, 34, dir: 1), 41);
+      expect(fit.deloadWeight(id, 41), 34);
+      expect(fit.floorToStack(id, 30), 27.5);
+      fit.persistNow();
+      fit.loadFromStore();
+      expect(fit.stackFor(id), [20, 27.5, 34, 41, 48]);
+      fit.setWeightStack(id, const []);
+      expect(fit.stackFor(id), isNull);
+    });
+  });
 }

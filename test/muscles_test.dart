@@ -60,7 +60,7 @@ void main() {
 
     test('cuenta los días desde la última serie del músculo principal', () {
       final now = DateTime.now();
-      fit.sessions.add(LoggedSession(now.subtract(const Duration(days: 9)), 600, [
+      fit.sessions.add(LoggedSession(DateTime(now.year, now.month, now.day - 9, 12), 600, [
         LoggedExercise(bench(), 'Bench Press', 'chest', [LoggedSet(8, 60)]),
       ]));
       final days = fit.daysSinceTrained();
@@ -68,6 +68,24 @@ void main() {
       expect(days['quads'], isNull);
       expect(fit.untrainedLongest(), isNot(contains('chest')));
       expect(fit.untrainedLongest().length, 3);
+    });
+
+    test('#300 el cardio no suma series al músculo aunque lleve uno', () {
+      final run = fit.addCustomExercise(name: 'Escaladora', primary: 'quads', equipment: 'Machine', mode: 'cardio');
+      final walk = fit.addCustomExercise(name: 'Cinta', primary: 'quads', equipment: 'Machine', kind: 'cardio');
+      final now = DateTime.now();
+      fit.sessions.add(LoggedSession(now, 1800, [
+        LoggedExercise(run, 'Escaladora', 'quads', [LoggedSet(1, 0, sec: 1200)]),
+        LoggedExercise(walk, 'Cinta', 'quads', [LoggedSet(1, 0, sec: 900)]),
+        LoggedExercise(bench(), 'Bench Press', 'chest', [LoggedSet(8, 60), LoggedSet(8, 60)]),
+      ]));
+      final sets = fit.muscleSetsOver(7);
+      expect(sets['quads'], isNull);
+      expect(sets['chest'], 2);
+      expect(fit.countsForMuscles(bench()), isTrue);
+      expect(fit.countsForMuscles(run), isFalse);
+      final treadmill = fit.allExercises.firstWhere((e) => fit.kindOf(e) == 'cardio');
+      expect(fit.countsForMuscles(treadmill.id), isFalse);
     });
   });
 
@@ -103,6 +121,21 @@ void main() {
       final later = fit.muscleRecovery(now: now.add(const Duration(days: 4)));
       expect(later['chest'], greaterThan(0.8));
       expect(fit.stillRecovering(now: now), contains('chest'));
+    });
+
+    test('dice cuándo pasa a recuperando y cuándo a listo', () {
+      final now = DateTime(2026, 9, 18, 18);
+      fit.sessions.add(LoggedSession(now.subtract(const Duration(hours: 1)), 3600, [
+        LoggedExercise(idOf('Barbell Bench Press'), 'Bench', 'chest',
+            [for (var i = 0; i < 8; i++) LoggedSet(8, 80, rpe: 9)]),
+      ]));
+      final mid = fit.hoursUntilRecovery('chest', 0.5, now: now)!;
+      final ready = fit.hoursUntilRecovery('chest', 0.8, now: now)!;
+      expect(ready, greaterThan(mid));
+      expect(ready, fit.hoursUntilRecovered('chest', now: now));
+      expect(fit.muscleRecovery(now: now.add(Duration(hours: mid)))['chest'], greaterThanOrEqualTo(0.5));
+      expect(fit.muscleRecovery(now: now.add(Duration(hours: ready)))['chest'], greaterThanOrEqualTo(0.8));
+      expect(fit.hoursUntilRecovery('quads', 0.8, now: now), isNull);
     });
   });
 

@@ -450,4 +450,57 @@ void main() {
       expect(fit.holding, isFalse);
     });
   });
+
+  group('progresión por tiempo', () {
+    setUp(() async {
+      SharedPreferences.setMockInitialValues({});
+      await Store.instance.init();
+      fit.resetAllData();
+      fit.onboarded = true;
+    });
+
+    String plank() {
+      final id = fit.matchExerciseByName('Plank')!.id;
+      fit.setExerciseMode(id, 'time');
+      return id;
+    }
+
+    void held(List<int> secs) {
+      final n = DateTime.now();
+      fit.sessions.add(LoggedSession(DateTime(n.year, n.month, n.day - 1, 18), 600, [
+        LoggedExercise(plank(), 'Plank', 'abdomen', [for (final s in secs) LoggedSet(0, 0, sec: s)]),
+      ]));
+    }
+
+    test('si aguantas todas las series sube los segundos; si no, repite', () {
+      expect(fit.modeOf(plank()), 'time');
+      held([45, 45, 45]);
+      expect(fit.nextHoldSeconds(plank()), isNull);
+      fit.cycleHoldStep(plank(), 1);
+      expect(fit.holdStepFor(plank()), 5);
+      expect(fit.nextHoldSeconds(plank()), 50);
+      expect(fit.holdGoesUp(plank()), isTrue);
+      expect(fit.nextTargetLabel(plank()), isNotNull);
+      fit.sessions.clear();
+      held([45, 40, 45]);
+      expect(fit.nextHoldSeconds(plank()), 45);
+      expect(fit.holdGoesUp(plank()), isFalse);
+    });
+
+    test('la sesión abre con los segundos nuevos y el ajuste se guarda', () {
+      held([30, 30]);
+      fit.cycleHoldStep(plank(), 1);
+      fit.cycleHoldStep(plank(), 1);
+      final r = fit.createRoutine('Core');
+      fit.toggleRoutineExercise(r, plank());
+      fit.startRoutine(fit.routines.firstWhere((x) => x.id == r));
+      expect(fit.session!.exercises.single.sets.map((s) => s.sec), everyElement(40));
+      fit.saveAndExit();
+      fit.persistNow();
+      fit.loadFromStore();
+      expect(fit.holdStepFor(plank()), 10);
+      fit.cycleHoldStep(plank(), -5);
+      expect(fit.holdStepFor(plank()), 0);
+    });
+  });
 }

@@ -32,6 +32,28 @@ void main() {
       expect(fit.session!.restRemaining, isNotNull);
     }
 
+    test('una serie puede llevar su propio descanso solo hoy', () {
+      final bench = fit.matchExerciseByName('Bench Press')!.id;
+      fit.startRoutine(routineOf([bench]));
+      fit.endCountdown();
+      final normal = fit.normalRestAfter(0, 0);
+      fit.setSetRest(0, 0, 240);
+      fit.toggleSet(0, 0);
+      expect(fit.restTotal, 240);
+      fit.skipRest();
+      fit.setSetRest(0, 1, 0);
+      fit.toggleSet(0, 1);
+      expect(fit.session!.restRemaining, isNull);
+      fit.setSetRest(0, 2, 30);
+      fit.setSetRest(0, 2, null);
+      fit.toggleSet(0, 2);
+      expect(fit.restTotal, normal);
+      fit.skipRest();
+      final saved = fit.session!.toJson();
+      expect(((saved['ex'] as List).first['s'] as List).first['rs'], 240);
+      fit.saveAndExit();
+    });
+
     test('fija el descanso al tiempo elegido', () {
       rest();
       fit.setRest(200);

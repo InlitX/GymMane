@@ -73,14 +73,28 @@ void main() {
         ]),
       ]);
       final rows = csv.trim().split('\n');
-      expect(rows.first, endsWith(',rpe'));
-      expect(rows[1], endsWith(',8.5'));
-      expect(rows[2], endsWith(','));
+      expect(rows.first, endsWith(',rpe,note'));
+      expect(rows[1], endsWith(',8.5,'));
+      expect(rows[2], endsWith(',,'));
 
       final back = parseImport(csv);
       final sets = back.sessions.single.exercises.single.sets;
       expect(sets.first.rpe, 8.5);
       expect(sets.last.rpe, isNull);
+    });
+
+    test('la nota de la serie sale en el CSV y vuelve al importarlo', () {
+      final csv = Store.instance.exportCsv([
+        LoggedSession(DateTime(2026, 11, 2, 18), 3000, [
+          LoggedExercise('bench', 'Bench Press', 'chest', [
+            LoggedSet(5, 100, note: 'agarre, más cerrado'),
+            LoggedSet(5, 100),
+          ]),
+        ]),
+      ]);
+      final sets = parseImport(csv).sessions.single.exercises.single.sets;
+      expect(sets.first.note, 'agarre, más cerrado');
+      expect(sets.last.note, isEmpty);
     });
 
     test('Hevy trae su RPE y una columna RIR se convierte', () {

@@ -5,6 +5,9 @@ import 'package:gymmane/l10n/l10n.dart';
 import 'package:gymmane/models/workout.dart';
 import 'package:gymmane/services/local_store.dart';
 import 'package:gymmane/state/fit_state.dart';
+import 'package:gymmane/theme/app_theme.dart';
+import 'package:gymmane/widgets/charts.dart';
+import 'package:gymmane/widgets/exercise_history_sheet.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
@@ -19,7 +22,8 @@ void main() {
     });
 
     test('se corrige y se guarda', () {
-      final s = LoggedSession(DateTime.now(), 108 * 60, [
+      final n = DateTime.now();
+      final s = LoggedSession(DateTime(n.year, n.month, n.day, 12), 108 * 60, [
         LoggedExercise('x', 'x', 'chest', [LoggedSet(8, 60)]),
       ]);
       fit.sessions.add(s);
@@ -310,6 +314,93 @@ void main() {
       final s = fit.sessions.last;
       expect(s.durationSec, 45 * 60);
       expect(s.date, DateTime(day.year, day.month, day.day, 19, 15));
+    });
+  });
+
+  group('#297 historial y gráfica del ejercicio en la sesión', () {
+    setUp(() async {
+      SharedPreferences.setMockInitialValues({});
+      await Store.instance.init();
+      fit.resetAllData();
+      fit.onboarded = true;
+      fit.setUnits('kg');
+      setAppLanguage('en');
+    });
+
+    String bench() => fit.matchExerciseByName('Bench Press')!.id;
+
+    void logDays(List<(int, double)> list) {
+      final n = DateTime.now();
+      for (final (ago, kg) in list) {
+        fit.sessions.add(LoggedSession(DateTime(n.year, n.month, n.day - ago, 18), 3600, [
+          LoggedExercise(bench(), 'Bench Press', 'chest', [LoggedSet(5, kg)]),
+        ]));
+      }
+    }
+
+    test('la tendencia va de la más antigua a la última y respeta el rango', () {
+      logDays([(200, 60), (60, 70), (10, 80), (2, 85)]);
+      final all = fit.exerciseTrend(bench());
+      expect(all.length, 4);
+      expect(all.first.value, lessThan(all.last.value));
+      expect(fit.exerciseTrend(bench(), days: 30).length, 2);
+      expect(fit.exerciseTrend(bench(), days: 90).length, 3);
+    });
+
+    test('en % del peso usa lo que pesabas ese día', () {
+      final n = DateTime.now();
+      fit.bodyweight
+        ..add(BodyweightEntry(DateTime(n.year, n.month, n.day - 40), 100))
+        ..add(BodyweightEntry(DateTime(n.year, n.month, n.day - 5), 80));
+      logDays([(30, 100), (2, 100)]);
+      expect(fit.canShowRelative(bench()), isTrue);
+      final rel = fit.exerciseTrend(bench(), relative: true);
+      final kg = fit.exerciseTrend(bench());
+      expect(rel.first.value, (kg.first.value / 100 * 100).roundToDouble());
+      expect(rel.last.value, (kg.last.value / 80 * 100).roundToDouble());
+      expect(rel.last.value, greaterThan(rel.first.value));
+      expect(fit.canShowRelative(fit.matchExerciseByName('Pull Up')!.id), isFalse);
+    });
+
+    test('el total levantado suma todo lo que has hecho', () {
+      logDays([(3, 100), (1, 50)]);
+      expect(fit.totalVolumeKg, 5 * 100 + 5 * 50);
+      expect(fit.liftedSpanOf(fit.totalVolumeKg), ('750', 'kg'));
+    });
+
+    testWidgets('enseña la gráfica y carga más sesiones al pedirlo', (tester) async {
+      logDays([for (var i = 0; i < 20; i++) (i * 3, 60.0 + i)]);
+      await tester.pumpWidget(MaterialApp(
+        theme: AppTheme.dark,
+        home: Scaffold(body: Builder(builder: (context) {
+          return Center(
+            child: TextButton(
+              onPressed: () => showExerciseHistorySheet(context, bench()),
+              child: const Text('open'),
+            ),
+          );
+        })),
+      ));
+      await tester.tap(find.text('open'));
+      for (var i = 0; i < 12; i++) {
+        await tester.pump(const Duration(milliseconds: 60));
+      }
+      expect(find.byType(TrendChart), findsOneWidget);
+      expect(find.text(t.historyMore(8)), findsOneWidget);
+      await tester.ensureVisible(find.text(t.historyMore(8)));
+      await tester.pump(const Duration(milliseconds: 100));
+      await tester.tap(find.text(t.historyMore(8)));
+      for (var i = 0; i < 8; i++) {
+        await tester.pump(const Duration(milliseconds: 60));
+      }
+      expect(find.text(t.historyMore(8)), findsNothing);
+      await tester.ensureVisible(find.text(t.daysAll));
+      await tester.pump(const Duration(milliseconds: 100));
+      await tester.tap(find.text(t.daysAll));
+      for (var i = 0; i < 8; i++) {
+        await tester.pump(const Duration(milliseconds: 100));
+      }
+      expect(find.byType(TrendChart), findsOneWidget);
     });
   });
 }
