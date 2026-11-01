@@ -18,6 +18,8 @@ import '../widgets/exercise_art.dart';
 import '../widgets/routine_folder.dart';
 import '../widgets/ui_kit.dart';
 
+part 'report_pdf.dart';
+
 const _pageW = 595.28;
 const _pageH = 841.89;
 const _margin = 40.0;
@@ -69,6 +71,13 @@ Future<Uint8List> buildPlanPdf(List<Routine> routines, {bool week = false, DateT
   }
   final doc = _PlanDoc(runner, arts, rtl: const {'ar', 'fa'}.contains(appLanguage));
   doc.lay(routines, week: week, now: now ?? DateTime.now());
+  final pages = await _rasterize(doc);
+  runner.dispose();
+  final title = week ? sentenceCase(t.weeklyPlan) : fit.routineTitle(routines.first);
+  return _writePdf(pages, title, now ?? DateTime.now());
+}
+
+Future<List<(int, int, Uint8List)>> _rasterize(_PlanDoc doc) async {
   final pages = <(int, int, Uint8List)>[];
   for (var i = 0; i < doc.pages.length; i++) {
     final w = (_pageW * _scale).round(), h = (_pageH * _scale).round();
@@ -85,9 +94,7 @@ Future<Uint8List> buildPlanPdf(List<Routine> routines, {bool week = false, DateT
     pages.add((w, h, await Isolate.run(() => _deflateRgb(rgba))));
   }
   doc.dispose();
-  runner.dispose();
-  final title = week ? sentenceCase(t.weeklyPlan) : fit.routineTitle(routines.first);
-  return _writePdf(pages, title, now ?? DateTime.now());
+  return pages;
 }
 
 Uint8List _deflateRgb(Uint8List rgba) {
@@ -649,7 +656,7 @@ String _xmp(String title, String subject, String keywords, String lang, DateTime
 </x:xmpmeta>
 <?xpacket end="w"?>''';
 
-Uint8List _writePdf(List<(int, int, Uint8List)> pages, String title, DateTime now) {
+Uint8List _writePdf(List<(int, int, Uint8List)> pages, String title, DateTime now, {String? kicker}) {
   final out = BytesBuilder(copy: false);
   final offsets = <int>[];
   void raw(List<int> b) => out.add(b);
@@ -681,8 +688,9 @@ Uint8List _writePdf(List<(int, int, Uint8List)> pages, String title, DateTime no
   raw([0x25, 0xE2, 0xE3, 0xCF, 0xD3, 0x0A]);
   final n = pages.length;
   final lang = intlLocale.replaceAll('_', '-');
-  final subject = '${sentenceCase(t.pdfKicker)} · $_app';
-  final keywords = '$_app, ${t.pdfKicker.toLowerCase()}';
+  final kind = kicker ?? t.pdfKicker;
+  final subject = '${sentenceCase(kind)} · $_app';
+  final keywords = '$_app, ${kind.toLowerCase()}';
   final date = _pdfDate(now);
   final xmp = Uint8List.fromList(utf8.encode(_xmp(title, subject, keywords, lang, now)));
   final kids = [for (var i = 0; i < n; i++) '${5 + i * 3} 0 R'].join(' ');
