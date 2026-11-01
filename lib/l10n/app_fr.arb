@@ -1365,7 +1365,7 @@
   "progManualHint": "Aucune suggestion : tu choisis chaque charge.",
   "progLinear": "Linéaire",
   "progLinearHint": "Fais toutes les reps et la charge augmente.",
-  "progDouble": "Double progression",
+  "progDouble": "Progression double",
   "progDoubleHint": "Plus de reps jusqu'au haut de la fourchette, puis plus de charge.",
   "progVolume": "Reps, séries et charge",
   "progVolumeHint": "Reps jusqu'au maximum, puis une série de plus, puis plus de charge.",

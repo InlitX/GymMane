@@ -5298,7 +5298,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get progLinearHint => 'Fais toutes les reps et la charge augmente.';
 
   @override
-  String get progDouble => 'Double progression';
+  String get progDouble => 'Progression double';
 
   @override
   String get progDoubleHint => 'Plus de reps jusqu\'au haut de la fourchette, puis plus de charge.';

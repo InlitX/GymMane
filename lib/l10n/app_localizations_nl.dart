@@ -1638,7 +1638,7 @@ class AppLocalizationsNl extends AppLocalizations {
   String get toolDescRm => 'Geschat maximum voor één herhaling';
 
   @override
-  String get toolDescBmi => 'Body mass index';
+  String get toolDescBmi => 'Body-mass-index';
 
   @override
   String get toolDescCal => 'Calorieën en macro\'s';
@@ -1816,7 +1816,7 @@ class AppLocalizationsNl extends AppLocalizations {
   String get exercisesInsideWhy => 'Elk met animatie en stapsgewijze instructies.';
 
   @override
-  String get calculatorsInside => '10 calculators';
+  String get calculatorsInside => '10 rekenhulpen';
 
   @override
   String get calculatorsInsideWhy =>
