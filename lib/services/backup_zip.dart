@@ -20,6 +20,7 @@ const String _notesDir = 'media/notes';
 const String _timelineDir = 'timeline';
 const String _momentsDir = 'moments';
 const String _foodsDir = 'foods';
+const String _passesDir = 'passes';
 const String _alarmDir = 'alarm';
 
 bool looksLikeZip(Uint8List b) =>
@@ -97,6 +98,17 @@ Future<Uint8List> buildBackupZip() async {
     foodMedia[photo] = '$_foodsDir/$name';
   }
   data['foodMedia'] = foodMedia;
+
+  final passMedia = <String, String>{};
+  for (final pass in fit.gymPasses) {
+    if (!pass.photo || passMedia.containsKey(pass.code)) continue;
+    final bytes = await MediaStore.readBytes(pass.code);
+    if (bytes == null || bytes.isEmpty) continue;
+    final name = _uniqueName(used, slugify(pass.name), MediaStore.extOf(pass.code));
+    archive.addFile(ArchiveFile.noCompress('$_passesDir/$name', bytes.length, bytes));
+    passMedia[pass.code] = '$_passesDir/$name';
+  }
+  data['passMedia'] = passMedia;
 
   final alarm = fit.alarmSound;
   final alarmPath = alarm == null ? null : AlarmStore.pathFor(alarm);
@@ -207,13 +219,33 @@ Future<bool> restoreBackupZip(Uint8List zipBytes) async {
     if (base != null) restoredFoods[e.key] = base;
   }
 
+  final wantedPasses = <String, String>{};
+  ((data['passMedia'] as Map?) ?? {}).forEach((k, v) {
+    if (k is String && v is String && v.isNotEmpty) wantedPasses[k] = v;
+  });
+  final restoredPasses = <String, String>{};
+  for (final e in wantedPasses.entries) {
+    final bytes = archive.findFile(e.value)?.readBytes();
+    if (bytes == null) continue;
+    final base = await MediaStore.saveBytes('pass', MediaStore.extOf(e.value), bytes);
+    if (base != null) restoredPasses[e.key] = base;
+  }
+
   final ok = fit.tryApplyBackup(data,
       restoredMedia: restored,
       restoredNoteMedia: restoredNotes,
       restoredShots: restoredShots,
       restoredMoments: restoredMoments,
-      restoredFoods: restoredFoods);
-  final added = {...restored.values, ...restoredNotes.values, ...restoredShots.values, ...restoredMoments.values, ...restoredFoods.values};
+      restoredFoods: restoredFoods,
+      restoredPasses: restoredPasses);
+  final added = {
+    ...restored.values,
+    ...restoredNotes.values,
+    ...restoredShots.values,
+    ...restoredMoments.values,
+    ...restoredFoods.values,
+    ...restoredPasses.values,
+  };
   if (!ok) {
     for (final name in added) {
       await MediaStore.delete(name);

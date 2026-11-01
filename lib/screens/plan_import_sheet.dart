@@ -134,10 +134,7 @@ class _PlanImportSheetState extends State<_PlanImportSheet> {
     return Container(
       padding: sheetPad(context).add(EdgeInsets.only(bottom: MediaQuery.viewInsetsOf(context).bottom)),
       constraints: BoxConstraints(maxHeight: MediaQuery.sizeOf(context).height * 0.9),
-      decoration: BoxDecoration(
-        color: gc.bgRaised,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-      ),
+      decoration: sheetDecoration(gc),
       child: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -177,7 +174,7 @@ class _PlanImportSheetState extends State<_PlanImportSheet> {
             if (preview != null && preview.routines > 0) ...[
               const SizedBox(height: 18),
               Text('${t.routineCount(preview.routines)} · ${t.exerciseCount(preview.added)}'.toUpperCase(),
-                  style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.3)),
+                  style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.4)),
               const SizedBox(height: 10),
               for (final p in _plans)
                 if (p.items.isNotEmpty) _planCard(gc, p),

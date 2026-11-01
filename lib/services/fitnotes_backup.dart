@@ -40,7 +40,8 @@ ImportResult? parseFitNotes(List<int> bytes) {
 
   for (final log in db.rows('training_log')) {
     final reps = _int(log['reps']);
-    if (reps <= 0) continue;
+    final sec = _int(log['duration_seconds']);
+    if (reps <= 0 && sec <= 0) continue;
     final date = _date(_text(log['date']));
     if (date == null) continue;
     final exercise = exercises[_int(log['exercise_id'])];
@@ -54,7 +55,7 @@ ImportResult? parseFitNotes(List<int> bytes) {
       session.exercises.add(e);
       return e;
     });
-    parsed.sets.add(ParsedSet(reps, _double(log['metric_weight'])));
+    parsed.sets.add(ParsedSet(reps < 0 ? 0 : reps, _double(log['metric_weight']), sec: sec > 0 ? sec : null));
   }
 
   return ImportResult(

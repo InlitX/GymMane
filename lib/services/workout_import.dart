@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math' as math;
 
 import 'package:archive/archive.dart';
 
@@ -29,8 +30,11 @@ extension ImportFormatX on ImportFormat {
 }
 
 class ParsedSet {
-  ParsedSet(this.reps, this.weightKg, {this.rpe});
+  ParsedSet(this.reps, this.weightKg, {this.rpe, this.note = '', this.sec, this.km});
   final int reps;
+  final int? sec;
+  final double? km;
+  final String note;
   final double weightKg;
   final double? rpe;
 }
@@ -96,6 +100,13 @@ class _Fmt {
   final List<String>? setType;
   final List<String>? warmupFlag;
   List<String> get rpe => const ['rpe'];
+  List<String> get setSec => const ['duration_seconds', 'seconds', 'duration (s)', 'time (s)', 'set duration'];
+  List<String> get setClock => const ['time', 'set time'];
+  List<String> get km => const ['distance_km', 'distance (km)', 'km'];
+  List<String> get miles => const ['distance_miles', 'distance_mi', 'distance (mi)', 'distance (miles)', 'miles'];
+  List<String> get meters => const ['distance_m', 'distance (m)', 'distance (meters)', 'distance (metres)', 'meters', 'metres'];
+  List<String> get setOrder => const ['set order', 'set_order'];
+  List<String> get note => const ['note', 'notes', 'set_notes'];
   List<String> get rir => const ['rir'];
   List<String> get effort => const ['rir/rpe', 'rpe/rir'];
 }
@@ -334,9 +345,18 @@ ImportResult parseImport(String csv, {bool isLb = false}) {
   final sessions = <String, ParsedSession>{};
   final exercisesOf = <String, Map<String, ParsedExercise>>{};
 
+  double num(String v) => double.tryParse(v.replaceAll(',', '.')) ?? 0;
+  final clockCol = format == ImportFormat.fitnotes ? _pick(cols, fmt.setClock) : null;
+
   for (final row in rows.skip(1)) {
-    final reps = int.tryParse(cell(row, fmt.reps)) ?? 0;
-    if (reps <= 0) continue;
+    final reps = int.tryParse(cell(row, fmt.reps)) ?? num(cell(row, fmt.reps)).round();
+    var sec = num(cell(row, fmt.setSec)).round();
+    if (sec <= 0 && clockCol != null) sec = _parseDuration(cell(row, [clockCol]));
+    var km = num(cell(row, fmt.km));
+    if (km <= 0) km = num(cell(row, fmt.miles)) * 1.609344;
+    if (km <= 0) km = num(cell(row, fmt.meters)) / 1000;
+    if (reps <= 0 && sec <= 0 && km <= 0) continue;
+    if (_norm(cell(row, fmt.setOrder)).startsWith('rest')) continue;
     if (_norm(cell(row, fmt.setType)).startsWith('warmup') ||
         _norm(cell(row, fmt.setType)).startsWith('warm_up') ||
         _norm(cell(row, fmt.warmupFlag)) == 'true') {
@@ -373,7 +393,11 @@ ImportResult parseImport(String csv, {bool isLb = false}) {
       return parsed;
     });
     exercise.sets.add(
-        ParsedSet(reps, kg, rpe: _effort(cell(row, fmt.rpe), cell(row, fmt.rir), cell(row, fmt.effort))));
+        ParsedSet(math.max(0, reps), kg,
+            rpe: _effort(cell(row, fmt.rpe), cell(row, fmt.rir), cell(row, fmt.effort)),
+            note: _setNote(cell(row, fmt.note)),
+            sec: sec > 0 ? sec : null,
+            km: km > 0 ? double.parse(km.toStringAsFixed(3)) : null));
   }
 
   return ImportResult(format, sessions.values.toList());
@@ -504,6 +528,11 @@ List<String> _header(String csv) {
   final line = _firstLine(csv);
   if (line == null) return const [];
   return _splitLine(line, _delimiter(csv)).map(_norm).toList();
+}
+
+String _setNote(String raw) {
+  final clean = raw.trim().replaceAll(RegExp(r'\s+'), ' ');
+  return clean.length > 280 ? clean.substring(0, 280) : clean;
 }
 
 String _delimiter(String csv) => (_firstLine(csv) ?? '').contains(';') ? ';' : ',';

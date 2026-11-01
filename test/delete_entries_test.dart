@@ -119,4 +119,18 @@ void main() {
     expect(fit.importJson('{"profile":{"name":"Legacy"}}'), true);
     expect(fit.onboarded, true);
   });
+
+  test('borrar solo los entrenos deja rutinas, peso y ajustes', () {
+    log('Bench', 80);
+    log('Bench', 85, daysAgo: 2);
+    fit.addBodyweight(80);
+    final routines = fit.routines.length;
+    fit.setUnits('lb');
+    fit.clearWorkouts();
+    expect(fit.sessions, isEmpty);
+    expect(fit.bodyweight, isNotEmpty);
+    expect(fit.routines.length, routines);
+    expect(fit.units, 'lb');
+    fit.setUnits('kg');
+  });
 }
