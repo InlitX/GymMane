@@ -1080,7 +1080,7 @@ class _FilterSheet extends StatelessWidget {
     Widget group(String label, List<_FilterChipData> chips) => Padding(
           padding: const EdgeInsets.only(bottom: 22),
           child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Padding(padding: const EdgeInsets.only(left: 2), child: SectionLabel(label)),
+            Padding(padding: const EdgeInsetsDirectional.only(start: 2), child: SectionLabel(label)),
             const SizedBox(height: 10),
             Wrap(spacing: 8, runSpacing: 8, children: [
               for (final c in chips)

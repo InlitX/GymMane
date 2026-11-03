@@ -144,7 +144,7 @@ class RoutineFolder extends StatelessWidget {
                               WidgetSpan(
                                 alignment: PlaceholderAlignment.middle,
                                 child: Padding(
-                                  padding: const EdgeInsets.only(left: 4),
+                                  padding: const EdgeInsetsDirectional.only(start: 4),
                                   child: Icon(PhosphorIconsBold.caretRight, size: 13, color: gc.textSecondary),
                                 ),
                               ),

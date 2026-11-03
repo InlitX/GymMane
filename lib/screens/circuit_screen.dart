@@ -34,7 +34,7 @@ class CircuitSection extends StatelessWidget {
     final label = AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.4);
     return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
       Padding(
-        padding: const EdgeInsets.only(left: 4),
+        padding: const EdgeInsetsDirectional.only(start: 4),
         child: Row(children: [
           Expanded(child: Text(t.circuits.toUpperCase(), style: label)),
           if (fit.circuits.isNotEmpty)

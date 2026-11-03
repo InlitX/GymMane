@@ -69,7 +69,7 @@ class _StopwatchCardState extends State<StopwatchCard> {
             GestureDetector(
               onTap: _reset,
               child: Padding(
-                padding: const EdgeInsets.only(right: 14),
+                padding: const EdgeInsetsDirectional.only(end: 14),
                 child: Text(titleCase(t.reset),
                     style: AppTheme.f(12.5, weight: FontWeight.w600, color: gc.textSecondary)),
               ),

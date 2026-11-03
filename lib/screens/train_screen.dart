@@ -272,7 +272,7 @@ class _TrainScreenState extends State<TrainScreen> {
       );
 
   Widget _gearChip(GymColors gc, String label, bool on, String? value) => Padding(
-        padding: const EdgeInsets.only(right: 8),
+        padding: const EdgeInsetsDirectional.only(end: 8),
         child: Pill(
           label: label,
           bg: on ? gc.ember : gc.bgRaised2,
@@ -318,7 +318,7 @@ class _TrainScreenState extends State<TrainScreen> {
                   behavior: HitTestBehavior.opaque,
                   onTap: _clearSearch,
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 6),
+                    padding: const EdgeInsetsDirectional.only(start: 6),
                     child: SvgPathIcon(Ic.closeThin, size: 14, color: gc.textSecondary),
                   ),
                 ),

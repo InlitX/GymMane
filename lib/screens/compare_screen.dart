@@ -129,7 +129,7 @@ class _CompareScreenState extends State<CompareScreen> {
           children: [
             for (final e in entries)
               Padding(
-                padding: const EdgeInsets.only(right: 8),
+                padding: const EdgeInsetsDirectional.only(end: 8),
                 child: Pill(
                   label: t.shortDate(e.date),
                   bg: e.id == selectedId ? tint.withValues(alpha: 0.18) : gc.bgRaised,

@@ -76,7 +76,7 @@ class RoutinesScreen extends StatelessWidget {
                       Stack(alignment: Alignment.centerLeft, children: [...previous, ?current]),
                   child: Padding(
                     key: ValueKey(fit.rotation),
-                    padding: const EdgeInsets.only(left: 4),
+                    padding: const EdgeInsetsDirectional.only(start: 4),
                     child: Text((fit.rotation ? t.rotationTitle : t.weeklyPlan).toUpperCase(),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -140,7 +140,7 @@ class RoutinesScreen extends StatelessWidget {
             ),
             const SizedBox(height: 30),
             Padding(
-              padding: const EdgeInsets.only(left: 4),
+              padding: const EdgeInsetsDirectional.only(start: 4),
               child: Text(t.yourRoutines.toUpperCase(), style: _label(gc)),
             ),
             const SizedBox(height: 12),

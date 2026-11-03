@@ -138,7 +138,7 @@ class _AwardsScreenState extends State<AwardsScreen> {
   Widget _section(GymColors gc, String label, int count) {
     final style = AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.4);
     return Padding(
-      padding: const EdgeInsets.only(left: 4),
+      padding: const EdgeInsetsDirectional.only(start: 4),
       child: Row(
         children: [
           Text(label.toUpperCase(), style: style),
