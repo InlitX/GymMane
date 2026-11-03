@@ -1,12 +1,15 @@
 import 'dart:io';
 import 'dart:math' as math;
+import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 import '../l10n/l10n.dart';
 import '../models/profile.dart';
+import '../services/food_library.dart';
 import '../services/media_store.dart';
 import '../state/fit_state.dart';
 import '../theme/app_colors.dart';
@@ -15,10 +18,12 @@ import '../widgets/entrance.dart';
 import '../widgets/file_thumb.dart';
 import '../widgets/glass.dart';
 import '../widgets/medal_shelf.dart';
+import '../widgets/name_ticker.dart';
 import '../widgets/photo_source_sheet.dart';
 import '../widgets/profile_avatar.dart';
 import '../widgets/ui_kit.dart';
 import 'gym_pass_screen.dart';
+import 'recap_screen.dart';
 import 'settings_screen.dart';
 
 const List<String> kProfileBadges = ['gold', 'blue', 'green'];
@@ -36,8 +41,66 @@ class ProfileScreen extends StatefulWidget {
   State<ProfileScreen> createState() => _ProfileScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
+class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProviderStateMixin {
   bool _busy = false;
+  static const _reach = 210.0;
+  final _scroll = ScrollController();
+  final _pull = ValueNotifier<double>(0);
+  late final AnimationController _back;
+  double _from = 0;
+  bool _armed = false;
+  bool _opening = false;
+  int _burst = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    if (fit.nutritionBeta) FoodLibrary.load();
+    _back = AnimationController(vsync: this, duration: const Duration(milliseconds: 320))
+      ..addListener(() => _pull.value = _from * (1 - Curves.easeOutCubic.transform(_back.value)));
+  }
+
+  @override
+  void dispose() {
+    _back.dispose();
+    _scroll.dispose();
+    _pull.dispose();
+    super.dispose();
+  }
+
+  void _move(PointerMoveEvent e) {
+    if (_opening || !_scroll.hasClients) return;
+    final dy = e.delta.dy;
+    final atTop = _scroll.position.pixels <= 0.5;
+    if (_pull.value <= 0 && !(atTop && dy > 0)) return;
+    _back.stop();
+    final drag = dy < 0 ? 0.8 : 0.66 * (1 - (_pull.value / (_reach * 1.45)).clamp(0.0, 0.88));
+    _pull.value = (_pull.value + dy * drag).clamp(0.0, _reach * 1.3);
+    if (_scroll.position.pixels != 0) _scroll.jumpTo(0);
+    final armed = _pull.value >= _reach;
+    if (armed != _armed) {
+      _armed = armed;
+      if (armed) {
+        HapticFeedback.heavyImpact();
+        _burst++;
+      }
+    }
+  }
+
+  Future<void> _release(PointerEvent _) async {
+    if (_opening || _pull.value <= 0) return;
+    if (_pull.value >= _reach) {
+      _opening = true;
+      await openRecap(context);
+      _pull.value = 0;
+      _armed = false;
+      _opening = false;
+      return;
+    }
+    _from = _pull.value;
+    _armed = false;
+    _back.forward(from: 0);
+  }
 
   Future<void> _pickBanner() async {
     if (_busy) return;
@@ -82,15 +145,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final gc = context.gc;
-    return RiseScope(
+    final top = MediaQuery.paddingOf(context).top;
+    final scroll = RiseScope(
       id: 'profile',
       child: CustomScrollView(
+      controller: _scroll,
+      physics: const ClampingScrollPhysics(),
       slivers: [
         SliverPersistentHeader(
           pinned: true,
           delegate: _ProfileHeader(
             gc: gc,
-            top: MediaQuery.paddingOf(context).top,
+            top: top,
+            pull: _pull,
+            reach: _reach,
             onBanner: _pickBanner,
             onEdit: () => showProfileSheet(context),
           ),
@@ -159,6 +227,107 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
         ),
       ],
+      ),
+    );
+    return Listener(
+      onPointerMove: _move,
+      onPointerUp: _release,
+      onPointerCancel: _release,
+      child: AnimatedBuilder(
+        animation: _pull,
+        child: scroll,
+        builder: (context, child) {
+          final pull = _pull.value;
+          final p = (pull / _reach).clamp(0.0, 1.0);
+          final size = MediaQuery.sizeOf(context);
+          return Stack(children: [
+            Positioned.fill(
+              child: p <= 0
+                  ? const SizedBox.shrink()
+                  : IgnorePointer(
+                      child: Opacity(
+                        opacity: Curves.easeIn.transform(((p - 0.15) / 0.85).clamp(0.0, 1.0)),
+                        child: Transform.scale(
+                          scale: 1.3 - 0.3 * Curves.easeOutCubic.transform(p),
+                          child: NameTicker(
+                            text: fit.displayName,
+                            color: gc.text.withValues(alpha: 0.07),
+                            rows: 0,
+                          ),
+                        ),
+                      ),
+                    ),
+            ),
+            Positioned.fill(
+              child: Transform.translate(
+                offset: Offset(0, pull * 0.55),
+                child: Opacity(opacity: (1 - p).clamp(0.0, 1.0), child: child),
+              ),
+            ),
+            if (p > 0) _traveller(gc, size, top, pull, p),
+          ]);
+        },
+      ),
+    );
+  }
+
+  Widget _traveller(GymColors gc, Size size, double top, double pull, double p) {
+    final big = 86 + (kRecapAvatar - 86) * Curves.easeInOutSine.transform(p);
+    final center = Offset(size.width / 2, recapAvatarY(size));
+    final ring = math.min(size.width / 2 - kRecapAvatar / 2 - 14, 120.0);
+    const startAngle = math.pi * 0.82;
+    final entry = center + Offset(math.cos(startAngle), math.sin(startAngle)) * ring;
+    final start = Offset(20 + 43, top + 104 + 43 + pull * 0.55);
+    const split = 0.3;
+    final Offset spot;
+    if (p < split) {
+      spot = Offset.lerp(start, entry, Curves.easeIn.transform(p / split))!;
+    } else {
+      final v = (p - split) / (1 - split);
+      final angle = startAngle - 1.05 * math.pi * Curves.easeInOutSine.transform(v);
+      final shrink = Curves.easeInCubic.transform(((v - 0.35) / 0.65).clamp(0.0, 1.0));
+      spot = center + Offset(math.cos(angle), math.sin(angle)) * ring * (1 - shrink);
+    }
+    final at = spot - Offset(big / 2, big / 2);
+    final armed = pull >= _reach;
+    final pop = armed ? 1.06 : 1.0;
+    return Positioned.fill(
+      child: IgnorePointer(
+        child: Stack(children: [
+          if (armed)
+            Positioned(
+              left: center.dx - (kRecapAvatar + 200) / 2,
+              top: center.dy - (kRecapAvatar + 200) / 2,
+              child: StoryRings(key: ValueKey(_burst), size: kRecapAvatar, color: Colors.white),
+            ),
+          Positioned(
+            left: at.dx,
+            top: at.dy,
+            child: AnimatedScale(
+              scale: pop,
+              duration: const Duration(milliseconds: 260),
+              curve: Curves.easeOutBack,
+              child: ProfileAvatar(size: big),
+            ),
+          ),
+          Positioned(
+            left: 24,
+            right: 24,
+            top: center.dy + kRecapAvatar / 2 + 34,
+            child: Opacity(
+              opacity: ((p - 0.55) / 0.45).clamp(0.0, 1.0),
+              child: AnimatedSwitcher(
+                duration: const Duration(milliseconds: 200),
+                child: Text(
+                  armed ? t.recapRelease : t.recapPull(t.monthInline(fit.recapMonth.month)),
+                  key: ValueKey(armed),
+                  textAlign: TextAlign.center,
+                  style: AppTheme.f(15, weight: FontWeight.w800, color: armed ? gc.text : gc.textSecondary),
+                ),
+              ),
+            ),
+          ),
+        ]),
       ),
     );
   }
@@ -253,15 +422,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.baseline,
-          textBaseline: TextBaseline.alphabetic,
-          children: [
-            RollIn(value, style: AppTheme.f(26, weight: FontWeight.w800, color: gc.text)),
-            if (unit.isNotEmpty)
-              Text(unit,
-                  style: AppTheme.f(12.5, weight: FontWeight.w600, color: gc.textSecondary)),
-          ],
+        FittedBox(
+          fit: BoxFit.scaleDown,
+          alignment: AlignmentDirectional.centerStart,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.baseline,
+            textBaseline: TextBaseline.alphabetic,
+            children: [
+              RollIn(value, style: AppTheme.f(26, weight: FontWeight.w800, color: gc.text)),
+              if (unit.isNotEmpty)
+                Text(unit,
+                    style: AppTheme.f(12.5, weight: FontWeight.w600, color: gc.textSecondary)),
+            ],
+          ),
         ),
         const SizedBox(height: 5),
         Text(label.toUpperCase(),
@@ -279,7 +452,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       behavior: HitTestBehavior.opaque,
       onTap: onMore,
       child: Padding(
-        padding: const EdgeInsets.only(left: 2),
+        padding: const EdgeInsetsDirectional.only(start: 2),
         child: Row(
           children: [
             Text(title.toUpperCase(), style: label),
@@ -480,12 +653,16 @@ class _ProfileHeader extends SliverPersistentHeaderDelegate {
   _ProfileHeader({
     required this.gc,
     required this.top,
+    required this.pull,
+    required this.reach,
     required this.onBanner,
     required this.onEdit,
   });
 
   final GymColors gc;
   final double top;
+  final ValueNotifier<double> pull;
+  final double reach;
   final VoidCallback onBanner;
   final VoidCallback onEdit;
 
@@ -523,8 +700,20 @@ class _ProfileHeader extends SliverPersistentHeaderDelegate {
           right: 0,
           top: 0,
           height: bannerBottom,
-          child: Opacity(
-            opacity: 1 - gone,
+          child: ValueListenableBuilder<double>(
+            valueListenable: pull,
+            builder: (_, v, child) {
+              final p = (v / reach).clamp(0.0, 1.0);
+              if (p <= 0) return Opacity(opacity: 1 - gone, child: child);
+              final sigma = 14 * p;
+              final zoomed = Transform.scale(scale: 1 + 0.35 * p, alignment: Alignment.topCenter, child: child);
+              return Opacity(
+                opacity: ((1 - gone) * (1 - p)).clamp(0.0, 1.0),
+                child: blurEffects
+                    ? ImageFiltered(imageFilter: ui.ImageFilter.blur(sigmaX: sigma, sigmaY: sigma), child: zoomed)
+                    : zoomed,
+              );
+            },
             child: GestureDetector(
               onTap: onBanner,
               child: Stack(
@@ -598,7 +787,11 @@ class _ProfileHeader extends SliverPersistentHeaderDelegate {
         Positioned(
           left: 20,
           top: avatarTop,
-          child: Opacity(opacity: fade, child: const ProfileAvatar(size: _avatar)),
+          child: ValueListenableBuilder<double>(
+            valueListenable: pull,
+            builder: (_, v, child) => Opacity(opacity: v > 0 ? 0 : fade, child: child),
+            child: const ProfileAvatar(size: _avatar),
+          ),
         ),
         Positioned(
           right: 20,

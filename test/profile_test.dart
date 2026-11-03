@@ -1,5 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:gymmane/models/nutrition.dart';
 import 'package:gymmane/models/workout.dart';
+import 'package:gymmane/screens/recap_screen.dart';
 import 'package:gymmane/services/local_store.dart';
 import 'package:gymmane/state/fit_state.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -115,5 +117,54 @@ void main() {
 
     fit.toggleProfileMedal(AwardId.workouts10);
     expect(fit.profileMedals.length, AwardId.values.length, reason: 'sin ninguna elegida vuelve a enseñarlas todas');
+  });
+
+  LoggedSession lift(DateTime at, List<(String, double)> work) => LoggedSession(at, 1800, [
+        for (final (id, kg) in work) LoggedExercise(id, id, 'chest', [LoggedSet(8, kg), LoggedSet(8, kg)]),
+      ]);
+
+  test('the month recap finds new exercises, the longest streak and the toughest session', () {
+    fit.sessions.addAll([
+      lift(DateTime(2026, 8, 10, 19), [('EIeI8Vf', 60)]),
+      lift(DateTime(2026, 9, 3, 19), [('EIeI8Vf', 60), ('qXTaZnJ', 80)]),
+      lift(DateTime(2026, 9, 4, 19), [('EIeI8Vf', 60)]),
+      lift(DateTime(2026, 9, 5, 19), [('EIeI8Vf', 60)]),
+      lift(DateTime(2026, 9, 20, 19), [('EIeI8Vf', 100), ('qXTaZnJ', 140)]),
+    ]);
+    final extras = recapExtras(fit.recapFor(DateTime(2026, 9)));
+
+    expect(extras.fresh, ['qXTaZnJ'], reason: 'la sentadilla es nueva; el press ya se hizo en agosto');
+    expect(extras.streak, 3);
+    expect(extras.peak?.date, DateTime(2026, 9, 20, 19));
+    expect(extras.yearAgo, 0);
+  });
+
+  test('one logged food day is enough for the food page of the recap', () {
+    final now = DateTime.now();
+    fit.sessions.add(lift(DateTime(now.year, now.month, 1, 19), [('EIeI8Vf', 60)]));
+    fit.nutritionBeta = true;
+    fit.foodLog.clear();
+    fit.nutritionDay = DateTime(now.year, now.month, 1);
+    fit.logQuick('Pollo', const Macros(kcal: 600, protein: 400, carbs: 50, fat: 10));
+    fit.logQuick('Pollo', const Macros(kcal: 100, protein: 10, carbs: 5, fat: 1));
+    final food = recapExtras(fit.recapFor(DateTime(now.year, now.month))).food;
+
+    expect(food?.days, 1);
+    expect(food?.hit, 1);
+    expect(food?.starTimes, 1, reason: 'dos veces el mismo día cuenta como un día');
+    expect(food?.star, isNull, reason: 'una comida estrella pide repetirla otro día');
+    fit.foodLog.clear();
+    fit.nutritionDay = DateTime(now.year, now.month, now.day);
+  });
+
+  test('the exercise wall never repeats a drawing, even with a single exercise', () {
+    fit.sessions.add(lift(DateTime(2026, 9, 3, 19), [('EIeI8Vf', 60)]));
+    final alone = recapWallIds(fit.recapFor(DateTime(2026, 9)));
+    expect(alone.first, 'EIeI8Vf');
+    expect(alone.length, 10, reason: 'con uno solo se completa con otros del mismo músculo');
+    expect(alone.toSet().length, alone.length, reason: 'sin repetir dibujos');
+
+    fit.sessions.insert(0, lift(DateTime(2026, 8, 3, 19), [('qXTaZnJ', 80), ('eZyBC3j', 50), ('kTbSH9h', 40)]));
+    expect(recapWallIds(fit.recapFor(DateTime(2026, 9))).take(4), ['EIeI8Vf', 'qXTaZnJ', 'eZyBC3j', 'kTbSH9h']);
   });
 }
