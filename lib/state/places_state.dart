@@ -100,6 +100,40 @@ mixin PlacesState on FitCore, LibraryState {
   @override
   double? get placeBarKg => activePlace?.bar;
 
+  @override
+  List<double>? dumbbellStockFor(String id) {
+    final owned = activePlace?.dumbbells;
+    if (owned == null || owned.isEmpty || exerciseById(id)?.equipment != 'Dumbbell' || isAssisted(id)) return null;
+    return owned;
+  }
+
+  List<double> get dumbbellSizes => isLb
+      ? const [5, 8, 10, 12, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 90, 100]
+      : const [1, 2, 2.5, 3, 4, 5, 6, 7, 7.5, 8, 9, 10, 12, 12.5, 14, 15, 16, 17.5, 18, 20, 22, 22.5, 24, 25, 26,
+          27.5, 28, 30, 32, 32.5, 34, 35, 36, 37.5, 40, 42.5, 45, 47.5, 50];
+
+  bool ownsDumbbell(GymPlace place, double kg) => place.dumbbells.any((v) => (v - kg).abs() < 0.05);
+
+  void toggleDumbbell(String placeId, double kg) {
+    final i = places.indexWhere((p) => p.id == placeId);
+    if (i < 0 || kg <= 0) return;
+    final list = [...places[i].dumbbells];
+    final at = list.indexWhere((v) => (v - kg).abs() < 0.05);
+    at >= 0 ? list.removeAt(at) : list.add(_round3(kg));
+    list.sort();
+    places[i] = places[i].copyWith(dumbbells: list);
+    _persist();
+    notifyListeners();
+  }
+
+  void clearDumbbells(String placeId) {
+    final i = places.indexWhere((p) => p.id == placeId);
+    if (i < 0) return;
+    places[i] = places[i].copyWith(dumbbells: const []);
+    _persist();
+    notifyListeners();
+  }
+
   void setPlatePairs(String placeId, double kg, int pairs) {
     final i = places.indexWhere((p) => p.id == placeId);
     if (i < 0) return;

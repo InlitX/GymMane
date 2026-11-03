@@ -126,6 +126,29 @@ void main() {
     expect(fit.exercisesFiltered.length, fit.allExercises.length);
   });
 
+  test('the dumbbells you own steer the weights of dumbbell work here, and only here', () {
+    final id = fit.addPlace('Casa', equipment: {'Dumbbell', 'Barbell'});
+    for (final kg in [12.5, 5.0, 10.0, 7.5]) {
+      fit.toggleDumbbell(id, kg);
+    }
+    fit.toggleDumbbell(id, 7.5);
+    expect(fit.places.single.dumbbells, [5.0, 10.0, 12.5]);
+    final curl = fit.allExercises.firstWhere((e) => e.equipment == 'Dumbbell' && !fit.isAssisted(e.id)).id;
+    final bar = fit.allExercises.firstWhere((e) => e.equipment == 'Barbell').id;
+    expect(fit.stackFor(curl), isNull, reason: 'sin estar en el sitio no manda');
+    fit.setActivePlace(id);
+    expect(fit.stackFor(curl), [5.0, 10.0, 12.5]);
+    expect(fit.ownStackFor(curl), isNull);
+    expect(fit.stackFor(bar), isNull);
+    expect(fit.snapToStack(curl, 10, dir: 1), 12.5);
+    fit.persistNow();
+    fit.places.clear();
+    fit.loadFromStore();
+    expect(fit.places.single.dumbbells, [5.0, 10.0, 12.5]);
+    fit.clearDumbbells(id);
+    expect(fit.stackFor(curl), isNull);
+  });
+
   test('an exercise you cannot do here offers what you can', () {
     final id = fit.addPlace('Casa', equipment: {'Dumbbell'});
     fit.setActivePlace(id);

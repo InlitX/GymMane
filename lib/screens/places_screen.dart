@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 import '../catalog/exercise_catalog.dart';
@@ -231,33 +232,15 @@ class PlacesScreen extends StatelessWidget {
                 ),
                 if (place.equipment.contains('Barbell')) ...[
                   const SizedBox(height: 14),
-                  GestureDetector(
-                    behavior: HitTestBehavior.opaque,
-                    onTap: () => _editPlates(context, place),
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-                      decoration: BoxDecoration(
-                        color: gc.bgRaised2,
-                        borderRadius: BorderRadius.circular(14),
-                      ),
-                      child: Row(
-                        children: [
-                          Icon(PhosphorIconsRegular.circlesThree, size: 17, color: gc.textSecondary),
-                          const SizedBox(width: 12),
-                          Expanded(
-                            child: Text(t.placePlates,
-                                style: AppTheme.s(13, weight: FontWeight.w600, color: gc.text)),
-                          ),
-                          Text(
-                            place.plates.isEmpty ? t.platesAll : t.platesOwned(place.plates.length),
-                            style: AppTheme.s(12, color: gc.textSecondary),
-                          ),
-                          const SizedBox(width: 6),
-                          Icon(PhosphorIconsRegular.caretRight, size: 14, color: gc.textTertiary),
-                        ],
-                      ),
-                    ),
-                  ),
+                  _stockRow(gc, PhosphorIconsRegular.circlesThree, t.placePlates,
+                      place.plates.isEmpty ? t.platesAll : t.platesOwned(place.plates.length),
+                      () => _editPlates(context, place)),
+                ],
+                if (place.equipment.contains('Dumbbell')) ...[
+                  SizedBox(height: place.equipment.contains('Barbell') ? 8 : 14),
+                  _stockRow(gc, PhosphorIconsRegular.barbell, t.placeDumbbells,
+                      place.dumbbells.isEmpty ? t.platesAll : t.platesOwned(place.dumbbells.length),
+                      () => _editDumbbells(context, place.id)),
                 ],
               ],
             ),
@@ -266,6 +249,133 @@ class PlacesScreen extends StatelessWidget {
       ),
     );
   }
+
+  Widget _stockRow(GymColors gc, IconData icon, String label, String value, VoidCallback onTap) =>
+      GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: onTap,
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+          decoration: BoxDecoration(color: gc.bgRaised2, borderRadius: BorderRadius.circular(14)),
+          child: Row(
+            children: [
+              Icon(icon, size: 17, color: gc.textSecondary),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Text(label,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: AppTheme.s(13, weight: FontWeight.w600, color: gc.text)),
+              ),
+              const SizedBox(width: 8),
+              Text(value, style: AppTheme.s(12, color: gc.textSecondary)),
+              const SizedBox(width: 6),
+              Icon(PhosphorIconsRegular.caretRight, size: 14, color: gc.textTertiary),
+            ],
+          ),
+        ),
+      );
+
+  void _editDumbbells(BuildContext context, String placeId) {
+    showAppSheet<void>(
+      context: context,
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
+      builder: (sheet) => AnimatedBuilder(
+        animation: fit,
+        builder: (sheet, _) {
+          final gc = sheet.gc;
+          final place = fit.places.where((p) => p.id == placeId).firstOrNull;
+          if (place == null) return const SizedBox.shrink();
+          final sizes = {
+            for (final s in fit.dumbbellSizes) s,
+            for (final kg in place.dumbbells) (fit.toDisplayWeight(kg) * 100).round() / 100,
+          }.toList()
+            ..sort();
+          return AppSheet(children: [
+            SheetTitle(t.placeDumbbells, subtitle: t.dumbbellsHint),
+            const SizedBox(height: 18),
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              alignment: WrapAlignment.center,
+              children: [
+                for (final size in sizes) _dumbbellChip(gc, place, size),
+                _addDumbbellChip(sheet, gc, place),
+              ],
+            ),
+            if (place.dumbbells.isNotEmpty) ...[
+              const SizedBox(height: 6),
+              GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: () => fit.clearDumbbells(place.id),
+                child: Container(
+                  height: 44,
+                  alignment: Alignment.center,
+                  child: Text(t.platesAll, style: AppTheme.s(13, weight: FontWeight.w600, color: gc.accent)),
+                ),
+              ),
+            ] else
+              const SizedBox(height: 16),
+            PrimaryButton(label: t.done, onTap: () => Navigator.of(sheet).pop()),
+          ]);
+        },
+      ),
+    );
+  }
+
+  Widget _dumbbellChip(GymColors gc, GymPlace place, double size) {
+    final kg = fit.fromDisplayWeight(size);
+    final on = fit.ownsDumbbell(place, kg);
+    return Semantics(
+      button: true,
+      selected: on,
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: () {
+          HapticFeedback.selectionClick();
+          fit.toggleDumbbell(place.id, kg);
+        },
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 160),
+          constraints: const BoxConstraints(minWidth: 52),
+          height: 36,
+          padding: const EdgeInsets.symmetric(horizontal: 12),
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color: on ? gc.emberSoft : gc.bgRaised2,
+            borderRadius: BorderRadius.circular(100),
+            border: Border.all(color: on ? gc.ember : gc.border),
+          ),
+          child: Text(fmt(size),
+              style: AppTheme.f(13, weight: FontWeight.w700, color: on ? gc.text : gc.textSecondary)),
+        ),
+      ),
+    );
+  }
+
+  Widget _addDumbbellChip(BuildContext context, GymColors gc, GymPlace place) => Semantics(
+        button: true,
+        label: t.dumbbellOther,
+        child: GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onTap: () async {
+            final v = await askNumber(context, title: t.dumbbellOther, initial: '', decimal: true);
+            if (v != null && v > 0) fit.toggleDumbbell(place.id, fit.fromDisplayWeight(v));
+          },
+          child: Container(
+            width: 52,
+            height: 36,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              color: gc.bgRaised2,
+              borderRadius: BorderRadius.circular(100),
+              border: Border.all(color: gc.border),
+            ),
+            child: Icon(PhosphorIconsBold.plus, size: 13, color: gc.textSecondary),
+          ),
+        ),
+      );
 
   Widget _gearChip(GymColors gc, GymPlace place, String gear) {
     final on = place.equipment.contains(gear) || gear == 'Bodyweight';
