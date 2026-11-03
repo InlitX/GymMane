@@ -15,6 +15,7 @@ import 'entrance.dart';
 import 'glass.dart';
 import 'liquid_notch.dart';
 import 'nutrition_art.dart' show ValueLineChart;
+import 'steps_card.dart' show showStepsSheet;
 import 'ui_kit.dart';
 
 String healthName(HealthMetric m) => switch (m) {
@@ -260,7 +261,7 @@ class HealthScreen extends StatelessWidget {
               Text(t.healthFrom, style: AppTheme.f(13, weight: FontWeight.w500, color: gc.textSecondary)),
               const _HealthLinks(),
               for (final g in HealthGroup.values)
-                if (shown.any((m) => m.group == g))
+                if (shown.any((m) => m.group == g) || (g == HealthGroup.activity && fit.stepsOn))
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
@@ -269,7 +270,10 @@ class HealthScreen extends StatelessWidget {
                         child: Text(healthGroupName(g).toUpperCase(),
                             style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.4)),
                       ),
-                      ..._rows([for (final m in shown) if (m.group == g) m]),
+                      ..._rows([
+                        if (g == HealthGroup.activity && fit.stepsOn) const _StepsTile(),
+                        for (final m in shown) if (m.group == g) HealthTile(m),
+                      ]),
                     ],
                   ),
             ]),
@@ -279,17 +283,17 @@ class HealthScreen extends StatelessWidget {
     );
   }
 
-  List<Widget> _rows(List<HealthMetric> metrics) => [
-        for (var i = 0; i < metrics.length; i += 2) ...[
+  List<Widget> _rows(List<Widget> tiles) => [
+        for (var i = 0; i < tiles.length; i += 2) ...[
           if (i > 0) const SizedBox(height: 12),
           IntrinsicHeight(
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Expanded(child: HealthTile(metrics[i])),
-                if (i + 1 < metrics.length) ...[
+                Expanded(child: tiles[i]),
+                if (i + 1 < tiles.length) ...[
                   const SizedBox(width: 12),
-                  Expanded(child: HealthTile(metrics[i + 1])),
+                  Expanded(child: tiles[i + 1]),
                 ],
               ],
             ),
@@ -445,6 +449,58 @@ class HealthTile extends StatelessWidget {
   }
 }
 
+class _StepsTile extends StatelessWidget {
+  const _StepsTile();
+
+  @override
+  Widget build(BuildContext context) {
+    final gc = context.gc;
+    final tone = healthTone(gc, HealthGroup.activity);
+    final now = DateTime.now();
+    final series = [
+      for (var i = 13; i >= 0; i--) fit.stepsOnDay(DateTime(now.year, now.month, now.day - i)).toDouble(),
+    ];
+    final today = fit.stepsToday;
+    return Pressable(
+      onTap: () => showStepsSheet(context),
+      child: Container(
+        padding: const EdgeInsets.fromLTRB(16, 15, 16, 15),
+        decoration: BoxDecoration(color: gc.bgRaised, borderRadius: BorderRadius.circular(22)),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(children: [
+              Icon(PhosphorIconsRegular.footprints, size: 13, color: tone),
+              const SizedBox(width: 6),
+              Expanded(
+                child: FitText(t.homeCardSteps.toUpperCase(),
+                    style: AppTheme.f(9.5, weight: FontWeight.w600, color: gc.textTertiary, letterSpacing: 0.8)),
+              ),
+            ]),
+            const SizedBox(height: 10),
+            FittedBox(
+              fit: BoxFit.scaleDown,
+              alignment: Alignment.centerLeft,
+              child: RollIn(MaterialLocalizations.of(context).formatDecimal(today),
+                  style: AppTheme.f(25, weight: FontWeight.w800, color: gc.text)),
+            ),
+            const SizedBox(height: 3),
+            Text(t.stepsOfGoal(MaterialLocalizations.of(context).formatDecimal(fit.stepsGoal)),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: AppTheme.f(11.5, weight: FontWeight.w500, color: gc.textTertiary)),
+            const Spacer(),
+            const SizedBox(height: 10),
+            series.where((v) => v > 0).length < 2
+                ? const SizedBox(height: 26)
+                : Sparkline(values: series, height: 26, color: tone),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 Future<void> _allow(HealthMetric m) async {
   if (!await fit.setHealthMetric(m, true)) await HealthSteps.openSettings();
 }
@@ -538,6 +594,10 @@ void showHealthPicker(BuildContext context) {
                           padding: const EdgeInsets.symmetric(horizontal: 14),
                           decoration: BoxDecoration(color: gc.bgRaised2, borderRadius: BorderRadius.circular(18)),
                           child: Column(children: [
+                            if (g == HealthGroup.activity && fit.stepsAvailable) ...[
+                              _stepsPickRow(gc),
+                              Divider(height: 1, thickness: 1, color: gc.border),
+                            ],
                             for (final (i, m) in HealthMetric.values.where((m) => m.group == g).indexed) ...[
                               if (i > 0) Divider(height: 1, thickness: 1, color: gc.border),
                               _pickRow(gc, m),
@@ -557,6 +617,22 @@ void showHealthPicker(BuildContext context) {
     ),
   );
 }
+
+Widget _stepsPickRow(GymColors gc) => GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: () async {
+        if (!await fit.setStepsOn(!fit.stepsOn)) await HealthSteps.openSettings();
+      },
+      child: SizedBox(
+        height: 52,
+        child: Row(children: [
+          Icon(PhosphorIconsRegular.footprints, size: 17, color: healthTone(gc, HealthGroup.activity)),
+          const SizedBox(width: 12),
+          Expanded(child: Text(t.homeCardSteps, style: AppTheme.f(14.5, weight: FontWeight.w500, color: gc.text))),
+          TinySwitch(on: fit.stepsOn),
+        ]),
+      ),
+    );
 
 Widget _pickRow(GymColors gc, HealthMetric m) {
   final on = fit.healthShown.contains(m);

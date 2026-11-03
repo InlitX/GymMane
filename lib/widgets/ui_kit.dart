@@ -592,19 +592,19 @@ class BetaTag extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final gc = context.gc;
+    final tone = context.gc.bg.computeLuminance() < 0.5 ? const Color(0xFFD08CF2) : const Color(0xFF9333C4);
     return Container(
-      padding: EdgeInsets.fromLTRB(small ? 5 : 6, small ? 2 : 3, small ? 6 : 7, small ? 2 : 3),
+      padding: EdgeInsetsDirectional.fromSTEB(small ? 5 : 6, small ? 2 : 3, small ? 6 : 7, small ? 2 : 3),
       decoration: BoxDecoration(
-        color: gc.accent.withValues(alpha: 0.14),
+        color: tone.withValues(alpha: 0.16),
         borderRadius: BorderRadius.circular(100),
-        border: Border.all(color: gc.accent.withValues(alpha: 0.4), width: 0.8),
+        border: Border.all(color: tone.withValues(alpha: 0.5), width: 0.8),
       ),
       child: Row(mainAxisSize: MainAxisSize.min, children: [
-        Icon(PhosphorIconsFill.flask, size: small ? 9 : 10.5, color: gc.accent),
+        Icon(PhosphorIconsFill.flask, size: small ? 9 : 10.5, color: tone),
         const SizedBox(width: 3),
         Text(label.toUpperCase(),
-            style: AppTheme.f(small ? 8.5 : 9.5, weight: FontWeight.w800, color: gc.accent, letterSpacing: 1.1, height: 1.1)),
+            style: AppTheme.f(small ? 8.5 : 9.5, weight: FontWeight.w800, color: tone, letterSpacing: 1.1, height: 1.1)),
       ]),
     );
   }
@@ -1048,8 +1048,12 @@ class Pill extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: hPad, vertical: vPad),
         decoration: BoxDecoration(color: bg, borderRadius: BorderRadius.circular(100)),
-        child: Text(titleCase(label),
-            style: AppTheme.f(fontSize, weight: FontWeight.w600, color: fg)),
+        child: Align(
+          widthFactor: 1,
+          heightFactor: 1,
+          child: Text(titleCase(label),
+              style: AppTheme.f(fontSize, weight: FontWeight.w600, color: fg)),
+        ),
       ),
     );
   }
