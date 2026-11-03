@@ -8,6 +8,7 @@ import '../state/fit_state.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
 import '../widgets/charts.dart';
+import '../widgets/day_off_sheet.dart';
 import '../widgets/entrance.dart';
 import '../widgets/exercise_media.dart';
 import '../widgets/glass.dart';
@@ -188,10 +189,13 @@ class HomeScreen extends StatelessWidget {
                   style: AppTheme.f(10.5,
                       weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.4)),
               const SizedBox(height: 3),
-              Text(t.longDate(DateTime.now()),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: AppTheme.f(30, weight: FontWeight.w800, color: gc.text, letterSpacing: -0.8, height: 1.1)),
+              FittedBox(
+                fit: BoxFit.scaleDown,
+                alignment: AlignmentDirectional.centerStart,
+                child: Text(t.longDate(DateTime.now()),
+                    maxLines: 1,
+                    style: AppTheme.f(30, weight: FontWeight.w800, color: gc.text, letterSpacing: -0.8, height: 1.1)),
+              ),
             ],
           ),
         ),
@@ -231,7 +235,7 @@ class HomeScreen extends StatelessWidget {
       behavior: HitTestBehavior.opaque,
       onTap: onMore,
       child: Padding(
-        padding: const EdgeInsets.only(left: 4),
+        padding: const EdgeInsetsDirectional.only(start: 4),
         child: SizedBox(
           height: 30,
           child: Row(
@@ -431,14 +435,20 @@ class HomeScreen extends StatelessWidget {
     final done = fit.isDayDone(i) && !fit.isDayPartial(i);
     final isToday = i == fit.todayIndex;
     final isFuture = i > fit.todayIndex;
+    final date = fit.dateForWeekday(i);
+    final off = fit.dayOffOn(date);
+    final session = fit.isSessionDay(i);
 
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
-      onTap: isFuture
-          ? null
-          : fit.isSessionDay(i)
-              ? () => showDaySheet(context, fit.dateForWeekday(i))
-              : () => fit.toggleCheckin(i),
+      onTap: session
+          ? () => showDaySheet(context, date)
+          : isToday && off == null
+              ? () => fit.toggleCheckin(i)
+              : fit.isCheckedIn(date)
+                  ? () => fit.toggleCheckin(i)
+                  : () => showDayOffSheet(context, date),
+      onLongPress: session ? null : () => showDayOffSheet(context, date),
       child: Opacity(
         opacity: isFuture ? 0.5 : 1,
         child: Column(
@@ -461,9 +471,11 @@ class HomeScreen extends StatelessWidget {
               ),
               child: done
                   ? Center(child: SvgPathIcon(Ic.checkBold, size: 13, color: gc.onEmber))
-                  : fit.restOn(fit.dateForWeekday(i))
-                      ? Icon(PhosphorIconsFill.bed, size: 14, color: gc.sage)
-                      : null,
+                  : off != null
+                      ? Icon(dayOffIcon(off), size: 15, color: gc.textSecondary)
+                      : fit.restOn(date)
+                          ? Icon(PhosphorIconsFill.bed, size: 14, color: gc.sage)
+                          : null,
             ),
           ],
         ),

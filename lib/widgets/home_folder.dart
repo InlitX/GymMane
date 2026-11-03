@@ -77,7 +77,10 @@ class HomeFolder extends StatelessWidget {
                           if (badge != null) ...[const SizedBox(width: 7), badge!],
                         ]),
                         const Spacer(),
-                        Text.rich(
+                        FittedBox(
+                          fit: BoxFit.scaleDown,
+                          alignment: Alignment.centerLeft,
+                          child: Text.rich(
                             TextSpan(children: [
                               for (final (i, part) in detail.split('☆').indexed) ...[
                                 if (i > 0)
@@ -89,8 +92,8 @@ class HomeFolder extends StatelessWidget {
                               ],
                             ]),
                             maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
                             style: AppTheme.f(11, weight: FontWeight.w600, color: gc.textSecondary)),
+                        ),
                       ],
                     ),
                   ),

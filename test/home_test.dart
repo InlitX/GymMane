@@ -236,6 +236,52 @@ void main() {
         }
         expect(fit.currentStreak, 2);
       });
+
+      test('un día marcado como enfermo no rompe la racha ni cuenta', () {
+        final today = DateTime.now();
+        final yesterday = DateTime(today.year, today.month, today.day - 1);
+        fit.sessions.add(logged(today, [LoggedSet(5, 60)]));
+        fit.sessions.add(logged(DateTime(today.year, today.month, today.day - 2, 18), [LoggedSet(5, 60)]));
+        expect(fit.currentStreak, 1);
+        fit.setDayOff(yesterday, 'sick');
+        expect(fit.dayOffOn(yesterday), 'sick');
+        expect(fit.currentStreak, 2);
+        fit.setDayOff(yesterday, null);
+        expect(fit.currentStreak, 1);
+      });
+
+      test('marcar un día como entrenado quita el motivo y al revés', () {
+        final today = DateTime.now();
+        final day = DateTime(today.year, today.month, today.day - 1);
+        fit.setDayOff(day, 'travel');
+        fit.setCheckedIn(day, true);
+        expect(fit.dayOffOn(day), isNull);
+        expect(fit.isCheckedIn(day), isTrue);
+        fit.setDayOff(day, 'rest');
+        expect(fit.isCheckedIn(day), isFalse);
+        expect(fit.dayOffOn(day), 'rest');
+      });
+
+      test('los días libres sobreviven a guardar y cargar', () {
+        final today = DateTime.now();
+        final day = DateTime(today.year, today.month, today.day - 3);
+        fit.setDayOff(day, 'injury');
+        fit.persistNow();
+        fit.loadFromStore();
+        expect(fit.dayOffOn(day), 'injury');
+      });
+
+      test('con rotación, dos días de descanso seguidos no rompen la racha y tres sí', () {
+        final today = DateTime.now();
+        DateTime ago(int d) => DateTime(today.year, today.month, today.day - d, 18);
+        fit.setRotation(true);
+        fit.toggleRotationRoutine(routineOf(['Barbell Bench Press']).id);
+        fit.sessions.add(logged(ago(0), [LoggedSet(5, 60)]));
+        fit.sessions.add(logged(ago(3), [LoggedSet(5, 60)]));
+        expect(fit.currentStreak, 2);
+        fit.sessions.add(logged(ago(7), [LoggedSet(5, 60)]));
+        expect(fit.currentStreak, 2);
+      });
     });
   });
 
