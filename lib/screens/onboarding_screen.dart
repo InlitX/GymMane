@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
@@ -8,6 +9,7 @@ import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 import '../catalog/body_art.dart';
 import '../catalog/exercise_catalog.dart';
 import '../l10n/l10n.dart';
+import '../services/device_kind.dart';
 import '../state/fit_state.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
@@ -17,6 +19,7 @@ import '../widgets/body_map.dart';
 import '../widgets/entrance.dart';
 import '../widgets/photo_source_sheet.dart';
 import '../widgets/rolling_text.dart';
+import '../widgets/speed_panel.dart';
 import '../widgets/ui_kit.dart';
 
 class OnboardingScreen extends StatefulWidget {
@@ -32,11 +35,48 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   final _at = ValueNotifier<int>(0);
 
   int get _index => _at.value;
-  static const _last = 6;
+  int get _last => _slow ? 7 : 6;
   final Map<String, Set<String>> _places = {};
+  final _frames = <FrameTiming>[];
+  bool _slow = false;
+  bool _probing = false;
+  bool _blur = false;
+  bool _motion = false;
+
+  @override
+  void initState() {
+    super.initState();
+    if (fit.lowEndAsked || !fit.blurOn) return;
+    DeviceKind.isLowEnd().then((low) {
+      if (low) _markSlow();
+    });
+    _probing = true;
+    SchedulerBinding.instance.addTimingsCallback(_timings);
+  }
+
+  void _timings(List<FrameTiming> list) {
+    _frames.addAll(list);
+    if (_frames.length < 45) return;
+    _stopProbe();
+    final heavy = _frames.where((f) => (f.buildDuration + f.rasterDuration).inMilliseconds > 24).length;
+    if (heavy > _frames.length * 0.25) _markSlow();
+  }
+
+  void _stopProbe() {
+    if (!_probing) return;
+    _probing = false;
+    SchedulerBinding.instance.removeTimingsCallback(_timings);
+  }
+
+  void _markSlow() {
+    if (!mounted || _slow) return;
+    _stopProbe();
+    setState(() => _slow = true);
+  }
 
   @override
   void dispose() {
+    _stopProbe();
     _page.dispose();
     _at.dispose();
     _name.dispose();
@@ -60,6 +100,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       if (id.isNotEmpty) first ??= id;
     }
     if (first != null && fit.activePlaceId != first) fit.setActivePlace(first);
+    if (_slow) {
+      fit.setPerfLevel(_blur ? 'balanced' : 'lite');
+      fit.setBlur(_blur);
+      fit.setCalmMotion(!_motion);
+      fit.markLowEndAsked();
+    }
     fit.completeOnboarding();
   }
 
@@ -157,6 +203,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         _bodyStep(gc),
                         _goalStep(gc),
                         _placeStep(gc),
+                        if (_slow) _speedStep(gc),
                       ])
                         RepaintBoundary(child: page),
                     ],
@@ -185,7 +232,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     child: AnimatedContainer(
                       duration: const Duration(milliseconds: 280),
                       curve: Curves.easeOutCubic,
-                      margin: const EdgeInsets.only(right: 6),
+                      margin: const EdgeInsetsDirectional.only(end: 6),
                       height: 3,
                       decoration: BoxDecoration(
                         color: i <= _index ? gc.text : gc.bgRaised2,
@@ -223,7 +270,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               child: Container(
                 width: 56,
                 height: 56,
-                margin: const EdgeInsets.only(right: 12),
+                margin: const EdgeInsetsDirectional.only(end: 12),
                 decoration: BoxDecoration(color: gc.bgRaised, shape: BoxShape.circle),
                 child: Icon(PhosphorIconsBold.arrowLeft, size: 18, color: gc.textSecondary),
               ),
@@ -267,7 +314,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 }(),
                 const SizedBox(height: 22),
               ],
-              _in(0, Padding(padding: const EdgeInsets.only(left: 4), child: _label(gc, t.onbStep(step, _last)))),
+              _in(0, Padding(padding: const EdgeInsetsDirectional.only(start: 4), child: _label(gc, t.onbStep(step, _last)))),
               const SizedBox(height: 10),
               _in(
                 1,
@@ -315,7 +362,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   }
 
   Widget _rowIcon(GymColors gc, IconData icon, {Color? color}) => Padding(
-        padding: const EdgeInsets.only(right: 14),
+        padding: const EdgeInsetsDirectional.only(end: 14),
         child: SizedBox(width: 22, child: Icon(icon, size: 19, color: color ?? gc.textSecondary)),
       );
 
@@ -736,6 +783,19 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     'outdoors': PhosphorIconsRegular.tree,
   };
 
+  Widget _speedStep(GymColors gc) {
+    return _step(
+      gc,
+      step: 7,
+      title: t.onbSpeedTitle,
+      why: t.onbSpeedWhy,
+      child: SpeedPanel(footer: t.onbSpeedLater, rows: [
+        (t.blurSetting, t.onbSpeedBlurHint, _blur, () => setState(() => _blur = !_blur)),
+        (t.onbSpeedMotion, t.onbSpeedMotionHint, _motion, () => setState(() => _motion = !_motion)),
+      ]),
+    );
+  }
+
   Widget _placeStep(GymColors gc) {
     return _step(
       gc,
@@ -790,7 +850,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         for (final preset in kPlacePresets)
                           if (_places[preset] case final gear?) ...[
                             Padding(
-                              padding: const EdgeInsets.only(left: 4),
+                              padding: const EdgeInsetsDirectional.only(start: 4),
                               child: _label(
                                   gc,
                                   _places.length > 1
