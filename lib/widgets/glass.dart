@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import '../theme/app_colors.dart';
 
 bool blurEffects = true;
+bool fineEffects = false;
 
 final sheetRecede = ValueNotifier<double>(0);
 
@@ -95,6 +96,29 @@ class _GlassSheetRoute<T> extends ModalBottomSheetRoute<T> with _GlassCount<T> {
     super.capturedThemes,
     super.barrierLabel,
   });
+
+  @override
+  bool canTransitionTo(TransitionRoute<dynamic> nextRoute) => nextRoute is _GlassSheetRoute;
+
+  @override
+  Widget buildTransitions(
+      BuildContext context, Animation<double> animation, Animation<double> secondary, Widget child) {
+    final under = CurvedAnimation(parent: secondary, curve: Curves.easeOutCubic, reverseCurve: Curves.easeInCubic);
+    return AnimatedBuilder(
+      animation: under,
+      child: child,
+      builder: (_, child) {
+        final v = under.value;
+        return IgnorePointer(
+          ignoring: v > 0.5,
+          child: Opacity(
+            opacity: 1 - v,
+            child: Transform.translate(offset: Offset(0, 36 * v), child: child),
+          ),
+        );
+      },
+    );
+  }
 }
 
 class _PullToClose extends StatefulWidget {
@@ -226,7 +250,7 @@ class _EdgeBlurState extends State<EdgeBlur> {
   }
 
   List<ui.ImageFilter> _layers(ui.FragmentProgram program, double dpr) {
-    final key = (widget.height, widget.top, widget.sigma, dpr);
+    final key = (widget.height, widget.top, widget.sigma, dpr, fineEffects);
     if (_filters != null && _filtersFor == key) return _filters!;
     _dropShaders();
     ui.ImageFilter layer(double sigma, double from, double to) {
@@ -243,7 +267,9 @@ class _EdgeBlurState extends State<EdgeBlur> {
     }
 
     _filtersFor = key;
-    return _filters = [layer(widget.sigma * 0.8, 0.06, 0.82)];
+    return _filters = fineEffects
+        ? [layer(widget.sigma * 0.35, 0.2, 1), layer(widget.sigma, 0.08, 0.66)]
+        : [layer(widget.sigma * 0.8, 0.06, 0.82)];
   }
 
   @override
