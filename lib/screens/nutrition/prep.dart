@@ -242,6 +242,7 @@ class _BatchLogSheet extends StatefulWidget {
 
 class _BatchLogSheetState extends State<_BatchLogSheet> {
   late Meal _meal = widget.meal;
+  late DateTime _day = fit.nutritionDay;
   int _mode = 0;
   double _share = 0.25;
   double _grams = 300;
@@ -353,11 +354,13 @@ class _BatchLogSheetState extends State<_BatchLogSheet> {
           ),
         const SizedBox(height: 12),
         _MealPicker(value: _meal, onPick: (m) => setState(() => _meal = m)),
+        const SizedBox(height: 10),
+        _DayStrip(value: _day, onPick: (d) => setState(() => _day = d)),
         const SizedBox(height: 18),
         PrimaryButton(
           label: t.prepLogAmount(_amount(_take, false)),
           onTap: () {
-            final e = fit.logFromBatch(b, _take, meal: _meal);
+            final e = fit.logFromBatch(b, _take, meal: _meal, day: _day);
             if (e == null) {
               HapticFeedback.heavyImpact();
               return;
@@ -382,5 +385,60 @@ class _BatchLogSheetState extends State<_BatchLogSheet> {
         ),
       ]),
     ]);
+  }
+}
+
+class _DayStrip extends StatelessWidget {
+  const _DayStrip({required this.value, required this.onPick});
+
+  final DateTime value;
+  final ValueChanged<DateTime> onPick;
+
+  @override
+  Widget build(BuildContext context) {
+    final gc = context.gc;
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    final days = [
+      if (value.isBefore(today)) value,
+      for (var i = 0; i < 7; i++) shiftDays(today, i),
+    ];
+    String label(DateTime d) {
+      if (d == today) return t.nutritionToday;
+      if (d == shiftDays(today, 1)) return t.tomorrow;
+      if (d == shiftDays(today, -1)) return t.nutritionYesterday;
+      return t.weekdayShort(d.weekday);
+    }
+
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      clipBehavior: Clip.none,
+      child: Row(children: [
+        for (final d in days)
+          Pressable(
+            onTap: () {
+              HapticFeedback.selectionClick();
+              onPick(d);
+            },
+            scale: 0.94,
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 180),
+              margin: const EdgeInsets.symmetric(horizontal: 3),
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+              decoration: BoxDecoration(
+                color: d == value ? gc.accentSoft : gc.bgRaised2,
+                borderRadius: BorderRadius.circular(14),
+                border: Border.all(color: d == value ? gc.accent.withValues(alpha: 0.6) : Colors.transparent),
+              ),
+              child: Column(children: [
+                Text(label(d),
+                    style: AppTheme.f(12, weight: FontWeight.w800, color: d == value ? gc.accent : gc.text)),
+                Text('${d.day}',
+                    style: AppTheme.f(10, weight: FontWeight.w600, color: gc.textTertiary)),
+              ]),
+            ),
+          ),
+      ]),
+    );
   }
 }

@@ -1,6 +1,9 @@
 import 'dart:async';
+import 'dart:math' as math;
+import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart' show RenderRepaintBoundary;
 import 'package:flutter/services.dart';
 import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
@@ -10,6 +13,7 @@ import '../screens/ai_plan_screen.dart';
 import '../screens/compare_screen.dart';
 import '../screens/exercise_detail_screen.dart';
 import '../screens/exercises_screen.dart';
+import '../screens/gym_pass_screen.dart';
 import '../screens/history_screen.dart';
 import '../screens/home_screen.dart';
 import '../screens/measures_screen.dart';
@@ -33,6 +37,7 @@ import '../screens/tool_detail_screen.dart';
 import '../screens/tools_screen.dart';
 import '../screens/train_screen.dart';
 import '../services/auto_backup.dart';
+import '../services/device_kind.dart';
 import '../services/health_steps.dart';
 import '../services/incoming_share.dart';
 import '../services/nutrition_widgets.dart';
@@ -44,6 +49,7 @@ import '../widgets/award_celebration.dart';
 import '../widgets/dialogs.dart';
 import '../widgets/steps_card.dart';
 import '../widgets/glass.dart';
+import '../widgets/health_cards.dart';
 import '../widgets/liquid_notch.dart';
 import '../widgets/start_countdown.dart';
 import '../widgets/ui_kit.dart';
@@ -55,20 +61,20 @@ class AppShell extends StatefulWidget {
   State<AppShell> createState() => _AppShellState();
 }
 
-class _AppShellState extends State<AppShell> with WidgetsBindingObserver {
+class _AppShellState extends State<AppShell> with WidgetsBindingObserver, SingleTickerProviderStateMixin {
   static const _blurTop = {
     'home',
     'progress',
     'session',
     'about',
     'ai-plan',
-    'awards',
     'exercise-detail',
     'measures',
     'routines',
-    'preferences',
     'tools',
     'tools-detail',
+    'health',
+    'nutrition',
   };
 
   static const _pillSpace = 68.0;
@@ -83,17 +89,23 @@ class _AppShellState extends State<AppShell> with WidgetsBindingObserver {
   bool _celebratedOne = false;
   Timer? _awardWait;
   String? _incoming;
-  bool _scrolled = false;
+  late final AnimationController _collapse;
+  bool _collapsed = false;
   int _restTick = fit.restDoneTick;
   final _snap = SnapshotController();
+  final _appKey = GlobalKey();
+  ui.Image? _blurred;
+  bool _blurQueued = false;
   bool _changedUnder = false;
 
   @override
   void initState() {
     super.initState();
+    _collapse = AnimationController(vsync: this, duration: const Duration(milliseconds: 520));
     WidgetsBinding.instance.addObserver(this);
     glassOpen.addListener(_syncSnap);
     glassShown.addListener(_syncSnap);
+    sheetRecede.addListener(_syncBlurSnap);
     fit.addListener(_fitChanged);
     fit.refreshAlarmPermission();
     fit.addListener(_queueCelebration);
@@ -104,6 +116,7 @@ class _AppShellState extends State<AppShell> with WidgetsBindingObserver {
     NutritionWidgets.listenOpen(_openFromWidget);
     HealthSteps.listen(_showStepsInfo);
     fit.refreshSteps();
+    fit.refreshHealth();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       final text = await IncomingShare.take();
       if (text != null) _receive(text);
@@ -111,6 +124,7 @@ class _AppShellState extends State<AppShell> with WidgetsBindingObserver {
       final open = await NutritionWidgets.takeOpen();
       if (open != null) _openFromWidget(open);
       if (await HealthSteps.takeUsage()) _showStepsInfo();
+      await _offerLiteMode();
     });
   }
 
@@ -166,14 +180,27 @@ class _AppShellState extends State<AppShell> with WidgetsBindingObserver {
     );
   }
 
+  Future<void> _offerLiteMode() async {
+    if (fit.lowEndAsked || !fit.blurOn || !fit.onboarded) return;
+    if (!await DeviceKind.isLowEnd() || !mounted) return;
+    fit.markLowEndAsked();
+    final off = await askConfirm(
+      context,
+      title: t.lowEndTitle,
+      body: t.lowEndBody,
+      cancelLabel: t.lowEndKeep,
+      confirmLabel: t.lowEndOff,
+    );
+    if (off) fit.setBlur(false);
+  }
+
   bool _onScroll(ScrollNotification n) {
     if (n.depth != 0 || n.metrics.axis != Axis.vertical) return false;
-    final scrolled = n.metrics.pixels > 6;
-    if (scrolled == _scrolled) return false;
-    if (_blurTop.contains(fit.route)) {
-      setState(() => _scrolled = scrolled);
-    } else {
-      _scrolled = scrolled;
+    final y = n.metrics.pixels;
+    final next = y > 44 ? true : (y < 16 ? false : _collapsed);
+    if (next != _collapsed) {
+      _collapsed = next;
+      next ? _collapse.forward() : _collapse.reverse();
     }
     return false;
   }
@@ -181,7 +208,13 @@ class _AppShellState extends State<AppShell> with WidgetsBindingObserver {
   void _fitChanged() {
     if (_snap.allowSnapshotting) _changedUnder = true;
     _syncSnap();
+    if (_blurred != null) {
+      _blurAgain?.cancel();
+      _blurAgain = Timer(const Duration(milliseconds: 350), _queueBlur);
+    }
   }
+
+  Timer? _blurAgain;
 
   void _syncSnap() => scheduleMicrotask(() {
         if (!mounted) return;
@@ -191,12 +224,54 @@ class _AppShellState extends State<AppShell> with WidgetsBindingObserver {
         _snap.allowSnapshotting = on;
       });
 
+  void _syncBlurSnap() {
+    final p = sheetRecede.value;
+    if (p <= 0.001 || !blurEffects) {
+      if (_blurred != null) {
+        final old = _blurred;
+        _blurred = null;
+        WidgetsBinding.instance.addPostFrameCallback((_) => old?.dispose());
+      }
+      return;
+    }
+    if (_blurred == null) _queueBlur();
+  }
+
+  void _queueBlur() {
+    if (_blurQueued) return;
+    _blurQueued = true;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _blurQueued = false;
+      if (!mounted || sheetRecede.value <= 0.001 || !blurEffects) return;
+      final box = _appKey.currentContext?.findRenderObject();
+      if (box is! RenderRepaintBoundary || !box.hasSize) return;
+      const scale = 0.3;
+      final ratio = MediaQuery.devicePixelRatioOf(context) * scale;
+      try {
+        final small = box.toImageSync(pixelRatio: ratio);
+        final sigma = 2 * ratio;
+        final recorder = ui.PictureRecorder();
+        Canvas(recorder).drawImage(small, Offset.zero,
+            Paint()..imageFilter = ui.ImageFilter.blur(sigmaX: sigma, sigmaY: sigma, tileMode: TileMode.mirror));
+        final soft = recorder.endRecording().toImageSync(small.width, small.height);
+        small.dispose();
+        final old = _blurred;
+        setState(() => _blurred = soft);
+        old?.dispose();
+      } catch (_) {}
+    });
+  }
+
   @override
   void dispose() {
+    sheetRecede.removeListener(_syncBlurSnap);
+    _blurAgain?.cancel();
+    _blurred?.dispose();
     glassOpen.removeListener(_syncSnap);
     glassShown.removeListener(_syncSnap);
     fit.removeListener(_fitChanged);
     _snap.dispose();
+    _collapse.dispose();
     fit.removeListener(_restOver);
     fit.removeListener(_offerIncoming);
     fit.removeListener(_queueCelebration);
@@ -243,6 +318,7 @@ class _AppShellState extends State<AppShell> with WidgetsBindingObserver {
       fit.syncRest();
       fit.refreshWidgets();
       fit.refreshSteps();
+      fit.refreshHealth();
     }
   }
 
@@ -274,7 +350,13 @@ class _AppShellState extends State<AppShell> with WidgetsBindingObserver {
           },
           child: AnnotatedRegion<SystemUiOverlayStyle>(
             value: fit.dark ? _overlayDark : _overlayLight,
-            child: BackdropGroup(
+            child: ColoredBox(
+              color: fit.dark ? const Color(0xFF16161A) : const Color(0xFF3A3A3E),
+              child: ValueListenableBuilder<double>(
+              valueListenable: sheetRecede,
+              child: RepaintBoundary(
+              key: _appKey,
+              child: BackdropGroup(
               child: Stack(
               children: [
                 Positioned.fill(
@@ -312,11 +394,9 @@ class _AppShellState extends State<AppShell> with WidgetsBindingObserver {
                   left: 0,
                   right: 0,
                   top: 0,
-                  child: AnimatedOpacity(
-                    opacity: _scrolled && _blurTop.contains(fit.route) ? 1 : 0,
-                    duration: const Duration(milliseconds: 220),
-                    child: EdgeBlur(height: MediaQuery.viewPaddingOf(context).top + 64, sigma: 14),
-                  ),
+                  child: _blurTop.contains(fit.route)
+                      ? _CollapsedBar(progress: _collapse, title: _compactTitle())
+                      : const SizedBox.shrink(),
                 ),
                 if (fit.showNav)
                   Positioned(
@@ -328,16 +408,16 @@ class _AppShellState extends State<AppShell> with WidgetsBindingObserver {
                   ),
                 if (fit.showNav && MediaQuery.viewInsetsOf(context).bottom < 60) ...[
                   Positioned(
-                    left: 18,
-                    right: 18,
+                    left: 24,
+                    right: 24,
                     bottom: 18 + MediaQuery.viewPaddingOf(context).bottom,
                     child: RepaintBoundary(
                       child: Directionality(textDirection: TextDirection.ltr, child: _NavBar()),
                     ),
                   ),
                   Positioned(
-                    left: 18,
-                    right: 18,
+                    left: 24,
+                    right: 24,
                     bottom: 18 + _NavBarState.height + 10 + MediaQuery.viewPaddingOf(context).bottom,
                     child: AnimatedSwitcher(
                       duration: const Duration(milliseconds: 320),
@@ -369,6 +449,46 @@ class _AppShellState extends State<AppShell> with WidgetsBindingObserver {
               ],
               ),
             ),
+            ),
+              builder: (context, p, app) => Stack(fit: StackFit.expand, children: [
+                Transform.scale(
+                scale: 1 - 0.08 * p,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(32 * p),
+                  clipBehavior: p > 0.001 ? Clip.antiAlias : Clip.none,
+                  child: Stack(children: [
+                    app!,
+                    if (_blurred != null && blurEffects && p > 0.01)
+                      Positioned.fill(
+                        child: IgnorePointer(child: CustomPaint(painter: _SoftCopy(_blurred!, p))),
+                      ),
+                    if (p > 0.01)
+                      Positioned.fill(
+                        child: IgnorePointer(
+                          child: DecoratedBox(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(32 * p),
+                              border: Border.all(color: Colors.white.withValues(alpha: 0.10 * p), width: 1.2),
+                            ),
+                          ),
+                        ),
+                      ),
+                  ]),
+                ),
+              ),
+                if (p > 0.001)
+                  IgnorePointer(
+                    child: CustomPaint(
+                      painter: _Corners(
+                        scale: 1 - 0.08 * p,
+                        radius: 32 * p,
+                        color: fit.dark ? const Color(0xFF16161A) : const Color(0xFF3A3A3E),
+                      ),
+                    ),
+                  ),
+              ]),
+            ),
+            ),
           ),
         );
       },
@@ -386,7 +506,8 @@ class _AppShellState extends State<AppShell> with WidgetsBindingObserver {
   Widget _animatedScreen() {
     final route = fit.route;
     if (route != _lastRoute) {
-      _scrolled = false;
+      _collapsed = false;
+      _collapse.value = 0;
       final from = _NavBarState._routes.indexOf(_lastRoute);
       final to = _NavBarState._routes.indexOf(route);
       _sideways = from >= 0 && to >= 0;
@@ -435,6 +556,22 @@ class _AppShellState extends State<AppShell> with WidgetsBindingObserver {
     );
   }
 
+  String? _compactTitle() => switch (fit.route) {
+        'home' => t.longDate(DateTime.now()),
+        'progress' => t.progress,
+        'exercises' => t.exercises,
+        'preferences' => t.settings,
+        'routines' => t.routines,
+        'tools' => t.tools,
+        'measures' => t.measures,
+        'awards' => t.awardsTitle,
+        'about' => t.about,
+        'health' => t.healthTitle,
+        'nutrition' => t.nutrition,
+        _ when fit.route.startsWith('preferences/') => SettingsScreen.sectionTitleOf(fit.route.substring(12)),
+        _ => null,
+      };
+
   Widget _screen() {
     switch (fit.route) {
       case 'progress':
@@ -459,6 +596,8 @@ class _AppShellState extends State<AppShell> with WidgetsBindingObserver {
         return MomentsScreen();
       case 'awards':
         return AwardsScreen();
+      case 'passes':
+        return GymPassScreen();
       case 'about':
         return AboutScreen();
       case 'routines':
@@ -481,10 +620,15 @@ class _AppShellState extends State<AppShell> with WidgetsBindingObserver {
         return HistoryScreen();
       case 'nutrition':
         return NutritionScreen();
+      case 'health':
+        return const HealthScreen();
       case 'note-edit':
         return NoteEditScreen(key: ValueKey(fit.editingNoteId ?? 'new'));
       case 'home':
       default:
+        if (fit.route.startsWith('preferences/')) {
+          return SettingsScreen(key: ValueKey(fit.route), section: fit.route.substring(12));
+        }
         return HomeScreen();
     }
   }
@@ -509,6 +653,63 @@ final _overlayLight = _overlayBase.copyWith(
   statusBarBrightness: Brightness.light,
   systemNavigationBarIconBrightness: Brightness.dark,
 );
+
+class _CollapsedBar extends StatelessWidget {
+  const _CollapsedBar({required this.progress, required this.title});
+
+  final Animation<double> progress;
+  final String? title;
+
+  static const _ease = Cubic(0.22, 1, 0.36, 1);
+
+  @override
+  Widget build(BuildContext context) {
+    final top = MediaQuery.viewPaddingOf(context).top;
+    final blur = EdgeBlur(height: top + 64, sigma: 14);
+    return AnimatedBuilder(
+      animation: progress,
+      builder: (context, _) {
+        final p = _ease.transform(progress.value.clamp(0.0, 1.0));
+        if (p <= 0.001) return const SizedBox.shrink();
+        final soft = math.sin(p * math.pi) * 7;
+        return IgnorePointer(
+          child: Stack(
+            children: [
+              p >= 0.999 ? blur : Opacity(opacity: p, child: blur),
+              if (title != null)
+                Positioned(
+                  left: 72,
+                  right: 72,
+                  top: top + 14,
+                  child: Opacity(
+                    opacity: p,
+                    child: Transform.translate(
+                      offset: Offset(0, 10 * (1 - p)),
+                      child: Transform.scale(
+                        scale: 1.22 - 0.22 * p,
+                        child: ImageFiltered(
+                          enabled: soft > 0.3,
+                          imageFilter: ui.ImageFilter.blur(sigmaX: soft, sigmaY: soft),
+                          child: Text(
+                            titleCase(title!),
+                            textAlign: TextAlign.center,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: AppTheme.f(15.5, weight: FontWeight.w800, color: context.gc.text, letterSpacing: -0.2)
+                                .copyWith(decoration: TextDecoration.none),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+}
 
 class _ParkedPill extends StatelessWidget {
   const _ParkedPill();
@@ -581,13 +782,14 @@ class _NavBar extends StatefulWidget {
 }
 
 class _NavBarState extends State<_NavBar> {
-  static const height = 74.0;
+  static const height = 68.0;
   static const _iw = 58.0;
-  static const _fabW = 54.0;
+  static const _fabW = 48.0;
   static const _routes = ['home', 'progress', 'exercises', 'settings'];
 
   double? _dragX;
   int? _hover;
+  int? _pressed;
   double _slotW = 0;
   double _gap = 0;
 
@@ -634,13 +836,15 @@ class _NavBarState extends State<_NavBar> {
 
   @override
   Widget build(BuildContext context) {
-    final gc = context.gc;
 
-    return SizedBox(
-      height: height,
-      child: LayoutBuilder(
+    return SizedBox(height: height, child: _bar(context, height));
+  }
+
+  Widget _bar(BuildContext context, double h) {
+    final gc = context.gc;
+    return LayoutBuilder(
         builder: (context, c) {
-          _slotW = c.maxWidth - 16;
+          _slotW = c.maxWidth - 28;
           _gap = ((_slotW - 4 * _iw - _fabW) / 4).clamp(0.0, 40.0);
           final drag = _dragX;
 
@@ -650,29 +854,34 @@ class _NavBarState extends State<_NavBar> {
               Positioned.fill(
                 child: DecoratedBox(
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(28),
+                    borderRadius: BorderRadius.circular(h / 2),
                     boxShadow: [
-                      BoxShadow(color: const Color(0x4D000000), blurRadius: 32, offset: const Offset(0, 12)),
+                      BoxShadow(color: const Color(0x66000000), blurRadius: 28, offset: const Offset(0, 10)),
                     ],
                   ),
-                  child: const GlassSurface(radius: 28, blur: 16, child: SizedBox.expand()),
+                  child: GlassSurface(
+                    radius: h / 2,
+                    blur: 30,
+                    tint: fit.dark ? const Color(0xFF131313).withValues(alpha: 0.72) : null,
+                    child: const SizedBox.expand(),
+                  ),
                 ),
               ),
               Positioned(
-                left: 8,
-                right: 8,
+                left: 14,
+                right: 14,
                 top: 0,
                 bottom: 0,
                 child: _LiquidPill(
-                  left: _slotX(_selectedIndex),
-                  dragLeft: drag == null ? null : drag - _iw / 2,
-                  width: _iw,
-                  color: gc.text.withValues(alpha: fit.dark ? 0.1 : 0.07),
+                  left: _slotX(_selectedIndex) - _gap * 0.2,
+                  dragLeft: drag == null ? null : drag - _iw / 2 - _gap * 0.2,
+                  width: _iw + _gap * 0.4,
+                  color: gc.text.withValues(alpha: fit.dark ? 0.13 : 0.08),
                 ),
               ),
               Positioned(
-                left: 8,
-                right: 8,
+                left: 14,
+                right: 14,
                 top: 0,
                 bottom: 0,
                 child: GestureDetector(
@@ -710,64 +919,55 @@ class _NavBarState extends State<_NavBar> {
             ],
           );
         },
-      ),
-    );
+      );
   }
 
   Widget _item(BuildContext context, int index, IconData icon, IconData iconFill, String label, VoidCallback onTap) {
     final gc = context.gc;
     final selected = _selectedIndex == index;
     final lifted = selected && _dragX != null;
-    final color = selected ? gc.text : gc.textTertiary;
-    const dur = Duration(milliseconds: 300);
+    final pressed = _pressed == index && _dragX == null;
 
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      onTap: onTap,
-      onLongPressStart: (d) {
-        HapticFeedback.mediumImpact();
-        _dragTo(_slotX(index) + d.localPosition.dx);
-      },
-      onLongPressMoveUpdate: (d) => _dragTo(_slotX(index) + d.localPosition.dx),
-      onLongPressEnd: (_) => _dragEnd(),
-      onLongPressCancel: () {
-        if (_dragX != null) _dragEnd();
-      },
-      child: AnimatedScale(
-        scale: lifted ? 1.06 : 1,
-        duration: const Duration(milliseconds: 220),
-        curve: Curves.easeOutCubic,
-        child: SizedBox(
-        width: _iw,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TweenAnimationBuilder<double>(
+    return Semantics(
+      button: true,
+      selected: selected,
+      label: label,
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: onTap,
+        onTapDown: (_) => setState(() => _pressed = index),
+        onTapUp: (_) => setState(() => _pressed = null),
+        onTapCancel: () => setState(() => _pressed = null),
+        onLongPressStart: (d) {
+          HapticFeedback.mediumImpact();
+          _dragTo(_slotX(index) + d.localPosition.dx);
+        },
+        onLongPressMoveUpdate: (d) => _dragTo(_slotX(index) + d.localPosition.dx),
+        onLongPressEnd: (_) => _dragEnd(),
+        onLongPressCancel: () {
+          if (_dragX != null) _dragEnd();
+        },
+        child: AnimatedScale(
+          scale: pressed ? 0.85 : (lifted ? 1.08 : 1),
+          duration: Duration(milliseconds: pressed ? 110 : 340),
+          curve: pressed ? Curves.easeOut : Curves.easeOutBack,
+          child: SizedBox(
+            width: _iw,
+            height: height,
+            child: TweenAnimationBuilder<double>(
               tween: Tween(begin: selected ? 1 : 0, end: selected ? 1 : 0),
-              duration: dur,
+              duration: const Duration(milliseconds: 200),
               curve: Curves.easeOut,
-              builder: (context, t, _) => Icon(
-                selected ? iconFill : icon,
-                size: 22,
-                color: Color.lerp(gc.textTertiary, gc.text, t),
+              builder: (context, v, _) => Stack(
+                alignment: Alignment.center,
+                children: [
+                  Opacity(opacity: 0.7 * (1 - v), child: Icon(icon, size: 24, color: gc.text)),
+                  Opacity(opacity: v, child: Icon(iconFill, size: 24, color: gc.text)),
+                ],
               ),
             ),
-            const SizedBox(height: 3),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 6),
-              child: FittedBox(
-                fit: BoxFit.scaleDown,
-                child: AnimatedDefaultTextStyle(
-                  duration: dur,
-                  curve: Curves.easeOut,
-                  style: AppTheme.s(9.5, weight: FontWeight.w600, color: color, letterSpacing: 0.2),
-                  child: Text(label, maxLines: 1, softWrap: false),
-                ),
-              ),
-            ),
-          ],
+          ),
         ),
-      ),
       ),
     );
   }
@@ -791,8 +991,8 @@ class _NavBarState extends State<_NavBar> {
       onTap: () => _play(context),
       onLongPress: () => showStartSheet(context),
       child: Container(
-        width: 54,
-        height: 54,
+        width: _fabW,
+        height: _fabW,
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,
@@ -804,7 +1004,7 @@ class _NavBarState extends State<_NavBar> {
             BoxShadow(color: gc.accent.withValues(alpha: 0.45), blurRadius: 18, offset: const Offset(0, 6)),
           ],
         ),
-        child: Icon(PhosphorIconsFill.play, size: 24, color: gc.bg),
+        child: Icon(PhosphorIconsFill.play, size: 21, color: gc.bg),
       ),
     );
   }
@@ -873,8 +1073,8 @@ class _LiquidPillState extends State<_LiquidPill> with TickerProviderStateMixin 
           final t = _move.value;
           final to = widget.left;
           final right = to >= _from;
-          final lead = Curves.easeOutCubic.transform(t);
-          final trail = Curves.easeInOutCubic.transform(t);
+          final lead = const Cubic(0.2, 1.35, 0.35, 1).transform(t);
+          final trail = const Cubic(0.45, 0, 0.2, 1).transform(t);
           l = _lerp(_from, to, right ? trail : lead);
           r = _lerp(_from + widget.width, to + widget.width, right ? lead : trail);
           squash = 1 - 0.14 * (1 - (2 * t - 1).abs()) * (to == _from ? 0 : 1);
@@ -882,7 +1082,7 @@ class _LiquidPillState extends State<_LiquidPill> with TickerProviderStateMixin 
         _shown = l;
         final base = Color.lerp(widget.color, widget.color.withValues(alpha: (widget.color.a * 2.4).clamp(0.0, 1.0)), lift)!;
         final grow = 6 * lift;
-        final inset = 10 + 12 * (1 - squash) - 6 * lift;
+        final inset = 10 + 8 * (1 - squash) - 5 * lift;
         return Stack(
           clipBehavior: Clip.none,
           children: [
@@ -893,7 +1093,7 @@ class _LiquidPillState extends State<_LiquidPill> with TickerProviderStateMixin 
               bottom: inset,
               child: DecoratedBox(
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(24),
+                  borderRadius: BorderRadius.circular(100),
                   border: Border.all(color: Colors.white.withValues(alpha: 0.16 * lift), width: 1),
                   gradient: LinearGradient(
                     begin: Alignment.topCenter,
@@ -914,4 +1114,52 @@ class _LiquidPillState extends State<_LiquidPill> with TickerProviderStateMixin 
       },
     );
   }
+}
+
+class _Corners extends CustomPainter {
+  const _Corners({required this.scale, required this.radius, required this.color});
+
+  final double scale;
+  final double radius;
+  final Color color;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final page = Rect.fromCenter(
+      center: size.center(Offset.zero),
+      width: size.width * scale,
+      height: size.height * scale,
+    );
+    final r = radius * scale;
+    final path = Path()
+      ..fillType = PathFillType.evenOdd
+      ..addRect((Offset.zero & size).inflate(1))
+      ..addRRect(RRect.fromRectAndRadius(page.deflate(0.5), Radius.circular(r)));
+    canvas.drawPath(path, Paint()..color = color..isAntiAlias = true);
+  }
+
+  @override
+  bool shouldRepaint(_Corners old) => old.scale != scale || old.radius != radius || old.color != color;
+}
+
+class _SoftCopy extends CustomPainter {
+  const _SoftCopy(this.image, this.amount);
+
+  final ui.Image image;
+  final double amount;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    canvas.drawImageRect(
+      image,
+      Rect.fromLTWH(0, 0, image.width.toDouble(), image.height.toDouble()),
+      Offset.zero & size,
+      Paint()
+        ..filterQuality = FilterQuality.medium
+        ..color = Color.fromRGBO(0, 0, 0, amount.clamp(0.0, 1.0)),
+    );
+  }
+
+  @override
+  bool shouldRepaint(_SoftCopy old) => old.image != image || old.amount != amount;
 }

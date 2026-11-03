@@ -24,6 +24,7 @@ import '../widgets/stopwatch_card.dart';
 import '../widgets/svg_icon.dart';
 import '../widgets/timer_panel.dart';
 import '../widgets/ui_kit.dart';
+import '../widgets/weight_stack_sheet.dart';
 import 'exercises_screen.dart' show showCreateExerciseSheet;
 
 class ExerciseDetailScreen extends StatefulWidget {
@@ -34,7 +35,7 @@ class ExerciseDetailScreen extends StatefulWidget {
 }
 
 class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
-  late final String _exId = fit.activeExerciseId ?? fit.activeExercise.id;
+  String get _exId => fit.activeExercise.id;
 
   String _fmtDate(DateTime d) => t.shortDate(d);
 
@@ -65,6 +66,7 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
     final archived = fit.isArchived(ex.id);
 
     return RiseScope(
+      key: ValueKey(ex.id),
       id: 'exercise',
       once: false,
       child: SafeArea(
@@ -296,7 +298,7 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
                   _group(gc, [
                     _modeRow(context, gc, ex.id, mode),
                     if (mode != 'cardio') _repsOnlyRow(gc, ex.id, repsOnly),
-                    if (mode == 'time')
+                    if (mode == 'time') ...[
                       _switchRow(
                         gc,
                         PhosphorIconsRegular.arrowsLeftRight,
@@ -305,8 +307,12 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
                         fit.isEachSide(ex.id),
                         () => fit.toggleEachSide(ex.id),
                       ),
+                      _holdProgressRow(gc, ex.id),
+                    ],
                     _restRow(gc, ex.id),
                     if (ex.equipment == 'Barbell' || ex.equipment == 'Machine') _barRow(gc, ex),
+                    if ((ex.equipment == 'Machine' || ex.equipment == 'Cable') && mode.isEmpty && !repsOnly)
+                      _stackRow(context, gc, ex.id),
                     _switchRow(
                       gc,
                       PhosphorIconsRegular.sparkle,
@@ -572,10 +578,7 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
       builder: (sheet) => Container(
         constraints: BoxConstraints(maxHeight: MediaQuery.sizeOf(sheet).height * 0.72),
         padding: sheetPad(sheet),
-        decoration: BoxDecoration(
-          color: gc.bgRaised,
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-        ),
+        decoration: sheetDecoration(gc),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -697,10 +700,7 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
           if (ex == null) return const SizedBox.shrink();
           return Container(
             padding: sheetPad(sheet),
-            decoration: BoxDecoration(
-              color: gc.bgRaised,
-              borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-            ),
+            decoration: sheetDecoration(gc),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -849,7 +849,7 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
   }
 
   Widget _cardLabel(GymColors gc, String label) => FitText(label.toUpperCase(),
-      style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.3));
+      style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.4));
 
   Widget _section(GymColors gc, String label) => Text(titleCase(label),
       style: AppTheme.f(18, weight: FontWeight.w700, color: gc.text));
@@ -902,6 +902,58 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
         if (fav)
           SvgPathIcon(const [IconPath('M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 21 12 17.77 5.82 21 7 14.14l-5-4.87 6.91-1.01z', fill: true)], size: 18, color: gc.accent),
         SvgPathIcon(Ic.star, size: 18, color: fav ? gc.accent : gc.textSecondary),
+      ]),
+    );
+  }
+
+  Widget _stackRow(BuildContext context, GymColors gc, String id) {
+    final stack = fit.stackFor(id);
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: () => showWeightStackSheet(context, id),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        child: Row(children: [
+          _rowIcon(gc, PhosphorIconsRegular.stack, stack != null),
+          Expanded(
+            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Text(t.weightStack, style: AppTheme.f(14.5, weight: FontWeight.w500, color: gc.text)),
+              const SizedBox(height: 3),
+              Text(
+                  stack == null
+                      ? t.weightStackOff
+                      : '${fit.weightValueFor(id, stack.first)}–${fit.weightValueFor(id, stack.last)} ${fit.unitsFor(id)} · ${t.stackCount(stack.length)}',
+                  style: AppTheme.f(11.5, weight: FontWeight.w500, color: stack != null ? gc.accent : gc.textSecondary)),
+            ]),
+          ),
+          Icon(PhosphorIconsRegular.caretRight, size: 15, color: gc.textTertiary),
+        ]),
+      ),
+    );
+  }
+
+  Widget _holdProgressRow(GymColors gc, String id) {
+    final step = fit.holdStepFor(id);
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      child: Row(children: [
+        _rowIcon(gc, PhosphorIconsRegular.trendUp, step > 0),
+        Expanded(
+          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Text(t.holdProgress, style: AppTheme.f(14.5, weight: FontWeight.w500, color: gc.text)),
+            const SizedBox(height: 3),
+            Text(step > 0 ? t.holdProgressOn(step) : t.holdProgressHint,
+                style: AppTheme.f(11.5, weight: FontWeight.w500, color: step > 0 ? gc.accent : gc.textSecondary)),
+          ]),
+        ),
+        const SizedBox(width: 12),
+        StepperControl(
+          value: step == 0 ? t.restOff : '+$step s',
+          minWidth: 44,
+          btnSize: 30,
+          onDec: () => fit.cycleHoldStep(id, -1),
+          onInc: () => fit.cycleHoldStep(id, 1),
+        ),
       ]),
     );
   }
@@ -1118,10 +1170,7 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
               });
           return Container(
             padding: sheetPad(sheet),
-            decoration: BoxDecoration(
-              color: gc.bgRaised,
-              borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-            ),
+            decoration: sheetDecoration(gc),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -1209,24 +1258,24 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
   }
 
   Widget _nextCard(GymColors gc, String id) {
-    final target = fit.nextTarget(id)!;
+    final up = fit.nextTarget(id)?.up ?? fit.holdGoesUp(id);
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
       decoration: BoxDecoration(
         color: gc.bgRaised,
-        border: Border.all(color: target.up ? gc.ember : gc.border),
+        border: Border.all(color: up ? gc.ember : gc.border),
         borderRadius: BorderRadius.circular(16),
       ),
       child: Row(
         children: [
-          SvgPathIcon(Ic.trendUp, size: 18, color: target.up ? gc.ember : gc.textSecondary),
+          SvgPathIcon(Ic.trendUp, size: 18, color: up ? gc.ember : gc.textSecondary),
           const SizedBox(width: 12),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(t.nextTime,
-                    style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.3)),
+                    style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.4)),
                 if (fit.nextWhy(id) case final why?) ...[
                   const SizedBox(height: 2),
                   Text(why, style: AppTheme.f(11.5, weight: FontWeight.w500, color: gc.textTertiary)),
@@ -1236,7 +1285,7 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
           ),
           const SizedBox(width: 10),
           Text(fit.nextTargetLabel(id)!,
-              style: AppTheme.f(20, weight: FontWeight.w800, color: target.up ? gc.ember : gc.text)),
+              style: AppTheme.f(20, weight: FontWeight.w800, color: up ? gc.ember : gc.text)),
         ],
       ),
     );
@@ -1418,10 +1467,7 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
           return ConstrainedBox(
             constraints: BoxConstraints(maxHeight: MediaQuery.sizeOf(sheet).height * 0.9),
             child: Container(
-              decoration: BoxDecoration(
-                color: gc.bgRaised,
-                borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-              ),
+              decoration: sheetDecoration(gc),
               child: SingleChildScrollView(
                 padding: sheetPad(sheet),
                 child: Column(
@@ -1545,10 +1591,7 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
           final now = fit.modeOf(id);
           return Container(
             padding: sheetPad(sheet),
-            decoration: BoxDecoration(
-              color: gc.bgRaised,
-              borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-            ),
+            decoration: sheetDecoration(gc),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -1634,10 +1677,7 @@ class _MergeTargetSheetState extends State<_MergeTargetSheet> {
       child: Container(
         height: MediaQuery.of(context).size.height * 0.72,
         padding: sheetPad(context, bottom: 16),
-        decoration: BoxDecoration(
-          color: gc.bgRaised,
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-        ),
+        decoration: sheetDecoration(gc),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [

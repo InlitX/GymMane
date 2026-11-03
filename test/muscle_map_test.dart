@@ -53,4 +53,18 @@ void main() {
     fit.sessions.clear();
     expect(fit.neglectedMuscles(7), isEmpty, reason: 'sin datos no se señala nada');
   });
+
+  test('#280 la semana cuenta desde el día en que empieza, no los últimos 7', () {
+    fit.weekStartDay = DateTime.monday;
+    final start = fit.weekStartDate;
+    final before = DateTime(start.year, start.month, start.day - 1, 12);
+    fit.sessions
+      ..add(LoggedSession(before, 1800, [LoggedExercise('x1', 'x1', 'back', [LoggedSet(10, 60)])]))
+      ..add(LoggedSession(DateTime(start.year, start.month, start.day, 12), 1800,
+          [LoggedExercise('x2', 'x2', 'chest', List.generate(6, (_) => LoggedSet(10, 60)))]));
+
+    expect(fit.muscleSetsThisWeek['back'], isNull);
+    expect(fit.muscleSetsThisWeek['chest'], 6);
+    expect(fit.muscleHeatThisWeek['chest'], closeTo(0.5, 0.001), reason: 'objetivo semanal entero');
+  });
 }

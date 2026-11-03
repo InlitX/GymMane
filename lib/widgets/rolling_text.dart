@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 
 final _digitCells = <(TextStyle, double), double>{};
@@ -153,9 +155,13 @@ class _RollingChar extends StatelessWidget {
               child: child,
               builder: (_, kid) {
                 final t = animation.value;
+                final rush = math.sin(t.clamp(0.0, 1.0) * math.pi);
                 return Opacity(
-                  opacity: t.clamp(0.0, 1.0),
-                  child: Transform.translate(offset: Offset(0, from * line * (1 - t)), child: kid),
+                  opacity: (t * t).clamp(0.0, 1.0),
+                  child: Transform.translate(
+                    offset: Offset(0, from * line * (1 - t)),
+                    child: Transform.scale(scaleX: 1 - 0.04 * rush, scaleY: 1 + 0.14 * rush, child: kid),
+                  ),
                 );
               },
             );

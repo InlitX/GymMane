@@ -195,10 +195,7 @@ Future<void> showNoteDaySheet(BuildContext context, DateTime day) async {
     backgroundColor: Colors.transparent,
     builder: (sheet) => Container(
       padding: sheetPad(context, bottom: 26),
-      decoration: BoxDecoration(
-        color: gc.bgRaised,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-      ),
+      decoration: sheetDecoration(gc),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,

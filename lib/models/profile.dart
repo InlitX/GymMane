@@ -15,7 +15,8 @@ class Profile {
     this.badge = 'blue',
     this.banner = '',
     this.since,
-  });
+    List<String>? medals,
+  }) : medals = medals ?? [];
 
   String name;
   String sex;
@@ -29,6 +30,7 @@ class Profile {
   String badge;
   String banner;
   DateTime? since;
+  List<String> medals;
 
   Map<String, dynamic> toJson() => {
         'name': name,
@@ -43,6 +45,7 @@ class Profile {
         'badge': badge,
         if (banner.isNotEmpty) 'banner': banner,
         if (since != null) 'since': since!.toIso8601String(),
+        if (medals.isNotEmpty) 'medals': medals,
       };
   factory Profile.fromJson(Map<String, dynamic> j) => Profile(
         name: (j['name'] as String?) ?? kDefaultName,
@@ -57,5 +60,6 @@ class Profile {
         badge: (j['badge'] as String?) ?? 'blue',
         banner: (j['banner'] as String?) ?? '',
         since: DateTime.tryParse((j['since'] as String?) ?? ''),
+        medals: [for (final m in (j['medals'] as List?) ?? const []) '$m'],
       );
 }

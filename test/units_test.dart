@@ -106,4 +106,19 @@ void main() {
     expect(fit.weightValue(fit.latestBodyweight!.kg), '180');
     fit.bodyweight.clear();
   });
+
+  test('#288 un ejercicio puede ir en lb aunque la app vaya en kg', () {
+    startSession();
+    final id = fit.session!.exercises.first.id;
+    fit.setExerciseUnits(id, 'lb');
+    expect(fit.unitsFor(id), 'lb');
+    expect(fit.units, 'kg');
+    fit.setSessionWeightShown(0, 0, 100);
+    expect(fit.session!.exercises.first.sets.first.weight, closeTo(45.36, 0.01));
+    expect(fit.weightValueFor(id, fit.session!.exercises.first.sets.first.weight), '100');
+    fit.bumpSessionWeight(0, 0, 1);
+    expect(fit.toShownFor(id, fit.session!.exercises.first.sets.first.weight), closeTo(105, 0.01));
+    fit.setExerciseUnits(id, 'kg');
+    expect(fit.exerciseUnits.containsKey(id), isFalse, reason: 'igual que la app no se guarda');
+  });
 }

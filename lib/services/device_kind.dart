@@ -8,6 +8,15 @@ class DeviceKind {
 
   static const _channel = MethodChannel('gymmane/device');
 
+  static Future<bool> isLowEnd() async {
+    if (kIsWeb || !Platform.isAndroid) return false;
+    try {
+      return await _channel.invokeMethod<bool>('isLowEnd') ?? false;
+    } catch (_) {
+      return false;
+    }
+  }
+
   static Future<bool> isWatch() async {
     if (kIsWeb || !Platform.isAndroid) return false;
     try {

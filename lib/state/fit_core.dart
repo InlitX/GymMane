@@ -6,6 +6,10 @@ String fmt(num n) {
 }
 
 double _round1(double n) => (n * 10).round() / 10;
+double _roundWeight(double n) {
+  final quarter = (n * 4).round() / 4;
+  return (n - quarter).abs() < 0.005 ? quarter : _round1(n);
+}
 double _round3(double n) => (n * 1000).round() / 1000;
 double _roundTo(double n, double step) => (n / step).round() * step;
 DateTime _dayKey(DateTime d) => DateTime(d.year, d.month, d.day);
@@ -32,6 +36,12 @@ int heatLevel(double v) {
 abstract class FitCore extends ChangeNotifier {
   Map<String, dynamic> toJson();
 
+  void healthSave(LoggedSession s) {}
+
+  void healthForget(LoggedSession s) {}
+
+  Future<void> stepsAllowed() async {}
+
   String route = 'home';
   final List<String> _routeStack = [];
   final Map<String, bool> favorites = {};
@@ -51,6 +61,7 @@ abstract class FitCore extends ChangeNotifier {
   bool rotation = false;
   final List<String> rotationIds = [];
   String rotationNextId = '';
+  DateTime? rotationRestDay;
   final Map<String, List<String>> planMoves = {};
   final List<Exercise> customExercises = [];
   final List<GymPlace> places = [];
@@ -58,8 +69,10 @@ abstract class FitCore extends ChangeNotifier {
   final Map<String, String> exerciseMedia = {};
 
   final Map<String, int> exerciseRest = {};
+  final Map<String, String> exerciseUnits = {};
 
   final Map<String, double> progressStep = {};
+  final Map<String, int> holdStep = {};
 
   final Map<String, ProgressRule> progressRules = {};
 
@@ -90,6 +103,44 @@ abstract class FitCore extends ChangeNotifier {
   final Map<String, Map<int, int>> videoMarks = {};
 
   final Map<String, double> exerciseBar = {};
+  final Map<String, List<double>> weightStacks = {};
+
+  List<double>? stackFor(String id) {
+    final s = weightStacks[id];
+    return s == null || s.isEmpty ? null : s;
+  }
+
+  double snapToStack(String id, double kg, {int dir = 0}) {
+    final s = stackFor(id);
+    if (s == null) return kg;
+    if (dir > 0) {
+      for (final v in s) {
+        if (v > kg + 0.001) return v;
+      }
+      return s.last;
+    }
+    if (dir < 0) {
+      for (final v in s.reversed) {
+        if (v < kg - 0.001) return v;
+      }
+      return s.first;
+    }
+    var best = s.first;
+    for (final v in s) {
+      if ((v - kg).abs() < (best - kg).abs()) best = v;
+    }
+    return best;
+  }
+
+  double floorToStack(String id, double kg) {
+    final s = stackFor(id);
+    if (s == null) return kg;
+    var out = s.first;
+    for (final v in s) {
+      if (v <= kg + 0.001) out = v;
+    }
+    return out;
+  }
 
   final Map<String, String> modeOverride = {};
 
@@ -124,14 +175,33 @@ abstract class FitCore extends ChangeNotifier {
   int _dataRev = 0;
   final Map<Object, (Object?, Object?)> _memo = {};
 
+  bool countsForMuscles(String id) => true;
+
   T _remember<T>(Object key, T Function() build, [Object? extra]) {
-    final stamp = (_dataRev, sessions.length, checkins.length, extra);
+    final stamp = (
+      _dataRev,
+      sessions.length,
+      sessions.isEmpty ? 0 : identityHashCode(sessions.first),
+      sessions.isEmpty ? 0 : identityHashCode(sessions.last),
+      checkins.length,
+      extra,
+    );
     final hit = _memo[key];
     if (hit != null && hit.$1 == stamp) return hit.$2 as T;
     final value = build();
     _memo[key] = (stamp, value);
     return value;
   }
+
+  Map<DateTime, List<LoggedSession>> get _sessionDays => _remember('sessionDays', () {
+        final out = <DateTime, List<LoggedSession>>{};
+        for (final s in sessions) {
+          (out[_dayKey(s.day)] ??= []).add(s);
+        }
+        return out;
+      });
+
+  List<LoggedSession> _sessionsOnDay(DateTime day) => _sessionDays[_dayKey(day)] ?? const [];
 
   void _persist() {
     _dataRev++;
@@ -145,7 +215,44 @@ abstract class FitCore extends ChangeNotifier {
     _saveDebounce?.cancel();
     _saveDebounce = null;
     if (_loading) return;
-    Store.instance.save(toJson());
+    _storing = {};
+    try {
+      final data = toJson();
+      Store.instance.save(data, raw: _storing!);
+    } finally {
+      _storing = null;
+    }
+  }
+
+  Map<String, String>? _storing;
+  final _sessionText = Expando<(List<Object?>, String)>();
+  final _itemText = Expando<String>();
+
+  Object _stored<T extends Object>(String tag, List<T> items, Map<String, dynamic> Function(T) json,
+      {List<Object?> Function(T)? parts}) {
+    final raw = _storing;
+    if (raw == null) return [for (final i in items) json(i)];
+    final out = StringBuffer('[');
+    for (var i = 0; i < items.length; i++) {
+      if (i > 0) out.write(',');
+      out.write(parts == null ? _textOf(items[i], json) : _textByParts(items[i], json, parts));
+    }
+    out.write(']');
+    raw[tag] = out.toString();
+    return Store.rawMark(tag);
+  }
+
+  String _textOf<T extends Object>(T item, Map<String, dynamic> Function(T) json) =>
+      _itemText[item] ??= Store.encode(json(item));
+
+  String _textByParts<T extends Object>(
+      T item, Map<String, dynamic> Function(T) json, List<Object?> Function(T) parts) {
+    final now = parts(item);
+    final hit = _sessionText[item];
+    if (hit != null && listEquals(hit.$1, now)) return hit.$2;
+    final text = Store.encode(json(item));
+    _sessionText[item] = (now, text);
+    return text;
   }
 
   void goHome() => _setRoute('home', reset: true);
@@ -207,12 +314,34 @@ abstract class FitCore extends ChangeNotifier {
 
   double fromDisplayWeight(double shown) => isLb ? shown / _lbPerKg : shown;
 
-  String weightLabel(double kg) => '${fmt(_round1(toDisplayWeight(kg)))} $units';
+  String weightLabel(double kg) => '${fmt(_roundWeight(toDisplayWeight(kg)))} $units';
 
-  String weightValue(double kg) => fmt(_round1(toDisplayWeight(kg)));
+  String weightValue(double kg) => fmt(_roundWeight(toDisplayWeight(kg)));
 
   double get weightStep => isLb ? stepLb : stepKg;
+
+  double get rulerStep => isLb ? (stepLb == 2.5 ? 0.5 : 1) : (stepKg == 1.25 ? 0.25 : 0.5);
   double get plateStep => isLb ? 5 : 2.5;
+
+  String unitsFor(String id) => exerciseUnits[id] ?? units;
+
+  bool isLbFor(String id) => unitsFor(id) == 'lb';
+
+  double toShownFor(String id, double kg) => isLbFor(id) ? kg * _lbPerKg : kg;
+
+  double fromShownFor(String id, double shown) => isLbFor(id) ? shown / _lbPerKg : shown;
+
+  String weightValueFor(String id, double kg) => fmt(_roundWeight(toShownFor(id, kg)));
+
+  double weightStepFor(String id) => isLbFor(id) ? stepLb : stepKg;
+
+  double rulerStepFor(String id) => isLbFor(id) ? (stepLb == 2.5 ? 0.5 : 1) : (stepKg == 1.25 ? 0.25 : 0.5);
+
+  void setExerciseUnits(String id, String unit) {
+    unit == units ? exerciseUnits.remove(id) : exerciseUnits[id] = unit;
+    _persist();
+    notifyListeners();
+  }
   String get volumeUnit => isLb ? 'k lb' : 't';
 
   String volumeValue(double kg) => fmt(_round1(toDisplayWeight(kg) / 1000));

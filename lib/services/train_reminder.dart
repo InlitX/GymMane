@@ -53,10 +53,12 @@ class TrainReminder {
     required Set<int> weekdays,
     bool skipToday = false,
     int againMinutes = 0,
+    bool Function(DateTime day)? restOn,
   }) =>
-      _serial(() => _schedule(minuteOfDay, weekdays, skipToday, againMinutes));
+      _serial(() => _schedule(minuteOfDay, weekdays, skipToday, againMinutes, restOn));
 
-  Future<void> _schedule(int minuteOfDay, Set<int> weekdays, bool skipToday, int againMinutes) async {
+  Future<void> _schedule(
+      int minuteOfDay, Set<int> weekdays, bool skipToday, int againMinutes, bool Function(DateTime day)? restOn) async {
     if (!enabled) return;
     await _cancel();
     final mode = await reminderMode(_plugin);
@@ -69,6 +71,7 @@ class TrainReminder {
           : null;
       if (!day.isAfter(now) && !(again?.isAfter(now) ?? false)) continue;
       if (weekdays.isNotEmpty && !weekdays.contains(day.weekday)) continue;
+      if (restOn?.call(day) ?? false) continue;
       try {
         if (again != null && again.isAfter(now)) {
           await _plugin.zonedSchedule(

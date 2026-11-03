@@ -25,6 +25,7 @@ class PlanItem {
     this.steps = const [],
     this.mode = '',
     this.secondary = const [],
+    this.ladder = const [],
   });
   final String name;
   final int? sets;
@@ -40,6 +41,7 @@ class PlanItem {
   final String? level;
   final List<String> steps;
   final String mode;
+  final List<String> ladder;
 }
 
 class PlanRoutine {
@@ -314,7 +316,56 @@ List<PlanItem> _items(Object? raw, bool lb) {
         final List list => list.whereType<String>().toList(),
         _ => const [],
       },
+      ladder: switch (_value(entry, ['progression', 'ladder', 'progresion', 'progressao', 'progressione'])) {
+        final List list => [for (final s in list.whereType<String>()) if (s.trim().isNotEmpty) s.trim()],
+        _ => const [],
+      },
     ));
+  }
+  return _mergeRepeats(out);
+}
+
+List<PlanSet> _expanded(PlanItem item) {
+  if (item.plan.isNotEmpty) {
+    final working = item.plan.where((p) => p.kind != 1).length;
+    return [
+      for (final p in item.plan) PlanSet(reps: p.reps ?? item.reps, weightKg: p.weightKg ?? item.weightKg, kind: p.kind, sec: p.sec, km: p.km),
+      for (var i = working; i < (item.sets ?? working); i++) PlanSet(reps: item.reps, weightKg: item.weightKg),
+    ];
+  }
+  return [for (var i = 0; i < (item.sets ?? 1); i++) PlanSet(reps: item.reps, weightKg: item.weightKg)];
+}
+
+List<PlanItem> _mergeRepeats(List<PlanItem> items) {
+  String key(PlanItem i) => (i.id ?? i.name).trim().toLowerCase();
+  final seen = <String, int>{};
+  final out = <PlanItem>[];
+  for (final item in items) {
+    final at = seen[key(item)];
+    if (at == null) {
+      seen[key(item)] = out.length;
+      out.add(item);
+      continue;
+    }
+    final first = out[at];
+    final plan = [..._expanded(first), ..._expanded(item)];
+    out[at] = PlanItem(
+      first.name,
+      plan.where((p) => p.kind != 1).length,
+      id: first.id,
+      reps: first.reps ?? item.reps,
+      weightKg: first.weightKg ?? item.weightKg,
+      restSec: first.restSec ?? item.restSec,
+      superset: first.superset || item.superset,
+      plan: plan,
+      muscle: first.muscle,
+      equipment: first.equipment,
+      level: first.level,
+      steps: first.steps,
+      mode: first.mode,
+      secondary: first.secondary,
+      ladder: first.ladder,
+    );
   }
   return out;
 }

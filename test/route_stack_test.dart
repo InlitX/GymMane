@@ -22,6 +22,26 @@ void main() {
     expect(fit.route, 'exercises');
   });
 
+  test('a similar exercise opens on top and back returns to the first one', () {
+    final a = fit.allExercises[0].id;
+    final b = fit.allExercises[1].id;
+    final c = fit.allExercises[2].id;
+    fit.goExercises();
+    fit.openExercise(a);
+    fit.openExercise(b);
+    fit.openExercise(c);
+    expect(fit.activeExerciseId, c);
+    fit.handleBack();
+    expect((fit.route, fit.activeExerciseId), ('exercise-detail', b));
+    fit.handleBack();
+    expect((fit.route, fit.activeExerciseId), ('exercise-detail', a));
+    fit.handleBack();
+    expect(fit.route, 'exercises');
+    fit.openExercise(c);
+    fit.handleBack();
+    expect(fit.route, 'exercises');
+  });
+
   test('writing a note inside an exercise does not lock you in', () {
     fit.goExercises();
     fit.openExercise(exId());
@@ -84,6 +104,7 @@ void main() {
     fit.goExercises();
     fit.openExercise(exId());
     fit.openExercise(fit.allExercises[1].id);
+    fit.handleBack();
     fit.handleBack();
     expect(fit.route, 'exercises');
   });

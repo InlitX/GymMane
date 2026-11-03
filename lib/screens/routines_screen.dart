@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../widgets/body_map.dart';
 import 'package:flutter/services.dart';
 import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
@@ -10,11 +11,13 @@ import '../state/fit_state.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
 import '../widgets/dialogs.dart';
+import '../widgets/entrance.dart';
 import '../widgets/glass.dart';
 import '../widgets/liquid_notch.dart';
 import '../widgets/routine_folder.dart';
 import '../widgets/svg_icon.dart';
 import '../widgets/ui_kit.dart';
+import 'circuit_screen.dart';
 import 'plan_import_sheet.dart';
 
 class RoutinesScreen extends StatelessWidget {
@@ -23,14 +26,17 @@ class RoutinesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final gc = context.gc;
-    return SafeArea(
+    return RiseScope(
+      id: 'routines',
+      child: SafeArea(
       bottom: false,
       child: SingleChildScrollView(
+        key: const PageStorageKey('routines'),
         clipBehavior: Clip.none,
         padding: const EdgeInsets.fromLTRB(20, 12, 20, 40),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
+          children: riseAll([
             ScreenHeader(
               title: t.routines,
               onBack: fit.backFromRoutines,
@@ -60,10 +66,23 @@ class RoutinesScreen extends StatelessWidget {
             const SizedBox(height: 22),
             Row(children: [
               Expanded(
-                child: Text(fit.rotation ? t.rotationTitle : t.weeklyPlan,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: AppTheme.f(12, weight: FontWeight.w600, color: gc.textSecondary, letterSpacing: 1.5)),
+                child: AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 300),
+                  transitionBuilder: (child, a) => FadeTransition(
+                    opacity: CurvedAnimation(parent: a, curve: const Interval(0.45, 1)),
+                    child: child,
+                  ),
+                  layoutBuilder: (current, previous) =>
+                      Stack(alignment: Alignment.centerLeft, children: [...previous, ?current]),
+                  child: Padding(
+                    key: ValueKey(fit.rotation),
+                    padding: const EdgeInsets.only(left: 4),
+                    child: Text((fit.rotation ? t.rotationTitle : t.weeklyPlan).toUpperCase(),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: _label(gc)),
+                  ),
+                ),
               ),
               const SizedBox(width: 8),
               SegToggle(
@@ -77,22 +96,54 @@ class RoutinesScreen extends StatelessWidget {
               ),
             ]),
             const SizedBox(height: 10),
-            if (fit.rotation)
-              _rotationCard(context, gc)
-            else
-              SoftCard(
-                radius: 20,
-                borderColor: Colors.transparent,
-                padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
-                child: Column(children: [for (int i = 0; i < 7; i++) _dayRow(context, gc, i)]),
+            AnimatedSize(
+              duration: const Duration(milliseconds: 380),
+              curve: Curves.easeOutCubic,
+              alignment: Alignment.topCenter,
+              child: AnimatedSwitcher(
+                duration: const Duration(milliseconds: 320),
+                switchInCurve: Curves.easeOutCubic,
+                switchOutCurve: Curves.easeInCubic,
+                layoutBuilder: (current, previous) =>
+                    Stack(alignment: Alignment.topCenter, children: [...previous, ?current]),
+                transitionBuilder: (child, a) => FadeTransition(
+                  opacity: CurvedAnimation(parent: a, curve: const Interval(0.45, 1)),
+                  child: SlideTransition(
+                    position: Tween(
+                      begin: Offset(child.key == const ValueKey(true) ? 0.06 : -0.06, 0),
+                      end: Offset.zero,
+                    ).animate(a),
+                    child: child,
+                  ),
+                ),
+                child: KeyedSubtree(
+                  key: ValueKey(fit.rotation),
+                  child: fit.rotation
+                      ? _rotationCard(context, gc)
+                      : Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            SoftCard(
+                              radius: 22,
+                              borderColor: Colors.transparent,
+                              padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
+                              child: Column(children: [for (int i = 0; i < 7; i++) _dayRow(context, gc, i)]),
+                            ),
+                            if (fit.activeRoutines.isNotEmpty) ...[
+                              const SizedBox(height: 10),
+                              _plansRow(context, gc),
+                            ],
+                          ],
+                        ),
+                ),
               ),
-            if (!fit.rotation && fit.activeRoutines.isNotEmpty) ...[
-              const SizedBox(height: 10),
-              _plansRow(context, gc),
-            ],
-            const SizedBox(height: 26),
-            Text(t.yourRoutines, style: AppTheme.f(12, weight: FontWeight.w600, color: gc.textSecondary, letterSpacing: 1.5)),
-            const SizedBox(height: 10),
+            ),
+            const SizedBox(height: 30),
+            Padding(
+              padding: const EdgeInsets.only(left: 4),
+              child: Text(t.yourRoutines.toUpperCase(), style: _label(gc)),
+            ),
+            const SizedBox(height: 12),
             if (fit.activeRoutines.isEmpty)
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 26),
@@ -110,7 +161,18 @@ class RoutinesScreen extends StatelessWidget {
             if (fit.archivedRoutines.isNotEmpty) ...[
               const SizedBox(height: 6),
               _archivedHeader(gc),
-              if (fit.showArchivedRoutines) Opacity(opacity: 0.6, child: _folders(context, fit.archivedRoutines)),
+              AnimatedSize(
+                duration: const Duration(milliseconds: 340),
+                curve: Curves.easeOutCubic,
+                alignment: Alignment.topCenter,
+                child: AnimatedOpacity(
+                  duration: const Duration(milliseconds: 260),
+                  opacity: fit.showArchivedRoutines ? 0.6 : 0,
+                  child: fit.showArchivedRoutines
+                      ? _folders(context, fit.archivedRoutines)
+                      : const SizedBox(width: double.infinity),
+                ),
+              ),
             ],
             const SizedBox(height: 16),
             PrimaryButton(
@@ -135,11 +197,17 @@ class RoutinesScreen extends StatelessWidget {
               icon: PhosphorIconsRegular.sparkle,
               onTap: fit.goAiPlan,
             ),
-          ],
+            const SizedBox(height: 30),
+            const CircuitSection(),
+          ]),
         ),
+      ),
       ),
     );
   }
+
+  TextStyle _label(GymColors gc) =>
+      AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.4);
 
   void _shareMenu(BuildContext context) {
     final gc = context.gc;
@@ -151,10 +219,7 @@ class RoutinesScreen extends StatelessWidget {
       builder: (sheet) => Container(
         padding: sheetPad(sheet),
         constraints: BoxConstraints(maxHeight: MediaQuery.sizeOf(sheet).height * 0.85),
-        decoration: BoxDecoration(
-          color: gc.bgRaised,
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-        ),
+        decoration: sheetDecoration(gc),
         child: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -178,7 +243,7 @@ class RoutinesScreen extends StatelessWidget {
               }),
               const SizedBox(height: 14),
               Text(t.shareRoutine.toUpperCase(),
-                  style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.3)),
+                  style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.4)),
               const SizedBox(height: 8),
               for (final r in [
                 for (final group in fit.routineGroups) ...fit.routinesInGroup(group),
@@ -252,10 +317,7 @@ class RoutinesScreen extends StatelessWidget {
       backgroundColor: Colors.transparent,
       builder: (sheet) => Container(
         padding: sheetPad(sheet),
-        decoration: BoxDecoration(
-          color: gc.bgRaised,
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-        ),
+        decoration: sheetDecoration(gc),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -285,10 +347,7 @@ class RoutinesScreen extends StatelessWidget {
       backgroundColor: Colors.transparent,
       builder: (sheet) => Container(
         padding: sheetPad(sheet),
-        decoration: BoxDecoration(
-          color: gc.bgRaised,
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-        ),
+        decoration: sheetDecoration(gc),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -364,10 +423,7 @@ class RoutinesScreen extends StatelessWidget {
       builder: (sheet) => Container(
         padding: sheetPad(sheet),
         constraints: BoxConstraints(maxHeight: MediaQuery.sizeOf(sheet).height * 0.85),
-        decoration: BoxDecoration(
-          color: gc.bgRaised,
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-        ),
+        decoration: sheetDecoration(gc),
         child: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -437,10 +493,11 @@ class RoutinesScreen extends StatelessWidget {
   }
 
   Widget _rotationCard(BuildContext context, GymColors gc) {
-    final list = fit.rotationRoutines;
-    final next = fit.rotationNext;
+    final list = fit.rotationSteps;
+    final step = fit.rotationStep;
+    final routines = fit.rotationRoutines;
     return SoftCard(
-      radius: 20,
+      radius: 22,
       borderColor: Colors.transparent,
       padding: const EdgeInsets.fromLTRB(6, 14, 6, 8),
       child: Column(
@@ -448,7 +505,7 @@ class RoutinesScreen extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: Text(list.isEmpty ? t.rotationEmpty : t.rotationHint,
+            child: Text(routines.isEmpty ? t.rotationEmpty : t.rotationHint,
                 style: AppTheme.f(12.5, weight: FontWeight.w500, color: gc.textSecondary, height: 1.35)),
           ),
           if (list.length > 1) ...[
@@ -463,9 +520,9 @@ class RoutinesScreen extends StatelessWidget {
                       duration: const Duration(milliseconds: 260),
                       height: 5,
                       decoration: BoxDecoration(
-                        color: i < fit.rotationStep
+                        color: i < step
                             ? gc.sage
-                            : list[i] == next
+                            : i == step
                                 ? gc.ember
                                 : gc.bgRaised2,
                         borderRadius: BorderRadius.circular(3),
@@ -478,7 +535,7 @@ class RoutinesScreen extends StatelessWidget {
             const SizedBox(height: 6),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: Text(t.rotationProgress(fit.rotationStep, list.length),
+              child: Text(t.rotationProgress(step, list.length),
                   style: AppTheme.f(11.5, weight: FontWeight.w600, color: gc.textTertiary)),
             ),
           ],
@@ -492,29 +549,20 @@ class RoutinesScreen extends StatelessWidget {
             onReorderEnd: reorderDropped,
             onReorder: fit.reorderRotation,
             children: [
-              for (var i = 0; i < list.length; i++) _rotationRow(context, gc, list[i], i, list[i] == next),
+              for (var i = 0; i < list.length; i++)
+                if (RoutinesState.isRestStep(list[i]))
+                  _rotationRestRow(context, gc, list[i], i, i == step)
+                else
+                  _rotationRow(context, gc, fit.routineById(list[i])!, i, i == step,
+                      routines.indexWhere((r) => r.id == list[i])),
             ],
           ),
-          GestureDetector(
-            behavior: HitTestBehavior.opaque,
-            onTap: () => _pickRotation(context),
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(14, 12, 14, 12),
-              child: Row(children: [
-                Container(
-                  width: 30,
-                  height: 30,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(color: gc.border, width: 1.5),
-                  ),
-                  child: Icon(PhosphorIconsBold.plus, size: 13, color: gc.textSecondary),
-                ),
-                const SizedBox(width: 12),
-                Text(t.rotationAdd, style: AppTheme.f(14, weight: FontWeight.w600, color: gc.textSecondary)),
-              ]),
-            ),
-          ),
+          _rotationAddRow(gc, PhosphorIconsBold.plus, t.rotationAdd, () => _pickRotation(context)),
+          if (routines.isNotEmpty)
+            _rotationAddRow(gc, PhosphorIconsRegular.bed, t.rotationAddRest, () {
+              HapticFeedback.selectionClick();
+              fit.addRotationRest();
+            }),
           if (list.length > 1) ...[
             Divider(height: 1, thickness: 1, indent: 12, endIndent: 12, color: gc.border),
             Row(children: [
@@ -527,6 +575,138 @@ class RoutinesScreen extends StatelessWidget {
             ]),
           ],
         ],
+      ),
+    );
+  }
+
+  Widget _rotationAddRow(GymColors gc, IconData icon, String label, VoidCallback onTap) => GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(14, 12, 14, 12),
+          child: Row(children: [
+            Container(
+              width: 30,
+              height: 30,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(color: gc.border, width: 1.5),
+              ),
+              child: Icon(icon, size: 13, color: gc.textSecondary),
+            ),
+            const SizedBox(width: 12),
+            Text(label, style: AppTheme.f(14, weight: FontWeight.w600, color: gc.textSecondary)),
+          ]),
+        ),
+      );
+
+  Widget _rotationRestRow(BuildContext context, GymColors gc, String id, int i, bool isNext) {
+    final done = i < fit.rotationStep;
+    final today = isNext && fit.restingToday;
+    return Container(
+      key: ValueKey('rot-$id'),
+      margin: const EdgeInsets.symmetric(vertical: 2),
+      decoration: BoxDecoration(
+        color: isNext ? gc.sageSoft : gc.bgRaised,
+        borderRadius: BorderRadius.circular(14),
+      ),
+      child: Row(children: [
+        Expanded(
+          child: GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onTap: () => _rotationRestMenu(context, id, isNext),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(10, 10, 4, 10),
+              child: Row(children: [
+                Container(
+                  width: 30,
+                  height: 30,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color: isNext ? gc.sage : (done ? gc.sageSoft : gc.bgRaised2),
+                    shape: BoxShape.circle,
+                  ),
+                  child: done
+                      ? Icon(PhosphorIconsBold.check, size: 13, color: gc.sage)
+                      : Icon(PhosphorIconsFill.bed, size: 14, color: isNext ? gc.bg : gc.textSecondary),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(t.restDayShort,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: AppTheme.f(14.5, weight: FontWeight.w700, color: gc.text)),
+                      const SizedBox(height: 1),
+                      Text(
+                        [
+                          if (today) t.rotationRestToday else if (isNext) t.rotationNext,
+                          t.rotationRestHint,
+                        ].join(' · '),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: AppTheme.f(11.5,
+                            weight: isNext ? FontWeight.w700 : FontWeight.w500,
+                            color: isNext ? gc.sage : gc.textTertiary),
+                      ),
+                    ],
+                  ),
+                ),
+              ]),
+            ),
+          ),
+        ),
+        ReorderableDragStartListener(
+          index: i,
+          child: Semantics(
+            label: t.reorderHandle(t.restDayShort),
+            child: SizedBox(
+              width: 40,
+              height: 48,
+              child: Icon(PhosphorIconsRegular.dotsSixVertical, size: 18, color: gc.textTertiary),
+            ),
+          ),
+        ),
+      ]),
+    );
+  }
+
+  void _rotationRestMenu(BuildContext context, String id, bool isNext) {
+    final gc = context.gc;
+    showAppSheet<void>(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (sheet) => Container(
+        padding: sheetPad(sheet),
+        decoration: sheetDecoration(gc),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            const SheetHandle(),
+            const SizedBox(height: 16),
+            SheetTitle(t.restDayShort, subtitle: t.rotationRestHint),
+            const SizedBox(height: 14),
+            OptionGroup([
+              if (isNext)
+                OptionItem(t.rotationSkipRest, icon: PhosphorIconsRegular.skipForward, onTap: () {
+                  Navigator.pop(sheet);
+                  fit.skipRotation();
+                })
+              else
+                OptionItem(t.rotationMakeNext, icon: PhosphorIconsRegular.flagPennant, onTap: () {
+                  Navigator.pop(sheet);
+                  fit.setRotationNext(id);
+                }),
+              OptionItem(t.rotationRemove, icon: PhosphorIconsRegular.minusCircle, danger: true, onTap: () {
+                Navigator.pop(sheet);
+                fit.removeRotationRest(id);
+              }),
+            ]),
+          ],
+        ),
       ),
     );
   }
@@ -552,8 +732,8 @@ class RoutinesScreen extends StatelessWidget {
         ),
       );
 
-  Widget _rotationRow(BuildContext context, GymColors gc, Routine r, int i, bool isNext) {
-    final letter = String.fromCharCode(65 + i % 26);
+  Widget _rotationRow(BuildContext context, GymColors gc, Routine r, int i, bool isNext, int order) {
+    final letter = String.fromCharCode(65 + order % 26);
     final done = i < fit.rotationStep;
     return Container(
       key: ValueKey('rot-${r.id}'),
@@ -607,6 +787,10 @@ class RoutinesScreen extends StatelessWidget {
                     ],
                   ),
                 ),
+                if (r.exerciseIds.isNotEmpty && fit.showMiniBody) ...[
+                  const SizedBox(width: 8),
+                  MiniBody(sets: fit.routineMuscleSets(r), height: 38),
+                ],
               ]),
             ),
           ),
@@ -633,10 +817,7 @@ class RoutinesScreen extends StatelessWidget {
       backgroundColor: Colors.transparent,
       builder: (sheet) => Container(
         padding: sheetPad(sheet),
-        decoration: BoxDecoration(
-          color: gc.bgRaised,
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-        ),
+        decoration: sheetDecoration(gc),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -690,10 +871,7 @@ class RoutinesScreen extends StatelessWidget {
         builder: (sheet, _) => Container(
           constraints: BoxConstraints(maxHeight: MediaQuery.sizeOf(sheet).height * 0.72),
           padding: sheetPad(sheet),
-          decoration: BoxDecoration(
-            color: gc.bgRaised,
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-          ),
+          decoration: sheetDecoration(gc),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -710,7 +888,7 @@ class RoutinesScreen extends StatelessWidget {
                       OptionItem(
                         fit.routineTitle(r),
                         detail: fit.rotationIds.contains(r.id)
-                            ? String.fromCharCode(65 + fit.rotationIds.indexOf(r.id) % 26)
+                            ? String.fromCharCode(65 + fit.rotationRoutines.indexOf(r) % 26)
                             : (r.group.isEmpty ? null : r.group),
                         selected: fit.rotationIds.contains(r.id),
                         onTap: () => fit.toggleRotationRoutine(r.id),
@@ -733,11 +911,11 @@ class RoutinesScreen extends StatelessWidget {
     final assigned = fit.routinesOn(day);
     final isToday = DateTime.now().weekday == weekday;
     final moved = fit.movedOn(day);
-    return GestureDetector(
+    return Pressable(
+      scale: 0.98,
       onTap: () => _pickRoutine(context, weekday, day),
-      behavior: HitTestBehavior.opaque,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 13),
         child: Row(
           children: [
             Text(t.weekdayShort(weekday),
@@ -836,10 +1014,7 @@ class RoutinesScreen extends StatelessWidget {
       backgroundColor: Colors.transparent,
       builder: (sheet) => Container(
         padding: sheetPad(sheet),
-        decoration: BoxDecoration(
-          color: gc.bgRaised,
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-        ),
+        decoration: sheetDecoration(gc),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -909,10 +1084,7 @@ class RoutinesScreen extends StatelessWidget {
         builder: (sheet, _) => Container(
         constraints: BoxConstraints(maxHeight: MediaQuery.sizeOf(sheet).height * 0.72),
         padding: sheetPad(sheet),
-        decoration: BoxDecoration(
-          color: gc.bgRaised,
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-        ),
+        decoration: sheetDecoration(gc),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -981,10 +1153,7 @@ void showTodayPlanMenu(BuildContext context, Routine r) {
     backgroundColor: Colors.transparent,
     builder: (sheet) => Container(
       padding: sheetPad(sheet),
-      decoration: BoxDecoration(
-        color: gc.bgRaised,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-      ),
+      decoration: sheetDecoration(gc),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -1031,10 +1200,7 @@ void showMoveDaySheet(BuildContext context, Routine r) {
     builder: (sheet) => Container(
       constraints: BoxConstraints(maxHeight: MediaQuery.sizeOf(sheet).height * 0.8),
       padding: sheetPad(sheet),
-      decoration: BoxDecoration(
-        color: gc.bgRaised,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-      ),
+      decoration: sheetDecoration(gc),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -1087,10 +1253,7 @@ void showRoutineMenu(BuildContext context, Routine r) {
     backgroundColor: Colors.transparent,
     builder: (sheet) => Container(
       padding: sheetPad(sheet),
-      decoration: BoxDecoration(
-        color: gc.bgRaised,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-      ),
+      decoration: sheetDecoration(gc),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,

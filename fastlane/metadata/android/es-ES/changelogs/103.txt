@@ -1,0 +1,14 @@
+GymMane 1.9.0
+
+• Circuitos por tiempo
+• Notas en cada serie
+• Deportes como ejercicios
+• Tus propias medidas corporales
+• Informes por fechas (PDF/CSV)
+• Entrenos guardados en Health Connect
+• Check-in de sueño y energía
+• Ayuno intermitente en nutrición
+• Filtros de ejercicios nuevos
+• Scroll más fluido y desenfoque más suave
+
+Y mucho más. Instálala y descúbrelo.

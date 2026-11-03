@@ -95,19 +95,20 @@ class _RiseState extends State<Rise> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     if (_animate != true) return widget.child;
-    return AnimatedBuilder(
-      animation: _v,
-      child: widget.child,
-      builder: (context, child) {
-        final v = _v.value;
-        return Opacity(
-          opacity: v,
-          child: Transform.translate(
-            offset: Offset(0, 22 * (1 - v)),
-            child: Transform.scale(scale: 0.97 + 0.03 * v, child: child),
-          ),
-        );
-      },
+    return FadeTransition(
+      opacity: _v,
+      child: AnimatedBuilder(
+        animation: _v,
+        child: RepaintBoundary(child: widget.child),
+        builder: (context, child) {
+          final v = _v.value;
+          return Transform(
+            transform: Matrix4.translationValues(0, 22 * (1 - v), 0)..scaleByDouble(0.97 + 0.03 * v, 0.97 + 0.03 * v, 1, 1),
+            alignment: Alignment.center,
+            child: child,
+          );
+        },
+      ),
     );
   }
 }
@@ -211,9 +212,16 @@ class _RollInState extends State<RollIn> with SingleTickerProviderStateMixin {
     }
     final low = pos.floor();
     final frac = pos - low;
-    Widget digit(int v, double dy) => Transform.translate(
-          offset: Offset(0, dy),
-          child: Text('${v % 10}', style: widget.style, textHeightBehavior: _tight),
+    final rush = math.sin(frac * math.pi);
+    Widget digit(int v, double dy) => Opacity(
+          opacity: (1 - (dy / line).abs()).clamp(0.0, 1.0),
+          child: Transform.translate(
+            offset: Offset(0, dy),
+            child: Transform.scale(
+              scaleY: 1 + 0.12 * rush,
+              child: Text('${v % 10}', style: widget.style, textHeightBehavior: _tight),
+            ),
+          ),
         );
     return Opacity(
       opacity: place == 0 ? 1 : scaled.clamp(0.0, 1.0),

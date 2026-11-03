@@ -274,4 +274,33 @@ void main() {
       expect(bench.sets.map((s) => s.weightKg), [60.0, 62.5]);
     });
   });
+
+  group('deportes y cardio', () {
+    const hevySports = '''
+"title","start_time","end_time","description","exercise_title","superset_id","exercise_notes","set_index","set_type","weight_kg","reps","distance_km","duration_seconds","rpe"
+"Club","10 Feb 2024, 18:00","10 Feb 2024, 19:30","","Badminton",,"",0,"normal",,,,3600,
+"Domingo","11 Feb 2024, 10:00","11 Feb 2024, 11:40","","Soccer",,"",0,"normal",,,6.2,5400,
+"Domingo","11 Feb 2024, 10:00","11 Feb 2024, 11:40","","Juggling Drill",,"",0,"normal",,,,600,
+''';
+
+    test('una fila solo con tiempo o distancia ya no se pierde', () {
+      final r = parseImport(hevySports);
+      expect(r.sessions, hasLength(2));
+      final club = r.sessions.firstWhere((s) => s.exercises.first.name == 'Badminton');
+      expect(club.exercises.single.sets.single.sec, 3600);
+      expect(club.exercises.single.sets.single.reps, 0);
+      final soccer = r.sessions.firstWhere((s) => s.exercises.first.name == 'Soccer');
+      expect(soccer.exercises.first.sets.single.km, closeTo(6.2, 0.001));
+    });
+
+    test('los deportes caen en el catálogo y lo desconocido se guarda igual', () {
+      fit.sessions.clear();
+      expect(fit.importParsedSessions(parseImport(hevySports).sessions), 2);
+      final ids = [for (final s in fit.sessions) for (final e in s.exercises) e.id];
+      expect(ids, containsAll(['badminton', 'football']));
+      expect(ids.where((id) => id.startsWith('imp:')), hasLength(1));
+      final soccer = fit.sessions.expand((s) => s.exercises).firstWhere((e) => e.id == 'football');
+      expect(soccer.sets.single.sec, 5400);
+    });
+  });
 }

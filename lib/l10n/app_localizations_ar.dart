@@ -37,7 +37,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get done => 'تم';
 
   @override
-  String get set => 'مجموعة';
+  String get set => 'حفظ';
 
   @override
   String get home => 'الرئيسية';
@@ -196,6 +196,122 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get restOff => 'متوقف';
+
+  @override
+  String get miniRest => 'الراحة في rest-pause وcluster';
+
+  @override
+  String get miniRestHint => 'قبل مجموعات rest-pause أو cluster';
+
+  @override
+  String get gymPass => 'بطاقة النادي';
+
+  @override
+  String get gymPassEmpty => 'احفظ هنا رمز ناديك وادخل دون إخراج البطاقة';
+
+  @override
+  String get gymPassAdd => 'إضافة بطاقة';
+
+  @override
+  String get gymPassScan => 'صوّر الرمز';
+
+  @override
+  String get gymPassScanHint => 'بكاميرا هاتفك';
+
+  @override
+  String get gymPassPhoto => 'من صورة أو لقطة شاشة';
+
+  @override
+  String get gymPassPhotoHint => 'مثلًا لقطة شاشة من تطبيق ناديك';
+
+  @override
+  String get gymPassType => 'اكتب الرقم';
+
+  @override
+  String get gymPassTypeHint => 'للباركود: الرقم المطبوع تحته';
+
+  @override
+  String get gymPassNotFound => 'لا يوجد رمز QR في هذه الصورة. جرّب صورة أوضح أو اكتب الرقم.';
+
+  @override
+  String get gymPassName => 'اسم النادي';
+
+  @override
+  String get gymPassDefaultName => 'ناديّ';
+
+  @override
+  String get gymPassCode => 'الرمز';
+
+  @override
+  String get gymPassFormat => 'نوع الرمز';
+
+  @override
+  String get gymPassInvalid => 'هذا الرقم لا يناسب هذا النوع من الرموز';
+
+  @override
+  String get gymPassShowHint => 'قرّبه من القارئ. يرتفع السطوع تلقائيًا.';
+
+  @override
+  String get gymPassDeleted => 'حُذفت البطاقة';
+
+  @override
+  String get gymPassEdit => 'تعديل البطاقة';
+
+  @override
+  String get gymPassShow => 'إظهار عند المدخل';
+
+  @override
+  String get gymPassPrivate => 'تبقى على هاتفك فقط. لا يُرفع أي شيء.';
+
+  @override
+  String get gymPassColor => 'اللون';
+
+  @override
+  String get gymPassRescan => 'قراءة الرمز من جديد';
+
+  @override
+  String get gymPassReading => 'جارٍ قراءة الرمز…';
+
+  @override
+  String get gymPassSettingHint => 'بطاقة النادي في ملفك';
+
+  @override
+  String get gymPassMember => 'عضو';
+
+  @override
+  String get widgetHintActivity => 'خريطة أيام تمرينك';
+
+  @override
+  String get widgetHintStats => 'السلسلة والحجم والجلسات هذا الأسبوع';
+
+  @override
+  String get widgetHintBody => 'العضلات التي تمرّنتها';
+
+  @override
+  String get widgetHintToday => 'بنظرة سريعة: هل تمرّنت اليوم؟';
+
+  @override
+  String get widgetHintWeek => 'خطة أسبوعك يومًا بيوم';
+
+  @override
+  String get supportHintBug => 'أخبرني بما تعطّل على GitHub';
+
+  @override
+  String get supportHintFeature => 'اقترح فكرة للتطبيق';
+
+  @override
+  String get supportHintStar => 'يساعد المزيد من الناس على إيجاده';
+
+  @override
+  String get supportHintCoffee => 'يدعم التطوير. مجاني وبلا إعلانات';
+
+  @override
+  String get bodyweightNoteHint => 'أضف ملاحظة: كيف تشعر، وما الذي تجرّبه… (اختياري)';
+
+  @override
+  String exerciseUnitSwitch(String unit) {
+    return 'استخدم $unit لهذا التمرين';
+  }
 
   @override
   String get setCol => '#';
@@ -532,6 +648,63 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get clearFilters => 'مسح عوامل التصفية';
+
+  @override
+  String get quickAddAmount => 'How much you had';
+
+  @override
+  String get homeCardsTitle => 'بطاقات الرئيسية';
+
+  @override
+  String get homeCardsHint => 'ما تفعّله يظهر في الرئيسية';
+
+  @override
+  String get homeCardFocus => 'اليوم';
+
+  @override
+  String get homeCardSteps => 'الخطوات';
+
+  @override
+  String get homeCardWeek => 'هذا الأسبوع';
+
+  @override
+  String get homeCardRoutines => 'الروتينات';
+
+  @override
+  String get homeCardRecommended => 'مقترحة';
+
+  @override
+  String get textSizeSetting => 'حجم النص';
+
+  @override
+  String get textSizeSmall => 'صغير';
+
+  @override
+  String get textSizeNormal => 'عادي';
+
+  @override
+  String get textSizeLarge => 'كبير';
+
+  @override
+  String get textSizeHint => 'فوق حجم نص هاتفك';
+
+  @override
+  String get calmMotionSetting => 'تقليل الحركة';
+
+  @override
+  String get calmMotionHint => 'تظهر الشاشات دون انزلاق';
+
+  @override
+  String get dishArchive => 'Archive';
+
+  @override
+  String get dishUnarchive => 'Restore';
+
+  @override
+  String get dishArchivedToast => 'Dish archived';
+
+  @override
+  String get filterShowLabel => 'إظهار';
 
   @override
   String get noExercisesFound => 'لم يتم العثور على تمارين';
@@ -1293,6 +1466,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get autofills => 'يملأ الحاسبات تلقائيًا';
 
   @override
+  String get onbUnitsWhy => 'للأوزان والقياسات والمسافات. يمكنك تغييره متى شئت من الإعدادات.';
+
+  @override
   String get nameLabel => 'الاسم';
 
   @override
@@ -1819,7 +1995,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get liveAllDone => 'اكتملت كل المجموعات';
 
   @override
-  String get autoAdvanceHint => 'عند تحديد آخر مجموعة للتمرين، ينتقل التمرين تلقائيًا إلى التمرين التالي.';
+  String get autoAdvanceHint => 'ينتقل للتالي بعد آخر مجموعة';
 
   @override
   String get placePlates => 'الأقراص والبار';
@@ -1860,7 +2036,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get toastSoundSetting => 'صوت التنبيهات';
 
   @override
-  String get toastSoundHint => 'نغمة خفيفة عند ظهور تنبيه في الأعلى.';
+  String get toastSoundHint => 'نغمة خفيفة مع كل تنبيه';
 
   @override
   String get notifTrainChannel => 'تذكير بالتمرين';
@@ -1993,6 +2169,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get tplPpl => 'دفع وسحب وأرجل. ثلاثة أو ستة أيام أسبوعيًا.';
 
   @override
+  String get tplArnold => 'صدر وظهر، أكتاف وذراعان، أرجل. التقسيم الكلاسيكي على ستة أيام.';
+
+  @override
   String get tplUpperlower => 'الجزء العلوي والسفلي، أربعة أيام أسبوعيًا.';
 
   @override
@@ -2021,6 +2200,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get supersetLink => 'ربط بالتالي';
+
+  @override
+  String get supersetUnlink => 'فصل عن التالي';
 
   @override
   String get supersetHint => 'لا راحة بين التمارين المرتبطة — تنتقل مباشرة إلى التالي.';
@@ -2967,19 +3149,19 @@ class AppLocalizationsAr extends AppLocalizations {
   String get homeRoutines => 'الروتينات في الرئيسية';
 
   @override
-  String get homeRoutinesHint => 'روتيناتك، آخر ما أنجزته أولًا. اضغط على أحدها لتبدأه.';
+  String get homeRoutinesHint => 'الأحدث أولًا';
 
   @override
   String get homeWeekStats => 'هذا الأسبوع في الرئيسية';
 
   @override
-  String get homeWeekStatsHint => 'الحجم والمجموعات والأرقام القياسية لهذا الأسبوع.';
+  String get homeWeekStatsHint => 'الحجم والمجموعات والأرقام القياسية لهذا الأسبوع';
 
   @override
   String get stepsSetting => 'الخطوات من Health Connect';
 
   @override
-  String get stepsSettingHint => 'يعرض خطوات اليوم في الرئيسية. لا شيء يغادر هاتفك.';
+  String get stepsSettingHint => 'خطوات اليوم في الرئيسية';
 
   @override
   String get stepsToday => 'خطوات اليوم';
@@ -3344,16 +3526,16 @@ class AppLocalizationsAr extends AppLocalizations {
   String get swapDoneBefore => 'قمت به من قبل';
 
   @override
-  String get multiPlanSettingHint => 'أكثر من روتين في نفس يوم الأسبوع.';
+  String get multiPlanSettingHint => 'أكثر من روتين في نفس يوم الأسبوع';
 
   @override
-  String get levelHintsHint => 'عندما يصبح التمرين سهلًا، يقترح عليك النسخة الأصعب.';
+  String get levelHintsHint => 'يقترح النسخة الأصعب';
 
   @override
-  String get focusCardHint => 'روتين اليوم في أعلى الصفحة الرئيسية.';
+  String get focusCardHint => 'روتين اليوم في أعلى الصفحة الرئيسية';
 
   @override
-  String get gamificationHint => 'الميداليات ومستواك والاحتفال عند الانتهاء.';
+  String get gamificationHint => 'ميداليات ومستوى واحتفال';
 
   @override
   String get exerciseSettings => 'إعدادات هذا التمرين';
@@ -3498,40 +3680,40 @@ class AppLocalizationsAr extends AppLocalizations {
   String get rpeEffortLabel => 'الجهد (RPE)';
 
   @override
-  String get restRowHint => 'بين المجموعات، إن لم يكن للتمرين وقته الخاص.';
+  String get restRowHint => 'بين المجموعات، إن لم يكن للتمرين وقته الخاص';
 
   @override
-  String get effortRowHint => 'سجّل RPE أو RIR في كل مجموعة.';
+  String get effortRowHint => 'سجّل RPE أو RIR في كل مجموعة';
 
   @override
-  String get countdownHint => '3، 2، 1 قبل أول مجموعة.';
+  String get countdownHint => '3، 2، 1 قبل أول مجموعة';
 
   @override
-  String get keepScreenOnHint => 'تبقى الشاشة مضاءة أثناء التمرين.';
+  String get keepScreenOnHint => 'تبقى الشاشة مضاءة أثناء التمرين';
 
   @override
-  String get demoSizeRowHint => 'رسم التمرين أثناء الحصة.';
+  String get demoSizeRowHint => 'رسم التمرين أثناء الحصة';
 
   @override
-  String get demoLoopRowHint => 'هل تتكرر الحركة أم تتوقف.';
+  String get demoLoopRowHint => 'هل تتكرر الحركة أم تتوقف';
 
   @override
-  String get trainReminderRowHint => 'تذكير في أيام تمرينك.';
+  String get trainReminderRowHint => 'تذكير في أيام تمرينك';
 
   @override
-  String get alarmSoundRowHint => 'ما يرن عند انتهاء الراحة.';
+  String get alarmSoundRowHint => 'ما يرن عند انتهاء الراحة';
 
   @override
-  String get alarmStyleRowHint => 'هل يرن في الوضع الصامت.';
+  String get alarmStyleRowHint => 'هل يرن في الوضع الصامت';
 
   @override
-  String get recommendedRowHint => 'تمارين نقترحها في الرئيسية.';
+  String get recommendedRowHint => 'تمارين نقترحها في الرئيسية';
 
   @override
   String get weightStepSetting => 'خطوة الوزن';
 
   @override
-  String get weightStepHint => 'ما تضيفه زرّا − و+.';
+  String get weightStepHint => 'ما تضيفه زرّا − و+';
 
   @override
   String get prBestWorkout => 'أفضل تمرين';
@@ -3819,6 +4001,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get perServingShort => 'لكل حصة';
+
+  @override
+  String get foodCategory => 'CATEGORY';
 
   @override
   String portionUnit(int count) {
@@ -4396,8 +4581,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get nutritionBeta => 'التغذية';
 
   @override
-  String get nutritionBetaHint =>
-      'الوجبات والماء والبروتين والمكملات. ما زالت قيد التطوير: تبقى بياناتك حتى لو أوقفتها.';
+  String get nutritionBetaHint => 'وجبات وماء ومكملات';
 
   @override
   String get nutritionAboutTitle => 'حول التغذية';
@@ -5250,4 +5434,1126 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get prepPortions => 'حصص';
+
+  @override
+  String get rotationAddRest => 'أضف يوم راحة';
+
+  @override
+  String get rotationRestHint => 'ينتقل تلقائيًا في اليوم التالي';
+
+  @override
+  String get rotationRestToday => 'اليوم';
+
+  @override
+  String get rotationSkipRest => 'تخطَّ يوم الراحة هذا';
+
+  @override
+  String rotationRestUpNext(String name) {
+    return 'التالي: $name';
+  }
+
+  @override
+  String get trainAnyway => 'تمرّن على أي حال';
+
+  @override
+  String get healthTitle => 'الصحة';
+
+  @override
+  String get healthSetting => 'بيانات الصحة';
+
+  @override
+  String get healthSettingHint => 'بيانات Health Connect في التقدم';
+
+  @override
+  String get healthPickTitle => 'بيانات الصحة';
+
+  @override
+  String get healthPickHint =>
+      'اختر ما تريد جلبه من Health Connect. يطلب Android الإذن مرة واحدة لكل عنصر. تُقرأ فقط ولا تغادر هاتفك أبدًا.';
+
+  @override
+  String get healthGroupHeart => 'القلب';
+
+  @override
+  String get healthGroupVitals => 'المؤشرات الحيوية';
+
+  @override
+  String get healthGroupActivity => 'النشاط';
+
+  @override
+  String get healthRestingHr => 'نبض الراحة';
+
+  @override
+  String get healthHeartRate => 'متوسط النبض';
+
+  @override
+  String get healthHrv => 'تباين نبض القلب';
+
+  @override
+  String get healthSpo2 => 'أكسجين الدم';
+
+  @override
+  String get healthRespiration => 'معدل التنفس';
+
+  @override
+  String get healthBloodPressure => 'ضغط الدم';
+
+  @override
+  String get healthTemperature => 'حرارة الجسم';
+
+  @override
+  String get healthSleep => 'النوم';
+
+  @override
+  String get healthDistance => 'المسافة';
+
+  @override
+  String get healthFloors => 'الطوابق المصعودة';
+
+  @override
+  String get healthElevation => 'الارتفاع المكتسب';
+
+  @override
+  String get healthActiveKcal => 'السعرات النشطة';
+
+  @override
+  String get healthNoData => 'لا توجد بيانات بعد';
+
+  @override
+  String get healthReadFailed => 'تعذّرت القراءة';
+
+  @override
+  String get healthAllow => 'اضغط للسماح';
+
+  @override
+  String get healthLast7 => 'آخر 7 أيام';
+
+  @override
+  String get healthAvg30 => 'متوسط 30 يومًا';
+
+  @override
+  String get healthLow => 'الأدنى';
+
+  @override
+  String get healthHigh => 'الأعلى';
+
+  @override
+  String get healthFrom => 'من Health Connect · آخر 30 يومًا';
+
+  @override
+  String get healthBpm => 'نبضة/د';
+
+  @override
+  String get healthBreaths => 'نفَس/د';
+
+  @override
+  String get weekTab => 'الأسبوع';
+
+  @override
+  String get muscleSetsList => 'المجموعات لكل عضلة';
+
+  @override
+  String get fatTrans => 'متحولة';
+
+  @override
+  String get fatTypesHint => 'اختياري. اترك فارغًا ما لا يذكره الملصق.';
+
+  @override
+  String get sessionPhotos => 'صور التمرين';
+
+  @override
+  String get sessionPhotosAdd => 'إضافة صور';
+
+  @override
+  String get sessionPhotosHint => 'تُحفظ أيضًا في صورك.';
+
+  @override
+  String get ladderTitle => 'التدرج';
+
+  @override
+  String get ladderHint =>
+      'رتّب الخطوات من الأسهل إلى الأصعب. عندما تؤدي 3 مجموعات من 8 في حصتين متتاليتين (5 في البطيئة)، يقترح GymMane الخطوة التالية.';
+
+  @override
+  String get ladderBuiltIn =>
+      'يبدأ من تدرج التطبيق. أضف خطوات أو احذفها أو أعد ترتيبها ليصبح خاصًا بهذا الروتين.';
+
+  @override
+  String get ladderNone => 'لا يوجد بعد. اضغط لإنشاء واحد.';
+
+  @override
+  String ladderStep(int n, int total) {
+    return 'الخطوة $n من $total';
+  }
+
+  @override
+  String get ladderAdd => 'إضافة خطوة';
+
+  @override
+  String get ladderInRoutine => 'في الروتين';
+
+  @override
+  String get ladderClear => 'استخدام تدرج التطبيق';
+
+  @override
+  String get ladderPick => 'اختر خطوة';
+
+  @override
+  String get periodWeek => 'هذا الأسبوع';
+
+  @override
+  String get periodMonth => 'هذا الشهر';
+
+  @override
+  String get periodYear => 'هذا العام';
+
+  @override
+  String get periodAll => 'منذ البداية';
+
+  @override
+  String get settingsSearch => 'ابحث في الإعدادات';
+
+  @override
+  String get settingsNoResults => 'لا يوجد إعداد بهذا الاسم';
+
+  @override
+  String get settingsGroupApp => 'تطبيقك';
+
+  @override
+  String get settingsGroupHome => 'الرئيسية والإضافات';
+
+  @override
+  String get settingsGroupData => 'البيانات والمساعدة';
+
+  @override
+  String get healthAllowAll => 'تشغيل الكل';
+
+  @override
+  String get healthSeeAll => 'عرض الكل';
+
+  @override
+  String get healthPinTitle => 'على البطاقة';
+
+  @override
+  String get healthPinHint => 'اختر حتى 3 لبطاقة التقدّم.';
+
+  @override
+  String get blurSetting => 'تأثيرات الضبابية';
+
+  @override
+  String get blurSettingHint => 'أطفئه إن كان الهاتف بطيئًا';
+
+  @override
+  String get lowEndTitle => 'ذاكرة هاتفك محدودة';
+
+  @override
+  String get lowEndBody => 'إيقاف الضبابية يجعل كل شيء أكثر سلاسة. يمكنك إعادتها من الإعدادات ← عام.';
+
+  @override
+  String get lowEndOff => 'إيقاف الضبابية';
+
+  @override
+  String get lowEndKeep => 'إبقاؤها';
+
+  @override
+  String get momentsThisMonth => 'هذا الشهر';
+
+  @override
+  String get momentsDays => 'أيام فيها صورة';
+
+  @override
+  String get awardsPick => 'اختر لملفك الشخصي';
+
+  @override
+  String get awardsPickHint => 'اضغط على ما تريده في ملفك الشخصي';
+
+  @override
+  String get gymPassPicture => 'احفظ صورة للرمز';
+
+  @override
+  String get gymPassPictureHint => 'للرموز التي لا يقرؤها التطبيق: يعرض صورتك بأقصى سطوع';
+
+  @override
+  String get gymPassPictureFormat => 'صورة';
+
+  @override
+  String get gymPassUsePicture => 'احفظ الصورة';
+
+  @override
+  String get gymPassChangePicture => 'غيّر الصورة';
+
+  @override
+  String get cropTitle => 'قصّ الرمز';
+
+  @override
+  String get cropHint => 'اسحب الزوايا ليبقى الرمز وحده';
+
+  @override
+  String get rotatePhoto => 'تدوير';
+
+  @override
+  String get cardioNoSets => 'الكارديو لا يُحتسب في مجموعاتك الأسبوعية لكل عضلة';
+
+  @override
+  String get countsAsWater => 'Counts toward water';
+
+  @override
+  String get countsAsWaterHint => 'For shakes made with water: logging it adds to your water too';
+
+  @override
+  String get waterPerServing => 'Water per serving';
+
+  @override
+  String get estOneRm => '1RM تقديري';
+
+  @override
+  String get newInWorkout => 'جديد في هذا التمرين';
+
+  @override
+  String newInWorkoutHint(String routine) {
+    return 'أضفه إلى $routine بالمجموعات التي أنهيتها للتو. يبقى باقي الروتين كما هو.';
+  }
+
+  @override
+  String get addedToRoutine => 'أُضيف';
+
+  @override
+  String get addShort => 'إضافة';
+
+  @override
+  String get allTimeLifted => 'المرفوع';
+
+  @override
+  String get pctBodyweight => '% من وزن الجسم';
+
+  @override
+  String get ofBodyweight => 'من وزنك';
+
+  @override
+  String get recoveryStateMid => 'يتعافى';
+
+  @override
+  String get recoveryStateReady => 'جاهز';
+
+  @override
+  String recoveringIn(String time) {
+    return 'يتعافى خلال $time';
+  }
+
+  @override
+  String readyIn(String time) {
+    return 'جاهز خلال $time';
+  }
+
+  @override
+  String get recoveryReadyNow => 'جاهز لتمرينه من جديد';
+
+  @override
+  String get restAfterThisSet => 'الراحة بعد هذه المجموعة';
+
+  @override
+  String restUsual(String time) {
+    return 'المعتاد: $time';
+  }
+
+  @override
+  String get restJustToday => 'لهذه المجموعة فقط، اليوم';
+
+  @override
+  String get restUseUsual => 'العودة إلى الراحة المعتادة';
+
+  @override
+  String get restChange => 'تغيير';
+
+  @override
+  String get noRestTimer => 'بلا مؤقّت';
+
+  @override
+  String get sessionMuscles => 'عضلات هذا التمرين';
+
+  @override
+  String get sessionMusclesHint =>
+      'الباهت لم يُنجز بعد، والواضح أُنجز. مجموعات لكل عضلة، والثانوية تُحسب بالنصف.';
+
+  @override
+  String get miniBodySetting => 'خريطة عضلات صغيرة في الروتينات';
+
+  @override
+  String get miniBodySettingHint => 'عضلات كل روتين';
+
+  @override
+  String get balanceTitle => 'توازن القوة';
+
+  @override
+  String get balanceWhy => 'كيف يعمل';
+
+  @override
+  String get balanceGood => 'تمارينك الأساسية متوازنة';
+
+  @override
+  String balanceBehind(String lift, String gap) {
+    return '$lift متأخر: ينقصه نحو $gap';
+  }
+
+  @override
+  String get balanceHint =>
+      'يقارن أقصى تكرار تقديري لآخر 4 أشهر بنسب كلاسيكية: القرفصاء 100٪، الرفعة المميتة 120٪، ضغط البنش 75٪، التجديف 52٪، الضغط العلوي 45٪. التمرين الأضعف بكثير من البقية غالبًا نقطة ضعف.';
+
+  @override
+  String get balanceEven => 'متوازن';
+
+  @override
+  String get balanceBehindShort => 'متأخر';
+
+  @override
+  String get balanceAheadShort => 'متقدّم';
+
+  @override
+  String get holdProgress => 'تقدّم بالوقت';
+
+  @override
+  String get holdProgressHint => 'يضيف ثوانٍ عندما تصمد في كل المجموعات';
+
+  @override
+  String holdProgressOn(int s) {
+    return '+$s ث كلما صمدت في كل المجموعات';
+  }
+
+  @override
+  String get paceTitle => 'المعدل الأسبوعي';
+
+  @override
+  String get paceOn => 'على المسار';
+
+  @override
+  String get paceTooFast => 'أسرع من النطاق الذي حددته';
+
+  @override
+  String get paceTooSlow => 'أبطأ من النطاق الذي حددته';
+
+  @override
+  String get paceWrongWay => 'في الاتجاه المعاكس';
+
+  @override
+  String get paceDrifting => 'يتحرك أكثر مما يسمح به الثبات';
+
+  @override
+  String get paceSetAim => 'اضغط لتحديد هدفك';
+
+  @override
+  String get paceBasis => 'اتجاه أوزانك في آخر 3 أسابيع، كي لا يخدعك عشاء مالح.';
+
+  @override
+  String get paceAimTitle => 'ما هدفك؟';
+
+  @override
+  String get paceAimHint => 'تخبرك البطاقة إن كان معدلك مناسبًا';
+
+  @override
+  String get paceLose => 'خسارة';
+
+  @override
+  String get paceHold => 'ثبات';
+
+  @override
+  String get paceGain => 'زيادة';
+
+  @override
+  String get paceAuto => 'تلقائي';
+
+  @override
+  String get paceLoseRange => 'من 0.5 إلى 1٪ من وزنك أسبوعيًا';
+
+  @override
+  String get paceHoldRange => 'ضمن 0.25٪ أسبوعيًا';
+
+  @override
+  String get paceGainRange => 'من 0.25 إلى 0.5٪ من وزنك أسبوعيًا';
+
+  @override
+  String get paceAutoHint => 'حسب وزنك المستهدف';
+
+  @override
+  String get weekShort => 'أسبوع';
+
+  @override
+  String get weightStack => 'كتلة الأوزان';
+
+  @override
+  String get weightStackHint => 'الأوزان الحقيقية لهذه الآلة. أزرار + و− والتقدّم والتخفيف تقع عليها فقط.';
+
+  @override
+  String get weightStackOff => 'متوقفة: خطوات وزن عادية';
+
+  @override
+  String get stackFrom => 'من';
+
+  @override
+  String get stackTo => 'إلى';
+
+  @override
+  String get stackEvery => 'كل';
+
+  @override
+  String get stackFill => 'املأ الكتلة';
+
+  @override
+  String get stackTapToFix => 'اضغط على وزن لتصحيح وزن غريب أو إزالته.';
+
+  @override
+  String get stackAddWeight => 'أضف وزنًا';
+
+  @override
+  String get stackEditWeight => 'الوزن عند المسمار';
+
+  @override
+  String get stackClear => 'إزالة الكتلة';
+
+  @override
+  String stackCount(int n) {
+    return '$n أوزان';
+  }
+
+  @override
+  String get healthLinksTitle => 'مع تمارينك';
+
+  @override
+  String get healthLinkHeart => 'النبض من ساعتك';
+
+  @override
+  String get healthLinkHeartHint => 'متوسط النبض وأقصاه في كل تمرين، من أي ساعة سجّلته';
+
+  @override
+  String get healthLinkWeight => 'أوزان من تطبيقات أخرى';
+
+  @override
+  String get healthLinkWeightHint => 'أوزان ميزانك في آخر 30 يومًا. لا تستبدل أبدًا وزنًا كتبته بنفسك.';
+
+  @override
+  String get healthLinkDenied => 'لم يمنح Health Connect الإذن';
+
+  @override
+  String get healthOpenSettings => 'فتح';
+
+  @override
+  String hrMaxShort(int bpm) {
+    return 'الأقصى $bpm';
+  }
+
+  @override
+  String get setNote => 'ملاحظة لهذه المجموعة';
+
+  @override
+  String get setNoteHint => 'القبضة، ألم، نصيحة نفعت…';
+
+  @override
+  String setNoteLast(String note) {
+    return 'المرة الماضية: $note';
+  }
+
+  @override
+  String get lastTimeNotes => 'المرة الماضية';
+
+  @override
+  String setNoteLine(int n, String note) {
+    return 'المجموعة $n · $note';
+  }
+
+  @override
+  String get newMeasure => 'قياس جديد';
+
+  @override
+  String get newMeasureHint => 'ما تريد متابعته: المعصم، نبض الراحة، ماء الجسم…';
+
+  @override
+  String get measureKindLength => 'طول';
+
+  @override
+  String get measureKindLengthHint => 'بالسنتيمتر أو البوصة، مثل البقية';
+
+  @override
+  String get measureKindOther => 'أخرى';
+
+  @override
+  String get measureKindOtherHint => 'بوحدتك الخاصة';
+
+  @override
+  String get measureUnit => 'الوحدة';
+
+  @override
+  String get measureUnitHint => 'مم، نبضة/د، كغ…';
+
+  @override
+  String get measureNameHint => 'المعصم، نبض الراحة…';
+
+  @override
+  String get measureRename => 'إعادة التسمية';
+
+  @override
+  String measureDeleteTitle(String name) {
+    return 'حذف $name؟';
+  }
+
+  @override
+  String get measureDeleteBody => 'ستُحذف معه كل القيم التي سجلتها.';
+
+  @override
+  String get measureDelete => 'حذف هذا القياس';
+
+  @override
+  String get measureEvery => 'ذكّرني بالقياس';
+
+  @override
+  String measureNextIn(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: 'بعد $n يوم',
+      one: 'غدًا',
+      zero: 'اليوم',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get measureDueNow => 'حان وقت القياس';
+
+  @override
+  String get notifMeasureChannel => 'قياسات الجسم';
+
+  @override
+  String get notifMeasureChannelWhy => 'تنبيه عندما يحين وقت القياس من جديد.';
+
+  @override
+  String get notifMeasureTitle => 'حان وقت القياس';
+
+  @override
+  String notifMeasureBody(int n) {
+    return '$n يوم منذ آخر مرة. نفس المكان، نفس الوقت من اليوم.';
+  }
+
+  @override
+  String get healthLinkWrite => 'حفظ تمارينك';
+
+  @override
+  String get healthLinkWriteHint =>
+      'كل تمرين تنهيه يذهب إلى Health Connect بوقته ونوعه، لتحسبه التطبيقات الأخرى أيضًا. يرسل أيضًا آخر 30 يومًا.';
+
+  @override
+  String get healthWorkoutTitle => 'تمرين';
+
+  @override
+  String get circuits => 'دوائر بالوقت';
+
+  @override
+  String get circuitsHint => 'عمل وراحة بالساعة، جولة بعد جولة';
+
+  @override
+  String get newCircuit => 'دائرة جديدة';
+
+  @override
+  String get editCircuit => 'تعديل الدائرة';
+
+  @override
+  String get circuitDefaultName => 'دائرة';
+
+  @override
+  String get circuitNameHint => 'الاسم، مثل ختام البطن';
+
+  @override
+  String get circuitRounds => 'الجولات';
+
+  @override
+  String get circuitRoundRest => 'راحة بين الجولات';
+
+  @override
+  String get circuitWork => 'عمل';
+
+  @override
+  String get circuitRest => 'راحة';
+
+  @override
+  String get circuitAdd => 'إضافة تمرين';
+
+  @override
+  String get circuitEmpty =>
+      'أضف التمارين بالترتيب الذي ستؤديها به. يمكن أن يتكرر تمرين، مثل البلانك الجانبي لكل جهة.';
+
+  @override
+  String circuitSummary(int steps, int rounds, String time) {
+    String _temp0 = intl.Intl.pluralLogic(
+      steps,
+      locale: localeName,
+      other: '$steps تمارين',
+      one: 'تمرين واحد',
+    );
+    String _temp1 = intl.Intl.pluralLogic(
+      rounds,
+      locale: localeName,
+      other: '$rounds جولات',
+      one: 'جولة واحدة',
+    );
+    return '$_temp0 · $_temp1 · $time';
+  }
+
+  @override
+  String get circuitStart => 'ابدأ';
+
+  @override
+  String get circuitGetReady => 'استعد';
+
+  @override
+  String circuitRoundOf(int n, int total) {
+    return 'الجولة $n من $total';
+  }
+
+  @override
+  String circuitNext(String name) {
+    return 'التالي: $name';
+  }
+
+  @override
+  String get circuitFinishLine => 'الأخير ثم انتهيت';
+
+  @override
+  String get circuitDone => 'انتهت الدائرة';
+
+  @override
+  String circuitDoneBody(String time) {
+    return '$time · حُفظ في سجلك';
+  }
+
+  @override
+  String get circuitStopTitle => 'إيقاف الدائرة؟';
+
+  @override
+  String get circuitStopBody => 'ما أنجزته حتى الآن يُحفظ في سجلك.';
+
+  @override
+  String get circuitStop => 'إيقاف';
+
+  @override
+  String get circuitKeepGoing => 'تابع';
+
+  @override
+  String circuitDeleteTitle(String name) {
+    return 'حذف $name؟';
+  }
+
+  @override
+  String get circuitDeleteBody => 'التمارين التي أديتها بها تبقى في سجلك.';
+
+  @override
+  String get circuitPickExercise => 'اختر تمرينًا';
+
+  @override
+  String get circuitNoSteps => 'أضف تمرينًا واحدًا على الأقل';
+
+  @override
+  String get circuitPrevious => 'السابق';
+
+  @override
+  String get circuitUpNext => 'الآن';
+
+  @override
+  String get foodGroupNew => 'New category';
+
+  @override
+  String get foodGroupHint => 'Ready meals, frozen…';
+
+  @override
+  String foodGroupCount(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n foods',
+      one: '1 food',
+      zero: 'No foods yet',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String foodGroupDeleteTitle(String name) {
+    return 'Delete $name?';
+  }
+
+  @override
+  String get foodGroupDeleteBody => 'Your foods stay, just without this category.';
+
+  @override
+  String onbHello(String name) {
+    return 'أهلًا، $name';
+  }
+
+  @override
+  String get onbPlaceHero => 'تمرينًا يمكنك أداؤه';
+
+  @override
+  String get settingsRests => 'الراحة';
+
+  @override
+  String get settingsDuring => 'أثناء التمرين';
+
+  @override
+  String get settingsLook => 'المظهر';
+
+  @override
+  String get importCardTitle => 'انقل تمارينك إلى هنا';
+
+  @override
+  String get importCardBody => 'من Hevy وStrong وFitNotes وغيرها';
+
+  @override
+  String get checkInTitle => 'كيف كنت؟';
+
+  @override
+  String get checkInSleep => 'النوم';
+
+  @override
+  String get checkInEnergy => 'الطاقة';
+
+  @override
+  String get checkInSkip => 'اختياري';
+
+  @override
+  String get checkInLevel1 => 'سيئ جدًا';
+
+  @override
+  String get checkInLevel2 => 'ضعيف';
+
+  @override
+  String get checkInLevel3 => 'مقبول';
+
+  @override
+  String get checkInLevel4 => 'جيد';
+
+  @override
+  String get checkInLevel5 => 'ممتاز';
+
+  @override
+  String get checkInSetting => 'النوم والطاقة';
+
+  @override
+  String get checkInSettingHint => 'اسأل عند نهاية كل تمرين';
+
+  @override
+  String get readinessTitle => 'النوم والطاقة';
+
+  @override
+  String get readinessWaiting => 'واصل تقييم تمارينك';
+
+  @override
+  String get readinessWaitingHint => 'بعد بضعة أيام جيدة وسيئة سترى كيف تغيّر أوزانك.';
+
+  @override
+  String readinessSleepLess(int n) {
+    return 'في أيام قلة النوم ترفع أقل بنسبة $n%';
+  }
+
+  @override
+  String readinessSleepMore(int n) {
+    return 'طريف: في أيام قلة النوم ترفع أكثر بنسبة $n%';
+  }
+
+  @override
+  String get readinessSleepNone => 'النوم بالكاد يغيّر أوزانك';
+
+  @override
+  String readinessEnergyLess(int n) {
+    return 'في أيام قلة الطاقة ترفع أقل بنسبة $n%';
+  }
+
+  @override
+  String readinessEnergyMore(int n) {
+    return 'في أيام قلة الطاقة ما زلت ترفع أكثر بنسبة $n%';
+  }
+
+  @override
+  String get readinessEnergyNone => 'طاقتك بالكاد تغيّر أوزانك';
+
+  @override
+  String get readinessHint => 'يقارن كل 1RM تقديري بأفضل ما لديك في الـ 90 يومًا السابقة.';
+
+  @override
+  String get readinessLast30 => 'متوسط آخر 30 يومًا';
+
+  @override
+  String get kindSport => 'رياضة';
+
+  @override
+  String get clearWorkouts => 'حذف التمارين فقط';
+
+  @override
+  String get clearWorkoutsNone => 'لا توجد تمارين للحذف';
+
+  @override
+  String clearWorkoutsTitle(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: 'حذف $n تمارين؟',
+      one: 'حذف تمرين واحد؟',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get clearWorkoutsBody =>
+      'سيذهب سجلك وأرقامك القياسية وميدالياتك. تبقى الروتينات والتمارين والصور والقياسات والتغذية والإعدادات. صدّر نسخة احتياطية أولًا إن أردت استعادتها.';
+
+  @override
+  String get clearWorkoutsConfirm => 'حذف التمارين';
+
+  @override
+  String get clearWorkoutsDone => 'تم حذف التمارين';
+
+  @override
+  String get reportTitle => 'تقرير';
+
+  @override
+  String get reportHint => 'اختر التواريخ وشاركه بصيغة PDF أو CSV';
+
+  @override
+  String get reportCustom => 'أخرى';
+
+  @override
+  String get reportPickRange => 'اختر التواريخ';
+
+  @override
+  String get reportEmpty => 'لا شيء مسجّل بين هذين التاريخين.';
+
+  @override
+  String get reportKicker => 'تقرير التدريب';
+
+  @override
+  String reportDays(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n يومًا',
+      few: '$n أيام',
+      two: 'يومان',
+      one: 'يوم واحد',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get reportWorkouts => 'التمارين';
+
+  @override
+  String get reportPerWeek => 'في الأسبوع';
+
+  @override
+  String get reportHours => 'الساعات';
+
+  @override
+  String get reportVsPrev => 'تقارن النسب مع العدد نفسه من الأيام التي سبقته مباشرة.';
+
+  @override
+  String get reportRecords => 'أرقام قياسية جديدة';
+
+  @override
+  String get reportLifts => 'التمارين';
+
+  @override
+  String get reportSessionsCol => 'الأيام';
+
+  @override
+  String get reportBestCol => 'أفضل 1RM';
+
+  @override
+  String get reportChangeCol => 'التغيّر';
+
+  @override
+  String get reportBestHint =>
+      'يُقدَّر أفضل 1RM من مجموعاتك. يقارن التغيّر أول وآخر يوم للتمرين في هذا التقرير.';
+
+  @override
+  String get reportMuscles => 'مجموعات لكل عضلة';
+
+  @override
+  String get reportBody => 'الجسم والتعافي';
+
+  @override
+  String reportFood(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: 'التغذية · متوسط $n أيام',
+      one: 'التغذية · متوسط يوم واحد',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String reportRecordsLine(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n أرقام قياسية جديدة',
+      one: 'رقم قياسي جديد',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String reportLiftsLine(int n) {
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n تمارين', one: 'تمرين واحد');
+    return '$_temp0';
+  }
+
+  @override
+  String reportFoodLine(String kcal, int protein, int days) {
+    return '$kcal و$protein غ بروتين يوميًا · $days أيام مسجّلة';
+  }
+
+  @override
+  String get reportSharePdf => 'مشاركة PDF';
+
+  @override
+  String get reportShareCsv => 'تصدير CSV';
+
+  @override
+  String get reportShareCsvBoth => 'تصدير CSV (التمارين والتغذية)';
+
+  @override
+  String fastMinutes(int n) {
+    return '$n min';
+  }
+
+  @override
+  String fastHours(int n) {
+    return '$n h';
+  }
+
+  @override
+  String fastHoursMinutes(int h, int m) {
+    return '$h h $m min';
+  }
+
+  @override
+  String get fastTracker => 'Intermittent fasting';
+
+  @override
+  String fastTitle(int fast, int eat) {
+    return 'Fasting $fast:$eat';
+  }
+
+  @override
+  String get fastOptions => 'Fasting options';
+
+  @override
+  String get fastWindowOpen => 'Eating window open';
+
+  @override
+  String get fastLeft => 'Left';
+
+  @override
+  String get fastDoneLabel => 'Goal reached';
+
+  @override
+  String get fastIdle => 'Start it after your last meal';
+
+  @override
+  String fastLast(String time) {
+    return 'Last fast: $time';
+  }
+
+  @override
+  String fastStreak(int n) {
+    return '$n in a row';
+  }
+
+  @override
+  String fastReached(String time) {
+    return '$time past your goal';
+  }
+
+  @override
+  String fastEndsAt(String time) {
+    return 'Ends at $time';
+  }
+
+  @override
+  String fastSince(String time) {
+    return 'Since $time';
+  }
+
+  @override
+  String get fastStartedAt => 'When did you start fasting?';
+
+  @override
+  String get fastStart => 'Start fast';
+
+  @override
+  String fastFromMeal(String time) {
+    return 'From $time';
+  }
+
+  @override
+  String get fastEnd => 'End fast';
+
+  @override
+  String get fastCancel => 'Cancel this fast';
+
+  @override
+  String get fastPlan => 'Fasting plan';
+
+  @override
+  String get fastPlanHint => 'Hours fasting : hours to eat';
+
+  @override
+  String get fastThisWeek => 'Last 7 days';
+
+  @override
+  String get fastCount => 'Fasts';
+
+  @override
+  String get fastReachedCount => 'Reached';
+
+  @override
+  String get fastAverage => 'Average';
+
+  @override
+  String get fastHistory => 'Recent fasts';
+
+  @override
+  String get notifFastLiveChannel => 'Fasting in progress';
+
+  @override
+  String get notifFastLiveChannelWhy => 'A quiet countdown while you fast.';
+
+  @override
+  String get notifFastChannel => 'Fasting';
+
+  @override
+  String get notifFastChannelWhy => 'Tells you when your fast is done.';
+
+  @override
+  String get notifFastLiveTitle => 'Fasting';
+
+  @override
+  String notifFastLiveBody(String time) {
+    return 'Your eating window opens at $time';
+  }
+
+  @override
+  String get notifFastDoneTitle => 'Fast done';
+
+  @override
+  String notifFastDoneBody(int n) {
+    return '$n hours. Your eating window is open.';
+  }
+
+  @override
+  String get newExerciseHint => 'الاسم وحده مطلوب. الباقي يساعد، لكن يمكنك إضافته لاحقًا.';
+
+  @override
+  String get supportThanksTitle => 'شكرًا لوجودك هنا 🤍';
+
+  @override
+  String get supportThanksBody =>
+      'GymMane مجاني وسيبقى مجانيًا دائمًا، بلا إعلانات ولا شيء مخفي.\n\nإن كان يساعدك في التمرين، فدعوتي إلى قهوة تُسعد يومي ☕\nوإن لم تستطع فلا بأس: نجمة على GitHub تكفي أيضًا ⭐';
 }

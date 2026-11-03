@@ -56,10 +56,7 @@ class _StravaSheetState extends State<_StravaSheet> {
     return Container(
       constraints: BoxConstraints(maxHeight: MediaQuery.sizeOf(context).height * 0.88),
       padding: sheetPad(context),
-      decoration: BoxDecoration(
-        color: gc.bgRaised,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-      ),
+      decoration: sheetDecoration(gc),
       child: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -74,7 +71,7 @@ class _StravaSheetState extends State<_StravaSheet> {
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                 decoration: BoxDecoration(color: gc.accentSoft, borderRadius: BorderRadius.circular(100)),
                 child: Text(t.stravaBeta,
-                    style: AppTheme.f(10.5, weight: FontWeight.w800, color: gc.accent, letterSpacing: 1.2)),
+                    style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.accent, letterSpacing: 1.4)),
               ),
             ]),
             const SizedBox(height: 8),

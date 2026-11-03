@@ -266,7 +266,7 @@ class ToolDetailScreen extends StatelessWidget {
     }
 
     return SoftCard(
-      radius: 20,
+      radius: 22,
       borderColor: Colors.transparent,
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
       child: Column(
@@ -288,7 +288,7 @@ class ToolDetailScreen extends StatelessWidget {
   Widget _macros(GymColors gc) {
     Widget card(String label, String value) => Expanded(
           child: SoftCard(
-            radius: 20,
+            radius: 22,
             borderColor: Colors.transparent,
             padding: const EdgeInsets.all(12),
             child: Column(children: [
@@ -329,7 +329,7 @@ class ToolDetailScreen extends StatelessWidget {
     }
 
     return SoftCard(
-      radius: 20,
+      radius: 22,
       borderColor: Colors.transparent,
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
       child: Column(
@@ -355,7 +355,7 @@ class ToolDetailScreen extends StatelessWidget {
     final target = fit.toDisplayWeight(fit.plateTarget);
     final loadable = fit.loadableTotal(target, fit.plateBarDisplay);
     return SoftCard(
-      radius: 20,
+      radius: 22,
       borderColor: Colors.transparent,
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
       child: Column(
@@ -393,7 +393,7 @@ class ToolDetailScreen extends StatelessWidget {
       behavior: HitTestBehavior.opaque,
       onTap: weight > bar ? () => showPlateSheet(context, weight) : null,
       child: SoftCard(
-        radius: 20,
+        radius: 22,
         borderColor: Colors.transparent,
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         child: Row(
@@ -423,7 +423,7 @@ class ToolDetailScreen extends StatelessWidget {
   Widget _warmupCard(GymColors gc) {
     final sets = fit.warmupSets;
     return SoftCard(
-      radius: 20,
+      radius: 22,
       borderColor: Colors.transparent,
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: Column(
@@ -460,10 +460,7 @@ void showPlateSheet(BuildContext context, double displayTarget, {double? startBa
         final loadable = fit.loadableTotal(displayTarget, bar);
         return Container(
           padding: sheetPad(sheet),
-          decoration: BoxDecoration(
-            color: gc.bgRaised,
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-          ),
+          decoration: sheetDecoration(gc),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,

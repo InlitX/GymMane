@@ -78,6 +78,13 @@ class MainActivity : FlutterActivity() {
                     }
                     result.success(null)
                 }
+                "bright" -> {
+                    val params = window.attributes
+                    params.screenBrightness =
+                        if (on) WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_FULL else WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_NONE
+                    window.attributes = params
+                    result.success(null)
+                }
                 "dim" -> {
                     val params = window.attributes
                     params.screenBrightness =
@@ -119,11 +126,16 @@ class MainActivity : FlutterActivity() {
         LiveNotifier.dart = live
 
         MethodChannel(messenger, "gymmane/device").setMethodCallHandler { call, result ->
-            if (call.method != "isWatch") {
-                result.notImplemented()
-                return@setMethodCallHandler
+            when (call.method) {
+                "isWatch" -> result.success(packageManager.hasSystemFeature(PackageManager.FEATURE_WATCH))
+                "isLowEnd" -> {
+                    val am = getSystemService(Context.ACTIVITY_SERVICE) as android.app.ActivityManager
+                    val info = android.app.ActivityManager.MemoryInfo()
+                    am.getMemoryInfo(info)
+                    result.success(am.isLowRamDevice || info.totalMem < 3_500_000_000L)
+                }
+                else -> result.notImplemented()
             }
-            result.success(packageManager.hasSystemFeature(PackageManager.FEATURE_WATCH))
         }
 
         HealthBridge.attach(this, MethodChannel(messenger, HealthBridge.CHANNEL))

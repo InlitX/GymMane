@@ -19,6 +19,15 @@ class ScreenAwake {
     }
   }
 
+  static Future<void> bright(bool on) async {
+    if (kIsWeb) return;
+    try {
+      await _channel.invokeMethod<void>('bright', {'on': on});
+    } catch (e) {
+      debugPrint('ScreenAwake no disponible: $e');
+    }
+  }
+
   static Future<void> keepOn(bool on) async {
     if (kIsWeb || _last == on) return;
     _last = on;

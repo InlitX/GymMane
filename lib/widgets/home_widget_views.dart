@@ -213,8 +213,8 @@ class StatsWidgetView extends StatelessWidget {
   Widget _chip(GymColors gc, String value, String label) {
     return Expanded(
       child: Container(
-        height: 44,
-        padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 9),
+        constraints: const BoxConstraints(minHeight: 44),
+        padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 9),
         decoration: BoxDecoration(
           color: gc.bgRaised2,
           borderRadius: BorderRadius.circular(12),

@@ -162,9 +162,13 @@ class _LiquidNotchState extends State<LiquidNotch> with SingleTickerProviderStat
             builder: (context, _) {
               final frame = _frame;
               final extra = widget.extraHeight * (frame.width / 307).clamp(0.0, 1.0);
+              final w = frame.width * scale;
+              final dx = w + 16 >= bounds.maxWidth
+                  ? bounds.maxWidth / 2
+                  : origin.dx.clamp(w / 2 + 8, bounds.maxWidth - w / 2 - 8).toDouble();
               final target = Rect.fromCenter(
-                center: Offset(origin.dx, origin.dy + (frame.y + extra / 2) * scale),
-                width: frame.width * scale,
+                center: Offset(dx, origin.dy + (frame.y + extra / 2) * scale),
+                width: w,
                 height: (frame.height + extra) * scale,
               );
               return Stack(
@@ -260,6 +264,7 @@ class _LiquidPainter extends CustomPainter {
       return;
     }
     final x = source.center.dx;
+    final tx = target.center.dx;
     final y = source.bottom - 1;
     final bottom = target.center.dy;
     final waistY = ui.lerpDouble(y, target.top, .6)!;
@@ -267,9 +272,9 @@ class _LiquidPainter extends CustomPainter {
     final bridge = Path()
       ..moveTo(x - shoulder, y)
       ..cubicTo(x - shoulder * .43, y, x - neck, waistY - 4, x - neck, waistY)
-      ..cubicTo(x - neck, waistY + 6, x - attach, bottom - 8, x - attach, bottom)
-      ..lineTo(x + attach, bottom)
-      ..cubicTo(x + attach, bottom - 8, x + neck, waistY + 6, x + neck, waistY)
+      ..cubicTo(x - neck, waistY + 6, tx - attach, bottom - 8, tx - attach, bottom)
+      ..lineTo(tx + attach, bottom)
+      ..cubicTo(tx + attach, bottom - 8, x + neck, waistY + 6, x + neck, waistY)
       ..cubicTo(x + neck, waistY - 4, x + shoulder * .43, y, x + shoulder, y)
       ..close();
     final silhouette =

@@ -254,7 +254,12 @@ class _NoteEditScreenState extends State<NoteEditScreen> {
               children: [
                 Icon(icon, size: 19, color: gc.textSecondary),
                 const SizedBox(width: 14),
-                Text(sentenceCase(label), style: AppTheme.f(14.5, weight: FontWeight.w500, color: gc.text)),
+                Flexible(
+                  child: Text(sentenceCase(label),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: AppTheme.f(14.5, weight: FontWeight.w500, color: gc.text)),
+                ),
                 const SizedBox(width: 12),
                 Expanded(
                   child: Text(value,
@@ -360,10 +365,7 @@ class _ExercisePickerSheetState extends State<_ExercisePickerSheet> {
       child: Container(
         height: MediaQuery.of(context).size.height * 0.72,
         padding: sheetPad(context, bottom: 16),
-        decoration: BoxDecoration(
-          color: gc.bgRaised,
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-        ),
+        decoration: sheetDecoration(gc),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [

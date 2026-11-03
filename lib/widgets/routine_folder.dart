@@ -1,4 +1,7 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
+import 'body_map.dart';
 import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 import '../l10n/l10n.dart';
@@ -19,6 +22,9 @@ const kFolderHues = [
 
 Color folderHue(Routine r) =>
     kFolderHues[(r.color >= 0 ? r.color : r.id.codeUnits.fold<int>(0, (a, c) => a + c)) % kFolderHues.length];
+
+double routineFolderHeight(BuildContext context) =>
+    math.max(196, 16 + 50 + 46 + 22 + MediaQuery.textScalerOf(context).scale(16) * 1.15 * 2 + 36);
 
 class RoutineFolder extends StatelessWidget {
   const RoutineFolder({super.key, required this.routine, required this.onMenu, this.lastDone = false});
@@ -49,7 +55,7 @@ class RoutineFolder extends StatelessWidget {
       onTap: () => fit.openRoutine(r.id),
       scale: 0.975,
       child: SizedBox(
-        height: 196,
+        height: routineFolderHeight(context),
         child: Stack(
           children: [
             Positioned(
@@ -165,16 +171,24 @@ class RoutineFolder extends StatelessWidget {
                       ],
                     ),
                     const Spacer(),
-                    Text(
-                      [
-                        if (r.group.isNotEmpty && ago == null) r.group,
-                        t.exerciseCount(n),
-                        if (ago != null) t.lastDoneAgo(ago),
-                      ].join(' · '),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: AppTheme.f(11.5, weight: FontWeight.w600, color: gc.textSecondary),
-                    ),
+                    Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
+                      Expanded(
+                        child: Text(
+                          [
+                            if (r.group.isNotEmpty && ago == null) r.group,
+                            t.exerciseCount(n),
+                            if (ago != null) t.lastDoneAgo(ago),
+                          ].join(' · '),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: AppTheme.f(11.5, weight: FontWeight.w600, color: gc.textSecondary),
+                        ),
+                      ),
+                      if (n > 0 && fit.showMiniBody) ...[
+                        const SizedBox(width: 6),
+                        MiniBody(sets: fit.routineMuscleSets(r), height: 32),
+                      ],
+                    ]),
                   ],
                 ),
               ),

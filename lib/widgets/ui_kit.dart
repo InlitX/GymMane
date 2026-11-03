@@ -9,12 +9,107 @@ import '../theme/app_theme.dart';
 import 'rolling_text.dart';
 import 'svg_icon.dart';
 
+const kSheetRadius = 28.0;
+
+BoxDecoration sheetDecoration(GymColors gc) => BoxDecoration(
+      color: gc.bgRaised,
+      border: Border.all(color: gc.border.withValues(alpha: 0.6)),
+      borderRadius: const BorderRadius.vertical(top: Radius.circular(kSheetRadius)),
+    );
+
+ShapeBorder sheetShape(GymColors gc) => RoundedRectangleBorder(
+      side: BorderSide(color: gc.border.withValues(alpha: 0.6)),
+      borderRadius: const BorderRadius.vertical(top: Radius.circular(kSheetRadius)),
+    );
+
+class AppSheet extends StatelessWidget {
+  const AppSheet({super.key, required this.children, this.maxHeight = 0.88, this.bottom = 28, this.scroll = true});
+
+  final List<Widget> children;
+  final double maxHeight;
+  final double bottom;
+  final bool scroll;
+
+  @override
+  Widget build(BuildContext context) {
+    final media = MediaQuery.of(context);
+    final column = Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [const SheetHandle(), const SizedBox(height: 16), ...children],
+    );
+    return Padding(
+      padding: EdgeInsets.only(bottom: media.viewInsets.bottom),
+      child: Container(
+        constraints: BoxConstraints(maxHeight: media.size.height * maxHeight),
+        padding: sheetPad(context, bottom: bottom),
+        decoration: sheetDecoration(context.gc),
+        child: scroll ? SingleChildScrollView(child: column) : column,
+      ),
+    );
+  }
+}
+
+class FloatingActions extends StatelessWidget {
+  const FloatingActions({super.key, required this.child, required this.actions, this.fade = 56});
+
+  final Widget child;
+  final Widget actions;
+  final double fade;
+
+  @override
+  Widget build(BuildContext context) {
+    final gc = context.gc;
+    return Stack(children: [
+      child,
+      Positioned(
+        left: 0,
+        right: 0,
+        bottom: 0,
+        child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+          IgnorePointer(
+            child: Container(
+              height: fade,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [gc.bgRaised.withValues(alpha: 0), gc.bgRaised.withValues(alpha: 0.92)],
+                ),
+              ),
+            ),
+          ),
+          ColoredBox(color: gc.bgRaised.withValues(alpha: 0.92), child: actions),
+        ]),
+      ),
+    ]);
+  }
+}
+
+class SectionLabel extends StatelessWidget {
+  const SectionLabel(this.text, {super.key, this.color});
+
+  final String text;
+  final Color? color;
+
+  @override
+  Widget build(BuildContext context) => Text(
+        text.toUpperCase(),
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+        style: kickerStyle(context.gc, color: color),
+      );
+}
+
+TextStyle kickerStyle(GymColors gc, {Color? color}) =>
+    AppTheme.f(10.5, weight: FontWeight.w700, color: color ?? gc.textTertiary, letterSpacing: 1.4);
+
 class SoftCard extends StatelessWidget {
   const SoftCard({
     super.key,
     required this.child,
     this.padding = const EdgeInsets.all(20),
-    this.radius = 20,
+    this.radius = 22,
     this.borderColor,
     this.color,
     this.clip = false,
@@ -53,12 +148,14 @@ class SearchField extends StatelessWidget {
     required this.hint,
     required this.onChanged,
     this.color,
+    this.focusNode,
   });
 
   final TextEditingController controller;
   final String hint;
   final ValueChanged<String> onChanged;
   final Color? color;
+  final FocusNode? focusNode;
 
   @override
   Widget build(BuildContext context) {
@@ -75,6 +172,7 @@ class SearchField extends StatelessWidget {
         const SizedBox(width: 10),
         Expanded(
           child: TextField(
+            focusNode: focusNode,
             controller: controller,
             onChanged: onChanged,
             style: AppTheme.f(14, weight: FontWeight.w500, color: gc.text),
@@ -255,12 +353,12 @@ class SheetTitle extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(text, textAlign: TextAlign.center, style: AppTheme.f(17, weight: FontWeight.w700, color: gc.text)),
+        Text(text, textAlign: TextAlign.center, style: AppTheme.f(19, weight: FontWeight.w800, color: gc.text, height: 1.2)),
         if (subtitle != null) ...[
-          const SizedBox(height: 4),
+          const SizedBox(height: 5),
           Text(subtitle!,
               textAlign: TextAlign.center,
-              style: AppTheme.f(12, weight: FontWeight.w500, color: gc.textSecondary, height: 1.35)),
+              style: AppTheme.f(13, weight: FontWeight.w500, color: gc.textSecondary, height: 1.35)),
         ],
       ],
     );
@@ -758,7 +856,7 @@ class ToolRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SoftCard(
-      radius: 20,
+      radius: 22,
       borderColor: Colors.transparent,
       padding: EdgeInsets.zero,
       child: _line(context),
@@ -824,27 +922,56 @@ class SegToggle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final gc = context.gc;
+    final picked = options.indexWhere((o) => o.selected);
+    const motion = Duration(milliseconds: 320);
     return Container(
       padding: const EdgeInsets.all(3),
       decoration: BoxDecoration(color: gc.bgRaised2, borderRadius: BorderRadius.circular(100)),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          for (final o in options)
-            GestureDetector(
-              onTap: o.onTap,
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: hPad, vertical: vPad),
-                decoration: BoxDecoration(
-                  color: o.selected ? gc.ember : Colors.transparent,
-                  borderRadius: BorderRadius.circular(100),
+      child: IntrinsicWidth(
+        child: Stack(
+          children: [
+            if (picked >= 0)
+              Positioned.fill(
+                child: AnimatedAlign(
+                  duration: motion,
+                  curve: Curves.easeOutCubic,
+                  alignment: Alignment(options.length < 2 ? 0 : -1 + 2 * picked / (options.length - 1), 0),
+                  child: FractionallySizedBox(
+                    widthFactor: 1 / options.length,
+                    heightFactor: 1,
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(color: gc.ember, borderRadius: BorderRadius.circular(100)),
+                    ),
+                  ),
                 ),
-                child: Text(o.label,
-                    style: AppTheme.f(fontSize,
-                        weight: FontWeight.w600, color: o.selected ? gc.onEmber : gc.textSecondary)),
               ),
+            Row(
+              children: [
+                for (final o in options)
+                  Expanded(
+                    child: GestureDetector(
+                      behavior: HitTestBehavior.opaque,
+                      onTap: () {
+                        if (!o.selected) HapticFeedback.selectionClick();
+                        o.onTap();
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: hPad, vertical: vPad),
+                        child: AnimatedDefaultTextStyle(
+                          duration: motion,
+                          curve: Curves.easeOutCubic,
+                          textAlign: TextAlign.center,
+                          style: AppTheme.f(fontSize,
+                              weight: FontWeight.w600, color: o.selected ? gc.onEmber : gc.textSecondary),
+                          child: Text(o.label, maxLines: 1, softWrap: false),
+                        ),
+                      ),
+                    ),
+                  ),
+              ],
             ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -935,7 +1062,7 @@ class PrimaryButton extends StatelessWidget {
     required this.onTap,
     this.bg,
     this.fg,
-    this.height = 56,
+    this.height = 52,
     this.icon,
   });
   final String label;

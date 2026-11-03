@@ -54,6 +54,7 @@ __pycache__/
 
 # Release signing
 *.jks
+*.apk
 *.keystore
 /android/key.properties
 

@@ -95,4 +95,25 @@ void main() {
     expect(fit.awardProgress(AwardId.sets1000), 0);
     expect(fit.awardGoal(AwardId.sets1000), 1000);
   });
+
+  test('you pick which won medals show on the profile, and the pick survives a restart', () {
+    fit.profile.medals.clear();
+    fit.sessions.addAll([
+      for (var i = 0; i < 12; i++) LoggedSession(DateTime.now().subtract(Duration(days: i)), 1800, const []),
+    ]);
+    fit.refreshAwards(silent: true);
+    expect(fit.profileMedals.first, AwardId.values.firstWhere(fit.hasAward), reason: 'sin elegir, salen todas');
+
+    fit.toggleProfileMedal(AwardId.workouts10);
+    fit.toggleProfileMedal(AwardId.workouts100);
+    expect(fit.profileMedals, [AwardId.workouts10], reason: 'una que no tienes no se puede elegir');
+
+    fit.persistNow();
+    fit.profile.medals.clear();
+    fit.loadFromStore();
+    expect(fit.profileMedals, [AwardId.workouts10]);
+
+    fit.toggleProfileMedal(AwardId.workouts10);
+    expect(fit.profileMedals.length, AwardId.values.length, reason: 'sin ninguna elegida vuelve a enseñarlas todas');
+  });
 }

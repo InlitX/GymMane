@@ -141,7 +141,7 @@ class _TimelineScreenState extends State<TimelineScreen> {
               child: PrimaryButton(
                 label: t.addTodayPhotos,
                 icon: Ic.plus,
-                height: 54,
+                height: 52,
                 onTap: _busy ? () {} : () => _poseSheet(DateTime.now()),
               ),
             ),
@@ -259,7 +259,7 @@ class _TimelineScreenState extends State<TimelineScreen> {
                     ),
                     const SizedBox(height: 10),
                     SoftCard(
-                      radius: 18,
+                      radius: 16,
                       padding: const EdgeInsets.symmetric(vertical: 12),
                       child: Center(
                         child: BodyHeatArt(
@@ -689,11 +689,7 @@ class _TimelineScreenState extends State<TimelineScreen> {
       backgroundColor: Colors.transparent,
       builder: (sheet) => Container(
         padding: sheetPad(context),
-        decoration: BoxDecoration(
-          color: gc.bgRaised,
-          border: Border.all(color: gc.border),
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-        ),
+        decoration: sheetDecoration(gc),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [

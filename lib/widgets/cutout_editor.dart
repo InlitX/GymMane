@@ -261,10 +261,7 @@ class _CutoutEditorState extends State<_CutoutEditor> {
     return Container(
       height: media.size.height * 0.94,
       padding: sheetPad(context, bottom: 16),
-      decoration: BoxDecoration(
-        color: gc.bgRaised,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-      ),
+      decoration: sheetDecoration(gc),
       child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
         const SheetHandle(),
         const SizedBox(height: 16),
@@ -366,7 +363,7 @@ class _CutoutEditorState extends State<_CutoutEditor> {
             child: Icon(PhosphorIconsBold.sparkle, size: 18, color: gc.textSecondary),
           ),
           const SizedBox(width: 10),
-          Expanded(child: PrimaryButton(label: t.done, height: 50, onTap: _done)),
+          Expanded(child: PrimaryButton(label: t.done, height: 52, onTap: _done)),
         ]),
       ]),
     );

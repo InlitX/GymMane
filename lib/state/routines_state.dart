@@ -93,6 +93,19 @@ mixin RoutinesState on FitCore, LibraryState {
 
   Routine? get activeRoutine => activeRoutineId == null ? null : _routine(activeRoutineId!);
 
+  Map<String, double> routineMuscleSets(Routine r) {
+    final out = <String, double>{};
+    for (final ex in routineExercises(r)) {
+      if (!countsForMuscles(ex.id)) continue;
+      final n = routineSets(r, ex.id).toDouble();
+      out[ex.primary] = (out[ex.primary] ?? 0) + n;
+      for (final m in ex.secondary) {
+        out[m] = (out[m] ?? 0) + n / 2;
+      }
+    }
+    return out;
+  }
+
   List<Exercise> routineExercises(Routine r) {
     final out = <Exercise>[];
     for (final id in r.exerciseIds) {
@@ -182,30 +195,96 @@ mixin RoutinesState on FitCore, LibraryState {
 
   bool movedOn(DateTime day) => planMoves.containsKey(_moveKey(day));
 
+  Routine? routineById(String id) => _routine(id);
+
   bool get rotating => rotation && rotationRoutines.isNotEmpty;
 
   List<Routine> get rotationRoutines => [for (final id in rotationIds) ?_routine(id)];
 
-  Routine? get rotationNext {
-    final list = rotationRoutines;
-    if (list.isEmpty) return null;
-    return _routine(rotationNextId) ?? list.first;
+  static bool isRestStep(String id) => id.startsWith('rest-');
+
+  List<String> get rotationSteps => [
+        for (final id in rotationIds)
+          if (isRestStep(id) || _routine(id) != null) id,
+      ];
+
+  ({int index, DateTime? rest}) get _rotationCursor {
+    final steps = rotationSteps;
+    if (rotationRoutines.isEmpty) return (index: 0, rest: null);
+    var i = steps.indexOf(rotationNextId);
+    if (i < 0) i = 0;
+    if (!isRestStep(steps[i])) return (index: i, rest: null);
+    final today = _dayKey(DateTime.now());
+    var day = _dayKey(rotationRestDay ?? today);
+    while (isRestStep(steps[i]) && day.isBefore(today)) {
+      i = (i + 1) % steps.length;
+      day = shiftDays(day, 1);
+    }
+    return (index: i, rest: isRestStep(steps[i]) ? day : null);
   }
 
-  int get rotationStep {
-    final next = rotationNext;
-    return next == null ? 0 : rotationRoutines.indexOf(next);
+  Routine? get rotationNext {
+    if (rotationRoutines.isEmpty) return null;
+    final c = _rotationCursor;
+    return c.rest == null ? _routine(rotationSteps[c.index]) : null;
+  }
+
+  Routine? get rotationUpcoming {
+    final steps = rotationSteps;
+    if (rotationRoutines.isEmpty) return null;
+    var i = _rotationCursor.index;
+    while (isRestStep(steps[i])) {
+      i = (i + 1) % steps.length;
+    }
+    return _routine(steps[i]);
+  }
+
+  int get rotationStep => rotationRoutines.isEmpty ? 0 : _rotationCursor.index;
+
+  bool get restingToday => restOn(DateTime.now());
+
+  bool restOn(DateTime day) {
+    if (rotating) return rotationRestOn(day);
+    final key = _dayKey(day);
+    if (key.isBefore(_dayKey(DateTime.now())) || _sessionsOnDay(key).isNotEmpty) return false;
+    return routinesOn(key).isEmpty && nextPlannedAfter(key) != null;
+  }
+
+  ({Routine routine, DateTime day})? nextPlannedAfter(DateTime day) {
+    for (var d = 1; d <= 7; d++) {
+      final next = shiftDays(day, d);
+      final on = routinesOn(next);
+      if (on.isNotEmpty) return (routine: on.first, day: next);
+    }
+    return null;
+  }
+
+  bool rotationRestOn(DateTime day) {
+    if (!rotating) return false;
+    final key = _dayKey(day);
+    if (key.isBefore(_dayKey(DateTime.now())) || _sessionsOnDay(key).isNotEmpty) return false;
+    return _rotationOn(day).isEmpty;
   }
 
   List<Routine> _rotationOn(DateTime day) {
     final key = _dayKey(day);
     final today = _dayKey(DateTime.now());
     final done = [
-      for (final s in sessions)
-        if (_dayKey(s.day) == key && s.routineId != null && rotationIds.contains(s.routineId)) ?_routine(s.routineId!),
+      for (final s in _sessionsOnDay(key))
+        if (s.routineId != null && rotationIds.contains(s.routineId)) ?_routine(s.routineId!),
     ];
     if (key.isBefore(today) || done.isNotEmpty) return done;
-    return [?rotationNext];
+    final steps = rotationSteps;
+    final c = _rotationCursor;
+    var rest = c.rest;
+    if (rest == null) return [?_routine(steps[c.index])];
+    var i = c.index;
+    while (isRestStep(steps[i])) {
+      if (!key.isAfter(rest!)) return const [];
+      i = (i + 1) % steps.length;
+      rest = shiftDays(rest, 1);
+    }
+    return [?_routine(steps[i])];
   }
 
   @override
@@ -228,8 +307,41 @@ mixin RoutinesState on FitCore, LibraryState {
     _planChanged();
   }
 
+  void addRotationRest() {
+    var n = 1;
+    while (rotationIds.contains('rest-$n')) {
+      n++;
+    }
+    rotationIds.add('rest-$n');
+    _planChanged();
+  }
+
+  void removeRotationRest(String id) {
+    final steps = rotationSteps;
+    final i = steps.indexOf(id);
+    if (i < 0 || !isRestStep(id)) return;
+    _settleRotation();
+    if (rotationNextId == id) _pointRotation(steps[(i + 1) % steps.length]);
+    rotationIds.remove(id);
+    _fixRotationNext();
+    _planChanged();
+  }
+
+  void _settleRotation() {
+    if (rotationRoutines.isEmpty) return;
+    final c = _rotationCursor;
+    rotationNextId = rotationSteps[c.index];
+    rotationRestDay = c.rest;
+  }
+
+  void _pointRotation(String id, [DateTime? rest]) {
+    rotationNextId = id;
+    rotationRestDay = isRestStep(id) ? _dayKey(rest ?? DateTime.now()) : null;
+  }
+
   void toggleRotationRoutine(String id) {
     if (_routine(id) == null) return;
+    _settleRotation();
     if (rotationIds.remove(id)) {
       if (rotationNextId == id) rotationNextId = '';
     } else {
@@ -241,6 +353,7 @@ mixin RoutinesState on FitCore, LibraryState {
 
   void reorderRotation(int from, int to) {
     if (from < 0 || from >= rotationIds.length) return;
+    _settleRotation();
     if (to > from) to -= 1;
     rotationIds.insert(to.clamp(0, rotationIds.length), rotationIds.removeAt(from));
     _planChanged();
@@ -248,36 +361,36 @@ mixin RoutinesState on FitCore, LibraryState {
 
   void setRotationNext(String id) {
     if (!rotationIds.contains(id)) return;
-    rotationNextId = id;
+    _pointRotation(id);
     _planChanged();
   }
 
   void skipRotation() {
-    final list = rotationRoutines;
-    final next = rotationNext;
-    if (next == null) return;
-    rotationNextId = list[(list.indexOf(next) + 1) % list.length].id;
+    final steps = rotationSteps;
+    if (rotationRoutines.isEmpty) return;
+    _pointRotation(steps[(_rotationCursor.index + 1) % steps.length]);
     _planChanged();
   }
 
   void restartRotation() {
-    final list = rotationRoutines;
-    if (list.isEmpty) return;
-    rotationNextId = list.first.id;
+    final steps = rotationSteps;
+    if (rotationRoutines.isEmpty) return;
+    _pointRotation(steps.first);
     _planChanged();
   }
 
-  void _advanceRotation(String? routineId) {
+  void _advanceRotation(String? routineId, DateTime on) {
     if (!rotation || routineId == null) return;
-    final list = rotationRoutines;
-    final i = list.indexWhere((r) => r.id == routineId);
+    final steps = rotationSteps;
+    final i = steps.indexOf(routineId);
     if (i < 0) return;
-    rotationNextId = list[(i + 1) % list.length].id;
+    _pointRotation(steps[(i + 1) % steps.length], shiftDays(on, 1));
   }
 
   void _fixRotationNext() {
-    rotationIds.removeWhere((id) => _routine(id) == null);
-    if (!rotationIds.contains(rotationNextId)) rotationNextId = rotationIds.isEmpty ? '' : rotationIds.first;
+    rotationIds.removeWhere((id) => !isRestStep(id) && _routine(id) == null);
+    if (rotationIds.contains(rotationNextId)) return;
+    _pointRotation(rotationIds.isEmpty ? '' : rotationIds.first);
   }
 
   VoidCallback? moveRoutineDay(String routineId, DateTime from, DateTime to) {
@@ -329,7 +442,7 @@ mixin RoutinesState on FitCore, LibraryState {
     final left = routinesOn(day);
     final key = _dayKey(day);
     var free = 0;
-    for (final s in sessions.where((s) => _dayKey(s.day) == key)) {
+    for (final s in _sessionsOnDay(key)) {
       final id = s.routineId;
       if (id == null) {
         free++;
@@ -431,6 +544,7 @@ mixin RoutinesState on FitCore, LibraryState {
     made.exerciseIds.addAll(source.exerciseIds);
     made.sets.addAll(source.sets);
     made.chained.addAll(source.chained);
+    made.ladders.addAll([for (final l in source.ladders) [...l]]);
     made.plan.addAll({for (final e in source.plan.entries) e.key: [...e.value]});
     made.rest.addAll(source.rest);
     made.group = source.group;
@@ -475,7 +589,7 @@ mixin RoutinesState on FitCore, LibraryState {
   void _unplanRoutine(String id) {
     final i = rotationIds.indexOf(id);
     if (i >= 0) {
-      if (rotationNextId == id) rotationNextId = rotationIds[(i + 1) % rotationIds.length];
+      if (rotationNextId == id) _pointRotation(rotationIds[(i + 1) % rotationIds.length]);
       rotationIds.removeAt(i);
     }
     _fixRotationNext();
@@ -507,6 +621,43 @@ mixin RoutinesState on FitCore, LibraryState {
     } else {
       r.exerciseIds.add(exId);
     }
+    _persist();
+    notifyListeners();
+  }
+
+  List<String>? ladderIn(Routine? r, String exId) {
+    if (r == null) return null;
+    for (final l in r.ladders) {
+      if (l.contains(exId)) return l;
+    }
+    return null;
+  }
+
+  List<String>? builtInLadder(String exId) {
+    for (final chain in kProgressions) {
+      if (chain.contains(exId)) return chain;
+    }
+    return null;
+  }
+
+  String? nextStepIn(Routine? r, String exId) {
+    final own = ladderIn(r, exId);
+    if (own == null) return nextStepOf(exId);
+    final at = own.indexOf(exId);
+    return at + 1 < own.length ? own[at + 1] : null;
+  }
+
+  int stepIndexIn(Routine? r, String exId) => (ladderIn(r, exId) ?? builtInLadder(exId) ?? const []).indexOf(exId);
+
+  void setLadder(String routineId, String exId, List<String> steps) {
+    final r = _routine(routineId);
+    if (r == null) return;
+    final clean = <String>[];
+    for (final id in steps) {
+      if (!clean.contains(id) && exerciseById(id) != null) clean.add(id);
+    }
+    r.ladders.removeWhere((l) => l.contains(exId) || clean.any(l.contains));
+    if (clean.length > 1 && clean.contains(exId)) r.ladders.add(clean);
     _persist();
     notifyListeners();
   }

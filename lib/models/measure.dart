@@ -26,3 +26,21 @@ class BodyMeasure {
         ((j['v'] ?? 0) as num).toDouble(),
       );
 }
+
+class CustomMeasure {
+  CustomMeasure(this.id, this.name, {this.unit = '', this.length = true});
+
+  final String id;
+  String name;
+  String unit;
+  bool length;
+
+  Map<String, dynamic> toJson() => {'id': id, 'n': name, if (unit.isNotEmpty) 'u': unit, if (!length) 'l': false};
+
+  static CustomMeasure? fromJson(Map<String, dynamic> j) {
+    final id = j['id'] as String? ?? '';
+    final name = (j['n'] as String? ?? '').trim();
+    if (!id.startsWith('c') || name.isEmpty) return null;
+    return CustomMeasure(id, name, unit: j['u'] as String? ?? '', length: j['l'] as bool? ?? true);
+  }
+}

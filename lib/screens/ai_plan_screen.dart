@@ -50,7 +50,7 @@ class _AiPlanScreenState extends State<AiPlanScreen> {
             ScreenHeader(title: t.aiRoutine, onBack: fit.backFromAiPlan, titleSize: 22),
             const SizedBox(height: 20),
             SoftCard(
-              radius: 20,
+              radius: 22,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

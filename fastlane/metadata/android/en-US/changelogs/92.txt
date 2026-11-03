@@ -1,0 +1,13 @@
+GymMane 1.8.0
+
+• Health section with your Health Connect data
+• Record trophies while you train
+• Gym pass on your profile
+• kg or lb per exercise
+• Short rest for rest-pause and cluster sets
+• Rest days in the rotation and your own progressions
+• Photos when you save a session
+• Fat types in nutrition
+• A cleaner, smoother redesign
+
+And a lot more. Install it and find out.

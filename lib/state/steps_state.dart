@@ -81,6 +81,16 @@ mixin StepsState on FitCore {
     return true;
   }
 
+  @override
+  Future<void> stepsAllowed() async {
+    if (!stepsOn) {
+      stepsOn = true;
+      _persist();
+      notifyListeners();
+    }
+    await _freshSteps();
+  }
+
   Future<void> askStepsAccess() async {
     if (!await HealthSteps.request()) await HealthSteps.openSettings();
     await _freshSteps();

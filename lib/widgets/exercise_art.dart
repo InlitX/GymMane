@@ -7,8 +7,28 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:path_drawing/path_drawing.dart';
 import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
+import '../catalog/exercise_catalog.dart' show kSportIcons;
 import '../theme/app_colors.dart';
 import 'shimmer.dart';
+
+IconData? sportIcon(String id) => switch (kSportIcons[id]) {
+      'soccerBall' => PhosphorIconsRegular.soccerBall,
+      'basketball' => PhosphorIconsRegular.basketball,
+      'volleyball' => PhosphorIconsRegular.volleyball,
+      'tennisBall' => PhosphorIconsRegular.tennisBall,
+      'racquet' => PhosphorIconsRegular.racquet,
+      'pingPong' => PhosphorIconsRegular.pingPong,
+      'personSimpleThrow' => PhosphorIconsRegular.personSimpleThrow,
+      'football' => PhosphorIconsRegular.football,
+      'boxingGlove' => PhosphorIconsRegular.boxingGlove,
+      'handFist' => PhosphorIconsRegular.handFist,
+      'mountains' => PhosphorIconsRegular.mountains,
+      'personSimpleSki' => PhosphorIconsRegular.personSimpleSki,
+      'waves' => PhosphorIconsRegular.waves,
+      'musicNotes' => PhosphorIconsRegular.musicNotes,
+      'golf' => PhosphorIconsRegular.golf,
+      _ => null,
+    };
 
 class ExerciseArtData {
   const ExerciseArtData(this.frames, this.bounds);
@@ -81,9 +101,11 @@ class ExerciseArt extends StatefulWidget {
     this.live = false,
     this.bordered = true,
     this.loops,
+    this.icon,
   });
 
   final String slug;
+  final IconData? icon;
   final double height;
   final double radius;
   final bool live;
@@ -200,7 +222,8 @@ class _ExerciseArtState extends State<ExerciseArt> with SingleTickerProviderStat
   }
 
   Widget _fallback(GymColors gc, double height) => Center(
-        child: Icon(PhosphorIconsRegular.barbell, size: height * 0.32, color: gc.textTertiary),
+        child: Icon(widget.icon ?? PhosphorIconsRegular.barbell,
+            size: height * (widget.icon == null ? 0.32 : 0.4), color: widget.icon == null ? gc.textTertiary : gc.textSecondary),
       );
 }
 

@@ -41,6 +41,7 @@ class ExerciseMedia extends StatelessWidget {
     if (path == null) {
       return ExerciseArt(
           slug: ex.art,
+          icon: sportIcon(ex.id),
           height: height,
           radius: radius,
           live: live,

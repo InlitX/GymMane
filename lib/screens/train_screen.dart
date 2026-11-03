@@ -137,7 +137,7 @@ class _TrainScreenState extends State<TrainScreen> {
         ),
         const SizedBox(height: 26),
         Text(t.orStartWith.toUpperCase(),
-            style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.5)),
+            style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.4)),
         const SizedBox(height: 10),
         IntrinsicHeight(
           child: Row(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
@@ -268,7 +268,7 @@ class _TrainScreenState extends State<TrainScreen> {
   Widget _sectionLabel(GymColors gc, String label) => Padding(
         padding: const EdgeInsets.only(bottom: 10, left: 2),
         child: Text(label.toUpperCase(),
-            style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.3)),
+            style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.4)),
       );
 
   Widget _gearChip(GymColors gc, String label, bool on, String? value) => Padding(

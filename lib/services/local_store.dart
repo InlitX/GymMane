@@ -31,11 +31,25 @@ class Store {
 
   void setNote(String key, String value) => _prefs?.setString('gm_$key', value);
 
-  Future<void> save(Map<String, dynamic> data) async {
+  Future<void> save(Map<String, dynamic> data, {Map<String, String> raw = const {}}) async {
     try {
-      await _prefs?.setString(_key, jsonEncode(finite(data)));
+      var text = encode(data);
+      for (final e in raw.entries) {
+        text = text.replaceFirst(jsonEncode(rawMark(e.key)), e.value);
+      }
+      await _prefs?.setString(_key, text);
     } catch (e) {
       debugPrint('Store.save failed: $e');
+    }
+  }
+
+  static String rawMark(String tag) => '\u0000$tag\u0000';
+
+  static String encode(Object? data) {
+    try {
+      return jsonEncode(data);
+    } on JsonUnsupportedObjectError {
+      return jsonEncode(finite(data));
     }
   }
 
@@ -51,7 +65,7 @@ class Store {
 
   String exportCsv(List<LoggedSession> sessions) {
     final rows = StringBuffer(
-        'date,exercise,muscle,set,reps,weight_kg,volume_kg,est_1rm_kg,distance_km,duration_s,rpe\n');
+        'date,exercise,muscle,set,reps,weight_kg,volume_kg,est_1rm_kg,distance_km,duration_s,rpe,note\n');
     final ordered = [...sessions]..sort((a, b) => a.date.compareTo(b.date));
     for (final s in ordered) {
       final day = s.date.toIso8601String().split('T').first;
@@ -70,6 +84,7 @@ class Store {
             st.km == null ? '' : _num(st.km!),
             st.sec ?? '',
             st.rpe == null ? '' : _num(st.rpe!),
+            _csv(st.note),
           ].join(','));
         }
       }

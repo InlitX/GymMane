@@ -17,8 +17,9 @@ double? rpePercent(int reps, double? rpe) {
 }
 
 class LoggedSet {
-  LoggedSet(this.reps, this.weight, {this.kind = SetKind.normal, this.rpe, this.sec, this.km});
+  LoggedSet(this.reps, this.weight, {this.kind = SetKind.normal, this.rpe, this.sec, this.km, this.note = ''});
   final int reps;
+  final String note;
   final double weight;
   final SetKind kind;
   final double? rpe;
@@ -41,6 +42,7 @@ class LoggedSet {
         if (rpe != null) 'e': rpe,
         if (sec != null) 't': sec,
         if (km != null) 'km': km,
+        if (note.isNotEmpty) 'n': note,
       };
   factory LoggedSet.fromJson(Map<String, dynamic> j) => LoggedSet(
         (j['r'] as num).toInt(),
@@ -49,6 +51,7 @@ class LoggedSet {
         rpe: (j['e'] as num?)?.toDouble(),
         sec: (j['t'] as num?)?.toInt(),
         km: (j['km'] as num?)?.toDouble(),
+        note: j['n'] as String? ?? '',
       );
 }
 
@@ -109,12 +112,16 @@ class LoggedExercise {
 }
 
 class LoggedSession {
-  LoggedSession(this.date, this.durationSec, this.exercises, {this.routineId, this.name});
+  LoggedSession(this.date, this.durationSec, this.exercises, {this.routineId, this.name, this.hrAvg, this.hrMax, this.sleep, this.energy});
   final DateTime date;
   int durationSec;
   final List<LoggedExercise> exercises;
   final String? routineId;
   String? name;
+  int? hrAvg;
+  int? hrMax;
+  int? sleep;
+  int? energy;
 
   DateTime get day => date.subtract(Duration(seconds: durationSec));
   double get volume => exercises.fold(0.0, (s, e) => s + e.volume);
@@ -126,6 +133,10 @@ class LoggedSession {
         'ex': exercises.map((e) => e.toJson()).toList(),
         if (routineId != null) 'r': routineId,
         if (name != null) 'n': name,
+        if (hrAvg != null) 'hra': hrAvg,
+        if (hrMax != null) 'hrm': hrMax,
+        if (sleep != null) 'sl': sleep,
+        if (energy != null) 'en': energy,
       };
   factory LoggedSession.fromJson(Map<String, dynamic> j) => LoggedSession(
         DateTime.parse(j['d'] as String),
@@ -133,17 +144,23 @@ class LoggedSession {
         (j['ex'] as List).map((e) => LoggedExercise.fromJson(e as Map<String, dynamic>)).toList(),
         routineId: j['r'] as String?,
         name: j['n'] as String?,
+        hrAvg: (j['hra'] as num?)?.toInt(),
+        hrMax: (j['hrm'] as num?)?.toInt(),
+        sleep: (j['sl'] as num?)?.toInt().clamp(1, 5),
+        energy: (j['en'] as num?)?.toInt().clamp(1, 5),
       );
 }
 
 class BodyweightEntry {
-  BodyweightEntry(this.date, this.kg);
+  BodyweightEntry(this.date, this.kg, {this.note = ''});
   final DateTime date;
   final double kg;
+  final String note;
 
-  Map<String, dynamic> toJson() => {'d': date.toIso8601String(), 'kg': kg};
-  factory BodyweightEntry.fromJson(Map<String, dynamic> j) =>
-      BodyweightEntry(DateTime.parse(j['d'] as String), (j['kg'] as num).toDouble());
+  Map<String, dynamic> toJson() => {'d': date.toIso8601String(), 'kg': kg, if (note.isNotEmpty) 'n': note};
+  factory BodyweightEntry.fromJson(Map<String, dynamic> j) => BodyweightEntry(
+      DateTime.parse(j['d'] as String), (j['kg'] as num).toDouble(),
+      note: j['n'] as String? ?? '');
 }
 
 class PlannedSet {
@@ -231,13 +248,15 @@ class Routine {
       Set<String>? chained,
       Map<String, List<PlannedSet>>? plan,
       Map<String, int>? rest,
+      List<List<String>>? ladders,
       this.group = '',
       this.color = -1,
       this.archived = false})
       : sets = sets ?? {},
         chained = chained ?? {},
         plan = plan ?? {},
-        rest = rest ?? {};
+        rest = rest ?? {},
+        ladders = ladders ?? [];
   final String id;
   String name;
   String group;
@@ -248,10 +267,12 @@ class Routine {
   final Set<String> chained;
   final Map<String, List<PlannedSet>> plan;
   final Map<String, int> rest;
+  final List<List<String>> ladders;
 
   Map<String, dynamic> toJson() => {
         'id': id,
         'n': name,
+        if (ladders.isNotEmpty) 'lad': ladders,
         'ex': exerciseIds,
         if (rest.isNotEmpty) 'r': rest,
         if (sets.isNotEmpty) 's': sets,
@@ -275,6 +296,10 @@ class Routine {
             )),
         rest: ((j['r'] as Map?) ?? const {})
             .map((k, v) => MapEntry(k as String, ((v as num).toInt()).clamp(0, 600))),
+        ladders: [
+          for (final l in (j['lad'] as List?) ?? const [])
+            if (l is List && l.length > 1) l.cast<String>().toList(),
+        ],
         group: (j['g'] as String?) ?? '',
         color: (j['k'] as num?)?.toInt() ?? -1,
         archived: j['a'] == true,

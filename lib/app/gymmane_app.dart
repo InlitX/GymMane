@@ -17,7 +17,7 @@ class GymManeApp extends StatefulWidget {
 }
 
 class _GymManeAppState extends State<GymManeApp> {
-  var _look = (fit.themeMode, fit.locale, fit.themePref == 'amoled');
+  var _look = (fit.themeMode, fit.locale, fit.themePref == 'amoled', fit.textSize, fit.calmMotion);
 
   @override
   void initState() {
@@ -32,7 +32,7 @@ class _GymManeAppState extends State<GymManeApp> {
   }
 
   void _watch() {
-    final look = (fit.themeMode, fit.locale, fit.themePref == 'amoled');
+    final look = (fit.themeMode, fit.locale, fit.themePref == 'amoled', fit.textSize, fit.calmMotion);
     if (look != _look) setState(() => _look = look);
   }
 
@@ -52,10 +52,17 @@ class _GymManeAppState extends State<GymManeApp> {
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,
         ],
-        builder: (context, child) => MediaQuery.withClampedTextScaling(
-          maxScaleFactor: GymManeApp.maxTextScale,
-          child: _ButtonNavScrim(child: child!),
-        ),
+        builder: (context, child) {
+          final media = MediaQuery.of(context);
+          final system = media.textScaler.clamp(maxScaleFactor: GymManeApp.maxTextScale).scale(100) / 100;
+          return MediaQuery(
+            data: media.copyWith(
+              textScaler: TextScaler.linear(system * fit.textFactor),
+              disableAnimations: media.disableAnimations || fit.calmMotion,
+            ),
+            child: _ButtonNavScrim(child: child!),
+          );
+        },
         home: const AppShell(),
     );
   }

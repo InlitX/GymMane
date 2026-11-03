@@ -68,10 +68,7 @@ Widget _sheetBox(BuildContext context, List<Widget> children) {
     child: Container(
       constraints: BoxConstraints(maxHeight: MediaQuery.sizeOf(context).height * 0.85),
       padding: sheetPad(context),
-      decoration: BoxDecoration(
-        color: gc.bgRaised,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-      ),
+      decoration: sheetDecoration(gc),
       child: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -291,6 +288,110 @@ class _WorkoutNoteEditorState extends State<_WorkoutNoteEditor> {
             child: Text(t.delete, style: AppTheme.f(13, weight: FontWeight.w700, color: gc.danger)),
           ),
         ),
+      ],
+    ]);
+  }
+}
+
+class LastSetNotes extends StatelessWidget {
+  const LastSetNotes({super.key, required this.exerciseId});
+
+  final String exerciseId;
+
+  @override
+  Widget build(BuildContext context) {
+    final notes = fit.lastSetNotes(exerciseId);
+    if (notes.isEmpty) return const SizedBox.shrink();
+    final gc = context.gc;
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.fromLTRB(10, 8, 12, 8),
+      decoration: BoxDecoration(color: gc.bgRaised2, borderRadius: BorderRadius.circular(12)),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Row(children: [
+          Icon(PhosphorIconsRegular.clockCounterClockwise, size: 13, color: gc.textTertiary),
+          const SizedBox(width: 8),
+          Text(t.lastTimeNotes.toUpperCase(),
+              style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.4)),
+        ]),
+        for (final (n, note) in notes) ...[
+          const SizedBox(height: 5),
+          Padding(
+            padding: const EdgeInsetsDirectional.only(start: 21),
+            child: Text(t.setNoteLine(n, note.replaceAll(RegExp(r'\s*\n\s*'), ' ')),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: AppTheme.f(12.5, weight: FontWeight.w600, color: gc.textSecondary, height: 1.3)),
+          ),
+        ],
+      ]),
+    );
+  }
+}
+
+class SetNoteField extends StatefulWidget {
+  const SetNoteField({super.key, required this.initial, required this.onChanged, this.last});
+
+  final String initial;
+  final String? last;
+  final ValueChanged<String> onChanged;
+
+  @override
+  State<SetNoteField> createState() => _SetNoteFieldState();
+}
+
+class _SetNoteFieldState extends State<SetNoteField> {
+  late final TextEditingController _text = TextEditingController(text: widget.initial);
+
+  @override
+  void dispose() {
+    _text.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final gc = context.gc;
+    final last = widget.last;
+    return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+      Text(t.setNote,
+          style: AppTheme.f(12, weight: FontWeight.w600, color: gc.textSecondary, letterSpacing: 0.4)),
+      const SizedBox(height: 8),
+      Container(
+        padding: const EdgeInsets.fromLTRB(14, 2, 14, 2),
+        decoration: BoxDecoration(color: gc.bgRaised2, borderRadius: BorderRadius.circular(16)),
+        child: TextField(
+          controller: _text,
+          minLines: 1,
+          maxLines: 4,
+          maxLength: 280,
+          textCapitalization: TextCapitalization.sentences,
+          cursorColor: gc.accent,
+          onChanged: widget.onChanged,
+          style: AppTheme.f(14.5, weight: FontWeight.w500, color: gc.text, height: 1.4),
+          decoration: InputDecoration(
+            border: InputBorder.none,
+            hintText: t.setNoteHint,
+            hintStyle: AppTheme.f(14.5, weight: FontWeight.w500, color: gc.textTertiary),
+            counterText: '',
+          ),
+        ),
+      ),
+      if (last != null && last.isNotEmpty) ...[
+        const SizedBox(height: 8),
+        Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 1.5),
+            child: Icon(PhosphorIconsRegular.clockCounterClockwise, size: 13, color: gc.textTertiary),
+          ),
+          const SizedBox(width: 6),
+          Expanded(
+            child: Text(t.setNoteLast(last),
+                maxLines: 3,
+                overflow: TextOverflow.ellipsis,
+                style: AppTheme.f(12.5, weight: FontWeight.w500, color: gc.textTertiary, height: 1.3)),
+          ),
+        ]),
       ],
     ]);
   }

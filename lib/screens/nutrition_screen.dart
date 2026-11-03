@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'dart:math' as math;
 
@@ -17,6 +18,7 @@ import '../services/sticker_cutout.dart';
 import '../state/fit_state.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
+import '../widgets/entrance.dart';
 import '../widgets/charts.dart';
 import '../widgets/dialogs.dart';
 import '../widgets/glass.dart';
@@ -37,6 +39,7 @@ part 'nutrition/settings.dart';
 part 'nutrition/meals.dart';
 part 'nutrition/food.dart';
 part 'nutrition/plans.dart';
+part 'nutrition/fasting.dart';
 
 String mealInSentence(Meal m) {
   final name = mealName(m);
@@ -156,6 +159,7 @@ class _NutritionScreenState extends State<NutritionScreen> {
     final gc = context.gc;
     bool on(Tracker x) => fit.trackerOn(x);
     final cards = <Widget>[
+      if (on(Tracker.fasting) && fit.nutritionOnToday) _FastingCard(),
       if (on(Tracker.water) || on(Tracker.shake))
         _pair(on(Tracker.water) ? _WaterTile() : null, on(Tracker.shake) ? _ShakeTile() : null),
       if (on(Tracker.supplements)) _SupplementsCard(),
@@ -169,7 +173,10 @@ class _NutritionScreenState extends State<NutritionScreen> {
       if (on(Tracker.week)) _WeekTile(),
       if (on(Tracker.weight)) _WeightTile(),
     ];
-    return SafeArea(
+    var order = 0;
+    return RiseScope(
+      id: 'nutrition',
+      child: SafeArea(
       bottom: false,
       child: ListView(
         clipBehavior: Clip.none,
@@ -183,12 +190,6 @@ class _NutritionScreenState extends State<NutritionScreen> {
               onBack: fit.backFromNutrition,
               badge: BetaTag(t.sectionBeta),
               actions: [
-                RoundAction(
-                  label: t.nutritionAboutTitle,
-                  onTap: () => showNutritionAbout(context),
-                  child: Icon(PhosphorIconsRegular.question, size: 17, color: gc.textSecondary),
-                ),
-                const SizedBox(width: 8),
                 RoundAction(
                   label: t.trackersTitle,
                   onTap: () => showTrackersSheet(context),
@@ -241,8 +242,9 @@ class _NutritionScreenState extends State<NutritionScreen> {
               for (final d in detail) ...[const SizedBox(height: 12), d],
             ],
           ])
-            w is SizedBox ? w : _Keep(child: w),
+            w is SizedBox ? w : _Keep(child: Rise(index: order++, child: w)),
         ],
+      ),
       ),
     );
   }
@@ -278,20 +280,31 @@ class _Heading extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final gc = context.gc;
-    return Row(
-      children: [
-        Expanded(child: Text(titleCase(title), style: AppTheme.f(19, color: gc.text))),
-        if (action != null)
-          GestureDetector(
-            behavior: HitTestBehavior.opaque,
-            onTap: onAction,
-            child: Row(children: [
-              Icon(PhosphorIconsBold.plus, size: 13, color: gc.accent),
-              const SizedBox(width: 5),
-              Text(action!, style: AppTheme.f(13, weight: FontWeight.w700, color: gc.accent)),
-            ]),
+    return Padding(
+      padding: const EdgeInsets.only(left: 4),
+      child: Row(
+        children: [
+          Expanded(
+            child: Text(title.toUpperCase(),
+                style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.4)),
           ),
-      ],
+          if (action != null)
+            Pressable(
+              onTap: onAction!,
+              scale: 0.94,
+              child: Container(
+                height: 30,
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                decoration: BoxDecoration(color: gc.bgRaised, borderRadius: BorderRadius.circular(15)),
+                child: Row(mainAxisSize: MainAxisSize.min, children: [
+                  Icon(PhosphorIconsBold.plus, size: 12, color: gc.text),
+                  const SizedBox(width: 5),
+                  Text(action!, style: AppTheme.f(12.5, weight: FontWeight.w700, color: gc.text)),
+                ]),
+              ),
+            ),
+        ],
+      ),
     );
   }
 }
@@ -301,7 +314,7 @@ List<(String, String)> _plateOf(Iterable<FoodEntry> items) => [
     ];
 
 Widget _kicker(GymColors gc, String text) =>
-    Text(text, style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.1));
+    Text(text, style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.4));
 
 class _WeekStrip extends StatelessWidget {
   const _WeekStrip();
@@ -312,12 +325,13 @@ class _WeekStrip extends StatelessWidget {
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
     final days = fit.nutritionWeek;
+    final last = shiftDays(today, NutritionState.kNutritionDaysAhead);
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onHorizontalDragEnd: (d) {
         final v = d.primaryVelocity ?? 0;
         if (v > 200) fit.setNutritionDay(shiftDays(fit.nutritionDay, -7));
-        if (v < -200 && days.last.isBefore(today)) fit.setNutritionDay(shiftDays(fit.nutritionDay, 7));
+        if (v < -200 && days.last.isBefore(last)) fit.setNutritionDay(shiftDays(fit.nutritionDay, 7));
       },
       child: Row(
         children: [
@@ -325,7 +339,7 @@ class _WeekStrip extends StatelessWidget {
             Expanded(
               child: GestureDetector(
                 behavior: HitTestBehavior.opaque,
-                onTap: d.isAfter(today) ? null : () => fit.setNutritionDay(d),
+                onTap: d.isAfter(last) ? null : () => fit.setNutritionDay(d),
                 child: Column(children: [
                   SizedBox(
                     height: 17,
@@ -395,10 +409,7 @@ Widget _sheetFrame(BuildContext context, List<Widget> children, {double heightFa
       constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.88),
       height: heightFactor > 0 ? MediaQuery.of(context).size.height * heightFactor : null,
       padding: sheetPad(context, bottom: 18),
-      decoration: BoxDecoration(
-        color: gc.bgRaised,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-      ),
+      decoration: sheetDecoration(gc),
       child: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -418,10 +429,7 @@ Widget _sheetSlivers(BuildContext context, List<Widget> slivers, {double heightF
       constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.88),
       height: heightFactor > 0 ? MediaQuery.of(context).size.height * heightFactor : null,
       padding: sheetPad(context, bottom: 18),
-      decoration: BoxDecoration(
-        color: gc.bgRaised,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-      ),
+      decoration: sheetDecoration(gc),
       child: CustomScrollView(
         shrinkWrap: heightFactor <= 0,
         slivers: [
@@ -472,10 +480,20 @@ Widget _macroSummary(BuildContext context, Macros m) {
 
 void _loggedToast(BuildContext context, FoodEntry e) {
   HapticFeedback.lightImpact();
+  final day = DateTime(e.at.year, e.at.month, e.at.day);
+  final now = DateTime.now();
+  final today = DateTime(now.year, now.month, now.day);
+  final when = day == fit.nutritionDay
+      ? null
+      : day == shiftDays(today, 1)
+          ? t.tomorrow
+          : day == today
+              ? t.nutritionToday
+              : t.longDate(day);
   showNotchToast(
     context,
     t.loggedToast(mealInSentence(e.meal)),
-    subtitle: e.name.isEmpty ? null : e.name,
+    subtitle: e.name.isEmpty && when == null ? null : [if (e.name.isNotEmpty) e.name, ?when].join(' · '),
     icon: PhosphorIconsFill.forkKnife,
     accent: context.gc.accent,
     action: t.undo,

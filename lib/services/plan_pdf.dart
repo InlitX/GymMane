@@ -18,6 +18,8 @@ import '../widgets/exercise_art.dart';
 import '../widgets/routine_folder.dart';
 import '../widgets/ui_kit.dart';
 
+part 'report_pdf.dart';
+
 const _pageW = 595.28;
 const _pageH = 841.89;
 const _margin = 40.0;
@@ -69,6 +71,13 @@ Future<Uint8List> buildPlanPdf(List<Routine> routines, {bool week = false, DateT
   }
   final doc = _PlanDoc(runner, arts, rtl: const {'ar', 'fa'}.contains(appLanguage));
   doc.lay(routines, week: week, now: now ?? DateTime.now());
+  final pages = await _rasterize(doc);
+  runner.dispose();
+  final title = week ? sentenceCase(t.weeklyPlan) : fit.routineTitle(routines.first);
+  return _writePdf(pages, title, now ?? DateTime.now());
+}
+
+Future<List<(int, int, Uint8List)>> _rasterize(_PlanDoc doc) async {
   final pages = <(int, int, Uint8List)>[];
   for (var i = 0; i < doc.pages.length; i++) {
     final w = (_pageW * _scale).round(), h = (_pageH * _scale).round();
@@ -85,9 +94,7 @@ Future<Uint8List> buildPlanPdf(List<Routine> routines, {bool week = false, DateT
     pages.add((w, h, await Isolate.run(() => _deflateRgb(rgba))));
   }
   doc.dispose();
-  runner.dispose();
-  final title = week ? sentenceCase(t.weeklyPlan) : fit.routineTitle(routines.first);
-  return _writePdf(pages, title, now ?? DateTime.now());
+  return pages;
 }
 
 Uint8List _deflateRgb(Uint8List rgba) {
@@ -177,7 +184,7 @@ class _PlanDoc {
     _header(routines, week: week, now: now);
     if (week) {
       if (fit.rotation && fit.rotationRoutines.isNotEmpty) {
-        _rotation(fit.rotationRoutines);
+        _rotation(fit.rotationSteps);
       } else {
         _week();
       }
@@ -295,13 +302,14 @@ class _PlanDoc {
     _y += height + 26;
   }
 
-  void _rotation(List<Routine> list) {
+  void _rotation(List<String> list) {
     _y += _text(t.planRotation.toUpperCase(), _st(8, weight: FontWeight.w800, color: _accent, spacing: 1.4), _margin, _y, _contentW);
     _y += 8;
     var x = 0.0;
     const h = 26.0;
     for (var i = 0; i < list.length; i++) {
-      final label = '${i + 1}  ${fit.routineTitle(list[i])}';
+      final routine = fit.routineById(list[i]);
+      final label = '${i + 1}  ${routine == null ? t.restDayShort : fit.routineTitle(routine)}';
       final w = math.min(160.0, _textWidth(label, _st(10, weight: FontWeight.w800))) + 24;
       final arrow = i < list.length - 1 ? 18.0 : 0.0;
       if (x + w > _contentW) {
@@ -309,7 +317,7 @@ class _PlanDoc {
         _y += h + 8;
       }
       _rect(_margin + x, _y, w, h, _soft, radius: 13);
-      _rect(_margin + x + 9, _y + 9, 8, 8, folderHue(list[i]), radius: 4);
+      _rect(_margin + x + 9, _y + 9, 8, 8, routine == null ? _faint : folderHue(routine), radius: 4);
       final fitted = _measure(label, _st(10, weight: FontWeight.w800), w - 24);
       final at = Offset(_x(_margin + x + 20, w - 24), _y + (h - fitted.height) / 2);
       _add((c) => fitted.paint(c, at));
@@ -648,7 +656,7 @@ String _xmp(String title, String subject, String keywords, String lang, DateTime
 </x:xmpmeta>
 <?xpacket end="w"?>''';
 
-Uint8List _writePdf(List<(int, int, Uint8List)> pages, String title, DateTime now) {
+Uint8List _writePdf(List<(int, int, Uint8List)> pages, String title, DateTime now, {String? kicker}) {
   final out = BytesBuilder(copy: false);
   final offsets = <int>[];
   void raw(List<int> b) => out.add(b);
@@ -680,8 +688,9 @@ Uint8List _writePdf(List<(int, int, Uint8List)> pages, String title, DateTime no
   raw([0x25, 0xE2, 0xE3, 0xCF, 0xD3, 0x0A]);
   final n = pages.length;
   final lang = intlLocale.replaceAll('_', '-');
-  final subject = '${sentenceCase(t.pdfKicker)} · $_app';
-  final keywords = '$_app, ${t.pdfKicker.toLowerCase()}';
+  final kind = kicker ?? t.pdfKicker;
+  final subject = '${sentenceCase(kind)} · $_app';
+  final keywords = '$_app, ${kind.toLowerCase()}';
   final date = _pdfDate(now);
   final xmp = Uint8List.fromList(utf8.encode(_xmp(title, subject, keywords, lang, now)));
   final kids = [for (var i = 0; i < n; i++) '${5 + i * 3} 0 R'].join(' ');

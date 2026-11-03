@@ -46,4 +46,13 @@ void main() {
     final plain = fit.addCustomExercise(name: 'Row', primary: 'back', equipment: 'Cable');
     expect(kindOfId(plain), 'strength');
   });
+
+  test('los deportes son su propio tipo y no suman series por músculo', () {
+    expect(kindOfId('football'), 'sport');
+    expect(kindOfId('padel'), 'sport');
+    expect(fit.isCardio('badminton'), true, reason: 'se apuntan por tiempo');
+    expect(fit.countsForMuscles('volleyball'), false);
+    expect(fit.countsForMuscles('EIeI8Vf'), true);
+    expect(fit.recommendedExercises(30).any((e) => e.kind == 'sport'), false);
+  });
 }

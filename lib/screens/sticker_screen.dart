@@ -231,10 +231,7 @@ class _StickerEditorState extends State<StickerEditor> {
     final swatches = _swatches(gc);
     return Container(
       padding: const EdgeInsets.fromLTRB(16, 14, 16, 12),
-      decoration: BoxDecoration(
-        color: gc.bgRaised,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(26)),
-      ),
+      decoration: sheetDecoration(gc),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [

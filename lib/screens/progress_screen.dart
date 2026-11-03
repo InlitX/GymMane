@@ -13,18 +13,23 @@ import '../state/fit_state.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
 import '../widgets/body_map.dart';
+import '../widgets/check_in.dart';
 import '../widgets/charts.dart';
 import '../widgets/dialogs.dart';
 import '../widgets/entrance.dart';
 import '../widgets/exercise_media.dart';
 import '../widgets/file_thumb.dart';
 import '../widgets/glass.dart';
+import '../widgets/health_cards.dart';
 import '../widgets/liquid_notch.dart';
+import '../widgets/report_sheet.dart';
 import '../widgets/muscle_radar.dart';
 import '../widgets/nutrition_art.dart' show ValueLineChart;
 import '../widgets/rolling_text.dart';
 import '../widgets/ruler_picker.dart';
+import '../widgets/set_kind.dart';
 import '../widgets/ui_kit.dart';
+import 'session_photos.dart';
 import 'share_sheet.dart';
 import 'start_sheet.dart';
 
@@ -53,37 +58,12 @@ class ProgressScreen extends StatelessWidget {
               children: [
                 Expanded(
                   child: Text(t.progressTitle,
-                      style: AppTheme.f(27, weight: FontWeight.w800, color: gc.text)),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: AppTheme.f(30, weight: FontWeight.w800, color: gc.text, letterSpacing: -0.8, height: 1.1)),
                 ),
-                if (fit.sessions.isNotEmpty) ...[
-                  Semantics(
-                    button: true,
-                    label: sentenceCase(t.historyTitle),
-                    child: GestureDetector(
-                      onTap: fit.goHistory,
-                      child: Container(
-                        width: 38,
-                        height: 38,
-                        decoration: BoxDecoration(color: gc.bgRaised, shape: BoxShape.circle),
-                        child: Icon(PhosphorIconsRegular.clockCounterClockwise, size: 17, color: gc.text),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                ],
-                Semantics(
-                  button: true,
-                  label: t.share,
-                  child: GestureDetector(
-                    onTap: () => showShareSheet(context),
-                    child: Container(
-                      width: 38,
-                      height: 38,
-                      decoration: BoxDecoration(color: gc.bgRaised, shape: BoxShape.circle),
-                      child: Icon(PhosphorIconsRegular.shareNetwork, size: 17, color: gc.text),
-                    ),
-                  ),
-                ),
+                const SizedBox(width: 12),
+                _headerActions(context, gc),
               ],
             ),
             const SizedBox(height: 20),
@@ -117,6 +97,46 @@ class ProgressScreen extends StatelessWidget {
     );
   }
 
+  Widget _headerActions(BuildContext context, GymColors gc) {
+    Widget half(String label, VoidCallback onTap, List<Widget> children, EdgeInsets pad) => Semantics(
+          button: true,
+          label: label,
+          child: Pressable(
+            scale: 0.92,
+            onTap: onTap,
+            child: Padding(
+              padding: pad,
+              child: Row(mainAxisSize: MainAxisSize.min, children: children),
+            ),
+          ),
+        );
+    return Container(
+      height: 40,
+      decoration: BoxDecoration(
+        color: gc.bgRaised,
+        borderRadius: BorderRadius.circular(100),
+        border: Border.all(color: gc.border.withValues(alpha: 0.6)),
+      ),
+      child: Row(mainAxisSize: MainAxisSize.min, children: [
+        if (fit.sessions.isNotEmpty) ...[
+          half(sentenceCase(t.historyTitle), fit.goHistory, [
+            Icon(PhosphorIconsBold.clockCounterClockwise, size: 16, color: gc.textSecondary),
+          ], const EdgeInsets.fromLTRB(14, 0, 12, 0)),
+          Container(width: 1, height: 18, color: gc.border),
+          half(t.reportTitle, () => showReportSheet(context), [
+            Icon(PhosphorIconsBold.fileText, size: 16, color: gc.textSecondary),
+          ], const EdgeInsets.fromLTRB(12, 0, 12, 0)),
+          Container(width: 1, height: 18, color: gc.border),
+        ],
+        half(t.share, () => showShareSheet(context), [
+          Icon(PhosphorIconsBold.export, size: 15, color: gc.accent),
+          const SizedBox(width: 7),
+          Text(sentenceCase(t.share), style: AppTheme.f(13, weight: FontWeight.w700, color: gc.text)),
+        ], EdgeInsets.fromLTRB(fit.sessions.isNotEmpty ? 12 : 14, 0, 16, 0)),
+      ]),
+    );
+  }
+
   Widget _tile(
     GymColors gc, {
     required String label,
@@ -139,8 +159,7 @@ class ProgressScreen extends StatelessWidget {
           Row(children: [
             Expanded(
               child: FitText(label.toUpperCase(),
-                  style: AppTheme.f(10,
-                      weight: FontWeight.w600, color: gc.textTertiary, letterSpacing: 0.9)),
+                  style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.4)),
             ),
             ?badge,
           ]),
@@ -250,8 +269,7 @@ class ProgressScreen extends StatelessWidget {
           Row(
             children: [
               Text(t.consistency.toUpperCase(),
-                  style: AppTheme.f(10,
-                      weight: FontWeight.w600, color: gc.textTertiary, letterSpacing: 0.9)),
+                  style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.4)),
               const Spacer(),
               GestureDetector(
                 behavior: HitTestBehavior.opaque,
@@ -307,6 +325,7 @@ class ProgressScreen extends StatelessWidget {
 
   Widget _totals(GymColors gc) {
     final hours = fit.totalTime.inHours;
+    final lifted = fit.liftedSpanOf(fit.totalVolumeKg);
     final cells = <(String, String, String)>[
       (t.allTimeSessions, '${fit.totalSessions}', ''),
       (t.allTimeSets, '${fit.totalSets}', ''),
@@ -315,18 +334,20 @@ class ProgressScreen extends StatelessWidget {
         hours >= 1 ? '$hours' : '${fit.totalTime.inMinutes}',
         hours >= 1 ? t.unitHours : 'min'
       ),
+      (t.allTimeLifted, lifted.$1, lifted.$2),
     ];
-    return IntrinsicHeight(
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          for (var i = 0; i < cells.length; i++) ...[
-            Expanded(child: _tile(gc, label: cells[i].$1, value: cells[i].$2, unit: cells[i].$3)),
-            if (i < cells.length - 1) const SizedBox(width: 12),
-          ],
-        ],
-      ),
-    );
+    Widget row(int from) => IntrinsicHeight(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              for (var i = from; i < from + 2; i++) ...[
+                Expanded(child: _tile(gc, label: cells[i].$1, value: cells[i].$2, unit: cells[i].$3)),
+                if (i == from) const SizedBox(width: 12),
+              ],
+            ],
+          ),
+        );
+    return Column(children: [row(0), const SizedBox(height: 12), row(2)]);
   }
 
   Widget _thisWeek(GymColors gc) {
@@ -348,8 +369,7 @@ class ProgressScreen extends StatelessWidget {
         children: [
           Row(children: [
             Text(t.thisWeekTitle.toUpperCase(),
-                style: AppTheme.f(10,
-                    weight: FontWeight.w600, color: gc.textTertiary, letterSpacing: 0.9)),
+                style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.4)),
             const Spacer(),
             Text(t.setsThisWeek(sets.fold(0, (a, b) => a + b)),
                 style: AppTheme.f(11.5, weight: FontWeight.w600, color: gc.textSecondary)),
@@ -487,9 +507,12 @@ class ProgressScreen extends StatelessWidget {
     return [
       if (fit.sessions.isNotEmpty) _thisWeek(gc),
       if (fit.trackedExercises.isNotEmpty) _StrengthCard(),
+      if (fit.structuralBalance != null) const _BalanceCard(),
+      if (fit.readinessRecent.rated > 0) _ReadinessCard(),
       if (prs.isNotEmpty) _PrCard(prs),
       if (fit.shotCount > 0) _timelineCard(gc),
       if (fit.measures.isNotEmpty) _measuresCard(gc),
+      if (fit.healthShown.isNotEmpty) const HealthCard(),
     ];
   }
 
@@ -502,7 +525,8 @@ class ProgressScreen extends StatelessWidget {
       behavior: HitTestBehavior.opaque,
       onTap: fit.goTimeline,
       child: SoftCard(
-        radius: 20,
+        radius: 22,
+        borderColor: Colors.transparent,
         padding: const EdgeInsets.fromLTRB(18, 16, 18, 16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -521,7 +545,7 @@ class ProgressScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(t.timeline,
-                          style: AppTheme.d(14, weight: FontWeight.w600, color: gc.text, letterSpacing: 1)),
+                          style: AppTheme.f(15, weight: FontWeight.w700, color: gc.text)),
                       if (last != null && left != null) ...[
                         const SizedBox(height: 3),
                         Text(fit.photoDue ? t.photoDueNow : t.photoNextIn(left),
@@ -742,16 +766,16 @@ class ProgressScreen extends StatelessWidget {
       behavior: HitTestBehavior.opaque,
       onTap: fit.goMeasures,
       child: SoftCard(
-        radius: 20,
+        radius: 22,
+        borderColor: Colors.transparent,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               children: [
                 Expanded(
-                  child: Text(t.measures,
-                      style: AppTheme.d(14,
-                          weight: FontWeight.w600, color: gc.text, letterSpacing: 1)),
+                  child: Text(t.measures.toUpperCase(),
+                      style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.4)),
                 ),
                 Icon(PhosphorIconsRegular.caretRight, size: 15, color: gc.textTertiary),
               ],
@@ -784,7 +808,9 @@ class ProgressScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(t.measureName(key),
+          Text(fit.measureTitle(key),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
               style: AppTheme.s(10.5, weight: FontWeight.w600, color: gc.textTertiary)),
           const SizedBox(height: 3),
           Text(fit.measureLabel(key, latest.value),
@@ -840,6 +866,155 @@ class _BodyweightSheetState extends State<_BodyweightSheet> {
 
   String _signed(double kg) => '${kg > 0 ? '+' : kg < 0 ? '−' : ''}${fit.weightLabel(kg.abs())}';
 
+  String _pct(double v) => '${v > 0 ? '+' : v < 0 ? '−' : ''}${decimalText(v.abs().toStringAsFixed(2))} %';
+
+  Future<void> _pickAim() async {
+    final gc = context.gc;
+    await showAppSheet<void>(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (sheet) => Container(
+        padding: sheetPad(sheet),
+        decoration: sheetDecoration(gc),
+        child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+          const SheetHandle(),
+          const SizedBox(height: 16),
+          SheetTitle(t.paceAimTitle, subtitle: t.paceAimHint),
+          const SizedBox(height: 14),
+          OptionGroup([
+            for (final (aim, label, detail) in [
+              ('lose', t.paceLose, t.paceLoseRange),
+              ('hold', t.paceHold, t.paceHoldRange),
+              ('gain', t.paceGain, t.paceGainRange),
+              ('', t.paceAuto, t.paceAutoHint),
+            ])
+              OptionItem(label,
+                  detail: detail,
+                  selected: fit.weightAim == aim,
+                  onTap: () {
+                    fit.setWeightAim(aim);
+                    Navigator.pop(sheet);
+                  }),
+          ]),
+        ]),
+      ),
+    );
+  }
+
+  Widget _paceCard(GymColors gc) {
+    final pace = fit.weightPace!;
+    final status = fit.weightPaceStatus;
+    final aim = fit.effectiveWeightAim;
+    final band = NutritionState.paceCorridors[aim];
+    final (text, color) = switch (status) {
+      'onPace' => (t.paceOn, gc.sage),
+      'tooFast' => (t.paceTooFast, gc.warn),
+      'tooSlow' => (t.paceTooSlow, gc.brass),
+      'wrongWay' => (t.paceWrongWay, gc.danger),
+      'drifting' => (t.paceDrifting, gc.warn),
+      _ => (t.paceSetAim, gc.textSecondary),
+    };
+    const span = 1.5;
+    double at(double v) => ((v + span) / (span * 2)).clamp(0.0, 1.0);
+    return Pressable(
+      scale: 0.98,
+      onTap: _pickAim,
+      child: SoftCard(
+        radius: 22,
+        padding: const EdgeInsets.fromLTRB(16, 16, 16, 14),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+          Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
+            Text('${_signed(pace.kgPerWeek)}/${t.weekShort}',
+                style: AppTheme.f(22, weight: FontWeight.w800, color: gc.text)),
+            const SizedBox(width: 8),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 3),
+              child: Text(_pct(pace.pctPerWeek),
+                  style: AppTheme.f(12.5, weight: FontWeight.w700, color: gc.textSecondary)),
+            ),
+            const Spacer(),
+            Icon(PhosphorIconsRegular.slidersHorizontal, size: 16, color: gc.textTertiary),
+          ]),
+          const SizedBox(height: 14),
+          LayoutBuilder(builder: (context, box) {
+            final w = box.maxWidth;
+            return SizedBox(
+              height: 16,
+              child: Stack(clipBehavior: Clip.none, children: [
+                Positioned(
+                  left: 0,
+                  right: 0,
+                  top: 5,
+                  height: 6,
+                  child: DecoratedBox(
+                      decoration: BoxDecoration(color: gc.bgRaised2, borderRadius: BorderRadius.circular(3))),
+                ),
+                if (band != null)
+                  Positioned(
+                    left: w * at(band.$1),
+                    width: w * (at(band.$2) - at(band.$1)),
+                    top: 5,
+                    height: 6,
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                          color: gc.sage.withValues(alpha: 0.45), borderRadius: BorderRadius.circular(3)),
+                    ),
+                  ),
+                Positioned(
+                  left: w / 2 - 0.75,
+                  top: 2,
+                  width: 1.5,
+                  height: 12,
+                  child: ColoredBox(color: gc.textTertiary.withValues(alpha: 0.5)),
+                ),
+                TweenAnimationBuilder<double>(
+                  tween: Tween(end: at(pace.pctPerWeek)),
+                  duration: const Duration(milliseconds: 520),
+                  curve: Curves.easeOutCubic,
+                  builder: (_, v, _) => Positioned(
+                    left: (w * v - 8).clamp(0.0, w - 16),
+                    top: 0,
+                    child: Container(
+                      width: 16,
+                      height: 16,
+                      decoration: BoxDecoration(
+                        color: color,
+                        shape: BoxShape.circle,
+                        border: Border.all(color: gc.bgRaised, width: 3),
+                      ),
+                    ),
+                  ),
+                ),
+              ]),
+            );
+          }),
+          const SizedBox(height: 12),
+          Row(children: [
+            Container(
+              width: 8,
+              height: 8,
+              decoration: BoxDecoration(color: color, shape: BoxShape.circle),
+            ),
+            const SizedBox(width: 8),
+            Expanded(
+              child: Text(text, style: AppTheme.f(13, weight: FontWeight.w700, color: gc.text)),
+            ),
+            Text(
+                switch (aim) {
+                  'lose' => t.paceLose,
+                  'gain' => t.paceGain,
+                  'hold' => t.paceHold,
+                  _ => '',
+                },
+                style: AppTheme.f(12, weight: FontWeight.w600, color: gc.textTertiary)),
+          ]),
+          const SizedBox(height: 4),
+          Text(t.paceBasis, style: AppTheme.s(11.5, color: gc.textTertiary)),
+        ]),
+      ),
+    );
+  }
+
   List<(DateTime, double)> _weeks(List<BodyweightEntry> all) {
     final sums = <DateTime, (double, int)>{};
     for (final e in all) {
@@ -855,7 +1030,7 @@ class _BodyweightSheetState extends State<_BodyweightSheet> {
   Widget _kicker(GymColors gc, String text) => Padding(
         padding: const EdgeInsets.only(left: 4, top: 22, bottom: 10),
         child: Text(text.toUpperCase(),
-            style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.1)),
+            style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.4)),
       );
 
   @override
@@ -878,11 +1053,7 @@ class _BodyweightSheetState extends State<_BodyweightSheet> {
         final recentWeeks = weeks.length > 8 ? weeks.sublist(weeks.length - 8) : weeks;
         return Container(
           constraints: BoxConstraints(maxHeight: MediaQuery.sizeOf(context).height * 0.9),
-          decoration: BoxDecoration(
-            color: gc.bgRaised,
-            border: Border.all(color: gc.border),
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-          ),
+          decoration: sheetDecoration(gc),
           child: SingleChildScrollView(
             padding: EdgeInsets.fromLTRB(20, 12, 20, 20 + MediaQuery.paddingOf(context).bottom),
             child: Column(
@@ -964,6 +1135,10 @@ class _BodyweightSheetState extends State<_BodyweightSheet> {
                     style: AppTheme.f(12.5, weight: FontWeight.w700, color: diff.abs() < 0.05 ? gc.sage : gc.textSecondary),
                   ),
                 ],
+                if (fit.weightPace != null) ...[
+                  _kicker(gc, t.paceTitle),
+                  _paceCard(gc),
+                ],
                 if (recentWeeks.length >= 2) ...[
                   _kicker(gc, t.weeklyAvgTitle),
                   SoftCard(
@@ -981,7 +1156,7 @@ class _BodyweightSheetState extends State<_BodyweightSheet> {
                   ),
                   const SizedBox(height: 10),
                   SoftCard(
-                    radius: 20,
+                    radius: 22,
                     padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
                     child: Column(children: [
                       for (var i = recentWeeks.length - 1; i >= 0; i--)
@@ -1012,13 +1187,26 @@ class _BodyweightSheetState extends State<_BodyweightSheet> {
                 if (all.isNotEmpty) ...[
                   _kicker(gc, t.bodyweightHistory),
                   SoftCard(
-                    radius: 20,
+                    radius: 22,
                     padding: const EdgeInsets.only(left: 16),
                     child: Column(children: [
                       for (final e in all.reversed.take(30))
                         Row(children: [
                           Expanded(
-                            child: Text(t.shortDateYear(e.date), style: AppTheme.s(12.5, color: gc.textSecondary)),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(t.shortDateYear(e.date), style: AppTheme.s(12.5, color: gc.textSecondary)),
+                                if (e.note.isNotEmpty)
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 2, bottom: 6, right: 8),
+                                    child: Text(e.note,
+                                        maxLines: 3,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: AppTheme.f(12, weight: FontWeight.w500, color: gc.textTertiary, height: 1.3)),
+                                  ),
+                              ],
+                            ),
                           ),
                           Text(fit.weightLabel(e.kg), style: AppTheme.f(13.5, weight: FontWeight.w700, color: gc.text)),
                           Semantics(
@@ -1059,6 +1247,7 @@ class _MuscleMapCard extends StatefulWidget {
 class _MuscleMapCardState extends State<_MuscleMapCard> {
   int _days = 7;
   String? _focus;
+  bool _list = false;
 
   void _setDays(int d) => setState(() {
         _days = d;
@@ -1070,13 +1259,15 @@ class _MuscleMapCardState extends State<_MuscleMapCard> {
     final gc = context.gc;
     if (_days == 0) return _recoveryCard(gc);
     if (_days < 0) return _untrainedCard(gc);
-    final sets = fit.muscleSetsOver(_days);
-    final heat = fit.muscleHeatOver(_days);
+    final week = _days == 7;
+    final sets = week ? fit.muscleSetsThisWeek : fit.muscleSetsOver(_days);
+    final heat = week ? fit.muscleHeatThisWeek : fit.muscleHeatOver(_days);
     final focus = _focus;
-    final behind = fit.neglectedMuscles(_days);
+    final behind = week ? fit.neglectedThisWeek : fit.neglectedMuscles(_days);
 
     return SoftCard(
-      radius: 20,
+      radius: 22,
+      borderColor: Colors.transparent,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -1121,9 +1312,84 @@ class _MuscleMapCardState extends State<_MuscleMapCard> {
                     style: AppTheme.s(13, color: gc.textSecondary),
                   ),
           ),
+          if (sets.isNotEmpty) ..._muscleList(gc, sets, heat),
         ],
       ),
     );
+  }
+
+  List<Widget> _muscleList(GymColors gc, Map<String, double> sets, Map<String, double> heat) {
+    final ids = sets.keys.toList()..sort((a, b) => sets[b]!.compareTo(sets[a]!));
+    return [
+      const SizedBox(height: 10),
+      Divider(height: 1, thickness: 1, color: gc.border),
+      GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: () => setState(() => _list = !_list),
+        child: SizedBox(
+          height: 44,
+          child: Row(children: [
+            Expanded(
+              child: Text(t.muscleSetsList,
+                  style: AppTheme.f(13.5, weight: FontWeight.w600, color: gc.text)),
+            ),
+            AnimatedRotation(
+              turns: _list ? 0.5 : 0,
+              duration: const Duration(milliseconds: 200),
+              child: Icon(PhosphorIconsBold.caretDown, size: 13, color: gc.textTertiary),
+            ),
+          ]),
+        ),
+      ),
+      AnimatedSize(
+        duration: const Duration(milliseconds: 240),
+        curve: Curves.easeOutCubic,
+        alignment: Alignment.topCenter,
+        child: !_list
+            ? const SizedBox(width: double.infinity)
+            : Column(children: [
+                for (final id in ids)
+                  GestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    onTap: () => setState(() => _focus = _focus == id ? null : id),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 7),
+                      child: Row(children: [
+                        Container(
+                          width: 10,
+                          height: 10,
+                          decoration: BoxDecoration(color: heatColor(gc, heat[id] ?? 0), shape: BoxShape.circle),
+                        ),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: Text(t.muscle(id),
+                              style: AppTheme.f(14,
+                                  weight: _focus == id ? FontWeight.w800 : FontWeight.w600, color: gc.text)),
+                        ),
+                        SizedBox(
+                          width: 64,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(100),
+                            child: LinearProgressIndicator(
+                              value: heat[id] ?? 0,
+                              minHeight: 5,
+                              color: heatColor(gc, heat[id] ?? 0),
+                              backgroundColor: gc.bgRaised2,
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 44,
+                          child: Text(fmt((sets[id]! * 2).round() / 2),
+                              textAlign: TextAlign.end,
+                              style: AppTheme.f(16, weight: FontWeight.w800, color: gc.text)),
+                        ),
+                      ]),
+                    ),
+                  ),
+              ]),
+      ),
+    ];
   }
 
   Widget _header(GymColors gc) => Column(
@@ -1132,7 +1398,7 @@ class _MuscleMapCardState extends State<_MuscleMapCard> {
           Text(t.muscleMap,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: AppTheme.f(10, weight: FontWeight.w600, color: gc.textTertiary, letterSpacing: 0.9)),
+              style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.4)),
           const SizedBox(height: 10),
           Align(
             alignment: AlignmentDirectional.centerStart,
@@ -1140,7 +1406,7 @@ class _MuscleMapCardState extends State<_MuscleMapCard> {
               fit: BoxFit.scaleDown,
               child: SegToggle(
                 [
-                  SegOption(t.days7, _days == 7, () => _setDays(7)),
+                  SegOption(t.weekTab, _days == 7, () => _setDays(7)),
                   SegOption(t.days30, _days == 30, () => _setDays(30)),
                   SegOption(t.recoveryTab, _days == 0, () => _setDays(0)),
                   SegOption(t.untrainedTab, _days < 0, () => _setDays(-1)),
@@ -1160,7 +1426,8 @@ class _MuscleMapCardState extends State<_MuscleMapCard> {
     final empty = fit.sessions.isEmpty;
     final waiting = fit.untrainedLongest();
     return SoftCard(
-      radius: 20,
+      radius: 22,
+      borderColor: Colors.transparent,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -1229,7 +1496,8 @@ class _MuscleMapCardState extends State<_MuscleMapCard> {
     final tired = fit.stillRecovering();
     final focus = _focus;
     return SoftCard(
-      radius: 20,
+      radius: 22,
+      borderColor: Colors.transparent,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -1294,12 +1562,17 @@ class _MuscleMapCardState extends State<_MuscleMapCard> {
             Text(t.recoveryFresh, style: AppTheme.s(11, color: gc.textTertiary)),
           ]),
           const SizedBox(height: 14),
-          Container(
-            constraints: const BoxConstraints(minHeight: 36),
-            alignment: Alignment.centerLeft,
-            child: focus == null
-                ? Text(t.recoveryHint, style: AppTheme.s(13, color: gc.textSecondary))
-                : _recoveryReadout(gc, focus, recovery[focus] ?? 1),
+          AnimatedSize(
+            duration: const Duration(milliseconds: 260),
+            curve: Curves.easeOutCubic,
+            alignment: Alignment.topCenter,
+            child: Container(
+              constraints: const BoxConstraints(minHeight: 36),
+              alignment: Alignment.centerLeft,
+              child: focus == null
+                  ? Text(t.recoveryHint, style: AppTheme.s(13, color: gc.textSecondary))
+                  : _recoveryReadout(gc, focus, recovery[focus] ?? 1),
+            ),
           ),
         ],
       ),
@@ -1307,22 +1580,73 @@ class _MuscleMapCardState extends State<_MuscleMapCard> {
   }
 
   Widget _recoveryReadout(GymColors gc, String id, double value) {
-    final hours = fit.hoursUntilRecovered(id);
-    return Row(children: [
-      Container(
-        width: 10,
-        height: 10,
-        decoration: BoxDecoration(color: recoveryColor(gc, value), shape: BoxShape.circle),
-      ),
-      const SizedBox(width: 8),
-      Text(t.muscle(id), style: AppTheme.s(13, weight: FontWeight.w600, color: gc.text)),
-      const SizedBox(width: 8),
-      Expanded(
-        child: Text(
-            hours == null
-                ? t.recoveryPct((value * 100).round())
-                : '${t.recoveryPct((value * 100).round())} · ${t.readyInHours(hours)}',
-            style: AppTheme.s(13, color: gc.textSecondary)),
+    final toMid = value < 0.5 ? fit.hoursUntilRecovery(id, 0.5) : null;
+    final toReady = value < 0.8 ? fit.hoursUntilRecovery(id, 0.8) : null;
+    final (label, color) = value < 0.5
+        ? (t.recoveryTired, gc.danger)
+        : value < 0.8
+            ? (t.recoveryStateMid, gc.warn)
+            : (t.recoveryStateReady, gc.sage);
+    String when(int h) => h < 48 ? '$h h' : '${(h / 24).round()} ${t.unitDays}';
+    return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+      Row(children: [
+        Text(t.muscle(id), style: AppTheme.f(15, weight: FontWeight.w700, color: gc.text)),
+        const SizedBox(width: 8),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+          decoration: BoxDecoration(color: color.withValues(alpha: 0.14), borderRadius: BorderRadius.circular(100)),
+          child: Text(label, style: AppTheme.f(11, weight: FontWeight.w700, color: color)),
+        ),
+        const Spacer(),
+        Text('${(value * 100).round()}%', style: AppTheme.d(20, weight: FontWeight.w800, color: gc.text)),
+      ]),
+      const SizedBox(height: 10),
+      LayoutBuilder(builder: (context, box) {
+        final w = box.maxWidth;
+        Widget zone(double from, double to, Color c) => Positioned(
+              left: w * from + (from > 0 ? 2 : 0),
+              width: w * (to - from) - (from > 0 ? 2 : 0),
+              top: 3,
+              height: 8,
+              child: DecoratedBox(
+                decoration: BoxDecoration(color: c.withValues(alpha: 0.28), borderRadius: BorderRadius.circular(4)),
+              ),
+            );
+        return SizedBox(
+          height: 14,
+          child: Stack(clipBehavior: Clip.none, children: [
+            zone(0, 0.5, gc.danger),
+            zone(0.5, 0.8, gc.warn),
+            zone(0.8, 1, gc.sage),
+            TweenAnimationBuilder<double>(
+              tween: Tween(end: value.clamp(0.0, 1.0)),
+              duration: const Duration(milliseconds: 420),
+              curve: Curves.easeOutCubic,
+              builder: (_, v, _) => Positioned(
+                left: (w * v - 7).clamp(0.0, w - 14),
+                top: 0,
+                child: Container(
+                  width: 14,
+                  height: 14,
+                  decoration: BoxDecoration(
+                    color: recoveryColor(gc, v),
+                    shape: BoxShape.circle,
+                    border: Border.all(color: gc.bgRaised, width: 2.5),
+                  ),
+                ),
+              ),
+            ),
+          ]),
+        );
+      }),
+      const SizedBox(height: 10),
+      Text(
+        [
+          if (toMid != null) t.recoveringIn(when(toMid)),
+          if (toReady != null) t.readyIn(when(toReady)),
+          if (toReady == null) t.recoveryReadyNow,
+        ].join(' · '),
+        style: AppTheme.s(12.5, color: gc.textSecondary),
       ),
     ]);
   }
@@ -1353,13 +1677,14 @@ class _StrengthCard extends StatelessWidget {
     final id = fit.activeStrengthId;
 
     return SoftCard(
-      radius: 20,
+      radius: 22,
+      borderColor: Colors.transparent,
       padding: const EdgeInsets.fromLTRB(18, 18, 18, 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(t.strength1rm,
-              style: AppTheme.f(10, weight: FontWeight.w600, color: gc.textTertiary, letterSpacing: 0.9)),
+              style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.4)),
           const SizedBox(height: 14),
           if (id == null)
             Text(t.strengthEmpty, style: AppTheme.s(13, color: gc.textSecondary))
@@ -1526,10 +1851,7 @@ class _StrengthCard extends StatelessWidget {
         return Container(
           padding: sheetPad(sheet),
           constraints: BoxConstraints(maxHeight: MediaQuery.sizeOf(sheet).height * 0.8),
-          decoration: BoxDecoration(
-            color: gc.bgRaised,
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-          ),
+          decoration: sheetDecoration(gc),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -1607,7 +1929,8 @@ class _PrCardState extends State<_PrCard> {
     final rows = _all ? prs : prs.take(_shown).toList();
     final hidden = prs.length - rows.length;
     return SoftCard(
-      radius: 20,
+      radius: 22,
+      borderColor: Colors.transparent,
       padding: const EdgeInsets.fromLTRB(18, 18, 18, 8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -1617,7 +1940,7 @@ class _PrCardState extends State<_PrCard> {
             const SizedBox(width: 7),
             Expanded(
               child: Text(t.personalRecords,
-                  style: AppTheme.f(10, weight: FontWeight.w600, color: gc.textTertiary, letterSpacing: 0.9)),
+                  style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.4)),
             ),
             Text('${prs.length}', style: AppTheme.f(12, weight: FontWeight.w700, color: gc.textSecondary)),
           ]),
@@ -1733,11 +2056,7 @@ class _DaySheet extends StatelessWidget {
     final gc = context.gc;
     final s = fit.daySummary(date);
     return Container(
-      decoration: BoxDecoration(
-        color: gc.bgRaised,
-        border: Border.all(color: gc.border),
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-      ),
+      decoration: sheetDecoration(gc),
       clipBehavior: Clip.antiAlias,
       child: SingleChildScrollView(
         padding: sheetPad(context),
@@ -1809,24 +2128,83 @@ class _DaySheet extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.only(bottom: 6),
               child: Row(children: [
-                Flexible(
-                  child: Text(
-                    title ?? t.nameWorkout,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: title == null
-                        ? AppTheme.f(13, weight: FontWeight.w600, color: gc.textTertiary)
-                        : AppTheme.f(16, weight: FontWeight.w700, color: gc.text),
-                  ),
+                Expanded(
+                  child: Row(children: [
+                    Flexible(
+                      child: Text(
+                        title ?? t.nameWorkout,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: title == null
+                            ? AppTheme.f(13, weight: FontWeight.w600, color: gc.textTertiary)
+                            : AppTheme.f(16, weight: FontWeight.w700, color: gc.text),
+                      ),
+                    ),
+                    const SizedBox(width: 6),
+                    Icon(PhosphorIconsRegular.pencilSimple, size: 13, color: gc.textTertiary),
+                  ]),
                 ),
-                const SizedBox(width: 6),
-                Icon(PhosphorIconsRegular.pencilSimple, size: 13, color: gc.textTertiary),
+                if (fit.askCheckIn || s.sleep != null || s.energy != null) ...[
+                  const SizedBox(width: 8),
+                  _checkInPill(context, gc, s),
+                ],
               ]),
             ),
           ),
         ),
         _sessionMeta(context, gc, s),
+        if (fit.momentsOf(s).isNotEmpty)
+          Padding(
+            padding: const EdgeInsets.only(top: 4, bottom: 10),
+            child: SessionPhotos(s, framed: false),
+          ),
       ],
+    );
+  }
+
+  void _showCheckIn(BuildContext context, LoggedSession s) => showAppSheet<void>(
+        context: context,
+        backgroundColor: Colors.transparent,
+        builder: (sheetCtx) {
+          final gc = sheetCtx.gc;
+          return Container(
+            decoration: sheetDecoration(gc),
+            padding: sheetPad(sheetCtx),
+            child: AnimatedBuilder(
+              animation: fit,
+              builder: (_, _) => Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+                const SheetHandle(),
+                const SizedBox(height: 18),
+                CheckInCard(s, flat: true),
+                const SizedBox(height: 8),
+              ]),
+            ),
+          );
+        },
+      );
+
+  Widget _checkInPill(BuildContext context, GymColors gc, LoggedSession s) {
+    Widget part(IconData icon, int? v, Color color) => Row(mainAxisSize: MainAxisSize.min, children: [
+          Icon(icon, size: 12, color: v == null ? gc.textTertiary : color),
+          const SizedBox(width: 4),
+          Text(v == null ? '–' : '$v', style: AppTheme.s(11, weight: FontWeight.w700, color: gc.textSecondary)),
+        ]);
+    return Semantics(
+      button: true,
+      label: t.checkInTitle,
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: () => _showCheckIn(context, s),
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+          decoration: BoxDecoration(color: gc.bgRaised2, borderRadius: BorderRadius.circular(100)),
+          child: Row(mainAxisSize: MainAxisSize.min, children: [
+            part(PhosphorIconsRegular.moon, s.sleep, gc.sage),
+            const SizedBox(width: 8),
+            part(PhosphorIconsRegular.lightning, s.energy, gc.brass),
+          ]),
+        ),
+      ),
     );
   }
 
@@ -1968,6 +2346,8 @@ class _DaySheet extends StatelessWidget {
   Widget _loggedRow(BuildContext context, GymColors gc, LoggedSession s, LoggedExercise e) {
     final detail = fit.setsSummary(e.sets);
     final kcal = fit.cardioKcal(s, e);
+    final records = fit.recordSets;
+    final broke = [for (final st in e.workingSets) if (records.contains(st)) st];
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),
       child: Row(
@@ -1989,11 +2369,39 @@ class _DaySheet extends StatelessWidget {
                 Text(t.catalogName(e.id, e.name), style: AppTheme.s(13, weight: FontWeight.w600, color: gc.text)),
                 const SizedBox(height: 2),
                 Text(detail, style: AppTheme.s(11, color: gc.textSecondary)),
+                if (broke.isNotEmpty) ...[
+                  const SizedBox(height: 4),
+                  Row(children: [
+                    RecordBadge(label: sentenceCase(t.personalRecord), size: 16),
+                    const SizedBox(width: 6),
+                    Flexible(
+                      child: Text(broke.map(fit.loggedSetLabel).join(' · '),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: AppTheme.s(11, weight: FontWeight.w700, color: gc.brass)),
+                    ),
+                  ]),
+                ],
                 if (kcal != null) ...[
                   const SizedBox(height: 2),
                   Text('${kcal.own ? '' : '≈ '}${fit.energyOf(kcal.active)} ${fit.energyUnit} ${t.kcalActive}',
                       style: AppTheme.s(11, weight: FontWeight.w600, color: gc.warn)),
                 ],
+                for (var i = 0; i < e.sets.length; i++)
+                  if (e.sets[i].note.isNotEmpty) ...[
+                    const SizedBox(height: 3),
+                    Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 1),
+                        child: Icon(PhosphorIconsFill.notePencil, size: 11, color: gc.textTertiary),
+                      ),
+                      const SizedBox(width: 5),
+                      Expanded(
+                        child: Text(t.setNoteLine(i + 1, e.sets[i].note),
+                            style: AppTheme.s(11, color: gc.textSecondary, height: 1.3)),
+                      ),
+                    ]),
+                  ],
               ],
             ),
           ),
@@ -2043,7 +2451,7 @@ class _DaySheet extends StatelessWidget {
     Widget fit1(Widget child) =>
         FittedBox(fit: BoxFit.scaleDown, alignment: Alignment.centerLeft, child: child);
     return SoftCard(
-      radius: 14,
+      radius: 16,
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -2070,17 +2478,20 @@ class _LogBodyweightSheet extends StatefulWidget {
 
 class _LogBodyweightSheetState extends State<_LogBodyweightSheet> {
   late double _shown = ((fit.toDisplayWeight(widget.start)) * 10).round() / 10;
+  final _note = TextEditingController();
+
+  @override
+  void dispose() {
+    _note.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final gc = context.gc;
     return Container(
       padding: EdgeInsets.fromLTRB(20, 12, 20, 20 + MediaQuery.of(context).viewInsets.bottom + MediaQuery.paddingOf(context).bottom),
-      decoration: BoxDecoration(
-        color: gc.bgRaised,
-        border: Border.all(color: gc.border),
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-      ),
+      decoration: sheetDecoration(gc),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -2112,11 +2523,39 @@ class _LogBodyweightSheetState extends State<_LogBodyweightSheet> {
             label: (v) => '${v.round()}',
             onChanged: (v) => setState(() => _shown = v),
           ),
-          const SizedBox(height: 18),
+          const SizedBox(height: 14),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 4),
+            decoration: BoxDecoration(color: gc.bgRaised2, borderRadius: BorderRadius.circular(16)),
+            child: Row(children: [
+              Icon(PhosphorIconsRegular.notePencil, size: 16, color: gc.textTertiary),
+              const SizedBox(width: 10),
+              Expanded(
+                child: TextField(
+                  controller: _note,
+                  maxLines: 3,
+                  minLines: 1,
+                  maxLength: 200,
+                  textCapitalization: TextCapitalization.sentences,
+                  cursorColor: gc.accent,
+                  style: AppTheme.f(13.5, weight: FontWeight.w600, color: gc.text),
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    counterText: '',
+                    isDense: true,
+                    contentPadding: const EdgeInsets.symmetric(vertical: 10),
+                    hintText: t.bodyweightNoteHint,
+                    hintStyle: AppTheme.f(13.5, weight: FontWeight.w500, color: gc.textTertiary),
+                  ),
+                ),
+              ),
+            ]),
+          ),
+          const SizedBox(height: 16),
           PrimaryButton(
             label: t.save,
             onTap: () {
-              fit.addBodyweight(fit.fromDisplayWeight(_shown));
+              fit.addBodyweight(fit.fromDisplayWeight(_shown), note: _note.text);
               Navigator.of(context).pop();
             },
           ),
@@ -2144,11 +2583,7 @@ void showEditLoggedSheet(BuildContext context, LoggedSession s, LoggedExercise e
         final repsOnly = fit.isRepsOnly(e.id);
         return Container(
           padding: EdgeInsets.only(bottom: MediaQuery.of(sheetCtx).viewInsets.bottom),
-          decoration: BoxDecoration(
-            color: gc.bgRaised,
-            border: Border.all(color: gc.border),
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-          ),
+          decoration: sheetDecoration(gc),
           child: SafeArea(
             child: SingleChildScrollView(
               padding: const EdgeInsets.fromLTRB(20, 12, 20, 24),
@@ -2373,11 +2808,7 @@ class _HeatToneSheetState extends State<_HeatToneSheet> {
     final gc = context.gc;
     return Container(
       padding: sheetPad(context),
-      decoration: BoxDecoration(
-        color: gc.bgRaised,
-        border: Border.all(color: gc.border),
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-      ),
+      decoration: sheetDecoration(gc),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -2476,4 +2907,208 @@ class _TrackPainter extends CustomPainter {
   @override
   bool shouldRepaint(_TrackPainter o) =>
       o.spots != spots || o.color != color || o.rail != rail || o.open != open;
+}
+
+class _BalanceCard extends StatefulWidget {
+  const _BalanceCard();
+
+  @override
+  State<_BalanceCard> createState() => _BalanceCardState();
+}
+
+class _ReadinessCard extends StatelessWidget {
+  const _ReadinessCard();
+
+  @override
+  Widget build(BuildContext context) {
+    final gc = context.gc;
+    final effect = fit.readinessEffect;
+    final recent = fit.readinessRecent;
+    final String headline;
+    if (effect == null) {
+      headline = t.readinessWaiting;
+    } else if (effect.pct.abs() < 3) {
+      headline = effect.sleep ? t.readinessSleepNone : t.readinessEnergyNone;
+    } else if (effect.pct < 0) {
+      headline = effect.sleep ? t.readinessSleepLess(-effect.pct) : t.readinessEnergyLess(-effect.pct);
+    } else {
+      headline = effect.sleep ? t.readinessSleepMore(effect.pct) : t.readinessEnergyMore(effect.pct);
+    }
+    Widget avg(IconData icon, String label, double? v, Color color) => Expanded(
+          child: Container(
+            padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
+            decoration: BoxDecoration(color: gc.bgRaised2, borderRadius: BorderRadius.circular(14)),
+            child: Row(children: [
+              Icon(icon, size: 15, color: v == null ? gc.textTertiary : color),
+              const SizedBox(width: 8),
+              Expanded(
+                child: Text(label,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: AppTheme.f(12, weight: FontWeight.w600, color: gc.textSecondary)),
+              ),
+              Text(v == null ? '–' : checkInWord(v.round()),
+                  style: AppTheme.f(12.5, weight: FontWeight.w700, color: v == null ? gc.textTertiary : gc.text)),
+            ]),
+          ),
+        );
+    return SoftCard(
+      radius: 22,
+      borderColor: Colors.transparent,
+      padding: const EdgeInsets.fromLTRB(18, 18, 18, 16),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+        Text(t.readinessTitle.toUpperCase(),
+            style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.4)),
+        const SizedBox(height: 8),
+        Text(headline, style: AppTheme.f(15, weight: FontWeight.w700, color: gc.text, height: 1.3)),
+        const SizedBox(height: 4),
+        Text(effect == null ? t.readinessWaitingHint : t.readinessHint,
+            style: AppTheme.s(12.5, color: gc.textSecondary, height: 1.4)),
+        const SizedBox(height: 14),
+        Text(t.readinessLast30, style: AppTheme.s(11, weight: FontWeight.w600, color: gc.textTertiary)),
+        const SizedBox(height: 8),
+        Row(children: [
+          avg(PhosphorIconsRegular.moon, t.checkInSleep, recent.sleep, gc.sage),
+          const SizedBox(width: 8),
+          avg(PhosphorIconsRegular.lightning, t.checkInEnergy, recent.energy, gc.brass),
+        ]),
+      ]),
+    );
+  }
+}
+
+class _BalanceCardState extends State<_BalanceCard> {
+  bool _why = false;
+
+  String _name(String id) {
+    final ex = fit.exerciseById(id);
+    return ex == null ? id : t.catalogName(ex.id, ex.name);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final gc = context.gc;
+    final data = fit.structuralBalance;
+    if (data == null) return const SizedBox.shrink();
+    final behind = data.behind;
+    return SoftCard(
+      radius: 22,
+      borderColor: Colors.transparent,
+      padding: const EdgeInsets.fromLTRB(18, 18, 18, 14),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+        Row(children: [
+          Expanded(
+            child: Text(t.balanceTitle.toUpperCase(),
+                style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.4)),
+          ),
+          Semantics(
+            button: true,
+            label: t.balanceWhy,
+            child: GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onTap: () => setState(() => _why = !_why),
+              child: Padding(
+                padding: const EdgeInsets.all(4),
+                child: Icon(_why ? PhosphorIconsFill.info : PhosphorIconsRegular.info, size: 17, color: gc.textSecondary),
+              ),
+            ),
+          ),
+        ]),
+        const SizedBox(height: 8),
+        Text(
+          behind == null
+              ? t.balanceGood
+              : t.balanceBehind(_name(behind),
+                  fit.weightLabel(data.lifts.firstWhere((l) => l.id == behind).target - data.lifts.firstWhere((l) => l.id == behind).kg)),
+          style: AppTheme.f(15, weight: FontWeight.w700, color: gc.text, height: 1.3),
+        ),
+        AnimatedSize(
+          duration: const Duration(milliseconds: 260),
+          curve: Curves.easeOutCubic,
+          alignment: Alignment.topCenter,
+          child: _why
+              ? Padding(
+                  padding: const EdgeInsets.only(top: 6),
+                  child: Text(t.balanceHint, style: AppTheme.s(12.5, color: gc.textSecondary, height: 1.4)),
+                )
+              : const SizedBox(width: double.infinity),
+        ),
+        const SizedBox(height: 14),
+        for (final l in data.lifts) _row(gc, l, l.id == behind),
+        const SizedBox(height: 4),
+        Row(children: [
+          Text(t.balanceBehindShort, style: AppTheme.s(11, color: gc.textTertiary)),
+          const Spacer(),
+          Text(t.balanceAheadShort, style: AppTheme.s(11, color: gc.textTertiary)),
+        ]),
+      ]),
+    );
+  }
+
+  Widget _row(GymColors gc, ({String id, double kg, double target, double score}) l, bool behind) {
+    final gap = l.target - l.kg;
+    final even = l.score >= 0.95 && l.score <= 1.05;
+    final color = behind ? gc.warn : (l.score < 0.95 ? Color.lerp(gc.textSecondary, gc.warn, 0.4)! : gc.sage);
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+        Row(children: [
+          Expanded(
+            child: Text(_name(l.id),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: AppTheme.f(13, weight: FontWeight.w600, color: gc.text)),
+          ),
+          const SizedBox(width: 8),
+          Text(
+              even
+                  ? t.balanceEven
+                  : gap > 0
+                      ? '−${fit.weightLabel(gap)}'
+                      : '+${fit.weightLabel(-gap)}',
+              style: AppTheme.f(12, weight: FontWeight.w700, color: even ? gc.textSecondary : color)),
+        ]),
+        const SizedBox(height: 6),
+        LayoutBuilder(builder: (context, box) {
+          final w = box.maxWidth;
+          final pos = ((l.score - 0.6) / 0.8).clamp(0.0, 1.0);
+          return SizedBox(
+            height: 12,
+            child: Stack(clipBehavior: Clip.none, children: [
+              Positioned(
+                left: 0,
+                right: 0,
+                top: 4,
+                height: 4,
+                child: DecoratedBox(
+                    decoration: BoxDecoration(color: gc.bgRaised2, borderRadius: BorderRadius.circular(2))),
+              ),
+              Positioned(
+                left: w / 2 - 1,
+                top: 0,
+                width: 2,
+                height: 12,
+                child: ColoredBox(color: gc.textTertiary.withValues(alpha: 0.6)),
+              ),
+              TweenAnimationBuilder<double>(
+                tween: Tween(end: pos),
+                duration: const Duration(milliseconds: 520),
+                curve: Curves.easeOutCubic,
+                builder: (_, v, _) {
+                  final x = w * v, mid = w / 2;
+                  return Positioned(
+                    left: x < mid ? x : mid,
+                    width: (x - mid).abs(),
+                    top: 4,
+                    height: 4,
+                    child: DecoratedBox(decoration: BoxDecoration(color: color, borderRadius: BorderRadius.circular(2))),
+                  );
+                },
+              ),
+            ]),
+          );
+        }),
+      ]),
+    );
+  }
 }
