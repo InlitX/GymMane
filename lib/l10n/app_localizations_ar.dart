@@ -130,7 +130,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get buildSession => 'أنشئ تمرينك';
 
   @override
-  String get tapMuscles => 'اضغط على العضلات التي تريد تدريبها — من الأمام والخلف.';
+  String get tapMuscles => 'اضغط على العضلات التي تريد تدريبها، من الأمام والخلف.';
 
   @override
   String get continueBtn => 'متابعة';
@@ -143,7 +143,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String pickedHint(int n) {
-    return 'جهزنا لك تمرينًا — اضغط لإضافة أو إزالة أي من التمارين الـ $n.';
+    return 'جهزنا لك تمرينًا، اضغط لإضافة أو إزالة أي من التمارين الـ $n.';
   }
 
   @override
@@ -437,7 +437,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get restOverTitle => 'انتهت الراحة';
 
   @override
-  String get restOverBody => 'عد إلى التمرين — المجموعة التالية تنتظرك.';
+  String get restOverBody => 'عد إلى التمرين، المجموعة التالية تنتظرك.';
 
   @override
   String get allTimeSessions => 'التمارين';
@@ -550,7 +550,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get restDayShort => 'يوم راحة';
 
   @override
-  String get restDay => 'يوم راحة — لم يُسجل شيء.';
+  String get restDay => 'يوم راحة، لم يُسجل شيء.';
 
   @override
   String get delete => 'حذف';
@@ -771,7 +771,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get placeDeleteTitle => 'حذف المكان';
 
   @override
-  String get placeDeleteBody => 'سيُحذف المكان فقط — ستبقى تمارينك وجلساتك.';
+  String get placeDeleteBody => 'سيُحذف المكان فقط، ستبقى تمارينك وجلساتك.';
 
   @override
   String get placeGym => 'النادي الرياضي';
@@ -837,7 +837,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get noteEmptyBody =>
-      'سجّل الملاحظات وخطط المرة القادمة وشعورك بعد التمرين — مع صور أو فيديو إن أردت.';
+      'سجّل الملاحظات وخطط المرة القادمة وشعورك بعد التمرين، مع صور أو فيديو إن أردت.';
 
   @override
   String get noteNoneForExercise => 'لا توجد ملاحظات لهذا التمرين بعد.';
@@ -912,7 +912,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get measures => 'القياسات';
 
   @override
-  String get measuresHint => 'من الرقبة إلى ربلة الساق — راقب تغير جسمك لا البار فقط.';
+  String get measuresHint => 'من الرقبة إلى ربلة الساق، راقب تغير جسمك لا البار فقط.';
 
   @override
   String measureCount(int n) {
@@ -1027,7 +1027,7 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
-  String get photoDueNow => 'حان وقت الصورة — التقطها اليوم';
+  String get photoDueNow => 'حان وقت الصورة، التقطها اليوم';
 
   @override
   String get addTodayPhotos => 'إضافة صور اليوم';
@@ -1073,10 +1073,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get timelineBody => 'خريطة العضلات';
 
   @override
-  String get timelineBodyEmpty => 'سجّل تمرينًا وستبدأ خريطة العضلات بالامتلاء هنا — دون حاجة إلى صور.';
+  String get timelineBodyEmpty => 'سجّل تمرينًا وستبدأ خريطة العضلات بالامتلاء هنا، دون حاجة إلى صور.';
 
   @override
-  String get timelineBodyHint => 'مبنية من مجموعاتك أنت — لا يتم رفع أي شيء.';
+  String get timelineBodyHint => 'مبنية من مجموعاتك أنت، لا يتم رفع أي شيء.';
 
   @override
   String timelineWindow(String from, String to) {
@@ -1241,7 +1241,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get newRoutineName => 'روتين جديد';
 
   @override
-  String get dragToReorder => 'اسحب المقبض المنقّط لإعادة الترتيب — هذا هو ترتيب تمرينك.';
+  String get dragToReorder => 'اسحب المقبض المنقّط لإعادة الترتيب، هذا هو ترتيب تمرينك.';
 
   @override
   String reorderHandle(String name) {
@@ -1270,7 +1270,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get resetBody =>
-      'التمارين والسجلات والروتينات والملاحظات والملف الشخصي. لا يمكن التراجع عن ذلك — صدّر نسخة احتياطية أولًا إذا قد تحتاجها.';
+      'التمارين والسجلات والروتينات والملاحظات والملف الشخصي. لا يمكن التراجع عن ذلك، صدّر نسخة احتياطية أولًا إذا قد تحتاجها.';
 
   @override
   String get resetConfirm => 'حذف كل شيء';
@@ -1348,7 +1348,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get alarmDefaultName => 'افتراضي';
 
   @override
-  String get alarmSoundHint => 'استخدم صوتك الخاص — حتى 15 ثانية';
+  String get alarmSoundHint => 'استخدم صوتك الخاص، حتى 15 ثانية';
 
   @override
   String get alarmChoose => 'اختر صوتًا…';
@@ -1523,7 +1523,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get backupFailed => 'تعذر قراءة هذه النسخة الاحتياطية';
 
   @override
-  String get nothingToExport => 'لا يوجد شيء لتصديره بعد — سجّل تمرينًا أولًا';
+  String get nothingToExport => 'لا يوجد شيء لتصديره بعد، سجّل تمرينًا أولًا';
 
   @override
   String calculatorsCount(int n) {
@@ -1808,7 +1808,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get calculatorsInsideWhy =>
-      '1RM والأقراص ومؤشر كتلة الجسم والسعرات ودهون الجسم وFFMI والإحماء والوزن حسب RPE ونقاط القوة DOTS وWilks — كلها مبنية على معادلات منشورة.';
+      '1RM والأقراص ومؤشر كتلة الجسم والسعرات ودهون الجسم وFFMI والإحماء والوزن حسب RPE ونقاط القوة DOTS وWilks، كلها مبنية على معادلات منشورة.';
 
   @override
   String get mathInside => 'حسابات شفافة';
@@ -2205,7 +2205,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get supersetUnlink => 'فصل عن التالي';
 
   @override
-  String get supersetHint => 'لا راحة بين التمارين المرتبطة — تنتقل مباشرة إلى التالي.';
+  String get supersetHint => 'لا راحة بين التمارين المرتبطة، تنتقل مباشرة إلى التالي.';
 
   @override
   String get aiRoutine => 'روتين بالذكاء الاصطناعي';
@@ -2561,7 +2561,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get momentsEmptyHint =>
-      'التقط صورة للنادي أو اللوح أو بار محمّل — أي شيء تريد تذكره. تبقى الصور على هاتفك ولا يراها سواك.';
+      'التقط صورة للنادي أو اللوح أو بار محمّل، أي شيء تريد تذكره. تبقى الصور على هاتفك ولا يراها سواك.';
 
   @override
   String get awardStreak100Line => 'مئة يوم متتالية. لم يعد الأمر دافعًا، بل أصبح عادة.';
@@ -2579,7 +2579,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get logTitle => 'تسجيل تمرين';
 
   @override
-  String get logHint => 'بدون مؤقت — فقط أدخل ما فعلته.';
+  String get logHint => 'بدون مؤقت، فقط أدخل ما فعلته.';
 
   @override
   String get orStartFrom => 'أو ابدأ بـ';
@@ -2833,7 +2833,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String shareMessage(String name) {
-    return '$name — افتح الملف باستخدام GymMane لإضافته.';
+    return '$name، افتح الملف باستخدام GymMane لإضافته.';
   }
 
   @override
@@ -6556,4 +6556,709 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get supportThanksBody =>
       'GymMane مجاني وسيبقى مجانيًا دائمًا، بلا إعلانات ولا شيء مخفي.\n\nإن كان يساعدك في التمرين، فدعوتي إلى قهوة تُسعد يومي ☕\nوإن لم تستطع فلا بأس: نجمة على GitHub تكفي أيضًا ⭐';
+
+  @override
+  String get perfSetting => 'Performance';
+
+  @override
+  String get perfSheetHint => 'How much of your phone GymMane uses. You can change each part below.';
+
+  @override
+  String get perfLite => 'Saver';
+
+  @override
+  String get perfLiteHint => 'No blur and calmer motion. For phones that struggle.';
+
+  @override
+  String get perfBalanced => 'Balanced';
+
+  @override
+  String get perfBalancedHint => 'Blur and animations without draining the battery.';
+
+  @override
+  String get perfMax => 'Maximum';
+
+  @override
+  String perfMaxHint(int hz) {
+    return 'Finer blur and the screen at $hz Hz. For high-end phones.';
+  }
+
+  @override
+  String get perfMaxHintNoHz => 'Finer blur everywhere. For high-end phones.';
+
+  @override
+  String get perfCustom => 'Custom';
+
+  @override
+  String get perfTweak => 'Fine-tuning';
+
+  @override
+  String get perfFine => 'Fine blur';
+
+  @override
+  String get perfFineHint => 'Softer edges and a sharper backdrop behind sheets';
+
+  @override
+  String perfHz(int hz) {
+    return 'Screen at $hz Hz';
+  }
+
+  @override
+  String get perfHzHint => 'Everything scrolls smoother, at a little more battery';
+
+  @override
+  String get lowEndLiteBody =>
+      'Saver mode (no blur, calmer motion) will run smoother on it. You can change it in Settings → General → Performance.';
+
+  @override
+  String get lowEndLiteOn => 'Turn on Saver';
+
+  @override
+  String get dayOffHint => 'Your streak and the reminder leave this day alone';
+
+  @override
+  String get dayOffTrained => 'I trained, just didn\'t log it';
+
+  @override
+  String get dayOffSick => 'Illness';
+
+  @override
+  String get dayOffTravel => 'Travel';
+
+  @override
+  String get dayOffInjury => 'Injury';
+
+  @override
+  String get dayOffRest => 'Rest';
+
+  @override
+  String get altsTitle => 'Backups';
+
+  @override
+  String get altsHint => 'In case the machine is taken';
+
+  @override
+  String altsPickHint(int count) {
+    return 'Pick up to $count. If the machine is taken, swap in one tap.';
+  }
+
+  @override
+  String get placeDumbbells => 'Dumbbells';
+
+  @override
+  String get dumbbellsHint =>
+      'The weight of one dumbbell. Progression and the + and − buttons will only land on these here.';
+
+  @override
+  String get dumbbellOther => 'Another weight';
+
+  @override
+  String get tuneTitle => 'Today\'s volume';
+
+  @override
+  String get tuneHint => 'Tell me how each muscle felt and I\'ll adjust the sets for next time.';
+
+  @override
+  String get tuneLess => 'Too little';
+
+  @override
+  String get tuneRight => 'Right';
+
+  @override
+  String get tuneMore => 'Too much';
+
+  @override
+  String tuneNext(String sets, String name) {
+    return 'Next time: $sets of $name';
+  }
+
+  @override
+  String get tuneSame => 'Stays the same next time';
+
+  @override
+  String get tuneSetting => 'Tune sets per muscle';
+
+  @override
+  String get tuneSettingHint => 'After a routine, rate each muscle and the sets adjust';
+
+  @override
+  String insightLoad(int pct) {
+    return '$pct % more sets than your usual week. Watch your recovery.';
+  }
+
+  @override
+  String insightMuscle(String muscle, int days) {
+    return '$muscle: $days days untouched.';
+  }
+
+  @override
+  String insightPushHeavy(int a, int b) {
+    return 'You push more than you pull: $a sets against $b in four weeks.';
+  }
+
+  @override
+  String insightPullHeavy(int a, int b) {
+    return 'You pull more than you push: $a sets against $b in four weeks.';
+  }
+
+  @override
+  String insightStronger(String name, int pct) {
+    return '$name: $pct % stronger than last month.';
+  }
+
+  @override
+  String recapPull(String month) {
+    return 'واصل السحب لرؤية شهر $month';
+  }
+
+  @override
+  String get recapRelease => 'اترك';
+
+  @override
+  String recapHi(String name) {
+    return 'مرحبًا، $name';
+  }
+
+  @override
+  String recapReady(String month) {
+    return 'هل نرى ما أنجزته في $month؟';
+  }
+
+  @override
+  String get recapGo => 'هيا';
+
+  @override
+  String recapEmpty(String month) {
+    return 'لا تمارين في $month بعد. أول تمرين يفتح كل شيء.';
+  }
+
+  @override
+  String get recapClose => 'إغلاق';
+
+  @override
+  String get recapShare => 'مشاركة';
+
+  @override
+  String get recapWorkoutsKicker => 'هذا الشهر أنجزت';
+
+  @override
+  String recapWorkouts(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: 'تمرين',
+      few: 'تمارين',
+      two: 'تمرينان',
+      one: 'تمرين',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String recapDays(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: 'في $n يومًا مختلفًا',
+      few: 'في $n أيام مختلفة',
+      two: 'في يومين مختلفين',
+      one: 'في يوم واحد',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get recapTimeKicker => 'الوقت تحت البار';
+
+  @override
+  String recapLongest(String time, String date) {
+    return 'أطول جلسة: $time، في $date';
+  }
+
+  @override
+  String get recapVolumeKicker => 'رفعت';
+
+  @override
+  String recapCars(int n, String count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: 'كأنك رفعت $count سيارات',
+      one: 'كأنك رفعت سيارة',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String recapTop(String name, String volume) {
+    return 'الأكثر: $name، $volume';
+  }
+
+  @override
+  String get recapMuscleKicker => 'عضلة الشهر';
+
+  @override
+  String get recapRecordsKicker => 'أرقام قياسية جديدة';
+
+  @override
+  String recapNoRecords(int n) {
+    return 'لا أرقام قياسية هذه المرة، لكنك أضفت $n مجموعة.';
+  }
+
+  @override
+  String get recapHabitKicker => 'وقتك';
+
+  @override
+  String recapHabitStart(String time) {
+    return 'عادةً تبدأ في $time';
+  }
+
+  @override
+  String get recapShareKicker => 'شهرك، جاهز للمشاركة';
+
+  @override
+  String get recapTickWorkouts => 'التمارين';
+
+  @override
+  String get recapTickTime => 'الوقت';
+
+  @override
+  String get recapTickVolume => 'الحمل';
+
+  @override
+  String get recapTickRecords => 'الأرقام القياسية';
+
+  @override
+  String recapAvg(int n) {
+    return '$n دقيقة في المتوسط لكل تمرين';
+  }
+
+  @override
+  String get recapLiftKicker => 'تمرين الشهر';
+
+  @override
+  String get recapBest => 'الأفضل';
+
+  @override
+  String get recapTimes => 'الأيام';
+
+  @override
+  String get recapDaysLabel => 'الأيام';
+
+  @override
+  String get recapAvgLabel => 'المتوسط';
+
+  @override
+  String recapCalendarLine(int workouts, int days) {
+    return '$workouts تمارين في $days أيام';
+  }
+
+  @override
+  String get recapFavLabel => 'يومك';
+
+  @override
+  String get recapWatermark => 'سجل نادٍ مجاني';
+
+  @override
+  String get recapTickSteps => 'الخطوات';
+
+  @override
+  String get recapTickFood => 'الطعام';
+
+  @override
+  String get recapCardioKicker => 'الكارديو';
+
+  @override
+  String recapCardioTime(int minutes, int n) {
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n تمارين', one: 'تمرين واحد');
+    return '$minutes دقيقة في $_temp0';
+  }
+
+  @override
+  String recapCardioCount(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n تمارين كارديو',
+      one: 'تمرين كارديو واحد',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String recapCardioTop(String name) {
+    return 'المفضل لديك: $name';
+  }
+
+  @override
+  String get recapStepsKicker => 'مشيت';
+
+  @override
+  String get recapStepsWord => 'خطوة';
+
+  @override
+  String recapStepsAvg(String value) {
+    return '$value يوميًا في المتوسط';
+  }
+
+  @override
+  String recapStepsBest(String value, String date) {
+    return 'أفضل يوم: $value، $date';
+  }
+
+  @override
+  String get recapFoodKicker => 'في طبقك';
+
+  @override
+  String get recapLiftRest => 'يليه مباشرة';
+
+  @override
+  String recapSameAs(String month) {
+    return 'مثل $month';
+  }
+
+  @override
+  String recapMoreThan(String value, String month) {
+    return '$value أكثر من $month';
+  }
+
+  @override
+  String recapLessThan(String value, String month) {
+    return '$value أقل من $month';
+  }
+
+  @override
+  String get recapTickMedals => 'الميداليات';
+
+  @override
+  String get recapTickSleep => 'النوم';
+
+  @override
+  String get recapMedalsKicker => 'ميداليات فزت بها';
+
+  @override
+  String recapMedalsMore(int n) {
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: 'و$n أخرى', one: 'وواحدة أخرى');
+    return '$_temp0';
+  }
+
+  @override
+  String get recapSleepKicker => 'نمت';
+
+  @override
+  String get recapSleepAvg => 'في الليلة في المتوسط';
+
+  @override
+  String recapSleepBest(String value, String date) {
+    return 'أفضل ليلة: $value، $date';
+  }
+
+  @override
+  String get recapCardSummary => 'الملخص';
+
+  @override
+  String get recapCardCalendar => 'التقويم';
+
+  @override
+  String get recapCardLift => 'التمرين';
+
+  @override
+  String get recapPeakKicker => 'أصعب جلسة لك';
+
+  @override
+  String get recapTickPeak => 'الجلسة';
+
+  @override
+  String get recapFreshKicker => 'لأول مرة هذا الشهر';
+
+  @override
+  String recapFresh(int n) {
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: 'تمارين جديدة', one: 'تمرين جديد');
+    return '$_temp0';
+  }
+
+  @override
+  String get recapTickFresh => 'جديد';
+
+  @override
+  String recapStreak(int n) {
+    return '$n أيام متتالية، أطول سلسلة لك';
+  }
+
+  @override
+  String recapYearAgo(int n) {
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n تمارين', one: 'تمرين واحد');
+    return 'قبل عام: $_temp0';
+  }
+
+  @override
+  String recapForgot(String muscle) {
+    return 'غاب هذا الشهر: $muscle';
+  }
+
+  @override
+  String recapFoodProtein(int goal) {
+    return 'بروتين يوميًا · الهدف $goal غ';
+  }
+
+  @override
+  String recapFoodStarDays(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: 'في طبقك $n أيام',
+      one: 'في طبقك يومًا واحدًا',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get recapFoodProteinLabel => 'البروتين · غ/يوم';
+
+  @override
+  String get recapFoodGoalDays => 'تحقق الهدف';
+
+  @override
+  String get recapFoodWaterLabel => 'الماء/يوم';
+
+  @override
+  String recapFoodTimes(int n) {
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n أيام', one: 'يوم واحد');
+    return '$_temp0';
+  }
+
+  @override
+  String get recapFoodStarKicker => 'طعامك لهذا الشهر';
+
+  @override
+  String get onbSpeedTitle => 'Make it run smooth';
+
+  @override
+  String get onbSpeedWhy =>
+      'Your phone seems to be working hard. Turn these off and everything will flow better: try them and watch the preview.';
+
+  @override
+  String get onbSpeedMotion => 'Animations';
+
+  @override
+  String get onbSpeedBlurHint => 'Frosted glass behind sheets and bars';
+
+  @override
+  String get onbSpeedMotionHint => 'Screens and sheets that slide in';
+
+  @override
+  String get onbSpeedLater => 'You can change it anytime in Settings › General › Performance.';
+
+  @override
+  String get notifSoundSetting => 'Notification sounds';
+
+  @override
+  String get notifSoundRowHint => 'How each kind of reminder sounds';
+
+  @override
+  String get notifSoundHint =>
+      'Pick a sound for each kind of reminder. From phone opens your phone sounds, and on most phones you can add your own song there.';
+
+  @override
+  String get notifSoundTrain => 'Workouts';
+
+  @override
+  String get notifSoundFood => 'Food, supplements and fasting';
+
+  @override
+  String get notifSoundOther => 'Photos and measurements';
+
+  @override
+  String get notifSoundNormal => 'Normal';
+
+  @override
+  String get notifSoundPhone => 'From phone';
+
+  @override
+  String get notifSoundSilent => 'Silent';
+
+  @override
+  String get notifSoundPhoneHint => 'Tap one to hear it. It saves right away.';
+
+  @override
+  String get notifSoundMore => 'Another file…';
+
+  @override
+  String get notifSoundChange => 'Change';
+
+  @override
+  String get workoutNoteAdd => 'Pinned note: seat, grip, machine…';
+
+  @override
+  String get autoProgressSetting => 'Auto progression';
+
+  @override
+  String get autoProgressRowHint => 'What it suggests for next time';
+
+  @override
+  String get autoProgressOff => 'Off';
+
+  @override
+  String get autoProgressWeight => 'Add weight';
+
+  @override
+  String get autoProgressReps => 'Add reps';
+
+  @override
+  String get autoProgressHint =>
+      'When you start a workout, GymMane fills in the next step for each exercise. With Add reps you add one rep per set up to 12, then the weight goes up and you start again at 8. You can still tune each exercise on its page.';
+
+  @override
+  String get noteFolders => 'Folders';
+
+  @override
+  String get noteFolderNew => 'New folder';
+
+  @override
+  String get noteFolderEdit => 'Edit folder';
+
+  @override
+  String get noteFolderName => 'Folder name';
+
+  @override
+  String get noteFolderLabel => 'Folder';
+
+  @override
+  String get noteFolderNone => 'No folder';
+
+  @override
+  String get noteFolderDelete => 'Delete the folder?';
+
+  @override
+  String get noteFolderDeleteBody => 'Notes are kept: they just leave the folder.';
+
+  @override
+  String get foodArchivedToast => 'Food archived';
+
+  @override
+  String get planArchivedToast => 'Plan archived';
+
+  @override
+  String get suppArchivedToast => 'Supplement archived';
+
+  @override
+  String get voiceSetting => 'Workout voice';
+
+  @override
+  String get voiceSettingHint =>
+      'Says your next set and counts down the end of the rest, with the phone voice';
+
+  @override
+  String get voiceHello => 'Voice on';
+
+  @override
+  String voiceRest(String time) {
+    return 'Rest $time.';
+  }
+
+  @override
+  String voiceNext(String name, String load) {
+    return 'Next: $name, $load.';
+  }
+
+  @override
+  String voiceLoad(int reps, String weight) {
+    return '$reps reps at $weight';
+  }
+
+  @override
+  String voiceReps(int reps) {
+    return '$reps reps';
+  }
+
+  @override
+  String get voiceGo => 'Let\'s go!';
+
+  @override
+  String get deloadSetting => 'Deload week';
+
+  @override
+  String get deloadOff => 'Never';
+
+  @override
+  String deloadEvery(int weeks) {
+    return 'Every $weeks weeks';
+  }
+
+  @override
+  String get deloadHint =>
+      'Every few weeks, an easier one to recover: half the sets and 10 % less weight. That week does not count for progression.';
+
+  @override
+  String get deloadRowHint => 'An easy week every few weeks';
+
+  @override
+  String get deloadNow => 'Deload week';
+
+  @override
+  String get deloadNowHint => 'Today, half the sets and 10 % less weight';
+
+  @override
+  String deloadIn(int weeks) {
+    String _temp0 = intl.Intl.pluralLogic(
+      weeks,
+      locale: localeName,
+      other: 'In $weeks weeks',
+      one: 'Next week',
+      zero: 'This week',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get deloadSkip => 'Train as usual';
+
+  @override
+  String get voiceSheetTitle => 'How the voice works';
+
+  @override
+  String get voicePointRest => 'When you tick a set, it tells you the rest time and what comes next.';
+
+  @override
+  String get voicePointCount => 'It counts 3, 2, 1 at the end of the rest and calls you back.';
+
+  @override
+  String get voicePointPhone => 'It uses your phone\'s voice and plays over your music.';
+
+  @override
+  String get voiceTry => 'Try the voice';
+
+  @override
+  String get voiceNoEngine => 'Your phone has no voice engine turned on.';
+
+  @override
+  String get voiceNoLang => 'Your language\'s voice is missing. Download it in your phone\'s voice settings.';
+
+  @override
+  String get voiceOpenSettings => 'Voice settings';
+
+  @override
+  String voiceMinutes(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count minutes',
+      one: '1 minute',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String voiceSeconds(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count seconds',
+      one: '1 second',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get voiceAnd => 'and';
 }
