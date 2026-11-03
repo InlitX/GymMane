@@ -25,13 +25,25 @@ mixin HealthState on FitCore {
     hcWrite = on;
     _persist();
     notifyListeners();
-    if (on) {
+    if (on) _backfillWorkouts();
+    return true;
+  }
+
+  bool _backfilling = false;
+
+  Future<void> _backfillWorkouts() async {
+    if (_backfilling) return;
+    _backfilling = true;
+    try {
+      await Future<void>.delayed(const Duration(milliseconds: 600));
       final since = DateTime.now().subtract(const Duration(days: 30));
       for (final s in sessions.where((s) => s.date.isAfter(since)).toList()) {
+        if (!hcWrite) break;
         await _sendWorkout(s);
       }
+    } finally {
+      _backfilling = false;
     }
-    return true;
   }
 
   static String healthWorkoutId(LoggedSession s) => 'gymmane-${s.date.millisecondsSinceEpoch}';
@@ -92,7 +104,7 @@ mixin HealthState on FitCore {
     hcWeights = on;
     _persist();
     notifyListeners();
-    if (on) await syncHealthExtras();
+    if (on) refreshHealth();
     return true;
   }
 
@@ -107,7 +119,7 @@ mixin HealthState on FitCore {
     hcHeart = on;
     _persist();
     notifyListeners();
-    if (on) await syncHealthExtras();
+    if (on) refreshHealth();
     return true;
   }
 

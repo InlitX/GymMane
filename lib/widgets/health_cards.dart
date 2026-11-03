@@ -259,7 +259,6 @@ class HealthScreen extends StatelessWidget {
                   style: AppTheme.f(32, weight: FontWeight.w800, color: gc.text, letterSpacing: -0.9, height: 1.05)),
               const SizedBox(height: 4),
               Text(t.healthFrom, style: AppTheme.f(13, weight: FontWeight.w500, color: gc.textSecondary)),
-              const _HealthLinks(),
               for (final g in HealthGroup.values)
                 if (shown.any((m) => m.group == g) || (g == HealthGroup.activity && fit.stepsOn))
                   Column(
@@ -605,6 +604,7 @@ void showHealthPicker(BuildContext context) {
                           ]),
                         ),
                       ],
+                      const _HealthLinks(),
                     ],
                   ),
                 ),
@@ -773,17 +773,29 @@ void showHealthDetail(BuildContext context, HealthMetric metric) {
   );
 }
 
-class _HealthLinks extends StatelessWidget {
+class _HealthLinks extends StatefulWidget {
   const _HealthLinks();
+
+  @override
+  State<_HealthLinks> createState() => _HealthLinksState();
+}
+
+class _HealthLinksState extends State<_HealthLinks> {
+  final _asking = <String, bool>{};
 
   @override
   Widget build(BuildContext context) {
     final gc = context.gc;
-    Widget row(IconData icon, String title, String hint, bool on, Future<bool> Function(bool) set) => Pressable(
+    Widget row(IconData icon, String title, String hint, bool saved, Future<bool> Function(bool) set) {
+      final on = _asking[title] ?? saved;
+      return Pressable(
           scale: 0.98,
           onTap: () async {
+            if (_asking.containsKey(title)) return;
             HapticFeedback.selectionClick();
-            final ok = await set(!on);
+            setState(() => _asking[title] = !saved);
+            final ok = await set(!saved);
+            if (mounted) setState(() => _asking.remove(title));
             if (!ok && context.mounted) {
               showNotchToast(context, t.healthLinkDenied,
                   icon: PhosphorIconsFill.warningCircle, accent: gc.warn, action: t.healthOpenSettings,
@@ -791,7 +803,7 @@ class _HealthLinks extends StatelessWidget {
             }
           },
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 13),
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
             child: Row(children: [
               Icon(icon, size: 18, color: on ? gc.accent : gc.textSecondary),
               const SizedBox(width: 14),
@@ -807,19 +819,20 @@ class _HealthLinks extends StatelessWidget {
             ]),
           ),
         );
+    }
     return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
       Padding(
-        padding: const EdgeInsets.fromLTRB(4, 24, 0, 10),
+        padding: const EdgeInsets.fromLTRB(4, 10, 4, 6),
         child: Text(t.healthLinksTitle.toUpperCase(),
-            style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.4)),
+            style: AppTheme.f(10, weight: FontWeight.w600, color: gc.textTertiary, letterSpacing: 0.9)),
       ),
       Container(
-        decoration: BoxDecoration(color: gc.bgRaised, borderRadius: BorderRadius.circular(22)),
+        decoration: BoxDecoration(color: gc.bgRaised2, borderRadius: BorderRadius.circular(18)),
         child: Column(children: [
           row(PhosphorIconsRegular.heartbeat, t.healthLinkHeart, t.healthLinkHeartHint, fit.hcHeart, fit.setHcHeart),
-          Divider(height: 1, thickness: 1, color: gc.border, indent: 48),
+          Divider(height: 1, thickness: 1, color: gc.border, indent: 14, endIndent: 14),
           row(PhosphorIconsRegular.scales, t.healthLinkWeight, t.healthLinkWeightHint, fit.hcWeights, fit.setHcWeights),
-          Divider(height: 1, thickness: 1, color: gc.border, indent: 48),
+          Divider(height: 1, thickness: 1, color: gc.border, indent: 14, endIndent: 14),
           row(PhosphorIconsRegular.barbell, t.healthLinkWrite, t.healthLinkWriteHint, fit.hcWrite, fit.setHcWrite),
         ]),
       ),
