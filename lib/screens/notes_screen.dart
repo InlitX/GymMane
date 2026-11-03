@@ -7,6 +7,7 @@ import '../models/note.dart';
 import '../state/fit_state.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
+import '../widgets/note_folder.dart';
 import '../widgets/note_kit.dart';
 import '../widgets/ui_kit.dart';
 
@@ -18,6 +19,7 @@ class NotesScreen extends StatelessWidget {
     final gc = context.gc;
     final scoped = fit.noteScope.isEmpty ? null : fit.exerciseById(fit.noteScope);
     final all = fit.notesAllView;
+    final folder = fit.openFolder;
 
     return SafeArea(
       bottom: false,
@@ -26,7 +28,9 @@ class NotesScreen extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.fromLTRB(20, 12, 20, 0),
             child: ScreenHeader(
-              title: scoped == null ? t.journal : exerciseName(scoped).toUpperCase(),
+              title: folder != null
+                  ? folder.name.toUpperCase()
+                  : (scoped == null ? t.journal : exerciseName(scoped).toUpperCase()),
               subtitle: all ? t.noteCount(fit.notesInScope.length) : t.noteMonthCount(fit.notesInMonth),
               onBack: fit.backFromNotes,
               actions: [
@@ -41,19 +45,27 @@ class NotesScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 8),
-                _action(
-                  gc,
-                  icon: all ? PhosphorIconsRegular.calendarBlank : PhosphorIconsRegular.listBullets,
-                  label: all ? t.noteCalendar : t.noteAllNotes,
-                  onTap: () => fit.setNotesAllView(!all),
-                ),
+                if (folder != null)
+                  _action(
+                    gc,
+                    icon: PhosphorIconsBold.dotsThreeVertical,
+                    label: t.moreOptions,
+                    onTap: () => showNoteFolderMenu(context, folder),
+                  )
+                else
+                  _action(
+                    gc,
+                    icon: all ? PhosphorIconsRegular.calendarBlank : PhosphorIconsRegular.listBullets,
+                    label: all ? t.noteCalendar : t.noteAllNotes,
+                    onTap: () => fit.setNotesAllView(!all),
+                  ),
               ],
             ),
           ),
           const SizedBox(height: 16),
           Expanded(
               child: all
-                  ? _allNotes(gc, scoped == null)
+                  ? _allNotes(context, gc, scoped == null, folders: scoped == null && folder == null)
                   : _calendar(context, gc, scoped == null)),
         ],
       ),
@@ -108,7 +120,12 @@ class NotesScreen extends StatelessWidget {
                       style: AppTheme.f(10.5,
                           weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.5)),
                   const SizedBox(height: 3),
-                  Text(t.fullDate(day), style: AppTheme.f(12, weight: FontWeight.w500, color: gc.textTertiary)),
+                  FittedBox(
+                    fit: BoxFit.scaleDown,
+                    alignment: AlignmentDirectional.centerStart,
+                    child: Text(t.fullDate(day),
+                        maxLines: 1, style: AppTheme.f(12, weight: FontWeight.w500, color: gc.textTertiary)),
+                  ),
                 ],
               ),
             ),
@@ -146,19 +163,85 @@ class NotesScreen extends StatelessWidget {
     );
   }
 
-  Widget _allNotes(GymColors gc, bool showExercise) {
+  Widget _folders(BuildContext context, GymColors gc) {
+    if (fit.noteFolders.isEmpty) {
+      return Padding(
+        padding: const EdgeInsets.fromLTRB(20, 0, 20, 14),
+        child: Pressable(
+          scale: 0.98,
+          onTap: () => showNoteFolderEditor(context),
+          child: Container(
+            height: 46,
+            padding: const EdgeInsets.symmetric(horizontal: 14),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: gc.border, width: 1.2),
+            ),
+            child: Row(children: [
+              Icon(PhosphorIconsRegular.folderPlus, size: 17, color: gc.textSecondary),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Text(t.noteFolderNew,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: AppTheme.f(13.5, weight: FontWeight.w700, color: gc.textSecondary)),
+              ),
+              Icon(PhosphorIconsBold.plus, size: 13, color: gc.textTertiary),
+            ]),
+          ),
+        ),
+      );
+    }
+    final byFolder = <String, List<GymNote>>{};
+    for (final n in fit.notesSorted) {
+      if (n.folder.isNotEmpty) (byFolder[n.folder] ??= []).add(n);
+    }
+    return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: SectionLabel(t.noteFolders),
+          ),
+          const SizedBox(height: 10),
+          SizedBox(
+            height: noteFolderHeight(context),
+            child: ListView.separated(
+              scrollDirection: Axis.horizontal,
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              itemCount: fit.noteFolders.length + 1,
+              separatorBuilder: (_, _) => const SizedBox(width: 10),
+              itemBuilder: (context, i) {
+                if (i == fit.noteFolders.length) {
+                  return NewNoteFolderCard(onTap: () => showNoteFolderEditor(context));
+                }
+                final f = fit.noteFolders[i];
+                return NoteFolderCard(
+                  folder: f,
+                  notes: byFolder[f.id] ?? const [],
+                  onTap: () => fit.openNoteFolder(f.id),
+                  onMenu: () => showNoteFolderMenu(context, f),
+                );
+              },
+            ),
+          ),
+          const SizedBox(height: 18),
+        ],
+      );
+  }
+
+  Widget _allNotes(BuildContext context, GymColors gc, bool showExercise, {bool folders = false}) {
     final visible = fit.notesFiltered;
 
     return Column(
       children: [
+        if (folders) _folders(context, gc),
         if (fit.notesInScope.isNotEmpty)
-          Padding(
+          NoteFilterBar(
+            selected: fit.noteFilter,
+            counts: fit.noteKindCounts,
+            onPick: fit.setNoteFilter,
             padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: NoteFilterBar(
-              selected: fit.noteFilter,
-              counts: fit.noteKindCounts,
-              onPick: fit.setNoteFilter,
-            ),
           ),
         Expanded(
           child: visible.isEmpty

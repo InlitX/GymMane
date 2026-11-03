@@ -3,6 +3,8 @@ part of 'fit_state.dart';
 mixin NotesState on FitCore, LibraryState {
   NoteKind? noteFilter;
   String noteScope = '';
+  String noteFolderScope = '';
+  String noteDraftFolder = '';
   String? editingNoteId;
   String noteDraftExercise = '';
   DateTime noteDraftDate = DateTime.now();
@@ -36,8 +38,68 @@ mixin NotesState on FitCore, LibraryState {
 
   GymNote? get editingNote => noteById(editingNoteId);
 
-  List<GymNote> get notesInScope =>
-      noteScope.isEmpty ? notesSorted : notesFor(noteScope);
+  List<GymNote> get notesInScope {
+    final base = noteScope.isEmpty ? notesSorted : notesFor(noteScope);
+    return noteFolderScope.isEmpty ? base : base.where((n) => n.folder == noteFolderScope).toList();
+  }
+
+  NoteFolder? noteFolderById(String id) {
+    for (final f in noteFolders) {
+      if (f.id == id) return f;
+    }
+    return null;
+  }
+
+  NoteFolder? get openFolder => noteFolderById(noteFolderScope);
+
+  List<GymNote> notesInFolder(String id) => notesSorted.where((n) => n.folder == id).toList();
+
+  String addNoteFolder(String name, int color) {
+    var id = 'f${DateTime.now().microsecondsSinceEpoch}';
+    while (noteFolderById(id) != null) {
+      id = '${id}x';
+    }
+    noteFolders.add(NoteFolder(id: id, name: name.trim(), color: color));
+    _persist();
+    notifyListeners();
+    return id;
+  }
+
+  void editNoteFolder(String id, {String? name, int? color}) {
+    final f = noteFolderById(id);
+    if (f == null) return;
+    if (name != null && name.trim().isNotEmpty) f.name = name.trim();
+    if (color != null) f.color = color;
+    _persist();
+    notifyListeners();
+  }
+
+  void deleteNoteFolder(String id) {
+    if (noteFolderById(id) == null) return;
+    noteFolders.removeWhere((f) => f.id == id);
+    for (var i = 0; i < notes.length; i++) {
+      if (notes[i].folder == id) notes[i] = notes[i].copyWith(folder: '');
+    }
+    if (noteFolderScope == id) noteFolderScope = '';
+    _persist();
+    notifyListeners();
+  }
+
+  void moveNoteToFolder(String noteId, String folder) {
+    final i = notes.indexWhere((n) => n.id == noteId);
+    if (i < 0 || notes[i].folder == folder) return;
+    notes[i] = notes[i].copyWith(folder: folder);
+    _persist();
+    notifyListeners();
+  }
+
+  void openNoteFolder(String id) {
+    if (noteFolderById(id) == null) return;
+    noteFolderScope = id;
+    noteFilter = null;
+    notesAllView = true;
+    notifyListeners();
+  }
 
   List<GymNote> get notesFiltered {
     final scoped = notesInScope;
@@ -107,6 +169,7 @@ mixin NotesState on FitCore, LibraryState {
     required String text,
     List<String> media = const [],
     bool? pinned,
+    String? folder,
   }) {
     final body = text.trim();
     if (body.isEmpty) return;
@@ -123,6 +186,7 @@ mixin NotesState on FitCore, LibraryState {
         media: [...media],
         createdAt: DateTime.now(),
         pinned: (pinned ?? false) && exerciseId.isNotEmpty,
+        folder: folder ?? '',
       ));
     } else {
       final old = notes[index];
@@ -136,6 +200,7 @@ mixin NotesState on FitCore, LibraryState {
         text: body,
         media: [...media],
         pinned: exerciseId.isEmpty ? false : pinned,
+        folder: folder,
       );
     }
     noteDay = day;
@@ -181,6 +246,7 @@ mixin NotesState on FitCore, LibraryState {
 
   void goNotes({String exerciseId = '', bool all = false}) {
     noteScope = exerciseId;
+    noteFolderScope = '';
     noteFilter = null;
     notesAllView = all;
     noteDay = _dayKey(DateTime.now());
@@ -189,6 +255,11 @@ mixin NotesState on FitCore, LibraryState {
   }
 
   void backFromNotes() {
+    if (noteFolderScope.isNotEmpty) {
+      noteFolderScope = '';
+      notifyListeners();
+      return;
+    }
     if (notesAllView && noteScope.isEmpty) {
       notesAllView = false;
       notifyListeners();
@@ -203,6 +274,7 @@ mixin NotesState on FitCore, LibraryState {
     noteDraftExercise = existing?.exerciseId ?? exerciseId;
     noteDraftDate = existing?.date ?? _dayKey(date ?? DateTime.now());
     noteDraftKind = existing?.kind ?? kind ?? NoteKind.note;
+    noteDraftFolder = existing?.folder ?? noteFolderScope;
     pushRoute('note-edit');
   }
 

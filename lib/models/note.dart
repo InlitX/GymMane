@@ -10,6 +10,7 @@ class GymNote {
     this.media = const [],
     required this.createdAt,
     this.pinned = false,
+    this.folder = '',
   });
 
   final String id;
@@ -20,6 +21,7 @@ class GymNote {
   final List<String> media;
   final DateTime createdAt;
   final bool pinned;
+  final String folder;
 
   bool get isGeneral => exerciseId.isEmpty;
 
@@ -37,6 +39,7 @@ class GymNote {
     String? text,
     List<String>? media,
     bool? pinned,
+    String? folder,
   }) =>
       GymNote(
         id: id,
@@ -47,6 +50,7 @@ class GymNote {
         media: media ?? this.media,
         createdAt: createdAt,
         pinned: pinned ?? this.pinned,
+        folder: folder ?? this.folder,
       );
 
   Map<String, dynamic> toJson() => {
@@ -58,6 +62,7 @@ class GymNote {
         if (media.isNotEmpty) 'm': media,
         'c': createdAt.toIso8601String(),
         if (pinned) 'p': true,
+        if (folder.isNotEmpty) 'f': folder,
       };
 
   factory GymNote.fromJson(Map<String, dynamic> j) {
@@ -71,6 +76,23 @@ class GymNote {
       media: ((j['m'] as List?) ?? const []).cast<String>(),
       createdAt: created,
       pinned: j['p'] == true,
+      folder: (j['f'] ?? '') as String,
     );
   }
+}
+
+class NoteFolder {
+  NoteFolder({required this.id, required this.name, this.color = 0});
+
+  final String id;
+  String name;
+  int color;
+
+  Map<String, dynamic> toJson() => {'id': id, 'n': name, 'k': color};
+
+  factory NoteFolder.fromJson(Map<String, dynamic> j) => NoteFolder(
+        id: (j['id'] ?? '') as String,
+        name: (j['n'] ?? '') as String,
+        color: ((j['k'] ?? 0) as num).toInt(),
+      );
 }

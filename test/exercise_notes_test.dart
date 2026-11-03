@@ -164,4 +164,22 @@ void main() {
     fit.noteScope = '';
     expect(fit.notesInScope, hasLength(1));
   });
+
+  test('una carpeta agrupa sus notas y al borrarla las notas se quedan', () {
+    fit.noteFolders.clear();
+    final a = fit.addNoteFolder('Técnica', 1);
+    final b = fit.addNoteFolder('Lesiones', 2);
+    expect(a, isNot(b));
+    fit.saveNote(exerciseId: '', date: DateTime.now(), kind: NoteKind.note, text: 'Codos pegados', folder: a);
+    fit.saveNote(exerciseId: '', date: DateTime.now(), kind: NoteKind.pain, text: 'Rodilla');
+    expect(fit.notesInFolder(a).map((n) => n.text), ['Codos pegados']);
+    fit.openNoteFolder(a);
+    expect(fit.notesInScope, hasLength(1));
+    fit.backFromNotes();
+    expect(fit.noteFolderScope, '');
+    fit.deleteNoteFolder(a);
+    expect(fit.noteFolders.map((f) => f.id), [b]);
+    expect(fit.notes, hasLength(2));
+    expect(fit.notes.every((n) => n.folder.isEmpty), isTrue);
+  });
 }

@@ -12,6 +12,7 @@ import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
 import '../widgets/dialogs.dart';
 import '../widgets/glass.dart';
+import '../widgets/note_folder.dart';
 import '../widgets/note_kit.dart';
 import '../widgets/ui_kit.dart';
 
@@ -32,6 +33,7 @@ class _NoteEditScreenState extends State<NoteEditScreen> {
   late String _exerciseId = _note?.exerciseId ?? fit.noteDraftExercise;
   late final List<String> _media = [...?_note?.media];
   late bool _pinned = _note?.pinned ?? false;
+  late String _folder = _note?.folder ?? fit.noteDraftFolder;
   final List<String> _added = [];
   bool _saved = false;
 
@@ -57,6 +59,7 @@ class _NoteEditScreenState extends State<NoteEditScreen> {
       text: _text.text,
       media: _media,
       pinned: _pinned,
+      folder: _folder,
     );
     fit.closeNoteEditor();
   }
@@ -104,6 +107,7 @@ class _NoteEditScreenState extends State<NoteEditScreen> {
   Widget build(BuildContext context) {
     final gc = context.gc;
     final exercise = _exerciseId.isEmpty ? null : fit.exerciseById(_exerciseId);
+    final folder = fit.noteFolderById(_folder);
 
     return SafeArea(
       bottom: false,
@@ -170,6 +174,7 @@ class _NoteEditScreenState extends State<NoteEditScreen> {
                           icon: PhosphorIconsRegular.calendarBlank,
                           label: t.noteDateLabel,
                           value: t.shortDateYear(_date),
+                          shrink: true,
                           onTap: _pickDate,
                         ),
                         Divider(height: 1, thickness: 1, indent: 16, endIndent: 16, color: gc.border),
@@ -193,6 +198,15 @@ class _NoteEditScreenState extends State<NoteEditScreen> {
                                   ),
                                 ),
                           onTap: _pickExercise,
+                        ),
+                        Divider(height: 1, thickness: 1, indent: 16, endIndent: 16, color: gc.border),
+                        _row(
+                          gc,
+                          icon: PhosphorIconsRegular.folder,
+                          label: t.noteFolderLabel,
+                          value: folder?.name ?? t.noteFolderNone,
+                          muted: folder == null,
+                          onTap: _pickFolder,
                         ),
                         if (exercise != null) ...[
                           Divider(height: 1, thickness: 1, indent: 16, endIndent: 16, color: gc.border),
@@ -227,6 +241,11 @@ class _NoteEditScreenState extends State<NoteEditScreen> {
     );
   }
 
+  Future<void> _pickFolder() async {
+    final picked = await pickNoteFolder(context, _folder);
+    if (picked != null && mounted) setState(() => _folder = picked);
+  }
+
   Widget _label(GymColors gc, String text) => Padding(
         padding: const EdgeInsets.only(bottom: 10),
         child: Text(text,
@@ -242,6 +261,7 @@ class _NoteEditScreenState extends State<NoteEditScreen> {
     required VoidCallback onTap,
     Widget? trailing,
     bool muted = false,
+    bool shrink = false,
   }) =>
       GestureDetector(
         behavior: HitTestBehavior.opaque,
@@ -262,12 +282,21 @@ class _NoteEditScreenState extends State<NoteEditScreen> {
                 ),
                 const SizedBox(width: 12),
                 Expanded(
-                  child: Text(value,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      textAlign: TextAlign.right,
-                      style: AppTheme.f(13,
-                          weight: FontWeight.w600, color: muted ? gc.textTertiary : gc.textSecondary)),
+                  child: shrink
+                      ? FittedBox(
+                          fit: BoxFit.scaleDown,
+                          alignment: AlignmentDirectional.centerEnd,
+                          child: Text(value,
+                              maxLines: 1,
+                              style: AppTheme.f(13,
+                                  weight: FontWeight.w600, color: muted ? gc.textTertiary : gc.textSecondary)),
+                        )
+                      : Text(value,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          textAlign: TextAlign.right,
+                          style: AppTheme.f(13,
+                              weight: FontWeight.w600, color: muted ? gc.textTertiary : gc.textSecondary)),
                 ),
                 const SizedBox(width: 6),
                 trailing ?? Icon(PhosphorIconsRegular.caretRight, size: 15, color: gc.textTertiary),

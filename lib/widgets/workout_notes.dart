@@ -17,11 +17,44 @@ class WorkoutNoteStrip extends StatelessWidget {
   final String exerciseId;
   final bool onDark;
 
+  static bool offers(String exerciseId) =>
+      fit.workoutNotesFor(exerciseId).isNotEmpty ||
+      (exerciseId.isNotEmpty && fit.notesFor(exerciseId).isEmpty && fit.exerciseHistory(exerciseId).length < 3);
+
   @override
   Widget build(BuildContext context) {
     final notes = fit.workoutNotesFor(exerciseId);
-    if (notes.isEmpty) return const SizedBox.shrink();
     final gc = context.gc;
+    if (notes.isEmpty) {
+      if (!offers(exerciseId)) return const SizedBox.shrink();
+      return Semantics(
+        button: true,
+        label: t.workoutNoteAdd,
+        child: GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onTap: () => showWorkoutNoteEditor(context, exerciseId),
+          child: Container(
+            constraints: const BoxConstraints(minHeight: 40),
+            padding: const EdgeInsets.fromLTRB(10, 8, 12, 8),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: gc.border.withValues(alpha: 0.8)),
+            ),
+            child: Row(children: [
+              Icon(PhosphorIconsRegular.pushPin, size: 14, color: gc.textTertiary),
+              const SizedBox(width: 8),
+              Expanded(
+                child: Text(t.workoutNoteAdd,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: AppTheme.f(12.5, weight: FontWeight.w600, color: gc.textTertiary, height: 1.3)),
+              ),
+              Icon(PhosphorIconsBold.plus, size: 13, color: gc.textTertiary),
+            ]),
+          ),
+        ),
+      );
+    }
     return Semantics(
       button: true,
       label: t.workoutNotesTitle,

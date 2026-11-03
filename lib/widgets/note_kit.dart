@@ -6,13 +6,17 @@ import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 import 'package:video_player/video_player.dart';
 
 import '../l10n/l10n.dart';
+import '../models/exercise.dart';
 import '../models/note.dart';
 import '../services/media_store.dart';
 import '../state/fit_state.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
+import 'exercise_media.dart';
+import 'exercise_preview.dart';
 import 'file_thumb.dart';
 import 'glass.dart';
+import 'note_folder.dart';
 import 'ui_kit.dart';
 
 Color noteKindColor(GymColors gc, NoteKind k) => switch (k) {
@@ -313,9 +317,11 @@ class NoteFilterBar extends StatelessWidget {
     required this.selected,
     required this.counts,
     required this.onPick,
+    this.padding = EdgeInsets.zero,
   });
 
   final NoteKind? selected;
+  final EdgeInsets padding;
   final Map<NoteKind, int> counts;
   final ValueChanged<NoteKind?> onPick;
 
@@ -333,7 +339,7 @@ class NoteFilterBar extends StatelessWidget {
           behavior: HitTestBehavior.opaque,
           onTap: onTap,
           child: Container(
-            margin: const EdgeInsets.only(right: 8),
+            margin: const EdgeInsetsDirectional.only(end: 8),
             padding: const EdgeInsets.symmetric(horizontal: 13, vertical: 8),
             decoration: BoxDecoration(
               color: on ? color.withValues(alpha: 0.16) : gc.bgRaised,
@@ -352,6 +358,7 @@ class NoteFilterBar extends StatelessWidget {
       height: 38,
       child: ListView(
         scrollDirection: Axis.horizontal,
+        padding: padding.copyWith(right: padding.right - 8),
         children: [
           chip(
             label: t.noteFilterAll,
@@ -391,106 +398,464 @@ class NoteCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final gc = context.gc;
     final color = noteKindColor(gc, note.kind);
-    final exercise = showExercise ? fit.noteExerciseName(note) : '';
+    final exercise = showExercise && !note.isGeneral ? fit.exerciseById(note.exerciseId) : null;
+    final folder = fit.noteFolderScope.isEmpty ? fit.noteFolderById(note.folder) : null;
     final day = showDate ? noteDayLabel(note.date) : '';
-    final meta = [day, exercise].where((p) => p.isNotEmpty).join(' · ');
+    final dark = gc.bg.computeLuminance() < 0.5;
 
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      onTap: onTap ?? () => fit.openNoteEditor(id: note.id),
-      child: Container(
-        margin: const EdgeInsets.only(bottom: 10),
-        clipBehavior: Clip.antiAlias,
-        decoration: BoxDecoration(
-          color: gc.bgRaised,
-          borderRadius: BorderRadius.circular(18),
-        ),
-        child: Stack(
-          children: [
-            Positioned.fill(child: CustomPaint(painter: _NoteRail(color))),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(17, 13, 14, 14),
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 10),
+      child: Pressable(
+        scale: 0.98,
+        onTap: onTap ?? () => showNoteSheet(context, note),
+        child: Stack(children: [
+          Positioned(
+            left: 12,
+            right: 12,
+            top: 12,
+            bottom: 0,
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                color: Color.lerp(gc.bgRaised, Colors.black, dark ? 0.3 : 0.08),
+                borderRadius: BorderRadius.circular(20),
+              ),
+            ),
+          ),
+          Container(
+          margin: const EdgeInsets.only(bottom: 5),
+          clipBehavior: Clip.antiAlias,
+          decoration: BoxDecoration(
+            color: gc.bgRaised,
+            borderRadius: BorderRadius.circular(22),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: dark ? 0.28 : 0.06),
+                blurRadius: 10,
+                offset: const Offset(0, 3),
+              ),
+            ],
+          ),
+          child: CustomPaint(
+            foregroundPainter: _NoteEar(color: color, bg: gc.bg, paper: gc.bgRaised, dark: dark),
+            painter: _NoteGlow(color: color, glow: dark ? 0.13 : 0.1),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 14, 16, 14),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
                     children: [
-                      NoteKindBadge(kind: note.kind, compact: true),
-                      if (note.pinned) ...[
-                        const SizedBox(width: 6),
-                        Semantics(
-                          label: t.workoutNoteEvery,
-                          child: Icon(PhosphorIconsFill.pushPin, size: 13, color: gc.accent),
+                      if (exercise != null) ...[
+                        GestureDetector(
+                          onTap: () => showExercisePreview(context, exercise),
+                          child: SizedBox(
+                            width: 40,
+                            child: ExerciseMedia(ex: exercise, height: 40, radius: 12, bordered: false),
+                          ),
                         ),
+                        const SizedBox(width: 10),
                       ],
-                      const SizedBox(width: 8),
                       Expanded(
-                        child: Text(
-                          meta,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          textAlign: TextAlign.right,
-                          style: AppTheme.f(11.5, weight: FontWeight.w500, color: gc.textTertiary),
-                        ),
+                        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                          Row(children: [
+                            Icon(noteKindIcon(note.kind), size: 13, color: color),
+                            const SizedBox(width: 5),
+                            Flexible(
+                              child: Text(noteKindLabel(note.kind).toUpperCase(),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: AppTheme.f(10, weight: FontWeight.w800, color: color, letterSpacing: 1.2)),
+                            ),
+                            if (note.pinned) ...[
+                              const SizedBox(width: 6),
+                              Semantics(
+                                label: t.workoutNoteEvery,
+                                child: Icon(PhosphorIconsFill.pushPin, size: 12, color: gc.accent),
+                              ),
+                            ],
+                          ]),
+                          if (exercise != null) ...[
+                            const SizedBox(height: 2),
+                            Text(exerciseName(exercise),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: AppTheme.f(12, weight: FontWeight.w600, color: gc.textSecondary)),
+                          ],
+                        ]),
                       ),
+                      const SizedBox(width: 20),
                     ],
                   ),
-                  const SizedBox(height: 9),
+                  const SizedBox(height: 10),
                   Text(note.title,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
-                      style: AppTheme.f(15, weight: FontWeight.w600, color: gc.text, height: 1.3)),
+                      style: AppTheme.f(16, weight: FontWeight.w800, color: gc.text, height: 1.25, letterSpacing: -0.2)),
                   if (note.body.isNotEmpty) ...[
                     const SizedBox(height: 4),
                     Text(note.body,
                         maxLines: 3,
                         overflow: TextOverflow.ellipsis,
-                        style: AppTheme.f(13, weight: FontWeight.w500, color: gc.textSecondary, height: 1.4)),
+                        style: AppTheme.f(13.5, weight: FontWeight.w500, color: gc.textSecondary, height: 1.4)),
                   ],
                   if (note.media.isNotEmpty) ...[
                     const SizedBox(height: 12),
-                    NoteMediaStrip(media: note.media, scope: note.id),
+                    NotePhotos(media: note.media, scope: note.id),
+                  ],
+                  if (folder != null || day.isNotEmpty) ...[
+                    const SizedBox(height: 12),
+                    Row(children: [
+                      if (folder != null)
+                        Flexible(
+                          child: Container(
+                            padding: const EdgeInsets.fromLTRB(8, 4, 10, 4),
+                            decoration: BoxDecoration(
+                              color: gc.text.withValues(alpha: 0.06),
+                              borderRadius: BorderRadius.circular(100),
+                            ),
+                            child: Row(mainAxisSize: MainAxisSize.min, children: [
+                              Container(
+                                width: 8,
+                                height: 8,
+                                decoration: BoxDecoration(color: noteFolderHue(folder), shape: BoxShape.circle),
+                              ),
+                              const SizedBox(width: 6),
+                              Flexible(
+                                child: Text(folder.name,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: AppTheme.f(11.5, weight: FontWeight.w700, color: gc.textSecondary)),
+                              ),
+                            ]),
+                          ),
+                        ),
+                      const Spacer(),
+                      if (day.isNotEmpty)
+                        Text(day, style: AppTheme.f(11.5, weight: FontWeight.w600, color: gc.textTertiary)),
+                    ]),
                   ],
                 ],
               ),
             ),
-          ],
+          ),
         ),
+        ]),
       ),
     );
   }
 }
 
-class _NoteRail extends CustomPainter {
-  _NoteRail(this.color);
+class _NoteGlow extends CustomPainter {
+  _NoteGlow({required this.color, required this.glow});
 
   final Color color;
-  static const double _w = 3;
-  static const double _r = 18;
+  final double glow;
 
   @override
   void paint(Canvas canvas, Size size) {
-    final fade = LinearGradient(
-      begin: Alignment.centerLeft,
-      end: Alignment.centerRight,
-      colors: [color, color, color.withValues(alpha: 0)],
-      stops: const [0, 0.06, 0.26],
-    ).createShader(Offset.zero & size);
+    final light = RadialGradient(
+      center: const Alignment(-1, -1),
+      radius: 1.1,
+      colors: [color.withValues(alpha: glow), color.withValues(alpha: 0)],
+    ).createShader(Rect.fromLTWH(0, 0, size.width * 0.9, size.height * 1.6));
+    canvas.drawRect(Offset.zero & size, Paint()..shader = light);
+  }
 
-    canvas.drawRRect(
-      RRect.fromRectAndRadius(
-        Rect.fromLTWH(_w / 2, _w / 2, size.width - _w, size.height - _w),
-        const Radius.circular(_r - _w / 2),
-      ),
+  @override
+  bool shouldRepaint(_NoteGlow o) => o.color != color || o.glow != glow;
+}
+
+class _NoteEar extends CustomPainter {
+  _NoteEar({required this.color, required this.bg, required this.paper, required this.dark});
+
+  final Color color;
+  final Color bg;
+  final Color paper;
+  final bool dark;
+
+  static const double _ear = 24;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final x = size.width;
+    canvas.drawPath(
+      Path()
+        ..moveTo(x - _ear, 0)
+        ..lineTo(x, 0)
+        ..lineTo(x, _ear)
+        ..close(),
+      Paint()..color = bg,
+    );
+    final flap = Path()
+      ..moveTo(x - _ear, 0)
+      ..lineTo(x - _ear, _ear - 5)
+      ..quadraticBezierTo(x - _ear, _ear, x - _ear + 5, _ear)
+      ..lineTo(x, _ear)
+      ..close();
+    canvas.drawPath(
+      flap.shift(const Offset(-2, 2.5)),
       Paint()
-        ..shader = fade
-        ..style = PaintingStyle.stroke
-        ..strokeWidth = _w,
+        ..color = Colors.black.withValues(alpha: dark ? 0.45 : 0.16)
+        ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 3),
+    );
+    final base = Color.lerp(paper, color, 0.22)!;
+    canvas.drawPath(
+      flap,
+      Paint()
+        ..shader = LinearGradient(
+          begin: Alignment.topRight,
+          end: Alignment.bottomLeft,
+          colors: [
+            Color.lerp(base, Colors.black, dark ? 0.28 : 0.1)!,
+            base,
+            Color.lerp(base, Colors.white, dark ? 0.12 : 0.35)!,
+          ],
+          stops: const [0, 0.55, 1],
+        ).createShader(Rect.fromLTWH(x - _ear, 0, _ear, _ear)),
+    );
+    canvas.drawLine(
+      Offset(x - _ear + 0.5, 0.5),
+      Offset(x - 0.5, _ear - 0.5),
+      Paint()
+        ..color = Colors.white.withValues(alpha: dark ? 0.1 : 0.4)
+        ..strokeWidth = 1,
     );
   }
 
   @override
-  bool shouldRepaint(_NoteRail o) => o.color != color;
+  bool shouldRepaint(_NoteEar o) => o.color != color || o.bg != bg || o.paper != paper || o.dark != dark;
+}
+
+class NotePhotos extends StatelessWidget {
+  const NotePhotos({super.key, required this.media, this.scope});
+
+  final List<String> media;
+  final String? scope;
+
+  @override
+  Widget build(BuildContext context) {
+    final gc = context.gc;
+    Widget tile(int i, double w, double h, {String? badge}) {
+      final name = media[i];
+      final path = MediaStore.pathFor(name);
+      final photo = path != null && !MediaStore.isVideo(name);
+      Widget inner = photo
+          ? FileThumb(path, width: w, height: h, errorBuilder: (_, _, _) => const SizedBox.shrink())
+          : Center(
+              child: Icon(path == null ? PhosphorIconsRegular.imageSquare : PhosphorIconsFill.playCircle,
+                  size: 26, color: gc.textSecondary));
+      final tag = scope;
+      if (photo && tag != null) inner = Hero(tag: noteHeroTag(tag, name), child: inner);
+      return GestureDetector(
+        onTap: () => showNoteMedia(context, media, i, scope: scope),
+        child: Container(
+          width: w,
+          height: h,
+          clipBehavior: Clip.antiAlias,
+          decoration: BoxDecoration(color: gc.bgRaised2, borderRadius: BorderRadius.circular(14)),
+          child: Stack(fit: StackFit.expand, children: [
+            inner,
+            if (badge != null)
+              ColoredBox(
+                color: const Color(0x8C000000),
+                child: Center(
+                  child: Text(badge, style: AppTheme.f(16, weight: FontWeight.w800, color: Colors.white)),
+                ),
+              ),
+          ]),
+        ),
+      );
+    }
+
+    return LayoutBuilder(builder: (context, box) {
+      final w = box.maxWidth;
+      const gap = 6.0;
+      if (media.length == 1) return tile(0, w, 160);
+      if (media.length == 2) {
+        final half = (w - gap) / 2;
+        return Row(children: [tile(0, half, 130), const SizedBox(width: gap), tile(1, half, 130)]);
+      }
+      final big = (w - gap) * 0.62;
+      final side = w - gap - big;
+      final extra = media.length - 3;
+      return Row(children: [
+        tile(0, big, 160),
+        const SizedBox(width: gap),
+        Column(children: [
+          tile(1, side, (160 - gap) / 2),
+          const SizedBox(height: gap),
+          tile(2, side, (160 - gap) / 2, badge: extra > 0 ? '+$extra' : null),
+        ]),
+      ]);
+    });
+  }
+}
+
+Future<void> showNoteSheet(BuildContext context, GymNote note) => showAppSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (_) => _NoteSheetView(id: note.id),
+    );
+
+class _NoteSheetView extends StatelessWidget {
+  const _NoteSheetView({required this.id});
+
+  final String id;
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: fit,
+      builder: (context, _) {
+        final note = fit.noteById(id);
+        if (note == null) return const SizedBox.shrink();
+        final gc = context.gc;
+        final color = noteKindColor(gc, note.kind);
+        final exercise = note.isGeneral ? null : fit.exerciseById(note.exerciseId);
+        final folder = fit.noteFolderById(note.folder);
+        return AppSheet(maxHeight: 0.92, children: [
+          Row(children: [
+            Icon(noteKindIcon(note.kind), size: 15, color: color),
+            const SizedBox(width: 6),
+            Text(noteKindLabel(note.kind).toUpperCase(),
+                style: AppTheme.f(11, weight: FontWeight.w800, color: color, letterSpacing: 1.3)),
+            if (note.pinned) ...[
+              const SizedBox(width: 8),
+              Icon(PhosphorIconsFill.pushPin, size: 13, color: gc.accent),
+            ],
+            const SizedBox(width: 12),
+            Expanded(
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                alignment: AlignmentDirectional.centerEnd,
+                child: Text(t.fullDate(note.date),
+                    maxLines: 1, style: AppTheme.f(12, weight: FontWeight.w600, color: gc.textTertiary)),
+              ),
+            ),
+          ]),
+          const SizedBox(height: 14),
+          Text(note.title,
+              style: AppTheme.f(22, weight: FontWeight.w800, color: gc.text, height: 1.2, letterSpacing: -0.5)),
+          if (note.body.isNotEmpty) ...[
+            const SizedBox(height: 10),
+            Text(note.body, style: AppTheme.f(15, weight: FontWeight.w500, color: gc.textSecondary, height: 1.55)),
+          ],
+          if (exercise != null) ...[
+            const SizedBox(height: 18),
+            Pressable(
+              scale: 0.98,
+              onTap: () => showExercisePreview(context, exercise),
+              child: Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(color: gc.bgRaised2, borderRadius: BorderRadius.circular(16)),
+                child: Row(children: [
+                  SizedBox(width: 48, child: ExerciseMedia(ex: exercise, height: 48, radius: 12, bordered: false)),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Text(exerciseName(exercise),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: AppTheme.f(14, weight: FontWeight.w700, color: gc.text, height: 1.25)),
+                  ),
+                  Icon(PhosphorIconsRegular.caretRight, size: 15, color: gc.textTertiary),
+                  const SizedBox(width: 6),
+                ]),
+              ),
+            ),
+          ],
+          if (note.media.isNotEmpty) ...[
+            const SizedBox(height: 18),
+            _AllPhotos(media: note.media, scope: 'sheet${note.id}'),
+          ],
+          const SizedBox(height: 20),
+          Row(children: [
+            if (folder != null)
+              Flexible(
+                child: Container(
+                  padding: const EdgeInsets.fromLTRB(10, 6, 12, 6),
+                  decoration: BoxDecoration(color: gc.text.withValues(alpha: 0.06), borderRadius: BorderRadius.circular(100)),
+                  child: Row(mainAxisSize: MainAxisSize.min, children: [
+                    Container(
+                      width: 9,
+                      height: 9,
+                      decoration: BoxDecoration(color: noteFolderHue(folder), shape: BoxShape.circle),
+                    ),
+                    const SizedBox(width: 7),
+                    Flexible(
+                      child: Text(folder.name,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: AppTheme.f(12.5, weight: FontWeight.w700, color: gc.textSecondary)),
+                    ),
+                  ]),
+                ),
+              ),
+            const Spacer(),
+          ]),
+          const SizedBox(height: 16),
+          GhostButton(
+            label: t.editNote,
+            icon: PhosphorIconsRegular.pencilSimple,
+            onTap: () {
+              Navigator.of(context).pop();
+              fit.openNoteEditor(id: note.id);
+            },
+          ),
+        ]);
+      },
+    );
+  }
+}
+
+class _AllPhotos extends StatelessWidget {
+  const _AllPhotos({required this.media, required this.scope});
+
+  final List<String> media;
+  final String scope;
+
+  @override
+  Widget build(BuildContext context) {
+    final gc = context.gc;
+    Widget tile(int i, double w, double h) {
+      final name = media[i];
+      final path = MediaStore.pathFor(name);
+      final photo = path != null && !MediaStore.isVideo(name);
+      Widget inner = photo
+          ? FileThumb(path, width: w, height: h, errorBuilder: (_, _, _) => const SizedBox.shrink())
+          : Center(
+              child: Icon(path == null ? PhosphorIconsRegular.imageSquare : PhosphorIconsFill.playCircle,
+                  size: 30, color: gc.textSecondary));
+      if (photo) inner = Hero(tag: noteHeroTag(scope, name), child: inner);
+      return GestureDetector(
+        onTap: () => showNoteMedia(context, media, i, scope: scope),
+        child: Container(
+          width: w,
+          height: h,
+          clipBehavior: Clip.antiAlias,
+          decoration: BoxDecoration(color: gc.bgRaised2, borderRadius: BorderRadius.circular(16)),
+          child: inner,
+        ),
+      );
+    }
+
+    return LayoutBuilder(builder: (context, box) {
+      final w = box.maxWidth;
+      const gap = 8.0;
+      final half = (w - gap) / 2;
+      final rest = media.length - 1;
+      return Column(children: [
+        tile(0, w, w * 0.66),
+        for (var r = 0; r * 2 < rest; r++) ...[
+          const SizedBox(height: gap),
+          Row(children: [
+            tile(1 + r * 2, 2 + r * 2 > rest ? w : half, half),
+            if (2 + r * 2 <= rest) ...[const SizedBox(width: gap), tile(2 + r * 2, half, half)],
+          ]),
+        ],
+      ]);
+    });
+  }
 }
 
 class NoteMediaStrip extends StatelessWidget {
