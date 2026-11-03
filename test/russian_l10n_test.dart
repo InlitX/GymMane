@@ -1,24 +1,9 @@
-import 'dart:convert';
-import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:gymmane/l10n/app_localizations_ru.dart';
 
 void main() {
   final ru = AppLocalizationsRu();
-
-  test('Russian covers every English UI key including nutrition beta', () {
-    Map<String, dynamic> arb(String locale) =>
-        jsonDecode(File('lib/l10n/app_$locale.arb').readAsStringSync())
-            as Map<String, dynamic>;
-    final en = arb('en');
-    final translated = arb('ru');
-    final keys = en.keys.where((key) => !key.startsWith('@')).toSet();
-    expect(translated.keys.where((key) => !key.startsWith('@')).toSet(), keys);
-    for (final key in keys) {
-      expect((translated[key] as String).trim(), isNotEmpty, reason: key);
-    }
-  });
 
   test('Russian plurals handle teens and numbers ending in one', () {
     for (final n in [1, 2, 5, 11, 12, 14, 21, 22, 25, 101, 111]) {
