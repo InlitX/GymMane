@@ -3,6 +3,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/timezone.dart' as tz;
 
 import '../l10n/l10n.dart';
+import 'notif_sound.dart';
 
 class TrainReminder {
   TrainReminder._();
@@ -21,12 +22,13 @@ class TrainReminder {
       _queue = _queue.then((_) => job()).catchError((Object e) => debugPrint('Aviso de entreno: $e'));
 
   AndroidNotificationDetails get _android => AndroidNotificationDetails(
-        'train_reminder',
+        NotifSound.channelOf('train_reminder', SoundGroup.train),
         t.notifTrainChannel,
         channelDescription: t.notifTrainChannelWhy,
         importance: Importance.defaultImportance,
         priority: Priority.defaultPriority,
-        playSound: true,
+        playSound: NotifSound.plays(SoundGroup.train),
+        sound: NotifSound.soundOf(SoundGroup.train),
       );
 
   DarwinNotificationDetails get _darwin => const DarwinNotificationDetails(

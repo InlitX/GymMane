@@ -22,6 +22,7 @@ import java.io.File
 import java.io.FileOutputStream
 
 class MainActivity : FlutterActivity() {
+    private var pendingSound: MethodChannel.Result? = null
     private var incomingChannel: MethodChannel? = null
     private var rotaryChannel: MethodChannel? = null
     private var openChannel: MethodChannel? = null
@@ -128,11 +129,17 @@ class MainActivity : FlutterActivity() {
         MethodChannel(messenger, "gymmane/device").setMethodCallHandler { call, result ->
             when (call.method) {
                 "isWatch" -> result.success(packageManager.hasSystemFeature(PackageManager.FEATURE_WATCH))
+                "pickSound" -> pickSound(call.argument<String>("current"), result)
                 "isLowEnd" -> {
                     val am = getSystemService(Context.ACTIVITY_SERVICE) as android.app.ActivityManager
                     val info = android.app.ActivityManager.MemoryInfo()
                     am.getMemoryInfo(info)
                     result.success(am.isLowRamDevice || info.totalMem < 3_500_000_000L)
+                }
+                "maxRefresh" -> result.success(maxRefreshRate())
+                "setHighRefresh" -> {
+                    setHighRefresh(call.argument<Boolean>("on") ?: false)
+                    result.success(null)
                 }
                 else -> result.notImplemented()
             }
@@ -140,10 +147,79 @@ class MainActivity : FlutterActivity() {
 
         HealthBridge.attach(this, MethodChannel(messenger, HealthBridge.CHANNEL))
         BackupBridge.attach(this, MethodChannel(messenger, BackupBridge.CHANNEL))
+        SoundBridge.attach(this, MethodChannel(messenger, SoundBridge.CHANNEL))
+        VoiceBridge.attach(this, MethodChannel(messenger, VoiceBridge.CHANNEL))
+    }
+
+    private fun currentDisplay(): android.view.Display? =
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) display else @Suppress("DEPRECATION") windowManager.defaultDisplay
+
+    private fun maxRefreshRate(): Double {
+        val d = currentDisplay() ?: return 60.0
+        return d.supportedModes.maxOfOrNull { it.refreshRate.toDouble() } ?: d.refreshRate.toDouble()
+    }
+
+    private fun setHighRefresh(on: Boolean) {
+        val d = currentDisplay() ?: return
+        val params = window.attributes
+        if (on) {
+            val now = d.mode
+            val best = d.supportedModes
+                .filter { it.physicalWidth == now.physicalWidth && it.physicalHeight == now.physicalHeight }
+                .maxByOrNull { it.refreshRate } ?: return
+            params.preferredDisplayModeId = best.modeId
+            params.preferredRefreshRate = best.refreshRate
+        } else {
+            params.preferredDisplayModeId = 0
+            params.preferredRefreshRate = 0f
+        }
+        window.attributes = params
     }
 
     @Deprecated("Deprecated in Java")
+    private fun pickSound(current: String?, result: MethodChannel.Result) {
+        pendingSound?.success(null)
+        pendingSound = result
+        val intent = Intent(android.media.RingtoneManager.ACTION_RINGTONE_PICKER).apply {
+            putExtra(android.media.RingtoneManager.EXTRA_RINGTONE_TYPE, android.media.RingtoneManager.TYPE_NOTIFICATION)
+            putExtra(android.media.RingtoneManager.EXTRA_RINGTONE_SHOW_DEFAULT, false)
+            putExtra(android.media.RingtoneManager.EXTRA_RINGTONE_SHOW_SILENT, false)
+            if (!current.isNullOrEmpty()) {
+                putExtra(android.media.RingtoneManager.EXTRA_RINGTONE_EXISTING_URI, Uri.parse(current))
+            }
+        }
+        try {
+            startActivityForResult(intent, SOUND_REQUEST)
+        } catch (_: Exception) {
+            pendingSound = null
+            result.success(null)
+        }
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == SOUND_REQUEST) {
+            val result = pendingSound
+            pendingSound = null
+            val uri: Uri? = if (resultCode == RESULT_OK && data != null) {
+                if (Build.VERSION.SDK_INT >= 33) {
+                    data.getParcelableExtra(android.media.RingtoneManager.EXTRA_RINGTONE_PICKED_URI, Uri::class.java)
+                } else {
+                    @Suppress("DEPRECATION")
+                    data.getParcelableExtra(android.media.RingtoneManager.EXTRA_RINGTONE_PICKED_URI)
+                }
+            } else null
+            if (uri == null) {
+                result?.success(null)
+            } else {
+                val name = try {
+                    android.media.RingtoneManager.getRingtone(this, uri)?.getTitle(this)
+                } catch (_: Exception) {
+                    null
+                }
+                result?.success(mapOf("uri" to uri.toString(), "name" to (name ?: "")))
+            }
+            return
+        }
         if (BackupBridge.onActivityResult(this, requestCode, resultCode, data)) return
         super.onActivityResult(requestCode, resultCode, data)
     }
@@ -273,5 +349,9 @@ class MainActivity : FlutterActivity() {
         FileOutputStream(file).use { it.write(bytes) }
         MediaStore.Images.Media.insertImage(contentResolver, file.absolutePath, name, null)
         return true
+    }
+
+    companion object {
+        private const val SOUND_REQUEST = 7311
     }
 }

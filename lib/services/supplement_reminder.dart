@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 import '../l10n/l10n.dart';
+import 'notif_sound.dart';
 import 'train_reminder.dart';
 
 class SupplementReminder {
@@ -19,12 +20,13 @@ class SupplementReminder {
       _queue = _queue.then((_) => job()).catchError((Object e) => debugPrint('Aviso de suplementos: $e'));
 
   AndroidNotificationDetails get _android => AndroidNotificationDetails(
-        'supplement_reminder',
+        NotifSound.channelOf('supplement_reminder', SoundGroup.food),
         t.notifSuppChannel,
         channelDescription: t.notifSuppChannelWhy,
         importance: Importance.defaultImportance,
         priority: Priority.defaultPriority,
-        playSound: true,
+        playSound: NotifSound.plays(SoundGroup.food),
+        sound: NotifSound.soundOf(SoundGroup.food),
       );
 
   DarwinNotificationDetails get _darwin => const DarwinNotificationDetails(
