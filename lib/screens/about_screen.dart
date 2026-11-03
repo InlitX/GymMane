@@ -10,7 +10,7 @@ import '../theme/app_theme.dart';
 import '../widgets/entrance.dart';
 import '../widgets/ui_kit.dart';
 
-const kAppVersion = '1.9.0';
+const kAppVersion = '2.0.0';
 const _kAuthor = 'InlitX';
 const _kAuthorUrl = 'https://github.com/InlitX';
 const _kRepoUrl = 'https://github.com/InlitX/GymMane';
@@ -213,7 +213,7 @@ class AboutScreen extends StatelessWidget {
                   child: Row(
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(right: 14),
+                        padding: const EdgeInsetsDirectional.only(end: 14),
                         child: SizedBox(
                           width: 22,
                           child: Icon(rows[i].$1, size: 19, color: rows[i].$5 ?? gc.textSecondary),
