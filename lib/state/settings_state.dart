@@ -37,6 +37,8 @@ mixin SettingsState on FitCore, ToolsState, LibraryState {
   bool showRoutineRow = true;
   bool levelHints = true;
   bool toastSound = true;
+  String autoProgress = 'off';
+  static const autoProgressModes = ['off', 'weight', 'reps'];
   bool heatmapLabels = true;
   bool hideShots = false;
   bool autoAdvance = true;
@@ -44,8 +46,55 @@ mixin SettingsState on FitCore, ToolsState, LibraryState {
   bool blurOn = true;
   String textSize = 'normal';
   bool calmMotion = false;
+  bool fineOn = false;
+  bool highRefresh = false;
+  double maxRefresh = 60;
   bool showMiniBody = true;
   bool askCheckIn = true;
+  bool muscleTune = true;
+
+  bool voiceCoach = false;
+  int deloadEvery = 0;
+  DateTime? deloadFrom;
+  static const deloadChoices = [0, 4, 5, 6, 8];
+
+  int get deloadWeekIndex {
+    final from = deloadFrom;
+    if (deloadEvery <= 0 || from == null) return -1;
+    final start = DateTime(from.year, from.month, from.day - (from.weekday - 1));
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    return (today.difference(start).inDays / 7).floor();
+  }
+
+  bool get deloadWeek => deloadEvery > 0 && deloadWeekIndex >= 0 && deloadWeekIndex % deloadEvery == deloadEvery - 1;
+
+  int get weeksToDeload {
+    final i = deloadWeekIndex;
+    if (i < 0) return -1;
+    return (deloadEvery - 1 - i % deloadEvery) % deloadEvery;
+  }
+
+  void setDeloadEvery(int weeks) {
+    if (!deloadChoices.contains(weeks) || weeks == deloadEvery) return;
+    deloadEvery = weeks;
+    deloadFrom = weeks > 0 ? DateTime.now() : null;
+    _persist();
+    notifyListeners();
+  }
+
+  void toggleVoiceCoach() {
+    voiceCoach = !voiceCoach;
+    if (!voiceCoach) VoiceCoach.stop();
+    _persist();
+    notifyListeners();
+  }
+
+  void toggleMuscleTune() {
+    muscleTune = !muscleTune;
+    _persist();
+    notifyListeners();
+  }
 
   void toggleMiniBody() {
     showMiniBody = !showMiniBody;
@@ -417,12 +466,67 @@ mixin SettingsState on FitCore, ToolsState, LibraryState {
     notifyListeners();
   }
 
+  static const perfLevels = ['lite', 'balanced', 'max'];
+
+  bool get canHighRefresh => maxRefresh > 61;
+
+  String get perfLevel {
+    final refresh = highRefresh && canHighRefresh;
+    if (!blurOn && !fineOn && !refresh && calmMotion) return 'lite';
+    if (blurOn && !fineOn && !refresh && !calmMotion) return 'balanced';
+    if (blurOn && fineOn && (refresh || !canHighRefresh) && !calmMotion) return 'max';
+    return 'custom';
+  }
+
+  void setPerfLevel(String level) {
+    if (!perfLevels.contains(level)) return;
+    final max = level == 'max';
+    blurOn = level != 'lite';
+    blurEffects = blurOn;
+    calmMotion = level == 'lite';
+    fineOn = max;
+    fineEffects = max;
+    highRefresh = max;
+    DeviceKind.setHighRefresh(highRefresh);
+    _persist();
+    notifyListeners();
+  }
+
+  void setFine(bool on) {
+    fineOn = on;
+    fineEffects = on;
+    _persist();
+    notifyListeners();
+  }
+
+  void setHighRefresh(bool on) {
+    highRefresh = on;
+    DeviceKind.setHighRefresh(on);
+    _persist();
+    notifyListeners();
+  }
+
+  Future<void> readDisplay() async {
+    final hz = await DeviceKind.maxRefresh();
+    if (hz == maxRefresh) return;
+    maxRefresh = hz;
+    notifyListeners();
+  }
+
   void markLowEndAsked() {
     lowEndAsked = true;
     _persist();
   }
 
-  double? progressFor(String exerciseId) => progressStep[exerciseId];
+  double? progressFor(String exerciseId) =>
+      progressStep[exerciseId] ?? (autoProgress == 'off' ? null : fromDisplayWeight(weightStep));
+
+  void setAutoProgress(String mode) {
+    if (!autoProgressModes.contains(mode) || mode == autoProgress) return;
+    autoProgress = mode;
+    _persist();
+    notifyListeners();
+  }
 
   void setWeightStack(String id, List<double> kg) {
     final clean = <double>{for (final v in kg) if (v.isFinite && v > 0 && v < 1000) (v * 1000).round() / 1000}.toList()
@@ -452,10 +556,15 @@ mixin SettingsState on FitCore, ToolsState, LibraryState {
     notifyListeners();
   }
 
-  bool hasProgress(String exerciseId) =>
-      (progressStep[exerciseId] ?? 0) > 0 && progressRule(exerciseId).kind != ProgressKind.manual;
+  bool hasProgress(String exerciseId) {
+    final step = progressStep[exerciseId];
+    if (step == null && autoProgress == 'off') return false;
+    return (step ?? 1) > 0 && progressRule(exerciseId).kind != ProgressKind.manual;
+  }
 
-  ProgressRule progressRule(String exerciseId) => progressRules[exerciseId] ?? const ProgressRule();
+  ProgressRule progressRule(String exerciseId) =>
+      progressRules[exerciseId] ??
+      (autoProgress == 'reps' ? const ProgressRule(kind: ProgressKind.double) : const ProgressRule());
 
   void setProgressRule(String exerciseId, ProgressRule rule) {
     final was = progressRule(exerciseId).kind;
@@ -472,7 +581,11 @@ mixin SettingsState on FitCore, ToolsState, LibraryState {
 
   void toggleProgress(String exerciseId) {
     if (hasProgress(exerciseId)) {
-      progressStep.remove(exerciseId);
+      if (autoProgress == 'off') {
+        progressStep.remove(exerciseId);
+      } else {
+        progressStep[exerciseId] = 0;
+      }
     } else {
       progressStep[exerciseId] = fromDisplayWeight(weightStep);
       if (progressRule(exerciseId).kind == ProgressKind.manual) progressRules.remove(exerciseId);
@@ -482,7 +595,7 @@ mixin SettingsState on FitCore, ToolsState, LibraryState {
   }
 
   void bumpProgressStep(String exerciseId, int dir) {
-    final current = toDisplayWeight(progressStep[exerciseId] ?? 0);
+    final current = toDisplayWeight(progressFor(exerciseId) ?? 0);
     final next = (current + dir * weightStep / 2).clamp(weightStep / 2, weightStep * 8);
     progressStep[exerciseId] = fromDisplayWeight(next);
     _persist();

@@ -51,9 +51,11 @@ abstract class FitCore extends ChangeNotifier {
   final List<LoggedSession> sessions = [];
   final List<BodyweightEntry> bodyweight = [];
   final List<GymNote> notes = [];
+  final List<NoteFolder> noteFolders = [];
   final List<BodyMeasure> measures = [];
   final List<ProgressEntry> shots = [];
   final Set<String> checkins = {};
+  final Map<String, String> daysOff = {};
   final List<Routine> routines = [];
   final Map<int, String> weeklyPlan = {};
   final Map<int, List<String>> planExtras = {};
@@ -107,6 +109,13 @@ abstract class FitCore extends ChangeNotifier {
 
   List<double>? stackFor(String id) {
     final s = weightStacks[id];
+    return s == null || s.isEmpty ? dumbbellStockFor(id) : s;
+  }
+
+  List<double>? dumbbellStockFor(String id) => null;
+
+  List<double>? ownStackFor(String id) {
+    final s = weightStacks[id];
     return s == null || s.isEmpty ? null : s;
   }
 
@@ -157,6 +166,8 @@ abstract class FitCore extends ChangeNotifier {
 
   void syncTrainReminder() {}
 
+  bool get rotating => false;
+
   bool hasPlanOn(DateTime day) => false;
 
   Map<double, int>? get plateStockKg => null;
@@ -184,6 +195,7 @@ abstract class FitCore extends ChangeNotifier {
       sessions.isEmpty ? 0 : identityHashCode(sessions.first),
       sessions.isEmpty ? 0 : identityHashCode(sessions.last),
       checkins.length,
+      daysOff.length,
       extra,
     );
     final hit = _memo[key];
@@ -344,7 +356,10 @@ abstract class FitCore extends ChangeNotifier {
   }
   String get volumeUnit => isLb ? 'k lb' : 't';
 
-  String volumeValue(double kg) => fmt(_round1(toDisplayWeight(kg) / 1000));
+  String volumeValue(double kg) {
+    final v = _round1(toDisplayWeight(kg) / 1000);
+    return v >= 1000 ? groupedInt(v.round()) : fmt(v);
+  }
 
   String volumeLabel(double kg) => '${volumeValue(kg)} $volumeUnit';
 

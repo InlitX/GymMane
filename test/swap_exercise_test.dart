@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:gymmane/models/live_session.dart';
+import 'package:gymmane/models/workout.dart';
 import 'package:gymmane/services/local_store.dart';
 import 'package:gymmane/state/fit_state.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -89,5 +90,39 @@ void main() {
     fit.swapSessionExercise(0, other);
     final back = SessionExercise.fromJson(fit.session!.exercises.first.toJson());
     expect(back.swappedFrom, bench);
+  });
+
+  group('reservas', () {
+    test('se guardan en la rutina, como mucho tres, y la cuarta cambia la más antigua', () {
+      final pool = fit.swapOptions(bench, n: 6).map((e) => e.id).toList();
+      for (final id in pool.take(4)) {
+        fit.toggleRoutineAlt(r, bench, id);
+      }
+      expect(fit.routineAlts(r, bench), pool.sublist(1, 4));
+      fit.toggleRoutineAlt(r, bench, pool[2]);
+      expect(fit.routineAlts(r, bench), [pool[1], pool[3]]);
+      final back = Routine.fromJson(fit.routines.single.toJson());
+      expect(back.alts[bench], [pool[1], pool[3]]);
+    });
+
+    test('salen primero al cambiar y usar una no cambia la rutina', () {
+      fit.toggleRoutineAlt(r, bench, other);
+      fit.startRoutine(fit.routines.single);
+      expect(fit.sessionAltsFor(0).map((e) => e.id), [other]);
+      fit.swapSessionExercise(0, other);
+      expect(fit.sessionAltsFor(0).map((e) => e.id), [bench]);
+      expect(fit.sessionEditedRoutine, isFalse);
+      fit.toggleSet(0, fit.session!.exercises.first.sets.indexWhere((st) => st.counts));
+      fit.finishSession();
+      expect(fit.sessionExtras, isEmpty);
+      expect(fit.sessionEditedRoutine, isFalse);
+      expect(fit.routines.single.exerciseIds, [bench, legs]);
+    });
+
+    test('quitar el ejercicio de la rutina se lleva sus reservas', () {
+      fit.toggleRoutineAlt(r, bench, other);
+      fit.toggleRoutineExercise(r, bench);
+      expect(fit.routines.single.alts, isEmpty);
+    });
   });
 }

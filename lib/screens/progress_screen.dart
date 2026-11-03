@@ -282,7 +282,7 @@ class ProgressScreen extends StatelessWidget {
                       Container(
                         width: 9,
                         height: 9,
-                        margin: const EdgeInsets.only(left: 3),
+                        margin: const EdgeInsetsDirectional.only(start: 3),
                         decoration:
                             BoxDecoration(color: c, borderRadius: BorderRadius.circular(3)),
                       ),
@@ -312,11 +312,24 @@ class ProgressScreen extends StatelessWidget {
           Row(children: [
             Icon(PhosphorIconsFill.fire, size: 14, color: gc.accent),
             const SizedBox(width: 7),
-            Text(t.streakDays(fit.currentStreak),
-                style: AppTheme.f(12.5, weight: FontWeight.w600, color: gc.text)),
+            Flexible(
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                alignment: AlignmentDirectional.centerStart,
+                child: Text(t.streakDays(fit.currentStreak),
+                    maxLines: 1, style: AppTheme.f(12.5, weight: FontWeight.w600, color: gc.text)),
+              ),
+            ),
+            const SizedBox(width: 12),
             const Spacer(),
-            Text(t.weekOfGoal(fit.daysDoneThisWeek, fit.weeklyTarget),
-                style: AppTheme.f(12, weight: FontWeight.w500, color: gc.textTertiary)),
+            Flexible(
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                alignment: AlignmentDirectional.centerEnd,
+                child: Text(t.weekOfGoal(fit.daysDoneThisWeek, fit.weeklyTarget),
+                    maxLines: 1, style: AppTheme.f(12, weight: FontWeight.w500, color: gc.textTertiary)),
+              ),
+            ),
           ]),
         ],
       ),
@@ -327,11 +340,11 @@ class ProgressScreen extends StatelessWidget {
     final hours = fit.totalTime.inHours;
     final lifted = fit.liftedSpanOf(fit.totalVolumeKg);
     final cells = <(String, String, String)>[
-      (t.allTimeSessions, '${fit.totalSessions}', ''),
-      (t.allTimeSets, '${fit.totalSets}', ''),
+      (t.allTimeSessions, groupedInt(fit.totalSessions), ''),
+      (t.allTimeSets, groupedInt(fit.totalSets), ''),
       (
         t.allTimeTime,
-        hours >= 1 ? '$hours' : '${fit.totalTime.inMinutes}',
+        hours >= 1 ? groupedInt(hours) : '${fit.totalTime.inMinutes}',
         hours >= 1 ? t.unitHours : 'min'
       ),
       (t.allTimeLifted, lifted.$1, lifted.$2),
@@ -424,9 +437,45 @@ class ProgressScreen extends StatelessWidget {
               ],
             ],
           ),
+          for (final (i, note) in fit.weekInsights.indexed) ...[
+            SizedBox(height: i == 0 ? 18 : 10),
+            _insight(gc, note),
+          ],
         ],
       ),
     );
+  }
+
+  Widget _insight(GymColors gc, ({String kind, String text, String? exerciseId}) note) {
+    final id = note.exerciseId;
+    final row = Row(children: [
+      Container(
+        width: 30,
+        height: 30,
+        decoration: BoxDecoration(color: gc.text.withValues(alpha: 0.07), shape: BoxShape.circle),
+        child: Icon(
+          switch (note.kind) {
+            'load' => PhosphorIconsRegular.gauge,
+            'muscle' => PhosphorIconsRegular.clockCounterClockwise,
+            'balance' => PhosphorIconsRegular.scales,
+            _ => PhosphorIconsRegular.trendUp,
+          },
+          size: 15,
+          color: note.kind == 'up' ? gc.sage : gc.textSecondary,
+        ),
+      ),
+      const SizedBox(width: 12),
+      Expanded(
+        child: Text(note.text,
+            style: AppTheme.f(13, weight: FontWeight.w600, color: gc.text, height: 1.35)),
+      ),
+      if (id != null) ...[
+        const SizedBox(width: 8),
+        Icon(PhosphorIconsBold.caretRight, size: 12, color: gc.textTertiary),
+      ],
+    ]);
+    if (id == null) return row;
+    return GestureDetector(behavior: HitTestBehavior.opaque, onTap: () => fit.openExercise(id), child: row);
   }
 
   List<({String label, bool done, String route})> _steps() => [
@@ -2023,8 +2072,13 @@ class _PrCardState extends State<_PrCard> {
                     overflow: TextOverflow.ellipsis,
                     style: AppTheme.s(14, weight: FontWeight.w600, color: gc.text, height: 1.25)),
                 const SizedBox(height: 3),
-                Text(fit.recordDetail(pr),
-                    style: AppTheme.s(11.5, weight: FontWeight.w500, color: gc.textTertiary)),
+                FittedBox(
+                  fit: BoxFit.scaleDown,
+                  alignment: AlignmentDirectional.centerStart,
+                  child: Text(fit.recordDetail(pr),
+                      maxLines: 1,
+                      style: AppTheme.s(11.5, weight: FontWeight.w500, color: gc.textTertiary)),
+                ),
               ],
             ),
           ),
@@ -2838,7 +2892,7 @@ class _HeatToneSheetState extends State<_HeatToneSheet> {
                     Container(
                       width: 20,
                       height: 20,
-                      margin: const EdgeInsets.only(right: 6),
+                      margin: const EdgeInsetsDirectional.only(end: 6),
                       decoration: BoxDecoration(color: c, borderRadius: BorderRadius.circular(6)),
                     ),
                   const SizedBox(width: 8),

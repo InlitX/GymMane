@@ -50,6 +50,33 @@ class SessionScreen extends StatelessWidget {
     );
   }
 
+  Widget _deloadNote(GymColors gc) => Container(
+        padding: const EdgeInsets.fromLTRB(14, 10, 8, 10),
+        decoration: BoxDecoration(color: gc.bgRaised, borderRadius: BorderRadius.circular(16)),
+        child: Row(children: [
+          Icon(PhosphorIconsRegular.feather, size: 17, color: gc.sage),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Text(t.deloadNow,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: AppTheme.f(13.5, weight: FontWeight.w800, color: gc.text)),
+              const SizedBox(height: 2),
+              Text(t.deloadNowHint,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: AppTheme.f(12, weight: FontWeight.w500, color: gc.textSecondary, height: 1.3)),
+            ]),
+          ),
+          if (fit.canSkipDeload)
+            TextButton(
+              onPressed: fit.skipDeload,
+              child: Text(t.deloadSkip, style: AppTheme.f(12.5, weight: FontWeight.w700, color: gc.accent)),
+            ),
+        ]),
+      );
+
   Widget _active(BuildContext context, GymColors gc) {
     final s = fit.session!;
     final ex = fit.currentExercise;
@@ -68,6 +95,10 @@ class SessionScreen extends StatelessWidget {
         const SizedBox(height: 14),
         _progressStrip(context, gc, s, locked),
         const SizedBox(height: 16),
+        if (s.deload) ...[
+          _deloadNote(gc),
+          const SizedBox(height: 14),
+        ],
         _ExerciseStage(
           index: exIdx,
           haptic: true,
@@ -392,7 +423,7 @@ class SessionScreen extends StatelessWidget {
               ),
             ]),
           ),
-          if (fit.workoutNotesFor(ex.id).isNotEmpty)
+          if (WorkoutNoteStrip.offers(ex.id))
             Padding(
               padding: const EdgeInsets.fromLTRB(8, 10, 8, 0),
               child: _guard(locked, WorkoutNoteStrip(exerciseId: ex.id, onDark: true)),
@@ -838,7 +869,7 @@ class SessionScreen extends StatelessWidget {
             ),
           ],
         ]),
-        if (ex != null && fit.workoutNotesFor(ex.id).isNotEmpty) ...[
+        if (ex != null && WorkoutNoteStrip.offers(ex.id)) ...[
           const SizedBox(height: 12),
           WorkoutNoteStrip(exerciseId: ex.id, onDark: true),
         ],
@@ -2063,6 +2094,10 @@ class SessionScreen extends StatelessWidget {
               const SizedBox(height: 10),
               Rise(index: 3, child: CheckInCard(fit.filedSession!)),
             ],
+            if (fit.tuneTargets.isNotEmpty) ...[
+              const SizedBox(height: 10),
+              Rise(index: 3, child: _TuneCard(fit.tuneTargets)),
+            ],
             if (fit.sessionExtras.isNotEmpty || identical(_extrasFor, fit.session)) ...[
               const SizedBox(height: 10),
               const Rise(index: 3, child: _ExtrasCard()),
@@ -2586,9 +2621,16 @@ void showSwapExerciseSheet(BuildContext context, int exIdx) {
       child: StatefulBuilder(
         builder: (sheetCtx, setSheet) {
           final q = search.text.trim();
+          final alts = q.isEmpty ? fit.sessionAltsFor(exIdx) : const <Exercise>[];
+          final skip = {for (final a in alts) a.id};
           final list = q.isEmpty
-              ? fit.swapOptions(from.id)
+              ? fit.swapOptions(from.id).where((e) => !skip.contains(e.id)).toList()
               : fit.trainSearchResults(q).where((e) => !fit.inSession(e.id)).toList();
+          Widget label(String text) => Padding(
+                padding: const EdgeInsets.only(bottom: 10),
+                child: Text(text.toUpperCase(),
+                    style: AppTheme.f(11, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.5)),
+              );
           void pick(Exercise ex) {
             Navigator.pop(sheetCtx);
             fit.swapSessionExercise(exIdx, ex.id);
@@ -2618,17 +2660,20 @@ void showSwapExerciseSheet(BuildContext context, int exIdx) {
                           color: gc.bgRaised2,
                           onChanged: (_) => setSheet(() {}),
                         ),
-                        const SizedBox(height: 12),
-                        Text(q.isEmpty ? t.swapSameMuscle(muscleLabel(from.primary)).toUpperCase() : t.results.toUpperCase(),
-                            style: AppTheme.f(11, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.5)),
                       ],
                     ),
                   ),
                   Flexible(
                     child: ListView(
-                      padding: const EdgeInsets.fromLTRB(20, 10, 20, 18),
+                      padding: const EdgeInsets.fromLTRB(20, 12, 20, 18),
                       shrinkWrap: true,
                       children: [
+                        if (alts.isNotEmpty) ...[
+                          label(t.altsTitle),
+                          for (final ex in alts) _swapRow(sheetCtx, gc, ex, () => pick(ex)),
+                          const SizedBox(height: 12),
+                        ],
+                        label(q.isEmpty ? t.swapSameMuscle(muscleLabel(from.primary)) : t.results),
                         if (list.isEmpty)
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 18),
@@ -3167,6 +3212,79 @@ class _CelebrateState extends State<_Celebrate> {
 }
 
 Object? _extrasFor;
+
+class _TuneCard extends StatelessWidget {
+  const _TuneCard(this.targets);
+
+  final List<({String muscle, String exId})> targets;
+
+  @override
+  Widget build(BuildContext context) {
+    final gc = context.gc;
+    final routine = fit.sessionRoutine;
+    if (routine == null) return const SizedBox.shrink();
+    return SoftCard(
+      radius: 22,
+      padding: const EdgeInsets.fromLTRB(16, 16, 16, 10),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+        Text(t.tuneTitle.toUpperCase(),
+            style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.4)),
+        const SizedBox(height: 4),
+        Text(t.tuneHint,
+            style: AppTheme.f(12.5, weight: FontWeight.w500, color: gc.textSecondary, height: 1.35)),
+        const SizedBox(height: 6),
+        for (final m in targets) _row(gc, routine, m),
+      ]),
+    );
+  }
+
+  Widget _row(GymColors gc, Routine routine, ({String muscle, String exId}) m) {
+    final vote = fit.muscleVote(m.muscle);
+    final ex = fit.exerciseById(m.exId);
+    final sets = fit.routineSets(routine, m.exId);
+    void pick(int v) => fit.voteMuscle(m.muscle, vote == v ? null : v);
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: Row(children: [
+        Expanded(
+          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Text(muscleLabel(m.muscle),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: AppTheme.f(14, weight: FontWeight.w700, color: gc.text)),
+            AnimatedSize(
+              duration: const Duration(milliseconds: 220),
+              curve: Curves.easeOutCubic,
+              alignment: Alignment.topLeft,
+              child: vote == null || ex == null
+                  ? const SizedBox(width: double.infinity)
+                  : Padding(
+                      padding: const EdgeInsets.only(top: 2),
+                      child: Text(vote == 0 ? t.tuneSame : t.tuneNext(t.setCount(sets), exerciseName(ex)),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: AppTheme.f(11.5,
+                              weight: FontWeight.w600, color: vote == 0 ? gc.textSecondary : gc.sage, height: 1.3)),
+                    ),
+            ),
+          ]),
+        ),
+        const SizedBox(width: 10),
+        Flexible(
+          child: FittedBox(
+            fit: BoxFit.scaleDown,
+            alignment: AlignmentDirectional.centerEnd,
+            child: SegToggle([
+              SegOption(t.tuneLess, vote == 1, () => pick(1)),
+              SegOption(t.tuneRight, vote == 0, () => pick(0)),
+              SegOption(t.tuneMore, vote == -1, () => pick(-1)),
+            ], hPad: 10),
+          ),
+        ),
+      ]),
+    );
+  }
+}
 
 class _ExtrasCard extends StatefulWidget {
   const _ExtrasCard();

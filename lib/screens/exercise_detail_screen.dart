@@ -211,15 +211,28 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
                                   children: [
                                     _cardLabel(gc, t.personalRecord),
                                     const SizedBox(height: 8),
-                                    Text(fit.recordLabel(pr),
-                                        style: AppTheme.f(30,
-                                            weight: FontWeight.w800, color: gc.text, height: 1)),
+                                    FittedBox(
+                                      fit: BoxFit.scaleDown,
+                                      alignment: AlignmentDirectional.centerStart,
+                                      child: Text(fit.recordLabel(pr),
+                                          maxLines: 1,
+                                          style: AppTheme.f(30,
+                                              weight: FontWeight.w800, color: gc.text, height: 1)),
+                                    ),
                                   ],
                                 ),
                               ),
-                              Text(fit.recordDetail(pr),
-                                  style: AppTheme.f(12,
-                                      weight: FontWeight.w500, color: gc.textSecondary)),
+                              const SizedBox(width: 10),
+                              Flexible(
+                                child: FittedBox(
+                                  fit: BoxFit.scaleDown,
+                                  alignment: AlignmentDirectional.centerEnd,
+                                  child: Text(fit.recordDetail(pr),
+                                      maxLines: 1,
+                                      style: AppTheme.f(12,
+                                          weight: FontWeight.w500, color: gc.textSecondary)),
+                                ),
+                              ),
                             ],
                           ),
                           if (history.length > 1) _bests(gc, ex.id, pr.kind),
@@ -391,7 +404,7 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
           ),
           const SizedBox(height: 4),
           Padding(
-            padding: const EdgeInsets.only(left: 26),
+            padding: const EdgeInsetsDirectional.only(start: 26),
             child: Text(t.notHereWhy, style: AppTheme.f(12.5, weight: FontWeight.w500, color: gc.textSecondary, height: 1.4)),
           ),
           const SizedBox(height: 14),
@@ -865,7 +878,7 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
             if (i < rows.length - 1)
               Container(
                 height: 1,
-                margin: const EdgeInsets.only(left: 16),
+                margin: const EdgeInsetsDirectional.only(start: 16),
                 color: gc.border.withValues(alpha: 0.55),
               ),
           ],
@@ -907,7 +920,7 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
   }
 
   Widget _stackRow(BuildContext context, GymColors gc, String id) {
-    final stack = fit.stackFor(id);
+    final stack = fit.ownStackFor(id);
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () => showWeightStackSheet(context, id),
@@ -1057,7 +1070,7 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
   }
 
   Widget _rowIcon(GymColors gc, IconData icon, bool on) => Padding(
-        padding: const EdgeInsets.only(right: 14),
+        padding: const EdgeInsetsDirectional.only(end: 14),
         child: SizedBox(
           width: 22,
           child: Icon(icon, size: 19, color: on ? gc.text : gc.textSecondary),
@@ -1352,7 +1365,7 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
         child: Row(
           children: [
             Padding(
-              padding: const EdgeInsets.only(right: 14),
+              padding: const EdgeInsetsDirectional.only(end: 14),
               child: SizedBox(
                 width: 22,
                 child: SvgPathIcon(Ic.trendUp, size: 19, color: on ? gc.text : gc.textSecondary),

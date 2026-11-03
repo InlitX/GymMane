@@ -26,6 +26,7 @@ import '../models/progress_shot.dart';
 import '../models/workout.dart';
 import '../services/alarm_store.dart';
 import '../services/beeper.dart';
+import '../services/device_kind.dart';
 import '../services/exercise_match.dart';
 import '../services/food_library.dart';
 import '../services/health_metrics.dart';
@@ -33,11 +34,13 @@ import '../services/health_steps.dart';
 import '../services/local_store.dart';
 import '../services/media_store.dart';
 import '../services/merged_ids.dart';
+import '../services/notif_sound.dart';
 import '../services/progress_reminder.dart';
 import '../services/plan_share.dart';
 import '../services/rest_alarm.dart';
 import '../services/supplement_reminder.dart';
 import '../services/train_reminder.dart';
+import '../services/voice_coach.dart';
 import '../services/workout_import.dart';
 
 part 'awards_state.dart';
@@ -62,6 +65,52 @@ part 'workout_state.dart';
 
 class FitState extends FitCore
     with ToolsState, LibraryState, SettingsState, NotesState, PlacesState, GymPassState, MeasuresState, MomentsState, TimelineState, StatsState, StepsState, HealthState, CircuitState, NutritionState, ReportState, AwardsState, RoutinesState, WorkoutState {
+  final Map<SoundGroup, String> notifSoundNames = {};
+
+  void _loadNotifSounds(Object? raw) {
+    NotifSound.uris.clear();
+    notifSoundNames.clear();
+    if (raw is! Map) return;
+    for (final g in SoundGroup.values) {
+      final v = raw[g.name];
+      if (v is! List || v.isEmpty || v.first is! String || (v.first as String).isEmpty) continue;
+      NotifSound.uris[g] = v.first as String;
+      notifSoundNames[g] = v.length > 1 && v[1] is String ? v[1] as String : '';
+    }
+  }
+
+  static const _soundChannels = ['train_reminder', 'supplement_reminder', 'fasting', 'progress_photo', 'measures'];
+
+  Future<void> setNotifSound(SoundGroup g, String uri, {String name = ''}) async {
+    if (uri.isEmpty) {
+      NotifSound.uris.remove(g);
+      notifSoundNames.remove(g);
+    } else {
+      NotifSound.uris[g] = uri;
+      notifSoundNames[g] = name;
+    }
+    _persist();
+    notifyListeners();
+    await NotifSound.dropOld(_soundChannels, {
+      NotifSound.channelOf('train_reminder', SoundGroup.train),
+      NotifSound.channelOf('supplement_reminder', SoundGroup.food),
+      NotifSound.channelOf('fasting', SoundGroup.food),
+      NotifSound.channelOf('progress_photo', SoundGroup.other),
+      NotifSound.channelOf('measures', SoundGroup.other),
+      'fasting_live',
+    });
+    switch (g) {
+      case SoundGroup.train:
+        syncTrainReminder();
+      case SoundGroup.food:
+        syncSupplementReminder();
+        _syncFast();
+      case SoundGroup.other:
+        syncPhotoReminder();
+        syncMeasureReminder();
+    }
+  }
+
   void loadFromStore() {
     final data = withMergedExercises(Store.instance.load());
     _loading = true;
@@ -81,6 +130,7 @@ class FitState extends FitCore
       alarmSound = data['alarmSound'] as String?;
       alarmSoundName = data['alarmSoundName'] as String?;
       RestAlarm.instance.customSoundPath = alarmSoundPath;
+      _loadNotifSounds(data['notifSounds']);
 
       if (alarmSoundPath == null) {
         alarmSound = null;
@@ -100,6 +150,9 @@ class FitState extends FitCore
       checkins
         ..clear()
         ..addAll(((data['checkins'] as List?) ?? []).cast<String>());
+      daysOff
+        ..clear()
+        ..addAll(((data['daysOff'] as Map?) ?? const {}).map((k, v) => MapEntry(k as String, v as String)));
       routines
         ..clear()
         ..addAll(((data['routines'] as List?) ?? [])
@@ -241,6 +294,8 @@ class FitState extends FitCore
     showRoutineRow = data['showRoutineRow'] as bool? ?? true;
     levelHints = data['levelHints'] as bool? ?? true;
     toastSound = data['toastSound'] as bool? ?? true;
+    final auto = data['autoProgress'] as String? ?? 'off';
+    autoProgress = SettingsState.autoProgressModes.contains(auto) ? auto : 'off';
     Beeper.instance.chimeOn = toastSound;
     heatmapLabels = data['heatLabels'] as bool? ?? true;
     hideShots = data['hideShots'] as bool? ?? false;
@@ -259,8 +314,17 @@ class FitState extends FitCore
     final size = data['textSize'];
     textSize = SettingsState.textSizes.contains(size) ? size as String : 'normal';
     calmMotion = data['calm'] as bool? ?? false;
+    fineOn = data['fine'] as bool? ?? false;
+    fineEffects = fineOn;
+    highRefresh = data['hz'] as bool? ?? false;
+    if (highRefresh) DeviceKind.setHighRefresh(true);
     showMiniBody = data['miniBody'] as bool? ?? true;
     askCheckIn = data['checkIn'] as bool? ?? true;
+    muscleTune = data['mTune'] as bool? ?? true;
+    voiceCoach = data['voice'] as bool? ?? false;
+    final every = (data['deload'] as num?)?.toInt() ?? 0;
+    deloadEvery = SettingsState.deloadChoices.contains(every) ? every : 0;
+    deloadFrom = deloadEvery > 0 ? DateTime.tryParse((data['deloadFrom'] as String?) ?? '') ?? DateTime.now() : null;
     blurEffects = blurOn;
     lowEndAsked = data['lowEndAsked'] as bool? ?? false;
     startCountdown = data['countdown'] as bool? ?? true;
@@ -423,6 +487,12 @@ class FitState extends FitCore
 
   void _loadNotes(Map<String, dynamic> data) {
     notes.clear();
+    noteFolders
+      ..clear()
+      ..addAll([
+        for (final f in (data['noteFolders'] as List?) ?? const [])
+          if (f is Map) NoteFolder.fromJson(f.cast<String, dynamic>()),
+      ]);
     final raw = data['notes'];
     if (raw is List) {
       notes.addAll(raw.map((e) => GymNote.fromJson((e as Map).cast<String, dynamic>())));
@@ -467,6 +537,10 @@ class FitState extends FitCore
         'miniRest': miniRestSeconds,
         'alarmSound': alarmSound,
         'alarmSoundName': alarmSoundName,
+        if (NotifSound.uris.isNotEmpty)
+          'notifSounds': {
+            for (final g in NotifSound.uris.keys) g.name: [NotifSound.uris[g], notifSoundNames[g] ?? ''],
+          },
         'bg': bgPattern,
         'heatTone': heatTone,
         'bgDim': bgDim,
@@ -476,6 +550,7 @@ class FitState extends FitCore
         'showRoutineRow': showRoutineRow,
         'levelHints': levelHints,
         'toastSound': toastSound,
+        if (autoProgress != 'off') 'autoProgress': autoProgress,
         'heatLabels': heatmapLabels,
         if (hideShots) 'hideShots': true,
         'weekStart': weekStartDay,
@@ -484,8 +559,14 @@ class FitState extends FitCore
         if (!blurOn) 'blur': false,
         if (textSize != 'normal') 'textSize': textSize,
         if (calmMotion) 'calm': true,
+        if (fineOn) 'fine': true,
+        if (highRefresh) 'hz': true,
         if (!showMiniBody) 'miniBody': false,
         if (!askCheckIn) 'checkIn': false,
+        if (!muscleTune) 'mTune': false,
+        if (voiceCoach) 'voice': true,
+        if (deloadEvery > 0) 'deload': deloadEvery,
+        if (deloadFrom != null) 'deloadFrom': deloadFrom!.toIso8601String(),
         if (lowEndAsked) 'lowEndAsked': true,
         'countdown': startCountdown,
         'gamify': gamification,
@@ -518,11 +599,13 @@ class FitState extends FitCore
         'onboarded': onboarded,
         'favorites': favorites,
         'notes': notes.map((n) => n.toJson()).toList(),
+        if (noteFolders.isNotEmpty) 'noteFolders': noteFolders.map((f) => f.toJson()).toList(),
         'places': places.map((p) => p.toJson()).toList(),
         'place': activePlaceId,
         if (gymPasses.isNotEmpty) 'passes': gymPasses.map((p) => p.toJson()).toList(),
         if (lastPassId.isNotEmpty) 'lastPass': lastPassId,
         'checkins': checkins.toList(),
+        if (daysOff.isNotEmpty) 'daysOff': daysOff,
         'routines': routines.map((r) => r.toJson()).toList(),
         'weeklyPlan': weeklyPlan.map((k, v) => MapEntry(k.toString(), v)),
         'planExtras': planExtras.map((k, v) => MapEntry(k.toString(), v)),
@@ -617,6 +700,7 @@ class FitState extends FitCore
     compareFromId = null;
     compareToId = null;
     notes.clear();
+    noteFolders.clear();
     moments.clear();
     loadNutrition(null);
     loadSteps(null);
@@ -631,6 +715,7 @@ class FitState extends FitCore
     gymPasses.clear();
     lastPassId = '';
     checkins.clear();
+    daysOff.clear();
     routines.clear();
     weeklyPlan.clear();
     planExtras.clear();
@@ -682,10 +767,15 @@ class FitState extends FitCore
     showRecommended = true;
     textSize = 'normal';
     calmMotion = false;
+    fineOn = false;
+    fineEffects = false;
+    if (highRefresh) DeviceKind.setHighRefresh(false);
+    highRefresh = false;
     showWeekStats = true;
     showRoutineRow = true;
     levelHints = true;
     toastSound = true;
+    autoProgress = 'off';
     Beeper.instance.chimeOn = true;
     heatmapLabels = true;
     hideShots = false;
@@ -780,6 +870,9 @@ class FitState extends FitCore
     checkins
       ..clear()
       ..addAll(((map['checkins'] as List?) ?? []).cast<String>());
+    daysOff
+      ..clear()
+      ..addAll(((map['daysOff'] as Map?) ?? const {}).map((k, v) => MapEntry(k as String, v as String)));
     routines
       ..clear()
       ..addAll(((map['routines'] as List?) ?? [])
@@ -873,7 +966,7 @@ class FitState extends FitCore
       weekdays: reminderWeekdays,
       skipToday: trainedToday,
       againMinutes: trainAgainMin,
-      restOn: rotating ? rotationRestOn : null,
+      restOn: (day) => daysOff.containsKey(dayIdOf(day)) || (rotating && rotationRestOn(day)),
     );
   }
 

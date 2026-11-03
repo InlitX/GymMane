@@ -201,6 +201,7 @@ class WidgetShowcase extends StatelessWidget {
     return ShowcaseFrame(
       height: height,
       child: ExcludeSemantics(
+      child: MediaQuery.withNoTextScaling(
       child: IgnorePointer(
         child: SizedBox(
           height: height,
@@ -243,6 +244,7 @@ class WidgetShowcase extends StatelessWidget {
             ),
           ),
         ),
+      ),
       ),
       ),
     );

@@ -98,7 +98,7 @@ mixin StatsState on FitCore, ToolsState, LibraryState, SettingsState, TimelineSt
     final shown = toDisplayWeight(kg);
     if (shown < 1000) return (shown.round().toString(), units);
     final k = shown / 1000;
-    return (k >= 10 ? k.round().toString() : decimalText(k.toStringAsFixed(1)), units == 'kg' ? 't' : 'k $units');
+    return (k >= 10 ? groupedInt(k.round()) : decimalText(k.toStringAsFixed(1)), units == 'kg' ? 't' : 'k $units');
   }
 
   (String, String) get liftedSpan => liftedSpanOf(totalVolumeKg);
@@ -617,23 +617,66 @@ mixin StatsState on FitCore, ToolsState, LibraryState, SettingsState, TimelineSt
     return _remember('streak', _streak, today);
   }
 
+  static const looseRestDays = 2;
+
   int _streak() {
     final days = {..._byDay.keys, ..._checkinDays};
     if (days.isEmpty) return 0;
     final first = days.reduce((a, b) => a.isBefore(b) ? a : b);
-    bool rest(DateTime d) => weeklyPlan.isNotEmpty && !weeklyPlan.containsKey(d.weekday);
+    final loose = rotating;
+    bool rest(DateTime d) =>
+        daysOff.containsKey(_dayId(d)) || (!loose && weeklyPlan.isNotEmpty && !weeklyPlan.containsKey(d.weekday));
     var cursor = _dayKey(DateTime.now());
     if (!days.contains(cursor)) cursor = shiftDays(cursor, -1);
-    var n = 0;
+    var n = 0, gap = 0;
     while (!cursor.isBefore(first)) {
       if (days.contains(cursor)) {
         n++;
-      } else if (!rest(cursor)) {
+        gap = 0;
+      } else if (!rest(cursor) && ++gap > (loose ? looseRestDays : 0)) {
         break;
       }
       cursor = shiftDays(cursor, -1);
     }
     return n;
+  }
+
+  static const dayOffReasons = ['sick', 'travel', 'injury', 'rest'];
+
+  String dayIdOf(DateTime d) => _dayId(d);
+
+  String? dayOffOn(DateTime d) => daysOff[_dayId(d)];
+
+  bool isCheckedIn(DateTime d) => checkins.contains(_dayId(d));
+
+  void setDayOff(DateTime d, String? reason) {
+    final id = _dayId(d);
+    if (reason == null || !dayOffReasons.contains(reason)) {
+      if (daysOff.remove(id) == null) return;
+    } else {
+      daysOff[id] = reason;
+      checkins.remove(id);
+    }
+    _persist();
+    _refreshWidgets();
+    syncTrainReminder();
+    refreshAwards();
+    notifyListeners();
+  }
+
+  void setCheckedIn(DateTime d, bool on) {
+    final id = _dayId(d);
+    if (_hasSessionOn(d) || on == checkins.contains(id)) return;
+    if (on) {
+      checkins.add(id);
+      daysOff.remove(id);
+    } else {
+      checkins.remove(id);
+    }
+    _persist();
+    _refreshWidgets();
+    refreshAwards();
+    notifyListeners();
   }
 
   List<bool> get weekMask {
@@ -668,6 +711,7 @@ mixin StatsState on FitCore, ToolsState, LibraryState, SettingsState, TimelineSt
       checkins.remove(id);
     } else {
       checkins.add(id);
+      daysOff.remove(id);
     }
     _persist();
     _refreshWidgets();
@@ -1086,7 +1130,13 @@ mixin StatsState on FitCore, ToolsState, LibraryState, SettingsState, TimelineSt
 
   List<LoggedSet> lastSetsFor(String id) {
     final h = exerciseHistory(id);
-    return h.isEmpty ? const [] : h.first.ex.sets;
+    if (h.isEmpty) return const [];
+    final light = _remember('lightEx', () => Set<LoggedExercise>.identity()
+      ..addAll([for (final s in sessions) if (s.deload) ...s.exercises]));
+    for (final e in h) {
+      if (!light.contains(e.ex)) return e.ex.sets;
+    }
+    return h.first.ex.sets;
   }
 
   String? lastSummaryFor(String id) {
@@ -1127,6 +1177,239 @@ mixin StatsState on FitCore, ToolsState, LibraryState, SettingsState, TimelineSt
     ('eZyBC3j', 0.52, ['eZyBC3j']),
     ('Kyd9Rz5', 0.45, ['Kyd9Rz5', 'kTbSH9h']),
   ];
+
+  DateTime get recapMonth {
+    final now = DateTime.now();
+    final last = DateTime(now.year, now.month - 1);
+    final early = now.day <= 7 && sessions.any((s) => s.day.year == last.year && s.day.month == last.month);
+    return early ? last : DateTime(now.year, now.month);
+  }
+
+  MonthRecap recapFor(DateTime month) => _remember(('recap', month.year, month.month), () => _recap(month));
+
+  MonthRecap _recap(DateTime month) {
+    final from = DateTime(month.year, month.month);
+    final to = DateTime(month.year, month.month + 1);
+    final inMonth = [for (final s in sessions) if (!s.day.isBefore(from) && s.day.isBefore(to)) s];
+    final days = <int>{for (final s in inMonth) s.day.day};
+    var seconds = 0, sets = 0;
+    var volume = 0.0;
+    LoggedSession? longest;
+    final byExercise = <String, double>{};
+    final setsOf = <String, int>{};
+    final timesOf = <String, int>{};
+    final bestOf = <String, double>{};
+    final weekdays = <int, int>{};
+    final starts = <int>[];
+    for (final s in inMonth) {
+      seconds += s.durationSec;
+      sets += s.setCount;
+      volume += s.volume;
+      if (longest == null || s.durationSec > longest.durationSec) longest = s;
+      weekdays[s.day.weekday] = (weekdays[s.day.weekday] ?? 0) + 1;
+      starts.add(s.day.hour * 60 + s.day.minute);
+      for (final e in s.exercises) {
+        if (e.volume > 0) byExercise[e.id] = (byExercise[e.id] ?? 0) + e.volume;
+        final n = e.workingSets.length;
+        if (n == 0) continue;
+        setsOf[e.id] = (setsOf[e.id] ?? 0) + n;
+        timesOf[e.id] = (timesOf[e.id] ?? 0) + 1;
+        if (e.topWeight > (bestOf[e.id] ?? 0)) bestOf[e.id] = e.topWeight;
+      }
+    }
+    String? topExercise;
+    var topVolume = 0.0;
+    for (final e in byExercise.entries) {
+      if (e.value > topVolume) {
+        topVolume = e.value;
+        topExercise = e.key;
+      }
+    }
+    final muscles = muscleSetsBetween(from, shiftDays(to, -1));
+    String? topMuscle;
+    var topSets = 0.0;
+    for (final e in muscles.entries) {
+      if (e.value > topSets) {
+        topSets = e.value;
+        topMuscle = e.key;
+      }
+    }
+    final records = <({String id, double kg})>[];
+    final seen = <String>{};
+    for (final s in inMonth) {
+      for (final e in s.exercises) {
+        if (!seen.add(e.id) || modeOf(e.id).isNotEmpty || isAssisted(e.id) || isRepsOnly(e.id)) continue;
+        var before = 0.0, now = 0.0, kg = 0.0;
+        for (final h in exerciseHistory(e.id)) {
+          final day = h.date;
+          if (day.isBefore(from)) {
+            if (h.ex.bestOneRm > before) before = h.ex.bestOneRm;
+          } else if (day.isBefore(to) && h.ex.bestOneRm > now) {
+            now = h.ex.bestOneRm;
+            kg = h.ex.topWeight;
+          }
+        }
+        if (before > 0 && now > before) records.add((id: e.id, kg: kg));
+      }
+    }
+    records.sort((a, b) => b.kg.compareTo(a.kg));
+    int? favDay;
+    var favCount = 0;
+    for (final e in weekdays.entries) {
+      if (e.value > favCount) {
+        favCount = e.value;
+        favDay = e.key;
+      }
+    }
+    starts.sort();
+    String? liftId;
+    for (final e in setsOf.entries) {
+      if (exerciseById(e.key) == null) continue;
+      if (liftId == null || e.value > setsOf[liftId]! ||
+          (e.value == setsOf[liftId]! && (byExercise[e.key] ?? 0) > (byExercise[liftId] ?? 0))) {
+        liftId = e.key;
+      }
+    }
+    return MonthRecap(
+      month: from,
+      workouts: inMonth.length,
+      days: days,
+      seconds: seconds,
+      longest: longest,
+      sets: sets,
+      volumeKg: volume,
+      topExercise: topExercise,
+      topExerciseKg: topVolume,
+      heat: muscleHeatBetween(from, shiftDays(to, -1)),
+      topMuscle: topMuscle,
+      topMuscleSets: topSets.round(),
+      records: records,
+      favDay: favCount >= 2 ? favDay : null,
+      usualStart: starts.length >= 3 ? (starts[starts.length ~/ 2] ~/ 15) * 15 : null,
+      weekdays: [for (var d = 1; d <= 7; d++) weekdays[d] ?? 0],
+      lift: liftId == null
+          ? null
+          : (
+              id: liftId,
+              sets: setsOf[liftId]!,
+              times: timesOf[liftId]!,
+              bestKg: bestOf[liftId] ?? 0,
+              volumeKg: byExercise[liftId] ?? 0,
+            ),
+      sessionMinutes: [for (final s in inMonth) s.durationSec ~/ 60],
+      topLifts: ([
+        for (final e in setsOf.entries)
+          if (exerciseById(e.key) != null && !isCardio(e.key)) (id: e.key, sets: e.value),
+      ]..sort((a, b) => b.sets.compareTo(a.sets)))
+          .take(5)
+          .toList(),
+      exerciseIds: (setsOf.keys.where((id) => exerciseById(id) != null).toList()
+        ..sort((a, b) => setsOf[b]!.compareTo(setsOf[a]!))),
+    );
+  }
+
+  static const _pushMuscles = {'chest', 'shoulders', 'triceps'};
+  static const _pullMuscles = {'back', 'biceps', 'trapezius'};
+
+  List<({String kind, String text, String? exerciseId})> get weekInsights =>
+      _remember('insights', _weekInsights, (_dayKey(DateTime.now()), weekStartDay, t.localeName));
+
+  List<({String kind, String text, String? exerciseId})> _weekInsights() {
+    final today = _dayKey(DateTime.now());
+    final lastHit = <String, DateTime>{};
+    final visits = <String, int>{};
+    final recent = <String>{};
+    var push = 0, pull = 0;
+    for (final s in sessions) {
+      final day = _dayKey(s.day);
+      final age = today.difference(day).inDays;
+      if (age < 0 || age > 56) continue;
+      final seen = <String>{};
+      for (final e in s.exercises) {
+        final n = e.workingSets.length;
+        if (n == 0 || !countsForMuscles(e.id)) continue;
+        seen.add(e.primary);
+        final was = lastHit[e.primary];
+        if (was == null || day.isAfter(was)) lastHit[e.primary] = day;
+        if (age <= 28) {
+          if (_pushMuscles.contains(e.primary)) push += n;
+          if (_pullMuscles.contains(e.primary)) pull += n;
+          if (modeOf(e.id).isEmpty && !isAssisted(e.id) && !isRepsOnly(e.id)) recent.add(e.id);
+        }
+      }
+      for (final m in seen) {
+        visits[m] = (visits[m] ?? 0) + 1;
+      }
+    }
+    final out = <({String kind, String text, String? exerciseId})>[];
+
+    final start = _weekStart;
+    final weeks = List<int>.filled(5, 0);
+    for (final s in sessions) {
+      final day = _dayKey(s.day);
+      if (day.isAfter(today)) continue;
+      final back = start.difference(day).inDays;
+      final i = back <= 0 ? 0 : 1 + (back - 1) ~/ 7;
+      if (i < weeks.length) weeks[i] += s.setCount;
+    }
+    final before = weeks.sublist(1).where((w) => w > 0).toList();
+    if (before.length >= 3 && weeks[0] >= 12) {
+      final avg = before.fold(0, (a, b) => a + b) / before.length;
+      if (weeks[0] >= avg * 1.5) {
+        out.add((kind: 'load', text: t.insightLoad(((weeks[0] / avg - 1) * 100).round()), exerciseId: null));
+      }
+    }
+
+    String? forgotten;
+    var gap = 13;
+    for (final e in lastHit.entries) {
+      final days = today.difference(e.value).inDays;
+      if ((visits[e.key] ?? 0) >= 2 && days > gap) {
+        gap = days;
+        forgotten = e.key;
+      }
+    }
+    if (forgotten != null) {
+      out.add((kind: 'muscle', text: t.insightMuscle(muscleLabel(forgotten), gap), exerciseId: null));
+    }
+
+    if (push + pull >= 20) {
+      if (push >= pull * 1.6) {
+        out.add((kind: 'balance', text: t.insightPushHeavy(push, pull), exerciseId: null));
+      } else if (pull >= push * 1.6) {
+        out.add((kind: 'balance', text: t.insightPullHeavy(pull, push), exerciseId: null));
+      }
+    }
+
+    String? best;
+    var gain = 0.03;
+    for (final id in recent) {
+      var now = 0.0, then = 0.0;
+      for (final h in exerciseHistory(id)) {
+        final age = today.difference(_dayKey(h.date)).inDays;
+        if (age > 90) break;
+        final rm = h.ex.bestOneRm;
+        if (age <= 28) {
+          if (rm > now) now = rm;
+        } else if (rm > then) {
+          then = rm;
+        }
+      }
+      if (then <= 0 || now <= 0) continue;
+      final g = now / then - 1;
+      if (g > gain) {
+        gain = g;
+        best = id;
+      }
+    }
+    if (best != null) {
+      final ex = exerciseById(best);
+      if (ex != null) {
+        out.add((kind: 'up', text: t.insightStronger(exerciseName(ex), (gain * 100).round()), exerciseId: best));
+      }
+    }
+    return out.take(3).toList();
+  }
 
   ({List<({String id, double kg, double target, double score})> lifts, String? behind})? get structuralBalance =>
       _remember('balance', _structuralBalance, _dayKey(DateTime.now()));

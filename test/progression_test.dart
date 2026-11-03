@@ -412,4 +412,91 @@ void main() {
       });
     });
   });
+
+  group('#309 progresión por defecto', () {
+    setUp(() async {
+      SharedPreferences.setMockInitialValues({});
+      await Store.instance.init();
+      fit.resetAllData();
+      fit.setUnits('kg');
+    });
+
+    DateTime ago(int days) {
+      final n = DateTime.now();
+      return DateTime(n.year, n.month, n.day - days, 18);
+    }
+
+    String bench() => fit.matchExerciseByName('Barbell Bench Press')!.id;
+
+    test('apagada no propone nada en un ejercicio sin configurar', () {
+      final id = bench();
+      fit.sessions.add(LoggedSession(ago(3), 1200, [LoggedExercise(id, id, 'chest', [LoggedSet(10, 60), LoggedSet(10, 60)])]));
+      expect(fit.hasProgress(id), isFalse);
+    });
+
+    test('subir repeticiones suma una por serie y al llegar a 12 sube el peso', () {
+      final id = bench();
+      fit.setAutoProgress('reps');
+      fit.sessions.add(LoggedSession(ago(6), 1200, [LoggedExercise(id, id, 'chest', [LoggedSet(10, 60), LoggedSet(10, 60)])]));
+      var next = fit.nextTarget(id)!;
+      expect(next.move, NextMove.reps);
+      expect(next.reps, 11);
+      expect(next.weightKg, 60);
+
+      fit.sessions.add(LoggedSession(ago(3), 1200, [LoggedExercise(id, id, 'chest', [LoggedSet(12, 60), LoggedSet(12, 60)])]));
+      next = fit.nextTarget(id)!;
+      expect(next.move, NextMove.up);
+      expect(next.reps, 8);
+      expect(next.weightKg, greaterThan(60));
+    });
+
+    test('un ejercicio apagado a mano sigue apagado con la progresión por defecto', () {
+      final id = bench();
+      fit.setAutoProgress('weight');
+      expect(fit.hasProgress(id), isTrue);
+      fit.toggleProgress(id);
+      expect(fit.hasProgress(id), isFalse);
+      fit.persistNow();
+      fit.loadFromStore();
+      expect(fit.autoProgress, 'weight');
+      expect(fit.hasProgress(id), isFalse);
+      fit.toggleProgress(id);
+      expect(fit.hasProgress(id), isTrue);
+    });
+  });
+
+  group('semana de descarga', () {
+    tearDown(() {
+      fit.setDeloadEvery(0);
+      fit.saveAndExit();
+    });
+
+    test('toca la última semana del ciclo y la siguiente se cuenta bien', () {
+      fit.setDeloadEvery(4);
+      fit.deloadFrom = DateTime.now().subtract(const Duration(days: 21));
+      expect(fit.deloadWeek, isTrue);
+      fit.deloadFrom = DateTime.now();
+      expect(fit.deloadWeek, isFalse);
+      expect(fit.weeksToDeload, 3);
+    });
+
+    test('en descarga la sesión lleva la mitad de series, y entrenar normal las devuelve', () {
+      final id = fit.createRoutine('Descarga');
+      fit.toggleRoutineExercise(id, 'EIeI8Vf');
+      final r = fit.routines.firstWhere((x) => x.id == id);
+      fit.startRoutine(r);
+      final normal = fit.session!.exercises.first.sets.where((s) => s.kind != SetKind.warmup).length;
+      fit.saveAndExit();
+      fit.setDeloadEvery(4);
+      fit.deloadFrom = DateTime.now().subtract(const Duration(days: 21));
+      fit.startRoutine(r);
+      final s = fit.session!;
+      expect(s.deload, isTrue);
+      expect(s.exercises.first.sets.where((x) => x.kind != SetKind.warmup).length, (normal / 2).ceil());
+      expect(fit.canSkipDeload, isTrue);
+      fit.skipDeload();
+      expect(s.deload, isFalse);
+      expect(s.exercises.first.sets.where((x) => x.kind != SetKind.warmup).length, normal);
+    });
+  });
 }

@@ -169,4 +169,50 @@ void main() {
       expect(fit.heatmapDate(levels.length - 1), shiftDays(DateTime.now(), 0));
     });
   });
+
+  group('lecturas de la semana', () {
+    String idFor(String muscle) =>
+        fit.allExercises.firstWhere((e) => e.primary == muscle && fit.modeOf(e.id).isEmpty && !fit.isAssisted(e.id)).id;
+
+    void log(int daysAgo, String muscle, double kg, {int sets = 3}) {
+      final now = DateTime.now();
+      final at = DateTime(now.year, now.month, now.day - daysAgo, 12);
+      fit.sessions.add(LoggedSession(at, 600, [
+        LoggedExercise(idFor(muscle), muscle, muscle, [for (var i = 0; i < sets; i++) LoggedSet(5, kg)]),
+      ]));
+      fit.sessions.sort((a, b) => a.date.compareTo(b.date));
+    }
+
+    test('sin historial no dice nada', () {
+      expect(fit.weekInsights, isEmpty);
+    });
+
+    test('avisa del músculo olvidado y de quien se ha hecho más fuerte', () {
+      log(40, 'quads', 100);
+      log(30, 'quads', 100);
+      log(50, 'chest', 60);
+      log(3, 'chest', 70);
+      final notes = fit.weekInsights;
+      expect(notes.map((n) => n.kind), containsAll(['muscle', 'up']));
+      expect(notes.firstWhere((n) => n.kind == 'up').exerciseId, idFor('chest'));
+    });
+
+    test('nota el desequilibrio entre empujar y tirar', () {
+      for (var d = 1; d <= 20; d += 4) {
+        log(d, 'chest', 60, sets: 5);
+      }
+      log(2, 'back', 60, sets: 3);
+      expect(fit.weekInsights.map((n) => n.kind), contains('balance'));
+    });
+
+    test('nunca da más de tres', () {
+      for (var d = 1; d <= 20; d += 4) {
+        log(d, 'chest', 60, sets: 6);
+      }
+      log(40, 'quads', 100);
+      log(30, 'quads', 100);
+      log(50, 'chest', 40);
+      expect(fit.weekInsights.length, lessThanOrEqualTo(3));
+    });
+  });
 }

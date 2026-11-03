@@ -197,6 +197,7 @@ mixin RoutinesState on FitCore, LibraryState {
 
   Routine? routineById(String id) => _routine(id);
 
+  @override
   bool get rotating => rotation && rotationRoutines.isNotEmpty;
 
   List<Routine> get rotationRoutines => [for (final id in rotationIds) ?_routine(id)];
@@ -547,6 +548,7 @@ mixin RoutinesState on FitCore, LibraryState {
     made.ladders.addAll([for (final l in source.ladders) [...l]]);
     made.plan.addAll({for (final e in source.plan.entries) e.key: [...e.value]});
     made.rest.addAll(source.rest);
+    made.alts.addAll({for (final e in source.alts.entries) e.key: [...e.value]});
     made.group = source.group;
     made.color = source.color;
     _persist();
@@ -618,6 +620,7 @@ mixin RoutinesState on FitCore, LibraryState {
       r.plan.remove(exId);
       r.rest.remove(exId);
       r.chained.remove(exId);
+      r.alts.remove(exId);
     } else {
       r.exerciseIds.add(exId);
     }
@@ -675,6 +678,32 @@ mixin RoutinesState on FitCore, LibraryState {
     final rest = r.rest.remove(from);
     if (rest != null) r.rest[to] = rest;
     if (r.chained.remove(from)) r.chained.add(to);
+    final alts = r.alts.remove(from);
+    if (alts != null) {
+      final kept = [for (final a in alts) if (a != to) a];
+      if (kept.isNotEmpty) r.alts[to] = kept;
+    }
+    _persist();
+    notifyListeners();
+  }
+
+  static const maxAlts = 3;
+
+  List<String> routineAlts(String routineId, String exId) => _routine(routineId)?.alts[exId] ?? const [];
+
+  void toggleRoutineAlt(String routineId, String exId, String altId) {
+    final r = _routine(routineId);
+    if (r == null || altId == exId) return;
+    final list = [...?r.alts[exId]];
+    if (!list.remove(altId)) {
+      if (list.length >= maxAlts) list.removeAt(0);
+      list.add(altId);
+    }
+    if (list.isEmpty) {
+      r.alts.remove(exId);
+    } else {
+      r.alts[exId] = list;
+    }
     _persist();
     notifyListeners();
   }
@@ -688,6 +717,7 @@ mixin RoutinesState on FitCore, LibraryState {
     final plan = r.plan[exId];
     final rest = r.rest[exId];
     final chained = r.chained.contains(exId);
+    final alts = r.alts[exId];
     toggleRoutineExercise(routineId, exId);
     return () {
       final back = _routine(routineId);
@@ -697,6 +727,7 @@ mixin RoutinesState on FitCore, LibraryState {
       if (plan != null) back.plan[exId] = plan;
       if (rest != null) back.rest[exId] = rest;
       if (chained) back.chained.add(exId);
+      if (alts != null) back.alts[exId] = alts;
       _persist();
       notifyListeners();
     };

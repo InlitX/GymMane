@@ -112,7 +112,7 @@ class LoggedExercise {
 }
 
 class LoggedSession {
-  LoggedSession(this.date, this.durationSec, this.exercises, {this.routineId, this.name, this.hrAvg, this.hrMax, this.sleep, this.energy});
+  LoggedSession(this.date, this.durationSec, this.exercises, {this.routineId, this.name, this.hrAvg, this.hrMax, this.sleep, this.energy, this.deload = false});
   final DateTime date;
   int durationSec;
   final List<LoggedExercise> exercises;
@@ -122,6 +122,7 @@ class LoggedSession {
   int? hrMax;
   int? sleep;
   int? energy;
+  final bool deload;
 
   DateTime get day => date.subtract(Duration(seconds: durationSec));
   double get volume => exercises.fold(0.0, (s, e) => s + e.volume);
@@ -137,6 +138,7 @@ class LoggedSession {
         if (hrMax != null) 'hrm': hrMax,
         if (sleep != null) 'sl': sleep,
         if (energy != null) 'en': energy,
+        if (deload) 'dl': true,
       };
   factory LoggedSession.fromJson(Map<String, dynamic> j) => LoggedSession(
         DateTime.parse(j['d'] as String),
@@ -148,6 +150,7 @@ class LoggedSession {
         hrMax: (j['hrm'] as num?)?.toInt(),
         sleep: (j['sl'] as num?)?.toInt().clamp(1, 5),
         energy: (j['en'] as num?)?.toInt().clamp(1, 5),
+        deload: j['dl'] == true,
       );
 }
 
@@ -249,6 +252,7 @@ class Routine {
       Map<String, List<PlannedSet>>? plan,
       Map<String, int>? rest,
       List<List<String>>? ladders,
+      Map<String, List<String>>? alts,
       this.group = '',
       this.color = -1,
       this.archived = false})
@@ -256,7 +260,8 @@ class Routine {
         chained = chained ?? {},
         plan = plan ?? {},
         rest = rest ?? {},
-        ladders = ladders ?? [];
+        ladders = ladders ?? [],
+        alts = alts ?? {};
   final String id;
   String name;
   String group;
@@ -268,11 +273,13 @@ class Routine {
   final Map<String, List<PlannedSet>> plan;
   final Map<String, int> rest;
   final List<List<String>> ladders;
+  final Map<String, List<String>> alts;
 
   Map<String, dynamic> toJson() => {
         'id': id,
         'n': name,
         if (ladders.isNotEmpty) 'lad': ladders,
+        if (alts.isNotEmpty) 'alt': alts,
         'ex': exerciseIds,
         if (rest.isNotEmpty) 'r': rest,
         if (sets.isNotEmpty) 's': sets,
@@ -300,8 +307,62 @@ class Routine {
           for (final l in (j['lad'] as List?) ?? const [])
             if (l is List && l.length > 1) l.cast<String>().toList(),
         ],
+        alts: {
+          for (final e in ((j['alt'] as Map?) ?? const {}).entries)
+            if (e.value is List && (e.value as List).isNotEmpty) e.key as String: (e.value as List).cast<String>().toList(),
+        },
         group: (j['g'] as String?) ?? '',
         color: (j['k'] as num?)?.toInt() ?? -1,
         archived: j['a'] == true,
       );
+}
+
+class MonthRecap {
+  const MonthRecap({
+    required this.month,
+    required this.workouts,
+    required this.days,
+    required this.seconds,
+    required this.longest,
+    required this.sets,
+    required this.volumeKg,
+    required this.topExercise,
+    required this.topExerciseKg,
+    required this.heat,
+    required this.topMuscle,
+    required this.topMuscleSets,
+    required this.records,
+    required this.favDay,
+    required this.usualStart,
+    required this.weekdays,
+    required this.lift,
+    required this.sessionMinutes,
+    required this.topLifts,
+    required this.exerciseIds,
+  });
+
+  final DateTime month;
+  final int workouts;
+  final Set<int> days;
+  final int seconds;
+  final LoggedSession? longest;
+  final int sets;
+  final double volumeKg;
+  final String? topExercise;
+  final double topExerciseKg;
+  final Map<String, double> heat;
+  final String? topMuscle;
+  final int topMuscleSets;
+  final List<({String id, double kg})> records;
+  final int? favDay;
+  final int? usualStart;
+  final List<int> weekdays;
+  final ({String id, int sets, int times, double bestKg, double volumeKg})? lift;
+  final List<int> sessionMinutes;
+  final List<({String id, int sets})> topLifts;
+  final List<String> exerciseIds;
+
+  int get avgMinutes => workouts == 0 ? 0 : seconds ~/ 60 ~/ workouts;
+
+  bool get empty => workouts == 0;
 }

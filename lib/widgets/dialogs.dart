@@ -97,7 +97,7 @@ Future<String?> askText(
       ],
     ),
   );
-  controller.dispose();
+  Future<void>.delayed(const Duration(milliseconds: 600), controller.dispose);
   final text = raw?.trim() ?? '';
   return text.isEmpty ? null : text;
 }
@@ -138,7 +138,7 @@ Future<double?> askNumber(
       ],
     ),
   );
-  controller.dispose();
+  Future<void>.delayed(const Duration(milliseconds: 600), controller.dispose);
 
   return double.tryParse((raw ?? '').trim().replaceAll(',', '.'));
 }

@@ -80,6 +80,7 @@ class WorkoutSession {
   int currentIndex = 0;
   bool complete = false;
   bool manual = false;
+  bool deload = false;
   String? routineId;
   String? name;
   DateTime? loggedAt;
@@ -108,6 +109,7 @@ class WorkoutSession {
         'i': currentIndex,
         'c': complete,
         if (manual) 'm': true,
+        if (deload) 'dl': true,
         if (routineId != null) 'r': routineId,
         if (name != null) 'n': name,
         'at': loggedAt?.toIso8601String(),
@@ -124,6 +126,7 @@ class WorkoutSession {
     ..currentIndex = (j['i'] as num?)?.toInt() ?? 0
     ..complete = j['c'] as bool? ?? false
     ..manual = j['m'] as bool? ?? false
+    ..deload = j['dl'] as bool? ?? false
     ..routineId = j['r'] as String?
     ..name = j['n'] as String?
     ..loggedAt = DateTime.tryParse((j['at'] as String?) ?? '')

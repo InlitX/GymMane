@@ -314,7 +314,7 @@ class _RoutineEditScreenState extends State<RoutineEditScreen> {
   }
 
   Widget _label(GymColors gc, String text) => Padding(
-        padding: const EdgeInsets.only(left: 4),
+        padding: const EdgeInsetsDirectional.only(start: 4),
         child: Text(text.toUpperCase(),
             style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.4)),
       );
@@ -351,7 +351,7 @@ class _RoutineEditScreenState extends State<RoutineEditScreen> {
 
   Widget _filterChips(GymColors gc) {
     Widget chip(String label, bool active, VoidCallback onTap) => Padding(
-          padding: const EdgeInsets.only(right: 8),
+          padding: const EdgeInsetsDirectional.only(end: 8),
           child: Pill(
             label: label,
             bg: active ? gc.ember : gc.bgRaised2,
@@ -575,7 +575,7 @@ class _RoutineEditScreenState extends State<RoutineEditScreen> {
         background: Container(
           margin: EdgeInsets.only(bottom: linksNext ? 4 : 0),
           alignment: Alignment.centerRight,
-          padding: const EdgeInsets.only(right: 22),
+          padding: const EdgeInsetsDirectional.only(end: 22),
           decoration: BoxDecoration(color: gc.warn.withValues(alpha: 0.16), borderRadius: BorderRadius.circular(18)),
           child: Icon(PhosphorIconsFill.trash, size: 20, color: gc.warn),
         ),
@@ -883,6 +883,8 @@ class _RoutineEditScreenState extends State<RoutineEditScreen> {
                     ),
                   const SizedBox(height: 10),
                   _restRow(sheet, gc, routine, ex),
+                  const SizedBox(height: 8),
+                  _altsRow(sheet, gc, routine, ex),
                   if (fit.modeOf(ex.id).isEmpty) ...[
                     const SizedBox(height: 8),
                     _ladderRow(sheet, gc, routine, ex),
@@ -893,6 +895,74 @@ class _RoutineEditScreenState extends State<RoutineEditScreen> {
               ),
             ),
           );
+        },
+      ),
+    );
+  }
+
+  Widget _altsRow(BuildContext sheet, GymColors gc, Routine routine, Exercise ex) {
+    final alts = [for (final id in fit.routineAlts(routine.id, ex.id)) ?fit.exerciseById(id)];
+    return Pressable(
+      scale: 0.98,
+      onTap: () => _pickAlts(sheet, routine.id, ex),
+      child: Container(
+        padding: const EdgeInsets.fromLTRB(16, 12, 12, 12),
+        decoration: BoxDecoration(color: gc.bgRaised2, borderRadius: BorderRadius.circular(18)),
+        child: Row(children: [
+          Icon(PhosphorIconsRegular.arrowsLeftRight, size: 19, color: alts.isNotEmpty ? gc.text : gc.textSecondary),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Text(t.altsTitle, style: AppTheme.f(14, weight: FontWeight.w600, color: gc.text)),
+              const SizedBox(height: 3),
+              Text(alts.isEmpty ? t.altsHint : alts.map(exerciseName).join(' · '),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: AppTheme.f(11.5, weight: FontWeight.w500, color: gc.textSecondary, height: 1.3)),
+            ]),
+          ),
+          const SizedBox(width: 8),
+          Icon(PhosphorIconsBold.caretRight, size: 13, color: gc.textTertiary),
+        ]),
+      ),
+    );
+  }
+
+  void _pickAlts(BuildContext context, String routineId, Exercise ex) {
+    showAppSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (sheet) => AnimatedBuilder(
+        animation: fit,
+        builder: (sheet, _) {
+          final routine = fit.routines.where((r) => r.id == routineId).firstOrNull;
+          if (routine == null) return const SizedBox.shrink();
+          final chosen = fit.routineAlts(routineId, ex.id);
+          final pool = [
+            for (final id in chosen) ?fit.exerciseById(id),
+            for (final e in fit.swapOptions(ex.id, n: 18))
+              if (!chosen.contains(e.id) && !routine.exerciseIds.contains(e.id)) e,
+          ];
+          return AppSheet(children: [
+            SheetTitle(t.altsTitle, subtitle: t.altsPickHint(RoutinesState.maxAlts)),
+            const SizedBox(height: 16),
+            OptionGroup([
+              for (final e in pool)
+                OptionItem(
+                  exerciseName(e),
+                  leading: SizedBox(width: 38, child: ExerciseMedia(ex: e, height: 38, radius: 10)),
+                  detail: t.equipment(e.equipment),
+                  selected: chosen.contains(e.id),
+                  onTap: () {
+                    HapticFeedback.selectionClick();
+                    fit.toggleRoutineAlt(routineId, ex.id, e.id);
+                  },
+                ),
+            ]),
+            const SizedBox(height: 16),
+            PrimaryButton(label: t.done, onTap: () => Navigator.of(sheet).pop()),
+          ]);
         },
       ),
     );

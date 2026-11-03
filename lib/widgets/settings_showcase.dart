@@ -107,7 +107,7 @@ class _Tile extends StatelessWidget {
         height: h,
         padding: EdgeInsets.all(pad),
         decoration: BoxDecoration(color: context.gc.bgRaised2, borderRadius: BorderRadius.circular(24)),
-        child: child,
+        child: MediaQuery.withNoTextScaling(child: child),
       ));
 }
 
@@ -257,11 +257,15 @@ class AlertsShowcase extends StatelessWidget {
       when: t.liveChannel,
       extra: Padding(
         padding: const EdgeInsets.only(top: 12),
-        child: Row(children: [
-          _pill(gc, t.liveDoneSet, strong: true),
-          const SizedBox(width: 8),
-          _pill(gc, t.liveSkipRest),
-        ]),
+        child: FittedBox(
+          fit: BoxFit.scaleDown,
+          alignment: AlignmentDirectional.centerStart,
+          child: Row(children: [
+            _pill(gc, t.liveDoneSet, strong: true),
+            const SizedBox(width: 8),
+            _pill(gc, t.liveSkipRest),
+          ]),
+        ),
       ),
     );
     final restNote = _note(gc,

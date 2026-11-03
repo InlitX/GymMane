@@ -21,6 +21,7 @@ import '../services/auto_backup.dart';
 import '../services/backup_zip.dart';
 import '../services/fitnotes_backup.dart';
 import '../services/home_widget_bridge.dart';
+import '../services/notif_sound.dart';
 import '../services/rest_alarm.dart';
 import '../services/sqlite_reader.dart';
 import '../services/workout_import.dart';
@@ -33,23 +34,24 @@ import '../widgets/dialogs.dart';
 import '../widgets/entrance.dart';
 import '../widgets/file_thumb.dart';
 import '../widgets/glass.dart';
+import '../widgets/health_cards.dart';
+import '../widgets/home_cards_panel.dart';
+import '../widgets/import_card.dart';
 import '../widgets/liquid_notch.dart';
 import '../widgets/photo_source_sheet.dart';
-import '../widgets/widget_showcase.dart';
-import '../widgets/home_cards_panel.dart';
-import '../widgets/settings_showcase.dart';
-import '../widgets/sheet_page.dart';
 import '../widgets/profile_avatar.dart';
 import '../widgets/report_sheet.dart';
 import '../widgets/ruler_picker.dart';
-import '../widgets/timer_panel.dart';
-import 'profile_screen.dart';
-import 'strava_sheet.dart';
-import '../widgets/health_cards.dart';
+import '../widgets/settings_showcase.dart';
+import '../widgets/sheet_page.dart';
 import '../widgets/steps_card.dart';
 import '../widgets/svg_icon.dart';
-import '../widgets/import_card.dart';
+import '../widgets/timer_panel.dart';
 import '../widgets/ui_kit.dart';
+import '../widgets/voice_sheet.dart';
+import '../widgets/widget_showcase.dart';
+import 'profile_screen.dart';
+import 'strava_sheet.dart';
 
 const _kRepoUrl = 'https://github.com/InlitX/GymMane';
 const _kBugUrl = '$_kRepoUrl/issues/new?labels=bug';
@@ -166,9 +168,24 @@ class SettingsScreen extends StatelessWidget {
 
             GestureDetector(
               behavior: HitTestBehavior.opaque,
-              onTap: () => fit.setBlur(!fit.blurOn),
-              child: _prefRow(gc, PhosphorIconsRegular.drop, t.blurSetting, TinySwitch(on: fit.blurOn),
-                  hint: t.blurSettingHint),
+              onTap: () => _performanceSheet(context),
+              child: _prefRow(
+                gc,
+                PhosphorIconsRegular.lightning,
+                t.perfSetting,
+                Row(mainAxisSize: MainAxisSize.min, children: [
+                  ConstrainedBox(
+                    constraints: const BoxConstraints(maxWidth: 128),
+                    child: Text(_perfName(fit.perfLevel),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        textAlign: TextAlign.right,
+                        style: AppTheme.f(13, weight: FontWeight.w600, color: gc.textSecondary)),
+                  ),
+                  const SizedBox(width: 6),
+                  Icon(PhosphorIconsRegular.caretRight, size: 15, color: gc.textTertiary),
+                ]),
+              ),
             ),
             _choiceRow(
               context,
@@ -183,12 +200,6 @@ class SettingsScreen extends StatelessWidget {
               () => fit.textSize,
               fit.setTextSize,
               hint: t.textSizeHint,
-            ),
-            GestureDetector(
-              behavior: HitTestBehavior.opaque,
-              onTap: () => fit.setCalmMotion(!fit.calmMotion),
-              child: _prefRow(gc, PhosphorIconsRegular.waveSine, t.calmMotionSetting, TinySwitch(on: fit.calmMotion),
-                  hint: t.calmMotionHint),
             ),
           ]),
           const SizedBox(height: 22),
@@ -280,6 +291,37 @@ class SettingsScreen extends StatelessWidget {
                     (v) => fit.setWeightStep(double.parse(v)),
                     rowHint: t.weightStepHint,
                   ),
+                  _choiceRow(
+                    context,
+                    gc,
+                    PhosphorIconsRegular.trendUp,
+                    t.autoProgressSetting,
+                    [
+                      ('off', t.autoProgressOff, PhosphorIconsRegular.prohibit),
+                      ('weight', t.autoProgressWeight, PhosphorIconsRegular.barbell),
+                      ('reps', t.autoProgressReps, PhosphorIconsRegular.repeat),
+                    ],
+                    () => fit.autoProgress,
+                    fit.setAutoProgress,
+                    hint: t.autoProgressHint,
+                    rowHint: t.autoProgressRowHint,
+                  ),
+                  _choiceRow(
+                    context,
+                    gc,
+                    PhosphorIconsRegular.feather,
+                    t.deloadSetting,
+                    [
+                      ('0', t.deloadOff, PhosphorIconsRegular.prohibit),
+                      for (final w in [4, 5, 6, 8]) ('$w', t.deloadEvery(w), PhosphorIconsRegular.calendarBlank),
+                    ],
+                    () => '${fit.deloadEvery}',
+                    (v) => fit.setDeloadEvery(int.parse(v)),
+                    hint: t.deloadHint,
+                    rowHint: fit.deloadEvery == 0
+                        ? t.deloadRowHint
+                        : (fit.deloadWeek ? t.deloadNow : t.deloadIn(fit.weeksToDeload)),
+                  ),
                   GestureDetector(
                     behavior: HitTestBehavior.opaque,
                     onTap: fit.toggleAutoAdvance,
@@ -303,6 +345,23 @@ class SettingsScreen extends StatelessWidget {
                     onTap: fit.toggleAskCheckIn,
                     child: _prefRow(gc, PhosphorIconsRegular.moon, t.checkInSetting,
                         TinySwitch(on: fit.askCheckIn), hint: t.checkInSettingHint),
+                  ),
+                  GestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    onTap: fit.toggleMuscleTune,
+                    child: _prefRow(gc, PhosphorIconsRegular.equalizer, t.tuneSetting,
+                        TinySwitch(on: fit.muscleTune), hint: t.tuneSettingHint),
+                  ),
+                  GestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    onTap: () {
+                      fit.toggleVoiceCoach();
+                      if (fit.voiceCoach) showVoiceSheet(context);
+                    },
+                    child: _prefRow(gc, PhosphorIconsRegular.waveform, t.voiceSetting,
+                        TinySwitch(on: fit.voiceCoach),
+                        hint: t.voiceSettingHint,
+                        badge: BetaTag(t.sectionBeta, small: true)),
                   ),
           ]),
           _subhead(gc, t.routines),
@@ -406,6 +465,28 @@ class SettingsScreen extends StatelessWidget {
                   ),
                   GestureDetector(
                     behavior: HitTestBehavior.opaque,
+                    onTap: () => showAppSheet<void>(
+                      context: context,
+                      backgroundColor: Colors.transparent,
+                      builder: (_) => const _NotifSoundSheet(),
+                    ),
+                    child: _prefRow(
+                      gc,
+                      PhosphorIconsRegular.musicNotes,
+                      t.notifSoundSetting,
+                      Row(mainAxisSize: MainAxisSize.min, children: [
+                        Text(
+                          NotifSound.uris.isEmpty ? t.notifSoundNormal : t.perfCustom,
+                          style: AppTheme.f(13, weight: FontWeight.w600, color: gc.textSecondary),
+                        ),
+                        const SizedBox(width: 6),
+                        Icon(PhosphorIconsRegular.caretRight, size: 15, color: gc.textTertiary),
+                      ]),
+                      hint: t.notifSoundRowHint,
+                    ),
+                  ),
+                  GestureDetector(
+                    behavior: HitTestBehavior.opaque,
                     onTap: () => _editAlarmSound(context),
                     child: _prefRow(
                       gc,
@@ -476,8 +557,8 @@ class SettingsScreen extends StatelessWidget {
                           PhosphorIconsRegular.heartbeat,
                           t.healthSetting,
                           Row(mainAxisSize: MainAxisSize.min, children: [
-                            if (fit.healthShown.isNotEmpty)
-                              Text('${fit.healthShown.length}',
+                            if (fit.healthShown.isNotEmpty || fit.stepsOn)
+                              Text('${fit.healthShown.length + (fit.stepsOn ? 1 : 0)}',
                                   style: AppTheme.f(13.5, weight: FontWeight.w700, color: gc.textSecondary)),
                             const SizedBox(width: 6),
                             Icon(PhosphorIconsBold.caretRight, size: 14, color: gc.textTertiary),
@@ -650,19 +731,22 @@ class SettingsScreen extends StatelessWidget {
         (t.heatRangeSetting, PhosphorIconsRegular.calendarDots),
         (t.heatmapLabelsSetting, PhosphorIconsRegular.gridNine),
         (t.background, PhosphorIconsRegular.image),
-        (t.blurSetting, PhosphorIconsRegular.drop),
+        (t.perfSetting, PhosphorIconsRegular.lightning),
         (t.textSizeSetting, PhosphorIconsRegular.textAa),
-        (t.calmMotionSetting, PhosphorIconsRegular.waveSine),
       ]),
       _Category('training', PhosphorIconsRegular.barbell, _sectionTitle('training'), [
         (t.restTimer, PhosphorIconsRegular.timer),
         (t.miniRest, PhosphorIconsRegular.timer),
         (t.effortSetting, PhosphorIconsRegular.gauge),
         (t.weightStepSetting, PhosphorIconsRegular.barbell),
+        (t.autoProgressSetting, PhosphorIconsRegular.trendUp),
+        (t.deloadSetting, PhosphorIconsRegular.feather),
+        (t.voiceSetting, PhosphorIconsRegular.waveform),
         (t.autoAdvance, PhosphorIconsRegular.skipForward),
         (t.countdownSetting, PhosphorIconsRegular.timer),
         (t.keepScreenOn, PhosphorIconsRegular.sun),
         (t.checkInSetting, PhosphorIconsRegular.moon),
+        (t.tuneSetting, PhosphorIconsRegular.equalizer),
         (t.miniBodySetting, PhosphorIconsRegular.person),
         (t.multiPlanSetting, PhosphorIconsRegular.stack),
         (t.levelHintsSetting, PhosphorIconsRegular.stairs),
@@ -673,6 +757,7 @@ class SettingsScreen extends StatelessWidget {
       ]),
       _Category('alerts', PhosphorIconsRegular.bellSimple, _sectionTitle('alerts'), [
         (t.trainReminder, PhosphorIconsRegular.bellSimple),
+        (t.notifSoundSetting, PhosphorIconsRegular.musicNotes),
         (t.alarmSound, PhosphorIconsRegular.speakerHigh),
         (t.alarmStyleTitle, PhosphorIconsRegular.vibrate),
         (t.toastSoundSetting, PhosphorIconsRegular.bellSimple),
@@ -863,8 +948,82 @@ class SettingsScreen extends StatelessWidget {
     );
   }
 
+  static String _perfName(String level) => switch (level) {
+        'lite' => t.perfLite,
+        'balanced' => t.perfBalanced,
+        'max' => t.perfMax,
+        _ => t.perfCustom,
+      };
+
+  void _performanceSheet(BuildContext context) {
+    fit.readDisplay();
+    showAppSheet<void>(
+      context: context,
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
+      builder: (sheet) => AnimatedBuilder(
+        animation: fit,
+        builder: (sheet, _) {
+          final gc = sheet.gc;
+          final level = fit.perfLevel;
+          final hz = fit.maxRefresh.round();
+          Widget toggle(IconData icon, String label, String hint, bool on, VoidCallback flip) => GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: () {
+                  HapticFeedback.selectionClick();
+                  flip();
+                },
+                child: _prefRow(gc, icon, label, TinySwitch(on: on), hint: hint),
+              );
+          return AppSheet(children: [
+            SheetTitle(t.perfSetting, subtitle: t.perfSheetHint),
+            const SizedBox(height: 16),
+            OptionGroup([
+              for (final l in SettingsState.perfLevels)
+                OptionItem(
+                  _perfName(l),
+                  icon: switch (l) {
+                    'lite' => PhosphorIconsRegular.leaf,
+                    'balanced' => PhosphorIconsRegular.scales,
+                    _ => PhosphorIconsRegular.lightning,
+                  },
+                  detail: switch (l) {
+                    'lite' => t.perfLiteHint,
+                    'balanced' => t.perfBalancedHint,
+                    _ => fit.canHighRefresh ? t.perfMaxHint(hz) : t.perfMaxHintNoHz,
+                  },
+                  selected: level == l,
+                  onTap: () {
+                    HapticFeedback.selectionClick();
+                    fit.setPerfLevel(l);
+                  },
+                ),
+            ]),
+            _subhead(gc, t.perfTweak, top: 22),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+              decoration: BoxDecoration(color: gc.bgRaised2, borderRadius: BorderRadius.circular(22)),
+              child: Column(children: [
+                toggle(PhosphorIconsRegular.drop, t.blurSetting, t.blurSettingHint, fit.blurOn,
+                    () => fit.setBlur(!fit.blurOn)),
+                if (fit.blurOn)
+                  toggle(PhosphorIconsRegular.dropHalf, t.perfFine, t.perfFineHint, fit.fineOn,
+                      () => fit.setFine(!fit.fineOn)),
+                if (fit.canHighRefresh)
+                  toggle(PhosphorIconsRegular.deviceMobile, t.perfHz(hz), t.perfHzHint, fit.highRefresh,
+                      () => fit.setHighRefresh(!fit.highRefresh)),
+                toggle(PhosphorIconsRegular.waveSine, t.calmMotionSetting, t.calmMotionHint, fit.calmMotion,
+                    () => fit.setCalmMotion(!fit.calmMotion)),
+              ]),
+            ),
+          ]);
+        },
+      ),
+    );
+  }
+
   Widget _rowIcon(GymColors gc, IconData icon, {Color? color}) => Padding(
-        padding: const EdgeInsets.only(right: 14),
+        padding: const EdgeInsetsDirectional.only(end: 14),
         child: Container(
           width: 34,
           height: 34,
@@ -1629,6 +1788,174 @@ class SettingsScreen extends StatelessWidget {
   }
 }
 
+class _NotifSoundSheet extends StatelessWidget {
+  const _NotifSoundSheet();
+
+  Future<void> _phone(BuildContext context, SoundGroup g) async {
+    final sounds = await NotifSound.phoneSounds();
+    if (!context.mounted) return;
+    if (sounds.isEmpty) return _system(g);
+    await showAppSheet<void>(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (_) => _PhoneSoundSheet(group: g, sounds: sounds, onMore: () => _system(g)),
+    );
+    await NotifSound.stopPreview();
+  }
+
+  Future<void> _system(SoundGroup g) async {
+    final picked = await NotifSound.pick(NotifSound.uriOf(g));
+    if (picked == null) return;
+    await fit.setNotifSound(g, picked.uri, name: picked.name);
+  }
+
+  Widget _group(BuildContext context, GymColors gc, SoundGroup g, IconData icon, String title) {
+    final uri = NotifSound.uriOf(g);
+    final phone = uri.isNotEmpty && uri != NotifSound.silent;
+    final name = fit.notifSoundNames[g] ?? '';
+    return Container(
+      padding: const EdgeInsets.fromLTRB(16, 14, 16, 14),
+      decoration: BoxDecoration(color: gc.bgRaised2, borderRadius: BorderRadius.circular(22)),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+        Row(children: [
+          Icon(icon, size: 19, color: gc.textSecondary),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Text(title,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: AppTheme.f(15, weight: FontWeight.w800, color: gc.text)),
+          ),
+        ]),
+        const SizedBox(height: 12),
+        SegToggle([
+          SegOption(t.notifSoundNormal, uri.isEmpty, () => fit.setNotifSound(g, '')),
+          SegOption(t.notifSoundPhone, phone, () => _phone(context, g)),
+          SegOption(t.notifSoundSilent, uri == NotifSound.silent, () => fit.setNotifSound(g, NotifSound.silent)),
+        ]),
+        AnimatedSize(
+          duration: const Duration(milliseconds: 220),
+          curve: Curves.easeOutCubic,
+          alignment: Alignment.topCenter,
+          child: !phone
+              ? const SizedBox(width: double.infinity)
+              : Padding(
+                  padding: const EdgeInsets.only(top: 10),
+                  child: Pressable(
+                    onTap: () => _phone(context, g),
+                    child: Container(
+                      constraints: const BoxConstraints(minHeight: 44),
+                      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+                      decoration: BoxDecoration(color: gc.bgRaised, borderRadius: BorderRadius.circular(16)),
+                      child: Row(children: [
+                        Icon(PhosphorIconsRegular.musicNote, size: 16, color: gc.accent),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: Text(name.isEmpty ? t.notifSoundPhone : name,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: AppTheme.f(13.5, weight: FontWeight.w700, color: gc.text)),
+                        ),
+                        Text(t.notifSoundChange, style: AppTheme.f(12.5, weight: FontWeight.w700, color: gc.accent)),
+                      ]),
+                    ),
+                  ),
+                ),
+        ),
+      ]),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final gc = context.gc;
+    return AnimatedBuilder(
+      animation: fit,
+      builder: (context, _) => Container(
+        padding: sheetPad(context),
+        decoration: sheetDecoration(gc),
+        child: SingleChildScrollView(
+          child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+            const SheetHandle(),
+            const SizedBox(height: 16),
+            SheetTitle(t.notifSoundSetting, subtitle: t.notifSoundHint),
+            const SizedBox(height: 16),
+            _group(context, gc, SoundGroup.train, PhosphorIconsRegular.barbell, t.notifSoundTrain),
+            if (fit.nutritionBeta) ...[
+              const SizedBox(height: 10),
+              _group(context, gc, SoundGroup.food, PhosphorIconsRegular.forkKnife, t.notifSoundFood),
+            ],
+            const SizedBox(height: 10),
+            _group(context, gc, SoundGroup.other, PhosphorIconsRegular.camera, t.notifSoundOther),
+          ]),
+        ),
+      ),
+    );
+  }
+}
+
+class _PhoneSoundSheet extends StatefulWidget {
+  const _PhoneSoundSheet({required this.group, required this.sounds, required this.onMore});
+
+  final SoundGroup group;
+  final List<({String uri, String name})> sounds;
+  final Future<void> Function() onMore;
+
+  @override
+  State<_PhoneSoundSheet> createState() => _PhoneSoundSheetState();
+}
+
+class _PhoneSoundSheetState extends State<_PhoneSoundSheet> {
+  late String _uri = NotifSound.uriOf(widget.group);
+
+  void _choose(({String uri, String name}) s) {
+    setState(() => _uri = s.uri);
+    NotifSound.preview(s.uri);
+    fit.setNotifSound(widget.group, s.uri, name: s.name);
+  }
+
+  Future<void> _more() async {
+    await NotifSound.stopPreview();
+    await widget.onMore();
+    if (mounted) Navigator.of(context).pop();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final gc = context.gc;
+    return Container(
+      constraints: BoxConstraints(maxHeight: MediaQuery.sizeOf(context).height * 0.72),
+      padding: sheetPad(context),
+      decoration: sheetDecoration(gc),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          const SheetHandle(),
+          const SizedBox(height: 16),
+          SheetTitle(t.notifSoundPhone, subtitle: t.notifSoundPhoneHint),
+          const SizedBox(height: 14),
+          Flexible(
+            child: OptionGroup(
+              scroll: true,
+              [
+                for (final s in widget.sounds)
+                  OptionItem(
+                    s.name,
+                    icon: s.uri == _uri ? PhosphorIconsRegular.speakerHigh : PhosphorIconsRegular.musicNote,
+                    selected: s.uri == _uri,
+                    onTap: () => _choose(s),
+                  ),
+                OptionItem(t.notifSoundMore, icon: PhosphorIconsRegular.folderOpen, onTap: _more),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 class _LanguageSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -1795,7 +2122,7 @@ class _ProfileSheetState extends State<_ProfileSheet> {
               _stepRow(gc, t.weeklyGoal, '${p.weeklyGoal}×', () => _up(() => fit.updateProfile(weeklyGoalDelta: -1)), () => _up(() => fit.updateProfile(weeklyGoalDelta: 1))),
             ]),
             const SizedBox(height: 18),
-            Padding(padding: const EdgeInsets.only(left: 4), child: _label(gc, t.activityLabel)),
+            Padding(padding: const EdgeInsetsDirectional.only(start: 4), child: _label(gc, t.activityLabel)),
             const SizedBox(height: 10),
             Wrap(spacing: 8, runSpacing: 8, children: [
               _act(gc, t.activityName('Sedentary'), 1.2),
