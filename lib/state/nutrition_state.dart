@@ -7,6 +7,12 @@ mixin NutritionState on FitCore, ToolsState, StatsState {
   final List<Supplement> supplements = [];
   final List<Recipe> recipes = [];
   final Set<String> archivedRecipes = {};
+  final Set<String> archivedFoods = {};
+  final Set<String> archivedPlans = {};
+  final Set<String> archivedSupps = {};
+  bool showArchivedFoods = false;
+  bool showArchivedPlans = false;
+  bool showArchivedSupps = false;
   bool showArchivedRecipes = false;
   final List<Batch> batches = [];
   final List<String> favoriteFoods = [];
@@ -733,7 +739,7 @@ mixin NutritionState on FitCore, ToolsState, StatsState {
     final q = foldText(query.trim());
     return [
       for (final f in foodsByUse)
-        if ((q.isEmpty || foldText(f.name).contains(q)) &&
+        if ((q.isEmpty ? !archivedFoods.contains(f.id) : foldText(f.name).contains(q)) &&
             (cat == null || f.cat == cat) &&
             (group == null || f.group == group))
           f,
@@ -832,6 +838,64 @@ mixin NutritionState on FitCore, ToolsState, StatsState {
     if (on ? !archivedRecipes.add(id) : !archivedRecipes.remove(id)) return;
     if (archivedRecipes.isEmpty) showArchivedRecipes = false;
     _persist();
+    notifyListeners();
+  }
+
+  List<FoodItem> get archivedFoodList => [for (final f in foodsByUse) if (archivedFoods.contains(f.id)) f];
+
+  List<MealPlan> get activeMealPlans => [for (final p in mealPlans) if (!archivedPlans.contains(p.id)) p];
+
+  List<MealPlan> get archivedPlanList => [for (final p in mealPlans) if (archivedPlans.contains(p.id)) p];
+
+  List<Supplement> get activeSupplements => [for (final s in supplements) if (!archivedSupps.contains(s.id)) s];
+
+  List<Supplement> get archivedSuppList => [for (final s in supplements) if (archivedSupps.contains(s.id)) s];
+
+  void setFoodArchived(String id, bool on) {
+    if (on ? !archivedFoods.add(id) : !archivedFoods.remove(id)) return;
+    if (on) favoriteFoods.remove(id);
+    if (archivedFoods.isEmpty) showArchivedFoods = false;
+    _dropCaches();
+    _persist();
+    notifyListeners();
+  }
+
+  List<int> setPlanArchived(String id, bool on, {List<int> restore = const []}) {
+    if (on ? !archivedPlans.add(id) : !archivedPlans.remove(id)) return const [];
+    final days = [for (final e in mealWeek.entries) if (e.value == id) e.key];
+    if (on) {
+      mealWeek.removeWhere((_, v) => v == id);
+    } else {
+      for (final d in restore) {
+        mealWeek.putIfAbsent(d, () => id);
+      }
+    }
+    if (archivedPlans.isEmpty) showArchivedPlans = false;
+    _persist();
+    notifyListeners();
+    return on ? days : const [];
+  }
+
+  void setSuppArchived(String id, bool on) {
+    if (on ? !archivedSupps.add(id) : !archivedSupps.remove(id)) return;
+    if (archivedSupps.isEmpty) showArchivedSupps = false;
+    syncSupplementReminder();
+    _persist();
+    notifyListeners();
+  }
+
+  void toggleArchivedFoods() {
+    showArchivedFoods = !showArchivedFoods;
+    notifyListeners();
+  }
+
+  void toggleArchivedPlans() {
+    showArchivedPlans = !showArchivedPlans;
+    notifyListeners();
+  }
+
+  void toggleArchivedSupps() {
+    showArchivedSupps = !showArchivedSupps;
     notifyListeners();
   }
 
@@ -976,6 +1040,7 @@ mixin NutritionState on FitCore, ToolsState, StatsState {
 
   void deleteMealPlan(String id) {
     mealPlans.removeWhere((p) => p.id == id);
+    archivedPlans.remove(id);
     mealWeek.removeWhere((_, v) => v == id);
     _persist();
     notifyListeners();
@@ -1301,6 +1366,7 @@ mixin NutritionState on FitCore, ToolsState, StatsState {
     if (shakeFoodId == id) shakeFoodId = '';
     shakeFoods.remove(id);
     favoriteFoods.remove(id);
+    archivedFoods.remove(id);
     final gone = foods.removeAt(i);
     if (gone.photo.isNotEmpty && !isAssetPhoto(gone.photo)) MediaStore.delete(gone.photo);
     _persist();
@@ -1375,12 +1441,13 @@ mixin NutritionState on FitCore, ToolsState, StatsState {
 
   int? supplementTime(Supplement s) => s.at ?? supplementReminderMin;
 
-  List<Supplement> supplementsDueOn(DateTime day) => [for (final s in supplements) if (s.dueOn(day)) s];
+  List<Supplement> supplementsDueOn(DateTime day) => [for (final s in activeSupplements) if (s.dueOn(day)) s];
 
   void removeSupplement(String id) {
     final gone = supplements.where((s) => s.id == id).firstOrNull;
     if (gone != null && gone.photo.isNotEmpty && !isAssetPhoto(gone.photo)) MediaStore.delete(gone.photo);
     supplements.removeWhere((s) => s.id == id);
+    archivedSupps.remove(id);
     for (final taken in supplementsTaken.values) {
       taken.remove(id);
     }
@@ -1419,7 +1486,7 @@ mixin NutritionState on FitCore, ToolsState, StatsState {
     for (var i = 0; i < 14; i++) {
       final day = shiftDays(today, i);
       final byTime = <int, List<Supplement>>{};
-      for (final s in supplements) {
+      for (final s in activeSupplements) {
         final at = supplementTime(s);
         if (at == null || !s.dueOn(day) || (i == 0 && taken.contains(s.id))) continue;
         byTime.putIfAbsent(at, () => []).add(s);
@@ -1617,6 +1684,9 @@ mixin NutritionState on FitCore, ToolsState, StatsState {
         'suppAt': ?supplementReminderMin,
         if (recipes.isNotEmpty) 'recipes': recipes.map((r) => r.toJson()).toList(),
         if (archivedRecipes.isNotEmpty) 'recArch': archivedRecipes.toList(),
+        if (archivedFoods.isNotEmpty) 'foodArch': archivedFoods.toList(),
+        if (archivedPlans.isNotEmpty) 'planArch': archivedPlans.toList(),
+        if (archivedSupps.isNotEmpty) 'suppArch': archivedSupps.toList(),
         if (favoriteFoods.isNotEmpty) 'fav': favoriteFoods,
         if (batches.isNotEmpty) 'batches': batches.map((b) => b.toJson()).toList(),
         'meals': mealSlots.map((m) => m.toJson()).toList(),
@@ -1693,6 +1763,14 @@ mixin NutritionState on FitCore, ToolsState, StatsState {
       ..clear()
       ..addAll([for (final id in (j?['recArch'] as List?) ?? const []) if (id is String && recipes.any((r) => r.id == id)) id]);
     showArchivedRecipes = false;
+    for (final (set, key) in [(archivedFoods, 'foodArch'), (archivedPlans, 'planArch'), (archivedSupps, 'suppArch')]) {
+      set
+        ..clear()
+        ..addAll([for (final id in (j?[key] as List?) ?? const []) if (id is String) id]);
+    }
+    showArchivedFoods = false;
+    showArchivedPlans = false;
+    showArchivedSupps = false;
     batches
       ..clear()
       ..addAll(list('batches').map(Batch.fromJson).nonNulls);

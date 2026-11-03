@@ -990,4 +990,39 @@ void main() {
       expect(fit.fasts, isEmpty);
     });
   });
+
+  group('archivar comida', () {
+    test('un alimento propio archivado sale de Mis alimentos pero se encuentra al buscarlo', () {
+      final f = fit.saveFood(name: 'Tarta de la abuela', grams: 100, macros: const Macros(kcal: 300, protein: 5, carbs: 40, fat: 12));
+      fit.setFoodArchived(f.id, true);
+      expect(fit.searchFoods('').map((x) => x.id), isNot(contains(f.id)));
+      expect(fit.searchFoods('abuela').map((x) => x.id), contains(f.id));
+      expect(fit.archivedFoodList.map((x) => x.id), [f.id]);
+      fit.setFoodArchived(f.id, false);
+      expect(fit.searchFoods('').map((x) => x.id), contains(f.id));
+    });
+
+    test('un plan archivado deja sus días libres y al recuperarlo vuelven', () {
+      final p = fit.createMealPlan(name: 'Volumen');
+      fit.setPlanDay(1, p.id);
+      fit.setPlanDay(3, p.id);
+      final days = fit.setPlanArchived(p.id, true);
+      expect(days, unorderedEquals([1, 3]));
+      expect(fit.activeMealPlans, isEmpty);
+      expect(fit.mealWeek, isEmpty);
+      fit.setPlanArchived(p.id, false, restore: days);
+      expect(fit.mealWeek, {1: p.id, 3: p.id});
+    });
+
+    test('un suplemento archivado no toca hoy y se guarda en la copia', () {
+      final s = fit.addSupplement('Creatina')!;
+      fit.setSuppArchived(s.id, true);
+      expect(fit.supplementsDueOn(DateTime.now()), isEmpty);
+      final json = fit.toJson();
+      fit.resetAllData();
+      fit.applyBackup(json);
+      expect(fit.archivedSupps, {s.id});
+      expect(fit.activeSupplements, isEmpty);
+    });
+  });
 }

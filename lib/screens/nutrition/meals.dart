@@ -219,38 +219,13 @@ Future<void> showSavedMealsSheet(BuildContext context) => _sheet<void>(context, 
             },
           ),
           for (final r in fit.activeRecipes) recipeRow(r),
-          if (fit.archivedRecipes.isNotEmpty) ...[
-            GestureDetector(
-              behavior: HitTestBehavior.opaque,
-              onTap: () {
-                HapticFeedback.selectionClick();
-                fit.toggleArchivedRecipes();
-              },
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(4, 14, 4, 10),
-                child: Row(children: [
-                  Expanded(child: SectionLabel('${t.archivedFilter} · ${fit.archivedRecipes.length}')),
-                  AnimatedRotation(
-                    turns: fit.showArchivedRecipes ? 0.5 : 0,
-                    duration: const Duration(milliseconds: 220),
-                    curve: Curves.easeOutCubic,
-                    child: Icon(PhosphorIconsBold.caretDown, size: 13, color: gc.textTertiary),
-                  ),
-                ]),
-              ),
+          if (fit.archivedRecipes.isNotEmpty)
+            _ArchivedFold(
+              count: fit.archivedRecipes.length,
+              open: fit.showArchivedRecipes,
+              onToggle: fit.toggleArchivedRecipes,
+              child: Column(children: [for (final r in fit.archivedRecipeList) recipeRow(r)]),
             ),
-            AnimatedSize(
-              duration: const Duration(milliseconds: 220),
-              curve: Curves.easeOutCubic,
-              alignment: Alignment.topCenter,
-              child: fit.showArchivedRecipes
-                  ? Opacity(
-                      opacity: 0.6,
-                      child: Column(children: [for (final r in fit.archivedRecipeList) recipeRow(r)]),
-                    )
-                  : const SizedBox(width: double.infinity),
-            ),
-          ],
           if (fit.recipes.isEmpty) ...[
             const SizedBox(height: 10),
             Text(t.savedMealsEmpty,
@@ -369,7 +344,7 @@ class _MealTabsState extends State<_MealTabs> {
                 ),
                 if (count(m) > 0 && m != meal)
                   Padding(
-                    padding: const EdgeInsets.only(left: 3),
+                    padding: const EdgeInsetsDirectional.only(start: 3),
                     child: Container(
                       width: 6,
                       height: 6,
@@ -843,7 +818,7 @@ class _EntryRow extends StatelessWidget {
       direction: DismissDirection.endToStart,
       background: Container(
         alignment: Alignment.centerRight,
-        padding: const EdgeInsets.only(right: 22),
+        padding: const EdgeInsetsDirectional.only(end: 22),
         decoration: BoxDecoration(color: gc.danger.withValues(alpha: 0.18), borderRadius: BorderRadius.circular(20)),
         child: Icon(PhosphorIconsBold.trash, size: 18, color: gc.danger),
       ),
@@ -1182,5 +1157,46 @@ class _DishEditorState extends State<_DishEditor> {
         ),
       ),
     );
+  }
+}
+
+class _ArchivedFold extends StatelessWidget {
+  const _ArchivedFold({required this.count, required this.open, required this.onToggle, required this.child});
+
+  final int count;
+  final bool open;
+  final VoidCallback onToggle;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    final gc = context.gc;
+    return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+      GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: () {
+          HapticFeedback.selectionClick();
+          onToggle();
+        },
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(4, 14, 4, 10),
+          child: Row(children: [
+            Expanded(child: SectionLabel('${t.archivedFilter} · $count')),
+            AnimatedRotation(
+              turns: open ? 0.5 : 0,
+              duration: const Duration(milliseconds: 220),
+              curve: Curves.easeOutCubic,
+              child: Icon(PhosphorIconsBold.caretDown, size: 13, color: gc.textTertiary),
+            ),
+          ]),
+        ),
+      ),
+      AnimatedSize(
+        duration: const Duration(milliseconds: 220),
+        curve: Curves.easeOutCubic,
+        alignment: Alignment.topCenter,
+        child: open ? Opacity(opacity: 0.6, child: child) : const SizedBox(width: double.infinity),
+      ),
+    ]);
   }
 }

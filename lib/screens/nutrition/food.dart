@@ -76,8 +76,11 @@ class _AddFoodSheetState extends State<_AddFoodSheet> {
     if (done == true && mounted) Navigator.of(context).pop();
   }
 
-  Future<void> _open(FoodItem f) async =>
-      _closeIf(await showLogFoodSheet(context, f, widget.meal, onPick: widget.onPick));
+  Future<void> _open(FoodItem f) async {
+    await FoodSticker.warm(context, f.photo);
+    if (!mounted) return;
+    _closeIf(await showLogFoodSheet(context, f, widget.meal, onPick: widget.onPick));
+  }
 
   Future<void> _create(String name) async {
     if (widget.onPick == null) {
@@ -89,8 +92,11 @@ class _AddFoodSheetState extends State<_AddFoodSheet> {
     if (f != null && mounted) await _open(f);
   }
 
-  Future<void> _info(FoodItem f) async =>
-      _closeIf(await showFoodInfoSheet(context, f, widget.meal, onPick: widget.onPick));
+  Future<void> _info(FoodItem f) async {
+    await FoodSticker.warm(context, f.photo);
+    if (!mounted) return;
+    _closeIf(await showFoodInfoSheet(context, f, widget.meal, onPick: widget.onPick));
+  }
 
   Future<void> _openRecipe(Recipe r) async {
     final pick = widget.onPick;
@@ -103,6 +109,19 @@ class _AddFoodSheetState extends State<_AddFoodSheet> {
     for (final e in r.items) {
       pick(e.copyWith(meal: widget.meal));
     }
+  }
+
+  (String, FoodCat?, String, bool)? _libraryKey;
+  List<FoodItem> _libraryHit = const [];
+
+  List<FoodItem> _library(String q) {
+    final key = (q, _cat, appLanguage, FoodLibrary.ready);
+    if (key == _libraryKey) return _libraryHit;
+    _libraryKey = key;
+    return _libraryHit = [
+      for (final f in FoodLibrary.search(q, appLanguage, cat: _cat, limit: _cat != null && q.isEmpty ? 200 : 60))
+        f.item(appLanguage),
+    ];
   }
 
   Widget _section(GymColors gc, String title, {String? trailing}) => Padding(
@@ -304,11 +323,7 @@ class _AddFoodSheetState extends State<_AddFoodSheet> {
     final recipes = _cat != null || grouped ? const <Recipe>[] : fit.searchRecipes(q);
     final dishes = _cat != null || grouped || (q.isEmpty && !_dishes) ? const <Recipe>[] : fit.searchDishes(q);
     final mine = _dishes ? const <FoodItem>[] : fit.searchFoods(q, cat: _cat, group: _group);
-    final library = [
-      if (!_dishes && !grouped)
-        for (final f in FoodLibrary.search(q, appLanguage, cat: _cat, limit: _cat != null && q.isEmpty ? 200 : 60))
-          f.item(appLanguage),
-    ];
+    final library = _dishes || grouped ? const <FoodItem>[] : _library(q);
     final recents = browsing ? const <FoodItem>[] : fit.recentLibraryFoods;
     final nothing = browsing && recipes.isEmpty && dishes.isEmpty && mine.isEmpty && library.isEmpty;
     return _sheetSlivers(heightFactor: 0.92, context, [
@@ -361,6 +376,13 @@ class _AddFoodSheetState extends State<_AddFoodSheet> {
             trailing: grouped ? '${mine.length}' : null),
         _grid(mine),
       ],
+      if (q.isEmpty && _cat == null && !grouped && !_dishes && fit.archivedFoods.isNotEmpty)
+        _ArchivedFold(
+          count: fit.archivedFoodList.length,
+          open: fit.showArchivedFoods,
+          onToggle: fit.toggleArchivedFoods,
+          child: _grid(fit.archivedFoodList),
+        ),
       if (recents.isNotEmpty) ...[_section(gc, t.recentFoods), _grid(recents, quick: true)],
       if (library.isNotEmpty) ...[
         _section(gc, _cat == null ? t.foodDatabase : catName(_cat!), trailing: '${library.length}'),
@@ -646,6 +668,28 @@ class _FoodInfoSheet extends StatelessWidget {
           if (done == true && context.mounted) Navigator.of(context).pop(true);
         },
       ),
+      if (!picking && !f.isLibrary && fit.foods.any((x) => x.id == f.id)) ...[
+        const SizedBox(height: 6),
+        Center(
+          child: TextButton(
+            onPressed: () {
+              final on = !fit.archivedFoods.contains(f.id);
+              fit.setFoodArchived(f.id, on);
+              Navigator.of(context).pop();
+              if (on) {
+                showNotchToast(context, t.foodArchivedToast,
+                    subtitle: f.name,
+                    icon: PhosphorIconsFill.archive,
+                    accent: gc.textSecondary,
+                    action: t.undo,
+                    onTap: () => fit.setFoodArchived(f.id, false));
+              }
+            },
+            child: Text(fit.archivedFoods.contains(f.id) ? t.dishUnarchive : t.dishArchive,
+                style: AppTheme.f(13, weight: FontWeight.w700, color: gc.textSecondary)),
+          ),
+        ),
+      ],
     ]);
   }
 }
@@ -2039,6 +2083,21 @@ class _FoodEditorState extends State<_FoodEditor> with _StickerDrafts {
     );
   }
 
+  void _archive() {
+    final food = widget.food!;
+    final on = !fit.archivedFoods.contains(food.id);
+    fit.setFoodArchived(food.id, on);
+    Navigator.of(context).pop();
+    if (on) {
+      showNotchToast(context, t.foodArchivedToast,
+          subtitle: food.name,
+          icon: PhosphorIconsFill.archive,
+          accent: context.gc.textSecondary,
+          action: t.undo,
+          onTap: () => fit.setFoodArchived(food.id, false));
+    }
+  }
+
   Future<void> _delete() async {
     final food = widget.food!;
     final ok = await askConfirm(
@@ -2207,12 +2266,17 @@ class _FoodEditorState extends State<_FoodEditor> with _StickerDrafts {
       PrimaryButton(label: t.save, onTap: _working ? () {} : _save),
       if (widget.food != null) ...[
         const SizedBox(height: 8),
-        Center(
-          child: TextButton(
+        Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+          TextButton(
+            onPressed: _archive,
+            child: Text(fit.archivedFoods.contains(widget.food!.id) ? t.dishUnarchive : t.dishArchive,
+                style: AppTheme.f(13, weight: FontWeight.w700, color: gc.textSecondary)),
+          ),
+          TextButton(
             onPressed: _delete,
             child: Text(t.delete, style: AppTheme.f(13, weight: FontWeight.w700, color: gc.danger)),
           ),
-        ),
+        ]),
       ],
     ]);
   }

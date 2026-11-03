@@ -186,6 +186,13 @@ class FoodSticker extends StatelessWidget {
 
   static const _faded = AlwaysStoppedAnimation(0.45);
 
+  static Future<void> warm(BuildContext context, String photo) async {
+    if (!isAssetPhoto(photo)) return;
+    try {
+      await precacheImage(AssetImage(assetOfPhoto(photo)), context);
+    } catch (_) {}
+  }
+
   @override
   Widget build(BuildContext context) {
     final gc = context.gc;
@@ -193,7 +200,8 @@ class FoodSticker extends StatelessWidget {
     final path = photo.isEmpty || asset ? null : MediaStore.pathFor(photo);
     final file = path == null ? null : File(path);
     final angle = tilt ? ((name.hashCode % 9) - 4) * 0.012 : 0.0;
-    final cache = (size * MediaQuery.devicePixelRatioOf(context)).round();
+    final px = (size * MediaQuery.devicePixelRatioOf(context)).round();
+    final cache = asset && px >= 300 ? null : px;
     Widget art;
     if (asset || file != null) {
       final image = asset
@@ -850,10 +858,11 @@ class _VesselPainter extends CustomPainter {
 }
 
 class FoodPlate extends StatelessWidget {
-  const FoodPlate({super.key, required this.items, this.size = 150});
+  const FoodPlate({super.key, required this.items, this.size = 150, this.wrap});
 
   final List<(String photo, String name)> items;
   final double size;
+  final Widget Function(int i, Widget child)? wrap;
 
   static const _layouts = <List<(double, double, double)>>[
     [],
@@ -896,7 +905,9 @@ class FoodPlate extends StatelessWidget {
           Positioned(
             left: size / 2 + layout[i].$1 * size - layout[i].$3 * size / 2,
             top: size / 2 + layout[i].$2 * size - layout[i].$3 * size / 2,
-            child: FoodSticker(photo: shown[i].$1, name: shown[i].$2, size: layout[i].$3 * size),
+            child: wrap == null
+                ? FoodSticker(photo: shown[i].$1, name: shown[i].$2, size: layout[i].$3 * size)
+                : wrap!(i, FoodSticker(photo: shown[i].$1, name: shown[i].$2, size: layout[i].$3 * size)),
           ),
       ]),
     );

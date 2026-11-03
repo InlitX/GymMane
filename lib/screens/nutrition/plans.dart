@@ -51,7 +51,8 @@ class _PlansSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final gc = context.gc;
-    final plans = fit.mealPlans;
+    final plans = fit.activeMealPlans;
+    final archived = fit.archivedPlanList;
     return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
       _PlanWeek(),
       const SizedBox(height: 12),
@@ -85,6 +86,22 @@ class _PlansSection extends StatelessWidget {
             Expanded(child: i + 1 < plans.length ? _planFolder(context, plans[i + 1]) : const SizedBox.shrink()),
           ]),
         ],
+      if (archived.isNotEmpty)
+        _ArchivedFold(
+          count: archived.length,
+          open: fit.showArchivedPlans,
+          onToggle: fit.toggleArchivedPlans,
+          child: Column(children: [
+            for (var i = 0; i < archived.length; i += 2) ...[
+              if (i > 0) const SizedBox(height: 12),
+              Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
+                Expanded(child: _planFolder(context, archived[i])),
+                const SizedBox(width: 12),
+                Expanded(child: i + 1 < archived.length ? _planFolder(context, archived[i + 1]) : const SizedBox.shrink()),
+              ]),
+            ],
+          ]),
+        ),
     ]);
   }
 
@@ -205,14 +222,14 @@ class _PlanWeek extends StatelessWidget {
 }
 
 Future<void> _pickPlanForDay(BuildContext context, int weekday) {
-  if (fit.mealPlans.isEmpty) return showMealPlanEditor(context, days: {weekday});
+  if (fit.activeMealPlans.isEmpty) return showMealPlanEditor(context, days: {weekday});
   return _sheet<void>(context, (sheet) {
     final current = fit.mealWeek[weekday];
     return _sheetFrame(sheet, [
       SheetTitle(t.weekday(weekday), subtitle: t.planPickHint),
       const SizedBox(height: 16),
       OptionGroup([
-        for (final p in fit.mealPlans)
+        for (final p in fit.activeMealPlans)
           OptionItem(
             p.name,
             leading: FoodPlate(items: _plateOf(p.items), size: 34),
@@ -222,7 +239,7 @@ Future<void> _pickPlanForDay(BuildContext context, int weekday) {
               HapticFeedback.selectionClick();
               fit.setPlanDay(weekday, p.id);
               Navigator.of(sheet).pop();
-              showNotchToast(context, t.planSetForDay(t.weekday(weekday).toLowerCase()),
+              showNotchToast(context, t.planSetForDay(t.weekdayInline(weekday)),
                   subtitle: p.name, icon: PhosphorIconsFill.calendarCheck, accent: context.gc.sage);
             },
           ),
@@ -378,6 +395,23 @@ class _PlanEditorState extends State<_PlanEditor> {
                 fit.moveMealPlan(plan.id, 1);
                 Navigator.of(sheet).pop();
               }),
+            OptionItem(fit.archivedPlans.contains(plan.id) ? t.dishUnarchive : t.dishArchive,
+                icon: fit.archivedPlans.contains(plan.id) ? PhosphorIconsRegular.arrowUUpLeft : PhosphorIconsRegular.archive,
+                onTap: () {
+              final on = !fit.archivedPlans.contains(plan.id);
+              final days = fit.setPlanArchived(plan.id, on);
+              _dirty = false;
+              Navigator.of(sheet).pop();
+              if (mounted) Navigator.of(context).pop();
+              if (on) {
+                showNotchToast(context, t.planArchivedToast,
+                    subtitle: plan.name,
+                    icon: PhosphorIconsFill.archive,
+                    accent: context.gc.textSecondary,
+                    action: t.undo,
+                    onTap: () => fit.setPlanArchived(plan.id, false, restore: days));
+              }
+            }),
             OptionItem(t.delete, icon: PhosphorIconsRegular.trash, danger: true, onTap: () async {
               final ok = await askConfirm(
                 sheet,
@@ -676,7 +710,7 @@ class _TodayPlanCard extends StatelessWidget {
                   Container(
                     width: 14,
                     height: 4,
-                    margin: const EdgeInsets.only(right: 3),
+                    margin: const EdgeInsetsDirectional.only(end: 3),
                     decoration: BoxDecoration(
                       color: i < p.done ? gc.sage : gc.border,
                       borderRadius: BorderRadius.circular(2),

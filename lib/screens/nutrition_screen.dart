@@ -234,7 +234,7 @@ class _NutritionScreenState extends State<NutritionScreen> {
               const SizedBox(height: 26),
               _Heading(t.mealPlansTitle, action: t.mealPlanNew, onAction: () => showNewPlanSheet(context)),
               const SizedBox(height: 12),
-              const _PlansSection(),
+              _PlansSection(),
             ],
             if (detail.isNotEmpty) ...[
               const SizedBox(height: 26),
@@ -281,7 +281,7 @@ class _Heading extends StatelessWidget {
   Widget build(BuildContext context) {
     final gc = context.gc;
     return Padding(
-      padding: const EdgeInsets.only(left: 4),
+      padding: const EdgeInsetsDirectional.only(start: 4),
       child: Row(
         children: [
           Expanded(
@@ -445,8 +445,42 @@ Future<T?> _sheet<T>(BuildContext context, WidgetBuilder builder) => showAppShee
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      builder: (sheet) => AnimatedBuilder(animation: fit, builder: (c, _) => builder(c)),
+      builder: (sheet) => _LiveSheet(builder: builder),
     );
+
+class _LiveSheet extends StatefulWidget {
+  const _LiveSheet({required this.builder});
+
+  final WidgetBuilder builder;
+
+  @override
+  State<_LiveSheet> createState() => _LiveSheetState();
+}
+
+class _LiveSheetState extends State<_LiveSheet> {
+  @override
+  void initState() {
+    super.initState();
+    fit.addListener(_changed);
+  }
+
+  @override
+  void dispose() {
+    fit.removeListener(_changed);
+    super.dispose();
+  }
+
+  void _changed() {
+    if (!mounted) return;
+    if (ModalRoute.isCurrentOf(context) ?? true) setState(() {});
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    ModalRoute.isCurrentOf(context);
+    return widget.builder(context);
+  }
+}
 
 Widget _macroSummary(BuildContext context, Macros m) {
   final gc = context.gc;

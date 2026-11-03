@@ -956,7 +956,8 @@ class _SupplementsCard extends StatelessWidget {
     final gc = context.gc;
     final day = fit.nutritionDay;
     final taken = fit.takenOn(day);
-    final list = fit.supplements;
+    final list = fit.activeSupplements;
+    final archived = fit.archivedSuppList;
     final due = [for (final s in list) if (s.dueOn(day)) s];
     final later = [for (final s in list) if (!s.dueOn(day)) s];
     final done = due.where((s) => taken.contains(s.id)).length;
@@ -1011,6 +1012,19 @@ class _SupplementsCard extends StatelessWidget {
             const SizedBox(height: 8),
           ],
         ],
+        if (archived.isNotEmpty)
+          _ArchivedFold(
+            count: archived.length,
+            open: fit.showArchivedSupps,
+            onToggle: fit.toggleArchivedSupps,
+            child: Column(children: [
+              for (final s in archived)
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 8),
+                  child: _SupplementRow(supp: s, taken: false, off: true),
+                ),
+            ]),
+          ),
         const SizedBox(height: 2),
         GestureDetector(
           behavior: HitTestBehavior.opaque,
@@ -1150,7 +1164,7 @@ class _SupplementRow extends StatelessWidget {
               )
             else
               Padding(
-                padding: const EdgeInsets.only(right: 6),
+                padding: const EdgeInsetsDirectional.only(end: 6),
                 child: AnimatedContainer(
                   duration: const Duration(milliseconds: 220),
                   curve: Curves.easeOutBack,
@@ -1364,6 +1378,21 @@ class _SupplementEditorState extends State<_SupplementEditor> with _StickerDraft
     }
     if (_at != null) fit.askAlarmPermission(force: true);
     Navigator.of(context).pop();
+  }
+
+  void _archive() {
+    final supp = widget.supp!;
+    final on = !fit.archivedSupps.contains(supp.id);
+    fit.setSuppArchived(supp.id, on);
+    Navigator.of(context).pop();
+    if (on) {
+      showNotchToast(context, t.suppArchivedToast,
+          subtitle: supp.name,
+          icon: PhosphorIconsFill.archive,
+          accent: context.gc.textSecondary,
+          action: t.undo,
+          onTap: () => fit.setSuppArchived(supp.id, false));
+    }
   }
 
   Future<void> _remove() async {
@@ -1634,12 +1663,17 @@ class _SupplementEditorState extends State<_SupplementEditor> with _StickerDraft
       PrimaryButton(label: t.save, onTap: _save),
       if (widget.supp != null) ...[
         const SizedBox(height: 8),
-        Center(
-          child: TextButton(
+        Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+          TextButton(
+            onPressed: _archive,
+            child: Text(fit.archivedSupps.contains(widget.supp!.id) ? t.dishUnarchive : t.dishArchive,
+                style: AppTheme.f(13, weight: FontWeight.w700, color: gc.textSecondary)),
+          ),
+          TextButton(
             onPressed: _remove,
             child: Text(t.delete, style: AppTheme.f(13, weight: FontWeight.w700, color: gc.danger)),
           ),
-        ),
+        ]),
       ],
     ]);
   }
