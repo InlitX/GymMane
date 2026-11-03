@@ -60,7 +60,10 @@ class _RulerPickerState extends State<RulerPicker> {
     final wanted = _indexOf(widget.value);
     if (wanted != _index && _scroll.hasClients && !_scroll.position.isScrollingNotifier.value) {
       _index = wanted;
-      _scroll.animateTo(wanted * _gap, duration: const Duration(milliseconds: 260), curve: Curves.easeOutCubic);
+      _quiet = true;
+      _scroll
+          .animateTo(wanted * _gap, duration: const Duration(milliseconds: 260), curve: Curves.easeOutCubic)
+          .whenComplete(() => _quiet = false);
     }
   }
 
@@ -70,7 +73,11 @@ class _RulerPickerState extends State<RulerPicker> {
     super.dispose();
   }
 
+  bool _quiet = false;
+
   bool _onScroll(ScrollNotification n) {
+    if (n is ScrollStartNotification && n.dragDetails != null) _quiet = false;
+    if (_quiet) return false;
     if (n is ScrollUpdateNotification || n is ScrollEndNotification) {
       final i = (_scroll.offset / _gap).round().clamp(0, _count - 1);
       if (i != _index) {
@@ -258,7 +265,15 @@ Future<double?> askRuler(
 }) {
   var current = value.clamp(min, max).toDouble();
   final decimals = step == step.roundToDouble() ? 0 : (step < 0.1 || step * 10 != (step * 10).roundToDouble() ? 2 : 1);
-  String show(double v) => format != null ? format(v) : decimalText(v.toStringAsFixed(decimals));
+  String show(double v) {
+    if (format != null) return format(v);
+    final exact = (v * 100).round() / 100;
+    final onGrid = ((exact / step).round() * step - exact).abs() < 0.001;
+    if (onGrid) return decimalText(exact.toStringAsFixed(decimals));
+    var text = exact.toStringAsFixed(2);
+    if (text.endsWith('0')) text = text.substring(0, text.length - 1);
+    return decimalText(text);
+  }
   return showAppSheet<double>(
     context: context,
     isScrollControlled: true,
@@ -311,7 +326,7 @@ Future<double?> askRuler(
                       final typed = await askNumber(sheet,
                           title: title, initial: show(current), decimal: step != step.roundToDouble());
                       if (typed == null) return;
-                      setSheet(() => current = ((typed.clamp(min, max) / step).round() * step).toDouble());
+                      setSheet(() => current = (typed.clamp(min, max) * 100).round() / 100);
                     },
                     child: Padding(
                       padding: const EdgeInsets.all(8),

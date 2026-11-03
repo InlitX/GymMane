@@ -1,7 +1,11 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 import 'package:gymmane/l10n/l10n.dart';
 import 'package:gymmane/services/local_store.dart';
 import 'package:gymmane/state/fit_state.dart';
+import 'package:gymmane/theme/app_theme.dart';
+import 'package:gymmane/widgets/ruler_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
@@ -222,5 +226,34 @@ void main() {
       fit.setWeightStack(id, const []);
       expect(fit.stackFor(id), isNull);
     });
+  });
+
+  testWidgets('#314 un peso escrito a mano como 37,4 se guarda tal cual, sin saltar a 37,5', (tester) async {
+    setAppLanguage('en');
+    double? picked;
+    await tester.pumpWidget(MaterialApp(
+      theme: AppTheme.dark,
+      home: Builder(
+        builder: (context) => Scaffold(
+          body: Center(
+            child: TextButton(
+              onPressed: () async => picked = await askRuler(context,
+                  title: 'Weight', value: 30, min: 0, max: 700, step: 0.5, unit: 'kg'),
+              child: const Text('open'),
+            ),
+          ),
+        ),
+      ),
+    ));
+    await tester.tap(find.text('open'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byIcon(PhosphorIconsRegular.keyboard));
+    await tester.pumpAndSettle();
+    await tester.enterText(find.byType(TextField), '37.4');
+    await tester.tap(find.text(t.set).last);
+    await tester.pumpAndSettle();
+    await tester.tap(find.text(t.set).first);
+    await tester.pumpAndSettle();
+    expect(picked, 37.4);
   });
 }

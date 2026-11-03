@@ -27,7 +27,7 @@ class _WeightStackSheet extends StatefulWidget {
 }
 
 class _WeightStackSheetState extends State<_WeightStackSheet> {
-  late List<double> _kg = [...?fit.stackFor(widget.id)];
+  late List<double> _kg = [...?fit.ownStackFor(widget.id)];
   late final _from = TextEditingController(text: _kg.isEmpty ? _seed(5) : _shown(_kg.first));
   late final _to = TextEditingController(text: _kg.isEmpty ? _seed(100) : _shown(_kg.last));
   late final _step = TextEditingController(text: _kg.length < 2 ? _seed(5) : _shown(_kg[1] - _kg[0]));
@@ -53,7 +53,7 @@ class _WeightStackSheetState extends State<_WeightStackSheet> {
 
   void _save(List<double> next) {
     fit.setWeightStack(widget.id, next);
-    setState(() => _kg = [...?fit.stackFor(widget.id)]);
+    setState(() => _kg = [...?fit.ownStackFor(widget.id)]);
   }
 
   void _fill() {
