@@ -7,6 +7,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
 
+import 'headphones.dart';
+
 class Beeper {
   Beeper._();
 
@@ -21,6 +23,7 @@ class Beeper {
   bool _holding = false;
   bool _failed = false;
   bool _loud = false;
+  bool _phones = false;
 
   set loud(bool on) {
     if (_loud == on) return;
@@ -32,11 +35,35 @@ class Beeper {
   AudioContext _context(AndroidAudioFocus focus) => AudioContext(
         android: AudioContextAndroid(
           contentType: AndroidContentType.sonification,
-          usageType: _loud ? AndroidUsageType.alarm : AndroidUsageType.notification,
+          usageType: _phones
+              ? AndroidUsageType.media
+              : _loud
+                  ? AndroidUsageType.alarm
+                  : AndroidUsageType.notification,
           audioFocus: focus,
         ),
         iOS: AudioContextIOS(category: AVAudioSessionCategory.ambient, options: const {}),
       );
+
+  AudioContext _chimeContext() => AudioContext(
+        android: AudioContextAndroid(
+          contentType: AndroidContentType.sonification,
+          usageType: _phones ? AndroidUsageType.media : AndroidUsageType.notification,
+          audioFocus: AndroidAudioFocus.none,
+        ),
+        iOS: AudioContextIOS(category: AVAudioSessionCategory.ambient, options: const {}),
+      );
+
+  Future<void> _route() async {
+    final on = await Headphones.connected();
+    if (on == _phones) return;
+    _phones = on;
+    try {
+      await _player?.setAudioContext(_context(AndroidAudioFocus.none));
+      await _hold?.setAudioContext(_context(AndroidAudioFocus.gainTransientMayDuck));
+      await _soft?.setAudioContext(_chimeContext());
+    } catch (_) {}
+  }
 
   Future<bool> _ready() async {
     if (_player != null) return true;
@@ -70,6 +97,7 @@ class Beeper {
       kind == _TickKind.go ? HapticFeedback.heavyImpact() : HapticFeedback.selectionClick();
     } catch (_) {}
     if (!sound || !await _ready()) return;
+    await _route();
     final path = kind == _TickKind.go ? _go : _tick;
     if (path == null) return;
     _release?.cancel();
@@ -102,19 +130,13 @@ class Beeper {
     if (now.difference(_lastChime) < const Duration(milliseconds: 700)) return;
     _lastChime = now;
     try {
+      await _route();
       if (_soft == null) {
         final dir = await getTemporaryDirectory();
         _chime = await _write(dir, 'gm_chime1.wav', chimeWav());
         final p = AudioPlayer();
         await p.setReleaseMode(ReleaseMode.stop);
-        await p.setAudioContext(AudioContext(
-          android: const AudioContextAndroid(
-            contentType: AndroidContentType.sonification,
-            usageType: AndroidUsageType.notification,
-            audioFocus: AndroidAudioFocus.none,
-          ),
-          iOS: AudioContextIOS(category: AVAudioSessionCategory.ambient, options: const {}),
-        ));
+        await p.setAudioContext(_chimeContext());
         _soft = p;
       }
       await _soft!.stop();

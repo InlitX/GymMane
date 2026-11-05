@@ -136,6 +136,7 @@ class MainActivity : FlutterActivity() {
                     am.getMemoryInfo(info)
                     result.success(am.isLowRamDevice || info.totalMem < 3_500_000_000L)
                 }
+                "headphones" -> result.success(headphonesConnected())
                 "maxRefresh" -> result.success(maxRefreshRate())
                 "setHighRefresh" -> {
                     setHighRefresh(call.argument<Boolean>("on") ?: false)
@@ -153,6 +154,25 @@ class MainActivity : FlutterActivity() {
 
     private fun currentDisplay(): android.view.Display? =
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) display else @Suppress("DEPRECATION") windowManager.defaultDisplay
+
+    private fun headphonesConnected(): Boolean {
+        return try {
+            val am = getSystemService(Context.AUDIO_SERVICE) as android.media.AudioManager
+            am.getDevices(android.media.AudioManager.GET_DEVICES_OUTPUTS).any {
+                when (it.type) {
+                    android.media.AudioDeviceInfo.TYPE_WIRED_HEADSET,
+                    android.media.AudioDeviceInfo.TYPE_WIRED_HEADPHONES,
+                    android.media.AudioDeviceInfo.TYPE_BLUETOOTH_A2DP,
+                    android.media.AudioDeviceInfo.TYPE_BLUETOOTH_SCO,
+                    android.media.AudioDeviceInfo.TYPE_USB_HEADSET,
+                    android.media.AudioDeviceInfo.TYPE_HEARING_AID -> true
+                    else -> Build.VERSION.SDK_INT >= 31 && it.type == android.media.AudioDeviceInfo.TYPE_BLE_HEADSET
+                }
+            }
+        } catch (_: Exception) {
+            false
+        }
+    }
 
     private fun maxRefreshRate(): Double {
         val d = currentDisplay() ?: return 60.0

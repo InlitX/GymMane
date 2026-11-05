@@ -9,6 +9,7 @@ import 'package:timezone/data/latest.dart' as tzdata;
 import 'package:timezone/timezone.dart' as tz;
 
 import '../l10n/l10n.dart';
+import 'headphones.dart';
 
 class RestAlarm {
   RestAlarm._();
@@ -137,7 +138,10 @@ class RestAlarm {
 
   Future<void> _applyAudioContext() async {
     final player = _player;
-    if (player == null || _contextFor == style) return;
+    if (player == null) return;
+    final phones = await Headphones.connected();
+    final key = '$style/$phones';
+    if (_contextFor == key) return;
     final loud = style == 'loud';
     try {
       await player.setAudioContext(
@@ -146,7 +150,11 @@ class RestAlarm {
             isSpeakerphoneOn: false,
             stayAwake: true,
             contentType: AndroidContentType.sonification,
-            usageType: loud ? AndroidUsageType.alarm : AndroidUsageType.notification,
+            usageType: phones
+                ? AndroidUsageType.media
+                : loud
+                    ? AndroidUsageType.alarm
+                    : AndroidUsageType.notification,
             audioFocus: AndroidAudioFocus.gainTransientMayDuck,
           ),
           iOS: AudioContextIOS(
@@ -155,7 +163,7 @@ class RestAlarm {
           ),
         ),
       );
-      _contextFor = style;
+      _contextFor = key;
     } catch (e) {
       debugPrint('RestAlarm (contexto de audio): $e');
     }
