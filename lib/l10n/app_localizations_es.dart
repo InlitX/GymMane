@@ -7274,4 +7274,100 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get voiceAnd => 'y';
+
+  @override
+  String get repRecordsTitle => 'Mejor peso por reps';
+
+  @override
+  String suppUnitCapsule(int n) {
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: 'cápsulas', one: 'cápsula');
+    return '$_temp0';
+  }
+
+  @override
+  String suppUnitPill(int n) {
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: 'pastillas', one: 'pastilla');
+    return '$_temp0';
+  }
+
+  @override
+  String suppUnitScoop(int n) {
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: 'cazos', one: 'cazo');
+    return '$_temp0';
+  }
+
+  @override
+  String suppUnitDrop(int n) {
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: 'gotas', one: 'gota');
+    return '$_temp0';
+  }
+
+  @override
+  String suppUnitServing(int n) {
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: 'raciones', one: 'ración');
+    return '$_temp0';
+  }
+
+  @override
+  String get suppUnitIu => 'UI';
+
+  @override
+  String get suppLeft => 'Quedan';
+
+  @override
+  String get suppLeftHint => 'Opcional';
+
+  @override
+  String suppLeftFor(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: 'Quedan para $n días',
+      one: 'Queda para 1 día',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String suppForDays(int n) {
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n días', one: '1 día');
+    return '$_temp0';
+  }
+
+  @override
+  String get suppRanOut => 'Se ha acabado';
+
+  @override
+  String get lightSession => 'Sesión ligera';
+
+  @override
+  String get lightSessionHint =>
+      'Se guarda en tu historial y estadísticas, pero no cambia tus próximos objetivos.';
+
+  @override
+  String get lightSessionNote => 'No cuenta para la progresión';
+
+  @override
+  String get lightSessionOff => 'Quitar';
+
+  @override
+  String get eachSideRepsHint =>
+      'Apunta las reps de la izquierda y la derecha por separado. La progresión sigue al lado más flojo.';
+
+  @override
+  String get repsLeftCol => 'REPS I';
+
+  @override
+  String get repsRightCol => 'REPS D';
+
+  @override
+  String get repsLeftTitle => 'REPS IZQUIERDA';
+
+  @override
+  String get repsRightTitle => 'REPS DERECHA';
+
+  @override
+  String sidesReps(int l, int r) {
+    return 'I$l D$r';
+  }
 }

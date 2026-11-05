@@ -17,8 +17,11 @@ double? rpePercent(int reps, double? rpe) {
 }
 
 class LoggedSet {
-  LoggedSet(this.reps, this.weight, {this.kind = SetKind.normal, this.rpe, this.sec, this.km, this.note = ''});
+  LoggedSet(this.reps, this.weight,
+      {this.kind = SetKind.normal, this.rpe, this.sec, this.km, this.note = '', this.left, this.right});
   final int reps;
+  final int? left;
+  final int? right;
   final String note;
   final double weight;
   final SetKind kind;
@@ -27,6 +30,7 @@ class LoggedSet {
   final double? km;
 
   bool get counts => kind != SetKind.warmup;
+  bool get sided => left != null && right != null;
   double get volume => reps * weight;
 
   double get oneRm {
@@ -38,6 +42,8 @@ class LoggedSet {
   Map<String, dynamic> toJson() => {
         'r': reps,
         'w': weight,
+        if (sided) 'rl': left,
+        if (sided) 'rr': right,
         if (kind != SetKind.normal) 'k': kind.index,
         if (rpe != null) 'e': rpe,
         if (sec != null) 't': sec,
@@ -52,6 +58,8 @@ class LoggedSet {
         sec: (j['t'] as num?)?.toInt(),
         km: (j['km'] as num?)?.toDouble(),
         note: j['n'] as String? ?? '',
+        left: (j['rl'] as num?)?.toInt(),
+        right: (j['rr'] as num?)?.toInt(),
       );
 }
 

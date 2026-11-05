@@ -2816,7 +2816,14 @@ Widget _editSetRow(GymColors gc, LoggedSession s, LoggedExercise e, int i, bool 
         ] else ...[
           if (timed)
             time
-          else
+          else if (set.sided) ...[
+            cell(t.repsLeftCol, '${set.left}', () => fit.bumpLoggedSide(e, i, true, -1),
+                () => fit.bumpLoggedSide(e, i, true, 1),
+                minWidth: 22),
+            cell(t.repsRightCol, '${set.right}', () => fit.bumpLoggedSide(e, i, false, -1),
+                () => fit.bumpLoggedSide(e, i, false, 1),
+                minWidth: 22),
+          ] else
             cell(t.repsCol, '${set.reps}', () => fit.bumpLoggedReps(e, i, -1), () => fit.bumpLoggedReps(e, i, 1)),
           if (!repsOnly && (!timed || set.weight > 0))
             cell(t.weightCol(fit.units.toUpperCase()), fit.weightValue(set.weight), () => fit.bumpLoggedWeight(e, i, -1),

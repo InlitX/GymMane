@@ -321,7 +321,15 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
                         () => fit.toggleEachSide(ex.id),
                       ),
                       _holdProgressRow(gc, ex.id),
-                    ],
+                    ] else if (mode.isEmpty)
+                      _switchRow(
+                        gc,
+                        PhosphorIconsRegular.arrowsLeftRight,
+                        t.eachSide,
+                        t.eachSideRepsHint,
+                        fit.isSidedReps(ex.id),
+                        () => fit.toggleSidedReps(ex.id),
+                      ),
                     _restRow(gc, ex.id),
                     if (ex.equipment == 'Barbell' || ex.equipment == 'Machine') _barRow(gc, ex),
                     if ((ex.equipment == 'Machine' || ex.equipment == 'Cable') && mode.isEmpty && !repsOnly)

@@ -70,7 +70,7 @@ class LiveWorkout {
         detail = t.liveAllDone;
       } else {
         final st = ex.sets[pending];
-        final load = st.sec != null || st.km != null
+        final load = st.sec != null || st.km != null || st.repsR != null
             ? fit.loggedSetLabel(st.logged)
             : fit.isRepsOnly(ex.id)
                 ? '${st.reps} ${t.repsCol.toLowerCase()}'

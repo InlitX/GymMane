@@ -12675,6 +12675,138 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'and'**
   String get voiceAnd;
+
+  /// No description provided for @repRecordsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Best weight by reps'**
+  String get repRecordsTitle;
+
+  /// No description provided for @suppUnitCapsule.
+  ///
+  /// In en, this message translates to:
+  /// **'{n, plural, one{capsule} other{capsules}}'**
+  String suppUnitCapsule(int n);
+
+  /// No description provided for @suppUnitPill.
+  ///
+  /// In en, this message translates to:
+  /// **'{n, plural, one{pill} other{pills}}'**
+  String suppUnitPill(int n);
+
+  /// No description provided for @suppUnitScoop.
+  ///
+  /// In en, this message translates to:
+  /// **'{n, plural, one{scoop} other{scoops}}'**
+  String suppUnitScoop(int n);
+
+  /// No description provided for @suppUnitDrop.
+  ///
+  /// In en, this message translates to:
+  /// **'{n, plural, one{drop} other{drops}}'**
+  String suppUnitDrop(int n);
+
+  /// No description provided for @suppUnitServing.
+  ///
+  /// In en, this message translates to:
+  /// **'{n, plural, one{serving} other{servings}}'**
+  String suppUnitServing(int n);
+
+  /// No description provided for @suppUnitIu.
+  ///
+  /// In en, this message translates to:
+  /// **'IU'**
+  String get suppUnitIu;
+
+  /// No description provided for @suppLeft.
+  ///
+  /// In en, this message translates to:
+  /// **'Left'**
+  String get suppLeft;
+
+  /// No description provided for @suppLeftHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Optional'**
+  String get suppLeftHint;
+
+  /// No description provided for @suppLeftFor.
+  ///
+  /// In en, this message translates to:
+  /// **'{n, plural, one{Left for 1 day} other{Left for {n} days}}'**
+  String suppLeftFor(int n);
+
+  /// No description provided for @suppForDays.
+  ///
+  /// In en, this message translates to:
+  /// **'{n, plural, one{1 day} other{{n} days}}'**
+  String suppForDays(int n);
+
+  /// No description provided for @suppRanOut.
+  ///
+  /// In en, this message translates to:
+  /// **'Ran out'**
+  String get suppRanOut;
+
+  /// No description provided for @lightSession.
+  ///
+  /// In en, this message translates to:
+  /// **'Light session'**
+  String get lightSession;
+
+  /// No description provided for @lightSessionHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved in your history and stats, but it won\'t change your next targets.'**
+  String get lightSessionHint;
+
+  /// No description provided for @lightSessionNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Doesn\'t count for progression'**
+  String get lightSessionNote;
+
+  /// No description provided for @lightSessionOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn off'**
+  String get lightSessionOff;
+
+  /// No description provided for @eachSideRepsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Log the left and right reps separately. Progression follows the weaker side.'**
+  String get eachSideRepsHint;
+
+  /// No description provided for @repsLeftCol.
+  ///
+  /// In en, this message translates to:
+  /// **'REPS L'**
+  String get repsLeftCol;
+
+  /// No description provided for @repsRightCol.
+  ///
+  /// In en, this message translates to:
+  /// **'REPS R'**
+  String get repsRightCol;
+
+  /// No description provided for @repsLeftTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'LEFT REPS'**
+  String get repsLeftTitle;
+
+  /// No description provided for @repsRightTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'RIGHT REPS'**
+  String get repsRightTitle;
+
+  /// No description provided for @sidesReps.
+  ///
+  /// In en, this message translates to:
+  /// **'L{l} R{r}'**
+  String sidesReps(int l, int r);
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

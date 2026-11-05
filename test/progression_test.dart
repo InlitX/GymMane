@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:gymmane/l10n/l10n.dart';
+import 'package:gymmane/models/live_session.dart';
 import 'package:gymmane/models/progression.dart';
 import 'package:gymmane/models/workout.dart';
 import 'package:gymmane/services/local_store.dart';
@@ -34,6 +35,19 @@ void main() {
       }
       expect(fit.stallStreak(id), 3);
       expect(fit.needsDeload(id), isFalse);
+    });
+
+    test('una sesión ligera no corta la racha ni cambia el objetivo', () {
+      final id = bench();
+      for (final d in [9, 6, 3]) {
+        logged(id, d, [LoggedSet(8, 80), LoggedSet(6, 80)]);
+      }
+      fit.sessions.add(LoggedSession(ago(1), 900, [
+        LoggedExercise(id, id, 'back', [LoggedSet(8, 72)])
+      ], deload: true));
+      expect(fit.stallStreak(id), 3);
+      expect(fit.lastSetsFor(id).first.weight, 80);
+      expect(fit.exerciseHistory(id).length, 4);
     });
 
     test('tres entrenos al mismo peso sin cumplir bajan al 90 %', () {
@@ -480,6 +494,23 @@ void main() {
       expect(fit.weeksToDeload, 3);
     });
 
+    test('cualquier sesión se puede marcar como ligera sin tocar las series', () {
+      final id = fit.createRoutine('Ligera');
+      fit.toggleRoutineExercise(id, 'EIeI8Vf');
+      final r = fit.routines.firstWhere((x) => x.id == id);
+      fit.startRoutine(r);
+      final s = fit.session!;
+      final before = s.exercises.first.sets.length;
+      expect(s.deload, isFalse);
+      fit.toggleLightSession();
+      expect(s.deload, isTrue);
+      expect(s.lightened, isFalse);
+      expect(s.exercises.first.sets.length, before);
+      expect(WorkoutSession.fromJson(s.toJson()).deload, isTrue);
+      fit.toggleLightSession();
+      expect(s.deload, isFalse);
+    });
+
     test('en descarga la sesión lleva la mitad de series, y entrenar normal las devuelve', () {
       final id = fit.createRoutine('Descarga');
       fit.toggleRoutineExercise(id, 'EIeI8Vf');
@@ -497,6 +528,56 @@ void main() {
       fit.skipDeload();
       expect(s.deload, isFalse);
       expect(s.exercises.first.sets.where((x) => x.kind != SetKind.warmup).length, normal);
+    });
+  });
+
+  group('cada lado', () {
+    setUp(() async {
+      SharedPreferences.setMockInitialValues({});
+      await Store.instance.init();
+      fit.resetAllData();
+      fit.onboarded = true;
+    });
+
+    tearDown(() => fit.saveAndExit());
+
+    test('una serie con dos lados guarda el más flojo y los dos números', () {
+      final st = SessionSet(10, 40, true, repsR: 8);
+      expect(st.weakReps, 8);
+      final logged = st.logged;
+      expect(logged.reps, 8);
+      expect(logged.left, 10);
+      expect(logged.right, 8);
+      expect(logged.sided, isTrue);
+      final back = LoggedSet.fromJson(logged.toJson());
+      expect(back.left, 10);
+      expect(back.right, 8);
+      expect(back.reps, 8);
+      expect(SessionSet.fromJson(st.toJson()).repsR, 8);
+    });
+
+    test('una serie antigua sin lados se lee igual', () {
+      final old = LoggedSet.fromJson({'r': 9, 'w': 30.0});
+      expect(old.sided, isFalse);
+      expect(old.reps, 9);
+      expect(old.toJson().containsKey('rl'), isFalse);
+    });
+
+    test('al activar «cada lado» las series abren con los dos lados y siguen al lado flojo', () {
+      final id = fit.createRoutine('Lados');
+      fit.toggleRoutineExercise(id, 'EIeI8Vf');
+      final r = fit.routines.firstWhere((x) => x.id == id);
+      fit.toggleSidedReps('EIeI8Vf');
+      expect(fit.isSidedReps('EIeI8Vf'), isTrue);
+      fit.startRoutine(r);
+      final sets = fit.session!.exercises.first.sets;
+      expect(sets.every((st) => st.repsR == st.reps), isTrue);
+      fit.setSessionRepsRight(0, 0, 6);
+      expect(sets.first.repsR, 6);
+      expect(sets.first.weakReps, 6);
+      expect(sets.first.logged.reps, 6);
+      fit.toggleSidedReps('EIeI8Vf');
+      expect(sets.every((st) => st.repsR == null), isTrue);
     });
   });
 }

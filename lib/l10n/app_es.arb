@@ -2170,5 +2170,32 @@
 
   "voiceMinutes": "{count, plural, =1{1 minuto} other{{count} minutos}}",
   "voiceSeconds": "{count, plural, =1{1 segundo} other{{count} segundos}}",
-  "voiceAnd": "y"
+  "voiceAnd": "y",
+
+  "repRecordsTitle": "Mejor peso por reps",
+
+  "suppUnitCapsule": "{n, plural, =1{cápsula} other{cápsulas}}",
+  "suppUnitPill": "{n, plural, =1{pastilla} other{pastillas}}",
+  "suppUnitScoop": "{n, plural, =1{cazo} other{cazos}}",
+  "suppUnitDrop": "{n, plural, =1{gota} other{gotas}}",
+  "suppUnitServing": "{n, plural, =1{ración} other{raciones}}",
+  "suppUnitIu": "UI",
+  "suppLeft": "Quedan",
+  "suppLeftHint": "Opcional",
+  "suppLeftFor": "{n, plural, =1{Queda para 1 día} other{Quedan para {n} días}}",
+  "suppForDays": "{n, plural, =1{1 día} other{{n} días}}",
+  "suppRanOut": "Se ha acabado",
+
+  "lightSession": "Sesión ligera",
+  "lightSessionHint": "Se guarda en tu historial y estadísticas, pero no cambia tus próximos objetivos.",
+  "lightSessionNote": "No cuenta para la progresión",
+  "lightSessionOff": "Quitar",
+
+  "eachSideRepsHint": "Apunta las reps de la izquierda y la derecha por separado. La progresión sigue al lado más flojo.",
+  "repsLeftCol": "REPS I",
+  "repsRightCol": "REPS D",
+  "repsLeftTitle": "REPS IZQUIERDA",
+  "repsRightTitle": "REPS DERECHA",
+  "sidesReps": "I{l} D{r}",
+  "@sidesReps": {"placeholders": {"l": {"type": "int"}, "r": {"type": "int"}}}
 }

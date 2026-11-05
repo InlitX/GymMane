@@ -2,8 +2,9 @@ import 'workout.dart';
 
 class SessionSet {
   SessionSet(this.reps, this.weight, this.done,
-      {this.kind = SetKind.normal, this.rpe, this.sec, this.km, this.rest, this.note = ''});
+      {this.kind = SetKind.normal, this.rpe, this.sec, this.km, this.rest, this.note = '', this.repsR});
   int reps;
+  int? repsR;
   String note;
   int? rest;
   double weight;
@@ -15,13 +16,20 @@ class SessionSet {
 
   bool get counts => kind != SetKind.warmup;
 
-  LoggedSet get logged => LoggedSet(reps, weight, kind: kind, rpe: rpe, sec: sec, km: km, note: note.trim());
+  int get weakReps {
+    final right = repsR;
+    return right == null || right > reps ? reps : right;
+  }
+
+  LoggedSet get logged => LoggedSet(weakReps, weight,
+      kind: kind, rpe: rpe, sec: sec, km: km, note: note.trim(), left: repsR == null ? null : reps, right: repsR);
 
   SessionSet copy({bool done = false}) =>
-      SessionSet(reps, weight, done, kind: kind, rpe: rpe, sec: sec, km: km);
+      SessionSet(reps, weight, done, kind: kind, rpe: rpe, sec: sec, km: km, repsR: repsR);
 
   Map<String, dynamic> toJson() => {
         'r': reps,
+        if (repsR != null) 'rr': repsR,
         'w': weight,
         'd': done,
         if (kind != SetKind.normal) 'k': kind.index,
@@ -41,6 +49,7 @@ class SessionSet {
         km: (j['km'] as num?)?.toDouble(),
         rest: (j['rs'] as num?)?.toInt().clamp(0, 3600),
         note: j['n'] as String? ?? '',
+        repsR: (j['rr'] as num?)?.toInt(),
       );
 }
 
@@ -81,6 +90,7 @@ class WorkoutSession {
   bool complete = false;
   bool manual = false;
   bool deload = false;
+  bool lightened = false;
   String? routineId;
   String? name;
   DateTime? loggedAt;
@@ -110,6 +120,7 @@ class WorkoutSession {
         'c': complete,
         if (manual) 'm': true,
         if (deload) 'dl': true,
+        if (lightened) 'lt': true,
         if (routineId != null) 'r': routineId,
         if (name != null) 'n': name,
         'at': loggedAt?.toIso8601String(),
@@ -127,6 +138,7 @@ class WorkoutSession {
     ..complete = j['c'] as bool? ?? false
     ..manual = j['m'] as bool? ?? false
     ..deload = j['dl'] as bool? ?? false
+    ..lightened = j['lt'] as bool? ?? false
     ..routineId = j['r'] as String?
     ..name = j['n'] as String?
     ..loggedAt = DateTime.tryParse((j['at'] as String?) ?? '')

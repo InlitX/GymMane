@@ -380,6 +380,10 @@ mixin StatsState on FitCore, ToolsState, LibraryState, SettingsState, TimelineSt
     String line(LoggedSet x) {
       if (x.km != null) return '${distanceLabel(x.km!)} · ${durationLabel(x.sec ?? 0)}';
       if (x.sec != null && x.reps == 0) return durationLabel(x.sec!);
+      if (x.sided) {
+        final both = t.sidesReps(x.left!, x.right!);
+        return x.weight > 0 ? '${weightLabel(x.weight)} × $both' : both;
+      }
       return x.weight > 0 ? '${weightLabel(x.weight)} × ${x.reps}' : t.repCount(x.reps);
     }
 
@@ -434,9 +438,21 @@ mixin StatsState on FitCore, ToolsState, LibraryState, SettingsState, TimelineSt
     notifyListeners();
   }
 
-  void _replaceLoggedSet(LoggedExercise e, int i, {int? reps, double? weight, int? sec, double? km}) {
+  void _replaceLoggedSet(LoggedExercise e, int i,
+      {int? reps, int? left, int? right, double? weight, int? sec, double? km}) {
     if (i < 0 || i >= e.sets.length) return;
     final old = e.sets[i];
+    var l = old.left;
+    var r = old.right;
+    if (old.sided) {
+      if (reps != null) {
+        l = reps;
+        r = reps;
+      }
+      l = left ?? l;
+      r = right ?? r;
+      reps = l! < r! ? l : r;
+    }
     e.sets[i] = LoggedSet(
       reps ?? old.reps,
       weight ?? old.weight,
@@ -445,6 +461,8 @@ mixin StatsState on FitCore, ToolsState, LibraryState, SettingsState, TimelineSt
       sec: sec ?? old.sec,
       km: km ?? old.km,
       note: old.note,
+      left: l,
+      right: r,
     );
     persistNow();
     _refreshWidgets();
@@ -543,6 +561,13 @@ mixin StatsState on FitCore, ToolsState, LibraryState, SettingsState, TimelineSt
   void bumpLoggedReps(LoggedExercise e, int i, int d) =>
       setLoggedReps(e, i, e.sets[i].reps + d);
 
+  void bumpLoggedSide(LoggedExercise e, int i, bool leftSide, int d) {
+    final s = e.sets[i];
+    if (!s.sided) return;
+    final v = ((leftSide ? s.left! : s.right!) + d).clamp(0, 999);
+    _replaceLoggedSet(e, i, left: leftSide ? v : null, right: leftSide ? null : v);
+  }
+
   void bumpLoggedWeight(LoggedExercise e, int i, int dir) {
     final next = _roundTo(toDisplayWeight(e.sets[i].weight), weightStep) + dir * weightStep;
     setLoggedWeight(e, i, fromDisplayWeight(math.max(0, next)));
@@ -550,7 +575,7 @@ mixin StatsState on FitCore, ToolsState, LibraryState, SettingsState, TimelineSt
 
   void addLoggedSet(LoggedExercise e) {
     final last = e.sets.isNotEmpty ? e.sets.last : LoggedSet(10, isRepsOnly(e.id) ? 0 : 20);
-    e.sets.add(LoggedSet(last.reps, last.weight, sec: last.sec, km: last.km));
+    e.sets.add(LoggedSet(last.reps, last.weight, sec: last.sec, km: last.km, left: last.left, right: last.right));
     persistNow();
     _refreshWidgets();
     notifyListeners();
@@ -810,6 +835,31 @@ mixin StatsState on FitCore, ToolsState, LibraryState, SettingsState, TimelineSt
       if (v > 0 && (best == null || v > best.score)) best = (score: v, date: h.date);
     }
     return best;
+  }
+
+  List<({int reps, double kg, DateTime date})> repRecords(String id) {
+    if (modeOf(id).isNotEmpty || isRepsOnly(id) || isAssisted(id)) return const [];
+    final best = <int, ({double kg, DateTime date})>{};
+    for (final h in exerciseHistory(id)) {
+      for (final st in h.ex.workingSets) {
+        if (st.reps <= 0 || st.weight <= 0) continue;
+        final had = best[st.reps];
+        if (had == null || st.weight > had.kg || (st.weight == had.kg && h.date.isBefore(had.date))) {
+          best[st.reps] = (kg: st.weight, date: h.date);
+        }
+      }
+    }
+    final out = <({int reps, double kg, DateTime date})>[];
+    var floor = 0.0;
+    for (final r in best.keys.toList()..sort((a, b) => b.compareTo(a))) {
+      final b = best[r]!;
+      if (b.kg <= floor) continue;
+      out.add((reps: r, kg: b.kg, date: b.date));
+      floor = b.kg;
+    }
+    final ladder = out.reversed.toList();
+    if (ladder.length <= 5) return ladder;
+    return [for (var i = 0; i < 5; i++) ladder[(i * (ladder.length - 1) / 4).round()]];
   }
 
   String bestWorkoutLabel(double score, PrKind kind) => kind == PrKind.weight
@@ -1128,11 +1178,18 @@ mixin StatsState on FitCore, ToolsState, LibraryState, SettingsState, TimelineSt
     return out;
   }
 
+  Set<LoggedExercise> get _lightExercises => _remember('lightEx', () => Set<LoggedExercise>.identity()
+    ..addAll([for (final s in sessions) if (s.deload) ...s.exercises]));
+
+  List<({DateTime date, LoggedExercise ex})> progressHistory(String id) {
+    final light = _lightExercises;
+    return [for (final h in exerciseHistory(id)) if (!light.contains(h.ex)) h];
+  }
+
   List<LoggedSet> lastSetsFor(String id) {
     final h = exerciseHistory(id);
     if (h.isEmpty) return const [];
-    final light = _remember('lightEx', () => Set<LoggedExercise>.identity()
-      ..addAll([for (final s in sessions) if (s.deload) ...s.exercises]));
+    final light = _lightExercises;
     for (final e in h) {
       if (!light.contains(e.ex)) return e.ex.sets;
     }
@@ -1156,7 +1213,7 @@ mixin StatsState on FitCore, ToolsState, LibraryState, SettingsState, TimelineSt
     if (sec != null && s.reps <= 0) {
       return s.weight > 0 ? '$w × ${durationLabel(sec)}' : durationLabel(sec);
     }
-    return '$w×${s.reps}';
+    return s.sided ? '$w×${t.sidesReps(s.left!, s.right!)}' : '$w×${s.reps}';
   }
 
   String? strengthExerciseId;

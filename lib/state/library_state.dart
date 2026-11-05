@@ -442,6 +442,8 @@ mixin LibraryState on FitCore {
     return _sidedByDefault.contains(id);
   }
 
+  bool isSidedReps(String id) => !isTimed(id) && modeOf(id) != 'cardio' && eachSide.contains(id);
+
   void toggleEachSide(String id) {
     final on = !isEachSide(id);
     eachSide.remove(id);

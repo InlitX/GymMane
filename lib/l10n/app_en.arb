@@ -2497,5 +2497,39 @@
   "@voiceMinutes": { "placeholders": { "count": { "type": "int" } } },
   "voiceSeconds": "{count, plural, =1{1 second} other{{count} seconds}}",
   "@voiceSeconds": { "placeholders": { "count": { "type": "int" } } },
-  "voiceAnd": "and"
+  "voiceAnd": "and",
+
+  "repRecordsTitle": "Best weight by reps",
+
+  "suppUnitCapsule": "{n, plural, one{capsule} other{capsules}}",
+  "@suppUnitCapsule": {"placeholders": {"n": {"type": "int"}}},
+  "suppUnitPill": "{n, plural, one{pill} other{pills}}",
+  "@suppUnitPill": {"placeholders": {"n": {"type": "int"}}},
+  "suppUnitScoop": "{n, plural, one{scoop} other{scoops}}",
+  "@suppUnitScoop": {"placeholders": {"n": {"type": "int"}}},
+  "suppUnitDrop": "{n, plural, one{drop} other{drops}}",
+  "@suppUnitDrop": {"placeholders": {"n": {"type": "int"}}},
+  "suppUnitServing": "{n, plural, one{serving} other{servings}}",
+  "@suppUnitServing": {"placeholders": {"n": {"type": "int"}}},
+  "suppUnitIu": "IU",
+  "suppLeft": "Left",
+  "suppLeftHint": "Optional",
+  "suppLeftFor": "{n, plural, one{Left for 1 day} other{Left for {n} days}}",
+  "@suppLeftFor": {"placeholders": {"n": {"type": "int"}}},
+  "suppForDays": "{n, plural, one{1 day} other{{n} days}}",
+  "@suppForDays": {"placeholders": {"n": {"type": "int"}}},
+  "suppRanOut": "Ran out",
+
+  "lightSession": "Light session",
+  "lightSessionHint": "Saved in your history and stats, but it won't change your next targets.",
+  "lightSessionNote": "Doesn't count for progression",
+  "lightSessionOff": "Turn off",
+
+  "eachSideRepsHint": "Log the left and right reps separately. Progression follows the weaker side.",
+  "repsLeftCol": "REPS L",
+  "repsRightCol": "REPS R",
+  "repsLeftTitle": "LEFT REPS",
+  "repsRightTitle": "RIGHT REPS",
+  "sidesReps": "L{l} R{r}",
+  "@sidesReps": {"placeholders": {"l": {"type": "int"}, "r": {"type": "int"}}}
 }

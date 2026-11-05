@@ -50,7 +50,9 @@ class SessionScreen extends StatelessWidget {
     );
   }
 
-  Widget _deloadNote(GymColors gc) => Container(
+  Widget _deloadNote(GymColors gc) {
+    final auto = fit.session?.lightened ?? false;
+    return Container(
         padding: const EdgeInsets.fromLTRB(14, 10, 8, 10),
         decoration: BoxDecoration(color: gc.bgRaised, borderRadius: BorderRadius.circular(16)),
         child: Row(children: [
@@ -58,24 +60,26 @@ class SessionScreen extends StatelessWidget {
           const SizedBox(width: 10),
           Expanded(
             child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text(t.deloadNow,
+              Text(auto ? t.deloadNow : t.lightSession,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: AppTheme.f(13.5, weight: FontWeight.w800, color: gc.text)),
               const SizedBox(height: 2),
-              Text(t.deloadNowHint,
+              Text(auto ? t.deloadNowHint : t.lightSessionNote,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: AppTheme.f(12, weight: FontWeight.w500, color: gc.textSecondary, height: 1.3)),
             ]),
           ),
-          if (fit.canSkipDeload)
+          if (fit.canSkipDeload || !auto)
             TextButton(
-              onPressed: fit.skipDeload,
-              child: Text(t.deloadSkip, style: AppTheme.f(12.5, weight: FontWeight.w700, color: gc.accent)),
+              onPressed: fit.toggleLightSession,
+              child: Text(auto ? t.deloadSkip : t.lightSessionOff,
+                  style: AppTheme.f(12.5, weight: FontWeight.w700, color: gc.accent)),
             ),
         ]),
       );
+  }
 
   Widget _active(BuildContext context, GymColors gc) {
     final s = fit.session!;
@@ -163,7 +167,7 @@ class SessionScreen extends StatelessWidget {
               children: [
                 Padding(
                   padding: const EdgeInsets.fromLTRB(_rowPad, 0, _rowPad, 10),
-                  child: _setsHeader(gc, mode, repsOnly, ex != null && fit.isEachSide(ex.id), exId: ex?.id),
+                  child: _setsHeader(gc, mode, repsOnly, ex != null && (fit.isEachSide(ex.id) || fit.isSidedReps(ex.id)), exId: ex?.id),
                 ),
                 for (int j = 0; j < (ex?.sets.length ?? 0); j++) ...[
                   _swipeSet(context, gc, exIdx, j, ex!.sets[j], locked,
@@ -305,6 +309,10 @@ class SessionScreen extends StatelessWidget {
       children: [
         _listStats(gc, s),
         const SizedBox(height: 16),
+        if (s.deload) ...[
+          _deloadNote(gc),
+          const SizedBox(height: 12),
+        ],
         for (var i = 0; i < s.exercises.length; i++) ...[
           _listExercise(context, gc, s, i, locked),
           SizedBox(height: s.exercises[i].linkedNext && i < s.exercises.length - 1 ? 4 : 12),
@@ -436,7 +444,7 @@ class SessionScreen extends StatelessWidget {
           const SizedBox(height: 12),
           Padding(
             padding: const EdgeInsets.fromLTRB(8, 0, 8, 6),
-            child: _setsHeader(gc, mode, repsOnly, fit.isEachSide(ex.id), list: true, exId: ex.id),
+            child: _setsHeader(gc, mode, repsOnly, fit.isEachSide(ex.id) || fit.isSidedReps(ex.id), list: true, exId: ex.id),
           ),
           for (var j = 0; j < ex.sets.length; j++)
             _swipeSet(context, gc, i, j, ex.sets[j], locked,
@@ -552,6 +560,13 @@ class SessionScreen extends StatelessWidget {
                     showNotchToast(context, t.superset,
                         subtitle: t.supersetHint, icon: PhosphorIconsFill.link, accent: gc.brass);
                   }),
+                OptionItem(t.lightSession,
+                    icon: PhosphorIconsRegular.feather,
+                    selected: s.deload,
+                    onTap: () {
+                      Navigator.pop(sheet);
+                      fit.toggleLightSession();
+                    }),
                 if (s.exercises.length > 1)
                   OptionItem(t.dropExerciseAction, icon: PhosphorIconsRegular.trash, danger: true, onTap: () {
                     Navigator.pop(sheet);
@@ -598,7 +613,7 @@ class SessionScreen extends StatelessWidget {
   String _prevLabel(LoggedSet p, int exIdx) {
     final id = fit.session?.exercises[exIdx].id;
     if ((p.km ?? 0) > 0 || p.sec != null) return fit.loggedSetLabel(p, id: id);
-    return p.weight > 0 ? fit.loggedSetLabel(p, id: id) : '×${p.reps}';
+    return p.weight > 0 ? fit.loggedSetLabel(p, id: id) : (p.sided ? '×${t.sidesReps(p.left!, p.right!)}' : '×${p.reps}');
   }
 
   Widget _prevCell(GymColors gc, int exIdx, int j, LoggedSet? prev, bool locked) {
@@ -1375,6 +1390,39 @@ class SessionScreen extends StatelessWidget {
           ),
         );
     final exId = fit.session!.exercises[exIdx].id;
+    final sided = fit.isSidedReps(exId);
+    Widget repsLeft() => step(
+          gc,
+          '${st.reps}',
+          () => fit.bumpSessionReps(exIdx, j, -1),
+          () => fit.bumpSessionReps(exIdx, j, 1),
+          18,
+          onEdit: (context) => _ruler(
+            context,
+            title: t.repsLeftTitle,
+            value: st.reps.toDouble(),
+            max: 100,
+            step: 1,
+            majorEvery: 5,
+            onSave: (v) => fit.setSessionReps(exIdx, j, v.round()),
+          ),
+        );
+    Widget repsRight() => step(
+          gc,
+          '${st.repsR ?? st.reps}',
+          () => fit.bumpSessionRepsRight(exIdx, j, -1),
+          () => fit.bumpSessionRepsRight(exIdx, j, 1),
+          18,
+          onEdit: (context) => _ruler(
+            context,
+            title: t.repsRightTitle,
+            value: (st.repsR ?? st.reps).toDouble(),
+            max: 100,
+            step: 1,
+            majorEvery: 5,
+            onSave: (v) => fit.setSessionRepsRight(exIdx, j, v.round()),
+          ),
+        );
     Widget weight() => step(
           gc,
           fit.weightValueFor(exId, st.weight),
@@ -1440,14 +1488,17 @@ class SessionScreen extends StatelessWidget {
     return switch (mode) {
       'cardio' => [distance(), time()],
       'time' => [time(), if (!repsOnly) weight()],
-      _ => [reps(), if (!repsOnly) weight()],
+      _ => sided ? [repsLeft(), repsRight(), if (!repsOnly) weight()] : [reps(), if (!repsOnly) weight()],
     };
   }
 
   List<String> _headers(String mode, bool repsOnly, bool sided, String unit) => switch (mode) {
         'cardio' => [t.distanceCol(fit.distanceUnit.toUpperCase()), t.timeCol],
         'time' => [sided ? t.timePerSideCol : t.timeCol, if (!repsOnly) t.weightCol(unit.toUpperCase())],
-        _ => [t.repsCol, if (!repsOnly) t.weightCol(unit.toUpperCase())],
+        _ => [
+            if (sided) ...[t.repsLeftCol, t.repsRightCol] else t.repsCol,
+            if (!repsOnly) t.weightCol(unit.toUpperCase()),
+          ],
       };
 
   Widget _setRow(GymColors gc, int exIdx, int j, SessionSet st, bool repsOnly, bool locked,
@@ -2908,7 +2959,15 @@ void showSessionOverview(BuildContext context) {
                   itemBuilder: (context, i) => _overviewRow(sheet, gc, s, i),
                 ),
               ),
-              const SizedBox(height: 6),
+              const SizedBox(height: 10),
+              OptionGroup([
+                OptionItem(t.lightSession,
+                    icon: PhosphorIconsRegular.feather,
+                    detail: t.lightSessionHint,
+                    trailing: TinySwitch(on: s.deload),
+                    onTap: fit.toggleLightSession),
+              ]),
+              const SizedBox(height: 10),
               Text(t.dragToReorder,
                   textAlign: TextAlign.center,
                   style: AppTheme.f(11, weight: FontWeight.w500, color: gc.textTertiary)),

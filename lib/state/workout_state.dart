@@ -245,11 +245,51 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
     return out;
   }
 
-  List<SessionSet> _openingSets(String id, {int? count, List<PlannedSet>? planned}) {
+  List<SessionSet> _openingSets(String id, {int? count, List<PlannedSet>? planned}) =>
+      _withSides(id, _openingSetsRaw(id, count: count, planned: planned));
+
+  List<SessionSet> _openingSetsRaw(String id, {int? count, List<PlannedSet>? planned}) {
     if (planned != null && planned.isNotEmpty) return _fromPlan(id, planned);
     final sets = _workingOpeners(id, count: count);
     if (!warmsUp(id) || isRepsOnly(id) || modeOf(id).isNotEmpty) return sets;
     return [..._warmupFor(sets, id), ...sets];
+  }
+
+  List<SessionSet> _withSides(String id, List<SessionSet> sets) {
+    if (isSidedReps(id)) {
+      for (final st in sets) {
+        st.repsR ??= st.reps;
+      }
+    }
+    return sets;
+  }
+
+  void syncSides(SessionExercise e) {
+    final sided = isSidedReps(e.id);
+    for (final st in e.sets) {
+      if (sided) {
+        st.repsR ??= st.reps;
+      } else if (st.repsR != null) {
+        st.reps = st.weakReps;
+        st.repsR = null;
+      }
+    }
+  }
+
+  void toggleSidedReps(String id) {
+    if (isSidedReps(id)) {
+      eachSide.remove(id);
+    } else {
+      eachSide.add(id);
+    }
+    final s = session;
+    if (s != null && !s.complete) {
+      for (final e in s.exercises) {
+        if (e.id == id) syncSides(e);
+      }
+    }
+    _persist();
+    notifyListeners();
   }
 
   int? nextHoldSeconds(String id) {
@@ -315,7 +355,7 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
   static const deloadAfter = 3;
 
   int stallStreak(String id) {
-    final h = exerciseHistory(id);
+    final h = progressHistory(id);
     if (h.isEmpty) return 0;
     final rule = progressRule(id);
     final load = headlineWeight(h.first.ex);
@@ -520,6 +560,7 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
 
   void _lighten(WorkoutSession s) {
     s.deload = true;
+    s.lightened = true;
     for (final e in s.exercises) {
       final working = e.sets.where((st) => st.kind != SetKind.warmup).toList();
       if (working.isEmpty) continue;
@@ -550,6 +591,24 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
         ..addAll(fresh);
     }
     s.deload = false;
+    s.lightened = false;
+    persistNow();
+    notifyListeners();
+  }
+
+  void toggleLightSession() {
+    final s = session;
+    if (s == null || s.complete) return;
+    if (s.deload) {
+      if (s.lightened && canSkipDeload) {
+        skipDeload();
+        return;
+      }
+      s.deload = false;
+      s.lightened = false;
+    } else {
+      s.deload = true;
+    }
     persistNow();
     notifyListeners();
   }
@@ -762,7 +821,12 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
     final prev = previousSet(s.exercises[exIdx].id, setIdx);
     if (prev == null || setIdx >= sets.length) return;
     final st = sets[setIdx];
-    st.reps = prev.reps;
+    if (st.repsR != null) {
+      st.reps = prev.left ?? prev.reps;
+      st.repsR = prev.right ?? prev.reps;
+    } else {
+      st.reps = prev.reps;
+    }
     st.weight = prev.weight;
     if (prev.sec != null) st.sec = prev.sec;
     if (prev.km != null) st.km = prev.km;
@@ -809,7 +873,7 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
     var kg = 0.0;
     for (final e in session?.exercises ?? const <SessionExercise>[]) {
       for (final st in e.sets) {
-        if (st.done && st.counts) kg += st.reps * st.weight;
+        if (st.done && st.counts) kg += st.weakReps * st.weight;
       }
     }
     return kg;
@@ -1123,8 +1187,10 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
           : _modeOpeners(mode, const []).first);
     } else {
       final last = sets.last;
-      sets.add(SessionSet(last.reps, last.weight, false, kind: last.kind, sec: last.sec, km: last.km));
+      sets.add(SessionSet(last.reps, last.weight, false,
+          kind: last.kind, sec: last.sec, km: last.km, repsR: last.repsR));
     }
+    syncSides(ex);
     _persist();
     notifyListeners();
   }
@@ -1398,6 +1464,11 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
   void bumpSessionReps(int exIdx, int setIdx, int d) =>
       setSessionReps(exIdx, setIdx, session!.exercises[exIdx].sets[setIdx].reps + d);
 
+  void bumpSessionRepsRight(int exIdx, int setIdx, int d) {
+    final st = session!.exercises[exIdx].sets[setIdx];
+    setSessionRepsRight(exIdx, setIdx, (st.repsR ?? st.reps) + d);
+  }
+
   void bumpSessionWeight(int exIdx, int setIdx, int dir) {
     final id = session!.exercises[exIdx].id;
     if (stackFor(id) != null) {
@@ -1447,6 +1518,7 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
     final warm = _warmupFor(sets, s.exercises[exIdx].id);
     if (warm.isEmpty) return;
     sets.insertAll(0, warm);
+    syncSides(s.exercises[exIdx]);
     _persist();
     notifyListeners();
   }
@@ -1496,6 +1568,12 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
 
   void setSessionReps(int exIdx, int setIdx, int reps) {
     _carry(exIdx, setIdx, (st) => st.reps, (st, v) => st.reps = v, reps.clamp(0, 999));
+    _persist();
+    notifyListeners();
+  }
+
+  void setSessionRepsRight(int exIdx, int setIdx, int reps) {
+    _carry(exIdx, setIdx, (st) => st.repsR ?? st.reps, (st, v) => st.repsR = v, reps.clamp(0, 999));
     _persist();
     notifyListeners();
   }
@@ -1594,7 +1672,7 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
     final started = from.sets.any((st) => st.done);
     final count = left > 0 ? left : null;
     final next = SessionExercise(to.id, to.name, to.primary,
-        started ? _workingOpeners(toId, count: count) : _openingSets(toId, count: count),
+        started ? _withSides(toId, _workingOpeners(toId, count: count)) : _openingSets(toId, count: count),
         linkedNext: from.linkedNext,
         swappedFrom: from.swappedFrom ?? from.id);
     if (started) {
@@ -1670,7 +1748,7 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
         if (st.counts) working.add(st);
       }
     }
-    s.summaryVolume = working.fold<double>(0, (sum, st) => sum + st.reps * st.weight).round();
+    s.summaryVolume = working.fold<double>(0, (sum, st) => sum + st.weakReps * st.weight).round();
     s.summarySets = working.length;
     s.summaryDuration = s.manual ? _elapsedBefore : sessionElapsed;
     s.complete = true;
@@ -1746,7 +1824,7 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
     setPlannedSets(routineId, ex.id, [
       for (final st in ex.sets)
         PlannedSet(
-          reps: modeOf(ex.id).isEmpty ? st.reps : null,
+          reps: modeOf(ex.id).isEmpty ? st.weakReps : null,
           weightKg: st.weight > 0 ? st.weight : null,
           kind: st.kind,
           sec: st.sec,
@@ -1872,7 +1950,7 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
       setPlannedSets(r.id, exId, [
         for (final st in done)
           PlannedSet(
-            reps: timed ? null : st.reps,
+            reps: timed ? null : st.weakReps,
             weightKg: st.weight > 0 ? st.weight : null,
             kind: st.kind,
             sec: st.sec,
@@ -2143,8 +2221,8 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
               e.name,
               e.primary,
               e.sets
-                  .map((x) => SessionSet(x.reps, x.weight, true,
-                      kind: x.kind, rpe: x.rpe, sec: x.sec, km: x.km, note: x.note))
+                  .map((x) => SessionSet(x.sided ? x.left! : x.reps, x.weight, true,
+                      kind: x.kind, rpe: x.rpe, sec: x.sec, km: x.km, note: x.note, repsR: x.right))
                   .toList()))
           .toList();
     _restTimer?.cancel();
