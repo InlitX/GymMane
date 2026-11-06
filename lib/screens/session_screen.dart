@@ -3304,40 +3304,37 @@ class _TuneCard extends StatelessWidget {
     void pick(int v) => fit.voteMuscle(m.muscle, vote == v ? null : v);
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
-      child: Row(children: [
-        Expanded(
-          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text(muscleLabel(m.muscle),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: AppTheme.f(14, weight: FontWeight.w700, color: gc.text)),
-            AnimatedSize(
-              duration: const Duration(milliseconds: 220),
-              curve: Curves.easeOutCubic,
-              alignment: Alignment.topLeft,
-              child: vote == null || ex == null
-                  ? const SizedBox(width: double.infinity)
-                  : Padding(
-                      padding: const EdgeInsets.only(top: 2),
-                      child: Text(vote == 0 ? t.tuneSame : t.tuneNext(t.setCount(sets), exerciseName(ex)),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: AppTheme.f(11.5,
-                              weight: FontWeight.w600, color: vote == 0 ? gc.textSecondary : gc.sage, height: 1.3)),
-                    ),
-            ),
-          ]),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Text(muscleLabel(m.muscle),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: AppTheme.f(14, weight: FontWeight.w700, color: gc.text)),
+        AnimatedSize(
+          duration: const Duration(milliseconds: 220),
+          curve: Curves.easeOutCubic,
+          alignment: Alignment.topLeft,
+          child: vote == null || ex == null
+              ? const SizedBox(width: double.infinity)
+              : Padding(
+                  padding: const EdgeInsets.only(top: 2),
+                  child: Text(vote == 0 ? t.tuneSame : t.tuneNext(t.setCount(sets), exerciseName(ex)),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: AppTheme.f(11.5,
+                          weight: FontWeight.w600, color: vote == 0 ? gc.textSecondary : gc.sage, height: 1.3)),
+                ),
         ),
-        const SizedBox(width: 10),
-        Flexible(
+        const SizedBox(height: 8),
+        SizedBox(
+          width: double.infinity,
           child: FittedBox(
             fit: BoxFit.scaleDown,
-            alignment: AlignmentDirectional.centerEnd,
+            alignment: AlignmentDirectional.centerStart,
             child: SegToggle([
               SegOption(t.tuneLess, vote == 1, () => pick(1)),
               SegOption(t.tuneRight, vote == 0, () => pick(0)),
               SegOption(t.tuneMore, vote == -1, () => pick(-1)),
-            ], hPad: 10),
+            ], hPad: 16),
           ),
         ),
       ]),
