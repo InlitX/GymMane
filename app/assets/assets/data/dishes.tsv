@@ -1,0 +1,28 @@
+id	en	es	items
+coffee-milk	Coffee with milk	Café con leche	espresso:30 2-milk:150
+cortado	Cortado	Cortado	espresso:30 2-milk:40
+cocoa-milk	Chocolate milk	Leche con cacao	2-milk:250 cocoa-powder:10 sugar:8
+tomato-toast	Toast with tomato and olive oil	Tostada con tomate y aceite	bread:60 tomato:50 olive-oil:5
+ham-toast	Toast with tomato and ham	Tostada con tomate y jamón	bread:60 tomato:40 olive-oil:5 serrano-ham:30
+avocado-toast	Avocado toast with egg	Tostada de aguacate y huevo	bread:60 avocado:70 egg:50 olive-oil:5
+pb-toast	Peanut butter and banana toast	Tostada con crema de cacahuete y plátano	bread:60 peanut-butter:20 banana:60
+oatmeal	Oatmeal with banana	Avena con plátano	rolled-oats:50 2-milk:200 banana:100 honey:10
+yogurt-granola	Yogurt with granola and berries	Yogur con granola y arándanos	greek-yogurt:150 granola:30 blueberry:50
+scrambled-eggs	Scrambled eggs	Huevos revueltos	egg:150 olive-oil:5
+chicken-rice-broccoli	Chicken, rice and broccoli	Pollo, arroz y brócoli	chicken-breast:150 rice:200c broccoli:100 olive-oil:5
+chicken-rice	Chicken and rice	Arroz con pollo	rice:250c chicken-breast:150 olive-oil:10
+cuban-rice	Rice with tomato and fried egg	Arroz a la cubana	rice:200c tomato-sauce:80 egg:60 olive-oil:10
+macaroni-tomato	Macaroni with tomato	Macarrones con tomate	elbow-macaroni:90 tomato-sauce:70 grated-parmesan-cheese:10 olive-oil:5
+bolognese	Spaghetti bolognese	Espaguetis a la boloñesa	spaghetti:90 ground-beef:100 tomato-sauce:80 onion:30 olive-oil:5
+lentil-stew	Lentil stew	Lentejas guisadas	lentils:70 potato:80 carrot:40 onion:30 chorizo:25 olive-oil:5
+chickpeas-spinach	Chickpeas with spinach	Garbanzos con espinacas	chickpeas:70 spinach:100 garlic:5 olive-oil:10
+spanish-omelette	Spanish omelette	Tortilla de patatas	egg:100 potato:150 onion:30 olive-oil:15
+mixed-salad	Mixed salad	Ensalada mixta	lettuce:80 tomato:80 onion:20 canned-tuna-water:50 egg:50 olive-oil:10
+chicken-salad	Grilled chicken with salad	Pollo a la plancha con ensalada	chicken-breast:180 lettuce:60 tomato:80 olive-oil:10
+salmon-potatoes	Salmon with potatoes	Salmón con patatas	salmon:150 potato:200 olive-oil:5
+steak-fries	Steak and fries	Filete con patatas fritas	beef-steak:150 frozen-fries:150 olive-oil:10
+burger	Cheeseburger	Hamburguesa con queso	hamburger-bun:60 ground-beef:120 thin-sliced-cheese:20 lettuce:15 tomato:30 ketchup:15
+pizza	Margherita pizza	Pizza margarita	pizza-dough:120 tomato-sauce:50 mozzarella-cheese:80 olive-oil:5
+chicken-wrap	Chicken wrap	Wrap de pollo	tortilla:60 chicken-breast:100 lettuce:30 tomato:40 cheddar-cheese:20
+ham-sandwich	Serrano ham baguette	Bocadillo de jamón	baguette:100 serrano-ham:40 tomato:30 olive-oil:5
+ham-cheese-toastie	Ham and cheese toastie	Sándwich mixto	white-bread:60 sandwich-meat:30 thin-sliced-cheese:20 butter:5

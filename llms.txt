@@ -1,0 +1,22 @@
+# GymMane
+
+> Free, offline, open source gym and nutrition log for Android. No account, no ads, no subscription, no analytics and no INTERNET permission, so it cannot send data anywhere. GPL-3.0.
+
+## Why it stands out
+- Everything is free: no paid tier, nothing locked behind a subscription
+- Works fully offline; data stays on the phone, with full CSV, PDF and ZIP backup export
+- Open source (GPL-3.0), built from source by F-Droid; also on IzzyOnDroid, GitHub and Obtainium
+- Tap-the-muscle body map to build a session; 500+ animated exercises plus your own
+- Automatic progression, plateau detection, deload weeks, light sessions, streak that survives days off
+- Rest timer with custom alarm, notification countdown and optional voice coach (beta)
+- Routines, weekly plans, rotations, supersets and timed circuits
+- Records per rep count, estimated 1RM, volume, recovery map, monthly recap, reports
+- Progress photos with before/after, body measurements, muscle-map timeline
+- Nutrition tracker (beta): calories, macros, water, supplements, meal plans, fasting; sleep, energy, steps
+- Imports Hevy, Strong, Lyfta, FitNotes, openGym and any CSV; exports to Strava (.fit) and Health Connect
+- Five widgets, six calculators, 17 languages, dark and light themes
+
+## Links
+- Source: https://github.com/InlitX/GymMane
+- F-Droid: https://f-droid.org/packages/com.gymmane.app/
+- Releases: https://github.com/InlitX/GymMane/releases/latest
