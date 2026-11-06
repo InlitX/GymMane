@@ -196,8 +196,6 @@ footer { border-top: 1px solid var(--border); padding: 28px 0; }
     0 60px 90px -40px rgba(0,0,0,.95),
     0 0 0 1px rgba(255,255,255,.06),
     inset 0 0 0 1px rgba(0,0,0,.6);
-  transform-style: preserve-3d;
-  transition: transform .5s var(--ease);
 }
 .device::before {
   content: ""; position: absolute; inset: 0; border-radius: 46px; pointer-events: none; z-index: 4;
@@ -311,3 +309,4 @@ footer { border-top: 1px solid var(--border); padding: 28px 0; }
 .demo-poster, .demo-frame { position: absolute; inset: 0; width: 100%; height: 100%; display: block; border: 0; background: #0A0A0A; }
 .demo-frame { opacity: 0; transition: opacity .35s var(--ease); }
 .demo-frame.on { opacity: 1; }
+.demo-frame.away { display: none; }

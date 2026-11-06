@@ -2,6 +2,7 @@
 <html>
 <head>
   <meta name="robots" content="noindex">
+  <style>html,body{background:#0A0A0A;margin:0}</style>
   <!--
     If you are serving your web app in a path other than the root, change the
     href value below to reflect the base path you are serving from.
@@ -43,5 +44,5 @@
     * https://docs.flutter.dev/platform-integration/web/initialization
   -->
   <script src="flutter_bootstrap.js" async></script>
-</body>
+<script>window.addEventListener("flutter-first-frame",function(){setTimeout(function(){parent.postMessage("gm-ready","*")},350)})</script></body>
 </html>

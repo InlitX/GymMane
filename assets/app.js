@@ -240,18 +240,36 @@
   var frame = document.getElementById('demoFrame');
   var poster = document.getElementById('demoPoster');
   var frameSrc = '';
+  var demoOn = false;
+  var failSafe = 0;
   function aRender() {
-    if (!frame) return;
+    if (!frame || !demoOn) return;
     var src = 'app/?lang=' + lang;
     if (frameSrc === src) return;
     frameSrc = src;
     frame.classList.remove('on');
     poster.src = 'assets/shots/' + lang + '/home.webp';
     frame.src = src;
+    clearTimeout(failSafe);
+    failSafe = setTimeout(function () { frame.classList.add('on'); }, 30000);
   }
   if (frame) {
-    frame.addEventListener('load', function () { setTimeout(function () { frame.classList.add('on'); }, 600); });
-    aRender();
+    addEventListener('message', function (e) {
+      if (e.data === 'gm-ready' && e.source === frame.contentWindow) {
+        clearTimeout(failSafe);
+        frame.classList.add('on');
+      }
+    });
+    var startDemo = function () {
+      demoOn = true;
+      aRender();
+    };
+    addEventListener('load', function () { setTimeout(startDemo, 600); });
+    if (window.IntersectionObserver) {
+      new IntersectionObserver(function (es) {
+        frame.classList.toggle('away', !es[0].isIntersecting);
+      }, { rootMargin: '120px' }).observe(document.getElementById('device'));
+    }
   }
 
   var slowMo = matchMedia('(prefers-reduced-motion: reduce)').matches;
