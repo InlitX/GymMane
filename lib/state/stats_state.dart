@@ -1,5 +1,7 @@
 part of 'fit_state.dart';
 
+typedef _Best = ({double score, double weight, double volume, List<(int, double)> front});
+
 mixin StatsState on FitCore, ToolsState, LibraryState, SettingsState, TimelineState {
   List<Exercise> recommendedExercises(int n) {
     final muscles = suggestedFocus.muscles;
@@ -289,26 +291,44 @@ mixin StatsState on FitCore, ToolsState, LibraryState, SettingsState, TimelineSt
     return best;
   }
 
-  bool _beats(String id, LoggedSet st, ({double score, double weight, double volume})? best) {
+  bool _beats(String id, LoggedSet st, _Best? best) {
     if (best == null || st.reps <= 0 && (st.sec ?? 0) <= 0 && (st.km ?? 0) <= 0) return false;
     if (_setScore(id, st) > best.score + 1e-9) return true;
     if (isAssisted(id) || st.weight <= 0) return false;
-    return st.weight > best.weight + 1e-9 || st.weight * st.reps > best.volume + 1e-9;
+    if (st.weight > best.weight + 1e-9 || st.weight * st.reps > best.volume + 1e-9) return true;
+    return _newOnLadder(id, st, best);
   }
 
-  ({double score, double weight, double volume}) _raise(
-          String id, LoggedSet st, ({double score, double weight, double volume})? best) =>
-      (
-        score: math.max(best?.score ?? 0, _setScore(id, st)),
-        weight: math.max(best?.weight ?? 0, st.weight),
-        volume: math.max(best?.volume ?? 0, st.weight * st.reps),
-      );
+  bool _newOnLadder(String id, LoggedSet st, _Best best) {
+    if (!_onLadder(id, st) || st.weight < best.weight * 0.8) return false;
+    return !best.front.any((p) => p.$1 >= st.reps && p.$2 >= st.weight - 1e-9);
+  }
+
+  bool _onLadder(String id, LoggedSet st) =>
+      st.reps > 0 && st.weight > 0 && (st.km ?? 0) <= 0 && (st.sec ?? 0) <= 0 && !isAssisted(id);
+
+  _Best _raise(String id, LoggedSet st, _Best? best) {
+    var front = best?.front ?? const <(int, double)>[];
+    if (_onLadder(id, st)) {
+      front = [
+        for (final p in front)
+          if (!(st.reps >= p.$1 && st.weight >= p.$2 - 1e-9)) p,
+        if (!front.any((p) => p.$1 >= st.reps && p.$2 >= st.weight - 1e-9)) (st.reps, st.weight),
+      ];
+    }
+    return (
+      score: math.max(best?.score ?? 0, _setScore(id, st)),
+      weight: math.max(best?.weight ?? 0, st.weight),
+      volume: math.max(best?.volume ?? 0, st.weight * st.reps),
+      front: front,
+    );
+  }
 
   Set<LoggedSet> get recordSets => _remember('recordSets', _recordSets);
 
   Set<LoggedSet> _recordSets() {
     final ordered = [...sessions]..sort((a, b) => a.date.compareTo(b.date));
-    final best = <String, ({double score, double weight, double volume})>{};
+    final best = <String, _Best>{};
     final out = Set<LoggedSet>.identity();
     for (final s in ordered) {
       for (final e in s.exercises) {
@@ -321,8 +341,8 @@ mixin StatsState on FitCore, ToolsState, LibraryState, SettingsState, TimelineSt
     return out;
   }
 
-  ({double score, double weight, double volume})? _bestBefore(String id) => _remember(('bestBefore', id), () {
-        ({double score, double weight, double volume})? best;
+  _Best? _bestBefore(String id) => _remember(('bestBefore', id), () {
+        _Best? best;
         for (final s in sessions) {
           for (final e in s.exercises) {
             if (e.id != id) continue;

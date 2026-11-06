@@ -335,6 +335,22 @@ void main() {
       expect(records.length, 2);
     });
 
+    test('#330 más reps con ese peso es récord aunque antes hubiera RPE y ahora no', () {
+      final row = fit.matchExerciseByName('Cable Seated Row')!.id;
+      final more = LoggedSet(7, 70);
+      final backoff = LoggedSet(8, 40);
+      final dominated = LoggedSet(5, 70);
+      fit.sessions.addAll([
+        day(7, row, [LoggedSet(6, 70, rpe: 9.5), LoggedSet(8, 60, rpe: 9)]),
+        day(4, row, [LoggedSet(5, 70, rpe: 10), LoggedSet(8, 65, rpe: 8)]),
+        day(1, row, [more, backoff, dominated]),
+      ]);
+      final records = fit.recordSets;
+      expect(records.contains(more), isTrue, reason: '70 kg nunca había hecho 7 reps');
+      expect(records.contains(backoff), isFalse, reason: 'una serie ligera de descarga no cuenta');
+      expect(records.contains(dominated), isFalse, reason: 'menos reps con el mismo peso no es récord');
+    });
+
     test('en el entreno la serie hecha que bate la marca lleva trofeo', () {
       final bench = fit.matchExerciseByName('Barbell Bench Press')!.id;
       fit.sessions.add(day(3, bench, [LoggedSet(8, 80)]));
