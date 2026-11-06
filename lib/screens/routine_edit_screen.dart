@@ -16,6 +16,7 @@ import '../widgets/ruler_picker.dart';
 import '../widgets/glass.dart';
 import '../widgets/routine_folder.dart';
 import '../widgets/liquid_notch.dart';
+import '../widgets/progression_sheet.dart';
 import '../widgets/set_kind.dart';
 import '../widgets/svg_icon.dart';
 import '../widgets/timer_panel.dart';
@@ -831,7 +832,17 @@ class _RoutineEditScreenState extends State<RoutineEditScreen> {
                 children: [
                   const SheetHandle(),
                   const SizedBox(height: 18),
-                  Text(exerciseName(ex), style: AppTheme.f(19, weight: FontWeight.w800, color: gc.text)),
+                  Row(children: [
+                    Expanded(
+                      child: Text(exerciseName(ex), style: AppTheme.f(19, weight: FontWeight.w800, color: gc.text)),
+                    ),
+                    const SizedBox(width: 12),
+                    RoundAction(
+                      label: t.favouritesOnly,
+                      onTap: () => fit.toggleFavorite(ex.id),
+                      child: FavoriteStar(on: fit.favorites[ex.id] ?? false),
+                    ),
+                  ]),
                   const SizedBox(height: 4),
                   Text(
                       switch (mode) {
@@ -883,6 +894,10 @@ class _RoutineEditScreenState extends State<RoutineEditScreen> {
                     ),
                   const SizedBox(height: 10),
                   _restRow(sheet, gc, routine, ex),
+                  if (mode.isEmpty) ...[
+                    const SizedBox(height: 8),
+                    _progressRow(sheet, gc, ex),
+                  ],
                   const SizedBox(height: 8),
                   _altsRow(sheet, gc, routine, ex),
                   if (fit.modeOf(ex.id).isEmpty) ...[
@@ -896,6 +911,31 @@ class _RoutineEditScreenState extends State<RoutineEditScreen> {
             ),
           );
         },
+      ),
+    );
+  }
+
+  Widget _progressRow(BuildContext sheet, GymColors gc, Exercise ex) {
+    final kind = fit.progressRule(ex.id).kind;
+    final on = fit.hasProgress(ex.id);
+    return Pressable(
+      scale: 0.98,
+      onTap: () => showProgressionSheet(sheet, ex.id),
+      child: Container(
+        padding: const EdgeInsets.fromLTRB(16, 12, 12, 12),
+        decoration: BoxDecoration(color: gc.bgRaised2, borderRadius: BorderRadius.circular(18)),
+        child: Row(children: [
+          SvgPathIcon(Ic.trendUp, size: 19, color: on ? gc.text : gc.textSecondary),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Text(t.progSchemeTitle, style: AppTheme.f(14, weight: FontWeight.w600, color: gc.text)),
+          ),
+          const SizedBox(width: 8),
+          Text(progressKindName(kind),
+              style: AppTheme.f(13, weight: FontWeight.w600, color: on ? gc.accent : gc.textSecondary)),
+          const SizedBox(width: 6),
+          Icon(PhosphorIconsBold.caretRight, size: 13, color: gc.textTertiary),
+        ]),
       ),
     );
   }

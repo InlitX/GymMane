@@ -6,7 +6,6 @@ import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 import '../l10n/l10n.dart';
 import '../models/exercise.dart';
-import '../models/progression.dart';
 import '../models/workout.dart';
 import '../services/exercise_match.dart';
 import '../state/fit_state.dart';
@@ -20,6 +19,7 @@ import '../widgets/exercise_preview.dart';
 import '../widgets/ruler_picker.dart';
 import '../widgets/glass.dart';
 import '../widgets/liquid_notch.dart';
+import '../widgets/progression_sheet.dart';
 import '../widgets/stopwatch_card.dart';
 import '../widgets/svg_icon.dart';
 import '../widgets/timer_panel.dart';
@@ -915,17 +915,7 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
     );
   }
 
-  Widget _star(GymColors gc, bool fav) {
-    return SizedBox(
-      width: 18,
-      height: 18,
-      child: Stack(children: [
-        if (fav)
-          SvgPathIcon(const [IconPath('M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 21 12 17.77 5.82 21 7 14.14l-5-4.87 6.91-1.01z', fill: true)], size: 18, color: gc.accent),
-        SvgPathIcon(Ic.star, size: 18, color: fav ? gc.accent : gc.textSecondary),
-      ]),
-    );
-  }
+  Widget _star(GymColors gc, bool fav) => FavoriteStar(on: fav);
 
   Widget _stackRow(BuildContext context, GymColors gc, String id) {
     final stack = fit.ownStackFor(id);
@@ -1346,28 +1336,12 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
     );
   }
 
-  String _kindName(ProgressKind k) => switch (k) {
-        ProgressKind.manual => t.progManual,
-        ProgressKind.linear => t.progLinear,
-        ProgressKind.double => t.progDouble,
-        ProgressKind.volume => t.progVolume,
-        ProgressKind.amrap => t.progAmrap,
-      };
-
-  String _kindHint(ProgressKind k) => switch (k) {
-        ProgressKind.manual => t.progManualHint,
-        ProgressKind.linear => t.progLinearHint,
-        ProgressKind.double => t.progDoubleHint,
-        ProgressKind.volume => t.progVolumeHint,
-        ProgressKind.amrap => t.progAmrapHint,
-      };
-
   Widget _progressRow(BuildContext context, GymColors gc, String id) {
     final kind = fit.progressRule(id).kind;
     final on = fit.hasProgress(id);
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
-      onTap: () => _pickProgression(context, id),
+      onTap: () => showProgressionSheet(context, id),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         child: Row(
@@ -1383,157 +1357,11 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
               child: Text(t.progression, style: AppTheme.f(14.5, weight: FontWeight.w500, color: gc.text)),
             ),
             const SizedBox(width: 12),
-            Text(_kindName(kind), style: AppTheme.f(13, weight: FontWeight.w600, color: on ? gc.accent : gc.textSecondary)),
+            Text(progressKindName(kind), style: AppTheme.f(13, weight: FontWeight.w600, color: on ? gc.accent : gc.textSecondary)),
             const SizedBox(width: 6),
             Icon(PhosphorIconsRegular.caretRight, size: 15, color: gc.textTertiary),
           ],
         ),
-      ),
-    );
-  }
-
-  void _pickProgression(BuildContext context, String id) {
-    showAppSheet<void>(
-      context: context,
-      backgroundColor: Colors.transparent,
-      isScrollControlled: true,
-      builder: (sheet) => AnimatedBuilder(
-        animation: fit,
-        builder: (sheet, _) {
-          final gc = sheet.gc;
-          final rule = fit.progressRule(id);
-          final on = fit.hasProgress(id);
-          void set(ProgressRule r) => fit.setProgressRule(id, r);
-          Widget stepper(String value, VoidCallback dec, VoidCallback inc, {bool tight = false}) => StepperControl(
-                value: value,
-                minWidth: tight ? 28 : 44,
-                btnSize: tight ? 28 : 30,
-                gap: tight ? 2 : 4,
-                fontSize: 14,
-                btnRadius: 10,
-                onDec: dec,
-                onInc: inc,
-              );
-          Widget line(String label, List<Widget> controls) => Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                child: Row(children: [
-                  Expanded(child: FitText(label, style: AppTheme.f(13.5, weight: FontWeight.w500, color: gc.text))),
-                  const SizedBox(width: 10),
-                  for (var i = 0; i < controls.length; i++) ...[
-                    if (i > 0)
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 4),
-                        child: Text('–', style: AppTheme.f(13, weight: FontWeight.w600, color: gc.textTertiary)),
-                      ),
-                    controls[i],
-                  ],
-                ]),
-              );
-          final params = <Widget>[
-            Semantics(
-              button: true,
-              toggled: on,
-              child: GestureDetector(
-                behavior: HitTestBehavior.opaque,
-                onTap: () => fit.toggleProgress(id),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                  child: Row(children: [
-                    Expanded(
-                      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                        Text(t.progApply, style: AppTheme.f(14, weight: FontWeight.w500, color: gc.text)),
-                        if (!on) ...[
-                          const SizedBox(height: 3),
-                          Text(t.progApplyHint,
-                              style: AppTheme.f(11.5, weight: FontWeight.w500, color: gc.textSecondary, height: 1.3)),
-                        ],
-                      ]),
-                    ),
-                    const SizedBox(width: 12),
-                    TinySwitch(on: on),
-                  ]),
-                ),
-              ),
-            ),
-            if (on)
-              line(t.progStep, [
-                stepper(fit.weightLabel(fit.progressFor(id) ?? 0), () => fit.bumpProgressStep(id, -1),
-                    () => fit.bumpProgressStep(id, 1)),
-              ]),
-            if (rule.usesRange)
-              line(t.progRange, [
-                stepper('${rule.low}', () => set(rule.copyWith(low: rule.low - 1)),
-                    () => set(rule.copyWith(low: rule.low + 1, high: math.max(rule.high, rule.low + 2))), tight: true),
-                stepper('${rule.high}', () => set(rule.copyWith(high: rule.high - 1)),
-                    () => set(rule.copyWith(high: rule.high + 1)), tight: true),
-              ]),
-            if (rule.kind == ProgressKind.volume)
-              line(t.progSets, [
-                stepper('${rule.sets}', () => set(rule.copyWith(sets: rule.sets - 1)),
-                    () => set(rule.copyWith(sets: rule.sets + 1, maxSets: math.max(rule.maxSets, rule.sets + 2))), tight: true),
-                stepper('${rule.maxSets}', () => set(rule.copyWith(maxSets: rule.maxSets - 1)),
-                    () => set(rule.copyWith(maxSets: rule.maxSets + 1)), tight: true),
-              ]),
-            if (on) ...[
-              line(t.progDeload, [
-                stepper(t.progFails(rule.fails), () => set(rule.copyWith(fails: rule.fails - 1)),
-                    () => set(rule.copyWith(fails: rule.fails + 1))),
-              ]),
-              line(t.progDeloadPct, [
-                stepper('${rule.deloadPct} %', () => set(rule.copyWith(deloadPct: rule.deloadPct - 5)),
-                    () => set(rule.copyWith(deloadPct: rule.deloadPct + 5))),
-              ]),
-            ],
-          ];
-          return ConstrainedBox(
-            constraints: BoxConstraints(maxHeight: MediaQuery.sizeOf(sheet).height * 0.9),
-            child: Container(
-              decoration: sheetDecoration(gc),
-              child: SingleChildScrollView(
-                padding: sheetPad(sheet),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    const SheetHandle(),
-                    const SizedBox(height: 16),
-                    SheetTitle(t.progression),
-                    const SizedBox(height: 14),
-                    OptionGroup([
-                      for (final k in ProgressKind.values)
-                        OptionItem(
-                          _kindName(k),
-                          detail: k == rule.kind ? _kindHint(k) : null,
-                          selected: k == rule.kind,
-                          onTap: () => set(rule.copyWith(kind: k)),
-                        ),
-                    ]),
-                    AnimatedSize(
-                      duration: const Duration(milliseconds: 240),
-                      curve: Curves.easeOutCubic,
-                      alignment: Alignment.topCenter,
-                      child: rule.kind == ProgressKind.manual
-                          ? const SizedBox(width: double.infinity)
-                          : Container(
-                              margin: const EdgeInsets.only(top: 12),
-                              decoration: BoxDecoration(
-                                border: Border.all(color: gc.border),
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              child: Column(children: [
-                                for (var i = 0; i < params.length; i++) ...[
-                                  if (i > 0) Divider(height: 1, thickness: 1, indent: 16, endIndent: 16, color: gc.border),
-                                  params[i],
-                                ],
-                              ]),
-                            ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          );
-        },
       ),
     );
   }
