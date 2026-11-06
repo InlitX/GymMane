@@ -306,7 +306,7 @@ footer { border-top: 1px solid var(--border); padding: 28px 0; }
 .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
 
 
-.demo-frame { position: absolute; inset: 0; width: 100%; height: 100%; display: block; border: 0; background: #0A0A0A; }
+.demo-frame { position: absolute; top: 0; left: 0; width: 390px; height: 844px; transform-origin: 0 0; display: block; border: 0; background: #0A0A0A; }
 .demo-loading { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 26px; background: #0A0A0A; z-index: 1; transition: opacity .35s var(--ease); }
 .demo-loading.off { opacity: 0; pointer-events: none; }
 .demo-loading img { width: 72px; height: 72px; border-radius: 18px; }
@@ -317,3 +317,4 @@ footer { border-top: 1px solid var(--border); padding: 28px 0; }
 .demo-frame.away { display: none; }
 
 .demo-loading p { max-width: 220px; text-align: center; font-size: 13px; color: var(--dim); }
+.demo-loading p a { color: var(--clay); text-decoration: underline; }

@@ -244,18 +244,27 @@
   var failSafe = 0;
   function aRender() {
     if (!frame || !demoOn) return;
-    var src = 'app/?lang=' + lang;
-    if (frameSrc === src) return;
-    frameSrc = src;
+    var key = 'app/?lang=' + lang;
+    if (frameSrc === key) return;
+    frameSrc = key;
     frame.classList.remove('on');
     loading.classList.remove('off');
-    frame.src = src;
-    clearTimeout(failSafe);
-    failSafe = setTimeout(function () {
-      var m = document.getElementById('demoMsg');
-      m.textContent = lang === 'es' ? 'No se pudo cargar la demo. Recarga la página.' : 'The demo could not load. Reload the page.';
-      m.hidden = false;
-    }, 45000);
+    var m = document.getElementById('demoMsg');
+    m.hidden = true;
+    var load = function (v) {
+      if (frameSrc !== key) return;
+      frame.src = key + '&v=' + v;
+      clearTimeout(failSafe);
+      failSafe = setTimeout(function () {
+        m.innerHTML = (lang === 'es' ? 'No se pudo cargar la demo. ' : 'The demo could not load. ') +
+          '<a href="' + key + '&v=' + v + '" target="_blank" rel="noopener">' + (lang === 'es' ? 'Ábrela en otra pestaña' : 'Open it in a new tab') + '</a>';
+        m.hidden = false;
+      }, 45000);
+    };
+    fetch('app/demo-v.txt', { cache: 'no-store' })
+      .then(function (r) { return r.ok ? r.text() : String(Date.now()); })
+      .catch(function () { return String(Date.now()); })
+      .then(function (v) { load(v.trim()); });
   }
   if (frame) {
     addEventListener('message', function (e) {
@@ -271,6 +280,11 @@
     };
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', startDemo);
     else startDemo();
+    var screenEl = document.querySelector('.device .screen');
+    var fitFrame = function () { frame.style.transform = 'scale(' + (screenEl.clientWidth / 390).toFixed(4) + ')'; };
+    fitFrame();
+    addEventListener('resize', fitFrame);
+    if (window.ResizeObserver) new ResizeObserver(fitFrame).observe(screenEl);
     if (window.IntersectionObserver) {
       new IntersectionObserver(function (es) {
         frame.classList.toggle('away', !es[0].isIntersecting);
