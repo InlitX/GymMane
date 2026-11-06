@@ -2197,5 +2197,7 @@
   "repsLeftTitle": "REPS IZQUIERDA",
   "repsRightTitle": "REPS DERECHA",
   "sidesReps": "I{l} D{r}",
-  "@sidesReps": {"placeholders": {"l": {"type": "int"}, "r": {"type": "int"}}}
+  "@sidesReps": {"placeholders": {"l": {"type": "int"}, "r": {"type": "int"}}},
+
+  "progSchemeTitle": "Progresión de peso"
 }

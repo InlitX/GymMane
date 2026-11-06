@@ -290,6 +290,8 @@ extension GymL10n on AppLocalizations {
 
   String shortDateYear(DateTime d) => _dates(DateFormat.yMMMd).format(d);
 
+  String shortMonthYear(DateTime d) => _dates(DateFormat.yMMM).format(d);
+
   String catalogName(String id, String fallback) => _catalogNames[appLanguage]?[id] ?? fallback;
 
   List<String> catalogSteps(String id, List<String> fallback) =>

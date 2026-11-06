@@ -7323,4 +7323,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String sidesReps(int l, int r) {
     return 'L$l R$r';
   }
+
+  @override
+  String get progSchemeTitle => 'Weight progression';
 }

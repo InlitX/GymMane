@@ -2531,5 +2531,7 @@
   "repsLeftTitle": "LEFT REPS",
   "repsRightTitle": "RIGHT REPS",
   "sidesReps": "L{l} R{r}",
-  "@sidesReps": {"placeholders": {"l": {"type": "int"}, "r": {"type": "int"}}}
+  "@sidesReps": {"placeholders": {"l": {"type": "int"}, "r": {"type": "int"}}},
+
+  "progSchemeTitle": "Weight progression"
 }

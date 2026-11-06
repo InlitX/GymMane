@@ -7194,4 +7194,102 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String get voiceAnd => 'and';
+
+  @override
+  String get repRecordsTitle => 'Best weight by reps';
+
+  @override
+  String suppUnitCapsule(int n) {
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: 'capsules', one: 'capsule');
+    return '$_temp0';
+  }
+
+  @override
+  String suppUnitPill(int n) {
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: 'pills', one: 'pill');
+    return '$_temp0';
+  }
+
+  @override
+  String suppUnitScoop(int n) {
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: 'scoops', one: 'scoop');
+    return '$_temp0';
+  }
+
+  @override
+  String suppUnitDrop(int n) {
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: 'drops', one: 'drop');
+    return '$_temp0';
+  }
+
+  @override
+  String suppUnitServing(int n) {
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: 'servings', one: 'serving');
+    return '$_temp0';
+  }
+
+  @override
+  String get suppUnitIu => 'IU';
+
+  @override
+  String get suppLeft => 'Left';
+
+  @override
+  String get suppLeftHint => 'Optional';
+
+  @override
+  String suppLeftFor(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: 'Left for $n days',
+      one: 'Left for 1 day',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String suppForDays(int n) {
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n days', one: '1 day');
+    return '$_temp0';
+  }
+
+  @override
+  String get suppRanOut => 'Ran out';
+
+  @override
+  String get lightSession => 'Light session';
+
+  @override
+  String get lightSessionHint => 'Saved in your history and stats, but it won\'t change your next targets.';
+
+  @override
+  String get lightSessionNote => 'Doesn\'t count for progression';
+
+  @override
+  String get lightSessionOff => 'Turn off';
+
+  @override
+  String get eachSideRepsHint =>
+      'Log the left and right reps separately. Progression follows the weaker side.';
+
+  @override
+  String get repsLeftCol => 'REPS L';
+
+  @override
+  String get repsRightCol => 'REPS R';
+
+  @override
+  String get repsLeftTitle => 'LEFT REPS';
+
+  @override
+  String get repsRightTitle => 'RIGHT REPS';
+
+  @override
+  String sidesReps(int l, int r) {
+    return 'L$l R$r';
+  }
+
+  @override
+  String get progSchemeTitle => 'Weight progression';
 }

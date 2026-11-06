@@ -12807,6 +12807,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'L{l} R{r}'**
   String sidesReps(int l, int r);
+
+  /// No description provided for @progSchemeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Weight progression'**
+  String get progSchemeTitle;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
