@@ -306,7 +306,14 @@ footer { border-top: 1px solid var(--border); padding: 28px 0; }
 .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
 
 
-.demo-poster, .demo-frame { position: absolute; inset: 0; width: 100%; height: 100%; display: block; border: 0; background: #0A0A0A; }
-.demo-frame { opacity: 0; transition: opacity .35s var(--ease); }
+.demo-frame { position: absolute; inset: 0; width: 100%; height: 100%; display: block; border: 0; background: #0A0A0A; }
+.demo-loading { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 26px; background: #0A0A0A; z-index: 1; transition: opacity .35s var(--ease); }
+.demo-loading.off { opacity: 0; pointer-events: none; }
+.demo-loading img { width: 72px; height: 72px; border-radius: 18px; }
+.demo-loading i { width: 26px; height: 26px; border-radius: 50%; border: 3px solid #2A2A2A; border-top-color: var(--clay); animation: demospin .9s linear infinite; }
+@keyframes demospin { to { transform: rotate(360deg); } }
+.demo-frame { opacity: 0; transition: opacity .35s var(--ease); z-index: 2; }
 .demo-frame.on { opacity: 1; }
 .demo-frame.away { display: none; }
+
+.demo-loading p { max-width: 220px; text-align: center; font-size: 13px; color: var(--dim); }

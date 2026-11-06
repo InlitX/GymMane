@@ -238,7 +238,7 @@
   });
 
   var frame = document.getElementById('demoFrame');
-  var poster = document.getElementById('demoPoster');
+  var loading = document.getElementById('demoLoading');
   var frameSrc = '';
   var demoOn = false;
   var failSafe = 0;
@@ -248,23 +248,29 @@
     if (frameSrc === src) return;
     frameSrc = src;
     frame.classList.remove('on');
-    poster.src = 'assets/shots/' + lang + '/home.webp';
+    loading.classList.remove('off');
     frame.src = src;
     clearTimeout(failSafe);
-    failSafe = setTimeout(function () { frame.classList.add('on'); }, 30000);
+    failSafe = setTimeout(function () {
+      var m = document.getElementById('demoMsg');
+      m.textContent = lang === 'es' ? 'No se pudo cargar la demo. Recarga la página.' : 'The demo could not load. Reload the page.';
+      m.hidden = false;
+    }, 45000);
   }
   if (frame) {
     addEventListener('message', function (e) {
       if (e.data === 'gm-ready' && e.source === frame.contentWindow) {
         clearTimeout(failSafe);
         frame.classList.add('on');
+        loading.classList.add('off');
       }
     });
     var startDemo = function () {
       demoOn = true;
       aRender();
     };
-    addEventListener('load', function () { setTimeout(startDemo, 600); });
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', startDemo);
+    else startDemo();
     if (window.IntersectionObserver) {
       new IntersectionObserver(function (es) {
         frame.classList.toggle('away', !es[0].isIntersecting);

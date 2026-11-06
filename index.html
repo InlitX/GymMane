@@ -21,6 +21,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="assets/styles.css" />
+<link rel="preload" href="app/main.dart.js" as="script" />
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -111,7 +112,7 @@
           <span class="key vol"></span><span class="key vol2"></span><span class="key pwr"></span>
           <div class="island"></div>
           <div class="screen">
-            <img class="demo-poster" id="demoPoster" alt="" src="assets/shots/es/home.webp" />
+            <div class="demo-loading" id="demoLoading" role="status" aria-label="GymMane"><img src="assets/icon.png" alt="" width="72" height="72" /><i></i><p id="demoMsg" hidden></p></div>
             <iframe class="demo-frame" id="demoFrame" title="GymMane"></iframe>
           </div>
         </div>
