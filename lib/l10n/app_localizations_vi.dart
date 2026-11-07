@@ -1,6 +1,5 @@
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
-
 import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -89,16 +88,11 @@ class AppLocalizationsVi extends AppLocalizations {
   String get tools => 'CÔNG CỤ';
 
   @override
-  String get firstSessionHint =>
-      'Chọn nhóm cơ và ghi lại buổi tập đầu tiên của bạn';
+  String get firstSessionHint => 'Chọn nhóm cơ và ghi lại buổi tập đầu tiên của bạn';
 
   @override
   String exerciseCount(int n) {
-    String _temp0 = intl.Intl.pluralLogic(
-      n,
-      locale: localeName,
-      other: '$n bài tập',
-    );
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n bài tập');
     return '$_temp0';
   }
 
@@ -136,8 +130,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get buildSession => 'TẠO BUỔI TẬP';
 
   @override
-  String get tapMuscles =>
-      'Chạm vào các nhóm cơ bạn muốn tập, cả mặt trước và mặt sau.';
+  String get tapMuscles => 'Chạm vào các nhóm cơ bạn muốn tập, cả mặt trước và mặt sau.';
 
   @override
   String get continueBtn => 'TIẾP TỤC';
@@ -146,8 +139,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get nothingForFocus => 'Chưa có gì cho trọng tâm này';
 
   @override
-  String get goBackPick =>
-      'Quay lại và chọn một nhóm cơ có bài tập trong thư viện của bạn.';
+  String get goBackPick => 'Quay lại và chọn một nhóm cơ có bài tập trong thư viện của bạn.';
 
   @override
   String pickedHint(int n) {
@@ -168,11 +160,7 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String startCount(int n) {
-    String _temp0 = intl.Intl.pluralLogic(
-      n,
-      locale: localeName,
-      other: '$n BÀI TẬP',
-    );
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n BÀI TẬP');
     return 'BẮT ĐẦU · $_temp0';
   }
 
@@ -219,8 +207,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get gymPass => 'Thẻ phòng tập';
 
   @override
-  String get gymPassEmpty =>
-      'Lưu mã phòng tập ở đây để vào cửa mà không cần thẻ';
+  String get gymPassEmpty => 'Lưu mã phòng tập ở đây để vào cửa mà không cần thẻ';
 
   @override
   String get gymPassAdd => 'Thêm thẻ';
@@ -235,8 +222,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get gymPassPhoto => 'Từ ảnh hoặc ảnh chụp màn hình';
 
   @override
-  String get gymPassPhotoHint =>
-      'Ví dụ: ảnh chụp màn hình từ ứng dụng của phòng tập';
+  String get gymPassPhotoHint => 'Ví dụ: ảnh chụp màn hình từ ứng dụng của phòng tập';
 
   @override
   String get gymPassType => 'Nhập số';
@@ -245,8 +231,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get gymPassTypeHint => 'Với mã vạch: dãy số in bên dưới';
 
   @override
-  String get gymPassNotFound =>
-      'Không thấy mã QR trong ảnh đó. Hãy thử ảnh rõ hơn hoặc nhập số.';
+  String get gymPassNotFound => 'Không thấy mã QR trong ảnh đó. Hãy thử ảnh rõ hơn hoặc nhập số.';
 
   @override
   String get gymPassName => 'Tên phòng tập';
@@ -276,8 +261,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get gymPassShow => 'Đưa ra ở cửa';
 
   @override
-  String get gymPassPrivate =>
-      'Chỉ lưu trên điện thoại của bạn. Không tải gì lên.';
+  String get gymPassPrivate => 'Chỉ lưu trên điện thoại của bạn. Không tải gì lên.';
 
   @override
   String get gymPassColor => 'Màu';
@@ -298,8 +282,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get widgetHintActivity => 'Bản đồ những ngày bạn đã tập';
 
   @override
-  String get widgetHintStats =>
-      'Chuỗi ngày, khối lượng và số buổi tập tuần này';
+  String get widgetHintStats => 'Chuỗi ngày, khối lượng và số buổi tập tuần này';
 
   @override
   String get widgetHintBody => 'Các nhóm cơ bạn đã tập';
@@ -320,12 +303,10 @@ class AppLocalizationsVi extends AppLocalizations {
   String get supportHintStar => 'Giúp nhiều người biết đến ứng dụng hơn';
 
   @override
-  String get supportHintCoffee =>
-      'Ủng hộ việc phát triển. Miễn phí và không quảng cáo';
+  String get supportHintCoffee => 'Ủng hộ việc phát triển. Miễn phí và không quảng cáo';
 
   @override
-  String get bodyweightNoteHint =>
-      'Thêm ghi chú: bạn cảm thấy thế nào, bạn đang thử gì… (không bắt buộc)';
+  String get bodyweightNoteHint => 'Thêm ghi chú: bạn cảm thấy thế nào, bạn đang thử gì… (không bắt buộc)';
 
   @override
   String exerciseUnitSwitch(String unit) {
@@ -368,11 +349,7 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String finishBodyPr(int prs) {
-    String _temp0 = intl.Intl.pluralLogic(
-      prs,
-      locale: localeName,
-      other: '$prs bài tập',
-    );
+    String _temp0 = intl.Intl.pluralLogic(prs, locale: localeName, other: '$prs bài tập');
     return 'Bạn đã nâng nặng hơn bao giờ hết ở $_temp0. Thành tích đã có trong mục kỷ lục.';
   }
 
@@ -385,8 +362,7 @@ class AppLocalizationsVi extends AppLocalizations {
   }
 
   @override
-  String get finishBodyDefault =>
-      'Đã ghi lại và tính vào. Đều đặn mới làm các con số thay đổi.';
+  String get finishBodyDefault => 'Đã ghi lại và tính vào. Đều đặn mới làm các con số thay đổi.';
 
   @override
   String get vsLastTime => 'SO VỚI LẦN TRƯỚC';
@@ -396,11 +372,7 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String prCount(int n) {
-    String _temp0 = intl.Intl.pluralLogic(
-      n,
-      locale: localeName,
-      other: '$n kỷ lục mới',
-    );
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n kỷ lục mới');
     return '$_temp0';
   }
 
@@ -448,15 +420,13 @@ class AppLocalizationsVi extends AppLocalizations {
   String get notifRestChannel => 'Hẹn giờ nghỉ';
 
   @override
-  String get notifRestChannelWhy =>
-      'Báo cho bạn khi hết thời gian nghỉ giữa các hiệp';
+  String get notifRestChannelWhy => 'Báo cho bạn khi hết thời gian nghỉ giữa các hiệp';
 
   @override
   String get notifAlertChannel => 'Hẹn giờ nghỉ (cảnh báo)';
 
   @override
-  String get notifAlertChannelWhy =>
-      'Hiện biểu ngữ ngay khi hết thời gian nghỉ';
+  String get notifAlertChannelWhy => 'Hiện biểu ngữ ngay khi hết thời gian nghỉ';
 
   @override
   String get restOverTitle => 'Hết giờ nghỉ';
@@ -478,11 +448,7 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String sessionsLogged(int n) {
-    String _temp0 = intl.Intl.pluralLogic(
-      n,
-      locale: localeName,
-      other: 'Đã ghi $n buổi tập',
-    );
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: 'Đã ghi $n buổi tập');
     return '$_temp0';
   }
 
@@ -538,12 +504,10 @@ class AppLocalizationsVi extends AppLocalizations {
   String get heatHigh => 'Đủ khối lượng';
 
   @override
-  String get muscleMapEmpty =>
-      'Ghi một buổi tập và cơ thể bạn sẽ bắt đầu sáng lên ở đây.';
+  String get muscleMapEmpty => 'Ghi một buổi tập và cơ thể bạn sẽ bắt đầu sáng lên ở đây.';
 
   @override
-  String get muscleMapHint =>
-      'Chạm vào một nhóm cơ để xem nó được tập những gì.';
+  String get muscleMapHint => 'Chạm vào một nhóm cơ để xem nó được tập những gì.';
 
   @override
   String muscleMapBehind(String names) {
@@ -565,8 +529,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get strength1rm => 'SỨC MẠNH · 1RM ƯỚC TÍNH';
 
   @override
-  String get strengthEmpty =>
-      'Ghi một bài tập hai lần và đường sức mạnh của nó sẽ hiện ở đây.';
+  String get strengthEmpty => 'Ghi một bài tập hai lần và đường sức mạnh của nó sẽ hiện ở đây.';
 
   @override
   String oneRmEst(String w) {
@@ -601,11 +564,7 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String libraryCount(int n) {
-    String _temp0 = intl.Intl.pluralLogic(
-      n,
-      locale: localeName,
-      other: '$n bài tập trong thư viện của bạn',
-    );
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n bài tập trong thư viện của bạn');
     return '$_temp0';
   }
 
@@ -670,8 +629,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get noFavouritesYet => 'Chưa có mục yêu thích';
 
   @override
-  String get noFavouritesHint =>
-      'Chạm vào ngôi sao trên một bài tập để giữ nó ở đây.';
+  String get noFavouritesHint => 'Chạm vào ngôi sao trên một bài tập để giữ nó ở đây.';
 
   @override
   String get clearFilters => 'Xóa bộ lọc';
@@ -746,15 +704,13 @@ class AppLocalizationsVi extends AppLocalizations {
   String get history => 'LỊCH SỬ';
 
   @override
-  String get noHistory =>
-      'Chưa ghi buổi tập nào. Hãy tập bài này để có lịch sử.';
+  String get noHistory => 'Chưa ghi buổi tập nào. Hãy tập bài này để có lịch sử.';
 
   @override
   String get notes => 'GHI CHÚ';
 
   @override
-  String get notePlaceholder =>
-      'Lưu ý kỹ thuật, cách chuẩn bị, cảm giác thế nào…';
+  String get notePlaceholder => 'Lưu ý kỹ thuật, cách chuẩn bị, cảm giác thế nào…';
 
   @override
   String notHere(String gear, String place) {
@@ -802,8 +758,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get placeDeleteTitle => 'Xóa địa điểm';
 
   @override
-  String get placeDeleteBody =>
-      'Chỉ xóa địa điểm. Bài tập và buổi tập của bạn vẫn được giữ.';
+  String get placeDeleteBody => 'Chỉ xóa địa điểm. Bài tập và buổi tập của bạn vẫn được giữ.';
 
   @override
   String get placeGym => 'Phòng tập';
@@ -901,8 +856,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get deleteNoteTitle => 'Xóa ghi chú';
 
   @override
-  String get deleteNoteBody =>
-      'Ghi chú và mọi thứ đính kèm sẽ bị xóa vĩnh viễn.';
+  String get deleteNoteBody => 'Ghi chú và mọi thứ đính kèm sẽ bị xóa vĩnh viễn.';
 
   @override
   String get noteToday => 'Hôm nay';
@@ -943,17 +897,11 @@ class AppLocalizationsVi extends AppLocalizations {
   String get measures => 'SỐ ĐO';
 
   @override
-  String get measuresHint =>
-      'Từ cổ đến bắp chân: theo dõi cơ thể thay đổi, không chỉ thanh đòn.';
+  String get measuresHint => 'Từ cổ đến bắp chân: theo dõi cơ thể thay đổi, không chỉ thanh đòn.';
 
   @override
   String measureCount(int n) {
-    String _temp0 = intl.Intl.pluralLogic(
-      n,
-      locale: localeName,
-      other: '$n lần đo',
-      zero: 'Chưa ghi gì',
-    );
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n lần đo', zero: 'Chưa ghi gì');
     return '$_temp0';
   }
 
@@ -1003,20 +951,14 @@ class AppLocalizationsVi extends AppLocalizations {
   String get showPhotos => 'Hiện ảnh';
 
   @override
-  String get timelineHint =>
-      'Cùng tư thế, cùng chỗ, cùng ánh sáng. Một năm nữa bạn sẽ không tin nổi.';
+  String get timelineHint => 'Cùng tư thế, cùng chỗ, cùng ánh sáng. Một năm nữa bạn sẽ không tin nổi.';
 
   @override
   String get timelineEmptyTitle => 'Bức ảnh đầu tiên sẽ bắt đầu tính giờ';
 
   @override
   String photoCount(int n) {
-    String _temp0 = intl.Intl.pluralLogic(
-      n,
-      locale: localeName,
-      other: '$n ảnh',
-      zero: 'Chưa có ảnh',
-    );
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n ảnh', zero: 'Chưa có ảnh');
     return '$_temp0';
   }
 
@@ -1103,12 +1045,10 @@ class AppLocalizationsVi extends AppLocalizations {
   String get timelineBody => 'Bản đồ cơ';
 
   @override
-  String get timelineBodyEmpty =>
-      'Ghi một buổi tập và bản đồ cơ sẽ bắt đầu được tô ở đây, không cần ảnh.';
+  String get timelineBodyEmpty => 'Ghi một buổi tập và bản đồ cơ sẽ bắt đầu được tô ở đây, không cần ảnh.';
 
   @override
-  String get timelineBodyHint =>
-      'Dựng từ chính các hiệp bạn tập, không cần tải gì lên.';
+  String get timelineBodyHint => 'Dựng từ chính các hiệp bạn tập, không cần tải gì lên.';
 
   @override
   String timelineWindow(String from, String to) {
@@ -1130,8 +1070,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get notifPhotoChannel => 'Ảnh tiến độ';
 
   @override
-  String get notifPhotoChannelWhy =>
-      'Lời nhắc khi đến lúc chụp ảnh tiến độ tiếp theo.';
+  String get notifPhotoChannelWhy => 'Lời nhắc khi đến lúc chụp ảnh tiến độ tiếp theo.';
 
   @override
   String get notifPhotoTitle => 'Đến lúc chụp ảnh tiến độ';
@@ -1224,11 +1163,7 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String setCount(int n) {
-    String _temp0 = intl.Intl.pluralLogic(
-      n,
-      locale: localeName,
-      other: '$n hiệp',
-    );
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n hiệp');
     return '$_temp0';
   }
 
@@ -1244,8 +1179,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get yourRoutines => 'GIÁO ÁN TẬP CỦA BẠN';
 
   @override
-  String get noRoutines =>
-      'Chưa có giáo án tập nào. Hãy tạo một giáo án và thêm bài tập.';
+  String get noRoutines => 'Chưa có giáo án tập nào. Hãy tạo một giáo án và thêm bài tập.';
 
   @override
   String get newRoutine => 'GIÁO ÁN TẬP MỚI';
@@ -1279,8 +1213,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get newRoutineName => 'Giáo án tập mới';
 
   @override
-  String get dragToReorder =>
-      'Kéo tay nắm chấm chấm để sắp xếp lại, đây là thứ tự bạn sẽ tập.';
+  String get dragToReorder => 'Kéo tay nắm chấm chấm để sắp xếp lại, đây là thứ tự bạn sẽ tập.';
 
   @override
   String reorderHandle(String name) {
@@ -1360,8 +1293,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get sessionNameHint => 'Ví dụ: Chân, Đẩy, Toàn thân';
 
   @override
-  String get secondaryPickHint =>
-      'Chạm vào các nhóm cơ khác mà bài tập này tác động.';
+  String get secondaryPickHint => 'Chạm vào các nhóm cơ khác mà bài tập này tác động.';
 
   @override
   String get languageLabel => 'Ngôn ngữ';
@@ -1376,8 +1308,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get alarmBlockedTitle => 'Thông báo đang tắt';
 
   @override
-  String get alarmBlockedBody =>
-      'Chuông báo nghỉ sẽ không reo khi màn hình bị khóa';
+  String get alarmBlockedBody => 'Chuông báo nghỉ sẽ không reo khi màn hình bị khóa';
 
   @override
   String get alarmBlockedAction => 'BẬT';
@@ -1458,19 +1389,14 @@ class AppLocalizationsVi extends AppLocalizations {
   String get importFromApp => 'Nhập từ ứng dụng khác';
 
   @override
-  String get importUnknownFormat =>
-      'Tệp đó cần có các cột ngày, bài tập, số lần lặp và mức tạ';
+  String get importUnknownFormat => 'Tệp đó cần có các cột ngày, bài tập, số lần lặp và mức tạ';
 
   @override
   String get importZipNoWeights => 'Tệp zip đó không có tệp cân nặng nào';
 
   @override
   String importWeights(int n) {
-    String _temp0 = intl.Intl.pluralLogic(
-      n,
-      locale: localeName,
-      other: 'Đã nhập $n lần cân',
-    );
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: 'Đã nhập $n lần cân');
     return '$_temp0';
   }
 
@@ -1481,19 +1407,14 @@ class AppLocalizationsVi extends AppLocalizations {
   String get importUnitTitle => 'Tệp đó dùng đơn vị nào?';
 
   @override
-  String get importUnitBody =>
-      'Bản xuất này không cho biết mức tạ tính theo đơn vị nào.';
+  String get importUnitBody => 'Bản xuất này không cho biết mức tạ tính theo đơn vị nào.';
 
   @override
   String get importNothing => 'Không có gì mới để nhập';
 
   @override
   String importDone(int n) {
-    String _temp0 = intl.Intl.pluralLogic(
-      n,
-      locale: localeName,
-      other: 'Đã nhập $n buổi tập',
-    );
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: 'Đã nhập $n buổi tập');
     return '$_temp0';
   }
 
@@ -1565,8 +1486,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get backupFailed => 'Không đọc được bản sao lưu đó';
 
   @override
-  String get nothingToExport =>
-      'Chưa có gì để xuất: hãy ghi một buổi tập trước';
+  String get nothingToExport => 'Chưa có gì để xuất: hãy ghi một buổi tập trước';
 
   @override
   String calculatorsCount(int n) {
@@ -1651,8 +1571,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get toolTitleWarmup => 'Hiệp khởi động';
 
   @override
-  String get toolHintRm =>
-      'Mức tạ tối đa cho 1 lần lặp ước tính (công thức Epley)';
+  String get toolHintRm => 'Mức tạ tối đa cho 1 lần lặp ước tính (công thức Epley)';
 
   @override
   String get toolHintCal => 'Mức calo duy trì mỗi ngày ước tính';
@@ -1822,8 +1741,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get freeForever => 'Miễn phí mãi mãi';
 
   @override
-  String get freeForeverWhy =>
-      'Không thuê bao, không quảng cáo, không có gì bị khóa sau tường phí.';
+  String get freeForeverWhy => 'Không thuê bao, không quảng cáo, không có gì bị khóa sau tường phí.';
 
   @override
   String get fullyOffline => 'Hoàn toàn ngoại tuyến';
@@ -1836,8 +1754,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get yoursToTake => 'Dữ liệu là của bạn';
 
   @override
-  String get yoursToTakeWhy =>
-      'Xuất ra CSV bất cứ khi nào bạn muốn, và xóa sạch chỉ với một lần chạm.';
+  String get yoursToTakeWhy => 'Xuất ra CSV bất cứ khi nào bạn muốn, và xóa sạch chỉ với một lần chạm.';
 
   @override
   String get whatsInside => 'CÓ GÌ BÊN TRONG';
@@ -1848,8 +1765,7 @@ class AppLocalizationsVi extends AppLocalizations {
   }
 
   @override
-  String get exercisesInsideWhy =>
-      'Bài nào cũng có hình động và hướng dẫn từng bước.';
+  String get exercisesInsideWhy => 'Bài nào cũng có hình động và hướng dẫn từng bước.';
 
   @override
   String get calculatorsInside => '10 công cụ tính';
@@ -1915,8 +1831,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get onbPhotoLater => 'ĐỂ SAU';
 
   @override
-  String get onbNameWhy =>
-      'Chỉ dùng để chào bạn. Tên không bao giờ rời khỏi điện thoại.';
+  String get onbNameWhy => 'Chỉ dùng để chào bạn. Tên không bao giờ rời khỏi điện thoại.';
 
   @override
   String get onbBodyTitle => 'Vài con số';
@@ -1929,16 +1844,11 @@ class AppLocalizationsVi extends AppLocalizations {
   String get onbGoalTitle => 'Bạn tập bao lâu một lần?';
 
   @override
-  String get onbGoalWhy =>
-      'Dùng để đặt vòng mục tiêu tuần. Hãy thành thật, đừng quá tham vọng.';
+  String get onbGoalWhy => 'Dùng để đặt vòng mục tiêu tuần. Hãy thành thật, đừng quá tham vọng.';
 
   @override
   String perWeek(int n) {
-    String _temp0 = intl.Intl.pluralLogic(
-      n,
-      locale: localeName,
-      other: '$n buổi tập mỗi tuần',
-    );
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n buổi tập mỗi tuần');
     return '$_temp0';
   }
 
@@ -1970,8 +1880,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get noMatches => 'Không có bài tập nào khớp với tìm kiếm đó.';
 
   @override
-  String get tapToEdit =>
-      'Chạm vào bút chì để sửa một mục, hoặc thùng rác để xóa.';
+  String get tapToEdit => 'Chạm vào bút chì để sửa một mục, hoặc thùng rác để xóa.';
 
   @override
   String get editEntry => 'Sửa';
@@ -2035,8 +1944,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get liveChannel => 'Buổi tập đang diễn ra';
 
   @override
-  String get liveChannelWhy =>
-      'Hiện bài tập, hiệp và hẹn giờ nghỉ hiện tại trong khi bạn tập';
+  String get liveChannelWhy => 'Hiện bài tập, hiệp và hẹn giờ nghỉ hiện tại trong khi bạn tập';
 
   @override
   String liveSet(int n, int total) {
@@ -2060,11 +1968,7 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String platesOwned(int n) {
-    String _temp0 = intl.Intl.pluralLogic(
-      n,
-      locale: localeName,
-      other: '$n cỡ',
-    );
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n cỡ');
     return '$_temp0';
   }
 
@@ -2086,8 +1990,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get trainReminder => 'Nhắc nhở tập luyện';
 
   @override
-  String get trainReminderHint =>
-      'Lời nhắc vào giờ này, chỉ vào những ngày có giáo án tập.';
+  String get trainReminderHint => 'Lời nhắc vào giờ này, chỉ vào những ngày có giáo án tập.';
 
   @override
   String get reminderExactTime => 'Giờ chính xác';
@@ -2102,8 +2005,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get notifTrainChannel => 'Nhắc nhở tập luyện';
 
   @override
-  String get notifTrainChannelWhy =>
-      'Lời nhắc tập vào những ngày bạn đã lên kế hoạch.';
+  String get notifTrainChannelWhy => 'Lời nhắc tập vào những ngày bạn đã lên kế hoạch.';
 
   @override
   String get notifTrainTitle => 'Đến giờ tập rồi';
@@ -2112,19 +2014,16 @@ class AppLocalizationsVi extends AppLocalizations {
   String get notifTrainBody => 'Giáo án tập của bạn đang chờ.';
 
   @override
-  String get planIntro =>
-      'Hãy xây cho tôi một giáo án tập chỉ dùng các bài tập trong danh sách này.';
+  String get planIntro => 'Hãy xây cho tôi một giáo án tập chỉ dùng các bài tập trong danh sách này.';
 
   @override
   String get planFormat => 'Chỉ trả lời bằng JSON, theo dạng sau:';
 
   @override
-  String get planNothing =>
-      'Không có bài tập nào trong tệp đó khớp với thư viện của bạn';
+  String get planNothing => 'Không có bài tập nào trong tệp đó khớp với thư viện của bạn';
 
   @override
-  String get planFailed =>
-      'Tệp đó không phải là giáo án tập mà ứng dụng đọc được';
+  String get planFailed => 'Tệp đó không phải là giáo án tập mà ứng dụng đọc được';
 
   @override
   String get routineGroup => 'Nhóm';
@@ -2176,8 +2075,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get dimStrong => 'Mạnh';
 
   @override
-  String get bgPhotoHint =>
-      'Ảnh nằm phía sau mọi thứ, được làm tối để ứng dụng vẫn dễ đọc.';
+  String get bgPhotoHint => 'Ảnh nằm phía sau mọi thứ, được làm tối để ứng dụng vẫn dễ đọc.';
 
   @override
   String get reminderSmart => 'Thông minh';
@@ -2190,8 +2088,7 @@ class AppLocalizationsVi extends AppLocalizations {
       'Dùng những ngày và giờ bạn thực sự tập, và im lặng vào ngày bạn đã tập rồi.';
 
   @override
-  String get reminderSmartEmpty =>
-      'Ghi thêm vài buổi tập nữa và nó sẽ học được những ngày bạn tập.';
+  String get reminderSmartEmpty => 'Ghi thêm vài buổi tập nữa và nó sẽ học được những ngày bạn tập.';
 
   @override
   String habitFocus(String day) {
@@ -2221,11 +2118,7 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String templateAdded(int n) {
-    String _temp0 = intl.Intl.pluralLogic(
-      n,
-      locale: localeName,
-      other: 'Đã thêm $n giáo án tập',
-    );
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: 'Đã thêm $n giáo án tập');
     return '$_temp0';
   }
 
@@ -2236,8 +2129,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get tplPpl => 'Đẩy, kéo và chân. Ba hoặc sáu ngày mỗi tuần.';
 
   @override
-  String get tplArnold =>
-      'Ngực và lưng, vai và tay, chân. Lịch chia sáu ngày kinh điển.';
+  String get tplArnold => 'Ngực và lưng, vai và tay, chân. Lịch chia sáu ngày kinh điển.';
 
   @override
   String get tplUpperlower => 'Thân trên và thân dưới, bốn ngày mỗi tuần.';
@@ -2253,11 +2145,7 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String dayCount(int n) {
-    String _temp0 = intl.Intl.pluralLogic(
-      n,
-      locale: localeName,
-      other: '$n ngày',
-    );
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n ngày');
     return '$_temp0';
   }
 
@@ -2277,8 +2165,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get supersetUnlink => 'Tách khỏi bài tiếp theo';
 
   @override
-  String get supersetHint =>
-      'Không nghỉ giữa các bài được nối, bạn chuyển thẳng sang bài tiếp theo.';
+  String get supersetHint => 'Không nghỉ giữa các bài được nối, bạn chuyển thẳng sang bài tiếp theo.';
 
   @override
   String get aiRoutine => 'Giáo án tập với AI';
@@ -2301,8 +2188,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get importApps => 'Đọc được từ những ứng dụng nào';
 
   @override
-  String get importOtherCsv =>
-      'Bất kỳ tệp CSV nào khác có ngày, bài tập, số lần lặp và mức tạ';
+  String get importOtherCsv => 'Bất kỳ tệp CSV nào khác có ngày, bài tập, số lần lặp và mức tạ';
 
   @override
   String get importAskApp => 'Cần ứng dụng khác? Hãy đề xuất';
@@ -2311,15 +2197,13 @@ class AppLocalizationsVi extends AppLocalizations {
   String get awardFirstStepName => 'Bước đầu tiên';
 
   @override
-  String get awardFirstStepLine =>
-      'Chào mừng đến với GymMane. Huy chương này là quà tặng.';
+  String get awardFirstStepLine => 'Chào mừng đến với GymMane. Huy chương này là quà tặng.';
 
   @override
   String get awardFirstWorkoutName => 'Buổi tập đầu tiên';
 
   @override
-  String get awardFirstWorkoutLine =>
-      'Buổi đầu tiên đã được ghi. Đó là buổi khó nhất.';
+  String get awardFirstWorkoutLine => 'Buổi đầu tiên đã được ghi. Đó là buổi khó nhất.';
 
   @override
   String get awardFirstRoutineName => 'Giáo án tập đầu tiên';
@@ -2331,22 +2215,19 @@ class AppLocalizationsVi extends AppLocalizations {
   String get awardFirstRecordName => 'Kỷ lục đầu tiên';
 
   @override
-  String get awardFirstRecordLine =>
-      'Bạn đã vượt mức tạ tốt nhất của mình ở một bài tập.';
+  String get awardFirstRecordLine => 'Bạn đã vượt mức tạ tốt nhất của mình ở một bài tập.';
 
   @override
   String get awardStreak3Name => 'Ba ngày liền';
 
   @override
-  String get awardStreak3Line =>
-      'Ba ngày liên tiếp. Mọi thứ bắt đầu như thế đấy.';
+  String get awardStreak3Line => 'Ba ngày liên tiếp. Mọi thứ bắt đầu như thế đấy.';
 
   @override
   String get awardTonne1Name => 'Một tấn';
 
   @override
-  String get awardTonne1Line =>
-      'Một nghìn kilôgam đã được nâng qua các hiệp của bạn.';
+  String get awardTonne1Line => 'Một nghìn kilôgam đã được nâng qua các hiệp của bạn.';
 
   @override
   String get awardSets100Name => 'Một trăm hiệp';
@@ -2409,22 +2290,19 @@ class AppLocalizationsVi extends AppLocalizations {
   String get awardStreak30Name => 'Ba mươi ngày';
 
   @override
-  String get awardStreak30Line =>
-      'Một tháng liên tục. Giờ đây đã thành thói quen.';
+  String get awardStreak30Line => 'Một tháng liên tục. Giờ đây đã thành thói quen.';
 
   @override
   String get awardWorkouts100Name => 'Một trăm buổi tập';
 
   @override
-  String get awardWorkouts100Line =>
-      'Một trăm buổi tập đã ghi, từ đầu đến cuối.';
+  String get awardWorkouts100Line => 'Một trăm buổi tập đã ghi, từ đầu đến cuối.';
 
   @override
   String get awardTonnes100Name => 'Một trăm tấn';
 
   @override
-  String get awardTonnes100Line =>
-      'Tất cả những gì bạn đã nâng cộng lại được 100.000 kg.';
+  String get awardTonnes100Line => 'Tất cả những gì bạn đã nâng cộng lại được 100.000 kg.';
 
   @override
   String get awardSets1000Name => 'Một nghìn hiệp';
@@ -2484,12 +2362,10 @@ class AppLocalizationsVi extends AppLocalizations {
   String get handleLabel => 'Tên người dùng';
 
   @override
-  String get setupTitle =>
-      'Điền những mục này và phần còn lại của trang sẽ tự hoàn thiện';
+  String get setupTitle => 'Điền những mục này và phần còn lại của trang sẽ tự hoàn thiện';
 
   @override
-  String get setupHint =>
-      'Mọi con số ở đây đều đến từ những gì bạn ghi. Không gửi gì đi đâu cả.';
+  String get setupHint => 'Mọi con số ở đây đều đến từ những gì bạn ghi. Không gửi gì đi đâu cả.';
 
   @override
   String get setupWorkout => 'Ghi buổi tập đầu tiên';
@@ -2543,15 +2419,13 @@ class AppLocalizationsVi extends AppLocalizations {
   String get awardWorkouts10Name => 'Mười buổi tập';
 
   @override
-  String get awardWorkouts10Line =>
-      'Mười buổi đầu tiên là những buổi quyết định.';
+  String get awardWorkouts10Line => 'Mười buổi đầu tiên là những buổi quyết định.';
 
   @override
   String get awardWorkouts365Name => 'Ba trăm sáu mươi lăm';
 
   @override
-  String get awardWorkouts365Line =>
-      'Mỗi ngày trong năm một buổi tập, ghi lại từng buổi một.';
+  String get awardWorkouts365Line => 'Mỗi ngày trong năm một buổi tập, ghi lại từng buổi một.';
 
   @override
   String get awardTonnes10Name => 'Mười tấn';
@@ -2563,8 +2437,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get awardHours100Name => 'Một trăm giờ';
 
   @override
-  String get awardHours100Line =>
-      'Một trăm giờ dưới thanh đòn, tay cầm đồng hồ bấm giờ.';
+  String get awardHours100Line => 'Một trăm giờ dưới thanh đòn, tay cầm đồng hồ bấm giờ.';
 
   @override
   String awardWonOn(String date) {
@@ -2594,11 +2467,7 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String levelToNext(int n, int next) {
-    String _temp0 = intl.Intl.pluralLogic(
-      n,
-      locale: localeName,
-      other: 'Còn $n buổi tập để lên cấp $next',
-    );
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: 'Còn $n buổi tập để lên cấp $next');
     return '$_temp0';
   }
 
@@ -2721,8 +2590,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get deleteWorkout => 'Xóa buổi tập';
 
   @override
-  String get deleteWorkoutBody =>
-      'Buổi tập này và tất cả các hiệp của nó sẽ bị xóa khỏi lịch sử.';
+  String get deleteWorkoutBody => 'Buổi tập này và tất cả các hiệp của nó sẽ bị xóa khỏi lịch sử.';
 
   @override
   String get themeAuto => 'Tự động';
@@ -2752,8 +2620,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get demoLoopShort => '10 giây';
 
   @override
-  String get demoLoopHint =>
-      'Phát khoảng 10 giây và dừng ở tư thế bắt đầu. Chạm vào minh họa để xem lại.';
+  String get demoLoopHint => 'Phát khoảng 10 giây và dừng ở tư thế bắt đầu. Chạm vào minh họa để xem lại.';
 
   @override
   String get alarmStyleTitle => 'Khi hết giờ nghỉ';
@@ -2788,8 +2655,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get onbPlaceTitle => 'Bạn tập ở đâu?';
 
   @override
-  String get onbPlaceWhy =>
-      'Chọn mọi nơi bạn tập. Chúng tôi sẽ chỉ gợi ý những gì bạn tập được ở từng nơi.';
+  String get onbPlaceWhy => 'Chọn mọi nơi bạn tập. Chúng tôi sẽ chỉ gợi ý những gì bạn tập được ở từng nơi.';
 
   @override
   String get onbPlaceGear => 'Ở đó bạn có gì?';
@@ -2865,24 +2731,20 @@ class AppLocalizationsVi extends AppLocalizations {
   String get setTypeRestPause => 'Hiệp nghỉ ngắn';
 
   @override
-  String get setTypeNormalInfo =>
-      'Một hiệp bình thường. Được tính vào khối lượng và kỷ lục của bạn.';
+  String get setTypeNormalInfo => 'Một hiệp bình thường. Được tính vào khối lượng và kỷ lục của bạn.';
 
   @override
-  String get setTypeWarmupInfo =>
-      'Các hiệp nhẹ để làm nóng. Không tính vào khối lượng hay kỷ lục.';
+  String get setTypeWarmupInfo => 'Các hiệp nhẹ để làm nóng. Không tính vào khối lượng hay kỷ lục.';
 
   @override
-  String get setTypeDropInfo =>
-      'Ngay sau một hiệp, giảm mức tạ và tập tiếp mà không nghỉ.';
+  String get setTypeDropInfo => 'Ngay sau một hiệp, giảm mức tạ và tập tiếp mà không nghỉ.';
 
   @override
   String get setTypeFailureInfo =>
       'Tập tiếp cho đến khi không thể làm thêm một lần lặp chuẩn nào nữa. Ghi số lần lặp bạn thực sự làm được.';
 
   @override
-  String get setTypeRestPauseInfo =>
-      'Nghỉ 10 đến 20 giây sau hiệp, rồi cố làm thêm vài lần lặp nữa.';
+  String get setTypeRestPauseInfo => 'Nghỉ 10 đến 20 giây sau hiệp, rồi cố làm thêm vài lần lặp nữa.';
 
   @override
   String get planFormatNotes =>
@@ -2896,12 +2758,10 @@ class AppLocalizationsVi extends AppLocalizations {
       'Chọn loại, số lần lặp và mức tạ của từng hiệp. Để mức tạ ở Tự động để bắt đầu từ buổi tập trước.';
 
   @override
-  String get planHintReps =>
-      'Chọn loại và số lần lặp của từng hiệp. Tự động sẽ bắt đầu từ buổi tập trước.';
+  String get planHintReps => 'Chọn loại và số lần lặp của từng hiệp. Tự động sẽ bắt đầu từ buổi tập trước.';
 
   @override
-  String get planHintTime =>
-      'Chọn loại và thời gian của từng hiệp. Tự động sẽ bắt đầu từ buổi tập trước.';
+  String get planHintTime => 'Chọn loại và thời gian của từng hiệp. Tự động sẽ bắt đầu từ buổi tập trước.';
 
   @override
   String get planHintTimeWeight =>
@@ -2927,8 +2787,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get shareWeek => 'Chia sẻ tuần của tôi';
 
   @override
-  String get shareWeekHint =>
-      'Tất cả giáo án tập của bạn và ngày của từng giáo án.';
+  String get shareWeekHint => 'Tất cả giáo án tập của bạn và ngày của từng giáo án.';
 
   @override
   String shareMessage(String name) {
@@ -2947,11 +2806,7 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String routineCount(int n) {
-    String _temp0 = intl.Intl.pluralLogic(
-      n,
-      locale: localeName,
-      other: '$n giáo án tập',
-    );
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n giáo án tập');
     return '$_temp0';
   }
 
@@ -2967,11 +2822,7 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String routinesAdded(int n) {
-    String _temp0 = intl.Intl.pluralLogic(
-      n,
-      locale: localeName,
-      other: 'Đã thêm $n giáo án tập',
-    );
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: 'Đã thêm $n giáo án tập');
     return '$_temp0';
   }
 
@@ -2987,8 +2838,7 @@ class AppLocalizationsVi extends AppLocalizations {
       'Dán vào bất kỳ AI nào và nói điều bạn muốn: số ngày mỗi tuần, mục tiêu, bao nhiêu tuần.';
 
   @override
-  String get aiStepPaste =>
-      'Dán câu trả lời của nó vào bên dưới và nhập. Không cần tệp.';
+  String get aiStepPaste => 'Dán câu trả lời của nó vào bên dưới và nhập. Không cần tệp.';
 
   @override
   String get copyForAi => 'Sao chép cho AI';
@@ -3017,8 +2867,7 @@ class AppLocalizationsVi extends AppLocalizations {
   }
 
   @override
-  String get recoveryAllFresh =>
-      'Mọi thứ đã phục hồi. Hôm nay tập gì cũng được.';
+  String get recoveryAllFresh => 'Mọi thứ đã phục hồi. Hôm nay tập gì cũng được.';
 
   @override
   String recoveryStill(String muscles) {
@@ -3046,12 +2895,10 @@ class AppLocalizationsVi extends AppLocalizations {
   }
 
   @override
-  String get tplAbcd =>
-      'Bốn ngày: ngực và tay sau, lưng và tay trước, chân, vai và bụng.';
+  String get tplAbcd => 'Bốn ngày: ngực và tay sau, lưng và tay trước, chân, vai và bụng.';
 
   @override
-  String get tplAbcde =>
-      'Năm ngày, mỗi ngày một nhóm cơ: ngực, lưng, chân, vai, tay.';
+  String get tplAbcde => 'Năm ngày, mỗi ngày một nhóm cơ: ngực, lưng, chân, vai, tay.';
 
   @override
   String get elapsedCaps => 'ĐÃ TRÔI QUA';
@@ -3104,8 +2951,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get stickerDate => 'Ngày';
 
   @override
-  String get stickerHint =>
-      'Kéo để di chuyển, chụm hai ngón để đổi cỡ hoặc xoay';
+  String get stickerHint => 'Kéo để di chuyển, chụm hai ngón để đổi cỡ hoặc xoay';
 
   @override
   String get stickerSaved => 'Đã lưu vào thư viện ảnh';
@@ -3184,11 +3030,7 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String repCount(int n) {
-    String _temp0 = intl.Intl.pluralLogic(
-      n,
-      locale: localeName,
-      other: '$n lần lặp',
-    );
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n lần lặp');
     return '$_temp0';
   }
 
@@ -3213,8 +3055,7 @@ class AppLocalizationsVi extends AppLocalizations {
   }
 
   @override
-  String get saveChangesBody =>
-      'Lần sau khi bạn bắt đầu, giáo án tập sẽ có những thay đổi này.';
+  String get saveChangesBody => 'Lần sau khi bạn bắt đầu, giáo án tập sẽ có những thay đổi này.';
 
   @override
   String get routineOrderChanged => 'Thứ tự bài tập mới';
@@ -3234,15 +3075,13 @@ class AppLocalizationsVi extends AppLocalizations {
   String get warmupFocus => 'Khởi động';
 
   @override
-  String get warmupFocusHint =>
-      'Linh hoạt và kích hoạt cơ, có hoặc không có dụng cụ';
+  String get warmupFocusHint => 'Linh hoạt và kích hoạt cơ, có hoặc không có dụng cụ';
 
   @override
   String get cardioFocus => 'Cardio';
 
   @override
-  String get cardioFocusHint =>
-      'Chạy, đạp xe, chèo thuyền hoặc nhảy dây, theo quãng đường và thời gian';
+  String get cardioFocusHint => 'Chạy, đạp xe, chèo thuyền hoặc nhảy dây, theo quãng đường và thời gian';
 
   @override
   String get homeRecommended => 'Gợi ý trên trang chủ';
@@ -3296,8 +3135,7 @@ class AppLocalizationsVi extends AppLocalizations {
       'Số bước chỉ nằm trên điện thoại của bạn. GymMane không bao giờ kết nối internet.';
 
   @override
-  String get stepsInfoOff =>
-      'Tắt bất cứ lúc nào trong Cài đặt hoặc trong Health Connect.';
+  String get stepsInfoOff => 'Tắt bất cứ lúc nào trong Cài đặt hoặc trong Health Connect.';
 
   @override
   String get stepsManage => 'Quản lý quyền';
@@ -3340,8 +3178,7 @@ class AppLocalizationsVi extends AppLocalizations {
       'Đã lưu trữ. Bài này không xuất hiện trong danh sách và gợi ý; lịch sử của bạn vẫn được giữ.';
 
   @override
-  String get videoMarksHint =>
-      'Tạm dừng ở một bước và chạm vào ghim để lần sau nhảy thẳng đến đó.';
+  String get videoMarksHint => 'Tạm dừng ở một bước và chạm vào ghim để lần sau nhảy thẳng đến đó.';
 
   @override
   String get videoMarkHere => 'Đánh dấu bước này ở đây';
@@ -3368,8 +3205,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get multiPlanSetting => 'Nhiều giáo án tập mỗi ngày';
 
   @override
-  String get multiPlanHint =>
-      'Chạm vào mọi giáo án tập cho ngày này. Chúng được xếp theo thứ tự bạn thêm.';
+  String get multiPlanHint => 'Chạm vào mọi giáo án tập cho ngày này. Chúng được xếp theo thứ tự bạn thêm.';
 
   @override
   String routineOfDay(int n, int total) {
@@ -3554,11 +3390,7 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String goalDaysLeft(int n) {
-    String _temp0 = intl.Intl.pluralLogic(
-      n,
-      locale: localeName,
-      other: 'Còn $n ngày',
-    );
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: 'Còn $n ngày');
     return '$_temp0';
   }
 
@@ -3626,8 +3458,7 @@ class AppLocalizationsVi extends AppLocalizations {
   }
 
   @override
-  String get swapKeepsDone =>
-      'Các hiệp bạn đã tập vẫn được ghi; bài mới sẽ đảm nhận phần còn lại.';
+  String get swapKeepsDone => 'Các hiệp bạn đã tập vẫn được ghi; bài mới sẽ đảm nhận phần còn lại.';
 
   @override
   String swapSameMuscle(String muscle) {
@@ -3638,8 +3469,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get swapDoneBefore => 'Đã từng tập';
 
   @override
-  String get multiPlanSettingHint =>
-      'Nhiều hơn một giáo án tập trong cùng một thứ';
+  String get multiPlanSettingHint => 'Nhiều hơn một giáo án tập trong cùng một thứ';
 
   @override
   String get levelHintsHint => 'Gợi ý phiên bản khó hơn';
@@ -3702,8 +3532,7 @@ class AppLocalizationsVi extends AppLocalizations {
   }
 
   @override
-  String get rpeExplain =>
-      'RPE 10 nghĩa là bạn không thể làm thêm lần nào; 8 nghĩa là bạn còn dư hai lần.';
+  String get rpeExplain => 'RPE 10 nghĩa là bạn không thể làm thêm lần nào; 8 nghĩa là bạn còn dư hai lần.';
 
   @override
   String get dotsBestLifts => 'Các mức tạ tốt nhất của bạn';
@@ -3893,8 +3722,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get supplementsLabel => 'THỰC PHẨM BỔ SUNG';
 
   @override
-  String get supplementsEmpty =>
-      'Chạm vào một loại để thêm, hoặc + để tự thêm.';
+  String get supplementsEmpty => 'Chạm vào một loại để thêm, hoặc + để tự thêm.';
 
   @override
   String get addSupplement => 'Thực phẩm bổ sung mới';
@@ -3908,8 +3736,7 @@ class AppLocalizationsVi extends AppLocalizations {
   }
 
   @override
-  String get removeSupplementBody =>
-      'Những ngày bạn đánh dấu đã dùng cũng sẽ bị xóa theo.';
+  String get removeSupplementBody => 'Những ngày bạn đánh dấu đã dùng cũng sẽ bị xóa theo.';
 
   @override
   String get suppCreatine => 'Creatin';
@@ -3971,8 +3798,7 @@ class AppLocalizationsVi extends AppLocalizations {
   }
 
   @override
-  String get deleteFoodBody =>
-      'Sẽ bị gỡ khỏi danh sách thực phẩm của bạn. Những gì đã ghi vẫn được giữ.';
+  String get deleteFoodBody => 'Sẽ bị gỡ khỏi danh sách thực phẩm của bạn. Những gì đã ghi vẫn được giữ.';
 
   @override
   String get mealBreakfast => 'Bữa sáng';
@@ -4018,8 +3844,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get goalsFromProfile => 'Tính từ hồ sơ của tôi';
 
   @override
-  String get goalsFromProfileHint =>
-      'Calo theo hồ sơ của bạn, 1,8 g đạm và 35 ml nước cho mỗi kg cân nặng.';
+  String get goalsFromProfileHint => 'Calo theo hồ sơ của bạn, 1,8 g đạm và 35 ml nước cho mỗi kg cân nặng.';
 
   @override
   String get kcalEaten => 'Đã ăn';
@@ -4075,11 +3900,7 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String copiedMealToast(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: 'Đã sao chép $count thực phẩm',
-    );
+    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: 'Đã sao chép $count thực phẩm');
     return '$_temp0';
   }
 
@@ -4125,71 +3946,43 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String portionUnit(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: '$count miếng',
-    );
+    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count miếng');
     return '$_temp0';
   }
 
   @override
   String portionSlice(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: '$count lát',
-    );
+    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count lát');
     return '$_temp0';
   }
 
   @override
   String portionScoop(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: '$count muỗng',
-    );
+    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count muỗng');
     return '$_temp0';
   }
 
   @override
   String portionTbsp(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: '$count thìa canh',
-    );
+    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count thìa canh');
     return '$_temp0';
   }
 
   @override
   String portionTsp(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: '$count thìa cà phê',
-    );
+    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count thìa cà phê');
     return '$_temp0';
   }
 
   @override
   String portionCup(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: '$count cốc',
-    );
+    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count cốc');
     return '$_temp0';
   }
 
   @override
   String portionGlass(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: '$count ly',
-    );
+    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count ly');
     return '$_temp0';
   }
 
@@ -4198,11 +3991,7 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String recipeItems(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: '$count thực phẩm',
-    );
+    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count thực phẩm');
     return '$_temp0';
   }
 
@@ -4243,8 +4032,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get searchFoodsHint => 'Tìm thực phẩm';
 
   @override
-  String get searchFoodsEmpty =>
-      'Tìm trong hơn 500 thực phẩm có ảnh, hoặc tự thêm.';
+  String get searchFoodsEmpty => 'Tìm trong hơn 500 thực phẩm có ảnh, hoặc tự thêm.';
 
   @override
   String searchFoodsNone(String query) {
@@ -4281,11 +4069,7 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String weekLoggedDays(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: 'Đã ghi $count ngày',
-    );
+    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: 'Đã ghi $count ngày');
     return '$_temp0';
   }
 
@@ -4371,8 +4155,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get qualityNoData => 'Chưa có dữ liệu';
 
   @override
-  String get qualityNoDataHint =>
-      'Ghi thực phẩm từ cơ sở dữ liệu để xem các axit amin của bạn.';
+  String get qualityNoDataHint => 'Ghi thực phẩm từ cơ sở dữ liệu để xem các axit amin của bạn.';
 
   @override
   String get qualityAllCovered => 'Đã đủ cả chín axit amin thiết yếu.';
@@ -4481,8 +4264,7 @@ class AppLocalizationsVi extends AppLocalizations {
   }
 
   @override
-  String get prepNeedWeight =>
-      'Hãy thêm khối lượng sau khi nấu: một số nguyên liệu không có số gam.';
+  String get prepNeedWeight => 'Hãy thêm khối lượng sau khi nấu: một số nguyên liệu không có số gam.';
 
   @override
   String prepLeftOf(String left, String total) {
@@ -4605,8 +4387,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get notifSuppChannel => 'Thực phẩm bổ sung';
 
   @override
-  String get notifSuppChannelWhy =>
-      'Nhắc nhở hằng ngày để dùng thực phẩm bổ sung';
+  String get notifSuppChannelWhy => 'Nhắc nhở hằng ngày để dùng thực phẩm bổ sung';
 
   @override
   String get energySplit => 'Calo đến từ đâu';
@@ -4687,11 +4468,7 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String planLogged(int n) {
-    String _temp0 = intl.Intl.pluralLogic(
-      n,
-      locale: localeName,
-      other: 'Đã ghi $n thực phẩm',
-    );
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: 'Đã ghi $n thực phẩm');
     return '$_temp0';
   }
 
@@ -4725,8 +4502,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get nutritionAboutTitle => 'Về Dinh dưỡng';
 
   @override
-  String get nutritionAboutSub =>
-      'Nó là gì, và những gì nó sẽ không bao giờ trở thành.';
+  String get nutritionAboutSub => 'Nó là gì, và những gì nó sẽ không bao giờ trở thành.';
 
   @override
   String get nutritionAboutWhatTitle => 'Một phần của việc tập luyện';
@@ -4770,11 +4546,7 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String planImported(int n) {
-    String _temp0 = intl.Intl.pluralLogic(
-      n,
-      locale: localeName,
-      other: 'Đã nhập $n kế hoạch',
-    );
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: 'Đã nhập $n kế hoạch');
     return '$_temp0';
   }
 
@@ -4822,12 +4594,7 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String suppEveryN(int n) {
-    String _temp0 = intl.Intl.pluralLogic(
-      n,
-      locale: localeName,
-      other: 'Mỗi $n ngày',
-      one: 'Mỗi ngày',
-    );
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: 'Mỗi $n ngày', one: 'Mỗi ngày');
     return '$_temp0';
   }
 
@@ -4884,8 +4651,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get suppOneMonth => 'Sau 1 tháng';
 
   @override
-  String get planPickHint =>
-      'Chọn kế hoạch cho ngày này, hoặc tạo kế hoạch mới.';
+  String get planPickHint => 'Chọn kế hoạch cho ngày này, hoặc tạo kế hoạch mới.';
 
   @override
   String planSetForDay(String day) {
@@ -4918,8 +4684,7 @@ class AppLocalizationsVi extends AppLocalizations {
       'Vào những ngày đó, kế hoạch sẽ hiện trong Dinh dưỡng để bạn ghi chỉ với một lần chạm.';
 
   @override
-  String get planDaysNone =>
-      'Hãy chọn ít nhất một ngày, nếu không kế hoạch sẽ không hiện ở đâu cả.';
+  String get planDaysNone => 'Hãy chọn ít nhất một ngày, nếu không kế hoạch sẽ không hiện ở đâu cả.';
 
   @override
   String get planNothingToLog => 'Các bữa đó đã được ghi rồi';
@@ -4937,8 +4702,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get dishNew => 'Tạo món của tôi';
 
   @override
-  String get dishNewHint =>
-      'Chọn nguyên liệu và lượng, lưu lại và ghi chỉ với một lần chạm.';
+  String get dishNewHint => 'Chọn nguyên liệu và lượng, lưu lại và ghi chỉ với một lần chạm.';
 
   @override
   String get dishEdit => 'Sửa món';
@@ -4950,8 +4714,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get dishIngredients => 'Nguyên liệu';
 
   @override
-  String get dishEmptyHint =>
-      'Thêm những gì có trong món với lượng bạn thường ăn.';
+  String get dishEmptyHint => 'Thêm những gì có trong món với lượng bạn thường ăn.';
 
   @override
   String get dishSave => 'Lưu món';
@@ -4993,11 +4756,7 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String movedMealToast(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: 'Đã chuyển $count thực phẩm',
-    );
+    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: 'Đã chuyển $count thực phẩm');
     return '$_temp0';
   }
 
@@ -5024,17 +4783,12 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String savedMealsCount(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: '$count bữa ăn',
-    );
+    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count bữa ăn');
     return '$_temp0';
   }
 
   @override
-  String get savedMealsEmpty =>
-      'Lưu một bữa ăn từ menu ••• của nó, hoặc tự tạo món của bạn.';
+  String get savedMealsEmpty => 'Lưu một bữa ăn từ menu ••• của nó, hoặc tự tạo món của bạn.';
 
   @override
   String get sugarLimitLabel => 'Giới hạn đường';
@@ -5071,12 +4825,10 @@ class AppLocalizationsVi extends AppLocalizations {
   String get rotationTitle => 'LUÂN PHIÊN';
 
   @override
-  String get rotationHint =>
-      'Buổi tiếp theo là giáo án nối tiếp buổi tập gần nhất, bất kể là ngày nào.';
+  String get rotationHint => 'Buổi tiếp theo là giáo án nối tiếp buổi tập gần nhất, bất kể là ngày nào.';
 
   @override
-  String get rotationEmpty =>
-      'Thêm các giáo án tập theo thứ tự bạn sẽ tập: A, B, C…';
+  String get rotationEmpty => 'Thêm các giáo án tập theo thứ tự bạn sẽ tập: A, B, C…';
 
   @override
   String rotationProgress(int done, int total) {
@@ -5113,8 +4865,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get moveToDay => 'Chuyển sang ngày khác';
 
   @override
-  String get moveToDayHint =>
-      'Chỉ lần này; kế hoạch tuần của bạn vẫn giữ nguyên.';
+  String get moveToDayHint => 'Chỉ lần này; kế hoạch tuần của bạn vẫn giữ nguyên.';
 
   @override
   String get movedToast => 'Đã chuyển buổi tập';
@@ -5140,8 +4891,7 @@ class AppLocalizationsVi extends AppLocalizations {
   }
 
   @override
-  String get untrainedAllRecent =>
-      'Tuần này nhóm cơ nào cũng đã được tập. Tốt lắm.';
+  String get untrainedAllRecent => 'Tuần này nhóm cơ nào cũng đã được tập. Tốt lắm.';
 
   @override
   String trainedAgo(int n) {
@@ -5172,8 +4922,7 @@ class AppLocalizationsVi extends AppLocalizations {
       'Thẻ hiện từng bài tập một. Danh sách hiện cả buổi tập trên một màn hình, từng hiệp một.';
 
   @override
-  String get layoutRowHint =>
-      'Từng bài tập một, hoặc cả buổi tập dạng danh sách';
+  String get layoutRowHint => 'Từng bài tập một, hoặc cả buổi tập dạng danh sách';
 
   @override
   String get previousCol => 'LẦN TRƯỚC';
@@ -5191,8 +4940,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get moveDown => 'Chuyển xuống';
 
   @override
-  String get widgetNutritionOff =>
-      'Bật Dinh dưỡng trong Cài đặt › Beta để dùng tiện ích này.';
+  String get widgetNutritionOff => 'Bật Dinh dưỡng trong Cài đặt › Beta để dùng tiện ích này.';
 
   @override
   String get widgetPickShake => 'Chọn ly shake của bạn';
@@ -5207,15 +4955,13 @@ class AppLocalizationsVi extends AppLocalizations {
   String get heatRangeYear => '12 tháng';
 
   @override
-  String get heatRangeHint =>
-      '12 tháng hiện cả năm. Vuốt ngang để xem lùi lại, đến tận buổi tập đầu tiên.';
+  String get heatRangeHint => '12 tháng hiện cả năm. Vuốt ngang để xem lùi lại, đến tận buổi tập đầu tiên.';
 
   @override
   String get pdfPlan => 'Kế hoạch dạng PDF';
 
   @override
-  String get pdfPlanHint =>
-      'Một trang gọn gàng với tuần tập và mọi giáo án tập, sẵn sàng để in hoặc gửi.';
+  String get pdfPlanHint => 'Một trang gọn gàng với tuần tập và mọi giáo án tập, sẵn sàng để in hoặc gửi.';
 
   @override
   String get pdfExport => 'Xuất dạng PDF';
@@ -5265,8 +5011,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get workoutNoteNext => 'Lần sau';
 
   @override
-  String get workoutNoteEveryHint =>
-      'Hiện mỗi lần bạn tập bài này. Hữu ích cho vị trí ghế hoặc ròng rọc.';
+  String get workoutNoteEveryHint => 'Hiện mỗi lần bạn tập bài này. Hữu ích cho vị trí ghế hoặc ròng rọc.';
 
   @override
   String get workoutNoteNextHint => 'Chỉ hiện vào lần sau, rồi biến mất.';
@@ -5304,8 +5049,7 @@ class AppLocalizationsVi extends AppLocalizations {
   }
 
   @override
-  String get trainAgainHint =>
-      'Chỉ một lần, và chỉ khi bạn chưa ghi buổi tập nào trong ngày đó.';
+  String get trainAgainHint => 'Chỉ một lần, và chỉ khi bạn chưa ghi buổi tập nào trong ngày đó.';
 
   @override
   String get notifTrainAgainBody => 'Vẫn còn thời gian để tập hôm nay.';
@@ -5320,11 +5064,7 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String historyWorkouts(int n) {
-    String _temp0 = intl.Intl.pluralLogic(
-      n,
-      locale: localeName,
-      other: '$n BUỔI TẬP',
-    );
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n BUỔI TẬP');
     return '$_temp0';
   }
 
@@ -5332,8 +5072,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get historyEmpty => 'Tháng này không có buổi tập nào';
 
   @override
-  String get historyEmptyHint =>
-      'Vuốt ngang hoặc dùng các mũi tên để xem các tháng khác.';
+  String get historyEmptyHint => 'Vuốt ngang hoặc dùng các mũi tên để xem các tháng khác.';
 
   @override
   String historyMore(int n) {
@@ -5392,15 +5131,13 @@ class AppLocalizationsVi extends AppLocalizations {
   String get planSaveWeek => 'Lưu tuần này';
 
   @override
-  String get planSaveWeekHint =>
-      'Giữ tuần hiện tại thành một kế hoạch để quay lại sau';
+  String get planSaveWeekHint => 'Giữ tuần hiện tại thành một kế hoạch để quay lại sau';
 
   @override
   String get planEmptyWeek => 'Bắt đầu một tuần trống';
 
   @override
-  String get planEmptyWeekHint =>
-      'Tuần hiện tại của bạn vẫn được lưu thành một kế hoạch';
+  String get planEmptyWeekHint => 'Tuần hiện tại của bạn vẫn được lưu thành một kế hoạch';
 
   @override
   String get planName => 'Tên kế hoạch';
@@ -5412,8 +5149,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get planDelete => 'Xóa kế hoạch';
 
   @override
-  String get plansHint =>
-      'Các thay đổi trong tuần được lưu vào kế hoạch đã chọn';
+  String get plansHint => 'Các thay đổi trong tuần được lưu vào kế hoạch đã chọn';
 
   @override
   String get progression => 'Tăng tiến';
@@ -5434,15 +5170,13 @@ class AppLocalizationsVi extends AppLocalizations {
   String get progDouble => 'Tăng tiến kép';
 
   @override
-  String get progDoubleHint =>
-      'Thêm lần lặp đến mức trên của khoảng, rồi thêm mức tạ.';
+  String get progDoubleHint => 'Thêm lần lặp đến mức trên của khoảng, rồi thêm mức tạ.';
 
   @override
   String get progVolume => 'Lần lặp, hiệp và mức tạ';
 
   @override
-  String get progVolumeHint =>
-      'Lần lặp lên mức trên, rồi thêm một hiệp, rồi thêm mức tạ.';
+  String get progVolumeHint => 'Lần lặp lên mức trên, rồi thêm một hiệp, rồi thêm mức tạ.';
 
   @override
   String get progAmrap => 'Hiệp cuối hết sức';
@@ -5465,12 +5199,7 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String progFails(int n) {
-    String _temp0 = intl.Intl.pluralLogic(
-      n,
-      locale: localeName,
-      other: '$n lần trượt',
-      one: '1 lần trượt',
-    );
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n lần trượt', one: '1 lần trượt');
     return '$_temp0';
   }
 
@@ -5521,8 +5250,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get byZone => 'Theo vùng';
 
   @override
-  String get importAlreadyHave =>
-      'Bạn đã có các giáo án tập này. Bạn có thể thêm lại dưới dạng bản sao.';
+  String get importAlreadyHave => 'Bạn đã có các giáo án tập này. Bạn có thể thêm lại dưới dạng bản sao.';
 
   @override
   String get importAsCopy => 'Thêm dưới dạng bản sao';
@@ -5597,8 +5325,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get autoBackupNever => 'Chưa có bản sao lưu';
 
   @override
-  String get autoBackupLost =>
-      'Không lưu được bản sao lưu gần nhất. Hãy chọn lại thư mục.';
+  String get autoBackupLost => 'Không lưu được bản sao lưu gần nhất. Hãy chọn lại thư mục.';
 
   @override
   String get autoBackupSaved => 'Đã lưu bản sao lưu';
@@ -5727,8 +5454,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get fatTrans => 'Chuyển hóa';
 
   @override
-  String get fatTypesHint =>
-      'Không bắt buộc. Để trống những gì nhãn không ghi.';
+  String get fatTypesHint => 'Không bắt buộc. Để trống những gì nhãn không ghi.';
 
   @override
   String get sessionPhotos => 'Ảnh buổi tập';
@@ -5838,15 +5564,13 @@ class AppLocalizationsVi extends AppLocalizations {
   String get awardsPick => 'Chọn cho hồ sơ của bạn';
 
   @override
-  String get awardsPickHint =>
-      'Chạm vào những huy chương bạn muốn hiện trên hồ sơ';
+  String get awardsPickHint => 'Chạm vào những huy chương bạn muốn hiện trên hồ sơ';
 
   @override
   String get gymPassPicture => 'Lưu ảnh của mã';
 
   @override
-  String get gymPassPictureHint =>
-      'Cho những mã ứng dụng không đọc được: hiện ảnh của bạn ở độ sáng tối đa';
+  String get gymPassPictureHint => 'Cho những mã ứng dụng không đọc được: hiện ảnh của bạn ở độ sáng tối đa';
 
   @override
   String get gymPassPictureFormat => 'Ảnh';
@@ -5867,15 +5591,13 @@ class AppLocalizationsVi extends AppLocalizations {
   String get rotatePhoto => 'Xoay';
 
   @override
-  String get cardioNoSets =>
-      'Cardio không được cộng vào số hiệp mỗi nhóm cơ trong tuần';
+  String get cardioNoSets => 'Cardio không được cộng vào số hiệp mỗi nhóm cơ trong tuần';
 
   @override
   String get countsAsWater => 'Tính vào lượng nước';
 
   @override
-  String get countsAsWaterHint =>
-      'Cho các ly shake pha với nước: khi ghi sẽ cộng cả vào lượng nước';
+  String get countsAsWaterHint => 'Cho các ly shake pha với nước: khi ghi sẽ cộng cả vào lượng nước';
 
   @override
   String get waterPerServing => 'Lượng nước mỗi khẩu phần';
@@ -5989,8 +5711,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get holdProgress => 'Tăng tiến theo thời gian';
 
   @override
-  String get holdProgressHint =>
-      'Thêm giây khi bạn giữ đủ thời gian ở mọi hiệp';
+  String get holdProgressHint => 'Thêm giây khi bạn giữ đủ thời gian ở mọi hiệp';
 
   @override
   String holdProgressOn(int s) {
@@ -6152,8 +5873,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get measureKindLength => 'Chiều dài';
 
   @override
-  String get measureKindLengthHint =>
-      'Tính bằng cm hoặc inch, như các số đo khác';
+  String get measureKindLengthHint => 'Tính bằng cm hoặc inch, như các số đo khác';
 
   @override
   String get measureKindOther => 'Khác';
@@ -6179,8 +5899,7 @@ class AppLocalizationsVi extends AppLocalizations {
   }
 
   @override
-  String get measureDeleteBody =>
-      'Mọi giá trị bạn đã ghi cho số đo này cũng bị xóa.';
+  String get measureDeleteBody => 'Mọi giá trị bạn đã ghi cho số đo này cũng bị xóa.';
 
   @override
   String get measureDelete => 'Xóa số đo này';
@@ -6231,8 +5950,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get circuits => 'Circuit tính giờ';
 
   @override
-  String get circuitsHint =>
-      'Tập và nghỉ theo đồng hồ, hết vòng này đến vòng khác';
+  String get circuitsHint => 'Tập và nghỉ theo đồng hồ, hết vòng này đến vòng khác';
 
   @override
   String get newCircuit => 'Circuit mới';
@@ -6267,16 +5985,8 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String circuitSummary(int steps, int rounds, String time) {
-    String _temp0 = intl.Intl.pluralLogic(
-      steps,
-      locale: localeName,
-      other: '$steps bài tập',
-    );
-    String _temp1 = intl.Intl.pluralLogic(
-      rounds,
-      locale: localeName,
-      other: '$rounds vòng',
-    );
+    String _temp0 = intl.Intl.pluralLogic(steps, locale: localeName, other: '$steps bài tập');
+    String _temp1 = intl.Intl.pluralLogic(rounds, locale: localeName, other: '$rounds vòng');
     return '$_temp0 · $_temp1 · $time';
   }
 
@@ -6311,8 +6021,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get circuitStopTitle => 'Dừng circuit?';
 
   @override
-  String get circuitStopBody =>
-      'Những gì bạn đã tập đến giờ được lưu vào lịch sử.';
+  String get circuitStopBody => 'Những gì bạn đã tập đến giờ được lưu vào lịch sử.';
 
   @override
   String get circuitStop => 'Dừng';
@@ -6326,8 +6035,7 @@ class AppLocalizationsVi extends AppLocalizations {
   }
 
   @override
-  String get circuitDeleteBody =>
-      'Các buổi tập bạn đã thực hiện với circuit này vẫn nằm trong lịch sử.';
+  String get circuitDeleteBody => 'Các buổi tập bạn đã thực hiện với circuit này vẫn nằm trong lịch sử.';
 
   @override
   String get circuitPickExercise => 'Chọn bài tập';
@@ -6364,8 +6072,7 @@ class AppLocalizationsVi extends AppLocalizations {
   }
 
   @override
-  String get foodGroupDeleteBody =>
-      'Thực phẩm của bạn vẫn còn, chỉ không thuộc danh mục này nữa.';
+  String get foodGroupDeleteBody => 'Thực phẩm của bạn vẫn còn, chỉ không thuộc danh mục này nữa.';
 
   @override
   String onbHello(String name) {
@@ -6388,8 +6095,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get importCardTitle => 'Đưa các buổi tập của bạn về đây';
 
   @override
-  String get importCardBody =>
-      'Từ Hevy, Strong, FitNotes và nhiều ứng dụng khác';
+  String get importCardBody => 'Từ Hevy, Strong, FitNotes và nhiều ứng dụng khác';
 
   @override
   String get checkInTitle => 'Hôm nay bạn đến tập trong trạng thái nào?';
@@ -6445,8 +6151,7 @@ class AppLocalizationsVi extends AppLocalizations {
   }
 
   @override
-  String get readinessSleepNone =>
-      'Giấc ngủ hầu như không ảnh hưởng đến mức tạ của bạn';
+  String get readinessSleepNone => 'Giấc ngủ hầu như không ảnh hưởng đến mức tạ của bạn';
 
   @override
   String readinessEnergyLess(int n) {
@@ -6459,12 +6164,10 @@ class AppLocalizationsVi extends AppLocalizations {
   }
 
   @override
-  String get readinessEnergyNone =>
-      'Năng lượng hầu như không ảnh hưởng đến mức tạ của bạn';
+  String get readinessEnergyNone => 'Năng lượng hầu như không ảnh hưởng đến mức tạ của bạn';
 
   @override
-  String get readinessHint =>
-      'So sánh mỗi 1RM ước tính với mức tốt nhất của bạn trong 90 ngày trước đó.';
+  String get readinessHint => 'So sánh mỗi 1RM ước tính với mức tốt nhất của bạn trong 90 ngày trước đó.';
 
   @override
   String get readinessLast30 => 'Trung bình 30 ngày qua';
@@ -6480,11 +6183,7 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String clearWorkoutsTitle(int n) {
-    String _temp0 = intl.Intl.pluralLogic(
-      n,
-      locale: localeName,
-      other: 'Xóa $n buổi tập?',
-    );
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: 'Xóa $n buổi tập?');
     return '$_temp0';
   }
 
@@ -6518,11 +6217,7 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String reportDays(int n) {
-    String _temp0 = intl.Intl.pluralLogic(
-      n,
-      locale: localeName,
-      other: '$n ngày',
-    );
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n ngày');
     return '$_temp0';
   }
 
@@ -6536,8 +6231,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get reportHours => 'GIỜ';
 
   @override
-  String get reportVsPrev =>
-      'Phần trăm được so với cùng số ngày ngay trước đó.';
+  String get reportVsPrev => 'Phần trăm được so với cùng số ngày ngay trước đó.';
 
   @override
   String get reportRecords => 'Kỷ lục mới';
@@ -6566,31 +6260,19 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String reportFood(int n) {
-    String _temp0 = intl.Intl.pluralLogic(
-      n,
-      locale: localeName,
-      other: 'Dinh dưỡng · trung bình $n ngày',
-    );
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: 'Dinh dưỡng · trung bình $n ngày');
     return '$_temp0';
   }
 
   @override
   String reportRecordsLine(int n) {
-    String _temp0 = intl.Intl.pluralLogic(
-      n,
-      locale: localeName,
-      other: '$n kỷ lục mới',
-    );
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n kỷ lục mới');
     return '$_temp0';
   }
 
   @override
   String reportLiftsLine(int n) {
-    String _temp0 = intl.Intl.pluralLogic(
-      n,
-      locale: localeName,
-      other: '$n bài tập',
-    );
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n bài tập');
     return '$_temp0';
   }
 
@@ -6713,15 +6395,13 @@ class AppLocalizationsVi extends AppLocalizations {
   String get notifFastLiveChannel => 'Đang nhịn ăn';
 
   @override
-  String get notifFastLiveChannelWhy =>
-      'Đếm ngược lặng lẽ trong khi bạn nhịn ăn.';
+  String get notifFastLiveChannelWhy => 'Đếm ngược lặng lẽ trong khi bạn nhịn ăn.';
 
   @override
   String get notifFastChannel => 'Nhịn ăn';
 
   @override
-  String get notifFastChannelWhy =>
-      'Báo cho bạn khi kết thúc thời gian nhịn ăn.';
+  String get notifFastChannelWhy => 'Báo cho bạn khi kết thúc thời gian nhịn ăn.';
 
   @override
   String get notifFastLiveTitle => 'Đang nhịn ăn';
@@ -6740,8 +6420,7 @@ class AppLocalizationsVi extends AppLocalizations {
   }
 
   @override
-  String get newExerciseHint =>
-      'Chỉ cần tên. Phần còn lại có ích, nhưng bạn có thể thêm sau.';
+  String get newExerciseHint => 'Chỉ cần tên. Phần còn lại có ích, nhưng bạn có thể thêm sau.';
 
   @override
   String get supportThanksTitle => 'Cảm ơn bạn đã ở đây 🤍';
@@ -6761,8 +6440,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get perfLite => 'Tiết kiệm';
 
   @override
-  String get perfLiteHint =>
-      'Không làm mờ và chuyển động nhẹ nhàng hơn. Cho các điện thoại hay bị chậm.';
+  String get perfLiteHint => 'Không làm mờ và chuyển động nhẹ nhàng hơn. Cho các điện thoại hay bị chậm.';
 
   @override
   String get perfBalanced => 'Cân bằng';
@@ -6779,8 +6457,7 @@ class AppLocalizationsVi extends AppLocalizations {
   }
 
   @override
-  String get perfMaxHintNoHz =>
-      'Làm mờ mịn hơn ở mọi nơi. Cho điện thoại cao cấp.';
+  String get perfMaxHintNoHz => 'Làm mờ mịn hơn ở mọi nơi. Cho điện thoại cao cấp.';
 
   @override
   String get perfCustom => 'Tùy chỉnh';
@@ -6792,8 +6469,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get perfFine => 'Làm mờ mịn';
 
   @override
-  String get perfFineHint =>
-      'Viền mềm hơn và nền phía sau các bảng sắc nét hơn';
+  String get perfFineHint => 'Viền mềm hơn và nền phía sau các bảng sắc nét hơn';
 
   @override
   String perfHz(int hz) {
@@ -6853,8 +6529,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get tuneTitle => 'Khối lượng hôm nay';
 
   @override
-  String get tuneHint =>
-      'Cho tôi biết cảm giác của từng nhóm cơ và tôi sẽ điều chỉnh số hiệp cho lần sau.';
+  String get tuneHint => 'Cho tôi biết cảm giác của từng nhóm cơ và tôi sẽ điều chỉnh số hiệp cho lần sau.';
 
   @override
   String get tuneLess => 'Quá ít';
@@ -6877,8 +6552,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get tuneSetting => 'Điều chỉnh số hiệp mỗi nhóm cơ';
 
   @override
-  String get tuneSettingHint =>
-      'Sau một giáo án tập, đánh giá từng nhóm cơ và số hiệp sẽ được điều chỉnh';
+  String get tuneSettingHint => 'Sau một giáo án tập, đánh giá từng nhóm cơ và số hiệp sẽ được điều chỉnh';
 
   @override
   String insightLoad(int pct) {
@@ -6942,11 +6616,7 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String recapWorkouts(int n) {
-    String _temp0 = intl.Intl.pluralLogic(
-      n,
-      locale: localeName,
-      other: 'buổi tập',
-    );
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: 'buổi tập');
     return '$_temp0';
   }
 
@@ -7064,12 +6734,7 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String recapCardioTime(int minutes, int n) {
-    String _temp0 = intl.Intl.pluralLogic(
-      n,
-      locale: localeName,
-      other: '$n buổi tập',
-      one: 'một buổi tập',
-    );
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n buổi tập', one: 'một buổi tập');
     return '$minutes phút qua $_temp0';
   }
 
@@ -7177,11 +6842,7 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String recapFresh(int n) {
-    String _temp0 = intl.Intl.pluralLogic(
-      n,
-      locale: localeName,
-      other: 'bài tập mới',
-    );
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: 'bài tập mới');
     return '$_temp0';
   }
 
@@ -7195,12 +6856,7 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String recapYearAgo(int n) {
-    String _temp0 = intl.Intl.pluralLogic(
-      n,
-      locale: localeName,
-      other: '$n buổi tập',
-      one: '1 buổi tập',
-    );
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n buổi tập', one: '1 buổi tập');
     return 'Một năm trước: $_temp0';
   }
 
@@ -7236,12 +6892,7 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String recapFoodTimes(int n) {
-    String _temp0 = intl.Intl.pluralLogic(
-      n,
-      locale: localeName,
-      other: '$n ngày',
-      one: '1 ngày',
-    );
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n ngày', one: '1 ngày');
     return '$_temp0';
   }
 
@@ -7265,8 +6916,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get onbSpeedMotionHint => 'Màn hình và bảng trượt vào';
 
   @override
-  String get onbSpeedLater =>
-      'Bạn có thể thay đổi bất cứ lúc nào trong Cài đặt › Chung › Hiệu năng.';
+  String get onbSpeedLater => 'Bạn có thể thay đổi bất cứ lúc nào trong Cài đặt › Chung › Hiệu năng.';
 
   @override
   String get notifSoundSetting => 'Âm thanh thông báo';
@@ -7297,8 +6947,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get notifSoundSilent => 'Im lặng';
 
   @override
-  String get notifSoundPhoneHint =>
-      'Chạm vào một âm để nghe thử. Lựa chọn được lưu ngay.';
+  String get notifSoundPhoneHint => 'Chạm vào một âm để nghe thử. Lựa chọn được lưu ngay.';
 
   @override
   String get notifSoundMore => 'Tệp khác…';
@@ -7350,8 +6999,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get noteFolderDelete => 'Xóa thư mục?';
 
   @override
-  String get noteFolderDeleteBody =>
-      'Ghi chú vẫn được giữ: chúng chỉ rời khỏi thư mục.';
+  String get noteFolderDeleteBody => 'Ghi chú vẫn được giữ: chúng chỉ rời khỏi thư mục.';
 
   @override
   String get foodArchivedToast => 'Đã lưu trữ thực phẩm';
@@ -7442,19 +7090,16 @@ class AppLocalizationsVi extends AppLocalizations {
       'Khi bạn đánh dấu một hiệp, giọng nói sẽ cho biết thời gian nghỉ và bài tiếp theo.';
 
   @override
-  String get voicePointCount =>
-      'Giọng nói đếm 3, 2, 1 khi hết giờ nghỉ và gọi bạn quay lại.';
+  String get voicePointCount => 'Giọng nói đếm 3, 2, 1 khi hết giờ nghỉ và gọi bạn quay lại.';
 
   @override
-  String get voicePointPhone =>
-      'Dùng giọng nói của điện thoại và phát đè lên nhạc của bạn.';
+  String get voicePointPhone => 'Dùng giọng nói của điện thoại và phát đè lên nhạc của bạn.';
 
   @override
   String get voiceTry => 'Thử giọng nói';
 
   @override
-  String get voiceNoEngine =>
-      'Điện thoại của bạn chưa bật công cụ giọng nói nào.';
+  String get voiceNoEngine => 'Điện thoại của bạn chưa bật công cụ giọng nói nào.';
 
   @override
   String get voiceNoLang =>
@@ -7465,24 +7110,281 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String voiceMinutes(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: '$count phút',
-    );
+    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count phút');
     return '$_temp0';
   }
 
   @override
   String voiceSeconds(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: '$count giây',
-    );
+    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count giây');
     return '$_temp0';
   }
 
   @override
   String get voiceAnd => 'và';
+
+  @override
+  String get repRecordsTitle => 'Best weight by reps';
+
+  @override
+  String suppUnitCapsule(int n) {
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: 'capsules', one: 'capsule');
+    return '$_temp0';
+  }
+
+  @override
+  String suppUnitPill(int n) {
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: 'pills', one: 'pill');
+    return '$_temp0';
+  }
+
+  @override
+  String suppUnitScoop(int n) {
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: 'scoops', one: 'scoop');
+    return '$_temp0';
+  }
+
+  @override
+  String suppUnitDrop(int n) {
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: 'drops', one: 'drop');
+    return '$_temp0';
+  }
+
+  @override
+  String suppUnitServing(int n) {
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: 'servings', one: 'serving');
+    return '$_temp0';
+  }
+
+  @override
+  String get suppUnitIu => 'IU';
+
+  @override
+  String get suppLeft => 'Left';
+
+  @override
+  String get suppLeftHint => 'Optional';
+
+  @override
+  String suppLeftFor(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: 'Left for $n days',
+      one: 'Left for 1 day',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String suppForDays(int n) {
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n days', one: '1 day');
+    return '$_temp0';
+  }
+
+  @override
+  String get suppRanOut => 'Ran out';
+
+  @override
+  String get lightSession => 'Light session';
+
+  @override
+  String get lightSessionHint => 'Saved in your history and stats, but it won\'t change your next targets.';
+
+  @override
+  String get lightSessionNote => 'Doesn\'t count for progression';
+
+  @override
+  String get lightSessionOff => 'Turn off';
+
+  @override
+  String get eachSideRepsHint =>
+      'Log the left and right reps separately. Progression follows the weaker side.';
+
+  @override
+  String get repsLeftCol => 'REPS L';
+
+  @override
+  String get repsRightCol => 'REPS R';
+
+  @override
+  String get repsLeftTitle => 'LEFT REPS';
+
+  @override
+  String get repsRightTitle => 'RIGHT REPS';
+
+  @override
+  String sidesReps(int l, int r) {
+    return 'L$l R$r';
+  }
+
+  @override
+  String get progSchemeTitle => 'Weight progression';
+
+  @override
+  String get groupMoveUp => 'Move group up';
+
+  @override
+  String get groupMoveDown => 'Move group down';
+
+  @override
+  String get mealAiRow => 'Ask an AI';
+
+  @override
+  String get mealAiRowHint => 'Copy a request, paste the answer';
+
+  @override
+  String get mealAiTitle => 'Meals with AI';
+
+  @override
+  String get mealAiSubtitle => 'Works with any chatbot. The app stays offline.';
+
+  @override
+  String get mealAiStepAsk => 'Ask';
+
+  @override
+  String get mealAiStepPaste => 'Paste';
+
+  @override
+  String get mealAiWholeDay => 'Whole day';
+
+  @override
+  String get mealAiTarget => 'Target';
+
+  @override
+  String mealAiLeft(String kcal, int protein) {
+    return 'You have $kcal and $protein g of protein left today';
+  }
+
+  @override
+  String get mealAiStyle => 'Your taste';
+
+  @override
+  String get mealAiTagProtein => 'High protein';
+
+  @override
+  String get mealAiTagVeggie => 'Vegetarian';
+
+  @override
+  String get mealAiTagVegan => 'Vegan';
+
+  @override
+  String get mealAiTagNoGluten => 'Gluten free';
+
+  @override
+  String get mealAiTagNoLactose => 'Lactose free';
+
+  @override
+  String get mealAiTagQuick => 'Quick';
+
+  @override
+  String get mealAiTagNoCook => 'No cooking';
+
+  @override
+  String get mealAiTagCheap => 'Budget';
+
+  @override
+  String get mealAiNotesHint => 'I have at home… I don’t like… allergies…';
+
+  @override
+  String get mealAiOptions => 'Options';
+
+  @override
+  String get mealAiCopy => 'Copy request';
+
+  @override
+  String get mealAiCopied => 'Request copied';
+
+  @override
+  String get mealAiCopiedHint => 'Paste it into your AI and come back here with the answer';
+
+  @override
+  String get mealAiShowText => 'See the request';
+
+  @override
+  String get mealAiHideText => 'Hide the request';
+
+  @override
+  String get mealAiPasteHint => 'Paste the AI’s answer here';
+
+  @override
+  String get mealAiReview => 'Review answer';
+
+  @override
+  String get mealAiUnreadable => 'I couldn’t find any food in that text';
+
+  @override
+  String get mealAiUnreadableHint =>
+      'Ask the AI to send only the JSON, in one code block, with the format of the request.';
+
+  @override
+  String get mealAiCopyFix => 'Copy that sentence';
+
+  @override
+  String mealAiOption(int n) {
+    return 'Option $n';
+  }
+
+  @override
+  String mealAiAddTo(String meal) {
+    return 'Add to $meal';
+  }
+
+  @override
+  String get mealAiAddDay => 'Add to today';
+
+  @override
+  String get mealAiAddPick => 'Add';
+
+  @override
+  String mealAiAdded(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n foods added',
+      one: '1 food added',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get mealAiSaveRecipe => 'Save as a recipe';
+
+  @override
+  String get mealAiSavePlan => 'Save as a plan';
+
+  @override
+  String get mealAiRecipeSaved => 'Recipe saved';
+
+  @override
+  String get mealAiPlanSaved => 'Plan saved';
+
+  @override
+  String get mealAiFlagEstimated => 'Estimated by the AI';
+
+  @override
+  String get mealAiFlagAdjusted => 'Calories fixed to match the macros';
+
+  @override
+  String get mealAiFlagDoubtful => 'Doesn’t add up, check it';
+
+  @override
+  String get mealAiFlagNoValues => 'No nutrition values';
+
+  @override
+  String get mealAiFlagNoAmount => 'No amount given';
+
+  @override
+  String get mealAiTruncated => 'The answer looks cut off. I kept the complete foods.';
+
+  @override
+  String get mealAiAmount => 'Amount';
+
+  @override
+  String mealAiTargetLine(String kcal) {
+    return 'Target $kcal';
+  }
+
+  @override
+  String get mealAiNothingChosen => 'Turn on at least one food';
 }
