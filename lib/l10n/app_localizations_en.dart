@@ -2805,7 +2805,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get planFormatNotes =>
-      'Use the exercise names exactly as they appear in the list. \"sets\", \"reps\", \"weight\" (in the unit given), \"rest\" in seconds and \"days\" are optional. \"superset\": true links an exercise with the next one. For several weeks, group the routines inside \"weeks\" like the second example.';
+      'Use the exercise names exactly as they appear in the list. \"sets\", \"reps\", \"weight\" (in the unit given), \"rest\" in seconds and \"days\" are optional. For exercises marked cardio or time in the list, use \"time\" (seconds, or like \"30:00\") and \"distance\" (in km) instead of \"reps\"; to change them set by set, put them inside \"plan\". \"superset\": true links an exercise with the next one. For several weeks, group the routines inside \"weeks\" like the second example.';
 
   @override
   String get planSets => 'Plan sets';

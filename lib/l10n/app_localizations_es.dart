@@ -2808,7 +2808,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get planFormatNotes =>
-      'Usa los nombres de los ejercicios tal cual aparecen en la lista. \"sets\", \"reps\", \"weight\" (en la unidad indicada), \"rest\" en segundos y \"days\" son opcionales. \"superset\": true une un ejercicio con el siguiente. Para varias semanas, agrupa las rutinas dentro de \"weeks\" como en el segundo ejemplo.';
+      'Usa los nombres de los ejercicios tal cual aparecen en la lista. \"sets\", \"reps\", \"weight\" (en la unidad indicada), \"rest\" en segundos y \"days\" son opcionales. En los ejercicios marcados como cardio o time en la lista, usa \"time\" (segundos, o como \"30:00\") y \"distance\" (en km) en lugar de \"reps\"; para cambiarlos serie a serie, ponlos dentro de \"plan\". \"superset\": true une un ejercicio con el siguiente. Para varias semanas, agrupa las rutinas dentro de \"weeks\" como en el segundo ejemplo.';
 
   @override
   String get planSets => 'Planificar series';

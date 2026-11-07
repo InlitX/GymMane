@@ -971,7 +971,7 @@
   "setTypeDropInfo": "Straight after a set, lower the weight and keep going without resting.",
   "setTypeFailureInfo": "Keep going until you can't do another clean rep. Log the reps you actually did.",
   "setTypeRestPauseInfo": "Rest 10 to 20 seconds after the set, then squeeze out a few more reps.",
-  "planFormatNotes": "Use the exercise names exactly as they appear in the list. \"sets\", \"reps\", \"weight\" (in the unit given), \"rest\" in seconds and \"days\" are optional. \"superset\": true links an exercise with the next one. For several weeks, group the routines inside \"weeks\" like the second example.",
+  "planFormatNotes": "Use the exercise names exactly as they appear in the list. \"sets\", \"reps\", \"weight\" (in the unit given), \"rest\" in seconds and \"days\" are optional. For exercises marked cardio or time in the list, use \"time\" (seconds, or like \"30:00\") and \"distance\" (in km) instead of \"reps\"; to change them set by set, put them inside \"plan\". \"superset\": true links an exercise with the next one. For several weeks, group the routines inside \"weeks\" like the second example.",
   "planSets": "Plan sets",
   "planSetsHint": "Choose the type, reps and weight of each set. Leave the weight on Auto to start from your last session.",
   "planHintReps": "Choose the type and reps of each set. Auto starts from your last session.",
