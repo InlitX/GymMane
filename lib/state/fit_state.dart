@@ -1037,6 +1037,14 @@ class FitState extends FitCore
       '        {"name": "Barbell Bent Over Row", "sets": 4, "reps": 8, "superset": true},\n'
       '        {"name": "Dumbbell Biceps Curl", "sets": 3, "reps": 12}\n'
       '      ]\n'
+      '    },\n'
+      '    {\n'
+      '      "name": "Cardio and core",\n'
+      '      "days": ["Saturday"],\n'
+      '      "exercises": [\n'
+      '        {"name": "Treadmill Run", "sets": 1, "time": 1800, "distance": 5},\n'
+      '        {"name": "Hollow Body Hold", "sets": 3, "time": 45}\n'
+      '      ]\n'
       '    }\n'
       '  ]\n'
       '}';
@@ -1209,17 +1217,18 @@ class FitState extends FitCore
           reps: p.reps ?? item.reps,
           weightKg: p.weightKg ?? (p.kind == SetKind.warmup.index ? null : item.weightKg),
           kind: setKindFrom(p.kind),
-          sec: p.sec,
-          km: p.km,
+          sec: p.sec ?? item.sec,
+          km: p.km ?? item.km,
         ),
     ];
     final working = explicit.where((p) => p.kind != SetKind.warmup).length;
-    final simple = item.reps == null && item.weightKg == null;
+    final simple = item.reps == null && item.weightKg == null && item.sec == null && item.km == null;
     final wanted = item.sets ?? (working > 0 || simple ? working : kDefaultRoutineSets);
     if (simple && explicit.isEmpty) return const [];
     return [
       ...explicit,
-      for (var i = working; i < wanted.clamp(0, 20); i++) PlannedSet(reps: item.reps, weightKg: item.weightKg),
+      for (var i = working; i < wanted.clamp(0, 20); i++)
+        PlannedSet(reps: item.reps, weightKg: item.weightKg, sec: item.sec, km: item.km),
     ];
   }
 

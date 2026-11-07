@@ -26,6 +26,8 @@ class PlanItem {
     this.mode = '',
     this.secondary = const [],
     this.ladder = const [],
+    this.sec,
+    this.km,
   });
   final String name;
   final int? sets;
@@ -42,6 +44,8 @@ class PlanItem {
   final List<String> steps;
   final String mode;
   final List<String> ladder;
+  final int? sec;
+  final double? km;
 }
 
 class PlanRoutine {
@@ -320,6 +324,8 @@ List<PlanItem> _items(Object? raw, bool lb) {
         final List list => [for (final s in list.whereType<String>()) if (s.trim().isNotEmpty) s.trim()],
         _ => const [],
       },
+      sec: _seconds(_value(entry, _timeKeys)),
+      km: _double(_value(entry, _distanceKeys)),
     ));
   }
   return _mergeRepeats(out);
@@ -329,11 +335,13 @@ List<PlanSet> _expanded(PlanItem item) {
   if (item.plan.isNotEmpty) {
     final working = item.plan.where((p) => p.kind != 1).length;
     return [
-      for (final p in item.plan) PlanSet(reps: p.reps ?? item.reps, weightKg: p.weightKg ?? item.weightKg, kind: p.kind, sec: p.sec, km: p.km),
-      for (var i = working; i < (item.sets ?? working); i++) PlanSet(reps: item.reps, weightKg: item.weightKg),
+      for (final p in item.plan)
+        PlanSet(reps: p.reps ?? item.reps, weightKg: p.weightKg ?? item.weightKg, kind: p.kind, sec: p.sec ?? item.sec, km: p.km ?? item.km),
+      for (var i = working; i < (item.sets ?? working); i++)
+        PlanSet(reps: item.reps, weightKg: item.weightKg, sec: item.sec, km: item.km),
     ];
   }
-  return [for (var i = 0; i < (item.sets ?? 1); i++) PlanSet(reps: item.reps, weightKg: item.weightKg)];
+  return [for (var i = 0; i < (item.sets ?? 1); i++) PlanSet(reps: item.reps, weightKg: item.weightKg, sec: item.sec, km: item.km)];
 }
 
 List<PlanItem> _mergeRepeats(List<PlanItem> items) {
@@ -365,6 +373,8 @@ List<PlanItem> _mergeRepeats(List<PlanItem> items) {
       mode: first.mode,
       secondary: first.secondary,
       ladder: first.ladder,
+      sec: first.sec ?? item.sec,
+      km: first.km ?? item.km,
     );
   }
   return out;
@@ -409,6 +419,8 @@ List<PlanRoutine> _parseCsv(String raw) {
   var weight = col(_weightKeys);
   final group = col(['week', 'semana', 'group', 'grupo', 'program']);
   final rest = col(_restKeys);
+  final time = col(_timeKeys);
+  final distance = col(_distanceKeys);
   final days = col(['weekday', 'weekdays', 'schedule']);
   final lb = head.any((h) => h == 'lbs' || h == 'lb' || h == 'weightlbs');
   var body = rows.skip(1).toList();
@@ -445,6 +457,8 @@ List<PlanRoutine> _parseCsv(String raw) {
       reps: _int(cell(r, reps)),
       weightKg: _weight(cell(r, weight), lb),
       restSec: _seconds(cell(r, rest)),
+      sec: _seconds(cell(r, time)),
+      km: _double(cell(r, distance)),
     ));
   }
   return [

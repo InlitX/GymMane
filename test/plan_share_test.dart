@@ -36,6 +36,29 @@ void main() {
       expect([for (final p in item.plan) p.reps], [8, 12, 12]);
     });
 
+    test('lee el tiempo y la distancia puestos en el propio ejercicio', () {
+      final plans = parsePlan('{"routines":[{"name":"Cardio","exercises":['
+          '{"name":"Treadmill Run","sets":1,"time":"30:00","distance":"5,2 km"},'
+          '{"name":"Hollow Body Hold","sets":3,"duration":45}]}]}');
+      final run = plans.single.items.first;
+      expect(run.sec, 1800);
+      expect(run.km, 5.2);
+      final hold = plans.single.items.last;
+      expect(hold.sec, 45);
+      expect(hold.km, isNull);
+      expect(hold.sets, 3);
+    });
+
+    test('el tiempo del ejercicio se reparte en las series y una serie puede cambiarlo', () {
+      final item = parsePlan('{"exercises":[{"name":"Hollow Body Hold","sets":3,"time":45,'
+              '"plan":[{"time":60}]}]}')
+          .single
+          .items
+          .single;
+      expect(item.sec, 45);
+      expect(item.plan.single.sec, 60);
+    });
+
     test('un archivo que no es un plan devuelve nada', () {
       expect(parsePlan('hola'), isEmpty);
       expect(parsePlan('{"name":"Push"}'), isEmpty);
@@ -56,6 +79,37 @@ void main() {
       expect(routine.name, 'Empuje');
       expect(routine.exerciseIds.length, 1);
       expect(fit.routineSets(routine, routine.exerciseIds.first), 5);
+    });
+
+    test('el tiempo y la distancia del ejercicio llegan a todas las series de la rutina', () {
+      final result = fit.importPlan('{"name":"Cardio","exercises":['
+          '{"name":"Treadmill Run","sets":1,"time":1800,"distance":5},'
+          '{"name":"Hollow Body Hold","sets":3,"time":45}]}');
+      expect(result.added, 2);
+      final routine = fit.routines.single;
+      final run = fit.plannedSets(routine, routine.exerciseIds[0]);
+      expect(run.length, 1);
+      expect(run.single.sec, 1800);
+      expect(run.single.km, 5);
+      final hold = fit.plannedSets(routine, routine.exerciseIds[1]);
+      expect(hold.length, 3);
+      expect(hold.every((p) => p.sec == 45 && p.km == null), isTrue);
+    });
+
+    test('un ejercicio solo con tiempo no se pierde como si no tuviera datos', () {
+      fit.importPlan('{"name":"X","exercises":[{"name":"Treadmill Run","time":600}]}');
+      final routine = fit.routines.single;
+      final sets = fit.plannedSets(routine, routine.exerciseIds.single);
+      expect(sets, isNotEmpty);
+      expect(sets.first.sec, 600);
+    });
+
+    test('el CSV acepta columnas de tiempo y distancia', () {
+      final plans = parsePlan('routine,exercise,sets,time,distance\nCardio,Treadmill Run,1,30:00,5\nCardio,Hollow Body Hold,3,45,');
+      final items = plans.single.items;
+      expect(items.first.sec, 1800);
+      expect(items.first.km, 5);
+      expect(items.last.sec, 45);
     });
 
     test('avisa cuando no hay nada que emparejar', () {
