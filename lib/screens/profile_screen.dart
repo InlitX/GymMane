@@ -425,7 +425,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
         FittedBox(
           fit: BoxFit.scaleDown,
           alignment: AlignmentDirectional.centerStart,
-          child: Row(
+          child: Ltr(child: Row(
             crossAxisAlignment: CrossAxisAlignment.baseline,
             textBaseline: TextBaseline.alphabetic,
             children: [
@@ -434,7 +434,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                 Text(unit,
                     style: AppTheme.f(12.5, weight: FontWeight.w600, color: gc.textSecondary)),
             ],
-          ),
+          )),
         ),
         const SizedBox(height: 5),
         Text(label.toUpperCase(),
@@ -649,6 +649,36 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
       );
 }
 
+class _GrabberPainter extends CustomPainter {
+  const _GrabberPainter(this.t, this.color);
+
+  final double t;
+  final Color color;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final mid = size.height / 2;
+    final half = 16 - 4 * t;
+    final lift = 5 * t;
+    final path = Path()
+      ..moveTo(size.width / 2 - half, mid - lift)
+      ..lineTo(size.width / 2, mid + lift)
+      ..lineTo(size.width / 2 + half, mid - lift);
+    canvas.drawPath(
+      path,
+      Paint()
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 4
+        ..strokeCap = StrokeCap.round
+        ..strokeJoin = StrokeJoin.round
+        ..color = color.withValues(alpha: 0.22 + 0.4 * t),
+    );
+  }
+
+  @override
+  bool shouldRepaint(_GrabberPainter old) => old.t != t || old.color != color;
+}
+
 class _ProfileHeader extends SliverPersistentHeaderDelegate {
   _ProfileHeader({
     required this.gc,
@@ -767,17 +797,16 @@ class _ProfileHeader extends SliverPersistentHeaderDelegate {
         Positioned(
           left: 0,
           right: 0,
-          top: bannerBottom - 2,
+          top: bannerBottom - 9,
           child: IgnorePointer(
             child: Opacity(
               opacity: fade,
               child: Center(
-                child: Container(
-                  width: 36,
-                  height: 4,
-                  decoration: BoxDecoration(
-                    color: gc.text.withValues(alpha: 0.22),
-                    borderRadius: BorderRadius.circular(2),
+                child: ValueListenableBuilder<double>(
+                  valueListenable: pull,
+                  builder: (_, v, _) => CustomPaint(
+                    size: const Size(44, 18),
+                    painter: _GrabberPainter(Curves.easeOutCubic.transform((v / 64).clamp(0.0, 1.0)), gc.text),
                   ),
                 ),
               ),
@@ -871,7 +900,7 @@ class _ProfileHeader extends SliverPersistentHeaderDelegate {
         ),
         if (p.badge.isNotEmpty) ...[
           const SizedBox(width: 5),
-          Icon(PhosphorIconsFill.sealCheck, size: 14, color: badgeColor(p.badge)),
+          Icon(PhosphorIconsFill.sealCheck, size: 14, color: badgeColor(p.badge), textDirection: TextDirection.ltr),
         ],
       ],
     );
@@ -892,7 +921,7 @@ class _ProfileHeader extends SliverPersistentHeaderDelegate {
             ),
             if (p.badge.isNotEmpty) ...[
               const SizedBox(width: 7),
-              Icon(PhosphorIconsFill.sealCheck, size: 19, color: badgeColor(p.badge)),
+              Icon(PhosphorIconsFill.sealCheck, size: 19, color: badgeColor(p.badge), textDirection: TextDirection.ltr),
             ],
           ],
         ),
