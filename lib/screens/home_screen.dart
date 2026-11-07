@@ -530,7 +530,7 @@ class HomeScreen extends StatelessWidget {
             style: AppTheme.f(9.5,
                 weight: FontWeight.w600, color: gc.textTertiary, letterSpacing: 0.9)),
         const SizedBox(height: 6),
-        Row(
+        Ltr(child: Row(
           crossAxisAlignment: CrossAxisAlignment.baseline,
           textBaseline: TextBaseline.alphabetic,
           children: [
@@ -547,7 +547,7 @@ class HomeScreen extends StatelessWidget {
                   style: AppTheme.f(11, weight: FontWeight.w600, color: gc.textSecondary)),
             ],
           ],
-        ),
+        )),
       ],
       ),
     );

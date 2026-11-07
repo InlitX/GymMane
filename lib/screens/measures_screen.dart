@@ -378,7 +378,7 @@ class _MeasureSheetState extends State<_MeasureSheet> {
                   ]),
                   const SizedBox(height: 6),
                   Center(
-                    child: Row(
+                    child: Ltr(child: Row(
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.baseline,
                       textBaseline: TextBaseline.alphabetic,
@@ -389,7 +389,7 @@ class _MeasureSheetState extends State<_MeasureSheet> {
                         Text(fit.measureUnit(_key),
                             style: AppTheme.f(18, weight: FontWeight.w700, color: gc.textSecondary)),
                       ],
-                    ),
+                    )),
                   ),
                   const SizedBox(height: 14),
                   RulerPicker(

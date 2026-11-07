@@ -167,7 +167,7 @@ class ProgressScreen extends StatelessWidget {
           FittedBox(
             fit: BoxFit.scaleDown,
             alignment: Alignment.centerLeft,
-            child: Row(
+            child: Ltr(child: Row(
               crossAxisAlignment: CrossAxisAlignment.baseline,
               textBaseline: TextBaseline.alphabetic,
               children: [
@@ -177,7 +177,7 @@ class ProgressScreen extends StatelessWidget {
                   Text(unit, style: AppTheme.f(13, weight: FontWeight.w500, color: gc.textSecondary)),
                 ],
               ],
-            ),
+            )),
           ),
           if (note != null) ...[
             const SizedBox(height: 4),
@@ -1113,7 +1113,7 @@ class _BodyweightSheetState extends State<_BodyweightSheet> {
                 SheetTitle(t.bodyweightLabel, subtitle: latest == null ? null : t.shortDateYear(latest.date)),
                 const SizedBox(height: 14),
                 Center(
-                  child: Row(
+                  child: Ltr(child: Row(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.baseline,
                     textBaseline: TextBaseline.alphabetic,
@@ -1123,7 +1123,7 @@ class _BodyweightSheetState extends State<_BodyweightSheet> {
                       const SizedBox(width: 6),
                       Text(fit.units, style: AppTheme.f(17, weight: FontWeight.w700, color: gc.textSecondary)),
                     ],
-                  ),
+                  )),
                 ),
                 if (trendShown.length >= 2) ...[
                   const SizedBox(height: 4),
@@ -2556,7 +2556,7 @@ class _LogBodyweightSheetState extends State<_LogBodyweightSheet> {
           const SizedBox(height: 4),
           Text(t.trackWeight, style: AppTheme.s(13, color: gc.textSecondary)),
           const SizedBox(height: 18),
-          Row(
+          Ltr(child: Row(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.baseline,
             textBaseline: TextBaseline.alphabetic,
@@ -2566,7 +2566,7 @@ class _LogBodyweightSheetState extends State<_LogBodyweightSheet> {
               const SizedBox(width: 6),
               Text(fit.units, style: AppTheme.f(18, weight: FontWeight.w700, color: gc.textSecondary)),
             ],
-          ),
+          )),
           const SizedBox(height: 16),
           RulerPicker(
             value: _shown,

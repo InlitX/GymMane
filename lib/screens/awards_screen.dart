@@ -85,7 +85,7 @@ class _AwardsScreenState extends State<AwardsScreen> {
             const SizedBox(width: 14),
             Expanded(
               child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Row(
+                Ltr(child: Row(
                   crossAxisAlignment: CrossAxisAlignment.baseline,
                   textBaseline: TextBaseline.alphabetic,
                   children: [
@@ -94,7 +94,7 @@ class _AwardsScreenState extends State<AwardsScreen> {
                     const SizedBox(width: 5),
                     Text('/ $total', style: AppTheme.f(16, weight: FontWeight.w800, color: gc.textTertiary)),
                   ],
-                ),
+                )),
                 const SizedBox(height: 3),
                 Text(t.awardsEarned.toUpperCase(),
                     style: AppTheme.f(10, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.4)),

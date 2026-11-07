@@ -441,7 +441,7 @@ class PlacesScreen extends StatelessWidget {
                   ToolRow(
                     label: t.barWeight,
                     control: StepperControl(
-                      value: '${fmt(bar)} ${fit.units}',
+                      value: ltr('${fmt(bar)} ${fit.units}'),
                       minWidth: 66,
                       btnSize: 28,
                       gap: 8,
@@ -489,7 +489,7 @@ class PlacesScreen extends StatelessWidget {
     final kg = fit.fromDisplayWeight(size);
     final pairs = fit.platePairs(place, kg);
     return ToolRow(
-      label: '${fmt(size)} ${fit.units}',
+      label: ltr('${fmt(size)} ${fit.units}'),
       control: StepperControl(
         value: '$pairs',
         minWidth: 34,

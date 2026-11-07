@@ -83,7 +83,7 @@ class ToolDetailScreen extends StatelessWidget {
   (String, String, String) _meta(String? id) {
     switch (id) {
       case 'rm':
-        return (t.toolTitle('rm'), '${fit.weightValue(fit.rmResult)} ${fit.units}', t.toolResultHint('rm'));
+        return (t.toolTitle('rm'), ltr('${fit.weightValue(fit.rmResult)} ${fit.units}'), t.toolResultHint('rm'));
       case 'bmi':
 
         return (t.toolTitle('bmi'), fmt(fit.bmiVal), t.bmiCategory(fit.bmiCat));
@@ -92,11 +92,11 @@ class ToolDetailScreen extends StatelessWidget {
       case 'bf':
         return (t.toolTitle('bf'), '${fmt(fit.bfVal)}%', t.toolResultHint('bf'));
       case 'plate':
-        return (t.toolTitle('plate'), '${fit.weightValue(fit.plateTarget)} ${fit.units}', t.toolResultHint('plate'));
+        return (t.toolTitle('plate'), ltr('${fit.weightValue(fit.plateTarget)} ${fit.units}'), t.toolResultHint('plate'));
       case 'warmup':
-        return (t.toolTitle('warmup'), '${fit.weightValue(fit.warmupTarget)} ${fit.units}', t.toolResultHint('warmup'));
+        return (t.toolTitle('warmup'), ltr('${fit.weightValue(fit.warmupTarget)} ${fit.units}'), t.toolResultHint('warmup'));
       case 'rpe':
-        return (t.toolTitle('rpe'), '${fit.weightValue(fit.rpeResult)} ${fit.units}',
+        return (t.toolTitle('rpe'), ltr('${fit.weightValue(fit.rpeResult)} ${fit.units}'),
             t.rpeResultHint(fit.rpeTargetReps, fmt(fit.rpeTargetRpe)));
       case 'dots':
         return (t.toolTitle('dots'), fmt(fit.dotsScore), t.dotsLevelName(fit.dotsLevel));
@@ -113,7 +113,7 @@ class ToolDetailScreen extends StatelessWidget {
     switch (id) {
       case 'rm':
         return [
-          ToolRow(label: t.weightLifted, control: StepperControl(value: '${fit.weightValue(fit.rmWeight)} ${fit.units}', onDec: () => fit.bumpRmWeight(-fit.fromDisplayWeight(fit.weightStep)), onInc: () => fit.bumpRmWeight(fit.fromDisplayWeight(fit.weightStep)), onEdit: () => _editNumber(context, title: t.weightLifted, current: fit.toDisplayWeight(fit.rmWeight), decimal: true, apply: (v) => fit.bumpRmWeight(fit.fromDisplayWeight(v) - fit.rmWeight)))),
+          ToolRow(label: t.weightLifted, control: StepperControl(value: ltr('${fit.weightValue(fit.rmWeight)} ${fit.units}'), onDec: () => fit.bumpRmWeight(-fit.fromDisplayWeight(fit.weightStep)), onInc: () => fit.bumpRmWeight(fit.fromDisplayWeight(fit.weightStep)), onEdit: () => _editNumber(context, title: t.weightLifted, current: fit.toDisplayWeight(fit.rmWeight), decimal: true, apply: (v) => fit.bumpRmWeight(fit.fromDisplayWeight(v) - fit.rmWeight)))),
           const SizedBox(height: 10),
           ToolRow(label: t.repsPerformed, control: StepperControl(value: '${fit.rmReps}', minWidth: 40, onDec: () => fit.bumpRmReps(-1), onInc: () => fit.bumpRmReps(1), onEdit: () => _editNumber(context, title: t.repsPerformed, current: fit.rmReps.toDouble(), decimal: false, apply: (v) => fit.bumpRmReps(v.round() - fit.rmReps)))),
           const SizedBox(height: 10),
@@ -125,7 +125,7 @@ class ToolDetailScreen extends StatelessWidget {
         return [
           ToolRow(label: t.heightLabel, control: StepperControl(value: fit.heightLabel(fit.bmiHeight), onDec: () => fit.bumpBmiHeight(-fit.heightStep), onInc: () => fit.bumpBmiHeight(fit.heightStep), onEdit: () => _editNumber(context, title: t.heightLabel, current: fit.toDisplayCm(fit.bmiHeight), decimal: true, apply: (v) => fit.bumpBmiHeight(fit.fromDisplayCm(v) - fit.bmiHeight)))),
           const SizedBox(height: 10),
-          ToolRow(label: t.weightLabel, control: StepperControl(value: '${fit.weightValue(fit.bmiWeight)} ${fit.units}', onDec: () => fit.bumpBmiWeight(-fit.fromDisplayWeight(fit.isLb ? 1 : 0.5)), onInc: () => fit.bumpBmiWeight(fit.fromDisplayWeight(fit.isLb ? 1 : 0.5)), onEdit: () => _editNumber(context, title: t.weightLabel, current: fit.toDisplayWeight(fit.bmiWeight), decimal: true, apply: (v) => fit.bumpBmiWeight(fit.fromDisplayWeight(v) - fit.bmiWeight)))),
+          ToolRow(label: t.weightLabel, control: StepperControl(value: ltr('${fit.weightValue(fit.bmiWeight)} ${fit.units}'), onDec: () => fit.bumpBmiWeight(-fit.fromDisplayWeight(fit.isLb ? 1 : 0.5)), onInc: () => fit.bumpBmiWeight(fit.fromDisplayWeight(fit.isLb ? 1 : 0.5)), onEdit: () => _editNumber(context, title: t.weightLabel, current: fit.toDisplayWeight(fit.bmiWeight), decimal: true, apply: (v) => fit.bumpBmiWeight(fit.fromDisplayWeight(v) - fit.bmiWeight)))),
         ];
       case 'cal':
         return [
@@ -141,7 +141,7 @@ class ToolDetailScreen extends StatelessWidget {
           const SizedBox(height: 10),
           ToolRow(label: t.heightLabel, control: StepperControl(value: fit.heightLabel(fit.calHeight), onDec: () => fit.bumpCalHeight(-fit.heightStep), onInc: () => fit.bumpCalHeight(fit.heightStep), onEdit: () => _editNumber(context, title: t.heightLabel, current: fit.toDisplayCm(fit.calHeight), decimal: true, apply: (v) => fit.bumpCalHeight(fit.fromDisplayCm(v) - fit.calHeight)))),
           const SizedBox(height: 10),
-          ToolRow(label: t.weightLabel, control: StepperControl(value: '${fit.weightValue(fit.calWeight)} ${fit.units}', onDec: () => fit.bumpCalWeight(-fit.fromDisplayWeight(fit.isLb ? 1 : 0.5)), onInc: () => fit.bumpCalWeight(fit.fromDisplayWeight(fit.isLb ? 1 : 0.5)), onEdit: () => _editNumber(context, title: t.weightLabel, current: fit.toDisplayWeight(fit.calWeight), decimal: true, apply: (v) => fit.bumpCalWeight(fit.fromDisplayWeight(v) - fit.calWeight)))),
+          ToolRow(label: t.weightLabel, control: StepperControl(value: ltr('${fit.weightValue(fit.calWeight)} ${fit.units}'), onDec: () => fit.bumpCalWeight(-fit.fromDisplayWeight(fit.isLb ? 1 : 0.5)), onInc: () => fit.bumpCalWeight(fit.fromDisplayWeight(fit.isLb ? 1 : 0.5)), onEdit: () => _editNumber(context, title: t.weightLabel, current: fit.toDisplayWeight(fit.calWeight), decimal: true, apply: (v) => fit.bumpCalWeight(fit.fromDisplayWeight(v) - fit.calWeight)))),
           const SizedBox(height: 10),
           _activityCard(gc),
           const SizedBox(height: 10),
@@ -159,7 +159,7 @@ class ToolDetailScreen extends StatelessWidget {
         ];
       case 'plate':
         return [
-          ToolRow(label: t.targetWeight, control: StepperControl(value: '${fit.weightValue(fit.plateTarget)} ${fit.units}', onDec: () => fit.bumpPlateTarget(-fit.fromDisplayWeight(fit.weightStep)), onInc: () => fit.bumpPlateTarget(fit.fromDisplayWeight(fit.weightStep)), onEdit: () => _editNumber(context, title: t.targetWeight, current: fit.toDisplayWeight(fit.plateTarget), decimal: true, apply: (v) => fit.bumpPlateTarget(fit.fromDisplayWeight(v) - fit.plateTarget)))),
+          ToolRow(label: t.targetWeight, control: StepperControl(value: ltr('${fit.weightValue(fit.plateTarget)} ${fit.units}'), onDec: () => fit.bumpPlateTarget(-fit.fromDisplayWeight(fit.weightStep)), onInc: () => fit.bumpPlateTarget(fit.fromDisplayWeight(fit.weightStep)), onEdit: () => _editNumber(context, title: t.targetWeight, current: fit.toDisplayWeight(fit.plateTarget), decimal: true, apply: (v) => fit.bumpPlateTarget(fit.fromDisplayWeight(v) - fit.plateTarget)))),
           const SizedBox(height: 10),
           _barWeightCard(context, gc),
           const SizedBox(height: 10),
@@ -167,7 +167,7 @@ class ToolDetailScreen extends StatelessWidget {
         ];
       case 'warmup':
         return [
-          ToolRow(label: t.workingWeight, control: StepperControl(value: '${fit.weightValue(fit.warmupTarget)} ${fit.units}', onDec: () => fit.bumpWarmupTarget(-fit.fromDisplayWeight(fit.weightStep)), onInc: () => fit.bumpWarmupTarget(fit.fromDisplayWeight(fit.weightStep)), onEdit: () => _editNumber(context, title: t.workingWeight, current: fit.toDisplayWeight(fit.warmupTarget), decimal: true, apply: (v) => fit.bumpWarmupTarget(fit.fromDisplayWeight(v) - fit.warmupTarget)))),
+          ToolRow(label: t.workingWeight, control: StepperControl(value: ltr('${fit.weightValue(fit.warmupTarget)} ${fit.units}'), onDec: () => fit.bumpWarmupTarget(-fit.fromDisplayWeight(fit.weightStep)), onInc: () => fit.bumpWarmupTarget(fit.fromDisplayWeight(fit.weightStep)), onEdit: () => _editNumber(context, title: t.workingWeight, current: fit.toDisplayWeight(fit.warmupTarget), decimal: true, apply: (v) => fit.bumpWarmupTarget(fit.fromDisplayWeight(v) - fit.warmupTarget)))),
           const SizedBox(height: 10),
           _warmupCard(gc),
         ];
@@ -175,7 +175,7 @@ class ToolDetailScreen extends StatelessWidget {
         final step = fit.fromDisplayWeight(fit.weightStep);
         return [
           _sectionLabel(gc, t.rpeYourSet),
-          ToolRow(label: t.weightLifted, control: StepperControl(value: '${fit.weightValue(fit.rpeWeight)} ${fit.units}', onDec: () => fit.bumpRpeWeight(-step), onInc: () => fit.bumpRpeWeight(step), onEdit: () => _editNumber(context, title: t.weightLifted, current: fit.toDisplayWeight(fit.rpeWeight), decimal: true, apply: (v) => fit.bumpRpeWeight(fit.fromDisplayWeight(v) - fit.rpeWeight)))),
+          ToolRow(label: t.weightLifted, control: StepperControl(value: ltr('${fit.weightValue(fit.rpeWeight)} ${fit.units}'), onDec: () => fit.bumpRpeWeight(-step), onInc: () => fit.bumpRpeWeight(step), onEdit: () => _editNumber(context, title: t.weightLifted, current: fit.toDisplayWeight(fit.rpeWeight), decimal: true, apply: (v) => fit.bumpRpeWeight(fit.fromDisplayWeight(v) - fit.rpeWeight)))),
           ToolRow(label: t.repsPerformed, control: StepperControl(value: '${fit.rpeReps}', minWidth: 40, onDec: () => fit.bumpRpeReps(-1), onInc: () => fit.bumpRpeReps(1))),
           ToolRow(label: t.rpeEffortLabel, control: StepperControl(value: fmt(fit.rpeRpe), minWidth: 40, onDec: () => fit.bumpRpe(-0.5), onInc: () => fit.bumpRpe(0.5))),
           _sectionLabel(gc, t.rpeGoal),
@@ -189,7 +189,7 @@ class ToolDetailScreen extends StatelessWidget {
         Widget lift(String label, double kg, void Function(double) bump) => ToolRow(
               label: label,
               control: StepperControl(
-                value: '${fit.weightValue(kg)} ${fit.units}',
+                value: ltr('${fit.weightValue(kg)} ${fit.units}'),
                 onDec: () => bump(-step),
                 onInc: () => bump(step),
                 onEdit: () => _editNumber(context, title: label, current: fit.toDisplayWeight(kg), decimal: true, apply: (v) => bump(fit.fromDisplayWeight(v) - kg)),
@@ -220,7 +220,7 @@ class ToolDetailScreen extends StatelessWidget {
             ]),
           ),
           ToolRow(label: t.heightLabel, control: StepperControl(value: fit.heightLabel(fit.ffmiHeight), onDec: () => fit.bumpFfmiHeight(-fit.heightStep), onInc: () => fit.bumpFfmiHeight(fit.heightStep), onEdit: () => _editNumber(context, title: t.heightLabel, current: fit.toDisplayCm(fit.ffmiHeight), decimal: true, apply: (v) => fit.bumpFfmiHeight(fit.fromDisplayCm(v) - fit.ffmiHeight)))),
-          ToolRow(label: t.weightLabel, control: StepperControl(value: '${fit.weightValue(fit.ffmiWeight)} ${fit.units}', onDec: () => fit.bumpFfmiWeight(-fit.fromDisplayWeight(fit.isLb ? 1 : 0.5)), onInc: () => fit.bumpFfmiWeight(fit.fromDisplayWeight(fit.isLb ? 1 : 0.5)), onEdit: () => _editNumber(context, title: t.weightLabel, current: fit.toDisplayWeight(fit.ffmiWeight), decimal: true, apply: (v) => fit.bumpFfmiWeight(fit.fromDisplayWeight(v) - fit.ffmiWeight)))),
+          ToolRow(label: t.weightLabel, control: StepperControl(value: ltr('${fit.weightValue(fit.ffmiWeight)} ${fit.units}'), onDec: () => fit.bumpFfmiWeight(-fit.fromDisplayWeight(fit.isLb ? 1 : 0.5)), onInc: () => fit.bumpFfmiWeight(fit.fromDisplayWeight(fit.isLb ? 1 : 0.5)), onEdit: () => _editNumber(context, title: t.weightLabel, current: fit.toDisplayWeight(fit.ffmiWeight), decimal: true, apply: (v) => fit.bumpFfmiWeight(fit.fromDisplayWeight(v) - fit.ffmiWeight)))),
           ToolRow(label: t.ffmiBodyFat, control: StepperControl(value: '${fmt(fit.ffmiBf)}%', minWidth: 52, onDec: () => fit.bumpFfmiBf(-0.5), onInc: () => fit.bumpFfmiBf(0.5), onEdit: () => _editNumber(context, title: t.ffmiBodyFat, current: fit.ffmiBf, decimal: true, apply: (v) => fit.bumpFfmiBf(v - fit.ffmiBf)))),
           _note(gc, '${t.ffmiLeanLine(fit.weightLabel(fit.ffmiLean))}\n${t.ffmiExplain}'),
         ];
@@ -342,7 +342,7 @@ class ToolDetailScreen extends StatelessWidget {
               opt('${fmt(v)} ${fit.units}', current == v, () => fit.setPlateBar(v)),
               const SizedBox(width: 8),
             ],
-            opt(own ? '${fmt(current)} ${fit.units}' : t.custom, own,
+            opt(own ? ltr('${fmt(current)} ${fit.units}') : t.custom, own,
                 () => _editNumber(context, title: t.barWeight, current: current, decimal: true, apply: fit.setPlateBar)),
           ]),
         ],
@@ -478,12 +478,12 @@ void showPlateSheet(BuildContext context, double displayTarget, {double? startBa
               const SizedBox(height: 8),
               Row(children: [
                 for (final option in fit.barOptions) ...[
-                  _sheetBarChip(gc, '${fmt(option)} ${fit.units}', bar == option, () => setSheet(() => bar = option)),
+                  _sheetBarChip(gc, ltr('${fmt(option)} ${fit.units}'), bar == option, () => setSheet(() => bar = option)),
                   const SizedBox(width: 8),
                 ],
                 _sheetBarChip(
                     gc,
-                    fit.barOptions.contains(bar) ? t.custom : '${fmt(bar)} ${fit.units}',
+                    fit.barOptions.contains(bar) ? t.custom : ltr('${fmt(bar)} ${fit.units}'),
                     !fit.barOptions.contains(bar), () async {
                   final v = await askNumber(sheet, title: t.barWeight, initial: fmt(bar), decimal: true);
                   if (v != null && v >= 0) setSheet(() => bar = v);

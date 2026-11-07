@@ -862,7 +862,7 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
     return Padding(
       padding: const EdgeInsets.only(top: 16),
       child: Row(children: [
-        if (set != null) cell(t.prBestSet, '${fit.weightLabel(set.set.weight)} × ${set.set.reps}', set.date),
+        if (set != null) cell(t.prBestSet, ltr('${fit.weightLabel(set.set.weight)} × ${set.set.reps}'), set.date),
         if (set != null) const SizedBox(width: 12),
         cell(t.prBestWorkout, fit.bestWorkoutLabel(work.score, kind), work.date),
       ]),
@@ -1049,7 +1049,7 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
           ),
           const SizedBox(width: 12),
           StepperControl(
-            value: '${fmt(bar)} ${fit.units}',
+            value: ltr('${fmt(bar)} ${fit.units}'),
             minWidth: 56,
             btnSize: 30,
             gap: 3,
@@ -1167,7 +1167,7 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
     var target = current?.target ??
         (reps ? math.max(best + 5, 10.0) : fit.fromDisplayWeight(fit.toDisplayWeight(best) + fit.weightStep * 4));
     DateTime? due = current?.due;
-    String shown() => reps ? '${target.round()}' : '${fit.weightValue(target)} ${fit.units}';
+    String shown() => reps ? '${target.round()}' : ltr('${fit.weightValue(target)} ${fit.units}');
     await showAppSheet<void>(
       context: context,
       backgroundColor: Colors.transparent,

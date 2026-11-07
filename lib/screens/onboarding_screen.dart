@@ -702,7 +702,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       hero: (h) {
         final kg = fit.units == 'kg';
         return Column(mainAxisSize: MainAxisSize.min, children: [
-          Row(
+          Ltr(child: Row(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.baseline,
             textBaseline: TextBaseline.alphabetic,
@@ -719,7 +719,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     style: AppTheme.f(h * 0.15, weight: FontWeight.w800, color: gc.ember)),
               ),
             ],
-          ),
+          )),
         ]);
       },
       child: Row(

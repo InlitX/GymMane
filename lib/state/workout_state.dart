@@ -521,7 +521,7 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
         ? target.perSet.join('/')
         : '${target.reps}';
     final main = '${weightLabel(target.weightKg)} × $reps';
-    return target.move == NextMove.addSet ? '${target.sets} × $main' : main;
+    return ltr(target.move == NextMove.addSet ? '${target.sets} × $main' : main);
   }
 
   void _beginSession(List<Exercise> exs,

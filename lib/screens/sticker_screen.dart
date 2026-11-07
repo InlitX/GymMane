@@ -497,14 +497,14 @@ class _Sticker extends StatelessWidget {
           if (showDate) ...[const SizedBox(height: 3), _date()],
           const SizedBox(height: 12),
           for (final e in shown) ...[
-            Row(crossAxisAlignment: CrossAxisAlignment.baseline, textBaseline: TextBaseline.alphabetic, children: [
+            Ltr(child: Row(crossAxisAlignment: CrossAxisAlignment.baseline, textBaseline: TextBaseline.alphabetic, children: [
               Expanded(
                 child: Text(t.catalogName(e.id, e.name),
                     maxLines: 1, overflow: TextOverflow.ellipsis, style: _s(14, FontWeight.w800, height: 1.2)),
               ),
               const SizedBox(width: 10),
               Text(_best(e), style: _s(12.5, FontWeight.w700, alpha: 0.8)),
-            ]),
+            ])),
             const SizedBox(height: 7),
           ],
           if (more > 0) ...[
@@ -561,7 +561,7 @@ class _Sticker extends StatelessWidget {
     final sets = e.workingSets.isEmpty ? e.sets : e.workingSets;
     if (sets.isEmpty) return '';
     final top = sets.reduce((a, b) => a.weight * (a.reps + 1) >= b.weight * (b.reps + 1) ? a : b);
-    if (top.weight > 0 && top.reps > 0 && (top.km ?? 0) <= 0) return '${fit.weightLabel(top.weight)} × ${top.reps}';
+    if (top.weight > 0 && top.reps > 0 && (top.km ?? 0) <= 0) return ltr('${fit.weightLabel(top.weight)} × ${top.reps}');
     return fit.loggedSetLabel(top);
   }
 

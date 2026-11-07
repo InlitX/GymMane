@@ -445,7 +445,7 @@ class _RecapScreenState extends State<RecapScreen> {
   Widget _bigRow(List<Widget> parts) => FittedBox(
         fit: BoxFit.scaleDown,
         alignment: AlignmentDirectional.centerStart,
-        child: Row(crossAxisAlignment: CrossAxisAlignment.baseline, textBaseline: TextBaseline.alphabetic, children: parts),
+        child: Ltr(child: Row(crossAxisAlignment: CrossAxisAlignment.baseline, textBaseline: TextBaseline.alphabetic, children: parts)),
       );
 
   Widget _unit(String text, double size, Color tone) => Padding(
@@ -714,7 +714,7 @@ class _RecapScreenState extends State<RecapScreen> {
     return _bottom([
       _kicker(t.recapFreshKicker, tone),
       const SizedBox(height: 6),
-      Row(crossAxisAlignment: CrossAxisAlignment.baseline, textBaseline: TextBaseline.alphabetic, children: [
+      Ltr(child: Row(crossAxisAlignment: CrossAxisAlignment.baseline, textBaseline: TextBaseline.alphabetic, children: [
         _Count(exs.length.toDouble(), style: _num(112, gc.text), duration: 900),
         const SizedBox(width: 10),
         Flexible(
@@ -722,7 +722,7 @@ class _RecapScreenState extends State<RecapScreen> {
               maxLines: 2,
               style: AppTheme.f(28, weight: FontWeight.w800, color: gc.text, letterSpacing: -0.6, height: 1.05)),
         ),
-      ]),
+      ])),
       const SizedBox(height: 22),
       LayoutBuilder(builder: (context, box) {
         final tile = (box.maxWidth - 20) / 3;
@@ -1793,12 +1793,12 @@ class _WorkoutsPageState extends State<_WorkoutsPage> with SingleTickerProviderS
     return Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.end, children: [
       widget.kicker,
       const SizedBox(height: 6),
-      Row(crossAxisAlignment: CrossAxisAlignment.baseline, textBaseline: TextBaseline.alphabetic, children: [
+      Ltr(child: Row(crossAxisAlignment: CrossAxisAlignment.baseline, textBaseline: TextBaseline.alphabetic, children: [
         Text('$shown', style: _num(112, gc.text)),
         const SizedBox(width: 10),
         Text(t.recapWorkouts(widget.recap.workouts),
             style: AppTheme.f(28, weight: FontWeight.w800, color: gc.text, letterSpacing: -0.6)),
-      ]),
+      ])),
       const SizedBox(height: 14),
       widget.versus,
       const SizedBox(height: 22),
@@ -2006,13 +2006,13 @@ class RecapCard extends StatelessWidget {
           FittedBox(
             fit: BoxFit.scaleDown,
             alignment: AlignmentDirectional.centerStart,
-            child: Row(crossAxisAlignment: CrossAxisAlignment.baseline, textBaseline: TextBaseline.alphabetic, children: [
+            child: Ltr(child: Row(crossAxisAlignment: CrossAxisAlignment.baseline, textBaseline: TextBaseline.alphabetic, children: [
               Text(value, style: _num(size, soft ? gc.textSecondary : gc.text)),
               if (unit.isNotEmpty) ...[
                 const SizedBox(width: 3),
                 Text(unit, style: AppTheme.f(size * 0.4, weight: FontWeight.w800, color: gc.textSecondary)),
               ],
-            ]),
+            ])),
           ),
           const SizedBox(height: 4),
           Text(label.toUpperCase(),
@@ -2031,12 +2031,12 @@ class RecapCard extends StatelessWidget {
   Widget _summary(GymColors gc, Color tone) {
     final time = _time;
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Row(crossAxisAlignment: CrossAxisAlignment.baseline, textBaseline: TextBaseline.alphabetic, children: [
+      Ltr(child: Row(crossAxisAlignment: CrossAxisAlignment.baseline, textBaseline: TextBaseline.alphabetic, children: [
         Text('${recap.workouts}', style: _num(80, gc.text)),
         const SizedBox(width: 8),
         Text(t.recapWorkouts(recap.workouts),
             style: AppTheme.f(22, weight: FontWeight.w800, color: gc.text, letterSpacing: -0.4)),
-      ]),
+      ])),
       const SizedBox(height: 2),
       Text(t.recapDays(recap.days.length), style: AppTheme.f(13.5, weight: FontWeight.w700, color: gc.textSecondary)),
       const Spacer(),
