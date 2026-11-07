@@ -362,6 +362,31 @@ void main() {
       expect(fit.canShowRelative(fit.matchExerciseByName('Pull Up')!.id), isFalse);
     });
 
+    test('los récords por reps solo guardan lo que no supera una serie más larga', () {
+      final n = DateTime.now();
+      LoggedSession day(int ago, List<LoggedSet> sets) => LoggedSession(
+          DateTime(n.year, n.month, n.day - ago, 18), 3600, [LoggedExercise(bench(), 'Bench Press', 'chest', sets)]);
+      fit.sessions.addAll([
+        day(30, [LoggedSet(5, 100), LoggedSet(8, 90)]),
+        day(10, [LoggedSet(3, 100), LoggedSet(10, 80), LoggedSet(6, 85)]),
+        day(2, [LoggedSet(5, 100), LoggedSet(1, 110)]),
+      ]);
+      final ladder = fit.repRecords(bench());
+      expect([for (final r in ladder) (r.reps, r.kg)], [(1, 110.0), (5, 100.0), (8, 90.0), (10, 80.0)]);
+      expect(ladder[1].date.day, DateTime(n.year, n.month, n.day - 30).day);
+      expect(fit.repRecords(fit.matchExerciseByName('Pull Up')!.id), isEmpty);
+    });
+
+    test('los récords por reps se quedan en cinco repartidos', () {
+      final n = DateTime.now();
+      fit.sessions.add(LoggedSession(DateTime(n.year, n.month, n.day - 1, 18), 3600, [
+        LoggedExercise(bench(), 'Bench Press', 'chest', [
+          for (var r = 1; r <= 9; r++) LoggedSet(r, 120.0 - r * 5),
+        ]),
+      ]));
+      expect([for (final r in fit.repRecords(bench())) r.reps], [1, 3, 5, 7, 9]);
+    });
+
     test('el total levantado suma todo lo que has hecho', () {
       logDays([(3, 100), (1, 50)]);
       expect(fit.totalVolumeKg, 5 * 100 + 5 * 50);

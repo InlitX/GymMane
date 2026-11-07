@@ -37,6 +37,8 @@ class _ExerciseHistorySheetState extends State<ExerciseHistorySheet> {
   String get _id => widget.exerciseId;
   late final _history = fit.exerciseHistory(_id);
   late final bool _charted = fit.modeOf(_id).isEmpty && fit.exerciseTrend(_id).length > 1;
+  late final _ladder = fit.repRecords(_id);
+  late final _record = fit.exerciseRecord(_id);
   late int _range = _pickRange();
   bool _relative = false;
   int _shown = _page;
@@ -87,6 +89,10 @@ class _ExerciseHistorySheetState extends State<ExerciseHistorySheet> {
             const SizedBox(height: 4),
             Text('${titleCase(t.history)} · ${t.sessionCount(_history.length)}',
                 style: AppTheme.f(12.5, weight: FontWeight.w500, color: gc.textSecondary)),
+            if (_record != null) ...[
+              const SizedBox(height: 16),
+              _records(gc, _record),
+            ],
             if (_charted) ...[
               const SizedBox(height: 18),
               _trend(gc),
@@ -152,6 +158,67 @@ class _ExerciseHistorySheetState extends State<ExerciseHistorySheet> {
       ),
     );
   }
+
+  String _when(DateTime d) => d.year == DateTime.now().year ? t.shortDate(d) : t.shortMonthYear(d);
+
+  Widget _records(GymColors gc, PersonalRecord pr) {
+    final kind = _ladder.isNotEmpty
+        ? PrKind.weight
+        : pr.kind == PrKind.weight && fit.isAssisted(_id)
+            ? PrKind.reps
+            : pr.kind;
+    final work = kind == PrKind.weight || kind == PrKind.reps ? fit.bestWorkout(_id, kind) : null;
+    return Container(
+      padding: const EdgeInsets.fromLTRB(16, 14, 16, 14),
+      decoration: BoxDecoration(color: gc.bgRaised2, borderRadius: BorderRadius.circular(16)),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+        if (_ladder.isNotEmpty) ...[
+          SectionLabel('${t.repRecordsTitle} · ${fit.unitsFor(_id)}'),
+          const SizedBox(height: 10),
+          Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            for (var i = 0; i < _ladder.length; i++) ...[
+              if (i > 0) const SizedBox(width: 8),
+              Expanded(child: _rung(gc, _ladder[i])),
+            ],
+          ]),
+        ] else ...[
+          SectionLabel(t.personalRecord),
+          const SizedBox(height: 8),
+          FitText(fit.recordLabel(pr), style: AppTheme.d(22, weight: FontWeight.w800, color: gc.text)),
+        ],
+        if (work != null) ...[
+          const SizedBox(height: 14),
+          Row(children: [
+            Expanded(
+              child: Text(t.prBestWorkout,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: AppTheme.f(12.5, weight: FontWeight.w600, color: gc.textSecondary)),
+            ),
+            const SizedBox(width: 10),
+            Text(
+                kind == PrKind.weight
+                    ? '${groupedInt(fit.toShownFor(_id, work.score).round())} ${fit.unitsFor(_id)}'
+                    : t.repCount(work.score.round()),
+                style: AppTheme.d(13.5, weight: FontWeight.w700, color: gc.text)),
+            const SizedBox(width: 8),
+            Text(_when(work.date), style: AppTheme.f(11.5, weight: FontWeight.w500, color: gc.textTertiary)),
+          ]),
+        ],
+      ]),
+    );
+  }
+
+  Widget _rung(GymColors gc, ({int reps, double kg, DateTime date}) r) => Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          FitText(fit.weightValueFor(_id, r.kg), style: AppTheme.d(20, weight: FontWeight.w800, color: gc.text)),
+          const SizedBox(height: 5),
+          FitText(t.repCount(r.reps), style: AppTheme.f(12, weight: FontWeight.w600, color: gc.textSecondary)),
+          const SizedBox(height: 2),
+          FitText(_when(r.date), style: AppTheme.f(11, weight: FontWeight.w500, color: gc.textTertiary)),
+        ],
+      );
 
   Widget _trend(GymColors gc) {
     final points = fit.exerciseTrend(_id, days: _range, relative: _relative);
