@@ -1,0 +1,14 @@
+repRecordsTitle
+lightSession
+lightSessionHint
+lightSessionNote
+lightSessionOff
+eachSideRepsHint
+repsLeftCol
+repsRightCol
+repsLeftTitle
+repsRightTitle
+sidesReps
+progSchemeTitle
+groupMoveUp
+groupMoveDown

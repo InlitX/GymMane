@@ -123,7 +123,7 @@ void main() {
     fit.toggleFavoriteFood(oats.id);
     fit.saveRecipe('Desayuno', [a, b]);
     fit.addWater(330);
-    final supp = fit.addSupplement('Creatina', dose: '5 g', at: 9 * 60)!;
+    final supp = fit.addSupplement('Creatina', amount: 5, unit: 'g', stock: 30, at: 9 * 60)!;
     fit.toggleSupplement(supp.id);
     fit.setUseKj(true);
     fit.setWeightGoal(78);
