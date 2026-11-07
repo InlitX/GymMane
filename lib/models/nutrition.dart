@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 extension type const Meal(String id) {
   static const breakfast = Meal('breakfast');
   static const lunch = Meal('lunch');
@@ -473,11 +475,41 @@ class WaterSip {
       );
 }
 
+const kSuppUnits = ['capsule', 'pill', 'scoop', 'g', 'mg', 'ml', 'drop', 'iu', 'serving'];
+
+const _suppUnitWords = {
+  'capsule': ['capsule', 'capsules', 'caps', 'cap', 'cápsula', 'cápsulas', 'capsula', 'capsulas'],
+  'pill': ['pill', 'pills', 'tablet', 'tablets', 'tab', 'tabs', 'pastilla', 'pastillas', 'comprimido', 'comprimidos'],
+  'scoop': ['scoop', 'scoops', 'cazo', 'cazos', 'cacito', 'cacitos', 'medida', 'medidas'],
+  'g': ['g', 'gr', 'grs', 'gram', 'grams', 'gramo', 'gramos'],
+  'mg': ['mg'],
+  'ml': ['ml'],
+  'drop': ['drop', 'drops', 'gota', 'gotas'],
+  'iu': ['iu', 'ui'],
+  'serving': ['serving', 'servings', 'ración', 'raciones', 'racion'],
+};
+
+({double amount, String unit})? parseSuppDose(String text) {
+  final m = RegExp(r'^(\d+(?:[.,]\d+)?)\s*([^\d\s].*)?$').firstMatch(text.trim().toLowerCase());
+  if (m == null) return null;
+  final amount = double.tryParse(m.group(1)!.replaceAll(',', '.'));
+  if (amount == null || amount <= 0) return null;
+  final word = (m.group(2) ?? '').trim();
+  if (word.isEmpty) return (amount: amount, unit: '');
+  for (final e in _suppUnitWords.entries) {
+    if (e.value.contains(word)) return (amount: amount, unit: e.key);
+  }
+  return null;
+}
+
 class Supplement {
   const Supplement({
     required this.id,
     required this.name,
     this.dose = '',
+    this.amount,
+    this.unit = '',
+    this.stock,
     this.photo = '',
     this.at,
     this.days = 0,
@@ -489,6 +521,9 @@ class Supplement {
   final String id;
   final String name;
   final String dose;
+  final double? amount;
+  final String unit;
+  final double? stock;
   final String photo;
   final int? at;
   final int days;
@@ -497,6 +532,8 @@ class Supplement {
   final DateTime? until;
 
   bool get everyDay => days == 0 && every <= 1;
+
+  double get perTake => amount ?? 1;
 
   bool onWeekday(int weekday) => days == 0 || days & (1 << weekday) != 0;
 
@@ -513,6 +550,11 @@ class Supplement {
   Supplement copyWith({
     String? name,
     String? dose,
+    double? amount,
+    bool clearAmount = false,
+    String? unit,
+    double? stock,
+    bool clearStock = false,
     String? photo,
     int? at,
     bool clearAt = false,
@@ -526,6 +568,9 @@ class Supplement {
         id: id,
         name: name ?? this.name,
         dose: dose ?? this.dose,
+        amount: clearAmount ? null : (amount ?? this.amount),
+        unit: unit ?? this.unit,
+        stock: clearStock ? null : (stock ?? this.stock),
         photo: photo ?? this.photo,
         at: clearAt ? null : (at ?? this.at),
         days: days ?? this.days,
@@ -546,6 +591,9 @@ class Supplement {
         'id': id,
         'n': name,
         if (dose.isNotEmpty) 'd': dose,
+        'q': ?amount,
+        if (unit.isNotEmpty) 'un': unit,
+        'st': ?stock,
         if (photo.isNotEmpty) 'p': photo,
         'at': ?at,
         if (days != 0) 'w': days,
@@ -554,10 +602,19 @@ class Supplement {
         if (until != null) 'u': _date(until!),
       };
 
-  factory Supplement.fromJson(Map<String, dynamic> j) => Supplement(
+  factory Supplement.fromJson(Map<String, dynamic> j) {
+    final dose = j['d'] as String? ?? '';
+    final q = (j['q'] as num?)?.toDouble();
+    final unit = j['un'] as String? ?? '';
+    final parsed = q == null ? parseSuppDose(dose) : null;
+    final stock = (j['st'] as num?)?.toDouble();
+    return Supplement(
         id: j['id'] as String? ?? '',
         name: j['n'] as String? ?? '',
-        dose: j['d'] as String? ?? '',
+        dose: dose,
+        amount: q != null && q > 0 ? q : parsed?.amount,
+        unit: q != null ? (kSuppUnits.contains(unit) ? unit : '') : parsed?.unit ?? '',
+        stock: stock == null ? null : math.max(0.0, stock),
         photo: j['p'] as String? ?? '',
         at: (j['at'] as num?)?.toInt().clamp(0, 24 * 60 - 1),
         days: ((j['w'] as num?)?.toInt() ?? 0) & 0xFE,
@@ -565,6 +622,7 @@ class Supplement {
         from: _readDate(j['f']),
         until: _readDate(j['u']),
       );
+  }
 }
 
 class NutritionGoals {

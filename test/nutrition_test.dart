@@ -690,6 +690,50 @@ void main() {
     });
   });
 
+  group('suplementos con cantidad y existencias', () {
+    test('las dosis escritas a mano se leen como cantidad y unidad', () {
+      expect(parseSuppDose('5 g'), (amount: 5.0, unit: 'g'));
+      expect(parseSuppDose('2 cápsulas'), (amount: 2.0, unit: 'capsule'));
+      expect(parseSuppDose('1,5 scoops'), (amount: 1.5, unit: 'scoop'));
+      expect(parseSuppDose('1000 UI'), (amount: 1000.0, unit: 'iu'));
+      expect(parseSuppDose('3'), (amount: 3.0, unit: ''));
+      expect(parseSuppDose('una cucharadita'), isNull);
+      expect(parseSuppDose('2 con el desayuno'), isNull);
+      final old = Supplement.fromJson({'id': 'a', 'n': 'Creatina', 'd': '5 g'});
+      expect((old.amount, old.unit), (5.0, 'g'));
+      final odd = Supplement.fromJson({'id': 'b', 'n': 'Zinc', 'd': 'una al día'});
+      expect(odd.amount, isNull);
+      expect(fit.suppDoseLabel(odd), 'una al día');
+    });
+
+    test('marcar descuenta la dosis y desmarcar la devuelve', () {
+      final s = fit.addSupplement('Omega-3', amount: 2, unit: 'capsule', stock: 10)!;
+      fit.toggleSupplement(s.id);
+      expect(fit.supplements.single.stock, 8);
+      fit.toggleSupplement(s.id);
+      expect(fit.supplements.single.stock, 10);
+      final saved = Supplement.fromJson(fit.supplements.single.toJson());
+      expect((saved.amount, saved.unit, saved.stock), (2.0, 'capsule', 10.0));
+    });
+
+    test('sabe para cuántos días queda y avisa cuando falta poco', () {
+      final s = fit.addSupplement('Creatina', amount: 5, unit: 'g', stock: 50)!;
+      expect(fit.suppDaysLeft(s), 10);
+      expect(fit.suppRunningLow(s), isFalse);
+      fit.updateSupplement(s.id, stock: 12);
+      expect(fit.suppDaysLeft(fit.supplements.single), 2);
+      expect(fit.suppRunningLow(fit.supplements.single), isTrue);
+      fit.updateSupplement(s.id, stock: 3);
+      expect(fit.suppDaysLeft(fit.supplements.single), 0);
+      fit.updateSupplement(s.id, every: 2);
+      fit.updateSupplement(s.id, stock: 15);
+      expect(fit.suppDaysLeft(fit.supplements.single), 6);
+      fit.updateSupplement(s.id, clearStock: true);
+      expect(fit.suppDaysLeft(fit.supplements.single), isNull);
+      expect(fit.suppDoseLabel(fit.supplements.single), '5 g');
+    });
+  });
+
   group('suplementos con hora', () {
     test('cada suplemento guarda su foto, su dosis y su hora', () {
       final s = fit.addSupplement('Creatina', dose: '5 g', at: 9 * 60)!;
