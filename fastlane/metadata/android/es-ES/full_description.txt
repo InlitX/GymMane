@@ -35,7 +35,7 @@ Tuyo del todo. Sin cuenta, sin anuncios, sin suscripción — y sin el permiso I
 • Importa tu histórico de Hevy, Strong, Lyfta, FitNotes u openGym — entrenamientos y peso corporal
 • Exporta un entreno a Strava como archivo .fit
 • Borra todo de un toque
-• Temas claro y oscuro, kg o lb, y 17 idiomas
+• Temas claro y oscuro, kg o lb, y 18 idiomas
 
 🔒 PRIVACIDAD
 GymMane no lleva analítica, ni SDK de publicidad, ni código de red. Nunca pide el permiso INTERNET, así que no hay forma de que tus datos salgan del móvil. Lo único que sale fuera son los enlaces que tocas tú.

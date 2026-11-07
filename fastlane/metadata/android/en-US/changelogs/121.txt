@@ -1,0 +1,12 @@
+GymMane 2.1.0
+
+• Meals with AI (beta)
+• Light sessions and left/right reps
+• Rep records in your workout
+• Supplements: dose, unit and stock
+• Edit progression from the routine editor
+• Fold and move routine groups
+• Type the numbers when editing a past workout
+• Better Arabic, and Vietnamese added
+
+And a lot more. Install it and find out.

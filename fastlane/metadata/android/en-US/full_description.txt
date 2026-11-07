@@ -35,7 +35,7 @@ Yours, completely. No account, no ads, no subscription — and no Android INTERN
 • Import your history from Hevy, Strong, Lyfta, FitNotes or openGym — workouts and bodyweight
 • Export a workout to Strava as a .fit file
 • Delete everything in one tap
-• Dark and light themes, kg or lb, and 17 languages
+• Dark and light themes, kg or lb, and 18 languages
 
 🔒 PRIVACY
 GymMane has no analytics, no advertising SDK and no network code. It never asks for the INTERNET permission, so there is no way for your data to leave the phone. The only outbound actions are links you tap yourself.

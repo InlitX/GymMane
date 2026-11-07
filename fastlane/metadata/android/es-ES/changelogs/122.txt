@@ -1,0 +1,12 @@
+GymMane 2.1.0
+
+• Comidas con IA (beta)
+• Sesiones ligeras y reps por lado
+• Récords de repeticiones en tu entreno
+• Suplementos: dosis, unidad y existencias
+• Edita la progresión desde el editor de rutina
+• Plega y mueve los grupos de rutinas
+• Teclea los números al editar un entreno pasado
+• Mejor árabe y nuevo idioma: vietnamita
+
+Y mucho más. Instálala y descúbrelo.
