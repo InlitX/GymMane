@@ -12813,6 +12813,306 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Weight progression'**
   String get progSchemeTitle;
+
+  /// No description provided for @groupMoveUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Move group up'**
+  String get groupMoveUp;
+
+  /// No description provided for @groupMoveDown.
+  ///
+  /// In en, this message translates to:
+  /// **'Move group down'**
+  String get groupMoveDown;
+
+  /// No description provided for @mealAiRow.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask an AI'**
+  String get mealAiRow;
+
+  /// No description provided for @mealAiRowHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy a request, paste the answer'**
+  String get mealAiRowHint;
+
+  /// No description provided for @mealAiTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Meals with AI'**
+  String get mealAiTitle;
+
+  /// No description provided for @mealAiSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Works with any chatbot. The app stays offline.'**
+  String get mealAiSubtitle;
+
+  /// No description provided for @mealAiStepAsk.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask'**
+  String get mealAiStepAsk;
+
+  /// No description provided for @mealAiStepPaste.
+  ///
+  /// In en, this message translates to:
+  /// **'Paste'**
+  String get mealAiStepPaste;
+
+  /// No description provided for @mealAiWholeDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Whole day'**
+  String get mealAiWholeDay;
+
+  /// No description provided for @mealAiTarget.
+  ///
+  /// In en, this message translates to:
+  /// **'Target'**
+  String get mealAiTarget;
+
+  /// No description provided for @mealAiLeft.
+  ///
+  /// In en, this message translates to:
+  /// **'You have {kcal} and {protein} g of protein left today'**
+  String mealAiLeft(String kcal, int protein);
+
+  /// No description provided for @mealAiStyle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your taste'**
+  String get mealAiStyle;
+
+  /// No description provided for @mealAiTagProtein.
+  ///
+  /// In en, this message translates to:
+  /// **'High protein'**
+  String get mealAiTagProtein;
+
+  /// No description provided for @mealAiTagVeggie.
+  ///
+  /// In en, this message translates to:
+  /// **'Vegetarian'**
+  String get mealAiTagVeggie;
+
+  /// No description provided for @mealAiTagVegan.
+  ///
+  /// In en, this message translates to:
+  /// **'Vegan'**
+  String get mealAiTagVegan;
+
+  /// No description provided for @mealAiTagNoGluten.
+  ///
+  /// In en, this message translates to:
+  /// **'Gluten free'**
+  String get mealAiTagNoGluten;
+
+  /// No description provided for @mealAiTagNoLactose.
+  ///
+  /// In en, this message translates to:
+  /// **'Lactose free'**
+  String get mealAiTagNoLactose;
+
+  /// No description provided for @mealAiTagQuick.
+  ///
+  /// In en, this message translates to:
+  /// **'Quick'**
+  String get mealAiTagQuick;
+
+  /// No description provided for @mealAiTagNoCook.
+  ///
+  /// In en, this message translates to:
+  /// **'No cooking'**
+  String get mealAiTagNoCook;
+
+  /// No description provided for @mealAiTagCheap.
+  ///
+  /// In en, this message translates to:
+  /// **'Budget'**
+  String get mealAiTagCheap;
+
+  /// No description provided for @mealAiNotesHint.
+  ///
+  /// In en, this message translates to:
+  /// **'I have at home… I don’t like… allergies…'**
+  String get mealAiNotesHint;
+
+  /// No description provided for @mealAiOptions.
+  ///
+  /// In en, this message translates to:
+  /// **'Options'**
+  String get mealAiOptions;
+
+  /// No description provided for @mealAiCopy.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy request'**
+  String get mealAiCopy;
+
+  /// No description provided for @mealAiCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Request copied'**
+  String get mealAiCopied;
+
+  /// No description provided for @mealAiCopiedHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Paste it into your AI and come back here with the answer'**
+  String get mealAiCopiedHint;
+
+  /// No description provided for @mealAiShowText.
+  ///
+  /// In en, this message translates to:
+  /// **'See the request'**
+  String get mealAiShowText;
+
+  /// No description provided for @mealAiHideText.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide the request'**
+  String get mealAiHideText;
+
+  /// No description provided for @mealAiPasteHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Paste the AI’s answer here'**
+  String get mealAiPasteHint;
+
+  /// No description provided for @mealAiReview.
+  ///
+  /// In en, this message translates to:
+  /// **'Review answer'**
+  String get mealAiReview;
+
+  /// No description provided for @mealAiUnreadable.
+  ///
+  /// In en, this message translates to:
+  /// **'I couldn’t find any food in that text'**
+  String get mealAiUnreadable;
+
+  /// No description provided for @mealAiUnreadableHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask the AI to send only the JSON, in one code block, with the format of the request.'**
+  String get mealAiUnreadableHint;
+
+  /// No description provided for @mealAiCopyFix.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy that sentence'**
+  String get mealAiCopyFix;
+
+  /// No description provided for @mealAiOption.
+  ///
+  /// In en, this message translates to:
+  /// **'Option {n}'**
+  String mealAiOption(int n);
+
+  /// No description provided for @mealAiAddTo.
+  ///
+  /// In en, this message translates to:
+  /// **'Add to {meal}'**
+  String mealAiAddTo(String meal);
+
+  /// No description provided for @mealAiAddDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Add to today'**
+  String get mealAiAddDay;
+
+  /// No description provided for @mealAiAddPick.
+  ///
+  /// In en, this message translates to:
+  /// **'Add'**
+  String get mealAiAddPick;
+
+  /// No description provided for @mealAiAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'{n, plural, one{1 food added} other{{n} foods added}}'**
+  String mealAiAdded(int n);
+
+  /// No description provided for @mealAiSaveRecipe.
+  ///
+  /// In en, this message translates to:
+  /// **'Save as a recipe'**
+  String get mealAiSaveRecipe;
+
+  /// No description provided for @mealAiSavePlan.
+  ///
+  /// In en, this message translates to:
+  /// **'Save as a plan'**
+  String get mealAiSavePlan;
+
+  /// No description provided for @mealAiRecipeSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Recipe saved'**
+  String get mealAiRecipeSaved;
+
+  /// No description provided for @mealAiPlanSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Plan saved'**
+  String get mealAiPlanSaved;
+
+  /// No description provided for @mealAiFlagEstimated.
+  ///
+  /// In en, this message translates to:
+  /// **'Estimated by the AI'**
+  String get mealAiFlagEstimated;
+
+  /// No description provided for @mealAiFlagAdjusted.
+  ///
+  /// In en, this message translates to:
+  /// **'Calories fixed to match the macros'**
+  String get mealAiFlagAdjusted;
+
+  /// No description provided for @mealAiFlagDoubtful.
+  ///
+  /// In en, this message translates to:
+  /// **'Doesn’t add up, check it'**
+  String get mealAiFlagDoubtful;
+
+  /// No description provided for @mealAiFlagNoValues.
+  ///
+  /// In en, this message translates to:
+  /// **'No nutrition values'**
+  String get mealAiFlagNoValues;
+
+  /// No description provided for @mealAiFlagNoAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'No amount given'**
+  String get mealAiFlagNoAmount;
+
+  /// No description provided for @mealAiTruncated.
+  ///
+  /// In en, this message translates to:
+  /// **'The answer looks cut off. I kept the complete foods.'**
+  String get mealAiTruncated;
+
+  /// No description provided for @mealAiAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount'**
+  String get mealAiAmount;
+
+  /// No description provided for @mealAiTargetLine.
+  ///
+  /// In en, this message translates to:
+  /// **'Target {kcal}'**
+  String mealAiTargetLine(String kcal);
+
+  /// No description provided for @mealAiNothingChosen.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn on at least one food'**
+  String get mealAiNothingChosen;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

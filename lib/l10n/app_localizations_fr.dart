@@ -7385,4 +7385,171 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get progSchemeTitle => 'Weight progression';
+
+  @override
+  String get groupMoveUp => 'Move group up';
+
+  @override
+  String get groupMoveDown => 'Move group down';
+
+  @override
+  String get mealAiRow => 'Ask an AI';
+
+  @override
+  String get mealAiRowHint => 'Copy a request, paste the answer';
+
+  @override
+  String get mealAiTitle => 'Meals with AI';
+
+  @override
+  String get mealAiSubtitle => 'Works with any chatbot. The app stays offline.';
+
+  @override
+  String get mealAiStepAsk => 'Ask';
+
+  @override
+  String get mealAiStepPaste => 'Paste';
+
+  @override
+  String get mealAiWholeDay => 'Whole day';
+
+  @override
+  String get mealAiTarget => 'Target';
+
+  @override
+  String mealAiLeft(String kcal, int protein) {
+    return 'You have $kcal and $protein g of protein left today';
+  }
+
+  @override
+  String get mealAiStyle => 'Your taste';
+
+  @override
+  String get mealAiTagProtein => 'High protein';
+
+  @override
+  String get mealAiTagVeggie => 'Vegetarian';
+
+  @override
+  String get mealAiTagVegan => 'Vegan';
+
+  @override
+  String get mealAiTagNoGluten => 'Gluten free';
+
+  @override
+  String get mealAiTagNoLactose => 'Lactose free';
+
+  @override
+  String get mealAiTagQuick => 'Quick';
+
+  @override
+  String get mealAiTagNoCook => 'No cooking';
+
+  @override
+  String get mealAiTagCheap => 'Budget';
+
+  @override
+  String get mealAiNotesHint => 'I have at home… I don’t like… allergies…';
+
+  @override
+  String get mealAiOptions => 'Options';
+
+  @override
+  String get mealAiCopy => 'Copy request';
+
+  @override
+  String get mealAiCopied => 'Request copied';
+
+  @override
+  String get mealAiCopiedHint => 'Paste it into your AI and come back here with the answer';
+
+  @override
+  String get mealAiShowText => 'See the request';
+
+  @override
+  String get mealAiHideText => 'Hide the request';
+
+  @override
+  String get mealAiPasteHint => 'Paste the AI’s answer here';
+
+  @override
+  String get mealAiReview => 'Review answer';
+
+  @override
+  String get mealAiUnreadable => 'I couldn’t find any food in that text';
+
+  @override
+  String get mealAiUnreadableHint =>
+      'Ask the AI to send only the JSON, in one code block, with the format of the request.';
+
+  @override
+  String get mealAiCopyFix => 'Copy that sentence';
+
+  @override
+  String mealAiOption(int n) {
+    return 'Option $n';
+  }
+
+  @override
+  String mealAiAddTo(String meal) {
+    return 'Add to $meal';
+  }
+
+  @override
+  String get mealAiAddDay => 'Add to today';
+
+  @override
+  String get mealAiAddPick => 'Add';
+
+  @override
+  String mealAiAdded(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n foods added',
+      one: '1 food added',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get mealAiSaveRecipe => 'Save as a recipe';
+
+  @override
+  String get mealAiSavePlan => 'Save as a plan';
+
+  @override
+  String get mealAiRecipeSaved => 'Recipe saved';
+
+  @override
+  String get mealAiPlanSaved => 'Plan saved';
+
+  @override
+  String get mealAiFlagEstimated => 'Estimated by the AI';
+
+  @override
+  String get mealAiFlagAdjusted => 'Calories fixed to match the macros';
+
+  @override
+  String get mealAiFlagDoubtful => 'Doesn’t add up, check it';
+
+  @override
+  String get mealAiFlagNoValues => 'No nutrition values';
+
+  @override
+  String get mealAiFlagNoAmount => 'No amount given';
+
+  @override
+  String get mealAiTruncated => 'The answer looks cut off. I kept the complete foods.';
+
+  @override
+  String get mealAiAmount => 'Amount';
+
+  @override
+  String mealAiTargetLine(String kcal) {
+    return 'Target $kcal';
+  }
+
+  @override
+  String get mealAiNothingChosen => 'Turn on at least one food';
 }
