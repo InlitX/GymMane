@@ -494,6 +494,17 @@ mixin StatsState on FitCore, ToolsState, LibraryState, SettingsState, TimelineSt
   void setLoggedWeight(LoggedExercise e, int i, double kg) =>
       _replaceLoggedSet(e, i, weight: _round3(kg.clamp(0, 1000)));
 
+  void setLoggedSide(LoggedExercise e, int i, bool leftSide, int reps) {
+    if (i < 0 || i >= e.sets.length || !e.sets[i].sided) return;
+    final v = reps.clamp(0, 999);
+    _replaceLoggedSet(e, i, left: leftSide ? v : null, right: leftSide ? null : v);
+  }
+
+  void setLoggedKmShown(LoggedExercise e, int i, double shown) {
+    if (i < 0 || i >= e.sets.length) return;
+    _replaceLoggedSet(e, i, km: _round3(fromDisplayKm(math.max(0.0, shown))));
+  }
+
   void bumpLoggedSec(LoggedExercise e, int i, int d) {
     if (i < 0 || i >= e.sets.length) return;
     final now = e.sets[i].sec ?? 0;

@@ -2774,7 +2774,9 @@ Widget _editSetRow(GymColors gc, LoggedSession s, LoggedExercise e, int i, bool 
   final set = e.sets[i];
   final distance = fit.loggedDistance(e);
   final timed = !distance && fit.loggedTimed(e);
-  Widget cell(String label, String value, VoidCallback onDec, VoidCallback onInc, {double minWidth = 30}) => Expanded(
+  Widget cell(String label, String value, VoidCallback onDec, VoidCallback onInc,
+          {double minWidth = 30, Future<void> Function(BuildContext)? edit}) =>
+      Expanded(
         child: Column(
           children: [
             FittedBox(
@@ -2784,14 +2786,17 @@ Widget _editSetRow(GymColors gc, LoggedSession s, LoggedExercise e, int i, bool 
                   style: AppTheme.s(9.5, weight: FontWeight.w600, color: gc.textTertiary, letterSpacing: 1)),
             ),
             const SizedBox(height: 2),
-            StepperControl(
-              value: value,
-              onDec: onDec,
-              onInc: onInc,
-              minWidth: minWidth,
-              btnSize: 26,
-              gap: 8,
-              fontSize: 14,
+            Builder(
+              builder: (ctx) => StepperControl(
+                value: value,
+                onDec: onDec,
+                onInc: onInc,
+                onEdit: edit == null ? null : () => edit(ctx),
+                minWidth: minWidth,
+                btnSize: 26,
+                gap: 8,
+                fontSize: 14,
+              ),
             ),
           ],
         ),
@@ -2811,7 +2816,13 @@ Widget _editSetRow(GymColors gc, LoggedSession s, LoggedExercise e, int i, bool 
         if (distance) ...[
           cell(t.distanceCol(fit.distanceUnit).replaceAll(RegExp(r'\s*\(.*\)'), ''), fit.distanceValue(set.km ?? 0),
               () => fit.bumpLoggedKm(e, i, -1), () => fit.bumpLoggedKm(e, i, 1),
-              minWidth: 36),
+              minWidth: 36, edit: (ctx) async {
+            final v = await askNumber(ctx,
+                title: t.distanceCol(fit.distanceUnit).replaceAll(RegExp(r'\s*\(.*\)'), ''),
+                initial: fit.distanceValue(set.km ?? 0),
+                decimal: true);
+            if (v != null) fit.setLoggedKmShown(e, i, v);
+          }),
           time,
         ] else ...[
           if (timed)
@@ -2819,16 +2830,31 @@ Widget _editSetRow(GymColors gc, LoggedSession s, LoggedExercise e, int i, bool 
           else if (set.sided) ...[
             cell(t.repsLeftCol, '${set.left}', () => fit.bumpLoggedSide(e, i, true, -1),
                 () => fit.bumpLoggedSide(e, i, true, 1),
-                minWidth: 22),
+                minWidth: 22, edit: (ctx) async {
+              final v = await askNumber(ctx, title: t.repsLeftCol, initial: '${set.left}', decimal: false);
+              if (v != null) fit.setLoggedSide(e, i, true, v.round());
+            }),
             cell(t.repsRightCol, '${set.right}', () => fit.bumpLoggedSide(e, i, false, -1),
                 () => fit.bumpLoggedSide(e, i, false, 1),
-                minWidth: 22),
+                minWidth: 22, edit: (ctx) async {
+              final v = await askNumber(ctx, title: t.repsRightCol, initial: '${set.right}', decimal: false);
+              if (v != null) fit.setLoggedSide(e, i, false, v.round());
+            }),
           ] else
-            cell(t.repsCol, '${set.reps}', () => fit.bumpLoggedReps(e, i, -1), () => fit.bumpLoggedReps(e, i, 1)),
+            cell(t.repsCol, '${set.reps}', () => fit.bumpLoggedReps(e, i, -1), () => fit.bumpLoggedReps(e, i, 1),
+                edit: (ctx) async {
+              final v = await askNumber(ctx, title: t.repsCol, initial: '${set.reps}', decimal: false);
+              if (v != null) fit.setLoggedReps(e, i, v.round());
+            }),
           if (!repsOnly && (!timed || set.weight > 0))
             cell(t.weightCol(fit.units.toUpperCase()), fit.weightValue(set.weight), () => fit.bumpLoggedWeight(e, i, -1),
                 () => fit.bumpLoggedWeight(e, i, 1),
-                minWidth: 34),
+                minWidth: 34, edit: (ctx) async {
+              final shown = (fit.toDisplayWeight(set.weight) * 100).round() / 100;
+              final v = await askNumber(ctx,
+                  title: t.weightCol(fit.units.toUpperCase()), initial: fmt(shown), decimal: true);
+              if (v != null) fit.setLoggedWeightShown(e, i, v);
+            }),
         ],
         Semantics(
           button: true,
