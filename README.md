@@ -91,19 +91,21 @@ Tap the muscles you want to train, log your sets and watch your numbers go up.
 - Reps, weight and a **rest timer** with your own sound
 - Warm-up, drop, failure, rest-pause and cluster sets, with RPE or RIR
 - **Supersets** and **plates per side**
-- **Routines** and weekly plans, or a rotation
-- **Progression** per exercise, so the app sets your next weights
+- **Routines**, weekly plans and rotations, with days off that keep your streak
+- **Progression** per exercise, **deload weeks** and light sessions
+- A **voice** that guides your rest (beta)
 
 </td>
 <td width="50%" valign="top">
 
 ### Progress
 
-- Volume, streaks, weekly goal and **PRs**
+- Volume, streaks, weekly goal and **records** for every rep range
 - **Strength curves** with estimated 1RM and strength per bodyweight
 - An **activity heatmap** and a muscle map of what you trained
+- **Your month, recapped**, as a story and a card to share
 - **Progress photos** on a timeline
-- Bodyweight and **ten body measurements**
+- Bodyweight, **ten body measurements**, steps, sleep and heart rate
 - Levels, **medals** and a sticker to share your workout
 
 </td>
@@ -127,9 +129,9 @@ Tap the muscles you want to train, log your sets and watch your numbers go up.
 
 - **CSV** export and a full **ZIP backup**
 - Import from **Hevy**, **Strong**, **Lyfta**, **FitNotes** or **openGym**
-- Send workouts to **Strava** as a `.fit` file
+- **Health Connect** in and out, and workouts to **Strava** as a `.fit` file
 - No account, no ads, no analytics, no **internet permission**
-- **17 languages**, light and dark, kg or lb
+- **18 languages**, light and dark, kg or lb
 - Delete everything in one tap
 
 </td>
@@ -139,9 +141,10 @@ Tap the muscles you want to train, log your sets and watch your numbers go up.
 ## Nutrition (beta)
 
 Calories and macros against your goal, 500+ foods with photos, your own foods
-and dishes, water, protein shakes, supplements, meal plans and meal prep. No
-scanner and no online database. Don't need it? Turn it off in
-**Settings › Beta**.
+and dishes, water, supplements with dose and stock, meal plans and meal prep.
+**Ask any AI for a meal**, paste its answer and GymMane turns it into real
+food, with nothing sent from the app. No scanner and no online database. Don't
+need it? Turn it off in **Settings › Beta**.
 
 ## Download
 
