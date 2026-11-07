@@ -348,6 +348,24 @@ class _AddFoodSheetState extends State<_AddFoodSheet> {
       ]),
       const SizedBox(height: 14),
       _cats(gc),
+      if (q.isEmpty && _cat == null && !grouped && !_dishes) ...[
+        const SizedBox(height: 14),
+        _FoodRow(
+          leading: Container(
+            width: 38,
+            height: 38,
+            decoration: BoxDecoration(color: gc.accent.withValues(alpha: 0.14), shape: BoxShape.circle),
+            child: Icon(PhosphorIconsRegular.sparkle, size: 17, color: gc.accent),
+          ),
+          title: t.mealAiRow,
+          detail: t.mealAiRowHint,
+          badge: BetaTag(t.sectionBeta, small: true),
+          onTap: () {
+            Navigator.of(context).pop();
+            showMealAiSheet(context, widget.meal, onPick: widget.onPick);
+          },
+        ),
+      ],
       if (recipes.isNotEmpty || (!picking && _cat == null && !grouped && q.isEmpty)) ...[
         _section(gc, t.savedMeals),
         if (!picking && _cat == null && !grouped && q.isEmpty)
@@ -525,12 +543,13 @@ class _FoodTile extends StatelessWidget {
 }
 
 class _FoodRow extends StatelessWidget {
-  const _FoodRow({required this.leading, required this.title, required this.detail, required this.onTap});
+  const _FoodRow({required this.leading, required this.title, required this.detail, required this.onTap, this.badge});
 
   final Widget leading;
   final String title;
   final String detail;
   final VoidCallback onTap;
+  final Widget? badge;
 
   @override
   Widget build(BuildContext context) {
@@ -547,10 +566,15 @@ class _FoodRow extends StatelessWidget {
           const SizedBox(width: 10),
           Expanded(
             child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text(title,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: AppTheme.f(14, weight: FontWeight.w700, color: gc.text)),
+              Row(children: [
+                Flexible(
+                  child: Text(title,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: AppTheme.f(14, weight: FontWeight.w700, color: gc.text)),
+                ),
+                if (badge != null) ...[const SizedBox(width: 8), badge!],
+              ]),
               const SizedBox(height: 2),
               Text(detail,
                   maxLines: 1,
@@ -752,7 +776,7 @@ class _AmountDial extends StatelessWidget {
       GestureDetector(
         behavior: HitTestBehavior.opaque,
         onTap: () => _type(context),
-        child: Row(
+        child: Ltr(child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.baseline,
           textBaseline: TextBaseline.alphabetic,
@@ -763,7 +787,7 @@ class _AmountDial extends StatelessWidget {
             const SizedBox(width: 6),
             Icon(PhosphorIconsBold.pencilSimple, size: 13, color: gc.textTertiary),
           ],
-        ),
+        )),
       ),
       const SizedBox(height: 6),
       RulerPicker(
@@ -1430,12 +1454,14 @@ class _EntryValuesSheetState extends State<_EntryValuesSheet> {
 }
 
 class _NumberField extends StatelessWidget {
-  const _NumberField({required this.label, required this.controller, required this.color, this.suffix = 'g'});
+  const _NumberField(
+      {required this.label, required this.controller, required this.color, this.suffix = 'g', this.hint = '0'});
 
   final String label;
   final TextEditingController controller;
   final Color color;
   final String suffix;
+  final String hint;
 
   @override
   Widget build(BuildContext context) {
@@ -1456,8 +1482,8 @@ class _NumberField extends StatelessWidget {
               decoration: InputDecoration(
                 isDense: true,
                 border: InputBorder.none,
-                hintText: '0',
-                hintStyle: AppTheme.f(19, weight: FontWeight.w800, color: gc.textTertiary),
+                hintText: hint,
+                hintStyle: AppTheme.f(hint == '0' ? 19 : 15, weight: FontWeight.w800, color: gc.textTertiary),
                 contentPadding: const EdgeInsets.only(top: 4),
               ),
             ),

@@ -388,12 +388,12 @@ class _MealTabsState extends State<_MealTabs> {
             const SizedBox(width: 16),
             Expanded(
               child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Row(crossAxisAlignment: CrossAxisAlignment.baseline, textBaseline: TextBaseline.alphabetic, children: [
+                Ltr(child: Row(crossAxisAlignment: CrossAxisAlignment.baseline, textBaseline: TextBaseline.alphabetic, children: [
                   RollingText('${fit.energyOf(total.kcal)}',
                       style: AppTheme.f(30, weight: FontWeight.w800, color: gc.text, height: 1.2)),
                   const SizedBox(width: 5),
                   Text(fit.energyUnit, style: AppTheme.f(13, weight: FontWeight.w700, color: gc.textSecondary)),
-                ]),
+                ])),
                 const SizedBox(height: 4),
                 Text(
                   shown.isEmpty ? t.nothingLogged : t.recipeItems(shown.length),

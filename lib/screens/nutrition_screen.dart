@@ -13,6 +13,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../l10n/l10n.dart';
 import '../models/nutrition.dart';
 import '../services/food_library.dart';
+import '../services/meal_ai.dart';
 import '../services/media_store.dart';
 import '../services/sticker_cutout.dart';
 import '../state/fit_state.dart';
@@ -39,6 +40,7 @@ part 'nutrition/settings.dart';
 part 'nutrition/meals.dart';
 part 'nutrition/food.dart';
 part 'nutrition/plans.dart';
+part 'nutrition/ai.dart';
 part 'nutrition/fasting.dart';
 
 String mealInSentence(Meal m) {
@@ -82,7 +84,7 @@ String _amount(double grams, bool liquid) => fit.isLb
     ? '${fmt((grams / _ozOf(liquid) * 10).round() / 10)} ${_amtUnit(liquid)}'
     : '${fmt(grams.round().toDouble())} ${_unitOf(liquid)}';
 
-String _energy(num kcal) => '${fit.energyOf(kcal)} ${fit.energyUnit}';
+String _energy(num kcal) => ltr('${fit.energyOf(kcal)} ${fit.energyUnit}');
 
 String portionName(PortionKind k, [int n = 1]) => switch (k) {
       PortionKind.unit => t.portionUnit(n),
@@ -403,14 +405,16 @@ class _DayDot extends StatelessWidget {
 
 Widget _sheetFrame(BuildContext context, List<Widget> children, {double heightFactor = 0}) {
   final gc = context.gc;
+  final pad = sheetPad(context, bottom: 18);
   return Padding(
     padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
     child: Container(
       constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.88),
       height: heightFactor > 0 ? MediaQuery.of(context).size.height * heightFactor : null,
-      padding: sheetPad(context, bottom: 18),
+      padding: EdgeInsets.only(top: pad.top, bottom: pad.bottom),
       decoration: sheetDecoration(gc),
       child: SingleChildScrollView(
+        padding: EdgeInsets.only(left: pad.left, right: pad.right),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,

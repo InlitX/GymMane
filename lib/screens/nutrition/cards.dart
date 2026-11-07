@@ -26,7 +26,7 @@ class _HeroCard extends StatelessWidget {
         );
     Widget macro(IconData icon, String label, double value, int goal, Color color) => Expanded(
           child: Column(children: [
-            Row(
+            Ltr(child: Row(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.baseline,
               textBaseline: TextBaseline.alphabetic,
@@ -34,7 +34,7 @@ class _HeroCard extends StatelessWidget {
                 RollingText('${value.round()}', style: AppTheme.f(15, weight: FontWeight.w800, color: gc.text)),
                 Text('/${goal}g', style: AppTheme.f(12, weight: FontWeight.w600, color: gc.textSecondary)),
               ],
-            ),
+            )),
             const SizedBox(height: 7),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -147,14 +147,14 @@ class _RingCard extends StatelessWidget {
             FittedBox(
               fit: BoxFit.scaleDown,
               alignment: Alignment.centerLeft,
-              child: Row(
+              child: Ltr(child: Row(
                 crossAxisAlignment: CrossAxisAlignment.baseline,
                 textBaseline: TextBaseline.alphabetic,
                 children: [
                   RollingText(value, style: AppTheme.f(21, weight: FontWeight.w800, color: gc.text, height: 1.05)),
                   Text(' g', style: AppTheme.f(12, weight: FontWeight.w700, color: gc.textSecondary)),
                 ],
-              ),
+              )),
             ),
             const SizedBox(height: 2),
             Text(sub, maxLines: 1, style: AppTheme.f(11, weight: FontWeight.w600, color: gc.textSecondary)),
@@ -612,7 +612,7 @@ class _Tile extends StatelessWidget {
               Center(child: vessel),
               const Spacer(),
               const SizedBox(height: 12),
-              Row(crossAxisAlignment: CrossAxisAlignment.baseline, textBaseline: TextBaseline.alphabetic, children: [
+              Ltr(child: Row(crossAxisAlignment: CrossAxisAlignment.baseline, textBaseline: TextBaseline.alphabetic, children: [
                 RollingText(value, style: AppTheme.f(26, weight: FontWeight.w800, color: gc.text, height: 1.2)),
                 const SizedBox(width: 4),
                 Flexible(
@@ -621,7 +621,7 @@ class _Tile extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       style: AppTheme.f(12, weight: FontWeight.w600, color: gc.textSecondary)),
                 ),
-              ]),
+              ])),
               const SizedBox(height: 4),
               FitText(hint, style: AppTheme.f(11.5, weight: FontWeight.w700, color: hintColor)),
             ]),
@@ -1081,10 +1081,13 @@ class _SupplementRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final gc = context.gc;
     final at = fit.supplementTime(supp);
+    final dose = fit.suppDoseLabel(supp);
     final detail = [
-      if (supp.dose.isNotEmpty) supp.dose,
+      if (dose.isNotEmpty) dose,
       _suppSchedule(context, supp, daily: false),
     ].where((x) => x.isNotEmpty).join(' · ');
+    final left = off ? null : fit.suppDaysLeft(supp);
+    final low = left == null || left > 7 ? null : (left == 0 ? t.suppRanOut : t.suppLeftFor(left));
     return SizedBox(
       height: height,
       child: Pressable(
@@ -1141,14 +1144,21 @@ class _SupplementRow extends StatelessWidget {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: AppTheme.f(14.5, weight: FontWeight.w800, color: off ? gc.textSecondary : gc.text)),
-                if (detail.isNotEmpty) ...[
+                if (detail.isNotEmpty || low != null) ...[
                 const SizedBox(height: 2),
                 Row(children: [
                   Icon(at != null ? PhosphorIconsFill.bellSimpleRinging : PhosphorIconsFill.calendarBlank,
                       size: 11, color: gc.textTertiary),
                   const SizedBox(width: 4),
                   Flexible(
-                    child: Text(detail,
+                    child: Text.rich(
+                        TextSpan(children: [
+                          if (low != null)
+                            TextSpan(
+                                text: detail.isEmpty ? low : '$low · ',
+                                style: AppTheme.f(11.5, weight: FontWeight.w800, color: gc.accent)),
+                          TextSpan(text: detail),
+                        ]),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: AppTheme.f(11.5, weight: FontWeight.w600, color: gc.textSecondary)),
@@ -1223,7 +1233,7 @@ Future<void> showSupplementInfo(BuildContext context, Supplement supp) => _sheet
       return _sheetFrame(sheet, [
         Center(child: FoodSticker(photo: _suppPhoto(s), name: s.name, size: 104, tilt: false)),
         const SizedBox(height: 12),
-        SheetTitle(s.name, subtitle: s.dose.isEmpty ? null : s.dose),
+        SheetTitle(s.name, subtitle: fit.suppDoseLabel(s).isEmpty ? null : fit.suppDoseLabel(s)),
         const SizedBox(height: 16),
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 4),
@@ -1233,6 +1243,16 @@ Future<void> showSupplementInfo(BuildContext context, Supplement supp) => _sheet
             line(PhosphorIconsRegular.bellSimpleRinging, t.suppRemind, at == null ? t.suppNoReminder : _clock(sheet, at)),
             if (s.from != null && s.from!.isAfter(day)) line(PhosphorIconsRegular.flagBanner, t.suppStarts, t.shortDate(s.from!)),
             if (s.until != null) line(PhosphorIconsRegular.flagCheckered, t.suppEnds, t.shortDate(s.until!)),
+            if (s.stock != null)
+              line(
+                PhosphorIconsRegular.package,
+                t.suppLeft,
+                switch (fit.suppDaysLeft(s)) {
+                  0 => t.suppRanOut,
+                  null => fit.suppAmountLabel(s.stock!, s.unit),
+                  final d => '${fit.suppAmountLabel(s.stock!, s.unit)} · ${t.suppForDays(d)}',
+                },
+              ),
           ]),
         ),
         const SizedBox(height: 18),
@@ -1311,7 +1331,25 @@ enum _Repeat { daily, days, every }
 
 class _SupplementEditorState extends State<_SupplementEditor> with _StickerDrafts {
   late final _name = TextEditingController(text: widget.supp?.name ?? widget.name);
-  late final _dose = TextEditingController(text: widget.supp?.dose ?? '');
+  late final _amount = TextEditingController(text: _num(widget.supp?.amount));
+  late final _stock = TextEditingController(text: _num(widget.supp?.stock));
+  late String _unit = widget.supp?.unit ?? '';
+
+  static String _num(double? v) => v == null ? '' : fmt((v * 100).round() / 100);
+
+  double? _parsed(TextEditingController c) {
+    final v = double.tryParse(c.text.trim().replaceAll(',', '.'));
+    return v == null || v < 0 ? null : v;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _amount.addListener(_refresh);
+    _stock.addListener(_refresh);
+  }
+
+  void _refresh() => setState(() {});
   @override
   late String _photo = widget.supp == null ? _suppPresets.first : _suppPhoto(widget.supp!);
   late int? _at = widget.supp == null ? 9 * 60 : fit.supplementTime(widget.supp!);
@@ -1339,7 +1377,8 @@ class _SupplementEditorState extends State<_SupplementEditor> with _StickerDraft
   @override
   void dispose() {
     _name.dispose();
-    _dose.dispose();
+    _amount.dispose();
+    _stock.dispose();
     _dropDrafts();
     super.dispose();
   }
@@ -1358,14 +1397,29 @@ class _SupplementEditorState extends State<_SupplementEditor> with _StickerDraft
     final supp = widget.supp;
     final from = _from.isAfter(_today) || _repeat == _Repeat.every ? _from : null;
     final until = _until;
+    final amount = _parsed(_amount);
+    final stock = _parsed(_stock);
     if (supp == null) {
       fit.addSupplement(name,
-          dose: _dose.text, photo: _photo, at: _at, days: _savedDays, every: _savedEvery, from: from, until: until);
+          amount: amount,
+          unit: _unit,
+          stock: stock,
+          photo: _photo,
+          at: _at,
+          days: _savedDays,
+          every: _savedEvery,
+          from: from,
+          until: until);
     } else {
       fit.updateSupplement(
         supp.id,
         name: name,
-        dose: _dose.text,
+        dose: amount != null && amount > 0 ? '' : null,
+        amount: amount,
+        clearAmount: amount == null && _amount.text.trim().isEmpty,
+        unit: _unit,
+        stock: stock,
+        clearStock: stock == null,
         photo: _photo,
         at: _at,
         clearAt: _at == null,
@@ -1518,7 +1572,44 @@ class _SupplementEditorState extends State<_SupplementEditor> with _StickerDraft
       const SizedBox(height: 16),
       _TextInput(controller: _name, hint: t.supplementNameHint, label: t.nameLabel),
       const SizedBox(height: 8),
-      _TextInput(controller: _dose, hint: t.suppDoseHint, label: t.suppDose),
+      Row(children: [
+        Expanded(
+          child: _NumberField(
+            label: t.suppDose.toUpperCase(),
+            controller: _amount,
+            color: gc.textTertiary,
+            suffix: fit.suppUnitLabel(_unit, _parsed(_amount) ?? 1),
+            hint: widget.supp?.amount == null && (widget.supp?.dose.isNotEmpty ?? false) ? widget.supp!.dose : '1',
+          ),
+        ),
+        const SizedBox(width: 8),
+        Expanded(
+          child: _NumberField(
+            label: t.suppLeft.toUpperCase(),
+            controller: _stock,
+            color: gc.textTertiary,
+            suffix: _stock.text.trim().isEmpty ? '' : fit.suppUnitLabel(_unit, _parsed(_stock) ?? 2),
+            hint: t.suppLeftHint,
+          ),
+        ),
+      ]),
+      const SizedBox(height: 8),
+      SizedBox(
+        height: 36,
+        child: ListView(scrollDirection: Axis.horizontal, clipBehavior: Clip.none, children: [
+          for (final u in kSuppUnits) ...[
+            _Chip(
+              label: fit.suppUnitLabel(u, _parsed(_amount) ?? 1),
+              selected: _unit == u,
+              onTap: () {
+                HapticFeedback.selectionClick();
+                setState(() => _unit = _unit == u ? '' : u);
+              },
+            ),
+            const SizedBox(width: 7),
+          ],
+        ]),
+      ),
       section(t.suppWhen),
       Center(
         child: SegToggle([
@@ -1599,7 +1690,7 @@ class _SupplementEditorState extends State<_SupplementEditor> with _StickerDraft
             ? const SizedBox(width: double.infinity)
             : Padding(
                 padding: const EdgeInsets.only(top: 14),
-                child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                child: Directionality(textDirection: TextDirection.ltr, child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                   part((at ~/ 60).toString().padLeft(2, '0'), () => setState(() => _at = (at - 60 + 1440) % 1440),
                       () => setState(() => _at = (at + 60) % 1440)),
                   Padding(
@@ -1608,7 +1699,7 @@ class _SupplementEditorState extends State<_SupplementEditor> with _StickerDraft
                   ),
                   part((at % 60).toString().padLeft(2, '0'), () => setState(() => _at = (at - 5 + 1440) % 1440),
                       () => setState(() => _at = (at + 5) % 1440)),
-                ]),
+                ])),
               ),
       ),
       section(t.suppStarts),

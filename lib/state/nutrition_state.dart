@@ -454,6 +454,35 @@ mixin NutritionState on FitCore, ToolsState, StatsState {
     return e;
   }
 
+  List<FoodEntry> logEntries(Iterable<FoodEntry> items, Meal meal) => _logCopies(items, meal);
+
+  ({int kcal, int protein, int carbs, int fat, int leftKcal, int leftProtein}) mealAiTargets(Meal meal, {required bool day}) {
+    final goals = goalsFor(nutritionDay);
+    final today = entriesOn(nutritionDay);
+    final eaten = totalOn(nutritionDay);
+    final leftK = math.max(0.0, goals.kcal - eaten.kcal);
+    final leftP = math.max(0.0, goals.protein - eaten.protein);
+    final leftC = math.max(0.0, goals.carbs - eaten.carbs);
+    final leftF = math.max(0.0, goals.fat - eaten.fat);
+    if (day) {
+      return (kcal: goals.kcal, protein: goals.protein, carbs: goals.carbs, fat: goals.fat, leftKcal: leftK.round(), leftProtein: leftP.round());
+    }
+    final empty = mealSlots.where((s) => !today.any((e) => e.meal == s.meal)).length;
+    final targetEmpty = !today.any((e) => e.meal == meal);
+    final divisor = math.max(1, targetEmpty ? empty : empty + 1);
+    final slots = math.max(1, mealSlots.length);
+    double share(double left, num goal) => left > 0 ? left / divisor : goal / slots;
+    int tidy(double v, int lo, int hi, int step) => ((v / step).round() * step).clamp(lo, hi);
+    return (
+      kcal: tidy(share(leftK, goals.kcal), 80, 1500, 10),
+      protein: tidy(share(leftP, goals.protein), 5, 150, 1),
+      carbs: tidy(share(leftC, goals.carbs), 5, 300, 1),
+      fat: tidy(share(leftF, goals.fat), 3, 150, 1),
+      leftKcal: leftK.round(),
+      leftProtein: leftP.round(),
+    );
+  }
+
   FoodEntry? logQuick(String name, Macros macros, {Meal? meal}) {
     if (macros.isEmpty) return null;
     final e = FoodEntry(
@@ -1376,6 +1405,9 @@ mixin NutritionState on FitCore, ToolsState, StatsState {
   Supplement? addSupplement(
     String name, {
     String dose = '',
+    double? amount,
+    String unit = '',
+    double? stock,
     String photo = '',
     int? at,
     int days = 0,
@@ -1389,6 +1421,9 @@ mixin NutritionState on FitCore, ToolsState, StatsState {
       id: _newId('s'),
       name: clean,
       dose: dose.trim(),
+      amount: amount != null && amount > 0 ? amount : null,
+      unit: kSuppUnits.contains(unit) ? unit : '',
+      stock: stock == null ? null : math.max(0.0, stock),
       photo: photo,
       at: at,
       days: days,
@@ -1407,6 +1442,11 @@ mixin NutritionState on FitCore, ToolsState, StatsState {
     String id, {
     String? name,
     String? dose,
+    double? amount,
+    bool clearAmount = false,
+    String? unit,
+    double? stock,
+    bool clearStock = false,
     String? photo,
     int? at,
     bool clearAt = false,
@@ -1422,6 +1462,11 @@ mixin NutritionState on FitCore, ToolsState, StatsState {
     var next = old.copyWith(
       name: name == null || name.trim().isEmpty ? null : name.trim(),
       dose: dose?.trim(),
+      amount: amount != null && amount > 0 ? amount : null,
+      clearAmount: clearAmount || (amount != null && amount <= 0),
+      unit: unit == null ? null : (kSuppUnits.contains(unit) ? unit : ''),
+      stock: stock == null ? null : math.max(0.0, stock),
+      clearStock: clearStock,
       photo: photo,
       at: at,
       clearAt: clearAt,
@@ -1440,6 +1485,49 @@ mixin NutritionState on FitCore, ToolsState, StatsState {
   }
 
   int? supplementTime(Supplement s) => s.at ?? supplementReminderMin;
+
+  String suppUnitLabel(String unit, double amount) {
+    final n = amount == 1 ? 1 : 2;
+    return switch (unit) {
+      'capsule' => t.suppUnitCapsule(n),
+      'pill' => t.suppUnitPill(n),
+      'scoop' => t.suppUnitScoop(n),
+      'drop' => t.suppUnitDrop(n),
+      'serving' => t.suppUnitServing(n),
+      'iu' => t.suppUnitIu,
+      'g' || 'mg' || 'ml' => unit,
+      _ => '',
+    };
+  }
+
+  String suppAmountLabel(double amount, String unit) {
+    final word = suppUnitLabel(unit, amount);
+    final n = amount >= 1000 && amount == amount.roundToDouble() ? groupedInt(amount.round()) : fmt((amount * 100).round() / 100);
+    return word.isEmpty ? n : '$n $word';
+  }
+
+  String suppDoseLabel(Supplement s) => s.amount == null ? s.dose : suppAmountLabel(s.amount!, s.unit);
+
+  int? suppDaysLeft(Supplement s, {DateTime? from}) {
+    final stock = s.stock;
+    if (stock == null) return null;
+    var takes = (stock / s.perTake + 1e-9).floor();
+    final today = _dayKey(from ?? DateTime.now());
+    final takenToday = takenOn(today).contains(s.id);
+    for (var i = 0; i < 1000; i++) {
+      final day = shiftDays(today, i);
+      if (s.until != null && day.isAfter(s.until!)) return null;
+      if (!s.dueOn(day) || (i == 0 && takenToday)) continue;
+      if (takes == 0) return i;
+      takes--;
+    }
+    return null;
+  }
+
+  bool suppRunningLow(Supplement s) {
+    final left = suppDaysLeft(s);
+    return left != null && left <= 7;
+  }
 
   List<Supplement> supplementsDueOn(DateTime day) => [for (final s in activeSupplements) if (s.dueOn(day)) s];
 
@@ -1460,8 +1548,15 @@ mixin NutritionState on FitCore, ToolsState, StatsState {
   void toggleSupplement(String id) {
     final key = _dk(nutritionDay);
     final taken = supplementsTaken.putIfAbsent(key, () => <String>{});
-    if (!taken.remove(id)) taken.add(id);
+    final marked = !taken.remove(id);
+    if (marked) taken.add(id);
     if (taken.isEmpty) supplementsTaken.remove(key);
+    final i = supplements.indexWhere((s) => s.id == id);
+    final stock = i < 0 ? null : supplements[i].stock;
+    if (stock != null) {
+      final s = supplements[i];
+      supplements[i] = s.copyWith(stock: math.max(0.0, stock + (marked ? -s.perTake : s.perTake)));
+    }
     syncSupplementReminder();
     _persist();
     notifyListeners();
@@ -1506,9 +1601,25 @@ mixin NutritionState on FitCore, ToolsState, StatsState {
         (
           at: d.at,
           names: [for (final s in d.items) s.name],
-          doses: [for (final s in d.items) if (s.dose.isNotEmpty) '${s.name} ${s.dose}'],
+          doses: [
+            for (final s in d.items)
+              if (suppDoseLabel(s).isNotEmpty || _lowOn(s, d.at) != null)
+                [
+                  if (suppDoseLabel(s).isNotEmpty) '${s.name} ${suppDoseLabel(s)}',
+                  ?_lowOn(s, d.at),
+                ].join(' · '),
+          ],
         ),
     ]);
+  }
+
+  String? _lowOn(Supplement s, DateTime at) {
+    final left = suppDaysLeft(s);
+    if (left == null) return null;
+    final ahead = _dayKey(at).difference(_dayKey(DateTime.now())).inDays;
+    final then = left - ahead;
+    if (then > 7) return null;
+    return then <= 0 ? t.suppRanOut : t.suppLeftFor(then);
   }
 
   List<DateTime> get nutritionWeek {
