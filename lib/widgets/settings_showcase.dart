@@ -8,6 +8,7 @@ import '../models/gym_pass.dart';
 import '../state/fit_state.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
+import 'ui_kit.dart';
 import 'charts.dart';
 import 'gym_pass_card.dart';
 import 'medal.dart';
@@ -473,11 +474,11 @@ class HomeExtrasShowcase extends StatelessWidget {
               Icon(PhosphorIconsFill.heart, size: 16, color: gc.accent),
               const SizedBox(width: 6),
               Expanded(child: _kicker(gc, t.healthRestingHr)),
-              Row(crossAxisAlignment: CrossAxisAlignment.baseline, textBaseline: TextBaseline.alphabetic, children: [
+              Ltr(child: Row(crossAxisAlignment: CrossAxisAlignment.baseline, textBaseline: TextBaseline.alphabetic, children: [
                 _big(gc, '56', size: 26),
                 const SizedBox(width: 3),
                 Text(t.healthBpm, style: AppTheme.f(11.5, weight: FontWeight.w600, color: gc.textSecondary)),
-              ]),
+              ])),
             ]),
           ),
         ]),

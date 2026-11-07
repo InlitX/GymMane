@@ -177,7 +177,7 @@ class StatsWidgetView extends StatelessWidget {
           FittedBox(
             fit: BoxFit.scaleDown,
             alignment: Alignment.centerLeft,
-            child: Row(
+            child: Ltr(child: Row(
               crossAxisAlignment: CrossAxisAlignment.baseline,
               textBaseline: TextBaseline.alphabetic,
               children: [
@@ -195,7 +195,7 @@ class StatsWidgetView extends StatelessWidget {
                       style: TextStyle(fontFamily: _kBody, fontSize: 14, color: gc.textSecondary)),
                 ),
               ],
-            ),
+            )),
           ),
           const Spacer(),
           Row(
@@ -355,7 +355,7 @@ class WeekWidgetView extends StatelessWidget {
                             letterSpacing: 1.2,
                             color: gc.textTertiary)),
                     const SizedBox(height: 4),
-                    Row(
+                    Ltr(child: Row(
                       crossAxisAlignment: CrossAxisAlignment.baseline,
                       textBaseline: TextBaseline.alphabetic,
                       children: [
@@ -374,7 +374,7 @@ class WeekWidgetView extends StatelessWidget {
                                 fontWeight: FontWeight.w700,
                                 color: gc.textSecondary)),
                       ],
-                    ),
+                    )),
                   ],
                 ),
               ),
@@ -759,7 +759,7 @@ class KcalWidgetView extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Row(
+                      Ltr(child: Row(
                           crossAxisAlignment: CrossAxisAlignment.baseline,
                           textBaseline: TextBaseline.alphabetic,
                           children: [
@@ -778,7 +778,7 @@ class KcalWidgetView extends StatelessWidget {
                                       fontWeight: FontWeight.w700,
                                       color: gc.textTertiary)),
                             ),
-                          ]),
+                          ])),
                       macro(PhosphorIconsFill.egg, t.macroProtein, protein, goals.$1, gc.protein),
                       macro(PhosphorIconsFill.grains, t.macroCarbs, carbs, goals.$2, gc.carbs),
                       macro(PhosphorIconsFill.drop, t.macroFat, fat, goals.$3, gc.fat),

@@ -198,7 +198,7 @@ class _HealthFigure extends StatelessWidget {
         FittedBox(
           fit: BoxFit.scaleDown,
           alignment: Alignment.centerLeft,
-          child: Row(
+          child: Ltr(child: Row(
             crossAxisAlignment: CrossAxisAlignment.baseline,
             textBaseline: TextBaseline.alphabetic,
             children: [
@@ -209,7 +209,7 @@ class _HealthFigure extends StatelessWidget {
                 Text(unit, style: AppTheme.f(11, weight: FontWeight.w600, color: gc.textSecondary)),
               ],
             ],
-          ),
+          )),
         ),
         const SizedBox(height: 2),
         Text(healthName(metric),
@@ -412,7 +412,7 @@ class HealthTile extends StatelessWidget {
             FittedBox(
               fit: BoxFit.scaleDown,
               alignment: Alignment.centerLeft,
-              child: Row(
+              child: Ltr(child: Row(
                 crossAxisAlignment: CrossAxisAlignment.baseline,
                 textBaseline: TextBaseline.alphabetic,
                 children: [
@@ -423,7 +423,7 @@ class HealthTile extends StatelessWidget {
                     Text(unit, style: AppTheme.f(12, weight: FontWeight.w500, color: gc.textSecondary)),
                   ],
                 ],
-              ),
+              )),
             ),
             const SizedBox(height: 3),
             Text(
@@ -692,7 +692,7 @@ void showHealthDetail(BuildContext context, HealthMetric metric) {
             Flexible(child: Text(healthName(metric), style: AppTheme.f(19, color: gc.text))),
           ]),
           const SizedBox(height: 14),
-          Row(
+          Ltr(child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.baseline,
             textBaseline: TextBaseline.alphabetic,
@@ -704,7 +704,7 @@ void showHealthDetail(BuildContext context, HealthMetric metric) {
                 Text(unit, style: AppTheme.f(15, weight: FontWeight.w600, color: gc.textSecondary)),
               ],
             ],
-          ),
+          )),
           const SizedBox(height: 4),
           Text(latest == null ? (fit.healthFailed.contains(metric) ? t.healthReadFailed : t.healthNoData) : healthWhen(latest.day),
               textAlign: TextAlign.center,

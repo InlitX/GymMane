@@ -9,6 +9,7 @@ import '../services/media_store.dart';
 import '../state/fit_state.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
+import 'ui_kit.dart';
 import 'body_map.dart';
 import 'charts.dart';
 import 'profile_avatar.dart';
@@ -128,7 +129,7 @@ class ShareCard extends StatelessWidget {
         const Spacer(flex: 3),
         _label(t.consistency),
         const SizedBox(height: 2),
-        Row(
+        Ltr(child: Row(
           crossAxisAlignment: CrossAxisAlignment.baseline,
           textBaseline: TextBaseline.alphabetic,
           children: [
@@ -150,7 +151,7 @@ class ShareCard extends StatelessWidget {
                   style: AppTheme.f(17, weight: FontWeight.w700, color: gc.textSecondary, height: 1.15)),
             ),
           ],
-        ),
+        )),
         const Spacer(flex: 2),
         Heatmap(levels: fit.heatmapWeeksFor(20)),
         const Spacer(flex: 3),

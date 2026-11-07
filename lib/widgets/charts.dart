@@ -8,6 +8,7 @@ import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
 import 'body_map.dart';
 import 'svg_icon.dart';
+import 'ui_kit.dart';
 
 class GoalRing extends StatelessWidget {
   const GoalRing({super.key, required this.pct, this.size = 40, this.color});
@@ -77,7 +78,7 @@ class VolumeChart extends StatelessWidget {
     final top = points.isEmpty ? 0.0 : points.reduce(math.max);
     final style = AppTheme.d(10, weight: FontWeight.w600, color: gc.textTertiary);
 
-    return Column(
+    return Ltr(child: Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         SizedBox(
@@ -117,7 +118,7 @@ class VolumeChart extends StatelessWidget {
           ),
         ],
       ],
-    );
+    ));
   }
 }
 
@@ -466,7 +467,7 @@ class Heatmap extends StatelessWidget {
     final top = named ? 16.0 : 0.0;
     final labelStyle = AppTheme.f(9, weight: FontWeight.w600, color: gc.textTertiary);
     final yearStyle = AppTheme.f(9, weight: FontWeight.w800, color: gc.textSecondary);
-    return LayoutBuilder(builder: (context, c) {
+    return Ltr(child: LayoutBuilder(builder: (context, c) {
       var cell = cellSize ?? (c.maxWidth - side - gap * (cols - 1)) / cols;
       if (cellSize == null && c.hasBoundedHeight) cell = math.min(cell, (c.maxHeight - top - gap * (rows - 1)) / rows);
       Widget box(int i) {
@@ -538,7 +539,7 @@ class Heatmap extends StatelessWidget {
           Positioned(left: side, top: top, child: grid),
         ]),
       );
-    });
+    }));
   }
 }
 
@@ -555,7 +556,7 @@ class HeatmapYear extends StatelessWidget {
   Widget build(BuildContext context) {
     final gc = context.gc;
     final labelStyle = AppTheme.f(9, weight: FontWeight.w600, color: gc.textTertiary);
-    return Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+    return Ltr(child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
       if (weekdays)
         Padding(
           padding: const EdgeInsets.only(top: 16),
@@ -592,7 +593,7 @@ class HeatmapYear extends StatelessWidget {
           ),
         ),
       ),
-    ]);
+    ]));
   }
 }
 

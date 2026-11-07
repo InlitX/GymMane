@@ -95,7 +95,7 @@ class _RulerPickerState extends State<RulerPicker> {
     final vertical = widget.axis == Axis.vertical;
     return LayoutBuilder(builder: (context, box) {
       final side = (vertical ? widget.height : box.maxWidth) / 2 - _gap / 2;
-      return SizedBox(
+      return Ltr(child: SizedBox(
         height: widget.height,
         child: Stack(
           alignment: vertical ? Alignment.centerRight : Alignment.topCenter,
@@ -142,7 +142,7 @@ class _RulerPickerState extends State<RulerPicker> {
             ),
           ],
         ),
-      );
+      ));
     });
   }
 
@@ -280,7 +280,7 @@ Future<double?> askRuler(
     builder: (sheet) => StatefulBuilder(
       builder: (sheet, setSheet) {
         final gc = sheet.gc;
-        final reading = Row(
+        final reading = Ltr(child: Row(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.baseline,
           textBaseline: TextBaseline.alphabetic,
@@ -291,7 +291,7 @@ Future<double?> askRuler(
               Text(unit, style: AppTheme.f(18, weight: FontWeight.w700, color: gc.textSecondary)),
             ],
           ],
-        );
+        ));
         final ruler = RulerPicker(
           value: current,
           min: min,
