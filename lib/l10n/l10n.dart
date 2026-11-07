@@ -11,14 +11,23 @@ export 'app_localizations.dart';
 
 final Map<String, String> _decimalSeparators = {};
 
-String get decimalSeparator =>
-    _decimalSeparators.putIfAbsent(intlLocale, () => NumberFormat.decimalPattern(intlLocale).symbols.DECIMAL_SEP);
+String get decimalSeparator => _decimalSeparators.putIfAbsent(intlLocale, () {
+      final sep = NumberFormat.decimalPattern(intlLocale).symbols.DECIMAL_SEP;
+      return sep == '٫' ? '.' : sep;
+    });
 
 String decimalText(String s) => s.replaceFirst('.', decimalSeparator);
 
+bool get isRtlLanguage => appLanguage == 'ar' || appLanguage == 'fa';
+
+String ltr(String s) => isRtlLanguage ? '\u2066$s\u2069' : s;
+
 final _grouped = <String, NumberFormat>{};
 
-String groupedInt(int n) => (_grouped[intlLocale] ??= NumberFormat.decimalPattern(intlLocale)).format(n);
+String groupedInt(int n) {
+  final locale = appLanguage == 'fa' ? 'en' : intlLocale;
+  return (_grouped[locale] ??= NumberFormat.decimalPattern(locale)).format(n);
+}
 
 const Map<String, Map<String, String>> _catalogNames = {'es': kExerciseNameEs, 'it': kExerciseNameIt, 'zh': kExerciseNameZh};
 const Map<String, Map<String, List<String>>> _catalogSteps = {'es': kExerciseStepsEs, 'it': kExerciseStepsIt, 'zh': kExerciseStepsZh};

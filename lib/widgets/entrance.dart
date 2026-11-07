@@ -179,7 +179,7 @@ class _RollInState extends State<RollIn> with SingleTickerProviderStateMixin {
         animation: c,
         builder: (context, _) {
           final count = total * Curves.easeOutCubic.transform(c.value);
-          return Row(
+          return Directionality(textDirection: TextDirection.ltr, child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
               for (var i = 0; i < chars.length; i++)
@@ -194,7 +194,7 @@ class _RollInState extends State<RollIn> with SingleTickerProviderStateMixin {
                 else
                   _wheel(count, digits.length - 1 - digits.indexOf(i), line, cell),
             ],
-          );
+          ));
         },
       ),
     );

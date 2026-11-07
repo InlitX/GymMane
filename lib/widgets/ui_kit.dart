@@ -104,6 +104,15 @@ class SectionLabel extends StatelessWidget {
 TextStyle kickerStyle(GymColors gc, {Color? color}) =>
     AppTheme.f(10.5, weight: FontWeight.w700, color: color ?? gc.textTertiary, letterSpacing: 1.4);
 
+class Ltr extends StatelessWidget {
+  const Ltr({super.key, required this.child});
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) => Directionality(textDirection: TextDirection.ltr, child: child);
+}
+
 class SoftCard extends StatelessWidget {
   const SoftCard({
     super.key,
@@ -836,15 +845,17 @@ class StepperControl extends StatelessWidget {
     if (onEdit != null) {
       label = GestureDetector(behavior: HitTestBehavior.opaque, onTap: onEdit, child: label);
     }
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        btn('–', onDec),
-        SizedBox(width: gap),
-        label,
-        SizedBox(width: gap),
-        btn('+', onInc),
-      ],
+    return Ltr(
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          btn('–', onDec),
+          SizedBox(width: gap),
+          label,
+          SizedBox(width: gap),
+          btn('+', onInc),
+        ],
+      ),
     );
   }
 }

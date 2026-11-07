@@ -104,7 +104,7 @@ class _RollingTextState extends State<RollingText> {
           TextAlign.center => Alignment.center,
           _ => Alignment.centerLeft,
         },
-        child: row,
+        child: Directionality(textDirection: TextDirection.ltr, child: row),
       ),
     );
   }
