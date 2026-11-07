@@ -131,6 +131,32 @@ mixin RoutinesState on FitCore, LibraryState {
 
   bool showArchivedRoutines = false;
 
+  final Set<String> collapsedGroups = {};
+
+  void toggleGroupCollapsed(String group) {
+    if (!collapsedGroups.remove(group)) collapsedGroups.add(group);
+    _persist();
+    notifyListeners();
+  }
+
+  void moveGroup(String group, int by) {
+    final order = routineGroups;
+    final from = order.indexOf(group);
+    final to = from + by;
+    if (from < 0 || to < 0 || to >= order.length) return;
+    order.insert(to, order.removeAt(from));
+    final rank = {for (var i = 0; i < order.length; i++) order[i]: i};
+    final grouped = [for (final r in routines) if (rank.containsKey(r.group)) r]
+      ..sort((a, b) => rank[a.group]!.compareTo(rank[b.group]!));
+    final rest = [for (final r in routines) if (!rank.containsKey(r.group)) r];
+    routines
+      ..clear()
+      ..addAll(grouped)
+      ..addAll(rest);
+    _persist();
+    notifyListeners();
+  }
+
   void toggleArchivedRoutines() {
     showArchivedRoutines = !showArchivedRoutines;
     notifyListeners();
@@ -561,6 +587,7 @@ mixin RoutinesState on FitCore, LibraryState {
     for (final r in routines) {
       if (r.group == from) r.group = name;
     }
+    if (collapsedGroups.remove(from) && name.isNotEmpty) collapsedGroups.add(name);
     _persist();
     notifyListeners();
   }

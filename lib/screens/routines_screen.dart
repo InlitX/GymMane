@@ -152,10 +152,10 @@ class RoutinesScreen extends StatelessWidget {
               )
             else ...[
               for (final group in fit.routineGroups) ...[
-                _groupHeader(context, gc, group, fit.routinesInGroup(group).length),
-                _folders(context, fit.routinesInGroup(group)),
-                const SizedBox(height: 10),
+                _groupBlock(context, gc, group),
+                const SizedBox(height: 12),
               ],
+              if (fit.routineGroups.isNotEmpty && fit.routinesInGroup('').isNotEmpty) const SizedBox(height: 6),
               _folders(context, fit.routinesInGroup('')),
             ],
             if (fit.archivedRoutines.isNotEmpty) ...[
@@ -978,32 +978,80 @@ class RoutinesScreen extends StatelessWidget {
     );
   }
 
-  Widget _groupHeader(BuildContext context, GymColors gc, String name, int count) {
-    return Semantics(
-      button: true,
-      label: name,
-      child: GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: () => _groupMenu(context, name, count),
-        child: Padding(
-          padding: const EdgeInsets.only(bottom: 8, left: 4, top: 4),
-          child: Row(
-            children: [
-              Icon(PhosphorIconsRegular.folderSimple, size: 15, color: gc.brass),
-              const SizedBox(width: 8),
-              Expanded(
-                child: Text(name,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: AppTheme.f(13, weight: FontWeight.w700, color: gc.text, letterSpacing: 1)),
+  Widget _groupBlock(BuildContext context, GymColors gc, String name) {
+    final list = fit.routinesInGroup(name);
+    final open = !fit.collapsedGroups.contains(name);
+    return SoftCard(
+      color: Colors.transparent,
+      radius: 26,
+      padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          _groupHeader(context, gc, name, list.length, open),
+          AnimatedSize(
+            duration: const Duration(milliseconds: 340),
+            curve: Curves.easeOutCubic,
+            alignment: Alignment.topCenter,
+            child: open
+                ? Padding(padding: const EdgeInsets.only(top: 2), child: _folders(context, list))
+                : const SizedBox(width: double.infinity),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _groupHeader(BuildContext context, GymColors gc, String name, int count, bool open) {
+    return Row(
+      children: [
+        Expanded(
+          child: Semantics(
+            button: true,
+            expanded: open,
+            label: name,
+            child: GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onTap: () => fit.toggleGroupCollapsed(name),
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(4, 14, 0, 14),
+                child: Row(
+                  children: [
+                    Icon(PhosphorIconsRegular.folderSimple, size: 15, color: gc.brass),
+                    const SizedBox(width: 8),
+                    Flexible(
+                      child: Text(name,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: AppTheme.f(13, weight: FontWeight.w700, color: gc.text, letterSpacing: 1)),
+                    ),
+                    const SizedBox(width: 8),
+                    Text('$count', style: AppTheme.f(12, weight: FontWeight.w500, color: gc.textTertiary)),
+                    const SizedBox(width: 6),
+                    AnimatedRotation(
+                      turns: open ? 0.5 : 0,
+                      duration: const Duration(milliseconds: 200),
+                      child: Icon(PhosphorIconsBold.caretDown, size: 13, color: gc.textTertiary),
+                    ),
+                  ],
+                ),
               ),
-              Text('$count', style: AppTheme.f(12, weight: FontWeight.w500, color: gc.textTertiary)),
-              const SizedBox(width: 6),
-              Icon(PhosphorIconsBold.dotsThree, size: 18, color: gc.textTertiary),
-            ],
+            ),
           ),
         ),
-      ),
+        Semantics(
+          button: true,
+          label: t.moreOptions,
+          child: GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onTap: () => _groupMenu(context, name, count),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(12, 14, 6, 14),
+              child: Icon(PhosphorIconsBold.dotsThree, size: 18, color: gc.textTertiary),
+            ),
+          ),
+        ),
+      ],
     );
   }
 
@@ -1024,6 +1072,16 @@ class RoutinesScreen extends StatelessWidget {
             SheetTitle(name, subtitle: t.routineCount(count)),
             const SizedBox(height: 14),
             OptionGroup([
+              if (fit.routineGroups.indexOf(name) > 0)
+                OptionItem(t.groupMoveUp, icon: PhosphorIconsRegular.arrowUp, onTap: () {
+                  Navigator.pop(sheet);
+                  fit.moveGroup(name, -1);
+                }),
+              if (fit.routineGroups.indexOf(name) < fit.routineGroups.length - 1)
+                OptionItem(t.groupMoveDown, icon: PhosphorIconsRegular.arrowDown, onTap: () {
+                  Navigator.pop(sheet);
+                  fit.moveGroup(name, 1);
+                }),
               OptionItem(t.groupRename, icon: PhosphorIconsRegular.pencilSimple, onTap: () async {
                 Navigator.pop(sheet);
                 final next = await askText(context, title: t.groupRename, initial: name, hint: t.groupNameHint);

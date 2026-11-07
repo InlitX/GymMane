@@ -419,6 +419,9 @@ class FitState extends FitCore
   }
 
   void _loadExerciseUnits(Map<String, dynamic> data) {
+    collapsedGroups
+      ..clear()
+      ..addAll(((data['collapsedGroups'] as List?) ?? const []).whereType<String>());
     exerciseUnits.clear();
     ((data['exUnits'] as Map?) ?? const {}).forEach((k, v) {
       if (k is String && (v == 'kg' || v == 'lb')) exerciseUnits[k] = v as String;
@@ -621,6 +624,7 @@ class FitState extends FitCore
         'media': exerciseMedia,
         'exRest': exerciseRest,
         if (exerciseUnits.isNotEmpty) 'exUnits': exerciseUnits,
+        if (collapsedGroups.isNotEmpty) 'collapsedGroups': collapsedGroups.toList(),
         'progress': progressStep,
         if (holdStep.isNotEmpty) 'holdStep': holdStep,
         if (progressRules.isNotEmpty)
@@ -737,6 +741,7 @@ class FitState extends FitCore
     assistedOff.clear();
     exerciseRest.clear();
     exerciseUnits.clear();
+    collapsedGroups.clear();
     progressStep.clear();
     holdStep.clear();
     progressRules.clear();

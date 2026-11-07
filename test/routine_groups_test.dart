@@ -36,6 +36,31 @@ void main() {
     expect(fit.routines.length, 2);
   });
 
+  test('subir y bajar un grupo cambia el orden y deja las sueltas al final', () {
+    routineIn('A', '5x5');
+    final loose = fit.createRoutine('Suelta');
+    routineIn('C', 'PPL');
+    routineIn('D', 'Upper');
+    fit.moveGroup('Upper', -1);
+    expect(fit.routineGroups, ['5x5', 'Upper', 'PPL']);
+    fit.moveGroup('5x5', 1);
+    expect(fit.routineGroups, ['Upper', '5x5', 'PPL']);
+    fit.moveGroup('PPL', 1);
+    expect(fit.routineGroups, ['Upper', '5x5', 'PPL']);
+    expect(fit.routines.last.id, loose);
+  });
+
+  test('plegar un grupo se guarda, sobrevive al cambio de nombre y va en la copia', () {
+    routineIn('A', '5x5');
+    fit.toggleGroupCollapsed('5x5');
+    expect(fit.collapsedGroups, {'5x5'});
+    fit.renameGroup('5x5', 'Fuerza');
+    expect(fit.collapsedGroups, {'Fuerza'});
+    expect(fit.toJson()['collapsedGroups'], ['Fuerza']);
+    fit.toggleGroupCollapsed('Fuerza');
+    expect(fit.toJson().containsKey('collapsedGroups'), isFalse);
+  });
+
   test('borrar el grupo borra sus rutinas, su plan y nada más', () {
     final a = routineIn('A', '5x5');
     routineIn('B', '5x5');
