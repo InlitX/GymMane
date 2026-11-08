@@ -147,6 +147,24 @@ class _AddFoodSheetState extends State<_AddFoodSheet> {
         ),
       );
 
+  Widget _boxGrid(List<FoodItem> foods) => GridView.builder(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        padding: EdgeInsets.zero,
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 3,
+          mainAxisSpacing: 12,
+          crossAxisSpacing: 10,
+          childAspectRatio: 0.66,
+        ),
+        itemCount: foods.length,
+        itemBuilder: (context, i) => _FoodTile(
+          food: foods[i],
+          onTap: () => _info(foods[i]),
+          onLongPress: () => _open(foods[i]),
+        ),
+      );
+
   Widget _cats(GymColors gc) => SizedBox(
         height: 92,
         child: ListView(
@@ -399,7 +417,7 @@ class _AddFoodSheetState extends State<_AddFoodSheet> {
           count: fit.archivedFoodList.length,
           open: fit.showArchivedFoods,
           onToggle: fit.toggleArchivedFoods,
-          child: _grid(fit.archivedFoodList),
+          child: _boxGrid(fit.archivedFoodList),
         ),
       if (recents.isNotEmpty) ...[_section(gc, t.recentFoods), _grid(recents, quick: true)],
       if (library.isNotEmpty) ...[
