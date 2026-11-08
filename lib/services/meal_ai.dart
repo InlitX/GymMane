@@ -23,6 +23,12 @@ class AiFood {
     this.carbs,
     this.fat,
     this.fiber,
+    this.sugar,
+    this.sodium,
+    this.sat,
+    this.trans,
+    this.mono,
+    this.poly,
     this.per100 = false,
     this.meal = '',
   });
@@ -36,6 +42,12 @@ class AiFood {
   double? carbs;
   double? fat;
   double? fiber;
+  double? sugar;
+  double? sodium;
+  double? sat;
+  double? trans;
+  double? mono;
+  double? poly;
   bool per100;
   String meal;
 
@@ -300,6 +312,12 @@ const _proteinKeys = ['protein', 'proteins', 'proteina', 'proteinas', 'prot', 'p
 const _carbKeys = ['carbs', 'carbohydrates', 'carbohydrate', 'carbohidratos', 'hidratos', 'carb', 'c', 'carbsg', 'hidratosdecarbono'];
 const _fatKeys = ['fat', 'fats', 'grasa', 'grasas', 'lipids', 'lipidos', 'f', 'fatg'];
 const _fiberKeys = ['fiber', 'fibre', 'fibra', 'fiberg'];
+const _sugarKeys = ['sugar', 'sugars', 'azucar', 'azucares', 'sugarg', 'totalsugars'];
+const _sodiumKeys = ['sodium', 'sodio', 'natrium', 'sodiummg', 'sodiomg'];
+const _satKeys = ['saturated', 'saturatedfat', 'saturadas', 'saturada', 'grasassaturadas', 'grasasaturada', 'satfat', 'saturates', 'saturatedfatg'];
+const _transKeys = ['trans', 'transfat', 'transfats', 'grasastrans', 'grasatrans', 'transfatg'];
+const _monoKeys = ['monounsaturated', 'monounsaturatedfat', 'monoinsaturadas', 'monoinsaturada', 'grasasmonoinsaturadas', 'monofat', 'mono'];
+const _polyKeys = ['polyunsaturated', 'polyunsaturatedfat', 'poliinsaturadas', 'poliinsaturada', 'grasaspoliinsaturadas', 'polyfat', 'poly'];
 const _nestedKeys = ['macros', 'nutrition', 'nutrients', 'nutrientes', 'nutritionalvalues', 'valoresnutricionales', 'totals', 'total', 'values'];
 const _per100Keys = ['per100', 'per100g', 'per100grams', 'porcada100g', 'per100ml'];
 const _mealKeys = ['meal', 'comida', 'slot', 'mealtype', 'momento'];
@@ -496,6 +514,12 @@ AiFood? _food(Object? raw, String defaultMeal) {
     carbs: macro(_carbKeys),
     fat: macro(_fatKeys),
     fiber: macro(_fiberKeys),
+    sugar: macro(_sugarKeys),
+    sodium: macro(_sodiumKeys),
+    sat: macro(_satKeys),
+    trans: macro(_transKeys),
+    mono: macro(_monoKeys),
+    poly: macro(_polyKeys),
     per100: isPer100,
     meal: meal is String && meal.trim().isNotEmpty ? meal.trim() : defaultMeal,
   );
@@ -806,6 +830,7 @@ Meal _mealFor(String raw, List<MealSlot> slots, Meal fallback) {
 
 Macros _aiMacros(AiFood f, double? grams, Set<AiFlag> flags) {
   var kcal = f.kcal, p = f.protein, c = f.carbs, fat = f.fat, fi = f.fiber;
+  var su = f.sugar, na = f.sodium, sa = f.sat, tr = f.trans, mu = f.mono, po = f.poly;
   if (f.per100) {
     final k = (grams ?? 100) / 100;
     kcal = kcal == null ? null : kcal * k;
@@ -813,6 +838,12 @@ Macros _aiMacros(AiFood f, double? grams, Set<AiFlag> flags) {
     c = c == null ? null : c * k;
     fat = fat == null ? null : fat * k;
     fi = fi == null ? null : fi * k;
+    su = su == null ? null : su * k;
+    na = na == null ? null : na * k;
+    sa = sa == null ? null : sa * k;
+    tr = tr == null ? null : tr * k;
+    mu = mu == null ? null : mu * k;
+    po = po == null ? null : po * k;
   }
   final given = [p, c, fat].where((e) => e != null).length;
   final derived = (p ?? 0) * 4 + (c ?? 0) * 4 + (fat ?? 0) * 9;
@@ -840,7 +871,19 @@ Macros _aiMacros(AiFood f, double? grams, Set<AiFlag> flags) {
   } else if (kcal > 2500) {
     flags.add(AiFlag.doubtful);
   }
-  return Macros(kcal: kcal, protein: p, carbs: c, fat: fat, fiber: fi ?? 0);
+  return Macros(
+    kcal: kcal,
+    protein: p,
+    carbs: c,
+    fat: fat,
+    fiber: fi ?? 0,
+    sugar: su ?? 0,
+    sodium: na ?? 0,
+    sat: sa ?? 0,
+    trans: tr ?? 0,
+    mono: mu ?? 0,
+    poly: po ?? 0,
+  );
 }
 
 AiDraft _draft(AiFood f, Meal meal, String lang, List<FoodItem> own, DateTime now) {
@@ -983,7 +1026,7 @@ String buildMealAiPrompt(MealAiBrief b) {
     '2. Use exactly the keys shown in the example. Keep "gymmane" as "$kMealAiTag" and "v" as $kMealAiVersion.',
     '3. One entry in "items" per food or ingredient. Split mixed dishes into their ingredients (for example "Rice, cooked" and "Chicken breast, grilled").',
     '4. "grams" is the weight in grams of that item (for liquids, the volume in millilitres). Always a plain number, never a range.',
-    '5. "kcal", "protein", "carbs" and "fat" are the TOTAL for the amount in "grams", not per 100 g. Plain numbers only: dot as decimal separator, no units, no quotes. Protein, carbs and fat are in grams. kcal must be close to 4 x protein + 4 x carbs + 9 x fat.',
+    '5. "kcal", "protein", "carbs" and "fat" are the TOTAL for the amount in "grams", not per 100 g. Plain numbers only: dot as decimal separator, no units, no quotes. Protein, carbs and fat are in grams. kcal must be close to 4 x protein + 4 x carbs + 9 x fat. Optional, same rules (totals for the amount in "grams"): "fiber", "sugar", "saturated", "trans", "monounsaturated" and "polyunsaturated" in grams, and "sodium" in milligrams. Add them only when you know them, for example from a nutrition label I gave you; leave the key out otherwise, never write 0 for unknown.',
     '6. Use simple, common, generic food names (for example "Greek yogurt", "Rolled oats", "Banana", "Olive oil"). No brands, no adjectives, no cooking instructions inside the name. Add "cooked" or "grilled" to the name only when the weight is the cooked weight.',
     '7. Use realistic amounts that a person can weigh at home. Do not put the same food twice in one option.',
     '8. "meal" is one of these ids: ${ids.map((e) => '"$e"').join(', ')}.${b.day ? ' Spread the foods across the meals.' : ' Use "${b.mealId}" for every item.'}',

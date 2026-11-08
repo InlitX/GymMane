@@ -387,4 +387,39 @@ void main() {
       expect(ai.entry.totalGrams, closeTo(100, 0.01));
     });
   });
+
+  group('etiqueta completa', () {
+    test('lee fibra, azucar, sodio y tipos de grasa del alimento', () {
+      final d = resolve('{"items":[{"food":"Beef stick and cheese protein snack","grams":40,"kcal":150,"protein":9,"carbs":3,"fat":11,"sodium":480,"saturated":5,"trans":0.2,"sugar":1,"fiber":0.5,"monounsaturated":4,"polyunsaturated":0.8}]}')
+          .single
+          .items
+          .single;
+      expect(d.source, AiSource.ai);
+      expect(d.total.sodium, closeTo(480, 0.01));
+      expect(d.total.sat, closeTo(5, 0.01));
+      expect(d.total.trans, closeTo(0.2, 0.01));
+      expect(d.total.sugar, closeTo(1, 0.01));
+      expect(d.total.fiber, closeTo(0.5, 0.01));
+      expect(d.total.mono, closeTo(4, 0.01));
+      expect(d.total.poly, closeTo(0.8, 0.01));
+    });
+
+    test('sin los campos nuevos se importa igual y por 100 g se escalan', () {
+      final plain = resolve('{"items":[{"food":"protein pudding","grams":200,"kcal":180,"protein":24,"carbs":14,"fat":3}]}').single.items.single;
+      expect(plain.total.sodium, 0);
+      expect(plain.total.sat, 0);
+      final per = resolve('{"items":[{"food":"protein pudding","grams":200,"per100":{"kcal":90,"protein":12,"carbs":7,"fat":1.5,"sodium":100,"saturated":0.5}}]}')
+          .single
+          .items
+          .single;
+      expect(per.total.sodium, closeTo(200, 0.01));
+      expect(per.total.sat, closeTo(1, 0.01));
+    });
+
+    test('el prompt pide los campos opcionales sin hacerlos obligatorios', () {
+      final p = buildMealAiPrompt(brief);
+      expect(p, contains('"sodium" in milligrams'));
+      expect(p, contains('leave the key out otherwise'));
+    });
+  });
 }
