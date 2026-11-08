@@ -622,6 +622,7 @@ class _RoutineEditScreenState extends State<RoutineEditScreen> {
         GestureDetector(
           behavior: HitTestBehavior.opaque,
           onTap: () => _openPlan(ex),
+          onLongPress: () => showExercisePreview(context, ex),
           child: SizedBox(width: 44, child: ExerciseMedia(ex: ex, height: 44, radius: 10)),
         ),
         const SizedBox(width: 12),
@@ -635,6 +636,7 @@ class _RoutineEditScreenState extends State<RoutineEditScreen> {
                 child: GestureDetector(
                   behavior: HitTestBehavior.opaque,
                   onTap: () => _openPlan(ex),
+                  onLongPress: () => showExercisePreview(context, ex),
                   child: Row(children: [
                     Flexible(
                       child: Text(exerciseName(ex),
@@ -1199,7 +1201,7 @@ class _RoutineEditScreenState extends State<RoutineEditScreen> {
       () => cardio
           ? ask(t.timeMinutesTitle, ((p.sec ?? 1200) / 60).roundToDouble(), 300, 1, 5, 'min',
               (v) => edit(i, p.copyWith(sec: (v * 60).round())))
-          : ask(t.timeSecondsTitle, (p.sec ?? 30).toDouble(), 900, 5, 6, '',
+          : ask(t.timeSecondsTitle, (p.sec ?? 30).toDouble(), 3600, 5, 6, '',
               (v) => edit(i, p.copyWith(sec: v.round())),
               format: (v) => clockLabel(v.round())),
     );
