@@ -446,7 +446,7 @@ class _PlanDoc {
         else if (timed && p.sec != null)
           durationLabel(p.sec!)
         else if (p.reps != null)
-          '${p.reps}',
+          p.repsLabel!,
     ]);
     final kgs = [for (final p in planned) if (p.weightKg != null && p.weightKg! > 0) p.weightKg!];
     String weight;

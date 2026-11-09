@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:gymmane/models/workout.dart';
 import 'package:gymmane/services/plan_share.dart';
 import 'package:gymmane/state/fit_state.dart';
 
@@ -94,6 +95,28 @@ void main() {
       final hold = fit.plannedSets(routine, routine.exerciseIds[1]);
       expect(hold.length, 3);
       expect(hold.every((p) => p.sec == 45 && p.km == null), isTrue);
+    });
+
+    test('sets como lista de series con sus propias repeticiones y peso', () {
+      fit.importPlan('{"name":"X","exercises":[{"name":"Barbell Bent Over Row","sets":[{"reps":12,"weight":50},{"reps":12,"weight":50},{"reps":10,"weight":45},{"reps":8,"weight":40}]}]}');
+      final routine = fit.routines.single;
+      final sets = fit.plannedSets(routine, routine.exerciseIds.single);
+      expect(sets.map((s) => s.reps).toList(), [12, 12, 10, 8]);
+      expect(sets.map((s) => s.weightKg).toList(), [50, 50, 45, 40]);
+    });
+
+    test('rangos de repeticiones: texto, campo aparte y ida y vuelta', () {
+      fit.importPlan('{"name":"X","exercises":[{"name":"Barbell Bent Over Row","sets":3,"reps":"8-12"},{"name":"Dumbbell Biceps Curl","sets":2,"reps":10,"repsMax":15}]}');
+      final routine = fit.routines.single;
+      final row = fit.plannedSets(routine, routine.exerciseIds[0]);
+      expect(row.map((s) => s.repsLabel).toList(), ['8-12', '8-12', '8-12']);
+      final curl = fit.plannedSets(routine, routine.exerciseIds[1]);
+      expect(curl.first.reps, 10);
+      expect(curl.first.repsMax, 15);
+      expect(PlannedSet.fromJson(curl.first.toJson()).repsLabel, '10-15');
+      expect(const PlannedSet(reps: 10, repsMax: 8).repsLabel, '10');
+      final again = parsePlan(fit.exportPlanJson(fit.routines));
+      expect(again.single.items.first.plan.first.repsMax, 12);
     });
 
     test('un ejercicio solo con tiempo no se pierde como si no tuviera datos', () {
