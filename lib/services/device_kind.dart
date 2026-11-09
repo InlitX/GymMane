@@ -13,7 +13,7 @@ class DeviceKind {
 
   static Future<bool> isLowEnd() async {
     if (lowEndOverride case final forced?) return forced;
-    if (kIsWeb || !Platform.isAndroid) return false;
+    if (kIsWeb || !(Platform.isAndroid || Platform.isIOS)) return false;
     try {
       return await _channel.invokeMethod<bool>('isLowEnd') ?? false;
     } catch (_) {

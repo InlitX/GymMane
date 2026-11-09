@@ -2,6 +2,8 @@ part of 'fit_state.dart';
 
 const String kBgPhotoId = 'bg';
 
+const List<String> kHomeBlocks = ['weekdays', 'steps', 'week', 'routines', 'activity', 'recommended', 'folders', 'nutrition'];
+
 mixin SettingsState on FitCore, ToolsState, LibraryState {
   String themePref = 'dark';
 
@@ -35,6 +37,8 @@ mixin SettingsState on FitCore, ToolsState, LibraryState {
   bool showRecommended = true;
   bool showWeekStats = true;
   bool showRoutineRow = true;
+  List<String> homeOrder = List.of(kHomeBlocks);
+  List<String> customGear = [];
   bool levelHints = true;
   bool toastSound = true;
   String autoProgress = 'off';
@@ -604,6 +608,38 @@ mixin SettingsState on FitCore, ToolsState, LibraryState {
 
   void toggleFocusCard() {
     showFocus = !showFocus;
+    _persist();
+    notifyListeners();
+  }
+
+  List<String> get homeOrderShown {
+    final out = [
+      for (final id in homeOrder)
+        if (kHomeBlocks.contains(id)) id,
+    ];
+    for (final (i, id) in kHomeBlocks.indexed) {
+      if (!homeOrder.contains(id)) out.insert(i < out.length ? i : out.length, id);
+    }
+    return out;
+  }
+
+  String addCustomGear(String name) {
+    final clean = name.trim();
+    final all = [...kEquipment, ...customGear];
+    for (final e in all) {
+      if (e.toLowerCase() == clean.toLowerCase()) return e;
+    }
+    customGear = [...customGear, clean];
+    _persist();
+    notifyListeners();
+    return clean;
+  }
+
+  void setHomeOrder(List<String> order) {
+    homeOrder = [
+      for (final id in order)
+        if (kHomeBlocks.contains(id)) id,
+    ];
     _persist();
     notifyListeners();
   }

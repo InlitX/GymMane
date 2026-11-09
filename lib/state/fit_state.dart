@@ -292,6 +292,8 @@ class FitState extends FitCore
     showRecommended = data['showRecs'] as bool? ?? true;
     showWeekStats = data['showWeek'] as bool? ?? true;
     showRoutineRow = data['showRoutineRow'] as bool? ?? true;
+    homeOrder = [...((data['homeOrder'] as List?) ?? const []).whereType<String>()];
+    customGear = [...((data['customGear'] as List?) ?? const []).whereType<String>()];
     levelHints = data['levelHints'] as bool? ?? true;
     toastSound = data['toastSound'] as bool? ?? true;
     final auto = data['autoProgress'] as String? ?? 'off';
@@ -551,6 +553,8 @@ class FitState extends FitCore
         'showRecs': showRecommended,
         'showWeek': showWeekStats,
         'showRoutineRow': showRoutineRow,
+        if (homeOrder.isNotEmpty) 'homeOrder': homeOrder,
+        if (customGear.isNotEmpty) 'customGear': customGear,
         'levelHints': levelHints,
         'toastSound': toastSound,
         if (autoProgress != 'off') 'autoProgress': autoProgress,
@@ -778,6 +782,8 @@ class FitState extends FitCore
     highRefresh = false;
     showWeekStats = true;
     showRoutineRow = true;
+    homeOrder = List.of(kHomeBlocks);
+    customGear = [];
     levelHints = true;
     toastSound = true;
     autoProgress = 'off';
@@ -1034,7 +1040,8 @@ class FitState extends FitCore
       '      "exercises": [\n'
       '        {"name": "Barbell Bench Press", "sets": 4, "reps": 8, "weight": 60, "rest": 120,\n'
       '         "plan": [{"type": "warmup", "reps": 10, "weight": 30}]},\n'
-      '        {"name": "Barbell Bent Over Row", "sets": 4, "reps": 8, "superset": true},\n'
+      '        {"name": "Barbell Bent Over Row", "reps": 8, "superset": true,\n'
+      '         "plan": [{"reps": 8, "weight": 50}, {"reps": 8, "weight": 50}, {"reps": 6, "weight": 45}]},\n'
       '        {"name": "Dumbbell Biceps Curl", "sets": 3, "reps": 12}\n'
       '      ]\n'
       '    },\n'
@@ -1215,6 +1222,7 @@ class FitState extends FitCore
       for (final p in item.plan)
         PlannedSet(
           reps: p.reps ?? item.reps,
+          repsMax: p.reps == null ? item.repsMax : p.repsMax,
           weightKg: p.weightKg ?? (p.kind == SetKind.warmup.index ? null : item.weightKg),
           kind: setKindFrom(p.kind),
           sec: p.sec ?? item.sec,
@@ -1228,7 +1236,7 @@ class FitState extends FitCore
     return [
       ...explicit,
       for (var i = working; i < wanted.clamp(0, 20); i++)
-        PlannedSet(reps: item.reps, weightKg: item.weightKg, sec: item.sec, km: item.km),
+        PlannedSet(reps: item.reps, repsMax: item.repsMax, weightKg: item.weightKg, sec: item.sec, km: item.km),
     ];
   }
 
@@ -1259,6 +1267,7 @@ class FitState extends FitCore
                           {
                             if (p.kind != SetKind.normal) 'type': _kindNames[p.kind.index],
                             if (p.reps != null) 'reps': p.reps,
+                            if (p.repsMax != null) 'repsMax': p.repsMax,
                             if (p.weightKg != null) 'weight': _round3(p.weightKg!),
                             if (p.sec != null) 'time': p.sec,
                             if (p.km != null) 'distance': p.km,

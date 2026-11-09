@@ -9,7 +9,7 @@ class Headphones {
   static const _channel = MethodChannel('gymmane/device');
 
   static Future<bool> connected() async {
-    if (kIsWeb || !Platform.isAndroid) return false;
+    if (kIsWeb || !(Platform.isAndroid || Platform.isIOS)) return false;
     try {
       return await _channel.invokeMethod<bool>('headphones') ?? false;
     } catch (_) {
