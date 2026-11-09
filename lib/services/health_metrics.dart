@@ -39,7 +39,7 @@ class HealthMetrics {
   static const _channel = MethodChannel('gymmane/health');
 
   static Future<Set<HealthMetric>> granted() async {
-    if (!Platform.isAndroid) return {};
+    if (!(Platform.isAndroid || Platform.isIOS)) return {};
     try {
       final keys = await _channel.invokeListMethod<String>('metricsGranted') ?? const [];
       final byName = HealthMetric.values.asNameMap();
@@ -52,7 +52,7 @@ class HealthMetrics {
   }
 
   static Future<bool> request(Iterable<HealthMetric> metrics) async {
-    if (!Platform.isAndroid) return false;
+    if (!(Platform.isAndroid || Platform.isIOS)) return false;
     try {
       return await _channel.invokeMethod<bool>('requestMetrics', {
             'metrics': [for (final m in metrics) m.name],
@@ -66,7 +66,7 @@ class HealthMetrics {
   }
 
   static Future<Set<String>> grantedKeys() async {
-    if (!Platform.isAndroid) return {};
+    if (!(Platform.isAndroid || Platform.isIOS)) return {};
     try {
       return {...?await _channel.invokeListMethod<String>('metricsGranted')};
     } on PlatformException {
@@ -77,7 +77,7 @@ class HealthMetrics {
   }
 
   static Future<bool> requestKeys(List<String> keys) async {
-    if (!Platform.isAndroid) return false;
+    if (!(Platform.isAndroid || Platform.isIOS)) return false;
     try {
       return await _channel.invokeMethod<bool>('requestMetrics', {'metrics': keys}) ?? false;
     } on PlatformException {
@@ -96,7 +96,7 @@ class HealthMetrics {
     String notes = '',
     bool manual = false,
   }) async {
-    if (!Platform.isAndroid) return false;
+    if (!(Platform.isAndroid || Platform.isIOS)) return false;
     try {
       return await _channel.invokeMethod<bool>('writeWorkout', {
             'id': id,
@@ -116,7 +116,7 @@ class HealthMetrics {
   }
 
   static Future<bool> deleteWorkout(String id) async {
-    if (!Platform.isAndroid) return false;
+    if (!(Platform.isAndroid || Platform.isIOS)) return false;
     try {
       return await _channel.invokeMethod<bool>('deleteWorkout', {'id': id}) ?? false;
     } on PlatformException {
@@ -130,7 +130,7 @@ class HealthMetrics {
       readKey(metric.name, from, to);
 
   static Future<List<List<double>>?> readKey(String key, DateTime from, DateTime to) async {
-    if (!Platform.isAndroid) return null;
+    if (!(Platform.isAndroid || Platform.isIOS)) return null;
     try {
       final rows = await _channel.invokeListMethod<Object?>('readMetric', {
         'metric': key,

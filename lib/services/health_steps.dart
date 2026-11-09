@@ -28,7 +28,7 @@ class HealthSteps {
   }
 
   static Future<HealthAccess> access() async {
-    if (!Platform.isAndroid) return HealthAccess.unsupported;
+    if (!(Platform.isAndroid || Platform.isIOS)) return HealthAccess.unsupported;
     try {
       final status = await _channel.invokeMethod<String>('status');
       return HealthAccess.values.asNameMap()[status] ?? HealthAccess.unsupported;
@@ -40,7 +40,7 @@ class HealthSteps {
   }
 
   static Future<bool> request() async {
-    if (!Platform.isAndroid) return false;
+    if (!(Platform.isAndroid || Platform.isIOS)) return false;
     try {
       return await _channel.invokeMethod<bool>('request') ?? false;
     } on PlatformException {
@@ -51,7 +51,7 @@ class HealthSteps {
   }
 
   static Future<bool> openSettings() async {
-    if (!Platform.isAndroid) return false;
+    if (!(Platform.isAndroid || Platform.isIOS)) return false;
     try {
       return await _channel.invokeMethod<bool>('openSettings') ?? false;
     } on PlatformException {
@@ -62,7 +62,7 @@ class HealthSteps {
   }
 
   static Future<Map<DateTime, int>?> read(List<DateTime> days) async {
-    if (days.isEmpty || !Platform.isAndroid) return null;
+    if (days.isEmpty || !(Platform.isAndroid || Platform.isIOS)) return null;
     final now = DateTime.now().millisecondsSinceEpoch;
     final ranges = [
       for (final day in days)

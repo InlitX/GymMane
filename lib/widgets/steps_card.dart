@@ -41,7 +41,7 @@ class StepsCard extends StatelessWidget {
             children: [
               Text(t.stepsNoAccess, style: AppTheme.f(14.5, color: gc.text)),
               const SizedBox(height: 2),
-              Text(t.stepsGrant,
+              Text(health(t.stepsGrant),
                   style: AppTheme.f(12, weight: FontWeight.w500, color: gc.textSecondary)),
             ],
           ),
@@ -147,9 +147,9 @@ class StepsCard extends StatelessWidget {
 void showStepsSheet(BuildContext context) {
   final gc = context.gc;
   final points = [
-    (PhosphorIconsRegular.footprints, t.stepsInfoRead),
+    (PhosphorIconsRegular.footprints, health(t.stepsInfoRead)),
     (PhosphorIconsRegular.deviceMobile, t.stepsInfoLocal),
-    (PhosphorIconsRegular.toggleLeft, t.stepsInfoOff),
+    (PhosphorIconsRegular.toggleLeft, health(t.stepsInfoOff)),
   ];
   showAppSheet<void>(
     context: context,
