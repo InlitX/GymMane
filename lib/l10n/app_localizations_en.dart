@@ -2805,7 +2805,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get planFormatNotes =>
-      'Use the exercise names exactly as they appear in the list. \"sets\", \"reps\", \"weight\" (in the unit given), \"rest\" in seconds and \"days\" are optional. For exercises marked cardio or time in the list, use \"time\" (seconds, or like \"30:00\") and \"distance\" (in km) instead of \"reps\"; to change them set by set, put them inside \"plan\". \"superset\": true links an exercise with the next one. For several weeks, group the routines inside \"weeks\" like the second example.';
+      'Use the exercise names exactly as they appear in the list. \"sets\", \"reps\" (a number or a range like \"8-12\"), \"weight\" (in the unit given), \"rest\" in seconds and \"days\" are optional. For exercises marked cardio or time in the list, use \"time\" (seconds, or like \"30:00\") and \"distance\" (in km) instead of \"reps\"; to give each set its own values, list them in \"plan\", one entry per set with its own \"reps\" and \"weight\" (add \"type\": \"warmup\" for warm-up sets). \"superset\": true links an exercise with the next one. For several weeks, group the routines inside \"weeks\" like the second example.';
 
   @override
   String get planSets => 'Plan sets';
@@ -7493,4 +7493,61 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get mealAiNothingChosen => 'Turn on at least one food';
+
+  @override
+  String get cholesterolLabel => 'Cholesterol';
+
+  @override
+  String get mealAiFlagMatched => 'Same as a food you saved';
+
+  @override
+  String get mealAiNotSame => 'Not the same';
+
+  @override
+  String get homeOrderRow => 'Order of sections';
+
+  @override
+  String get homeOrderHint => 'Hold and drag to change the order of Home.';
+
+  @override
+  String get homeOrderFolders => 'Shortcuts';
+
+  @override
+  String get equipNew => 'New';
+
+  @override
+  String get equipNewTitle => 'New equipment';
+
+  @override
+  String get equipNewHint => 'e.g. Weight belt';
+
+  @override
+  String get homeOrderWeekdays => 'Week checks';
+
+  @override
+  String get repsMaxTitle => 'Reps up to';
+
+  @override
+  String get repsRangeHint => 'Long press the reps to set a range like 8-12.';
+
+  @override
+  String get repsRangeClear => 'Remove range';
+
+  @override
+  String get noteLinksLabel => 'LINKS';
+
+  @override
+  String get noteLinkAdd => 'Add link';
+
+  @override
+  String get noteLinkEdit => 'Edit link';
+
+  @override
+  String get noteLinkNameHint => 'Name';
+
+  @override
+  String get noteLinkUrlHint => 'Web address';
+
+  @override
+  String get noteLinkInvalid => 'That address doesn\'t look right';
 }

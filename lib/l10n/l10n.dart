@@ -1,3 +1,6 @@
+import 'dart:io' show Platform;
+
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/widgets.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
@@ -34,6 +37,8 @@ const Map<String, Map<String, List<String>>> _catalogSteps = {'es': kExerciseSte
 
 String appLanguage = 'en';
 AppLocalizations t = lookupAppLocalizations(const Locale('en'));
+
+String health(String text) => !kIsWeb && Platform.isIOS ? text.replaceAll('Health Connect', 'Apple Health') : text;
 
 String _codeOf(Locale l) => l.scriptCode == null ? l.languageCode : '${l.languageCode}_${l.scriptCode}';
 
@@ -248,7 +253,8 @@ extension GymL10n on AppLocalizations {
         'Band' => equipBand,
         'Kettlebell' => equipKettlebell,
         'Rings' => equipRings,
-        _ => equipOther,
+        'Other' => equipOther,
+        _ => id.isEmpty ? equipOther : id,
       };
 
   String exerciseKind(String id) => switch (id) {

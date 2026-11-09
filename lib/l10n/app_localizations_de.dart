@@ -7547,4 +7547,61 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get mealAiNothingChosen => 'Turn on at least one food';
+
+  @override
+  String get cholesterolLabel => 'Cholesterol';
+
+  @override
+  String get mealAiFlagMatched => 'Same as a food you saved';
+
+  @override
+  String get mealAiNotSame => 'Not the same';
+
+  @override
+  String get homeOrderRow => 'Order of sections';
+
+  @override
+  String get homeOrderHint => 'Hold and drag to change the order of Home.';
+
+  @override
+  String get homeOrderFolders => 'Shortcuts';
+
+  @override
+  String get equipNew => 'New';
+
+  @override
+  String get equipNewTitle => 'New equipment';
+
+  @override
+  String get equipNewHint => 'e.g. Weight belt';
+
+  @override
+  String get homeOrderWeekdays => 'Week checks';
+
+  @override
+  String get repsMaxTitle => 'Reps up to';
+
+  @override
+  String get repsRangeHint => 'Long press the reps to set a range like 8-12.';
+
+  @override
+  String get repsRangeClear => 'Remove range';
+
+  @override
+  String get noteLinksLabel => 'LINKS';
+
+  @override
+  String get noteLinkAdd => 'Add link';
+
+  @override
+  String get noteLinkEdit => 'Edit link';
+
+  @override
+  String get noteLinkNameHint => 'Name';
+
+  @override
+  String get noteLinkUrlHint => 'Web address';
+
+  @override
+  String get noteLinkInvalid => 'That address doesn\'t look right';
 }

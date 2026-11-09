@@ -5109,7 +5109,7 @@ abstract class AppLocalizations {
   /// No description provided for @planFormatNotes.
   ///
   /// In en, this message translates to:
-  /// **'Use the exercise names exactly as they appear in the list. \"sets\", \"reps\", \"weight\" (in the unit given), \"rest\" in seconds and \"days\" are optional. For exercises marked cardio or time in the list, use \"time\" (seconds, or like \"30:00\") and \"distance\" (in km) instead of \"reps\"; to change them set by set, put them inside \"plan\". \"superset\": true links an exercise with the next one. For several weeks, group the routines inside \"weeks\" like the second example.'**
+  /// **'Use the exercise names exactly as they appear in the list. \"sets\", \"reps\" (a number or a range like \"8-12\"), \"weight\" (in the unit given), \"rest\" in seconds and \"days\" are optional. For exercises marked cardio or time in the list, use \"time\" (seconds, or like \"30:00\") and \"distance\" (in km) instead of \"reps\"; to give each set its own values, list them in \"plan\", one entry per set with its own \"reps\" and \"weight\" (add \"type\": \"warmup\" for warm-up sets). \"superset\": true links an exercise with the next one. For several weeks, group the routines inside \"weeks\" like the second example.'**
   String get planFormatNotes;
 
   /// No description provided for @planSets.
@@ -13115,6 +13115,120 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Turn on at least one food'**
   String get mealAiNothingChosen;
+
+  /// No description provided for @cholesterolLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cholesterol'**
+  String get cholesterolLabel;
+
+  /// No description provided for @mealAiFlagMatched.
+  ///
+  /// In en, this message translates to:
+  /// **'Same as a food you saved'**
+  String get mealAiFlagMatched;
+
+  /// No description provided for @mealAiNotSame.
+  ///
+  /// In en, this message translates to:
+  /// **'Not the same'**
+  String get mealAiNotSame;
+
+  /// No description provided for @homeOrderRow.
+  ///
+  /// In en, this message translates to:
+  /// **'Order of sections'**
+  String get homeOrderRow;
+
+  /// No description provided for @homeOrderHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Hold and drag to change the order of Home.'**
+  String get homeOrderHint;
+
+  /// No description provided for @homeOrderFolders.
+  ///
+  /// In en, this message translates to:
+  /// **'Shortcuts'**
+  String get homeOrderFolders;
+
+  /// No description provided for @equipNew.
+  ///
+  /// In en, this message translates to:
+  /// **'New'**
+  String get equipNew;
+
+  /// No description provided for @equipNewTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'New equipment'**
+  String get equipNewTitle;
+
+  /// No description provided for @equipNewHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. Weight belt'**
+  String get equipNewHint;
+
+  /// No description provided for @homeOrderWeekdays.
+  ///
+  /// In en, this message translates to:
+  /// **'Week checks'**
+  String get homeOrderWeekdays;
+
+  /// No description provided for @repsMaxTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Reps up to'**
+  String get repsMaxTitle;
+
+  /// No description provided for @repsRangeHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Long press the reps to set a range like 8-12.'**
+  String get repsRangeHint;
+
+  /// No description provided for @repsRangeClear.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove range'**
+  String get repsRangeClear;
+
+  /// No description provided for @noteLinksLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'LINKS'**
+  String get noteLinksLabel;
+
+  /// No description provided for @noteLinkAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add link'**
+  String get noteLinkAdd;
+
+  /// No description provided for @noteLinkEdit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit link'**
+  String get noteLinkEdit;
+
+  /// No description provided for @noteLinkNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get noteLinkNameHint;
+
+  /// No description provided for @noteLinkUrlHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Web address'**
+  String get noteLinkUrlHint;
+
+  /// No description provided for @noteLinkInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'That address doesn\'t look right'**
+  String get noteLinkInvalid;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

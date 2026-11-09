@@ -830,7 +830,7 @@
   "setTypeDropInfo": "Justo al acabar una serie, bajas el peso y sigues sin descansar.",
   "setTypeFailureInfo": "Sigues hasta que no sale otra repetición limpia. Apunta las que hiciste de verdad.",
   "setTypeRestPauseInfo": "Descansas de 10 a 20 segundos tras la serie y sacas unas pocas repeticiones más.",
-  "planFormatNotes": "Usa los nombres de los ejercicios tal cual aparecen en la lista. \"sets\", \"reps\", \"weight\" (en la unidad indicada), \"rest\" en segundos y \"days\" son opcionales. En los ejercicios marcados como cardio o time en la lista, usa \"time\" (segundos, o como \"30:00\") y \"distance\" (en km) en lugar de \"reps\"; para cambiarlos serie a serie, ponlos dentro de \"plan\". \"superset\": true une un ejercicio con el siguiente. Para varias semanas, agrupa las rutinas dentro de \"weeks\" como en el segundo ejemplo.",
+  "planFormatNotes": "Usa los nombres de los ejercicios tal cual aparecen en la lista. \"sets\", \"reps\" (un número o un rango como \"8-12\"), \"weight\" (en la unidad indicada), \"rest\" en segundos y \"days\" son opcionales. En los ejercicios marcados como cardio o time en la lista, usa \"time\" (segundos, o como \"30:00\") y \"distance\" (en km) en lugar de \"reps\"; para dar a cada serie sus propios valores, ponlos en \"plan\", una entrada por serie con sus propios \"reps\" y \"weight\" (añade \"type\": \"warmup\" para las series de calentamiento). \"superset\": true une un ejercicio con el siguiente. Para varias semanas, agrupa las rutinas dentro de \"weeks\" como en el segundo ejemplo.",
   "planSets": "Planificar series",
   "planSetsHint": "Elige el tipo, las repes y el peso de cada serie. Deja el peso en Auto para partir de tu última sesión.",
   "planHintReps": "Elige el tipo y las repes de cada serie. Auto parte de tu última sesión.",
@@ -2251,5 +2251,30 @@
   "mealAiTruncated": "La respuesta parece cortada. He guardado los alimentos completos.",
   "mealAiAmount": "Cantidad",
   "mealAiTargetLine": "Objetivo {kcal}",
-  "mealAiNothingChosen": "Activa al menos un alimento"
+  "mealAiNothingChosen": "Activa al menos un alimento",
+
+  "cholesterolLabel": "Colesterol",
+
+  "mealAiFlagMatched": "Igual que un alimento tuyo",
+  "mealAiNotSame": "No es el mismo",
+
+  "homeOrderRow": "Orden de las secciones",
+  "homeOrderHint": "Mantén y arrastra para cambiar el orden de Inicio.",
+  "homeOrderFolders": "Accesos",
+
+  "equipNew": "Nuevo",
+  "equipNewTitle": "Material nuevo",
+  "equipNewHint": "p. ej. Cinturón de lastre",
+
+  "homeOrderWeekdays": "Checks semanales",
+
+  "repsMaxTitle": "Repeticiones hasta",
+  "repsRangeHint": "Mantén pulsadas las repeticiones para poner un rango como 8-12.",
+  "repsRangeClear": "Quitar rango",
+  "noteLinksLabel": "ENLACES",
+  "noteLinkAdd": "Añadir enlace",
+  "noteLinkEdit": "Editar enlace",
+  "noteLinkNameHint": "Nombre",
+  "noteLinkUrlHint": "Dirección web",
+  "noteLinkInvalid": "Esa dirección no parece válida"
 }
