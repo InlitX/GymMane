@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:gymmane/models/live_session.dart';
 import 'package:gymmane/models/workout.dart';
 import 'package:gymmane/services/local_store.dart';
 import 'package:gymmane/state/fit_state.dart';
@@ -26,6 +27,22 @@ void main() {
     }
     return fit.routines.firstWhere((r) => r.id == id);
   }
+
+  test('a rep range from the routine shows as the goal in the live session and survives a restart', () {
+    final r = routine(['Barbell Bench Press']);
+    final bench = fit.matchExerciseByName('Barbell Bench Press')!.id;
+    fit.setPlannedSets(r.id, bench, const [
+      PlannedSet(reps: 10, weightKg: 20, kind: SetKind.warmup),
+      PlannedSet(reps: 8, repsMax: 12, weightKg: 60),
+      PlannedSet(reps: 8, weightKg: 60),
+    ]);
+    fit.startRoutine(fit.routines.firstWhere((x) => x.id == r.id));
+    final sets = fit.session!.exercises.first.sets;
+    expect(sets.map((s) => s.goal), [null, '8-12', null]);
+    final back = SessionSet.fromJson(sets[1].toJson());
+    expect(back.goal, '8-12');
+    expect(sets[1].copy().goal, '8-12');
+  });
 
   test('finishing by mistake can be undone and nothing is lost', () {
     fit.startRoutine(routine(['Barbell Bench Press', 'Barbell Squat']));

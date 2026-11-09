@@ -2,9 +2,10 @@ import 'workout.dart';
 
 class SessionSet {
   SessionSet(this.reps, this.weight, this.done,
-      {this.kind = SetKind.normal, this.rpe, this.sec, this.km, this.rest, this.note = '', this.repsR});
+      {this.kind = SetKind.normal, this.rpe, this.sec, this.km, this.rest, this.note = '', this.repsR, this.goal});
   int reps;
   int? repsR;
+  String? goal;
   String note;
   int? rest;
   double weight;
@@ -25,11 +26,12 @@ class SessionSet {
       kind: kind, rpe: rpe, sec: sec, km: km, note: note.trim(), left: repsR == null ? null : reps, right: repsR);
 
   SessionSet copy({bool done = false}) =>
-      SessionSet(reps, weight, done, kind: kind, rpe: rpe, sec: sec, km: km, repsR: repsR);
+      SessionSet(reps, weight, done, kind: kind, rpe: rpe, sec: sec, km: km, repsR: repsR, goal: goal);
 
   Map<String, dynamic> toJson() => {
         'r': reps,
         if (repsR != null) 'rr': repsR,
+        if (goal != null) 'g': goal,
         'w': weight,
         'd': done,
         if (kind != SetKind.normal) 'k': kind.index,
@@ -50,6 +52,7 @@ class SessionSet {
         rest: (j['rs'] as num?)?.toInt().clamp(0, 3600),
         note: j['n'] as String? ?? '',
         repsR: (j['rr'] as num?)?.toInt(),
+        goal: j['g'] as String?,
       );
 }
 

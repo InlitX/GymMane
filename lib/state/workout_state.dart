@@ -240,6 +240,7 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
         kind: p.kind,
         sec: p.sec ?? b.sec,
         km: p.km ?? b.km,
+        goal: own || warm || p.repsMax == null ? null : p.repsLabel,
       ));
     }
     return out;
