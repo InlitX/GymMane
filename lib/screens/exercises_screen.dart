@@ -14,6 +14,7 @@ import '../state/fit_state.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
 import '../widgets/body_map.dart';
+import '../widgets/dialogs.dart';
 import '../widgets/exercise_media.dart';
 import '../widgets/glass.dart';
 import '../widgets/svg_icon.dart';
@@ -726,7 +727,7 @@ void showCreateExerciseSheet(BuildContext context,
                   const SizedBox(height: 10),
                   Builder(builder: (_) {
                     const common = ['Bodyweight', 'Dumbbell', 'Barbell', 'Machine', 'Cable', 'Band'];
-                    final rest = [for (final e in kEquipment) if (!common.contains(e)) e];
+                    final rest = [for (final e in [...kEquipment, ...fit.customGear]) if (!common.contains(e)) e];
                     final all = allEquipment || rest.contains(equipment);
                     return Wrap(spacing: 8, runSpacing: 8, children: [
                       for (final e in [...common, if (all) ...rest])
@@ -742,6 +743,23 @@ void showCreateExerciseSheet(BuildContext context,
                           vPad: 8,
                           fontSize: 13,
                         ),
+                      Pill(
+                        label: t.equipNew,
+                        bg: Colors.transparent,
+                        fg: gc.accent,
+                        onTap: () async {
+                          final name = await askText(context, title: t.equipNewTitle, hint: t.equipNewHint);
+                          if (name == null || name.trim().isEmpty) return;
+                          final added = fit.addCustomGear(name);
+                          setSheet(() {
+                            equipment = added;
+                            allEquipment = true;
+                          });
+                        },
+                        hPad: 12,
+                        vPad: 8,
+                        fontSize: 13,
+                      ),
                       if (!all)
                         Pill(
                           label: '+${rest.length}',

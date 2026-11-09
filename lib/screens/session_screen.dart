@@ -1461,7 +1461,7 @@ class SessionScreen extends StatelessWidget {
                   context,
                   title: t.timeSecondsTitle,
                   value: (st.sec ?? 0).toDouble(),
-                  max: 900,
+                  max: 3600,
                   step: 5,
                   majorEvery: 6,
                   format: (v) => clockLabel(v.round()),

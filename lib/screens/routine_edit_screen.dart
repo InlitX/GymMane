@@ -464,7 +464,7 @@ class _RoutineEditScreenState extends State<RoutineEditScreen> {
       final load = [
         if (p.km != null) fit.distanceValue(p.km!),
         if (p.sec != null) durationLabel(p.sec!),
-        if (p.reps != null) '${p.reps}',
+        if (p.reps != null) p.repsLabel!,
         if (p.weightKg != null) fit.weightValue(p.weightKg!),
       ].join(' × ');
       final tag = setKindTag(p.kind);
@@ -1134,7 +1134,7 @@ class _RoutineEditScreenState extends State<RoutineEditScreen> {
   ) {
     final p = plan[i];
     final auto = t.autoValue;
-    Widget cell(String value, VoidCallback dec, VoidCallback inc, VoidCallback onEdit) => Expanded(
+    Widget cell(String value, VoidCallback dec, VoidCallback inc, VoidCallback onEdit, {VoidCallback? onLongPress}) => Expanded(
           child: FittedBox(
             fit: BoxFit.scaleDown,
             child: StepperControl(
@@ -1147,6 +1147,7 @@ class _RoutineEditScreenState extends State<RoutineEditScreen> {
               onDec: dec,
               onInc: inc,
               onEdit: onEdit,
+              onLongPress: onLongPress,
             ),
           ),
         );
@@ -1185,12 +1186,50 @@ class _RoutineEditScreenState extends State<RoutineEditScreen> {
           fit.units,
           (v) => edit(i, v <= 0 ? p.copyWith(autoWeight: true) : p.copyWith(weightKg: fit.fromDisplayWeight(v)))),
     );
+    void shiftReps(int by) {
+      final from = p.reps ?? 10;
+      final next = (from + by).clamp(1, 999);
+      final max = p.repsMax;
+      edit(i, p.copyWith(reps: next, repsMax: max == null ? null : (max + next - from).clamp(next, 999)));
+    }
+
     final reps = cell(
-      p.reps == null ? auto : '${p.reps}',
-      () => edit(i, p.copyWith(reps: ((p.reps ?? 10) - 1).clamp(1, 999))),
-      () => edit(i, p.copyWith(reps: ((p.reps ?? 10) + 1).clamp(1, 999))),
-      () => ask(t.repsTitle, (p.reps ?? 10).toDouble(), 100, 1, 5, '',
-          (v) => edit(i, p.copyWith(reps: v.round().clamp(1, 999)))),
+      p.reps == null ? auto : p.repsLabel!,
+      () => shiftReps(-1),
+      () => shiftReps(1),
+      () async {
+        final v = await askRuler(sheet,
+            title: t.repsTitle,
+            value: (p.reps ?? 10).toDouble(),
+            min: 0,
+            max: 100,
+            step: 1,
+            majorEvery: 5,
+            hint: t.repsRangeHint);
+        if (v == null) return;
+        final next = v.round().clamp(1, 999);
+        final max = p.repsMax;
+        edit(i, p.copyWith(reps: next, clearRange: max != null && max <= next));
+      },
+      onLongPress: () async {
+        final low = p.reps ?? 10;
+        final v = await askRuler(sheet,
+            title: t.repsMaxTitle,
+            value: (p.repsMax ?? low).toDouble(),
+            min: low.toDouble(),
+            max: 100,
+            step: 1,
+            unit: '',
+            majorEvery: 5,
+            clearLabel: p.repsMax == null ? null : t.repsRangeClear);
+        if (v == null) return;
+        if (v.isNaN) {
+          edit(i, p.copyWith(clearRange: true));
+          return;
+        }
+        final max = v.round();
+        edit(i, max > low ? p.copyWith(reps: low, repsMax: max) : p.copyWith(reps: low, clearRange: true));
+      },
     );
     final cardio = mode == 'cardio';
     final step = cardio ? 60 : 15;

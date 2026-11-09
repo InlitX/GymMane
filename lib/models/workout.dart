@@ -175,8 +175,11 @@ class BodyweightEntry {
 }
 
 class PlannedSet {
-  const PlannedSet({this.reps, this.weightKg, this.kind = SetKind.normal, this.sec, this.km});
+  const PlannedSet({this.reps, this.repsMax, this.weightKg, this.kind = SetKind.normal, this.sec, this.km});
   final int? reps;
+  final int? repsMax;
+
+  String? get repsLabel => reps == null ? null : (repsMax != null && repsMax! > reps! ? '$reps-$repsMax' : '$reps');
   final double? weightKg;
   final SetKind kind;
   final int? sec;
@@ -184,6 +187,8 @@ class PlannedSet {
 
   PlannedSet copyWith({
     int? reps,
+    int? repsMax,
+    bool clearRange = false,
     double? weightKg,
     SetKind? kind,
     int? sec,
@@ -192,6 +197,7 @@ class PlannedSet {
   }) =>
       PlannedSet(
         reps: reps ?? this.reps,
+        repsMax: clearRange ? null : (repsMax ?? this.repsMax),
         weightKg: autoWeight ? null : (weightKg ?? this.weightKg),
         kind: kind ?? this.kind,
         sec: sec ?? this.sec,
@@ -200,6 +206,7 @@ class PlannedSet {
 
   Map<String, dynamic> toJson() => {
         if (reps != null) 'r': reps,
+        if (repsMax != null) 'rm': repsMax,
         if (weightKg != null) 'w': weightKg,
         if (kind != SetKind.normal) 'k': kind.index,
         if (sec != null) 't': sec,
@@ -207,6 +214,7 @@ class PlannedSet {
       };
   factory PlannedSet.fromJson(Map<String, dynamic> j) => PlannedSet(
         reps: (j['r'] as num?)?.toInt(),
+        repsMax: (j['rm'] as num?)?.toInt(),
         weightKg: (j['w'] as num?)?.toDouble(),
         kind: setKindFrom(j['k']),
         sec: (j['t'] as num?)?.toInt(),
