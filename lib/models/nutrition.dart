@@ -58,6 +58,7 @@ class Macros {
     this.fiber = 0,
     this.sugar = 0,
     this.sodium = 0,
+    this.chol = 0,
     this.animal = 0,
     this.sat = 0,
     this.trans = 0,
@@ -74,6 +75,7 @@ class Macros {
   final double fiber;
   final double sugar;
   final double sodium;
+  final double chol;
   final double animal;
   final double sat;
   final double trans;
@@ -98,6 +100,7 @@ class Macros {
         fiber: fiber + o.fiber,
         sugar: sugar + o.sugar,
         sodium: sodium + o.sodium,
+        chol: chol + o.chol,
         animal: animal + o.animal,
         sat: sat + o.sat,
         trans: trans + o.trans,
@@ -115,6 +118,7 @@ class Macros {
         fiber: fiber * k,
         sugar: sugar * k,
         sodium: sodium * k,
+        chol: chol * k,
         animal: animal * k,
         sat: sat * k,
         trans: trans * k,
@@ -126,7 +130,7 @@ class Macros {
 
   bool get isEmpty => kcal <= 0 && protein <= 0 && carbs <= 0 && fat <= 0;
 
-  bool get hasExtras => fiber > 0 || sugar > 0 || sodium > 0;
+  bool get hasExtras => fiber > 0 || sugar > 0 || sodium > 0 || chol > 0;
 
   bool get hasFatTypes => sat > 0 || trans > 0 || mono > 0 || poly > 0;
 
@@ -159,6 +163,7 @@ class Macros {
         if (fiber > 0) 'fi': fiber,
         if (sugar > 0) 'su': sugar,
         if (sodium > 0) 'na': sodium,
+        if (chol > 0) 'ch': chol,
         if (animal > 0) 'an': animal,
         if (sat > 0) 'sa': sat,
         if (trans > 0) 'tf': trans,
@@ -181,6 +186,7 @@ class Macros {
       fiber: _num(j?['fi']),
       sugar: _num(j?['su']),
       sodium: _num(j?['na']),
+      chol: _num(j?['ch']),
       animal: _num(j?['an']),
       sat: _num(j?['sa']),
       trans: _num(j?['tf']),

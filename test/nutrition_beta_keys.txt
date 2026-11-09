@@ -334,3 +334,6 @@ mealAiTruncated
 mealAiUnreadable
 mealAiUnreadableHint
 mealAiWholeDay
+cholesterolLabel
+mealAiFlagMatched
+mealAiNotSame

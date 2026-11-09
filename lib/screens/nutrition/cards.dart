@@ -105,6 +105,7 @@ String _extrasLine(Macros m) => [
       if (m.fiber > 0) '${t.fiberLabel} ${_g(m.fiber)} g',
       if (m.sugar > 0) '${t.sugarLabel} ${_g(m.sugar)} g',
       if (m.sodium > 0) '${t.sodiumLabel} ${m.sodium.round()} mg',
+      if (m.chol > 0) '${t.cholesterolLabel} ${m.chol.round()} mg',
     ].join('  ·  ');
 
 class _RingCard extends StatelessWidget {

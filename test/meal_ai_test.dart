@@ -368,6 +368,46 @@ void main() {
       expect(d.total.kcal, 120);
     });
 
+    test('un alimento propio con los mismos valores se reutiliza aunque el nombre no se parezca', () {
+      const mine = FoodItem(
+        id: 'f9',
+        name: 'Jack Links',
+        grams: 40,
+        macros: Macros(kcal: 150, protein: 9, carbs: 3, fat: 11, sodium: 480, sat: 5, chol: 35),
+      );
+      final d = resolve(
+              '{"items":[{"food":"Beef stick and cheese snack","grams":40,"kcal":150,"protein":9,"carbs":3,"fat":11,"sodium":480,"saturated":5}]}',
+              own: [mine])
+          .single
+          .items
+          .single;
+      expect(d.source, AiSource.mine);
+      expect(d.name, 'Jack Links');
+      expect(d.entry.foodId, 'f9');
+      expect(d.total.chol, closeTo(35, 0.01));
+      expect(d.flags, contains(AiFlag.matched));
+      final fresh = d.asNew!;
+      expect(fresh.source, AiSource.ai);
+      expect(fresh.name, 'Beef stick and cheese snack');
+    });
+
+    test('valores distintos no se confunden con un alimento propio', () {
+      const mine = FoodItem(
+        id: 'f9',
+        name: 'Jack Links',
+        grams: 40,
+        macros: Macros(kcal: 150, protein: 9, carbs: 3, fat: 11),
+      );
+      final d = resolve(
+              '{"items":[{"food":"Beef stick and cheese snack","grams":40,"kcal":190,"protein":9,"carbs":3,"fat":15}]}',
+              own: [mine])
+          .single
+          .items
+          .single;
+      expect(d.source, AiSource.ai);
+      expect(d.asNew, isNull);
+    });
+
     test('con piezas usa el peso de la pieza de la biblioteca', () {
       final d = resolve('{"items":[{"food":"Banana","count":2,"kcal":214,"protein":2.6,"carbs":54,"fat":0.7}]}').single.items.single;
       expect(d.source, AiSource.library);
@@ -390,12 +430,13 @@ void main() {
 
   group('etiqueta completa', () {
     test('lee fibra, azucar, sodio y tipos de grasa del alimento', () {
-      final d = resolve('{"items":[{"food":"Beef stick and cheese protein snack","grams":40,"kcal":150,"protein":9,"carbs":3,"fat":11,"sodium":480,"saturated":5,"trans":0.2,"sugar":1,"fiber":0.5,"monounsaturated":4,"polyunsaturated":0.8}]}')
+      final d = resolve('{"items":[{"food":"Beef stick and cheese protein snack","grams":40,"kcal":150,"protein":9,"carbs":3,"fat":11,"sodium":480,"cholesterol":35,"saturated":5,"trans":0.2,"sugar":1,"fiber":0.5,"monounsaturated":4,"polyunsaturated":0.8}]}')
           .single
           .items
           .single;
       expect(d.source, AiSource.ai);
       expect(d.total.sodium, closeTo(480, 0.01));
+      expect(d.total.chol, closeTo(35, 0.01));
       expect(d.total.sat, closeTo(5, 0.01));
       expect(d.total.trans, closeTo(0.2, 0.01));
       expect(d.total.sugar, closeTo(1, 0.01));
@@ -418,7 +459,7 @@ void main() {
 
     test('el prompt pide los campos opcionales sin hacerlos obligatorios', () {
       final p = buildMealAiPrompt(brief);
-      expect(p, contains('"sodium" in milligrams'));
+      expect(p, contains('"sodium" and "cholesterol" in milligrams'));
       expect(p, contains('leave the key out otherwise'));
     });
   });

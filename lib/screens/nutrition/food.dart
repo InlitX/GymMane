@@ -945,6 +945,7 @@ class _ValueRows extends StatelessWidget {
         if (per.fiber > 0) row(t.fiberLabel, '${_g(per.fiber)} g', gc.sage),
         if (per.sugar > 0) row(t.sugarLabel, '${_g(per.sugar)} g', gc.warn),
         if (per.sodium > 0) row(t.sodiumLabel, '${per.sodium.round()} mg', gc.info),
+        if (per.chol > 0) row(t.cholesterolLabel, '${per.chol.round()} mg', gc.textSecondary),
       ]),
     );
   }
@@ -1451,6 +1452,7 @@ class _EntryValuesSheetState extends State<_EntryValuesSheet> {
             fiber: old.fiber,
             sugar: old.sugar,
             sodium: old.sodium,
+            chol: old.chol,
             animal: old.protein <= 0 ? 0 : old.animal / old.protein * m.protein,
             sat: old.sat,
             trans: old.trans,
@@ -1591,6 +1593,7 @@ Macros _macrosOf(
   TextEditingController? fiber,
   TextEditingController? sugar,
   TextEditingController? sodium,
+  TextEditingController? chol,
   TextEditingController? sat,
   TextEditingController? trans,
   TextEditingController? mono,
@@ -1607,6 +1610,7 @@ Macros _macrosOf(
     fiber: fiber == null ? 0 : _read(fiber),
     sugar: sugar == null ? 0 : _read(sugar),
     sodium: sodium == null ? 0 : _read(sodium),
+    chol: chol == null ? 0 : _read(chol),
     sat: sat == null ? 0 : _read(sat),
     trans: trans == null ? 0 : _read(trans),
     mono: mono == null ? 0 : _read(mono),
@@ -1941,6 +1945,7 @@ class _FoodEditorState extends State<_FoodEditor> with _StickerDrafts {
   late final _fi = TextEditingController(text: _seed(_base?.macros.fiber ?? 0));
   late final _su = TextEditingController(text: _seed(_base?.macros.sugar ?? 0));
   late final _na = TextEditingController(text: _seed(_base?.macros.sodium ?? 0));
+  late final _chol = TextEditingController(text: _seed(_base?.macros.chol ?? 0));
   late final _sat = TextEditingController(text: _seed(_base?.macros.sat ?? 0));
   late final _trans = TextEditingController(text: _seed(_base?.macros.trans ?? 0));
   late final _mono = TextEditingController(text: _seed(_base?.macros.mono ?? 0));
@@ -1967,7 +1972,7 @@ class _FoodEditorState extends State<_FoodEditor> with _StickerDrafts {
 
   @override
   void dispose() {
-    for (final c in [_name, _serving, _grams, _kcal, _p, _c, _f, _fi, _su, _na, _sat, _trans, _mono, _poly]) {
+    for (final c in [_name, _serving, _grams, _kcal, _p, _c, _f, _fi, _su, _na, _chol, _sat, _trans, _mono, _poly]) {
       c.dispose();
     }
     _dropDrafts();
@@ -1983,7 +1988,7 @@ class _FoodEditorState extends State<_FoodEditor> with _StickerDrafts {
     var grams = (_read(_grams) * _k).clamp(0, 5000).toDouble();
     if (_per100 && grams <= 0) grams = 100;
     final typed = _macrosOf(_kcal, _p, _c, _f,
-        fiber: _fi, sugar: _su, sodium: _na, sat: _sat, trans: _trans, mono: _mono, poly: _poly);
+        fiber: _fi, sugar: _su, sodium: _na, chol: _chol, sat: _sat, trans: _trans, mono: _mono, poly: _poly);
     final saved = fit.saveFood(
       id: widget.food?.id,
       name: name,
@@ -2014,7 +2019,7 @@ class _FoodEditorState extends State<_FoodEditor> with _StickerDrafts {
     final grams = _read(_grams) * _k;
     if (grams > 0) {
       final k = on ? 100 / grams : grams / 100;
-      for (final c in [_kcal, _p, _c, _f, _fi, _su, _na, _sat, _trans, _mono, _poly]) {
+      for (final c in [_kcal, _p, _c, _f, _fi, _su, _na, _chol, _sat, _trans, _mono, _poly]) {
         final v = _read(c);
         if (v > 0) c.text = _seed(v * k);
       }
@@ -2095,6 +2100,7 @@ class _FoodEditorState extends State<_FoodEditor> with _StickerDrafts {
       fiber: m.fiber,
       sugar: m.sugar,
       sodium: m.sodium,
+      chol: m.chol,
       animal: m.protein * _animalShare,
       sat: m.sat,
       trans: m.trans,
@@ -2117,6 +2123,7 @@ class _FoodEditorState extends State<_FoodEditor> with _StickerDrafts {
       fiber: m.fiber,
       sugar: m.sugar,
       sodium: m.sodium,
+      chol: m.chol,
       animal: old.animal * k,
       sat: m.sat,
       trans: m.trans,
@@ -2247,6 +2254,15 @@ class _FoodEditorState extends State<_FoodEditor> with _StickerDrafts {
             child: _NumberField(
                 label: t.sodiumLabel.toUpperCase(), controller: _na, color: gc.textSecondary, suffix: 'mg'),
           ),
+        ]),
+        const SizedBox(height: 8),
+        Row(children: [
+          Expanded(
+            child: _NumberField(
+                label: t.cholesterolLabel.toUpperCase(), controller: _chol, color: gc.textSecondary, suffix: 'mg'),
+          ),
+          const SizedBox(width: 8),
+          const Spacer(flex: 2),
         ]),
         const SizedBox(height: 14),
         Text(t.fatTypes.toUpperCase(),

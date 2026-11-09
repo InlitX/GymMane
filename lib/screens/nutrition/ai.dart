@@ -154,6 +154,18 @@ class _MealAiSheetState extends State<_MealAiSheet> {
     showNotchToast(context, t.copiedDone, icon: PhosphorIconsFill.copy, accent: context.gc.sage);
   }
 
+  void _useAsNew(AiDraft d) {
+    final fresh = d.asNew;
+    if (fresh == null) return;
+    HapticFeedback.selectionClick();
+    setState(() {
+      for (final o in _drafts) {
+        final i = o.items.indexOf(d);
+        if (i >= 0) o.items[i] = fresh..on = d.on;
+      }
+    });
+  }
+
   Future<void> _editAmount(AiDraft d) async {
     final unit = _amtUnit(d.entry.liquid);
     final shown = d.shownGrams;
@@ -529,6 +541,7 @@ class _MealAiSheetState extends State<_MealAiSheet> {
     if (d.flags.contains(AiFlag.doubtful)) return t.mealAiFlagDoubtful;
     if (d.flags.contains(AiFlag.adjusted)) return t.mealAiFlagAdjusted;
     if (d.flags.contains(AiFlag.noAmount)) return t.mealAiFlagNoAmount;
+    if (d.flags.contains(AiFlag.matched)) return t.mealAiFlagMatched;
     if (d.source == AiSource.ai) return t.mealAiFlagEstimated;
     return null;
   }
@@ -587,6 +600,18 @@ class _MealAiSheetState extends State<_MealAiSheet> {
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                             style: AppTheme.f(11, weight: FontWeight.w600, color: tone, height: 1.25)),
+                      ],
+                      if (d.asNew != null && d.flags.contains(AiFlag.matched)) ...[
+                        const SizedBox(height: 2),
+                        GestureDetector(
+                          behavior: HitTestBehavior.opaque,
+                          onTap: () => _useAsNew(d),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 3),
+                            child: Text(t.mealAiNotSame,
+                                style: AppTheme.f(11.5, weight: FontWeight.w800, color: gc.accent)),
+                          ),
+                        ),
                       ],
                     ]),
                   ),
