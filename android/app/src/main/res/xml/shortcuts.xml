@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:shortcutId="start_workout"
+        android:enabled="true"
+        android:icon="@drawable/ic_shortcut_play"
+        android:shortcutShortLabel="@string/shortcut_start_short"
+        android:shortcutLongLabel="@string/shortcut_start_long">
+        <intent
+            android:action="android.intent.action.MAIN"
+            android:targetPackage="com.gymmane.app"
+            android:targetClass="com.gymmane.app.MainActivity">
+            <extra android:name="gymmane_open" android:value="play" />
+        </intent>
+    </shortcut>
+</shortcuts>
