@@ -190,7 +190,7 @@ class HomeWidgetBridge {
           if (path != null) await HomeWidget.saveWidgetData<String>('${key}_night', path);
         }
       }
-      if (!_ios && NutritionWidgets.providers.any(wants)) {
+      if (NutritionWidgets.providers.any(wants)) {
         await NutritionWidgets.paint(render: _render, wants: wants, day: day, night: night, framed: framed);
       }
       final now = DateTime.now();

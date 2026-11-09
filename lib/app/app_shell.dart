@@ -130,8 +130,12 @@ class _AppShellState extends State<AppShell> with WidgetsBindingObserver, Single
   }
 
   void _openFromWidget(String route) {
-    if (!mounted || !fit.onboarded || route != 'nutrition' || fit.isSessionActive) return;
-    if (fit.route != 'nutrition') fit.goNutrition();
+    if (!mounted || !fit.onboarded || fit.isSessionActive) return;
+    if (route == 'play') {
+      playWorkout(context);
+    } else if (route == 'nutrition' && fit.route != 'nutrition') {
+      fit.goNutrition();
+    }
   }
 
   void _showStepsInfo() {
@@ -793,6 +797,19 @@ class _ParkedPill extends StatelessWidget {
   }
 }
 
+void playWorkout(BuildContext context) {
+  if (fit.sessionParked) {
+    fit.stepBackIntoSession();
+    return;
+  }
+  final planned = fit.todayRoutine;
+  if (planned != null && planned.exerciseIds.isNotEmpty) {
+    fit.startRoutine(planned);
+    return;
+  }
+  showStartSheet(context);
+}
+
 class _NavBar extends StatefulWidget {
   const _NavBar();
 
@@ -991,18 +1008,7 @@ class _NavBarState extends State<_NavBar> {
     );
   }
 
-  void _play(BuildContext context) {
-    if (fit.sessionParked) {
-      fit.stepBackIntoSession();
-      return;
-    }
-    final planned = fit.todayRoutine;
-    if (planned != null && planned.exerciseIds.isNotEmpty) {
-      fit.startRoutine(planned);
-      return;
-    }
-    showStartSheet(context);
-  }
+  void _play(BuildContext context) => playWorkout(context);
 
   Widget _fab(BuildContext context) {
     final gc = context.gc;

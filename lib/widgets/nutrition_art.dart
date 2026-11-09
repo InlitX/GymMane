@@ -927,10 +927,12 @@ class ValueLineChart extends StatelessWidget {
     this.fromZero = true,
     this.height = 168,
     this.tone,
+    this.tags,
   });
 
   final List<double?> values;
   final List<String> labels;
+  final List<String?>? tags;
   final String Function(double) format;
   final Color color;
   final double? goal;
@@ -947,7 +949,7 @@ class ValueLineChart extends StatelessWidget {
       height: height,
       width: double.infinity,
       child: TweenAnimationBuilder<double>(
-        key: ValueKey(Object.hashAll([...values, goal])),
+        key: ValueKey(Object.hashAll([...values, ...?tags, goal])),
         tween: Tween(begin: 0, end: 1),
         duration: const Duration(milliseconds: 900),
         curve: Curves.easeOutCubic,
@@ -955,6 +957,7 @@ class ValueLineChart extends StatelessWidget {
           painter: _ValueLinePainter(
             values: values,
             labels: labels,
+            tags: tags,
             format: format,
             color: color,
             goal: goal,
@@ -975,6 +978,7 @@ class _ValueLinePainter extends CustomPainter {
   _ValueLinePainter({
     required this.values,
     required this.labels,
+    required this.tags,
     required this.format,
     required this.color,
     required this.goal,
@@ -988,6 +992,7 @@ class _ValueLinePainter extends CustomPainter {
 
   final List<double?> values;
   final List<String> labels;
+  final List<String?>? tags;
   final String Function(double) format;
   final Color color;
   final double? goal;
@@ -1107,7 +1112,7 @@ class _ValueLinePainter extends CustomPainter {
           ..strokeWidth = hot ? 3 : 2.2,
       );
       final tag = _text(
-        format(values[i]!),
+        (tags != null && i < tags!.length ? tags![i] : null) ?? format(values[i]!),
         AppTheme.f(hot ? 11.5 : 10.5, weight: FontWeight.w800, color: hot ? gc.text : gc.textSecondary),
       );
       final at = Offset(o.dx, o.dy - 15 - tag.height / 2);

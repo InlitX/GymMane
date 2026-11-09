@@ -27,6 +27,7 @@ class NutritionWidgets {
   static const kcalSize = Size(320, 150);
   static const _pendingKey = 'nutri_pending';
   static const _route = MethodChannel('gymmane/open');
+  static const _device = MethodChannel('gymmane/device');
   static String _signature = '';
 
   static String signature() {
@@ -65,7 +66,7 @@ class NutritionWidgets {
   }
 
   static Future<void> takePending() async {
-    if (kIsWeb || !Platform.isAndroid) return;
+    if (kIsWeb || !(Platform.isAndroid || Platform.isIOS)) return;
     try {
       final raw = await HomeWidget.getWidgetData<String>(_pendingKey);
       if (raw == null || raw.isEmpty) return;
@@ -77,7 +78,7 @@ class NutritionWidgets {
   }
 
   static void listenOpen(void Function(String route) onOpen) {
-    if (kIsWeb || !Platform.isAndroid) return;
+    if (kIsWeb || !(Platform.isAndroid || Platform.isIOS)) return;
     _route.setMethodCallHandler((call) async {
       final route = call.arguments;
       if (call.method == 'open' && route is String) onOpen(route);
@@ -85,7 +86,7 @@ class NutritionWidgets {
   }
 
   static Future<String?> takeOpen() async {
-    if (kIsWeb || !Platform.isAndroid) return null;
+    if (kIsWeb || !(Platform.isAndroid || Platform.isIOS)) return null;
     try {
       return await _route.invokeMethod<String>('take');
     } catch (_) {
@@ -240,7 +241,7 @@ class NutritionWidgets {
 
   static Future<void> _frames(String prefix, VesselLook look) async {
     final key = '${look.asset}|${look.liquid.toARGB32()}|$levels|2';
-    final dir = Directory('${(await getApplicationSupportDirectory()).path}/widget_frames');
+    final dir = await _framesDir();
     final last = File('${dir.path}/${prefix}_$levels.png');
     if (await HomeWidget.getWidgetData<String>('${prefix}_frames_key') == key && last.existsSync()) return;
     dir.createSync(recursive: true);
@@ -274,6 +275,14 @@ class NutritionWidgets {
     await HomeWidget.saveWidgetData<String>('${prefix}_frames', '${dir.path}/${prefix}_');
     await HomeWidget.saveWidgetData<String>('${prefix}_frames_n', '$levels');
     await HomeWidget.saveWidgetData<String>('${prefix}_frames_key', key);
+  }
+
+  static Future<Directory> _framesDir() async {
+    if (!kIsWeb && Platform.isIOS) {
+      final group = await _device.invokeMethod<String>('groupDir');
+      if (group != null) return Directory('$group/home_widget/frames');
+    }
+    return Directory('${(await getApplicationSupportDirectory()).path}/widget_frames');
   }
 
   static Future<ui.Image> _load(String asset) async {
