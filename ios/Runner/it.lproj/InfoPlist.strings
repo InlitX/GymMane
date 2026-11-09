@@ -1,0 +1,3 @@
+"NSCameraUsageDescription" = "GymMane usa la fotocamera per scattare le tue foto dei progressi.";
+"NSPhotoLibraryUsageDescription" = "GymMane apre la tua libreria foto per scegliere foto dei progressi, video degli esercizi e sfondi.";
+"NSPhotoLibraryAddUsageDescription" = "GymMane salva nella tua libreria foto le card che condividi.";

@@ -1,0 +1,17 @@
+"widget_activity_name" = "Activity";
+"widget_activity_desc" = "Your last months of training and your streak.";
+"widget_stats_name" = "Stats";
+"widget_stats_desc" = "Streak, sessions this week and weekly goal.";
+"widget_body_name" = "Muscle map";
+"widget_body_desc" = "The muscles you trained over the last 7 days.";
+"widget_today_name" = "Today";
+"widget_today_desc" = "Whether today's workout is done or not.";
+"widget_open_app" = "Open GymMane once to fill this widget";
+"widget_week_name" = "This week";
+"widget_week_desc" = "The days you trained this week and your weekly goal.";
+"widget_water_name" = "Water";
+"widget_water_desc" = "Your water today. Tap the bottom to add a glass.";
+"widget_protein_name" = "Protein";
+"widget_protein_desc" = "Your protein today. Tap the bottom to add your shake.";
+"widget_kcal_name" = "Calories";
+"widget_kcal_desc" = "Today's calories and macros.";

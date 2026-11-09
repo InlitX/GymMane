@@ -1,0 +1,3 @@
+"NSCameraUsageDescription" = "GymMane uses the camera to take your progress photos.";
+"NSPhotoLibraryUsageDescription" = "GymMane opens your photo library to pick progress photos, exercise media and backgrounds.";
+"NSPhotoLibraryAddUsageDescription" = "GymMane saves the cards you share to your photo library.";

@@ -1,0 +1,17 @@
+"widget_activity_name" = "Активность";
+"widget_activity_desc" = "Твои последние месяцы тренировок и твоя серия.";
+"widget_stats_name" = "Статистика";
+"widget_stats_desc" = "Серия, тренировки за неделю и недельная цель.";
+"widget_body_name" = "Карта мышц";
+"widget_body_desc" = "Мышцы, которые ты тренировал за последние 7 дней.";
+"widget_today_name" = "Сегодня";
+"widget_today_desc" = "Сделана ли сегодняшняя тренировка.";
+"widget_open_app" = "Открой GymMane один раз, чтобы заполнить этот виджет";
+"widget_week_name" = "Эта неделя";
+"widget_week_desc" = "Дни тренировок на этой неделе и твоя цель на неделю.";
+"widget_water_name" = "Water";
+"widget_water_desc" = "Your water today. Tap the bottom to add a glass.";
+"widget_protein_name" = "Protein";
+"widget_protein_desc" = "Your protein today. Tap the bottom to add your shake.";
+"widget_kcal_name" = "Calories";
+"widget_kcal_desc" = "Today's calories and macros.";

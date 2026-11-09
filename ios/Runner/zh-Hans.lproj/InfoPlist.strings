@@ -1,0 +1,3 @@
+"NSCameraUsageDescription" = "GymMane 使用相机拍摄你的进度照片。";
+"NSPhotoLibraryUsageDescription" = "GymMane 需要访问相册，以选择进度照片、动作视频和背景图。";
+"NSPhotoLibraryAddUsageDescription" = "GymMane 会把你分享的卡片保存到相册。";

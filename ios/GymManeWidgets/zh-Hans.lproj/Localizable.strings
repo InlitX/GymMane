@@ -1,0 +1,17 @@
+"widget_activity_name" = "活动";
+"widget_activity_desc" = "最近几个月的训练记录和连续天数。";
+"widget_stats_name" = "统计";
+"widget_stats_desc" = "连续天数、本周训练次数和每周目标。";
+"widget_body_name" = "肌肉图";
+"widget_body_desc" = "最近 7 天练到的肌群。";
+"widget_today_name" = "今天";
+"widget_today_desc" = "今天的训练是否已完成。";
+"widget_open_app" = "打开一次 GymMane 即可填充此小组件";
+"widget_week_name" = "本周";
+"widget_week_desc" = "本周训练过的日子和每周目标。";
+"widget_water_name" = "Water";
+"widget_water_desc" = "Your water today. Tap the bottom to add a glass.";
+"widget_protein_name" = "Protein";
+"widget_protein_desc" = "Your protein today. Tap the bottom to add your shake.";
+"widget_kcal_name" = "Calories";
+"widget_kcal_desc" = "Today's calories and macros.";

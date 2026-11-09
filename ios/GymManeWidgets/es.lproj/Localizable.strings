@@ -1,0 +1,17 @@
+"widget_activity_name" = "Actividad";
+"widget_activity_desc" = "Tus últimos meses de entreno y tu racha.";
+"widget_stats_name" = "Estadísticas";
+"widget_stats_desc" = "Racha, sesiones de esta semana y objetivo semanal.";
+"widget_body_name" = "Mapa muscular";
+"widget_body_desc" = "Los músculos que has trabajado en los últimos 7 días.";
+"widget_today_name" = "Hoy";
+"widget_today_desc" = "Si el entreno de hoy está hecho o no.";
+"widget_open_app" = "Abre GymMane una vez para rellenar este widget";
+"widget_week_name" = "Esta semana";
+"widget_week_desc" = "Los días que has entrenado esta semana y tu objetivo semanal.";
+"widget_water_name" = "Agua";
+"widget_water_desc" = "Tu agua de hoy. Toca abajo para añadir un vaso.";
+"widget_protein_name" = "Proteína";
+"widget_protein_desc" = "Tu proteína de hoy. Toca abajo para añadir tu batido.";
+"widget_kcal_name" = "Calorías";
+"widget_kcal_desc" = "Las calorías y macros de hoy.";

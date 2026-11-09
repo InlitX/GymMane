@@ -1,0 +1,6 @@
+"NSCameraUsageDescription" = "GymMane usa la cámara para hacer tus fotos de progreso.";
+"NSPhotoLibraryUsageDescription" = "GymMane abre tu galería para elegir fotos de progreso, vídeos de ejercicios y fondos.";
+"NSPhotoLibraryAddUsageDescription" = "GymMane guarda en tu galería las tarjetas que compartes.";
+"NSHealthShareUsageDescription" = "GymMane lee tus pasos, sueño y datos del corazón de Salud para mostrarlos junto a tu entrenamiento.";
+"NSHealthUpdateUsageDescription" = "GymMane guarda tus entrenos terminados en Salud.";
+"Start workout" = "Empezar entreno";

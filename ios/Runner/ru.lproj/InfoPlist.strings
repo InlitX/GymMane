@@ -1,0 +1,3 @@
+"NSCameraUsageDescription" = "GymMane использует камеру, чтобы делать фото твоего прогресса.";
+"NSPhotoLibraryUsageDescription" = "GymMane открывает твою галерею, чтобы выбрать фото прогресса, видео упражнений и фоны.";
+"NSPhotoLibraryAddUsageDescription" = "GymMane сохраняет в твою галерею карточки, которыми ты делишься.";
