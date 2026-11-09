@@ -1,19 +1,6 @@
 name: Build iOS
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'ios/**'
-      - 'lib/**'
-      - 'pubspec.yaml'
-      - 'pubspec.lock'
-      - '.github/workflows/build-ios.yml'
-  pull_request:
-    branches: [main]
-    paths:
-      - 'ios/**'
-      - '.github/workflows/build-ios.yml'
   workflow_dispatch:
     inputs:
       tag:
@@ -47,6 +34,9 @@ jobs:
         run: |
           flutter --version
           xcodebuild -version
+
+      - name: Enable Swift Package Manager
+        run: flutter config --enable-swift-package-manager
 
       - name: Install dependencies
         run: flutter pub get
