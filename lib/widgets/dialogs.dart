@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../l10n/l10n.dart';
+import '../models/note.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
 import 'glass.dart';
+import 'liquid_notch.dart';
 import 'ui_kit.dart';
 
 AlertDialog appDialog(
@@ -141,4 +145,98 @@ Future<double?> askNumber(
   Future<void>.delayed(const Duration(milliseconds: 600), controller.dispose);
 
   return double.tryParse((raw ?? '').trim().replaceAll(',', '.'));
+}
+
+Future<NoteLink?> askLink(BuildContext context, {NoteLink? initial}) async {
+  final gc = context.gc;
+  final name = TextEditingController(text: initial?.name ?? '');
+  final url = TextEditingController(text: initial?.url ?? '');
+  bool bad = false;
+  InputDecoration deco(String hint, {String? error}) => InputDecoration(
+        hintText: hint,
+        errorText: error,
+        hintStyle: AppTheme.s(15, color: gc.textTertiary),
+        errorStyle: AppTheme.s(12, color: gc.danger),
+        enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: gc.border)),
+        focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: gc.accent)),
+        errorBorder: UnderlineInputBorder(borderSide: BorderSide(color: gc.danger)),
+        focusedErrorBorder: UnderlineInputBorder(borderSide: BorderSide(color: gc.danger)),
+      );
+  final result = await showAppDialog<NoteLink>(
+    context: context,
+    builder: (dctx) => StatefulBuilder(
+      builder: (dctx, setState) {
+        void submit() {
+          final uri = NoteLink.parse(url.text);
+          if (uri == null) {
+            setState(() => bad = true);
+            return;
+          }
+          final label = name.text.trim();
+          Navigator.of(dctx).pop(NoteLink(
+            name: label.isEmpty ? uri.host.replaceFirst('www.', '') : label,
+            url: uri.toString(),
+          ));
+        }
+
+        return appDialog(
+          gc,
+          title: Text(initial == null ? t.noteLinkAdd : t.noteLinkEdit,
+              style: AppTheme.d(18, weight: FontWeight.w700, color: gc.text)),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: name,
+                autofocus: true,
+                textCapitalization: TextCapitalization.sentences,
+                textInputAction: TextInputAction.next,
+                maxLength: 60,
+                style: AppTheme.s(15, color: gc.text),
+                cursorColor: gc.accent,
+                decoration: deco(t.noteLinkNameHint).copyWith(counterText: ''),
+              ),
+              const SizedBox(height: 8),
+              TextField(
+                controller: url,
+                keyboardType: TextInputType.url,
+                autocorrect: false,
+                style: AppTheme.s(15, color: gc.text),
+                cursorColor: gc.accent,
+                decoration: deco(t.noteLinkUrlHint, error: bad ? t.noteLinkInvalid : null),
+                onChanged: (_) {
+                  if (bad) setState(() => bad = false);
+                },
+                onSubmitted: (_) => submit(),
+              ),
+            ],
+          ),
+          actions: [
+            dialogAction(t.cancel, gc.textSecondary, () => Navigator.of(dctx).pop(), strong: false),
+            dialogAction(t.save, gc.accent, submit),
+          ],
+        );
+      },
+    ),
+  );
+  Future<void>.delayed(const Duration(milliseconds: 600), () {
+    name.dispose();
+    url.dispose();
+  });
+  return result;
+}
+
+Future<void> openNoteLink(BuildContext context, NoteLink link) async {
+  final uri = NoteLink.parse(link.url);
+  var ok = false;
+  if (uri != null) {
+    try {
+      ok = await launchUrl(uri, mode: LaunchMode.externalApplication);
+    } catch (_) {
+      ok = false;
+    }
+  }
+  if (!ok && context.mounted) {
+    showNotchToast(context, t.cantOpenLink, icon: PhosphorIconsFill.warningCircle, accent: context.gc.danger);
+  }
 }

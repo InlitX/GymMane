@@ -182,4 +182,25 @@ void main() {
     expect(fit.notes, hasLength(2));
     expect(fit.notes.every((n) => n.folder.isEmpty), isTrue);
   });
+
+  test('note links survive JSON and reject bad addresses', () {
+    final note = GymNote(
+      id: 'n1',
+      exerciseId: '',
+      date: DateTime(2026, 11, 9),
+      kind: NoteKind.note,
+      text: 'Programa',
+      createdAt: DateTime(2026, 11, 9),
+      links: const [NoteLink(name: 'Vídeo', url: 'https://example.com/a?b=1')],
+    );
+    final back = GymNote.fromJson(note.toJson());
+    expect(back.links.single.name, 'Vídeo');
+    expect(back.links.single.url, 'https://example.com/a?b=1');
+    expect(GymNote.fromJson({...note.toJson()}..remove('l')).links, isEmpty);
+    expect(NoteLink.parse('example.com/x')?.toString(), 'https://example.com/x');
+    expect(NoteLink.parse('javascript:alert(1)'), isNull);
+    expect(NoteLink.parse('ftp://example.com'), isNull);
+    expect(NoteLink.parse('hola mundo'), isNull);
+    expect(NoteLink.parse('  '), isNull);
+  });
 }

@@ -170,6 +170,7 @@ mixin NotesState on FitCore, LibraryState {
     List<String> media = const [],
     bool? pinned,
     String? folder,
+    List<NoteLink> links = const [],
   }) {
     final body = text.trim();
     if (body.isEmpty) return;
@@ -187,6 +188,7 @@ mixin NotesState on FitCore, LibraryState {
         createdAt: DateTime.now(),
         pinned: (pinned ?? false) && exerciseId.isNotEmpty,
         folder: folder ?? '',
+        links: [...links],
       ));
     } else {
       final old = notes[index];
@@ -201,6 +203,7 @@ mixin NotesState on FitCore, LibraryState {
         media: [...media],
         pinned: exerciseId.isEmpty ? false : pinned,
         folder: folder,
+        links: [...links],
       );
     }
     noteDay = day;

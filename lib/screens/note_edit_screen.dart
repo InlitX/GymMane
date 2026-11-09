@@ -16,7 +16,7 @@ import '../widgets/note_folder.dart';
 import '../widgets/note_kit.dart';
 import '../widgets/ui_kit.dart';
 
-const int _kNoteMaxLength = 1000;
+const int _kNoteMaxLength = 3000;
 
 class NoteEditScreen extends StatefulWidget {
   const NoteEditScreen({super.key});
@@ -32,6 +32,7 @@ class _NoteEditScreenState extends State<NoteEditScreen> {
   late DateTime _date = _note?.date ?? fit.noteDraftDate;
   late String _exerciseId = _note?.exerciseId ?? fit.noteDraftExercise;
   late final List<String> _media = [...?_note?.media];
+  late final List<NoteLink> _links = [...?_note?.links];
   late bool _pinned = _note?.pinned ?? false;
   late String _folder = _note?.folder ?? fit.noteDraftFolder;
   final List<String> _added = [];
@@ -60,6 +61,7 @@ class _NoteEditScreenState extends State<NoteEditScreen> {
       media: _media,
       pinned: _pinned,
       folder: _folder,
+      links: _links,
     );
     fit.closeNoteEditor();
   }
@@ -86,6 +88,18 @@ class _NoteEditScreenState extends State<NoteEditScreen> {
         if (mounted) setState(() => _media.add(saved));
       }
     } catch (_) {}
+  }
+
+  Future<void> _editLink([int? index]) async {
+    final link = await askLink(context, initial: index == null ? null : _links[index]);
+    if (link == null || !mounted) return;
+    setState(() {
+      if (index == null) {
+        _links.add(link);
+      } else {
+        _links[index] = link;
+      }
+    });
   }
 
   Future<void> _confirmDelete() async {
@@ -225,6 +239,21 @@ class _NoteEditScreenState extends State<NoteEditScreen> {
                   const SizedBox(height: 22),
                   _label(gc, t.noteMediaLabel),
                   _mediaGrid(gc),
+                  const SizedBox(height: 22),
+                  _label(gc, t.noteLinksLabel),
+                  for (int i = 0; i < _links.length; i++) ...[
+                    NoteLinkTile(
+                      link: _links[i],
+                      onTap: () => _editLink(i),
+                      onRemove: () => setState(() => _links.removeAt(i)),
+                    ),
+                    const SizedBox(height: 8),
+                  ],
+                  GhostButton(
+                    label: t.noteLinkAdd,
+                    icon: PhosphorIconsRegular.link,
+                    onTap: _editLink,
+                  ),
                   const SizedBox(height: 28),
                   PrimaryButton(
                     label: t.save,

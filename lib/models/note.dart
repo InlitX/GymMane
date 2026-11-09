@@ -1,5 +1,26 @@
 enum NoteKind { note, plan, done, pain }
 
+class NoteLink {
+  const NoteLink({required this.name, required this.url});
+
+  final String name;
+  final String url;
+
+  Map<String, dynamic> toJson() => {'n': name, 'u': url};
+
+  factory NoteLink.fromJson(Map<String, dynamic> j) =>
+      NoteLink(name: (j['n'] ?? '') as String, url: (j['u'] ?? '') as String);
+
+  static Uri? parse(String raw) {
+    final text = raw.trim();
+    if (text.isEmpty || text.contains(RegExp(r'\s'))) return null;
+    final uri = Uri.tryParse(text.contains('://') ? text : 'https://$text');
+    if (uri == null || !uri.hasAuthority || uri.host.isEmpty) return null;
+    if (uri.scheme != 'http' && uri.scheme != 'https') return null;
+    return uri;
+  }
+}
+
 class GymNote {
   const GymNote({
     required this.id,
@@ -11,6 +32,7 @@ class GymNote {
     required this.createdAt,
     this.pinned = false,
     this.folder = '',
+    this.links = const [],
   });
 
   final String id;
@@ -22,6 +44,7 @@ class GymNote {
   final DateTime createdAt;
   final bool pinned;
   final String folder;
+  final List<NoteLink> links;
 
   bool get isGeneral => exerciseId.isEmpty;
 
@@ -40,6 +63,7 @@ class GymNote {
     List<String>? media,
     bool? pinned,
     String? folder,
+    List<NoteLink>? links,
   }) =>
       GymNote(
         id: id,
@@ -51,6 +75,7 @@ class GymNote {
         createdAt: createdAt,
         pinned: pinned ?? this.pinned,
         folder: folder ?? this.folder,
+        links: links ?? this.links,
       );
 
   Map<String, dynamic> toJson() => {
@@ -63,6 +88,7 @@ class GymNote {
         'c': createdAt.toIso8601String(),
         if (pinned) 'p': true,
         if (folder.isNotEmpty) 'f': folder,
+        if (links.isNotEmpty) 'l': [for (final l in links) l.toJson()],
       };
 
   factory GymNote.fromJson(Map<String, dynamic> j) {
@@ -77,6 +103,10 @@ class GymNote {
       createdAt: created,
       pinned: j['p'] == true,
       folder: (j['f'] ?? '') as String,
+      links: [
+        for (final l in (j['l'] as List?) ?? const [])
+          if (l is Map) NoteLink.fromJson(l.cast<String, dynamic>()),
+      ],
     );
   }
 }

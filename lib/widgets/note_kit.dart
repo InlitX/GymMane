@@ -14,6 +14,7 @@ import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
 import 'exercise_media.dart';
 import 'exercise_preview.dart';
+import 'dialogs.dart';
 import 'file_thumb.dart';
 import 'glass.dart';
 import 'note_folder.dart';
@@ -764,6 +765,13 @@ class _NoteSheetView extends StatelessWidget {
               ),
             ),
           ],
+          if (note.links.isNotEmpty) ...[
+            const SizedBox(height: 18),
+            for (final link in note.links) ...[
+              NoteLinkTile(link: link, onTap: () => openNoteLink(context, link)),
+              const SizedBox(height: 8),
+            ],
+          ],
           if (note.media.isNotEmpty) ...[
             const SizedBox(height: 18),
             _AllPhotos(media: note.media, scope: 'sheet${note.id}'),
@@ -804,6 +812,63 @@ class _NoteSheetView extends StatelessWidget {
           ),
         ]);
       },
+    );
+  }
+}
+
+class NoteLinkTile extends StatelessWidget {
+  const NoteLinkTile({super.key, required this.link, required this.onTap, this.onRemove});
+
+  final NoteLink link;
+  final VoidCallback onTap;
+  final VoidCallback? onRemove;
+
+  @override
+  Widget build(BuildContext context) {
+    final gc = context.gc;
+    return Pressable(
+      scale: 0.98,
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsetsDirectional.fromSTEB(14, 10, 6, 10),
+        decoration: BoxDecoration(color: gc.bgRaised2, borderRadius: BorderRadius.circular(16)),
+        child: Row(children: [
+          Icon(PhosphorIconsRegular.link, size: 18, color: gc.accent),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Text(link.name,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: AppTheme.f(14, weight: FontWeight.w700, color: gc.text, height: 1.25)),
+              const SizedBox(height: 2),
+              Text(link.url,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: AppTheme.f(12, weight: FontWeight.w500, color: gc.textTertiary)),
+            ]),
+          ),
+          const SizedBox(width: 6),
+          if (onRemove == null)
+            Padding(
+              padding: const EdgeInsetsDirectional.only(end: 8),
+              child: Icon(PhosphorIconsRegular.arrowUpRight, size: 15, color: gc.textTertiary),
+            )
+          else
+            Semantics(
+              button: true,
+              label: t.delete,
+              child: GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: onRemove,
+                child: Padding(
+                  padding: const EdgeInsets.all(12),
+                  child: Icon(PhosphorIconsBold.x, size: 13, color: gc.textTertiary),
+                ),
+              ),
+            ),
+        ]),
+      ),
     );
   }
 }
