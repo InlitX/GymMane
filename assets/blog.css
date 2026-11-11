@@ -86,6 +86,7 @@ html { scroll-padding-top: 88px; }
   background: var(--raised); border: 1px solid var(--border); border-radius: 14px;
 }
 .prose pre code { background: none; border: 0; padding: 0; font-size: 14px; line-height: 1.6; color: #EDEDED; white-space: pre; }
+.prose .shot { display: block; width: 100%; height: auto; margin: 22px 0 26px; border: 1px solid var(--border); border-radius: 14px; }
 .copy {
   position: absolute; top: 10px; right: 10px; font-size: 12px; font-weight: 600; color: var(--dim);
   padding: 4px 10px; border: 1px solid var(--border); border-radius: 8px; background: var(--raised2);

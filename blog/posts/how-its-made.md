@@ -41,13 +41,17 @@ Tus datos quedan en una carpeta de esa máquina. Si copias esa carpeta, lo tiene
 <p>Necesitas un equipo que esté encendido cuando quieras usarlo: un portátil vale para probar, un NAS o una Raspberry Pi para dejarlo siempre listo.</p>
 </div>
 
-**Linux, macOS, un VPS o una Raspberry Pi.** Un solo comando:
+**Linux, un VPS o una Raspberry Pi.** Un solo comando:
 
 ```sh
 curl -fsSL https://raw.githubusercontent.com/InlitX/GymMane/main/selfhost/install.sh | sh
 ```
 
-El script usa Docker si lo tienes y, si no, descarga un programa que funciona solo. Deja GymMane como un servicio que arranca con el equipo, te crea una contraseña y al final te dice la dirección que tienes que abrir y la contraseña.
+El script te hace tres o cuatro preguntas, cada una con una respuesta ya puesta: con pulsar Enter vale. Usa Docker si lo tienes y, si no, descarga un programa que funciona solo. Al terminar te dice la dirección que tienes que abrir y la contraseña.
+
+<img class="shot" src="/assets/shots/selfhost-install.webp" width="804" height="1094" alt="El instalador de GymMane en una terminal: comprueba el equipo, pregunta el puerto y la contraseña, instala y enseña la dirección para abrirlo" loading="lazy">
+
+**No hace falta root.** Lanzado con tu usuario, GymMane se instala en tu carpeta personal y arranca como un servicio tuyo, también tras reiniciar. Con `sudo` se instala para todo el equipo y, si tienes un cortafuegos activo, te ofrece abrir el puerto.
 
 **Windows.** En PowerShell:
 
@@ -55,18 +59,20 @@ El script usa Docker si lo tienes y, si no, descarga un programa que funciona so
 irm https://raw.githubusercontent.com/InlitX/GymMane/main/selfhost/install.ps1 | iex
 ```
 
-Si lo abres como administrador, GymMane arranca con Windows y abre el puerto en el cortafuegos.
+Sin permisos de administrador, GymMane arranca cuando inicias sesión. Como administrador, arranca con Windows y abre el puerto en el cortafuegos.
 
 **Con Docker, a mano.** Si prefieres verlo todo:
 
 ```sh
-mkdir gymmane && cd gymmane
+mkdir -p gymmane/gymmane-data/sync && cd gymmane
 curl -fsSLO https://raw.githubusercontent.com/InlitX/GymMane/main/compose.yaml
 echo "GYMMANE_PASSWORD=algo-largo" > .env
 docker compose up -d
 ```
 
-Después abre `http://localhost:8080` en ese equipo, o `http://ip-del-equipo:8080` desde cualquier otro de tu casa. Las imágenes funcionan en ordenadores normales y en ARM (Raspberry Pi 4 y 5, la mayoría de NAS).
+El contenedor no corre como root, sino con un usuario normal. Por eso conviene crear tú la carpeta de datos antes de arrancarlo, como arriba.
+
+Después abre `http://localhost:8080` en ese equipo, o `http://ip-del-equipo:8080` desde cualquier otro de tu casa. El navegador te pedirá la contraseña; el nombre de usuario da igual. Las imágenes funcionan en ordenadores normales y en ARM (Raspberry Pi 4 y 5, la mayoría de NAS).
 
 ## Configurarlo
 
@@ -88,7 +94,7 @@ Si vas a entrar desde fuera de casa, ponlo detrás de HTTPS (Caddy, Traefik o Ng
 La app del móvil sigue sin internet, así que **nunca se conecta al servidor**. Se juntan de otra forma: comparten una carpeta con Syncthing.
 
 <ol class="steps">
-<li>En el servidor, instala con <code>--sync</code> al final del comando (o <code>docker compose --profile sync up -d</code>). Abre Syncthing en <code>http://ip-del-equipo:8384</code> y comparte la carpeta <code>GymMane</code>.</li>
+<li>En el servidor, di que sí a Syncthing en el instalador (o lanza <code>docker compose --profile sync up -d</code>). Abre Syncthing en <code>http://ip-del-equipo:8384</code>, ponle una contraseña y añade la carpeta <code>/var/syncthing/GymMane</code>.</li>
 <li>En el móvil, instala <a href="https://f-droid.org/packages/com.github.catfriend1.syncthingandroid/">Syncthing-Fork</a> desde F-Droid, emparéjalo con el servidor y acepta la carpeta.</li>
 <li>En GymMane: Ajustes › Datos y copia de seguridad › Copia automática, y elige esa misma carpeta.</li>
 </ol>
@@ -137,13 +143,17 @@ Your data stays in a folder on that machine. Copy that folder and you have every
 <p>You need a machine that's on when you want to use it: a laptop is fine to try it, a NAS or a Raspberry Pi to leave it always ready.</p>
 </div>
 
-**Linux, macOS, a VPS or a Raspberry Pi.** One command:
+**Linux, a VPS or a Raspberry Pi.** One command:
 
 ```sh
 curl -fsSL https://raw.githubusercontent.com/InlitX/GymMane/main/selfhost/install.sh | sh
 ```
 
-The script uses Docker if you have it and otherwise downloads a program that runs on its own. It sets GymMane up as a service that starts with the machine, creates a password and finally tells you the address to open and the password.
+The script asks three or four questions, each with an answer already filled in: pressing Enter is enough. It uses Docker if you have it and otherwise downloads a program that runs on its own. When it's done it tells you the address to open and the password.
+
+<img class="shot" src="/assets/shots/selfhost-install.webp" width="804" height="1094" alt="The GymMane installer in a terminal: it checks the machine, asks for the port and the password, installs and shows the address to open" loading="lazy">
+
+**No root needed.** Run as your own user, GymMane goes into your home folder and runs as your own service, also after a reboot. With `sudo` it installs for the whole machine and, if a firewall is on, offers to open the port.
 
 **Windows.** In PowerShell:
 
@@ -151,18 +161,20 @@ The script uses Docker if you have it and otherwise downloads a program that run
 irm https://raw.githubusercontent.com/InlitX/GymMane/main/selfhost/install.ps1 | iex
 ```
 
-Run it as administrator and GymMane starts with Windows and opens the firewall port.
+Without administrator rights, GymMane starts when you log in. As administrator, it starts with Windows and opens the firewall port.
 
 **With Docker, by hand.** If you'd rather see every step:
 
 ```sh
-mkdir gymmane && cd gymmane
+mkdir -p gymmane/gymmane-data/sync && cd gymmane
 curl -fsSLO https://raw.githubusercontent.com/InlitX/GymMane/main/compose.yaml
 echo "GYMMANE_PASSWORD=something-long" > .env
 docker compose up -d
 ```
 
-Then open `http://localhost:8080` on that machine, or `http://machine-ip:8080` from any other device at home. The images run on regular computers and on ARM (Raspberry Pi 4 and 5, most NAS boxes).
+The container doesn't run as root but as a normal user. That's why it's best to create the data folder yourself before starting it, as above.
+
+Then open `http://localhost:8080` on that machine, or `http://machine-ip:8080` from any other device at home. The browser asks for the password; any user name works. The images run on regular computers and on ARM (Raspberry Pi 4 and 5, most NAS boxes).
 
 ## Setting it up
 
@@ -184,7 +196,7 @@ If you'll reach it from outside your home, put it behind HTTPS (Caddy, Traefik o
 The phone app still has no internet, so **it never connects to the server**. They meet another way: they share a folder with Syncthing.
 
 <ol class="steps">
-<li>On the server, install with <code>--sync</code> at the end of the command (or <code>docker compose --profile sync up -d</code>). Open Syncthing at <code>http://machine-ip:8384</code> and share the <code>GymMane</code> folder.</li>
+<li>On the server, say yes to Syncthing in the installer (or run <code>docker compose --profile sync up -d</code>). Open Syncthing at <code>http://machine-ip:8384</code>, give it a password and add the folder <code>/var/syncthing/GymMane</code>.</li>
 <li>On the phone, install <a href="https://f-droid.org/packages/com.github.catfriend1.syncthingandroid/">Syncthing-Fork</a> from F-Droid, pair it with the server and accept the folder.</li>
 <li>In GymMane: Settings › Data &amp; backup › Auto backup, and choose that same folder.</li>
 </ol>
