@@ -1,6 +1,3 @@
-// Catálogo oficial de exercícios traduzidos para Português (Brasil)
-// Vinculado a InlitX/GymMane - lib/l10n/catalog_pt.dart
-
 const Map<String, String> kExerciseNamePt = {
   'EIeI8Vf': 'Supino reto com barra',
   'SpYC0Kp': 'Supino reto com halteres',
@@ -182,7 +179,7 @@ const Map<String, String> kExerciseNamePt = {
   'banded-pallof-press': 'Pallof Press com elástico',
   'banded-woodchop': 'Lenhador com elástico',
   'banded-dead-bug': 'Dead Bug com elástico',
-  'Y7YcmIJ': 'Agachamento frontal com barra',
+  'Y7YcmIJ': 'Agachamento frontal no banco com barra',
   'gFyFj9z': 'Subida no banco com halteres',
   'hBGWILP': 'Adução de quadril na polia',
   '0lQnxMZ': 'Agachamento sissy com carga',
