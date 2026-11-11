@@ -1,0 +1,10 @@
+name: gymmane_merge
+description: "Merges two GymMane states for folder sync."
+publish_to: 'none'
+version: 1.0.0
+
+environment:
+  sdk: ^3.11.0
+
+dev_dependencies:
+  test: ^1.25.0
