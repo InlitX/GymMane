@@ -349,6 +349,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  gymmane_merge:
+    dependency: "direct main"
+    description:
+      path: "packages/gymmane_merge"
+      relative: true
+    source: path
+    version: "1.0.0"
   home_widget:
     dependency: "direct main"
     description:
@@ -995,7 +1002,7 @@ packages:
     source: hosted
     version: "15.2.0"
   web:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: web
       sha256: "868d88a33d8a87b18ffc05f9f030ba328ffefba92d6c127917a2ba740f9cfe4a"

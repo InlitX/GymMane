@@ -35,6 +35,7 @@ mealPlanNew
 mealPlansTitle
 movedMealToast
 movedToDay
+notifSuppTake
 notifSuppTap
 notifSuppTitleFor
 perDayUnit

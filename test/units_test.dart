@@ -121,4 +121,19 @@ void main() {
     fit.setExerciseUnits(id, 'kg');
     expect(fit.exerciseUnits.containsKey(id), isFalse, reason: 'igual que la app no se guarda');
   });
+
+  test('#358 un cardio puede ir en km aunque la app vaya en lb', () {
+    fit.setUnits('lb');
+    final id = fit.allExercises.firstWhere((e) => fit.modeOf(e.id) == 'cardio').id;
+    expect(fit.distanceUnitFor(id), 'mi');
+    fit.setExerciseDistance(id, 'km');
+    expect(fit.distanceUnitFor(id), 'km');
+    expect(fit.distanceUnit, 'mi');
+    expect(fit.distanceLabelFor(id, 5), '5 km');
+    expect(fit.fromDisplayKmFor(id, 3), 3);
+    expect(fit.toJson()['exDist'], {id: 'km'});
+    fit.setExerciseDistance(id, 'mi');
+    expect(fit.exerciseDistance.containsKey(id), isFalse, reason: 'igual que la app no se guarda');
+    fit.setUnits('kg');
+  });
 }

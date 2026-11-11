@@ -157,7 +157,21 @@ which APK? Take `arm64-v8a`.
 | Android 7.0+ | Supported |
 | Wear OS 3+ | In progress |
 | iOS 15+ | In progress |
-| Desktop | Planned |
+| Web, self-hosted | Supported |
+
+### Self-hosted
+
+The full app also runs in the browser from your own server, laid out for big
+screens, with your data in one folder on that machine:
+
+```sh
+curl -fsSLO https://raw.githubusercontent.com/InlitX/GymMane/main/compose.yaml
+docker compose up -d
+```
+
+No Docker? There's a one-line installer for Linux and macOS and a zip for
+Windows. Everything, including syncing with the phone through Syncthing, is in
+[SELFHOST.md](SELFHOST.md).
 
 ## Privacy
 

@@ -54,6 +54,55 @@ void main() {
       fit.saveAndExit();
     });
 
+    test('#346 descanso al cambiar de ejercicio tras la última serie', () {
+      final bench = fit.matchExerciseByName('Bench Press')!.id;
+      final squat = fit.matchExerciseByName('Squat')!.id;
+      fit.startRoutine(routineOf([bench, squat]));
+      fit.endCountdown();
+      fit.setChangeRest(150);
+      final n = fit.session!.exercises[0].sets.length;
+      final normal = fit.normalRestAfter(0, 0);
+      expect(normal, isNot(150));
+      for (var i = 0; i < n - 1; i++) {
+        fit.toggleSet(0, i);
+        expect(fit.restTotal, normal);
+        fit.skipRest();
+      }
+      expect(fit.normalRestAfter(0, n - 1), 150);
+      fit.toggleSet(0, n - 1);
+      expect(fit.restTotal, 150);
+      fit.skipRest();
+      fit.setChangeRest(0);
+      fit.saveAndExit();
+    });
+
+    test('#357 descanso entre lados: el primer check cierra un lado', () {
+      final curl = fit.matchExerciseByName('Dumbbell Curl')!.id;
+      if (!fit.isSidedReps(curl)) fit.toggleSidedReps(curl);
+      fit.startRoutine(routineOf([curl]));
+      fit.endCountdown();
+      fit.setSideRest(30);
+      final st = fit.session!.exercises[0].sets.firstWhere((x) => x.repsR != null);
+      final j = fit.session!.exercises[0].sets.indexOf(st);
+      fit.toggleSet(0, j);
+      expect(st.half, isTrue);
+      expect(st.done, isFalse);
+      expect(fit.restTotal, 30);
+      expect(fit.session!.restSwitch, isTrue);
+      fit.toggleSet(0, j);
+      expect(st.done, isTrue);
+      expect(st.half, isFalse);
+      expect(fit.session!.restSwitch, isFalse);
+      fit.skipRest();
+      fit.setSideRest(0);
+      fit.toggleSet(0, j);
+      fit.toggleSet(0, j);
+      expect(st.done, isTrue);
+      expect(st.half, isFalse);
+      fit.toggleSidedReps(curl);
+      fit.saveAndExit();
+    });
+
     test('fija el descanso al tiempo elegido', () {
       rest();
       fit.setRest(200);

@@ -7,6 +7,7 @@ import 'package:gymmane/models/nutrition.dart';
 import 'package:gymmane/models/workout.dart';
 import 'package:gymmane/services/food_library.dart';
 import 'package:gymmane/services/local_store.dart';
+import 'package:gymmane/services/supplement_reminder.dart';
 import 'package:gymmane/services/sticker_cutout.dart';
 import 'package:gymmane/state/fit_state.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -116,6 +117,22 @@ void main() {
       fit.removeSupplement(s.id);
       expect(fit.takenOn(DateTime.now()), isEmpty);
       expect(fit.addSupplement('  '), isNull);
+    });
+
+    test('#354 «Tomado» desde el aviso marca ese día sin desmarcar si ya estaba', () {
+      final a = fit.addSupplement('Creatina')!;
+      final b = fit.addSupplement('Omega 3')!;
+      final at = DateTime.now().subtract(const Duration(days: 1));
+      final day = DateTime(at.year, at.month, at.day);
+      final payload = SupplementReminder.payloadFor(at, [a.id, b.id]);
+      expect(SupplementReminder.idsOf(payload), [a.id, b.id]);
+      expect(SupplementReminder.dayOf(payload), day);
+      expect(SupplementReminder.idsOf('supp:${a.id}'), [a.id]);
+      fit.takeSupplementsOn(day, [a.id, b.id, 'nope']);
+      expect(fit.takenOn(day), {a.id, b.id});
+      fit.takeSupplementsOn(day, [a.id]);
+      expect(fit.takenOn(day), {a.id, b.id});
+      expect(fit.takenOn(DateTime.now()), isEmpty);
     });
   });
 
@@ -285,6 +302,20 @@ void main() {
       expect(rice.shownGrams, closeTo(250, 0.01));
       expect(rice.totalGrams, closeTo(250 / lib('Arroz blanco').cookedYield, 0.01));
       expect(r.total.kcal, greaterThan(400));
+    });
+
+    test('#355 la foto de una comida guardada se conserva al editarla y al guardar', () {
+      final dish = fit.searchDishes('arroz con pollo').single;
+      final r = fit.saveRecipe('Mi arroz', dish.items, photo: 'recipe_1.jpg')!;
+      expect(r.photo, 'recipe_1.jpg');
+      fit.updateRecipe(r.id, dish.items.take(1).toList());
+      fit.renameRecipe(r.id, 'Arroz');
+      final kept = fit.recipes.single;
+      expect(kept.photo, 'recipe_1.jpg');
+      expect(Recipe.fromJson(kept.toJson()).photo, 'recipe_1.jpg');
+      fit.setRecipePhoto(r.id, '');
+      expect(fit.recipes.single.photo, isEmpty);
+      expect(fit.recipes.single.toJson().containsKey('ph'), isFalse);
     });
 
     test('se buscan sin tildes y no se guardan solos', () {
