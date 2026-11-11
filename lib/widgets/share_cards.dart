@@ -1,4 +1,3 @@
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 
@@ -13,6 +12,7 @@ import 'ui_kit.dart';
 import 'body_map.dart';
 import 'charts.dart';
 import 'profile_avatar.dart';
+import 'local_image.dart';
 
 const Size kShareCardSize = Size(340, 425);
 
@@ -264,7 +264,7 @@ class ShareCard extends StatelessWidget {
       clipBehavior: Clip.antiAlias,
       child: path == null
           ? const SizedBox.expand()
-          : Image.file(File(path), fit: BoxFit.cover, gaplessPlayback: true,
+          : Image(image: localImage(path), fit: BoxFit.cover, gaplessPlayback: true,
               errorBuilder: (_, _, _) => const SizedBox.expand()),
     );
   }

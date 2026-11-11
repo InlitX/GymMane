@@ -7,14 +7,16 @@ import '../theme/app_colors.dart';
 import 'glass.dart';
 import 'ui_kit.dart';
 
-Future<ImageSource?> pickPhotoSource(BuildContext context) => showAppSheet<ImageSource>(
+Future<ImageSource?> pickPhotoSource(BuildContext context, {VoidCallback? onRemove}) => showAppSheet<ImageSource>(
       context: context,
       backgroundColor: Colors.transparent,
-      builder: (_) => const PhotoSourceSheet(),
+      builder: (_) => PhotoSourceSheet(onRemove: onRemove),
     );
 
 class PhotoSourceSheet extends StatelessWidget {
-  const PhotoSourceSheet({super.key});
+  const PhotoSourceSheet({super.key, this.onRemove});
+
+  final VoidCallback? onRemove;
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +35,11 @@ class PhotoSourceSheet extends StatelessWidget {
                 icon: PhosphorIconsRegular.camera, onTap: () => Navigator.of(context).pop(ImageSource.camera)),
             OptionItem(t.chooseGallery,
                 icon: PhosphorIconsRegular.image, onTap: () => Navigator.of(context).pop(ImageSource.gallery)),
+            if (onRemove case final remove?)
+              OptionItem(t.removePhoto, icon: PhosphorIconsRegular.trash, danger: true, onTap: () {
+                Navigator.of(context).pop();
+                remove();
+              }),
           ]),
         ],
       ),

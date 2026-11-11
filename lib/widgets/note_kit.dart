@@ -1,4 +1,3 @@
-import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +18,7 @@ import 'file_thumb.dart';
 import 'glass.dart';
 import 'note_folder.dart';
 import 'ui_kit.dart';
+import 'local_image.dart';
 
 Color noteKindColor(GymColors gc, NoteKind k) => switch (k) {
       NoteKind.note => gc.info,
@@ -358,6 +358,7 @@ class NoteFilterBar extends StatelessWidget {
     return SizedBox(
       height: 38,
       child: ListView(
+        key: const PageStorageKey('h-note_kit-361'),
         scrollDirection: Axis.horizontal,
         padding: padding.copyWith(right: padding.right - 8),
         children: [
@@ -1116,7 +1117,7 @@ class _MediaViewerState extends State<_MediaViewer> {
               if (MediaStore.isVideo(name)) {
                 return _FullVideo(key: ValueKey(path), path: path);
               }
-              final image = Image.file(File(path), fit: BoxFit.contain);
+              final image = Image(image: localImage(path), fit: BoxFit.contain);
               return InteractiveViewer(
                 maxScale: 5,
                 child: Center(
@@ -1182,7 +1183,7 @@ class _FullVideoState extends State<_FullVideo> {
 
   Future<void> _load() async {
     try {
-      final c = VideoPlayerController.file(File(widget.path));
+      final c = localVideo(widget.path);
       await c.initialize();
       await c.setLooping(true);
       await c.play();

@@ -22,9 +22,11 @@ void showAutoBackupSheet(BuildContext context) {
 
   Future<void> now(BuildContext sheet) async {
     if (!b.hasFolder && !await b.pickFolder()) return;
+    final n = await b.pull();
     final ok = await b.run(force: true);
     if (!sheet.mounted) return;
-    showNotchToast(sheet, ok ? t.autoBackupSaved : t.autoBackupLost,
+    final merged = n > 0;
+    showNotchToast(sheet, ok ? (merged ? t.autoBackupMerged : t.autoBackupSaved) : t.autoBackupLost,
         icon: ok ? PhosphorIconsFill.checkCircle : PhosphorIconsFill.warningCircle,
         accent: ok ? sheet.gc.sage : sheet.gc.danger);
   }
@@ -77,6 +79,12 @@ void showAutoBackupSheet(BuildContext context) {
                   onTap: b.pickFolder,
                 ),
               ]),
+              const SizedBox(height: 10),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 4),
+                child: Text(t.autoBackupSyncHint,
+                    style: AppTheme.f(12, weight: FontWeight.w500, color: gc.textSecondary, height: 1.4)),
+              ),
               const SizedBox(height: 16),
               Row(
                 children: [
@@ -97,7 +105,7 @@ void showAutoBackupSheet(BuildContext context) {
               ),
               const SizedBox(height: 18),
               Center(
-                child: b.running
+                child: b.running || b.pulling
                     ? Padding(
                         padding: const EdgeInsets.symmetric(vertical: 10),
                         child: SizedBox(
@@ -107,8 +115,8 @@ void showAutoBackupSheet(BuildContext context) {
                         ),
                       )
                     : GhostButton(
-                        label: t.autoBackupNow,
-                        icon: PhosphorIconsRegular.fileZip,
+                        label: t.autoBackupSync,
+                        icon: PhosphorIconsRegular.arrowsClockwise,
                         onTap: () => now(sheet),
                       ),
               ),

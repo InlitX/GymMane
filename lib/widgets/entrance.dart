@@ -48,8 +48,8 @@ class _RiseFlag extends InheritedWidget {
   bool updateShouldNotify(_RiseFlag old) => old.on != on;
 }
 
-List<Widget> riseAll(List<Widget> children) {
-  var i = 0;
+List<Widget> riseAll(List<Widget> children, {int from = 0}) {
+  var i = from;
   return [
     for (final c in children) c is SizedBox && c.child == null ? c : Rise(index: i++, child: c),
   ];

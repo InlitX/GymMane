@@ -1,4 +1,3 @@
-import 'dart:io';
 
 import 'package:barcode/barcode.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +7,8 @@ import '../models/gym_pass.dart';
 import '../services/media_store.dart';
 import '../state/fit_state.dart';
 import '../theme/app_theme.dart';
-import 'routine_folder.dart';
+import 'routine_folder.dart';
+import 'local_image.dart';
 
 const double kPassRatio = 1.586;
 
@@ -87,8 +87,8 @@ class PassPhoto extends StatelessWidget {
   Widget build(BuildContext context) {
     final path = MediaStore.pathFor(name);
     if (path == null) return const SizedBox.shrink();
-    return Image.file(
-      File(path),
+    return Image(
+      image: localImage(path),
       fit: BoxFit.contain,
       filterQuality: FilterQuality.high,
       gaplessPlayback: true,

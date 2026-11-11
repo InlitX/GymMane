@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
@@ -279,7 +280,7 @@ class _PressableState extends State<Pressable> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    final tap = GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: widget.onTap,
       onLongPress: widget.onLongPress,
@@ -293,6 +294,8 @@ class _PressableState extends State<Pressable> {
         child: widget.child,
       ),
     );
+    if (!kIsWeb || widget.onTap == null) return tap;
+    return MouseRegion(cursor: SystemMouseCursors.click, child: tap);
   }
 }
 

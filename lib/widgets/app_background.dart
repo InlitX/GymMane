@@ -1,9 +1,9 @@
-import 'dart:io';
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 
-import '../theme/app_colors.dart';
+import '../theme/app_colors.dart';
+import 'local_image.dart';
 
 class AppBackground extends StatelessWidget {
   const AppBackground({super.key, required this.pattern, this.photo, this.dim = 0.55});
@@ -25,10 +25,9 @@ class AppBackground extends StatelessWidget {
           child: Stack(
             fit: StackFit.expand,
             children: [
-              Image.file(
-                File(path),
+              Image(
+                image: ResizeImage.resizeIfNeeded(cacheWidth, null, localImage(path)),
                 fit: BoxFit.cover,
-                cacheWidth: cacheWidth,
                 filterQuality: FilterQuality.medium,
                 errorBuilder: (_, _, _) => const SizedBox.shrink(),
               ),

@@ -382,6 +382,48 @@ class _ToolArtPainter extends CustomPainter {
             Paint()..color = Colors.white.withValues(alpha: 0.42));
         canvas.drawRRect(RRect.fromRectAndRadius(Rect.fromCenter(center: Offset(bx, by + 4), width: 10, height: 6), const Radius.circular(2)),
             Paint()..color = _ink(iron).withValues(alpha: 0.28));
+      case 'protein':
+        final cx = w / 2;
+        final tub = _hue(1);
+        final body = Rect.fromLTWH(cx - 14, 14, 28, h - 17);
+        _block(canvas, body, 6, tub);
+        canvas.drawRRect(RRect.fromRectAndRadius(Rect.fromLTWH(body.left + 3, body.top + 11, body.width - 6, 13), const Radius.circular(2.5)),
+            Paint()..color = Colors.white.withValues(alpha: 0.78));
+        canvas.drawRRect(RRect.fromRectAndRadius(Rect.fromLTWH(body.left + 7, body.top + 15, body.width - 14, 2.2), const Radius.circular(1.1)),
+            Paint()..color = _ink(tub).withValues(alpha: 0.7));
+        canvas.drawRRect(RRect.fromRectAndRadius(Rect.fromLTWH(body.left + 9, body.top + 19, body.width - 18, 1.8), const Radius.circular(0.9)),
+            Paint()..color = _ink(tub).withValues(alpha: 0.4));
+        final lid = Rect.fromLTWH(cx - 16, 6, 32, 10);
+        _block(canvas, lid, 3.5, Color.lerp(tub, Colors.black, 0.28)!);
+        for (var k = 1; k < 8; k++) {
+          canvas.drawRect(Rect.fromLTWH(lid.left + k * 4, lid.top + 2, 0.9, lid.height - 4), Paint()..color = Colors.black.withValues(alpha: 0.16));
+        }
+      case 'water':
+        final cx = w / 2;
+        final blue = _hue(3);
+        canvas.drawCircle(Offset(cx, h - 18), 17,
+            Paint()
+              ..color = blue.withValues(alpha: dark ? 0.22 : 0.16)
+              ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 9));
+        final top = 4.0, bottom = h - 3, r = 15.0;
+        final drop = Path()
+          ..moveTo(cx, top)
+          ..cubicTo(cx + 4, top + 10, cx + r, bottom - r * 1.6, cx + r, bottom - r)
+          ..arcToPoint(Offset(cx - r, bottom - r), radius: Radius.circular(r))
+          ..cubicTo(cx - r, bottom - r * 1.6, cx - 4, top + 10, cx, top)
+          ..close();
+        _shadow(canvas, drop);
+        _fill(canvas, drop, blue);
+        canvas.save();
+        canvas.clipPath(drop);
+        canvas.drawPath(drop.shift(const Offset(-2.5, 2)),
+            Paint()
+              ..style = PaintingStyle.stroke
+              ..strokeWidth = 2
+              ..color = Colors.white.withValues(alpha: 0.3));
+        canvas.restore();
+        canvas.drawOval(Rect.fromCenter(center: Offset(cx - 6, bottom - r - 3), width: 5, height: 9),
+            Paint()..color = Colors.white.withValues(alpha: 0.5));
     }
   }
 

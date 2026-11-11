@@ -2,6 +2,7 @@ import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 
+import '../app/desktop.dart';
 import '../theme/app_colors.dart';
 
 bool blurEffects = true;
@@ -67,16 +68,21 @@ Future<T?> showAppSheet<T>({
   bool isDismissible = true,
   bool enableDrag = true,
   bool useSafeArea = false,
+  double maxWidth = 600,
 }) {
   final nav = Navigator.of(context);
+  final desk = DesktopScope.wideFor(MediaQuery.sizeOf(context).width);
+  final inner = enableDrag && isDismissible ? (BuildContext c) => _PullToClose(child: builder(c)) : builder;
   return nav.push(_GlassSheetRoute<T>(
-    builder: enableDrag && isDismissible ? (c) => _PullToClose(child: builder(c)) : builder,
+    builder: desk ? (c) => ClipRRect(borderRadius: BorderRadius.circular(28), child: inner(c)) : inner,
     isScrollControlled: isScrollControlled,
     backgroundColor: backgroundColor,
-    shape: shape,
+    shape: desk ? RoundedRectangleBorder(borderRadius: BorderRadius.circular(28)) : shape,
+    floating: desk,
     isDismissible: isDismissible,
     enableDrag: enableDrag,
     useSafeArea: useSafeArea,
+    constraints: desk ? BoxConstraints(maxWidth: maxWidth) : null,
     modalBarrierColor: Colors.black.withValues(alpha: 0.38),
     capturedThemes: InheritedTheme.capture(from: context, to: nav.context),
     barrierLabel: MaterialLocalizations.of(context).scrimLabel,
@@ -85,6 +91,7 @@ Future<T?> showAppSheet<T>({
 
 class _GlassSheetRoute<T> extends ModalBottomSheetRoute<T> with _GlassCount<T> {
   _GlassSheetRoute({
+    this.floating = false,
     required super.builder,
     required super.isScrollControlled,
     super.backgroundColor,
@@ -92,10 +99,19 @@ class _GlassSheetRoute<T> extends ModalBottomSheetRoute<T> with _GlassCount<T> {
     super.isDismissible,
     super.enableDrag,
     super.useSafeArea,
+    super.constraints,
     super.modalBarrierColor,
     super.capturedThemes,
     super.barrierLabel,
   });
+
+  final bool floating;
+
+  @override
+  Widget buildPage(BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
+    final page = super.buildPage(context, animation, secondaryAnimation);
+    return floating ? Padding(padding: const EdgeInsets.only(top: 28, bottom: 28), child: page) : page;
+  }
 
   @override
   bool canTransitionTo(TransitionRoute<dynamic> nextRoute) => nextRoute is _GlassSheetRoute;

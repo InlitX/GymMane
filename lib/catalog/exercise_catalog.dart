@@ -7443,6 +7443,8 @@ const List<ToolMeta> kToolMeta = [
   ToolMeta('rpe', 'RPE load', 'Weight for a target effort'),
   ToolMeta('dots', 'Strength level', 'DOTS score'),
   ToolMeta('wilks', 'Wilks', 'Wilks score'),
+  ToolMeta('protein', 'Protein', 'Daily protein'),
+  ToolMeta('water', 'Water', 'Daily water'),
 ];
 
 const List<String> kFilterMuscles = [

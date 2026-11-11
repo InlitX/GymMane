@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 import 'dart:math' as math;
 
 import 'package:flutter/cupertino.dart';
@@ -13,6 +12,7 @@ import '../theme/app_colors.dart';
 import 'exercise_art.dart';
 import 'file_thumb.dart';
 import 'shimmer.dart';
+import 'local_image.dart';
 
 const _shortDemo = Duration(seconds: 10);
 
@@ -159,7 +159,7 @@ class _VideoTileState extends State<_VideoTile> {
 
   Future<void> _load() async {
     try {
-      final c = VideoPlayerController.file(File(widget.path), videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true));
+      final c = localVideo(widget.path, options: VideoPlayerOptions(mixWithOthers: true));
       await c.initialize();
       await c.setVolume(0);
       if (widget.still) {

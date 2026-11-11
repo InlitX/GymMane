@@ -3,6 +3,7 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
+import '../catalog/exercise_catalog.dart';
 import '../l10n/l10n.dart';
 import '../models/gym_pass.dart';
 import '../state/fit_state.dart';
@@ -14,10 +15,13 @@ import 'gym_pass_card.dart';
 import 'medal.dart';
 
 class _Collage extends StatelessWidget {
-  const _Collage({required this.columns, this.offset = Offset.zero});
+  const _Collage({required this.columns, this.left = const [], this.right = const [], this.offset = Offset.zero});
 
   final List<Widget> columns;
+  final List<Widget> left;
+  final List<Widget> right;
   static const height = 380.0;
+  static const wideFrom = 620.0;
   final Offset offset;
 
   @override
@@ -27,43 +31,125 @@ class _Collage extends StatelessWidget {
       height: height,
       child: ExcludeSemantics(
       child: IgnorePointer(
-        child: SizedBox(
-          height: height,
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(28),
-            child: ColoredBox(
-              color: gc.bgRaised,
-              child: OverflowBox(
-                maxWidth: 1000,
-                maxHeight: 1000,
-                child: Transform.translate(
-                  offset: offset,
-                  child: Transform.rotate(
-                    angle: -0.16,
-                    child: Transform.scale(
-                      scale: 0.66,
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          for (var i = 0; i < columns.length; i++) ...[
-                            if (i > 0) const SizedBox(width: 10),
-                            columns[i],
+        child: LayoutBuilder(builder: (context, box) {
+          final wide = box.maxWidth >= wideFrom;
+          final cols = wide ? [...left, ...columns, ...right] : columns;
+          return SizedBox(
+            height: height,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(28),
+              child: ColoredBox(
+                color: gc.bgRaised,
+                child: OverflowBox(
+                  maxWidth: wide ? 3000 : 1000,
+                  maxHeight: 1000,
+                  child: Transform.translate(
+                    offset: offset,
+                    child: Transform.rotate(
+                      angle: -0.16,
+                      child: Transform.scale(
+                        scale: 0.66,
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: wide ? CrossAxisAlignment.center : CrossAxisAlignment.start,
+                          children: [
+                            for (var i = 0; i < cols.length; i++) ...[
+                              if (i > 0) const SizedBox(width: 10),
+                              cols[i],
+                            ],
                           ],
-                        ],
+                        ),
                       ),
                     ),
                   ),
                 ),
               ),
             ),
-          ),
-        ),
+          );
+        }),
       ),
       ),
     );
   }
 }
+
+Widget _wideStat(GymColors gc, IconData icon, String value, String label, Color tone, {double h = 96}) => _Tile(
+      w: 330,
+      h: h,
+      child: Row(children: [
+        Icon(icon, size: 28, color: tone),
+        const SizedBox(width: 14),
+        Expanded(
+          child: Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.start, children: [
+            _big(gc, value, size: 26),
+            if (label.isNotEmpty) ...[const SizedBox(height: 4), _kicker(gc, label)],
+          ]),
+        ),
+      ]),
+    );
+
+Widget _bars(GymColors gc, List<double> values, {int hi = -1, double h = 120}) => _Tile(
+      w: 330,
+      h: h,
+      child: Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
+        for (final (i, v) in values.indexed) ...[
+          if (i > 0) const SizedBox(width: 8),
+          Expanded(
+            child: Container(
+              height: 6 + (h - 38) * v,
+              decoration: BoxDecoration(
+                color: v == 0 ? gc.bgRaised : (i == hi ? gc.accent : gc.text.withValues(alpha: 0.5)),
+                borderRadius: BorderRadius.circular(6),
+              ),
+            ),
+          ),
+        ],
+      ]),
+    );
+
+Widget _chips(GymColors gc, List<String> labels, {int on = 0, double h = 96}) => _Tile(
+      w: 330,
+      h: h,
+      child: Center(
+        child: Wrap(spacing: 8, runSpacing: 8, alignment: WrapAlignment.center, children: [
+          for (final (i, l) in labels.indexed)
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 13, vertical: 7),
+              decoration: BoxDecoration(color: i == on ? gc.text : gc.bgRaised, borderRadius: BorderRadius.circular(100)),
+              child: Text(l, style: AppTheme.f(13, weight: FontWeight.w800, color: i == on ? gc.bg : gc.textSecondary)),
+            ),
+        ]),
+      ),
+    );
+
+Widget _toggleTile(GymColors gc, IconData icon, bool on, {double h = 96}) => _Tile(
+      w: 150,
+      h: h,
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Icon(icon, size: 24, color: on ? gc.text : gc.textTertiary),
+        const Spacer(),
+        Container(
+          width: 52,
+          height: 30,
+          padding: const EdgeInsets.all(4),
+          alignment: on ? Alignment.centerRight : Alignment.centerLeft,
+          decoration: BoxDecoration(color: on ? gc.sage : gc.bgRaised, borderRadius: BorderRadius.circular(100)),
+          child: Container(
+            width: 22,
+            height: 22,
+            decoration: BoxDecoration(color: on ? Colors.white : gc.textTertiary, shape: BoxShape.circle),
+          ),
+        ),
+      ]),
+    );
+
+Widget _gauge(GymColors gc, double value, String center, Color tone, {double h = 170}) => _Tile(
+      w: 150,
+      h: h,
+      child: Center(
+        child: _Ring(value: value, color: tone, size: 108, child: _big(gc, center, size: 24)),
+      ),
+    );
 
 class ShowcaseFrame extends StatelessWidget {
   const ShowcaseFrame({super.key, required this.height, required this.child});
@@ -120,14 +206,138 @@ Widget _kicker(GymColors gc, String text) => Text(text.toUpperCase(),
 Widget _big(GymColors gc, String text, {double size = 30, Color? color}) =>
     Text(text, maxLines: 1, style: AppTheme.f(size, weight: FontWeight.w800, color: color ?? gc.text, height: 1.05));
 
-Widget _iconTile(GymColors gc, IconData icon, String value, String label, Color tone, {double h = 120}) => _Tile(
+Widget _iconTile(GymColors gc, IconData icon, String value, String label, Color tone, {double? h}) => _Tile(
       w: 150,
-      h: h,
+      h: h ?? (label.isEmpty ? 92 : 108),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Icon(icon, size: 24, color: tone),
         const Spacer(),
         _big(gc, value, size: 24),
-        if (label.isNotEmpty) _kicker(gc, label),
+        if (label.isNotEmpty) ...[const SizedBox(height: 3), _kicker(gc, label)],
+      ]),
+    );
+
+Widget _exerciseList(GymColors gc, int from, {List<String> sets = const ['3 × 8', '4 × 10', '3 × 12']}) {
+  final picks = [for (var i = 0; i < 3; i++) kExercises[(from + i * 37) % kExercises.length]];
+  return _Tile(
+    w: 330,
+    h: 150,
+    pad: 14,
+    child: Column(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+      for (final (i, e) in picks.indexed)
+        Row(children: [
+          Container(
+            width: 26,
+            height: 26,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(color: gc.bgRaised, shape: BoxShape.circle),
+            child: Text('${i + 1}', style: AppTheme.f(12, weight: FontWeight.w800, color: gc.textSecondary)),
+          ),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Text(t.catalogName(e.id, e.name),
+                maxLines: 1, overflow: TextOverflow.ellipsis, style: AppTheme.f(14, weight: FontWeight.w700, color: gc.text)),
+          ),
+          const SizedBox(width: 8),
+          Text(sets[i % sets.length], style: AppTheme.f(12.5, weight: FontWeight.w700, color: gc.textTertiary)),
+        ]),
+    ]),
+  );
+}
+
+Widget _calendar(GymColors gc, int seed, String value, Color tone) => _Tile(
+      w: 330,
+      h: 150,
+      pad: 14,
+      child: Row(children: [
+        Expanded(
+          child: Column(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+            for (var r = 0; r < 5; r++)
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                for (var c = 0; c < 7; c++)
+                  Container(
+                    width: 18,
+                    height: 18,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: ((r * 7 + c) * seed + r) % 5 < 2 ? tone : gc.bgRaised,
+                    ),
+                  ),
+              ]),
+          ]),
+        ),
+        const SizedBox(width: 16),
+        _big(gc, value, size: 30),
+      ]),
+    );
+
+Widget _spark(GymColors gc, List<double> values, Color tone, String value, String label) => _Tile(
+      w: 330,
+      h: 124,
+      pad: 0,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(24),
+        child: Stack(children: [
+          Positioned.fill(
+            top: 40,
+            child: CustomPaint(
+              painter: _Pulse(values, line: tone, grid: gc.text.withValues(alpha: 0.06), dotRing: gc.bgRaised2),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 14, 16, 0),
+            child: Row(children: [
+              Expanded(child: _kicker(gc, label)),
+              _big(gc, value, size: 22),
+            ]),
+          ),
+        ]),
+      ),
+    );
+
+Widget _rings(GymColors gc, List<(double, Color, String)> rings) => _Tile(
+      w: 330,
+      h: 116,
+      pad: 12,
+      child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+        for (final (v, c, label) in rings)
+          SizedBox(
+            width: 80,
+            height: 80,
+            child: Stack(alignment: Alignment.center, children: [
+              SizedBox.expand(
+                child: CircularProgressIndicator(
+                    value: v, strokeWidth: 7, strokeCap: StrokeCap.round, color: c, backgroundColor: gc.bgRaised),
+              ),
+              Text(label, style: AppTheme.f(14, weight: FontWeight.w800, color: gc.text)),
+            ]),
+          ),
+      ]),
+    );
+
+Widget _macros(GymColors gc, List<(String, double, Color)> rows) => _Tile(
+      w: 330,
+      h: 124,
+      pad: 14,
+      child: Column(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+        for (final (label, v, c) in rows)
+          Row(children: [
+            SizedBox(width: 70, child: Text(label, style: AppTheme.f(12.5, weight: FontWeight.w700, color: gc.textSecondary))),
+            Expanded(
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(5),
+                child: SizedBox(
+                  height: 10,
+                  child: Row(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+                    Expanded(flex: (v * 100).round(), child: ColoredBox(color: c)),
+                    Expanded(flex: 100 - (v * 100).round(), child: ColoredBox(color: gc.bgRaised)),
+                  ]),
+                ),
+              ),
+            ),
+            const SizedBox(width: 10),
+            Text('${(v * 100).round()} %', style: AppTheme.f(12, weight: FontWeight.w800, color: gc.text)),
+          ]),
       ]),
     );
 
@@ -244,11 +454,7 @@ class AlertsShowcase extends StatelessWidget {
         ]),
       ]),
     );
-    final vibrate = _Tile(
-      w: 150,
-      h: 110,
-      child: Center(child: Icon(PhosphorIconsRegular.vibrate, size: 48, color: gc.textSecondary)),
-    );
+    final vibrate = _toggleTile(gc, PhosphorIconsRegular.vibrate, true);
     final live = _note(
       gc,
       icon: PhosphorIconsFill.barbell,
@@ -336,9 +542,49 @@ class AlertsShowcase extends StatelessWidget {
     );
     return _Collage(
       offset: const Offset(22, -8),
+      left: [
+        _stack(0, [
+          _toggleTile(gc, PhosphorIconsRegular.bell, true),
+          _iconTile(gc, PhosphorIconsRegular.calendarCheck, '3', '', gc.sage),
+          _iconTile(gc, PhosphorIconsRegular.moonStars, '23:00', '', gc.textSecondary),
+          _gauge(gc, 0.85, '85 %', gc.sage),
+          _iconTile(gc, PhosphorIconsRegular.sunHorizon, '7:30', '', gc.warn),
+          _iconTile(gc, PhosphorIconsRegular.barbell, '4/4', '', gc.accent),
+          _iconTile(gc, PhosphorIconsRegular.timer, '45 s', '', gc.textSecondary),
+        ]),
+        _stack(0, [
+          _chips(gc, const ['30 s', '60 s', '90 s', '2 min', '3 min'], on: 2),
+          _bars(gc, const [0.5, 0.2, 0.9, 0.4, 0.0, 0.7, 0.3], hi: 2),
+          _wideStat(gc, PhosphorIconsRegular.bellSimple, '7:00 · 18:30', '', gc.sage),
+          _exerciseList(gc, 3),
+          _chips(gc, [for (var d = 1; d <= 7; d++) _letter(d)], on: 0),
+          _calendar(gc, 3, '12', gc.sage),
+          _wideStat(gc, PhosphorIconsRegular.clockClockwise, '3 min', '', gc.accent),
+        ]),
+      ],
+      right: [
+        _stack(0, [
+          _wideStat(gc, PhosphorIconsRegular.pill, '10:00', t.suppCreatine, gc.brass),
+          _chips(gc, const ['5 g', '3 g', '500 mg', '1000 IU'], on: 0),
+          _macros(gc, [('P', 0.8, gc.accent), ('C', 0.55, gc.sage), ('G', 0.4, gc.warn)]),
+          _wideStat(gc, PhosphorIconsRegular.drop, '2 L', '', gc.info),
+          _bars(gc, const [0.3, 0.6, 0.45, 0.8, 0.55, 1.0, 0.7], hi: 5),
+          _wideStat(gc, PhosphorIconsRegular.camera, '14', t.notifPhotoTitle, gc.info),
+          _rings(gc, [(0.7, gc.accent, '7/10'), (0.4, gc.sage, '2 L'), (0.9, gc.brass, '5 g')]),
+        ]),
+        _stack(0, [
+          _iconTile(gc, PhosphorIconsRegular.speakerHigh, '80 %', '', gc.text),
+          _toggleTile(gc, PhosphorIconsRegular.headphones, true),
+          _gauge(gc, 0.75, '16 h', gc.warn),
+          _iconTile(gc, PhosphorIconsRegular.bellSimpleSlash, '8:00', '', gc.textTertiary),
+          _iconTile(gc, PhosphorIconsRegular.footprints, '6 240', '', gc.sage),
+          _iconTile(gc, PhosphorIconsRegular.coffee, '1', '', gc.brass),
+          _toggleTile(gc, PhosphorIconsRegular.moon, false),
+        ]),
+      ],
       columns: [
         _stack(20, [bell, sound, vibrate, _iconTile(gc, PhosphorIconsRegular.bellSlash, '22:00', '', gc.textSecondary),
-            _iconTile(gc, PhosphorIconsRegular.alarm, '7:00', '', gc.accent)]),
+            _iconTile(gc, PhosphorIconsRegular.alarm, '7:00', '', gc.accent), _gauge(gc, 0.4, '2:00', gc.accent)]),
         _stack(0, [
           restNote,
           live,
@@ -391,9 +637,11 @@ class AlertsShowcase extends StatelessWidget {
               ),
             ]),
           ),
+          _spark(gc, const [62, 75, 58, 90, 70, 84, 96, 78, 88], gc.accent, '1:30', t.liveResting),
         ]),
         _stack(40, [timer, supp, fast, _iconTile(gc, PhosphorIconsRegular.ruler, '14', t.notifMeasureTitle, gc.warn),
-            _iconTile(gc, PhosphorIconsRegular.drop, '1,5 L', '', gc.info)]),
+            _iconTile(gc, PhosphorIconsRegular.drop, '1,5 L', '', gc.info),
+            _iconTile(gc, PhosphorIconsRegular.clockCountdown, '5 min', '', gc.accent)]),
       ],
     );
   }
@@ -421,31 +669,6 @@ class HomeExtrasShowcase extends StatelessWidget {
           ]),
         ),
       ),
-    );
-    final level = _Tile(
-      w: 150,
-      h: 130,
-      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Row(children: [
-          Icon(PhosphorIconsRegular.medal, size: 22, color: gc.accent),
-          const Spacer(),
-          _big(gc, '7'),
-        ]),
-        const Spacer(),
-        ClipRRect(
-          borderRadius: BorderRadius.circular(4),
-          child: SizedBox(
-            height: 7,
-            child: Row(children: [
-              Expanded(
-                flex: 64,
-                child: DecoratedBox(decoration: BoxDecoration(gradient: LinearGradient(colors: [gc.accent, gc.brass]))),
-              ),
-              Expanded(flex: 36, child: ColoredBox(color: gc.bgRaised)),
-            ]),
-          ),
-        ),
-      ]),
     );
     final medal = _Tile(w: 150, h: 150, child: Center(child: Medal(id: AwardId.values[1], size: 96)));
     final medalLocked = _Tile(w: 150, h: 150, child: Center(child: Medal(id: AwardId.values[6], size: 96, locked: true)));
@@ -504,7 +727,7 @@ class HomeExtrasShowcase extends StatelessWidget {
     );
     final streak = _Tile(
       w: 150,
-      h: 130,
+      h: 108,
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Icon(PhosphorIconsFill.flame, size: 24, color: gc.accent),
         const Spacer(),
@@ -514,7 +737,7 @@ class HomeExtrasShowcase extends StatelessWidget {
     );
     final sleep = _Tile(
       w: 150,
-      h: 130,
+      h: 108,
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Icon(PhosphorIconsRegular.moonStars, size: 24, color: gc.warn),
         const Spacer(),
@@ -524,9 +747,51 @@ class HomeExtrasShowcase extends StatelessWidget {
     );
     return _Collage(
       offset: const Offset(22, -8),
+      left: [
+        _stack(0, [
+          _gauge(gc, 0.6, '60 %', gc.accent),
+          _iconTile(gc, PhosphorIconsRegular.heartbeat, '128', t.healthBpm, gc.accent),
+          _iconTile(gc, PhosphorIconsRegular.barbell, '42', '', gc.text),
+          _iconTile(gc, PhosphorIconsRegular.lightning, '4', t.streakCaps, gc.accent),
+          _iconTile(gc, PhosphorIconsRegular.target, '100 %', '', gc.sage),
+          _toggleTile(gc, PhosphorIconsRegular.heart, false),
+          _iconTile(gc, PhosphorIconsRegular.bicycle, '12', 'km', gc.textSecondary),
+        ]),
+        _stack(0, [
+          _bars(gc, const [0.4, 0.7, 0.2, 0.9, 0.5, 1.0, 0.3], hi: 5),
+          _wideStat(gc, PhosphorIconsRegular.personSimpleRun, '8 432', t.homeCardSteps, gc.sage),
+          _chips(gc, [for (var d = 1; d <= 7; d++) _letter(d)], on: 3),
+          _calendar(gc, 7, '18', gc.accent),
+          _wideStat(gc, PhosphorIconsRegular.barbell, '3,9 t', '', gc.text),
+          _rings(gc, [(0.8, gc.accent, '4/5'), (0.6, gc.sage, '60 %'), (0.95, gc.warn, '7 h')]),
+          _wideStat(gc, PhosphorIconsRegular.calendarCheck, '4/4', '', gc.accent),
+        ]),
+      ],
+      right: [
+        _stack(0, [
+          _wideStat(gc, PhosphorIconsRegular.moon, '7:42', t.unitHours, gc.warn),
+          _bars(gc, const [0.6, 0.3, 0.8, 1.0, 0.0, 0.5, 0.7], hi: 3),
+          _wideStat(gc, PhosphorIconsRegular.chartLineUp, '+2,5 kg', '', gc.sage),
+          _chips(gc, const ['1 RM', '5 RM', '10 RM'], on: 0),
+          _macros(gc, [('P', 0.9, gc.accent), ('C', 0.6, gc.sage), ('G', 0.45, gc.warn)]),
+          _exerciseList(gc, 25),
+          _spark(gc, const [80.2, 79.8, 79.9, 79.1, 78.9, 79.0, 78.6, 78.4], gc.brass, '78,4', 'kg'),
+        ]),
+        _stack(0, [
+          _iconTile(gc, PhosphorIconsRegular.drop, '2,1 L', '', gc.info),
+          _toggleTile(gc, PhosphorIconsRegular.bell, true),
+          _iconTile(gc, PhosphorIconsRegular.clock, '17:05', '', gc.textSecondary),
+          _iconTile(gc, PhosphorIconsRegular.trendUp, '+12 %', '', gc.sage),
+          _iconTile(gc, PhosphorIconsRegular.swimmingPool, '1 km', '', gc.info),
+          _iconTile(gc, PhosphorIconsRegular.mountains, '320 m', '', gc.textSecondary),
+          _toggleTile(gc, PhosphorIconsRegular.sun, true),
+        ]),
+      ],
       columns: [
-        _stack(20, [steps, level, medal, _iconTile(gc, PhosphorIconsRegular.fire, '520', 'kcal', gc.accent),
-            _iconTile(gc, PhosphorIconsRegular.scales, '78,4', 'kg', gc.textSecondary)]),
+        _stack(20, [steps, medal, _iconTile(gc, PhosphorIconsRegular.fire, '520', 'kcal', gc.accent),
+            _iconTile(gc, PhosphorIconsRegular.scales, '78,4', 'kg', gc.textSecondary),
+            _toggleTile(gc, PhosphorIconsRegular.footprints, true),
+            _iconTile(gc, PhosphorIconsRegular.timer, '55 min', '', gc.textSecondary)]),
         _stack(0, [
           passCard,
           heart,
@@ -560,9 +825,10 @@ class HomeExtrasShowcase extends StatelessWidget {
               ],
             ]),
           ),
+          _exerciseList(gc, 11),
         ]),
         _stack(40, [streak, sleep, medalLocked, _iconTile(gc, PhosphorIconsRegular.path, '4,2', 'km', gc.sage),
-            _iconTile(gc, PhosphorIconsRegular.trophy, '3', '', gc.brass)]),
+            _iconTile(gc, PhosphorIconsRegular.trophy, '3', '', gc.brass), _gauge(gc, 0.9, '9/10', gc.brass)]),
       ],
     );
   }
@@ -716,16 +982,54 @@ class LookShowcase extends StatelessWidget {
         ]),
       ),
     );
-    final motion = _Tile(
-      w: 150,
-      h: 110,
-      child: Center(child: Icon(PhosphorIconsRegular.waveSine, size: 48, color: gc.textSecondary)),
-    );
+    final motion = _toggleTile(gc, PhosphorIconsRegular.waveSine, true);
     return _Collage(
       offset: const Offset(22, -8),
+      left: [
+        _stack(0, [
+          _iconTile(gc, PhosphorIconsRegular.globe, '17', '', gc.accent),
+          _toggleTile(gc, PhosphorIconsRegular.sparkle, false),
+          _iconTile(gc, PhosphorIconsRegular.ruler, 'cm', '', gc.sage),
+          _gauge(gc, 0.3, '1,15×', gc.sage),
+          _iconTile(gc, PhosphorIconsRegular.thermometer, '°C', '', gc.warn),
+          _iconTile(gc, PhosphorIconsRegular.arrowsLeftRight, 'RTL', '', gc.textSecondary),
+          _iconTile(gc, PhosphorIconsRegular.calendarBlank, _letter(1), '', gc.accent),
+        ]),
+        _stack(0, [
+          _wideStat(gc, PhosphorIconsRegular.clock, '6:30 PM', '12 h', gc.textSecondary),
+          _bars(gc, const [0.2, 0.9, 0.5, 0.7, 0.35, 0.6, 0.0], hi: 1),
+          _chips(gc, const ['ES', 'EN', 'DE', 'FR', 'IT', 'PT', 'العربية'], on: 0),
+          _calendar(gc, 5, '84', gc.accent),
+          _rings(gc, [(0.33, gc.textSecondary, '1×'), (0.66, gc.accent, '1,15×'), (1.0, gc.text, '1,3×')]),
+          _wideStat(gc, PhosphorIconsRegular.squaresFour, '3', '', gc.text),
+          _chips(gc, const ['00:00', '06:00', '12:00', '18:00'], on: 3),
+        ]),
+      ],
+      right: [
+        _stack(0, [
+          _wideStat(gc, PhosphorIconsRegular.paintBrush, 'D9A184', '', gc.accent),
+          _bars(gc, const [0.7, 0.4, 0.0, 0.8, 1.0, 0.3, 0.55], hi: 4),
+          _exerciseList(gc, 80),
+          _chips(gc, const ['Auto', '1×', '2×', '3×'], on: 0),
+          _spark(gc, const [40, 52, 48, 61, 58, 70, 66, 75], gc.sage, '60 fps', ''),
+          _wideStat(gc, PhosphorIconsRegular.monitor, '1440 × 900', '', gc.textSecondary),
+          _wideStat(gc, PhosphorIconsRegular.vibrate, '20 ms', '', gc.textSecondary),
+        ]),
+        _stack(0, [
+          _toggleTile(gc, PhosphorIconsRegular.sunDim, false),
+          _iconTile(gc, PhosphorIconsRegular.eye, '100 %', '', gc.textSecondary),
+          _iconTile(gc, PhosphorIconsRegular.image, '9:16', '', gc.info),
+          _iconTile(gc, PhosphorIconsRegular.palette, '4', '', gc.accent),
+          _iconTile(gc, PhosphorIconsRegular.frameCorners, '16', '', gc.textSecondary),
+          _iconTile(gc, PhosphorIconsRegular.monitor, '1440', '', gc.textSecondary),
+          _toggleTile(gc, PhosphorIconsRegular.drop, true),
+        ]),
+      ],
       columns: [
         _stack(20, [themes, units, text, _iconTile(gc, PhosphorIconsRegular.translate, 'A文', '', gc.accent),
-            _iconTile(gc, PhosphorIconsRegular.clock, '18:30', '24 h', gc.textSecondary)]),
+            _iconTile(gc, PhosphorIconsRegular.clock, '18:30', '24 h', gc.textSecondary),
+            _toggleTile(gc, PhosphorIconsRegular.moon, true),
+            _iconTile(gc, PhosphorIconsRegular.textAa, '1,3×', '', gc.textSecondary)]),
         _stack(0, [
           heat,
           languages,
@@ -774,9 +1078,11 @@ class LookShowcase extends StatelessWidget {
               ),
             ]),
           ),
+          _wideStat(gc, PhosphorIconsRegular.batteryHigh, '98 %', '', gc.sage),
         ]),
-        _stack(40, [dots, blur, motion, _iconTile(gc, PhosphorIconsRegular.sunHorizon, '', t.lightTheme, gc.warn),
-            _iconTile(gc, PhosphorIconsRegular.moon, '', t.darkTheme, gc.textSecondary)]),
+        _stack(40, [dots, blur, motion, _iconTile(gc, PhosphorIconsRegular.sunHorizon, '7:30', t.lightTheme, gc.warn),
+            _iconTile(gc, PhosphorIconsRegular.moon, '21:00', t.darkTheme, gc.textSecondary),
+            _gauge(gc, 0.5, 'Aa', gc.accent)]),
       ],
     );
   }

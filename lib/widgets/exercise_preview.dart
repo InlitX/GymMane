@@ -1,4 +1,3 @@
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -16,6 +15,7 @@ import 'glass.dart';
 import 'shimmer.dart';
 import 'svg_icon.dart';
 import 'ui_kit.dart';
+import 'local_image.dart';
 
 Future<void> showExercisePreview(BuildContext context, Exercise ex,
     {bool suggestions = false, ValueGetter<bool>? added, VoidCallback? onAdd}) {
@@ -53,7 +53,7 @@ class _ExercisePreviewState extends State<_ExercisePreview> {
   }
 
   Future<void> _load(String path) async {
-    final c = VideoPlayerController.file(File(path), videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true));
+    final c = localVideo(path, options: VideoPlayerOptions(mixWithOthers: true));
     setState(() => _video = c);
     try {
       await c.initialize();

@@ -579,6 +579,7 @@ class HeatmapYear extends StatelessWidget {
           ).createShader(r),
           blendMode: BlendMode.dstIn,
           child: SingleChildScrollView(
+            key: const PageStorageKey('h-charts-582'),
             scrollDirection: Axis.horizontal,
             reverse: true,
             padding: const EdgeInsets.only(left: 18),
