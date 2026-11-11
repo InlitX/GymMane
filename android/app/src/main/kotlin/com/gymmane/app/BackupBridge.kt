@@ -34,6 +34,33 @@ object BackupBridge {
                         activity.runOnUiThread { result.success(ok) }
                     }.start()
                 }
+                "list" -> {
+                    val uri = call.argument<String>("uri")
+                    val prefix = call.argument<String>("prefix") ?: ""
+                    if (uri == null) {
+                        result.success(emptyList<String>())
+                        return@setMethodCallHandler
+                    }
+                    val context = activity.applicationContext
+                    Thread {
+                        val names = list(context, Uri.parse(uri), prefix).map { it.second }
+                        activity.runOnUiThread { result.success(names) }
+                    }.start()
+                }
+                "read" -> {
+                    val uri = call.argument<String>("uri")
+                    val name = call.argument<String>("name")
+                    val path = call.argument<String>("path")
+                    if (uri == null || name == null || path == null) {
+                        result.success(false)
+                        return@setMethodCallHandler
+                    }
+                    val context = activity.applicationContext
+                    Thread {
+                        val ok = read(context, Uri.parse(uri), name, File(path))
+                        activity.runOnUiThread { result.success(ok) }
+                    }.start()
+                }
                 else -> result.notImplemented()
             }
         }
@@ -120,6 +147,43 @@ object BackupBridge {
         }
         if (prefix.isNotEmpty()) prune(context, tree, parentId, prefix, keep.coerceAtLeast(1))
         return true
+    }
+
+    private fun list(context: Context, tree: Uri, prefix: String): List<Pair<String, String>> {
+        val parentId = try {
+            DocumentsContract.getTreeDocumentId(tree)
+        } catch (e: Exception) {
+            return emptyList()
+        }
+        val children = DocumentsContract.buildChildDocumentsUriUsingTree(tree, parentId)
+        val found = mutableListOf<Pair<String, String>>()
+        try {
+            context.contentResolver.query(
+                children,
+                arrayOf(DocumentsContract.Document.COLUMN_DOCUMENT_ID, DocumentsContract.Document.COLUMN_DISPLAY_NAME),
+                null, null, null,
+            )?.use {
+                while (it.moveToNext()) {
+                    val id = it.getString(0) ?: continue
+                    val name = it.getString(1) ?: continue
+                    if (name.startsWith(prefix) && name.endsWith(".zip")) found.add(id to name)
+                }
+            }
+        } catch (e: Exception) {
+        }
+        return found
+    }
+
+    private fun read(context: Context, tree: Uri, name: String, target: File): Boolean {
+        val id = list(context, tree, name).firstOrNull { it.second == name }?.first ?: return false
+        return try {
+            val doc = DocumentsContract.buildDocumentUriUsingTree(tree, id)
+            context.contentResolver.openInputStream(doc)?.use { input ->
+                target.outputStream().use { input.copyTo(it) }
+            } != null
+        } catch (e: Exception) {
+            false
+        }
     }
 
     private fun prune(context: Context, tree: Uri, parentId: String, prefix: String, keep: Int) {

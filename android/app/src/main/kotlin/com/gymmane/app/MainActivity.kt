@@ -17,6 +17,7 @@ import android.view.ViewConfiguration
 import android.view.WindowManager
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
+import io.flutter.embedding.engine.FlutterShellArgs
 import io.flutter.plugin.common.MethodChannel
 import java.io.File
 import java.io.FileOutputStream
@@ -27,9 +28,29 @@ class MainActivity : FlutterActivity() {
     private var rotaryChannel: MethodChannel? = null
     private var openChannel: MethodChannel? = null
 
+    override fun getFlutterShellArgs(): FlutterShellArgs {
+        val args = super.getFlutterShellArgs()
+        if (GraphicsMode.compat(this)) args.add(GraphicsMode.DISABLE_IMPELLER)
+        return args
+    }
+
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
         val messenger = flutterEngine.dartExecutor.binaryMessenger
+
+        MethodChannel(messenger, "gymmane/graphics").setMethodCallHandler { call, result ->
+            when (call.method) {
+                "state" -> result.success(
+                    mapOf("compat" to GraphicsMode.compat(this), "detected" to GraphicsMode.detected(this)),
+                )
+                "set" -> {
+                    result.success(null)
+                    val on = call.argument<Boolean>("compat") ?: false
+                    window.decorView.postDelayed({ GraphicsMode.setAndRestart(this, on) }, 150)
+                }
+                else -> result.notImplemented()
+            }
+        }
 
         MethodChannel(messenger, "gymmane/haptics").setMethodCallHandler { call, result ->
             if (call.method != "buzz") {
@@ -150,6 +171,7 @@ class MainActivity : FlutterActivity() {
         BackupBridge.attach(this, MethodChannel(messenger, BackupBridge.CHANNEL))
         SoundBridge.attach(this, MethodChannel(messenger, SoundBridge.CHANNEL))
         VoiceBridge.attach(this, MethodChannel(messenger, VoiceBridge.CHANNEL))
+        WearSurfaces.attach(this, MethodChannel(messenger, WearSurfaces.CHANNEL))
     }
 
     private fun currentDisplay(): android.view.Display? =
