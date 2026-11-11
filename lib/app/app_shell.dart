@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math' as math;
 import 'dart:ui' as ui;
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart' show RenderRepaintBoundary;
 import 'package:flutter/services.dart';
@@ -41,6 +42,9 @@ import '../services/device_kind.dart';
 import '../services/health_steps.dart';
 import '../services/incoming_share.dart';
 import '../services/nutrition_widgets.dart';
+import '../services/local_store.dart';
+import '../services/server/server_link.dart';
+import '../services/supplement_reminder.dart';
 import '../state/fit_state.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
@@ -53,6 +57,7 @@ import '../widgets/health_cards.dart';
 import '../widgets/liquid_notch.dart';
 import '../widgets/start_countdown.dart';
 import '../widgets/ui_kit.dart';
+import 'desktop.dart';
 
 class AppShell extends StatefulWidget {
   const AppShell({super.key});
@@ -114,6 +119,12 @@ class _AppShellState extends State<AppShell> with WidgetsBindingObserver, Single
     _queueCelebration();
     IncomingShare.listen(_receive);
     NutritionWidgets.listenOpen(_openFromWidget);
+    SupplementReminder.instance.onOpen = _openSupplements;
+    SupplementReminder.instance.listenTaken(fit.takeSupplementsOn);
+    if (kIsWeb) {
+      ServerLink.instance.onRemote = _remoteChanged;
+      ServerLink.instance.start();
+    }
     HealthSteps.listen(_showStepsInfo);
     fit.refreshSteps();
     fit.refreshHealth();
@@ -123,6 +134,9 @@ class _AppShellState extends State<AppShell> with WidgetsBindingObserver, Single
       await NutritionWidgets.takePending();
       final open = await NutritionWidgets.takeOpen();
       if (open != null) _openFromWidget(open);
+      final launched = await SupplementReminder.instance.launchIds();
+      if (launched != null) _openSupplements(launched);
+      await SupplementReminder.instance.takePending();
       if (await HealthSteps.takeUsage()) _showStepsInfo();
       await fit.readDisplay();
       await _offerLiteMode();
@@ -136,6 +150,19 @@ class _AppShellState extends State<AppShell> with WidgetsBindingObserver, Single
     } else if (route == 'nutrition' && fit.route != 'nutrition') {
       fit.goNutrition();
     }
+  }
+
+  void _remoteChanged(String text, {required bool conflict, required bool fromPhone}) {
+    final data = Store.decodeState(text);
+    if (data.isEmpty || fit.isSessionActive) return;
+    fit.applyBackup(data);
+    if (!mounted) return;
+    showNotchToast(context, fromPhone ? t.webSyncedPhone : t.webSynced, icon: PhosphorIconsFill.arrowsClockwise, accent: context.gc.sage);
+  }
+
+  void _openSupplements(List<String> ids) {
+    if (!mounted || !fit.onboarded || fit.isSessionActive) return;
+    fit.openSupplements(ids);
   }
 
   void _showStepsInfo() {
@@ -337,6 +364,7 @@ class _AppShellState extends State<AppShell> with WidgetsBindingObserver, Single
     if (state == AppLifecycleState.resumed) {
       fit.rollNutritionDay();
       NutritionWidgets.takePending();
+      SupplementReminder.instance.takePending();
       fit.refreshAlarmPermission();
       fit.syncRest();
       fit.refreshWidgets();
@@ -350,8 +378,11 @@ class _AppShellState extends State<AppShell> with WidgetsBindingObserver, Single
     return AnimatedBuilder(
       animation: fit,
       builder: (context, _) {
-        if (!fit.onboarded) return const OnboardingScreen();
-        final parked = fit.sessionParked && fit.showNav;
+        if (!fit.onboarded) {
+          return const OnboardingScreen();
+        }
+        final wide = DesktopScope.wideFor(MediaQuery.sizeOf(context).width);
+        final parked = fit.sessionParked && fit.showNav && !wide;
 
         return PopScope(
           canPop: false,
@@ -399,29 +430,41 @@ class _AppShellState extends State<AppShell> with WidgetsBindingObserver, Single
                       Scaffold(
                         backgroundColor: Colors.transparent,
                         body: Padding(
-                          padding: EdgeInsets.only(
+                          padding: EdgeInsetsDirectional.only(
+                              start: wide ? DesktopScope.sidebarWidth : 0,
                               bottom: (MediaQuery.viewInsetsOf(context).bottom > 0
                                       ? 0
                                       : MediaQuery.viewPaddingOf(context).bottom) +
                                   (parked ? _pillSpace : 0)),
-                          child: NotificationListener<ScrollNotification>(
-                            onNotification: _onScroll,
-                            child: RepaintBoundary(child: _animatedScreen()),
+                          child: DesktopScope(
+                            wide: wide,
+                            child: NotificationListener<ScrollNotification>(
+                              onNotification: _onScroll,
+                              child: RepaintBoundary(child: _animatedScreen()),
+                            ),
                           ),
                         ),
                       ),
                     ]),
                   ),
                 ),
-                Positioned(
-                  left: 0,
-                  right: 0,
+                if (wide)
+                  const PositionedDirectional(
+                    start: 16,
+                    top: 16,
+                    bottom: 16,
+                    width: DesktopScope.sidebarWidth - 32,
+                    child: Material(type: MaterialType.transparency, child: _Sidebar()),
+                  ),
+                PositionedDirectional(
+                  start: wide ? DesktopScope.sidebarWidth : 0,
+                  end: 0,
                   top: 0,
                   child: _blurTop.contains(fit.route)
                       ? _CollapsedBar(progress: _collapse, title: _compactTitle())
                       : const SizedBox.shrink(),
                 ),
-                if (fit.showNav)
+                if (fit.showNav && !wide)
                   Positioned(
                     left: 0,
                     right: 0,
@@ -429,7 +472,7 @@ class _AppShellState extends State<AppShell> with WidgetsBindingObserver, Single
                     child: EdgeBlur(
                         top: false, height: 128 + MediaQuery.viewPaddingOf(context).bottom + (parked ? _pillSpace : 0)),
                   ),
-                if (fit.showNav && MediaQuery.viewInsetsOf(context).bottom < 60) ...[
+                if (fit.showNav && !wide && MediaQuery.viewInsetsOf(context).bottom < 60) ...[
                   Positioned(
                     left: 24,
                     right: 24,
@@ -575,7 +618,7 @@ class _AppShellState extends State<AppShell> with WidgetsBindingObserver, Single
           if (currentChild != null) Positioned.fill(key: currentChild.key, child: currentChild),
         ],
       ),
-      child: KeyedSubtree(key: ValueKey(fit.route), child: _screen()),
+      child: KeyedSubtree(key: ValueKey(fit.route), child: _DesktopPage(route: fit.route, child: _screen())),
     );
   }
 
@@ -1187,4 +1230,307 @@ class _SoftCopy extends CustomPainter {
 
   @override
   bool shouldRepaint(_SoftCopy old) => old.image != image || old.amount != amount;
+}
+
+class _Sidebar extends StatelessWidget {
+  const _Sidebar();
+
+  static const _main = [
+    ('home', PhosphorIconsRegular.house, PhosphorIconsFill.house),
+    ('progress', PhosphorIconsRegular.chartLineUp, PhosphorIconsFill.chartLineUp),
+    ('exercises', PhosphorIconsRegular.barbell, PhosphorIconsFill.barbell),
+    ('settings', PhosphorIconsRegular.userCircle, PhosphorIconsFill.userCircle),
+  ];
+
+  String _label(String id) => switch (id) {
+        'home' => titleCase(t.home),
+        'progress' => titleCase(t.progress),
+        'exercises' => titleCase(t.exercises),
+        'settings' => sentenceCase(t.profile),
+        'routines' => titleCase(t.routines),
+        'notes' => titleCase(t.journal),
+        'tools' => titleCase(t.tools),
+        'nutrition' => sentenceCase(t.nutrition),
+        _ => titleCase(t.settings),
+      };
+
+  void _go(String id) {
+    switch (id) {
+      case 'home':
+        fit.goHome();
+      case 'progress':
+        fit.goProgress();
+      case 'exercises':
+        fit.goExercises();
+      case 'settings':
+        fit.goSettings();
+      case 'routines':
+        fit.goHome();
+        fit.goRoutines();
+      case 'notes':
+        fit.goHome();
+        fit.goNotes(all: true);
+      case 'tools':
+        fit.goHome();
+        fit.goTools();
+      case 'nutrition':
+        fit.goHome();
+        fit.goNutrition();
+      default:
+        fit.goSettings();
+        fit.goPreferences();
+    }
+  }
+
+  String get _active {
+    final r = fit.route;
+    if (r.startsWith('preferences')) return 'preferences';
+    if (r == 'routine-edit' || r == 'ai-plan') return 'routines';
+    if (r == 'note-edit') return 'notes';
+    if (r == 'tools-detail') return 'tools';
+    if (r == 'exercise-detail') return 'exercises';
+    if (const ['history', 'measures', 'timeline', 'compare', 'health'].contains(r)) return 'progress';
+    if (const ['awards', 'moments', 'passes', 'about', 'places'].contains(r)) return 'settings';
+    return r;
+  }
+
+  @override
+  Widget build(BuildContext context) => ListenableBuilder(listenable: fit, builder: (context, _) => _panel(context));
+
+  Widget _panel(BuildContext context) {
+    final gc = context.gc;
+    final active = _active;
+    final live = fit.isSessionActive;
+    return Container(
+      padding: const EdgeInsets.fromLTRB(14, 20, 14, 16),
+      decoration: BoxDecoration(
+        color: gc.bgRaised.withValues(alpha: 0.72),
+        borderRadius: BorderRadius.circular(28),
+      ),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+        Padding(
+          padding: const EdgeInsetsDirectional.only(start: 6),
+          child: Row(children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: Image.asset('assets/img/app_icon.png', width: 34, height: 34, filterQuality: FilterQuality.medium),
+            ),
+            const SizedBox(width: 11),
+            Expanded(
+              child: Text('GymMane',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: AppTheme.f(19, weight: FontWeight.w800, color: gc.text, letterSpacing: -0.4)),
+            ),
+          ]),
+        ),
+        const SizedBox(height: 24),
+        _StartButton(live: live),
+        const SizedBox(height: 22),
+        for (final (id, icon, fill) in _main) ...[
+          _SideItem(
+            label: _label(id),
+            icon: icon,
+            iconFill: fill,
+            selected: active == id,
+            onTap: () => _go(id),
+          ),
+          const SizedBox(height: 4),
+        ],
+        const SizedBox(height: 18),
+        for (final (id, icon, fill) in [
+          ('routines', PhosphorIconsRegular.listChecks, PhosphorIconsFill.listChecks),
+          ('notes', PhosphorIconsRegular.notebook, PhosphorIconsFill.notebook),
+          ('tools', PhosphorIconsRegular.calculator, PhosphorIconsFill.calculator),
+          if (fit.nutritionBeta) ('nutrition', PhosphorIconsRegular.forkKnife, PhosphorIconsFill.forkKnife),
+        ]) ...[
+          _SideItem(
+            label: _label(id),
+            icon: icon,
+            iconFill: fill,
+            selected: active == id,
+            small: true,
+            onTap: () => _go(id),
+          ),
+          const SizedBox(height: 2),
+        ],
+        const Spacer(),
+        _SideItem(
+          label: _label('preferences'),
+          icon: PhosphorIconsRegular.gearSix,
+          iconFill: PhosphorIconsFill.gearSix,
+          selected: active == 'preferences',
+          small: true,
+          onTap: () => _go('preferences'),
+        ),
+        const SizedBox(height: 10),
+        const _ServerStatus(),
+      ]),
+    );
+  }
+}
+
+class _StartButton extends StatelessWidget {
+  const _StartButton({required this.live});
+
+  final bool live;
+
+  @override
+  Widget build(BuildContext context) {
+    final gc = context.gc;
+    return Pressable(
+      onTap: () => live ? fit.stepBackIntoSession() : playWorkout(context),
+      scale: 0.97,
+      child: Semantics(
+        button: true,
+        child: Container(
+          height: 48,
+          decoration: BoxDecoration(color: gc.ember, borderRadius: BorderRadius.circular(100)),
+          padding: const EdgeInsets.symmetric(horizontal: 18),
+          child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+            Icon(PhosphorIconsFill.play, size: 15, color: gc.onEmber),
+            const SizedBox(width: 9),
+            Flexible(
+              child: FitText(live ? t.keepTraining : sentenceCase(t.startWorkout),
+                  style: AppTheme.f(14.5, weight: FontWeight.w800, color: gc.onEmber)),
+            ),
+          ]),
+        ),
+      ),
+    );
+  }
+}
+
+class _SideItem extends StatefulWidget {
+  const _SideItem({
+    required this.label,
+    required this.icon,
+    required this.iconFill,
+    required this.selected,
+    required this.onTap,
+    this.small = false,
+  });
+
+  final String label;
+  final IconData icon;
+  final IconData iconFill;
+  final bool selected;
+  final bool small;
+  final VoidCallback onTap;
+
+  @override
+  State<_SideItem> createState() => _SideItemState();
+}
+
+class _SideItemState extends State<_SideItem> {
+  bool _hover = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final gc = context.gc;
+    final on = widget.selected;
+    final h = widget.small ? 40.0 : 46.0;
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      onEnter: (_) => setState(() => _hover = true),
+      onExit: (_) => setState(() => _hover = false),
+      child: Semantics(
+        button: true,
+        selected: on,
+        label: widget.label,
+        child: GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onTap: widget.onTap,
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 180),
+            curve: Curves.easeOutCubic,
+            height: h,
+            padding: const EdgeInsetsDirectional.only(start: 14, end: 10),
+            decoration: BoxDecoration(
+              color: on ? gc.bgRaised2 : (_hover ? gc.bgRaised2.withValues(alpha: 0.5) : Colors.transparent),
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Row(children: [
+              Icon(on ? widget.iconFill : widget.icon,
+                  size: widget.small ? 17 : 19, color: on ? gc.text : gc.textSecondary),
+              const SizedBox(width: 13),
+              Expanded(
+                child: Text(widget.label,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: AppTheme.f(widget.small ? 13.5 : 14.5,
+                        weight: on ? FontWeight.w800 : FontWeight.w600, color: on ? gc.text : gc.textSecondary)),
+              ),
+            ]),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _ServerStatus extends StatelessWidget {
+  const _ServerStatus();
+
+  @override
+  Widget build(BuildContext context) {
+    final gc = context.gc;
+    return ListenableBuilder(
+      listenable: ServerLink.instance,
+      builder: (context, _) {
+        final link = ServerLink.instance;
+        final ok = !link.available || link.online;
+        final text = !link.available ? t.webServerLocal : (link.online ? t.webServerSaved : t.webServerOffline);
+        return Padding(
+          padding: const EdgeInsetsDirectional.only(start: 14, end: 8),
+          child: Row(children: [
+            Container(
+              width: 7,
+              height: 7,
+              decoration: BoxDecoration(color: ok ? gc.sage : gc.warn, shape: BoxShape.circle),
+            ),
+            const SizedBox(width: 9),
+            Expanded(
+              child: Text(text,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: AppTheme.f(11.5, weight: FontWeight.w600, color: gc.textTertiary)),
+            ),
+          ]),
+        );
+      },
+    );
+  }
+}
+
+class _DesktopPage extends StatelessWidget {
+  const _DesktopPage({required this.route, required this.child});
+
+  final String route;
+  final Widget child;
+
+  static const _sheets = {'history', 'awards'};
+
+  static const _flow = {'home', 'progress', 'settings', 'tools', 'nutrition', 'preferences', 'notes', 'routines', 'exercises', 'history', 'awards', 'exercise-detail'};
+
+  @override
+  Widget build(BuildContext context) {
+    if (!DesktopScope.of(context)) return child;
+    final max = _flow.contains(route) ? DesktopScope.flowWidth : DesktopScope.readingWidth;
+    return LayoutBuilder(builder: (context, box) {
+      final inset = _sheets.contains(route) ? 24.0 : 0.0;
+      final width = (box.maxWidth - inset * 2) < max ? box.maxWidth - inset * 2 : max;
+      final media = MediaQuery.of(context);
+      return Center(
+        child: SizedBox(
+          width: width,
+          height: box.maxHeight,
+          child: MediaQuery(
+            data: media.copyWith(size: Size(width, media.size.height)),
+            child: child,
+          ),
+        ),
+      );
+    });
+  }
 }

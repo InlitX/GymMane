@@ -11,10 +11,12 @@ import 'services/nutrition_widgets.dart';
 import 'services/live_workout.dart';
 import 'services/local_store.dart';
 import 'services/media_store.dart';
+import 'services/graphics_mode.dart';
 import 'services/rest_alarm.dart';
 import 'services/screen_awake.dart';
 import 'state/fit_state.dart';
 import 'wear/wear_app.dart';
+import 'wear/wear_surfaces.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,6 +34,7 @@ Future<void> main() async {
   await MediaStore.init();
   await AlarmStore.init();
   await RestAlarm.instance.init();
+  GraphicsMode.load();
   fit.loadFromStore();
   fit.syncPhotoReminder();
   fit.syncMeasureReminder();
@@ -43,6 +46,7 @@ Future<void> main() async {
   _sessionSideEffects();
 
   if (watch) {
+    WearSurfaces.watch();
     runApp(const WearApp());
     return;
   }
