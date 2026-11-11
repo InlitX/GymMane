@@ -1,11 +1,12 @@
-import 'dart:io';
 import 'dart:math' as math;
 
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
+import '../app/desktop.dart';
 import '../catalog/exercise_catalog.dart';
 import '../l10n/l10n.dart';
 import '../models/exercise.dart';
@@ -19,6 +20,7 @@ import '../widgets/exercise_media.dart';
 import '../widgets/glass.dart';
 import '../widgets/svg_icon.dart';
 import '../widgets/ui_kit.dart';
+import '../widgets/local_image.dart';
 
 class ExercisesScreen extends StatefulWidget {
   const ExercisesScreen({super.key});
@@ -66,6 +68,9 @@ class _ExercisesScreenState extends State<ExercisesScreen> {
     final contentTop = chipsTop + 34 + 12;
 
     return Stack(children: [
+              if (DesktopScope.of(context) && list.isNotEmpty)
+                Positioned.fill(child: _grid(gc, list, contentTop))
+              else
               Positioned.fill(
                 child: ListView.builder(
               key: const PageStorageKey('exercises'),
@@ -334,6 +339,7 @@ class _ExercisesScreenState extends State<ExercisesScreen> {
         if (place.id == fit.activePlaceId) (place.name, () => fit.setActivePlace('')),
     ];
     return SingleChildScrollView(
+      key: const PageStorageKey('h-exercises_screen-342'),
       scrollDirection: Axis.horizontal,
       clipBehavior: Clip.none,
       child: Row(children: [
@@ -410,6 +416,57 @@ class _ExercisesScreenState extends State<ExercisesScreen> {
       n++;
     }
     return n;
+  }
+
+  Widget _grid(GymColors gc, List<Exercise> list, double top) {
+    return LayoutBuilder(builder: (context, box) {
+      final n = ((box.maxWidth - 40 + 12) / (340 + 12)).floor().clamp(1, 4);
+      final items = <Object>[];
+      var i = 0;
+      while (i < list.length) {
+        final m = list[i].primary;
+        var j = i;
+        while (j < list.length && list[j].primary == m) {
+          j++;
+        }
+        items.add((m, j - i));
+        for (var k = i; k < j; k += n) {
+          items.add(list.sublist(k, (k + n).clamp(0, j)));
+        }
+        i = j;
+      }
+      return ListView.builder(
+        key: const PageStorageKey('exercises'),
+        controller: _scroll,
+        padding: EdgeInsets.fromLTRB(20, top, 20, 60),
+        itemCount: items.length,
+        itemBuilder: (context, k) {
+          final it = items[k];
+          if (it is (String, int)) {
+            return Padding(
+              padding: EdgeInsets.fromLTRB(4, k == 0 ? 2 : 22, 0, 8),
+              child: Row(children: [
+                Text(muscleLabel(it.$1).toUpperCase(),
+                    style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.3)),
+                const SizedBox(width: 7),
+                Text('${it.$2}',
+                    style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textSecondary, letterSpacing: 1.3)),
+              ]),
+            );
+          }
+          final row = it as List<Exercise>;
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 12),
+            child: Row(children: [
+              for (var c = 0; c < n; c++) ...[
+                if (c > 0) const SizedBox(width: 12),
+                Expanded(child: c < row.length ? _row(gc, row[c], first: true, last: true) : const SizedBox.shrink()),
+              ],
+            ]),
+          );
+        },
+      );
+    });
   }
 
   Widget _row(GymColors gc, Exercise ex, {required bool first, required bool last}) {
@@ -558,8 +615,19 @@ void showCreateExerciseSheet(BuildContext context,
           final mediaIsVideo = mediaPath != null && MediaStore.isVideo(mediaPath!);
           Future<void> pickMedia() async {
             try {
-              final res = await FilePicker.platform.pickFiles(type: FileType.media);
-              final path = res?.files.single.path;
+              final res = await FilePicker.platform.pickFiles(type: FileType.media, withData: kIsWeb);
+              final picked = res?.files.single;
+              if (picked == null) return;
+              if (kIsWeb) {
+                final bytes = picked.bytes;
+                final name = bytes == null
+                    ? null
+                    : await MediaStore.saveBytes('custom', MediaStore.extOf(picked.name), bytes);
+                final url = name == null ? null : MediaStore.pathFor(name);
+                if (url != null) setSheet(() => mediaPath = url);
+                return;
+              }
+              final path = picked.path;
               if (path != null) setSheet(() => mediaPath = path);
             } catch (_) {}
           }
@@ -955,7 +1023,7 @@ void showCreateExerciseSheet(BuildContext context,
                                                     style: AppTheme.f(12, weight: FontWeight.w500, color: gc.textSecondary)),
                                               ]),
                                             )
-                                          : Center(child: Image.file(File(mediaPath!), fit: BoxFit.contain, alignment: Alignment.center)),
+                                          : Center(child: Image(image: localImage(mediaPath!), fit: BoxFit.contain, alignment: Alignment.center)),
                                     ),
                                     Positioned(
                                       top: 8,

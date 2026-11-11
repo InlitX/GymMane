@@ -124,6 +124,7 @@ class _CompareScreenState extends State<CompareScreen> {
       SizedBox(
         height: 44,
         child: ListView(
+          key: const PageStorageKey('h-compare_screen-127'),
           scrollDirection: Axis.horizontal,
           padding: const EdgeInsets.fromLTRB(20, 4, 20, 4),
           children: [

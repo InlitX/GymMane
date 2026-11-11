@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'dart:math' as math;
 import 'dart:ui' as ui;
 
@@ -7,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
+import '../app/desktop.dart';
 import '../l10n/l10n.dart';
 import '../models/profile.dart';
 import '../services/food_library.dart';
@@ -111,7 +111,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
       final shot = await ImagePicker()
           .pickImage(source: source, maxWidth: 1600, maxHeight: 900, imageQuality: 82);
       if (shot == null) return;
-      fit.setProfileBanner(await File(shot.path).readAsBytes());
+      fit.setProfileBanner(await shot.readAsBytes());
     } catch (_) {
     } finally {
       if (mounted) setState(() => _busy = false);
@@ -170,9 +170,11 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
               const SizedBox(height: 6),
               Rise(index: 0, child: _pills(gc)),
               Padding(
-                padding: const EdgeInsets.fromLTRB(20, 26, 20, 110),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                padding: DesktopScope.of(context)
+                    ? const EdgeInsets.fromLTRB(32, 26, 32, 48)
+                    : const EdgeInsets.fromLTRB(20, 26, 20, 110),
+                child: _boxes(
+                  context,
                   children: [
                     if (fit.gamification) ...[
                       Rise(
@@ -185,15 +187,18 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                       ),
                       const SizedBox(height: 30),
                     ],
-                    Rise(
-                      index: 2,
-                      child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-                        _heading(gc, t.snapshots,
-                            count: fit.momentCount > 0 ? '${fit.momentCount}' : null,
-                            onMore: fit.momentCount > 0 ? fit.goMoments : null),
-                        const SizedBox(height: 16),
-                        _photoCards(gc),
-                      ]),
+                    _photosTile(
+                      context,
+                      Rise(
+                        index: 2,
+                        child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+                          _heading(gc, t.snapshots,
+                              count: fit.momentCount > 0 ? '${fit.momentCount}' : null,
+                              onMore: fit.momentCount > 0 ? fit.goMoments : null),
+                          const SizedBox(height: 16),
+                          _photoCards(context, gc),
+                        ]),
+                      ),
                     ),
                     const SizedBox(height: 30),
                     if (fit.passOn) ...[
@@ -268,6 +273,23 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
           ]);
         },
       ),
+    );
+  }
+
+  Widget _photosTile(BuildContext context, Widget tile) =>
+      DesktopScope.of(context) && fit.gamification && MediaQuery.sizeOf(context).width >= 1350
+          ? FlowSlot(lift: 44, child: tile)
+          : tile;
+
+  Widget _boxes(BuildContext context, {required List<Widget> children}) {
+    if (!DesktopScope.of(context)) {
+      return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: children);
+    }
+    return CardFlow(
+      minColumn: 370,
+      maxColumns: 2,
+      gap: 30,
+      children: [for (final c in children) if (c is! SizedBox) c],
     );
   }
 
@@ -536,6 +558,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
     return SizedBox(
       height: 36,
       child: ListView.separated(
+        key: const PageStorageKey('h-profile_screen-561'),
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.symmetric(horizontal: 20),
         itemCount: cells.length,
@@ -564,9 +587,13 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
 
   static const _turns = [-0.06, 0.045, -0.03, 0.055];
 
-  Widget _photoCards(GymColors gc) {
+  Widget _photoCards(BuildContext context, GymColors gc) {
+    return LayoutBuilder(builder: (context, outer) => _photoFan(gc, DesktopScope.of(context) && outer.maxWidth < 640));
+  }
+
+  Widget _photoFan(GymColors gc, bool big) {
     final shots = fit.momentsNewest.take(4).map((m) => m.file).toList();
-    const w = 104.0, h = 136.0;
+    final w = big ? 168.0 : 104.0, h = big ? 222.0 : 136.0;
     return Semantics(
       button: true,
       label: shots.isEmpty ? t.addPhoto : t.photosCard,
@@ -578,12 +605,13 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
           child: LayoutBuilder(builder: (context, box) {
             const n = 4;
             final step = math.min(w * 0.8, (box.maxWidth - w) / (n - 1));
+            final pad = math.max(0.0, (box.maxWidth - w - step * (n - 1)) / 2);
             return Stack(
               clipBehavior: Clip.none,
               children: [
                 for (var i = 0; i < n; i++)
                   Positioned(
-                    left: i * step,
+                    left: pad + i * step,
                     top: i.isOdd ? 12 : 6,
                     width: w,
                     height: h,

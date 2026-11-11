@@ -5,9 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
+import '../app/desktop.dart';
 import '../l10n/l10n.dart';
 import '../models/progress_shot.dart';
 import '../models/workout.dart';
+import '../services/food_library.dart' show foldText;
 import '../services/media_store.dart';
 import '../state/fit_state.dart';
 import '../theme/app_colors.dart';
@@ -17,6 +19,7 @@ import '../widgets/check_in.dart';
 import '../widgets/charts.dart';
 import '../widgets/dialogs.dart';
 import '../widgets/entrance.dart';
+import '../widgets/exercise_history_sheet.dart';
 import '../widgets/exercise_media.dart';
 import '../widgets/file_thumb.dart';
 import '../widgets/glass.dart';
@@ -43,6 +46,42 @@ class ProgressScreen extends StatelessWidget {
     final split = fit.muscleSplit;
     final prs = fit.personalRecords;
     final bw = fit.bodyweightSeries;
+    final header = Row(
+      children: [
+        Expanded(
+          child: Text(t.progressTitle,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: AppTheme.f(30, weight: FontWeight.w800, color: gc.text, letterSpacing: -0.8, height: 1.1)),
+        ),
+        const SizedBox(width: 12),
+        _headerActions(context, gc),
+      ],
+    );
+    final cards = <Widget>[
+      if (fit.sessions.isEmpty) _setupCard(context, gc),
+      _heroRow(context, gc, change, bw),
+      _consistency(context, gc),
+      _totals(gc),
+      const _MuscleMapCard(),
+      if (fit.sessions.isNotEmpty) const MuscleRadarCard(),
+      ..._blocks(context, gc, bw, split, prs),
+      if (fit.sessions.isNotEmpty && _missing.isNotEmpty) _setupCard(context, gc),
+    ];
+    if (DesktopScope.of(context)) {
+      return RiseScope(
+        id: 'progress',
+        child: SingleChildScrollView(
+          clipBehavior: Clip.none,
+          padding: const EdgeInsets.fromLTRB(32, 30, 32, 48),
+          child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+            Rise(index: 0, child: header),
+            const SizedBox(height: 24),
+            CardFlow(minColumn: 360, gap: 18, children: riseAll(cards, from: 1)),
+          ]),
+        ),
+      );
+    }
 
     return RiseScope(
       id: 'progress',
@@ -1970,13 +2009,25 @@ class _PrCard extends StatefulWidget {
 class _PrCardState extends State<_PrCard> {
   static const _shown = 5;
   bool _all = false;
+  final _search = TextEditingController();
+  String _query = '';
+
+  @override
+  void dispose() {
+    _search.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final gc = context.gc;
     final prs = widget.prs;
-    final rows = _all ? prs : prs.take(_shown).toList();
-    final hidden = prs.length - rows.length;
+    final q = foldText(_query.trim());
+    final found = !_all || q.isEmpty
+        ? prs
+        : [for (final pr in prs) if (foldText(t.catalogName(pr.id, pr.name)).contains(q)) pr];
+    final rows = _all ? found : prs.take(_shown).toList();
+    final hidden = prs.length - (_all ? prs.length : rows.length);
     return SoftCard(
       radius: 22,
       borderColor: Colors.transparent,
@@ -2000,7 +2051,17 @@ class _PrCardState extends State<_PrCard> {
             alignment: Alignment.topCenter,
             child: Column(
               children: [
-                for (var i = 0; i < rows.length; i++) _row(gc, rows[i], i, i < rows.length - 1 || hidden > 0),
+                if (_all && prs.length > _shown) ...[
+                  const SizedBox(height: 4),
+                  SearchField(
+                    controller: _search,
+                    hint: t.searchExercises,
+                    onChanged: (v) => setState(() => _query = v),
+                  ),
+                  const SizedBox(height: 6),
+                ],
+                for (var i = 0; i < rows.length; i++)
+                  _row(gc, rows[i], prs.indexOf(rows[i]), i < rows.length - 1 || prs.length > _shown),
               ],
             ),
           ),
@@ -2009,7 +2070,13 @@ class _PrCardState extends State<_PrCard> {
               button: true,
               child: GestureDetector(
                 behavior: HitTestBehavior.opaque,
-                onTap: () => setState(() => _all = !_all),
+                onTap: () => setState(() {
+                  _all = !_all;
+                  if (!_all) {
+                    _search.clear();
+                    _query = '';
+                  }
+                }),
                 child: SizedBox(
                   height: 44,
                   child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
@@ -2033,7 +2100,10 @@ class _PrCardState extends State<_PrCard> {
 
   Widget _row(GymColors gc, PersonalRecord pr, int rank, bool border) {
     final medal = rank < 3 ? [gc.brass, gc.textSecondary, gc.accent][rank] : null;
-    return Container(
+    return Pressable(
+      onTap: () => showExerciseHistorySheet(context, pr.id),
+      scale: 0.98,
+      child: Container(
       padding: const EdgeInsets.symmetric(vertical: 11),
       decoration: BoxDecoration(
         border: border ? Border(bottom: BorderSide(color: gc.border.withValues(alpha: 0.6))) : null,
@@ -2085,6 +2155,7 @@ class _PrCardState extends State<_PrCard> {
           const SizedBox(width: 12),
           Text(fit.recordLabel(pr), style: AppTheme.d(19, weight: FontWeight.w800, color: gc.text)),
         ],
+      ),
       ),
     );
   }
@@ -2814,12 +2885,12 @@ Widget _editSetRow(GymColors gc, LoggedSession s, LoggedExercise e, int i, bool 
           child: Text('${i + 1}', style: AppTheme.d(15, weight: FontWeight.w700, color: gc.text)),
         ),
         if (distance) ...[
-          cell(t.distanceCol(fit.distanceUnit).replaceAll(RegExp(r'\s*\(.*\)'), ''), fit.distanceValue(set.km ?? 0),
+          cell(t.distanceCol(fit.distanceUnitFor(e.id)).replaceAll(RegExp(r'\s*\(.*\)'), ''), fit.distanceValueFor(e.id, set.km ?? 0),
               () => fit.bumpLoggedKm(e, i, -1), () => fit.bumpLoggedKm(e, i, 1),
               minWidth: 36, edit: (ctx) async {
             final v = await askNumber(ctx,
-                title: t.distanceCol(fit.distanceUnit).replaceAll(RegExp(r'\s*\(.*\)'), ''),
-                initial: fit.distanceValue(set.km ?? 0),
+                title: t.distanceCol(fit.distanceUnitFor(e.id)).replaceAll(RegExp(r'\s*\(.*\)'), ''),
+                initial: fit.distanceValueFor(e.id, set.km ?? 0),
                 decimal: true);
             if (v != null) fit.setLoggedKmShown(e, i, v);
           }),
@@ -2847,7 +2918,8 @@ Widget _editSetRow(GymColors gc, LoggedSession s, LoggedExercise e, int i, bool 
               if (v != null) fit.setLoggedReps(e, i, v.round());
             }),
           if (!repsOnly && (!timed || set.weight > 0))
-            cell(t.weightCol(fit.units.toUpperCase()), fit.weightValue(set.weight), () => fit.bumpLoggedWeight(e, i, -1),
+            cell(t.weightCol(fit.units.toUpperCase()), fmt((fit.toDisplayWeight(set.weight) * 100).round() / 100),
+                () => fit.bumpLoggedWeight(e, i, -1),
                 () => fit.bumpLoggedWeight(e, i, 1),
                 minWidth: 34, edit: (ctx) async {
               final shown = (fit.toDisplayWeight(set.weight) * 100).round() / 100;

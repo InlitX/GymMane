@@ -229,6 +229,7 @@ class _TrainScreenState extends State<TrainScreen> {
         const SizedBox(height: 12),
         if (gearHere.length > 1) ...[
           SingleChildScrollView(
+            key: const PageStorageKey('h-train_screen-232'),
             scrollDirection: Axis.horizontal,
             child: Row(children: [
               _gearChip(gc, t.allExercisesShort, gear == null, null),

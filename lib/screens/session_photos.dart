@@ -107,6 +107,7 @@ class _SessionPhotosState extends State<SessionPhotos> {
   Widget _strip(GymColors gc, List<Moment> photos) => SizedBox(
         height: 72,
         child: ListView.separated(
+          key: const PageStorageKey('h-session_photos-110'),
           scrollDirection: Axis.horizontal,
           clipBehavior: Clip.none,
           itemCount: photos.length + 1,

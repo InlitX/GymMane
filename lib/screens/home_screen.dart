@@ -1,7 +1,11 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'history_screen.dart';
 import '../widgets/body_map.dart';
 import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
+import '../app/desktop.dart';
+import '../widgets/medal.dart' show Medal;
 import '../l10n/l10n.dart';
 import '../models/exercise.dart';
 import '../models/workout.dart';
@@ -31,6 +35,7 @@ class HomeScreen extends StatelessWidget {
     final gc = context.gc;
     final recommended = fit.recommendedExercises(8);
     final routines = fit.routinesByLastDone;
+    if (DesktopScope.of(context)) return _desktop(context, gc, routines, recommended);
 
     return RiseScope(
       id: 'home',
@@ -61,8 +66,115 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
+  Widget _desktop(BuildContext context, GymColors gc, List<Routine> routines, List<Exercise> recommended) {
+    Medal.warm(context);
+    final blocks = _blockMap(context, gc, routines, recommended);
+    Widget one(List<Widget> b) =>
+        b.length == 1 ? b.single : Column(crossAxisAlignment: CrossAxisAlignment.stretch, mainAxisSize: MainAxisSize.min, children: b);
+    final year = fit.heatmapYear;
+    const slots = {'weekdays': 1, 'routines': 1, 'folders': 0, 'week': 2, 'nutrition': 2, 'steps': 2, 'activity': 2};
+    final hero = fit.showFocus || fit.todayRoutine?.exerciseIds.isNotEmpty == true;
+    bool shown(String id) => blocks[id]?.isNotEmpty ?? false;
+    final fixed = hero &&
+        listEquals(fit.homeOrderShown, kHomeBlocks) &&
+        const ['weekdays', 'week', 'routines', 'folders', 'nutrition', 'activity'].every(shown);
+    final tiles = <Widget>[];
+    final wraps = <Widget Function(Widget)>[];
+    void add(Widget w, Widget Function(Widget) wrap) {
+      tiles.add(w);
+      wraps.add(wrap);
+    }
+    if (hero) add(_hero(context, gc), (c) => FlowSlot(column: fixed ? 0 : null, child: c));
+    if (fit.photoDue) add(_photoNudge(gc), (c) => FlowSlot(column: fixed ? 0 : null, child: c));
+    final ids = fixed
+        ? [
+            for (final id in fit.homeOrderShown)
+              if (id != 'recommended' && id != 'activity') id,
+            if (!year) 'activity',
+            'recommended',
+            if (year) 'activity',
+          ]
+        : fit.homeOrderShown;
+    for (final id in ids) {
+      if (blocks[id] case final b? when b.isNotEmpty) {
+        add(one(b), switch (id) {
+          'recommended' => year ? (c) => FlowWide(child: c) : (c) => FlowSlot(span: 2, child: c),
+          'activity' when year => (c) => FlowWide(child: c),
+          _ => fixed
+              ? (c) => FlowSlot(column: slots[id], lift: id == 'week' ? 44 : 0, child: c)
+              : (c) => FlowSlot(child: c),
+        });
+      }
+    }
+    final risen = riseAll(tiles, from: 1);
+    return RiseScope(
+      id: 'home',
+      child: SingleChildScrollView(
+        key: const PageStorageKey('home'),
+        clipBehavior: Clip.none,
+        padding: const EdgeInsets.fromLTRB(32, 30, 32, 48),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Rise(index: 0, child: _topBar(gc)),
+            const SizedBox(height: 26),
+            CardFlow(minColumn: 340, gap: 22, children: [
+              for (var i = 0; i < risen.length; i++) wraps[i](risen[i]),
+            ]),
+            if (fit.sessions.isNotEmpty) ...[
+              const SizedBox(height: 30),
+              Rise(index: risen.length + 1, child: _lastWorkouts(gc)),
+            ],
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _lastWorkouts(GymColors gc) {
+    final last = [...fit.sessions]..sort((a, b) => b.day.compareTo(a.day));
+    final shown = last.take(3).toList();
+    return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+      _heading(gc, t.historyTitle, onMore: fit.goHistory),
+      const SizedBox(height: 14),
+      LayoutBuilder(builder: (context, box) {
+        final n = CardFlow.columnsFor(box.maxWidth, minColumn: 340, gap: 22);
+        final items = shown.take(n).toList();
+        return Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          for (var i = 0; i < n; i++) ...[
+            if (i > 0) const SizedBox(width: 22),
+            Expanded(child: i < items.length ? WorkoutHistoryCard(session: items[i]) : const SizedBox.shrink()),
+          ],
+        ]);
+      }),
+    ]);
+  }
+
   List<Widget> _homeBlocks(BuildContext context, GymColors gc, List<Routine> routines, List<Exercise> recommended) {
-    final blocks = <String, List<Widget>>{
+    final blocks = _blockMap(context, gc, routines, recommended);
+    final out = <Widget>[];
+    String? last;
+    for (final id in fit.homeOrderShown) {
+      final b = blocks[id];
+      if (b == null || b.isEmpty) continue;
+      final card = id == 'weekdays' || id == 'steps';
+      final gap = last == null
+          ? (fit.photoDue ? (card ? 14.0 : 30.0) : (card ? 0.0 : 16.0))
+          : (card && (last == 'weekdays' || last == 'steps'))
+              ? 14.0
+              : id == 'nutrition' && last == 'folders'
+                  ? 12.0
+                  : 30.0;
+      out.add(SizedBox(height: gap));
+      out.addAll(b);
+      last = id;
+    }
+    return out;
+  }
+
+  Map<String, List<Widget>> _blockMap(
+      BuildContext context, GymColors gc, List<Routine> routines, List<Exercise> recommended) {
+    return <String, List<Widget>>{
       'weekdays': [_away(_weekCard(context, gc))],
       'steps': [
             if (fit.stepsOn && fit.stepsAvailable) _away(StepsCard()),
@@ -78,6 +190,7 @@ class HomeScreen extends StatelessWidget {
                 builder: (context, box) => SizedBox(
                   height: routineFolderHeight(context),
                   child: ListView.separated(
+                    key: const PageStorageKey('home-routines'),
                     scrollDirection: Axis.horizontal,
                     clipBehavior: Clip.none,
                     itemCount: routines.length,
@@ -120,6 +233,7 @@ class HomeScreen extends StatelessWidget {
               _section(gc, t.recommended, fit.goExercises, SizedBox(
                 height: 158,
                 child: ListView.separated(
+                  key: const PageStorageKey('home-recommended'),
                   scrollDirection: Axis.horizontal,
                   itemCount: recommended.length,
                   separatorBuilder: (_, _) => const SizedBox(width: 12),
@@ -173,24 +287,6 @@ class HomeScreen extends StatelessWidget {
             ],
       ],
     };
-    final out = <Widget>[];
-    String? last;
-    for (final id in fit.homeOrderShown) {
-      final b = blocks[id];
-      if (b == null || b.isEmpty) continue;
-      final card = id == 'weekdays' || id == 'steps';
-      final gap = last == null
-          ? (fit.photoDue ? (card ? 14.0 : 30.0) : (card ? 0.0 : 16.0))
-          : (card && (last == 'weekdays' || last == 'steps'))
-              ? 14.0
-              : id == 'nutrition' && last == 'folders'
-                  ? 12.0
-                  : 30.0;
-      out.add(SizedBox(height: gap));
-      out.addAll(b);
-      last = id;
-    }
-    return out;
   }
 
   Widget _away(Widget child, {double dim = 0.45}) => ScrollAway(radius: 22, dim: dim, child: child);

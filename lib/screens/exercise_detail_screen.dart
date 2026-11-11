@@ -4,6 +4,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
+import '../app/desktop.dart';
 import '../l10n/l10n.dart';
 import '../models/exercise.dart';
 import '../models/workout.dart';
@@ -64,6 +65,338 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
     final mode = fit.modeOf(ex.id);
     final custom = fit.isCustom(ex.id);
     final archived = fit.isArchived(ex.id);
+    final bar = Padding(
+      padding: const EdgeInsets.fromLTRB(20, 0, 20, 16),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          RoundBtn(icon: Ic.chevronLeft, onTap: fit.closeExerciseDetail),
+          Row(children: [
+            if (custom) ...[
+              RoundAction(
+                label: t.delete,
+                onTap: () => _confirmDelete(context, ex),
+                child: Icon(PhosphorIconsRegular.trash, size: 16, color: gc.textSecondary),
+              ),
+              const SizedBox(width: 10),
+              Semantics(
+                button: true,
+                label: t.editExercise,
+                child: RoundAction(
+                  onTap: () => showCreateExerciseSheet(context, editing: ex),
+                  child: Icon(PhosphorIconsRegular.pencilSimple, size: 16, color: gc.textSecondary),
+                ),
+              ),
+              const SizedBox(width: 10),
+              if (history.isNotEmpty) ...[
+                RoundAction(
+                  label: t.mergeExercise,
+                  onTap: () => _merge(context, ex),
+                  child: Icon(PhosphorIconsRegular.gitMerge, size: 16, color: gc.textSecondary),
+                ),
+                const SizedBox(width: 10),
+              ],
+            ],
+            RoundAction(
+              label: archived ? t.restoreExercise : t.archiveExercise,
+              onTap: () => _toggleArchived(context, ex),
+              child: Icon(archived ? PhosphorIconsFill.archive : PhosphorIconsRegular.archive,
+                  size: 16, color: archived ? gc.accent : gc.textSecondary),
+            ),
+            const SizedBox(width: 10),
+            RoundAction(
+              onTap: () => fit.toggleFavorite(ex.id),
+              child: _star(gc, fav),
+            ),
+          ]),
+        ],
+      ),
+    );
+    final media = Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: Stack(
+        children: [
+          GestureDetector(
+            onTap: () => showExercisePreview(context, ex),
+            child: SizedBox(
+              width: double.infinity,
+              child: ExerciseMedia(
+                  ex: ex, height: 220, radius: 22, live: true, bordered: false),
+            ),
+          ),
+          Positioned(
+            bottom: 10,
+            right: 10,
+            child: Row(
+              children: [
+                if (hasMedia) ...[
+                  _mediaBtn(gc, PhosphorIconsRegular.arrowCounterClockwise, t.useDefaultArt,
+                      () => fit.clearExerciseMedia(ex.id)),
+                  const SizedBox(width: 8),
+                ],
+                _mediaBtn(
+                  gc,
+                  hasMedia ? PhosphorIconsRegular.pencilSimple : PhosphorIconsRegular.uploadSimple,
+                  hasMedia ? t.changeMedia : t.addMedia,
+                  _pickMedia,
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+    final partA = <Widget>[
+      AnimatedSize(
+        duration: const Duration(milliseconds: 260),
+        curve: Curves.easeOutCubic,
+        alignment: Alignment.topCenter,
+        child: archived
+            ? Padding(padding: const EdgeInsets.only(bottom: 16), child: _archivedBanner(gc, ex))
+            : const SizedBox(width: double.infinity),
+      ),
+      Text(exerciseName(ex),
+          style: AppTheme.f(26, weight: FontWeight.w800, color: gc.text, height: 1.1)),
+      if (ex.aliases.isNotEmpty) ...[
+        const SizedBox(height: 6),
+        Text(t.alsoCalled(ex.aliases.join(', ')),
+            style: AppTheme.f(13, weight: FontWeight.w500, color: gc.textSecondary, height: 1.35)),
+      ],
+      const SizedBox(height: 18),
+      Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _meta(gc, t.primaryLabel, muscleLabel(ex.primary)),
+          const SizedBox(width: 20),
+          _meta(gc, t.secondaryLabel, secondary, onTap: () => _editSecondary(context, ex.id)),
+          const SizedBox(width: 20),
+          _meta(gc, t.equipmentLabel, t.equipment(ex.equipment)),
+        ],
+      ),
+      const SizedBox(height: 18),
+      _addToRoutineRow(context, gc, ex),
+      const SizedBox(height: 20),
+      if (pr != null) ...[
+        Container(
+          padding: const EdgeInsets.all(18),
+          decoration: BoxDecoration(
+            color: gc.bgRaised,
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _cardLabel(gc, t.personalRecord),
+                        const SizedBox(height: 8),
+                        FittedBox(
+                          fit: BoxFit.scaleDown,
+                          alignment: AlignmentDirectional.centerStart,
+                          child: Text(fit.recordLabel(pr),
+                              maxLines: 1,
+                              style: AppTheme.f(30,
+                                  weight: FontWeight.w800, color: gc.text, height: 1)),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  Flexible(
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      alignment: AlignmentDirectional.centerEnd,
+                      child: Text(fit.recordDetail(pr),
+                          maxLines: 1,
+                          style: AppTheme.f(12,
+                              weight: FontWeight.w500, color: gc.textSecondary)),
+                    ),
+                  ),
+                ],
+              ),
+              if (history.length > 1) _bests(gc, ex.id, pr.kind),
+              if (pr.kind == PrKind.weight && oneRm.length > 2) ...[
+                const SizedBox(height: 16),
+                TrendChart(values: [for (final v in oneRm) fit.toDisplayWeight(v)], height: 84, scale: fmt),
+              ],
+              if (pr.kind == PrKind.reps && bestReps.length > 2) ...[
+                const SizedBox(height: 16),
+                TrendChart(values: bestReps, height: 84, scale: (v) => '${v.round()}'),
+              ],
+            ],
+          ),
+        ),
+        const SizedBox(height: 20),
+      ],
+      if (fit.goalFits(ex.id)) ...[
+        _goalCard(context, gc, ex.id),
+        const SizedBox(height: 20),
+      ],
+      if (fit.nextTargetLabel(ex.id) != null) ...[
+        _nextCard(gc, ex.id),
+        const SizedBox(height: 20),
+      ],
+      _section(gc, t.history),
+      const SizedBox(height: 6),
+      if (history.isEmpty)
+        Text(t.noHistory,
+            style: AppTheme.f(13, weight: FontWeight.w500, color: gc.textSecondary))
+      else
+        for (int i = 0; i < history.length && i < 8; i++)
+          _historyRow(gc, history[i], i < history.length - 1 && i < 7, mode),
+      const SizedBox(height: 24),
+      _notesRow(gc, ex.id),
+      const SizedBox(height: 24),
+    ];
+    final partB = <Widget>[
+      if (steps.isNotEmpty || custom) ...[
+        Row(children: [
+          Expanded(child: _section(gc, t.howTo)),
+          if (custom && steps.isNotEmpty)
+            Semantics(
+              button: true,
+              label: t.editExercise,
+              child: GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: () => showCreateExerciseSheet(context, editing: ex),
+                child: Padding(
+                  padding: const EdgeInsets.all(6),
+                  child: Icon(PhosphorIconsRegular.pencilSimple, size: 17, color: gc.textTertiary),
+                ),
+              ),
+            ),
+        ]),
+        const SizedBox(height: 14),
+        if (steps.isEmpty) ...[
+          Text(t.noStepsYet,
+              style: AppTheme.f(13, weight: FontWeight.w500, color: gc.textSecondary, height: 1.45)),
+          const SizedBox(height: 12),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Pill(
+              label: t.addSteps,
+              bg: gc.bgRaised2,
+              fg: gc.accent,
+              onTap: () => showCreateExerciseSheet(context, editing: ex),
+            ),
+          ),
+        ],
+        for (int i = 0; i < steps.length; i++) ...[
+          _step(gc, i + 1, steps[i]),
+          if (i < steps.length - 1) const SizedBox(height: 14),
+        ],
+      ],
+      const SizedBox(height: 28),
+      _section(gc, t.exerciseSettings),
+      const SizedBox(height: 12),
+      _group(gc, [
+        _modeRow(context, gc, ex.id, mode),
+        if (mode != 'cardio') _repsOnlyRow(gc, ex.id, repsOnly),
+        if (mode == 'time') ...[
+          _switchRow(
+            gc,
+            PhosphorIconsRegular.arrowsLeftRight,
+            t.eachSide,
+            t.eachSideHint,
+            fit.isEachSide(ex.id),
+            () => fit.toggleEachSide(ex.id),
+          ),
+          _holdProgressRow(gc, ex.id),
+        ] else if (mode.isEmpty)
+          _switchRow(
+            gc,
+            PhosphorIconsRegular.arrowsLeftRight,
+            t.eachSide,
+            t.eachSideRepsHint,
+            fit.isSidedReps(ex.id),
+            () => fit.toggleSidedReps(ex.id),
+          ),
+        _restRow(gc, ex.id),
+        if (ex.equipment == 'Barbell' || ex.equipment == 'Machine') _barRow(gc, ex),
+        if ((ex.equipment == 'Machine' || ex.equipment == 'Cable') && mode.isEmpty && !repsOnly)
+          _stackRow(context, gc, ex.id),
+        _switchRow(
+          gc,
+          PhosphorIconsRegular.sparkle,
+          t.suggestInWorkouts,
+          t.suggestInWorkoutsHint,
+          fit.suggests(ex.id),
+          () => fit.toggleSuggest(ex.id),
+        ),
+        if (!repsOnly && mode.isEmpty) ...[
+          _switchRow(
+            gc,
+            PhosphorIconsRegular.arrowFatLinesDown,
+            t.assistedSetting,
+            t.assistedSettingHint,
+            fit.isAssisted(ex.id),
+            () => fit.toggleAssisted(ex.id),
+          ),
+          _progressRow(context, gc, ex.id),
+          _switchRow(
+            gc,
+            PhosphorIconsRegular.fire,
+            t.autoWarmup,
+            t.autoWarmupHint,
+            fit.warmsUp(ex.id),
+            () => fit.toggleAutoWarmup(ex.id),
+          ),
+        ],
+      ]),
+      if (fit.runsClock(ex.id)) ...[
+        const SizedBox(height: 24),
+        _section(gc, t.stopwatch),
+        const SizedBox(height: 10),
+        const StopwatchCard(),
+      ],
+      if (fit.alternativesHere(ex, 3).isNotEmpty) ...[
+        const SizedBox(height: 24),
+        _notHere(gc, ex),
+      ],
+      if (fit.similarExercises(ex, 4).isNotEmpty) ...[
+        const SizedBox(height: 24),
+        _section(gc, t.similar),
+        const SizedBox(height: 10),
+        for (final s in fit.similarExercises(ex, 4)) _similarRow(gc, s),
+      ],
+    ];
+    if (DesktopScope.of(context)) {
+      return RiseScope(
+        key: ValueKey(ex.id),
+        id: 'exercise',
+        once: false,
+        child: SingleChildScrollView(
+          clipBehavior: Clip.none,
+          padding: const EdgeInsets.fromLTRB(12, 30, 12, 48),
+          child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+            Rise(index: 0, child: bar),
+            Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Expanded(
+                child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+                  Rise(index: 1, child: media),
+                  Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: Rise(index: 2, child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: partA)),
+                  ),
+                ]),
+              ),
+              SizedBox(
+                width: 460,
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(8, 0, 20, 20),
+                  child: Rise(index: 3, child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: partB)),
+                ),
+              ),
+            ]),
+          ]),
+        ),
+      );
+    }
 
     return RiseScope(
       key: ValueKey(ex.id),
@@ -77,308 +410,13 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: riseAll([
-            Padding(
-              padding: const EdgeInsets.fromLTRB(20, 0, 20, 16),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  RoundBtn(icon: Ic.chevronLeft, onTap: fit.closeExerciseDetail),
-                  Row(children: [
-                    if (custom) ...[
-                      RoundAction(
-                        label: t.delete,
-                        onTap: () => _confirmDelete(context, ex),
-                        child: Icon(PhosphorIconsRegular.trash, size: 16, color: gc.textSecondary),
-                      ),
-                      const SizedBox(width: 10),
-                      Semantics(
-                        button: true,
-                        label: t.editExercise,
-                        child: RoundAction(
-                          onTap: () => showCreateExerciseSheet(context, editing: ex),
-                          child: Icon(PhosphorIconsRegular.pencilSimple, size: 16, color: gc.textSecondary),
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      if (history.isNotEmpty) ...[
-                        RoundAction(
-                          label: t.mergeExercise,
-                          onTap: () => _merge(context, ex),
-                          child: Icon(PhosphorIconsRegular.gitMerge, size: 16, color: gc.textSecondary),
-                        ),
-                        const SizedBox(width: 10),
-                      ],
-                    ],
-                    RoundAction(
-                      label: archived ? t.restoreExercise : t.archiveExercise,
-                      onTap: () => _toggleArchived(context, ex),
-                      child: Icon(archived ? PhosphorIconsFill.archive : PhosphorIconsRegular.archive,
-                          size: 16, color: archived ? gc.accent : gc.textSecondary),
-                    ),
-                    const SizedBox(width: 10),
-                    RoundAction(
-                      onTap: () => fit.toggleFavorite(ex.id),
-                      child: _star(gc, fav),
-                    ),
-                  ]),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Stack(
-                children: [
-                  GestureDetector(
-                    onTap: () => showExercisePreview(context, ex),
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: ExerciseMedia(
-                          ex: ex, height: 220, radius: 22, live: true, bordered: false),
-                    ),
-                  ),
-                  Positioned(
-                    bottom: 10,
-                    right: 10,
-                    child: Row(
-                      children: [
-                        if (hasMedia) ...[
-                          _mediaBtn(gc, PhosphorIconsRegular.arrowCounterClockwise, t.useDefaultArt,
-                              () => fit.clearExerciseMedia(ex.id)),
-                          const SizedBox(width: 8),
-                        ],
-                        _mediaBtn(
-                          gc,
-                          hasMedia ? PhosphorIconsRegular.pencilSimple : PhosphorIconsRegular.uploadSimple,
-                          hasMedia ? t.changeMedia : t.addMedia,
-                          _pickMedia,
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            bar,
+            media,
             Padding(
               padding: const EdgeInsets.all(20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  AnimatedSize(
-                    duration: const Duration(milliseconds: 260),
-                    curve: Curves.easeOutCubic,
-                    alignment: Alignment.topCenter,
-                    child: archived
-                        ? Padding(padding: const EdgeInsets.only(bottom: 16), child: _archivedBanner(gc, ex))
-                        : const SizedBox(width: double.infinity),
-                  ),
-                  Text(exerciseName(ex),
-                      style: AppTheme.f(26, weight: FontWeight.w800, color: gc.text, height: 1.1)),
-                  if (ex.aliases.isNotEmpty) ...[
-                    const SizedBox(height: 6),
-                    Text(t.alsoCalled(ex.aliases.join(', ')),
-                        style: AppTheme.f(13, weight: FontWeight.w500, color: gc.textSecondary, height: 1.35)),
-                  ],
-                  const SizedBox(height: 18),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _meta(gc, t.primaryLabel, muscleLabel(ex.primary)),
-                      const SizedBox(width: 20),
-                      _meta(gc, t.secondaryLabel, secondary, onTap: () => _editSecondary(context, ex.id)),
-                      const SizedBox(width: 20),
-                      _meta(gc, t.equipmentLabel, t.equipment(ex.equipment)),
-                    ],
-                  ),
-                  const SizedBox(height: 18),
-                  _addToRoutineRow(context, gc, ex),
-                  const SizedBox(height: 20),
-                  if (pr != null) ...[
-                    Container(
-                      padding: const EdgeInsets.all(18),
-                      decoration: BoxDecoration(
-                        color: gc.bgRaised,
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    _cardLabel(gc, t.personalRecord),
-                                    const SizedBox(height: 8),
-                                    FittedBox(
-                                      fit: BoxFit.scaleDown,
-                                      alignment: AlignmentDirectional.centerStart,
-                                      child: Text(fit.recordLabel(pr),
-                                          maxLines: 1,
-                                          style: AppTheme.f(30,
-                                              weight: FontWeight.w800, color: gc.text, height: 1)),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              const SizedBox(width: 10),
-                              Flexible(
-                                child: FittedBox(
-                                  fit: BoxFit.scaleDown,
-                                  alignment: AlignmentDirectional.centerEnd,
-                                  child: Text(fit.recordDetail(pr),
-                                      maxLines: 1,
-                                      style: AppTheme.f(12,
-                                          weight: FontWeight.w500, color: gc.textSecondary)),
-                                ),
-                              ),
-                            ],
-                          ),
-                          if (history.length > 1) _bests(gc, ex.id, pr.kind),
-                          if (pr.kind == PrKind.weight && oneRm.length > 2) ...[
-                            const SizedBox(height: 16),
-                            TrendChart(values: [for (final v in oneRm) fit.toDisplayWeight(v)], height: 84, scale: fmt),
-                          ],
-                          if (pr.kind == PrKind.reps && bestReps.length > 2) ...[
-                            const SizedBox(height: 16),
-                            TrendChart(values: bestReps, height: 84, scale: (v) => '${v.round()}'),
-                          ],
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                  ],
-                  if (fit.goalFits(ex.id)) ...[
-                    _goalCard(context, gc, ex.id),
-                    const SizedBox(height: 20),
-                  ],
-                  if (fit.nextTargetLabel(ex.id) != null) ...[
-                    _nextCard(gc, ex.id),
-                    const SizedBox(height: 20),
-                  ],
-                  _section(gc, t.history),
-                  const SizedBox(height: 6),
-                  if (history.isEmpty)
-                    Text(t.noHistory,
-                        style: AppTheme.f(13, weight: FontWeight.w500, color: gc.textSecondary))
-                  else
-                    for (int i = 0; i < history.length && i < 8; i++)
-                      _historyRow(gc, history[i], i < history.length - 1 && i < 7, mode),
-                  const SizedBox(height: 24),
-                  _notesRow(gc, ex.id),
-                  const SizedBox(height: 24),
-                  if (steps.isNotEmpty || custom) ...[
-                    Row(children: [
-                      Expanded(child: _section(gc, t.howTo)),
-                      if (custom && steps.isNotEmpty)
-                        Semantics(
-                          button: true,
-                          label: t.editExercise,
-                          child: GestureDetector(
-                            behavior: HitTestBehavior.opaque,
-                            onTap: () => showCreateExerciseSheet(context, editing: ex),
-                            child: Padding(
-                              padding: const EdgeInsets.all(6),
-                              child: Icon(PhosphorIconsRegular.pencilSimple, size: 17, color: gc.textTertiary),
-                            ),
-                          ),
-                        ),
-                    ]),
-                    const SizedBox(height: 14),
-                    if (steps.isEmpty) ...[
-                      Text(t.noStepsYet,
-                          style: AppTheme.f(13, weight: FontWeight.w500, color: gc.textSecondary, height: 1.45)),
-                      const SizedBox(height: 12),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Pill(
-                          label: t.addSteps,
-                          bg: gc.bgRaised2,
-                          fg: gc.accent,
-                          onTap: () => showCreateExerciseSheet(context, editing: ex),
-                        ),
-                      ),
-                    ],
-                    for (int i = 0; i < steps.length; i++) ...[
-                      _step(gc, i + 1, steps[i]),
-                      if (i < steps.length - 1) const SizedBox(height: 14),
-                    ],
-                  ],
-                  const SizedBox(height: 28),
-                  _section(gc, t.exerciseSettings),
-                  const SizedBox(height: 12),
-                  _group(gc, [
-                    _modeRow(context, gc, ex.id, mode),
-                    if (mode != 'cardio') _repsOnlyRow(gc, ex.id, repsOnly),
-                    if (mode == 'time') ...[
-                      _switchRow(
-                        gc,
-                        PhosphorIconsRegular.arrowsLeftRight,
-                        t.eachSide,
-                        t.eachSideHint,
-                        fit.isEachSide(ex.id),
-                        () => fit.toggleEachSide(ex.id),
-                      ),
-                      _holdProgressRow(gc, ex.id),
-                    ] else if (mode.isEmpty)
-                      _switchRow(
-                        gc,
-                        PhosphorIconsRegular.arrowsLeftRight,
-                        t.eachSide,
-                        t.eachSideRepsHint,
-                        fit.isSidedReps(ex.id),
-                        () => fit.toggleSidedReps(ex.id),
-                      ),
-                    _restRow(gc, ex.id),
-                    if (ex.equipment == 'Barbell' || ex.equipment == 'Machine') _barRow(gc, ex),
-                    if ((ex.equipment == 'Machine' || ex.equipment == 'Cable') && mode.isEmpty && !repsOnly)
-                      _stackRow(context, gc, ex.id),
-                    _switchRow(
-                      gc,
-                      PhosphorIconsRegular.sparkle,
-                      t.suggestInWorkouts,
-                      t.suggestInWorkoutsHint,
-                      fit.suggests(ex.id),
-                      () => fit.toggleSuggest(ex.id),
-                    ),
-                    if (!repsOnly && mode.isEmpty) ...[
-                      _switchRow(
-                        gc,
-                        PhosphorIconsRegular.arrowFatLinesDown,
-                        t.assistedSetting,
-                        t.assistedSettingHint,
-                        fit.isAssisted(ex.id),
-                        () => fit.toggleAssisted(ex.id),
-                      ),
-                      _progressRow(context, gc, ex.id),
-                      _switchRow(
-                        gc,
-                        PhosphorIconsRegular.fire,
-                        t.autoWarmup,
-                        t.autoWarmupHint,
-                        fit.warmsUp(ex.id),
-                        () => fit.toggleAutoWarmup(ex.id),
-                      ),
-                    ],
-                  ]),
-                  if (fit.runsClock(ex.id)) ...[
-                    const SizedBox(height: 24),
-                    _section(gc, t.stopwatch),
-                    const SizedBox(height: 10),
-                    const StopwatchCard(),
-                  ],
-                  if (fit.alternativesHere(ex, 3).isNotEmpty) ...[
-                    const SizedBox(height: 24),
-                    _notHere(gc, ex),
-                  ],
-                  if (fit.similarExercises(ex, 4).isNotEmpty) ...[
-                    const SizedBox(height: 24),
-                    _section(gc, t.similar),
-                    const SizedBox(height: 10),
-                    for (final s in fit.similarExercises(ex, 4)) _similarRow(gc, s),
-                  ],
-                ],
+                children: [...partA, ...partB],
               ),
             ),
           ]),
@@ -439,7 +477,7 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
     if (mode == 'cardio') {
       final km = working.fold<double>(0, (s, x) => s + (x.km ?? 0));
       return km > 0
-          ? fit.distanceLabel(km)
+          ? fit.distanceLabelFor(e.id, km)
           : durationLabel(working.fold<int>(0, (s, x) => s + (x.sec ?? 0)));
     }
     return durationLabel(working.fold<int>(0, (s, x) => (x.sec ?? 0) > s ? x.sec! : s));

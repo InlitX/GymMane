@@ -4,9 +4,7 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
-import 'package:share_plus/share_plus.dart';
 
 import '../l10n/l10n.dart';
 import '../models/workout.dart';
@@ -17,6 +15,7 @@ import '../theme/app_theme.dart';
 import '../widgets/glass.dart';
 import '../widgets/liquid_notch.dart';
 import '../widgets/ui_kit.dart';
+import '../services/file_share.dart';
 
 const _sample = '{ "name": "Push", "exercises": [ ... ] }';
 
@@ -24,18 +23,12 @@ Future<void> sharePlan(List<Routine> routines, {String? title}) async {
   if (routines.isEmpty) return;
   final name = title ?? fit.routineTitle(routines.first);
   try {
-    final dir = await getTemporaryDirectory();
     final slug = name
         .toLowerCase()
         .replaceAll(RegExp(r'[^a-z0-9]+'), '-')
         .replaceAll(RegExp(r'^-+|-+$'), '');
-    final file = File('${dir.path}/gymmane-${slug.isEmpty ? 'plan' : slug}.json');
-    await file.writeAsString(fit.exportPlanJson(routines));
-    await SharePlus.instance.share(ShareParams(
-      files: [XFile(file.path, mimeType: 'application/json')],
-      text: '${fit.planSummaryText(routines)}\n\n${t.shareMessage(name)}',
-      subject: name,
-    ));
+    await shareFile('gymmane-${slug.isEmpty ? 'plan' : slug}.json', utf8Bytes(fit.exportPlanJson(routines)),
+        mime: 'application/json', text: '${fit.planSummaryText(routines)}\n\n${t.shareMessage(name)}', subject: name);
   } catch (_) {}
 }
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../app/desktop.dart';
 import '../widgets/body_map.dart';
 import 'package:flutter/services.dart';
 import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
@@ -26,6 +27,198 @@ class RoutinesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final gc = context.gc;
+    final header = <Widget>[
+      ScreenHeader(
+        title: t.routines,
+        onBack: fit.backFromRoutines,
+        titleSize: 22,
+        actions: [
+          Semantics(
+            button: true,
+            label: t.importRoutines,
+            child: RoundAction(
+              onTap: () => showPlanImportSheet(context),
+              child: Icon(PhosphorIconsRegular.downloadSimple, size: 17, color: gc.text),
+            ),
+          ),
+          if (fit.activeRoutines.isNotEmpty) ...[
+            const SizedBox(width: 8),
+            Semantics(
+              button: true,
+              label: t.shareWeek,
+              child: RoundAction(
+                onTap: () => _shareMenu(context),
+                child: Icon(PhosphorIconsRegular.shareNetwork, size: 17, color: gc.text),
+              ),
+            ),
+          ],
+        ],
+      ),
+    ];
+    final plan = <Widget>[
+      Row(children: [
+        Expanded(
+          child: AnimatedSwitcher(
+            duration: const Duration(milliseconds: 300),
+            transitionBuilder: (child, a) => FadeTransition(
+              opacity: CurvedAnimation(parent: a, curve: const Interval(0.45, 1)),
+              child: child,
+            ),
+            layoutBuilder: (current, previous) =>
+                Stack(alignment: Alignment.centerLeft, children: [...previous, ?current]),
+            child: Padding(
+              key: ValueKey(fit.rotation),
+              padding: const EdgeInsetsDirectional.only(start: 4),
+              child: Text((fit.rotation ? t.rotationTitle : t.weeklyPlan).toUpperCase(),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: _label(gc)),
+            ),
+          ),
+        ),
+        const SizedBox(width: 8),
+        SegToggle(
+          [
+            SegOption(t.planFixedWeek, !fit.rotation, () => fit.setRotation(false)),
+            SegOption(t.planRotation, fit.rotation, () => fit.setRotation(true)),
+          ],
+          hPad: 10,
+          vPad: 5,
+          fontSize: 11,
+        ),
+      ]),
+      const SizedBox(height: 10),
+      AnimatedSize(
+        duration: const Duration(milliseconds: 380),
+        curve: Curves.easeOutCubic,
+        alignment: Alignment.topCenter,
+        child: AnimatedSwitcher(
+          duration: const Duration(milliseconds: 320),
+          switchInCurve: Curves.easeOutCubic,
+          switchOutCurve: Curves.easeInCubic,
+          layoutBuilder: (current, previous) =>
+              Stack(alignment: Alignment.topCenter, children: [...previous, ?current]),
+          transitionBuilder: (child, a) => FadeTransition(
+            opacity: CurvedAnimation(parent: a, curve: const Interval(0.45, 1)),
+            child: SlideTransition(
+              position: Tween(
+                begin: Offset(child.key == const ValueKey(true) ? 0.06 : -0.06, 0),
+                end: Offset.zero,
+              ).animate(a),
+              child: child,
+            ),
+          ),
+          child: KeyedSubtree(
+            key: ValueKey(fit.rotation),
+            child: fit.rotation
+                ? _rotationCard(context, gc)
+                : Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      SoftCard(
+                        radius: 22,
+                        borderColor: Colors.transparent,
+                        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
+                        child: Column(children: [for (int i = 0; i < 7; i++) _dayRow(context, gc, i)]),
+                      ),
+                      if (fit.activeRoutines.isNotEmpty) ...[
+                        const SizedBox(height: 10),
+                        _plansRow(context, gc),
+                      ],
+                    ],
+                  ),
+          ),
+        ),
+      ),
+    ];
+    final mine = <Widget>[
+      Padding(
+        padding: const EdgeInsetsDirectional.only(start: 4),
+        child: Text(t.yourRoutines.toUpperCase(), style: _label(gc)),
+      ),
+      const SizedBox(height: 12),
+      if (fit.activeRoutines.isEmpty)
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 26),
+          child: Text(t.noRoutines,
+              textAlign: TextAlign.center, style: AppTheme.f(13, weight: FontWeight.w500, color: gc.textSecondary)),
+        )
+      else ...[
+        for (final group in fit.routineGroups) ...[
+          _groupBlock(context, gc, group),
+          const SizedBox(height: 12),
+        ],
+        if (fit.routineGroups.isNotEmpty && fit.routinesInGroup('').isNotEmpty) const SizedBox(height: 6),
+        _folders(context, fit.routinesInGroup('')),
+      ],
+      if (fit.archivedRoutines.isNotEmpty) ...[
+        const SizedBox(height: 6),
+        _archivedHeader(gc),
+        AnimatedSize(
+          duration: const Duration(milliseconds: 340),
+          curve: Curves.easeOutCubic,
+          alignment: Alignment.topCenter,
+          child: AnimatedOpacity(
+            duration: const Duration(milliseconds: 260),
+            opacity: fit.showArchivedRoutines ? 0.6 : 0,
+            child: fit.showArchivedRoutines
+                ? _folders(context, fit.archivedRoutines)
+                : const SizedBox(width: double.infinity),
+          ),
+        ),
+      ],
+    ];
+    final acts = <Widget>[
+      PrimaryButton(
+        label: t.newRoutine,
+        onTap: () => fit.openRoutine(fit.createRoutine()),
+      ),
+      const SizedBox(height: 10),
+      GhostButton(
+        label: t.templates,
+        icon: PhosphorIconsRegular.stack,
+        onTap: () => _openTemplates(context),
+      ),
+      const SizedBox(height: 10),
+      GhostButton(
+        label: t.importRoutines,
+        icon: PhosphorIconsRegular.downloadSimple,
+        onTap: () => showPlanImportSheet(context),
+      ),
+      const SizedBox(height: 10),
+      GhostButton(
+        label: t.aiRoutine,
+        icon: PhosphorIconsRegular.sparkle,
+        onTap: fit.goAiPlan,
+      ),
+      const SizedBox(height: 30),
+      const SizedBox(height: 30),
+      const CircuitSection(),
+    ];
+    if (DesktopScope.of(context)) {
+      return RiseScope(
+        id: 'routines',
+        child: SingleChildScrollView(
+          key: const PageStorageKey('routines'),
+          clipBehavior: Clip.none,
+          padding: const EdgeInsets.fromLTRB(32, 30, 32, 48),
+          child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+            ...riseAll(header),
+            const SizedBox(height: 22),
+            Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              SizedBox(
+                width: 400,
+                child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: riseAll([...plan, const SizedBox(height: 16), ...acts], from: 1)),
+              ),
+              const SizedBox(width: 32),
+              Expanded(
+                child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: riseAll(mine, from: 2)),
+              ),
+            ]),
+          ]),
+        ),
+      );
+    }
     return RiseScope(
       id: 'routines',
       child: SafeArea(
@@ -37,168 +230,13 @@ class RoutinesScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: riseAll([
-            ScreenHeader(
-              title: t.routines,
-              onBack: fit.backFromRoutines,
-              titleSize: 22,
-              actions: [
-                Semantics(
-                  button: true,
-                  label: t.importRoutines,
-                  child: RoundAction(
-                    onTap: () => showPlanImportSheet(context),
-                    child: Icon(PhosphorIconsRegular.downloadSimple, size: 17, color: gc.text),
-                  ),
-                ),
-                if (fit.activeRoutines.isNotEmpty) ...[
-                  const SizedBox(width: 8),
-                  Semantics(
-                    button: true,
-                    label: t.shareWeek,
-                    child: RoundAction(
-                      onTap: () => _shareMenu(context),
-                      child: Icon(PhosphorIconsRegular.shareNetwork, size: 17, color: gc.text),
-                    ),
-                  ),
-                ],
-              ],
-            ),
+            ...header,
             const SizedBox(height: 22),
-            Row(children: [
-              Expanded(
-                child: AnimatedSwitcher(
-                  duration: const Duration(milliseconds: 300),
-                  transitionBuilder: (child, a) => FadeTransition(
-                    opacity: CurvedAnimation(parent: a, curve: const Interval(0.45, 1)),
-                    child: child,
-                  ),
-                  layoutBuilder: (current, previous) =>
-                      Stack(alignment: Alignment.centerLeft, children: [...previous, ?current]),
-                  child: Padding(
-                    key: ValueKey(fit.rotation),
-                    padding: const EdgeInsetsDirectional.only(start: 4),
-                    child: Text((fit.rotation ? t.rotationTitle : t.weeklyPlan).toUpperCase(),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: _label(gc)),
-                  ),
-                ),
-              ),
-              const SizedBox(width: 8),
-              SegToggle(
-                [
-                  SegOption(t.planFixedWeek, !fit.rotation, () => fit.setRotation(false)),
-                  SegOption(t.planRotation, fit.rotation, () => fit.setRotation(true)),
-                ],
-                hPad: 10,
-                vPad: 5,
-                fontSize: 11,
-              ),
-            ]),
-            const SizedBox(height: 10),
-            AnimatedSize(
-              duration: const Duration(milliseconds: 380),
-              curve: Curves.easeOutCubic,
-              alignment: Alignment.topCenter,
-              child: AnimatedSwitcher(
-                duration: const Duration(milliseconds: 320),
-                switchInCurve: Curves.easeOutCubic,
-                switchOutCurve: Curves.easeInCubic,
-                layoutBuilder: (current, previous) =>
-                    Stack(alignment: Alignment.topCenter, children: [...previous, ?current]),
-                transitionBuilder: (child, a) => FadeTransition(
-                  opacity: CurvedAnimation(parent: a, curve: const Interval(0.45, 1)),
-                  child: SlideTransition(
-                    position: Tween(
-                      begin: Offset(child.key == const ValueKey(true) ? 0.06 : -0.06, 0),
-                      end: Offset.zero,
-                    ).animate(a),
-                    child: child,
-                  ),
-                ),
-                child: KeyedSubtree(
-                  key: ValueKey(fit.rotation),
-                  child: fit.rotation
-                      ? _rotationCard(context, gc)
-                      : Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            SoftCard(
-                              radius: 22,
-                              borderColor: Colors.transparent,
-                              padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
-                              child: Column(children: [for (int i = 0; i < 7; i++) _dayRow(context, gc, i)]),
-                            ),
-                            if (fit.activeRoutines.isNotEmpty) ...[
-                              const SizedBox(height: 10),
-                              _plansRow(context, gc),
-                            ],
-                          ],
-                        ),
-                ),
-              ),
-            ),
+            ...plan,
             const SizedBox(height: 30),
-            Padding(
-              padding: const EdgeInsetsDirectional.only(start: 4),
-              child: Text(t.yourRoutines.toUpperCase(), style: _label(gc)),
-            ),
-            const SizedBox(height: 12),
-            if (fit.activeRoutines.isEmpty)
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 26),
-                child: Text(t.noRoutines,
-                    textAlign: TextAlign.center, style: AppTheme.f(13, weight: FontWeight.w500, color: gc.textSecondary)),
-              )
-            else ...[
-              for (final group in fit.routineGroups) ...[
-                _groupBlock(context, gc, group),
-                const SizedBox(height: 12),
-              ],
-              if (fit.routineGroups.isNotEmpty && fit.routinesInGroup('').isNotEmpty) const SizedBox(height: 6),
-              _folders(context, fit.routinesInGroup('')),
-            ],
-            if (fit.archivedRoutines.isNotEmpty) ...[
-              const SizedBox(height: 6),
-              _archivedHeader(gc),
-              AnimatedSize(
-                duration: const Duration(milliseconds: 340),
-                curve: Curves.easeOutCubic,
-                alignment: Alignment.topCenter,
-                child: AnimatedOpacity(
-                  duration: const Duration(milliseconds: 260),
-                  opacity: fit.showArchivedRoutines ? 0.6 : 0,
-                  child: fit.showArchivedRoutines
-                      ? _folders(context, fit.archivedRoutines)
-                      : const SizedBox(width: double.infinity),
-                ),
-              ),
-            ],
+            ...mine,
             const SizedBox(height: 16),
-            PrimaryButton(
-              label: t.newRoutine,
-              onTap: () => fit.openRoutine(fit.createRoutine()),
-            ),
-            const SizedBox(height: 10),
-            GhostButton(
-              label: t.templates,
-              icon: PhosphorIconsRegular.stack,
-              onTap: () => _openTemplates(context),
-            ),
-            const SizedBox(height: 10),
-            GhostButton(
-              label: t.importRoutines,
-              icon: PhosphorIconsRegular.downloadSimple,
-              onTap: () => showPlanImportSheet(context),
-            ),
-            const SizedBox(height: 10),
-            GhostButton(
-              label: t.aiRoutine,
-              icon: PhosphorIconsRegular.sparkle,
-              onTap: fit.goAiPlan,
-            ),
-            const SizedBox(height: 30),
-            const CircuitSection(),
+            ...acts,
           ]),
         ),
       ),
@@ -290,6 +328,7 @@ class RoutinesScreen extends StatelessWidget {
         );
 
     return SingleChildScrollView(
+      key: const PageStorageKey('h-routines_screen-331'),
       scrollDirection: Axis.horizontal,
       child: Row(children: [
         for (final p in fit.savedPlans) ...[
@@ -1110,21 +1149,25 @@ class RoutinesScreen extends StatelessWidget {
   }
 
   Widget _folders(BuildContext context, List<Routine> list) {
-    return Column(children: [
-      for (var i = 0; i < list.length; i += 2)
-        Padding(
-          padding: const EdgeInsets.only(bottom: 12),
-          child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Expanded(child: RoutineFolder(routine: list[i], onMenu: () => showRoutineMenu(context, list[i]))),
-            const SizedBox(width: 12),
-            Expanded(
-              child: i + 1 < list.length
-                  ? RoutineFolder(routine: list[i + 1], onMenu: () => showRoutineMenu(context, list[i + 1]))
-                  : const SizedBox.shrink(),
-            ),
-          ]),
-        ),
-    ]);
+    return LayoutBuilder(builder: (context, box) {
+      final n = (box.maxWidth / 250).floor().clamp(2, 4);
+      return Column(children: [
+        for (var i = 0; i < list.length; i += n)
+          Padding(
+            padding: const EdgeInsets.only(bottom: 12),
+            child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              for (var k = 0; k < n; k++) ...[
+                if (k > 0) const SizedBox(width: 12),
+                Expanded(
+                  child: i + k < list.length
+                      ? RoutineFolder(routine: list[i + k], onMenu: () => showRoutineMenu(context, list[i + k]))
+                      : const SizedBox.shrink(),
+                ),
+              ],
+            ]),
+          ),
+      ]);
+    });
   }
 
   void _pickRoutine(BuildContext context, int weekday, DateTime day) {

@@ -1,10 +1,7 @@
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
-import 'package:share_plus/share_plus.dart';
 
 import '../l10n/l10n.dart';
 import '../services/plan_share.dart';
@@ -14,6 +11,7 @@ import '../theme/app_theme.dart';
 import '../widgets/liquid_notch.dart';
 import '../widgets/ui_kit.dart';
 import 'plan_import_sheet.dart';
+import '../services/file_share.dart';
 
 class AiPlanScreen extends StatefulWidget {
   const AiPlanScreen({super.key});
@@ -223,13 +221,8 @@ class _AiPlanScreenState extends State<AiPlanScreen> {
 
   Future<void> _export() async {
     try {
-      final dir = await getTemporaryDirectory();
-      final file = File('${dir.path}/gymmane-exercises.txt');
-      await file.writeAsString(fit.planRequestText());
-      if (!mounted) return;
-      await SharePlus.instance.share(
-        ShareParams(files: [XFile(file.path)], subject: 'GymMane exercises'),
-      );
+      await shareFile('gymmane-exercises.txt', utf8Bytes(fit.planRequestText()),
+          mime: 'text/plain', subject: 'GymMane exercises');
     } catch (_) {}
   }
 

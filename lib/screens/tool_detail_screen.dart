@@ -9,46 +9,55 @@ import '../widgets/glass.dart';
 import '../widgets/ui_kit.dart';
 
 class ToolDetailScreen extends StatelessWidget {
-  const ToolDetailScreen({super.key});
+  const ToolDetailScreen({super.key, this.embedded = false});
+
+  final bool embedded;
 
   @override
   Widget build(BuildContext context) {
     final gc = context.gc;
     final id = fit.activeToolId;
     final meta = _meta(id);
-
+    final body = Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        if (embedded)
+          Padding(
+            padding: const EdgeInsetsDirectional.only(start: 4),
+            child: Text(meta.$1, style: AppTheme.f(19, weight: FontWeight.w800, color: gc.text)),
+          )
+        else
+          ScreenHeader(title: meta.$1, onBack: fit.closeTool, titleSize: 21),
+        SizedBox(height: embedded ? 14 : 20),
+        Container(
+          padding: const EdgeInsets.fromLTRB(22, 24, 22, 24),
+          decoration: BoxDecoration(
+            color: gc.bgRaised,
+            borderRadius: BorderRadius.circular(24),
+          ),
+          child: Column(children: [
+            Text(t.result.toUpperCase(),
+                style: AppTheme.f(10.5,
+                    weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.6)),
+            const SizedBox(height: 8),
+            Text(meta.$2,
+                textAlign: TextAlign.center,
+                style: AppTheme.f(40, weight: FontWeight.w800, color: gc.text)),
+            const SizedBox(height: 8),
+            Text(meta.$3, style: AppTheme.f(13, weight: FontWeight.w500, color: gc.textSecondary), textAlign: TextAlign.center),
+          ]),
+        ),
+        const SizedBox(height: 18),
+        ..._grouped(_inputs(context, gc, id)),
+      ],
+    );
+    if (embedded) return body;
     return SafeArea(
       bottom: false,
       child: SingleChildScrollView(
         clipBehavior: Clip.none,
         padding: const EdgeInsets.fromLTRB(20, 12, 20, 32),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            ScreenHeader(title: meta.$1, onBack: fit.closeTool, titleSize: 21),
-            const SizedBox(height: 20),
-            Container(
-              padding: const EdgeInsets.fromLTRB(22, 24, 22, 24),
-              decoration: BoxDecoration(
-                color: gc.bgRaised,
-                borderRadius: BorderRadius.circular(24),
-              ),
-              child: Column(children: [
-                Text(t.result.toUpperCase(),
-                    style: AppTheme.f(10.5,
-                        weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.6)),
-                const SizedBox(height: 8),
-                Text(meta.$2,
-                    textAlign: TextAlign.center,
-                    style: AppTheme.f(40, weight: FontWeight.w800, color: gc.text)),
-                const SizedBox(height: 8),
-                Text(meta.$3, style: AppTheme.f(13, weight: FontWeight.w500, color: gc.textSecondary), textAlign: TextAlign.center),
-              ]),
-            ),
-            const SizedBox(height: 18),
-            ..._grouped(_inputs(context, gc, id)),
-          ],
-        ),
+        child: body,
       ),
     );
   }
@@ -104,6 +113,10 @@ class ToolDetailScreen extends StatelessWidget {
         return (t.toolTitle('wilks'), fmt(fit.wilksScore), t.dotsLevelName(fit.wilksLevel));
       case 'ffmi':
         return (t.toolTitle('ffmi'), fmt(fit.ffmiScore), t.ffmiLevelName(fit.ffmiLevel));
+      case 'protein':
+        return (t.toolTitle('protein'), ltr('${fit.protLow}-${fit.protHigh} g'), t.toolResultHint('protein'));
+      case 'water':
+        return (t.toolTitle('water'), ltr('${fmt(fit.waterLiters)} L'), t.toolResultHint('water'));
       default:
         return ('', '', '');
     }
@@ -223,6 +236,25 @@ class ToolDetailScreen extends StatelessWidget {
           ToolRow(label: t.weightLabel, control: StepperControl(value: ltr('${fit.weightValue(fit.ffmiWeight)} ${fit.units}'), onDec: () => fit.bumpFfmiWeight(-fit.fromDisplayWeight(fit.isLb ? 1 : 0.5)), onInc: () => fit.bumpFfmiWeight(fit.fromDisplayWeight(fit.isLb ? 1 : 0.5)), onEdit: () => _editNumber(context, title: t.weightLabel, current: fit.toDisplayWeight(fit.ffmiWeight), decimal: true, apply: (v) => fit.bumpFfmiWeight(fit.fromDisplayWeight(v) - fit.ffmiWeight)))),
           ToolRow(label: t.ffmiBodyFat, control: StepperControl(value: '${fmt(fit.ffmiBf)}%', minWidth: 52, onDec: () => fit.bumpFfmiBf(-0.5), onInc: () => fit.bumpFfmiBf(0.5), onEdit: () => _editNumber(context, title: t.ffmiBodyFat, current: fit.ffmiBf, decimal: true, apply: (v) => fit.bumpFfmiBf(v - fit.ffmiBf)))),
           _note(gc, '${t.ffmiLeanLine(fit.weightLabel(fit.ffmiLean))}\n${t.ffmiExplain}'),
+        ];
+      case 'protein':
+        return [
+          ToolRow(
+            label: t.proteinGoalLabel,
+            control: SegToggle([
+              SegOption(t.paceLose, fit.protGoal == 'lose', () => fit.setProtGoal('lose')),
+              SegOption(t.paceHold, fit.protGoal == 'hold', () => fit.setProtGoal('hold')),
+              SegOption(t.paceGain, fit.protGoal == 'gain', () => fit.setProtGoal('gain')),
+            ]),
+          ),
+          ToolRow(label: t.weightLabel, control: StepperControl(value: ltr('${fit.weightValue(fit.protWeight)} ${fit.units}'), onDec: () => fit.bumpProtWeight(-fit.fromDisplayWeight(fit.isLb ? 1 : 0.5)), onInc: () => fit.bumpProtWeight(fit.fromDisplayWeight(fit.isLb ? 1 : 0.5)), onEdit: () => _editNumber(context, title: t.weightLabel, current: fit.toDisplayWeight(fit.protWeight), decimal: true, apply: (v) => fit.bumpProtWeight(fit.fromDisplayWeight(v) - fit.protWeight)))),
+          _note(gc, t.proteinExplain),
+        ];
+      case 'water':
+        return [
+          ToolRow(label: t.weightLabel, control: StepperControl(value: ltr('${fit.weightValue(fit.waterWeight)} ${fit.units}'), onDec: () => fit.bumpWaterWeight(-fit.fromDisplayWeight(fit.isLb ? 1 : 0.5)), onInc: () => fit.bumpWaterWeight(fit.fromDisplayWeight(fit.isLb ? 1 : 0.5)), onEdit: () => _editNumber(context, title: t.weightLabel, current: fit.toDisplayWeight(fit.waterWeight), decimal: true, apply: (v) => fit.bumpWaterWeight(fit.fromDisplayWeight(v) - fit.waterWeight)))),
+          ToolRow(label: t.waterTrainingLabel, control: StepperControl(value: ltr('${fit.waterMinutes} min'), minWidth: 64, onDec: () => fit.bumpWaterMinutes(-15), onInc: () => fit.bumpWaterMinutes(15), onEdit: () => _editNumber(context, title: t.waterTrainingLabel, current: fit.waterMinutes.toDouble(), decimal: false, apply: (v) => fit.bumpWaterMinutes(v.round() - fit.waterMinutes)))),
+          _note(gc, t.waterExplain),
         ];
       default:
         return const [];

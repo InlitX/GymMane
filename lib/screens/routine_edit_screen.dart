@@ -367,6 +367,7 @@ class _RoutineEditScreenState extends State<RoutineEditScreen> {
         (fit.exEquipmentFilter == null ? 0 : 1) +
         (fit.exDifficultyFilter == null ? 0 : 1);
     return SingleChildScrollView(
+      key: const PageStorageKey('h-routine_edit_screen-370'),
       scrollDirection: Axis.horizontal,
       clipBehavior: Clip.none,
       child: Row(children: [

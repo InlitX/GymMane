@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
+import '../app/desktop.dart';
 import '../l10n/l10n.dart';
 import '../models/exercise.dart';
 import '../models/note.dart';
@@ -20,18 +21,19 @@ class NotesScreen extends StatelessWidget {
     final scoped = fit.noteScope.isEmpty ? null : fit.exerciseById(fit.noteScope);
     final all = fit.notesAllView;
     final folder = fit.openFolder;
+    final wide = DesktopScope.of(context);
 
     return SafeArea(
       bottom: false,
       child: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.fromLTRB(20, 12, 20, 0),
+            padding: wide ? const EdgeInsets.fromLTRB(32, 30, 32, 0) : const EdgeInsets.fromLTRB(20, 12, 20, 0),
             child: ScreenHeader(
               title: folder != null
                   ? folder.name.toUpperCase()
                   : (scoped == null ? t.journal : exerciseName(scoped).toUpperCase()),
-              subtitle: all ? t.noteCount(fit.notesInScope.length) : t.noteMonthCount(fit.notesInMonth),
+              subtitle: all || wide ? t.noteCount(fit.notesInScope.length) : t.noteMonthCount(fit.notesInMonth),
               onBack: fit.backFromNotes,
               actions: [
                 _action(
@@ -52,7 +54,7 @@ class NotesScreen extends StatelessWidget {
                     label: t.moreOptions,
                     onTap: () => showNoteFolderMenu(context, folder),
                   )
-                else
+                else if (!wide)
                   _action(
                     gc,
                     icon: all ? PhosphorIconsRegular.calendarBlank : PhosphorIconsRegular.listBullets,
@@ -64,13 +66,86 @@ class NotesScreen extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           Expanded(
-              child: all
-                  ? _allNotes(context, gc, scoped == null, folders: scoped == null && folder == null)
-                  : _calendar(context, gc, scoped == null)),
+              child: wide
+                  ? _desktop(context, gc, scoped == null, folders: scoped == null && folder == null)
+                  : all
+                      ? _allNotes(context, gc, scoped == null, folders: scoped == null && folder == null)
+                      : _calendar(context, gc, scoped == null)),
         ],
       ),
     );
   }
+
+  Widget _desktop(BuildContext context, GymColors gc, bool showExercise, {required bool folders}) {
+    final visible = fit.notesFiltered;
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 12),
+      child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        SizedBox(width: 380, child: _calendar(context, gc, showExercise)),
+        const SizedBox(width: 8),
+        Expanded(
+          child: Column(children: [
+            if (folders) _folders(context, gc),
+            if (fit.notesInScope.isNotEmpty)
+              NoteFilterBar(
+                selected: fit.noteFilter,
+                counts: fit.noteKindCounts,
+                onPick: fit.setNoteFilter,
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+              ),
+            Expanded(
+              child: visible.isEmpty
+                  ? _empty(gc)
+                  : ListView(
+                      padding: const EdgeInsets.fromLTRB(20, 14, 20, 32),
+                      children: _groupedGrid(gc, visible, showExercise: showExercise),
+                    ),
+            ),
+          ]),
+        ),
+      ]),
+    );
+  }
+
+  List<Widget> _groupedGrid(GymColors gc, List<GymNote> notes, {required bool showExercise}) {
+    final out = <Widget>[];
+    final groups = <(DateTime, List<GymNote>)>[];
+    for (final n in notes) {
+      final d = DateTime(n.date.year, n.date.month, n.date.day);
+      if (groups.isEmpty || groups.last.$1 != d) groups.add((d, []));
+      groups.last.$2.add(n);
+    }
+    for (final (d, list) in groups) {
+      out.add(_dayHeading(gc, d, first: out.isEmpty));
+      out.add(CardFlow(minColumn: 320, maxColumns: 3, gap: 12, children: [
+        for (final n in list) NoteCard(note: n, showExercise: showExercise, showDate: false),
+      ]));
+    }
+    return out;
+  }
+
+  Widget _dayHeading(GymColors gc, DateTime d, {required bool first}) => Padding(
+        padding: EdgeInsets.only(top: first ? 0 : 18, bottom: 12),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(noteDayLabel(d).toUpperCase(),
+                    style: AppTheme.f(12.5, weight: FontWeight.w700, color: gc.text, letterSpacing: 0.4)),
+                const SizedBox(height: 3),
+                Text(t.fullDate(d), style: AppTheme.f(11.5, weight: FontWeight.w500, color: gc.textTertiary)),
+              ],
+            ),
+            const SizedBox(width: 12),
+            Expanded(child: Padding(
+              padding: const EdgeInsets.only(bottom: 6),
+              child: Container(height: 1, color: gc.border),
+            )),
+          ],
+        ),
+      );
 
   Widget _action(
     GymColors gc, {
@@ -207,6 +282,7 @@ class NotesScreen extends StatelessWidget {
           SizedBox(
             height: noteFolderHeight(context),
             child: ListView.separated(
+              key: const PageStorageKey('h-notes_screen-285'),
               scrollDirection: Axis.horizontal,
               padding: const EdgeInsets.symmetric(horizontal: 20),
               itemCount: fit.noteFolders.length + 1,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
+import '../app/desktop.dart';
 import '../l10n/l10n.dart';
 import '../models/workout.dart';
 import '../state/fit_state.dart';
@@ -40,7 +41,27 @@ class HistoryScreen extends StatelessWidget {
           title: sentenceCase(t.historyTitle),
           eyebrow: t.profile,
           onBack: fit.popRoute,
-          children: [
+          children: DesktopScope.of(context)
+              ? [
+                  Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                    SizedBox(width: 420, child: Rise(index: 0, child: _MonthCard(key: ValueKey(month), month: month))),
+                    const SizedBox(width: 24),
+                    Expanded(
+                      child: list.isEmpty
+                          ? _empty(gc)
+                          : Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+                              Text(t.historyWorkouts(list.length),
+                                  style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.4)),
+                              const SizedBox(height: 10),
+                              CardFlow(minColumn: 300, maxColumns: 2, gap: 12, children: [
+                                for (var i = 0; i < list.length; i++)
+                                  Rise(index: i + 1, child: WorkoutHistoryCard(session: list[i], records: records[list[i]] ?? 0)),
+                              ]),
+                            ]),
+                    ),
+                  ]),
+                ]
+              : [
             Rise(index: 0, child: _MonthCard(key: ValueKey(month), month: month)),
             const SizedBox(height: 22),
             if (list.isEmpty)

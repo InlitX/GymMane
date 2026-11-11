@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -17,11 +18,16 @@ const _kRepoUrl = 'https://github.com/InlitX/GymMane';
 const _kKofiUrl = 'https://ko-fi.com/inlitx';
 
 class AboutScreen extends StatelessWidget {
-  const AboutScreen({super.key});
+  const AboutScreen({super.key, this.embedded = false});
+
+  final bool embedded;
 
   @override
   Widget build(BuildContext context) {
     final gc = context.gc;
+    if (embedded) {
+      return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: riseAll(_content(gc)));
+    }
     return RiseScope(
       id: 'about',
       once: false,
@@ -40,11 +46,22 @@ class AboutScreen extends StatelessWidget {
               titleSpacing: 1,
             ),
             const SizedBox(height: 18),
+            ..._content(gc),
+          ]),
+        ),
+      ),
+      ),
+    );
+  }
+
+  List<Widget> _content(GymColors gc) => [
             _hero(gc),
             const SizedBox(height: 20),
             _group(gc, [
               (PhosphorIconsRegular.gift, t.freeForever, t.freeForeverWhy),
-              (PhosphorIconsRegular.wifiSlash, t.fullyOffline, t.fullyOfflineWhy),
+              kIsWeb
+                  ? (PhosphorIconsRegular.hardDrives, t.webOwnServer, t.webOwnServerWhy)
+                  : (PhosphorIconsRegular.wifiSlash, t.fullyOffline, t.fullyOfflineWhy),
               (PhosphorIconsRegular.export, t.yoursToTake, t.yoursToTakeWhy),
             ]),
             const SizedBox(height: 18),
@@ -62,12 +79,7 @@ class AboutScreen extends StatelessWidget {
                 style: AppTheme.f(12.5, weight: FontWeight.w500, color: gc.textTertiary, height: 1.6)),
             const SizedBox(height: 20),
             _credits(gc),
-          ]),
-        ),
-      ),
-      ),
-    );
-  }
+          ];
 
   Widget _sectionLabel(GymColors gc, String label) => Text(label.toUpperCase(),
       style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.4));

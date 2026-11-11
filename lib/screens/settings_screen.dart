@@ -5,17 +5,18 @@ import 'dart:math' as math;
 import 'dart:ui' as ui;
 
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:home_widget/home_widget.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
-import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../app/desktop.dart';
 import '../l10n/l10n.dart';
 import '../models/profile.dart';
+import '../services/graphics_mode.dart';
 import '../services/alarm_store.dart';
 import '../services/auto_backup.dart';
 import '../services/backup_zip.dart';
@@ -53,6 +54,12 @@ import '../widgets/widget_showcase.dart';
 import 'profile_screen.dart';
 import 'strava_sheet.dart';
 
+import '../services/host.dart';
+import '../services/file_share.dart';
+import '../services/server/server_link.dart';
+import '../widgets/server_card.dart';
+import 'about_screen.dart';
+
 const _kRepoUrl = 'https://github.com/InlitX/GymMane';
 const _kBugUrl = '$_kRepoUrl/issues/new?labels=bug';
 const _kFeatureUrl = '$_kRepoUrl/issues/new?labels=enhancement';
@@ -68,7 +75,47 @@ class SettingsScreen extends StatelessWidget {
     final gc = context.gc;
     final id = section;
     WidgetShowcase.warm(context);
-    if (id == null) return _SettingsHome(screen: this);
+    if (id == null && DesktopScope.of(context)) {
+      _deskOn = true;
+      return Row(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+        SizedBox(width: 400, child: _SettingsHome(screen: this)),
+        const SizedBox(width: 30),
+        Expanded(
+          child: ValueListenableBuilder<String>(
+            valueListenable: _desk,
+            builder: (context, sec, _) => RiseScope(
+              id: 'settings-$sec',
+              once: false,
+              child: SingleChildScrollView(
+                key: ValueKey(sec),
+                clipBehavior: Clip.none,
+                padding: const EdgeInsets.fromLTRB(0, 112, 32, 48),
+                child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+                  Padding(
+                    padding: const EdgeInsetsDirectional.only(start: 4, bottom: 18),
+                    child: Text(titleCase(_sectionTitle(sec)), style: AppTheme.f(24, weight: FontWeight.w800, color: gc.text)),
+                  ),
+                  if (sec == 'about')
+                    Align(
+                      alignment: AlignmentDirectional.topStart,
+                      child: ConstrainedBox(
+                        constraints: const BoxConstraints(maxWidth: 720),
+                        child: const AboutScreen(embedded: true),
+                      ),
+                    )
+                  else
+                    ...riseAll(_sectionBody(context, gc, sec)),
+                ]),
+              ),
+            ),
+          ),
+        ),
+      ]);
+    }
+    if (id == null) {
+      _deskOn = false;
+      return _SettingsHome(screen: this);
+    }
     return RiseScope(
       id: 'settings-$id',
       once: false,
@@ -263,6 +310,60 @@ class SettingsScreen extends StatelessWidget {
                     ),
                     hint: t.miniRestHint,
                   ),
+                  _prefRow(
+                    gc,
+                    PhosphorIconsRegular.timer,
+                    t.changeRest,
+                    StepperControl(
+                      value: fit.changeRestSeconds == 0 ? t.restOff : clockLabel(fit.changeRestSeconds),
+                      minWidth: 48,
+                      btnSize: 28,
+                      gap: 10,
+                      fontSize: 14,
+                      onDec: () => fit.setChangeRest(fit.changeRestSeconds - 15),
+                      onInc: () => fit.setChangeRest(fit.changeRestSeconds == 0 ? fit.restSeconds : fit.changeRestSeconds + 15),
+                      onEdit: () async {
+                        final v = await askRuler(context,
+                            title: t.changeRest,
+                            value: fit.changeRestSeconds.toDouble(),
+                            min: 0,
+                            max: 900,
+                            step: 5,
+                            majorEvery: 6,
+                            format: (v) => clockLabel(v.round()),
+                            tickLabel: (v) => clockLabel(v.round()));
+                        if (v != null) fit.setChangeRest(v.round());
+                      },
+                    ),
+                    hint: t.changeRestHint,
+                  ),
+                  _prefRow(
+                    gc,
+                    PhosphorIconsRegular.arrowsLeftRight,
+                    t.sideRest,
+                    StepperControl(
+                      value: fit.sideRestSeconds == 0 ? t.restOff : clockLabel(fit.sideRestSeconds),
+                      minWidth: 48,
+                      btnSize: 28,
+                      gap: 10,
+                      fontSize: 14,
+                      onDec: () => fit.setSideRest(fit.sideRestSeconds - 5),
+                      onInc: () => fit.setSideRest(fit.sideRestSeconds == 0 ? 15 : fit.sideRestSeconds + 5),
+                      onEdit: () async {
+                        final v = await askRuler(context,
+                            title: t.sideRest,
+                            value: fit.sideRestSeconds.toDouble(),
+                            min: 0,
+                            max: 300,
+                            step: 5,
+                            majorEvery: 6,
+                            format: (v) => clockLabel(v.round()),
+                            tickLabel: (v) => clockLabel(v.round()));
+                        if (v != null) fit.setSideRest(v.round());
+                      },
+                    ),
+                    hint: t.sideRestHint,
+                  ),
           ]),
           _subhead(gc, t.settingsDuring),
           _card(gc, [
@@ -440,6 +541,7 @@ class SettingsScreen extends StatelessWidget {
       case 'alerts':
         return [
           _card(gc, [
+                  if (!kIsWeb)
                   GestureDetector(
                     behavior: HitTestBehavior.opaque,
                     onTap: () => _editTrainReminder(context),
@@ -463,7 +565,7 @@ class SettingsScreen extends StatelessWidget {
                       hint: t.trainReminderRowHint,
                     ),
                   ),
-                  if (Platform.isAndroid)
+                  if (onAndroid)
                   GestureDetector(
                     behavior: HitTestBehavior.opaque,
                     onTap: () => showAppSheet<void>(
@@ -486,6 +588,7 @@ class SettingsScreen extends StatelessWidget {
                       hint: t.notifSoundRowHint,
                     ),
                   ),
+                  if (!kIsWeb)
                   GestureDetector(
                     behavior: HitTestBehavior.opaque,
                     onTap: () => _editAlarmSound(context),
@@ -531,7 +634,7 @@ class SettingsScreen extends StatelessWidget {
                     child: _prefRow(gc, PhosphorIconsRegular.bellSimple, t.toastSoundSetting,
                         TinySwitch(on: fit.toastSound), hint: t.toastSoundHint),
                   ),
-                  if (!fit.alarmAllowed) ...[
+                  if (!kIsWeb && !fit.alarmAllowed) ...[
                     const SizedBox(height: 14),
                     _alarmWarning(context, gc),
                     const SizedBox(height: 14),
@@ -648,6 +751,10 @@ class SettingsScreen extends StatelessWidget {
         ];
       case 'data':
         return [
+          if (kIsWeb && ServerLink.instance.available) ...[
+            const ServerCard(),
+            const SizedBox(height: 12),
+          ],
           ImportCard(onTap: () => _openImportApps(context)),
           const SizedBox(height: 12),
           _linkGroup(gc, [
@@ -716,6 +823,7 @@ class SettingsScreen extends StatelessWidget {
         'widgets' => t.sectionWidgets,
         'beta' => t.sectionBeta,
         'data' => t.sectionData,
+        'about' => t.aboutGymmane,
         _ => titleCase(t.support),
       };
 
@@ -738,6 +846,8 @@ class SettingsScreen extends StatelessWidget {
       _Category('training', PhosphorIconsRegular.barbell, _sectionTitle('training'), [
         (t.restTimer, PhosphorIconsRegular.timer),
         (t.miniRest, PhosphorIconsRegular.timer),
+        (t.changeRest, PhosphorIconsRegular.timer),
+        (t.sideRest, PhosphorIconsRegular.arrowsLeftRight),
         (t.effortSetting, PhosphorIconsRegular.gauge),
         (t.weightStepSetting, PhosphorIconsRegular.barbell),
         (t.autoProgressSetting, PhosphorIconsRegular.trendUp),
@@ -773,7 +883,7 @@ class SettingsScreen extends StatelessWidget {
         (t.gamificationSetting, PhosphorIconsRegular.medal),
         (t.gymPass, PhosphorIconsRegular.qrCode),
       ]),
-      if (Platform.isAndroid || Platform.isIOS)
+      if (onMobile)
         _Category('widgets', PhosphorIconsRegular.squaresFour, _sectionTitle('widgets'), [
           (t.addActivityWidget, PhosphorIconsRegular.squaresFour),
           (t.addStatsWidget, PhosphorIconsRegular.chartBar),
@@ -805,7 +915,18 @@ class SettingsScreen extends StatelessWidget {
     ];
   }
 
-  static void _openCategory(String id) => id == 'about' ? fit.goAbout() : fit.pushRoute('preferences/$id');
+  static final ValueNotifier<String> _desk = ValueNotifier('general');
+  static bool _deskOn = false;
+
+  static void _openCategory(String id) {
+    if (_deskOn) {
+      _desk.value = id;
+    } else if (id == 'about') {
+      fit.goAbout();
+    } else {
+      fit.pushRoute('preferences/$id');
+    }
+  }
 
   Widget _prefRow(GymColors gc, IconData icon, String label, Widget control, {String? hint, Widget? badge}) {
     if (hint == null) {
@@ -956,6 +1077,14 @@ class SettingsScreen extends StatelessWidget {
         _ => t.perfCustom,
       };
 
+  Future<void> _switchGraphics(BuildContext context) async {
+    final ok = await askConfirm(context,
+        title: t.gfxRestartTitle, body: t.gfxRestartBody, confirmLabel: t.gfxRestart);
+    if (!ok) return;
+    fit.persistNow();
+    await GraphicsMode.restartWith(!GraphicsMode.compat);
+  }
+
   void _performanceSheet(BuildContext context) {
     fit.readDisplay();
     showAppSheet<void>(
@@ -1015,6 +1144,9 @@ class SettingsScreen extends StatelessWidget {
                       () => fit.setHighRefresh(!fit.highRefresh)),
                 toggle(PhosphorIconsRegular.waveSine, t.calmMotionSetting, t.calmMotionHint, fit.calmMotion,
                     () => fit.setCalmMotion(!fit.calmMotion)),
+                if (GraphicsMode.available)
+                  toggle(PhosphorIconsRegular.textAa, t.gfxCompat, t.gfxCompatHint, GraphicsMode.compat,
+                      () => _switchGraphics(sheet)),
               ]),
             ),
           ]);
@@ -1090,14 +1222,9 @@ class SettingsScreen extends StatelessWidget {
       _snack(context, t.nothingToExport);
       return;
     }
-    final dir = await getTemporaryDirectory();
     final stamp = DateTime.now().toIso8601String().split('T').first;
-    final file = File('${dir.path}/gymmane-workouts-$stamp.csv');
-    await file.writeAsString(fit.exportCsv());
-    if (!context.mounted) return;
-    await SharePlus.instance.share(
-      ShareParams(files: [XFile(file.path)], subject: 'GymMane workouts'),
-    );
+    await shareFile('gymmane-workouts-$stamp.csv', utf8Bytes(fit.exportCsv()),
+        mime: 'text/csv', subject: 'GymMane workouts');
   }
 
   Future<void> _clearWorkouts(BuildContext context) async {
@@ -1129,14 +1256,10 @@ class SettingsScreen extends StatelessWidget {
   }
 
   Future<void> _exportBackup(BuildContext context) async {
-    final dir = await getTemporaryDirectory();
     final stamp = DateTime.now().toIso8601String().split('T').first;
-    final file = File('${dir.path}/gymmane-backup-$stamp.zip');
-    await file.writeAsBytes(await buildBackupZip(), flush: true);
+    final zip = await buildBackupZip();
     if (!context.mounted) return;
-    await SharePlus.instance.share(
-      ShareParams(files: [XFile(file.path)], subject: 'GymMane backup'),
-    );
+    await shareFile('gymmane-backup-$stamp.zip', zip, mime: 'application/zip', subject: 'GymMane backup');
   }
 
   Future<void> _importBackup(BuildContext context) async {
@@ -2729,13 +2852,25 @@ class _SettingsHomeState extends State<_SettingsHome> {
   }
 
   Widget _bubble(GymColors gc, _Category c) {
+    return ValueListenableBuilder<String>(
+      valueListenable: SettingsScreen._desk,
+      builder: (context, sec, _) => _bubbleBody(gc, c, SettingsScreen._deskOn && sec == c.id),
+    );
+  }
+
+  Widget _bubbleBody(GymColors gc, _Category c, bool on) {
     return Pressable(
       onTap: () => _go(c, null),
       scale: 0.975,
-      child: Container(
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 180),
         height: 64,
         padding: const EdgeInsets.symmetric(horizontal: 12),
-        decoration: BoxDecoration(color: gc.bgRaised, borderRadius: BorderRadius.circular(22)),
+        decoration: BoxDecoration(
+          color: gc.bgRaised,
+          borderRadius: BorderRadius.circular(22),
+          border: Border.all(color: on ? gc.text.withValues(alpha: 0.55) : Colors.transparent, width: 1.4),
+        ),
         child: Row(
           children: [
             _circle(gc, c.icon),

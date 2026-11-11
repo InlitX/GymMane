@@ -1,9 +1,7 @@
-import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
-import 'package:share_plus/share_plus.dart';
 
 import '../l10n/l10n.dart';
 import '../models/workout.dart';
@@ -13,6 +11,7 @@ import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
 import '../widgets/glass.dart';
 import '../widgets/ui_kit.dart';
+import '../services/file_share.dart';
 
 void showStravaSheet(BuildContext context) => showAppSheet<void>(
       context: context,
@@ -220,11 +219,9 @@ class _StravaSheetState extends State<_StravaSheet> {
 
 Future<void> shareWorkoutFit(LoggedSession s) async {
   try {
-    final dir = await getTemporaryDirectory();
     final d = s.date;
     final stamp = '${d.year}-${d.month.toString().padLeft(2, '0')}-${d.day.toString().padLeft(2, '0')}';
-    final file = File('${dir.path}/GymMane $stamp.fit');
-    await file.writeAsBytes(workoutFit(s, pounds: fit.isLb));
-    await SharePlus.instance.share(ShareParams(files: [XFile(file.path)], text: t.exportForStravaHint));
+    await shareFile('GymMane $stamp.fit', Uint8List.fromList(workoutFit(s, pounds: fit.isLb)),
+        mime: 'application/vnd.ant.fit', text: t.exportForStravaHint);
   } catch (_) {}
 }

@@ -536,6 +536,12 @@ class SessionScreen extends StatelessWidget {
                     Navigator.pop(sheet);
                     fit.setExerciseUnits(ex.id, fit.isLbFor(ex.id) ? 'kg' : 'lb');
                   }),
+                if (mode == 'cardio')
+                  OptionItem(t.exerciseUnitSwitch(fit.isMiFor(ex.id) ? 'km' : 'mi'),
+                      icon: PhosphorIconsRegular.ruler, onTap: () {
+                    Navigator.pop(sheet);
+                    fit.setExerciseDistance(ex.id, fit.isMiFor(ex.id) ? 'km' : 'mi');
+                  }),
                 OptionItem(t.addNote, icon: PhosphorIconsRegular.notePencil, onTap: () {
                   Navigator.pop(sheet);
                   showWorkoutNoteEditor(context, ex.id);
@@ -767,7 +773,7 @@ class SessionScreen extends StatelessWidget {
                       behavior: HitTestBehavior.opaque,
                       onTap: () => _editRest(context, s),
                       child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-                        FitText(t.liveResting.toUpperCase(),
+                        FitText((s.restSwitch ? t.switchSides : t.liveResting).toUpperCase(),
                             style: AppTheme.f(9.5, weight: FontWeight.w800, color: gc.accent, letterSpacing: 1.2)),
                         RollingText(clockLabel(left),
                             style: AppTheme.f(24, weight: FontWeight.w800, color: gc.text, height: 1.1)),
@@ -1162,7 +1168,8 @@ class SessionScreen extends StatelessWidget {
         SizedBox(width: gap),
         Expanded(flex: _prevFlex, child: label(t.previousCol)),
       ],
-      for (final h in _headers(mode, repsOnly, sided, exId == null ? fit.units : fit.unitsFor(exId))) ...[
+      for (final h in _headers(mode, repsOnly, sided, exId == null ? fit.units : fit.unitsFor(exId),
+          exId == null ? fit.distanceUnit : fit.distanceUnitFor(exId))) ...[
         SizedBox(width: gap),
         Expanded(flex: _cellFlex, child: label(h)),
       ],
@@ -1479,18 +1486,18 @@ class SessionScreen extends StatelessWidget {
         );
     Widget distance() => step(
           gc,
-          fit.distanceValue(st.km ?? 0),
+          fit.distanceValueFor(exId, st.km ?? 0),
           () => fit.bumpSessionDistance(exIdx, j, -1),
           () => fit.bumpSessionDistance(exIdx, j, 1),
           30,
           onEdit: (context) => _ruler(
             context,
-            title: t.distanceTitle(fit.distanceUnit),
-            value: fit.toDisplayKm(st.km ?? 0),
+            title: t.distanceTitle(fit.distanceUnitFor(exId)),
+            value: fit.toDisplayKmFor(exId, st.km ?? 0),
             max: 100,
             step: 0.1,
             majorEvery: 10,
-            unit: fit.distanceUnit,
+            unit: fit.distanceUnitFor(exId),
             onSave: (v) => fit.setSessionDistanceShown(exIdx, j, v),
           ),
         );
@@ -1501,8 +1508,8 @@ class SessionScreen extends StatelessWidget {
     };
   }
 
-  List<String> _headers(String mode, bool repsOnly, bool sided, String unit) => switch (mode) {
-        'cardio' => [t.distanceCol(fit.distanceUnit.toUpperCase()), t.timeCol],
+  List<String> _headers(String mode, bool repsOnly, bool sided, String unit, String dist) => switch (mode) {
+        'cardio' => [t.distanceCol(dist.toUpperCase()), t.timeCol],
         'time' => [sided ? t.timePerSideCol : t.timeCol, if (!repsOnly) t.weightCol(unit.toUpperCase())],
         _ => [
             if (sided) ...[t.repsLeftCol, t.repsRightCol] else t.repsCol,
@@ -1587,11 +1594,22 @@ class SessionScreen extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: st.done ? gc.sage : Colors.transparent,
                       shape: BoxShape.circle,
-                      border: Border.all(color: st.done ? gc.sage : gc.textTertiary, width: 2),
+                      border: Border.all(color: st.done || st.half ? gc.sage : gc.textTertiary, width: 2),
                     ),
                     child: st.done
                         ? Center(child: SvgPathIcon(Ic.checkBold, size: 14, color: Colors.white))
-                        : null,
+                        : st.half
+                            ? Padding(
+                                padding: const EdgeInsets.all(2),
+                                child: ClipOval(
+                                  child: FractionallySizedBox(
+                                    alignment: AlignmentDirectional.centerStart,
+                                    widthFactor: 0.5,
+                                    child: ColoredBox(color: gc.sage),
+                                  ),
+                                ),
+                              )
+                            : null,
                   ),
                   if (fit.liveSetIsRecord(exIdx, j))
                     Positioned(top: -6, right: -8, child: RecordBadge(label: sentenceCase(t.personalRecord))),
@@ -2022,7 +2040,7 @@ class SessionScreen extends StatelessWidget {
   Widget _restPanel(BuildContext context, GymColors gc, WorkoutSession s) {
     final count = fit.sessionSetCount;
     return TimerPanel(
-      label: t.liveResting,
+      label: s.restSwitch ? t.switchSides : t.liveResting,
       remaining: s.restRemaining ?? 0,
       total: fit.restTotal,
       elapsed: fit.elapsedLabel,

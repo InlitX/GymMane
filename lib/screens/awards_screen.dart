@@ -152,8 +152,8 @@ class _AwardsScreenState extends State<AwardsScreen> {
   Widget _grid(BuildContext context, List<AwardId> ids, int rise) {
     return SliverGrid.builder(
       itemCount: ids.length,
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
+      gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+        maxCrossAxisExtent: 200,
         mainAxisSpacing: 10,
         crossAxisSpacing: 10,
         childAspectRatio: 1.02,
