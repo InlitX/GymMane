@@ -1,4 +1,4 @@
-import 'package:gymmane_merge/gymmane_merge.dart';
+import 'package:sync/sync.dart';
 import 'package:test/test.dart';
 
 void main() {
