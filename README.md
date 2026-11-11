@@ -131,7 +131,7 @@ Tap the muscles you want to train, log your sets and watch your numbers go up.
 - Import from **Hevy**, **Strong**, **Lyfta**, **FitNotes** or **openGym**
 - **Health Connect** in and out, and workouts to **Strava** as a `.fit` file
 - No account, no ads, no analytics, no **internet permission**
-- **18 languages**, light and dark, kg or lb
+- **22 languages**, light and dark, kg or lb
 - Delete everything in one tap
 
 </td>
