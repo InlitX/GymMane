@@ -304,7 +304,8 @@
   document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
 
   var spy = [].slice.call(document.querySelectorAll('.lnks a.lnk')).map(function (a) {
-    return { a: a, sec: document.querySelector(a.getAttribute('href')) };
+    var href = a.getAttribute('href') || '';
+    return { a: a, sec: href.charAt(0) === '#' ? document.querySelector(href) : null };
   }).filter(function (s) { return s.sec; });
 
   addEventListener('scroll', function () {
