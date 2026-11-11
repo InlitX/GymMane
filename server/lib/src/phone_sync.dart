@@ -4,7 +4,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:archive/archive.dart';
-import 'package:gymmane_merge/gymmane_merge.dart';
+import 'package:sync/sync.dart';
 
 import 'media_store.dart';
 import 'state_store.dart';

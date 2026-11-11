@@ -8,8 +8,8 @@ environment:
 
 dependencies:
   archive: ^4.0.9
-  gymmane_merge:
-    path: ../packages/gymmane_merge
+  sync:
+    path: ../packages/sync
 
 dev_dependencies:
   lints: ^6.0.0

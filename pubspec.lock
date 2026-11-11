@@ -349,13 +349,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  gymmane_merge:
-    dependency: "direct main"
-    description:
-      path: "packages/gymmane_merge"
-      relative: true
-    source: path
-    version: "1.0.0"
   home_widget:
     dependency: "direct main"
     description:
@@ -833,6 +826,13 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.4.1"
+  sync:
+    dependency: "direct main"
+    description:
+      path: "packages/sync"
+      relative: true
+    source: path
+    version: "1.0.0"
   synchronized:
     dependency: transitive
     description:

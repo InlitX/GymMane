@@ -6,7 +6,7 @@ import 'dart:math' as math;
 import 'package:archive/archive.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
-import 'package:gymmane_merge/gymmane_merge.dart';
+import 'package:sync/sync.dart';
 import 'package:path_provider/path_provider.dart';
 
 import '../state/fit_state.dart';
