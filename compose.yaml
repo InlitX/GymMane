@@ -1,0 +1,32 @@
+services:
+  gymmane:
+    image: ghcr.io/inlitx/gymmane:latest
+    build: .
+    container_name: gymmane
+    restart: unless-stopped
+    ports:
+      - "${GYMMANE_PORT:-8080}:8080"
+    volumes:
+      - ./gymmane-data:/data
+    environment:
+      GYMMANE_PASSWORD: ${GYMMANE_PASSWORD:-}
+      GYMMANE_SYNC: ${GYMMANE_SYNC:-}
+      GYMMANE_KEEP_DAYS: ${GYMMANE_KEEP_DAYS:-}
+
+  syncthing:
+    image: syncthing/syncthing:latest
+    container_name: gymmane-syncthing
+    restart: unless-stopped
+    profiles: ["sync"]
+    hostname: gymmane
+    environment:
+      PUID: "0"
+      PGID: "0"
+    ports:
+      - "8384:8384"
+      - "22000:22000/tcp"
+      - "22000:22000/udp"
+      - "21027:21027/udp"
+    volumes:
+      - ./syncthing:/var/syncthing
+      - ./gymmane-data/sync:/var/syncthing/GymMane
