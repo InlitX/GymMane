@@ -2276,5 +2276,70 @@
   "noteLinkEdit": "Editar enlace",
   "noteLinkNameHint": "Nombre",
   "noteLinkUrlHint": "Dirección web",
-  "noteLinkInvalid": "Esa dirección no parece válida"
+  "noteLinkInvalid": "Esa dirección no parece válida",
+
+  "changeRest": "Descanso entre ejercicios",
+  "changeRestHint": "Tras la última serie, antes del siguiente ejercicio",
+
+  "notifSuppTake": "Tomado",
+
+  "sideRest": "Descanso entre lados",
+  "sideRestHint": "Ejercicios por lados: el primer ✓ cierra un lado",
+
+  "gfxCompat": "Gráficos compatibles",
+  "gfxCompatHint": "Para móviles donde las letras se ven rotas. El desenfoque se queda, algún efecto se simplifica",
+  "gfxRestartTitle": "¿Reiniciar GymMane?",
+  "gfxRestartBody": "Se cierra y se vuelve a abrir para cambiar cómo dibuja la pantalla. No se pierde nada de lo guardado.",
+  "gfxRestart": "Reiniciar",
+
+  "webSynced": "Actualizado con cambios de otro dispositivo",
+  "webSyncedPhone": "Ya tienes los cambios de tu móvil",
+
+  "webWelcomeBlurb": "Todo se queda en tu propio servidor. Sin cuenta, sin nube, sin pagar nada.",
+  "webOwnServer": "Tu servidor, tus reglas",
+  "webOwnServerWhy": "Sin cuentas ni nubes de terceros. Tus datos viven donde tú lo montas.",
+
+  "webServerSaved": "Guardado en tu servidor",
+  "webServerOffline": "Sin conexión con tu servidor",
+  "webServerLocal": "Guardado en este navegador",
+
+  "webServerTitle": "Tu servidor",
+  "webPhoneLast": "Última copia del móvil: {date}",
+  "@webPhoneLast": {"placeholders": {"date": {"type": "String"}}},
+  "webPhoneNone": "Aún no ha llegado ninguna copia del móvil",
+  "webPhoneScan": "Traer del móvil",
+  "webPhoneExport": "Mandar al móvil",
+  "webPhoneExportDone": "Lista en la carpeta compartida. Tu móvil la trae al sincronizar",
+  "webPhoneImported": "Ya tienes los cambios de tu móvil",
+  "webPhoneNothing": "No hay nada nuevo del móvil",
+  "webPhoneHow": "Activa en el móvil la copia automática en una carpeta que sincronices con Syncthing. El servidor y el móvil se traen solos los cambios del otro, y al juntar nunca se borra nada.",
+  "webPhoneGuide": "Cómo montarlo",
+  "webPhoneOff": "La sincronización con el móvil está apagada en este servidor",
+
+  "toolGroupBody": "Cuerpo",
+
+  "toolNameProtein": "Proteína",
+  "toolTitleProtein": "Proteína diaria",
+  "toolDescProtein": "Cuánta proteína al día",
+  "toolHintProtein": "Gramos al día, repartidos en tus comidas",
+  "proteinGoalLabel": "Objetivo",
+  "proteinExplain": "Sale del rango en el que coinciden casi todos los estudios para gente que entrena: más cuando bajas de peso, para no perder músculo. Pasarte no es malo, solo aporta poco.",
+  "toolNameWater": "Agua",
+  "toolTitleWater": "Agua diaria",
+  "toolDescWater": "Cuánta agua beber al día",
+  "toolHintWater": "Litros al día, contando la comida",
+  "waterTrainingLabel": "Entreno al día",
+  "waterExplain": "Unos 35 ml por kilo de peso, más un extra por cada minuto que entrenas. Bebe más los días de calor.",
+
+  "autoBackupSync": "Sincronizar ahora",
+  "autoBackupMerged": "Ya tienes los cambios de tus otros dispositivos",
+  "autoBackupSyncHint": "Comparte esta carpeta con Syncthing y cada dispositivo trae lo que dejan los otros. Al juntar nunca se borra nada.",
+
+  "webPhoneFolder": "Carpeta compartida",
+  "webPhoneFolderHow": "Se elige al instalar el servidor. Para cambiarla, pon GYMMANE_SYNC en el archivo .env del servidor y reinícialo.",
+  "webPhoneOffHow": "Para encenderla, quita GYMMANE_SYNC=off del archivo .env del servidor y reinícialo.",
+  "webPhoneDevices": "{n, plural, =0{Ningún móvil ha sincronizado aún} =1{1 móvil sincronizado} other{{n} móviles sincronizados}}",
+  "@webPhoneDevices": {"placeholders": {"n": {"type": "int"}}},
+  "webPhoneError": "No se pudo leer la carpeta: {error}",
+  "@webPhoneError": {"placeholders": {"error": {"type": "String"}}}
 }

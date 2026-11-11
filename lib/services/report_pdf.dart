@@ -6,7 +6,7 @@ String reportRangeLabel(RangeReport r) => r.from.year == r.to.year
 
 Future<Uint8List> buildReportPdf(RangeReport r, {DateTime? now}) async {
   final runner = await _loadImage('assets/img/runner.png');
-  final doc = _ReportDoc(runner, rtl: const {'ar', 'fa'}.contains(appLanguage));
+  final doc = _ReportDoc(runner, rtl: kRtlLanguages.contains(appLanguage));
   doc.layReport(r, now ?? DateTime.now());
   final pages = await _rasterize(doc);
   runner.dispose();
@@ -16,28 +16,15 @@ Future<Uint8List> buildReportPdf(RangeReport r, {DateTime? now}) async {
 
 Future<void> shareReport(RangeReport r, {required bool pdf, required bool csv}) async {
   try {
-    final dir = await getTemporaryDirectory();
     final stamp = '${_isoDay(r.from)}_${_isoDay(r.to)}';
-    final files = <XFile>[];
-    if (pdf) {
-      final file = File('${dir.path}/gymmane-report-$stamp.pdf');
-      await file.writeAsBytes(await buildReportPdf(r));
-      files.add(XFile(file.path, mimeType: 'application/pdf'));
-    }
-    if (csv) {
-      if (r.sessions > 0) {
-        final file = File('${dir.path}/gymmane-workouts-$stamp.csv');
-        await file.writeAsString(fit.reportWorkoutsCsv(r));
-        files.add(XFile(file.path, mimeType: 'text/csv'));
-      }
-      if (r.food != null) {
-        final file = File('${dir.path}/gymmane-nutrition-$stamp.csv');
-        await file.writeAsString(fit.reportNutritionCsv(r));
-        files.add(XFile(file.path, mimeType: 'text/csv'));
-      }
-    }
-    if (files.isEmpty) return;
-    await SharePlus.instance.share(ShareParams(files: files, subject: '${sentenceCase(t.reportKicker)} · ${reportRangeLabel(r)}'));
+    final files = <ShareItem>[
+      if (pdf) ShareItem('gymmane-report-$stamp.pdf', await buildReportPdf(r), mime: 'application/pdf'),
+      if (csv && r.sessions > 0)
+        ShareItem('gymmane-workouts-$stamp.csv', utf8Bytes(fit.reportWorkoutsCsv(r)), mime: 'text/csv'),
+      if (csv && r.food != null)
+        ShareItem('gymmane-nutrition-$stamp.csv', utf8Bytes(fit.reportNutritionCsv(r)), mime: 'text/csv'),
+    ];
+    await shareFiles(files, subject: '${sentenceCase(t.reportKicker)} · ${reportRangeLabel(r)}');
   } catch (_) {}
 }
 

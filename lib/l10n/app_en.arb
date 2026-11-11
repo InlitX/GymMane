@@ -2615,5 +2615,70 @@
   "noteLinkEdit": "Edit link",
   "noteLinkNameHint": "Name",
   "noteLinkUrlHint": "Web address",
-  "noteLinkInvalid": "That address doesn't look right"
+  "noteLinkInvalid": "That address doesn't look right",
+
+  "changeRest": "Rest between exercises",
+  "changeRestHint": "After the last set, before the next exercise",
+
+  "notifSuppTake": "Taken",
+
+  "sideRest": "Rest between sides",
+  "sideRestHint": "Per-side exercises: the first ✓ ends one side",
+
+  "gfxCompat": "Compatible graphics",
+  "gfxCompatHint": "For phones where letters look broken. Blur stays, a few effects get simpler",
+  "gfxRestartTitle": "Restart GymMane?",
+  "gfxRestartBody": "It closes and opens again to change how it draws the screen. Nothing you saved is lost.",
+  "gfxRestart": "Restart",
+
+  "webSynced": "Updated with changes from another device",
+  "webSyncedPhone": "Your phone's changes are in",
+
+  "webWelcomeBlurb": "Everything stays on your own server. No account, no cloud, nothing to pay.",
+  "webOwnServer": "Your server, your rules",
+  "webOwnServerWhy": "No accounts and no third-party cloud. Your data lives where you run it.",
+
+  "webServerSaved": "Saved on your server",
+  "webServerOffline": "Can't reach your server",
+  "webServerLocal": "Saved in this browser",
+
+  "webServerTitle": "Your server",
+  "webPhoneLast": "Last copy from your phone: {date}",
+  "@webPhoneLast": {"placeholders": {"date": {"type": "String"}}},
+  "webPhoneNone": "No copy from your phone yet",
+  "webPhoneScan": "Get from phone",
+  "webPhoneExport": "Send to phone",
+  "webPhoneExportDone": "Left in the shared folder. Your phone brings it in when it syncs",
+  "webPhoneImported": "Your phone's changes are in",
+  "webPhoneNothing": "Nothing new from your phone",
+  "webPhoneHow": "Turn on automatic backups on your phone into a folder you sync with Syncthing. The server and the phone bring in each other's changes on their own, and merging never deletes anything.",
+  "webPhoneGuide": "How to set it up",
+  "webPhoneOff": "Phone sync is off on this server",
+
+  "toolGroupBody": "Body",
+
+  "toolNameProtein": "Protein",
+  "toolTitleProtein": "Daily protein",
+  "toolDescProtein": "How much protein a day",
+  "toolHintProtein": "Grams a day, spread over your meals",
+  "proteinGoalLabel": "Goal",
+  "proteinExplain": "Based on the range most studies agree on for people who train: more when you are losing weight, to keep your muscle. Going over it is safe, it just adds little.",
+  "toolNameWater": "Water",
+  "toolTitleWater": "Daily water",
+  "toolDescWater": "How much to drink a day",
+  "toolHintWater": "Litres a day, food included",
+  "waterTrainingLabel": "Training a day",
+  "waterExplain": "About 35 ml per kilo of body weight, plus some extra for each minute you train. Drink more on hot days.",
+
+  "autoBackupSync": "Sync now",
+  "autoBackupMerged": "Changes from your other devices are in",
+  "autoBackupSyncHint": "Share this folder with Syncthing and each device brings in what the others leave here. Merging never deletes anything.",
+
+  "webPhoneFolder": "Shared folder",
+  "webPhoneFolderHow": "Chosen when you install the server. To change it, set GYMMANE_SYNC in the server's .env file and restart it.",
+  "webPhoneOffHow": "To turn it on, remove GYMMANE_SYNC=off from the server's .env file and restart it.",
+  "webPhoneDevices": "{n, plural, =0{No phone has synced yet} =1{1 phone synced} other{{n} phones synced}}",
+  "@webPhoneDevices": {"placeholders": {"n": {"type": "int"}}},
+  "webPhoneError": "Couldn't read the folder: {error}",
+  "@webPhoneError": {"placeholders": {"error": {"type": "String"}}}
 }

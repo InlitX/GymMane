@@ -7124,35 +7124,35 @@ class AppLocalizationsVi extends AppLocalizations {
   String get voiceAnd => 'và';
 
   @override
-  String get repRecordsTitle => 'Best weight by reps';
+  String get repRecordsTitle => 'Mức tạ tốt nhất theo số lần';
 
   @override
   String suppUnitCapsule(int n) {
-    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: 'capsules', one: 'capsule');
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: 'viên nang');
     return '$_temp0';
   }
 
   @override
   String suppUnitPill(int n) {
-    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: 'pills', one: 'pill');
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: 'viên');
     return '$_temp0';
   }
 
   @override
   String suppUnitScoop(int n) {
-    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: 'scoops', one: 'scoop');
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: 'muỗng');
     return '$_temp0';
   }
 
   @override
   String suppUnitDrop(int n) {
-    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: 'drops', one: 'drop');
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: 'giọt');
     return '$_temp0';
   }
 
   @override
   String suppUnitServing(int n) {
-    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: 'servings', one: 'serving');
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: 'khẩu phần');
     return '$_temp0';
   }
 
@@ -7160,288 +7160,449 @@ class AppLocalizationsVi extends AppLocalizations {
   String get suppUnitIu => 'IU';
 
   @override
-  String get suppLeft => 'Left';
+  String get suppLeft => 'Còn lại';
 
   @override
-  String get suppLeftHint => 'Optional';
+  String get suppLeftHint => 'Không bắt buộc';
 
   @override
   String suppLeftFor(int n) {
-    String _temp0 = intl.Intl.pluralLogic(
-      n,
-      locale: localeName,
-      other: 'Left for $n days',
-      one: 'Left for 1 day',
-    );
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: 'Đủ dùng $n ngày');
     return '$_temp0';
   }
 
   @override
   String suppForDays(int n) {
-    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n days', one: '1 day');
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n ngày');
     return '$_temp0';
   }
 
   @override
-  String get suppRanOut => 'Ran out';
+  String get suppRanOut => 'Đã hết';
 
   @override
-  String get lightSession => 'Light session';
+  String get lightSession => 'Buổi tập nhẹ';
 
   @override
-  String get lightSessionHint => 'Saved in your history and stats, but it won\'t change your next targets.';
+  String get lightSessionHint =>
+      'Được lưu vào lịch sử và thống kê, nhưng không thay đổi mục tiêu tiếp theo của bạn.';
 
   @override
-  String get lightSessionNote => 'Doesn\'t count for progression';
+  String get lightSessionNote => 'Không tính vào tiến độ tăng tạ';
 
   @override
-  String get lightSessionOff => 'Turn off';
+  String get lightSessionOff => 'Tắt';
 
   @override
   String get eachSideRepsHint =>
-      'Log the left and right reps separately. Progression follows the weaker side.';
+      'Ghi riêng số lần bên trái và bên phải. Tiến độ tăng tạ dựa theo bên yếu hơn.';
 
   @override
-  String get repsLeftCol => 'REPS L';
+  String get repsLeftCol => 'LẦN T';
 
   @override
-  String get repsRightCol => 'REPS R';
+  String get repsRightCol => 'LẦN P';
 
   @override
-  String get repsLeftTitle => 'LEFT REPS';
+  String get repsLeftTitle => 'SỐ LẦN BÊN TRÁI';
 
   @override
-  String get repsRightTitle => 'RIGHT REPS';
+  String get repsRightTitle => 'SỐ LẦN BÊN PHẢI';
 
   @override
   String sidesReps(int l, int r) {
-    return 'L$l R$r';
+    return 'T$l P$r';
   }
 
   @override
-  String get progSchemeTitle => 'Weight progression';
+  String get progSchemeTitle => 'Tăng tạ dần';
 
   @override
-  String get groupMoveUp => 'Move group up';
+  String get groupMoveUp => 'Đưa nhóm lên';
 
   @override
-  String get groupMoveDown => 'Move group down';
+  String get groupMoveDown => 'Đưa nhóm xuống';
 
   @override
-  String get mealAiRow => 'Ask an AI';
+  String get mealAiRow => 'Hỏi AI';
 
   @override
-  String get mealAiRowHint => 'Copy a request, paste the answer';
+  String get mealAiRowHint => 'Sao chép yêu cầu, dán câu trả lời';
 
   @override
-  String get mealAiTitle => 'Meals with AI';
+  String get mealAiTitle => 'Bữa ăn với AI';
 
   @override
-  String get mealAiSubtitle => 'Works with any chatbot. The app stays offline.';
+  String get mealAiSubtitle => 'Dùng được với mọi chatbot. Ứng dụng vẫn ngoại tuyến.';
 
   @override
-  String get mealAiStepAsk => 'Ask';
+  String get mealAiStepAsk => 'Hỏi';
 
   @override
-  String get mealAiStepPaste => 'Paste';
+  String get mealAiStepPaste => 'Dán';
 
   @override
-  String get mealAiWholeDay => 'Whole day';
+  String get mealAiWholeDay => 'Cả ngày';
 
   @override
-  String get mealAiTarget => 'Target';
+  String get mealAiTarget => 'Mục tiêu';
 
   @override
   String mealAiLeft(String kcal, int protein) {
-    return 'You have $kcal and $protein g of protein left today';
+    return 'Hôm nay bạn còn $kcal và $protein g đạm';
   }
 
   @override
-  String get mealAiStyle => 'Your taste';
+  String get mealAiStyle => 'Khẩu vị của bạn';
 
   @override
-  String get mealAiTagProtein => 'High protein';
+  String get mealAiTagProtein => 'Nhiều đạm';
 
   @override
-  String get mealAiTagVeggie => 'Vegetarian';
+  String get mealAiTagVeggie => 'Ăn chay';
 
   @override
-  String get mealAiTagVegan => 'Vegan';
+  String get mealAiTagVegan => 'Thuần chay';
 
   @override
-  String get mealAiTagNoGluten => 'Gluten free';
+  String get mealAiTagNoGluten => 'Không gluten';
 
   @override
-  String get mealAiTagNoLactose => 'Lactose free';
+  String get mealAiTagNoLactose => 'Không lactose';
 
   @override
-  String get mealAiTagQuick => 'Quick';
+  String get mealAiTagQuick => 'Nhanh';
 
   @override
-  String get mealAiTagNoCook => 'No cooking';
+  String get mealAiTagNoCook => 'Không cần nấu';
 
   @override
-  String get mealAiTagCheap => 'Budget';
+  String get mealAiTagCheap => 'Tiết kiệm';
 
   @override
-  String get mealAiNotesHint => 'I have at home… I don’t like… allergies…';
+  String get mealAiNotesHint => 'Nhà có sẵn… Không thích… dị ứng…';
 
   @override
-  String get mealAiOptions => 'Options';
+  String get mealAiOptions => 'Lựa chọn';
 
   @override
-  String get mealAiCopy => 'Copy request';
+  String get mealAiCopy => 'Sao chép yêu cầu';
 
   @override
-  String get mealAiCopied => 'Request copied';
+  String get mealAiCopied => 'Đã sao chép yêu cầu';
 
   @override
-  String get mealAiCopiedHint => 'Paste it into your AI and come back here with the answer';
+  String get mealAiCopiedHint => 'Dán vào AI của bạn rồi quay lại đây với câu trả lời';
 
   @override
-  String get mealAiShowText => 'See the request';
+  String get mealAiShowText => 'Xem yêu cầu';
 
   @override
-  String get mealAiHideText => 'Hide the request';
+  String get mealAiHideText => 'Ẩn yêu cầu';
 
   @override
-  String get mealAiPasteHint => 'Paste the AI’s answer here';
+  String get mealAiPasteHint => 'Dán câu trả lời của AI vào đây';
 
   @override
-  String get mealAiReview => 'Review answer';
+  String get mealAiReview => 'Xem lại câu trả lời';
 
   @override
-  String get mealAiUnreadable => 'I couldn’t find any food in that text';
+  String get mealAiUnreadable => 'Mình không tìm thấy món ăn nào trong đoạn văn bản đó';
 
   @override
   String get mealAiUnreadableHint =>
-      'Ask the AI to send only the JSON, in one code block, with the format of the request.';
+      'Hãy nhờ AI chỉ gửi JSON, trong một khối mã, theo đúng định dạng của yêu cầu.';
 
   @override
-  String get mealAiCopyFix => 'Copy that sentence';
+  String get mealAiCopyFix => 'Sao chép câu đó';
 
   @override
   String mealAiOption(int n) {
-    return 'Option $n';
+    return 'Lựa chọn $n';
   }
 
   @override
   String mealAiAddTo(String meal) {
-    return 'Add to $meal';
+    return 'Thêm vào $meal';
   }
 
   @override
-  String get mealAiAddDay => 'Add to today';
+  String get mealAiAddDay => 'Thêm vào hôm nay';
 
   @override
-  String get mealAiAddPick => 'Add';
+  String get mealAiAddPick => 'Thêm';
 
   @override
   String mealAiAdded(int n) {
-    String _temp0 = intl.Intl.pluralLogic(
-      n,
-      locale: localeName,
-      other: '$n foods added',
-      one: '1 food added',
-    );
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: 'Đã thêm $n món');
     return '$_temp0';
   }
 
   @override
-  String get mealAiSaveRecipe => 'Save as a recipe';
+  String get mealAiSaveRecipe => 'Lưu thành công thức';
 
   @override
-  String get mealAiSavePlan => 'Save as a plan';
+  String get mealAiSavePlan => 'Lưu thành kế hoạch';
 
   @override
-  String get mealAiRecipeSaved => 'Recipe saved';
+  String get mealAiRecipeSaved => 'Đã lưu công thức';
 
   @override
-  String get mealAiPlanSaved => 'Plan saved';
+  String get mealAiPlanSaved => 'Đã lưu kế hoạch';
 
   @override
-  String get mealAiFlagEstimated => 'Estimated by the AI';
+  String get mealAiFlagEstimated => 'AI ước tính';
 
   @override
-  String get mealAiFlagAdjusted => 'Calories fixed to match the macros';
+  String get mealAiFlagAdjusted => 'Đã chỉnh calo cho khớp với macro';
 
   @override
-  String get mealAiFlagDoubtful => 'Doesn’t add up, check it';
+  String get mealAiFlagDoubtful => 'Số liệu không khớp, hãy kiểm tra';
 
   @override
-  String get mealAiFlagNoValues => 'No nutrition values';
+  String get mealAiFlagNoValues => 'Không có giá trị dinh dưỡng';
 
   @override
-  String get mealAiFlagNoAmount => 'No amount given';
+  String get mealAiFlagNoAmount => 'Không có lượng cụ thể';
 
   @override
-  String get mealAiTruncated => 'The answer looks cut off. I kept the complete foods.';
+  String get mealAiTruncated => 'Câu trả lời có vẻ bị cắt. Mình giữ lại các món đầy đủ.';
 
   @override
-  String get mealAiAmount => 'Amount';
+  String get mealAiAmount => 'Lượng';
 
   @override
   String mealAiTargetLine(String kcal) {
-    return 'Target $kcal';
+    return 'Mục tiêu $kcal';
   }
 
   @override
-  String get mealAiNothingChosen => 'Turn on at least one food';
+  String get mealAiNothingChosen => 'Hãy bật ít nhất một món';
 
   @override
   String get cholesterolLabel => 'Cholesterol';
 
   @override
-  String get mealAiFlagMatched => 'Same as a food you saved';
+  String get mealAiFlagMatched => 'Giống một món bạn đã lưu';
 
   @override
-  String get mealAiNotSame => 'Not the same';
+  String get mealAiNotSame => 'Không giống';
 
   @override
-  String get homeOrderRow => 'Order of sections';
+  String get homeOrderRow => 'Thứ tự các mục';
 
   @override
-  String get homeOrderHint => 'Hold and drag to change the order of Home.';
+  String get homeOrderHint => 'Nhấn giữ và kéo để đổi thứ tự trên Trang chủ.';
 
   @override
-  String get homeOrderFolders => 'Shortcuts';
+  String get homeOrderFolders => 'Lối tắt';
 
   @override
-  String get equipNew => 'New';
+  String get equipNew => 'Mới';
 
   @override
-  String get equipNewTitle => 'New equipment';
+  String get equipNewTitle => 'Dụng cụ mới';
 
   @override
-  String get equipNewHint => 'e.g. Weight belt';
+  String get equipNewHint => 'VD: Đai lưng tập tạ';
 
   @override
-  String get homeOrderWeekdays => 'Week checks';
+  String get homeOrderWeekdays => 'Đánh dấu trong tuần';
 
   @override
-  String get repsMaxTitle => 'Reps up to';
+  String get repsMaxTitle => 'Số lần tối đa';
 
   @override
-  String get repsRangeHint => 'Long press the reps to set a range like 8-12.';
+  String get repsRangeHint => 'Nhấn giữ số lần để đặt khoảng như 8-12.';
 
   @override
-  String get repsRangeClear => 'Remove range';
+  String get repsRangeClear => 'Bỏ khoảng';
 
   @override
-  String get noteLinksLabel => 'LINKS';
+  String get noteLinksLabel => 'LIÊN KẾT';
 
   @override
-  String get noteLinkAdd => 'Add link';
+  String get noteLinkAdd => 'Thêm liên kết';
 
   @override
-  String get noteLinkEdit => 'Edit link';
+  String get noteLinkEdit => 'Sửa liên kết';
 
   @override
-  String get noteLinkNameHint => 'Name';
+  String get noteLinkNameHint => 'Tên';
 
   @override
-  String get noteLinkUrlHint => 'Web address';
+  String get noteLinkUrlHint => 'Địa chỉ web';
 
   @override
-  String get noteLinkInvalid => 'That address doesn\'t look right';
+  String get noteLinkInvalid => 'Địa chỉ đó có vẻ không đúng';
+
+  @override
+  String get changeRest => 'Nghỉ giữa các bài tập';
+
+  @override
+  String get changeRestHint => 'Sau hiệp cuối, trước bài tập tiếp theo';
+
+  @override
+  String get notifSuppTake => 'Đã uống';
+
+  @override
+  String get sideRest => 'Nghỉ giữa hai bên';
+
+  @override
+  String get sideRestHint => 'Bài tập từng bên: dấu ✓ đầu tiên kết thúc một bên';
+
+  @override
+  String get gfxCompat => 'Đồ họa tương thích';
+
+  @override
+  String get gfxCompatHint =>
+      'Cho những máy hiển thị chữ bị lỗi. Hiệu ứng mờ vẫn giữ, vài hiệu ứng sẽ đơn giản hơn';
+
+  @override
+  String get gfxRestartTitle => 'Khởi động lại GymMane?';
+
+  @override
+  String get gfxRestartBody =>
+      'Ứng dụng sẽ đóng rồi mở lại để đổi cách vẽ màn hình. Không mất gì bạn đã lưu.';
+
+  @override
+  String get gfxRestart => 'Khởi động lại';
+
+  @override
+  String get webSynced => 'Đã cập nhật thay đổi từ thiết bị khác';
+
+  @override
+  String get webSyncedPhone => 'Đã có thay đổi từ điện thoại của bạn';
+
+  @override
+  String get webWelcomeBlurb =>
+      'Mọi thứ nằm trên máy chủ của riêng bạn. Không tài khoản, không đám mây, không phải trả tiền.';
+
+  @override
+  String get webOwnServer => 'Máy chủ của bạn, luật của bạn';
+
+  @override
+  String get webOwnServerWhy => 'Không tài khoản, không đám mây bên thứ ba. Dữ liệu nằm ở nơi bạn chạy nó.';
+
+  @override
+  String get webServerSaved => 'Đã lưu trên máy chủ của bạn';
+
+  @override
+  String get webServerOffline => 'Không kết nối được máy chủ của bạn';
+
+  @override
+  String get webServerLocal => 'Đã lưu trong trình duyệt này';
+
+  @override
+  String get webServerTitle => 'Máy chủ của bạn';
+
+  @override
+  String webPhoneLast(String date) {
+    return 'Bản sao gần nhất từ điện thoại: $date';
+  }
+
+  @override
+  String get webPhoneNone => 'Chưa có bản sao nào từ điện thoại';
+
+  @override
+  String get webPhoneScan => 'Lấy từ điện thoại';
+
+  @override
+  String get webPhoneExport => 'Gửi sang điện thoại';
+
+  @override
+  String get webPhoneExportDone => 'Đã để trong thư mục chung. Điện thoại sẽ lấy khi đồng bộ';
+
+  @override
+  String get webPhoneImported => 'Đã có thay đổi từ điện thoại của bạn';
+
+  @override
+  String get webPhoneNothing => 'Không có gì mới từ điện thoại';
+
+  @override
+  String get webPhoneHow =>
+      'Bật sao lưu tự động trên điện thoại vào một thư mục bạn đồng bộ bằng Syncthing. Máy chủ và điện thoại tự lấy thay đổi của nhau, và việc gộp không bao giờ xóa gì cả.';
+
+  @override
+  String get webPhoneGuide => 'Cách thiết lập';
+
+  @override
+  String get webPhoneOff => 'Đồng bộ điện thoại đang tắt trên máy chủ này';
+
+  @override
+  String get toolGroupBody => 'Cơ thể';
+
+  @override
+  String get toolNameProtein => 'Đạm';
+
+  @override
+  String get toolTitleProtein => 'Đạm mỗi ngày';
+
+  @override
+  String get toolDescProtein => 'Bao nhiêu đạm mỗi ngày';
+
+  @override
+  String get toolHintProtein => 'Gam mỗi ngày, chia đều cho các bữa';
+
+  @override
+  String get proteinGoalLabel => 'Mục tiêu';
+
+  @override
+  String get proteinExplain =>
+      'Dựa trên khoảng mà phần lớn nghiên cứu thống nhất cho người tập luyện: nhiều hơn khi bạn giảm cân, để giữ cơ. Vượt qua mức này vẫn an toàn, chỉ là không thêm được bao nhiêu.';
+
+  @override
+  String get toolNameWater => 'Nước';
+
+  @override
+  String get toolTitleWater => 'Nước mỗi ngày';
+
+  @override
+  String get toolDescWater => 'Nên uống bao nhiêu mỗi ngày';
+
+  @override
+  String get toolHintWater => 'Lít mỗi ngày, tính cả thức ăn';
+
+  @override
+  String get waterTrainingLabel => 'Thời gian tập mỗi ngày';
+
+  @override
+  String get waterExplain =>
+      'Khoảng 35 ml cho mỗi kg cân nặng, cộng thêm một chút cho mỗi phút tập. Uống nhiều hơn vào ngày nóng.';
+
+  @override
+  String get autoBackupSync => 'Đồng bộ ngay';
+
+  @override
+  String get autoBackupMerged => 'Đã có thay đổi từ các thiết bị khác của bạn';
+
+  @override
+  String get autoBackupSyncHint =>
+      'Chia sẻ thư mục này bằng Syncthing và mỗi thiết bị sẽ lấy những gì các thiết bị khác để lại. Việc gộp không bao giờ xóa gì cả.';
+
+  @override
+  String get webPhoneFolder => 'Thư mục chung';
+
+  @override
+  String get webPhoneFolderHow =>
+      'Được chọn khi cài máy chủ. Để đổi, đặt GYMMANE_SYNC trong tệp .env của máy chủ rồi khởi động lại.';
+
+  @override
+  String get webPhoneOffHow => 'Để bật, xóa GYMMANE_SYNC=off khỏi tệp .env của máy chủ rồi khởi động lại.';
+
+  @override
+  String webPhoneDevices(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: 'Đã đồng bộ $n điện thoại',
+      zero: 'Chưa có điện thoại nào đồng bộ',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String webPhoneError(String error) {
+    return 'Không đọc được thư mục: $error';
+  }
 }

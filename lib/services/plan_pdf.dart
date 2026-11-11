@@ -7,8 +7,6 @@ import 'dart:ui' as ui;
 
 import 'package:flutter/painting.dart';
 import 'package:flutter/services.dart' show rootBundle;
-import 'package:path_provider/path_provider.dart';
-import 'package:share_plus/share_plus.dart';
 
 import '../l10n/l10n.dart';
 import '../models/exercise.dart';
@@ -17,6 +15,7 @@ import '../state/fit_state.dart';
 import '../widgets/exercise_art.dart';
 import '../widgets/routine_folder.dart';
 import '../widgets/ui_kit.dart';
+import 'file_share.dart';
 
 part 'report_pdf.dart';
 
@@ -42,15 +41,9 @@ Future<void> sharePlanPdf(List<Routine> routines, {bool week = false}) async {
   if (routines.isEmpty) return;
   try {
     final bytes = await buildPlanPdf(routines, week: week);
-    final dir = await getTemporaryDirectory();
     final name = week ? 'plan' : _slug(fit.routineTitle(routines.first));
-    final file = File('${dir.path}/gymmane-${name.isEmpty ? 'plan' : name}.pdf');
-    await file.writeAsBytes(bytes);
     final title = week ? sentenceCase(t.weeklyPlan) : fit.routineTitle(routines.first);
-    await SharePlus.instance.share(ShareParams(
-      files: [XFile(file.path, mimeType: 'application/pdf')],
-      subject: title,
-    ));
+    await shareFile('gymmane-${name.isEmpty ? 'plan' : name}.pdf', bytes, mime: 'application/pdf', subject: title);
   } catch (_) {}
 }
 
@@ -69,7 +62,7 @@ Future<Uint8List> buildPlanPdf(List<Routine> routines, {bool week = false, DateT
       } catch (_) {}
     }
   }
-  final doc = _PlanDoc(runner, arts, rtl: const {'ar', 'fa'}.contains(appLanguage));
+  final doc = _PlanDoc(runner, arts, rtl: kRtlLanguages.contains(appLanguage));
   doc.lay(routines, week: week, now: now ?? DateTime.now());
   final pages = await _rasterize(doc);
   runner.dispose();

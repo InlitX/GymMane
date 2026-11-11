@@ -655,7 +655,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get clearFilters => 'Filter löschen';
 
   @override
-  String get quickAddAmount => 'How much you had';
+  String get quickAddAmount => 'Wie viel du hattest';
 
   @override
   String get homeCardsTitle => 'Karten auf Start';
@@ -700,13 +700,13 @@ class AppLocalizationsDe extends AppLocalizations {
   String get calmMotionHint => 'Bildschirme erscheinen ohne Einblenden';
 
   @override
-  String get dishArchive => 'Archive';
+  String get dishArchive => 'Archivieren';
 
   @override
-  String get dishUnarchive => 'Restore';
+  String get dishUnarchive => 'Wiederherstellen';
 
   @override
-  String get dishArchivedToast => 'Dish archived';
+  String get dishArchivedToast => 'Gericht archiviert';
 
   @override
   String get filterShowLabel => 'Zeigen';
@@ -4029,7 +4029,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get perServingShort => 'pro Portion';
 
   @override
-  String get foodCategory => 'CATEGORY';
+  String get foodCategory => 'KATEGORIE';
 
   @override
   String portionUnit(int count) {
@@ -4508,41 +4508,41 @@ class AppLocalizationsDe extends AppLocalizations {
   }
 
   @override
-  String get readyDishes => 'Dishes';
+  String get readyDishes => 'Gerichte';
 
   @override
   String weightLastLine(String weight) {
-    return 'Last weigh-in $weight';
+    return 'Letzte Wägung $weight';
   }
 
   @override
-  String get proteinAnimalShort => 'Animal';
+  String get proteinAnimalShort => 'Tierisch';
 
   @override
-  String get proteinPlantShort => 'Plant';
+  String get proteinPlantShort => 'Pflanzlich';
 
   @override
   String kcalFromMacros(String value) {
-    return 'These macros add up to about $value';
+    return 'Diese Makros ergeben etwa $value';
   }
 
   @override
-  String get useValue => 'Use';
+  String get useValue => 'Übernehmen';
 
   @override
-  String get suppRowHint => 'Tap to mark · hold for details';
+  String get suppRowHint => 'Tippen zum Abhaken · halten für Details';
 
   @override
-  String get suppPhoto => 'Photo';
+  String get suppPhoto => 'Foto';
 
   @override
-  String get suppDose => 'Dose';
+  String get suppDose => 'Dosis';
 
   @override
-  String get suppDoseHint => '5 g, 2 capsules…';
+  String get suppDoseHint => '5 g, 2 Kapseln…';
 
   @override
-  String get suppRemind => 'Remind me';
+  String get suppRemind => 'Erinnern';
 
   @override
   String mealPlanDefault(int n) {
@@ -4550,51 +4550,52 @@ class AppLocalizationsDe extends AppLocalizations {
   }
 
   @override
-  String get mealPlansTitle => 'Meal plans';
+  String get mealPlansTitle => 'Ernährungspläne';
 
   @override
-  String get mealPlanNew => 'New plan';
+  String get mealPlanNew => 'Neuer Plan';
 
   @override
   String fromPlan(String name) {
-    return 'From $name';
+    return 'Aus $name';
   }
 
   @override
-  String get logPlan => 'Log';
+  String get logPlan => 'Eintragen';
 
   @override
-  String get planFromDay => 'Copy this day';
+  String get planFromDay => 'Diesen Tag kopieren';
 
   @override
-  String get planNewHint => 'Plan your days like your routines, then log a whole meal with one tap.';
+  String get planNewHint =>
+      'Plane deine Tage wie deine Trainingspläne und trage dann eine ganze Mahlzeit mit einem Tipp ein.';
 
   @override
-  String get planLogDay => 'Log the empty meals';
+  String get planLogDay => 'Leere Mahlzeiten eintragen';
 
   @override
   String planLogged(int n) {
     String _temp0 = intl.Intl.pluralLogic(
       n,
       locale: localeName,
-      other: '$n foods logged',
-      one: '1 food logged',
+      other: '$n Lebensmittel eingetragen',
+      one: '1 Lebensmittel eingetragen',
     );
     return '$_temp0';
   }
 
   @override
-  String get planNoPlan => 'No plan';
+  String get planNoPlan => 'Kein Plan';
 
   @override
-  String get planWeekHint => 'Tap a day to give it a plan.';
+  String get planWeekHint => 'Tippe auf einen Tag, um ihm einen Plan zu geben.';
 
   @override
-  String get planDuplicate => 'Duplicate';
+  String get planDuplicate => 'Duplizieren';
 
   @override
   String planDeleteTitle(String name) {
-    return 'Delete $name?';
+    return '$name löschen?';
   }
 
   @override
@@ -4650,289 +4651,296 @@ class AppLocalizationsDe extends AppLocalizations {
   String get nutritionAboutOk => 'Verstanden';
 
   @override
-  String get planShare => 'Share';
+  String get planShare => 'Teilen';
 
   @override
-  String get planImport => 'Import a plan';
+  String get planImport => 'Plan importieren';
 
   @override
   String planImported(int n) {
     String _temp0 = intl.Intl.pluralLogic(
       n,
       locale: localeName,
-      other: '$n plans imported',
-      one: '1 plan imported',
+      other: '$n Pläne importiert',
+      one: '1 Plan importiert',
     );
     return '$_temp0';
   }
 
   @override
-  String get planImportNone => 'That file has no meal plans.';
+  String get planImportNone => 'Diese Datei enthält keine Ernährungspläne.';
 
   @override
-  String get planMoveUp => 'Move up';
+  String get planMoveUp => 'Nach oben';
 
   @override
-  String get planMoveDown => 'Move down';
+  String get planMoveDown => 'Nach unten';
 
   @override
-  String get cutoutEdit => 'Touch up cutout';
+  String get cutoutEdit => 'Ausschnitt nachbessern';
 
   @override
   String get cutoutEditHint =>
-      'Drag to erase or restore. Tap an area to remove or bring it back whole. Pinch to zoom.';
+      'Ziehen zum Radieren oder Wiederherstellen. Tippe auf einen Bereich, um ihn ganz zu entfernen oder zurückzuholen. Mit zwei Fingern zoomen.';
 
   @override
-  String get cutoutErase => 'Erase';
+  String get cutoutErase => 'Radieren';
 
   @override
-  String get cutoutRestore => 'Restore';
+  String get cutoutRestore => 'Wiederherstellen';
 
   @override
-  String get cutoutReset => 'Back to automatic';
+  String get cutoutReset => 'Zurück zu automatisch';
 
   @override
-  String get cutoutByHand => 'Cut out by hand';
+  String get cutoutByHand => 'Von Hand ausschneiden';
 
   @override
   String notifSuppTitleFor(String names) {
-    return 'Time to take: $names';
+    return 'Zeit für: $names';
   }
 
   @override
-  String get notifSuppTap => 'Tick it off in GymMane once you\'ve taken it.';
+  String get notifSuppTap => 'Hake es in GymMane ab, sobald du es genommen hast.';
 
   @override
-  String get suppNoneToday => 'Nothing to take today.';
+  String get suppNoneToday => 'Heute nichts einzunehmen.';
 
   @override
-  String get suppOtherDays => 'Other days';
+  String get suppOtherDays => 'Andere Tage';
 
   @override
   String suppEveryN(int n) {
-    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: 'Every $n days', one: 'Every day');
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: 'Alle $n Tage', one: 'Jeden Tag');
     return '$_temp0';
   }
 
   @override
-  String get suppDaily => 'Every day';
+  String get suppDaily => 'Jeden Tag';
 
   @override
   String suppFromDate(String date) {
-    return 'from $date';
+    return 'ab $date';
   }
 
   @override
   String suppUntilDate(String date) {
-    return 'until $date';
+    return 'bis $date';
   }
 
   @override
-  String get suppSomeDays => 'Some days';
+  String get suppSomeDays => 'An bestimmten Tagen';
 
   @override
-  String get suppEveryShort => 'Every X days';
+  String get suppEveryShort => 'Alle X Tage';
 
   @override
-  String get suppWhen => 'When';
+  String get suppWhen => 'Wann';
 
   @override
-  String get suppEveryLead => 'Every';
+  String get suppEveryLead => 'Alle';
 
   @override
   String suppEveryTail(int n) {
-    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: 'days', one: 'day');
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: 'Tage', one: 'Tag');
     return '$_temp0';
   }
 
   @override
-  String get suppStarts => 'Starts';
+  String get suppStarts => 'Beginn';
 
   @override
-  String get suppEnds => 'Ends';
+  String get suppEnds => 'Ende';
 
   @override
-  String get suppTomorrow => 'Tomorrow';
+  String get suppTomorrow => 'Morgen';
 
   @override
-  String get suppPickDate => 'Pick a date';
+  String get suppPickDate => 'Datum wählen';
 
   @override
-  String get suppNever => 'Never';
+  String get suppNever => 'Nie';
 
   @override
-  String get suppOneWeek => 'In 1 week';
+  String get suppOneWeek => 'In 1 Woche';
 
   @override
-  String get suppOneMonth => 'In 1 month';
+  String get suppOneMonth => 'In 1 Monat';
 
   @override
-  String get planPickHint => 'Pick the plan for this day, or make a new one.';
+  String get planPickHint => 'Wähle den Plan für diesen Tag oder erstelle einen neuen.';
 
   @override
   String planSetForDay(String day) {
-    return 'Plan set for $day';
+    return 'Plan für $day festgelegt';
   }
 
   @override
-  String get planSaved => 'Plan saved';
+  String get planSaved => 'Plan gespeichert';
 
   @override
-  String get planDiscardTitle => 'Discard changes?';
+  String get planDiscardTitle => 'Änderungen verwerfen?';
 
   @override
-  String get planDiscardBody => 'What you changed won\'t be saved.';
+  String get planDiscardBody => 'Was du geändert hast, wird nicht gespeichert.';
 
   @override
-  String get planDiscard => 'Discard';
+  String get planDiscard => 'Verwerfen';
 
   @override
-  String get planEdit => 'Edit plan';
+  String get planEdit => 'Plan bearbeiten';
 
   @override
   String get planNameHint => 'Sommer, Reise…';
 
   @override
-  String get planDaysQuestion => 'Which days?';
+  String get planDaysQuestion => 'An welchen Tagen?';
 
   @override
-  String get planDaysHint => 'On those days it shows up in Nutrition so you can log it in one tap.';
+  String get planDaysHint =>
+      'An diesen Tagen erscheint er unter Ernährung, damit du ihn mit einem Tipp einträgst.';
 
   @override
-  String get planDaysNone => 'Pick at least one day, or it won\'t show up anywhere.';
+  String get planDaysNone => 'Wähle mindestens einen Tag, sonst erscheint er nirgends.';
 
   @override
-  String get planNothingToLog => 'Those meals are already logged';
+  String get planNothingToLog => 'Diese Mahlzeiten sind schon eingetragen';
 
   @override
-  String get planSave => 'Save plan';
+  String get planSave => 'Plan speichern';
 
   @override
-  String get planToday => 'Today\'s plan';
+  String get planToday => 'Heutiger Plan';
 
   @override
-  String get planLogRest => 'Log the rest';
+  String get planLogRest => 'Den Rest eintragen';
 
   @override
-  String get dishNew => 'Create my dish';
+  String get dishNew => 'Mein Gericht erstellen';
 
   @override
-  String get dishNewHint => 'Pick ingredients and amounts, save it and log it in one tap.';
+  String get dishNewHint => 'Wähle Zutaten und Mengen, speichere es und trage es mit einem Tipp ein.';
 
   @override
-  String get dishEdit => 'Edit dish';
+  String get dishEdit => 'Gericht bearbeiten';
 
   @override
-  String get dishNameHint => 'E.g. Mum\'s lentils';
+  String get dishNameHint => 'z. B. Omas Linsen';
 
   @override
-  String get dishIngredients => 'Ingredients';
+  String get dishIngredients => 'Zutaten';
 
   @override
-  String get dishEmptyHint => 'Add what goes in it with the amount you usually eat.';
+  String get dishEmptyHint => 'Füge hinzu, was hineinkommt, mit der Menge, die du sonst isst.';
 
   @override
-  String get dishSave => 'Save dish';
+  String get dishSave => 'Gericht speichern';
 
   @override
-  String get dishNeedsName => 'Give it a name';
+  String get dishNeedsName => 'Gib ihm einen Namen';
 
   @override
-  String get dishNeedsItems => 'Add at least one ingredient';
+  String get dishNeedsItems => 'Füge mindestens eine Zutat hinzu';
 
   @override
-  String get suppHistory => 'Last 14 days';
+  String get suppHistory => 'Letzte 14 Tage';
 
   @override
   String suppTakenOf(int n, int total) {
-    return '$n of $total taken';
+    return '$n von $total genommen';
   }
 
   @override
-  String get suppNoReminder => 'No reminder';
+  String get suppNoReminder => 'Keine Erinnerung';
 
   @override
-  String get suppMarkTaken => 'Mark as taken';
+  String get suppMarkTaken => 'Als genommen markieren';
 
   @override
-  String get suppUnmark => 'Unmark';
+  String get suppUnmark => 'Markierung aufheben';
 
   @override
-  String get suppEdit => 'Edit';
+  String get suppEdit => 'Bearbeiten';
 
   @override
-  String get mealMoveTo => 'Move to';
+  String get mealMoveTo => 'Verschieben nach';
 
   @override
-  String get mealClear => 'Clear meal';
+  String get mealClear => 'Mahlzeit leeren';
 
   @override
-  String get mealCleared => 'Meal cleared';
+  String get mealCleared => 'Mahlzeit geleert';
 
   @override
   String movedMealToast(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count foods moved',
-      one: '1 food moved',
+      other: '$count Lebensmittel verschoben',
+      one: '1 Lebensmittel verschoben',
     );
     return '$_temp0';
   }
 
   @override
-  String get repeatWholeDay => 'Repeat the whole day';
+  String get repeatWholeDay => 'Ganzen Tag wiederholen';
 
   @override
   String createFoodNamed(String name) {
-    return 'Create “$name”';
+    return '„$name“ erstellen';
   }
 
   @override
-  String get entryDay => 'Day';
+  String get entryDay => 'Tag';
 
   @override
-  String get movedToDay => 'Moved';
+  String get movedToDay => 'Verschoben';
 
   @override
-  String get favFoodsHint => 'Tap ☆ on a food';
+  String get favFoodsHint => 'Tippe bei einem Lebensmittel auf ☆';
 
   @override
-  String get favFoodsEmpty => 'Tap the star on any food to keep it here, one tap away.';
+  String get favFoodsEmpty => 'Tippe bei einem Lebensmittel auf den Stern, um es hier griffbereit zu haben.';
 
   @override
   String savedMealsCount(int count) {
-    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count meals', one: '1 meal');
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Mahlzeiten',
+      one: '1 Mahlzeit',
+    );
     return '$_temp0';
   }
 
   @override
-  String get savedMealsEmpty => 'Save a meal from its ••• menu, or build your own dish.';
+  String get savedMealsEmpty =>
+      'Speichere eine Mahlzeit über ihr •••-Menü oder stelle dein eigenes Gericht zusammen.';
 
   @override
-  String get sugarLimitLabel => 'Sugar limit';
+  String get sugarLimitLabel => 'Zuckerlimit';
 
   @override
-  String get sodiumLimitLabel => 'Sodium limit';
+  String get sodiumLimitLabel => 'Natriumlimit';
 
   @override
-  String get waterOptions => 'Water options';
+  String get waterOptions => 'Wasser-Optionen';
 
   @override
-  String get waterNone => 'No water logged yet.';
+  String get waterNone => 'Noch kein Wasser eingetragen.';
 
   @override
-  String get waterDailyGoal => 'Daily water';
+  String get waterDailyGoal => 'Wasser pro Tag';
 
   @override
-  String get trackersScreen => 'Screen';
+  String get trackersScreen => 'Bildschirm';
 
   @override
-  String get vesselMotion => 'Moving water and shake';
+  String get vesselMotion => 'Bewegtes Wasser und Shake';
 
   @override
   String get vesselMotionHint =>
-      'Turn it off if the screen feels slow: the glasses still fill up, they just stop moving.';
+      'Schalte es aus, wenn der Bildschirm träge wirkt: Die Gläser füllen sich weiter, sie bewegen sich nur nicht mehr.';
 
   @override
   String get planFixedWeek => 'Feste Woche';
@@ -5059,10 +5067,11 @@ class AppLocalizationsDe extends AppLocalizations {
   String get moveDown => 'Nach unten';
 
   @override
-  String get widgetNutritionOff => 'Turn on Nutrition in Settings › Beta to use this widget.';
+  String get widgetNutritionOff =>
+      'Schalte Ernährung unter Einstellungen › Beta ein, um dieses Widget zu nutzen.';
 
   @override
-  String get widgetPickShake => 'Pick your shake';
+  String get widgetPickShake => 'Wähle deinen Shake';
 
   @override
   String get heatRangeSetting => 'Aktivitätskalender';
@@ -5091,22 +5100,22 @@ class AppLocalizationsDe extends AppLocalizations {
   String get pdfFooter => 'Kostenlos, Open Source und offline';
 
   @override
-  String get shakeTag => 'It’s a shake';
+  String get shakeTag => 'Das ist ein Shake';
 
   @override
-  String get shakeTagHint => 'It shows up in Your shake';
+  String get shakeTagHint => 'Erscheint unter Dein Shake';
 
   @override
-  String get shakeNone => 'Mark your shakes and only those show up here.';
+  String get shakeNone => 'Markiere deine Shakes und nur diese erscheinen hier.';
 
   @override
-  String get shakeMarkLabel => 'MARK AS A SHAKE';
+  String get shakeMarkLabel => 'ALS SHAKE MARKIEREN';
 
   @override
-  String get shakeNew => 'New shake';
+  String get shakeNew => 'Neuer Shake';
 
   @override
-  String get shakeUntag => 'Not a shake';
+  String get shakeUntag => 'Kein Shake';
 
   @override
   String get pdfKicker => 'TRAININGSPLAN';
@@ -5205,10 +5214,10 @@ class AppLocalizationsDe extends AppLocalizations {
   String get stopwatch => 'Stoppuhr';
 
   @override
-  String get proteinSource => 'Protein source';
+  String get proteinSource => 'Proteinquelle';
 
   @override
-  String get proteinMixedShort => 'Mixed';
+  String get proteinMixedShort => 'Gemischt';
 
   @override
   String get kcalActive => 'aktiv';
@@ -5349,27 +5358,27 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String fillDay(String amount) {
-    return 'Fill your day · $amount';
+    return 'Fülle deinen Tag · $amount';
   }
 
   @override
   String leftAfterKcal(String kcal) {
-    return 'You\'ll have $kcal left';
+    return 'Dir bleiben $kcal';
   }
 
   @override
   String leftAfterBoth(String kcal, String grams) {
-    return 'You\'ll have $kcal and $grams g protein left';
+    return 'Dir bleiben $kcal und $grams g Protein';
   }
 
   @override
   String leftAfterOver(String kcal) {
-    return '$kcal over your goal';
+    return '$kcal über deinem Ziel';
   }
 
   @override
   String perDayUnit(String unit) {
-    return '$unit a day';
+    return '$unit pro Tag';
   }
 
   @override
@@ -5721,13 +5730,13 @@ class AppLocalizationsDe extends AppLocalizations {
   String get cardioNoSets => 'Cardio zählt nicht zu deinen Wochensätzen pro Muskel';
 
   @override
-  String get countsAsWater => 'Counts toward water';
+  String get countsAsWater => 'Zählt als Wasser';
 
   @override
-  String get countsAsWaterHint => 'For shakes made with water: logging it adds to your water too';
+  String get countsAsWaterHint => 'Für Shakes mit Wasser: Beim Eintragen zählt es auch zu deinem Wasser';
 
   @override
-  String get waterPerServing => 'Water per serving';
+  String get waterPerServing => 'Wasser pro Portion';
 
   @override
   String get estOneRm => 'geschätztes 1RM';
@@ -6181,30 +6190,30 @@ class AppLocalizationsDe extends AppLocalizations {
   String get circuitUpNext => 'Gleich kommt';
 
   @override
-  String get foodGroupNew => 'New category';
+  String get foodGroupNew => 'Neue Kategorie';
 
   @override
-  String get foodGroupHint => 'Ready meals, frozen…';
+  String get foodGroupHint => 'Fertiggerichte, Tiefkühl…';
 
   @override
   String foodGroupCount(int n) {
     String _temp0 = intl.Intl.pluralLogic(
       n,
       locale: localeName,
-      other: '$n foods',
-      one: '1 food',
-      zero: 'No foods yet',
+      other: '$n Lebensmittel',
+      one: '1 Lebensmittel',
+      zero: 'Noch keine Lebensmittel',
     );
     return '$_temp0';
   }
 
   @override
   String foodGroupDeleteTitle(String name) {
-    return 'Delete $name?';
+    return '$name löschen?';
   }
 
   @override
-  String get foodGroupDeleteBody => 'Your foods stay, just without this category.';
+  String get foodGroupDeleteBody => 'Deine Lebensmittel bleiben, nur ohne diese Kategorie.';
 
   @override
   String onbHello(String name) {
@@ -6439,131 +6448,131 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String fastMinutes(int n) {
-    return '$n min';
+    return '$n Min.';
   }
 
   @override
   String fastHours(int n) {
-    return '$n h';
+    return '$n Std.';
   }
 
   @override
   String fastHoursMinutes(int h, int m) {
-    return '$h h $m min';
+    return '$h Std. $m Min.';
   }
 
   @override
-  String get fastTracker => 'Intermittent fasting';
+  String get fastTracker => 'Intervallfasten';
 
   @override
   String fastTitle(int fast, int eat) {
-    return 'Fasting $fast:$eat';
+    return 'Fasten $fast:$eat';
   }
 
   @override
-  String get fastOptions => 'Fasting options';
+  String get fastOptions => 'Fasten-Optionen';
 
   @override
-  String get fastWindowOpen => 'Eating window open';
+  String get fastWindowOpen => 'Essensfenster offen';
 
   @override
-  String get fastLeft => 'Left';
+  String get fastLeft => 'Übrig';
 
   @override
-  String get fastDoneLabel => 'Goal reached';
+  String get fastDoneLabel => 'Ziel erreicht';
 
   @override
-  String get fastIdle => 'Start it after your last meal';
+  String get fastIdle => 'Starte es nach deiner letzten Mahlzeit';
 
   @override
   String fastLast(String time) {
-    return 'Last fast: $time';
+    return 'Letztes Fasten: $time';
   }
 
   @override
   String fastStreak(int n) {
-    return '$n in a row';
+    return '$n in Folge';
   }
 
   @override
   String fastReached(String time) {
-    return '$time past your goal';
+    return '$time über deinem Ziel';
   }
 
   @override
   String fastEndsAt(String time) {
-    return 'Ends at $time';
+    return 'Endet um $time';
   }
 
   @override
   String fastSince(String time) {
-    return 'Since $time';
+    return 'Seit $time';
   }
 
   @override
-  String get fastStartedAt => 'When did you start fasting?';
+  String get fastStartedAt => 'Wann hast du mit dem Fasten begonnen?';
 
   @override
-  String get fastStart => 'Start fast';
+  String get fastStart => 'Fasten starten';
 
   @override
   String fastFromMeal(String time) {
-    return 'From $time';
+    return 'Ab $time';
   }
 
   @override
-  String get fastEnd => 'End fast';
+  String get fastEnd => 'Fasten beenden';
 
   @override
-  String get fastCancel => 'Cancel this fast';
+  String get fastCancel => 'Dieses Fasten abbrechen';
 
   @override
-  String get fastPlan => 'Fasting plan';
+  String get fastPlan => 'Fastenplan';
 
   @override
-  String get fastPlanHint => 'Hours fasting : hours to eat';
+  String get fastPlanHint => 'Stunden fasten : Stunden essen';
 
   @override
-  String get fastThisWeek => 'Last 7 days';
+  String get fastThisWeek => 'Letzte 7 Tage';
 
   @override
-  String get fastCount => 'Fasts';
+  String get fastCount => 'Fastentage';
 
   @override
-  String get fastReachedCount => 'Reached';
+  String get fastReachedCount => 'Erreicht';
 
   @override
-  String get fastAverage => 'Average';
+  String get fastAverage => 'Durchschnitt';
 
   @override
-  String get fastHistory => 'Recent fasts';
+  String get fastHistory => 'Letzte Fastenzeiten';
 
   @override
-  String get notifFastLiveChannel => 'Fasting in progress';
+  String get notifFastLiveChannel => 'Fasten läuft';
 
   @override
-  String get notifFastLiveChannelWhy => 'A quiet countdown while you fast.';
+  String get notifFastLiveChannelWhy => 'Ein ruhiger Countdown, während du fastest.';
 
   @override
-  String get notifFastChannel => 'Fasting';
+  String get notifFastChannel => 'Fasten';
 
   @override
-  String get notifFastChannelWhy => 'Tells you when your fast is done.';
+  String get notifFastChannelWhy => 'Sagt dir, wann dein Fasten geschafft ist.';
 
   @override
-  String get notifFastLiveTitle => 'Fasting';
+  String get notifFastLiveTitle => 'Fasten';
 
   @override
   String notifFastLiveBody(String time) {
-    return 'Your eating window opens at $time';
+    return 'Dein Essensfenster öffnet um $time';
   }
 
   @override
-  String get notifFastDoneTitle => 'Fast done';
+  String get notifFastDoneTitle => 'Fasten geschafft';
 
   @override
   String notifFastDoneBody(int n) {
-    return '$n hours. Your eating window is open.';
+    return '$n Stunden. Dein Essensfenster ist offen.';
   }
 
   @override
@@ -6578,152 +6587,154 @@ class AppLocalizationsDe extends AppLocalizations {
       'GymMane ist und bleibt kostenlos, ohne Werbung und ohne Haken.\n\nWenn es dir beim Training hilft, macht mir ein Kaffee den Tag ☕\nUnd wenn nicht, kein Problem: ein Stern auf GitHub auch ⭐';
 
   @override
-  String get perfSetting => 'Performance';
+  String get perfSetting => 'Leistung';
 
   @override
-  String get perfSheetHint => 'How much of your phone GymMane uses. You can change each part below.';
+  String get perfSheetHint =>
+      'Wie viel von deinem Handy GymMane nutzt. Unten kannst du jeden Teil einzeln ändern.';
 
   @override
-  String get perfLite => 'Saver';
+  String get perfLite => 'Sparmodus';
 
   @override
-  String get perfLiteHint => 'No blur and calmer motion. For phones that struggle.';
+  String get perfLiteHint => 'Keine Unschärfe und ruhigere Bewegungen. Für Handys, die sich schwertun.';
 
   @override
-  String get perfBalanced => 'Balanced';
+  String get perfBalanced => 'Ausgewogen';
 
   @override
-  String get perfBalancedHint => 'Blur and animations without draining the battery.';
+  String get perfBalancedHint => 'Unschärfe und Animationen, ohne den Akku leerzusaugen.';
 
   @override
   String get perfMax => 'Maximum';
 
   @override
   String perfMaxHint(int hz) {
-    return 'Finer blur and the screen at $hz Hz. For high-end phones.';
+    return 'Feinere Unschärfe und der Bildschirm mit $hz Hz. Für Spitzenhandys.';
   }
 
   @override
-  String get perfMaxHintNoHz => 'Finer blur everywhere. For high-end phones.';
+  String get perfMaxHintNoHz => 'Überall feinere Unschärfe. Für Spitzenhandys.';
 
   @override
-  String get perfCustom => 'Custom';
+  String get perfCustom => 'Eigene';
 
   @override
-  String get perfTweak => 'Fine-tuning';
+  String get perfTweak => 'Feineinstellung';
 
   @override
-  String get perfFine => 'Fine blur';
+  String get perfFine => 'Feine Unschärfe';
 
   @override
-  String get perfFineHint => 'Softer edges and a sharper backdrop behind sheets';
+  String get perfFineHint => 'Weichere Kanten und ein schärferer Hintergrund hinter Fenstern';
 
   @override
   String perfHz(int hz) {
-    return 'Screen at $hz Hz';
+    return 'Bildschirm mit $hz Hz';
   }
 
   @override
-  String get perfHzHint => 'Everything scrolls smoother, at a little more battery';
+  String get perfHzHint => 'Alles scrollt flüssiger, bei etwas mehr Akkuverbrauch';
 
   @override
   String get lowEndLiteBody =>
-      'Saver mode (no blur, calmer motion) will run smoother on it. You can change it in Settings → General → Performance.';
+      'Im Sparmodus (keine Unschärfe, ruhigere Bewegungen) läuft es darauf flüssiger. Du kannst es unter Einstellungen → Allgemein → Leistung ändern.';
 
   @override
-  String get lowEndLiteOn => 'Turn on Saver';
+  String get lowEndLiteOn => 'Sparmodus einschalten';
 
   @override
-  String get dayOffHint => 'Your streak and the reminder leave this day alone';
+  String get dayOffHint => 'Deine Serie und die Erinnerung lassen diesen Tag in Ruhe';
 
   @override
-  String get dayOffTrained => 'I trained, just didn\'t log it';
+  String get dayOffTrained => 'Ich habe trainiert, nur nicht eingetragen';
 
   @override
-  String get dayOffSick => 'Illness';
+  String get dayOffSick => 'Krankheit';
 
   @override
-  String get dayOffTravel => 'Travel';
+  String get dayOffTravel => 'Reise';
 
   @override
-  String get dayOffInjury => 'Injury';
+  String get dayOffInjury => 'Verletzung';
 
   @override
-  String get dayOffRest => 'Rest';
+  String get dayOffRest => 'Ruhe';
 
   @override
-  String get altsTitle => 'Backups';
+  String get altsTitle => 'Ersatzübungen';
 
   @override
-  String get altsHint => 'In case the machine is taken';
+  String get altsHint => 'Falls das Gerät belegt ist';
 
   @override
   String altsPickHint(int count) {
-    return 'Pick up to $count. If the machine is taken, swap in one tap.';
+    return 'Wähle bis zu $count. Ist das Gerät belegt, tauschst du mit einem Tipp.';
   }
 
   @override
-  String get placeDumbbells => 'Dumbbells';
+  String get placeDumbbells => 'Kurzhanteln';
 
   @override
   String get dumbbellsHint =>
-      'The weight of one dumbbell. Progression and the + and − buttons will only land on these here.';
+      'Das Gewicht einer Kurzhantel. Progression und die Tasten + und − landen hier nur auf diesen Werten.';
 
   @override
-  String get dumbbellOther => 'Another weight';
+  String get dumbbellOther => 'Anderes Gewicht';
 
   @override
-  String get tuneTitle => 'Today\'s volume';
+  String get tuneTitle => 'Heutiges Volumen';
 
   @override
-  String get tuneHint => 'Tell me how each muscle felt and I\'ll adjust the sets for next time.';
+  String get tuneHint =>
+      'Sag mir, wie sich jeder Muskel angefühlt hat, und ich passe die Sätze fürs nächste Mal an.';
 
   @override
-  String get tuneLess => 'Too little';
+  String get tuneLess => 'Zu wenig';
 
   @override
-  String get tuneRight => 'Right';
+  String get tuneRight => 'Passt';
 
   @override
-  String get tuneMore => 'Too much';
+  String get tuneMore => 'Zu viel';
 
   @override
   String tuneNext(String sets, String name) {
-    return 'Next time: $sets of $name';
+    return 'Nächstes Mal: $sets von $name';
   }
 
   @override
-  String get tuneSame => 'Stays the same next time';
+  String get tuneSame => 'Bleibt nächstes Mal gleich';
 
   @override
-  String get tuneSetting => 'Tune sets per muscle';
+  String get tuneSetting => 'Sätze pro Muskel anpassen';
 
   @override
-  String get tuneSettingHint => 'After a routine, rate each muscle and the sets adjust';
+  String get tuneSettingHint => 'Bewerte nach einem Training jeden Muskel und die Sätze passen sich an';
 
   @override
   String insightLoad(int pct) {
-    return '$pct % more sets than your usual week. Watch your recovery.';
+    return '$pct % mehr Sätze als in deiner üblichen Woche. Achte auf deine Erholung.';
   }
 
   @override
   String insightMuscle(String muscle, int days) {
-    return '$muscle: $days days untouched.';
+    return '$muscle: seit $days Tagen nicht trainiert.';
   }
 
   @override
   String insightPushHeavy(int a, int b) {
-    return 'You push more than you pull: $a sets against $b in four weeks.';
+    return 'Du drückst mehr, als du ziehst: $a Sätze gegen $b in vier Wochen.';
   }
 
   @override
   String insightPullHeavy(int a, int b) {
-    return 'You pull more than you push: $a sets against $b in four weeks.';
+    return 'Du ziehst mehr, als du drückst: $a Sätze gegen $b in vier Wochen.';
   }
 
   @override
   String insightStronger(String name, int pct) {
-    return '$name: $pct % stronger than last month.';
+    return '$name: $pct % stärker als letzten Monat.';
   }
 
   @override
@@ -7052,219 +7063,221 @@ class AppLocalizationsDe extends AppLocalizations {
   String get recapFoodStarKicker => 'Dein Essen des Monats';
 
   @override
-  String get onbSpeedTitle => 'Make it run smooth';
+  String get onbSpeedTitle => 'Damit es flüssig läuft';
 
   @override
   String get onbSpeedWhy =>
-      'Your phone seems to be working hard. Turn these off and everything will flow better: try them and watch the preview.';
+      'Dein Handy scheint sich anzustrengen. Schalte das aus und alles läuft runder: Probier es aus und sieh dir die Vorschau an.';
 
   @override
-  String get onbSpeedMotion => 'Animations';
+  String get onbSpeedMotion => 'Animationen';
 
   @override
-  String get onbSpeedBlurHint => 'Frosted glass behind sheets and bars';
+  String get onbSpeedBlurHint => 'Milchglas hinter Fenstern und Leisten';
 
   @override
-  String get onbSpeedMotionHint => 'Screens and sheets that slide in';
+  String get onbSpeedMotionHint => 'Bildschirme und Fenster, die hereingleiten';
 
   @override
-  String get onbSpeedLater => 'You can change it anytime in Settings › General › Performance.';
+  String get onbSpeedLater => 'Du kannst es jederzeit unter Einstellungen › Allgemein › Leistung ändern.';
 
   @override
-  String get notifSoundSetting => 'Notification sounds';
+  String get notifSoundSetting => 'Benachrichtigungstöne';
 
   @override
-  String get notifSoundRowHint => 'How each kind of reminder sounds';
+  String get notifSoundRowHint => 'Wie jede Art von Erinnerung klingt';
 
   @override
   String get notifSoundHint =>
-      'Pick a sound for each kind of reminder. From phone opens your phone sounds, and on most phones you can add your own song there.';
+      'Wähle einen Ton für jede Art von Erinnerung. „Vom Handy“ öffnet die Töne deines Handys, und auf den meisten Handys kannst du dort auch einen eigenen Song hinzufügen.';
 
   @override
-  String get notifSoundTrain => 'Workouts';
+  String get notifSoundTrain => 'Trainings';
 
   @override
-  String get notifSoundFood => 'Food, supplements and fasting';
+  String get notifSoundFood => 'Essen, Nahrungsergänzung und Fasten';
 
   @override
-  String get notifSoundOther => 'Photos and measurements';
+  String get notifSoundOther => 'Fotos und Maße';
 
   @override
   String get notifSoundNormal => 'Normal';
 
   @override
-  String get notifSoundPhone => 'From phone';
+  String get notifSoundPhone => 'Vom Handy';
 
   @override
-  String get notifSoundSilent => 'Silent';
+  String get notifSoundSilent => 'Stumm';
 
   @override
-  String get notifSoundPhoneHint => 'Tap one to hear it. It saves right away.';
+  String get notifSoundPhoneHint => 'Tippe einen an, um ihn zu hören. Er wird sofort gespeichert.';
 
   @override
-  String get notifSoundMore => 'Another file…';
+  String get notifSoundMore => 'Andere Datei…';
 
   @override
-  String get notifSoundChange => 'Change';
+  String get notifSoundChange => 'Ändern';
 
   @override
-  String get workoutNoteAdd => 'Pinned note: seat, grip, machine…';
+  String get workoutNoteAdd => 'Angeheftete Notiz: Sitz, Griff, Gerät…';
 
   @override
-  String get autoProgressSetting => 'Auto progression';
+  String get autoProgressSetting => 'Automatische Progression';
 
   @override
-  String get autoProgressRowHint => 'What it suggests for next time';
+  String get autoProgressRowHint => 'Was es fürs nächste Mal vorschlägt';
 
   @override
-  String get autoProgressOff => 'Off';
+  String get autoProgressOff => 'Aus';
 
   @override
-  String get autoProgressWeight => 'Add weight';
+  String get autoProgressWeight => 'Gewicht erhöhen';
 
   @override
-  String get autoProgressReps => 'Add reps';
+  String get autoProgressReps => 'Wiederholungen erhöhen';
 
   @override
   String get autoProgressHint =>
-      'When you start a workout, GymMane fills in the next step for each exercise. With Add reps you add one rep per set up to 12, then the weight goes up and you start again at 8. You can still tune each exercise on its page.';
+      'Wenn du ein Training startest, trägt GymMane für jede Übung den nächsten Schritt ein. Mit „Wiederholungen erhöhen“ kommt pro Satz eine Wiederholung dazu, bis 12; dann steigt das Gewicht und du fängst wieder bei 8 an. Jede Übung kannst du trotzdem auf ihrer Seite anpassen.';
 
   @override
-  String get noteFolders => 'Folders';
+  String get noteFolders => 'Ordner';
 
   @override
-  String get noteFolderNew => 'New folder';
+  String get noteFolderNew => 'Neuer Ordner';
 
   @override
-  String get noteFolderEdit => 'Edit folder';
+  String get noteFolderEdit => 'Ordner bearbeiten';
 
   @override
-  String get noteFolderName => 'Folder name';
+  String get noteFolderName => 'Ordnername';
 
   @override
-  String get noteFolderLabel => 'Folder';
+  String get noteFolderLabel => 'Ordner';
 
   @override
-  String get noteFolderNone => 'No folder';
+  String get noteFolderNone => 'Kein Ordner';
 
   @override
-  String get noteFolderDelete => 'Delete the folder?';
+  String get noteFolderDelete => 'Ordner löschen?';
 
   @override
-  String get noteFolderDeleteBody => 'Notes are kept: they just leave the folder.';
+  String get noteFolderDeleteBody => 'Die Notizen bleiben erhalten: Sie verlassen nur den Ordner.';
 
   @override
-  String get foodArchivedToast => 'Food archived';
+  String get foodArchivedToast => 'Lebensmittel archiviert';
 
   @override
-  String get planArchivedToast => 'Plan archived';
+  String get planArchivedToast => 'Plan archiviert';
 
   @override
-  String get suppArchivedToast => 'Supplement archived';
+  String get suppArchivedToast => 'Präparat archiviert';
 
   @override
-  String get voiceSetting => 'Workout voice';
+  String get voiceSetting => 'Trainingsstimme';
 
   @override
   String get voiceSettingHint =>
-      'Says your next set and counts down the end of the rest, with the phone voice';
+      'Sagt deinen nächsten Satz an und zählt das Ende der Pause herunter, mit der Stimme deines Handys';
 
   @override
-  String get voiceHello => 'Voice on';
+  String get voiceHello => 'Stimme an';
 
   @override
   String voiceRest(String time) {
-    return 'Rest $time.';
+    return 'Pause $time.';
   }
 
   @override
   String voiceNext(String name, String load) {
-    return 'Next: $name, $load.';
+    return 'Als Nächstes: $name, $load.';
   }
 
   @override
   String voiceLoad(int reps, String weight) {
-    return '$reps reps at $weight';
+    return '$reps Wiederholungen mit $weight';
   }
 
   @override
   String voiceReps(int reps) {
-    return '$reps reps';
+    return '$reps Wiederholungen';
   }
 
   @override
-  String get voiceGo => 'Let\'s go!';
+  String get voiceGo => 'Los geht\'s!';
 
   @override
-  String get deloadSetting => 'Deload week';
+  String get deloadSetting => 'Deload-Woche';
 
   @override
-  String get deloadOff => 'Never';
+  String get deloadOff => 'Nie';
 
   @override
   String deloadEvery(int weeks) {
-    return 'Every $weeks weeks';
+    return 'Alle $weeks Wochen';
   }
 
   @override
   String get deloadHint =>
-      'Every few weeks, an easier one to recover: half the sets and 10 % less weight. That week does not count for progression.';
+      'Alle paar Wochen eine leichtere zur Erholung: halb so viele Sätze und 10 % weniger Gewicht. Diese Woche zählt nicht für die Progression.';
 
   @override
-  String get deloadRowHint => 'An easy week every few weeks';
+  String get deloadRowHint => 'Alle paar Wochen eine leichte Woche';
 
   @override
-  String get deloadNow => 'Deload week';
+  String get deloadNow => 'Deload-Woche';
 
   @override
-  String get deloadNowHint => 'Today, half the sets and 10 % less weight';
+  String get deloadNowHint => 'Heute halb so viele Sätze und 10 % weniger Gewicht';
 
   @override
   String deloadIn(int weeks) {
     String _temp0 = intl.Intl.pluralLogic(
       weeks,
       locale: localeName,
-      other: 'In $weeks weeks',
-      one: 'Next week',
-      zero: 'This week',
+      other: 'In $weeks Wochen',
+      one: 'Nächste Woche',
+      zero: 'Diese Woche',
     );
     return '$_temp0';
   }
 
   @override
-  String get deloadSkip => 'Train as usual';
+  String get deloadSkip => 'Normal trainieren';
 
   @override
-  String get voiceSheetTitle => 'How the voice works';
+  String get voiceSheetTitle => 'So funktioniert die Stimme';
 
   @override
-  String get voicePointRest => 'When you tick a set, it tells you the rest time and what comes next.';
+  String get voicePointRest =>
+      'Wenn du einen Satz abhakst, sagt sie dir die Pausenzeit und was als Nächstes kommt.';
 
   @override
-  String get voicePointCount => 'It counts 3, 2, 1 at the end of the rest and calls you back.';
+  String get voicePointCount => 'Am Ende der Pause zählt sie 3, 2, 1 und ruft dich zurück.';
 
   @override
-  String get voicePointPhone => 'It uses your phone\'s voice and plays over your music.';
+  String get voicePointPhone => 'Sie nutzt die Stimme deines Handys und spielt über deine Musik.';
 
   @override
-  String get voiceTry => 'Try the voice';
+  String get voiceTry => 'Stimme testen';
 
   @override
-  String get voiceNoEngine => 'Your phone has no voice engine turned on.';
+  String get voiceNoEngine => 'Auf deinem Handy ist keine Sprachausgabe aktiviert.';
 
   @override
-  String get voiceNoLang => 'Your language\'s voice is missing. Download it in your phone\'s voice settings.';
+  String get voiceNoLang =>
+      'Die Stimme für deine Sprache fehlt. Lade sie in den Spracheinstellungen deines Handys herunter.';
 
   @override
-  String get voiceOpenSettings => 'Voice settings';
+  String get voiceOpenSettings => 'Spracheinstellungen';
 
   @override
   String voiceMinutes(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count minutes',
-      one: '1 minute',
+      other: '$count Minuten',
+      one: '1 Minute',
     );
     return '$_temp0';
   }
@@ -7274,53 +7287,53 @@ class AppLocalizationsDe extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count seconds',
-      one: '1 second',
+      other: '$count Sekunden',
+      one: '1 Sekunde',
     );
     return '$_temp0';
   }
 
   @override
-  String get voiceAnd => 'and';
+  String get voiceAnd => 'und';
 
   @override
-  String get repRecordsTitle => 'Best weight by reps';
+  String get repRecordsTitle => 'Bestes Gewicht nach Wiederholungen';
 
   @override
   String suppUnitCapsule(int n) {
-    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: 'capsules', one: 'capsule');
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: 'Kapseln', one: 'Kapsel');
     return '$_temp0';
   }
 
   @override
   String suppUnitPill(int n) {
-    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: 'pills', one: 'pill');
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: 'Tabletten', one: 'Tablette');
     return '$_temp0';
   }
 
   @override
   String suppUnitScoop(int n) {
-    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: 'scoops', one: 'scoop');
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: 'Messlöffel', one: 'Messlöffel');
     return '$_temp0';
   }
 
   @override
   String suppUnitDrop(int n) {
-    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: 'drops', one: 'drop');
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: 'Tropfen', one: 'Tropfen');
     return '$_temp0';
   }
 
   @override
   String suppUnitServing(int n) {
-    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: 'servings', one: 'serving');
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: 'Portionen', one: 'Portion');
     return '$_temp0';
   }
 
   @override
-  String get suppUnitIu => 'IU';
+  String get suppUnitIu => 'IE';
 
   @override
-  String get suppLeft => 'Left';
+  String get suppLeft => 'Vorrat';
 
   @override
   String get suppLeftHint => 'Optional';
@@ -7330,48 +7343,49 @@ class AppLocalizationsDe extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       n,
       locale: localeName,
-      other: 'Left for $n days',
-      one: 'Left for 1 day',
+      other: 'Reicht noch $n Tage',
+      one: 'Reicht noch 1 Tag',
     );
     return '$_temp0';
   }
 
   @override
   String suppForDays(int n) {
-    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n days', one: '1 day');
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n Tage', one: '1 Tag');
     return '$_temp0';
   }
 
   @override
-  String get suppRanOut => 'Ran out';
+  String get suppRanOut => 'Aufgebraucht';
 
   @override
-  String get lightSession => 'Light session';
+  String get lightSession => 'Leichte Einheit';
 
   @override
-  String get lightSessionHint => 'Saved in your history and stats, but it won\'t change your next targets.';
+  String get lightSessionHint =>
+      'Wird in deinem Verlauf und deiner Statistik gespeichert, ändert aber deine nächsten Ziele nicht.';
 
   @override
-  String get lightSessionNote => 'Doesn\'t count for progression';
+  String get lightSessionNote => 'Zählt nicht für die Progression';
 
   @override
-  String get lightSessionOff => 'Turn off';
+  String get lightSessionOff => 'Ausschalten';
 
   @override
   String get eachSideRepsHint =>
-      'Log the left and right reps separately. Progression follows the weaker side.';
+      'Trage linke und rechte Wiederholungen getrennt ein. Die Progression richtet sich nach der schwächeren Seite.';
 
   @override
-  String get repsLeftCol => 'REPS L';
+  String get repsLeftCol => 'WDH. L';
 
   @override
-  String get repsRightCol => 'REPS R';
+  String get repsRightCol => 'WDH. R';
 
   @override
-  String get repsLeftTitle => 'LEFT REPS';
+  String get repsLeftTitle => 'WIEDERHOLUNGEN LINKS';
 
   @override
-  String get repsRightTitle => 'RIGHT REPS';
+  String get repsRightTitle => 'WIEDERHOLUNGEN RECHTS';
 
   @override
   String sidesReps(int l, int r) {
@@ -7379,106 +7393,106 @@ class AppLocalizationsDe extends AppLocalizations {
   }
 
   @override
-  String get progSchemeTitle => 'Weight progression';
+  String get progSchemeTitle => 'Gewichtsprogression';
 
   @override
-  String get groupMoveUp => 'Move group up';
+  String get groupMoveUp => 'Gruppe nach oben';
 
   @override
-  String get groupMoveDown => 'Move group down';
+  String get groupMoveDown => 'Gruppe nach unten';
 
   @override
-  String get mealAiRow => 'Ask an AI';
+  String get mealAiRow => 'Eine KI fragen';
 
   @override
-  String get mealAiRowHint => 'Copy a request, paste the answer';
+  String get mealAiRowHint => 'Anfrage kopieren, Antwort einfügen';
 
   @override
-  String get mealAiTitle => 'Meals with AI';
+  String get mealAiTitle => 'Mahlzeiten mit KI';
 
   @override
-  String get mealAiSubtitle => 'Works with any chatbot. The app stays offline.';
+  String get mealAiSubtitle => 'Funktioniert mit jedem Chatbot. Die App bleibt offline.';
 
   @override
-  String get mealAiStepAsk => 'Ask';
+  String get mealAiStepAsk => 'Fragen';
 
   @override
-  String get mealAiStepPaste => 'Paste';
+  String get mealAiStepPaste => 'Einfügen';
 
   @override
-  String get mealAiWholeDay => 'Whole day';
+  String get mealAiWholeDay => 'Ganzer Tag';
 
   @override
-  String get mealAiTarget => 'Target';
+  String get mealAiTarget => 'Ziel';
 
   @override
   String mealAiLeft(String kcal, int protein) {
-    return 'You have $kcal and $protein g of protein left today';
+    return 'Dir bleiben heute $kcal und $protein g Protein';
   }
 
   @override
-  String get mealAiStyle => 'Your taste';
+  String get mealAiStyle => 'Dein Geschmack';
 
   @override
-  String get mealAiTagProtein => 'High protein';
+  String get mealAiTagProtein => 'Proteinreich';
 
   @override
-  String get mealAiTagVeggie => 'Vegetarian';
+  String get mealAiTagVeggie => 'Vegetarisch';
 
   @override
   String get mealAiTagVegan => 'Vegan';
 
   @override
-  String get mealAiTagNoGluten => 'Gluten free';
+  String get mealAiTagNoGluten => 'Glutenfrei';
 
   @override
-  String get mealAiTagNoLactose => 'Lactose free';
+  String get mealAiTagNoLactose => 'Laktosefrei';
 
   @override
-  String get mealAiTagQuick => 'Quick';
+  String get mealAiTagQuick => 'Schnell';
 
   @override
-  String get mealAiTagNoCook => 'No cooking';
+  String get mealAiTagNoCook => 'Ohne Kochen';
 
   @override
-  String get mealAiTagCheap => 'Budget';
+  String get mealAiTagCheap => 'Günstig';
 
   @override
-  String get mealAiNotesHint => 'I have at home… I don’t like… allergies…';
+  String get mealAiNotesHint => 'Ich habe zu Hause… Ich mag kein… Allergien…';
 
   @override
-  String get mealAiOptions => 'Options';
+  String get mealAiOptions => 'Optionen';
 
   @override
-  String get mealAiCopy => 'Copy request';
+  String get mealAiCopy => 'Anfrage kopieren';
 
   @override
-  String get mealAiCopied => 'Request copied';
+  String get mealAiCopied => 'Anfrage kopiert';
 
   @override
-  String get mealAiCopiedHint => 'Paste it into your AI and come back here with the answer';
+  String get mealAiCopiedHint => 'Füge sie in deine KI ein und komm mit der Antwort hierher zurück';
 
   @override
-  String get mealAiShowText => 'See the request';
+  String get mealAiShowText => 'Anfrage ansehen';
 
   @override
-  String get mealAiHideText => 'Hide the request';
+  String get mealAiHideText => 'Anfrage ausblenden';
 
   @override
-  String get mealAiPasteHint => 'Paste the AI’s answer here';
+  String get mealAiPasteHint => 'Füge hier die Antwort der KI ein';
 
   @override
-  String get mealAiReview => 'Review answer';
+  String get mealAiReview => 'Antwort prüfen';
 
   @override
-  String get mealAiUnreadable => 'I couldn’t find any food in that text';
+  String get mealAiUnreadable => 'Ich habe in diesem Text kein Lebensmittel gefunden';
 
   @override
   String get mealAiUnreadableHint =>
-      'Ask the AI to send only the JSON, in one code block, with the format of the request.';
+      'Bitte die KI, nur das JSON in einem Codeblock zu schicken, im Format der Anfrage.';
 
   @override
-  String get mealAiCopyFix => 'Copy that sentence';
+  String get mealAiCopyFix => 'Diesen Satz kopieren';
 
   @override
   String mealAiOption(int n) {
@@ -7487,121 +7501,295 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String mealAiAddTo(String meal) {
-    return 'Add to $meal';
+    return 'Zu $meal hinzufügen';
   }
 
   @override
-  String get mealAiAddDay => 'Add to today';
+  String get mealAiAddDay => 'Zu heute hinzufügen';
 
   @override
-  String get mealAiAddPick => 'Add';
+  String get mealAiAddPick => 'Hinzufügen';
 
   @override
   String mealAiAdded(int n) {
     String _temp0 = intl.Intl.pluralLogic(
       n,
       locale: localeName,
-      other: '$n foods added',
-      one: '1 food added',
+      other: '$n Lebensmittel hinzugefügt',
+      one: '1 Lebensmittel hinzugefügt',
     );
     return '$_temp0';
   }
 
   @override
-  String get mealAiSaveRecipe => 'Save as a recipe';
+  String get mealAiSaveRecipe => 'Als Rezept speichern';
 
   @override
-  String get mealAiSavePlan => 'Save as a plan';
+  String get mealAiSavePlan => 'Als Plan speichern';
 
   @override
-  String get mealAiRecipeSaved => 'Recipe saved';
+  String get mealAiRecipeSaved => 'Rezept gespeichert';
 
   @override
-  String get mealAiPlanSaved => 'Plan saved';
+  String get mealAiPlanSaved => 'Plan gespeichert';
 
   @override
-  String get mealAiFlagEstimated => 'Estimated by the AI';
+  String get mealAiFlagEstimated => 'Von der KI geschätzt';
 
   @override
-  String get mealAiFlagAdjusted => 'Calories fixed to match the macros';
+  String get mealAiFlagAdjusted => 'Kalorien an die Makros angepasst';
 
   @override
-  String get mealAiFlagDoubtful => 'Doesn’t add up, check it';
+  String get mealAiFlagDoubtful => 'Passt nicht zusammen, prüf es';
 
   @override
-  String get mealAiFlagNoValues => 'No nutrition values';
+  String get mealAiFlagNoValues => 'Keine Nährwerte';
 
   @override
-  String get mealAiFlagNoAmount => 'No amount given';
+  String get mealAiFlagNoAmount => 'Keine Menge angegeben';
 
   @override
-  String get mealAiTruncated => 'The answer looks cut off. I kept the complete foods.';
+  String get mealAiTruncated =>
+      'Die Antwort scheint abgeschnitten. Ich habe die vollständigen Lebensmittel behalten.';
 
   @override
-  String get mealAiAmount => 'Amount';
+  String get mealAiAmount => 'Menge';
 
   @override
   String mealAiTargetLine(String kcal) {
-    return 'Target $kcal';
+    return 'Ziel $kcal';
   }
 
   @override
-  String get mealAiNothingChosen => 'Turn on at least one food';
+  String get mealAiNothingChosen => 'Schalte mindestens ein Lebensmittel ein';
 
   @override
-  String get cholesterolLabel => 'Cholesterol';
+  String get cholesterolLabel => 'Cholesterin';
 
   @override
-  String get mealAiFlagMatched => 'Same as a food you saved';
+  String get mealAiFlagMatched => 'Wie ein Lebensmittel, das du gespeichert hast';
 
   @override
-  String get mealAiNotSame => 'Not the same';
+  String get mealAiNotSame => 'Nicht dasselbe';
 
   @override
-  String get homeOrderRow => 'Order of sections';
+  String get homeOrderRow => 'Reihenfolge der Bereiche';
 
   @override
-  String get homeOrderHint => 'Hold and drag to change the order of Home.';
+  String get homeOrderHint => 'Halten und ziehen, um die Reihenfolge auf Start zu ändern.';
 
   @override
-  String get homeOrderFolders => 'Shortcuts';
+  String get homeOrderFolders => 'Verknüpfungen';
 
   @override
-  String get equipNew => 'New';
+  String get equipNew => 'Neu';
 
   @override
-  String get equipNewTitle => 'New equipment';
+  String get equipNewTitle => 'Neue Ausrüstung';
 
   @override
-  String get equipNewHint => 'e.g. Weight belt';
+  String get equipNewHint => 'z. B. Gewichthebergürtel';
 
   @override
-  String get homeOrderWeekdays => 'Week checks';
+  String get homeOrderWeekdays => 'Wochenhäkchen';
 
   @override
-  String get repsMaxTitle => 'Reps up to';
+  String get repsMaxTitle => 'Wiederholungen bis';
 
   @override
-  String get repsRangeHint => 'Long press the reps to set a range like 8-12.';
+  String get repsRangeHint => 'Halte die Wiederholungen gedrückt, um einen Bereich wie 8-12 festzulegen.';
 
   @override
-  String get repsRangeClear => 'Remove range';
+  String get repsRangeClear => 'Bereich entfernen';
 
   @override
   String get noteLinksLabel => 'LINKS';
 
   @override
-  String get noteLinkAdd => 'Add link';
+  String get noteLinkAdd => 'Link hinzufügen';
 
   @override
-  String get noteLinkEdit => 'Edit link';
+  String get noteLinkEdit => 'Link bearbeiten';
 
   @override
   String get noteLinkNameHint => 'Name';
 
   @override
-  String get noteLinkUrlHint => 'Web address';
+  String get noteLinkUrlHint => 'Webadresse';
 
   @override
-  String get noteLinkInvalid => 'That address doesn\'t look right';
+  String get noteLinkInvalid => 'Diese Adresse sieht nicht richtig aus';
+
+  @override
+  String get changeRest => 'Pause zwischen Übungen';
+
+  @override
+  String get changeRestHint => 'Nach dem letzten Satz, vor der nächsten Übung';
+
+  @override
+  String get notifSuppTake => 'Genommen';
+
+  @override
+  String get sideRest => 'Pause zwischen Seiten';
+
+  @override
+  String get sideRestHint => 'Einseitige Übungen: Das erste ✓ beendet eine Seite';
+
+  @override
+  String get gfxCompat => 'Kompatible Grafik';
+
+  @override
+  String get gfxCompatHint =>
+      'Für Handys, auf denen Buchstaben kaputt aussehen. Die Unschärfe bleibt, ein paar Effekte werden einfacher';
+
+  @override
+  String get gfxRestartTitle => 'GymMane neu starten?';
+
+  @override
+  String get gfxRestartBody =>
+      'Es schließt sich und öffnet sich wieder, um die Darstellung zu ändern. Nichts Gespeichertes geht verloren.';
+
+  @override
+  String get gfxRestart => 'Neu starten';
+
+  @override
+  String get webSynced => 'Mit Änderungen von einem anderen Gerät aktualisiert';
+
+  @override
+  String get webSyncedPhone => 'Die Änderungen deines Handys sind da';
+
+  @override
+  String get webWelcomeBlurb =>
+      'Alles bleibt auf deinem eigenen Server. Kein Konto, keine Cloud, nichts zu bezahlen.';
+
+  @override
+  String get webOwnServer => 'Dein Server, deine Regeln';
+
+  @override
+  String get webOwnServerWhy =>
+      'Keine Konten und keine fremde Cloud. Deine Daten liegen dort, wo du es betreibst.';
+
+  @override
+  String get webServerSaved => 'Auf deinem Server gespeichert';
+
+  @override
+  String get webServerOffline => 'Dein Server ist nicht erreichbar';
+
+  @override
+  String get webServerLocal => 'In diesem Browser gespeichert';
+
+  @override
+  String get webServerTitle => 'Dein Server';
+
+  @override
+  String webPhoneLast(String date) {
+    return 'Letzte Kopie von deinem Handy: $date';
+  }
+
+  @override
+  String get webPhoneNone => 'Noch keine Kopie von deinem Handy';
+
+  @override
+  String get webPhoneScan => 'Vom Handy holen';
+
+  @override
+  String get webPhoneExport => 'Ans Handy senden';
+
+  @override
+  String get webPhoneExportDone => 'Im geteilten Ordner abgelegt. Dein Handy holt es beim Synchronisieren';
+
+  @override
+  String get webPhoneImported => 'Die Änderungen deines Handys sind da';
+
+  @override
+  String get webPhoneNothing => 'Nichts Neues von deinem Handy';
+
+  @override
+  String get webPhoneHow =>
+      'Schalte auf deinem Handy die automatische Sicherung in einen Ordner ein, den du mit Syncthing synchronisierst. Server und Handy holen sich die Änderungen des anderen von selbst, und beim Zusammenführen wird nie etwas gelöscht.';
+
+  @override
+  String get webPhoneGuide => 'So richtest du es ein';
+
+  @override
+  String get webPhoneOff => 'Die Synchronisierung mit dem Handy ist auf diesem Server aus';
+
+  @override
+  String get toolGroupBody => 'Körper';
+
+  @override
+  String get toolNameProtein => 'Protein';
+
+  @override
+  String get toolTitleProtein => 'Protein pro Tag';
+
+  @override
+  String get toolDescProtein => 'Wie viel Protein am Tag';
+
+  @override
+  String get toolHintProtein => 'Gramm pro Tag, auf deine Mahlzeiten verteilt';
+
+  @override
+  String get proteinGoalLabel => 'Ziel';
+
+  @override
+  String get proteinExplain =>
+      'Basiert auf dem Bereich, auf den sich die meisten Studien für Trainierende einigen: mehr, wenn du abnimmst, um deine Muskeln zu halten. Darüber zu liegen ist unbedenklich, bringt nur wenig zusätzlich.';
+
+  @override
+  String get toolNameWater => 'Wasser';
+
+  @override
+  String get toolTitleWater => 'Wasser pro Tag';
+
+  @override
+  String get toolDescWater => 'Wie viel du am Tag trinken solltest';
+
+  @override
+  String get toolHintWater => 'Liter pro Tag, Essen eingerechnet';
+
+  @override
+  String get waterTrainingLabel => 'Training pro Tag';
+
+  @override
+  String get waterExplain =>
+      'Etwa 35 ml pro Kilo Körpergewicht, plus etwas extra für jede Trainingsminute. An heißen Tagen mehr trinken.';
+
+  @override
+  String get autoBackupSync => 'Jetzt synchronisieren';
+
+  @override
+  String get autoBackupMerged => 'Die Änderungen deiner anderen Geräte sind da';
+
+  @override
+  String get autoBackupSyncHint =>
+      'Teile diesen Ordner mit Syncthing, und jedes Gerät holt sich, was die anderen hier ablegen. Beim Zusammenführen wird nie etwas gelöscht.';
+
+  @override
+  String get webPhoneFolder => 'Geteilter Ordner';
+
+  @override
+  String get webPhoneFolderHow =>
+      'Wird bei der Installation des Servers festgelegt. Um ihn zu ändern, setze GYMMANE_SYNC in der .env-Datei des Servers und starte ihn neu.';
+
+  @override
+  String get webPhoneOffHow =>
+      'Zum Einschalten entferne GYMMANE_SYNC=off aus der .env-Datei des Servers und starte ihn neu.';
+
+  @override
+  String webPhoneDevices(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n Handys synchronisiert',
+      one: '1 Handy synchronisiert',
+      zero: 'Noch kein Handy synchronisiert',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String webPhoneError(String error) {
+    return 'Ordner konnte nicht gelesen werden: $error';
+  }
 }

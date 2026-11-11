@@ -34,6 +34,10 @@
 		<string>tr</string>
 		<string>uk</string>
 		<string>vi</string>
+		<string>id</string>
+		<string>hi</string>
+		<string>bn</string>
+		<string>ur</string>
 	</array>
 	<key>CFBundleName</key>
 	<string>GymMane</string>

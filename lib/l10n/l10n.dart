@@ -21,14 +21,16 @@ String get decimalSeparator => _decimalSeparators.putIfAbsent(intlLocale, () {
 
 String decimalText(String s) => s.replaceFirst('.', decimalSeparator);
 
-bool get isRtlLanguage => appLanguage == 'ar' || appLanguage == 'fa';
+const Set<String> kRtlLanguages = {'ar', 'fa', 'ur'};
+
+bool get isRtlLanguage => kRtlLanguages.contains(appLanguage);
 
 String ltr(String s) => isRtlLanguage ? '\u2066$s\u2069' : s;
 
 final _grouped = <String, NumberFormat>{};
 
 String groupedInt(int n) {
-  final locale = appLanguage == 'fa' ? 'en' : intlLocale;
+  final locale = appLanguage == 'fa' || appLanguage == 'bn' ? 'en' : intlLocale;
   return (_grouped[locale] ??= NumberFormat.decimalPattern(locale)).format(n);
 }
 
@@ -108,6 +110,8 @@ extension GymL10n on AppLocalizations {
         'dots' => toolNameDots,
         'wilks' => toolNameWilks,
         'ffmi' => toolNameFfmi,
+        'protein' => toolNameProtein,
+        'water' => toolNameWater,
         _ => toolNameWarmup,
       };
 
@@ -121,6 +125,8 @@ extension GymL10n on AppLocalizations {
         'dots' => toolTitleDots,
         'wilks' => toolTitleWilks,
         'ffmi' => toolTitleFfmi,
+        'protein' => toolTitleProtein,
+        'water' => toolTitleWater,
         _ => toolTitleWarmup,
       };
 
@@ -129,6 +135,8 @@ extension GymL10n on AppLocalizations {
         'cal' => toolHintCal,
         'bf' => toolHintBf,
         'plate' => toolHintPlate,
+        'protein' => toolHintProtein,
+        'water' => toolHintWater,
         _ => toolHintWarmup,
       };
 
@@ -155,6 +163,8 @@ extension GymL10n on AppLocalizations {
         'dots' => toolDescDots,
         'wilks' => toolDescWilks,
         'ffmi' => toolDescFfmi,
+        'protein' => toolDescProtein,
+        'water' => toolDescWater,
         _ => toolDescWarmup,
       };
 

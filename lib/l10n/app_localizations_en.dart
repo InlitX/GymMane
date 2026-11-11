@@ -7550,4 +7550,174 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get noteLinkInvalid => 'That address doesn\'t look right';
+
+  @override
+  String get changeRest => 'Rest between exercises';
+
+  @override
+  String get changeRestHint => 'After the last set, before the next exercise';
+
+  @override
+  String get notifSuppTake => 'Taken';
+
+  @override
+  String get sideRest => 'Rest between sides';
+
+  @override
+  String get sideRestHint => 'Per-side exercises: the first ✓ ends one side';
+
+  @override
+  String get gfxCompat => 'Compatible graphics';
+
+  @override
+  String get gfxCompatHint => 'For phones where letters look broken. Blur stays, a few effects get simpler';
+
+  @override
+  String get gfxRestartTitle => 'Restart GymMane?';
+
+  @override
+  String get gfxRestartBody =>
+      'It closes and opens again to change how it draws the screen. Nothing you saved is lost.';
+
+  @override
+  String get gfxRestart => 'Restart';
+
+  @override
+  String get webSynced => 'Updated with changes from another device';
+
+  @override
+  String get webSyncedPhone => 'Your phone\'s changes are in';
+
+  @override
+  String get webWelcomeBlurb => 'Everything stays on your own server. No account, no cloud, nothing to pay.';
+
+  @override
+  String get webOwnServer => 'Your server, your rules';
+
+  @override
+  String get webOwnServerWhy => 'No accounts and no third-party cloud. Your data lives where you run it.';
+
+  @override
+  String get webServerSaved => 'Saved on your server';
+
+  @override
+  String get webServerOffline => 'Can\'t reach your server';
+
+  @override
+  String get webServerLocal => 'Saved in this browser';
+
+  @override
+  String get webServerTitle => 'Your server';
+
+  @override
+  String webPhoneLast(String date) {
+    return 'Last copy from your phone: $date';
+  }
+
+  @override
+  String get webPhoneNone => 'No copy from your phone yet';
+
+  @override
+  String get webPhoneScan => 'Get from phone';
+
+  @override
+  String get webPhoneExport => 'Send to phone';
+
+  @override
+  String get webPhoneExportDone => 'Left in the shared folder. Your phone brings it in when it syncs';
+
+  @override
+  String get webPhoneImported => 'Your phone\'s changes are in';
+
+  @override
+  String get webPhoneNothing => 'Nothing new from your phone';
+
+  @override
+  String get webPhoneHow =>
+      'Turn on automatic backups on your phone into a folder you sync with Syncthing. The server and the phone bring in each other\'s changes on their own, and merging never deletes anything.';
+
+  @override
+  String get webPhoneGuide => 'How to set it up';
+
+  @override
+  String get webPhoneOff => 'Phone sync is off on this server';
+
+  @override
+  String get toolGroupBody => 'Body';
+
+  @override
+  String get toolNameProtein => 'Protein';
+
+  @override
+  String get toolTitleProtein => 'Daily protein';
+
+  @override
+  String get toolDescProtein => 'How much protein a day';
+
+  @override
+  String get toolHintProtein => 'Grams a day, spread over your meals';
+
+  @override
+  String get proteinGoalLabel => 'Goal';
+
+  @override
+  String get proteinExplain =>
+      'Based on the range most studies agree on for people who train: more when you are losing weight, to keep your muscle. Going over it is safe, it just adds little.';
+
+  @override
+  String get toolNameWater => 'Water';
+
+  @override
+  String get toolTitleWater => 'Daily water';
+
+  @override
+  String get toolDescWater => 'How much to drink a day';
+
+  @override
+  String get toolHintWater => 'Litres a day, food included';
+
+  @override
+  String get waterTrainingLabel => 'Training a day';
+
+  @override
+  String get waterExplain =>
+      'About 35 ml per kilo of body weight, plus some extra for each minute you train. Drink more on hot days.';
+
+  @override
+  String get autoBackupSync => 'Sync now';
+
+  @override
+  String get autoBackupMerged => 'Changes from your other devices are in';
+
+  @override
+  String get autoBackupSyncHint =>
+      'Share this folder with Syncthing and each device brings in what the others leave here. Merging never deletes anything.';
+
+  @override
+  String get webPhoneFolder => 'Shared folder';
+
+  @override
+  String get webPhoneFolderHow =>
+      'Chosen when you install the server. To change it, set GYMMANE_SYNC in the server\'s .env file and restart it.';
+
+  @override
+  String get webPhoneOffHow =>
+      'To turn it on, remove GYMMANE_SYNC=off from the server\'s .env file and restart it.';
+
+  @override
+  String webPhoneDevices(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n phones synced',
+      one: '1 phone synced',
+      zero: 'No phone has synced yet',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String webPhoneError(String error) {
+    return 'Couldn\'t read the folder: $error';
+  }
 }

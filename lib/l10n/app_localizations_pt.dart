@@ -7558,59 +7558,229 @@ class AppLocalizationsPt extends AppLocalizations {
   String get mealAiNothingChosen => 'Selecione pelo menos um alimento';
 
   @override
-  String get cholesterolLabel => 'Cholesterol';
+  String get cholesterolLabel => 'Colesterol';
 
   @override
-  String get mealAiFlagMatched => 'Same as a food you saved';
+  String get mealAiFlagMatched => 'Igual a um alimento que você salvou';
 
   @override
-  String get mealAiNotSame => 'Not the same';
+  String get mealAiNotSame => 'Não é o mesmo';
 
   @override
-  String get homeOrderRow => 'Order of sections';
+  String get homeOrderRow => 'Ordem das seções';
 
   @override
-  String get homeOrderHint => 'Hold and drag to change the order of Home.';
+  String get homeOrderHint => 'Toque, segure e arraste para mudar a ordem do Início.';
 
   @override
-  String get homeOrderFolders => 'Shortcuts';
+  String get homeOrderFolders => 'Atalhos';
 
   @override
-  String get equipNew => 'New';
+  String get equipNew => 'Novo';
 
   @override
-  String get equipNewTitle => 'New equipment';
+  String get equipNewTitle => 'Novo equipamento';
 
   @override
-  String get equipNewHint => 'e.g. Weight belt';
+  String get equipNewHint => 'ex. Cinto de musculação';
 
   @override
-  String get homeOrderWeekdays => 'Week checks';
+  String get homeOrderWeekdays => 'Marcações da semana';
 
   @override
-  String get repsMaxTitle => 'Reps up to';
+  String get repsMaxTitle => 'Repetições até';
 
   @override
-  String get repsRangeHint => 'Long press the reps to set a range like 8-12.';
+  String get repsRangeHint => 'Segure as repetições para definir uma faixa como 8-12.';
 
   @override
-  String get repsRangeClear => 'Remove range';
+  String get repsRangeClear => 'Remover faixa';
 
   @override
   String get noteLinksLabel => 'LINKS';
 
   @override
-  String get noteLinkAdd => 'Add link';
+  String get noteLinkAdd => 'Adicionar link';
 
   @override
-  String get noteLinkEdit => 'Edit link';
+  String get noteLinkEdit => 'Editar link';
 
   @override
-  String get noteLinkNameHint => 'Name';
+  String get noteLinkNameHint => 'Nome';
 
   @override
-  String get noteLinkUrlHint => 'Web address';
+  String get noteLinkUrlHint => 'Endereço da web';
 
   @override
-  String get noteLinkInvalid => 'That address doesn\'t look right';
+  String get noteLinkInvalid => 'Esse endereço não parece certo';
+
+  @override
+  String get changeRest => 'Descanso entre exercícios';
+
+  @override
+  String get changeRestHint => 'Depois da última série, antes do próximo exercício';
+
+  @override
+  String get notifSuppTake => 'Tomado';
+
+  @override
+  String get sideRest => 'Descanso entre lados';
+
+  @override
+  String get sideRestHint => 'Exercícios por lado: o primeiro ✓ encerra um lado';
+
+  @override
+  String get gfxCompat => 'Gráficos compatíveis';
+
+  @override
+  String get gfxCompatHint =>
+      'Para celulares em que as letras aparecem quebradas. O desfoque continua, alguns efeitos ficam mais simples';
+
+  @override
+  String get gfxRestartTitle => 'Reiniciar o GymMane?';
+
+  @override
+  String get gfxRestartBody =>
+      'Ele fecha e abre de novo para mudar o jeito de desenhar a tela. Nada do que você salvou se perde.';
+
+  @override
+  String get gfxRestart => 'Reiniciar';
+
+  @override
+  String get webSynced => 'Atualizado com mudanças de outro dispositivo';
+
+  @override
+  String get webSyncedPhone => 'As mudanças do seu celular chegaram';
+
+  @override
+  String get webWelcomeBlurb => 'Tudo fica no seu próprio servidor. Sem conta, sem nuvem, nada para pagar.';
+
+  @override
+  String get webOwnServer => 'Seu servidor, suas regras';
+
+  @override
+  String get webOwnServerWhy => 'Sem contas e sem nuvem de terceiros. Seus dados ficam onde você roda.';
+
+  @override
+  String get webServerSaved => 'Salvo no seu servidor';
+
+  @override
+  String get webServerOffline => 'Não foi possível conectar ao seu servidor';
+
+  @override
+  String get webServerLocal => 'Salvo neste navegador';
+
+  @override
+  String get webServerTitle => 'Seu servidor';
+
+  @override
+  String webPhoneLast(String date) {
+    return 'Última cópia do seu celular: $date';
+  }
+
+  @override
+  String get webPhoneNone => 'Ainda não chegou nenhuma cópia do seu celular';
+
+  @override
+  String get webPhoneScan => 'Trazer do celular';
+
+  @override
+  String get webPhoneExport => 'Enviar para o celular';
+
+  @override
+  String get webPhoneExportDone => 'Deixado na pasta compartilhada. Seu celular traz quando sincronizar';
+
+  @override
+  String get webPhoneImported => 'As mudanças do seu celular chegaram';
+
+  @override
+  String get webPhoneNothing => 'Nada de novo do seu celular';
+
+  @override
+  String get webPhoneHow =>
+      'Ative no celular o backup automático numa pasta que você sincroniza com o Syncthing. O servidor e o celular trazem sozinhos as mudanças um do outro, e juntar nunca apaga nada.';
+
+  @override
+  String get webPhoneGuide => 'Como configurar';
+
+  @override
+  String get webPhoneOff => 'A sincronização com o celular está desligada neste servidor';
+
+  @override
+  String get toolGroupBody => 'Corpo';
+
+  @override
+  String get toolNameProtein => 'Proteína';
+
+  @override
+  String get toolTitleProtein => 'Proteína por dia';
+
+  @override
+  String get toolDescProtein => 'Quanta proteína por dia';
+
+  @override
+  String get toolHintProtein => 'Gramas por dia, divididos entre as refeições';
+
+  @override
+  String get proteinGoalLabel => 'Meta';
+
+  @override
+  String get proteinExplain =>
+      'Baseado na faixa em que a maioria dos estudos concorda para quem treina: mais quando você está perdendo peso, para manter o músculo. Passar dela é seguro, só acrescenta pouco.';
+
+  @override
+  String get toolNameWater => 'Água';
+
+  @override
+  String get toolTitleWater => 'Água por dia';
+
+  @override
+  String get toolDescWater => 'Quanto beber por dia';
+
+  @override
+  String get toolHintWater => 'Litros por dia, contando a comida';
+
+  @override
+  String get waterTrainingLabel => 'Treino por dia';
+
+  @override
+  String get waterExplain =>
+      'Cerca de 35 ml por quilo de peso corporal, mais um pouco para cada minuto de treino. Beba mais em dias quentes.';
+
+  @override
+  String get autoBackupSync => 'Sincronizar agora';
+
+  @override
+  String get autoBackupMerged => 'As mudanças dos seus outros dispositivos chegaram';
+
+  @override
+  String get autoBackupSyncHint =>
+      'Compartilhe esta pasta com o Syncthing e cada dispositivo traz o que os outros deixam aqui. Juntar nunca apaga nada.';
+
+  @override
+  String get webPhoneFolder => 'Pasta compartilhada';
+
+  @override
+  String get webPhoneFolderHow =>
+      'Escolhida ao instalar o servidor. Para mudar, defina GYMMANE_SYNC no arquivo .env do servidor e reinicie.';
+
+  @override
+  String get webPhoneOffHow => 'Para ativar, remova GYMMANE_SYNC=off do arquivo .env do servidor e reinicie.';
+
+  @override
+  String webPhoneDevices(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n celulares sincronizados',
+      one: '1 celular sincronizado',
+      zero: 'Nenhum celular sincronizou ainda',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String webPhoneError(String error) {
+    return 'Não foi possível ler a pasta: $error';
+  }
 }
