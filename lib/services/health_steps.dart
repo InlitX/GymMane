@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 
+import 'package:flutter/foundation.dart' show visibleForTesting;
 import 'package:flutter/services.dart';
 import 'host.dart';
 
@@ -63,11 +64,8 @@ class HealthSteps {
 
   static Future<Map<DateTime, int>?> read(List<DateTime> days) async {
     if (days.isEmpty || !onMobile) return null;
-    final now = DateTime.now().millisecondsSinceEpoch;
-    final ranges = [
-      for (final day in days)
-        [_start(day), math.max(_start(day) + 1, math.min(_start(DateTime(day.year, day.month, day.day + 1)), now))],
-    ];
+    final cutoff = onIOS ? DateTime.now() : null;
+    final ranges = [for (final day in days) stepQueryRange(day, cutoff: cutoff)];
     try {
       final counts = await _channel.invokeListMethod<int>('readSteps', {'ranges': ranges});
       if (counts == null || counts.length != days.length) return null;
@@ -79,5 +77,13 @@ class HealthSteps {
     }
   }
 
-  static int _start(DateTime day) => DateTime(day.year, day.month, day.day).millisecondsSinceEpoch;
+  @visibleForTesting
+  static List<int> stepQueryRange(DateTime day, {DateTime? cutoff}) {
+    final start = DateTime(day.year, day.month, day.day).millisecondsSinceEpoch;
+    final end = DateTime(day.year, day.month, day.day + 1).millisecondsSinceEpoch;
+    return [
+      start,
+      if (cutoff == null) end else math.max(start + 1, math.min(end, cutoff.millisecondsSinceEpoch)),
+    ];
+  }
 }
