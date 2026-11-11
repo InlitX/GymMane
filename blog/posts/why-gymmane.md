@@ -58,11 +58,11 @@ Y si vienes de otra app, GymMane importa tu historial de Hevy, Strong, Lyfta, Fi
 
 Prefiero ser honesto con esto, porque cada cosa que falta tiene un motivo.
 
-**No hay sincronización en la nube.** Sincronizar con una nube necesita internet y una cuenta, y eso es justo lo que GymMane no quiere ser. A cambio, la app hace copias automáticas en una carpeta, y esa carpeta la puedes sincronizar con [Syncthing](https://syncthing.net) o con la herramienta que prefieras, de tu móvil a tu ordenador sin pasar por servidores de nadie. Y si tienes un ordenador en casa, puedes montar la versión web en tu propio servidor: lo explico en [este post](/blog/how-its-made/).
+**No hay sincronización en la nube.** Sincronizar con una nube necesita internet y una cuenta, y eso es justo lo que GymMane no quiere ser. A cambio, la app hace copias automáticas en una carpeta, y esa carpeta la puedes sincronizar con [Syncthing](https://syncthing.net) o con la herramienta que prefieras, de tu móvil a tu ordenador, sin que tus datos se queden en la nube de nadie. Y si tienes un ordenador en casa, puedes montar la versión web en tu propio servidor: lo explico en [este post](/blog/how-its-made/).
 
 **No hay red social ni rankings.** Comparar tu press de banca con el de desconocidos no te hace entrenar mejor, y montar algo así obligaría a subir tus datos a algún sitio. Si quieres enseñar tu progreso, puedes compartir el resumen del mes o una tarjeta de tu entreno como imagen, cuando tú quieras.
 
-**No hay un entrenador con IA dentro.** Una IA de verdad necesita conexión. Lo que sí hay es un atajo: GymMane te prepara el texto para pedirle una rutina o un plan de comidas a la IA que tú uses, y luego pegas la respuesta. La app nunca habla con nadie; tú decides qué copias y dónde.
+**No hay un entrenador con IA dentro.** Una IA capaz de prepararte una buena rutina hoy necesita internet o un móvil muy potente. Lo que sí hay es un atajo: GymMane te prepara el texto para pedirle una rutina o un plan de comidas a la IA que tú uses, y luego pegas la respuesta. La app nunca habla con nadie; tú decides qué copias y dónde.
 
 **No hay una base de datos de alimentos online.** Las grandes bases de comida viven en internet. GymMane trae una biblioteca de alimentos dentro y te deja crear los tuyos y guardar tus comidas.
 
@@ -125,11 +125,11 @@ If you're coming from another app, GymMane imports your history from Hevy, Stron
 
 I'd rather be honest about this, because every missing piece has a reason.
 
-**No cloud sync.** Syncing to a cloud needs the internet and an account, and that's exactly what GymMane doesn't want to be. Instead, the app saves automatic backups to a folder, and you can sync that folder with [Syncthing](https://syncthing.net) or whichever tool you prefer, from your phone to your computer without touching anyone's servers. And if you have a computer at home, you can run the web version on your own server: I explain it in [this post](/blog/how-its-made/).
+**No cloud sync.** Syncing to a cloud needs the internet and an account, and that's exactly what GymMane doesn't want to be. Instead, the app saves automatic backups to a folder, and you can sync that folder with [Syncthing](https://syncthing.net) or whichever tool you prefer, from your phone to your computer, without your data sitting in anyone's cloud. And if you have a computer at home, you can run the web version on your own server: I explain it in [this post](/blog/how-its-made/).
 
 **No social feed or leaderboards.** Comparing your bench press with strangers doesn't make you train better, and building that would mean uploading your data somewhere. If you want to show your progress, you can share your monthly recap or a workout card as an image, whenever you choose.
 
-**No built-in AI coach.** A real AI needs a connection. What there is instead is a shortcut: GymMane writes the request for you to ask the AI you already use for a routine or a meal plan, and then you paste the answer back. The app never talks to anyone; you decide what you copy and where.
+**No built-in AI coach.** An AI good enough to plan a solid routine needs the internet today, or a very powerful phone. What there is instead is a shortcut: GymMane writes the request for you to ask the AI you already use for a routine or a meal plan, and then you paste the answer back. The app never talks to anyone; you decide what you copy and where.
 
 **No online food database.** The big food databases live on the internet. GymMane ships with a food library inside and lets you add your own foods and save your meals.
 
