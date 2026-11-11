@@ -760,7 +760,9 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
 
   String get elapsedLabel {
     final e = sessionElapsed;
-    return '${(e ~/ 60).toString().padLeft(2, '0')}:${(e % 60).toString().padLeft(2, '0')}';
+    final ss = (e % 60).toString().padLeft(2, '0');
+    if (e < 3600) return '${(e ~/ 60).toString().padLeft(2, '0')}:$ss';
+    return '${e ~/ 3600}:${(e % 3600 ~/ 60).toString().padLeft(2, '0')}:$ss';
   }
 
   SessionExercise? get currentExercise {
@@ -775,9 +777,28 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
     return t.exerciseXofY(s.currentIndex + 1, s.exercises.length);
   }
 
+  bool restsBetweenSides(int exIdx, SessionSet st) {
+    final s = session;
+    return s != null &&
+        !s.manual &&
+        sideRestSeconds > 0 &&
+        st.repsR != null &&
+        exIdx >= 0 &&
+        exIdx < s.exercises.length &&
+        isSidedReps(s.exercises[exIdx].id);
+  }
+
   void toggleSet(int exIdx, int setIdx) {
     final st = session!.exercises[exIdx].sets[setIdx];
     _advanceTimer?.cancel();
+    if (!st.done && !st.half && restsBetweenSides(exIdx, st)) {
+      st.half = true;
+      _persist();
+      startRest(seconds: sideRestSeconds, switchSides: true);
+      notifyListeners();
+      return;
+    }
+    st.half = false;
     st.done = !st.done;
     _persist();
     notifyListeners();
@@ -789,7 +810,7 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
     }
     final sets = session!.exercises[exIdx].sets;
     final mini = setIdx + 1 < sets.length && const [SetKind.restPause, SetKind.cluster].contains(sets[setIdx + 1].kind);
-    startRest(mini: mini, seconds: st.rest);
+    startRest(mini: mini, seconds: st.rest ?? (mini ? null : _changeRestAfter(exIdx)));
     if (autoAdvance || sessionLocked) _advanceWhenDone(exIdx);
   }
 
@@ -906,9 +927,9 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
       notifyListeners();
       return;
     }
-    startRest();
     final left = chain.where((i) => s.exercises[i].hasUndone).toList();
     final next = pendingAfter(chain.last);
+    startRest(seconds: left.isEmpty && next != null && changeRestSeconds > 0 ? changeRestSeconds : null);
     if (left.isNotEmpty) {
       s.currentIndex = left.first;
     } else if ((autoAdvance || sessionLocked) && next != null) {
@@ -1007,6 +1028,17 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
     return _beats(ex.id, target.logged, best);
   }
 
+  int? _changeRestAfter(int exIdx, {int? closing}) {
+    final s = session;
+    if (s == null || changeRestSeconds <= 0 || exIdx < 0 || exIdx >= s.exercises.length) return null;
+    final sets = s.exercises[exIdx].sets;
+    for (var i = 0; i < sets.length; i++) {
+      if (i != closing && !sets[i].done) return null;
+    }
+    if (pendingAfter(exIdx) == null) return null;
+    return changeRestSeconds;
+  }
+
   int normalRestAfter(int exIdx, int setIdx) {
     final s = session;
     if (s == null || exIdx < 0 || exIdx >= s.exercises.length) return restSeconds;
@@ -1014,6 +1046,8 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
     final sets = ex.sets;
     final mini = setIdx + 1 < sets.length && const [SetKind.restPause, SetKind.cluster].contains(sets[setIdx + 1].kind);
     if (mini && miniRestSeconds > 0) return miniRestSeconds;
+    final change = _changeRestAfter(exIdx, closing: setIdx);
+    if (change != null) return change;
     return routineRest(s.routineId, ex.id) ?? restFor(ex.id);
   }
 
@@ -1027,7 +1061,7 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
     notifyListeners();
   }
 
-  void startRest({bool mini = false, int? seconds}) {
+  void startRest({bool mini = false, int? seconds, bool switchSides = false}) {
     if (sessionPaused || session?.manual == true) return;
     _restTimer?.cancel();
     RestAlarm.instance.stopSound();
@@ -1045,7 +1079,10 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
 
     restTotal = seconds;
     _armRest(seconds);
-    if (voiceCoach) {
+    session!.restSwitch = switchSides;
+    if (voiceCoach && switchSides) {
+      VoiceCoach.say(t.switchSides, intlLocale);
+    } else if (voiceCoach) {
       final next = voiceNext();
       VoiceCoach.say(next == null ? t.voiceRest(voiceDuration(seconds)) : '${t.voiceRest(voiceDuration(seconds))} $next', intlLocale);
     }
@@ -1217,11 +1254,11 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
   }
 
   void setSessionDistanceShown(int exIdx, int setIdx, double shown) =>
-      setSessionKm(exIdx, setIdx, fromDisplayKm(shown));
+      setSessionKm(exIdx, setIdx, fromDisplayKmFor(session!.exercises[exIdx].id, shown));
 
   void bumpSessionDistance(int exIdx, int setIdx, int dir) {
     final st = session!.exercises[exIdx].sets[setIdx];
-    final shown = toDisplayKm(st.km ?? 0);
+    final shown = toDisplayKmFor(session!.exercises[exIdx].id, st.km ?? 0);
     final next = ((shown / distanceStep).round() + dir) * distanceStep;
     setSessionDistanceShown(exIdx, setIdx, next < 0 ? 0 : next);
   }

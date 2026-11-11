@@ -26,6 +26,8 @@ mixin SettingsState on FitCore, ToolsState, LibraryState {
   String alarmStyle = 'quiet';
   int restSeconds = 90;
   int miniRestSeconds = 20;
+  int changeRestSeconds = 0;
+  int sideRestSeconds = 0;
   String? alarmSound;
   String? alarmSoundName;
 
@@ -335,6 +337,18 @@ mixin SettingsState on FitCore, ToolsState, LibraryState {
 
   void setMiniRest(int v) {
     miniRestSeconds = v <= 0 ? 0 : v.clamp(5, 180);
+    _persist();
+    notifyListeners();
+  }
+
+  void setChangeRest(int v) {
+    changeRestSeconds = v <= 0 ? 0 : v.clamp(15, 900);
+    _persist();
+    notifyListeners();
+  }
+
+  void setSideRest(int v) {
+    sideRestSeconds = v <= 0 ? 0 : v.clamp(5, 300);
     _persist();
     notifyListeners();
   }

@@ -127,6 +127,8 @@ class FitState extends FitCore
       _applyLanguage(data['language'] as String? ?? language);
       restSeconds = (data['rest'] as num?)?.toInt() ?? 90;
       miniRestSeconds = (data['miniRest'] as num?)?.toInt() ?? 20;
+      changeRestSeconds = (data['changeRest'] as num?)?.toInt() ?? 0;
+      sideRestSeconds = (data['sideRest'] as num?)?.toInt() ?? 0;
       alarmSound = data['alarmSound'] as String?;
       alarmSoundName = data['alarmSoundName'] as String?;
       RestAlarm.instance.customSoundPath = alarmSoundPath;
@@ -384,10 +386,18 @@ class FitState extends FitCore
     _elapsedBefore = (data['liveElapsed'] as num?)?.toInt() ?? 0;
     sessionPaused = data['livePaused'] as bool? ?? false;
     final started = data['liveStart'] as String?;
-    if (sessionPaused || started == null) {
+    final since = started == null ? null : DateTime.tryParse(started);
+    if (!sessionPaused && since != null && DateTime.now().difference(since) > const Duration(hours: 6)) {
+      _elapsedBefore += const Duration(hours: 3).inSeconds;
+      sessionPaused = true;
+      _runningSince = null;
+      resetRoute('home');
+      return;
+    }
+    if (sessionPaused || since == null) {
       _runningSince = null;
     } else {
-      _runningSince = DateTime.tryParse(started);
+      _runningSince = since;
       _startTicking(from: _runningSince);
     }
     if (!sessionPaused) syncRest();
@@ -427,6 +437,10 @@ class FitState extends FitCore
     exerciseUnits.clear();
     ((data['exUnits'] as Map?) ?? const {}).forEach((k, v) {
       if (k is String && (v == 'kg' || v == 'lb')) exerciseUnits[k] = v as String;
+    });
+    exerciseDistance.clear();
+    ((data['exDist'] as Map?) ?? const {}).forEach((k, v) {
+      if (k is String && (v == 'km' || v == 'mi')) exerciseDistance[k] = v as String;
     });
   }
 
@@ -540,6 +554,8 @@ class FitState extends FitCore
         'language': language,
         'rest': restSeconds,
         'miniRest': miniRestSeconds,
+        'changeRest': changeRestSeconds,
+        'sideRest': sideRestSeconds,
         'alarmSound': alarmSound,
         'alarmSoundName': alarmSoundName,
         if (NotifSound.uris.isNotEmpty)
@@ -628,6 +644,7 @@ class FitState extends FitCore
         'media': exerciseMedia,
         'exRest': exerciseRest,
         if (exerciseUnits.isNotEmpty) 'exUnits': exerciseUnits,
+        if (exerciseDistance.isNotEmpty) 'exDist': exerciseDistance,
         if (collapsedGroups.isNotEmpty) 'collapsedGroups': collapsedGroups.toList(),
         'progress': progressStep,
         if (holdStep.isNotEmpty) 'holdStep': holdStep,
@@ -745,6 +762,7 @@ class FitState extends FitCore
     assistedOff.clear();
     exerciseRest.clear();
     exerciseUnits.clear();
+    exerciseDistance.clear();
     collapsedGroups.clear();
     progressStep.clear();
     holdStep.clear();
@@ -867,6 +885,8 @@ class FitState extends FitCore
     _applyLanguage(map['language'] as String? ?? language);
     restSeconds = (map['rest'] as num?)?.toInt() ?? restSeconds;
     miniRestSeconds = (map['miniRest'] as num?)?.toInt() ?? miniRestSeconds;
+    changeRestSeconds = (map['changeRest'] as num?)?.toInt() ?? changeRestSeconds;
+    sideRestSeconds = (map['sideRest'] as num?)?.toInt() ?? sideRestSeconds;
     bgPattern = map['bg'] as String? ?? bgPattern;
     heatTone = map['heatTone'] as String? ?? heatTone;
     _loadToggles(map);

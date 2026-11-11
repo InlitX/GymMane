@@ -35,6 +35,10 @@ mixin ToolsState on FitCore {
   double ffmiHeight = 175;
   double ffmiWeight = 75;
   double ffmiBf = 15;
+  String protGoal = 'hold';
+  double protWeight = 75;
+  double waterWeight = 75;
+  int waterMinutes = 60;
 
   static const dotsLifts = ['qXTaZnJ', 'EIeI8Vf', 'ila4NZS'];
 
@@ -53,6 +57,8 @@ mixin ToolsState on FitCore {
     ffmiHeight = profile.heightCm;
     ffmiWeight = profile.weightKg;
     ffmiSex = profile.sex;
+    protWeight = profile.weightKg;
+    waterWeight = profile.weightKg;
   }
 
   double bestLift(String id) => 0;
@@ -72,6 +78,12 @@ mixin ToolsState on FitCore {
     if (id == 'dots' || id == 'wilks') _seedDots();
     activeToolId = id;
     pushRoute('tools-detail');
+  }
+
+  void selectTool(String id) {
+    if (id == 'dots' || id == 'wilks') _seedDots();
+    activeToolId = id;
+    notifyListeners();
   }
 
   void closeTool() => popRoute(fallback: 'tools');
@@ -365,4 +377,24 @@ mixin ToolsState on FitCore {
   void bumpFfmiBf(double d) { ffmiBf = _clamp(ffmiBf + d, 3, 60); notifyListeners(); }
 
   void bumpWarmupTarget(double d) { warmupTarget = _clamp(warmupTarget + d, 0, null); notifyListeners(); }
+
+  (double, double) get _protPerKg => switch (protGoal) {
+        'lose' => (1.8, 2.2),
+        'gain' => (1.6, 2.2),
+        _ => (1.4, 1.8),
+      };
+
+  int get protLow => (protWeight * _protPerKg.$1 / 5).round() * 5;
+
+  int get protHigh => (protWeight * _protPerKg.$2 / 5).round() * 5;
+
+  double get waterLiters => _round1((waterWeight * 35 + waterMinutes * 12) / 1000);
+
+  void setProtGoal(String g) { protGoal = g; notifyListeners(); }
+
+  void bumpProtWeight(double d) { protWeight = _clamp(protWeight + d, 30, 300); notifyListeners(); }
+
+  void bumpWaterWeight(double d) { waterWeight = _clamp(waterWeight + d, 30, 300); notifyListeners(); }
+
+  void bumpWaterMinutes(int d) { waterMinutes = (waterMinutes + d).clamp(0, 300); notifyListeners(); }
 }

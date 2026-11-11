@@ -502,7 +502,7 @@ mixin StatsState on FitCore, ToolsState, LibraryState, SettingsState, TimelineSt
 
   void setLoggedKmShown(LoggedExercise e, int i, double shown) {
     if (i < 0 || i >= e.sets.length) return;
-    _replaceLoggedSet(e, i, km: _round3(fromDisplayKm(math.max(0.0, shown))));
+    _replaceLoggedSet(e, i, km: _round3(fromDisplayKmFor(e.id, math.max(0.0, shown))));
   }
 
   void bumpLoggedSec(LoggedExercise e, int i, int d) {
@@ -514,9 +514,9 @@ mixin StatsState on FitCore, ToolsState, LibraryState, SettingsState, TimelineSt
 
   void bumpLoggedKm(LoggedExercise e, int i, int dir) {
     if (i < 0 || i >= e.sets.length) return;
-    final shown = toDisplayKm(e.sets[i].km ?? 0);
+    final shown = toDisplayKmFor(e.id, e.sets[i].km ?? 0);
     final next = math.max(0.0, ((shown / distanceStep).round() + dir) * distanceStep);
-    _replaceLoggedSet(e, i, km: _round3(fromDisplayKm(next)));
+    _replaceLoggedSet(e, i, km: _round3(fromDisplayKmFor(e.id, next)));
   }
 
   bool loggedTimed(LoggedExercise e) =>
@@ -1240,7 +1240,8 @@ mixin StatsState on FitCore, ToolsState, LibraryState, SettingsState, TimelineSt
     final km = s.km ?? 0;
     final sec = s.sec;
     final w = id == null ? weightValue(s.weight) : weightValueFor(id, s.weight);
-    if (km > 0) return sec == null ? distanceLabel(km) : '${distanceLabel(km)} · ${durationLabel(sec)}';
+    final d = id == null ? distanceLabel(km) : distanceLabelFor(id, km);
+    if (km > 0) return sec == null ? d : '$d · ${durationLabel(sec)}';
     if (sec != null && s.reps <= 0) {
       return s.weight > 0 ? '$w × ${durationLabel(sec)}' : durationLabel(sec);
     }

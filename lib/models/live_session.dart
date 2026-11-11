@@ -10,6 +10,7 @@ class SessionSet {
   int? rest;
   double weight;
   bool done;
+  bool half = false;
   SetKind kind;
   double? rpe;
   int? sec;
@@ -34,6 +35,7 @@ class SessionSet {
         if (goal != null) 'g': goal,
         'w': weight,
         'd': done,
+        if (half && !done) 'h': true,
         if (kind != SetKind.normal) 'k': kind.index,
         if (rpe != null) 'e': rpe,
         if (sec != null) 't': sec,
@@ -53,7 +55,7 @@ class SessionSet {
         note: j['n'] as String? ?? '',
         repsR: (j['rr'] as num?)?.toInt(),
         goal: j['g'] as String?,
-      );
+      )..half = j['h'] as bool? ?? false;
 }
 
 class SessionExercise {
@@ -99,6 +101,7 @@ class WorkoutSession {
   DateTime? loggedAt;
   DateTime? restEndsAt;
   int? restFrozen;
+  bool restSwitch = false;
   int? summaryVolume;
   int? summarySets;
   int? summaryDuration;
@@ -115,6 +118,7 @@ class WorkoutSession {
   void clearRest() {
     restEndsAt = null;
     restFrozen = null;
+    restSwitch = false;
   }
 
   Map<String, dynamic> toJson() => {
@@ -129,6 +133,7 @@ class WorkoutSession {
         'at': loggedAt?.toIso8601String(),
         if (restEndsAt != null) 're': restEndsAt!.toIso8601String(),
         if (restFrozen != null) 'rf': restFrozen,
+        if (restSwitch && restEndsAt != null) 'rsw': true,
         'sv': summaryVolume,
         'ss': summarySets,
         'sd': summaryDuration,
@@ -147,6 +152,7 @@ class WorkoutSession {
     ..loggedAt = DateTime.tryParse((j['at'] as String?) ?? '')
     ..restEndsAt = DateTime.tryParse((j['re'] as String?) ?? '')
     ..restFrozen = (j['rf'] as num?)?.toInt()
+    ..restSwitch = j['rsw'] as bool? ?? false
     ..summaryVolume = (j['sv'] as num?)?.toInt()
     ..summarySets = (j['ss'] as num?)?.toInt()
     ..summaryDuration = (j['sd'] as num?)?.toInt();
