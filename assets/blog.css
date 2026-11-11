@@ -81,6 +81,8 @@ html { scroll-padding-top: 88px; }
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: .86em;
   background: var(--raised2); border: 1px solid var(--border); border-radius: 6px; padding: 1px 6px; color: var(--text);
 }
+.prose .code { position: relative; margin: 18px 0 22px; }
+.prose .code pre { margin: 0; padding-right: 92px; }
 .prose pre {
   position: relative; margin: 18px 0 22px; padding: 18px 20px; overflow-x: auto;
   background: var(--raised); border: 1px solid var(--border); border-radius: 14px;
@@ -90,6 +92,7 @@ html { scroll-padding-top: 88px; }
 .copy {
   position: absolute; top: 10px; right: 10px; font-size: 12px; font-weight: 600; color: var(--dim);
   padding: 4px 10px; border: 1px solid var(--border); border-radius: 8px; background: var(--raised2);
+  box-shadow: 0 0 0 9px var(--raised), -22px 0 14px 9px var(--raised);
   transition: color .2s, border-color .2s;
 }
 .copy:hover { color: var(--text); border-color: var(--border-hi); }

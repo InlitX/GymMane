@@ -50,7 +50,11 @@
       };
       if (navigator.clipboard) navigator.clipboard.writeText(text).then(done, function () {});
     });
-    pre.appendChild(btn);
+    var box = document.createElement('div');
+    box.className = 'code';
+    pre.parentNode.insertBefore(box, pre);
+    box.appendChild(pre);
+    box.appendChild(btn);
   });
 
   var y = document.getElementById('y');

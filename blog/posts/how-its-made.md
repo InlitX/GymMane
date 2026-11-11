@@ -1,57 +1,45 @@
 ---
 date: 2026-11-11
 order: 0
-tag_es: Por dentro
-tag_en: Under the hood
-title_es: Cómo está hecho GymMane, y cómo tenerlo en tu propio servidor
-title_en: How GymMane is made, and how to run it on your own server
-desc_es: Una sola base de código, cero servidores ajenos y una versión web que montas en casa con un comando. Te explico cómo funciona y cómo ponerla en marcha en cinco minutos.
-desc_en: One codebase, zero third-party servers and a web version you run at home with one command. Here's how it works and how to get it running in five minutes.
+tag_es: Guía
+tag_en: Guide
+title_es: GymMane en tu propio servidor
+title_en: GymMane on your own server
+desc_es: La app entera en el navegador, servida desde una máquina tuya. Se instala con un comando y tus datos se quedan en una carpeta de tu casa.
+desc_en: The whole app in your browser, served from a machine of yours. It installs with one command and your data stays in a folder at home.
 ---
 
 <div data-l="es">
 
-## Una app sin servidor
+## Qué es
 
-La mayoría de apps de gimnasio son dos cosas: una app en tu móvil y un servidor en la nube donde viven tus datos. GymMane es solo la primera. **Todo pasa en tu móvil**: tus entrenos, tus fotos, tus notas y tus cálculos.
+Es la misma app de GymMane, con el mismo diseño y las mismas funciones, pero en el navegador: en el portátil, en el ordenador de sobremesa o en una tablet. En una pantalla grande ves a la vez tus rutinas, tu progreso y lo que has comido.
 
-Está hecha con [Flutter](https://flutter.dev), el sistema de Google para crear apps con una sola base de código en Dart. Eso me deja cuidar cada detalle del diseño (los números que ruedan, las hojas que suben desde abajo, las animaciones de los ejercicios) y, a la vez, compilar la misma app para otros sitios sin reescribirla.
+No hay ningún servidor mío de por medio. **La montas tú** en una máquina tuya: un ordenador de casa, un NAS, una Raspberry Pi o un VPS. Tus datos se quedan en una carpeta de esa máquina y cualquier navegador de tu red puede abrirla.
 
-Algunas decisiones que no se ven pero que lo explican todo:
+La app del móvil no cambia: sigue sin permiso de internet y funciona igual que siempre. Si quieres, puedes juntar sus datos con los del servidor; más abajo te explico cómo.
 
-- **Sin permiso de internet.** El manifiesto de Android no lo pide, así que el sistema no deja que la app se conecte a nada.
-- **Tus datos en un solo sitio.** El historial se guarda en el almacenamiento privado de la app. Una copia completa es un único archivo que puedes guardar donde quieras.
-- **Todo dentro del paquete.** Los ejercicios, sus animaciones, los alimentos y las fórmulas de las calculadoras van incluidos. Nada se descarga después.
-- **Código abierto (GPL-3.0).** Cualquiera puede leerlo, y F-Droid compila la app desde ese código, así que lo que instalas es lo que está publicado.
-
-## La misma app, en tu navegador
-
-Como Flutter también compila para la web, la app entera puede funcionar en un navegador. No es una versión recortada: es **la misma app**, con el mismo diseño, adaptada a pantallas grandes con una barra lateral y paneles que aprovechan el ancho.
-
-Para que eso tenga sentido sin romper la idea de «tus datos son tuyos», la web no vive en ningún servidor mío. **La montas tú**, en un ordenador de casa, un NAS, una Raspberry Pi o un servidor que ya tengas. Lo que te instalas son dos piezas:
-
-1. **La app web**, compilada a WebAssembly para que vaya fluida.
-2. **Un servidor muy pequeño**, escrito también en Dart, que guarda tus datos en una carpeta y sirve la app. No usa base de datos ni servicios externos.
-
-Tus datos quedan en una carpeta de esa máquina. Si copias esa carpeta, lo tienes todo. Además, el servidor guarda una copia de cada día por si algo sale mal.
-
-## Ponerlo en marcha
+## Qué necesitas
 
 <div class="note">
-<p>Necesitas un equipo que esté encendido cuando quieras usarlo: un portátil vale para probar, un NAS o una Raspberry Pi para dejarlo siempre listo.</p>
+<p>Una máquina que esté encendida cuando quieras usarlo, con Linux, Windows o Docker. Para probar te vale tu portátil; para dejarlo siempre listo, un NAS o una Raspberry Pi 4 o 5 con sistema de 64 bits.</p>
 </div>
 
-**Linux, un VPS o una Raspberry Pi.** Un solo comando:
+No necesitas root ni permisos de administrador, y no hace falta abrir nada a internet.
+
+## Instalarlo
+
+**Linux, un VPS o una Raspberry Pi.** Copia esto en una terminal:
 
 ```sh
 curl -fsSL https://raw.githubusercontent.com/InlitX/GymMane/main/selfhost/install.sh | sh
 ```
 
-El script te hace tres o cuatro preguntas, cada una con una respuesta ya puesta: con pulsar Enter vale. Usa Docker si lo tienes y, si no, descarga un programa que funciona solo. Al terminar te dice la dirección que tienes que abrir y la contraseña.
+El instalador mira qué hay en la máquina y te hace tres o cuatro preguntas, como el puerto o si quieres contraseña. Cada una trae ya una respuesta, así que puedes ir pulsando Enter. Si tienes Docker lo usa; si no, descarga un programa que funciona solo. Al terminar te enseña la dirección que tienes que abrir y la contraseña.
 
 <img class="shot" src="/assets/shots/selfhost-install.webp" width="804" height="1094" alt="El instalador de GymMane en una terminal: comprueba el equipo, pregunta el puerto y la contraseña, instala y enseña la dirección para abrirlo" loading="lazy">
 
-**No hace falta root.** Lanzado con tu usuario, GymMane se instala en tu carpeta personal y arranca como un servicio tuyo, también tras reiniciar. Con `sudo` se instala para todo el equipo y, si tienes un cortafuegos activo, te ofrece abrir el puerto.
+Con tu usuario, se instala en tu carpeta personal y arranca solo cada vez que enciendes la máquina. Con `sudo` se instala para todo el equipo y, si tienes un cortafuegos activo, te ofrece abrir el puerto.
 
 **Windows.** En PowerShell:
 
@@ -59,9 +47,9 @@ El script te hace tres o cuatro preguntas, cada una con una respuesta ya puesta:
 irm https://raw.githubusercontent.com/InlitX/GymMane/main/selfhost/install.ps1 | iex
 ```
 
-Sin permisos de administrador, GymMane arranca cuando inicias sesión. Como administrador, arranca con Windows y abre el puerto en el cortafuegos.
+Te hace las mismas preguntas. Sin permisos de administrador, GymMane arranca cuando inicias sesión. Como administrador, arranca con Windows y abre el puerto en el cortafuegos.
 
-**Con Docker, a mano.** Si prefieres verlo todo:
+**Docker, a mano.** Si prefieres ver cada paso:
 
 ```sh
 mkdir -p gymmane/gymmane-data/sync && cd gymmane
@@ -70,90 +58,92 @@ echo "GYMMANE_PASSWORD=algo-largo" > .env
 docker compose up -d
 ```
 
-El contenedor no corre como root, sino con un usuario normal. Por eso conviene crear tú la carpeta de datos antes de arrancarlo, como arriba.
+El contenedor corre con un usuario normal, no como root. Por eso conviene que crees tú la carpeta de datos antes de arrancarlo, como arriba. Hay imágenes para ordenadores normales y para ARM (Raspberry Pi y la mayoría de NAS).
 
-Después abre `http://localhost:8080` en ese equipo, o `http://ip-del-equipo:8080` desde cualquier otro de tu casa. El navegador te pedirá la contraseña; el nombre de usuario da igual. Las imágenes funcionan en ordenadores normales y en ARM (Raspberry Pi 4 y 5, la mayoría de NAS).
+## Abrirlo
 
-## Configurarlo
+En la misma máquina, abre `http://localhost:8080`. Desde el móvil, una tablet u otro ordenador de casa, `http://ip-de-la-máquina:8080`; el instalador te dice cuál es. Si pusiste contraseña, el navegador te la pide. El nombre de usuario da igual.
 
-Todo se ajusta con unas pocas variables, una por línea, en el archivo de ajustes de tu instalación (con Docker es el `.env` junto a `compose.yaml`):
+Todos los navegadores ven los mismos datos: lo que apuntas en el portátil aparece en la tablet unos segundos después.
+
+## Juntarlo con la app del móvil
+
+La app del móvil nunca se conecta al servidor. Se juntan a través de una carpeta: el móvil deja ahí sus copias automáticas, el servidor deja las suyas y cada uno se trae lo nuevo del otro.
+
+Para mover esa carpeta entre el móvil y el servidor puedes usar [Syncthing](https://syncthing.net), que va directo de un aparato a otro por tu wifi, o cualquier otra herramienta que sincronice carpetas. Con Syncthing:
+
+<ol class="steps">
+<li>En el servidor, di que sí a Syncthing en el instalador (o lanza <code>docker compose --profile sync up -d</code>). Abre Syncthing en <code>http://ip-de-la-máquina:8384</code>, ponle una contraseña y añade la carpeta <code>/var/syncthing/GymMane</code>.</li>
+<li>En el móvil, instala Syncthing-Fork, emparéjalo con el servidor y acepta la carpeta.</li>
+<li>En GymMane: Ajustes › Datos y copia de seguridad › Copia automática, y elige esa misma carpeta.</li>
+</ol>
+
+Si no usas Docker, instala Syncthing (o la herramienta que prefieras) por tu cuenta y apúntalo a la carpeta `data/sync` de la instalación.
+
+Al juntarlas **nunca se pierde nada**: lo que existe en un lado acaba en los dos, y si cambiaste lo mismo en los dos sitios gana lo más reciente. Lo que no viaja es borrar: si quitas algo, quítalo en los dos.
+
+## Ajustes
+
+Todo se ajusta con unas pocas variables, una por línea, en el archivo de ajustes que te indica el instalador (con Docker, el `.env` junto a `compose.yaml`):
 
 | Variable | Qué hace |
 |---|---|
 | `GYMMANE_PORT` | El puerto. Por defecto, `8080`. |
 | `GYMMANE_PASSWORD` | La contraseña que pide el navegador. Vacía, no pide nada. |
 | `GYMMANE_SYNC` | La carpeta que comparte con el móvil. `off` la apaga. |
-| `GYMMANE_KEEP_DAYS` | Cuántos días de copias guarda. Por defecto, 30. |
+| `GYMMANE_KEEP_DAYS` | Cuántos días de copias diarias guarda. Por defecto, 30. |
 
-Cambias lo que quieras y vuelves a lanzar el instalador (o `docker compose up -d`). Lo que añadiste se conserva al actualizar.
+Cambia lo que quieras y vuelve a lanzar el instalador (o `docker compose up -d`). Lo que añadas se conserva al actualizar.
 
-Si vas a entrar desde fuera de casa, ponlo detrás de HTTPS (Caddy, Traefik o Nginx Proxy Manager) o úsalo a través de una VPN como Tailscale o WireGuard. Así la contraseña nunca viaja sin cifrar.
+## Desde fuera de casa
 
-## Juntar el móvil y el servidor
+Tal cual, GymMane está pensado para tu red de casa: la contraseña viaja sin cifrar. Si quieres entrar desde fuera, no abras el puerto a internet. Úsalo a través de una VPN como Tailscale o WireGuard, o ponlo detrás de HTTPS con Caddy, Traefik o Nginx Proxy Manager.
 
-La app del móvil sigue sin internet, así que **nunca se conecta al servidor**. Se juntan de otra forma: comparten una carpeta con Syncthing.
+## Actualizar, guardar y quitar
 
-<ol class="steps">
-<li>En el servidor, di que sí a Syncthing en el instalador (o lanza <code>docker compose --profile sync up -d</code>). Abre Syncthing en <code>http://ip-del-equipo:8384</code>, ponle una contraseña y añade la carpeta <code>/var/syncthing/GymMane</code>.</li>
-<li>En el móvil, instala <a href="https://f-droid.org/packages/com.github.catfriend1.syncthingandroid/">Syncthing-Fork</a> desde F-Droid, emparéjalo con el servidor y acepta la carpeta.</li>
-<li>En GymMane: Ajustes › Datos y copia de seguridad › Copia automática, y elige esa misma carpeta.</li>
-</ol>
+- **Actualizar:** lanza el mismo comando y elige actualizar (con Docker, `docker compose pull && docker compose up -d`). Tus datos no se tocan.
+- **Guardar:** todo está en la carpeta de datos; si la copias, lo tienes todo. Además, el servidor guarda una copia de cada día.
+- **Quitar:** lanza el mismo comando y elige quitar. Tus datos se quedan en su carpeta hasta que tú la borres.
 
-Desde ahí, cada lado deja su copia en la carpeta y se trae la del otro. Al juntarlas **nunca se pierde nada**: lo que existe en un lado acaba en los dos, y si editaste lo mismo en los dos sitios gana lo más reciente. En la web, Ajustes › Datos te enseña qué carpeta usa el servidor y cuándo llegó la última copia del móvil.
+## Cómo está hecho
 
-## Actualizar y llevártelo
+GymMane está hecha con [Flutter](https://flutter.dev), que compila la misma app para Android y para la web. En el servidor van dos piezas: la app web, compilada a WebAssembly para que vaya fluida, y un servidor muy pequeño escrito en Dart que guarda tus datos en una carpeta y sirve la app. No usa base de datos ni servicios externos, y todo el código es abierto.
 
-Para actualizar, vuelve a lanzar el mismo comando (o `docker compose pull && docker compose up -d`). Tus datos nunca se tocan al actualizar.
-
-Y si un día quieres dejarlo, copia la carpeta de datos o exporta una copia desde la app. Es tuyo, en un formato abierto, y te lo llevas cuando quieras.
-
-Toda la guía, con todos los detalles, está en [SELFHOST.md](https://github.com/InlitX/GymMane/blob/main/SELFHOST.md). Si algo no te funciona, cuéntamelo en [GitHub](https://github.com/InlitX/GymMane/issues).
+La guía completa, con todos los detalles, está en [SELFHOST.md](https://github.com/InlitX/GymMane/blob/main/SELFHOST.md). Si algo no te funciona, cuéntamelo en [GitHub](https://github.com/InlitX/GymMane/issues).
 
 </div>
 
 <div data-l="en">
 
-## An app without a server
+## What it is
 
-Most gym apps are two things: an app on your phone and a server in the cloud where your data lives. GymMane is only the first one. **Everything happens on your phone**: your workouts, your photos, your notes and your numbers.
+It's the same GymMane app, with the same design and the same features, but in the browser: on your laptop, your desktop or a tablet. On a big screen you see your routines, your progress and what you've eaten side by side.
 
-It's built with [Flutter](https://flutter.dev), Google's toolkit for building apps from a single Dart codebase. That lets me take care of every detail of the design (rolling numbers, sheets that slide up, exercise animations) and also build the same app for other places without rewriting it.
+There's no server of mine in between. **You run it** on a machine of yours: a computer at home, a NAS, a Raspberry Pi or a VPS. Your data stays in a folder on that machine and any browser on your network can open it.
 
-A few choices you don't see but that explain everything:
+The phone app doesn't change: it still has no internet permission and works just as it always has. If you like, you can bring its data together with the server's; I explain how below.
 
-- **No internet permission.** The Android manifest doesn't ask for it, so the system won't let the app connect to anything.
-- **Your data in one place.** Your history is stored in the app's private storage. A full backup is a single file you can keep wherever you like.
-- **Everything ships inside.** Exercises, their animations, foods and the calculator formulas are all included. Nothing is downloaded later.
-- **Open source (GPL-3.0).** Anyone can read it, and F-Droid builds the app from that code, so what you install is what's published.
-
-## The same app, in your browser
-
-Because Flutter also builds for the web, the whole app can run in a browser. It isn't a cut-down version: it's **the same app**, with the same design, adapted to big screens with a sidebar and panels that use the width.
-
-To make that work without breaking the “your data is yours” idea, the web version doesn't live on any server of mine. **You run it**, on a computer at home, a NAS, a Raspberry Pi or a server you already have. You install two pieces:
-
-1. **The web app**, compiled to WebAssembly so it runs smoothly.
-2. **A very small server**, also written in Dart, that stores your data in a folder and serves the app. No database and no outside services.
-
-Your data stays in a folder on that machine. Copy that folder and you have everything. The server also keeps a copy of every day, just in case.
-
-## Getting it running
+## What you need
 
 <div class="note">
-<p>You need a machine that's on when you want to use it: a laptop is fine to try it, a NAS or a Raspberry Pi to leave it always ready.</p>
+<p>A machine that's on when you want to use it, running Linux, Windows or Docker. Your laptop is fine to try it; to leave it always ready, a NAS or a Raspberry Pi 4 or 5 with a 64-bit system.</p>
 </div>
 
-**Linux, a VPS or a Raspberry Pi.** One command:
+You don't need root or administrator rights, and you don't need to open anything to the internet.
+
+## Installing it
+
+**Linux, a VPS or a Raspberry Pi.** Paste this into a terminal:
 
 ```sh
 curl -fsSL https://raw.githubusercontent.com/InlitX/GymMane/main/selfhost/install.sh | sh
 ```
 
-The script asks three or four questions, each with an answer already filled in: pressing Enter is enough. It uses Docker if you have it and otherwise downloads a program that runs on its own. When it's done it tells you the address to open and the password.
+The installer looks at the machine and asks three or four questions, like the port or whether you want a password. Each one comes with an answer already filled in, so you can just keep pressing Enter. It uses Docker if you have it and otherwise downloads a program that runs on its own. When it's done it shows you the address to open and the password.
 
 <img class="shot" src="/assets/shots/selfhost-install.webp" width="804" height="1094" alt="The GymMane installer in a terminal: it checks the machine, asks for the port and the password, installs and shows the address to open" loading="lazy">
 
-**No root needed.** Run as your own user, GymMane goes into your home folder and runs as your own service, also after a reboot. With `sudo` it installs for the whole machine and, if a firewall is on, offers to open the port.
+As your own user, it installs into your home folder and starts on its own every time the machine boots. With `sudo` it installs for the whole machine and, if a firewall is on, offers to open the port.
 
 **Windows.** In PowerShell:
 
@@ -161,9 +151,9 @@ The script asks three or four questions, each with an answer already filled in: 
 irm https://raw.githubusercontent.com/InlitX/GymMane/main/selfhost/install.ps1 | iex
 ```
 
-Without administrator rights, GymMane starts when you log in. As administrator, it starts with Windows and opens the firewall port.
+It asks the same questions. Without administrator rights, GymMane starts when you log in. As administrator, it starts with Windows and opens the firewall port.
 
-**With Docker, by hand.** If you'd rather see every step:
+**Docker, by hand.** If you'd rather see every step:
 
 ```sh
 mkdir -p gymmane/gymmane-data/sync && cd gymmane
@@ -172,42 +162,56 @@ echo "GYMMANE_PASSWORD=something-long" > .env
 docker compose up -d
 ```
 
-The container doesn't run as root but as a normal user. That's why it's best to create the data folder yourself before starting it, as above.
+The container runs as a normal user, not as root. That's why it's best to create the data folder yourself before starting it, as above. There are images for regular computers and for ARM (Raspberry Pi and most NAS boxes).
 
-Then open `http://localhost:8080` on that machine, or `http://machine-ip:8080` from any other device at home. The browser asks for the password; any user name works. The images run on regular computers and on ARM (Raspberry Pi 4 and 5, most NAS boxes).
+## Opening it
 
-## Setting it up
+On the same machine, open `http://localhost:8080`. From your phone, a tablet or another computer at home, `http://machine-ip:8080`; the installer tells you which one. If you set a password, the browser asks for it. Any user name works.
 
-Everything is set with a few variables, one per line, in your install's settings file (with Docker it's the `.env` next to `compose.yaml`):
+Every browser sees the same data: what you log on the laptop shows up on the tablet a few seconds later.
+
+## Bringing in the phone app
+
+The phone app never connects to the server. They meet through a folder: the phone leaves its automatic backups there, the server leaves its own, and each side brings in what's new from the other.
+
+To move that folder between the phone and the server you can use [Syncthing](https://syncthing.net), which goes straight from one device to the other over your Wi-Fi, or any other tool that syncs folders. With Syncthing:
+
+<ol class="steps">
+<li>On the server, say yes to Syncthing in the installer (or run <code>docker compose --profile sync up -d</code>). Open Syncthing at <code>http://machine-ip:8384</code>, give it a password and add the folder <code>/var/syncthing/GymMane</code>.</li>
+<li>On the phone, install Syncthing-Fork, pair it with the server and accept the folder.</li>
+<li>In GymMane: Settings › Data &amp; backup › Auto backup, and pick that same folder.</li>
+</ol>
+
+Not using Docker? Install Syncthing (or whichever tool you prefer) yourself and point it at the install's `data/sync` folder.
+
+When they merge **nothing is lost**: whatever exists on one side ends up on both, and if you changed the same thing in both places the most recent one wins. What doesn't travel is deleting: if you remove something, remove it on both.
+
+## Settings
+
+Everything is set with a few variables, one per line, in the settings file the installer points you to (with Docker, the `.env` next to `compose.yaml`):
 
 | Variable | What it does |
 |---|---|
 | `GYMMANE_PORT` | The port. `8080` by default. |
-| `GYMMANE_PASSWORD` | The password the browser asks for. Empty asks for nothing. |
-| `GYMMANE_SYNC` | The folder shared with your phone. `off` turns it off. |
-| `GYMMANE_KEEP_DAYS` | How many days of copies to keep. 30 by default. |
+| `GYMMANE_PASSWORD` | The password the browser asks for. Empty, it asks for nothing. |
+| `GYMMANE_SYNC` | The folder it shares with the phone. `off` turns it off. |
+| `GYMMANE_KEEP_DAYS` | How many days of daily copies it keeps. 30 by default. |
 
-Change what you want and run the installer again (or `docker compose up -d`). Whatever you added is kept when you update.
+Change what you like and run the installer again (or `docker compose up -d`). Whatever you add is kept when you update.
 
-If you'll reach it from outside your home, put it behind HTTPS (Caddy, Traefik or Nginx Proxy Manager) or use it through a VPN like Tailscale or WireGuard. That way the password never travels unencrypted.
+## From outside your home
 
-## Bringing the phone and the server together
+As it is, GymMane is meant for your home network: the password travels unencrypted. If you want to reach it from outside, don't open the port to the internet. Use it through a VPN like Tailscale or WireGuard, or put it behind HTTPS with Caddy, Traefik or Nginx Proxy Manager.
 
-The phone app still has no internet, so **it never connects to the server**. They meet another way: they share a folder with Syncthing.
+## Updating, keeping and removing
 
-<ol class="steps">
-<li>On the server, say yes to Syncthing in the installer (or run <code>docker compose --profile sync up -d</code>). Open Syncthing at <code>http://machine-ip:8384</code>, give it a password and add the folder <code>/var/syncthing/GymMane</code>.</li>
-<li>On the phone, install <a href="https://f-droid.org/packages/com.github.catfriend1.syncthingandroid/">Syncthing-Fork</a> from F-Droid, pair it with the server and accept the folder.</li>
-<li>In GymMane: Settings › Data &amp; backup › Auto backup, and choose that same folder.</li>
-</ol>
+- **Update:** run the same command and choose update (with Docker, `docker compose pull && docker compose up -d`). Your data isn't touched.
+- **Keep:** everything is in the data folder; copy it and you have it all. The server also keeps a copy of every day.
+- **Remove:** run the same command and choose remove. Your data stays in its folder until you delete it.
 
-From then on, each side leaves its copy in the folder and picks up the other's. When they merge, **nothing is lost**: whatever exists on one side ends up on both, and if you edited the same thing in both places the most recent one wins. In the web app, Settings › Data shows which folder the server uses and when the last copy from the phone arrived.
+## How it's made
 
-## Updating and taking it with you
-
-To update, run the same command again (or `docker compose pull && docker compose up -d`). Your data is never touched by an update.
-
-And if one day you want to stop, copy the data folder or export a backup from the app. It's yours, in an open format, and you can take it whenever you like.
+GymMane is built with [Flutter](https://flutter.dev), which compiles the same app for Android and for the web. The server runs two pieces: the web app, compiled to WebAssembly so it runs smoothly, and a very small server written in Dart that keeps your data in a folder and serves the app. No database, no outside services, and all the code is open.
 
 The full guide, with every detail, is in [SELFHOST.md](https://github.com/InlitX/GymMane/blob/main/SELFHOST.md). If something doesn't work for you, tell me on [GitHub](https://github.com/InlitX/GymMane/issues).
 
