@@ -10,15 +10,58 @@ function Install-GymMane {
   $quiet = $env:GYMMANE_YES -eq '1'
   $action = if ($env:GYMMANE_UNINSTALL -eq '1') { 'remove' } else { '' }
 
-  function Step($t) { Write-Host ''; Write-Host '  > ' -ForegroundColor DarkYellow -NoNewline; Write-Host $t -ForegroundColor White }
-  function Ok($t) { Write-Host '    + ' -ForegroundColor Green -NoNewline; Write-Host $t }
-  function Note($t) { Write-Host "    - $t" -ForegroundColor DarkGray }
-  function Warn($t) { Write-Host '    ! ' -ForegroundColor Yellow -NoNewline; Write-Host $t }
-  function Prompt-Line($q, $hint) { Write-Host '  ? ' -ForegroundColor DarkYellow -NoNewline; Write-Host "$q " -NoNewline; Write-Host $hint -ForegroundColor DarkGray -NoNewline; Write-Host ' ' -NoNewline }
+  $vt = $false
+  try { $vt = [bool]$Host.UI.SupportsVirtualTerminal } catch { }
+  if ($env:NO_COLOR -or [Console]::IsOutputRedirected) { $vt = $false }
+  $e = [char]27
+  function Rgb($r, $g, $b) { if ($vt) { "$e[38;2;$r;$g;${b}m" } else { '' } }
+  $R = if ($vt) { "$e[0m" } else { '' }
+  $B = if ($vt) { "$e[1m" } else { '' }
+  $A = Rgb 217 161 132
+  $G = Rgb 143 181 140
+  $D = Rgb 128 128 128
+  $F = Rgb 80 80 80
+  $Y = Rgb 230 190 110
+  $X = Rgb 230 120 110
+  $SH = Rgb 96 78 66
+  $CLR = if ($vt) { "`r$e[K" } else { "`r" }
+
+  $tick = [string][char]0x2713
+  $cross = [string][char]0x2717
+  $dot = [string][char]0x00B7
+  $bul = [string][char]0x203A
+  $hz = [string][char]0x2500
+  $vbar = [string][char]0x2502
+  $spin = @(0x280B, 0x2819, 0x2839, 0x2838, 0x283C, 0x2834, 0x2826, 0x2827, 0x2807, 0x280F) | ForEach-Object { [string][char]$_ }
+
+  $script:step = 0
+  $script:steps = 4
+  $script:boxW = 52
+
+  function Put($t) { Write-Host $t -NoNewline }
+  function Line($t) { Write-Host $t }
+  function Step($t) { $script:step++; Line ''; Line "  $A$B$($script:step)$R$F/$($script:steps)$R  $B$t$R"; Line '' }
+  function Ok($t) { Line "     $G$tick$R  $t" }
+  function Note($t) { Line "     $D$dot  $t$R" }
+  function Warn($t) { Line "     $Y!$R  $t" }
+  function Prompt-Line($q, $hint) { Put "  $A?$R  $q $F$hint$R $A$bul$R " }
+
+  function Spinner($i, $msg) { if ($vt) { Put "$CLR     $A$($spin[$i % 10])$R  $D$msg$R" } }
+  function Unspin { if ($vt) { Put $CLR } }
+
+  function BoxFit([string[]]$values) { foreach ($v in $values) { if ($v.Length + 11 -gt $script:boxW) { $script:boxW = $v.Length + 11 } } }
+  function BoxTop { Line "  $F$([char]0x256D)$($hz * ($script:boxW + 2))$([char]0x256E)$R" }
+  function BoxBottom { Line "  $F$([char]0x2570)$($hz * ($script:boxW + 2))$([char]0x256F)$R" }
+  function BoxRow([string]$plain, [string]$styled) {
+    if (-not $styled) { $styled = $plain }
+    $pad = [Math]::Max(0, $script:boxW - $plain.Length)
+    Line "  $F$vbar$R $styled$(' ' * $pad) $F$vbar$R"
+  }
+  function BoxPair($label, $value) { BoxRow ($label.PadRight(11) + $value) ("$D$($label.PadRight(11))$R$value") }
 
   function Ask($q, $default) {
     if ($quiet) { return $default }
-    Prompt-Line $q "($default)"
+    Prompt-Line $q $default
     $a = Read-Host
     if ([string]::IsNullOrWhiteSpace($a)) { return $default }
     return $a.Trim()
@@ -26,7 +69,7 @@ function Install-GymMane {
 
   function YesNo($q, $default) {
     if ($quiet) { return $default }
-    $hint = if ($default) { '[Y/n]' } else { '[y/N]' }
+    $hint = if ($default) { 'Y/n' } else { 'y/N' }
     while ($true) {
       Prompt-Line $q $hint
       $a = (Read-Host).Trim().ToLower()
@@ -62,33 +105,56 @@ function Install-GymMane {
     } catch { return $false }
   }
 
-  Write-Host ''
-  Write-Host @'
-     ____                 __  __
-    / ___|_   _ _ __ ___ |  \/  | __ _ _ __   ___
-   | |  _| | | | '_ ` _ \| |\/| |/ _` | '_ \ / _ \
-   | |_| | |_| | | | | | | |  | | (_| | | | |  __/
-    \____|\__, |_| |_| |_|_|  |_|\__,_|_| |_|\___|
-          |___/
-'@ -ForegroundColor DarkYellow
-  Write-Host '    Self-host installer' -ForegroundColor White
-  Write-Host '    The whole app in your browser. Your data stays on this machine.' -ForegroundColor DarkGray
+  function Banner {
+    $map = @{ '#' = [char]0x2588; '7' = [char]0x2557; 'L' = [char]0x255A; 'J' = [char]0x255D; 'F' = [char]0x2554; '=' = [char]0x2550; '|' = [char]0x2551 }
+    $art = @(
+      '   ######7 ##7   ##7###7   ###7###7   ###7 #####7 ###7   ##7#######7',
+      '  ##F====J L##7 ##FJ####7 ####|####7 ####|##F==##7####7  ##|##F====J',
+      '  ##|  ###7 L####FJ ##F####F##|##F####F##|#######|##F##7 ##|#####7  ',
+      '  ##|   ##|  L##FJ  ##|L##FJ##|##|L##FJ##|##F==##|##|L##7##|##F==J  ',
+      '  L######FJ   ##|   ##| L=J ##|##| L=J ##|##|  ##|##| L####|#######7',
+      '   L=====J    L=J   L=J     L=JL=J     L=JL=J  L=JL=J  L===JL======J'
+    )
+    $tones = @(@(242, 200, 174), @(234, 188, 160), @(225, 175, 146), @(212, 164, 135), @(198, 153, 124), @(185, 143, 114))
+    Line ''
+    for ($i = 0; $i -lt $art.Count; $i++) {
+      $c = Rgb $tones[$i][0] $tones[$i][1] $tones[$i][2]
+      $sb = New-Object Text.StringBuilder
+      $last = ''
+      foreach ($ch in $art[$i].ToCharArray()) {
+        $s = [string]$ch
+        if ($map.ContainsKey($s)) {
+          $want = if ($s -eq '#') { $c } else { $SH }
+          if ($want -ne $last) { [void]$sb.Append($want); $last = $want }
+          [void]$sb.Append($map[$s])
+        } else { [void]$sb.Append($s) }
+      }
+      Line ($sb.ToString() + $R)
+    }
+    Line ''
+    Line "  ${B}Self-host installer$R  $F$dot$R  ${D}your gym log, on your own machine$R"
+    Line "  ${D}No account, no cloud. Your data stays in one folder here.$R"
+  }
 
-  Step 'Checking this machine'
-  Ok "Windows, $env:PROCESSOR_ARCHITECTURE"
-  if ($admin) { Ok 'Running as administrator' } else { Note 'Not running as administrator: GymMane will start when you log in' }
+  Banner
+
+  Step 'This machine'
+  $os = (Get-CimInstance Win32_OperatingSystem -ErrorAction SilentlyContinue).Caption
+  if (-not $os) { $os = 'Windows' }
+  Ok "$os $D($($env:PROCESSOR_ARCHITECTURE.ToLower()))$R"
+  if ($admin) { Note 'Running as administrator: GymMane starts with Windows' } else { Note "Running as $env:USERNAME, no administrator needed: GymMane starts when you log in" }
   $installed = Test-Path $exe
   if ($installed) { Ok "GymMane is already installed in $home_" }
 
   if ($installed -and -not $action) {
     if ($quiet) { $action = 'update' } else {
-      Write-Host ''
+      Line ''
       while (-not $action) {
         Prompt-Line 'What do you want to do?' '[U]pdate, [r]emove, [c]ancel'
         switch ((Read-Host).Trim().ToLower()) {
           { $_ -in '', 'u', 'update' } { $action = 'update' }
           { $_ -in 'r', 'remove' } { $action = 'remove' }
-          { $_ -in 'c', 'cancel' } { Write-Host ''; return }
+          { $_ -in 'c', 'cancel' } { Line ''; return }
           default { Note 'Type u, r or c.' }
         }
       }
@@ -96,8 +162,9 @@ function Install-GymMane {
   }
 
   if ($action -eq 'remove') {
-    Write-Host ''
-    if (-not $quiet -and -not (YesNo "Remove GymMane? Your data stays in $data" $false)) { Write-Host ''; return }
+    $script:steps = 2
+    Line ''
+    if (-not $quiet -and -not (YesNo "Remove GymMane? Your data stays in $data" $false)) { Line ''; return }
     Step 'Removing GymMane'
     Unregister-ScheduledTask -TaskName 'GymMane' -Confirm:$false -ErrorAction SilentlyContinue
     Get-Process gymmane-server -ErrorAction SilentlyContinue | Stop-Process -Force
@@ -105,16 +172,18 @@ function Install-GymMane {
     if ($admin) { Remove-NetFirewallRule -DisplayName 'GymMane' -ErrorAction SilentlyContinue }
     Remove-Item -Recurse -Force (Join-Path $home_ 'web'), $exe, (Join-Path $home_ 'run.cmd'), (Join-Path $home_ 'start.bat') -ErrorAction SilentlyContinue
     Ok 'Removed the program files'
-    Write-Host ''
-    Write-Host "  Your data is still in $data. Delete that folder yourself if you want it gone."
-    Write-Host ''
+    Line ''
+    Line "  Your data is still in $B$data$R. Delete that folder yourself if you want it gone."
+    Line ''
     return
   }
 
   $update = $action -eq 'update'
   $oldPort = EnvValue 'GYMMANE_PORT'
   $port = if ($env:GYMMANE_PORT) { $env:GYMMANE_PORT } elseif ($oldPort) { $oldPort } else { '8080' }
-  Write-Host ''
+
+  Step 'Settings'
+  if ($update) { Ok 'Keeping your port, password and data' } elseif (-not $quiet) { Note 'Press Enter to keep the value in grey.'; Line '' }
   if (-not $update -and -not $env:GYMMANE_PORT) {
     while ($true) {
       $p = Ask 'Port to open GymMane on' $port
@@ -134,7 +203,7 @@ function Install-GymMane {
     $pass = ''
     if (-not $quiet) {
       while ($true) {
-        $p = Secret 'Password (press Enter to make one up for you)'
+        $p = Secret 'Password, or Enter to make one up'
         if (-not $p) { break }
         if (ValidPassword $p) { $pass = $p; break }
         Note '8 or more characters: letters, digits and . _ @ % + = ! ? ~ ^ : , / -'
@@ -152,14 +221,19 @@ function Install-GymMane {
   $openPort = $false
   if ($admin) { $openPort = YesNo "Open port $port in Windows Firewall so other devices can reach it?" $true }
 
-  Write-Host ''
-  Write-Host $(if ($update) { '  Ready to update' } else { '  Ready to install' }) -ForegroundColor White
-  Write-Host "    Folder     $home_"
-  Write-Host "    Starts     $(if ($admin) { 'with Windows' } else { 'when you log in' })"
-  Write-Host "    Port       $port"
-  Write-Host "    Password   $(if ($pass) { 'yes' } else { 'no' })"
-  Write-Host ''
-  if (-not (YesNo 'Go ahead?' $true)) { Write-Host ''; return }
+  $starts = if ($admin) { 'starts with Windows' } else { 'starts when you log in' }
+  BoxFit @($home_, $starts)
+  Line ''
+  BoxTop
+  if ($update) { BoxRow 'Ready to update' "${B}Ready to update$R" } else { BoxRow 'Ready to install' "${B}Ready to install$R" }
+  BoxRow ''
+  BoxPair 'Folder' $home_
+  BoxPair 'Runs with' $starts
+  BoxPair 'Port' $port
+  BoxPair 'Password' $(if ($pass) { 'yes' } else { 'no, open to your network' })
+  BoxBottom
+  Line ''
+  if (-not (YesNo 'Go ahead?' $true)) { Line ''; return }
 
   $extra = @()
   if (Test-Path $envFile) {
@@ -172,12 +246,14 @@ function Install-GymMane {
   try {
     if ($env:GYMMANE_ARCHIVE) {
       Expand-Archive $env:GYMMANE_ARCHIVE -DestinationPath $tmp -Force
-      Ok "Unpacked $env:GYMMANE_ARCHIVE"
+      Ok "Unpacked $(Split-Path $env:GYMMANE_ARCHIVE -Leaf)"
     } else {
       $zip = Join-Path $tmp 'gymmane.zip'
+      Spinner 0 'Downloading gymmane-selfhost-windows-x64.zip'
       [Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor [Net.SecurityProtocolType]::Tls12
       try { Invoke-WebRequest -UseBasicParsing "https://github.com/$repo/releases/latest/download/gymmane-selfhost-windows-x64.zip" -OutFile $zip }
-      catch { throw 'Could not download GymMane from the latest release. Check the internet connection and try again.' }
+      catch { Unspin; throw 'Could not download GymMane from the latest release. Check the internet connection and try again.' }
+      Unspin
       Expand-Archive $zip -DestinationPath $tmp -Force
       Ok 'Downloaded gymmane-selfhost-windows-x64.zip'
     }
@@ -215,7 +291,7 @@ function Install-GymMane {
     Register-ScheduledTask -TaskName 'GymMane' -Action $taskAction -Trigger $trigger -Settings $settings -Force | Out-Null
   }
   Start-ScheduledTask -TaskName 'GymMane'
-  Ok $(if ($admin) { 'Started GymMane, it starts again with Windows' } else { 'Started GymMane, it starts again when you log in' })
+  Ok "Started GymMane, it $starts"
 
   if ($openPort) {
     Remove-NetFirewallRule -DisplayName 'GymMane' -ErrorAction SilentlyContinue
@@ -224,41 +300,53 @@ function Install-GymMane {
   }
 
   $up = $false
-  for ($i = 0; $i -lt 30; $i++) {
-    if (Healthy $port $pass) { $up = $true; break }
-    Start-Sleep -Seconds 1
+  for ($i = 0; $i -lt 60; $i++) {
+    Spinner $i 'Waiting for GymMane to answer'
+    if (($i % 2 -eq 0) -and (Healthy $port $pass)) { $up = $true; break }
+    Start-Sleep -Milliseconds 500
   }
+  Unspin
   if ($up) { Ok "GymMane answers on port $port" } else { Warn "GymMane is not answering yet. See what it says in $home_\gymmane.log" }
 
-  Write-Host ''
-  Write-Host '  GymMane is ready.' -ForegroundColor Green -NoNewline
-  Write-Host ' Open it from any device on your network:'
-  Write-Host "      http://localhost:$port" -ForegroundColor DarkYellow
+  $links = @("http://localhost:$port")
+  $real = @(Get-NetAdapter -ErrorAction SilentlyContinue | Where-Object { $_.Status -eq 'Up' -and $_.InterfaceDescription -notmatch 'VirtualBox|VMware|Hyper-V|WSL|TAP|Loopback' } | ForEach-Object { $_.ifIndex })
   Get-NetIPAddress -AddressFamily IPv4 -ErrorAction SilentlyContinue |
-    Where-Object { $_.IPAddress -notlike '127.*' -and $_.IPAddress -notlike '169.254.*' } |
-    ForEach-Object { Write-Host "      http://$($_.IPAddress):$port" -ForegroundColor DarkYellow }
+    Where-Object { $_.IPAddress -notlike '127.*' -and $_.IPAddress -notlike '169.254.*' -and ($real.Count -eq 0 -or $real -contains $_.InterfaceIndex) } |
+    ForEach-Object { $links += "http://$($_.IPAddress):$port" }
+  $script:boxW = 52
+  BoxFit $links
+  if ($generated) { BoxFit @("$pass  (any user name works)") }
+
+  Line ''
+  BoxTop
+  if ($up) { BoxRow "+ GymMane is running" "$G$tick$R ${B}GymMane is running$R" } else { BoxRow 'GymMane is installed' "${B}GymMane is installed$R" }
+  BoxRow ''
+  BoxRow 'Open it from any device on your network:' "${D}Open it from any device on your network:$R"
+  foreach ($l in $links) { BoxRow "  $l" "  $A$B$l$R" }
   if ($pass) {
-    Write-Host ''
+    BoxRow ''
     if ($generated) {
-      Write-Host '  Password  ' -NoNewline; Write-Host $pass -ForegroundColor White -NoNewline; Write-Host '   (made up for you, any user name works)' -ForegroundColor DarkGray
+      BoxPair 'Password' $pass
+      BoxRow '           made up for you, any user name works' "           ${D}made up for you, any user name works$R"
     } else {
-      Write-Host '  Password  the one you chose   ' -NoNewline; Write-Host '(any user name works)' -ForegroundColor DarkGray
+      BoxPair 'Password' 'the one you chose'
     }
   }
+  BoxBottom
   if (-not $admin) {
-    Write-Host ''
-    Write-Host '  Run this as administrator to start it with Windows and open the firewall port.' -ForegroundColor DarkGray
+    Line ''
+    Line "  ${D}Run this as administrator to start it with Windows and open the firewall port.$R"
   }
-  Write-Host ''
-  Write-Host "  Data      $data" -ForegroundColor DarkGray
-  Write-Host "  Settings  $envFile" -ForegroundColor DarkGray
-  Write-Host "  Logs      $home_\gymmane.log" -ForegroundColor DarkGray
-  Write-Host '  Update    run this command again' -ForegroundColor DarkGray
-  Write-Host ''
+  Line ''
+  Line "  ${D}Data      $R$data"
+  Line "  ${D}Settings  $R$envFile"
+  Line "  ${D}Logs      $R$home_\gymmane.log"
+  Line "  ${D}Update    ${R}run this command again"
+  Line ''
 }
 
 try { Install-GymMane } catch {
   Write-Host ''
-  Write-Host "  x $($_.Exception.Message)" -ForegroundColor Red
+  Write-Host "     x  $($_.Exception.Message)" -ForegroundColor Red
   Write-Host ''
 }
