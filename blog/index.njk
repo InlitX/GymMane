@@ -1,0 +1,29 @@
+---
+layout: base.njk
+permalink: /blog/
+title_es: Blog
+title_en: Blog
+desc_es: Por qué existe GymMane, cómo está hecho y cómo montarlo en tu propio servidor.
+desc_en: Why GymMane exists, how it is made and how to run it on your own server.
+---
+<section class="wrap blog-head">
+  <h1>Blog</h1>
+  <p><span data-l="es">Por qué existe GymMane, cómo está hecho y cómo montarlo en tu propio servidor.</span><span data-l="en">Why GymMane exists, how it is made and how to run it on your own server.</span></p>
+</section>
+
+<section class="wrap post-list">
+  {% for post in collections.posts %}
+  <a class="post-row reveal" href="{{ post.url }}">
+    <span class="post-row__meta">
+      <time datetime="{{ post.date | iso }}"><span data-l="es">{{ post.date | short('es') }}</span><span data-l="en">{{ post.date | short('en') }}</span></time>
+      <i></i><span data-l="es">{{ post.data.tag_es }}</span><span data-l="en">{{ post.data.tag_en }}</span>
+      <i></i><span data-l="es">{{ post.content | minutes('es') }} min</span><span data-l="en">{{ post.content | minutes('en') }} min</span>
+    </span>
+    <span class="post-row__body">
+      <h2><span data-l="es">{{ post.data.title_es }}</span><span data-l="en">{{ post.data.title_en }}</span></h2>
+      <p><span data-l="es">{{ post.data.desc_es }}</span><span data-l="en">{{ post.data.desc_en }}</span></p>
+    </span>
+    <svg class="post-row__go" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+  </a>
+  {% endfor %}
+</section>

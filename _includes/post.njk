@@ -1,0 +1,43 @@
+---
+layout: base.njk
+date_shown: true
+---
+{% set toc_es = content | toc('es') %}
+{% set toc_en = content | toc('en') %}
+<div class="wrap post-layout">
+  <article class="article">
+    <a class="back" href="/blog/"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>Blog</a>
+    <div class="post-meta">
+      <time datetime="{{ page.date | iso }}"><span data-l="es">{{ page.date | day('es') }}</span><span data-l="en">{{ page.date | day('en') }}</span></time>
+      <i></i><span data-l="es">{{ tag_es }}</span><span data-l="en">{{ tag_en }}</span>
+      <i></i><span data-l="es">{{ content | minutes('es') }} min de lectura</span><span data-l="en">{{ content | minutes('en') }} min read</span>
+    </div>
+    <h1><span data-l="es">{{ title_es }}</span><span data-l="en">{{ title_en }}</span></h1>
+    <p class="lede"><span data-l="es">{{ desc_es }}</span><span data-l="en">{{ desc_en }}</span></p>
+
+    <details class="toc-inline">
+      <summary><span data-l="es">En este post</span><span data-l="en">In this post</span></summary>
+      <ol data-l="es">{% for h in toc_es %}<li><a href="#{{ h.id }}">{{ h.text | safe }}</a></li>{% endfor %}</ol>
+      <ol data-l="en">{% for h in toc_en %}<li><a href="#{{ h.id }}">{{ h.text | safe }}</a></li>{% endfor %}</ol>
+    </details>
+
+    <div class="prose">
+{{ content | withIds | safe }}
+    </div>
+
+    {% for post in collections.posts %}{% if post.url != page.url %}
+    <a class="next-post" href="{{ post.url }}">
+      <span class="next-post__k"><span data-l="es">Siguiente</span><span data-l="en">Next</span></span>
+      <span class="next-post__t"><span data-l="es">{{ post.data.title_es }}</span><span data-l="en">{{ post.data.title_en }}</span></span>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </a>
+    {% endif %}{% endfor %}
+  </article>
+
+  <aside class="toc" aria-label="Índice / Contents">
+    <p class="toc__k"><span data-l="es">En este post</span><span data-l="en">In this post</span></p>
+    <ol data-l="es">{% for h in toc_es %}<li><a href="#{{ h.id }}">{{ h.text | safe }}</a></li>{% endfor %}</ol>
+    <ol data-l="en">{% for h in toc_en %}<li><a href="#{{ h.id }}">{{ h.text | safe }}</a></li>{% endfor %}</ol>
+    <a class="toc__top" href="#top"><span data-l="es">Volver arriba</span><span data-l="en">Back to top</span></a>
+  </aside>
+</div>
