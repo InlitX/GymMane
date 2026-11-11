@@ -24,7 +24,17 @@ Environment:
   }
   final config = Config.fromEnvironment();
   final server = GymManeServer(config);
-  await server.start();
+  try {
+    await server.start();
+  } on FileSystemException catch (e) {
+    stderr.writeln('GymMane cannot write to ${e.path ?? config.dataDir}.');
+    stderr.writeln('Give the user that runs GymMane write access to that folder, or set GYMMANE_DATA to another one.');
+    exit(1);
+  } on SocketException catch (e) {
+    stderr.writeln('GymMane cannot listen on port ${config.port}: ${e.osError?.message ?? e.message}');
+    stderr.writeln('Another program may be using it. Set GYMMANE_PORT to another port.');
+    exit(1);
+  }
   stdout.writeln('GymMane $serverVersion is running.');
   stdout.writeln('  Open:  http://localhost:${server.port}');
   for (final ip in await _lanAddresses()) {

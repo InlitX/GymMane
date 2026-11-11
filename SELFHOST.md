@@ -58,11 +58,15 @@ update or remove it.
 ## Docker by hand
 
 ```sh
-mkdir gymmane && cd gymmane
+mkdir -p gymmane/gymmane-data/sync && cd gymmane
 curl -fsSLO https://raw.githubusercontent.com/InlitX/GymMane/main/compose.yaml
 echo "GYMMANE_PASSWORD=pick-something-long" > .env
 docker compose up -d gymmane
 ```
+
+GymMane runs as user `1000`, not root. If your user has another id (`id -u`), add `PUID=<id>` and
+`PGID=<group id>` to `.env`, and create `gymmane-data` yourself before the first start, as above,
+so it belongs to you.
 
 Open `http://localhost:8080` (or `http://<server-ip>:8080` from any device on your network).
 Everything you log is stored in `./gymmane-data`. Back up that folder and you have everything.

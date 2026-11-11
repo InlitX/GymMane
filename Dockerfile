@@ -16,15 +16,17 @@ COPY packages /src/packages
 COPY server/pubspec.yaml server/pubspec.lock ./
 RUN dart pub get
 COPY server ./
-RUN mkdir -p /out && dart compile exe bin/server.dart -o /out/gymmane-server
+RUN mkdir -p /out /data && chown 1000:1000 /data && dart compile exe bin/server.dart -o /out/gymmane-server
 
 FROM scratch
 COPY --from=server /runtime/ /
 COPY --from=server /out/gymmane-server /app/gymmane-server
 COPY --from=web /src/build/web /app/web
+COPY --from=server --chown=1000:1000 /data /data
 ENV GYMMANE_DATA=/data \
     GYMMANE_WEB=/app/web \
     GYMMANE_PORT=8080
+USER 1000:1000
 VOLUME /data
 EXPOSE 8080
 HEALTHCHECK --interval=60s --timeout=5s --start-period=10s CMD ["/app/gymmane-server", "--health"]

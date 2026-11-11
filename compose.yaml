@@ -3,6 +3,7 @@ services:
     image: ghcr.io/inlitx/gymmane:latest
     build: .
     container_name: gymmane
+    user: "${PUID:-1000}:${PGID:-1000}"
     restart: unless-stopped
     ports:
       - "${GYMMANE_PORT:-8080}:8080"
@@ -20,8 +21,8 @@ services:
     profiles: ["sync"]
     hostname: gymmane
     environment:
-      PUID: "0"
-      PGID: "0"
+      PUID: ${PUID:-1000}
+      PGID: ${PGID:-1000}
     ports:
       - "8384:8384"
       - "22000:22000/tcp"
