@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math' as math;
 import 'dart:ui' as ui;
 
@@ -19,6 +20,35 @@ class Medal extends StatelessWidget {
   final AwardId id;
   final double size;
   final bool locked;
+
+  static bool _warm = false;
+
+  static void warm(BuildContext context, {double size = 74}) {
+    if (_warm) return;
+    _warm = true;
+    final w = (size * MediaQuery.devicePixelRatioOf(context)).round();
+    final config = createLocalImageConfiguration(context);
+    final paths = [for (final id in AwardId.values) fit.hasAward(id) ? medalAsset(id) : medalOffAsset(id)];
+    Future<void> load(String path) {
+      final done = Completer<void>();
+      final stream = ResizeImage(AssetImage(path), width: w).resolve(config);
+      late final ImageStreamListener listener;
+      void finish() {
+        if (!done.isCompleted) done.complete();
+        stream.removeListener(listener);
+      }
+      listener = ImageStreamListener((_, _) => finish(), onError: (_, _) => finish());
+      stream.addListener(listener);
+      return done.future;
+    }
+    Future<void> step(int i) async {
+      if (i >= paths.length) return;
+      await Future.wait([for (final p in paths.skip(i).take(3)) load(p)]);
+      await Future<void>.delayed(const Duration(milliseconds: 120));
+      await step(i + 3);
+    }
+    Future<void>.delayed(const Duration(seconds: 3), () => step(0));
+  }
 
   @override
   Widget build(BuildContext context) {

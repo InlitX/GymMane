@@ -29,6 +29,7 @@ class MedalShelf extends StatelessWidget {
           );
         }
         return ListView.separated(
+          key: const PageStorageKey('h-medal_shelf-32'),
           scrollDirection: Axis.horizontal,
           itemCount: order.length,
           separatorBuilder: (_, _) => const SizedBox(width: 12),
