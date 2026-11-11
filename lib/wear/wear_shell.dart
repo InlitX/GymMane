@@ -74,6 +74,30 @@ class _WearShellState extends State<WearShell> with WidgetsBindingObserver {
     fit.addListener(_onFit);
     _restTick = fit.restDoneTick;
     _arm();
+    _open.setMethodCallHandler((call) async {
+      if (call.method == 'open') _openRoute(call.arguments as String?);
+    });
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      _openRoute(await _open.invokeMethod<String>('take'));
+    });
+  }
+
+  static const _open = MethodChannel('gymmane/open');
+
+  void _openRoute(String? route) {
+    if (!mounted || route != 'play') return;
+    final s = fit.session;
+    if (s != null && !s.complete) {
+      if (fit.route != 'session') fit.resumeSession();
+      return;
+    }
+    final planned = fit.todayRoutine;
+    if (planned != null && planned.exerciseIds.isNotEmpty) {
+      fit.startRoutine(planned);
+      fit.endCountdown();
+    } else {
+      fit.goRoutines();
+    }
   }
 
   @override
@@ -177,6 +201,16 @@ class _WearShellState extends State<WearShell> with WidgetsBindingObserver {
                       child: KeyedSubtree(key: ValueKey(fit.route), child: _screen()),
                     ),
                   ),
+                  Positioned.fill(
+                    child: IgnorePointer(
+                      child: AnimatedSwitcher(
+                        duration: const Duration(milliseconds: 260),
+                        child: fit.route == 'session' && !_dim && _edgeValue() != null
+                            ? _EdgeRing(key: const ValueKey('edge'), value: _edgeValue()!)
+                            : const SizedBox.shrink(),
+                      ),
+                    ),
+                  ),
                   const Positioned(top: 0, left: 0, right: 0, child: WearClock()),
                   if (_dim) Positioned.fill(child: WearDim(onWake: _wake)),
                 ],
@@ -186,6 +220,20 @@ class _WearShellState extends State<WearShell> with WidgetsBindingObserver {
         );
       },
     );
+  }
+
+  double? _edgeValue() {
+    final s = fit.session;
+    if (s == null || s.complete) return null;
+    if (fit.holding && fit.holdEx == s.currentIndex) {
+      if (fit.holdLead > 0) return 1;
+      final total = fit.holdTotal <= 0 ? 1 : fit.holdTotal;
+      return ((fit.holdRemaining ?? 0) / total).clamp(0.0, 1.0);
+    }
+    final left = s.restRemaining;
+    if (left == null) return null;
+    final total = fit.restTotal <= 0 ? 1 : fit.restTotal;
+    return (left / total).clamp(0.0, 1.0);
   }
 
   Widget _screen() {
@@ -200,6 +248,51 @@ class _WearShellState extends State<WearShell> with WidgetsBindingObserver {
         return WearHome();
     }
   }
+}
+
+class _EdgeRing extends StatelessWidget {
+  const _EdgeRing({super.key, required this.value});
+
+  final double value;
+
+  @override
+  Widget build(BuildContext context) {
+    final gc = context.gc;
+    return TweenAnimationBuilder<double>(
+      tween: Tween(end: value),
+      duration: const Duration(milliseconds: 1000),
+      curve: Curves.linear,
+      builder: (context, v, _) => SizedBox.expand(
+        child: RepaintBoundary(
+          child: CustomPaint(painter: _EdgePainter(track: gc.bgRaised, fill: gc.accent, pct: v)),
+        ),
+      ),
+    );
+  }
+}
+
+class _EdgePainter extends CustomPainter {
+  _EdgePainter({required this.track, required this.fill, required this.pct});
+
+  final Color track;
+  final Color fill;
+  final double pct;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    const stroke = 5.0;
+    final side = math.min(size.width, size.height);
+    final r = Rect.fromCenter(center: size.center(Offset.zero), width: side, height: side).deflate(stroke / 2 + 3);
+    final paint = Paint()
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = stroke
+      ..strokeCap = StrokeCap.round;
+    canvas.drawArc(r, 0, math.pi * 2, false, paint..color = track);
+    if (pct > 0.002) canvas.drawArc(r, -math.pi / 2, math.pi * 2 * pct, false, paint..color = fill);
+  }
+
+  @override
+  bool shouldRepaint(_EdgePainter old) => old.pct != pct || old.track != track || old.fill != fill;
 }
 
 class WearClock extends StatefulWidget {
@@ -280,14 +373,22 @@ class _WearPageState extends State<WearPage> {
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, box) {
       final side = box.maxWidth * 0.1;
-      return ShaderMask(
-        blendMode: BlendMode.dstIn,
-        shaderCallback: (r) => const LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [Color(0x00000000), Color(0xFF000000), Color(0xFF000000), Color(0x00000000)],
-          stops: [0.08, 0.2, 0.84, 0.98],
-        ).createShader(r),
+      return AnimatedBuilder(
+        animation: _scroll,
+        builder: (context, child) {
+          final p = _scroll.hasClients ? _scroll.position.pixels : 0.0;
+          final top = Color.fromRGBO(0, 0, 0, 1 - (p / 40).clamp(0.0, 1.0));
+          return ShaderMask(
+            blendMode: BlendMode.dstIn,
+            shaderCallback: (r) => LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [top, top, const Color(0xFF000000), const Color(0xFF000000), const Color(0x00000000)],
+              stops: const [0, 0.14, 0.29, 0.84, 0.98],
+            ).createShader(r),
+            child: child,
+          );
+        },
         child: ListView(
           controller: _scroll,
           physics: const BouncingScrollPhysics(),
@@ -354,17 +455,19 @@ class WearHome extends StatelessWidget {
     final canStart = planned != null && planned.exerciseIds.isNotEmpty;
     return WearPage(children: [
       Center(child: _WeekRing(gc: gc, done: fit.daysDoneThisWeek, goal: fit.weeklyTarget)),
-      const SizedBox(height: 8),
-      Center(
-        child: Row(mainAxisSize: MainAxisSize.min, children: [
-          Icon(PhosphorIconsFill.fire, size: 14, color: gc.accent),
-          const SizedBox(width: 4),
-          Text('${fit.currentStreak}', style: AppTheme.f(15, weight: FontWeight.w700, color: gc.text)),
-          const SizedBox(width: 4),
-          Text(t.daysUnit(fit.currentStreak),
-              style: AppTheme.f(12, weight: FontWeight.w500, color: gc.textSecondary)),
-        ]),
-      ),
+      if (fit.currentStreak > 0) ...[
+        const SizedBox(height: 8),
+        Center(
+          child: Row(mainAxisSize: MainAxisSize.min, children: [
+            Icon(PhosphorIconsFill.fire, size: 14, color: gc.accent),
+            const SizedBox(width: 4),
+            Text('${fit.currentStreak}', style: AppTheme.f(15, weight: FontWeight.w700, color: gc.text)),
+            const SizedBox(width: 4),
+            Text(t.daysUnit(fit.currentStreak),
+                style: AppTheme.f(12, weight: FontWeight.w500, color: gc.textSecondary)),
+          ]),
+        ),
+      ],
       const SizedBox(height: 12),
       WearButton(
         label: live ? t.continueBtn : t.startWorkout,
@@ -473,8 +576,8 @@ class WearButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final gc = context.gc;
     final enabled = onTap != null;
-    final bg = filled ? (color ?? gc.accent) : gc.bgRaised;
-    final fg = filled ? gc.bg : gc.text;
+    final bg = filled ? (color ?? gc.ember) : gc.bgRaised;
+    final fg = filled ? gc.onEmber : gc.text;
     return Semantics(
       button: true,
       enabled: enabled,
@@ -544,8 +647,8 @@ class WearIconButton extends StatelessWidget {
 }
 
 Widget _heading(GymColors gc, String text) => Center(
-      child: Text(text.toUpperCase(),
-          style: AppTheme.f(11.5, weight: FontWeight.w700, color: gc.textSecondary, letterSpacing: 1.6)),
+      child: Text(_cap(text),
+          style: AppTheme.f(17, weight: FontWeight.w800, color: gc.text, letterSpacing: -0.2)),
     );
 
 class WearRoutines extends StatelessWidget {
@@ -716,7 +819,7 @@ class _Switch extends StatelessWidget {
       height: 22,
       padding: const EdgeInsets.all(3),
       alignment: on ? Alignment.centerRight : Alignment.centerLeft,
-      decoration: BoxDecoration(color: on ? gc.accent : gc.bgRaised2, borderRadius: BorderRadius.circular(100)),
+      decoration: BoxDecoration(color: on ? gc.text : gc.bgRaised2, borderRadius: BorderRadius.circular(100)),
       child: Container(
         width: 16,
         height: 16,
@@ -905,8 +1008,8 @@ class WearSession extends StatelessWidget {
     final steppers = switch (mode) {
       'cardio' => [
           _WearStepper(
-            label: fit.distanceUnit.toUpperCase(),
-            value: fit.distanceValue(set.km ?? 0),
+            label: fit.distanceUnitFor(ex.id).toUpperCase(),
+            value: fit.distanceValueFor(ex.id, set.km ?? 0),
             onDec: () => fit.bumpSessionDistance(exIdx, pending, -1),
             onInc: () => fit.bumpSessionDistance(exIdx, pending, 1),
           ),
@@ -949,23 +1052,12 @@ class WearSession extends StatelessWidget {
 
   Widget _restCard(GymColors gc, WorkoutSession s) {
     final left = s.restRemaining ?? 0;
-    final total = fit.restTotal <= 0 ? 1 : fit.restTotal;
     return Container(
       padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
       decoration: BoxDecoration(color: gc.bgRaised, borderRadius: BorderRadius.circular(24)),
       child: Column(children: [
-        Text(_cap(t.rest), style: AppTheme.f(11.5, weight: FontWeight.w700, color: gc.textSecondary)),
+        Text(_cap(s.restSwitch ? t.switchSides : t.rest), style: AppTheme.f(11.5, weight: FontWeight.w700, color: gc.textSecondary)),
         Text(clockLabel(left), style: AppTheme.f(32, weight: FontWeight.w800, color: gc.text, height: 1.1)),
-        const SizedBox(height: 4),
-        ClipRRect(
-          borderRadius: BorderRadius.circular(3),
-          child: LinearProgressIndicator(
-            value: (1 - left / total).clamp(0.0, 1.0),
-            minHeight: 4,
-            backgroundColor: gc.bgRaised2,
-            valueColor: AlwaysStoppedAnimation(gc.accent),
-          ),
-        ),
         const SizedBox(height: 8),
         Row(children: [
           Expanded(child: _tiny(gc, '−15', () => fit.nudgeRest(-15))),
@@ -981,7 +1073,6 @@ class WearSession extends StatelessWidget {
   Widget _holdCard(GymColors gc) {
     final lead = fit.holdLead;
     final left = fit.holdRemaining ?? 0;
-    final total = fit.holdTotal <= 0 ? 1 : fit.holdTotal;
     return Container(
       padding: const EdgeInsets.fromLTRB(10, 10, 10, 12),
       decoration: BoxDecoration(color: gc.bgRaised, borderRadius: BorderRadius.circular(24)),
@@ -994,16 +1085,6 @@ class WearSession extends StatelessWidget {
             style: AppTheme.f(11.5, weight: FontWeight.w700, color: gc.textSecondary)),
         Text(lead > 0 ? '$lead' : durationLabel(left),
             style: AppTheme.f(32, weight: FontWeight.w800, color: lead > 0 ? gc.accent : gc.text, height: 1.1)),
-        const SizedBox(height: 4),
-        ClipRRect(
-          borderRadius: BorderRadius.circular(3),
-          child: LinearProgressIndicator(
-            value: lead > 0 ? 0 : 1 - left / total,
-            minHeight: 4,
-            backgroundColor: gc.bgRaised2,
-            valueColor: AlwaysStoppedAnimation(gc.accent),
-          ),
-        ),
       ]),
     );
   }

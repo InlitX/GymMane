@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tile_label">GymMane</string>
+    <string name="tile_week">esta semana</string>
+    <string name="tile_start">Empezar</string>
+    <string name="tile_continue">Continuar</string>
+    <plurals name="tile_streak">
+        <item quantity="one">%d día seguido</item>
+        <item quantity="many">%d días seguidos</item>
+        <item quantity="other">%d días seguidos</item>
+    </plurals>
+</resources>

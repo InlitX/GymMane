@@ -27,16 +27,40 @@
     <uses-permission android:name="android.permission.health.WRITE_EXERCISE"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" tools:node="remove"/>
 
+    <uses-sdk tools:overrideLibrary="androidx.wear.tiles, androidx.wear.protolayout, androidx.wear.protolayout.expression, androidx.wear.protolayout.expression.pipeline,androidx.wear.protolayout.proto, androidx.wear.watchface.complications.datasource, androidx.wear.watchface.complications.data, androidx.wear.watchface.complications, androidx.wear.watchface.complications.data.source, androidx.wear.watchface.data, androidx.wear.watchface.style.data"/>
+
     <uses-feature android:name="android.hardware.type.watch" android:required="false"/>
     <uses-feature android:name="android.hardware.touchscreen" android:required="false"/>
 
     <application
         android:label="GymMane"
-        android:name="${applicationName}"
+        android:name=".GymManeApplication"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:enableOnBackInvokedCallback="true">
         <meta-data android:name="com.google.android.wearable.standalone" android:value="true"/>
+        <service
+            android:name=".GymTileService"
+            android:exported="true"
+            android:label="@string/tile_label"
+            android:permission="com.google.android.wearable.permission.BIND_TILE_PROVIDER">
+            <intent-filter>
+                <action android:name="androidx.wear.tiles.action.BIND_TILE_PROVIDER"/>
+            </intent-filter>
+            <meta-data android:name="androidx.wear.tiles.PREVIEW" android:resource="@drawable/tile_preview"/>
+        </service>
+        <service
+            android:name=".GymComplicationService"
+            android:exported="true"
+            android:icon="@drawable/ic_complication"
+            android:label="@string/tile_label"
+            android:permission="com.google.android.wearable.permission.BIND_COMPLICATION_PROVIDER">
+            <intent-filter>
+                <action android:name="android.support.wearable.complications.ACTION_COMPLICATION_UPDATE_REQUEST"/>
+            </intent-filter>
+            <meta-data android:name="android.support.wearable.complications.SUPPORTED_TYPES" android:value="RANGED_VALUE,SHORT_TEXT"/>
+            <meta-data android:name="android.support.wearable.complications.UPDATE_PERIOD_SECONDS" android:value="0"/>
+        </service>
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -180,6 +204,9 @@
             android:name=".LiveActionReceiver"
             android:exported="false" />
 
+        <receiver
+            android:name="com.dexterous.flutterlocalnotifications.ActionBroadcastReceiver"
+            android:exported="false" />
         <receiver
             android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationReceiver"
             android:exported="false" />
