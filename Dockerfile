@@ -4,10 +4,10 @@ FROM --platform=$BUILDPLATFORM ghcr.io/cirruslabs/flutter:${FLUTTER_VERSION} AS 
 WORKDIR /src
 COPY packages ./packages
 COPY pubspec.yaml pubspec.lock l10n.yaml analysis_options.yaml ./
-RUN flutter pub get
 COPY lib ./lib
 COPY assets ./assets
 COPY web ./web
+RUN flutter pub get
 RUN flutter build web --wasm --release --no-web-resources-cdn --pwa-strategy=none
 
 FROM dart:3.11 AS server
@@ -16,7 +16,7 @@ COPY packages /src/packages
 COPY server/pubspec.yaml server/pubspec.lock ./
 RUN dart pub get
 COPY server ./
-RUN dart compile exe bin/server.dart -o /out/gymmane-server
+RUN mkdir -p /out && dart compile exe bin/server.dart -o /out/gymmane-server
 
 FROM scratch
 COPY --from=server /runtime/ /
