@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:archive/archive.dart';
+import 'package:gymmane_merge/gymmane_merge.dart';
 
 import '../models/exercise.dart';
 import '../models/nutrition.dart';
@@ -89,6 +90,7 @@ Future<Uint8List> buildBackupZip() async {
   for (final (photo, label) in [
     for (final f in fit.foods) (f.photo, f.name),
     for (final s in fit.supplements) (s.photo, s.name),
+    for (final r in fit.recipes) (r.photo, r.name),
   ]) {
     if (photo.isEmpty || isAssetPhoto(photo) || foodMedia.containsKey(photo)) continue;
     final bytes = await MediaStore.readBytes(photo);
@@ -268,6 +270,70 @@ Future<bool> restoreBackupZip(Uint8List zipBytes) async {
     await fit.clearAlarmSound();
   }
   return true;
+}
+
+Future<bool?> mergeBackupZip(Uint8List zipBytes, {required bool incomingNewer}) async {
+  final Archive archive;
+  final Map<String, dynamic> incoming;
+  try {
+    archive = ZipDecoder().decodeBytes(zipBytes);
+    final jsonFile = _findJson(archive);
+    if (jsonFile == null) return null;
+    final decoded = jsonDecode(utf8.decode(jsonFile.readBytes() ?? const []));
+    if (decoded is! Map<String, dynamic>) return null;
+    incoming = decoded;
+  } catch (_) {
+    return null;
+  }
+  fit.persistNow();
+  final local = jsonDecode(jsonEncode(Store.finite(fit.toJson()))) as Map<String, dynamic>;
+  final have = MediaStore.names();
+  final added = <String>[];
+
+  final localEx = (local['media'] as Map?) ?? const {};
+  final exMedia = <String, String>{};
+  for (final e in ((incoming['media'] as Map?) ?? const {}).entries) {
+    final id = e.key;
+    final path = e.value;
+    if (id is! String || path is! String || localEx.containsKey(id)) continue;
+    final bytes = archive.findFile(path)?.readBytes();
+    if (bytes == null) continue;
+    final base = await MediaStore.saveBytes(id, MediaStore.extOf(path), bytes);
+    if (base == null) continue;
+    exMedia[id] = base;
+    added.add(base);
+  }
+  incoming['media'] = exMedia;
+
+  final files = <String, String>{};
+  for (final g in mediaGroups) {
+    final map = incoming[g];
+    if (map is! Map) continue;
+    map.forEach((k, v) {
+      if (k is String && v is String && v.isNotEmpty) files[k] = v;
+    });
+  }
+
+  final merged = mergeStates(local, incoming, incomingNewer: incomingNewer);
+  if (sameState(local, merged) && added.isEmpty) return false;
+
+  final used = stringsIn(merged);
+  final renames = <String, String>{};
+  for (final e in files.entries) {
+    if (have.contains(e.key) || !used.contains(e.key)) continue;
+    final bytes = archive.findFile(e.value)?.readBytes();
+    if (bytes == null) continue;
+    final base = await MediaStore.saveBytes('sync', MediaStore.extOf(e.value), bytes);
+    if (base == null) continue;
+    renames[e.key] = base;
+    added.add(base);
+  }
+  final out = renameStrings(merged, renames) as Map<String, dynamic>;
+  if (fit.tryApplyBackup(out)) return true;
+  for (final name in added) {
+    await MediaStore.delete(name);
+  }
+  return null;
 }
 
 ArchiveFile? _findJson(Archive a) {
