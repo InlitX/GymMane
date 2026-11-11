@@ -83,6 +83,7 @@ class _FoodShelf extends StatelessWidget {
     return SizedBox(
       height: 112,
       child: ListView.separated(
+        key: const PageStorageKey('h-meals-86'),
         scrollDirection: Axis.horizontal,
         clipBehavior: Clip.none,
         itemCount: foods.length,
@@ -191,7 +192,7 @@ Future<void> showFavoritesSheet(BuildContext context) => _sheet<void>(context, (
 Future<void> showSavedMealsSheet(BuildContext context) => _sheet<void>(context, (context) {
       final gc = context.gc;
       Widget recipeRow(Recipe r) => _FoodRow(
-            leading: FoodPlate(items: _plateOf(r.items), size: 40),
+            leading: FoodPlate(items: _plateOf(r.items), size: 40, photo: r.photo),
             title: r.name,
             detail: '${_energy(r.total.kcal)} · ${t.recipeItems(r.items.length)}',
             onTap: () async {
@@ -314,15 +315,11 @@ class _MealTabsState extends State<_MealTabs> {
     final meals = fit.mealsShown;
     final meal = fit.openMeal;
     _reveal(meal);
-    final shown = [
-      for (final e in entries)
-        if (e.meal == meal) e,
-    ];
-    final total = shown.fold(Macros.zero, (s, e) => s + e.total);
     int count(Meal m) => entries.where((e) => e.meal == m).length;
     return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
       SingleChildScrollView(
         controller: _scroll,
+        key: const PageStorageKey('h-meals-322'),
         scrollDirection: Axis.horizontal,
         clipBehavior: Clip.none,
         child: Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
@@ -358,88 +355,142 @@ class _MealTabsState extends State<_MealTabs> {
         ]),
       ),
       const SizedBox(height: 14),
-      SoftCard(
-        radius: 26,
-        padding: const EdgeInsets.fromLTRB(16, 16, 12, 16),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-          Row(children: [
-            Pressable(
-              onTap: () => showAddFoodSheet(context, meal),
-              scale: 0.96,
-              child: AnimatedSwitcher(
-                duration: const Duration(milliseconds: 300),
-                child: shown.isEmpty
-                    ? SizedBox(
-                        key: const ValueKey('empty'),
-                        width: 112,
-                        height: 112,
-                        child: Stack(alignment: Alignment.center, children: [
-                          const FoodPlate(items: [], size: 112),
-                          Icon(PhosphorIconsBold.plus, size: 24, color: gc.textTertiary),
-                        ]),
-                      )
-                    : FoodPlate(
-                        key: ValueKey(shown.length),
-                        items: [for (final e in shown.reversed) (fit.photoForEntry(e), e.name)],
-                        size: 112,
-                      ),
-              ),
-            ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Ltr(child: Row(crossAxisAlignment: CrossAxisAlignment.baseline, textBaseline: TextBaseline.alphabetic, children: [
-                  RollingText('${fit.energyOf(total.kcal)}',
-                      style: AppTheme.f(30, weight: FontWeight.w800, color: gc.text, height: 1.2)),
-                  const SizedBox(width: 5),
-                  Text(fit.energyUnit, style: AppTheme.f(13, weight: FontWeight.w700, color: gc.textSecondary)),
-                ])),
-                const SizedBox(height: 4),
-                Text(
-                  shown.isEmpty ? t.nothingLogged : t.recipeItems(shown.length),
-                  style: AppTheme.f(12, weight: FontWeight.w600, color: gc.textTertiary),
-                ),
-                const SizedBox(height: 10),
-                Wrap(spacing: 6, runSpacing: 6, children: [
-                  _MacroPill(t.proteinLetter, total.protein, gc.protein),
-                  _MacroPill(t.carbsLetter, total.carbs, gc.carbs),
-                  _MacroPill(t.fatLetter, total.fat, gc.fat),
-                ]),
-              ]),
-            ),
-            Align(
-              alignment: Alignment.topRight,
-              child: _roundIcon(PhosphorIconsBold.dotsThree, gc.textSecondary, () => showMealMenu(context, meal, shown),
-                  label: t.mealOptions),
-            ),
-          ]),
-          if (shown.isEmpty && fit.trackerOn(Tracker.plans) && (fit.planOn(fit.nutritionDay)?.itemsOf(meal).isNotEmpty ?? false))
-            _PlannedMeal(plan: fit.planOn(fit.nutritionDay)!, meal: meal),
-          if (shown.isNotEmpty) ...[
-            const SizedBox(height: 14),
-            _EntryList(entries: shown),
-            const SizedBox(height: 8),
-          ],
-          const SizedBox(height: 8),
-          Row(children: [
-            Expanded(
-              child: PrimaryButton(
-                label: t.addToMeal(mealInSentence(meal)),
-                height: 52,
-                onTap: () => showAddFoodSheet(context, meal),
-              ),
-            ),
-            const SizedBox(width: 10),
-            RoundAction(
-              label: t.quickAdd,
-              size: 50,
-              onTap: () => showQuickAddSheet(context, meal),
-              child: Icon(PhosphorIconsBold.lightning, size: 19, color: gc.warn),
-            ),
-          ]),
-        ]),
-      ),
+      _MealCard(meal: meal),
     ]);
+  }
+}
+
+class _MealCard extends StatelessWidget {
+  const _MealCard({required this.meal, this.compact = false});
+
+  final Meal meal;
+  final bool compact;
+
+  @override
+  Widget build(BuildContext context) {
+    final gc = context.gc;
+    final entries = fit.entriesOn(fit.nutritionDay);
+    final shown = [
+      for (final e in entries)
+        if (e.meal == meal) e,
+    ];
+    final total = shown.fold(Macros.zero, (s, e) => s + e.total);
+    final plate = compact ? 76.0 : 112.0;
+    return SoftCard(
+      radius: 26,
+      padding: const EdgeInsets.fromLTRB(16, 16, 12, 16),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+        if (compact)
+          Padding(
+            padding: const EdgeInsetsDirectional.only(start: 2, bottom: 8),
+            child: Row(children: [
+              Expanded(child: Text(mealName(meal), style: AppTheme.f(16, weight: FontWeight.w800, color: gc.text))),
+              _roundIcon(PhosphorIconsBold.dotsThree, gc.textSecondary, () => showMealMenu(context, meal, shown), label: t.mealOptions),
+            ]),
+          ),
+        Row(children: [
+          Pressable(
+            onTap: () => showAddFoodSheet(context, meal),
+            scale: 0.96,
+            child: AnimatedSwitcher(
+              duration: const Duration(milliseconds: 300),
+              child: shown.isEmpty
+                  ? SizedBox(
+                      key: const ValueKey('empty'),
+                      width: plate,
+                      height: plate,
+                      child: Stack(alignment: Alignment.center, children: [
+                        FoodPlate(items: const [], size: plate),
+                        Icon(PhosphorIconsBold.plus, size: 24, color: gc.textTertiary),
+                      ]),
+                    )
+                  : FoodPlate(
+                      key: ValueKey(shown.length),
+                      items: [for (final e in shown.reversed) (fit.photoForEntry(e), e.name)],
+                      size: plate,
+                    ),
+            ),
+          ),
+          SizedBox(width: compact ? 12 : 16),
+          Expanded(
+            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Ltr(child: Row(crossAxisAlignment: CrossAxisAlignment.baseline, textBaseline: TextBaseline.alphabetic, children: [
+                RollingText('${fit.energyOf(total.kcal)}',
+                    style: AppTheme.f(compact ? 24 : 30, weight: FontWeight.w800, color: gc.text, height: 1.2)),
+                const SizedBox(width: 5),
+                Text(fit.energyUnit, style: AppTheme.f(13, weight: FontWeight.w700, color: gc.textSecondary)),
+              ])),
+              const SizedBox(height: 4),
+              Text(
+                shown.isEmpty ? t.nothingLogged : t.recipeItems(shown.length),
+                style: AppTheme.f(12, weight: FontWeight.w600, color: gc.textTertiary),
+              ),
+              const SizedBox(height: 10),
+              Wrap(spacing: 6, runSpacing: 6, children: [
+                _MacroPill(t.proteinLetter, total.protein, gc.protein),
+                _MacroPill(t.carbsLetter, total.carbs, gc.carbs),
+                _MacroPill(t.fatLetter, total.fat, gc.fat),
+              ]),
+            ]),
+          ),
+          if (!compact)
+          Align(
+            alignment: Alignment.topRight,
+            child: _roundIcon(PhosphorIconsBold.dotsThree, gc.textSecondary, () => showMealMenu(context, meal, shown),
+                label: t.mealOptions),
+          ),
+        ]),
+        if (shown.isEmpty && fit.trackerOn(Tracker.plans) && (fit.planOn(fit.nutritionDay)?.itemsOf(meal).isNotEmpty ?? false))
+          _PlannedMeal(plan: fit.planOn(fit.nutritionDay)!, meal: meal),
+        if (shown.isNotEmpty) ...[
+          const SizedBox(height: 14),
+          _EntryList(entries: shown),
+          const SizedBox(height: 8),
+        ],
+        const SizedBox(height: 8),
+        Row(children: [
+          Expanded(
+            child: PrimaryButton(
+              label: compact ? t.addShort : t.addToMeal(mealInSentence(meal)),
+              height: compact ? 46 : 52,
+              onTap: () => showAddFoodSheet(context, meal),
+            ),
+          ),
+          const SizedBox(width: 10),
+          RoundAction(
+            label: t.quickAdd,
+            size: compact ? 44 : 50,
+            onTap: () => showQuickAddSheet(context, meal),
+            child: Icon(PhosphorIconsBold.lightning, size: 19, color: gc.warn),
+          ),
+        ]),
+      ]),
+    );
+  }
+}
+
+class _MealGrid extends StatelessWidget {
+  const _MealGrid();
+
+  @override
+  Widget build(BuildContext context) {
+    final meals = fit.mealsShown;
+    return LayoutBuilder(builder: (context, box) {
+      final n = (box.maxWidth / 250).floor().clamp(1, meals.length);
+      final rows = <Widget>[];
+      for (var i = 0; i < meals.length; i += n) {
+        if (i > 0) rows.add(const SizedBox(height: 16));
+        rows.add(IntrinsicHeight(
+          child: Row(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+            for (var k = 0; k < n; k++) ...[
+              if (k > 0) const SizedBox(width: 16),
+              Expanded(child: i + k < meals.length ? _MealCard(meal: meals[i + k], compact: true) : const SizedBox.shrink()),
+            ],
+          ]),
+        ));
+      }
+      return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: rows);
+    });
   }
 }
 
@@ -633,6 +684,23 @@ class _RecipeSheetState extends State<_RecipeSheet> {
     showNotchToast(context, t.savedMealToast, subtitle: r.name, icon: PhosphorIconsFill.cookingPot, accent: context.gc.warn);
   }
 
+  Future<void> _pickPhoto() async {
+    final id = widget.recipe.id;
+    final saved = await _pickRecipePhoto(context, _recipe.photo.isEmpty
+            ? null
+            : () {
+                fit.setRecipePhoto(id, '');
+                if (mounted) setState(() {});
+              });
+    if (saved == null) return;
+    if (!mounted || !fit.isOwnRecipe(id)) {
+      MediaStore.delete(saved);
+      return;
+    }
+    fit.setRecipePhoto(id, saved);
+    setState(() {});
+  }
+
   Future<void> _delete() async {
     final r = _recipe;
     final ok = await askConfirm(context,
@@ -649,7 +717,11 @@ class _RecipeSheetState extends State<_RecipeSheet> {
     final items = _items;
     final total = items.fold(Macros.zero, (s, e) => s + e.total);
     return _sheetFrame(context, [
-      Center(child: FoodPlate(items: _plateOf(items), size: 128)),
+      Center(
+        child: _own
+            ? _PhotoPlate(items: items, photo: r.photo, size: 128, onTap: _pickPhoto)
+            : FoodPlate(items: _plateOf(items), size: 128, photo: r.photo),
+      ),
       const SizedBox(height: 14),
       SheetTitle(r.name, subtitle: t.recipeItems(items.length)),
       const SizedBox(height: 18),
@@ -925,6 +997,7 @@ class _MealPicker extends StatelessWidget {
       ]);
     }
     return SingleChildScrollView(
+      key: const PageStorageKey('h-meals-1000'),
       scrollDirection: Axis.horizontal,
       clipBehavior: Clip.none,
       child: Row(children: [
@@ -969,6 +1042,55 @@ Future<void> showDishEditor(BuildContext context, {Recipe? recipe, Meal? meal}) 
       builder: (_) => _DishEditor(recipe: recipe, meal: meal ?? fit.defaultMeal),
     );
 
+Future<String?> _pickRecipePhoto(BuildContext context, VoidCallback? onRemove) async {
+  final source = await pickPhotoSource(context, onRemove: onRemove);
+  if (source == null || !context.mounted) return null;
+  final shot = await ImagePicker().pickImage(source: source, maxWidth: 1200, maxHeight: 1200, imageQuality: 86);
+  if (shot == null) return null;
+  return MediaStore.importFor('recipe', shot.path);
+}
+
+class _PhotoPlate extends StatelessWidget {
+  const _PhotoPlate({required this.items, required this.photo, required this.size, required this.onTap, this.empty});
+
+  final List<FoodEntry> items;
+  final String photo;
+  final double size;
+  final VoidCallback onTap;
+  final IconData? empty;
+
+  @override
+  Widget build(BuildContext context) {
+    final gc = context.gc;
+    return Semantics(
+      button: true,
+      label: t.addPhoto,
+      child: Pressable(
+        onTap: onTap,
+        scale: 0.96,
+        child: Stack(clipBehavior: Clip.none, alignment: Alignment.center, children: [
+          FoodPlate(items: _plateOf(items), size: size, photo: photo),
+          if (empty != null && photo.isEmpty) Icon(empty, size: 26, color: gc.textTertiary),
+          PositionedDirectional(
+            end: -4,
+            bottom: 2,
+            child: Container(
+              width: 34,
+              height: 34,
+              decoration: BoxDecoration(
+                color: gc.bgRaised,
+                shape: BoxShape.circle,
+                border: Border.all(color: gc.border),
+              ),
+              child: Icon(PhosphorIconsRegular.camera, size: 16, color: gc.text),
+            ),
+          ),
+        ]),
+      ),
+    );
+  }
+}
+
 class _DishEditor extends StatefulWidget {
   const _DishEditor({this.recipe, required this.meal});
 
@@ -982,6 +1104,9 @@ class _DishEditor extends StatefulWidget {
 class _DishEditorState extends State<_DishEditor> {
   late final _name = TextEditingController(text: widget.recipe?.name ?? '');
   late List<FoodEntry> _items = [...?widget.recipe?.items];
+  late String _photo = widget.recipe?.photo ?? '';
+  late String _kept = _photo;
+  final _fresh = <String>{};
   bool _dirty = false;
 
   bool get _own => widget.recipe != null && fit.isOwnRecipe(widget.recipe!.id);
@@ -989,7 +1114,31 @@ class _DishEditorState extends State<_DishEditor> {
   @override
   void dispose() {
     _name.dispose();
+    for (final p in _fresh) {
+      if (p != _kept) MediaStore.delete(p);
+    }
     super.dispose();
+  }
+
+  Future<void> _pickPhoto() async {
+    final saved = await _pickRecipePhoto(
+        context,
+        _photo.isEmpty
+            ? null
+            : () => setState(() {
+                  _photo = '';
+                  _dirty = true;
+                }));
+    if (saved == null) return;
+    if (!mounted) {
+      MediaStore.delete(saved);
+      return;
+    }
+    setState(() {
+      _photo = saved;
+      _fresh.add(saved);
+      _dirty = true;
+    });
   }
 
   void _set(List<FoodEntry> items) => setState(() {
@@ -1022,9 +1171,11 @@ class _DishEditorState extends State<_DishEditor> {
     if (_own) {
       fit.updateRecipe(r!.id, _items);
       fit.renameRecipe(r.id, name);
+      fit.setRecipePhoto(r.id, _photo);
     } else {
-      fit.saveRecipe(name, _items);
+      fit.saveRecipe(name, _items, photo: _photo);
     }
+    _kept = _photo;
     _dirty = false;
     HapticFeedback.lightImpact();
     Navigator.of(context).pop();
@@ -1079,10 +1230,13 @@ class _DishEditorState extends State<_DishEditor> {
             Expanded(
               child: ListView(padding: EdgeInsets.zero, children: [
                 Center(
-                  child: Stack(alignment: Alignment.center, children: [
-                    FoodPlate(items: _plateOf(_items), size: 120),
-                    if (_items.isEmpty) Icon(PhosphorIconsBold.cookingPot, size: 26, color: gc.textTertiary),
-                  ]),
+                  child: _PhotoPlate(
+                    items: _items,
+                    photo: _photo,
+                    size: 120,
+                    onTap: _pickPhoto,
+                    empty: _items.isEmpty ? PhosphorIconsBold.cookingPot : null,
+                  ),
                 ),
                 const SizedBox(height: 14),
                 _TextInput(controller: _name, hint: t.dishNameHint, label: t.nameLabel),

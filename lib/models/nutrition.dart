@@ -412,21 +412,25 @@ double _servings(Object? v) {
 }
 
 class Recipe {
-  const Recipe({required this.id, required this.name, required this.items});
+  const Recipe({required this.id, required this.name, required this.items, this.photo = ''});
 
   final String id;
   final String name;
   final List<FoodEntry> items;
+  final String photo;
 
   Macros get total => items.fold(Macros.zero, (s, e) => s + e.total);
 
-  Recipe copyWith({String? name}) => Recipe(id: id, name: name ?? this.name, items: items);
+  Recipe copyWith({String? name, List<FoodEntry>? items, String? photo}) =>
+      Recipe(id: id, name: name ?? this.name, items: items ?? this.items, photo: photo ?? this.photo);
 
-  Map<String, dynamic> toJson() => {'id': id, 'n': name, 'i': items.map((e) => e.toJson()).toList()};
+  Map<String, dynamic> toJson() =>
+      {'id': id, 'n': name, 'i': items.map((e) => e.toJson()).toList(), if (photo.isNotEmpty) 'ph': photo};
 
   factory Recipe.fromJson(Map<String, dynamic> j) => Recipe(
         id: j['id'] as String? ?? '',
         name: j['n'] as String? ?? '',
+        photo: j['ph'] as String? ?? '',
         items: [
           for (final e in (j['i'] as List?) ?? const [])
             if (e is Map) FoodEntry.fromJson(e.cast<String, dynamic>()),

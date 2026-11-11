@@ -14,15 +14,9 @@ Future<void> shareMealPlans(List<MealPlan> plans) async {
   if (plans.isEmpty) return;
   final name = plans.length == 1 ? plans.first.name : t.mealPlansTitle;
   try {
-    final dir = await getTemporaryDirectory();
     final slug = name.toLowerCase().replaceAll(RegExp(r'[^a-z0-9]+'), '-').replaceAll(RegExp(r'^-+|-+$'), '');
-    final file = File('${dir.path}/gymmane-${slug.isEmpty ? 'plan' : slug}.json');
-    await file.writeAsString(fit.exportMealPlansJson(plans));
-    await SharePlus.instance.share(ShareParams(
-      files: [XFile(file.path, mimeType: 'application/json')],
-      text: [for (final p in plans) _planSummary(p)].join('\n\n'),
-      subject: name,
-    ));
+    await shareFile('gymmane-${slug.isEmpty ? 'plan' : slug}.json', utf8Bytes(fit.exportMealPlansJson(plans)),
+        mime: 'application/json', text: [for (final p in plans) _planSummary(p)].join('\n\n'), subject: name);
   } catch (_) {}
 }
 
@@ -280,6 +274,7 @@ Future<void> showMealPlanEditor(BuildContext context, {MealPlan? plan, Set<int> 
       isScrollControlled: true,
       enableDrag: false,
       backgroundColor: Colors.transparent,
+      maxWidth: 940,
       builder: (_) => _PlanEditor(plan: plan, days: days),
     );
 
@@ -480,6 +475,145 @@ class _PlanEditorState extends State<_PlanEditor> {
     final total = plan.total;
     final logged = fit.entriesOn(fit.nutritionDay).isNotEmpty;
     final start = fit.weekStartDay;
+    final headPart = <Widget>[
+      Row(children: [
+        FoodPlate(items: _plateOf(plan.items), size: 76),
+        const SizedBox(width: 14),
+        Expanded(
+          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            TextField(
+              controller: _name,
+              onChanged: (_) => _dirty = true,
+              textCapitalization: TextCapitalization.sentences,
+              style: AppTheme.f(21, weight: FontWeight.w800, color: gc.text),
+              cursorColor: gc.accent,
+              decoration: InputDecoration(
+                isDense: true,
+                border: InputBorder.none,
+                hintText: t.planNameHint,
+                hintStyle: AppTheme.f(21, weight: FontWeight.w700, color: gc.textTertiary),
+                contentPadding: EdgeInsets.zero,
+                suffixIcon: Icon(PhosphorIconsRegular.pencilSimple, size: 15, color: gc.textTertiary),
+                suffixIconConstraints: const BoxConstraints(minWidth: 20, minHeight: 20),
+              ),
+            ),
+            const SizedBox(height: 4),
+            Text(_planDetail(plan), style: AppTheme.f(12.5, weight: FontWeight.w600, color: gc.textSecondary)),
+          ]),
+        ),
+      ]),
+      const SizedBox(height: 14),
+      _macroSummary(context, total),
+      const SizedBox(height: 18),
+      _kicker(gc, t.planDaysQuestion.toUpperCase()),
+      const SizedBox(height: 8),
+      Row(children: [
+        for (var i = 0; i < 7; i++)
+          Builder(builder: (context) {
+            final d = (start - 1 + i) % 7 + 1;
+            final on = _days.contains(d);
+            final other = fit.mealWeek[d];
+            final taken = !on && other != null && other != plan.id;
+            return Expanded(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 3),
+                child: Pressable(
+                  scale: 0.92,
+                  onTap: () {
+                    HapticFeedback.selectionClick();
+                    setState(() {
+                      _days = {..._days};
+                      if (!_days.remove(d)) _days.add(d);
+                      _dirty = true;
+                    });
+                  },
+                  child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 180),
+                    height: 40,
+                    decoration: BoxDecoration(
+                      color: on ? gc.accent : gc.bgRaised2,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    alignment: Alignment.center,
+                    child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+                      Text(t.weekdayInitial(d),
+                          style: AppTheme.f(13,
+                              weight: FontWeight.w800, color: on ? gc.onEmber : gc.textSecondary)),
+                      if (taken)
+                        Container(
+                          width: 4,
+                          height: 4,
+                          margin: const EdgeInsets.only(top: 2),
+                          decoration: BoxDecoration(color: gc.textTertiary, shape: BoxShape.circle),
+                        ),
+                    ]),
+                  ),
+                ),
+              ),
+            );
+          }),
+      ]),
+      const SizedBox(height: 8),
+      Text(_days.isEmpty ? t.planDaysNone : t.planDaysHint,
+          style: AppTheme.s(11.5, color: gc.textTertiary, height: 1.4)),
+      if (plan.items.isEmpty) ...[
+        const SizedBox(height: 16),
+        Wrap(spacing: 7, runSpacing: 7, children: [
+          if (logged)
+            _Chip(
+              label: t.planFromDay,
+              icon: PhosphorIconsBold.copy,
+              onTap: () => _setItems(fit.draftMealPlan(fromDay: true).items),
+            ),
+          if (_isNew)
+            _Chip(
+              label: t.planImport,
+              icon: PhosphorIconsBold.downloadSimple,
+              onTap: () async {
+                _dirty = false;
+                final nav = Navigator.of(context)..pop();
+                await importMealPlanFile(nav.context);
+              },
+            ),
+        ]),
+      ],
+    ];
+    Widget slotOf(MealSlot slot) => Column(crossAxisAlignment: CrossAxisAlignment.stretch, mainAxisSize: MainAxisSize.min, children: [
+      Row(children: [
+        Icon(_mealIcon(slot.meal), size: 14, color: gc.textSecondary),
+        const SizedBox(width: 6),
+        Expanded(child: _kicker(gc, mealName(slot.meal).toUpperCase())),
+        if (plan.itemsOf(slot.meal).isNotEmpty)
+          Text(_energy(plan.itemsOf(slot.meal).fold(Macros.zero, (s, e) => s + e.total).kcal),
+              style: AppTheme.f(12, weight: FontWeight.w800, color: gc.textSecondary)),
+      ]),
+      const SizedBox(height: 8),
+      for (final e in plan.itemsOf(slot.meal)) _item(gc, e),
+      Pressable(
+        scale: 0.98,
+        onTap: () => _add(slot.meal),
+        child: Container(
+          height: 44,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(14),
+            border: Border.all(color: gc.border),
+          ),
+          child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+            Icon(PhosphorIconsBold.plus, size: 13, color: gc.accent),
+            const SizedBox(width: 6),
+            Text(t.addToMeal(mealInSentence(slot.meal)),
+                style: AppTheme.f(12.5, weight: FontWeight.w800, color: gc.accent)),
+          ]),
+        ),
+      ),
+    ]);
+    final logPart = <Widget>[
+      if (!_isNew && plan.items.isNotEmpty) ...[
+        const SizedBox(height: 18),
+        GhostButton(label: t.planLogDay, icon: PhosphorIconsBold.checkCircle, onTap: _logToday),
+      ],
+    ];
+    final desk = DesktopScope.wideFor(media.size.width);
     return PopScope(
       canPop: !_dirty,
       onPopInvokedWithResult: (didPop, _) {
@@ -488,7 +622,7 @@ class _PlanEditorState extends State<_PlanEditor> {
       child: Padding(
         padding: EdgeInsets.only(bottom: media.viewInsets.bottom),
         child: Container(
-          height: media.size.height * 0.92,
+          height: desk ? (media.size.height * 0.86).clamp(0.0, 640.0) : media.size.height * 0.92,
           padding: EdgeInsets.fromLTRB(20, 12, 20, 14 + media.padding.bottom),
           decoration: sheetDecoration(gc),
           child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
@@ -515,144 +649,32 @@ class _PlanEditorState extends State<_PlanEditor> {
             ]),
             const SizedBox(height: 12),
             Expanded(
-              child: ListView(clipBehavior: Clip.hardEdge, padding: EdgeInsets.zero, children: [
-                Row(children: [
-                  FoodPlate(items: _plateOf(plan.items), size: 76),
-                  const SizedBox(width: 14),
-                  Expanded(
-                    child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                      TextField(
-                        controller: _name,
-                        onChanged: (_) => _dirty = true,
-                        textCapitalization: TextCapitalization.sentences,
-                        style: AppTheme.f(21, weight: FontWeight.w800, color: gc.text),
-                        cursorColor: gc.accent,
-                        decoration: InputDecoration(
-                          isDense: true,
-                          border: InputBorder.none,
-                          hintText: t.planNameHint,
-                          hintStyle: AppTheme.f(21, weight: FontWeight.w700, color: gc.textTertiary),
-                          contentPadding: EdgeInsets.zero,
-                          suffixIcon: Icon(PhosphorIconsRegular.pencilSimple, size: 15, color: gc.textTertiary),
-                          suffixIconConstraints: const BoxConstraints(minWidth: 20, minHeight: 20),
-                        ),
+              child: desk
+                  ? Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                      SizedBox(
+                        width: 330,
+                        child: ListView(clipBehavior: Clip.hardEdge, padding: EdgeInsets.zero, children: [...headPart, ...logPart]),
                       ),
-                      const SizedBox(height: 4),
-                      Text(_planDetail(plan), style: AppTheme.f(12.5, weight: FontWeight.w600, color: gc.textSecondary)),
+                      const SizedBox(width: 26),
+                      Expanded(
+                        child: ListView(clipBehavior: Clip.hardEdge, padding: EdgeInsets.zero, children: [
+                          for (var i = 0; i < fit.mealSlots.length; i += 2) ...[
+                            if (i > 0) const SizedBox(height: 18),
+                            Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                              Expanded(child: slotOf(fit.mealSlots[i])),
+                              const SizedBox(width: 16),
+                              Expanded(child: i + 1 < fit.mealSlots.length ? slotOf(fit.mealSlots[i + 1]) : const SizedBox.shrink()),
+                            ]),
+                          ],
+                        ]),
+                      ),
+                    ])
+                  : ListView(clipBehavior: Clip.hardEdge, padding: EdgeInsets.zero, children: [
+                      ...headPart,
+                      for (final slot in fit.mealSlots) ...[const SizedBox(height: 18), slotOf(slot)],
+                      ...logPart,
+                      const SizedBox(height: 16),
                     ]),
-                  ),
-                ]),
-                const SizedBox(height: 14),
-                _macroSummary(context, total),
-                const SizedBox(height: 18),
-                _kicker(gc, t.planDaysQuestion.toUpperCase()),
-                const SizedBox(height: 8),
-                Row(children: [
-                  for (var i = 0; i < 7; i++)
-                    Builder(builder: (context) {
-                      final d = (start - 1 + i) % 7 + 1;
-                      final on = _days.contains(d);
-                      final other = fit.mealWeek[d];
-                      final taken = !on && other != null && other != plan.id;
-                      return Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 3),
-                          child: Pressable(
-                            scale: 0.92,
-                            onTap: () {
-                              HapticFeedback.selectionClick();
-                              setState(() {
-                                _days = {..._days};
-                                if (!_days.remove(d)) _days.add(d);
-                                _dirty = true;
-                              });
-                            },
-                            child: AnimatedContainer(
-                              duration: const Duration(milliseconds: 180),
-                              height: 40,
-                              decoration: BoxDecoration(
-                                color: on ? gc.accent : gc.bgRaised2,
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              alignment: Alignment.center,
-                              child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-                                Text(t.weekdayInitial(d),
-                                    style: AppTheme.f(13,
-                                        weight: FontWeight.w800, color: on ? gc.onEmber : gc.textSecondary)),
-                                if (taken)
-                                  Container(
-                                    width: 4,
-                                    height: 4,
-                                    margin: const EdgeInsets.only(top: 2),
-                                    decoration: BoxDecoration(color: gc.textTertiary, shape: BoxShape.circle),
-                                  ),
-                              ]),
-                            ),
-                          ),
-                        ),
-                      );
-                    }),
-                ]),
-                const SizedBox(height: 8),
-                Text(_days.isEmpty ? t.planDaysNone : t.planDaysHint,
-                    style: AppTheme.s(11.5, color: gc.textTertiary, height: 1.4)),
-                if (plan.items.isEmpty) ...[
-                  const SizedBox(height: 16),
-                  Wrap(spacing: 7, runSpacing: 7, children: [
-                    if (logged)
-                      _Chip(
-                        label: t.planFromDay,
-                        icon: PhosphorIconsBold.copy,
-                        onTap: () => _setItems(fit.draftMealPlan(fromDay: true).items),
-                      ),
-                    if (_isNew)
-                      _Chip(
-                        label: t.planImport,
-                        icon: PhosphorIconsBold.downloadSimple,
-                        onTap: () async {
-                          _dirty = false;
-                          final nav = Navigator.of(context)..pop();
-                          await importMealPlanFile(nav.context);
-                        },
-                      ),
-                  ]),
-                ],
-                for (final slot in fit.mealSlots) ...[
-                  const SizedBox(height: 18),
-                  Row(children: [
-                    Icon(_mealIcon(slot.meal), size: 14, color: gc.textSecondary),
-                    const SizedBox(width: 6),
-                    Expanded(child: _kicker(gc, mealName(slot.meal).toUpperCase())),
-                    if (plan.itemsOf(slot.meal).isNotEmpty)
-                      Text(_energy(plan.itemsOf(slot.meal).fold(Macros.zero, (s, e) => s + e.total).kcal),
-                          style: AppTheme.f(12, weight: FontWeight.w800, color: gc.textSecondary)),
-                  ]),
-                  const SizedBox(height: 8),
-                  for (final e in plan.itemsOf(slot.meal)) _item(gc, e),
-                  Pressable(
-                    scale: 0.98,
-                    onTap: () => _add(slot.meal),
-                    child: Container(
-                      height: 44,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(14),
-                        border: Border.all(color: gc.border),
-                      ),
-                      child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                        Icon(PhosphorIconsBold.plus, size: 13, color: gc.accent),
-                        const SizedBox(width: 6),
-                        Text(t.addToMeal(mealInSentence(slot.meal)),
-                            style: AppTheme.f(12.5, weight: FontWeight.w800, color: gc.accent)),
-                      ]),
-                    ),
-                  ),
-                ],
-                if (!_isNew && plan.items.isNotEmpty) ...[
-                  const SizedBox(height: 18),
-                  GhostButton(label: t.planLogDay, icon: PhosphorIconsBold.checkCircle, onTap: _logToday),
-                ],
-                const SizedBox(height: 16),
-              ]),
             ),
             const SizedBox(height: 10),
             PrimaryButton(label: _isNew ? t.planSave : t.save, onTap: _save),

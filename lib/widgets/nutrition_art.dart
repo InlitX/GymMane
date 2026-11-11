@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'dart:math' as math;
 import 'dart:ui' as ui show Image, Picture, PictureRecorder;
 
@@ -11,6 +10,7 @@ import '../services/food_library.dart';
 import '../services/media_store.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
+import 'local_image.dart';
 
 extension NutritionColors on GymColors {
   Color get water => info;
@@ -198,12 +198,11 @@ class FoodSticker extends StatelessWidget {
     final gc = context.gc;
     final asset = isAssetPhoto(photo);
     final path = photo.isEmpty || asset ? null : MediaStore.pathFor(photo);
-    final file = path == null ? null : File(path);
     final angle = tilt ? ((name.hashCode % 9) - 4) * 0.012 : 0.0;
     final px = (size * MediaQuery.devicePixelRatioOf(context)).round();
     final cache = asset && px >= 300 ? null : px;
     Widget art;
-    if (asset || file != null) {
+    if (asset || path != null) {
       final image = asset
           ? Image.asset(assetOfPhoto(photo),
               width: size,
@@ -213,12 +212,12 @@ class FoodSticker extends StatelessWidget {
               cacheWidth: cache,
               opacity: dim ? _faded : null,
               errorBuilder: (_, _, _) => _Placeholder(name: name, size: size, gc: gc))
-          : Image.file(file!,
+          : Image(
+              image: ResizeImage.resizeIfNeeded(cache, null, localImage(path!)),
               width: size,
               height: size,
               fit: BoxFit.contain,
               gaplessPlayback: true,
-              cacheWidth: cache,
               opacity: dim ? _faded : null,
               errorBuilder: (_, _, _) => _Placeholder(name: name, size: size, gc: gc));
       art = !shadow
@@ -858,11 +857,12 @@ class _VesselPainter extends CustomPainter {
 }
 
 class FoodPlate extends StatelessWidget {
-  const FoodPlate({super.key, required this.items, this.size = 150, this.wrap});
+  const FoodPlate({super.key, required this.items, this.size = 150, this.wrap, this.photo = ''});
 
   final List<(String photo, String name)> items;
   final double size;
   final Widget Function(int i, Widget child)? wrap;
+  final String photo;
 
   static const _layouts = <List<(double, double, double)>>[
     [],
@@ -876,8 +876,10 @@ class FoodPlate extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final gc = context.gc;
-    final shown = items.take(5).toList();
+    final path = photo.isEmpty || isAssetPhoto(photo) ? null : MediaStore.pathFor(photo);
+    final shown = path == null ? items.take(5).toList() : const <(String, String)>[];
     final layout = _layouts[shown.length];
+    final inset = size * 0.1;
     return SizedBox(
       width: size,
       height: size,
@@ -901,6 +903,37 @@ class FoodPlate extends StatelessWidget {
             ),
           ),
         ),
+        if (path != null)
+          Positioned.fill(
+            left: inset,
+            top: inset,
+            right: inset,
+            bottom: inset,
+            child: ClipOval(
+              child: Image(
+                image: ResizeImage.resizeIfNeeded(
+                    ((size - inset * 2) * MediaQuery.devicePixelRatioOf(context)).round(), null, localImage(path)),
+                fit: BoxFit.cover,
+                gaplessPlayback: true,
+                errorBuilder: (_, _, _) => const SizedBox.shrink(),
+              ),
+            ),
+          ),
+        if (path != null)
+          Positioned.fill(
+            left: inset,
+            top: inset,
+            right: inset,
+            bottom: inset,
+            child: IgnorePointer(
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(color: Colors.black.withValues(alpha: 0.22), width: math.max(1, size * 0.012)),
+                ),
+              ),
+            ),
+          ),
         for (var i = 0; i < shown.length; i++)
           Positioned(
             left: size / 2 + layout[i].$1 * size - layout[i].$3 * size / 2,

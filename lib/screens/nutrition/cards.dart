@@ -879,6 +879,7 @@ Future<void> showShakePicker(BuildContext context) => _sheet<void>(context, (con
           SizedBox(
             height: 44,
             child: ListView.separated(
+              key: const PageStorageKey('h-cards-882'),
               scrollDirection: Axis.horizontal,
               itemCount: others.length,
               separatorBuilder: (_, _) => const SizedBox(width: 8),
@@ -946,8 +947,16 @@ const _suppPresets = [
 String _suppPhoto(Supplement s) =>
     s.photo.isEmpty || s.photo.endsWith('vessel-pills.webp') ? _suppPresets.first : s.photo;
 
-class _SupplementsCard extends StatelessWidget {
+class _SupplementsCard extends StatefulWidget {
   const _SupplementsCard();
+
+  @override
+  State<_SupplementsCard> createState() => _SupplementsCardState();
+}
+
+class _SupplementsCardState extends State<_SupplementsCard> {
+  final _key = GlobalKey();
+  bool _wasFocused = false;
 
   static List<String> get _suggested =>
       [t.suppCreatine, t.suppVitaminD, t.suppOmega3, t.suppMagnesium, t.suppMultivitamin, t.suppCaffeine];
@@ -957,12 +966,22 @@ class _SupplementsCard extends StatelessWidget {
     final gc = context.gc;
     final day = fit.nutritionDay;
     final taken = fit.takenOn(day);
+    final focused = fit.suppFocus.isNotEmpty;
+    if (focused && !_wasFocused) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        final c = _key.currentContext;
+        if (c != null && c.mounted) {
+          Scrollable.ensureVisible(c, duration: const Duration(milliseconds: 420), curve: Curves.easeOutCubic, alignment: 0.1);
+        }
+      });
+    }
+    _wasFocused = focused;
     final list = fit.activeSupplements;
     final archived = fit.archivedSuppList;
     final due = [for (final s in list) if (s.dueOn(day)) s];
     final later = [for (final s in list) if (!s.dueOn(day)) s];
     final done = due.where((s) => taken.contains(s.id)).length;
-    return SoftCard(
+    return KeyedSubtree(key: _key, child: SoftCard(
       radius: 26,
       padding: const EdgeInsets.fromLTRB(14, 14, 14, 12),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -1043,7 +1062,7 @@ class _SupplementsCard extends StatelessWidget {
           ),
         ),
       ]),
-    );
+    ));
   }
 }
 
@@ -1112,7 +1131,13 @@ class _SupplementRow extends StatelessWidget {
           decoration: BoxDecoration(
             color: taken ? gc.sage.withValues(alpha: 0.14) : gc.bgRaised2,
             borderRadius: BorderRadius.circular(18),
-            border: Border.all(color: taken ? gc.sage.withValues(alpha: 0.45) : Colors.transparent),
+            border: Border.all(
+                color: fit.suppFocus.contains(supp.id) && !taken
+                    ? gc.accent
+                    : taken
+                        ? gc.sage.withValues(alpha: 0.45)
+                        : Colors.transparent,
+                width: fit.suppFocus.contains(supp.id) && !taken ? 2 : 1),
           ),
           child: Row(children: [
             SizedBox(
@@ -1533,7 +1558,7 @@ class _SupplementEditorState extends State<_SupplementEditor> with _StickerDraft
       const SizedBox(height: 10),
       SizedBox(
         height: 64,
-        child: ListView(scrollDirection: Axis.horizontal, clipBehavior: Clip.none, children: [
+        child: ListView(key: const PageStorageKey('h-cards-1561'), scrollDirection: Axis.horizontal, clipBehavior: Clip.none, children: [
           for (final p in _suppPresets) ...[option(p), const SizedBox(width: 10)],
           for (final p in [_cutPhoto, _plainPhoto])
             if (p != null) ...[option(p), const SizedBox(width: 10)],
@@ -1597,7 +1622,7 @@ class _SupplementEditorState extends State<_SupplementEditor> with _StickerDraft
       const SizedBox(height: 8),
       SizedBox(
         height: 36,
-        child: ListView(scrollDirection: Axis.horizontal, clipBehavior: Clip.none, children: [
+        child: ListView(key: const PageStorageKey('h-cards-1625'), scrollDirection: Axis.horizontal, clipBehavior: Clip.none, children: [
           for (final u in kSuppUnits) ...[
             _Chip(
               label: fit.suppUnitLabel(u, _parsed(_amount) ?? 1),

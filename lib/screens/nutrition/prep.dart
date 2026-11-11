@@ -35,6 +35,7 @@ class _PrepShelf extends StatelessWidget {
     return SizedBox(
       height: 150,
       child: ListView.separated(
+        key: const PageStorageKey('h-prep-38'),
         scrollDirection: Axis.horizontal,
         clipBehavior: Clip.none,
         itemCount: list.length,
@@ -411,6 +412,7 @@ class _DayStrip extends StatelessWidget {
     }
 
     return SingleChildScrollView(
+      key: const PageStorageKey('h-prep-415'),
       scrollDirection: Axis.horizontal,
       clipBehavior: Clip.none,
       child: Row(children: [

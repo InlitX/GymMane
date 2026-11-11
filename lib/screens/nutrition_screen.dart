@@ -1,15 +1,13 @@
 import 'dart:async';
-import 'dart:io';
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
-import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../app/desktop.dart';
 import '../l10n/l10n.dart';
 import '../models/nutrition.dart';
 import '../services/food_library.dart';
@@ -31,6 +29,7 @@ import '../widgets/rolling_text.dart';
 import '../widgets/cutout_editor.dart';
 import '../widgets/ruler_picker.dart';
 import '../widgets/ui_kit.dart';
+import '../services/file_share.dart';
 import 'plan_import_sheet.dart' show pickTextFile;
 import 'progress_screen.dart' show showBodyweightSheet;
 
@@ -175,6 +174,83 @@ class _NutritionScreenState extends State<NutritionScreen> {
       if (on(Tracker.week)) _WeekTile(),
       if (on(Tracker.weight)) _WeightTile(),
     ];
+    final header = ScreenHeader(
+      title: t.nutrition,
+      subtitle: _dayLabel,
+      onBack: fit.backFromNutrition,
+      badge: BetaTag(t.sectionBeta),
+      actions: [
+        RoundAction(
+          label: t.trackersTitle,
+          onTap: () => showTrackersSheet(context),
+          child: Icon(PhosphorIconsRegular.slidersHorizontal, size: 17, color: gc.textSecondary),
+        ),
+        const SizedBox(width: 8),
+        RoundAction(
+          label: t.nutritionGoals,
+          onTap: () => showGoalsSheet(context),
+          child: Icon(PhosphorIconsRegular.target, size: 17, color: gc.textSecondary),
+        ),
+      ],
+    );
+    if (DesktopScope.of(context)) {
+      Widget stack(List<Widget> ws, {double gap = 12}) => Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              for (var i = 0; i < ws.length; i++) ...[if (i > 0) SizedBox(height: gap), ws[i]],
+            ],
+          );
+      final tiles = <(int, Widget)>[
+        (0, stack([
+          if (on(Tracker.calories) || on(Tracker.protein) || on(Tracker.carbs) || on(Tracker.fat)) _HeroCard(),
+          const _SearchBar(),
+          if (on(Tracker.foods)) _FoodShelf(),
+        ])),
+        if (on(Tracker.week)) (0, _WeekTile()),
+        for (final c in cards) (1, c),
+        if (todayPlan != null) (2, _TodayPlanCard(plan: todayPlan)),
+        if (on(Tracker.prep))
+          (2, stack([
+            _Heading(t.prepTitle, action: t.prepNewShort, onAction: () => showBatchEditor(context)),
+            _PrepShelf(),
+          ])),
+        if (on(Tracker.plans))
+          (2, stack([
+            _Heading(t.mealPlansTitle, action: t.mealPlanNew, onAction: () => showNewPlanSheet(context)),
+            _PlansSection(),
+          ])),
+        if (on(Tracker.foods)) (2, _Folders()),
+      ];
+      final rest = [for (final d in detail) if (d is! _WeekTile) d];
+      var at = 2;
+      Widget rise(Widget w) => Rise(index: at++, child: w);
+      final top = [for (final x in tiles) FlowSlot(column: x.$1, stretch: x.$2 is _WeekTile || x.$2 is _SupplementsCard, child: rise(x.$2))];
+      final meals = rise(const _MealGrid());
+      final low = [for (final d in rest) rest.length == 1 ? FlowWide(child: rise(d)) : rise(d)];
+      return RiseScope(
+        id: 'nutrition',
+        child: SingleChildScrollView(
+          clipBehavior: Clip.none,
+          padding: const EdgeInsets.fromLTRB(32, 30, 32, 48),
+          child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+            Rise(index: 0, child: header),
+            const SizedBox(height: 16),
+            Rise(index: 1, child: _WeekStrip()),
+            const SizedBox(height: 18),
+            CardFlow(minColumn: 340, gap: 20, children: top),
+            const SizedBox(height: 30),
+            meals,
+            if (low.isNotEmpty) ...[
+              const SizedBox(height: 30),
+              _Heading(t.trackersDetail),
+              const SizedBox(height: 12),
+              CardFlow(minColumn: 340, gap: 20, children: low),
+            ],
+          ]),
+        ),
+      );
+    }
     var order = 0;
     return RiseScope(
       id: 'nutrition',
@@ -186,25 +262,7 @@ class _NutritionScreenState extends State<NutritionScreen> {
         padding: const EdgeInsets.fromLTRB(20, 12, 20, 40),
         children: [
           for (final w in <Widget>[
-            ScreenHeader(
-              title: t.nutrition,
-              subtitle: _dayLabel,
-              onBack: fit.backFromNutrition,
-              badge: BetaTag(t.sectionBeta),
-              actions: [
-                RoundAction(
-                  label: t.trackersTitle,
-                  onTap: () => showTrackersSheet(context),
-                  child: Icon(PhosphorIconsRegular.slidersHorizontal, size: 17, color: gc.textSecondary),
-                ),
-                const SizedBox(width: 8),
-                RoundAction(
-                  label: t.nutritionGoals,
-                  onTap: () => showGoalsSheet(context),
-                  child: Icon(PhosphorIconsRegular.target, size: 17, color: gc.textSecondary),
-                ),
-              ],
-            ),
+            header,
             const SizedBox(height: 16),
             _WeekStrip(),
             if (on(Tracker.calories) || on(Tracker.protein) || on(Tracker.carbs) || on(Tracker.fat)) ...[

@@ -168,6 +168,7 @@ class _AddFoodSheetState extends State<_AddFoodSheet> {
   Widget _cats(GymColors gc) => SizedBox(
         height: 92,
         child: ListView(
+          key: const PageStorageKey('h-food-171'),
           scrollDirection: Axis.horizontal,
           clipBehavior: Clip.none,
           children: [
@@ -325,7 +326,7 @@ class _AddFoodSheetState extends State<_AddFoodSheet> {
       );
 
   Widget _recipeRow(Recipe r) => _FoodRow(
-        leading: FoodPlate(items: _plateOf(r.items), size: 40),
+        leading: FoodPlate(items: _plateOf(r.items), size: 40, photo: r.photo),
         title: r.name,
         detail: '${_energy(r.total.kcal)} · ${t.recipeItems(r.items.length)}',
         onTap: () => _openRecipe(r),
@@ -1156,6 +1157,7 @@ class _LogFoodSheetState extends State<_LogFoodSheet> {
       if (food.byWeight) ...[
         const SizedBox(height: 10),
         SingleChildScrollView(
+          key: const PageStorageKey('h-food-1160'),
           scrollDirection: Axis.horizontal,
           child: Row(children: [
             if (_fill case final fill?) ...[
@@ -1841,7 +1843,7 @@ mixin _StickerDrafts<T extends StatefulWidget> on State<T> {
     if (source == null) return;
     final shot = await ImagePicker().pickImage(source: source, maxWidth: 1400, maxHeight: 1400, imageQuality: 92);
     if (shot == null || !mounted) return;
-    final bytes = await File(shot.path).readAsBytes();
+    final bytes = await shot.readAsBytes();
     if (!mounted) return;
     setState(() => _working = true);
     final draftFuture = prepareCutout(bytes);
@@ -2030,6 +2032,7 @@ class _FoodEditorState extends State<_FoodEditor> with _StickerDrafts {
   Widget _catPicker(GymColors gc) => SizedBox(
         height: 40,
         child: ListView(
+          key: const PageStorageKey('h-food-2035'),
           scrollDirection: Axis.horizontal,
           clipBehavior: Clip.none,
           children: [

@@ -751,7 +751,7 @@ mixin NutritionState on FitCore, ToolsState, StatsState {
   void updateRecipe(String id, List<FoodEntry> items) {
     final i = recipes.indexWhere((r) => r.id == id);
     if (i < 0 || items.isEmpty) return;
-    recipes[i] = Recipe(id: id, name: recipes[i].name, items: items);
+    recipes[i] = recipes[i].copyWith(items: items);
     _persist();
     notifyListeners();
   }
@@ -835,18 +835,30 @@ mixin NutritionState on FitCore, ToolsState, StatsState {
     return out;
   }
 
-  Recipe? saveRecipe(String name, List<FoodEntry> items) {
+  Recipe? saveRecipe(String name, List<FoodEntry> items, {String photo = ''}) {
     final clean = name.trim();
     if (clean.isEmpty || items.isEmpty) return null;
     final r = Recipe(
       id: _newId('r'),
       name: clean,
       items: [for (final e in items) e.copyWith(id: _newId('e'))],
+      photo: photo,
     );
     recipes.add(r);
     _persist();
     notifyListeners();
     return r;
+  }
+
+  void setRecipePhoto(String id, String photo) {
+    final i = recipes.indexWhere((r) => r.id == id);
+    if (i < 0) return;
+    final old = recipes[i].photo;
+    if (old == photo) return;
+    if (old.isNotEmpty && !isAssetPhoto(old)) MediaStore.delete(old);
+    recipes[i] = recipes[i].copyWith(photo: photo);
+    _persist();
+    notifyListeners();
   }
 
   void renameRecipe(String id, String name) {
@@ -935,6 +947,9 @@ mixin NutritionState on FitCore, ToolsState, StatsState {
 
   void deleteRecipe(String id) {
     archivedRecipes.remove(id);
+    for (final r in recipes) {
+      if (r.id == id && r.photo.isNotEmpty && !isAssetPhoto(r.photo)) MediaStore.delete(r.photo);
+    }
     recipes.removeWhere((r) => r.id == id);
     _persist();
     notifyListeners();
@@ -1562,6 +1577,25 @@ mixin NutritionState on FitCore, ToolsState, StatsState {
     notifyListeners();
   }
 
+  void takeSupplementsOn(DateTime day, List<String> ids) {
+    final key = _dk(day);
+    final taken = supplementsTaken.putIfAbsent(key, () => <String>{});
+    var changed = false;
+    for (final id in ids) {
+      final i = supplements.indexWhere((s) => s.id == id);
+      if (i < 0 || !taken.add(id)) continue;
+      changed = true;
+      final s = supplements[i];
+      final stock = s.stock;
+      if (stock != null) supplements[i] = s.copyWith(stock: math.max(0.0, stock - s.perTake));
+    }
+    if (taken.isEmpty) supplementsTaken.remove(key);
+    if (!changed) return;
+    syncSupplementReminder();
+    _persist();
+    notifyListeners();
+  }
+
   void setSupplementReminder(int? minuteOfDay) {
     supplementReminderMin = minuteOfDay?.clamp(0, 24 * 60 - 1);
     syncSupplementReminder();
@@ -1600,6 +1634,7 @@ mixin NutritionState on FitCore, ToolsState, StatsState {
       for (final d in due)
         (
           at: d.at,
+          ids: [for (final s in d.items) s.id],
           names: [for (final s in d.items) s.name],
           doses: [
             for (final s in d.items)
@@ -1668,6 +1703,22 @@ mixin NutritionState on FitCore, ToolsState, StatsState {
     _nutritionSetOn = nutritionDay;
     FoodLibrary.load().then((_) => notifyListeners());
     pushRoute('nutrition');
+  }
+
+  Set<String> suppFocus = {};
+  int _suppFocusTicket = 0;
+
+  void openSupplements(List<String> ids) {
+    if (!nutritionBeta) return;
+    if (route != 'nutrition') goNutrition();
+    suppFocus = ids.toSet();
+    final ticket = ++_suppFocusTicket;
+    notifyListeners();
+    Future.delayed(const Duration(seconds: 6), () {
+      if (ticket != _suppFocusTicket) return;
+      suppFocus = {};
+      notifyListeners();
+    });
   }
 
   void backFromNutrition() => popRoute();
@@ -1869,7 +1920,10 @@ mixin NutritionState on FitCore, ToolsState, StatsState {
     weightAim = const {'lose', 'gain', 'hold'}.contains(aim) ? aim as String : '';
     recipes
       ..clear()
-      ..addAll(list('recipes').map(Recipe.fromJson).where((r) => r.id.isNotEmpty && r.items.isNotEmpty));
+      ..addAll(list('recipes').map(Recipe.fromJson).where((r) => r.id.isNotEmpty && r.items.isNotEmpty).map((r) {
+        if (restored == null || r.photo.isEmpty || isAssetPhoto(r.photo)) return r;
+        return r.copyWith(photo: restored[r.photo] ?? '');
+      }));
     archivedRecipes
       ..clear()
       ..addAll([for (final id in (j?['recArch'] as List?) ?? const []) if (id is String && recipes.any((r) => r.id == id)) id]);
