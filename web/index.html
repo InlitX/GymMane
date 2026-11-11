@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <base href="$FLUTTER_BASE_HREF">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="GymMane: free, private gym tracker. Your workouts, routines, progress and nutrition on your own server.">
+  <meta name="theme-color" content="#0A0A0A">
+  <meta name="color-scheme" content="dark">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="GymMane">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="manifest" href="manifest.json">
+  <title>GymMane</title>
+  <link rel="preload" href="assets/assets/fonts/Nunito-ExtraBold.ttf" as="font" type="font/ttf" crossorigin>
+  <style>
+    @font-face {
+      font-family: "GymManeLoader"; font-weight: 800; font-display: swap;
+      src: url("assets/assets/fonts/Nunito-ExtraBold.ttf") format("truetype");
+    }
+    @font-face {
+      font-family: "GymManeLoader"; font-weight: 600; font-display: swap;
+      src: url("assets/assets/fonts/Nunito-SemiBold.ttf") format("truetype");
+    }
+    html, body { margin: 0; height: 100%; background: #0A0A0A; overflow: hidden; }
+    #gm-loader {
+      position: fixed; inset: 0; display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      background: #0A0A0A; transition: opacity .45s ease; z-index: 10;
+      font-family: "GymManeLoader", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    #gm-loader img { width: 88px; height: 88px; border-radius: 22px; animation: gm-in .6s ease both; }
+    #gm-name {
+      margin-top: 18px; color: #F2EEE9; font-size: 28px; font-weight: 800; letter-spacing: -.02em;
+      animation: gm-in .6s .1s ease both;
+    }
+    #gm-bar {
+      position: relative; width: 132px; height: 4px; margin-top: 22px; border-radius: 4px;
+      background: #1F1D1B; overflow: hidden; animation: gm-in .6s .2s ease both;
+    }
+    #gm-bar::after {
+      content: ""; position: absolute; top: 0; bottom: 0; width: 40%; border-radius: 4px;
+      background: linear-gradient(90deg, #D9A184, #F0C7AE); animation: gm-slide 1.15s ease-in-out infinite;
+    }
+    #gm-text {
+      margin-top: 14px; min-height: 18px; color: #8C857F; font-size: 13px; font-weight: 600;
+      text-align: center; padding: 0 24px; animation: gm-in .6s .3s ease both; transition: opacity .3s ease;
+    }
+    #gm-loader.gone { opacity: 0; pointer-events: none; }
+    @keyframes gm-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+    @keyframes gm-slide { from { left: -40%; } to { left: 100%; } }
+    @media (prefers-reduced-motion: reduce) {
+      #gm-bar::after { animation: none; left: 30%; }
+    }
+  </style>
+</head>
+<body>
+  <div id="gm-loader" role="status" aria-live="polite">
+    <img src="icons/Icon-192.png" alt="">
+    <div id="gm-name">GymMane</div>
+    <div id="gm-bar"></div>
+    <div id="gm-text"></div>
+  </div>
+  <script>
+    (function () {
+      var es = (navigator.language || '').toLowerCase().indexOf('es') === 0;
+      var text = document.getElementById('gm-text');
+      text.textContent = es ? 'Cargando…' : 'Loading…';
+      var slow = setTimeout(function () {
+        text.textContent = es ? 'La primera vez tarda un poco más. Ya casi está.' : 'The first time takes a little longer. Almost there.';
+      }, 6000);
+      window.addEventListener('flutter-first-frame', function () {
+        clearTimeout(slow);
+        var l = document.getElementById('gm-loader');
+        if (!l) return;
+        l.classList.add('gone');
+        setTimeout(function () { l.remove(); }, 500);
+      });
+    })();
+  </script>
+  <script src="flutter_bootstrap.js" async></script>
+</body>
+</html>
