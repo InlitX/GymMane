@@ -1,4 +1,3 @@
-import 'dart:io' show Platform;
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/foundation.dart';
@@ -10,6 +9,8 @@ import 'package:timezone/timezone.dart' as tz;
 
 import '../l10n/l10n.dart';
 import 'headphones.dart';
+import 'supplement_reminder.dart';
+import 'host.dart';
 
 class RestAlarm {
   RestAlarm._();
@@ -118,6 +119,8 @@ class RestAlarm {
             requestBadgePermission: false,
           ),
         ),
+        onDidReceiveNotificationResponse: (r) => SupplementReminder.instance.tapped(r.payload),
+        onDidReceiveBackgroundNotificationResponse: supplementActionInBackground,
       );
       _ready = true;
     } catch (e) {
@@ -188,7 +191,7 @@ class RestAlarm {
   Future<bool> notificationsAllowed() async {
     if (!_ready) return true;
     try {
-      if (Platform.isIOS) {
+      if (onIOS) {
         final options = await _iosPlugin?.checkPermissions();
         return options?.isEnabled ?? true;
       }
@@ -201,7 +204,7 @@ class RestAlarm {
   Future<bool> requestPermission() async {
     if (!_ready) return true;
     try {
-      if (Platform.isIOS) {
+      if (onIOS) {
         return await _iosPlugin?.requestPermissions(alert: true, sound: true) ?? true;
       }
       final granted = await _androidPlugin?.requestNotificationsPermission() ?? true;
@@ -222,7 +225,7 @@ class RestAlarm {
   Future<void> fireNow() async {
     final visible = WidgetsBinding.instance.lifecycleState == AppLifecycleState.resumed;
     final custom = customSoundPath?.isNotEmpty ?? false;
-    if (_ready && !visible && !custom && Platform.isAndroid) {
+    if (_ready && !visible && !custom && onAndroid) {
       _generation++;
       return;
     }

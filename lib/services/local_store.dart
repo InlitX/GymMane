@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/workout.dart';
+import 'server/server_link.dart';
 
 class Store {
   Store._();
@@ -14,10 +15,20 @@ class Store {
 
   Future<void> init() async {
     _prefs ??= await SharedPreferences.getInstance();
+    if (kIsWeb) await ServerLink.instance.connect();
   }
 
   Map<String, dynamic> load() {
-    final raw = _prefs?.getString(_key);
+    final link = ServerLink.instance;
+    var raw = link.available ? link.remoteText : null;
+    if (raw == null) {
+      raw = _prefs?.getString(_key);
+      if (link.available && raw != null && raw.isNotEmpty) link.push(raw);
+    }
+    return decodeState(raw);
+  }
+
+  static Map<String, dynamic> decodeState(String? raw) {
     if (raw == null || raw.isEmpty) return {};
     try {
       final decoded = jsonDecode(raw);
@@ -36,6 +47,11 @@ class Store {
       var text = encode(data);
       for (final e in raw.entries) {
         text = text.replaceFirst(jsonEncode(rawMark(e.key)), e.value);
+      }
+      final link = ServerLink.instance;
+      if (link.available) {
+        link.push(text);
+        return;
       }
       await _prefs?.setString(_key, text);
     } catch (e) {

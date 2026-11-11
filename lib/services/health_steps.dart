@@ -1,7 +1,7 @@
-import 'dart:io';
 import 'dart:math' as math;
 
 import 'package:flutter/services.dart';
+import 'host.dart';
 
 enum HealthAccess { unsupported, denied, granted }
 
@@ -17,7 +17,7 @@ class HealthSteps {
   }
 
   static Future<bool> takeUsage() async {
-    if (!Platform.isAndroid) return false;
+    if (!onAndroid) return false;
     try {
       return await _channel.invokeMethod<bool>('takeUsage') ?? false;
     } on PlatformException {
@@ -28,7 +28,7 @@ class HealthSteps {
   }
 
   static Future<HealthAccess> access() async {
-    if (!(Platform.isAndroid || Platform.isIOS)) return HealthAccess.unsupported;
+    if (!onMobile) return HealthAccess.unsupported;
     try {
       final status = await _channel.invokeMethod<String>('status');
       return HealthAccess.values.asNameMap()[status] ?? HealthAccess.unsupported;
@@ -40,7 +40,7 @@ class HealthSteps {
   }
 
   static Future<bool> request() async {
-    if (!(Platform.isAndroid || Platform.isIOS)) return false;
+    if (!onMobile) return false;
     try {
       return await _channel.invokeMethod<bool>('request') ?? false;
     } on PlatformException {
@@ -51,7 +51,7 @@ class HealthSteps {
   }
 
   static Future<bool> openSettings() async {
-    if (!(Platform.isAndroid || Platform.isIOS)) return false;
+    if (!onMobile) return false;
     try {
       return await _channel.invokeMethod<bool>('openSettings') ?? false;
     } on PlatformException {
@@ -62,7 +62,7 @@ class HealthSteps {
   }
 
   static Future<Map<DateTime, int>?> read(List<DateTime> days) async {
-    if (days.isEmpty || !(Platform.isAndroid || Platform.isIOS)) return null;
+    if (days.isEmpty || !onMobile) return null;
     final now = DateTime.now().millisecondsSinceEpoch;
     final ranges = [
       for (final day in days)

@@ -19,6 +19,8 @@ class Beeper {
   String? _tick;
   String? _go;
   String? _silence;
+  Uint8List? _tickBytes;
+  Uint8List? _goBytes;
   Timer? _release;
   bool _holding = false;
   bool _failed = false;
@@ -67,7 +69,20 @@ class Beeper {
 
   Future<bool> _ready() async {
     if (_player != null) return true;
-    if (_failed || kIsWeb) return false;
+    if (_failed) return false;
+    if (kIsWeb) {
+      try {
+        _tickBytes = _tone(880, 0.09);
+        _goBytes = _tone(1318.5, 0.32);
+        final p = AudioPlayer();
+        await p.setReleaseMode(ReleaseMode.stop);
+        _player = p;
+        return true;
+      } catch (_) {
+        _failed = true;
+        return false;
+      }
+    }
     try {
       final dir = await getTemporaryDirectory();
       _tick = await _write(dir, 'gm_tick2.wav', _tone(880, 0.09));
@@ -97,6 +112,15 @@ class Beeper {
       kind == _TickKind.go ? HapticFeedback.heavyImpact() : HapticFeedback.selectionClick();
     } catch (_) {}
     if (!sound || !await _ready()) return;
+    if (kIsWeb) {
+      final bytes = kind == _TickKind.go ? _goBytes : _tickBytes;
+      if (bytes == null) return;
+      try {
+        await _player!.stop();
+        await _player!.play(BytesSource(bytes, mimeType: 'audio/wav'), volume: 1);
+      } catch (_) {}
+      return;
+    }
     await _route();
     final path = kind == _TickKind.go ? _go : _tick;
     if (path == null) return;

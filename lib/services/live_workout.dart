@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import '../l10n/l10n.dart';
 import '../state/fit_state.dart';
 import '../widgets/ui_kit.dart';
+import 'host.dart';
 
 class LiveWorkout {
   LiveWorkout._();
@@ -24,7 +25,7 @@ class LiveWorkout {
 
   static Future<void> sync() async {
     if (!_supported) return;
-    if (!_listening && Platform.isAndroid) {
+    if (!_listening && onAndroid) {
       _listening = true;
       _android.setMethodCallHandler((call) async {
         if (call.method == 'action') _act(call.arguments as String? ?? '');
@@ -117,14 +118,14 @@ class LiveWorkout {
     _lastKey = key;
 
     try {
-      if (Platform.isIOS) {
+      if (onIOS) {
         await _channel.invokeMethod<void>('update', {
           'exercise': name,
           'detail': detail,
           'index': index,
           'total': total,
           'restEnd': resting ? restEnd.millisecondsSinceEpoch : null,
-          'restLabel': t.liveResting,
+          'restLabel': fit.session?.restSwitch == true ? t.switchSides : t.liveResting,
           'paused': paused,
         });
         return;
@@ -132,7 +133,7 @@ class LiveWorkout {
       await _android.invokeMethod<void>('update', {
         'title': name,
         'detail': detail,
-        'restLabel': t.liveResting,
+        'restLabel': fit.session?.restSwitch == true ? t.switchSides : t.liveResting,
         'next': nextName == null ? null : t.liveUpNext(nextName),
         'resting': resting,
         'paused': paused,
@@ -190,7 +191,7 @@ class LiveWorkout {
     final wasShown = _lastKey.isNotEmpty;
     _lastKey = '';
     try {
-      if (Platform.isIOS) {
+      if (onIOS) {
         await _channel.invokeMethod<void>('end');
       } else if (wasShown || !_cleared) {
         await _android.invokeMethod<void>('end');
