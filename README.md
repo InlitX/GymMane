@@ -1,7 +1,8 @@
 # GymMane web
 
 The website for GymMane, built with [Eleventy](https://www.11ty.dev). It lives on the `web` branch only,
-so `main` stays clean. GitHub Actions builds it and publishes it to GitHub Pages on every push to `web`.
+so `main` stays clean. GitHub Actions builds it and publishes it to GitHub Pages on every push to `web`
+(Settings › Pages › Source must be set to "GitHub Actions").
 
 ```
 index.html               the home page (copied as it is)
