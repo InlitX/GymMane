@@ -277,6 +277,7 @@ mixin StatsState on FitCore, ToolsState, LibraryState, SettingsState, TimelineSt
   }
 
   double _setScore(String id, LoggedSet s) {
+    if (!s.counts) return 0;
     if ((s.km ?? 0) > 0) return s.km!;
     if (s.weight > 0 || isAssisted(id)) return liftScore(id, s);
     if (s.reps > 0) return s.reps.toDouble();
@@ -292,7 +293,7 @@ mixin StatsState on FitCore, ToolsState, LibraryState, SettingsState, TimelineSt
   }
 
   bool _beats(String id, LoggedSet st, _Best? best) {
-    if (best == null || st.reps <= 0 && (st.sec ?? 0) <= 0 && (st.km ?? 0) <= 0) return false;
+    if (best == null || !st.counts || st.reps <= 0 && (st.sec ?? 0) <= 0 && (st.km ?? 0) <= 0) return false;
     if (_setScore(id, st) > best.score + 1e-9) return true;
     if (isAssisted(id) || st.weight <= 0) return false;
     if (st.weight > best.weight + 1e-9 || st.weight * st.reps > best.volume + 1e-9) return true;
@@ -800,6 +801,7 @@ mixin StatsState on FitCore, ToolsState, LibraryState, SettingsState, TimelineSt
   double get _assistBodyKg => profile.weightKg > 0 ? profile.weightKg : 75;
 
   double liftScore(String id, LoggedSet s) {
+    if (!s.counts) return 0;
     if (!isAssisted(id)) return s.oneRm;
     if (s.reps <= 0) return 0;
     return math.max(0.0, _assistBodyKg - s.weight) * (1 + s.reps / 30);
@@ -1664,7 +1666,10 @@ mixin StatsState on FitCore, ToolsState, LibraryState, SettingsState, TimelineSt
             _round1(r.ex.workingSets.where((s) => s.reps > 0).map((s) => s.weight).reduce(math.min)),
       ];
     }
-    return h.map((r) => _round1(r.ex.bestOneRm)).toList();
+    return [
+      for (final r in h)
+        if (r.ex.bestOneRm > 0) _round1(r.ex.bestOneRm),
+    ];
   }
 
   bool canShowRelative(String id) =>
@@ -1753,7 +1758,8 @@ mixin StatsState on FitCore, ToolsState, LibraryState, SettingsState, TimelineSt
 
   List<double> bestRepsSeries(String id) => [
         for (final r in exerciseHistory(id).reversed)
-          r.ex.sets.where((s) => s.counts).fold(0, (m, s) => math.max(m, s.reps)).toDouble(),
+          if (r.ex.workingSets.isNotEmpty)
+            r.ex.workingSets.fold(0, (m, s) => math.max(m, s.reps)).toDouble(),
       ];
 
   static const _habitWindowDays = 120;

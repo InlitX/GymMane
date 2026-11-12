@@ -81,7 +81,7 @@ class Store {
 
   String exportCsv(List<LoggedSession> sessions) {
     final rows = StringBuffer(
-        'date,exercise,muscle,set,reps,weight_kg,volume_kg,est_1rm_kg,distance_km,duration_s,rpe,note\n');
+        'date,exercise,muscle,set,reps,weight_kg,volume_kg,est_1rm_kg,distance_km,duration_s,set_type,rpe,rir,note\n');
     final ordered = [...sessions]..sort((a, b) => a.date.compareTo(b.date));
     for (final s in ordered) {
       final day = s.date.toIso8601String().split('T').first;
@@ -99,7 +99,9 @@ class Store {
             _num(st.oneRm),
             st.km == null ? '' : _num(st.km!),
             st.sec ?? '',
+            st.kind.name,
             st.rpe == null ? '' : _num(st.rpe!),
+            st.rir == null ? '' : _num(st.rir!),
             _csv(st.note),
           ].join(','));
         }

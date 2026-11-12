@@ -31,10 +31,11 @@ class LoggedSet {
 
   bool get counts => kind != SetKind.warmup;
   bool get sided => left != null && right != null;
-  double get volume => reps * weight;
+  double? get rir => rpe == null ? null : 10 - rpe!;
+  double get volume => counts ? reps * weight : 0;
 
   double get oneRm {
-    if (reps <= 0) return 0;
+    if (!counts || reps <= 0) return 0;
     final pct = rpePercent(reps, rpe);
     return pct == null ? weight * (1 + reps / 30) : weight / pct;
   }

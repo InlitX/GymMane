@@ -77,6 +77,24 @@ void main() {
       expect(fit.totalSets, 0);
       expect(fit.muscleSetsOver(7), isEmpty);
     });
+
+    test('warm-up 40 kg x 8 does not overwrite est_1rm_kg or working tonnage', () {
+      final warmup = LoggedSet(8, 40, kind: SetKind.warmup);
+      final work = LoggedSet(5, 30);
+      expect(warmup.oneRm, 0);
+      expect(warmup.volume, 0);
+      expect(fit.liftScore('EIeI8Vf', warmup), 0);
+
+      fit.sessions
+        ..add(session(2, [warmup]))
+        ..add(session(1, [warmup, work]));
+
+      final pr = fit.personalRecords.single;
+      expect(pr.oneRm, closeTo(35.0, 0.1));
+      expect(fit.oneRmSeries('EIeI8Vf'), [35.0]);
+      expect(fit.bestRepsSeries('EIeI8Vf'), [5]);
+      expect(fit.totalVolumeKg, 150);
+    });
   });
 
   group('inches users are not fed centimetres', () {
