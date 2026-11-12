@@ -162,4 +162,24 @@ void main() {
       fit.clearExFilters();
     });
   });
+
+  group('duplicar ejercicio', () {
+    setUp(() async {
+      SharedPreferences.setMockInitialValues({});
+      await Store.instance.init();
+      fit.resetAllData();
+    });
+
+    test('la copia de uno del catálogo conserva su dibujo al guardar y cargar', () {
+      final squat = fit.matchExerciseByName('Barbell Full Squat')!;
+      final id = fit.addCustomExercise(
+          name: 'Sentadilla', primary: squat.primary, equipment: squat.equipment, art: squat.art);
+      final copy = fit.exerciseById(id)!;
+      expect(copy.art, squat.art);
+      expect(Exercise.fromJson(copy.toJson()).art, squat.art);
+      expect(Exercise.fromJson(fit.exerciseById(fit.addCustomExercise(
+              name: 'Sin dibujo', primary: 'chest', equipment: 'Barbell'))!.toJson()).toJson().containsKey('ar'),
+          isFalse);
+    });
+  });
 }

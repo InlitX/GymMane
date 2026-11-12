@@ -7783,4 +7783,12 @@ class AppLocalizationsPt extends AppLocalizations {
   String webPhoneError(String error) {
     return 'Não foi possível ler a pasta: $error';
   }
+
+  @override
+  String get duplicateExercise => 'Duplicate';
+
+  @override
+  String exerciseCopyName(String name) {
+    return '$name (copy)';
+  }
 }

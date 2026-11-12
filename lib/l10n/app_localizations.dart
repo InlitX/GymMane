@@ -13537,6 +13537,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Couldn\'t read the folder: {error}'**
   String webPhoneError(String error);
+
+  /// No description provided for @duplicateExercise.
+  ///
+  /// In en, this message translates to:
+  /// **'Duplicate'**
+  String get duplicateExercise;
+
+  /// No description provided for @exerciseCopyName.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} (copy)'**
+  String exerciseCopyName(String name);
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

@@ -2680,5 +2680,9 @@
   "webPhoneDevices": "{n, plural, =0{No phone has synced yet} =1{1 phone synced} other{{n} phones synced}}",
   "@webPhoneDevices": {"placeholders": {"n": {"type": "int"}}},
   "webPhoneError": "Couldn't read the folder: {error}",
-  "@webPhoneError": {"placeholders": {"error": {"type": "String"}}}
+  "@webPhoneError": {"placeholders": {"error": {"type": "String"}}},
+
+  "duplicateExercise": "Duplicate",
+  "exerciseCopyName": "{name} (copy)",
+  "@exerciseCopyName": { "placeholders": { "name": { "type": "String" } } }
 }

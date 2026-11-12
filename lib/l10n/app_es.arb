@@ -2341,5 +2341,8 @@
   "webPhoneDevices": "{n, plural, =0{Ningún móvil ha sincronizado aún} =1{1 móvil sincronizado} other{{n} móviles sincronizados}}",
   "@webPhoneDevices": {"placeholders": {"n": {"type": "int"}}},
   "webPhoneError": "No se pudo leer la carpeta: {error}",
-  "@webPhoneError": {"placeholders": {"error": {"type": "String"}}}
+  "@webPhoneError": {"placeholders": {"error": {"type": "String"}}},
+
+  "duplicateExercise": "Duplicar",
+  "exerciseCopyName": "{name} (copia)"
 }

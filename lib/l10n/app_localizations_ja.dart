@@ -7487,4 +7487,12 @@ class AppLocalizationsJa extends AppLocalizations {
   String webPhoneError(String error) {
     return 'フォルダーを読み込めませんでした：$error';
   }
+
+  @override
+  String get duplicateExercise => 'Duplicate';
+
+  @override
+  String exerciseCopyName(String name) {
+    return '$name (copy)';
+  }
 }

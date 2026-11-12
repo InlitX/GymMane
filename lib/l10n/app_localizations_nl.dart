@@ -7775,4 +7775,12 @@ class AppLocalizationsNl extends AppLocalizations {
   String webPhoneError(String error) {
     return 'Kon de map niet lezen: $error';
   }
+
+  @override
+  String get duplicateExercise => 'Duplicate';
+
+  @override
+  String exerciseCopyName(String name) {
+    return '$name (copy)';
+  }
 }

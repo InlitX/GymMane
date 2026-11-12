@@ -7716,4 +7716,12 @@ class AppLocalizationsHi extends AppLocalizations {
   String webPhoneError(String error) {
     return 'फ़ोल्डर नहीं पढ़ा जा सका: $error';
   }
+
+  @override
+  String get duplicateExercise => 'Duplicate';
+
+  @override
+  String exerciseCopyName(String name) {
+    return '$name (copy)';
+  }
 }

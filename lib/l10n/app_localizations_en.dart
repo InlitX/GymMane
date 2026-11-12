@@ -7720,4 +7720,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String webPhoneError(String error) {
     return 'Couldn\'t read the folder: $error';
   }
+
+  @override
+  String get duplicateExercise => 'Duplicate';
+
+  @override
+  String exerciseCopyName(String name) {
+    return '$name (copy)';
+  }
 }

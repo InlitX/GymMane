@@ -7743,4 +7743,12 @@ class AppLocalizationsBn extends AppLocalizations {
   String webPhoneError(String error) {
     return 'ফোল্ডার পড়া গেল না: $error';
   }
+
+  @override
+  String get duplicateExercise => 'Duplicate';
+
+  @override
+  String exerciseCopyName(String name) {
+    return '$name (copy)';
+  }
 }

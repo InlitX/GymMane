@@ -98,6 +98,12 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
               ],
             ],
             RoundAction(
+              label: t.duplicateExercise,
+              onTap: () => showCreateExerciseSheet(context, copyOf: ex),
+              child: Icon(PhosphorIconsRegular.copy, size: 16, color: gc.textSecondary),
+            ),
+            const SizedBox(width: 10),
+            RoundAction(
               label: archived ? t.restoreExercise : t.archiveExercise,
               onTap: () => _toggleArchived(context, ex),
               child: Icon(archived ? PhosphorIconsFill.archive : PhosphorIconsRegular.archive,

@@ -7844,4 +7844,12 @@ class AppLocalizationsAr extends AppLocalizations {
   String webPhoneError(String error) {
     return 'تعذّرت قراءة المجلد: $error';
   }
+
+  @override
+  String get duplicateExercise => 'Duplicate';
+
+  @override
+  String exerciseCopyName(String name) {
+    return '$name (copy)';
+  }
 }

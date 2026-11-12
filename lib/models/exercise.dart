@@ -69,6 +69,7 @@ class Exercise {
         if (mode.isNotEmpty) 'k': mode,
         if (aliases.isNotEmpty) 'a': aliases,
         if (kind.isNotEmpty) 'ty': kind,
+        if (art.isNotEmpty) 'ar': art,
       };
   factory Exercise.fromJson(Map<String, dynamic> j) => Exercise(
         id: j['id'] as String,
@@ -77,7 +78,7 @@ class Exercise {
         secondary: ((j['s'] as List?) ?? const []).whereType<String>().where((m) => m != j['p']).toList(),
         equipment: (j['e'] as String?) ?? 'Other',
         difficulty: (j['d'] as String?) ?? 'Beginner',
-        art: '',
+        art: (j['ar'] as String?) ?? '',
         steps: ((j['st'] as List?) ?? const []).whereType<String>().toList(),
         mode: kExerciseModeIds.contains(j['k']) ? j['k'] as String : '',
         aliases: ((j['a'] as List?) ?? const []).whereType<String>().toList(),

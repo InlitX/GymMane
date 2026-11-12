@@ -7420,6 +7420,14 @@ class AppLocalizationsZh extends AppLocalizations {
   String webPhoneError(String error) {
     return '无法读取文件夹：$error';
   }
+
+  @override
+  String get duplicateExercise => 'Duplicate';
+
+  @override
+  String exerciseCopyName(String name) {
+    return '$name (copy)';
+  }
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).

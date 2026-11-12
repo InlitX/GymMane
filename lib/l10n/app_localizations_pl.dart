@@ -7943,4 +7943,12 @@ class AppLocalizationsPl extends AppLocalizations {
   String webPhoneError(String error) {
     return 'Nie udało się odczytać folderu: $error';
   }
+
+  @override
+  String get duplicateExercise => 'Duplicate';
+
+  @override
+  String exerciseCopyName(String name) {
+    return '$name (copy)';
+  }
 }

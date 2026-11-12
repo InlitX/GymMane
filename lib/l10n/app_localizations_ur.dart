@@ -7676,4 +7676,12 @@ class AppLocalizationsUr extends AppLocalizations {
   String webPhoneError(String error) {
     return 'فولڈر نہیں پڑھا جا سکا: $error';
   }
+
+  @override
+  String get duplicateExercise => 'Duplicate';
+
+  @override
+  String exerciseCopyName(String name) {
+    return '$name (copy)';
+  }
 }

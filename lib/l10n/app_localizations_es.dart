@@ -7768,4 +7768,12 @@ class AppLocalizationsEs extends AppLocalizations {
   String webPhoneError(String error) {
     return 'No se pudo leer la carpeta: $error';
   }
+
+  @override
+  String get duplicateExercise => 'Duplicar';
+
+  @override
+  String exerciseCopyName(String name) {
+    return '$name (copia)';
+  }
 }

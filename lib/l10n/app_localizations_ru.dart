@@ -8050,4 +8050,12 @@ class AppLocalizationsRu extends AppLocalizations {
   String webPhoneError(String error) {
     return 'Не удалось прочитать папку: $error';
   }
+
+  @override
+  String get duplicateExercise => 'Duplicate';
+
+  @override
+  String exerciseCopyName(String name) {
+    return '$name (copy)';
+  }
 }

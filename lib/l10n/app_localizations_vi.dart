@@ -7605,4 +7605,12 @@ class AppLocalizationsVi extends AppLocalizations {
   String webPhoneError(String error) {
     return 'Không đọc được thư mục: $error';
   }
+
+  @override
+  String get duplicateExercise => 'Duplicate';
+
+  @override
+  String exerciseCopyName(String name) {
+    return '$name (copy)';
+  }
 }

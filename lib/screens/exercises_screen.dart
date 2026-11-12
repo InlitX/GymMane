@@ -583,21 +583,26 @@ class _FilterChipData {
 }
 
 void showCreateExerciseSheet(BuildContext context,
-    {void Function(String id)? onCreated, Exercise? editing, String initialName = ''}) {
+    {void Function(String id)? onCreated, Exercise? editing, Exercise? copyOf, String initialName = ''}) {
   final gc = context.gc;
-  final nameCtrl = TextEditingController(text: editing?.name ?? initialName.trim());
-  final stepsCtrl = TextEditingController(text: editing?.steps.join('\n') ?? '');
-  final aliasCtrl = TextEditingController(text: editing?.aliases.join(', ') ?? '');
+  final src = editing ?? copyOf;
+  final nameCtrl = TextEditingController(
+      text: editing?.name ?? (copyOf != null ? t.exerciseCopyName(exerciseName(copyOf)) : initialName.trim()));
+  final stepsCtrl = TextEditingController(
+      text: editing?.steps.join('\n') ?? (copyOf != null ? exerciseSteps(copyOf).join('\n') : ''));
+  final aliasCtrl = TextEditingController(
+      text: editing?.aliases.join(', ') ??
+          (copyOf != null ? {...copyOf.aliases, if (copyOf.name != exerciseName(copyOf)) copyOf.name}.join(', ') : ''));
   final nameFocus = FocusNode();
   final scroll = ScrollController();
   bool nameMissing = false;
   int shakes = 0;
-  String muscle = editing?.primary ?? kMuscles.first.id;
-  final secondary = <String>{...?editing?.secondary};
-  String equipment = editing?.equipment ?? kEquipment.first;
-  String difficulty = editing?.difficulty ?? kDifficulties.first;
-  String mode = editing?.mode ?? '';
-  String kind = editing?.kind ?? '';
+  String muscle = src?.primary ?? kMuscles.first.id;
+  final secondary = <String>{...?src?.secondary};
+  String equipment = src?.equipment ?? kEquipment.first;
+  String difficulty = src?.difficulty ?? kDifficulties.first;
+  String mode = editing?.mode ?? (copyOf != null ? fit.modeOf(copyOf.id) : '');
+  String kind = src?.kind ?? '';
   bool advanced = false;
   bool allEquipment = false;
   String? openZone = kBodyZones.entries.firstWhere((z) => z.value.contains(muscle), orElse: () => kBodyZones.entries.first).key;
@@ -663,7 +668,7 @@ void showCreateExerciseSheet(BuildContext context,
                     child: TextField(
                       controller: nameCtrl,
                       focusNode: nameFocus,
-                      autofocus: editing == null,
+                      autofocus: editing == null && copyOf == null,
                       style: AppTheme.f(15, weight: FontWeight.w500, color: gc.text),
                       cursorColor: nameMissing ? gc.danger : gc.accent,
                       textCapitalization: TextCapitalization.words,
@@ -1086,7 +1091,8 @@ void showCreateExerciseSheet(BuildContext context,
                           mode: mode,
                           secondary: secondary.toList(),
                           aliases: aliases,
-                          kind: kind);
+                          kind: kind,
+                          art: copyOf?.art ?? '');
                       if (mediaPath != null) {
                         await fit.attachExerciseMedia(id, mediaPath!);
                       }

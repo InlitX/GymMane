@@ -7792,4 +7792,12 @@ class AppLocalizationsDe extends AppLocalizations {
   String webPhoneError(String error) {
     return 'Ordner konnte nicht gelesen werden: $error';
   }
+
+  @override
+  String get duplicateExercise => 'Duplicate';
+
+  @override
+  String exerciseCopyName(String name) {
+    return '$name (copy)';
+  }
 }

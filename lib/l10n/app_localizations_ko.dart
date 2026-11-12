@@ -7499,4 +7499,12 @@ class AppLocalizationsKo extends AppLocalizations {
   String webPhoneError(String error) {
     return '폴더를 읽지 못했어요: $error';
   }
+
+  @override
+  String get duplicateExercise => 'Duplicate';
+
+  @override
+  String exerciseCopyName(String name) {
+    return '$name (copy)';
+  }
 }

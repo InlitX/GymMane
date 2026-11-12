@@ -7748,4 +7748,12 @@ class AppLocalizationsTr extends AppLocalizations {
   String webPhoneError(String error) {
     return 'Klasör okunamadı: $error';
   }
+
+  @override
+  String get duplicateExercise => 'Duplicate';
+
+  @override
+  String exerciseCopyName(String name) {
+    return '$name (copy)';
+  }
 }

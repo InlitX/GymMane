@@ -7595,4 +7595,12 @@ class AppLocalizationsId extends AppLocalizations {
   String webPhoneError(String error) {
     return 'Folder tidak bisa dibaca: $error';
   }
+
+  @override
+  String get duplicateExercise => 'Duplicate';
+
+  @override
+  String exerciseCopyName(String name) {
+    return '$name (copy)';
+  }
 }
