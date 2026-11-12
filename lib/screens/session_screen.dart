@@ -72,9 +72,17 @@ class SessionScreen extends StatelessWidget {
         ),
         extensions: [minimal],
       );
-      return Theme(
-        data: theme,
-        child: ColoredBox(color: minimal.bg, child: _minimalScreen(context, minimal)),
+      final textScale = switch (fit.minimalTextSize) {
+        'small' => 0.92,
+        'tiny' => 0.84,
+        _ => 1.0,
+      };
+      return MediaQuery(
+        data: MediaQuery.of(context).copyWith(textScaler: TextScaler.linear(textScale)),
+        child: Theme(
+          data: theme,
+          child: ColoredBox(color: minimal.bg, child: _minimalScreen(context, minimal)),
+        ),
       );
     }
     if (fit.listLayout && !fit.isSessionComplete && fit.session != null) return _listScreen(context, gc);
@@ -355,12 +363,13 @@ class SessionScreen extends StatelessWidget {
               child: Column(children: [
                 s.manual ? _manualBar(context, gc, s) : _liveBar(gc, locked),
                 Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-                  IconButton(
-                    tooltip: 'Minimal settings',
-                    visualDensity: VisualDensity.compact,
-                    onPressed: () => fit.pushRoute('preferences/training'),
-                    icon: Icon(PhosphorIconsRegular.gearSix, size: 18, color: gc.textSecondary),
-                  ),
+                  if (fit.minimalShowSettingsButton)
+                    IconButton(
+                      tooltip: 'Minimal settings',
+                      visualDensity: VisualDensity.compact,
+                      onPressed: () => fit.pushRoute('preferences/training'),
+                      icon: Icon(PhosphorIconsRegular.gearSix, size: 18, color: gc.textSecondary),
+                    ),
                   TextButton(
                     onPressed: locked ? null : fit.finishSession,
                     child: Text(t.finishSession,
@@ -415,7 +424,7 @@ class SessionScreen extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        _minimalStats(gc),
+        if (fit.minimalShowTotals) _minimalStats(gc),
         if (s.deload) ...[
           const SizedBox(height: 8),
           _deloadNote(gc),
@@ -428,12 +437,13 @@ class SessionScreen extends StatelessWidget {
               fit.modeOf(first.id),
               fit.isRepsOnly(first.id),
               fit.isEachSide(first.id) || fit.isSidedReps(first.id),
-              list: true,
+              list: fit.minimalShowPrevious,
               exId: first.id,
             ),
           ),
         for (var i = 0; i < s.exercises.length; i++)
-          _minimalExercise(context, gc, s, i, locked, sharedHeader: sameColumns),
+          _minimalExercise(context, gc, s, i, locked,
+              sharedHeader: sameColumns, showPrevious: fit.minimalShowPrevious),
         const SizedBox(height: 10),
         Row(children: [
           Expanded(
@@ -479,7 +489,8 @@ class SessionScreen extends StatelessWidget {
   }
 
   Widget _minimalExercise(
-      BuildContext context, GymColors gc, WorkoutSession s, int i, bool locked, {required bool sharedHeader}) {
+      BuildContext context, GymColors gc, WorkoutSession s, int i, bool locked,
+      {required bool sharedHeader, required bool showPrevious}) {
     final ex = s.exercises[i];
     final def = fit.exerciseById(ex.id);
     final mode = fit.modeOf(ex.id);
@@ -500,6 +511,16 @@ class SessionScreen extends StatelessWidget {
         collapsedIconColor: gc.textTertiary,
         visualDensity: VisualDensity.compact,
         title: Row(children: [
+          if (fit.minimalShowExerciseIcons && def != null) ...[
+            Padding(
+              padding: const EdgeInsets.only(right: 8),
+              child: SizedBox(
+                width: 28,
+                height: 28,
+                child: ExerciseMedia(ex: def, height: 28, radius: 6, live: false),
+              ),
+            ),
+          ],
           Expanded(
             child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Text(t.catalogName(ex.id, ex.name),
@@ -513,7 +534,7 @@ class SessionScreen extends StatelessWidget {
                   style: AppTheme.f(10.5, weight: FontWeight.w500, color: linked ? gc.brass : gc.textTertiary)),
             ]),
           ),
-          if (def != null)
+          if (def != null && fit.minimalShowHowTo)
             IconButton(
               tooltip: t.howTo,
               visualDensity: VisualDensity.compact,
@@ -543,9 +564,19 @@ class SessionScreen extends StatelessWidget {
                 mode,
                 repsOnly,
                 fit.isEachSide(ex.id) || fit.isSidedReps(ex.id),
-                list: true,
+                list: showPrevious,
                 exId: ex.id,
               ),
+            ),
+          if (fit.minimalShowNotes && WorkoutNoteStrip.offers(ex.id))
+            Padding(
+              padding: const EdgeInsets.fromLTRB(8, 2, 8, 6),
+              child: _guard(locked, WorkoutNoteStrip(exerciseId: ex.id, onDark: true)),
+            ),
+          if (fit.minimalShowNotes && !locked && fit.lastSetNotes(ex.id).isNotEmpty)
+            Padding(
+              padding: const EdgeInsets.fromLTRB(8, 0, 8, 6),
+              child: LastSetNotes(exerciseId: ex.id),
             ),
           for (var j = 0; j < ex.sets.length; j++)
             _swipeSet(
@@ -555,7 +586,8 @@ class SessionScreen extends StatelessWidget {
               j,
               ex.sets[j],
               locked,
-              _setRow(gc, i, j, ex.sets[j], repsOnly, locked, list: true, prev: j < prev.length ? prev[j] : null),
+              _setRow(gc, i, j, ex.sets[j], repsOnly, locked,
+                  list: showPrevious, prev: showPrevious && j < prev.length ? prev[j] : null),
             ),
           Align(
             alignment: AlignmentDirectional.centerStart,
@@ -1819,7 +1851,18 @@ class SessionScreen extends StatelessWidget {
     final gap = effort ? _tightGap : _gap;
     return Container(
       margin: const EdgeInsets.only(bottom: 2),
-      padding: EdgeInsets.symmetric(horizontal: list ? 8 : _rowPad, vertical: list ? 4 : 10),
+      padding: EdgeInsets.symmetric(
+        horizontal: list ? 8 : _rowPad,
+        vertical: list
+            ? (fit.minimalMode
+                ? switch (fit.minimalRowHeight) {
+                    'roomy' => 6.0,
+                    'tight' => 1.0,
+                    _ => 3.0,
+                  }
+                : 4.0)
+            : 10.0,
+      ),
       decoration: BoxDecoration(
         color: st.done ? gc.sageSoft : Colors.transparent,
         borderRadius: BorderRadius.circular(14),
