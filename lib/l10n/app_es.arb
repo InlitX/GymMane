@@ -644,7 +644,7 @@
   "templatesHint": "Programas clásicos, montados con tu propia biblioteca. Luego puedes cambiar lo que quieras.",
   "templateAdded": "{n, plural, =1{{n} rutina añadida} other{{n} rutinas añadidas}}",
   "tplFullbody": "Tres días de cuerpo entero a la semana. Por el que se empieza.",
-  "tplPpl": "Empuje, tirón y pierna. Tres o seis días a la semana.",
+  "tplPpl": "Empuje, tirón y piernas, con días de descanso en el plan semanal.",
   "tplArnold": "Pecho y espalda, hombros y brazos, pierna. El clásico de seis días.",
   "tplUpperlower": "Tren superior e inferior, cuatro días a la semana.",
   "tplStronglifts": "Dos entrenos, cinco series de cinco, alternando.",

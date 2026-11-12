@@ -2184,7 +2184,7 @@ class AppLocalizationsNl extends AppLocalizations {
   String get tplFullbody => 'Drie full-bodytrainingen per week. Ideaal om te beginnen.';
 
   @override
-  String get tplPpl => 'Push, pull en benen. Drie of zes dagen per week.';
+  String get tplPpl => 'Push, pull en benen, met rustdagen in het weekschema.';
 
   @override
   String get tplArnold => 'Borst en rug, schouders en armen, benen. De klassieke zesdaagse split.';

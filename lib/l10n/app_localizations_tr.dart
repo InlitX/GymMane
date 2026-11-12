@@ -2186,7 +2186,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get tplFullbody => 'Haftada üç tam vücut antrenmanı. Başlangıç için ideal.';
 
   @override
-  String get tplPpl => 'İtiş, çekiş ve bacak. Haftada üç veya altı gün.';
+  String get tplPpl => 'İtiş, çekiş ve bacak antrenmanları; haftalık plana eklenmiş dinlenme günleriyle.';
 
   @override
   String get tplArnold => 'Göğüs ve sırt, omuz ve kollar, bacaklar. Klasik altı günlük split.';

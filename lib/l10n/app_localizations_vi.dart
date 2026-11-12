@@ -2126,7 +2126,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get tplFullbody => 'Ba ngày toàn thân mỗi tuần. Giáo án nên bắt đầu.';
 
   @override
-  String get tplPpl => 'Đẩy, kéo và chân. Ba hoặc sáu ngày mỗi tuần.';
+  String get tplPpl => 'Đẩy, kéo và chân, có ngày nghỉ trong lịch tập hằng tuần.';
 
   @override
   String get tplArnold => 'Ngực và lưng, vai và tay, chân. Lịch chia sáu ngày kinh điển.';

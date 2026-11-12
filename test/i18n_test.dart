@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-import 'dart:ui' show PlatformDispatcher;
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:gymmane/catalog/exercise_catalog.dart';
@@ -65,12 +64,11 @@ void main() {
     expect(appLanguage, 'es');
   });
 
-  test('a fresh install follows the phone language', () async {
+  test('a fresh install starts in French', () async {
     SharedPreferences.setMockInitialValues({});
     await Store.instance.init();
     fit.loadFromStore();
-    final phone = PlatformDispatcher.instance.locale.languageCode.toLowerCase();
-    expect(fit.language, phone == 'es' ? 'es' : 'en');
+    expect(fit.language, 'fr');
   });
 
   test('a chosen language always beats the phone one', () async {

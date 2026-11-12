@@ -586,7 +586,7 @@
   "templatesHint": "내 라이브러리로 구성된 기본 루틴입니다. 나중에 모두 수정할 수 있습니다.",
   "templateAdded": "{n, plural, =1{루틴 {n}개 추가됨} other{루틴 {n}개 추가됨}}",
   "tplFullbody": "주 3회 전신 운동. 시작하기에 좋습니다.",
-  "tplPpl": "푸시, 풀, 하체. 주 3일 또는 6일.",
+  "tplPpl": "푸시, 풀, 하체와 휴식일을 주간 일정에 함께 배치합니다.",
   "tplUpperlower": "상체와 하체, 주 4일.",
   "tplStronglifts": "5회×5세트 두 운동을 번갈아 진행합니다.",
   "tplStartingstrength": "매 운동마다 스쿼트, 두 운동을 번갈아 진행합니다.",

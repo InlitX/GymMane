@@ -647,7 +647,7 @@
   "templatesHint": "Program klasik, disusun dari pustakamu sendiri. Kamu bisa mengubah apa pun setelahnya.",
   "templateAdded": "{n, plural, other{{n} rutinitas ditambahkan}}",
   "tplFullbody": "Tiga hari seluruh tubuh seminggu. Yang paling cocok untuk mulai.",
-  "tplPpl": "Push, pull, dan kaki. Tiga atau enam hari seminggu.",
+  "tplPpl": "Push, pull, dan kaki, dengan hari istirahat dalam jadwal mingguan.",
   "tplArnold": "Dada dan punggung, bahu dan lengan, kaki. Pembagian klasik enam hari.",
   "tplUpperlower": "Tubuh atas dan bawah, empat hari seminggu.",
   "tplStronglifts": "Dua latihan, lima set lima repetisi, bergantian.",

@@ -16,9 +16,9 @@ export 'app_localizations.dart';
 final Map<String, String> _decimalSeparators = {};
 
 String get decimalSeparator => _decimalSeparators.putIfAbsent(intlLocale, () {
-      final sep = NumberFormat.decimalPattern(intlLocale).symbols.DECIMAL_SEP;
-      return sep == '٫' ? '.' : sep;
-    });
+  final sep = NumberFormat.decimalPattern(intlLocale).symbols.DECIMAL_SEP;
+  return sep == '٫' ? '.' : sep;
+});
 
 String decimalText(String s) => s.replaceFirst('.', decimalSeparator);
 
@@ -35,13 +35,24 @@ String groupedInt(int n) {
   return (_grouped[locale] ??= NumberFormat.decimalPattern(locale)).format(n);
 }
 
-const Map<String, Map<String, String>> _catalogNames = {'es': kExerciseNameEs, 'it': kExerciseNameIt, 'pt': kExerciseNamePt, 'zh': kExerciseNameZh};
-const Map<String, Map<String, List<String>>> _catalogSteps = {'es': kExerciseStepsEs, 'it': kExerciseStepsIt, 'pt': kExerciseStepsPt, 'zh': kExerciseStepsZh};
+const Map<String, Map<String, String>> _catalogNames = {
+  'es': kExerciseNameEs,
+  'it': kExerciseNameIt,
+  'pt': kExerciseNamePt,
+  'zh': kExerciseNameZh,
+};
+const Map<String, Map<String, List<String>>> _catalogSteps = {
+  'es': kExerciseStepsEs,
+  'it': kExerciseStepsIt,
+  'pt': kExerciseStepsPt,
+  'zh': kExerciseStepsZh,
+};
 
 String appLanguage = 'en';
 AppLocalizations t = lookupAppLocalizations(const Locale('en'));
 
-String health(String text) => !kIsWeb && Platform.isIOS ? text.replaceAll('Health Connect', 'Apple Health') : text;
+String health(String text) =>
+    !kIsWeb && Platform.isIOS ? text.replaceAll('Health Connect', 'Apple Health') : text;
 
 String _codeOf(Locale l) => l.scriptCode == null ? l.languageCode : '${l.languageCode}_${l.scriptCode}';
 
@@ -102,207 +113,204 @@ extension GymL10n on AppLocalizations {
   String levelStreak(int level, int streak) => levelStreakLabel(level, streakDays(streak));
 
   String toolName(String id) => switch (id) {
-        'rm' => toolNameRm,
-        'bmi' => toolNameBmi,
-        'cal' => toolNameCal,
-        'bf' => toolNameBf,
-        'plate' => toolNamePlate,
-        'rpe' => toolNameRpe,
-        'dots' => toolNameDots,
-        'wilks' => toolNameWilks,
-        'ffmi' => toolNameFfmi,
-        'protein' => toolNameProtein,
-        'water' => toolNameWater,
-        _ => toolNameWarmup,
-      };
+    'rm' => toolNameRm,
+    'bmi' => toolNameBmi,
+    'cal' => toolNameCal,
+    'bf' => toolNameBf,
+    'plate' => toolNamePlate,
+    'rpe' => toolNameRpe,
+    'dots' => toolNameDots,
+    'wilks' => toolNameWilks,
+    'ffmi' => toolNameFfmi,
+    'protein' => toolNameProtein,
+    'water' => toolNameWater,
+    _ => toolNameWarmup,
+  };
 
   String toolTitle(String id) => switch (id) {
-        'rm' => toolTitleRm,
-        'bmi' => toolTitleBmi,
-        'cal' => toolTitleCal,
-        'bf' => toolTitleBf,
-        'plate' => toolTitlePlate,
-        'rpe' => toolTitleRpe,
-        'dots' => toolTitleDots,
-        'wilks' => toolTitleWilks,
-        'ffmi' => toolTitleFfmi,
-        'protein' => toolTitleProtein,
-        'water' => toolTitleWater,
-        _ => toolTitleWarmup,
-      };
+    'rm' => toolTitleRm,
+    'bmi' => toolTitleBmi,
+    'cal' => toolTitleCal,
+    'bf' => toolTitleBf,
+    'plate' => toolTitlePlate,
+    'rpe' => toolTitleRpe,
+    'dots' => toolTitleDots,
+    'wilks' => toolTitleWilks,
+    'ffmi' => toolTitleFfmi,
+    'protein' => toolTitleProtein,
+    'water' => toolTitleWater,
+    _ => toolTitleWarmup,
+  };
 
   String toolResultHint(String id) => switch (id) {
-        'rm' => toolHintRm,
-        'cal' => toolHintCal,
-        'bf' => toolHintBf,
-        'plate' => toolHintPlate,
-        'protein' => toolHintProtein,
-        'water' => toolHintWater,
-        _ => toolHintWarmup,
-      };
+    'rm' => toolHintRm,
+    'cal' => toolHintCal,
+    'bf' => toolHintBf,
+    'plate' => toolHintPlate,
+    'protein' => toolHintProtein,
+    'water' => toolHintWater,
+    _ => toolHintWarmup,
+  };
 
   String templateBlurb(String id) => switch (id) {
-        'fullbody' => tplFullbody,
-        'ppl' => tplPpl,
-        'arnold' => tplArnold,
-        'upperlower' => tplUpperlower,
-        'abcd' => tplAbcd,
-        'abcde' => tplAbcde,
-        'stronglifts' => tplStronglifts,
-        'startingstrength' => tplStartingstrength,
-        'rr' => tplRr,
-        _ => tplHome,
-      };
+    'fullbody' => tplFullbody,
+    'ppl' => tplPpl,
+    'pplrpp' => tplPpl,
+    'personalppl' => tplPpl,
+    'arnold' => tplArnold,
+    'upperlower' => tplUpperlower,
+    'abcd' => tplAbcd,
+    'abcde' => tplAbcde,
+    'stronglifts' => tplStronglifts,
+    'startingstrength' => tplStartingstrength,
+    'rr' => tplRr,
+    _ => tplHome,
+  };
 
   String toolDesc(String id) => switch (id) {
-        'rm' => toolDescRm,
-        'bmi' => toolDescBmi,
-        'cal' => toolDescCal,
-        'bf' => toolDescBf,
-        'plate' => toolDescPlate,
-        'rpe' => toolDescRpe,
-        'dots' => toolDescDots,
-        'wilks' => toolDescWilks,
-        'ffmi' => toolDescFfmi,
-        'protein' => toolDescProtein,
-        'water' => toolDescWater,
-        _ => toolDescWarmup,
-      };
+    'rm' => toolDescRm,
+    'bmi' => toolDescBmi,
+    'cal' => toolDescCal,
+    'bf' => toolDescBf,
+    'plate' => toolDescPlate,
+    'rpe' => toolDescRpe,
+    'dots' => toolDescDots,
+    'wilks' => toolDescWilks,
+    'ffmi' => toolDescFfmi,
+    'protein' => toolDescProtein,
+    'water' => toolDescWater,
+    _ => toolDescWarmup,
+  };
 
   String dotsLevelName(int level) => switch (level) {
-        0 => dotsLevel0,
-        1 => dotsLevel1,
-        2 => dotsLevel2,
-        3 => dotsLevel3,
-        _ => dotsLevel4,
-      };
+    0 => dotsLevel0,
+    1 => dotsLevel1,
+    2 => dotsLevel2,
+    3 => dotsLevel3,
+    _ => dotsLevel4,
+  };
 
   String ffmiLevelName(int level) => switch (level) {
-        0 => ffmiLevel0,
-        1 => ffmiLevel1,
-        2 => ffmiLevel2,
-        3 => ffmiLevel3,
-        _ => ffmiLevel4,
-      };
+    0 => ffmiLevel0,
+    1 => ffmiLevel1,
+    2 => ffmiLevel2,
+    3 => ffmiLevel3,
+    _ => ffmiLevel4,
+  };
 
   String bmiCategory(String key) => switch (key) {
-        'Underweight' => bmiUnderweight,
-        'Normal' => bmiNormal,
-        'Overweight' => bmiOverweight,
-        _ => bmiObese,
-      };
+    'Underweight' => bmiUnderweight,
+    'Normal' => bmiNormal,
+    'Overweight' => bmiOverweight,
+    _ => bmiObese,
+  };
 
   String activityName(String key) => switch (key) {
-        'Sedentary' => actSedentary,
-        'Light' => actLight,
-        'Active' => actActive,
-        _ => actModerate,
-      };
+    'Sedentary' => actSedentary,
+    'Light' => actLight,
+    'Active' => actActive,
+    _ => actModerate,
+  };
 
   String muscle(String id) => switch (id) {
-        'chest' => muscleChest,
-        'back' => muscleBack,
-        'lowerback' => muscleLowerBack,
-        'shoulders' => muscleShoulders,
-        'biceps' => muscleBiceps,
-        'triceps' => muscleTriceps,
-        'forearm' => muscleForearm,
-        'trapezius' => muscleTrapezius,
-        'abdomen' => muscleAbdomen,
-        'obliques' => muscleObliques,
-        'quads' => muscleQuads,
-        'hamstrings' => muscleHamstrings,
-        'glutes' => muscleGlutes,
-        'calves' => muscleCalves,
-        _ => id,
-      };
+    'chest' => muscleChest,
+    'back' => muscleBack,
+    'lowerback' => muscleLowerBack,
+    'shoulders' => muscleShoulders,
+    'biceps' => muscleBiceps,
+    'triceps' => muscleTriceps,
+    'forearm' => muscleForearm,
+    'trapezius' => muscleTrapezius,
+    'abdomen' => muscleAbdomen,
+    'obliques' => muscleObliques,
+    'quads' => muscleQuads,
+    'hamstrings' => muscleHamstrings,
+    'glutes' => muscleGlutes,
+    'calves' => muscleCalves,
+    _ => id,
+  };
 
   String poseName(String pose) => switch (pose) {
-        'front' => poseFront,
-        'side' => poseSide,
-        _ => poseBack,
-      };
+    'front' => poseFront,
+    'side' => poseSide,
+    _ => poseBack,
+  };
 
   String placePresetName(String preset) => switch (preset) {
-        'gym' => placeGym,
-        'home' => placeHome,
-        _ => placeOutdoors,
-      };
+    'gym' => placeGym,
+    'home' => placeHome,
+    _ => placeOutdoors,
+  };
 
   String photoInterval(int days) => days <= 0 ? photoEveryOff : photoEveryDays(days);
 
   String measureName(String key) => switch (key) {
-        'neck' => measureNeck,
-        'shoulders' => measureShoulders,
-        'chest' => measureChest,
-        'arm' => measureArm,
-        'forearm' => measureForearm,
-        'waist' => measureWaist,
-        'hips' => measureHips,
-        'thigh' => measureThigh,
-        'calf' => measureCalf,
-        _ => measureBodyfat,
-      };
+    'neck' => measureNeck,
+    'shoulders' => measureShoulders,
+    'chest' => measureChest,
+    'arm' => measureArm,
+    'forearm' => measureForearm,
+    'waist' => measureWaist,
+    'hips' => measureHips,
+    'thigh' => measureThigh,
+    'calf' => measureCalf,
+    _ => measureBodyfat,
+  };
 
   String muscleGroupName(String key) => switch (key) {
-        'Chest' => mgChest,
-        'Back' => mgBack,
-        'Legs' => mgLegs,
-        'Shoulders' => mgShoulders,
-        'Arms' => mgArms,
-        'Core' => mgCore,
-        _ => key,
-      };
+    'Chest' => mgChest,
+    'Back' => mgBack,
+    'Legs' => mgLegs,
+    'Shoulders' => mgShoulders,
+    'Arms' => mgArms,
+    'Core' => mgCore,
+    _ => key,
+  };
 
   String equipment(String id) => switch (id) {
-        'Barbell' => equipBarbell,
-        'Dumbbell' => equipDumbbell,
-        'Cable' => equipCable,
-        'Machine' => equipMachine,
-        'Bodyweight' => equipBodyweight,
-        'Weighted' => equipWeighted,
-        'Band' => equipBand,
-        'Kettlebell' => equipKettlebell,
-        'Rings' => equipRings,
-        'Other' => equipOther,
-        _ => id.isEmpty ? equipOther : id,
-      };
+    'Barbell' => equipBarbell,
+    'Dumbbell' => equipDumbbell,
+    'Cable' => equipCable,
+    'Machine' => equipMachine,
+    'Bodyweight' => equipBodyweight,
+    'Weighted' => equipWeighted,
+    'Band' => equipBand,
+    'Kettlebell' => equipKettlebell,
+    'Rings' => equipRings,
+    'Other' => equipOther,
+    _ => id.isEmpty ? equipOther : id,
+  };
 
   String exerciseKind(String id) => switch (id) {
-        'calisthenics' => kindCalisthenics,
-        'cardio' => kindCardio,
-        'stretch' => kindStretch,
-        'sport' => kindSport,
-        _ => kindStrength,
-      };
+    'calisthenics' => kindCalisthenics,
+    'cardio' => kindCardio,
+    'stretch' => kindStretch,
+    'sport' => kindSport,
+    _ => kindStrength,
+  };
 
   String difficulty(String id) => switch (id) {
-        'Beginner' => diffBeginner,
-        'Advanced' => diffAdvanced,
-        _ => diffIntermediate,
-      };
+    'Beginner' => diffBeginner,
+    'Advanced' => diffAdvanced,
+    _ => diffIntermediate,
+  };
 
-  String weekday(int w) =>
-      _capitalize(_dates(DateFormat.EEEE).format(DateTime(2024, 1, w)));
+  String weekday(int w) => _capitalize(_dates(DateFormat.EEEE).format(DateTime(2024, 1, w)));
 
   String weekdayInline(int w) => _dates(DateFormat.EEEE).format(DateTime(2024, 1, w));
 
-  String weekdayShort(int w) =>
-      _capitalize(_dates(DateFormat.E).format(DateTime(2024, 1, w)));
+  String weekdayShort(int w) => _capitalize(_dates(DateFormat.E).format(DateTime(2024, 1, w)));
 
-  String weekdayInitial(int w) =>
-      _dates((l) => DateFormat('', l)).dateSymbols.NARROWWEEKDAYS[w % 7];
+  String weekdayInitial(int w) => _dates((l) => DateFormat('', l)).dateSymbols.NARROWWEEKDAYS[w % 7];
 
-  String monthInitial(int m) =>
-      _dates((l) => DateFormat('', l)).dateSymbols.NARROWMONTHS[m - 1];
+  String monthInitial(int m) => _dates((l) => DateFormat('', l)).dateSymbols.NARROWMONTHS[m - 1];
 
   String monthShort(int m) =>
       _capitalize(_dates(DateFormat.MMM).format(DateTime(2024, m)).replaceAll('.', ''));
 
   String monthInline(int m) => _dates(DateFormat.MMMM).format(DateTime(2024, m));
 
-  String monthName(int m) =>
-      _capitalize(_dates(DateFormat.MMMM).format(DateTime(2024, m)));
+  String monthName(int m) => _capitalize(_dates(DateFormat.MMMM).format(DateTime(2024, m)));
 
   String monthYear(DateTime d) => _capitalize(_dates(DateFormat.yMMMM).format(d));
 
@@ -320,8 +328,7 @@ extension GymL10n on AppLocalizations {
 
   String catalogName(String id, String fallback) => _catalogNames[appLanguage]?[id] ?? fallback;
 
-  List<String> catalogSteps(String id, List<String> fallback) =>
-      _catalogSteps[appLanguage]?[id] ?? fallback;
+  List<String> catalogSteps(String id, List<String> fallback) => _catalogSteps[appLanguage]?[id] ?? fallback;
 }
 
 String _capitalize(String s) => s.isEmpty ? s : s[0].toUpperCase() + s.substring(1);

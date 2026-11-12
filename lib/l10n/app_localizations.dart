@@ -4001,7 +4001,7 @@ abstract class AppLocalizations {
   /// No description provided for @tplPpl.
   ///
   /// In en, this message translates to:
-  /// **'Push, pull and legs. Three or six days a week.'**
+  /// **'Push, pull and legs, with rest days built into the schedule.'**
   String get tplPpl;
 
   /// No description provided for @tplArnold.

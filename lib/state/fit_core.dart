@@ -10,6 +10,7 @@ double _roundWeight(double n) {
   final quarter = (n * 4).round() / 4;
   return (n - quarter).abs() < 0.005 ? quarter : _round1(n);
 }
+
 double _round3(double n) => (n * 1000).round() / 1000;
 double _roundTo(double n, double step) => (n / step).round() * step;
 DateTime _dayKey(DateTime d) => DateTime(d.year, d.month, d.day);
@@ -17,9 +18,7 @@ DateTime _dayKey(DateTime d) => DateTime(d.year, d.month, d.day);
 DateTime shiftDays(DateTime d, int n) => DateTime(d.year, d.month, d.day + n);
 
 int daysBetween(DateTime from, DateTime to) =>
-    DateTime.utc(to.year, to.month, to.day)
-        .difference(DateTime.utc(from.year, from.month, from.day))
-        .inDays;
+    DateTime.utc(to.year, to.month, to.day).difference(DateTime.utc(from.year, from.month, from.day)).inDays;
 
 const int kHeatmapDays = 84;
 
@@ -57,6 +56,7 @@ abstract class FitCore extends ChangeNotifier {
   final Set<String> checkins = {};
   final Map<String, String> daysOff = {};
   final List<Routine> routines = [];
+  int personalPplSeedVersion = 0;
   final Map<int, String> weeklyPlan = {};
   final Map<int, List<String>> planExtras = {};
   bool multiPlan = false;
@@ -207,12 +207,12 @@ abstract class FitCore extends ChangeNotifier {
   }
 
   Map<DateTime, List<LoggedSession>> get _sessionDays => _remember('sessionDays', () {
-        final out = <DateTime, List<LoggedSession>>{};
-        for (final s in sessions) {
-          (out[_dayKey(s.day)] ??= []).add(s);
-        }
-        return out;
-      });
+    final out = <DateTime, List<LoggedSession>>{};
+    for (final s in sessions) {
+      (out[_dayKey(s.day)] ??= []).add(s);
+    }
+    return out;
+  });
 
   List<LoggedSession> _sessionsOnDay(DateTime day) => _sessionDays[_dayKey(day)] ?? const [];
 
@@ -241,8 +241,12 @@ abstract class FitCore extends ChangeNotifier {
   final _sessionText = Expando<(List<Object?>, String)>();
   final _itemText = Expando<String>();
 
-  Object _stored<T extends Object>(String tag, List<T> items, Map<String, dynamic> Function(T) json,
-      {List<Object?> Function(T)? parts}) {
+  Object _stored<T extends Object>(
+    String tag,
+    List<T> items,
+    Map<String, dynamic> Function(T) json, {
+    List<Object?> Function(T)? parts,
+  }) {
     final raw = _storing;
     if (raw == null) return [for (final i in items) json(i)];
     final out = StringBuffer('[');
@@ -259,7 +263,10 @@ abstract class FitCore extends ChangeNotifier {
       _itemText[item] ??= Store.encode(json(item));
 
   String _textByParts<T extends Object>(
-      T item, Map<String, dynamic> Function(T) json, List<Object?> Function(T) parts) {
+    T item,
+    Map<String, dynamic> Function(T) json,
+    List<Object?> Function(T) parts,
+  ) {
     final now = parts(item);
     final hit = _sessionText[item];
     if (hit != null && listEquals(hit.$1, now)) return hit.$2;
@@ -355,6 +362,7 @@ abstract class FitCore extends ChangeNotifier {
     _persist();
     notifyListeners();
   }
+
   String get volumeUnit => isLb ? 'k lb' : 't';
 
   String volumeValue(double kg) {

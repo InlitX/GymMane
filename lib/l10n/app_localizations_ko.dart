@@ -2124,7 +2124,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get tplFullbody => '주 3회 전신 운동. 시작하기에 좋습니다.';
 
   @override
-  String get tplPpl => '푸시, 풀, 하체. 주 3일 또는 6일.';
+  String get tplPpl => '푸시, 풀, 하체와 휴식일을 주간 일정에 함께 배치합니다.';
 
   @override
   String get tplArnold => '가슴과 등, 어깨와 팔, 하체. 클래식 6일 분할.';

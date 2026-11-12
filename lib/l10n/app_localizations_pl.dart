@@ -2178,7 +2178,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get tplFullbody => 'Trzy treningi całego ciała w tygodniu. Idealne na początek.';
 
   @override
-  String get tplPpl => 'Push, pull i nogi. Trzy lub sześć dni w tygodniu.';
+  String get tplPpl => 'Push, pull i nogi, z dniami odpoczynku w planie tygodnia.';
 
   @override
   String get tplArnold => 'Klatka i plecy, barki i ręce, nogi. Klasyczny split na sześć dni.';

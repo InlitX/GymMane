@@ -586,7 +586,7 @@
   "templatesHint": "以你的資料庫建立的經典課表，之後所有內容都可修改。",
   "templateAdded": "{n, plural, =1{已新增 {n} 個課表} other{已新增 {n} 個課表}}",
   "tplFullbody": "每週三次全身訓練，非常適合入門。",
-  "tplPpl": "推、拉、腿。每週三天或六天。",
+  "tplPpl": "推、拉、腿訓練，並在每週安排中加入休息日。",
   "tplUpperlower": "上半身與下半身，每週四天。",
   "tplStronglifts": "兩套五組五次的訓練交替進行。",
   "tplStartingstrength": "每次訓練都有深蹲，兩套訓練交替進行。",

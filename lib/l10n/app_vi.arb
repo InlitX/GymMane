@@ -644,7 +644,7 @@
   "templatesHint": "Các chương trình kinh điển, dựng từ chính thư viện của bạn. Bạn có thể thay đổi mọi thứ sau đó.",
   "templateAdded": "{n, plural, other{Đã thêm {n} giáo án tập}}",
   "tplFullbody": "Ba ngày toàn thân mỗi tuần. Giáo án nên bắt đầu.",
-  "tplPpl": "Đẩy, kéo và chân. Ba hoặc sáu ngày mỗi tuần.",
+  "tplPpl": "Đẩy, kéo và chân, có ngày nghỉ trong lịch tập hằng tuần.",
   "tplArnold": "Ngực và lưng, vai và tay, chân. Lịch chia sáu ngày kinh điển.",
   "tplUpperlower": "Thân trên và thân dưới, bốn ngày mỗi tuần.",
   "tplStronglifts": "Hai buổi tập luân phiên, năm hiệp năm lần lặp.",

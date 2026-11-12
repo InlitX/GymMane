@@ -586,7 +586,7 @@
   "templatesHint": "Klassische Programme aus deiner eigenen Bibliothek. Du kannst danach alles ändern.",
   "templateAdded": "{n, plural, =1{{n} Trainingsplan hinzugefügt} other{{n} Trainingspläne hinzugefügt}}",
   "tplFullbody": "Drei Ganzkörpertage pro Woche. Der beste Einstieg.",
-  "tplPpl": "Drücken, Ziehen und Beine. Drei oder sechs Tage pro Woche.",
+  "tplPpl": "Drücken, Ziehen und Beine, mit eingeplanten Ruhetagen.",
   "tplUpperlower": "Ober- und Unterkörper, vier Tage pro Woche.",
   "tplStronglifts": "Zwei Trainings, abwechselnd fünf Sätze mit fünf Wiederholungen.",
   "tplStartingstrength": "Kniebeugen in jedem Training, zwei abwechselnde Trainings.",

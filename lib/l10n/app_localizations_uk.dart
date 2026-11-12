@@ -2177,7 +2177,7 @@ class AppLocalizationsUk extends AppLocalizations {
   String get tplFullbody => 'Три тренування на все тіло на тиждень. Чудово для початку.';
 
   @override
-  String get tplPpl => 'Push, pull і ноги. Три або шість днів на тиждень.';
+  String get tplPpl => 'Push, pull і ноги із запланованими днями відпочинку.';
 
   @override
   String get tplArnold => 'Груди й спина, плечі й руки, ноги. Класичний шестиденний спліт.';

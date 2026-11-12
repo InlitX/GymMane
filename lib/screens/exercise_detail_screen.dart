@@ -53,13 +53,15 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
     final gc = context.gc;
     final ex = fit.activeExercise;
     final fav = fit.favorites[ex.id] ?? false;
-    final secondary =
-        ex.secondary.map(muscleLabel).join(', ').isEmpty ? t.none : ex.secondary.map(muscleLabel).join(', ');
+    final secondary = ex.secondary.map(muscleLabel).join(', ').isEmpty
+        ? t.none
+        : ex.secondary.map(muscleLabel).join(', ');
     final steps = fit.activeExerciseSteps(ex);
     final pr = fit.exerciseRecord(ex.id);
-    final oneRm = fit.oneRmSeries(ex.id);
-    final bestReps = fit.bestRepsSeries(ex.id);
     final history = fit.exerciseHistory(ex.id);
+    final trend = fit.modeOf(ex.id).isEmpty
+        ? fit.exerciseTrend(ex.id)
+        : const <({DateTime date, double value})>[];
     final hasMedia = fit.hasCustomMedia(ex.id);
     final repsOnly = fit.isRepsOnly(ex.id);
     final mode = fit.modeOf(ex.id);
@@ -71,50 +73,52 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           RoundBtn(icon: Ic.chevronLeft, onTap: fit.closeExerciseDetail),
-          Row(children: [
-            if (custom) ...[
-              RoundAction(
-                label: t.delete,
-                onTap: () => _confirmDelete(context, ex),
-                child: Icon(PhosphorIconsRegular.trash, size: 16, color: gc.textSecondary),
-              ),
-              const SizedBox(width: 10),
-              Semantics(
-                button: true,
-                label: t.editExercise,
-                child: RoundAction(
-                  onTap: () => showCreateExerciseSheet(context, editing: ex),
-                  child: Icon(PhosphorIconsRegular.pencilSimple, size: 16, color: gc.textSecondary),
-                ),
-              ),
-              const SizedBox(width: 10),
-              if (history.isNotEmpty) ...[
+          Row(
+            children: [
+              if (custom) ...[
                 RoundAction(
-                  label: t.mergeExercise,
-                  onTap: () => _merge(context, ex),
-                  child: Icon(PhosphorIconsRegular.gitMerge, size: 16, color: gc.textSecondary),
+                  label: t.delete,
+                  onTap: () => _confirmDelete(context, ex),
+                  child: Icon(PhosphorIconsRegular.trash, size: 16, color: gc.textSecondary),
                 ),
                 const SizedBox(width: 10),
+                Semantics(
+                  button: true,
+                  label: t.editExercise,
+                  child: RoundAction(
+                    onTap: () => showCreateExerciseSheet(context, editing: ex),
+                    child: Icon(PhosphorIconsRegular.pencilSimple, size: 16, color: gc.textSecondary),
+                  ),
+                ),
+                const SizedBox(width: 10),
+                if (history.isNotEmpty) ...[
+                  RoundAction(
+                    label: t.mergeExercise,
+                    onTap: () => _merge(context, ex),
+                    child: Icon(PhosphorIconsRegular.gitMerge, size: 16, color: gc.textSecondary),
+                  ),
+                  const SizedBox(width: 10),
+                ],
               ],
+              RoundAction(
+                label: t.duplicateExercise,
+                onTap: () => showCreateExerciseSheet(context, copyOf: ex),
+                child: Icon(PhosphorIconsRegular.copy, size: 16, color: gc.textSecondary),
+              ),
+              const SizedBox(width: 10),
+              RoundAction(
+                label: archived ? t.restoreExercise : t.archiveExercise,
+                onTap: () => _toggleArchived(context, ex),
+                child: Icon(
+                  archived ? PhosphorIconsFill.archive : PhosphorIconsRegular.archive,
+                  size: 16,
+                  color: archived ? gc.accent : gc.textSecondary,
+                ),
+              ),
+              const SizedBox(width: 10),
+              RoundAction(onTap: () => fit.toggleFavorite(ex.id), child: _star(gc, fav)),
             ],
-            RoundAction(
-              label: t.duplicateExercise,
-              onTap: () => showCreateExerciseSheet(context, copyOf: ex),
-              child: Icon(PhosphorIconsRegular.copy, size: 16, color: gc.textSecondary),
-            ),
-            const SizedBox(width: 10),
-            RoundAction(
-              label: archived ? t.restoreExercise : t.archiveExercise,
-              onTap: () => _toggleArchived(context, ex),
-              child: Icon(archived ? PhosphorIconsFill.archive : PhosphorIconsRegular.archive,
-                  size: 16, color: archived ? gc.accent : gc.textSecondary),
-            ),
-            const SizedBox(width: 10),
-            RoundAction(
-              onTap: () => fit.toggleFavorite(ex.id),
-              child: _star(gc, fav),
-            ),
-          ]),
+          ),
         ],
       ),
     );
@@ -126,8 +130,7 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
             onTap: () => showExercisePreview(context, ex),
             child: SizedBox(
               width: double.infinity,
-              child: ExerciseMedia(
-                  ex: ex, height: 220, radius: 22, live: true, bordered: false),
+              child: ExerciseMedia(ex: ex, height: 220, radius: 22, live: true, bordered: false),
             ),
           ),
           Positioned(
@@ -136,8 +139,12 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
             child: Row(
               children: [
                 if (hasMedia) ...[
-                  _mediaBtn(gc, PhosphorIconsRegular.arrowCounterClockwise, t.useDefaultArt,
-                      () => fit.clearExerciseMedia(ex.id)),
+                  _mediaBtn(
+                    gc,
+                    PhosphorIconsRegular.arrowCounterClockwise,
+                    t.useDefaultArt,
+                    () => fit.clearExerciseMedia(ex.id),
+                  ),
                   const SizedBox(width: 8),
                 ],
                 _mediaBtn(
@@ -161,12 +168,16 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
             ? Padding(padding: const EdgeInsets.only(bottom: 16), child: _archivedBanner(gc, ex))
             : const SizedBox(width: double.infinity),
       ),
-      Text(exerciseName(ex),
-          style: AppTheme.f(26, weight: FontWeight.w800, color: gc.text, height: 1.1)),
+      Text(
+        exerciseName(ex),
+        style: AppTheme.f(26, weight: FontWeight.w800, color: gc.text, height: 1.1),
+      ),
       if (ex.aliases.isNotEmpty) ...[
         const SizedBox(height: 6),
-        Text(t.alsoCalled(ex.aliases.join(', ')),
-            style: AppTheme.f(13, weight: FontWeight.w500, color: gc.textSecondary, height: 1.35)),
+        Text(
+          t.alsoCalled(ex.aliases.join(', ')),
+          style: AppTheme.f(13, weight: FontWeight.w500, color: gc.textSecondary, height: 1.35),
+        ),
       ],
       const SizedBox(height: 18),
       Row(
@@ -185,10 +196,7 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
       if (pr != null) ...[
         Container(
           padding: const EdgeInsets.all(18),
-          decoration: BoxDecoration(
-            color: gc.bgRaised,
-            borderRadius: BorderRadius.circular(20),
-          ),
+          decoration: BoxDecoration(color: gc.bgRaised, borderRadius: BorderRadius.circular(20)),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -204,10 +212,11 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
                         FittedBox(
                           fit: BoxFit.scaleDown,
                           alignment: AlignmentDirectional.centerStart,
-                          child: Text(fit.recordLabel(pr),
-                              maxLines: 1,
-                              style: AppTheme.f(30,
-                                  weight: FontWeight.w800, color: gc.text, height: 1)),
+                          child: Text(
+                            fit.recordLabel(pr),
+                            maxLines: 1,
+                            style: AppTheme.f(30, weight: FontWeight.w800, color: gc.text, height: 1),
+                          ),
                         ),
                       ],
                     ),
@@ -217,41 +226,62 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
                     child: FittedBox(
                       fit: BoxFit.scaleDown,
                       alignment: AlignmentDirectional.centerEnd,
-                      child: Text(fit.recordDetail(pr),
-                          maxLines: 1,
-                          style: AppTheme.f(12,
-                              weight: FontWeight.w500, color: gc.textSecondary)),
+                      child: Text(
+                        fit.recordDetail(pr),
+                        maxLines: 1,
+                        style: AppTheme.f(12, weight: FontWeight.w500, color: gc.textSecondary),
+                      ),
                     ),
                   ),
                 ],
               ),
               if (history.length > 1) _bests(gc, ex.id, pr.kind),
-              if (pr.kind == PrKind.weight && oneRm.length > 2) ...[
-                const SizedBox(height: 16),
-                TrendChart(values: [for (final v in oneRm) fit.toDisplayWeight(v)], height: 84, scale: fmt),
-              ],
-              if (pr.kind == PrKind.reps && bestReps.length > 2) ...[
-                const SizedBox(height: 16),
-                TrendChart(values: bestReps, height: 84, scale: (v) => '${v.round()}'),
-              ],
             ],
           ),
         ),
         const SizedBox(height: 20),
       ],
-      if (fit.goalFits(ex.id)) ...[
-        _goalCard(context, gc, ex.id),
+      if (trend.length > 1) ...[
+        _section(gc, t.progression),
+        const SizedBox(height: 8),
+        Container(
+          padding: const EdgeInsets.fromLTRB(16, 14, 16, 12),
+          decoration: BoxDecoration(color: gc.bgRaised, borderRadius: BorderRadius.circular(20)),
+          child: Column(
+            children: [
+              TrendChart(
+                values: [for (final point in trend) point.value],
+                height: 112,
+                scale: repsOnly ? (value) => t.repCount(value.round()) : fit.weightLabel,
+              ),
+              const SizedBox(height: 8),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    t.shortDate(trend.first.date),
+                    style: AppTheme.f(11, weight: FontWeight.w500, color: gc.textSecondary),
+                  ),
+                  Text(
+                    t.shortDate(trend.last.date),
+                    style: AppTheme.f(11, weight: FontWeight.w500, color: gc.textSecondary),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
         const SizedBox(height: 20),
       ],
-      if (fit.nextTargetLabel(ex.id) != null) ...[
-        _nextCard(gc, ex.id),
-        const SizedBox(height: 20),
-      ],
+      if (fit.goalFits(ex.id)) ...[_goalCard(context, gc, ex.id), const SizedBox(height: 20)],
+      if (fit.nextTargetLabel(ex.id) != null) ...[_nextCard(gc, ex.id), const SizedBox(height: 20)],
       _section(gc, t.history),
       const SizedBox(height: 6),
       if (history.isEmpty)
-        Text(t.noHistory,
-            style: AppTheme.f(13, weight: FontWeight.w500, color: gc.textSecondary))
+        Text(
+          t.noHistory,
+          style: AppTheme.f(13, weight: FontWeight.w500, color: gc.textSecondary),
+        )
       else
         for (int i = 0; i < history.length && i < 8; i++)
           _historyRow(gc, history[i], i < history.length - 1 && i < 7, mode),
@@ -261,26 +291,30 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
     ];
     final partB = <Widget>[
       if (steps.isNotEmpty || custom) ...[
-        Row(children: [
-          Expanded(child: _section(gc, t.howTo)),
-          if (custom && steps.isNotEmpty)
-            Semantics(
-              button: true,
-              label: t.editExercise,
-              child: GestureDetector(
-                behavior: HitTestBehavior.opaque,
-                onTap: () => showCreateExerciseSheet(context, editing: ex),
-                child: Padding(
-                  padding: const EdgeInsets.all(6),
-                  child: Icon(PhosphorIconsRegular.pencilSimple, size: 17, color: gc.textTertiary),
+        Row(
+          children: [
+            Expanded(child: _section(gc, t.howTo)),
+            if (custom && steps.isNotEmpty)
+              Semantics(
+                button: true,
+                label: t.editExercise,
+                child: GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTap: () => showCreateExerciseSheet(context, editing: ex),
+                  child: Padding(
+                    padding: const EdgeInsets.all(6),
+                    child: Icon(PhosphorIconsRegular.pencilSimple, size: 17, color: gc.textTertiary),
+                  ),
                 ),
               ),
-            ),
-        ]),
+          ],
+        ),
         const SizedBox(height: 14),
         if (steps.isEmpty) ...[
-          Text(t.noStepsYet,
-              style: AppTheme.f(13, weight: FontWeight.w500, color: gc.textSecondary, height: 1.45)),
+          Text(
+            t.noStepsYet,
+            style: AppTheme.f(13, weight: FontWeight.w500, color: gc.textSecondary, height: 1.45),
+          ),
           const SizedBox(height: 12),
           Align(
             alignment: Alignment.centerLeft,
@@ -360,10 +394,7 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
         const SizedBox(height: 10),
         const StopwatchCard(),
       ],
-      if (fit.alternativesHere(ex, 3).isNotEmpty) ...[
-        const SizedBox(height: 24),
-        _notHere(gc, ex),
-      ],
+      if (fit.alternativesHere(ex, 3).isNotEmpty) ...[const SizedBox(height: 24), _notHere(gc, ex)],
       if (fit.similarExercises(ex, 4).isNotEmpty) ...[
         const SizedBox(height: 24),
         _section(gc, t.similar),
@@ -379,27 +410,42 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
         child: SingleChildScrollView(
           clipBehavior: Clip.none,
           padding: const EdgeInsets.fromLTRB(12, 30, 12, 48),
-          child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-            Rise(index: 0, child: bar),
-            Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Expanded(
-                child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-                  Rise(index: 1, child: media),
-                  Padding(
-                    padding: const EdgeInsets.all(20),
-                    child: Rise(index: 2, child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: partA)),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Rise(index: 0, child: bar),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Rise(index: 1, child: media),
+                        Padding(
+                          padding: const EdgeInsets.all(20),
+                          child: Rise(
+                            index: 2,
+                            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: partA),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ]),
+                  SizedBox(
+                    width: 460,
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(8, 0, 20, 20),
+                      child: Rise(
+                        index: 3,
+                        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: partB),
+                      ),
+                    ),
+                  ),
+                ],
               ),
-              SizedBox(
-                width: 460,
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(8, 0, 20, 20),
-                  child: Rise(index: 3, child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: partB)),
-                ),
-              ),
-            ]),
-          ]),
+            ],
+          ),
         ),
       );
     }
@@ -409,25 +455,22 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
       id: 'exercise',
       once: false,
       child: SafeArea(
-      bottom: false,
-      child: SingleChildScrollView(
-        clipBehavior: Clip.none,
-        padding: const EdgeInsets.only(top: 12, bottom: 32),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: riseAll([
-            bar,
-            media,
-            Padding(
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [...partA, ...partB],
+        bottom: false,
+        child: SingleChildScrollView(
+          clipBehavior: Clip.none,
+          padding: const EdgeInsets.only(top: 12, bottom: 32),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: riseAll([
+              bar,
+              media,
+              Padding(
+                padding: const EdgeInsets.all(20),
+                child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [...partA, ...partB]),
               ),
-            ),
-          ]),
+            ]),
+          ),
         ),
-      ),
       ),
     );
   }
@@ -449,20 +492,26 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
               Icon(PhosphorIconsRegular.mapPin, size: 16, color: gc.warn),
               const SizedBox(width: 10),
               Expanded(
-                child: Text(t.notHere(t.equipment(ex.equipment).toLowerCase(), place.name),
-                    style: AppTheme.f(14, weight: FontWeight.w600, color: gc.text)),
+                child: Text(
+                  t.notHere(t.equipment(ex.equipment).toLowerCase(), place.name),
+                  style: AppTheme.f(14, weight: FontWeight.w600, color: gc.text),
+                ),
               ),
             ],
           ),
           const SizedBox(height: 4),
           Padding(
             padding: const EdgeInsetsDirectional.only(start: 26),
-            child: Text(t.notHereWhy, style: AppTheme.f(12.5, weight: FontWeight.w500, color: gc.textSecondary, height: 1.4)),
+            child: Text(
+              t.notHereWhy,
+              style: AppTheme.f(12.5, weight: FontWeight.w500, color: gc.textSecondary, height: 1.4),
+            ),
           ),
           const SizedBox(height: 14),
-          Text(t.altHere,
-              style: AppTheme.f(10.5,
-                  weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.5)),
+          Text(
+            t.altHere,
+            style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.5),
+          ),
           const SizedBox(height: 6),
           for (final alt in fit.alternativesHere(ex, 3)) _similarRow(gc, alt),
         ],
@@ -503,17 +552,25 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(_fmtDate(h.date), style: AppTheme.f(14.5, weight: FontWeight.w600, color: gc.text)),
+                  Text(
+                    _fmtDate(h.date),
+                    style: AppTheme.f(14.5, weight: FontWeight.w600, color: gc.text),
+                  ),
                   const SizedBox(height: 3),
-                  Text(fit.setsSummary(e.sets),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: AppTheme.f(12, weight: FontWeight.w500, color: gc.textSecondary)),
+                  Text(
+                    fit.setsSummary(e.sets),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: AppTheme.f(12, weight: FontWeight.w500, color: gc.textSecondary),
+                  ),
                 ],
               ),
             ),
             const SizedBox(width: 12),
-            Text(_bestOf(e, mode), style: AppTheme.f(17, weight: FontWeight.w700, color: gc.text)),
+            Text(
+              _bestOf(e, mode),
+              style: AppTheme.f(17, weight: FontWeight.w700, color: gc.text),
+            ),
           ],
         ),
       );
@@ -521,9 +578,7 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 13),
       decoration: BoxDecoration(
-        border: border
-            ? Border(bottom: BorderSide(color: gc.border.withValues(alpha: 0.55)))
-            : null,
+        border: border ? Border(bottom: BorderSide(color: gc.border.withValues(alpha: 0.55))) : null,
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -531,21 +586,29 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(_fmtDate(h.date),
-                  style: AppTheme.f(14.5, weight: FontWeight.w600, color: gc.text)),
+              Text(
+                _fmtDate(h.date),
+                style: AppTheme.f(14.5, weight: FontWeight.w600, color: gc.text),
+              ),
               const SizedBox(height: 3),
-              Text(_setsLine(e),
-                  style: AppTheme.f(12, weight: FontWeight.w500, color: gc.textSecondary)),
+              Text(
+                _setsLine(e),
+                style: AppTheme.f(12, weight: FontWeight.w500, color: gc.textSecondary),
+              ),
             ],
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Text(fit.weightLabel(fit.headlineWeight(e)),
-                  style: AppTheme.f(17, weight: FontWeight.w700, color: gc.text)),
+              Text(
+                fit.weightLabel(fit.headlineWeight(e)),
+                style: AppTheme.f(17, weight: FontWeight.w700, color: gc.text),
+              ),
               const SizedBox(height: 3),
-              Text(t.volumeSuffix(fit.volumeLabel(e.volume)),
-                  style: AppTheme.f(11.5, weight: FontWeight.w500, color: gc.textSecondary)),
+              Text(
+                t.volumeSuffix(fit.volumeLabel(e.volume)),
+                style: AppTheme.f(11.5, weight: FontWeight.w500, color: gc.textSecondary),
+              ),
             ],
           ),
         ],
@@ -562,10 +625,7 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
         onTap: () => fit.goNotes(exerciseId: exId, all: true),
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 13),
-          decoration: BoxDecoration(
-            color: gc.bgRaised,
-            borderRadius: BorderRadius.circular(20),
-          ),
+          decoration: BoxDecoration(color: gc.bgRaised, borderRadius: BorderRadius.circular(20)),
           child: Row(
             children: [
               _rowIcon(gc, PhosphorIconsRegular.notebook, n > 0),
@@ -573,12 +633,15 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(titleCase(t.notes),
-                        style: AppTheme.f(14.5, weight: FontWeight.w500, color: gc.text)),
+                    Text(
+                      titleCase(t.notes),
+                      style: AppTheme.f(14.5, weight: FontWeight.w500, color: gc.text),
+                    ),
                     const SizedBox(height: 3),
-                    Text(n == 0 ? t.noteNoneForExercise : t.noteCount(n),
-                        style: AppTheme.f(11.5,
-                            weight: FontWeight.w500, color: gc.textSecondary)),
+                    Text(
+                      n == 0 ? t.noteNoneForExercise : t.noteCount(n),
+                      style: AppTheme.f(11.5, weight: FontWeight.w500, color: gc.textSecondary),
+                    ),
                   ],
                 ),
               ),
@@ -599,10 +662,7 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
         scale: 0.98,
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 13),
-          decoration: BoxDecoration(
-            color: gc.bgRaised,
-            borderRadius: BorderRadius.circular(20),
-          ),
+          decoration: BoxDecoration(color: gc.bgRaised, borderRadius: BorderRadius.circular(20)),
           child: Row(
             children: [
               _rowIcon(gc, PhosphorIconsRegular.listPlus, n > 0),
@@ -610,10 +670,15 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(t.addToRoutine, style: AppTheme.f(14.5, weight: FontWeight.w500, color: gc.text)),
+                    Text(
+                      t.addToRoutine,
+                      style: AppTheme.f(14.5, weight: FontWeight.w500, color: gc.text),
+                    ),
                     const SizedBox(height: 3),
-                    Text(t.inRoutines(n),
-                        style: AppTheme.f(11.5, weight: FontWeight.w500, color: gc.textSecondary)),
+                    Text(
+                      t.inRoutines(n),
+                      style: AppTheme.f(11.5, weight: FontWeight.w500, color: gc.textSecondary),
+                    ),
                   ],
                 ),
               ),
@@ -652,32 +717,27 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
             const SizedBox(height: 16),
             SheetTitle(titleCase(t.addToRoutine)),
             const SizedBox(height: 4),
-            Text(exerciseName(ex),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                textAlign: TextAlign.center,
-                style: AppTheme.f(12.5, weight: FontWeight.w500, color: gc.textSecondary)),
+            Text(
+              exerciseName(ex),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.center,
+              style: AppTheme.f(12.5, weight: FontWeight.w500, color: gc.textSecondary),
+            ),
             const SizedBox(height: 14),
             Flexible(
-              child: OptionGroup(
-                scroll: true,
-                [
+              child: OptionGroup(scroll: true, [
+                OptionItem(t.newRoutineName, icon: PhosphorIconsRegular.plus, onTap: () => pick(sheet, null)),
+                for (final r in routines)
                   OptionItem(
-                    t.newRoutineName,
-                    icon: PhosphorIconsRegular.plus,
-                    onTap: () => pick(sheet, null),
+                    fit.routineTitle(r),
+                    detail: fit.routineHas(r.id, ex.id)
+                        ? t.alreadyInRoutine
+                        : (r.group.isEmpty ? null : r.group),
+                    selected: fit.routineHas(r.id, ex.id),
+                    onTap: () => pick(sheet, r.id),
                   ),
-                  for (final r in routines)
-                    OptionItem(
-                      fit.routineTitle(r),
-                      detail: fit.routineHas(r.id, ex.id)
-                          ? t.alreadyInRoutine
-                          : (r.group.isEmpty ? null : r.group),
-                      selected: fit.routineHas(r.id, ex.id),
-                      onTap: () => pick(sheet, r.id),
-                    ),
-                ],
-              ),
+              ]),
             ),
           ],
         ),
@@ -692,28 +752,26 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
       child: Container(
         margin: const EdgeInsets.only(bottom: 8),
         padding: const EdgeInsets.fromLTRB(12, 9, 14, 9),
-        decoration: BoxDecoration(
-          color: gc.bgRaised,
-          borderRadius: BorderRadius.circular(18),
-        ),
+        decoration: BoxDecoration(color: gc.bgRaised, borderRadius: BorderRadius.circular(18)),
         child: Row(
           children: [
-            SizedBox(
-              width: 48,
-              child: ExerciseMedia(ex: s, height: 48, radius: 14, bordered: false),
-            ),
+            SizedBox(width: 48, child: ExerciseMedia(ex: s, height: 48, radius: 14, bordered: false)),
             const SizedBox(width: 13),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(exerciseName(s),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: AppTheme.f(14.5, weight: FontWeight.w600, color: gc.text)),
+                  Text(
+                    exerciseName(s),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: AppTheme.f(14.5, weight: FontWeight.w600, color: gc.text),
+                  ),
                   const SizedBox(height: 4),
-                  Text(t.equipment(s.equipment),
-                      style: AppTheme.f(12, weight: FontWeight.w500, color: gc.textSecondary)),
+                  Text(
+                    t.equipment(s.equipment),
+                    style: AppTheme.f(12, weight: FontWeight.w500, color: gc.textSecondary),
+                  ),
                 ],
               ),
             ),
@@ -728,18 +786,23 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
     final column = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(mainAxisSize: MainAxisSize.min, children: [
-          Flexible(child: _cardLabel(gc, label)),
-          if (onTap != null) ...[
-            const SizedBox(width: 4),
-            Icon(PhosphorIconsRegular.pencilSimple, size: 11, color: gc.textTertiary),
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Flexible(child: _cardLabel(gc, label)),
+            if (onTap != null) ...[
+              const SizedBox(width: 4),
+              Icon(PhosphorIconsRegular.pencilSimple, size: 11, color: gc.textTertiary),
+            ],
           ],
-        ]),
+        ),
         const SizedBox(height: 5),
-        Text(value,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: AppTheme.f(14.5, weight: FontWeight.w600, color: gc.text)),
+        Text(
+          value,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: AppTheme.f(14.5, weight: FontWeight.w600, color: gc.text),
+        ),
       ],
     );
     return Flexible(
@@ -774,21 +837,26 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
                 const SizedBox(height: 16),
                 SheetTitle(exerciseName(ex), subtitle: t.secondaryPickHint),
                 const SizedBox(height: 16),
-                Wrap(spacing: 8, runSpacing: 8, children: [
-                  for (final m in kMuscles)
-                    if (m.id != ex.primary)
-                      Pill(
-                        label: t.muscle(m.id),
-                        bg: ex.secondary.contains(m.id) ? gc.ember : gc.bgRaised2,
-                        fg: ex.secondary.contains(m.id) ? gc.onEmber : gc.textSecondary,
-                        vPad: 7,
-                        onTap: () => fit.setSecondary(
+                Wrap(
+                  spacing: 8,
+                  runSpacing: 8,
+                  children: [
+                    for (final m in kMuscles)
+                      if (m.id != ex.primary)
+                        Pill(
+                          label: t.muscle(m.id),
+                          bg: ex.secondary.contains(m.id) ? gc.ember : gc.bgRaised2,
+                          fg: ex.secondary.contains(m.id) ? gc.onEmber : gc.textSecondary,
+                          vPad: 7,
+                          onTap: () => fit.setSecondary(
                             id,
                             ex.secondary.contains(m.id)
                                 ? [...ex.secondary.where((s) => s != m.id)]
-                                : [...ex.secondary, m.id]),
-                      ),
-                ]),
+                                : [...ex.secondary, m.id],
+                          ),
+                        ),
+                  ],
+                ),
                 if (fit.hasSecondaryOverride(id))
                   GestureDetector(
                     behavior: HitTestBehavior.opaque,
@@ -797,8 +865,10 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
                       height: 44,
                       margin: const EdgeInsets.only(top: 8),
                       alignment: Alignment.center,
-                      child: Text(t.alarmReset,
-                          style: AppTheme.f(13, weight: FontWeight.w600, color: gc.accent)),
+                      child: Text(
+                        t.alarmReset,
+                        style: AppTheme.f(13, weight: FontWeight.w600, color: gc.accent),
+                      ),
                     ),
                   )
                 else
@@ -868,26 +938,32 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
   }
 
   Widget _archivedBanner(GymColors gc, Exercise ex) => Container(
-        padding: const EdgeInsets.fromLTRB(16, 12, 8, 12),
-        decoration: BoxDecoration(color: gc.accentSoft, borderRadius: BorderRadius.circular(16)),
-        child: Row(children: [
-          Icon(PhosphorIconsFill.archive, size: 17, color: gc.accent),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Text(t.archivedBanner,
-                style: AppTheme.f(12.5, weight: FontWeight.w600, color: gc.text, height: 1.35)),
+    padding: const EdgeInsets.fromLTRB(16, 12, 8, 12),
+    decoration: BoxDecoration(color: gc.accentSoft, borderRadius: BorderRadius.circular(16)),
+    child: Row(
+      children: [
+        Icon(PhosphorIconsFill.archive, size: 17, color: gc.accent),
+        const SizedBox(width: 12),
+        Expanded(
+          child: Text(
+            t.archivedBanner,
+            style: AppTheme.f(12.5, weight: FontWeight.w600, color: gc.text, height: 1.35),
           ),
-          GestureDetector(
-            behavior: HitTestBehavior.opaque,
-            onTap: () => fit.toggleArchived(ex.id),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-              child: Text(t.restoreExercise,
-                  style: AppTheme.f(13, weight: FontWeight.w700, color: gc.accent)),
+        ),
+        GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onTap: () => fit.toggleArchived(ex.id),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+            child: Text(
+              t.restoreExercise,
+              style: AppTheme.f(13, weight: FontWeight.w700, color: gc.accent),
             ),
           ),
-        ]),
-      );
+        ),
+      ],
+    ),
+  );
 
   Widget _bests(GymColors gc, String id, PrKind record) {
     final set = record == PrKind.weight ? fit.bestSet(id) : null;
@@ -895,29 +971,45 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
     final work = fit.bestWorkout(id, kind);
     if (work == null) return const SizedBox.shrink();
     Widget cell(String label, String value, DateTime date) => Expanded(
-          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            _cardLabel(gc, label),
-            const SizedBox(height: 6),
-            FitText(value, style: AppTheme.f(17, weight: FontWeight.w700, color: gc.text, height: 1)),
-            const SizedBox(height: 4),
-            Text(_fmtDate(date), style: AppTheme.f(11.5, weight: FontWeight.w500, color: gc.textTertiary)),
-          ]),
-        );
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _cardLabel(gc, label),
+          const SizedBox(height: 6),
+          FitText(
+            value,
+            style: AppTheme.f(17, weight: FontWeight.w700, color: gc.text, height: 1),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            _fmtDate(date),
+            style: AppTheme.f(11.5, weight: FontWeight.w500, color: gc.textTertiary),
+          ),
+        ],
+      ),
+    );
     return Padding(
       padding: const EdgeInsets.only(top: 16),
-      child: Row(children: [
-        if (set != null) cell(t.prBestSet, ltr('${fit.weightLabel(set.set.weight)} × ${set.set.reps}'), set.date),
-        if (set != null) const SizedBox(width: 12),
-        cell(t.prBestWorkout, fit.bestWorkoutLabel(work.score, kind), work.date),
-      ]),
+      child: Row(
+        children: [
+          if (set != null)
+            cell(t.prBestSet, ltr('${fit.weightLabel(set.set.weight)} × ${set.set.reps}'), set.date),
+          if (set != null) const SizedBox(width: 12),
+          cell(t.prBestWorkout, fit.bestWorkoutLabel(work.score, kind), work.date),
+        ],
+      ),
     );
   }
 
-  Widget _cardLabel(GymColors gc, String label) => FitText(label.toUpperCase(),
-      style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.4));
+  Widget _cardLabel(GymColors gc, String label) => FitText(
+    label.toUpperCase(),
+    style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.4),
+  );
 
-  Widget _section(GymColors gc, String label) => Text(titleCase(label),
-      style: AppTheme.f(18, weight: FontWeight.w700, color: gc.text));
+  Widget _section(GymColors gc, String label) => Text(
+    titleCase(label),
+    style: AppTheme.f(18, weight: FontWeight.w700, color: gc.text),
+  );
 
   Widget _group(GymColors gc, List<Widget> rows) {
     return Container(
@@ -948,12 +1040,17 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
           height: 24,
           decoration: BoxDecoration(color: gc.emberSoft, shape: BoxShape.circle),
           alignment: Alignment.center,
-          child: Text('$n', style: AppTheme.f(12, weight: FontWeight.w700, color: gc.ember)),
+          child: Text(
+            '$n',
+            style: AppTheme.f(12, weight: FontWeight.w700, color: gc.ember),
+          ),
         ),
         const SizedBox(width: 12),
         Expanded(
-          child: Text(text,
-              style: AppTheme.f(14, weight: FontWeight.w500, color: gc.textSecondary, height: 1.5)),
+          child: Text(
+            text,
+            style: AppTheme.f(14, weight: FontWeight.w500, color: gc.textSecondary, height: 1.5),
+          ),
         ),
       ],
     );
@@ -968,21 +1065,34 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
       onTap: () => showWeightStackSheet(context, id),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-        child: Row(children: [
-          _rowIcon(gc, PhosphorIconsRegular.stack, stack != null),
-          Expanded(
-            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text(t.weightStack, style: AppTheme.f(14.5, weight: FontWeight.w500, color: gc.text)),
-              const SizedBox(height: 3),
-              Text(
-                  stack == null
-                      ? t.weightStackOff
-                      : '${fit.weightValueFor(id, stack.first)}–${fit.weightValueFor(id, stack.last)} ${fit.unitsFor(id)} · ${t.stackCount(stack.length)}',
-                  style: AppTheme.f(11.5, weight: FontWeight.w500, color: stack != null ? gc.accent : gc.textSecondary)),
-            ]),
-          ),
-          Icon(PhosphorIconsRegular.caretRight, size: 15, color: gc.textTertiary),
-        ]),
+        child: Row(
+          children: [
+            _rowIcon(gc, PhosphorIconsRegular.stack, stack != null),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    t.weightStack,
+                    style: AppTheme.f(14.5, weight: FontWeight.w500, color: gc.text),
+                  ),
+                  const SizedBox(height: 3),
+                  Text(
+                    stack == null
+                        ? t.weightStackOff
+                        : '${fit.weightValueFor(id, stack.first)}–${fit.weightValueFor(id, stack.last)} ${fit.unitsFor(id)} · ${t.stackCount(stack.length)}',
+                    style: AppTheme.f(
+                      11.5,
+                      weight: FontWeight.w500,
+                      color: stack != null ? gc.accent : gc.textSecondary,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Icon(PhosphorIconsRegular.caretRight, size: 15, color: gc.textTertiary),
+          ],
+        ),
       ),
     );
   }
@@ -991,25 +1101,39 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
     final step = fit.holdStepFor(id);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-      child: Row(children: [
-        _rowIcon(gc, PhosphorIconsRegular.trendUp, step > 0),
-        Expanded(
-          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text(t.holdProgress, style: AppTheme.f(14.5, weight: FontWeight.w500, color: gc.text)),
-            const SizedBox(height: 3),
-            Text(step > 0 ? t.holdProgressOn(step) : t.holdProgressHint,
-                style: AppTheme.f(11.5, weight: FontWeight.w500, color: step > 0 ? gc.accent : gc.textSecondary)),
-          ]),
-        ),
-        const SizedBox(width: 12),
-        StepperControl(
-          value: step == 0 ? t.restOff : '+$step s',
-          minWidth: 44,
-          btnSize: 30,
-          onDec: () => fit.cycleHoldStep(id, -1),
-          onInc: () => fit.cycleHoldStep(id, 1),
-        ),
-      ]),
+      child: Row(
+        children: [
+          _rowIcon(gc, PhosphorIconsRegular.trendUp, step > 0),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  t.holdProgress,
+                  style: AppTheme.f(14.5, weight: FontWeight.w500, color: gc.text),
+                ),
+                const SizedBox(height: 3),
+                Text(
+                  step > 0 ? t.holdProgressOn(step) : t.holdProgressHint,
+                  style: AppTheme.f(
+                    11.5,
+                    weight: FontWeight.w500,
+                    color: step > 0 ? gc.accent : gc.textSecondary,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(width: 12),
+          StepperControl(
+            value: step == 0 ? t.restOff : '+$step s',
+            minWidth: 44,
+            btnSize: 30,
+            onDec: () => fit.cycleHoldStep(id, -1),
+            onInc: () => fit.cycleHoldStep(id, 1),
+          ),
+        ],
+      ),
     );
   }
 
@@ -1025,16 +1149,22 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(titleCase(t.restForExercise),
-                    style: AppTheme.f(14.5, weight: FontWeight.w500, color: gc.text)),
+                Text(
+                  titleCase(t.restForExercise),
+                  style: AppTheme.f(14.5, weight: FontWeight.w500, color: gc.text),
+                ),
                 const SizedBox(height: 3),
                 GestureDetector(
                   behavior: HitTestBehavior.opaque,
                   onTap: custom ? () => fit.setExerciseRest(id, null) : null,
-                  child: Text(custom ? t.restCustom : t.restUsingDefault,
-                      style: AppTheme.f(11.5,
-                          weight: FontWeight.w500,
-                          color: custom ? gc.accent : gc.textSecondary)),
+                  child: Text(
+                    custom ? t.restCustom : t.restUsingDefault,
+                    style: AppTheme.f(
+                      11.5,
+                      weight: FontWeight.w500,
+                      color: custom ? gc.accent : gc.textSecondary,
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -1050,15 +1180,17 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
             onDec: () => fit.setExerciseRest(id, seconds - 15),
             onInc: () => fit.setExerciseRest(id, seconds + 15),
             onEdit: () async {
-              final v = await askRuler(context,
-                  title: t.restForExercise,
-                  value: seconds.toDouble(),
-                  min: 0,
-                  max: 600,
-                  step: 5,
-                  majorEvery: 6,
-                  format: (v) => clockLabel(v.round()),
-                  tickLabel: (v) => clockLabel(v.round()));
+              final v = await askRuler(
+                context,
+                title: t.restForExercise,
+                value: seconds.toDouble(),
+                min: 0,
+                max: 600,
+                step: 5,
+                majorEvery: 6,
+                format: (v) => clockLabel(v.round()),
+                tickLabel: (v) => clockLabel(v.round()),
+              );
               if (v != null) fit.setExerciseRest(id, v.round());
             },
           ),
@@ -1080,13 +1212,22 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(titleCase(t.barWeightExercise), style: AppTheme.f(14.5, weight: FontWeight.w500, color: gc.text)),
+                Text(
+                  titleCase(t.barWeightExercise),
+                  style: AppTheme.f(14.5, weight: FontWeight.w500, color: gc.text),
+                ),
                 const SizedBox(height: 3),
                 GestureDetector(
                   behavior: HitTestBehavior.opaque,
                   onTap: own ? () => fit.setExerciseBar(ex.id, null) : null,
-                  child: Text(own ? t.barWeightCustom : t.barWeightHint,
-                      style: AppTheme.f(11.5, weight: FontWeight.w500, color: own ? gc.accent : gc.textSecondary)),
+                  child: Text(
+                    own ? t.barWeightCustom : t.barWeightHint,
+                    style: AppTheme.f(
+                      11.5,
+                      weight: FontWeight.w500,
+                      color: own ? gc.accent : gc.textSecondary,
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -1102,7 +1243,12 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
             onDec: () => fit.setExerciseBar(ex.id, bar - step),
             onInc: () => fit.setExerciseBar(ex.id, bar + step),
             onEdit: () async {
-              final v = await askNumber(context, title: t.barWeightExercise, initial: fmt(bar), decimal: true);
+              final v = await askNumber(
+                context,
+                title: t.barWeightExercise,
+                initial: fmt(bar),
+                decimal: true,
+              );
               if (v != null) fit.setExerciseBar(ex.id, v);
             },
           ),
@@ -1112,12 +1258,9 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
   }
 
   Widget _rowIcon(GymColors gc, IconData icon, bool on) => Padding(
-        padding: const EdgeInsetsDirectional.only(end: 14),
-        child: SizedBox(
-          width: 22,
-          child: Icon(icon, size: 19, color: on ? gc.text : gc.textSecondary),
-        ),
-      );
+    padding: const EdgeInsetsDirectional.only(end: 14),
+    child: SizedBox(width: 22, child: Icon(icon, size: 19, color: on ? gc.text : gc.textSecondary)),
+  );
 
   Widget _goalCard(BuildContext context, GymColors gc, String id) {
     final goal = fit.exerciseGoals[id];
@@ -1131,12 +1274,19 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
             border: Border.all(color: gc.border),
             borderRadius: BorderRadius.circular(16),
           ),
-          child: Row(children: [
-            Icon(PhosphorIconsRegular.target, size: 18, color: gc.textSecondary),
-            const SizedBox(width: 12),
-            Expanded(child: Text(t.goalSet, style: AppTheme.f(13.5, weight: FontWeight.w600, color: gc.text))),
-            Icon(PhosphorIconsRegular.plus, size: 15, color: gc.textTertiary),
-          ]),
+          child: Row(
+            children: [
+              Icon(PhosphorIconsRegular.target, size: 18, color: gc.textSecondary),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Text(
+                  t.goalSet,
+                  style: AppTheme.f(13.5, weight: FontWeight.w600, color: gc.text),
+                ),
+              ),
+              Icon(PhosphorIconsRegular.plus, size: 15, color: gc.textTertiary),
+            ],
+          ),
         ),
       );
     }
@@ -1145,12 +1295,18 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
     final share = goal.target <= 0 ? 1.0 : (best / goal.target).clamp(0.0, 1.0);
     final due = goal.due;
     final today = DateTime.now();
-    final days = due == null ? null : DateTime(due.year, due.month, due.day).difference(DateTime(today.year, today.month, today.day)).inDays;
+    final days = due == null
+        ? null
+        : DateTime(
+            due.year,
+            due.month,
+            due.day,
+          ).difference(DateTime(today.year, today.month, today.day)).inDays;
     final when = done || due == null
         ? null
         : days! < 0
-            ? t.goalOverdue
-            : '${t.goalDaysLeft(days)} · ${t.shortDate(due)}';
+        ? t.goalOverdue
+        : '${t.goalDaysLeft(days)} · ${t.shortDate(due)}';
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () => _editGoal(context, id),
@@ -1173,13 +1329,17 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
                     children: [
                       _cardLabel(gc, t.goal),
                       const SizedBox(height: 8),
-                      Text(fit.goalLabel(id, goal.target),
-                          style: AppTheme.f(26, weight: FontWeight.w800, color: gc.text, height: 1)),
+                      Text(
+                        fit.goalLabel(id, goal.target),
+                        style: AppTheme.f(26, weight: FontWeight.w800, color: gc.text, height: 1),
+                      ),
                     ],
                   ),
                 ),
-                Text(done ? t.goalReached : t.goalToGo(fit.goalLabel(id, goal.target - best)),
-                    style: AppTheme.f(12.5, weight: FontWeight.w600, color: done ? gc.ember : gc.textSecondary)),
+                Text(
+                  done ? t.goalReached : t.goalToGo(fit.goalLabel(id, goal.target - best)),
+                  style: AppTheme.f(12.5, weight: FontWeight.w600, color: done ? gc.ember : gc.textSecondary),
+                ),
               ],
             ),
             const SizedBox(height: 14),
@@ -1194,9 +1354,14 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
             ),
             if (when != null) ...[
               const SizedBox(height: 10),
-              Text(when,
-                  style: AppTheme.f(11.5,
-                      weight: FontWeight.w500, color: days! < 0 ? gc.ember : gc.textTertiary)),
+              Text(
+                when,
+                style: AppTheme.f(
+                  11.5,
+                  weight: FontWeight.w500,
+                  color: days! < 0 ? gc.ember : gc.textTertiary,
+                ),
+              ),
             ],
           ],
         ),
@@ -1208,8 +1373,11 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
     final reps = fit.goalKind(id) == PrKind.reps;
     final current = fit.exerciseGoals[id];
     final best = fit.goalBest(id);
-    var target = current?.target ??
-        (reps ? math.max(best + 5, 10.0) : fit.fromDisplayWeight(fit.toDisplayWeight(best) + fit.weightStep * 4));
+    var target =
+        current?.target ??
+        (reps
+            ? math.max(best + 5, 10.0)
+            : fit.fromDisplayWeight(fit.toDisplayWeight(best) + fit.weightStep * 4));
     DateTime? due = current?.due;
     String shown() => reps ? '${target.round()}' : ltr('${fit.weightValue(target)} ${fit.units}');
     await showAppSheet<void>(
@@ -1219,10 +1387,10 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
         builder: (sheet, setSheet) {
           final gc = sheet.gc;
           void bump(int dir) => setSheet(() {
-                target = reps
-                    ? math.max(1, target + dir).toDouble()
-                    : math.max(0, target + dir * fit.fromDisplayWeight(fit.weightStep)).toDouble();
-              });
+            target = reps
+                ? math.max(1, target + dir).toDouble()
+                : math.max(0, target + dir * fit.fromDisplayWeight(fit.weightStep)).toDouble();
+          });
           return Container(
             padding: sheetPad(sheet),
             decoration: sheetDecoration(gc),
@@ -1242,11 +1410,14 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
                       onDec: () => bump(-1),
                       onInc: () => bump(1),
                       onEdit: () async {
-                        final v = await askNumber(sheet,
-                            title: reps ? t.goalTargetReps : t.targetWeight,
-                            initial: reps ? '${target.round()}' : fit.weightValue(target),
-                            decimal: !reps);
-                        if (v != null && v > 0) setSheet(() => target = reps ? v.roundToDouble() : fit.fromDisplayWeight(v));
+                        final v = await askNumber(
+                          sheet,
+                          title: reps ? t.goalTargetReps : t.targetWeight,
+                          initial: reps ? '${target.round()}' : fit.weightValue(target),
+                          decimal: !reps,
+                        );
+                        if (v != null && v > 0)
+                          setSheet(() => target = reps ? v.roundToDouble() : fit.fromDisplayWeight(v));
                       },
                     ),
                   ),
@@ -1264,18 +1435,27 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
                         );
                         if (picked != null) setSheet(() => due = picked);
                       },
-                      child: Row(mainAxisSize: MainAxisSize.min, children: [
-                        Text(due == null ? t.goalNoDeadline : t.shortDateYear(due!),
-                            style: AppTheme.f(14, weight: FontWeight.w700, color: due == null ? gc.textTertiary : gc.text)),
-                        if (due != null) ...[
-                          const SizedBox(width: 8),
-                          GestureDetector(
-                            behavior: HitTestBehavior.opaque,
-                            onTap: () => setSheet(() => due = null),
-                            child: Icon(PhosphorIconsRegular.x, size: 14, color: gc.textTertiary),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            due == null ? t.goalNoDeadline : t.shortDateYear(due!),
+                            style: AppTheme.f(
+                              14,
+                              weight: FontWeight.w700,
+                              color: due == null ? gc.textTertiary : gc.text,
+                            ),
                           ),
+                          if (due != null) ...[
+                            const SizedBox(width: 8),
+                            GestureDetector(
+                              behavior: HitTestBehavior.opaque,
+                              onTap: () => setSheet(() => due = null),
+                              child: Icon(PhosphorIconsRegular.x, size: 14, color: gc.textTertiary),
+                            ),
+                          ],
                         ],
-                      ]),
+                      ),
                     ),
                   ),
                 ]),
@@ -1298,8 +1478,10 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
                       },
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                        child: Text(t.goalRemove,
-                            style: AppTheme.f(13, weight: FontWeight.w600, color: gc.textSecondary)),
+                        child: Text(
+                          t.goalRemove,
+                          style: AppTheme.f(13, weight: FontWeight.w600, color: gc.textSecondary),
+                        ),
                       ),
                     ),
                   ),
@@ -1329,25 +1511,36 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(t.nextTime,
-                    style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.4)),
+                Text(
+                  t.nextTime,
+                  style: AppTheme.f(
+                    10.5,
+                    weight: FontWeight.w700,
+                    color: gc.textTertiary,
+                    letterSpacing: 1.4,
+                  ),
+                ),
                 if (fit.nextWhy(id) case final why?) ...[
                   const SizedBox(height: 2),
-                  Text(why, style: AppTheme.f(11.5, weight: FontWeight.w500, color: gc.textTertiary)),
+                  Text(
+                    why,
+                    style: AppTheme.f(11.5, weight: FontWeight.w500, color: gc.textTertiary),
+                  ),
                 ],
               ],
             ),
           ),
           const SizedBox(width: 10),
-          Text(fit.nextTargetLabel(id)!,
-              style: AppTheme.f(20, weight: FontWeight.w800, color: up ? gc.ember : gc.text)),
+          Text(
+            fit.nextTargetLabel(id)!,
+            style: AppTheme.f(20, weight: FontWeight.w800, color: up ? gc.ember : gc.text),
+          ),
         ],
       ),
     );
   }
 
-  Widget _switchRow(GymColors gc, IconData icon, String title, String hint, bool on,
-      VoidCallback onTap) {
+  Widget _switchRow(GymColors gc, IconData icon, String title, String hint, bool on, VoidCallback onTap) {
     return Semantics(
       button: true,
       toggled: on,
@@ -1363,11 +1556,15 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(title, style: AppTheme.f(14.5, weight: FontWeight.w500, color: gc.text)),
+                    Text(
+                      title,
+                      style: AppTheme.f(14.5, weight: FontWeight.w500, color: gc.text),
+                    ),
                     const SizedBox(height: 3),
-                    Text(hint,
-                        style: AppTheme.f(11.5,
-                            weight: FontWeight.w500, color: gc.textSecondary, height: 1.3)),
+                    Text(
+                      hint,
+                      style: AppTheme.f(11.5, weight: FontWeight.w500, color: gc.textSecondary, height: 1.3),
+                    ),
                   ],
                 ),
               ),
@@ -1398,10 +1595,16 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
               ),
             ),
             Expanded(
-              child: Text(t.progression, style: AppTheme.f(14.5, weight: FontWeight.w500, color: gc.text)),
+              child: Text(
+                t.progression,
+                style: AppTheme.f(14.5, weight: FontWeight.w500, color: gc.text),
+              ),
             ),
             const SizedBox(width: 12),
-            Text(progressKindName(kind), style: AppTheme.f(13, weight: FontWeight.w600, color: on ? gc.accent : gc.textSecondary)),
+            Text(
+              progressKindName(kind),
+              style: AppTheme.f(13, weight: FontWeight.w600, color: on ? gc.accent : gc.textSecondary),
+            ),
             const SizedBox(width: 6),
             Icon(PhosphorIconsRegular.caretRight, size: 15, color: gc.textTertiary),
           ],
@@ -1426,12 +1629,15 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(fit.isTimed(id) ? t.timeOnly : t.repsOnly,
-                        style: AppTheme.f(14.5, weight: FontWeight.w500, color: gc.text)),
+                    Text(
+                      fit.isTimed(id) ? t.timeOnly : t.repsOnly,
+                      style: AppTheme.f(14.5, weight: FontWeight.w500, color: gc.text),
+                    ),
                     const SizedBox(height: 3),
-                    Text(t.repsOnlyHint,
-                        style: AppTheme.f(11.5,
-                            weight: FontWeight.w500, color: gc.textSecondary, height: 1.3)),
+                    Text(
+                      t.repsOnlyHint,
+                      style: AppTheme.f(11.5, weight: FontWeight.w500, color: gc.textSecondary, height: 1.3),
+                    ),
                   ],
                 ),
               ),
@@ -1445,10 +1651,10 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
   }
 
   String _modeName(String mode) => switch (mode) {
-        'cardio' => t.typeCardio,
-        'time' => t.typeTime,
-        _ => t.typeReps,
-      };
+    'cardio' => t.typeCardio,
+    'time' => t.typeTime,
+    _ => t.typeReps,
+  };
 
   Widget _modeRow(BuildContext context, GymColors gc, String id, String mode) {
     return GestureDetector(
@@ -1458,13 +1664,21 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         child: Row(
           children: [
-            _rowIcon(gc, mode == 'cardio' ? PhosphorIconsRegular.personSimpleRun : PhosphorIconsRegular.listNumbers,
-                mode.isNotEmpty),
-            Expanded(
-              child: Text(t.exerciseTypeLabel,
-                  style: AppTheme.f(14.5, weight: FontWeight.w500, color: gc.text)),
+            _rowIcon(
+              gc,
+              mode == 'cardio' ? PhosphorIconsRegular.personSimpleRun : PhosphorIconsRegular.listNumbers,
+              mode.isNotEmpty,
             ),
-            Text(_modeName(mode), style: AppTheme.f(13, weight: FontWeight.w600, color: gc.textSecondary)),
+            Expanded(
+              child: Text(
+                t.exerciseTypeLabel,
+                style: AppTheme.f(14.5, weight: FontWeight.w500, color: gc.text),
+              ),
+            ),
+            Text(
+              _modeName(mode),
+              style: AppTheme.f(13, weight: FontWeight.w600, color: gc.textSecondary),
+            ),
             const SizedBox(width: 6),
             Icon(PhosphorIconsRegular.caretRight, size: 15, color: gc.textTertiary),
           ],
@@ -1510,9 +1724,11 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
                     ),
                 ]),
                 const SizedBox(height: 12),
-                Text(t.exerciseTypeHint,
-                    textAlign: TextAlign.center,
-                    style: AppTheme.f(11.5, weight: FontWeight.w500, color: gc.textTertiary, height: 1.4)),
+                Text(
+                  t.exerciseTypeHint,
+                  textAlign: TextAlign.center,
+                  style: AppTheme.f(11.5, weight: FontWeight.w500, color: gc.textTertiary, height: 1.4),
+                ),
               ],
             ),
           );
@@ -1563,7 +1779,9 @@ class _MergeTargetSheetState extends State<_MergeTargetSheet> {
   Widget build(BuildContext context) {
     final gc = context.gc;
     final all = fit.mergeTargets(widget.from.id);
-    final results = _q.text.trim().isEmpty ? all.take(40).toList() : all.where(exerciseSearch(_q.text)).take(60).toList();
+    final results = _q.text.trim().isEmpty
+        ? all.take(40).toList()
+        : all.where(exerciseSearch(_q.text)).take(60).toList();
 
     return Padding(
       padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
@@ -1586,17 +1804,14 @@ class _MergeTargetSheetState extends State<_MergeTargetSheet> {
             ),
             const SizedBox(height: 12),
             Flexible(
-              child: OptionGroup(
-                scroll: true,
-                [
-                  for (final ex in results)
-                    OptionItem(
-                      exerciseName(ex),
-                      detail: muscleLabel(ex.primary),
-                      onTap: () => Navigator.of(context).pop(ex.id),
-                    ),
-                ],
-              ),
+              child: OptionGroup(scroll: true, [
+                for (final ex in results)
+                  OptionItem(
+                    exerciseName(ex),
+                    detail: muscleLabel(ex.primary),
+                    onTap: () => Navigator.of(context).pop(ex.id),
+                  ),
+              ]),
             ),
           ],
         ),

@@ -2183,7 +2183,7 @@ class AppLocalizationsBn extends AppLocalizations {
   String get tplFullbody => 'সপ্তাহে তিনদিন ফুল বডি। শুরু করার জন্য এটাই।';
 
   @override
-  String get tplPpl => 'পুশ, পুল আর লেগস। সপ্তাহে তিন বা ছয় দিন।';
+  String get tplPpl => 'পুশ, পুল ও লেগস—সাপ্তাহিক পরিকল্পনায় বিশ্রামের দিনসহ।';
 
   @override
   String get tplArnold => 'বুক আর পিঠ, কাঁধ আর বাহু, পা। ক্লাসিক ছয় দিনের ভাগ।';

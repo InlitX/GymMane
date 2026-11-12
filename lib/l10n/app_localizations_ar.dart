@@ -2166,7 +2166,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get tplFullbody => 'ثلاث تمارين لكامل الجسم أسبوعيًا. مثالي للبداية.';
 
   @override
-  String get tplPpl => 'دفع وسحب وأرجل. ثلاثة أو ستة أيام أسبوعيًا.';
+  String get tplPpl => 'دفع وسحب وأرجل، مع أيام راحة ضمن جدول الأسبوع.';
 
   @override
   String get tplArnold => 'صدر وظهر، أكتاف وذراعان، أرجل. التقسيم الكلاسيكي على ستة أيام.';

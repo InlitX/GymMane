@@ -2125,7 +2125,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get tplFullbody => 'Tiga hari seluruh tubuh seminggu. Yang paling cocok untuk mulai.';
 
   @override
-  String get tplPpl => 'Push, pull, dan kaki. Tiga atau enam hari seminggu.';
+  String get tplPpl => 'Push, pull, dan kaki, dengan hari istirahat dalam jadwal mingguan.';
 
   @override
   String get tplArnold => 'Dada dan punggung, bahu dan lengan, kaki. Pembagian klasik enam hari.';

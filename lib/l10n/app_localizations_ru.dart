@@ -2245,7 +2245,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get tplFullbody => 'Три дня в неделю на всё тело. С этого и начинают.';
 
   @override
-  String get tplPpl => 'Жим, тяга и ноги. Три или шесть дней в неделю.';
+  String get tplPpl => 'Жим, тяга и ноги с запланированными днями отдыха.';
 
   @override
   String get tplArnold => 'Грудь и спина, плечи и руки, ноги. Классический шестидневный сплит.';

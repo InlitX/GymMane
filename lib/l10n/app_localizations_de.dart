@@ -2188,7 +2188,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get tplFullbody => 'Drei Ganzkörpertage pro Woche. Der beste Einstieg.';
 
   @override
-  String get tplPpl => 'Drücken, Ziehen und Beine. Drei oder sechs Tage pro Woche.';
+  String get tplPpl => 'Drücken, Ziehen und Beine, mit eingeplanten Ruhetagen.';
 
   @override
   String get tplArnold => 'Brust und Rücken, Schultern und Arme, Beine. Der klassische Sechs-Tage-Split.';

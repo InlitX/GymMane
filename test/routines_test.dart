@@ -340,6 +340,20 @@ void main() {
         expect(fit.routineSets(a, a.exerciseIds.first), 5);
       });
 
+      test('el ciclo PPL personal pone descansos jueves y domingo', () {
+        final template = kProgramTemplates.firstWhere((x) => x.id == 'pplrpp');
+        expect(fit.applyTemplate(template), 5);
+
+        expect(fit.weeklyPlan.keys.toList()..sort(), [1, 2, 3, 5, 6]);
+        expect([
+          for (var day = 1; day <= 7; day++)
+            fit.weeklyPlan[day] == null
+                ? 'Repos'
+                : fit.routines.firstWhere((r) => r.id == fit.weeklyPlan[day]).name,
+        ], ['Push A', 'Pull A', 'Legs', 'Repos', 'Push B', 'Pull B', 'Repos']);
+        expect(fit.routineGroups, [template.name]);
+      });
+
       test('la Recommended Routine es una sola rutina puesta lunes, miércoles y viernes', () {
         final made = fit.applyTemplate(kProgramTemplates.firstWhere((x) => x.id == 'rr'));
         expect(made, 1);

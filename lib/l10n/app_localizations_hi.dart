@@ -2178,7 +2178,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get tplFullbody => 'हफ़्ते में तीन फ़ुल-बॉडी दिन। शुरुआत के लिए यही।';
 
   @override
-  String get tplPpl => 'पुश, पुल और लेग्स। हफ़्ते में तीन या छह दिन।';
+  String get tplPpl => 'पुश, पुल और लेग्स, साप्ताहिक योजना में आराम के दिनों के साथ।';
 
   @override
   String get tplArnold => 'छाती और पीठ, कंधे और बाँहें, पैर। क्लासिक छह दिन का स्प्लिट।';

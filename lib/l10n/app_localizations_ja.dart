@@ -2111,7 +2111,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get tplFullbody => '週3回の全身トレーニング。初心者に最適。';
 
   @override
-  String get tplPpl => 'プッシュ、プル、脚。週3日または6日。';
+  String get tplPpl => 'プッシュ、プル、脚を、休養日を含む週の予定に組み込みます。';
 
   @override
   String get tplArnold => '胸と背中、肩と腕、脚。定番の6日分割。';

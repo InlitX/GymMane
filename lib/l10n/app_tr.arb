@@ -586,7 +586,7 @@
   "templatesHint": "Kendi kütüphanendeki egzersizlerle oluşturulan klasik programlar. Daha sonra her şeyi değiştirebilirsin.",
   "templateAdded": "{n, plural, =1{{n} program eklendi} other{{n} program eklendi}}",
   "tplFullbody": "Haftada üç tam vücut antrenmanı. Başlangıç için ideal.",
-  "tplPpl": "İtiş, çekiş ve bacak. Haftada üç veya altı gün.",
+  "tplPpl": "İtiş, çekiş ve bacak antrenmanları; haftalık plana eklenmiş dinlenme günleriyle.",
   "tplUpperlower": "Üst ve alt vücut, haftada dört gün.",
   "tplStronglifts": "Dönüşümlü iki antrenman; beş tekrardan beş set.",
   "tplStartingstrength": "Her antrenmanda squat yapılan, dönüşümlü iki antrenman.",

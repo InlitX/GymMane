@@ -586,7 +586,7 @@
   "templatesHint": "Programas clássicos, montados com a sua biblioteca. Depois Poderá mudar tudo.",
   "templateAdded": "{n, plural, =1{{n} rotina adicionada} other{{n} rotinas adicionadas}}",
   "tplFullbody": "Três dias de corpo inteiro por semana. Por onde se começa.",
-  "tplPpl": "Empurrar, puxar e pernas. Três ou seis dias por semana.",
+  "tplPpl": "Empurrar, puxar e pernas, com dias de descanso no plano semanal.",
   "tplUpperlower": "Superior e inferior, quatro dias por semana.",
   "tplStronglifts": "Dois treinos, cinco séries de cinco, alternados.",
   "tplStartingstrength": "Agachamento em todos, dois treinos que se alternam.",

@@ -2166,7 +2166,7 @@ class AppLocalizationsFa extends AppLocalizations {
   String get tplFullbody => 'سه روز فول‌بادی در هفته. برای شروع.';
 
   @override
-  String get tplPpl => 'پرس، کشش و پا. سه یا شش روز در هفته.';
+  String get tplPpl => 'پرس، کشش و پا، با روزهای استراحت در برنامهٔ هفتگی.';
 
   @override
   String get tplArnold => 'سینه و پشت، شانه و بازو، پا. اسپلیت کلاسیک شش‌روزه.';

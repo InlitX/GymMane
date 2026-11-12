@@ -586,7 +586,7 @@
   "templatesHint": "Klassieke routines opgebouwd uit je eigen bibliotheek. Je kunt daarna alles aanpassen.",
   "templateAdded": "{n, plural, =1{{n} routine toegevoegd} other{{n} routines toegevoegd}}",
   "tplFullbody": "Drie full-bodytrainingen per week. Ideaal om te beginnen.",
-  "tplPpl": "Push, pull en benen. Drie of zes dagen per week.",
+  "tplPpl": "Push, pull en benen, met rustdagen in het weekschema.",
   "tplUpperlower": "Boven- en onderlichaam, vier dagen per week.",
   "tplStronglifts": "Twee afwisselende trainingen van vijf sets van vijf.",
   "tplStartingstrength": "Squat bij elke training, met twee afwisselende trainingen.",

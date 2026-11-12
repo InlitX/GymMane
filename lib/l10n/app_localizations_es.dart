@@ -2177,7 +2177,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get tplFullbody => 'Tres días de cuerpo entero a la semana. Por el que se empieza.';
 
   @override
-  String get tplPpl => 'Empuje, tirón y pierna. Tres o seis días a la semana.';
+  String get tplPpl => 'Empuje, tirón y piernas, con días de descanso en el plan semanal.';
 
   @override
   String get tplArnold => 'Pecho y espalda, hombros y brazos, pierna. El clásico de seis días.';

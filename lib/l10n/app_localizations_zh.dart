@@ -2093,7 +2093,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get tplFullbody => '每周三次全身训练，新手从这里开始。';
 
   @override
-  String get tplPpl => '推、拉、腿，每周三天或六天。';
+  String get tplPpl => '推、拉、腿训练，并在每周安排中加入休息日。';
 
   @override
   String get tplArnold => '胸背、肩臂、腿。经典六天分化。';
@@ -9521,7 +9521,7 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get tplFullbody => '每週三次全身訓練，非常適合入門。';
 
   @override
-  String get tplPpl => '推、拉、腿。每週三天或六天。';
+  String get tplPpl => '推、拉、腿訓練，並在每週安排中加入休息日。';
 
   @override
   String get tplArnold => '胸背、肩臂、腿。經典六天分化。';

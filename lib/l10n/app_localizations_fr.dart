@@ -2188,7 +2188,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get tplFullbody => 'Trois séances corps entier par semaine. Idéal pour commencer.';
 
   @override
-  String get tplPpl => 'Push, pull et jambes. Trois ou six jours par semaine.';
+  String get tplPpl => 'Push, pull et jambes, avec des jours de repos intégrés au planning.';
 
   @override
   String get tplArnold => 'Pecs et dos, épaules et bras, jambes. Le split classique sur six jours.';

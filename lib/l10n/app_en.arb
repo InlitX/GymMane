@@ -759,7 +759,7 @@
   "templateAdded": "{n, plural, one{{n} routine added} other{{n} routines added}}",
   "@templateAdded": { "placeholders": { "n": { "type": "int" } } },
   "tplFullbody": "Three full-body days a week. The one to start with.",
-  "tplPpl": "Push, pull and legs. Three or six days a week.",
+  "tplPpl": "Push, pull and legs, with rest days built into the schedule.",
   "tplArnold": "Chest and back, shoulders and arms, legs. The classic six-day split.",
   "tplUpperlower": "Upper and lower body, four days a week.",
   "tplStronglifts": "Two workouts, five sets of five, alternating.",

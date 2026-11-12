@@ -586,7 +586,7 @@
   "templatesHint": "Klasyczne plany zbudowane z twojej biblioteki. Potem możesz wszystko zmienić.",
   "templateAdded": "{n, plural, =1{{n} plan dodany} other{{n} plany dodane}}",
   "tplFullbody": "Trzy treningi całego ciała w tygodniu. Idealne na początek.",
-  "tplPpl": "Push, pull i nogi. Trzy lub sześć dni w tygodniu.",
+  "tplPpl": "Push, pull i nogi, z dniami odpoczynku w planie tygodnia.",
   "tplUpperlower": "Góra i dół ciała, cztery dni w tygodniu.",
   "tplStronglifts": "Dwa naprzemienne treningi po pięć serii po pięć powtórzeń.",
   "tplStartingstrength": "Przysiad na każdym treningu, z dwoma naprzemiennymi zestawami.",

@@ -586,7 +586,7 @@
   "templatesHint": "Des programmes classiques construits à partir de ta propre bibliothèque. Tu peux tout modifier ensuite.",
   "templateAdded": "{n, plural, =1{{n} programme ajouté} other{{n} programmes ajoutés}}",
   "tplFullbody": "Trois séances corps entier par semaine. Idéal pour commencer.",
-  "tplPpl": "Push, pull et jambes. Trois ou six jours par semaine.",
+  "tplPpl": "Push, pull et jambes, avec des jours de repos intégrés au planning.",
   "tplUpperlower": "Haut et bas du corps, quatre jours par semaine.",
   "tplStronglifts": "Deux séances de cinq séries de cinq, en alternance.",
   "tplStartingstrength": "Squat à chaque séance, avec deux séances en alternance.",

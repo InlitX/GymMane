@@ -2176,7 +2176,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get tplFullbody => 'Three full-body days a week. The one to start with.';
 
   @override
-  String get tplPpl => 'Push, pull and legs. Three or six days a week.';
+  String get tplPpl => 'Push, pull and legs, with rest days built into the schedule.';
 
   @override
   String get tplArnold => 'Chest and back, shoulders and arms, legs. The classic six-day split.';

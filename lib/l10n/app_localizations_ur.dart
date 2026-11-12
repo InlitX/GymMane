@@ -2163,7 +2163,7 @@ class AppLocalizationsUr extends AppLocalizations {
   String get tplFullbody => 'ہفتے میں تین دن پورا جسم۔ شروع کرنے کے لیے یہی۔';
 
   @override
-  String get tplPpl => 'پُش، پُل اور ٹانگیں۔ ہفتے میں تین یا چھ دن۔';
+  String get tplPpl => 'پُش، پُل اور ٹانگیں، ہفتہ وار شیڈول میں آرام کے دنوں کے ساتھ۔';
 
   @override
   String get tplArnold => 'سینہ اور کمر، کندھے اور بازو، ٹانگیں۔ چھ دن کی کلاسیک تقسیم۔';
