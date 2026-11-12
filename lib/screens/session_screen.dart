@@ -39,7 +39,44 @@ class SessionScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final gc = context.gc;
-    if (fit.minimalMode && !fit.isSessionComplete && fit.session != null) return _minimalScreen(context, gc);
+    if (fit.minimalMode && !fit.isSessionComplete && fit.session != null) {
+      final minimal = gc.copyWith(
+        pageBg: const Color(0xFF0E0E0D),
+        bg: const Color(0xFF141413),
+        bgRaised: const Color(0xFF1B1B1A),
+        bgRaised2: const Color(0xFF222221),
+        border: const Color(0xFF2C2C2A),
+        navBg: const Color(0xEE141413),
+        text: const Color(0xFFE9E7E2),
+        textSecondary: const Color(0xFF8D8A84),
+        textTertiary: const Color(0xFF5F5D58),
+        ember: const Color(0xFFC8A45F),
+        emberDeep: const Color(0xFFA88647),
+        onEmber: const Color(0xFF141413),
+        emberSoft: const Color(0x35C8A45F),
+        accent: const Color(0xFFC8A45F),
+        accentSoft: const Color(0x35C8A45F),
+        brass: const Color(0xFFC8A45F),
+        sage: const Color(0xFFC8A45F),
+        sageSoft: const Color(0x35C8A45F),
+        mutedFill: const Color(0xFF222221),
+        heatEmpty: const Color(0xFF222221),
+      );
+      final theme = Theme.of(context).copyWith(
+        scaffoldBackgroundColor: minimal.bg,
+        colorScheme: Theme.of(context).colorScheme.copyWith(
+          surface: minimal.bgRaised,
+          primary: minimal.accent,
+          onPrimary: minimal.onEmber,
+          onSurface: minimal.text,
+        ),
+        extensions: [minimal],
+      );
+      return Theme(
+        data: theme,
+        child: ColoredBox(color: minimal.bg, child: _minimalScreen(context, minimal)),
+      );
+    }
     if (fit.listLayout && !fit.isSessionComplete && fit.session != null) return _listScreen(context, gc);
     return SafeArea(
       bottom: false,
