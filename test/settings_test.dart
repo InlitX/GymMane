@@ -84,6 +84,16 @@ void main() {
       expect(fit.minimalMode, isFalse);
       fit.setSessionLayout('list');
       fit.setMinimalMode(true);
+      fit.updateMinimalOptions(
+        textSize: 'tiny',
+        rowHeight: 'tight',
+        showPrevious: false,
+        showHowTo: false,
+        showNotes: false,
+        showExerciseIcons: true,
+        showTotals: false,
+        showSettingsButton: false,
+      );
       expect(fit.listLayout, isTrue);
       expect(fit.minimalMode, isTrue);
 
@@ -94,8 +104,19 @@ void main() {
 
       expect(fit.minimalMode, isTrue);
       expect(fit.listLayout, isTrue);
+      expect(fit.minimalTextSize, 'tiny');
+      expect(fit.minimalRowHeight, 'tight');
+      expect(fit.minimalShowPrevious, isFalse);
+      expect(fit.minimalShowHowTo, isFalse);
+      expect(fit.minimalShowNotes, isFalse);
+      expect(fit.minimalShowExerciseIcons, isTrue);
+      expect(fit.minimalShowTotals, isFalse);
+      expect(fit.minimalShowSettingsButton, isFalse);
       fit.resetAllData();
       expect(fit.minimalMode, isFalse);
+      expect(fit.minimalTextSize, 'normal');
+      expect(fit.minimalRowHeight, 'compact');
+      expect(fit.minimalShowPrevious, isTrue);
     });
 
     test('height reads in feet and inches for imperial users', () {
