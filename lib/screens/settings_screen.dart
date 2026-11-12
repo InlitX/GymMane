@@ -502,6 +502,17 @@ class SettingsScreen extends StatelessWidget {
                     hint: t.layoutHint,
                     rowHint: t.layoutRowHint,
                   ),
+                  GestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    onTap: () => fit.setMinimalMode(!fit.minimalMode),
+                    child: _prefRow(
+                      gc,
+                      PhosphorIconsRegular.listBullets,
+                      'Minimal mode',
+                      TinySwitch(on: fit.minimalMode),
+                      hint: 'Use a compact, flat workout table with collapsed exercise sections and less visual clutter.',
+                    ),
+                  ),
                   _choiceRow(
                     context,
                     gc,
