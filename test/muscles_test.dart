@@ -60,9 +60,11 @@ void main() {
 
     test('cuenta los días desde la última serie del músculo principal', () {
       final now = DateTime.now();
-      fit.sessions.add(LoggedSession(DateTime(now.year, now.month, now.day - 9, 12), 600, [
-        LoggedExercise(bench(), 'Bench Press', 'chest', [LoggedSet(8, 60)]),
-      ]));
+      fit.sessions.add(
+        LoggedSession(DateTime(now.year, now.month, now.day - 9, 12), 600, [
+          LoggedExercise(bench(), 'Bench Press', 'chest', [LoggedSet(8, 60)]),
+        ]),
+      );
       final days = fit.daysSinceTrained();
       expect(days['chest'], 9);
       expect(days['quads'], isNull);
@@ -71,14 +73,26 @@ void main() {
     });
 
     test('#300 el cardio no suma series al músculo aunque lleve uno', () {
-      final run = fit.addCustomExercise(name: 'Escaladora', primary: 'quads', equipment: 'Machine', mode: 'cardio');
-      final walk = fit.addCustomExercise(name: 'Cinta', primary: 'quads', equipment: 'Machine', kind: 'cardio');
+      final run = fit.addCustomExercise(
+        name: 'Escaladora',
+        primary: 'quads',
+        equipment: 'Machine',
+        mode: 'cardio',
+      );
+      final walk = fit.addCustomExercise(
+        name: 'Cinta',
+        primary: 'quads',
+        equipment: 'Machine',
+        kind: 'cardio',
+      );
       final now = DateTime.now();
-      fit.sessions.add(LoggedSession(now, 1800, [
-        LoggedExercise(run, 'Escaladora', 'quads', [LoggedSet(1, 0, sec: 1200)]),
-        LoggedExercise(walk, 'Cinta', 'quads', [LoggedSet(1, 0, sec: 900)]),
-        LoggedExercise(bench(), 'Bench Press', 'chest', [LoggedSet(8, 60), LoggedSet(8, 60)]),
-      ]));
+      fit.sessions.add(
+        LoggedSession(now, 1800, [
+          LoggedExercise(run, 'Escaladora', 'quads', [LoggedSet(1, 0, sec: 1200)]),
+          LoggedExercise(walk, 'Cinta', 'quads', [LoggedSet(1, 0, sec: 900)]),
+          LoggedExercise(bench(), 'Bench Press', 'chest', [LoggedSet(8, 60), LoggedSet(8, 60)]),
+        ]),
+      );
       final sets = fit.muscleSetsOver(7);
       expect(sets['quads'], isNull);
       expect(sets['chest'], 2);
@@ -110,10 +124,13 @@ void main() {
 
     test('a hard chest day tires the chest and it recovers in a few days', () {
       final now = DateTime(2026, 9, 18, 18);
-      fit.sessions.add(LoggedSession(now.subtract(const Duration(hours: 1)), 3600, [
-        LoggedExercise(idOf('Barbell Bench Press'), 'Bench', 'chest',
-            [for (var i = 0; i < 8; i++) LoggedSet(8, 80, rpe: 9)]),
-      ]));
+      fit.sessions.add(
+        LoggedSession(now.subtract(const Duration(hours: 1)), 3600, [
+          LoggedExercise(idOf('Barbell Bench Press'), 'Bench', 'chest', [
+            for (var i = 0; i < 8; i++) LoggedSet(8, 80, rpe: 9),
+          ]),
+        ]),
+      );
       final fresh = fit.muscleRecovery(now: now);
       expect(fresh['chest'], lessThan(0.3));
       expect(fresh['quads'], 1);
@@ -125,10 +142,13 @@ void main() {
 
     test('dice cuándo pasa a recuperando y cuándo a listo', () {
       final now = DateTime(2026, 9, 18, 18);
-      fit.sessions.add(LoggedSession(now.subtract(const Duration(hours: 1)), 3600, [
-        LoggedExercise(idOf('Barbell Bench Press'), 'Bench', 'chest',
-            [for (var i = 0; i < 8; i++) LoggedSet(8, 80, rpe: 9)]),
-      ]));
+      fit.sessions.add(
+        LoggedSession(now.subtract(const Duration(hours: 1)), 3600, [
+          LoggedExercise(idOf('Barbell Bench Press'), 'Bench', 'chest', [
+            for (var i = 0; i < 8; i++) LoggedSet(8, 80, rpe: 9),
+          ]),
+        ]),
+      );
       final mid = fit.hoursUntilRecovery('chest', 0.5, now: now)!;
       final ready = fit.hoursUntilRecovery('chest', 0.8, now: now)!;
       expect(ready, greaterThan(mid));
@@ -152,6 +172,62 @@ void main() {
       final press = kExercises.firstWhere((e) => e.name == 'Leg Press');
       expect(press.primary, 'quads');
       expect(press.secondary, containsAll(['glutes', 'hamstrings']));
+    });
+  });
+
+  group('#365 músculos de sentadillas, peso muerto y empujes', () {
+    setUp(() async {
+      SharedPreferences.setMockInitialValues({});
+      await Store.instance.init();
+      fit.resetAllData();
+      fit.onboarded = true;
+      setAppLanguage('en');
+    });
+
+    test('sentadillas y zancadas tienen cuádriceps como músculo principal', () {
+      final squat = kExercises.firstWhere((e) => e.id == 'qXTaZnJ');
+      expect(squat.primary, 'quads');
+      expect(squat.secondary, containsAll(['glutes', 'hamstrings', 'calves']));
+
+      final frontSquat = kExercises.firstWhere((e) => e.id == 'zG0zs85');
+      expect(frontSquat.primary, 'quads');
+      expect(frontSquat.secondary, containsAll(['glutes', 'hamstrings', 'calves']));
+
+      final hackSquat = kExercises.firstWhere((e) => e.id == 'ZuPXtCK');
+      expect(hackSquat.primary, 'quads');
+      expect(hackSquat.secondary, containsAll(['glutes', 'hamstrings', 'calves']));
+
+      final lunge = kExercises.firstWhere((e) => e.id == 'RRWFUcw');
+      expect(lunge.primary, 'quads');
+      expect(lunge.secondary, containsAll(['glutes', 'hamstrings', 'calves']));
+    });
+
+    test('peso muerto rumano y buenos días tienen isquiotibiales como primario', () {
+      final rdl = kExercises.firstWhere((e) => e.id == 'wQ2c4XD');
+      expect(rdl.primary, 'hamstrings');
+      expect(rdl.secondary, containsAll(['glutes', 'lowerback']));
+
+      final gm = kExercises.firstWhere((e) => e.id == '1bQkKZK');
+      expect(gm.primary, 'hamstrings');
+      expect(gm.secondary, containsAll(['glutes', 'lowerback']));
+    });
+
+    test('empuje de cadera smith apunta a glúteos', () {
+      final hipThrust = kExercises.firstWhere((e) => e.id == 'CqhoytW');
+      expect(hipThrust.primary, 'glutes');
+      expect(hipThrust.secondary, contains('hamstrings'));
+    });
+
+    test('las sentadillas suman series a cuádriceps y medio a glúteos', () {
+      final squat = kExercises.firstWhere((e) => e.id == 'qXTaZnJ');
+      fit.sessions.add(
+        LoggedSession(DateTime.now(), 1800, [
+          LoggedExercise(squat.id, squat.name, squat.primary, [LoggedSet(5, 100), LoggedSet(5, 100)]),
+        ]),
+      );
+      final sets = fit.muscleSetsOver(7);
+      expect(sets['quads'], 2);
+      expect(sets['glutes'], 1);
     });
   });
 }
