@@ -7678,10 +7678,10 @@ class AppLocalizationsUr extends AppLocalizations {
   }
 
   @override
-  String get duplicateExercise => 'Duplicate';
+  String get duplicateExercise => 'ڈپلیکیٹ کریں';
 
   @override
   String exerciseCopyName(String name) {
-    return '$name (copy)';
+    return '$name (کاپی)';
   }
 }

@@ -2244,5 +2244,8 @@
   "webPhoneFolderHow": "서버를 설치할 때 정해져요. 바꾸려면 서버의 .env 파일에 GYMMANE_SYNC를 지정하고 다시 시작하세요.",
   "webPhoneOffHow": "켜려면 서버의 .env 파일에서 GYMMANE_SYNC=off를 지우고 다시 시작하세요.",
   "webPhoneDevices": "{n, plural, =0{아직 동기화한 휴대폰이 없어요} other{휴대폰 {n}대 동기화됨}}",
-  "webPhoneError": "폴더를 읽지 못했어요: {error}"
+  "webPhoneError": "폴더를 읽지 못했어요: {error}",
+
+  "duplicateExercise": "복제",
+  "exerciseCopyName": "{name} (사본)"
 }

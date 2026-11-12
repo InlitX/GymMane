@@ -2244,5 +2244,8 @@
   "webPhoneFolderHow": "サーバーのインストール時に決まります。変更するには、サーバーの .env ファイルで GYMMANE_SYNC を設定して再起動してください。",
   "webPhoneOffHow": "オンにするには、サーバーの .env ファイルから GYMMANE_SYNC=off を消して再起動してください。",
   "webPhoneDevices": "{n, plural, =0{まだ同期したスマホはありません} other{{n} 台のスマホが同期済み}}",
-  "webPhoneError": "フォルダーを読み込めませんでした：{error}"
+  "webPhoneError": "フォルダーを読み込めませんでした：{error}",
+
+  "duplicateExercise": "複製",
+  "exerciseCopyName": "{name}（コピー）"
 }

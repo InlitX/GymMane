@@ -7745,10 +7745,10 @@ class AppLocalizationsBn extends AppLocalizations {
   }
 
   @override
-  String get duplicateExercise => 'Duplicate';
+  String get duplicateExercise => 'ডুপ্লিকেট';
 
   @override
   String exerciseCopyName(String name) {
-    return '$name (copy)';
+    return '$name (কপি)';
   }
 }

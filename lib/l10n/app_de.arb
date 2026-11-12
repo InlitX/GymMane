@@ -2244,5 +2244,8 @@
   "webPhoneFolderHow": "Wird bei der Installation des Servers festgelegt. Um ihn zu ändern, setze GYMMANE_SYNC in der .env-Datei des Servers und starte ihn neu.",
   "webPhoneOffHow": "Zum Einschalten entferne GYMMANE_SYNC=off aus der .env-Datei des Servers und starte ihn neu.",
   "webPhoneDevices": "{n, plural, =0{Noch kein Handy synchronisiert} =1{1 Handy synchronisiert} other{{n} Handys synchronisiert}}",
-  "webPhoneError": "Ordner konnte nicht gelesen werden: {error}"
+  "webPhoneError": "Ordner konnte nicht gelesen werden: {error}",
+
+  "duplicateExercise": "Duplizieren",
+  "exerciseCopyName": "{name} (Kopie)"
 }

@@ -2244,5 +2244,8 @@
   "webPhoneFolderHow": "يُختار عند تثبيت الخادم. لتغييره، اضبط GYMMANE_SYNC في ملف ‎.env الخاص بالخادم وأعد تشغيله.",
   "webPhoneOffHow": "لتفعيلها، احذف GYMMANE_SYNC=off من ملف ‎.env الخاص بالخادم وأعد تشغيله.",
   "webPhoneDevices": "{n, plural, =0{لم يزامن أي هاتف بعد} =1{تمت مزامنة هاتف واحد} =2{تمت مزامنة هاتفين} few{تمت مزامنة {n} هواتف} many{تمت مزامنة {n} هاتفًا} other{تمت مزامنة {n} هاتف}}",
-  "webPhoneError": "تعذّرت قراءة المجلد: {error}"
+  "webPhoneError": "تعذّرت قراءة المجلد: {error}",
+
+  "duplicateExercise": "تكرار",
+  "exerciseCopyName": "{name} (نسخة)"
 }

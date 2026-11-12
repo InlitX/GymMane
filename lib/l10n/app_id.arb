@@ -2241,5 +2241,8 @@
   "webPhoneFolderHow": "Dipilih saat memasang server. Untuk mengubahnya, atur GYMMANE_SYNC di file .env server lalu mulai ulang.",
   "webPhoneOffHow": "Untuk menyalakannya, hapus GYMMANE_SYNC=off dari file .env server lalu mulai ulang.",
   "webPhoneDevices": "{n, plural, =0{Belum ada ponsel yang tersinkron} other{{n} ponsel tersinkron}}",
-  "webPhoneError": "Folder tidak bisa dibaca: {error}"
+  "webPhoneError": "Folder tidak bisa dibaca: {error}",
+
+  "duplicateExercise": "Duplikat",
+  "exerciseCopyName": "{name} (salinan)"
 }

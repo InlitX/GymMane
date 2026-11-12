@@ -2241,5 +2241,8 @@
   "webPhoneFolderHow": "सर्वर इंस्टॉल करते समय चुना जाता है। बदलने के लिए सर्वर की .env फ़ाइल में GYMMANE_SYNC सेट करो और उसे रीस्टार्ट करो।",
   "webPhoneOffHow": "चालू करने के लिए सर्वर की .env फ़ाइल से GYMMANE_SYNC=off हटाओ और उसे रीस्टार्ट करो।",
   "webPhoneDevices": "{n, plural, =0{अभी किसी फ़ोन ने सिंक नहीं किया} =1{1 फ़ोन सिंक हुआ} other{{n} फ़ोन सिंक हुए}}",
-  "webPhoneError": "फ़ोल्डर नहीं पढ़ा जा सका: {error}"
+  "webPhoneError": "फ़ोल्डर नहीं पढ़ा जा सका: {error}",
+
+  "duplicateExercise": "डुप्लिकेट करें",
+  "exerciseCopyName": "{name} (कॉपी)"
 }

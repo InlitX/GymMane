@@ -7607,10 +7607,10 @@ class AppLocalizationsVi extends AppLocalizations {
   }
 
   @override
-  String get duplicateExercise => 'Duplicate';
+  String get duplicateExercise => 'Nhân bản';
 
   @override
   String exerciseCopyName(String name) {
-    return '$name (copy)';
+    return '$name (bản sao)';
   }
 }

@@ -2244,5 +2244,8 @@
   "webPhoneFolderHow": "在安裝伺服器時選定。要更改，請在伺服器的 .env 檔案中設定 GYMMANE_SYNC 並重新啟動。",
   "webPhoneOffHow": "要開啟，請從伺服器的 .env 檔案中刪除 GYMMANE_SYNC=off 並重新啟動。",
   "webPhoneDevices": "{n, plural, =0{還沒有手機同步過} other{已同步 {n} 支手機}}",
-  "webPhoneError": "無法讀取資料夾：{error}"
+  "webPhoneError": "無法讀取資料夾：{error}",
+
+  "duplicateExercise": "複製",
+  "exerciseCopyName": "{name}（副本）"
 }

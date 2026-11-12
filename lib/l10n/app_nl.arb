@@ -2244,5 +2244,8 @@
   "webPhoneFolderHow": "Wordt gekozen bij het installeren van de server. Om hem te wijzigen, zet je GYMMANE_SYNC in het .env-bestand van de server en herstart je hem.",
   "webPhoneOffHow": "Om het aan te zetten, haal je GYMMANE_SYNC=off uit het .env-bestand van de server en herstart je hem.",
   "webPhoneDevices": "{n, plural, =0{Nog geen telefoon gesynchroniseerd} =1{1 telefoon gesynchroniseerd} other{{n} telefoons gesynchroniseerd}}",
-  "webPhoneError": "Kon de map niet lezen: {error}"
+  "webPhoneError": "Kon de map niet lezen: {error}",
+
+  "duplicateExercise": "Dupliceren",
+  "exerciseCopyName": "{name} (kopie)"
 }

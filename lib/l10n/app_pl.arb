@@ -2244,5 +2244,8 @@
   "webPhoneFolderHow": "Wybierany przy instalacji serwera. Aby go zmienić, ustaw GYMMANE_SYNC w pliku .env serwera i uruchom go ponownie.",
   "webPhoneOffHow": "Aby ją włączyć, usuń GYMMANE_SYNC=off z pliku .env serwera i uruchom go ponownie.",
   "webPhoneDevices": "{n, plural, =0{Żaden telefon jeszcze się nie zsynchronizował} =1{Zsynchronizowano 1 telefon} few{Zsynchronizowano {n} telefony} many{Zsynchronizowano {n} telefonów} other{Zsynchronizowano {n} telefonu}}",
-  "webPhoneError": "Nie udało się odczytać folderu: {error}"
+  "webPhoneError": "Nie udało się odczytać folderu: {error}",
+
+  "duplicateExercise": "Duplikuj",
+  "exerciseCopyName": "{name} (kopia)"
 }

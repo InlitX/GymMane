@@ -2233,5 +2233,8 @@
   "webPhoneFolderHow": "سرور انسٹال کرتے وقت چنا جاتا ہے۔ بدلنے کے لیے سرور کی ‎.env فائل میں GYMMANE_SYNC مقرر کرو اور اسے دوبارہ شروع کرو۔",
   "webPhoneOffHow": "آن کرنے کے لیے سرور کی ‎.env فائل سے GYMMANE_SYNC=off ہٹاؤ اور اسے دوبارہ شروع کرو۔",
   "webPhoneDevices": "{n, plural, =0{ابھی کوئی فون سنک نہیں ہوا} =1{1 فون سنک ہوا} other{{n} فون سنک ہوئے}}",
-  "webPhoneError": "فولڈر نہیں پڑھا جا سکا: {error}"
+  "webPhoneError": "فولڈر نہیں پڑھا جا سکا: {error}",
+
+  "duplicateExercise": "ڈپلیکیٹ کریں",
+  "exerciseCopyName": "{name} (کاپی)"
 }

@@ -2234,5 +2234,8 @@
   "webPhoneFolderHow": "Escolhida ao instalar o servidor. Para mudar, defina GYMMANE_SYNC no arquivo .env do servidor e reinicie.",
   "webPhoneOffHow": "Para ativar, remova GYMMANE_SYNC=off do arquivo .env do servidor e reinicie.",
   "webPhoneDevices": "{n, plural, =0{Nenhum celular sincronizou ainda} =1{1 celular sincronizado} other{{n} celulares sincronizados}}",
-  "webPhoneError": "Não foi possível ler a pasta: {error}"
+  "webPhoneError": "Não foi possível ler a pasta: {error}",
+
+  "duplicateExercise": "Duplicar",
+  "exerciseCopyName": "{name} (cópia)"
 }

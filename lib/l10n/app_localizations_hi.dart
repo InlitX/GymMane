@@ -7718,10 +7718,10 @@ class AppLocalizationsHi extends AppLocalizations {
   }
 
   @override
-  String get duplicateExercise => 'Duplicate';
+  String get duplicateExercise => 'डुप्लिकेट करें';
 
   @override
   String exerciseCopyName(String name) {
-    return '$name (copy)';
+    return '$name (कॉपी)';
   }
 }

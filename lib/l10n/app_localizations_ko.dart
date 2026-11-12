@@ -7501,10 +7501,10 @@ class AppLocalizationsKo extends AppLocalizations {
   }
 
   @override
-  String get duplicateExercise => 'Duplicate';
+  String get duplicateExercise => '복제';
 
   @override
   String exerciseCopyName(String name) {
-    return '$name (copy)';
+    return '$name (사본)';
   }
 }

@@ -7846,10 +7846,10 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
-  String get duplicateExercise => 'Duplicate';
+  String get duplicateExercise => 'تكرار';
 
   @override
   String exerciseCopyName(String name) {
-    return '$name (copy)';
+    return '$name (نسخة)';
   }
 }

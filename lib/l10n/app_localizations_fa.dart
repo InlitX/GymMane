@@ -7650,10 +7650,10 @@ class AppLocalizationsFa extends AppLocalizations {
   }
 
   @override
-  String get duplicateExercise => 'Duplicate';
+  String get duplicateExercise => 'تکثیر';
 
   @override
   String exerciseCopyName(String name) {
-    return '$name (copy)';
+    return '$name (کپی)';
   }
 }

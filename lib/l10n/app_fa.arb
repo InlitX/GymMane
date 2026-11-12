@@ -2244,5 +2244,8 @@
   "webPhoneFolderHow": "هنگام نصب سرور انتخاب می‌شود. برای تغییرش، GYMMANE_SYNC را در فایل ‎.env سرور تنظیم کن و دوباره راه‌اندازی‌اش کن.",
   "webPhoneOffHow": "برای روشن کردنش، GYMMANE_SYNC=off را از فایل ‎.env سرور حذف کن و دوباره راه‌اندازی‌اش کن.",
   "webPhoneDevices": "{n, plural, =0{هنوز هیچ گوشی‌ای همگام نشده} other{{n} گوشی همگام شده}}",
-  "webPhoneError": "خواندن پوشه ممکن نشد: {error}"
+  "webPhoneError": "خواندن پوشه ممکن نشد: {error}",
+
+  "duplicateExercise": "تکثیر",
+  "exerciseCopyName": "{name} (کپی)"
 }

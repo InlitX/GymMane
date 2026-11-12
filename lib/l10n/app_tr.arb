@@ -2244,5 +2244,8 @@
   "webPhoneFolderHow": "Sunucuyu kurarken seçilir. Değiştirmek için sunucunun .env dosyasında GYMMANE_SYNC değerini ayarla ve yeniden başlat.",
   "webPhoneOffHow": "Açmak için sunucunun .env dosyasından GYMMANE_SYNC=off satırını kaldır ve yeniden başlat.",
   "webPhoneDevices": "{n, plural, =0{Henüz hiçbir telefon eşitlenmedi} =1{1 telefon eşitlendi} other{{n} telefon eşitlendi}}",
-  "webPhoneError": "Klasör okunamadı: {error}"
+  "webPhoneError": "Klasör okunamadı: {error}",
+
+  "duplicateExercise": "Çoğalt",
+  "exerciseCopyName": "{name} (kopya)"
 }

@@ -2234,5 +2234,8 @@
   "webPhoneFolderHow": "Được chọn khi cài máy chủ. Để đổi, đặt GYMMANE_SYNC trong tệp .env của máy chủ rồi khởi động lại.",
   "webPhoneOffHow": "Để bật, xóa GYMMANE_SYNC=off khỏi tệp .env của máy chủ rồi khởi động lại.",
   "webPhoneDevices": "{n, plural, =0{Chưa có điện thoại nào đồng bộ} other{Đã đồng bộ {n} điện thoại}}",
-  "webPhoneError": "Không đọc được thư mục: {error}"
+  "webPhoneError": "Không đọc được thư mục: {error}",
+
+  "duplicateExercise": "Nhân bản",
+  "exerciseCopyName": "{name} (bản sao)"
 }

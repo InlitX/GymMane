@@ -2241,5 +2241,8 @@
   "webPhoneFolderHow": "সার্ভার ইনস্টল করার সময় বেছে নেওয়া হয়। বদলাতে সার্ভারের .env ফাইলে GYMMANE_SYNC দাও আর রিস্টার্ট করো।",
   "webPhoneOffHow": "চালু করতে সার্ভারের .env ফাইল থেকে GYMMANE_SYNC=off সরাও আর রিস্টার্ট করো।",
   "webPhoneDevices": "{n, plural, =0{এখনও কোনো ফোন সিঙ্ক হয়নি} =1{1টি ফোন সিঙ্ক হয়েছে} other{{n}টি ফোন সিঙ্ক হয়েছে}}",
-  "webPhoneError": "ফোল্ডার পড়া গেল না: {error}"
+  "webPhoneError": "ফোল্ডার পড়া গেল না: {error}",
+
+  "duplicateExercise": "ডুপ্লিকেট",
+  "exerciseCopyName": "{name} (কপি)"
 }

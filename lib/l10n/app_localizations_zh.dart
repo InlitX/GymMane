@@ -7422,11 +7422,11 @@ class AppLocalizationsZh extends AppLocalizations {
   }
 
   @override
-  String get duplicateExercise => 'Duplicate';
+  String get duplicateExercise => '复制';
 
   @override
   String exerciseCopyName(String name) {
-    return '$name (copy)';
+    return '$name（副本）';
   }
 }
 
@@ -14862,5 +14862,13 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   @override
   String webPhoneError(String error) {
     return '無法讀取資料夾：$error';
+  }
+
+  @override
+  String get duplicateExercise => '複製';
+
+  @override
+  String exerciseCopyName(String name) {
+    return '$name（副本）';
   }
 }
