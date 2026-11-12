@@ -22,6 +22,7 @@ mixin SettingsState on FitCore, ToolsState, LibraryState {
   String demoSize = 'large';
   String demoLoop = 'always';
   String sessionLayout = 'cards';
+  bool minimalMode = false;
   String heatmapRange = 'weeks';
   String alarmStyle = 'quiet';
   int restSeconds = 90;
@@ -163,6 +164,13 @@ mixin SettingsState on FitCore, ToolsState, LibraryState {
   }
 
   bool get listLayout => sessionLayout == 'list';
+
+  void setMinimalMode(bool enabled) {
+    if (minimalMode == enabled) return;
+    minimalMode = enabled;
+    _persist();
+    notifyListeners();
+  }
 
   bool get heatmapYear => heatmapRange == 'year';
 
