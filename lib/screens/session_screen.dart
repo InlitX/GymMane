@@ -414,13 +414,14 @@ class SessionScreen extends StatelessWidget {
 
   Widget _minimalActive(BuildContext context, GymColors gc, WorkoutSession s, bool locked) {
     final first = s.exercises.isEmpty ? null : s.exercises.first;
-    final sameColumns = first != null && s.exercises.every((e) =>
-        fit.modeOf(e.id) == fit.modeOf(first!.id) &&
-        fit.isRepsOnly(e.id) == fit.isRepsOnly(first.id) &&
+    final firstId = first?.id;
+    final sameColumns = firstId != null && s.exercises.every((e) =>
+        fit.modeOf(e.id) == fit.modeOf(firstId) &&
+        fit.isRepsOnly(e.id) == fit.isRepsOnly(firstId) &&
         (fit.isEachSide(e.id) || fit.isSidedReps(e.id)) ==
-            (fit.isEachSide(first.id) || fit.isSidedReps(first.id)) &&
-        fit.unitsFor(e.id) == fit.unitsFor(first.id) &&
-        fit.distanceUnitFor(e.id) == fit.distanceUnitFor(first.id));
+            (fit.isEachSide(firstId) || fit.isSidedReps(firstId)) &&
+        fit.unitsFor(e.id) == fit.unitsFor(firstId) &&
+        fit.distanceUnitFor(e.id) == fit.distanceUnitFor(firstId));
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
