@@ -17,7 +17,7 @@ void main() {
     ]);
     final lines = csv.trim().split('\n');
     expect(lines.first,
-        'date,exercise,muscle,set,reps,weight_kg,volume_kg,est_1rm_kg,distance_km,duration_s,rpe,note');
+        'date,exercise,muscle,set,reps,weight_kg,volume_kg,est_1rm_kg,distance_km,duration_s,set_type,rpe,rir,note');
     expect(lines.length, 3);
     expect(lines[1], startsWith('2026-07-14,Barbell Bench Press,chest,1,10,60,600,'));
     expect(lines[2], contains(',2,8,70,560,'));
@@ -30,7 +30,7 @@ void main() {
     final row = csv.trim().split('\n')[1];
     expect(row, contains('"Chest Dip, Assisted"'));
 
-    expect(row.replaceAll(RegExp('"[^"]*"'), 'X').split(',').length, 12);
+    expect(row.replaceAll(RegExp('"[^"]*"'), 'X').split(',').length, 14);
   });
 
   test('a name with quotes is escaped, not mangled', () {
@@ -69,7 +69,7 @@ void main() {
 
   test('no sessions still yields a valid header-only file', () {
     expect(store.exportCsv([]).trim(),
-        'date,exercise,muscle,set,reps,weight_kg,volume_kg,est_1rm_kg,distance_km,duration_s,rpe,note');
+        'date,exercise,muscle,set,reps,weight_kg,volume_kg,est_1rm_kg,distance_km,duration_s,set_type,rpe,rir,note');
   });
 
   test('a set note goes in the last column, escaped', () {
@@ -79,5 +79,17 @@ void main() {
     final lines = csv.trim().split('\n');
     expect(lines[1], endsWith(',"knee, a bit sore"'));
     expect(lines[2], endsWith(','));
+  });
+
+  test('warm-up 40 kg x 8 does not export est_1rm_kg and csv serializes set_type and rir', () {
+    final csv = store.exportCsv([
+      _session(DateTime(2026, 11, 10), 'Barbell Bench Press', [
+        LoggedSet(8, 40, kind: SetKind.warmup, rpe: 7),
+        LoggedSet(5, 80, rpe: 8.5),
+      ]),
+    ]);
+    final lines = csv.trim().split('\n');
+    expect(lines[1], '2026-11-10,Barbell Bench Press,chest,1,8,40,0,0,,,warmup,7,3,');
+    expect(lines[2], '2026-11-10,Barbell Bench Press,chest,2,5,80,400,97.09,,,normal,8.5,1.5,');
   });
 }

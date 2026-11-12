@@ -73,9 +73,9 @@ void main() {
         ]),
       ]);
       final rows = csv.trim().split('\n');
-      expect(rows.first, endsWith(',rpe,note'));
-      expect(rows[1], endsWith(',8.5,'));
-      expect(rows[2], endsWith(',,'));
+      expect(rows.first, endsWith(',set_type,rpe,rir,note'));
+      expect(rows[1], endsWith(',normal,8.5,1.5,'));
+      expect(rows[2], endsWith(',normal,,,'));
 
       final back = parseImport(csv);
       final sets = back.sessions.single.exercises.single.sets;

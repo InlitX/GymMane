@@ -167,6 +167,7 @@ const _formats = <ImportFormat, _Fmt>{
     reps: ['reps'],
     weightKg: ['weight_kg'],
     weightLb: [],
+    setType: ['set_type'],
     muscle: ['muscle'],
   ),
   ImportFormat.generic: _Fmt(
