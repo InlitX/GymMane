@@ -1,0 +1,12 @@
+GymMane 2.2.0
+
+• Tu propio servidor, con GymMane en el navegador
+• Rangos de repeticiones en las rutinas
+• Descanso entre ejercicios y entre lados
+• Marca suplementos desde el aviso
+• Fotos en las comidas guardadas
+• km o mi por ejercicio
+• Duplica cualquier ejercicio
+• Hindi, bengalí, urdu e indonesio
+
+Y mucho más. Instálala y descúbrelo.

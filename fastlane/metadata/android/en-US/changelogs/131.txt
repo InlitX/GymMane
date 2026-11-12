@@ -1,0 +1,12 @@
+GymMane 2.2.0
+
+• Your own server, with GymMane in the browser
+• Rep ranges in routines
+• Rest between exercises and between sides
+• Tick supplements from the notification
+• Photos for saved meals
+• km or mi per exercise
+• Duplicate any exercise
+• Hindi, Bengali, Urdu and Indonesian
+
+And a lot more. Install it and find out.
