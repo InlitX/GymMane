@@ -236,6 +236,7 @@ class FitState extends FitCore
     demoSize = data['demo'] as String? ?? 'large';
     demoLoop = data['demoLoop'] as String? ?? 'always';
     sessionLayout = data['layout'] == 'list' ? 'list' : 'cards';
+    minimalMode = data['minimalMode'] == true;
     heatmapRange = data['heatRange'] == 'year' ? 'year' : 'weeks';
     alarmStyle = data['alarmStyle'] as String? ?? 'quiet';
     RestAlarm.instance.style = alarmStyle;
@@ -601,6 +602,7 @@ class FitState extends FitCore
         'demo': demoSize,
         'demoLoop': demoLoop,
         'layout': sessionLayout,
+        'minimalMode': minimalMode,
         'heatRange': heatmapRange,
         'alarmStyle': alarmStyle,
         'noSuggest': noSuggest.toList(),
@@ -784,6 +786,7 @@ class FitState extends FitCore
     demoSize = 'large';
     demoLoop = 'always';
     sessionLayout = 'cards';
+    minimalMode = false;
     heatmapRange = 'weeks';
     MediaStore.clearAll();
     favorites.clear();
