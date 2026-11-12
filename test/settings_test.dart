@@ -80,6 +80,24 @@ void main() {
       fit.setAlarmStyle('loud');
     });
 
+    test('Minimal mode is remembered separately from the existing workout layout', () {
+      expect(fit.minimalMode, isFalse);
+      fit.setSessionLayout('list');
+      fit.setMinimalMode(true);
+      expect(fit.listLayout, isTrue);
+      expect(fit.minimalMode, isTrue);
+
+      fit.persistNow();
+      fit.setMinimalMode(false);
+      fit.setSessionLayout('cards');
+      fit.loadFromStore();
+
+      expect(fit.minimalMode, isTrue);
+      expect(fit.listLayout, isTrue);
+      fit.resetAllData();
+      expect(fit.minimalMode, isFalse);
+    });
+
     test('height reads in feet and inches for imperial users', () {
       fit.setUnits('lb');
       expect(fit.heightLabel(175), '5′ 9″');
