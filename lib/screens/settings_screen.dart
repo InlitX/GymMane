@@ -535,7 +535,7 @@ class SettingsScreen extends StatelessWidget {
                       [
                         ('roomy', 'Roomy', PhosphorIconsRegular.rows),
                         ('compact', 'Compact', PhosphorIconsRegular.listBullets),
-                        ('tight', 'Tight', PhosphorIconsRegular.alignTop),
+                        ('tight', 'Tight', PhosphorIconsRegular.rows),
                       ],
                       () => fit.minimalRowHeight,
                       (v) => fit.updateMinimalOptions(rowHeight: v),
@@ -549,13 +549,13 @@ class SettingsScreen extends StatelessWidget {
                     GestureDetector(
                       behavior: HitTestBehavior.opaque,
                       onTap: () => fit.updateMinimalOptions(showHowTo: !fit.minimalShowHowTo),
-                      child: _prefRow(gc, PhosphorIconsRegular.question, 'How-to button (?)',
+                      child: _prefRow(gc, PhosphorIconsRegular.listBullets, 'How-to button (?)',
                           TinySwitch(on: fit.minimalShowHowTo)),
                     ),
                     GestureDetector(
                       behavior: HitTestBehavior.opaque,
                       onTap: () => fit.updateMinimalOptions(showNotes: !fit.minimalShowNotes),
-                      child: _prefRow(gc, PhosphorIconsRegular.note, 'Notes',
+                      child: _prefRow(gc, PhosphorIconsRegular.pencilSimple, 'Notes',
                           TinySwitch(on: fit.minimalShowNotes)),
                     ),
                     GestureDetector(
