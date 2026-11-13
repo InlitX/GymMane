@@ -932,11 +932,11 @@ class _MinimalNavBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = _minimalPalette(context.gc);
     final items = <({String label, VoidCallback action})>[
-      (label: 'Today', action: fit.goHome),
-      (label: 'Exercises', action: fit.goExercises),
-      (label: 'History', action: fit.goHistoryTab),
-      (label: 'Stats', action: fit.goProgress),
-      (label: 'Settings', action: fit.goMinimalSettingsTab),
+      (label: t.today, action: fit.goHome),
+      (label: t.exercises, action: fit.goExercises),
+      (label: sentenceCase(t.historyTitle), action: fit.goHistoryTab),
+      (label: t.progress, action: fit.goProgress),
+      (label: t.settings, action: fit.goMinimalSettingsTab),
     ];
 
     var selected = -1;
