@@ -314,9 +314,7 @@ abstract class FitCore extends ChangeNotifier {
 
   int get routeDepth => _routeStack.length;
 
-  bool get showNav => minimalMode
-      ? const ['home', 'progress', 'exercises', 'exercise-detail', 'history', 'preferences'].contains(route)
-      : const ['home', 'progress', 'exercises', 'settings'].contains(route);
+
 
   void setUnits(String u) {
     units = u;

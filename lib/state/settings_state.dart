@@ -173,6 +173,10 @@ mixin SettingsState on FitCore, ToolsState, LibraryState {
 
   bool get listLayout => sessionLayout == 'list';
 
+  bool get showNav => minimalMode
+      ? const ['home', 'progress', 'exercises', 'exercise-detail', 'history', 'preferences'].contains(route)
+      : const ['home', 'progress', 'exercises', 'settings'].contains(route);
+
   void setMinimalMode(bool enabled) {
     if (minimalMode == enabled) return;
     minimalMode = enabled;

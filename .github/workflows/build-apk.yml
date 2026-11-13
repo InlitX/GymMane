@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
     inputs:
       tag:
-        description: 'Optional release tag (leave blank for APK artifacts only)'
+        description: 'Optional release tag (defaults to minimal-mode-preview)'
         required: false
         type: string
 
