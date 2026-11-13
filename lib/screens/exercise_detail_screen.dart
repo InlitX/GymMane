@@ -195,7 +195,7 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
             : const SizedBox(width: double.infinity),
       ),
       Text(exerciseName(ex),
-          style: AppTheme.f(26, weight: FontWeight.w800, color: gc.text, height: 1.1)),
+          style: AppTheme.f(minimal ? 21 : 26, weight: FontWeight.w800, color: gc.text, height: 1.1)),
       if (ex.aliases.isNotEmpty) ...[
         const SizedBox(height: 6),
         Text(t.alsoCalled(ex.aliases.join(', ')),
@@ -244,7 +244,7 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
                           alignment: AlignmentDirectional.centerStart,
                           child: Text(fit.recordLabel(pr),
                               maxLines: 1,
-                              style: AppTheme.f(30,
+                              style: AppTheme.f(minimal ? 24 : 30,
                                   weight: FontWeight.w800, color: gc.text, height: 1)),
                         ),
                       ],
@@ -275,7 +275,7 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
                 if (trend.length > 1) ...[
                   const SizedBox(height: 8),
                   TrendChart(
-                    values: [for (final point in trend) point.value],
+                    values: [for (final point in trend) pr.kind == PrKind.weight ? fit.toDisplayWeight(point.value) : point.value],
                     height: 72,
                     scale: pr.kind == PrKind.reps ? (v) => '${v.round()}' : fmt,
                   ),
@@ -474,9 +474,11 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
       key: ValueKey(ex.id),
       id: 'exercise',
       once: false,
-      child: SafeArea(
-      bottom: false,
-      child: SingleChildScrollView(
+      child: ColoredBox(
+        color: minimal ? gc.bg : Colors.transparent,
+        child: SafeArea(
+          bottom: false,
+          child: SingleChildScrollView(
         clipBehavior: Clip.none,
         padding: EdgeInsets.only(top: minimal ? 4 : 12, bottom: 32),
         child: Column(
@@ -492,8 +494,8 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
               ),
             ),
           ]),
+          ),
         ),
-      ),
       ),
     );
   }
@@ -601,7 +603,7 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
     final totalReps = sets.fold<int>(0, (sum, set) => sum + set.reps);
     final totalVolume = sets.fold<double>(0, (sum, set) => sum + set.volume);
     final last = history.first;
-    final daysAgo = math.max(0, DateTime.now().difference(last.date).inDays);
+    final daysAgo = math.max(0, DateTime.now().difference(last.date).inDays).toInt();
     final metrics = <(String, String, String?)>[
       (t.lastDoneAgo(daysAgo), _fmtDate(last.date), fit.setsSummary(last.ex.sets)),
       (t.allTimeSessions, '${history.length}', '${_fmtDate(history.last.date)} – ${_fmtDate(last.date)}'),
