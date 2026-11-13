@@ -503,81 +503,6 @@ class SettingsScreen extends StatelessWidget {
                     hint: t.layoutHint,
                     rowHint: t.layoutRowHint,
                   ),
-                  GestureDetector(
-                    behavior: HitTestBehavior.opaque,
-                    onTap: () => fit.setMinimalMode(!fit.minimalMode),
-                    child: _prefRow(
-                      gc,
-                      PhosphorIconsRegular.listBullets,
-                      'Minimal mode',
-                      TinySwitch(on: fit.minimalMode),
-                      hint: 'Use a compact, flat workout table with collapsed exercise sections and less visual clutter.',
-                    ),
-                  ),
-                  if (fit.minimalMode) ...[
-                    _choiceRow(
-                      context,
-                      gc,
-                      PhosphorIconsRegular.textAa,
-                      'Minimal text size',
-                      [
-                        ('normal', 'Normal', PhosphorIconsRegular.textAa),
-                        ('small', 'Small', PhosphorIconsRegular.textAa),
-                        ('tiny', 'Tiny', PhosphorIconsRegular.textAa),
-                      ],
-                      () => fit.minimalTextSize,
-                      (v) => fit.updateMinimalOptions(textSize: v),
-                    ),
-                    _choiceRow(
-                      context,
-                      gc,
-                      PhosphorIconsRegular.rows,
-                      'Minimal row height',
-                      [
-                        ('roomy', 'Roomy', PhosphorIconsRegular.rows),
-                        ('compact', 'Compact', PhosphorIconsRegular.listBullets),
-                        ('tight', 'Tight', PhosphorIconsRegular.rows),
-                      ],
-                      () => fit.minimalRowHeight,
-                      (v) => fit.updateMinimalOptions(rowHeight: v),
-                    ),
-                    GestureDetector(
-                      behavior: HitTestBehavior.opaque,
-                      onTap: () => fit.updateMinimalOptions(showPrevious: !fit.minimalShowPrevious),
-                      child: _prefRow(gc, PhosphorIconsRegular.clockCounterClockwise, 'Previous column',
-                          TinySwitch(on: fit.minimalShowPrevious)),
-                    ),
-                    GestureDetector(
-                      behavior: HitTestBehavior.opaque,
-                      onTap: () => fit.updateMinimalOptions(showHowTo: !fit.minimalShowHowTo),
-                      child: _prefRow(gc, PhosphorIconsRegular.listBullets, 'How-to button (?)',
-                          TinySwitch(on: fit.minimalShowHowTo)),
-                    ),
-                    GestureDetector(
-                      behavior: HitTestBehavior.opaque,
-                      onTap: () => fit.updateMinimalOptions(showNotes: !fit.minimalShowNotes),
-                      child: _prefRow(gc, PhosphorIconsRegular.pencilSimple, 'Notes',
-                          TinySwitch(on: fit.minimalShowNotes)),
-                    ),
-                    GestureDetector(
-                      behavior: HitTestBehavior.opaque,
-                      onTap: () => fit.updateMinimalOptions(showExerciseIcons: !fit.minimalShowExerciseIcons),
-                      child: _prefRow(gc, PhosphorIconsRegular.image, 'Exercise icons',
-                          TinySwitch(on: fit.minimalShowExerciseIcons)),
-                    ),
-                    GestureDetector(
-                      behavior: HitTestBehavior.opaque,
-                      onTap: () => fit.updateMinimalOptions(showTotals: !fit.minimalShowTotals),
-                      child: _prefRow(gc, PhosphorIconsRegular.chartBar, 'Totals strip',
-                          TinySwitch(on: fit.minimalShowTotals)),
-                    ),
-                    GestureDetector(
-                      behavior: HitTestBehavior.opaque,
-                      onTap: () => fit.updateMinimalOptions(showSettingsButton: !fit.minimalShowSettingsButton),
-                      child: _prefRow(gc, PhosphorIconsRegular.gearSix, 'Settings button in workout header',
-                          TinySwitch(on: fit.minimalShowSettingsButton)),
-                    ),
-                  ],
                   _choiceRow(
                     context,
                     gc,
@@ -612,6 +537,86 @@ class SettingsScreen extends StatelessWidget {
           const SizedBox(height: 18),
           _linkGroup(gc, [
               (PhosphorIconsRegular.mapPin, t.placesLabel, fit.goPlaces),
+          ]),
+        ];
+      case 'minimal':
+        return [
+          _card(gc, [
+                    GestureDetector(
+                      behavior: HitTestBehavior.opaque,
+                      onTap: () => fit.setMinimalMode(!fit.minimalMode),
+                      child: _prefRow(
+                        gc,
+                        PhosphorIconsRegular.listBullets,
+                        'Minimal mode',
+                        TinySwitch(on: fit.minimalMode),
+                        hint: 'Use a compact, flat workout table with collapsed exercise sections and less visual clutter.',
+                      ),
+                    ),
+                    if (fit.minimalMode) ...[
+                      _choiceRow(
+                        context,
+                        gc,
+                        PhosphorIconsRegular.textAa,
+                        'Minimal text size',
+                        [
+                          ('normal', 'Normal', PhosphorIconsRegular.textAa),
+                          ('small', 'Small', PhosphorIconsRegular.textAa),
+                          ('tiny', 'Tiny', PhosphorIconsRegular.textAa),
+                        ],
+                        () => fit.minimalTextSize,
+                        (v) => fit.updateMinimalOptions(textSize: v),
+                      ),
+                      _choiceRow(
+                        context,
+                        gc,
+                        PhosphorIconsRegular.rows,
+                        'Minimal row height',
+                        [
+                          ('roomy', 'Roomy', PhosphorIconsRegular.rows),
+                          ('compact', 'Compact', PhosphorIconsRegular.listBullets),
+                          ('tight', 'Tight', PhosphorIconsRegular.rows),
+                        ],
+                        () => fit.minimalRowHeight,
+                        (v) => fit.updateMinimalOptions(rowHeight: v),
+                      ),
+                      GestureDetector(
+                        behavior: HitTestBehavior.opaque,
+                        onTap: () => fit.updateMinimalOptions(showPrevious: !fit.minimalShowPrevious),
+                        child: _prefRow(gc, PhosphorIconsRegular.clockCounterClockwise, 'Previous column',
+                            TinySwitch(on: fit.minimalShowPrevious)),
+                      ),
+                      GestureDetector(
+                        behavior: HitTestBehavior.opaque,
+                        onTap: () => fit.updateMinimalOptions(showHowTo: !fit.minimalShowHowTo),
+                        child: _prefRow(gc, PhosphorIconsRegular.listBullets, 'How-to button (?)',
+                            TinySwitch(on: fit.minimalShowHowTo)),
+                      ),
+                      GestureDetector(
+                        behavior: HitTestBehavior.opaque,
+                        onTap: () => fit.updateMinimalOptions(showNotes: !fit.minimalShowNotes),
+                        child: _prefRow(gc, PhosphorIconsRegular.pencilSimple, 'Notes',
+                            TinySwitch(on: fit.minimalShowNotes)),
+                      ),
+                      GestureDetector(
+                        behavior: HitTestBehavior.opaque,
+                        onTap: () => fit.updateMinimalOptions(showExerciseIcons: !fit.minimalShowExerciseIcons),
+                        child: _prefRow(gc, PhosphorIconsRegular.image, 'Exercise icons',
+                            TinySwitch(on: fit.minimalShowExerciseIcons)),
+                      ),
+                      GestureDetector(
+                        behavior: HitTestBehavior.opaque,
+                        onTap: () => fit.updateMinimalOptions(showTotals: !fit.minimalShowTotals),
+                        child: _prefRow(gc, PhosphorIconsRegular.chartBar, 'Totals strip',
+                            TinySwitch(on: fit.minimalShowTotals)),
+                      ),
+                      GestureDetector(
+                        behavior: HitTestBehavior.opaque,
+                        onTap: () => fit.updateMinimalOptions(showSettingsButton: !fit.minimalShowSettingsButton),
+                        child: _prefRow(gc, PhosphorIconsRegular.gearSix, 'Settings button in workout header',
+                            TinySwitch(on: fit.minimalShowSettingsButton)),
+                      ),
+                    ],
           ]),
         ];
       case 'alerts':
@@ -896,6 +901,7 @@ class SettingsScreen extends StatelessWidget {
   static String _sectionTitle(String id) => switch (id) {
         'general' => t.sectionGeneral,
         'training' => t.sectionTraining,
+        'minimal' => 'Minimal mode',
         'alerts' => t.sectionAlerts,
         'home' => t.sectionHome,
         'widgets' => t.sectionWidgets,
@@ -943,6 +949,17 @@ class SettingsScreen extends StatelessWidget {
         (t.demoSizeTitle, PhosphorIconsRegular.filmStrip),
         (t.demoLoopTitle, PhosphorIconsRegular.repeat),
         (t.placesLabel, PhosphorIconsRegular.mapPin),
+      ]),
+      _Category('minimal', PhosphorIconsRegular.listBullets, _sectionTitle('minimal'), [
+        ('Minimal mode', PhosphorIconsRegular.listBullets),
+        ('Minimal text size', PhosphorIconsRegular.textAa),
+        ('Minimal row height', PhosphorIconsRegular.rows),
+        ('Previous column', PhosphorIconsRegular.clockCounterClockwise),
+        ('How-to button (?)', PhosphorIconsRegular.listBullets),
+        ('Notes', PhosphorIconsRegular.pencilSimple),
+        ('Exercise icons', PhosphorIconsRegular.image),
+        ('Totals strip', PhosphorIconsRegular.chartBar),
+        ('Settings button in workout header', PhosphorIconsRegular.gearSix),
       ]),
       _Category('alerts', PhosphorIconsRegular.bellSimple, _sectionTitle('alerts'), [
         (t.trainReminder, PhosphorIconsRegular.bellSimple),
@@ -2783,7 +2800,7 @@ class _SettingsHomeState extends State<_SettingsHome> {
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
                             for (final (g, label) in [
-                              (const {'general', 'training', 'alerts'}, t.settingsGroupApp),
+                              (const {'general', 'training', 'minimal', 'alerts'}, t.settingsGroupApp),
                               (const {'home', 'widgets', 'beta'}, t.settingsGroupHome),
                               (const {'data', 'support', 'about'}, t.settingsGroupData),
                             ]) ...[
