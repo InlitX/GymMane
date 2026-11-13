@@ -4,8 +4,6 @@ import 'package:archive/archive.dart';
 
 import '../models/workout.dart';
 
-const _xlsxMimeType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
-
 /// Builds a real Office Open XML workbook containing every logged set.
 ///
 /// Rows are ordered oldest to newest. Warm-up and specialist set types are
@@ -175,7 +173,36 @@ String _date(DateTime value) =>
 String _number(num value) {
   final v = value.toDouble();
   if (!v.isFinite) return '';
-  return v == v.roundToDouble() ? v.toStringAsFixed(0) : v.toStringAsFixed(2).replaceFirst(RegExp(r'0+$'), '').replaceFirst(RegExp(r'\\.$'), '');
+  return v == v.roundToDouble() ? v.toStringAsFixed(0) : v.toStringAsFixed(2).replaceFirst(RegExp(r'0+$'), '').replaceFirst(RegExp(r'\., '');
+}
+
+String _column(int index) {
+  var n = index;
+  var result = '';
+  while (n > 0) {
+    n--;
+    result = String.fromCharCode(65 + n % 26) + result;
+    n ~/= 26;
+  }
+  return result;
+}
+
+String _xml(String value) => value
+    .replaceAll(RegExp(r'[\x00-\x08\x0B\x0C\x0E-\x1F]'), '')
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&apos;');
+
+String _xlsxTextCell(String column, int row, String value, {int style = 0}) =>
+    '<c r="$column$row" t="inlineStr" s="$style"><is><t xml:space="preserve">${_xml(value)}</t></is></c>';
+
+String _xlsxNumberCell(String ref, num value) =>
+    '<c r="$ref"><v>${value.toString()}</v></c>';
+
+String _xlsxRow(int number, List<String> cells) => '<row r="$number">${cells.join()}</row>';
+), '');
 }
 
 String _column(int index) {
