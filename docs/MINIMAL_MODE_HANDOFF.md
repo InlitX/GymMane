@@ -6,7 +6,7 @@
 
 **Snapshot date:** 2026-11-14  
 **Repository:** `HackerXMindset/GymMinimal`  
-**Current handoff change:** being added to PR #10, branch `fix/single-apk-release-and-parity-roadmap`.  
+**Current handoff change:** added to PR #10 in commit `5c8562045961eaf40cd05d98bf9c5298e1c6a6c4`, branch `fix/single-apk-release-and-parity-roadmap`.  
 **Current UI stage:** Stage 2 — Today screen (not started).  
 **Progress at this snapshot:** Stages 0 and 1 complete; 9 of 11 total stages remain.
 
