@@ -3343,7 +3343,7 @@ class _MinimalProgressScreenState extends State<_MinimalProgressScreen> {
               style: AppTheme.f(10, weight: FontWeight.w800, color: gc.textTertiary, letterSpacing: 1.25),
             ),
           ),
-          ?trailing,
+          if (trailing != null) trailing,
         ]),
       );
 
@@ -3449,7 +3449,7 @@ class _MinimalProgressScreenState extends State<_MinimalProgressScreen> {
                 IconButton(
                   tooltip: sentenceCase(t.historyTitle),
                   visualDensity: VisualDensity.compact,
-                  onPressed: fit.goHistory,
+                  onPressed: () => fit.goHistory(),
                   icon: Icon(PhosphorIconsRegular.clockCounterClockwise, size: 17, color: gc.textSecondary),
                 ),
                 IconButton(
@@ -3480,7 +3480,7 @@ class _MinimalProgressScreenState extends State<_MinimalProgressScreen> {
                 Container(width: 1, height: 42, color: gc.border),
                 _metric(gc, t.allTimeLifted, lifted.$1, note: lifted.$2),
                 Container(width: 1, height: 42, color: gc.border),
-                _metric(gc, t.consistency, volumeChange == null ? '—' : '${volumeChange > 0 ? '+' : ''}${volumeChange}%',
+                _metric(gc, '30d change', volumeChange == null ? '—' : '${volumeChange > 0 ? '+' : ''}${volumeChange}%',
                     note: t.tileVolume30),
               ]),
               _flatSection(gc, 'Weekly volume · 30 days', [
@@ -3582,7 +3582,7 @@ class _MinimalProgressScreenState extends State<_MinimalProgressScreen> {
                       Text(t.noHistory, style: AppTheme.f(11.5, color: gc.textTertiary)),
                     if (trend.isNotEmpty) ...[
                       const SizedBox(height: 5),
-                      Text('${trend.length} ${t.sessions.toLowerCase()}',
+                      Text('${trend.length} sessions',
                           style: AppTheme.f(9.5, weight: FontWeight.w600, color: gc.textTertiary)),
                     ],
                   ],
@@ -3595,7 +3595,7 @@ class _MinimalProgressScreenState extends State<_MinimalProgressScreen> {
                   cellSize: 10,
                   weekdays: false,
                   onTapDay: (index) {
-                    final day = shiftDays(heatStart, index);
+                    final day = heatStart.add(Duration(days: index));
                     fit.goHistory(month: day);
                   },
                 ),
