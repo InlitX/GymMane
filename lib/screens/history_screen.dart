@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:intl/intl.dart';
+import 'package:intl/intl.dart' as intl;
 import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 import '../app/desktop.dart';
@@ -60,7 +60,7 @@ class HistoryScreen extends StatelessWidget {
         onHorizontalDragEnd: (d) {
           final v = d.primaryVelocity ?? 0;
           if (v.abs() < 300) return;
-          final rtl = Directionality.of(context) == TextDirection.rtl;
+          final rtl = Directionality.of(context).name == 'rtl';
           final older = rtl ? v < 0 : v > 0;
           if (!older && fit.historyAtLatest) return;
           HapticFeedback.selectionClick();
@@ -352,8 +352,8 @@ class _MinimalHistoryContentState extends State<_MinimalHistoryContent> {
             row.session.name ?? '',
             row.exercise.name,
             row.exercise.primary,
-            DateFormat('yyyy-MM-dd').format(date),
-            DateFormat('dd MMM yyyy').format(date),
+            intl.DateFormat('yyyy-MM-dd').format(date),
+            intl.DateFormat('dd MMM yyyy').format(date),
             t.fullDate(date),
           ].join(' ').toLowerCase();
           if (searchable.contains(query)) rows.add(row);
@@ -518,7 +518,7 @@ class _MinimalHistoryContentState extends State<_MinimalHistoryContent> {
   }
 
   Widget _historyTableRow(_MinimalHistorySetRow row, GymColors gc) {
-    final date = DateFormat('dd MMM yy').format(row.session.day);
+    final date = intl.DateFormat('dd MMM yy').format(row.session.day);
     final type = switch (row.set.kind) {
       SetKind.normal => '',
       SetKind.warmup => 'W',
