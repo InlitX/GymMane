@@ -6,7 +6,7 @@
 
 **Working method:** One focused stage per branch and pull request. Reuse real Flutter state/models/services; do not copy the HTML prototype's sample data or browser implementation. Run Flutter analysis, relevant tests and the one-APK build on every PR. Only mark a stage complete after its UI and interactions have been checked against the HTML reference. A successful merge to `main` should publish the same tested `GymMinimal.apk` artifact to the rolling GitHub preview release.
 
-**Snapshot:** 2026-11-14. PR #10 is open at the time this handoff was prepared; its `Analyze, test and build one APK` check was still in progress. Verify live PR and Actions status before branching or changing status.
+**Snapshot:** 2026-11-14. PR #9 has merged Stage 2 (Today) into `main` at `f0ed1cf4a5626ee0806cd7bee87c225d361439f9`. Its PR workflow run #43506289411 passed analysis, tests, the single-APK build and artifact upload. PR #10 is being synchronized with this newer `main`; verify the live PR and Actions status before merging.
 
 ## Overall progress
 
@@ -22,7 +22,7 @@
 - [ ] Stage 9 — Behaviour, persistence and export parity
 - [ ] Stage 10 — Visual and functional QA
 
-**Progress: 2 of 11 stages complete (18%).** Nine stages remain. Release automation is tracked separately and is not counted as a UI stage.
+**Progress: 3 of 11 stages implemented and merged (27%).** Eight stages remain. Final cross-screen visual verification is consolidated in Stage 10.
 
 ## Stage details
 
@@ -42,18 +42,22 @@
 - [x] Add navigation regression coverage.
 - [x] Merge PR #8.
 
-### Stage 2 — Today screen — NEXT
+### Stage 2 — Today screen — COMPLETE (PR #9 merged)
 
 **Primary source:** `lib/screens/home_screen.dart` → `HomeScreen._minimalHome`.  
 **Reference:** `Sample.html` → `today()`, `weekStrip()`.
 
-- [ ] Match Today header/date and seven-day Monday–Sunday strip, including trained-day marks and today's highlight.
-- [ ] Match active-workout Resume state and empty Start workout action.
-- [ ] Match compact routine rows, exercise count, scheduled day, expand/collapse and Start action.
-- [ ] Match last-workout summary using real history; handle no history.
-- [ ] Remove or relocate extra cards/actions from the Minimal home surface without deleting Standard features.
-- [ ] Verify routine starts, active-session resume, empty states and Standard home regression.
-- [ ] Add tests and attach a phone screenshot/manual comparison.
+- [x] Match the Today header/date and compact seven-day Monday–Sunday training strip.
+- [x] Mark the current day and days containing logged workouts.
+- [x] Match the active-workout Resume action and the empty-workout Start action.
+- [x] Match compact routine rows with an expand/collapse exercise list and direct Start action.
+- [x] Match the compact last-workout summary using real history; show a clean empty state.
+- [x] Keep all home-screen changes inside the Minimal branch; Standard home remains on its existing path.
+- [x] PR #9 merged on 2026-11-13 (merge commit `f0ed1cf4a5626ee0806cd7bee87c225d361439f9`).
+- [x] PR Actions run #43506289411 passed analysis, tests, one-APK build and artifact upload.
+- [ ] Include the final phone-viewport screenshot/manual parity check in the consolidated Stage 10 QA pass.
+
+**Implementation is merged. Stage 3 is the next implementation stage; the remaining Today screenshot check is tracked with final visual QA in Stage 10.**
 
 ### Stage 3 — Live workout
 
@@ -184,32 +188,30 @@
 
 ## Release pipeline status
 
-PR #10 updates `.github/workflows/build-apk.yml` to:
-- Run analyze and tests before building one APK.
-- Rename the output to `GymMinimal.apk`.
-- Upload one `gymminimal-apk` artifact.
-- On main push, download and publish that same tested artifact instead of doing a second build.
+The authoritative workflow is the version already merged to `main` by PR #9: `.github/workflows/build-apk.yml`.
 
-**Snapshot status:** PR #10 was open and its build check was in progress when this roadmap was expanded. Treat the following as implemented-in-PR, not yet fully verified on main:
-- [x] Workflow definition builds one APK rather than ABI-split APKs.
-- [x] Workflow definition runs analysis/tests before the APK build.
-- [x] Workflow definition uploads one named APK artifact.
-- [ ] PR #10 CI completes successfully and the PR is merged.
-- [ ] A main-branch release run successfully publishes the same artifact.
-- [ ] Release page is verified to contain exactly one APK asset.
+- [x] Build one APK (no ABI split) named `GymMinimal.apk`.
+- [x] Run Flutter analysis and tests before the APK build.
+- [x] Upload one `gymminimal-apk` Actions artifact on PR builds.
+- [x] On a push to `main` or manual workflow dispatch, publish the APK produced by that same workflow job; do not run a second Flutter build.
+- [ ] Confirm the current main-branch run #43508196293 completes successfully.
+- [ ] Verify the rolling GitHub Release contains exactly one APK asset named `GymMinimal.apk`.
 
-**Signing diagnosis:** The previous release job attempted to read a keystore from empty GitHub Actions secrets and failed with `KeytoolException: Tag number over 30 is not supported`. PR #10 removes the second release-time build and publishes the build job's exact APK artifact. Without a persistent private release keystore, CI falls back to debug signing. The APK is installable, but separate CI runs may have different debug certificates, so an update over an existing installation may require uninstalling the old APK first. Configure a persistent private keystore and Actions secrets before relying on seamless in-place upgrades. Never commit signing credentials.
+**Pipeline design:** the build, test, artifact upload and conditional Release publishing steps are in one job. Release steps run only for main pushes or workflow dispatch; PR runs stop after uploading the artifact. This is the newer `main` implementation and is intentionally retained when resolving PR #10.
+
+**Signing caveat:** no persistent private release keystore is currently established. Do not promise seamless in-place upgrades across separately built CI APKs until a stable private signing key is configured and tested. Never commit signing credentials.
 
 ## Current PR / branch snapshot
 
 | Item | Value |
 |---|---|
 | PR #8 | Merged — Minimal shell/navigation |
-| PR #10 | Open at snapshot time — workflow + roadmap + handoff guide |
+| PR #9 | Merged — Stage 2 Today screen and single-APK workflow |
+| PR #10 | Open — project handoff/roadmap documentation; synchronized with newer `main` |
 | PR #10 branch | `fix/single-apk-release-and-parity-roadmap` |
-| PR #10 head at snapshot | `496af390d04be4f0a37491c161e849fda2b1372f` (the handoff-doc commit will advance this) |
-| Next UI stage | Stage 2 — Today |
-| Next action | Check PR #10 CI and merge it before starting Stage 2 from updated main |
+| Conflict resolution | Preserve the newer `main` workflow from PR #9; merge latest `main` into this branch and retain/update the documentation |
+| Current UI stage | Stage 3 — Live workout |
+| Next action | Verify the updated PR #10 Actions run, merge the documentation, then branch Stage 3 from the latest `main` |
 
 ## Change log
 
@@ -219,10 +221,12 @@ PR #10 updates `.github/workflows/build-apk.yml` to:
 | 2026-11-13 | PR #8 merged: Minimal-only shell/navigation parity. |
 | 2026-11-14 | PR #10 created: single tested APK release pipeline and roadmap. |
 | 2026-11-14 | Expanded handoff guide: source hierarchy, code map, all screen contracts, test/release process and takeover record. |
+| 2026-11-14 | PR #9 merged Stage 2 Today and the single-job APK release workflow; Actions run #43506289411 passed. |
+| 2026-11-14 | PR #10 conflict resolution: retain PR #9's newer workflow, sync the handoff/roadmap with merged Stage 2, and make Stage 3 the next implementation stage. |
 
 ## How to continue
 
 1. Read [Complete Project Handoff](MINIMAL_MODE_HANDOFF.md).
-2. Verify the live status of PR #10 and its Actions check.
-3. Once PR #10 is merged, branch from the updated `main` for Stage 2.
-4. Do not start Stage 3 until Stage 2 has met its acceptance criteria and is merged.
+2. Verify PR #10 and its latest Actions run; this documentation PR must be merged before starting the next stage.
+3. After PR #10 merges, create a fresh Stage 3 branch from the latest `main`.
+4. Implement Stage 3 — Live workout only; keep later stages in separate PRs.

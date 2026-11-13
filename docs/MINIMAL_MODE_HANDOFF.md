@@ -6,9 +6,11 @@
 
 **Snapshot date:** 2026-11-14  
 **Repository:** `HackerXMindset/GymMinimal`  
-**Current handoff change:** added to PR #10 in commit `5c8562045961eaf40cd05d98bf9c5298e1c6a6c4`, branch `fix/single-apk-release-and-parity-roadmap`.  
-**Current UI stage:** Stage 2 — Today screen (not started).  
-**Progress at this snapshot:** Stages 0 and 1 complete; 9 of 11 total stages remain.
+**PR #10 branch:** `fix/single-apk-release-and-parity-roadmap`; this branch is being synchronized with the newer `main` commit `f0ed1cf4a5626ee0806cd7bee87c225d361439f9`.  
+**Latest merged UI stage:** Stage 2 — Today screen (PR #9, merged).  
+**Current UI stage:** Stage 3 — Live workout (next; not started).  
+**Progress at this snapshot:** Stages 0, 1 and 2 are implemented and merged; 8 of 11 total stages remain.  
+**Verified Stage 2 CI:** Actions run #43506289411 passed analysis, tests, one-APK build and artifact upload.
 
 ---
 
@@ -305,29 +307,25 @@ Purpose: establish the five-item Minimal bottom navigation, Minimal palette/shel
 
 PR #8 is recorded as merged in the roadmap. Do not redo the shell without a demonstrated regression or a specific reference mismatch. When changing routes later, test both Minimal and Standard navigation.
 
-### Stage 2 — Today screen — NEXT
+### Stage 2 — Today screen — COMPLETE (PR #9 merged)
 
-**Primary file:** `lib/screens/home_screen.dart`, method `_minimalHome`.
+**Primary file:** `lib/screens/home_screen.dart`, method `_minimalHome`.  
+**Reference:** `Sample.html` → `today()`, `weekStrip()`.
 
-**Implementation outline**
-1. Compare the existing `_minimalHome` with the prototype's `today()` and `weekStrip()`.
-2. Keep the existing Standard/desktop home implementations untouched.
-3. Make the Minimal screen match the order: date header → week strip → active/resume or start action → routines → last-workout summary.
-4. Connect active-session behavior to existing `fit.isSessionActive`, `fit.stepBackIntoSession` and start-sheet/routine actions.
-5. Connect routines to the real `fit.todayRoutine`, `fit.routinesByLastDone`, `fit.startRoutine` and existing routine navigation. Respect app logic for completed/today routines.
-6. Use real sessions for last-workout summary. Do not render a fake example if history is empty.
-7. Remove or relocate only the extra UI from the Minimal home surface; do not delete the widgets or features used by Standard Mode.
-8. Add widget tests for empty history, no routine, routine list, active session/resume and navigation actions.
+**Merged implementation**
+- Replaced the seven full date cards with the compact Monday–Sunday training strip.
+- Highlighted the current day and marked days with logged sessions.
+- Simplified routine rows; added an expandable exercise list and direct Start action.
+- Replaced multiple recent-workout cards with one real last-workout summary and empty state.
+- Kept active-session resume and empty-workout start actions.
+- Kept the changes in the Minimal Home implementation; Standard Home was not redesigned.
 
-**Acceptance**
-- [ ] Correct content order and compact reference styling.
-- [ ] Week strip reflects real session days and highlights today.
-- [ ] Active session offers Resume; no active session offers Start.
-- [ ] Routines expand and start the correct routine.
-- [ ] Last-workout summary uses the newest real session; empty state is clean.
-- [ ] Standard home is unchanged.
-- [ ] Tests, analysis and one-APK CI build pass.
-- [ ] Phone screenshot/manual review is recorded.
+**Evidence**
+- [x] PR #9 merged on 2026-11-13: `f0ed1cf4a5626ee0806cd7bee87c225d361439f9`.
+- [x] Actions run #43506289411 passed Flutter analysis, tests, one-APK build and artifact upload.
+- [ ] Final phone-viewport screenshot/manual visual comparison remains in the consolidated Stage 10 QA pass.
+
+Do not reimplement Stage 2 unless a regression or a specific mismatch is found. The next implementation stage is Stage 3.
 
 ### Stage 3 — Live workout
 
@@ -583,27 +581,31 @@ A stage is done only when all are true:
 
 Workflow file: `.github/workflows/build-apk.yml`.
 
-The desired pipeline is:
+**Use the current version on `main` as the source of truth.** PR #9 already merged the newer workflow, so PR #10 must not reintroduce its older two-job/re-download version.
 
-1. On a PR to `main`, install dependencies, run `flutter analyze --no-fatal-infos`, run `flutter test`, build one release-mode APK, rename it `GymMinimal.apk`, and upload one artifact named `gymminimal-apk`.
-2. On a push to `main` (after merge), the release job downloads that exact artifact from the build job. It must not run a second Flutter build.
-3. Publish/update the rolling prerelease tag `minimal-mode-preview` with exactly one APK asset named `GymMinimal.apk`.
-4. A manual workflow dispatch may use an explicit tag; otherwise it uses the rolling preview tag.
+The current workflow uses one job:
+
+1. On every PR to `main`, check out the project, install dependencies, run `flutter analyze --no-fatal-infos`, run `flutter test`, build one release-mode APK, rename it `GymMinimal.apk` and upload one artifact named `gymminimal-apk`.
+2. On a push to `main` or manual workflow dispatch, the same job continues after the build and runs the conditional release steps. It tags the tested commit, removes older APK assets from the rolling release, and publishes the APK already present at `build/app/outputs/flutter-apk/GymMinimal.apk`.
+3. It does not run a second Flutter build and does not need to download the artifact into a separate release job.
+4. The rolling preview tag is `minimal-mode-preview`; a manual dispatch may provide a tag override.
 
 ### Signing caveat — read before promising seamless updates
 
-The earlier release attempt failed because the four keystore-related GitHub Actions secrets were empty, causing Gradle to try reading an invalid keystore. PR #10 changes the pipeline to publish the exact APK built and tested by the build job and removes the second release-time rebuild/signing step.
+The earlier release attempt failed because the keystore-related GitHub Actions secrets were empty, causing Gradle to read an invalid keystore. The current workflow avoids that second signing/build attempt and publishes the one APK produced by the build job.
 
-Without a configured private release keystore, the build uses the CI/default debug signing fallback. Such APKs are installable, but separate CI runs may not have the same signing certificate. Updating an already-installed app in place may therefore fail; uninstalling the earlier build first may be necessary. For reliable in-place upgrades, configure a persistent private release keystore and the required GitHub Actions secrets, then deliberately update and test the signing workflow. Never commit a keystore, passwords or secret values to the repository or this documentation.
+A persistent private release signing key has not yet been established. Treat the APK as installable, but do not assume that APKs from separate CI runs will have a stable signing identity or support seamless in-place upgrades. For reliable upgrades, configure a persistent private release keystore and the required GitHub Actions secrets, then deliberately update and test the signing workflow. Never commit a keystore, passwords or secret values to the repository or this documentation.
 
 ### Release verification
 
-Do not infer release success from a green build job alone. After a merge:
-- Confirm the release job succeeded.
+Do not infer release success from a green PR build alone. After a merge to `main`:
+- Confirm the main-branch workflow run completed successfully, including the release steps.
 - Open the GitHub Releases page.
-- Confirm the rolling preview release has one APK asset, named `GymMinimal.apk`.
+- Confirm the rolling preview release has exactly one APK asset named `GymMinimal.apk`.
 - Download/install the APK and launch it.
 - Record the release URL and tested commit in the roadmap.
+
+**Current observation:** main-branch run #43508196293 was still in progress at this snapshot. The previously visible release asset was `GymMane-arm64-v8a.apk`; do not mark the release verified until the run finishes and the release page is checked again.
 
 ## 9. Takeover protocol — how to resume at any stage
 
@@ -624,17 +626,17 @@ Update this record at the end of every stage PR:
 
 | Field | Current value |
 |---|---|
-| Current stage | Stage 2 — Today screen |
-| Stage state | Not started |
-| Last known base | PR #10 head `496af390d04be4f0a37491c161e849fda2b1372f` (verify live before using) |
-| Current prerequisite | PR #10 — release workflow + roadmap/handoff |
-| Last completed UI stage | Stage 1 — shell/navigation (PR #8 merged) |
+| Current stage | Stage 3 — Live workout |
+| Stage state | Ready to start; not yet implemented |
+| Last known base | `main` commit `f0ed1cf4a5626ee0806cd7bee87c225d361439f9` (verify live before branching) |
+| Current prerequisite | PR #10 — conflict-resolved handoff/roadmap documentation; merge it before Stage 3 work |
+| Last completed UI stage | Stage 2 — Today screen (PR #9 merged) |
 | Current owner | Unassigned / whoever takes the next stage |
-| Current branch | None for Stage 2 yet |
-| Current PR | None for Stage 2 yet |
-| Last verified test commit | No Stage 2 test commit yet |
-| Known blocker | PR #10 build check was still in progress at snapshot time |
-| Next concrete action | Verify PR #10 is green/merged, then create the Stage 2 branch from the updated main |
+| Current branch | None for Stage 3 yet |
+| Current PR | None for Stage 3 yet |
+| Last verified test commit | PR #9 head `7d63ee96922f0861a38dc93f14ca3e1e2ba6a2ee`; Actions run #43506289411 passed |
+| Known blocker | PR #10's updated head must receive a fresh green Actions run before merge; main release run #43508196293 was still in progress at snapshot time |
+| Next concrete action | Verify/merge PR #10, then create a Stage 3 branch from the latest `main` and implement the Minimal live-workout layout |
 
 For each future handoff, replace these values with the real current stage and live commit/PR/test state. Keep completed stages' PR references in the roadmap changelog. If a stage is partially done, state exactly which acceptance boxes passed, which failed, and the next unfinished item. Do not simply write "mostly done".
 

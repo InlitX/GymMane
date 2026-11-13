@@ -70,154 +70,189 @@ class HomeScreen extends StatelessWidget {
 
   Widget _minimalHome(BuildContext context, GymColors gc, List<Routine> routines) {
     final now = DateTime.now();
-    final dates = List<DateTime>.generate(7, fit.dateForWeekday);
+    final today = DateTime(now.year, now.month, now.day);
+    final monday = today.subtract(Duration(days: now.weekday - DateTime.monday));
+    final dates = List<DateTime>.generate(7, (i) => monday.add(Duration(days: i)));
+    final trainedDays = <int>{
+      for (final session in fit.sessions)
+        DateTime(session.day.year, session.day.month, session.day.day).millisecondsSinceEpoch,
+    };
     final recent = [...fit.sessions]..sort((a, b) => b.date.compareTo(a.date));
     final active = fit.isSessionActive;
-    final today = fit.todayRoutine;
-    final hasToday = today != null && today.exerciseIds.isNotEmpty;
+    final last = recent.isEmpty ? null : recent.first;
+    const weekdayMarks = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
 
-    Widget sectionTitle(String title, {VoidCallback? onTap}) => Padding(
+    Widget sectionTitle(String title, {String? action, VoidCallback? onTap}) => Padding(
           padding: const EdgeInsets.fromLTRB(2, 18, 2, 7),
           child: Row(children: [
-            Expanded(child: Text(title.toUpperCase(),
-                style: AppTheme.f(10, weight: FontWeight.w800, color: gc.textTertiary, letterSpacing: 1.0))),
-            if (onTap != null)
+            Expanded(
+              child: Text(title,
+                  style: AppTheme.f(14, weight: FontWeight.w700, color: gc.text)),
+            ),
+            if (action != null && onTap != null)
               TextButton(
                 onPressed: onTap,
                 style: TextButton.styleFrom(
                   visualDensity: VisualDensity.compact,
-                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  padding: const EdgeInsets.symmetric(horizontal: 7),
                   minimumSize: const Size(0, 28),
                   tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  foregroundColor: gc.accent,
                 ),
-                child: Text(t.healthSeeAll, style: AppTheme.f(11, weight: FontWeight.w700, color: gc.accent)),
+                child: Text(action, style: AppTheme.f(11, weight: FontWeight.w700)),
               ),
           ]),
         );
 
-    Widget routineRow(Routine routine, {bool highlighted = false}) => Container(
+    Widget routineRow(Routine routine) => Container(
           decoration: BoxDecoration(
-            color: highlighted ? gc.emberSoft : Colors.transparent,
             border: Border(bottom: BorderSide(color: gc.border)),
           ),
-          child: Row(children: [
-            Expanded(
-              child: Pressable(
-                onTap: () => fit.startRoutine(routine),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 4),
-                  child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                    Text(fit.routineTitle(routine),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: AppTheme.f(13, weight: FontWeight.w700, color: gc.text)),
-                    const SizedBox(height: 2),
-                    Text(t.exerciseCount(routine.exerciseIds.length),
-                        style: AppTheme.f(10.5, weight: FontWeight.w500, color: gc.textSecondary)),
-                  ]),
-                ),
+          child: ExpansionTile(
+            tilePadding: const EdgeInsets.symmetric(horizontal: 4),
+            childrenPadding: const EdgeInsets.fromLTRB(12, 0, 12, 8),
+            visualDensity: VisualDensity.compact,
+            backgroundColor: Colors.transparent,
+            collapsedBackgroundColor: Colors.transparent,
+            iconColor: gc.textSecondary,
+            collapsedIconColor: gc.textTertiary,
+            title: Row(children: [
+              Expanded(
+                child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                  Text(fit.routineTitle(routine),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: AppTheme.f(13, weight: FontWeight.w700, color: gc.text)),
+                  const SizedBox(height: 2),
+                  Text(t.exerciseCount(routine.exerciseIds.length),
+                      style: AppTheme.f(10.5, weight: FontWeight.w500, color: gc.textSecondary)),
+                ]),
               ),
-            ),
-            IconButton(
-              tooltip: t.startWorkout,
-              visualDensity: VisualDensity.compact,
-              onPressed: () => fit.startRoutine(routine),
-              icon: Icon(PhosphorIconsRegular.play, size: 17, color: gc.accent),
-            ),
-            IconButton(
-              tooltip: t.moreOptions,
-              visualDensity: VisualDensity.compact,
-              onPressed: () => showRoutineMenu(context, routine),
-              icon: Icon(PhosphorIconsRegular.dotsThree, size: 17, color: gc.textTertiary),
-            ),
-          ]),
+              TextButton(
+                onPressed: () => fit.startRoutine(routine),
+                style: TextButton.styleFrom(
+                  visualDensity: VisualDensity.compact,
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  minimumSize: const Size(0, 30),
+                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  foregroundColor: gc.accent,
+                ),
+                child: Text(t.startWorkout, style: AppTheme.f(11, weight: FontWeight.w700)),
+              ),
+            ]),
+            children: [
+              for (final id in routine.exerciseIds)
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 3),
+                  child: Align(
+                    alignment: AlignmentDirectional.centerStart,
+                    child: Text(
+                      t.catalogName(id, fit.exerciseById(id)?.name ?? id),
+                      style: AppTheme.f(11, weight: FontWeight.w500, color: gc.textSecondary),
+                    ),
+                  ),
+                ),
+            ],
+          ),
         );
 
     return SafeArea(
       bottom: false,
       child: SingleChildScrollView(
         key: const PageStorageKey('home-minimal'),
-        padding: const EdgeInsets.fromLTRB(14, 12, 14, 112),
+        padding: const EdgeInsets.fromLTRB(14, 14, 14, 24),
         child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-          Text(t.today.toUpperCase(),
-              style: AppTheme.f(10, weight: FontWeight.w800, color: gc.textTertiary, letterSpacing: 1.1)),
-          const SizedBox(height: 3),
-          Text(t.longDate(now),
-              style: AppTheme.f(23, weight: FontWeight.w800, color: gc.text, height: 1.15)),
-          const SizedBox(height: 14),
-          Row(
-            children: [
-              for (var i = 0; i < dates.length; i++) ...[
-                if (i > 0) const SizedBox(width: 5),
-                Expanded(
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(vertical: 7),
-                    decoration: BoxDecoration(
-                      color: i == fit.todayIndex ? gc.emberSoft : gc.bgRaised,
-                      border: Border.all(color: i == fit.todayIndex ? gc.ember.withValues(alpha: 0.55) : gc.border),
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    child: Column(children: [
-                      Text(t.weekdayShort(dates[i].weekday),
-                          style: AppTheme.f(8.5, weight: FontWeight.w700,
-                              color: i == fit.todayIndex ? gc.accent : gc.textTertiary)),
-                      const SizedBox(height: 2),
-                      Text('${dates[i].day}',
-                          style: AppTheme.f(12, weight: FontWeight.w800,
-                              color: i == fit.todayIndex ? gc.text : gc.textSecondary)),
-                    ]),
-                  ),
-                ),
-              ],
-            ],
-          ),
-          const SizedBox(height: 14),
-          Row(children: [
+          Row(crossAxisAlignment: CrossAxisAlignment.baseline, children: [
             Expanded(
-              child: FilledButton.icon(
-                onPressed: active ? fit.stepBackIntoSession : () => showStartSheet(context),
-                icon: Icon(active ? PhosphorIconsRegular.play : PhosphorIconsRegular.plus, size: 16),
-                label: Text(active ? t.keepTraining : t.startWorkout,
-                    maxLines: 1, overflow: TextOverflow.ellipsis),
-                style: FilledButton.styleFrom(
-                  backgroundColor: gc.ember,
-                  foregroundColor: gc.onEmber,
-                  padding: const EdgeInsets.symmetric(vertical: 11, horizontal: 10),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-                  textStyle: AppTheme.f(12, weight: FontWeight.w800),
-                ),
-              ),
+              child: Text(t.today,
+                  style: AppTheme.f(17, weight: FontWeight.w700, color: gc.text)),
             ),
-            if (hasToday && !active) ...[
-              const SizedBox(width: 8),
+            Text(t.longDate(now),
+                style: AppTheme.f(10.5, weight: FontWeight.w500, color: gc.textSecondary)),
+          ]),
+          const SizedBox(height: 10),
+          Row(children: [
+            for (var i = 0; i < dates.length; i++) ...[
+              if (i > 0) const SizedBox(width: 5),
               Expanded(
-                child: OutlinedButton(
-                  onPressed: () => fit.startRoutine(today),
-                  style: OutlinedButton.styleFrom(
-                    foregroundColor: gc.text,
-                    side: BorderSide(color: gc.border),
-                    padding: const EdgeInsets.symmetric(vertical: 11, horizontal: 8),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                child: Column(children: [
+                  Text(weekdayMarks[i],
+                      style: AppTheme.f(9, weight: FontWeight.w700, color: gc.textTertiary)),
+                  const SizedBox(height: 4),
+                  Container(
+                    height: 19,
+                    decoration: BoxDecoration(
+                      color: dates[i].isAtSameMomentAs(today) ||
+                              trainedDays.contains(dates[i].millisecondsSinceEpoch)
+                          ? gc.accent
+                          : gc.bgRaised,
+                      border: Border.all(
+                        color: dates[i].isAtSameMomentAs(today)
+                            ? gc.accent
+                            : gc.border,
+                      ),
+                      borderRadius: BorderRadius.circular(3),
+                    ),
                   ),
-                  child: Text(fit.routineTitle(today), maxLines: 1, overflow: TextOverflow.ellipsis,
-                      style: AppTheme.f(11, weight: FontWeight.w700)),
-                ),
+                ]),
               ),
             ],
           ]),
-          if (hasToday) ...[
-            sectionTitle(t.todaysRoutine),
-            routineRow(today, highlighted: true),
-          ],
-          if (routines.isNotEmpty) ...[
-            sectionTitle(t.routines, onTap: fit.goRoutines),
+          const SizedBox(height: 14),
+          SizedBox(
+            width: double.infinity,
+            child: FilledButton.icon(
+              onPressed: active ? fit.stepBackIntoSession : () => fit.startWorkout(null),
+              icon: Icon(active ? PhosphorIconsRegular.play : PhosphorIconsRegular.plus, size: 16),
+              label: Text(active ? t.keepTraining : 'Start empty workout',
+                  maxLines: 1, overflow: TextOverflow.ellipsis),
+              style: FilledButton.styleFrom(
+                backgroundColor: gc.ember,
+                foregroundColor: gc.onEmber,
+                padding: const EdgeInsets.symmetric(vertical: 11, horizontal: 10),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                textStyle: AppTheme.f(12, weight: FontWeight.w800),
+              ),
+            ),
+          ),
+          sectionTitle(t.routines, action: '+ New', onTap: fit.goRoutines),
+          if (routines.isEmpty)
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 4),
+              child: Text(t.noRoutines,
+                  style: AppTheme.f(11, weight: FontWeight.w500, color: gc.textSecondary)),
+            )
+          else
             for (final routine in routines) routineRow(routine),
-          ],
-          if (recent.isNotEmpty) ...[
-            sectionTitle(t.historyTitle, onTap: fit.goHistory),
-            for (final session in recent.take(3))
-              WorkoutHistoryCard(session: session, minimal: true),
-          ],
+          sectionTitle('Last workout'),
+          if (last == null)
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
+              child: Text(t.noHistory,
+                  style: AppTheme.f(11, weight: FontWeight.w500, color: gc.textSecondary)),
+            )
+          else
+            Container(
+              padding: const EdgeInsets.fromLTRB(4, 9, 4, 10),
+              decoration: BoxDecoration(
+                border: Border(top: BorderSide(color: gc.border)),
+              ),
+              child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                Text(
+                    last.name?.trim().isNotEmpty == true ? last.name! : 'Workout',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: AppTheme.f(12.5, weight: FontWeight.w700, color: gc.text)),
+                const SizedBox(height: 3),
+                Text(
+                  t.longDate(last.day) + '  ·  ' + fit.volumeLabel(last.volume) + '  ·  ' +
+                      (last.durationSec / 60).round().toString() + ' min  ·  ' + t.setCount(last.setCount),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: AppTheme.f(10.5, weight: FontWeight.w500, color: gc.textSecondary),
+                ),
+              ]),
+            ),
         ]),
       ),
     );

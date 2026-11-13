@@ -4,7 +4,8 @@ on:
   pull_request:
     branches: [main]
   push:
-    branches: [main]
+    branches:
+      - main
   workflow_dispatch:
     inputs:
       tag:
@@ -17,67 +18,63 @@ permissions:
 
 env:
   FLUTTER_VERSION: '3.41.9'
+  RELEASE_TAG: ${{ github.event.inputs.tag || 'minimal-mode-preview' }}
 
 jobs:
   build:
-    name: Analyze, test and build one APK
+    name: Analyze, test, build and publish one APK
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
       - name: Set up Java
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: '17'
+
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
           channel: stable
           flutter-version: ${{ env.FLUTTER_VERSION }}
           cache: true
+
       - name: Show versions
         run: flutter --version
+
       - name: Install dependencies
         run: flutter pub get
+
       - name: Analyze
         run: flutter analyze --no-fatal-infos
+
       - name: Test
         run: flutter test
-      - name: Build one APK
+
+      - name: Build one installable APK
         run: flutter build apk --release
+
       - name: Rename APK
         run: mv build/app/outputs/flutter-apk/app-release.apk build/app/outputs/flutter-apk/GymMinimal.apk
+
       - name: Upload single APK artifact
         uses: actions/upload-artifact@v4
         with:
           name: gymminimal-apk
           path: build/app/outputs/flutter-apk/GymMinimal.apk
           if-no-files-found: error
-          retention-days: 30
 
-  release:
-    name: Publish the tested APK
-    needs: build
-    runs-on: ubuntu-latest
-    if: (github.event_name == 'push' && github.ref == 'refs/heads/main') || github.event_name == 'workflow_dispatch'
-    env:
-      RELEASE_TAG: ${{ inputs.tag != '' && inputs.tag || 'minimal-mode-preview' }}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Download the exact APK built and tested above
-        uses: actions/download-artifact@v4
-        with:
-          name: gymminimal-apk
-          path: release-assets
       - name: Point preview tag at this build
-        env:
-          GH_TOKEN: ${{ github.token }}
+        if: (github.event_name == 'push' && github.ref == 'refs/heads/main') || github.event_name == 'workflow_dispatch'
         run: |
           git tag -f "$RELEASE_TAG" "$GITHUB_SHA"
           git push origin "refs/tags/$RELEASE_TAG" --force
+
       - name: Remove previous APK assets from the preview release
+        if: (github.event_name == 'push' && github.ref == 'refs/heads/main') || github.event_name == 'workflow_dispatch'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -87,7 +84,9 @@ jobs:
               gh release delete-asset "$RELEASE_TAG" "$asset" --yes
             done
           fi
-      - name: Publish the single tested APK to GitHub Release
+
+      - name: Publish single APK to GitHub Release
+        if: (github.event_name == 'push' && github.ref == 'refs/heads/main') || github.event_name == 'workflow_dispatch'
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ env.RELEASE_TAG }}
@@ -95,8 +94,7 @@ jobs:
           body: |
             Rolling preview build of the native Minimal Mode implementation.
 
-            This is the same single APK that passed analysis, tests and the build job.
-            Download: GymMinimal.apk
+            Download the single installable APK: GymMinimal.apk
           prerelease: true
           overwrite_files: true
-          files: release-assets/GymMinimal.apk
+          files: build/app/outputs/flutter-apk/GymMinimal.apk
