@@ -173,7 +173,13 @@ String _date(DateTime value) =>
 String _number(num value) {
   final v = value.toDouble();
   if (!v.isFinite) return '';
-  return v == v.roundToDouble() ? v.toStringAsFixed(0) : v.toStringAsFixed(2).replaceFirst(RegExp(r'0+$'), '').replaceFirst(RegExp(r'\., '');
+  if (v == v.roundToDouble()) return v.toStringAsFixed(0);
+  var result = v.toStringAsFixed(2);
+  while (result.endsWith('0')) {
+    result = result.substring(0, result.length - 1);
+  }
+  if (result.endsWith('.')) result = result.substring(0, result.length - 1);
+  return result;
 }
 
 String _column(int index) {
