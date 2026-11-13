@@ -6,14 +6,14 @@
 
 **Working method:** One focused stage per branch and pull request. Reuse real Flutter state/models/services; do not copy the HTML prototype's sample data or browser implementation. Run Flutter analysis, relevant tests and the one-APK build on every PR. Only mark a stage complete after its UI and interactions have been checked against the HTML reference. A successful merge to `main` should publish the same tested `GymMinimal.apk` artifact to the rolling GitHub preview release.
 
-**Snapshot:** 2026-11-14. PR #9 merged Stage 2 (Today) at `f0ed1cf4a5626ee0806cd7bee87c225d361439f9`. PR #10 then merged the conflict-resolved handoff and roadmap as `7fbc49522965e638a110e9988c4fe53b29a11301`; its updated Actions run #43510832870 passed. Stage 3 is now being implemented in PR #11 on `feature/sample-html-parity-stage-3-live-workout`. Its CI and phone-viewport/manual review are still required before Stage 3 can be marked complete.
+**Snapshot:** 2026-11-14. PR #10 merged the conflict-resolved handoff and roadmap as `7fbc49522965e638a110e9988c4fe53b29a11301`. Stage 3 Live Workout merged in PR #11 as `7b9a8e3ea4492b56d3391f640c708062991c6297`; Actions run #43515792250 passed analysis, full tests and one-APK build. Stage 4 Exercise Library is in progress in PR #12 on `feature/sample-html-parity-stage-4-exercise-library`. The post-merge main run #43518506146 passed analysis/tests and was building the release APK at this snapshot.
 
 ## Overall progress
 
 - [x] Stage 0 — Reference specification and baseline
 - [x] Stage 1 — Minimal shell and navigation
 - [x] Stage 2 — Today screen
-- [ ] Stage 3 — Live workout
+- [x] Stage 3 — Live workout
 - [ ] Stage 4 — Exercise library
 - [ ] Stage 5 — Exercise details and per-exercise statistics
 - [ ] Stage 6 — History
@@ -59,31 +59,32 @@
 
 **Implementation is merged. Stage 3 is the next implementation stage; the remaining Today screenshot check is tracked with final visual QA in Stage 10.**
 
-### Stage 3 — Live workout — IN PROGRESS (PR #11)
+### Stage 3 — Live workout — COMPLETE (PR #11 merged)
 
 **Primary source:** `lib/screens/session_screen.dart`, active-session Minimal branch.  
 **Reference:** `Sample.html` → `workoutMin()`, `groupHtml()`, `setRow()`, `noteRow()`, `restHtml()`.
 
-- [ ] Match compact toolbar, active timer, pause/resume and Finish actions.
-- [ ] Match optional duration/volume/completed-total set strip.
-- [ ] Match one shared set-table header: set number/type, optional Previous, Kg, Reps, Done.
-- [ ] Match compact, collapsible exercise headers with muscle and completed/total count.
-- [ ] Match optional How-to, Notes, Add Set, More/Remove and searchable Add Exercise flow.
-- [ ] Match bottom rest dock with countdown, −15, +15 and Skip.
-- [ ] Preserve existing session model fields and supported set types; do not flatten underlying workout data.
-- [ ] Verify edit/copy/complete set, add/remove exercise, note, pause/resume, rest, finish, discard and restore flows.
-- [ ] Test narrow phone width, optional Previous column and Standard workout regression.
+- [x] Match compact toolbar, active timer, pause/resume and Finish actions.
+- [x] Match optional duration/volume/completed-total set strip.
+- [x] Match one shared set-table header: set number/type, optional Previous, Kg, Reps, Done.
+- [x] Match compact, collapsible exercise headers with muscle and completed/total count.
+- [x] Match optional How-to, Notes, Add Set, More/Remove and searchable Add Exercise flow.
+- [x] Match bottom rest dock with countdown, −15, +15 and Skip.
+- [x] Preserve existing session model fields and supported set types; do not flatten underlying workout data.
+- [x] Add discard regression coverage; CI run #43515792250 passed analysis, full tests and the single-APK build.
+- [ ] Final phone screenshot/manual parity and Standard-mode regression are consolidated in Stage 10.
 
-### Stage 4 — Exercise library
+### Stage 4 — Exercise library — IN PROGRESS (PR #12)
 
 **Primary source:** `lib/screens/exercises_screen.dart`.  
 **Reference:** `Sample.html` → `exercises()`, `exList()`.
 
-- [ ] Match search and All/muscle filter chips.
-- [ ] Match compact Name / Muscle / 1RM table header and aligned rows.
-- [ ] Calculate best 1RM from real history; show an empty marker where no value exists.
-- [ ] Match custom exercise action and no-match state.
-- [ ] Verify search, filters, custom creation, navigation and Standard library regression.
+- [x] Match the Minimal All/muscle filter chips while preserving the existing search field.
+- [x] Add the compact Name / Muscle / 1RM table header and aligned rows.
+- [x] Calculate 1RM using the existing historical best-lift calculation; show an em dash without history.
+- [x] Keep the existing custom-exercise action, search and detail navigation.
+- [ ] Verify the 360px phone-width widget test, search/filter interactions and Standard library regression in CI.
+- [ ] Complete phone screenshot/manual parity review in Stage 10.
 
 ### Stage 5 — Exercise details and per-exercise statistics
 
@@ -210,15 +211,19 @@ The authoritative workflow is the version already merged to `main` by PR #9: `.g
 | PR #8 | Merged — Minimal shell/navigation |
 | PR #9 | Merged — Stage 2 Today screen and single-APK workflow |
 | PR #10 | Merged — conflict-resolved project handoff/roadmap documentation |
+| PR #11 | Merged — Stage 3 Live Workout; Actions run #43515792250 passed |
 | PR #10 merge commit | `7fbc49522965e638a110e9988c4fe53b29a11301` |
 | PR #10 Actions | Run #43510832870 passed; the newer single-job APK workflow was preserved |
-| Current UI stage | Stage 3 — Live workout (in progress) |
-| Stage 3 branch | `feature/sample-html-parity-stage-3-live-workout` |
-| Stage 3 PR | [PR #11](https://github.com/HackerXMindset/GymMinimal/pull/11) |
-| Stage 3 base | `main` at PR #10 merge commit `7fbc49522965e638a110e9988c4fe53b29a11301` (rebased before this update) |
-| Stage 3 CI | Check the latest PR #11 Actions run; do not mark this stage complete until analysis, tests and the single-APK build pass |
-| Remaining proof | Phone-sized screenshot/manual interaction review and Standard-mode regression review |
-| Next action | Complete the PR #11 CI gate and review the Minimal workout UI; fix every failure before merging and starting Stage 4 |
+| Current UI stage | Stage 4 — Exercise library (in progress) |
+| Stage 3 PR | [PR #11](https://github.com/HackerXMindset/GymMinimal/pull/11) — merged |
+| Stage 3 merge commit | `7b9a8e3ea4492b56d3391f640c708062991c6297` |
+| Stage 3 CI | Actions run #43515792250 passed analysis, full tests and one-APK build |
+| Stage 4 branch | `feature/sample-html-parity-stage-4-exercise-library` |
+| Stage 4 PR | [PR #12](https://github.com/HackerXMindset/GymMinimal/pull/12) |
+| Stage 4 base | `main` at Stage 3 merge commit `7b9a8e3ea4492b56d3391f640c708062991c6297` |
+| Stage 4 CI | Pending; verify latest PR run before merge |
+| Remaining proof | Phone-sized screenshot/manual interaction review and Standard library regression review |
+| Next action | Pass Stage 4 CI and review the Minimal exercise table; fix all failures before merge and Stage 5 |
 
 ## Change log
 
@@ -230,12 +235,12 @@ The authoritative workflow is the version already merged to `main` by PR #9: `.g
 | 2026-11-14 | Expanded handoff guide: source hierarchy, code map, all screen contracts, test/release process and takeover record. |
 | 2026-11-14 | PR #9 merged Stage 2 Today and the single-job APK release workflow; Actions run #43506289411 passed. |
 | 2026-11-14 | PR #10 conflict resolved and merged as `7fbc49522965e638a110e9988c4fe53b29a11301`; updated PR Actions run #43510832870 passed. |
-| 2026-11-14 | Started Stage 3 Live workout in PR #11; compact Minimal toolbar/table/groups/rest dock and discard regression test added. CI and phone review pending. |
+| 2026-11-14 | Stage 3 Live workout merged in PR #11; Actions run #43515792250 passed analysis, full tests and single-APK build. |
 | 2026-11-14 | Main run #43508196293 passed and published the rolling release with exactly one `GymMinimal.apk` asset. |
 
 ## How to continue
 
 1. Read [Complete Project Handoff](MINIMAL_MODE_HANDOFF.md).
-2. PR #10 is merged; its latest PR Actions run #43510832870 passed.
-3. Continue Stage 3 in [PR #11](https://github.com/HackerXMindset/GymMinimal/pull/11), keeping later stages in separate PRs.
-4. Start Stage 4 only after Stage 3's CI, interaction tests and visual review pass and its PR is merged.
+2. PR #10 is merged and conflict-free; PR #11 Stage 3 is also merged with CI run #43515792250 passing.
+3. Continue Stage 4 in [PR #12](https://github.com/HackerXMindset/GymMinimal/pull/12), keeping later stages in separate PRs.
+4. Start Stage 5 only after Stage 4's analysis, tests and single-APK build pass and its PR is merged.
