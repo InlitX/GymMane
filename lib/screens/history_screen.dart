@@ -14,15 +14,41 @@ import '../widgets/set_kind.dart';
 import '../widgets/ui_kit.dart';
 import 'progress_screen.dart';
 
+GymColors _minimalHistoryColors(GymColors base) => base.copyWith(
+      pageBg: const Color(0xFF0E0E0D),
+      bg: const Color(0xFF141413),
+      bgRaised: const Color(0xFF1B1B1A),
+      bgRaised2: const Color(0xFF222221),
+      border: const Color(0xFF2C2C2A),
+      navBg: const Color(0xEE141413),
+      text: const Color(0xFFE9E7E2),
+      textSecondary: const Color(0xFF8D8A84),
+      textTertiary: const Color(0xFF5F5D58),
+      ember: const Color(0xFFC8A45F),
+      emberDeep: const Color(0xFFA88647),
+      onEmber: const Color(0xFF141413),
+      emberSoft: const Color(0x35C8A45F),
+      accent: const Color(0xFFC8A45F),
+      accentSoft: const Color(0x35C8A45F),
+      brass: const Color(0xFFC8A45F),
+      sage: const Color(0xFFC8A45F),
+      sageSoft: const Color(0x35C8A45F),
+      mutedFill: const Color(0xFF222221),
+      heatEmpty: const Color(0xFF222221),
+    );
+
 class HistoryScreen extends StatelessWidget {
   const HistoryScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final gc = context.gc;
+    final base = context.gc;
+    final compact = fit.minimalMode;
+    final gc = compact ? _minimalHistoryColors(base) : base;
     final month = fit.historyMonth;
     final list = fit.sessionsInMonth(month);
     final records = fit.recordsBySession();
+    if (compact) return _minimalHistory(context, gc, month, list, records);
     return RiseScope(
       id: 'history',
       once: false,
@@ -81,6 +107,64 @@ class HistoryScreen extends StatelessWidget {
     );
   }
 
+  Widget _minimalHistory(
+    BuildContext context,
+    GymColors gc,
+    DateTime month,
+    List<LoggedSession> list,
+    Map<LoggedSession, int> records,
+  ) {
+    final theme = Theme.of(context).copyWith(extensions: [gc]);
+    return Theme(
+      data: theme,
+      child: ColoredBox(
+        color: gc.bg,
+        child: SafeArea(
+          bottom: false,
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.fromLTRB(14, 8, 14, 104),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Row(
+                  children: [
+                    IconButton(
+                      tooltip: t.back,
+                      visualDensity: VisualDensity.compact,
+                      onPressed: fit.popRoute,
+                      icon: Icon(PhosphorIconsRegular.arrowLeft, size: 18, color: gc.textSecondary),
+                    ),
+                    const SizedBox(width: 4),
+                    Expanded(
+                      child: Text(
+                        sentenceCase(t.historyTitle),
+                        style: AppTheme.f(20, weight: FontWeight.w800, color: gc.text),
+                      ),
+                    ),
+                    Text(
+                      t.historyWorkouts(list.length),
+                      style: AppTheme.f(11, weight: FontWeight.w600, color: gc.textTertiary),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 8),
+                _MonthCard(key: ValueKey(month), month: month, minimal: true),
+                const SizedBox(height: 16),
+                for (var i = 0; i < list.length; i++)
+                  WorkoutHistoryCard(
+                    session: list[i],
+                    records: records[list[i]] ?? 0,
+                    minimal: true,
+                  ),
+                if (list.isEmpty) _empty(gc),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
   Widget _empty(GymColors gc) => Container(
         padding: const EdgeInsets.symmetric(vertical: 34, horizontal: 24),
         decoration: BoxDecoration(color: gc.bgRaised, borderRadius: BorderRadius.circular(22)),
@@ -98,9 +182,10 @@ class HistoryScreen extends StatelessWidget {
 }
 
 class _MonthCard extends StatelessWidget {
-  const _MonthCard({super.key, required this.month});
+  const _MonthCard({super.key, required this.month, this.minimal = false});
 
   final DateTime month;
+  final bool minimal;
 
   @override
   Widget build(BuildContext context) {
@@ -111,8 +196,8 @@ class _MonthCard extends StatelessWidget {
     final hours = now.seconds ~/ 3600;
     final minutes = (now.seconds % 3600) ~/ 60;
     return Container(
-      padding: const EdgeInsets.fromLTRB(16, 14, 16, 16),
-      decoration: BoxDecoration(color: gc.bgRaised, borderRadius: BorderRadius.circular(22)),
+      padding: EdgeInsets.fromLTRB(minimal ? 10 : 16, minimal ? 9 : 14, minimal ? 10 : 16, minimal ? 10 : 16),
+      decoration: BoxDecoration(color: gc.bgRaised, borderRadius: BorderRadius.circular(minimal ? 10 : 22)),
       child: Column(children: [
         Row(children: [
           _arrow(gc, PhosphorIconsBold.caretLeft, t.notePrevMonth, () => fit.shiftHistoryMonth(-1)),
@@ -123,16 +208,16 @@ class _MonthCard extends StatelessWidget {
           _arrow(gc, PhosphorIconsBold.caretRight, t.noteNextMonth,
               fit.historyAtLatest ? null : () => fit.shiftHistoryMonth(1)),
         ]),
-        const SizedBox(height: 16),
+        SizedBox(height: minimal ? 9 : 16),
         Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          _stat(gc, '${now.workouts}', t.statWorkouts.toUpperCase(), now.workouts - before.workouts),
-          _stat(gc, hours > 0 ? '${hours}h ${minutes.toString().padLeft(2, '0')}' : '${minutes}m', t.timeCaps, null),
-          _stat(gc, '${now.sets}', t.setsCaps, null),
-          _stat(gc, fit.volumeLabel(now.volume), t.volume, null),
+          _stat(gc, '${now.workouts}', t.statWorkouts.toUpperCase(), now.workouts - before.workouts, minimal: minimal),
+          _stat(gc, hours > 0 ? '${hours}h ${minutes.toString().padLeft(2, '0')}' : '${minutes}m', t.timeCaps, null, minimal: minimal),
+          _stat(gc, '${now.sets}', t.setsCaps, null, minimal: minimal),
+          _stat(gc, fit.volumeLabel(now.volume), t.volume, null, minimal: minimal),
         ]),
-        const SizedBox(height: 16),
+        SizedBox(height: minimal ? 9 : 16),
         Container(height: 1, color: gc.border),
-        const SizedBox(height: 12),
+        SizedBox(height: minimal ? 8 : 12),
         _calendar(context, gc, trained),
       ]),
     );
@@ -162,15 +247,15 @@ class _MonthCard extends StatelessWidget {
         ),
       );
 
-  Widget _stat(GymColors gc, String value, String label, int? delta) => Expanded(
+  Widget _stat(GymColors gc, String value, String label, int? delta, {bool minimal = false}) => Expanded(
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           FittedBox(
             fit: BoxFit.scaleDown,
             alignment: Alignment.centerLeft,
-            child: RollIn(value, style: AppTheme.f(21, weight: FontWeight.w800, color: gc.text, height: 1.1)),
+            child: RollIn(value, style: AppTheme.f(minimal ? 16 : 21, weight: FontWeight.w800, color: gc.text, height: 1.1)),
           ),
           const SizedBox(height: 3),
-          FitText(label, style: AppTheme.f(9, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1)),
+          FitText(label, style: AppTheme.f(minimal ? 8 : 9, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1)),
           if (delta != null && delta != 0) ...[
             const SizedBox(height: 3),
             Row(mainAxisSize: MainAxisSize.min, children: [
@@ -178,7 +263,7 @@ class _MonthCard extends StatelessWidget {
                   size: 10, color: delta > 0 ? gc.sage : gc.textTertiary),
               const SizedBox(width: 2),
               Text('${delta.abs()}',
-                  style: AppTheme.f(10.5, weight: FontWeight.w700, color: delta > 0 ? gc.sage : gc.textTertiary)),
+                  style: AppTheme.f(minimal ? 9 : 10.5, weight: FontWeight.w700, color: delta > 0 ? gc.sage : gc.textTertiary)),
             ]),
           ],
         ]),
@@ -228,7 +313,7 @@ class _MonthCard extends StatelessWidget {
                           border: isToday && !on ? Border.all(color: gc.ember, width: 1.4) : null,
                         ),
                         child: Text('$n',
-                            style: AppTheme.f(13,
+                            style: AppTheme.f(minimal ? 11 : 13,
                                 weight: on || isToday ? FontWeight.w800 : FontWeight.w500,
                                 color: on
                                     ? gc.onEmber
@@ -271,7 +356,11 @@ class WorkoutHistoryCard extends StatelessWidget {
       onTap: () => showDaySheet(context, s.day),
       child: Container(
         padding: EdgeInsets.fromLTRB(minimal ? 10 : 14, minimal ? 10 : 14, minimal ? 12 : 16, minimal ? 10 : 14),
-        decoration: BoxDecoration(color: gc.bgRaised, borderRadius: BorderRadius.circular(minimal ? 13 : 20)),
+        decoration: BoxDecoration(
+          color: minimal ? gc.bg : gc.bgRaised,
+          borderRadius: BorderRadius.circular(minimal ? 0 : 20),
+          border: minimal ? Border(bottom: BorderSide(color: gc.border)) : null,
+        ),
         child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
           Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Container(
