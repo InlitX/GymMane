@@ -203,7 +203,7 @@ class _MonthCard extends StatelessWidget {
           _arrow(gc, PhosphorIconsBold.caretLeft, t.notePrevMonth, () => fit.shiftHistoryMonth(-1)),
           Expanded(
             child: Text(t.monthYear(month),
-                textAlign: TextAlign.center, style: AppTheme.f(16, weight: FontWeight.w800, color: gc.text)),
+                textAlign: TextAlign.center, style: AppTheme.f(minimal ? 13.5 : 16, weight: FontWeight.w800, color: gc.text)),
           ),
           _arrow(gc, PhosphorIconsBold.caretRight, t.noteNextMonth,
               fit.historyAtLatest ? null : () => fit.shiftHistoryMonth(1)),
@@ -238,8 +238,8 @@ class _MonthCard extends StatelessWidget {
           child: Opacity(
             opacity: onTap == null ? 0.3 : 1,
             child: Container(
-              width: 34,
-              height: 34,
+              width: minimal ? 28 : 34,
+              height: minimal ? 28 : 34,
               decoration: BoxDecoration(color: gc.bgRaised2, shape: BoxShape.circle),
               child: Icon(icon, size: 13, color: gc.text),
             ),
@@ -280,16 +280,16 @@ class _MonthCard extends StatelessWidget {
           Expanded(
             child: Text(t.weekdayInitial(fit.weekdayAt(i)).toUpperCase(),
                 textAlign: TextAlign.center,
-                style: AppTheme.f(10, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1)),
+                style: AppTheme.f(minimal ? 8.5 : 10, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1)),
           ),
       ]),
-      const SizedBox(height: 6),
+      SizedBox(height: minimal ? 4 : 6),
       for (var row = 0; row * 7 < lead + days; row++)
         Row(children: [
           for (var col = 0; col < 7; col++)
             Expanded(child: () {
               final n = row * 7 + col - lead + 1;
-              if (n < 1 || n > days) return const SizedBox(height: 40);
+              if (n < 1 || n > days) return SizedBox(height: minimal ? 30 : 40);
               final day = DateTime(month.year, month.month, n);
               final on = trained.contains(n);
               final isToday = DateUtils.isSameDay(day, today);
@@ -301,11 +301,11 @@ class _MonthCard extends StatelessWidget {
                   behavior: HitTestBehavior.opaque,
                   onTap: future ? null : () => showDaySheet(context, day),
                   child: SizedBox(
-                    height: 40,
+                    height: minimal ? 30 : 40,
                     child: Center(
                       child: Container(
-                        width: 32,
-                        height: 32,
+                        width: minimal ? 24 : 32,
+                        height: minimal ? 24 : 32,
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
                           color: on ? gc.accent : Colors.transparent,
