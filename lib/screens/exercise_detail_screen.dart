@@ -494,6 +494,7 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
               ),
             ),
           ]),
+            ),
           ),
         ),
       ),
