@@ -41,7 +41,8 @@ void main() {
     final sheetFile = archive.findFile('xl/worksheets/sheet1.xml');
     expect(sheetFile, isNotNull);
     final sheet = utf8.decode(sheetFile!.readBytes()!);
-    expect(sheet, contains('Workout History'));
+    final workbook = utf8.decode(archive.findFile('xl/workbook.xml')!.readBytes()!);
+    expect(workbook, contains('Workout History'));
     expect(sheet, contains('Date'));
     expect(sheet, contains('Bench Press'));
     expect(sheet, contains('Run &amp; Walk'));
