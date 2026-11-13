@@ -198,7 +198,7 @@ class _MinimalHistoryContentState extends State<_MinimalHistoryContent> {
     } catch (_) {
       if (!mounted) return;
       ScaffoldMessenger.maybeOf(context)?.showSnackBar(
-        const SnackBar(content: Text('Could not export workout history.')),
+        SnackBar(content: Text(t.minimalHistoryExportError)),
       );
     }
   }
@@ -234,7 +234,7 @@ class _MinimalHistoryContentState extends State<_MinimalHistoryContent> {
                   minimumSize: Size.zero,
                   tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 ),
-                child: const Text('Export Excel'),
+                child: Text(t.minimalHistoryExportExcel),
               ),
             ],
           ),
@@ -391,7 +391,7 @@ class _MinimalHistoryContentState extends State<_MinimalHistoryContent> {
             cursorColor: gc.accent,
             decoration: InputDecoration(
               isDense: true,
-              hintText: 'Filter by exercise, muscle or date',
+              hintText: t.minimalHistoryFilterHint,
               hintStyle: AppTheme.f(11, weight: FontWeight.w500, color: gc.textTertiary),
               prefixIcon: Icon(PhosphorIconsRegular.magnifyingGlass, size: 15, color: gc.textTertiary),
               prefixIconConstraints: const BoxConstraints(minWidth: 34),
@@ -425,7 +425,7 @@ class _MinimalHistoryContentState extends State<_MinimalHistoryContent> {
           Text('${rows.length} sets',
               style: AppTheme.f(10, weight: FontWeight.w700, color: gc.textSecondary)),
           const Spacer(),
-          Text('Tap a heading to sort',
+          Text(t.minimalHistorySortHint,
               style: AppTheme.f(9.5, weight: FontWeight.w500, color: gc.textTertiary)),
         ]),
         const SizedBox(height: 5),
