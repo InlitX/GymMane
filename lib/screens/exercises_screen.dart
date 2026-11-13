@@ -556,13 +556,13 @@ class _ExercisesScreenState extends State<ExercisesScreen> {
         padding: const EdgeInsets.fromLTRB(5, 7, 5, 6),
         child: Row(children: [
           Expanded(
-            child: Text('Name',
+            child: Text(titleCase(t.nameLabel),
                 style: AppTheme.f(10, weight: FontWeight.w700,
                     color: gc.textSecondary, letterSpacing: 0.35)),
           ),
           SizedBox(
             width: 78,
-            child: Text('Muscle',
+            child: Text(titleCase(t.muscleFilter),
                 style: AppTheme.f(10, weight: FontWeight.w700,
                     color: gc.textSecondary, letterSpacing: 0.35)),
           ),
