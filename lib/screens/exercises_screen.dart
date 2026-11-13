@@ -22,6 +22,12 @@ import '../widgets/svg_icon.dart';
 import '../widgets/ui_kit.dart';
 import '../widgets/local_image.dart';
 
+String _minimalColumnLabel(String value) {
+  if (value.isEmpty) return value;
+  final normalized = value.toLowerCase();
+  return '${normalized[0].toUpperCase()}${normalized.substring(1)}';
+}
+
 class ExercisesScreen extends StatefulWidget {
   const ExercisesScreen({super.key});
   @override
@@ -556,13 +562,13 @@ class _ExercisesScreenState extends State<ExercisesScreen> {
         padding: const EdgeInsets.fromLTRB(5, 7, 5, 6),
         child: Row(children: [
           Expanded(
-            child: Text(titleCase(t.nameLabel),
+            child: Text(_minimalColumnLabel(t.nameLabel),
                 style: AppTheme.f(10, weight: FontWeight.w700,
                     color: gc.textSecondary, letterSpacing: 0.35)),
           ),
           SizedBox(
             width: 78,
-            child: Text(titleCase(t.muscleFilter),
+            child: Text(_minimalColumnLabel(t.muscleFilter),
                 style: AppTheme.f(10, weight: FontWeight.w700,
                     color: gc.textSecondary, letterSpacing: 0.35)),
           ),
