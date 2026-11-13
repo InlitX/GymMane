@@ -4,7 +4,7 @@ import 'package:archive/archive.dart';
 
 import '../models/workout.dart';
 
-/// Builds a real Office Open XML workbook containing every logged set.
+/// Builds an Office Open XML workbook containing every logged set.
 ///
 /// Rows are ordered oldest to newest. Warm-up and specialist set types are
 /// retained, and cardio fields are included alongside lifting metrics.
@@ -147,7 +147,7 @@ Uint8List workoutHistoryXlsx(List<LoggedSession> sessions) {
       final value = values[column];
       if (value == null || value.isEmpty) continue;
       final ref = '${_column(column + 1)}$rowNumber';
-      if (column >= 4 && column <= 10 || column == 12 || column == 13) {
+      if ((column >= 4 && column <= 10) || column == 12 || column == 13) {
         final numeric = double.tryParse(value);
         if (numeric != null && numeric.isFinite) {
           cells.add(_xlsxNumberCell(ref, numeric));
@@ -193,42 +193,17 @@ String _column(int index) {
   return result;
 }
 
-String _xml(String value) => value
-    .replaceAll(RegExp(r'[\x00-\x08\x0B\x0C\x0E-\x1F]'), '')
-    .replaceAll('&', '&amp;')
-    .replaceAll('<', '&lt;')
-    .replaceAll('>', '&gt;')
-    .replaceAll('"', '&quot;')
-    .replaceAll("'", '&apos;');
-
-String _xlsxTextCell(String column, int row, String value, {int style = 0}) =>
-    '<c r="$column$row" t="inlineStr" s="$style"><is><t xml:space="preserve">${_xml(value)}</t></is></c>';
-
-String _xlsxNumberCell(String ref, num value) =>
-    '<c r="$ref"><v>${value.toString()}</v></c>';
-
-String _xlsxRow(int number, List<String> cells) => '<row r="$number">${cells.join()}</row>';
-), '');
+String _xml(String value) {
+  final clean = String.fromCharCodes(value.runes.where((r) =>
+      r == 0x09 || r == 0x0A || r == 0x0D || (r >= 0x20 && r <= 0xD7FF) ||
+      (r >= 0xE000 && r <= 0xFFFD) || (r >= 0x10000 && r <= 0x10FFFF)));
+  return clean
+      .replaceAll('&', '&amp;')
+      .replaceAll('<', '&lt;')
+      .replaceAll('>', '&gt;')
+      .replaceAll('"', '&quot;')
+      .replaceAll("'", '&apos;');
 }
-
-String _column(int index) {
-  var n = index;
-  var result = '';
-  while (n > 0) {
-    n--;
-    result = String.fromCharCode(65 + n % 26) + result;
-    n ~/= 26;
-  }
-  return result;
-}
-
-String _xml(String value) => value
-    .replaceAll(RegExp(r'[\\u0000-\\u0008\\u000B\\u000C\\u000E-\\u001F]'), '')
-    .replaceAll('&', '&amp;')
-    .replaceAll('<', '&lt;')
-    .replaceAll('>', '&gt;')
-    .replaceAll('"', '&quot;')
-    .replaceAll("'", '&apos;');
 
 String _xlsxTextCell(String column, int row, String value, {int style = 0}) =>
     '<c r="$column$row" t="inlineStr" s="$style"><is><t xml:space="preserve">${_xml(value)}</t></is></c>';
