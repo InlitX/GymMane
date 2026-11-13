@@ -25,6 +25,7 @@ class _AiPlanScreenState extends State<AiPlanScreen> {
   List<String> _missed = const [];
   int _added = 0;
   int _routines = 0;
+  int _notesAdded = 0;
   bool _unreadable = false;
   bool _format = false;
 
@@ -127,7 +128,7 @@ class _AiPlanScreenState extends State<AiPlanScreen> {
               fg: _answer.text.trim().isEmpty ? gc.textTertiary : gc.onEmber,
               onTap: _import,
             ),
-            if (_unreadable || _added > 0 || _missed.isNotEmpty) ...[
+            if (_unreadable || _added > 0 || _notesAdded > 0 || _missed.isNotEmpty) ...[
               const SizedBox(height: 18),
               _result(gc),
             ],
@@ -172,7 +173,7 @@ class _AiPlanScreenState extends State<AiPlanScreen> {
   }
 
   Widget _result(GymColors gc) {
-    final good = _added > 0;
+    final good = _added > 0 || _notesAdded > 0;
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -186,8 +187,10 @@ class _AiPlanScreenState extends State<AiPlanScreen> {
           Text(
             _unreadable
                 ? t.planFailed
-                : good
+                : _added > 0
                     ? '${t.routinesAdded(_routines)} · ${t.exerciseCount(_added)}'
+                    : _notesAdded > 0
+                    ? '${t.routineNotesAdded} · ${t.noteCount(_notesAdded)}'
                     : t.planNothing,
             style: AppTheme.f(13.5, weight: FontWeight.w600, color: good ? gc.sage : gc.text),
           ),
@@ -249,6 +252,7 @@ class _AiPlanScreenState extends State<AiPlanScreen> {
         _unreadable = true;
         _added = 0;
         _routines = 0;
+        _notesAdded = 0;
         _missed = const [];
       });
       return;
@@ -258,6 +262,7 @@ class _AiPlanScreenState extends State<AiPlanScreen> {
       _unreadable = false;
       _added = outcome.added;
       _routines = outcome.routines;
+      _notesAdded = outcome.notesAdded;
       _missed = outcome.missed;
     });
   }

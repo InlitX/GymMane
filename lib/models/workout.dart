@@ -270,6 +270,7 @@ class Routine {
       Map<String, int>? rest,
       List<List<String>>? ladders,
       Map<String, List<String>>? alts,
+      Map<String, String>? exerciseNotes,
       this.group = '',
       this.color = -1,
       this.archived = false})
@@ -278,7 +279,8 @@ class Routine {
         plan = plan ?? {},
         rest = rest ?? {},
         ladders = ladders ?? [],
-        alts = alts ?? {};
+        alts = alts ?? {},
+        exerciseNotes = exerciseNotes ?? {};
   final String id;
   String name;
   String group;
@@ -291,6 +293,7 @@ class Routine {
   final Map<String, int> rest;
   final List<List<String>> ladders;
   final Map<String, List<String>> alts;
+  final Map<String, String> exerciseNotes;
 
   Map<String, dynamic> toJson() => {
         'id': id,
@@ -298,6 +301,7 @@ class Routine {
         if (ladders.isNotEmpty) 'lad': ladders,
         if (alts.isNotEmpty) 'alt': alts,
         'ex': exerciseIds,
+        if (exerciseNotes.isNotEmpty) 'notes': exerciseNotes,
         if (rest.isNotEmpty) 'r': rest,
         if (sets.isNotEmpty) 's': sets,
         if (chained.isNotEmpty) 'c': chained.toList(),
@@ -327,6 +331,11 @@ class Routine {
         alts: {
           for (final e in ((j['alt'] as Map?) ?? const {}).entries)
             if (e.value is List && (e.value as List).isNotEmpty) e.key as String: (e.value as List).cast<String>().toList(),
+        },
+        exerciseNotes: {
+          for (final e in ((j['notes'] as Map?) ?? const {}).entries)
+            if (e.key is String && e.value is String && (e.value as String).trim().isNotEmpty)
+              e.key as String: (e.value as String).trim(),
         },
         group: (j['g'] as String?) ?? '',
         color: (j['k'] as num?)?.toInt() ?? -1,

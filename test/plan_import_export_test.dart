@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:gymmane/l10n/l10n.dart';
+import 'package:gymmane/models/note.dart';
 import 'package:gymmane/models/workout.dart';
 import 'package:gymmane/services/local_store.dart';
 import 'package:gymmane/services/plan_pdf.dart';
@@ -114,6 +115,68 @@ void main() {
       final text = fit.planRequestText();
       expect(text, contains('"weeks"'));
       expect(text, contains('Barbell Bench Press'));
+    });
+
+    test('a routine cue survives storage and sharing without exporting Journal notes', () {
+      const cue = 'Enter the weight of one dumbbell and reps per arm.';
+      final ex = idOf('Dumbbell Hammer Curl');
+      final r = routineWith([ex], name: 'Arms');
+      fit.setRoutineExerciseNote(r.id, ex, '  $cue  ');
+      fit.saveNote(
+        exerciseId: ex,
+        date: DateTime.now(),
+        kind: NoteKind.note,
+        text: 'Private Journal note',
+        pinned: true,
+      );
+
+      expect(Routine.fromJson(r.toJson()).exerciseNotes, {ex: cue});
+      final shared = fit.exportPlanJson([r]);
+      expect(shared, isNot(contains('Private Journal note')));
+      fit.resetAllData();
+
+      expect(fit.applyPlan(parsePlan(shared)).notesAdded, 1);
+      final imported = fit.routines.single;
+      expect(imported.exerciseIds, [ex]);
+      expect(imported.exerciseNotes, {ex: cue});
+      expect(fit.customExercises, isEmpty);
+      expect(fit.notes, isEmpty);
+      final copy = fit.routineById(fit.duplicateRoutine(imported.id))!;
+      expect(copy.exerciseNotes, {ex: cue});
+      final undo = fit.removeRoutineExercise(imported.id, ex)!;
+      expect(imported.exerciseNotes, isEmpty);
+      undo();
+      expect(imported.exerciseNotes, {ex: cue});
+      fit.setRoutineExerciseNote(imported.id, ex, ' ');
+      expect(imported.exerciseNotes, isEmpty);
+      expect(copy.exerciseNotes, {ex: cue});
+    });
+
+    test('re-import fills missing cues without replacing notes or planned sets', () {
+      final curl = idOf('Dumbbell Hammer Curl');
+      final press = idOf('Barbell Bench Press');
+      final r = routineWith([curl, press]);
+      fit.setPlannedSets(r.id, curl, const [PlannedSet(reps: 12, weightKg: 10)]);
+      fit.setRoutineExerciseNote(r.id, press, 'My seat setting');
+      final plans = parsePlan('''
+        {"name":"Push","exercises":[
+          {"name":"Dumbbell Hammer Curl","sets":1,"reps":20},
+          {"name":"Dumbbell Hammer Curl","sets":1,"logging_note":" Reps per arm "},
+          {"name":"Barbell Bench Press","logging_note":"Different seat setting"}
+        ]}
+      ''');
+
+      expect(fit.previewPlan(plans).hasNewNotes, isTrue);
+      final result = fit.applyPlan(plans);
+      expect(result.routines, 0);
+      expect(result.notesAdded, 1);
+      expect(fit.routines.single.id, r.id);
+      expect(r.exerciseNotes, {curl: 'Reps per arm', press: 'My seat setting'});
+      expect(fit.plannedSets(r, curl).single.reps, 12);
+      expect(fit.plannedSets(r, curl).single.weightKg, 10);
+      expect(fit.customExercises, isEmpty);
+      expect(fit.previewPlan(plans).hasNewNotes, isFalse);
+      expect(fit.applyPlan(plans).notesAdded, 0);
     });
   });
 

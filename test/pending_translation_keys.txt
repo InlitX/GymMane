@@ -12,3 +12,6 @@ sidesReps
 progSchemeTitle
 groupMoveUp
 groupMoveDown
+routineExerciseNote
+importRoutineNotes
+routineNotesAdded

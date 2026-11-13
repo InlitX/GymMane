@@ -5213,6 +5213,15 @@ class AppLocalizationsKo extends AppLocalizations {
   String get importAsCopy => '사본으로 추가';
 
   @override
+  String get routineExerciseNote => 'Routine note';
+
+  @override
+  String get importRoutineNotes => 'Add missing routine notes';
+
+  @override
+  String get routineNotesAdded => 'Routine notes added';
+
+  @override
   String get importOwned => '이미 있음';
 
   @override

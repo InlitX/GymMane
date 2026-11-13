@@ -855,6 +855,31 @@ class _RoutineEditScreenState extends State<RoutineEditScreen> {
                       },
                       style: AppTheme.f(12, weight: FontWeight.w500, color: gc.textSecondary, height: 1.4)),
                   const SizedBox(height: 16),
+                  GhostButton(
+                    label: t.routineExerciseNote,
+                    icon: PhosphorIconsRegular.pushPin,
+                    onTap: () async {
+                      final text = await askText(
+                        sheet,
+                        title: t.routineExerciseNote,
+                        initial: routine.exerciseNotes[ex.id] ?? '',
+                        hint: t.notePlaceholder,
+                        allowEmpty: true,
+                        maxLines: 3,
+                      );
+                      if (text != null) fit.setRoutineExerciseNote(_id, ex.id, text);
+                    },
+                  ),
+                  if (routine.exerciseNotes[ex.id] case final note?) ...[
+                    const SizedBox(height: 6),
+                    Text(
+                      note,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: AppTheme.f(12.5, color: gc.textSecondary, height: 1.4),
+                    ),
+                  ],
+                  const SizedBox(height: 16),
                   _planHeader(gc, mode, repsOnly),
                   const SizedBox(height: 8),
                   for (var i = 0; i < plan.length; i++)

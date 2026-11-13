@@ -5251,6 +5251,15 @@ class AppLocalizationsId extends AppLocalizations {
   String get importAsCopy => 'Tambah sebagai salinan';
 
   @override
+  String get routineExerciseNote => 'Routine note';
+
+  @override
+  String get importRoutineNotes => 'Add missing routine notes';
+
+  @override
+  String get routineNotesAdded => 'Routine notes added';
+
+  @override
   String get importOwned => 'Sudah milikmu';
 
   @override

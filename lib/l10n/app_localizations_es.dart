@@ -5377,6 +5377,15 @@ class AppLocalizationsEs extends AppLocalizations {
   String get importAsCopy => 'Añadir como copia';
 
   @override
+  String get routineExerciseNote => 'Routine note';
+
+  @override
+  String get importRoutineNotes => 'Add missing routine notes';
+
+  @override
+  String get routineNotesAdded => 'Routine notes added';
+
+  @override
   String get importOwned => 'Ya la tienes';
 
   @override
