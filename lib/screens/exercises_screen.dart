@@ -76,7 +76,7 @@ class _ExercisesScreenState extends State<ExercisesScreen> {
                 child: ListView.builder(
               key: const PageStorageKey('exercises'),
               controller: _scroll,
-              padding: EdgeInsets.fromLTRB(20, contentTop, 20, 110),
+              padding: EdgeInsets.fromLTRB(compact ? 14 : 20, contentTop, compact ? 14 : 20, 110),
               itemCount: list.isEmpty ? 1 : list.length,
               itemBuilder: (context, i) {
                 if (list.isEmpty) return _empty(gc);
@@ -87,9 +87,9 @@ class _ExercisesScreenState extends State<ExercisesScreen> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     if (first) ...[
-                      SizedBox(height: i == 0 ? 2 : 22),
+                      SizedBox(height: i == 0 ? 2 : (compact ? 14 : 22)),
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(4, 0, 0, 8),
+                        padding: EdgeInsets.fromLTRB(4, 0, 0, compact ? 5 : 8),
                         child: Row(children: [
                           Text(muscleLabel(ex.primary).toUpperCase(),
                               style: AppTheme.f(10.5,
@@ -203,17 +203,20 @@ class _ExercisesScreenState extends State<ExercisesScreen> {
                 ),
               ),
               Positioned(
-                left: 20,
-                right: 20 + _btn + 12 + (_btn + 8) * 2 * p,
-                top: pad + 12 + 6 * p,
+                left: inset,
+                right: inset + _btn + 12 + (_btn + 8) * 2 * p,
+                top: pad + topInset + (compact ? 0 : 6) * p,
                 child: IgnorePointer(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Transform.scale(
-                        scale: 1 - 0.2 * p,
+                        scale: 1 - (compact ? 0.08 : 0.2) * p,
                         alignment: Alignment.topLeft,
-                        child: ScreenTitle(t.exercises),
+                        child: compact
+                            ? Text(t.exercises,
+                                style: AppTheme.f(22, weight: FontWeight.w800, color: gc.text, letterSpacing: -0.5))
+                            : ScreenTitle(t.exercises),
                       ),
                       Opacity(
                         opacity: (1 - p * 2).clamp(0.0, 1.0),
@@ -229,7 +232,7 @@ class _ExercisesScreenState extends State<ExercisesScreen> {
               ),
               Positioned(
                 left: plusX,
-                top: pad + 12,
+                top: pad + topInset,
                 child: RoundAction(
                   size: _btn,
                   label: t.newExercise,
@@ -240,7 +243,7 @@ class _ExercisesScreenState extends State<ExercisesScreen> {
               if (p > 0.4)
                 Positioned(
                   left: filterX,
-                  top: pad + 12,
+                  top: pad + topInset,
                   child: Opacity(
                     opacity: ((p - 0.4) / 0.6).clamp(0.0, 1.0),
                     child: Transform.scale(
