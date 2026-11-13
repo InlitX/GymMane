@@ -39,6 +39,52 @@ class SessionScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final gc = context.gc;
+    if (fit.minimalMode && !fit.isSessionComplete && fit.session != null) {
+      final minimal = gc.copyWith(
+        pageBg: const Color(0xFF0E0E0D),
+        bg: const Color(0xFF141413),
+        bgRaised: const Color(0xFF1B1B1A),
+        bgRaised2: const Color(0xFF222221),
+        border: const Color(0xFF2C2C2A),
+        navBg: const Color(0xEE141413),
+        text: const Color(0xFFE9E7E2),
+        textSecondary: const Color(0xFF8D8A84),
+        textTertiary: const Color(0xFF5F5D58),
+        ember: const Color(0xFFC8A45F),
+        emberDeep: const Color(0xFFA88647),
+        onEmber: const Color(0xFF141413),
+        emberSoft: const Color(0x35C8A45F),
+        accent: const Color(0xFFC8A45F),
+        accentSoft: const Color(0x35C8A45F),
+        brass: const Color(0xFFC8A45F),
+        sage: const Color(0xFFC8A45F),
+        sageSoft: const Color(0x35C8A45F),
+        mutedFill: const Color(0xFF222221),
+        heatEmpty: const Color(0xFF222221),
+      );
+      final theme = Theme.of(context).copyWith(
+        scaffoldBackgroundColor: minimal.bg,
+        colorScheme: Theme.of(context).colorScheme.copyWith(
+          surface: minimal.bgRaised,
+          primary: minimal.accent,
+          onPrimary: minimal.onEmber,
+          onSurface: minimal.text,
+        ),
+        extensions: [minimal],
+      );
+      final textScale = switch (fit.minimalTextSize) {
+        'small' => 0.92,
+        'tiny' => 0.84,
+        _ => 1.0,
+      };
+      return MediaQuery(
+        data: MediaQuery.of(context).copyWith(textScaler: TextScaler.linear(textScale)),
+        child: Theme(
+          data: theme,
+          child: ColoredBox(color: minimal.bg, child: _minimalScreen(context, minimal)),
+        ),
+      );
+    }
     if (fit.listLayout && !fit.isSessionComplete && fit.session != null) return _listScreen(context, gc);
     return SafeArea(
       bottom: false,
@@ -300,6 +346,272 @@ class SessionScreen extends StatelessWidget {
         ),
       ]),
     );
+  }
+
+  Widget _minimalScreen(BuildContext context, GymColors gc) {
+    final s = fit.session!;
+    final docked = (fit.holding && fit.holdEx >= 0) || s.restRemaining != null;
+    final bottom = MediaQuery.viewPaddingOf(context).bottom;
+    final locked = fit.sessionLocked && !s.manual;
+    return SafeArea(
+      bottom: false,
+      child: Stack(children: [
+        Positioned.fill(
+          child: Column(children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(12, 8, 12, 6),
+              child: Column(children: [
+                s.manual ? _manualBar(context, gc, s) : _liveBar(gc, locked),
+                Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+                  if (fit.minimalShowSettingsButton)
+                    IconButton(
+                      tooltip: 'Minimal settings',
+                      visualDensity: VisualDensity.compact,
+                      onPressed: () => fit.pushRoute('preferences/training'),
+                      icon: Icon(PhosphorIconsRegular.gearSix, size: 18, color: gc.textSecondary),
+                    ),
+                  TextButton(
+                    onPressed: locked ? null : fit.finishSession,
+                    child: Text(t.finishSession,
+                        style: AppTheme.f(12, weight: FontWeight.w800, color: locked ? gc.textTertiary : gc.accent)),
+                  ),
+                ]),
+              ]),
+            ),
+            Expanded(
+              child: NotificationListener<ScrollNotification>(
+                onNotification: (_) => true,
+                child: SingleChildScrollView(
+                  padding: EdgeInsets.fromLTRB(12, 0, 12, 24 + bottom + (docked ? 84 : 0)),
+                  child: _minimalActive(context, gc, s, locked),
+                ),
+              ),
+            ),
+          ]),
+        ),
+        Positioned(
+          left: 12,
+          right: 12,
+          bottom: 12 + bottom,
+          child: AnimatedSwitcher(
+            duration: const Duration(milliseconds: 260),
+            switchInCurve: Curves.easeOutCubic,
+            switchOutCurve: Curves.easeInCubic,
+            transitionBuilder: (child, a) => SlideTransition(
+              position: Tween(begin: const Offset(0, 1.4), end: Offset.zero).animate(a),
+              child: FadeTransition(opacity: a, child: child),
+            ),
+            child: fit.holding && fit.holdEx >= 0
+                ? KeyedSubtree(key: const ValueKey('hold'), child: _ticking(() => _holdDock(gc)))
+                : s.restRemaining != null
+                    ? KeyedSubtree(key: const ValueKey('rest'), child: _restDock(context, gc, s))
+                    : const SizedBox(key: ValueKey('none'), width: double.infinity),
+          ),
+        ),
+      ]),
+    );
+  }
+
+  Widget _minimalActive(BuildContext context, GymColors gc, WorkoutSession s, bool locked) {
+    final first = s.exercises.isEmpty ? null : s.exercises.first;
+    final firstId = first?.id;
+    final sameColumns = firstId != null && s.exercises.every((e) =>
+        fit.modeOf(e.id) == fit.modeOf(firstId) &&
+        fit.isRepsOnly(e.id) == fit.isRepsOnly(firstId) &&
+        (fit.isEachSide(e.id) || fit.isSidedReps(e.id)) ==
+            (fit.isEachSide(firstId) || fit.isSidedReps(firstId)) &&
+        fit.unitsFor(e.id) == fit.unitsFor(firstId) &&
+        fit.distanceUnitFor(e.id) == fit.distanceUnitFor(firstId));
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        if (fit.minimalShowTotals) _minimalStats(gc),
+        if (s.deload) ...[
+          const SizedBox(height: 8),
+          _deloadNote(gc),
+        ],
+        if (first != null && sameColumns)
+          Padding(
+            padding: const EdgeInsets.fromLTRB(6, 12, 6, 4),
+            child: _setsHeader(
+              gc,
+              fit.modeOf(first.id),
+              fit.isRepsOnly(first.id),
+              fit.isEachSide(first.id) || fit.isSidedReps(first.id),
+              list: fit.minimalShowPrevious,
+              exId: first.id,
+            ),
+          ),
+        for (var i = 0; i < s.exercises.length; i++)
+          _minimalExercise(context, gc, s, i, locked,
+              sharedHeader: sameColumns, showPrevious: fit.minimalShowPrevious),
+        const SizedBox(height: 10),
+        Row(children: [
+          Expanded(
+            child: _guard(
+              locked,
+              GhostButton(
+                label: t.addExercise,
+                icon: PhosphorIconsRegular.plus,
+                onTap: () => showAddToSessionSheet(context),
+              ),
+            ),
+          ),
+        ]),
+        const SizedBox(height: 8),
+        _guard(locked, PrimaryButton(label: t.finishSession, onTap: fit.finishSession, height: 46)),
+      ],
+    );
+  }
+
+  Widget _minimalStats(GymColors gc) {
+    final count = fit.sessionSetCount;
+    Widget stat(String label, Widget value) => Expanded(
+          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            FitText(label.toUpperCase(),
+                style: AppTheme.f(9, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 0.8)),
+            const SizedBox(height: 2),
+            value,
+          ]),
+        );
+    final valueStyle = AppTheme.f(14, weight: FontWeight.w700, color: gc.text);
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(6, 8, 6, 4),
+      child: Row(children: [
+        stat(t.duration, _ticking(() => RollingText(fit.elapsedLabel, style: valueStyle))),
+        Container(width: 1, height: 28, color: gc.border),
+        const SizedBox(width: 12),
+        stat(t.volume, FitText('${fit.weightValue(fit.sessionVolumeKg)} ${fit.units}', style: valueStyle)),
+        Container(width: 1, height: 28, color: gc.border),
+        const SizedBox(width: 12),
+        stat(t.setsCaps, RollingText('${count.done}/${count.total}', style: valueStyle)),
+      ]),
+    );
+  }
+
+  Widget _minimalExercise(
+      BuildContext context, GymColors gc, WorkoutSession s, int i, bool locked,
+      {required bool sharedHeader, required bool showPrevious}) {
+    final ex = s.exercises[i];
+    final def = fit.exerciseById(ex.id);
+    final mode = fit.modeOf(ex.id);
+    final repsOnly = fit.isRepsOnly(ex.id);
+    final prev = fit.lastSetsFor(ex.id);
+    final linkedIn = i > 0 && s.exercises[i - 1].linkedNext;
+    final linked = linkedIn || (ex.linkedNext && i < s.exercises.length - 1);
+    final done = ex.sets.isNotEmpty && ex.sets.every((st) => st.done);
+    return Column(children: [
+      ExpansionTile(
+        key: PageStorageKey('minimal-exercise-$i-${ex.id}'),
+        initiallyExpanded: false,
+        tilePadding: const EdgeInsets.symmetric(horizontal: 4),
+        childrenPadding: const EdgeInsets.fromLTRB(0, 0, 0, 8),
+        backgroundColor: Colors.transparent,
+        collapsedBackgroundColor: Colors.transparent,
+        iconColor: gc.textSecondary,
+        collapsedIconColor: gc.textTertiary,
+        visualDensity: VisualDensity.compact,
+        title: Row(children: [
+          if (fit.minimalShowExerciseIcons && def != null) ...[
+            Padding(
+              padding: const EdgeInsets.only(right: 8),
+              child: SizedBox(
+                width: 28,
+                height: 28,
+                child: ExerciseMedia(ex: def, height: 28, radius: 6, live: false),
+              ),
+            ),
+          ],
+          Expanded(
+            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Text(t.catalogName(ex.id, ex.name),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: AppTheme.f(13, weight: FontWeight.w700, color: done ? gc.sage : gc.text)),
+              const SizedBox(height: 2),
+              Text('${muscleLabel(ex.primary)}${linked ? '  ·  ${t.superset}' : ''}',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: AppTheme.f(10.5, weight: FontWeight.w500, color: linked ? gc.brass : gc.textTertiary)),
+            ]),
+          ),
+          if (def != null && fit.minimalShowHowTo)
+            IconButton(
+              tooltip: t.howTo,
+              visualDensity: VisualDensity.compact,
+              constraints: const BoxConstraints(minWidth: 36, minHeight: 40),
+              padding: EdgeInsets.zero,
+              onPressed: () => showExercisePreview(context, def),
+              icon: Text('?', style: AppTheme.f(16, weight: FontWeight.w700, color: gc.textSecondary)),
+            ),
+          _guard(
+            locked,
+            IconButton(
+              tooltip: t.moreOptions,
+              visualDensity: VisualDensity.compact,
+              constraints: const BoxConstraints(minWidth: 36, minHeight: 40),
+              padding: EdgeInsets.zero,
+              onPressed: () => _listExerciseMenu(context, i),
+              icon: Icon(PhosphorIconsBold.dotsThree, size: 18, color: gc.textSecondary),
+            ),
+          ),
+        ]),
+        children: [
+          if (!sharedHeader)
+            Padding(
+              padding: const EdgeInsets.fromLTRB(6, 0, 6, 4),
+              child: _setsHeader(
+                gc,
+                mode,
+                repsOnly,
+                fit.isEachSide(ex.id) || fit.isSidedReps(ex.id),
+                list: showPrevious,
+                exId: ex.id,
+              ),
+            ),
+          if (fit.minimalShowNotes && WorkoutNoteStrip.offers(ex.id))
+            Padding(
+              padding: const EdgeInsets.fromLTRB(8, 2, 8, 6),
+              child: _guard(locked, WorkoutNoteStrip(exerciseId: ex.id, onDark: true)),
+            ),
+          if (fit.minimalShowNotes && !locked && fit.lastSetNotes(ex.id).isNotEmpty)
+            Padding(
+              padding: const EdgeInsets.fromLTRB(8, 0, 8, 6),
+              child: LastSetNotes(exerciseId: ex.id),
+            ),
+          for (var j = 0; j < ex.sets.length; j++)
+            _swipeSet(
+              context,
+              gc,
+              i,
+              j,
+              ex.sets[j],
+              locked,
+              _setRow(gc, i, j, ex.sets[j], repsOnly, locked,
+                  list: showPrevious, prev: showPrevious && j < prev.length ? prev[j] : null),
+            ),
+          Align(
+            alignment: AlignmentDirectional.centerStart,
+            child: _guard(
+              locked,
+              TextButton.icon(
+                onPressed: () => fit.addSet(i),
+                icon: Icon(PhosphorIconsRegular.plus, size: 14),
+                label: Text(t.addSet, style: AppTheme.f(11.5, weight: FontWeight.w700)),
+                style: TextButton.styleFrom(
+                  visualDensity: VisualDensity.compact,
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                  foregroundColor: gc.textSecondary,
+                  minimumSize: const Size(0, 32),
+                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+      Divider(height: 1, thickness: 0.7, color: gc.border.withValues(alpha: 0.7)),
+    ]);
   }
 
   Widget _listActive(BuildContext context, GymColors gc, WorkoutSession s) {
@@ -1540,7 +1852,18 @@ class SessionScreen extends StatelessWidget {
     final gap = effort ? _tightGap : _gap;
     return Container(
       margin: const EdgeInsets.only(bottom: 2),
-      padding: EdgeInsets.symmetric(horizontal: list ? 8 : _rowPad, vertical: list ? 4 : 10),
+      padding: EdgeInsets.symmetric(
+        horizontal: list ? 8 : _rowPad,
+        vertical: list
+            ? (fit.minimalMode
+                ? switch (fit.minimalRowHeight) {
+                    'roomy' => 6.0,
+                    'tight' => 1.0,
+                    _ => 3.0,
+                  }
+                : 4.0)
+            : 10.0,
+      ),
       decoration: BoxDecoration(
         color: st.done ? gc.sageSoft : Colors.transparent,
         borderRadius: BorderRadius.circular(14),

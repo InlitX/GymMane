@@ -3,18 +3,20 @@ name: Build & Release
 on:
   pull_request:
     branches: [main]
+  push:
+    branches:
+      - main
+      - feature/native-minimal-mode
   workflow_dispatch:
     inputs:
       tag:
-        description: 'Release tag / version, e.g. v1.0.0'
-        required: true
+        description: 'Optional release tag (leave blank for APK artifacts only)'
+        required: false
         type: string
 
 permissions:
   contents: write
 
-# Pinned Flutter version. F-Droid extracts this exact value from the recipe so
-# its build matches upstream. Defined once here and reused by both jobs.
 env:
   FLUTTER_VERSION: '3.41.9'
 
@@ -52,7 +54,6 @@ jobs:
       - name: Test
         run: flutter test
 
-      # ABI splits keep each APK small instead of one fat APK.
       - name: Build split APKs
         run: flutter build apk --release --split-per-abi
 
@@ -74,14 +75,8 @@ jobs:
     name: Publish release
     needs: build
     runs-on: ubuntu-latest
-    # Only when manually dispatched with a tag. The release body is left empty
-    # on purpose so it can be filled in by hand after publishing.
-    if: github.event_name == 'workflow_dispatch'
+    if: github.event_name == 'workflow_dispatch' && inputs.tag != ''
 
-    # Reproducible build: keep the pub cache at a fixed path inside the workspace
-    # (/home/runner/work/GymMane/GymMane/.pub-cache). F-Droid relocates its build
-    # to this exact same path and uses the same PUB_CACHE, so the embedded paths
-    # match.
     env:
       PUB_CACHE: ${{ github.workspace }}/.pub-cache
 
@@ -105,14 +100,9 @@ jobs:
       - name: Install dependencies
         run: flutter pub get --enforce-lockfile
 
-      # Reproducibility: the jni package bakes a unique build-id into libdartjni.so.
-      # Force --build-id=none so the native lib is deterministic. F-Droid applies
-      # this exact same patch in its recipe.
       - name: Patch jni build-id
         run: sed -i -e 's/-Wl,/-Wl,--build-id=none,/' "$PUB_CACHE"/hosted/pub.dev/jni-*/src/CMakeLists.txt
 
-      # Sign the release APKs with the release keystore (kept in GitHub Secrets)
-      # so the published binaries match F-Droid's reproducible build.
       - name: Set up signing
         env:
           KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
@@ -128,11 +118,6 @@ jobs:
           storeFile=gymmane-release.jks
           EOF
 
-      # Reproducible build: version name AND code come entirely from pubspec.yaml
-      # (1.0.0+1), exactly like F-Droid builds it. Do NOT pass --build-name or
-      # --build-number here, or the APK won't match F-Droid's.
-      # --split-debug-info moves the path-laden debug symbols out of libapp.so so
-      # it builds deterministically. F-Droid uses the same flag.
       - name: Build split APKs
         run: flutter build apk --release --split-per-abi --split-debug-info=build/symbols
 

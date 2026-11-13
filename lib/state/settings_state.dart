@@ -22,6 +22,15 @@ mixin SettingsState on FitCore, ToolsState, LibraryState {
   String demoSize = 'large';
   String demoLoop = 'always';
   String sessionLayout = 'cards';
+  bool minimalMode = false;
+  String minimalTextSize = 'normal';
+  String minimalRowHeight = 'compact';
+  bool minimalShowPrevious = true;
+  bool minimalShowHowTo = true;
+  bool minimalShowNotes = true;
+  bool minimalShowExerciseIcons = false;
+  bool minimalShowTotals = true;
+  bool minimalShowSettingsButton = true;
   String heatmapRange = 'weeks';
   String alarmStyle = 'quiet';
   int restSeconds = 90;
@@ -163,6 +172,39 @@ mixin SettingsState on FitCore, ToolsState, LibraryState {
   }
 
   bool get listLayout => sessionLayout == 'list';
+
+  void setMinimalMode(bool enabled) {
+    if (minimalMode == enabled) return;
+    minimalMode = enabled;
+    _persist();
+    notifyListeners();
+  }
+
+  void updateMinimalOptions({
+    String? textSize,
+    String? rowHeight,
+    bool? showPrevious,
+    bool? showHowTo,
+    bool? showNotes,
+    bool? showExerciseIcons,
+    bool? showTotals,
+    bool? showSettingsButton,
+  }) {
+    if (textSize != null && const ['normal', 'small', 'tiny'].contains(textSize)) {
+      minimalTextSize = textSize;
+    }
+    if (rowHeight != null && const ['roomy', 'compact', 'tight'].contains(rowHeight)) {
+      minimalRowHeight = rowHeight;
+    }
+    if (showPrevious != null) minimalShowPrevious = showPrevious;
+    if (showHowTo != null) minimalShowHowTo = showHowTo;
+    if (showNotes != null) minimalShowNotes = showNotes;
+    if (showExerciseIcons != null) minimalShowExerciseIcons = showExerciseIcons;
+    if (showTotals != null) minimalShowTotals = showTotals;
+    if (showSettingsButton != null) minimalShowSettingsButton = showSettingsButton;
+    _persist();
+    notifyListeners();
+  }
 
   bool get heatmapYear => heatmapRange == 'year';
 

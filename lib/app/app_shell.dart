@@ -403,9 +403,13 @@ class _AppShellState extends State<AppShell> with WidgetsBindingObserver, Single
             if (!fit.handleBack()) await SystemNavigator.pop();
           },
           child: AnnotatedRegion<SystemUiOverlayStyle>(
-            value: fit.dark ? _overlayDark : _overlayLight,
+            value: fit.minimalMode && fit.route == 'session' && !fit.isSessionComplete
+                ? _overlayDark
+                : (fit.dark ? _overlayDark : _overlayLight),
             child: ColoredBox(
-              color: fit.dark ? const Color(0xFF16161A) : const Color(0xFF3A3A3E),
+              color: fit.minimalMode && fit.route == 'session' && !fit.isSessionComplete
+                  ? const Color(0xFF141413)
+                  : (fit.dark ? const Color(0xFF16161A) : const Color(0xFF3A3A3E)),
               child: ValueListenableBuilder<double>(
               valueListenable: sheetRecede,
               child: RepaintBoundary(

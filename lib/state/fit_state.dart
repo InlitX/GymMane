@@ -236,6 +236,19 @@ class FitState extends FitCore
     demoSize = data['demo'] as String? ?? 'large';
     demoLoop = data['demoLoop'] as String? ?? 'always';
     sessionLayout = data['layout'] == 'list' ? 'list' : 'cards';
+    minimalMode = data['minimalMode'] == true;
+    minimalTextSize = const ['normal', 'small', 'tiny'].contains(data['minimalTextSize'])
+        ? data['minimalTextSize'] as String
+        : 'normal';
+    minimalRowHeight = const ['roomy', 'compact', 'tight'].contains(data['minimalRowHeight'])
+        ? data['minimalRowHeight'] as String
+        : 'compact';
+    minimalShowPrevious = data['minimalShowPrevious'] as bool? ?? true;
+    minimalShowHowTo = data['minimalShowHowTo'] as bool? ?? true;
+    minimalShowNotes = data['minimalShowNotes'] as bool? ?? true;
+    minimalShowExerciseIcons = data['minimalShowExerciseIcons'] as bool? ?? false;
+    minimalShowTotals = data['minimalShowTotals'] as bool? ?? true;
+    minimalShowSettingsButton = data['minimalShowSettingsButton'] as bool? ?? true;
     heatmapRange = data['heatRange'] == 'year' ? 'year' : 'weeks';
     alarmStyle = data['alarmStyle'] as String? ?? 'quiet';
     RestAlarm.instance.style = alarmStyle;
@@ -601,6 +614,15 @@ class FitState extends FitCore
         'demo': demoSize,
         'demoLoop': demoLoop,
         'layout': sessionLayout,
+        'minimalMode': minimalMode,
+        'minimalTextSize': minimalTextSize,
+        'minimalRowHeight': minimalRowHeight,
+        'minimalShowPrevious': minimalShowPrevious,
+        'minimalShowHowTo': minimalShowHowTo,
+        'minimalShowNotes': minimalShowNotes,
+        'minimalShowExerciseIcons': minimalShowExerciseIcons,
+        'minimalShowTotals': minimalShowTotals,
+        'minimalShowSettingsButton': minimalShowSettingsButton,
         'heatRange': heatmapRange,
         'alarmStyle': alarmStyle,
         'noSuggest': noSuggest.toList(),
@@ -784,6 +806,15 @@ class FitState extends FitCore
     demoSize = 'large';
     demoLoop = 'always';
     sessionLayout = 'cards';
+    minimalMode = false;
+    minimalTextSize = 'normal';
+    minimalRowHeight = 'compact';
+    minimalShowPrevious = true;
+    minimalShowHowTo = true;
+    minimalShowNotes = true;
+    minimalShowExerciseIcons = false;
+    minimalShowTotals = true;
+    minimalShowSettingsButton = true;
     heatmapRange = 'weeks';
     MediaStore.clearAll();
     favorites.clear();
