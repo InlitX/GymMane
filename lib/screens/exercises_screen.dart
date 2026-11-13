@@ -59,16 +59,41 @@ class _ExercisesScreenState extends State<ExercisesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final gc = context.gc;
-    final list = fit.exercisesFiltered;
-
+    final base = context.gc;
     final compact = fit.minimalMode;
+    final gc = compact
+        ? base.copyWith(
+            pageBg: const Color(0xFF0E0E0D),
+            bg: const Color(0xFF141413),
+            bgRaised: const Color(0xFF1B1B1A),
+            bgRaised2: const Color(0xFF222221),
+            border: const Color(0xFF2C2C2A),
+            navBg: const Color(0xEE141413),
+            text: const Color(0xFFE9E7E2),
+            textSecondary: const Color(0xFF8D8A84),
+            textTertiary: const Color(0xFF5F5D58),
+            ember: const Color(0xFFC8A45F),
+            emberDeep: const Color(0xFFA88647),
+            onEmber: const Color(0xFF141413),
+            emberSoft: const Color(0x35C8A45F),
+            accent: const Color(0xFFC8A45F),
+            accentSoft: const Color(0x35C8A45F),
+            brass: const Color(0xFFC8A45F),
+            sage: const Color(0xFFC8A45F),
+            sageSoft: const Color(0x35C8A45F),
+            mutedFill: const Color(0xFF222221),
+            heatEmpty: const Color(0xFF222221),
+          )
+        : base;
+    final list = fit.exercisesFiltered;
     final pad = MediaQuery.paddingOf(context).top;
     final searchTop = pad + (compact ? 8 + 30 + 8 : 12 + 50 + 14);
     final chipsTop = searchTop + (compact ? 42 + 8 : 48 + 10);
     final contentTop = chipsTop + (compact ? 30 + 8 : 34 + 12);
 
-    return Stack(children: [
+    return ColoredBox(
+      color: compact ? gc.bg : Colors.transparent,
+      child: Stack(children: [
               if (DesktopScope.of(context) && list.isNotEmpty && !compact)
                 Positioned.fill(child: _grid(gc, list, contentTop))
               else
@@ -139,7 +164,8 @@ class _ExercisesScreenState extends State<ExercisesScreen> {
                   ),
                 ),
               ),
-            ]);
+            ]),
+    );
   }
 
   double get _fold {
