@@ -6,7 +6,6 @@ on:
   push:
     branches:
       - main
-      - feature/native-minimal-mode
   workflow_dispatch:
     inputs:
       tag:
@@ -22,7 +21,7 @@ env:
 
 jobs:
   build:
-    name: Build split APKs
+    name: Analyze, test and build one APK
     runs-on: ubuntu-latest
 
     steps:
@@ -54,31 +53,28 @@ jobs:
       - name: Test
         run: flutter test
 
-      - name: Build split APKs
-        run: flutter build apk --release --split-per-abi
+      - name: Build one APK
+        run: flutter build apk --release
 
-      - name: Rename APKs
-        run: |
-          cd build/app/outputs/flutter-apk
-          mv app-arm64-v8a-release.apk     GymMane-arm64-v8a.apk
-          mv app-armeabi-v7a-release.apk   GymMane-armeabi-v7a.apk
-          mv app-x86_64-release.apk        GymMane-x86_64.apk
+      - name: Rename APK
+        run: mv build/app/outputs/flutter-apk/app-release.apk build/app/outputs/flutter-apk/GymMinimal.apk
 
-      - name: Upload APK artifacts
+      - name: Upload single APK artifact
         uses: actions/upload-artifact@v4
         with:
-          name: gymmane-apks
-          path: build/app/outputs/flutter-apk/GymMane-*.apk
+          name: gymminimal-apk
+          path: build/app/outputs/flutter-apk/GymMinimal.apk
           if-no-files-found: error
 
   release:
     name: Publish release
     needs: build
     runs-on: ubuntu-latest
-    if: github.event_name == 'workflow_dispatch' && inputs.tag != ''
+    if: (github.event_name == 'push' && github.ref == 'refs/heads/main') || github.event_name == 'workflow_dispatch'
 
     env:
       PUB_CACHE: ${{ github.workspace }}/.pub-cache
+      RELEASE_TAG: ${{ inputs.tag != '' && inputs.tag || 'minimal-mode-preview' }}
 
     steps:
       - name: Checkout
@@ -118,22 +114,37 @@ jobs:
           storeFile=gymmane-release.jks
           EOF
 
-      - name: Build split APKs
-        run: flutter build apk --release --split-per-abi --split-debug-info=build/symbols
+      - name: Build one signed APK
+        run: flutter build apk --release --split-debug-info=build/symbols
 
-      - name: Rename APKs
+      - name: Rename APK
+        run: mv build/app/outputs/flutter-apk/app-release.apk build/app/outputs/flutter-apk/GymMinimal.apk
+
+      - name: Point preview tag at this build
         run: |
-          cd build/app/outputs/flutter-apk
-          mv app-arm64-v8a-release.apk     GymMane-arm64-v8a.apk
-          mv app-armeabi-v7a-release.apk   GymMane-armeabi-v7a.apk
-          mv app-x86_64-release.apk        GymMane-x86_64.apk
+          git tag -f "$RELEASE_TAG" "$GITHUB_SHA"
+          git push origin "refs/tags/$RELEASE_TAG" --force
 
-      - name: Publish GitHub Release
+      - name: Remove previous APK assets from the preview release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if gh release view "$RELEASE_TAG" >/dev/null 2>&1; then
+            mapfile -t old_apks < <(gh release view "$RELEASE_TAG" --json assets --jq '.assets[].name | select(endswith(".apk"))')
+            for asset in "${old_apks[@]}"; do
+              gh release delete-asset "$RELEASE_TAG" "$asset" --yes
+            done
+          fi
+
+      - name: Publish single APK to GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ inputs.tag }}
-          name: GymMane ${{ inputs.tag }}
-          files: |
-            build/app/outputs/flutter-apk/GymMane-arm64-v8a.apk
-            build/app/outputs/flutter-apk/GymMane-armeabi-v7a.apk
-            build/app/outputs/flutter-apk/GymMane-x86_64.apk
+          tag_name: ${{ env.RELEASE_TAG }}
+          name: GymMinimal — Minimal Mode
+          body: |
+            Rolling preview build of the native Minimal Mode implementation.
+
+            Download the single installable APK: GymMinimal.apk
+          prerelease: true
+          overwrite_files: true
+          files: build/app/outputs/flutter-apk/GymMinimal.apk

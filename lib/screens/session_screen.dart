@@ -367,7 +367,7 @@ class SessionScreen extends StatelessWidget {
                     IconButton(
                       tooltip: 'Minimal settings',
                       visualDensity: VisualDensity.compact,
-                      onPressed: () => fit.pushRoute('preferences/training'),
+                      onPressed: fit.goMinimalSettingsTab,
                       icon: Icon(PhosphorIconsRegular.gearSix, size: 18, color: gc.textSecondary),
                     ),
                   TextButton(

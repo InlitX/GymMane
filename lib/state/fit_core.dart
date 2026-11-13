@@ -278,6 +278,8 @@ abstract class FitCore extends ChangeNotifier {
 
   void goPreferences() => pushRoute('preferences');
 
+  void goMinimalSettingsTab() => _setRoute('preferences', reset: true);
+
   void backFromPreferences() => popRoute(fallback: 'settings');
 
   void _setRoute(String r, {bool reset = false}) {
@@ -312,7 +314,9 @@ abstract class FitCore extends ChangeNotifier {
 
   int get routeDepth => _routeStack.length;
 
-  bool get showNav => const ['home', 'progress', 'exercises', 'settings'].contains(route);
+  bool get showNav => minimalMode
+      ? const ['home', 'progress', 'exercises', 'exercise-detail', 'history', 'preferences'].contains(route)
+      : const ['home', 'progress', 'exercises', 'settings'].contains(route);
 
   void setUnits(String u) {
     units = u;

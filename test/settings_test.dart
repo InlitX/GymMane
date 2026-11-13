@@ -119,6 +119,30 @@ void main() {
       expect(fit.minimalShowPrevious, isTrue);
     });
 
+    test('Minimal navigation matches the five Sample.html tabs without changing Standard mode', () {
+      expect(fit.showNav, isTrue);
+      fit.route = 'history';
+      expect(fit.showNav, isFalse, reason: 'Standard mode keeps its existing navigation');
+
+      fit.setMinimalMode(true);
+      for (final route in [
+        'home',
+        'exercises',
+        'exercise-detail',
+        'history',
+        'progress',
+        'preferences',
+      ]) {
+        fit.route = route;
+        expect(fit.showNav, isTrue, reason: 'Minimal navigation should be visible on $route');
+      }
+
+      fit.route = 'session';
+      expect(fit.showNav, isFalse, reason: 'the live workout has no bottom navigation');
+      fit.setMinimalMode(false);
+      fit.route = 'home';
+    });
+
     test('height reads in feet and inches for imperial users', () {
       fit.setUnits('lb');
       expect(fit.heightLabel(175), '5′ 9″');

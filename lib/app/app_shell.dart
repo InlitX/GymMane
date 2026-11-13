@@ -66,6 +66,29 @@ class AppShell extends StatefulWidget {
   State<AppShell> createState() => _AppShellState();
 }
 
+GymColors _minimalPalette(GymColors base) => base.copyWith(
+      pageBg: const Color(0xFF0E0E0D),
+      bg: const Color(0xFF141413),
+      bgRaised: const Color(0xFF1B1B1A),
+      bgRaised2: const Color(0xFF222221),
+      border: const Color(0xFF2C2C2A),
+      navBg: const Color(0xEE141413),
+      text: const Color(0xFFE9E7E2),
+      textSecondary: const Color(0xFF8D8A84),
+      textTertiary: const Color(0xFF5F5D58),
+      ember: const Color(0xFFC8A45F),
+      emberDeep: const Color(0xFFA88647),
+      onEmber: const Color(0xFF141413),
+      emberSoft: const Color(0x35C8A45F),
+      accent: const Color(0xFFC8A45F),
+      accentSoft: const Color(0x35C8A45F),
+      brass: const Color(0xFFC8A45F),
+      sage: const Color(0xFFC8A45F),
+      sageSoft: const Color(0x35C8A45F),
+      mutedFill: const Color(0xFF222221),
+      heatEmpty: const Color(0xFF222221),
+    );
+
 class _AppShellState extends State<AppShell> with WidgetsBindingObserver, SingleTickerProviderStateMixin {
   static const _blurTop = {
     'home',
@@ -382,7 +405,7 @@ class _AppShellState extends State<AppShell> with WidgetsBindingObserver, Single
           return const OnboardingScreen();
         }
         final wide = DesktopScope.wideFor(MediaQuery.sizeOf(context).width);
-        final parked = fit.sessionParked && fit.showNav && !wide;
+        final parked = fit.sessionParked && fit.showNav && !wide && !fit.minimalMode;
 
         return PopScope(
           canPop: false,
@@ -407,7 +430,7 @@ class _AppShellState extends State<AppShell> with WidgetsBindingObserver, Single
                 ? _overlayDark
                 : (fit.dark ? _overlayDark : _overlayLight),
             child: ColoredBox(
-              color: fit.minimalMode && fit.route == 'session' && !fit.isSessionComplete
+              color: fit.minimalMode
                   ? const Color(0xFF141413)
                   : (fit.dark ? const Color(0xFF16161A) : const Color(0xFF3A3A3E)),
               child: ValueListenableBuilder<double>(
@@ -423,14 +446,19 @@ class _AppShellState extends State<AppShell> with WidgetsBindingObserver, Single
                     mode: SnapshotMode.permissive,
                     autoresize: true,
                     child: Stack(children: [
-                      Positioned.fill(child: ColoredBox(color: context.gc.bg)),
                       Positioned.fill(
-                        child: AppBackground(
-                          pattern: fit.bgPattern,
-                          photo: fit.bgPhotoPath,
-                          dim: fit.bgDim,
+                        child: ColoredBox(
+                          color: fit.minimalMode ? const Color(0xFF141413) : context.gc.bg,
                         ),
                       ),
+                      if (!fit.minimalMode)
+                        Positioned.fill(
+                          child: AppBackground(
+                            pattern: fit.bgPattern,
+                            photo: fit.bgPhotoPath,
+                            dim: fit.bgDim,
+                          ),
+                        ),
                       Scaffold(
                         backgroundColor: Colors.transparent,
                         body: Padding(
@@ -464,11 +492,11 @@ class _AppShellState extends State<AppShell> with WidgetsBindingObserver, Single
                   start: wide ? DesktopScope.sidebarWidth : 0,
                   end: 0,
                   top: 0,
-                  child: _blurTop.contains(fit.route)
+                  child: !fit.minimalMode && _blurTop.contains(fit.route)
                       ? _CollapsedBar(progress: _collapse, title: _compactTitle())
                       : const SizedBox.shrink(),
                 ),
-                if (fit.showNav && !wide)
+                if (fit.showNav && !wide && !fit.minimalMode)
                   Positioned(
                     left: 0,
                     right: 0,
@@ -476,7 +504,20 @@ class _AppShellState extends State<AppShell> with WidgetsBindingObserver, Single
                     child: EdgeBlur(
                         top: false, height: 128 + MediaQuery.viewPaddingOf(context).bottom + (parked ? _pillSpace : 0)),
                   ),
-                if (fit.showNav && !wide && MediaQuery.viewInsetsOf(context).bottom < 60) ...[
+                if (fit.showNav &&
+                    !wide &&
+                    fit.minimalMode &&
+                    MediaQuery.viewInsetsOf(context).bottom < 60)
+                  Positioned(
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    child: RepaintBoundary(child: _MinimalNavBar()),
+                  ),
+                if (fit.showNav &&
+                    !wide &&
+                    !fit.minimalMode &&
+                    MediaQuery.viewInsetsOf(context).bottom < 60) ...[
                   Positioned(
                     left: 24,
                     right: 24,
@@ -575,6 +616,33 @@ class _AppShellState extends State<AppShell> with WidgetsBindingObserver, Single
 
   Widget _animatedScreen() {
     final route = fit.route;
+    if (fit.minimalMode) {
+      _lastRoute = route;
+      _lastDepth = fit.routeDepth;
+      _sideways = false;
+      _forward = true;
+      _collapsed = false;
+      _collapse.value = 0;
+      final colors = _minimalPalette(context.gc);
+      final baseTheme = Theme.of(context);
+      final minimalTheme = baseTheme.copyWith(
+        scaffoldBackgroundColor: colors.bg,
+        colorScheme: baseTheme.colorScheme.copyWith(
+          surface: colors.bgRaised,
+          primary: colors.accent,
+          onPrimary: colors.onEmber,
+          onSurface: colors.text,
+        ),
+        extensions: [colors],
+      );
+      return Theme(
+        data: minimalTheme,
+        child: KeyedSubtree(
+          key: ValueKey(route),
+          child: _DesktopPage(route: route, child: _screen()),
+        ),
+      );
+    }
     if (route != _lastRoute) {
       _collapsed = false;
       _collapse.value = 0;
@@ -855,6 +923,77 @@ void playWorkout(BuildContext context) {
     return;
   }
   showStartSheet(context);
+}
+
+class _MinimalNavBar extends StatelessWidget {
+  const _MinimalNavBar();
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = _minimalPalette(context.gc);
+    final items = <({String label, VoidCallback action})>[
+      (label: 'Today', action: fit.goHome),
+      (label: 'Exercises', action: fit.goExercises),
+      (label: 'History', action: fit.goHistoryTab),
+      (label: 'Stats', action: fit.goProgress),
+      (label: 'Settings', action: fit.goMinimalSettingsTab),
+    ];
+
+    var selected = -1;
+    if (fit.route == 'home') selected = 0;
+    if (fit.route == 'exercises' || fit.route == 'exercise-detail') selected = 1;
+    if (fit.route == 'history') selected = 2;
+    if (fit.route == 'progress') selected = 3;
+    if (fit.route == 'preferences' || fit.route.startsWith('preferences/')) selected = 4;
+
+    return Container(
+      decoration: BoxDecoration(
+        color: colors.bg,
+        border: Border(top: BorderSide(color: colors.border, width: 1)),
+      ),
+      child: SafeArea(
+        top: false,
+        left: false,
+        right: false,
+        child: SizedBox(
+          height: 36,
+          child: Row(
+            children: [
+              for (var i = 0; i < items.length; i++)
+                Expanded(
+                  child: GestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    onTap: items[i].action,
+                    child: Container(
+                      height: 36,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        border: Border(
+                          bottom: BorderSide(
+                            color: selected == i ? colors.accent : Colors.transparent,
+                            width: 2,
+                          ),
+                        ),
+                      ),
+                      child: Text(
+                        items[i].label,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: AppTheme.f(
+                          12.5,
+                          weight: selected == i ? FontWeight.w600 : FontWeight.w500,
+                          color: selected == i ? colors.text : colors.textTertiary,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 }
 
 class _NavBar extends StatefulWidget {
