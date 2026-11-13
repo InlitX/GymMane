@@ -50,8 +50,8 @@ class HistoryScreen extends StatelessWidget {
     final gc = compact ? _minimalHistoryColors(base) : base;
     final month = fit.historyMonth;
     final list = fit.sessionsInMonth(month);
+    if (compact) return _minimalHistory(context, gc, fit.sessions);
     final records = fit.recordsBySession();
-    if (compact) return _minimalHistory(context, gc, month, list, records, fit.sessions);
     return RiseScope(
       id: 'history',
       once: false,
@@ -113,9 +113,6 @@ class HistoryScreen extends StatelessWidget {
   Widget _minimalHistory(
     BuildContext context,
     GymColors gc,
-    DateTime month,
-    List<LoggedSession> list,
-    Map<LoggedSession, int> records,
     List<LoggedSession> allSessions,
   ) {
     final theme = Theme.of(context).copyWith(extensions: [gc]);
@@ -125,12 +122,7 @@ class HistoryScreen extends StatelessWidget {
         color: gc.bg,
         child: SafeArea(
           bottom: false,
-          child: _MinimalHistoryContent(
-            month: month,
-            monthSessions: list,
-            allSessions: allSessions,
-            records: records,
-          ),
+          child: _MinimalHistoryContent(allSessions: allSessions),
         ),
       ),
     );
@@ -157,24 +149,19 @@ enum _MinimalHistoryView { list, table }
 enum _MinimalHistorySort { date, exercise, set, weight, reps, volume, oneRm, muscle }
 
 class _MinimalHistoryContent extends StatefulWidget {
-  const _MinimalHistoryContent({
-    required this.month,
-    required this.monthSessions,
-    required this.allSessions,
-    required this.records,
-  });
+  const _MinimalHistoryContent({required this.allSessions});
 
-  final DateTime month;
-  final List<LoggedSession> monthSessions;
   final List<LoggedSession> allSessions;
-  final Map<LoggedSession, int> records;
 
   @override
   State<_MinimalHistoryContent> createState() => _MinimalHistoryContentState();
 }
 
 class _MinimalHistoryContentState extends State<_MinimalHistoryContent> {
+  static const _latestSessionLimit = 40;
+  static const _visibleSetLimit = 200;
   final _searchController = TextEditingController();
+  final Set<int> _expandedSessions = {};
   _MinimalHistoryView _view = _MinimalHistoryView.list;
   _MinimalHistorySort _sort = _MinimalHistorySort.date;
   bool _descending = true;
@@ -183,6 +170,15 @@ class _MinimalHistoryContentState extends State<_MinimalHistoryContent> {
   void dispose() {
     _searchController.dispose();
     super.dispose();
+  }
+
+  List<LoggedSession> get _recentSessions {
+    final sessions = [...widget.allSessions]
+      ..sort((a, b) {
+        final day = b.day.compareTo(a.day);
+        return day != 0 ? day : b.date.compareTo(a.date);
+      });
+    return sessions.take(_latestSessionLimit).toList(growable: false);
   }
 
   Future<void> _exportHistory() async {
@@ -207,23 +203,16 @@ class _MinimalHistoryContentState extends State<_MinimalHistoryContent> {
   Widget build(BuildContext context) {
     final gc = context.gc;
     return SingleChildScrollView(
-      padding: const EdgeInsets.fromLTRB(14, 8, 14, 104),
+      padding: const EdgeInsets.fromLTRB(12, 8, 12, 104),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Row(
             children: [
-              IconButton(
-                tooltip: t.back,
-                visualDensity: VisualDensity.compact,
-                onPressed: fit.popRoute,
-                icon: Icon(PhosphorIconsRegular.arrowLeft, size: 18, color: gc.textSecondary),
-              ),
-              const SizedBox(width: 4),
               Expanded(
                 child: Text(
                   sentenceCase(t.historyTitle),
-                  style: AppTheme.f(20, weight: FontWeight.w800, color: gc.text),
+                  style: AppTheme.f(16.5, weight: FontWeight.w800, color: gc.text),
                 ),
               ),
               TextButton(
@@ -239,10 +228,8 @@ class _MinimalHistoryContentState extends State<_MinimalHistoryContent> {
             ],
           ),
           const SizedBox(height: 8),
-          _MonthCard(key: ValueKey(widget.month), month: widget.month, minimal: true),
-          const SizedBox(height: 12),
           _viewSwitcher(gc),
-          const SizedBox(height: 8),
+          const SizedBox(height: 4),
           if (_view == _MinimalHistoryView.list) _listView(gc) else _tableView(gc),
         ],
       ),
@@ -253,80 +240,179 @@ class _MinimalHistoryContentState extends State<_MinimalHistoryContent> {
     Widget option(String label, _MinimalHistoryView value) {
       final selected = _view == value;
       return InkWell(
+        key: ValueKey('minimal-history-view-${value.name}'),
         onTap: () => setState(() => _view = value),
-        borderRadius: BorderRadius.circular(5),
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
-          decoration: BoxDecoration(
-            color: selected ? gc.bgRaised2 : Colors.transparent,
-            borderRadius: BorderRadius.circular(5),
-          ),
-          child: Text(
-            label,
-            style: AppTheme.f(11, weight: selected ? FontWeight.w800 : FontWeight.w600,
-                color: selected ? gc.text : gc.textTertiary),
+        child: Padding(
+          padding: const EdgeInsets.only(bottom: 4),
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              border: Border(bottom: BorderSide(
+                color: selected ? gc.accent : Colors.transparent,
+                width: 1.5,
+              )),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 2),
+              child: Text(
+                label,
+                style: AppTheme.f(12, weight: selected ? FontWeight.w700 : FontWeight.w500,
+                    color: selected ? gc.text : gc.textTertiary),
+              ),
+            ),
           ),
         ),
       );
     }
 
     return Row(
+      mainAxisSize: MainAxisSize.min,
       children: [
-        Container(
-          padding: const EdgeInsets.all(2),
-          decoration: BoxDecoration(
-            border: Border.all(color: gc.border),
-            borderRadius: BorderRadius.circular(7),
-          ),
-          child: Row(mainAxisSize: MainAxisSize.min, children: [
-            option('List', _MinimalHistoryView.list),
-            option('Table', _MinimalHistoryView.table),
-          ]),
-        ),
-        const Spacer(),
-        if (_view == _MinimalHistoryView.list)
-          Text(
-            t.historyWorkouts(widget.monthSessions.length),
-            style: AppTheme.f(10.5, weight: FontWeight.w600, color: gc.textTertiary),
-          )
-        else
-          Text(
-            '${widget.allSessions.length} workouts',
-            style: AppTheme.f(10.5, weight: FontWeight.w600, color: gc.textTertiary),
-          ),
+        option('List', _MinimalHistoryView.list),
+        const SizedBox(width: 16),
+        option('Table', _MinimalHistoryView.table),
       ],
     );
   }
 
   Widget _listView(GymColors gc) {
-    if (widget.monthSessions.isEmpty) {
-      return Container(
-        padding: const EdgeInsets.symmetric(vertical: 28, horizontal: 18),
-        decoration: BoxDecoration(
-          color: gc.bgRaised,
-          borderRadius: BorderRadius.circular(9),
+    final sessions = _recentSessions;
+    if (sessions.isEmpty) {
+      return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 12),
+        child: Text(
+          t.historyEmpty,
+          textAlign: TextAlign.start,
+          style: AppTheme.f(11.5, weight: FontWeight.w500, color: gc.textSecondary),
         ),
-        child: Column(children: [
-          Icon(PhosphorIconsRegular.calendarBlank, size: 27, color: gc.textTertiary),
-          const SizedBox(height: 9),
-          Text(t.historyEmpty,
-              textAlign: TextAlign.center,
-              style: AppTheme.f(14, weight: FontWeight.w700, color: gc.text)),
-          const SizedBox(height: 4),
-          Text(t.historyEmptyHint,
-              textAlign: TextAlign.center,
-              style: AppTheme.f(11, weight: FontWeight.w500, color: gc.textSecondary, height: 1.35)),
-        ]),
       );
     }
     return Column(
       children: [
-        for (final session in widget.monthSessions)
-          WorkoutHistoryCard(
-            session: session,
-            records: widget.records[session] ?? 0,
-            minimal: true,
+        for (final session in sessions) _minimalWorkoutRow(session, gc),
+      ],
+    );
+  }
+
+  Widget _minimalWorkoutRow(LoggedSession session, GymColors gc) {
+    final key = session.date.microsecondsSinceEpoch;
+    final expanded = _expandedSessions.contains(key);
+    final grouped = <String, _MinimalHistoryExerciseGroup>{};
+    for (final exercise in session.exercises) {
+      final groupKey = '${exercise.id}|${exercise.primary}';
+      final group = grouped.putIfAbsent(
+        groupKey,
+        () => _MinimalHistoryExerciseGroup(exercise.id, exercise.name, exercise.primary),
+      );
+      group.sets.addAll(exercise.sets);
+    }
+    final exercises = grouped.values.toList(growable: false);
+    final exerciseNames = exercises
+        .map((exercise) => t.catalogName(exercise.id, exercise.name))
+        .join(', ');
+    final setCount = exercises.fold<int>(0, (total, exercise) => total + exercise.sets.length);
+    final date = intl.DateFormat('EEE d MMM').format(session.day);
+    final duration = (session.durationSec / 60).round();
+
+    return Column(
+      key: ValueKey('minimal-history-session-$key'),
+      children: [
+        InkWell(
+          onTap: () => setState(() {
+            if (!_expandedSessions.add(key)) _expandedSessions.remove(key);
+          }),
+          child: Container(
+            width: double.infinity,
+            padding: const EdgeInsets.symmetric(vertical: 7),
+            decoration: BoxDecoration(
+              border: Border(top: BorderSide(color: gc.border.withValues(alpha: 0.8))),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                      child: Row(
+                        children: [
+                          Flexible(
+                            child: Text(
+                              fit.sessionHeading(session),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: AppTheme.f(12.5, weight: FontWeight.w800, color: gc.text),
+                            ),
+                          ),
+                          const SizedBox(width: 6),
+                          Text(date, style: AppTheme.f(11.5, weight: FontWeight.w500, color: gc.textSecondary)),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Text(
+                      fit.volumeLabel(session.volume),
+                      style: AppTheme.f(11.5, weight: FontWeight.w700, color: gc.text),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 1),
+                Text(
+                  '${duration} min, $setCount sets',
+                  style: AppTheme.f(11.5, weight: FontWeight.w500, color: gc.textSecondary),
+                ),
+                if (exerciseNames.isNotEmpty) ...[
+                  const SizedBox(height: 1),
+                  Text(
+                    exerciseNames,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: AppTheme.f(11.5, weight: FontWeight.w500, color: gc.textSecondary),
+                  ),
+                ],
+              ],
+            ),
           ),
+        ),
+        AnimatedSize(
+          duration: const Duration(milliseconds: 160),
+          curve: Curves.easeOut,
+          alignment: Alignment.topCenter,
+          child: expanded
+              ? Padding(
+                  padding: const EdgeInsets.fromLTRB(8, 0, 4, 8),
+                  child: Column(
+                    children: [
+                      for (final exercise in exercises)
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 2),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  t.catalogName(exercise.id, exercise.name),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: AppTheme.f(11, weight: FontWeight.w500, color: gc.textSecondary),
+                                ),
+                              ),
+                              const SizedBox(width: 8),
+                              Flexible(
+                                child: Text(
+                                  exercise.sets.map(fit.loggedSetLabel).join('  '),
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  textAlign: TextAlign.end,
+                                  style: AppTheme.f(11, weight: FontWeight.w600, color: gc.text),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                    ],
+                  ),
+                )
+              : const SizedBox.shrink(),
+        ),
       ],
     );
   }
@@ -349,10 +435,13 @@ class _MinimalHistoryContentState extends State<_MinimalHistoryContent> {
           }
           final date = row.session.day;
           final searchable = [
-            row.session.name ?? '',
+            fit.sessionHeading(row.session),
             row.exercise.name,
+            t.catalogName(row.exercise.id, row.exercise.name),
             row.exercise.primary,
+            sentenceCase(row.exercise.primary),
             intl.DateFormat('yyyy-MM-dd').format(date),
+            intl.DateFormat('dd MMM yy').format(date),
             intl.DateFormat('dd MMM yyyy').format(date),
             t.fullDate(date),
           ].join(' ').toLowerCase();
@@ -371,20 +460,27 @@ class _MinimalHistoryContentState extends State<_MinimalHistoryContent> {
         _MinimalHistorySort.oneRm => a.set.oneRm.compareTo(b.set.oneRm),
         _MinimalHistorySort.muscle => a.exercise.primary.toLowerCase().compareTo(b.exercise.primary.toLowerCase()),
       };
-      return _descending ? -comparison : comparison;
+      if (comparison != 0) return _descending ? -comparison : comparison;
+      final latest = b.session.day.compareTo(a.session.day);
+      if (latest != 0) return latest;
+      final exercise = a.exercise.name.toLowerCase().compareTo(b.exercise.name.toLowerCase());
+      if (exercise != 0) return exercise;
+      return a.setNumber.compareTo(b.setNumber);
     });
     return rows;
   }
 
   Widget _tableView(GymColors gc) {
     final rows = _filteredRows();
-    final visible = rows.take(200).toList();
+    final visible = rows.take(_visibleSetLimit).toList(growable: false);
+    final tableHeight = (31 + visible.length * 34).clamp(31, 430).toDouble();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         SizedBox(
           height: 38,
           child: TextField(
+            key: const ValueKey('minimal-history-search'),
             controller: _searchController,
             onChanged: (_) => setState(() {}),
             style: AppTheme.f(11.5, weight: FontWeight.w600, color: gc.text),
@@ -439,31 +535,37 @@ class _MinimalHistoryContentState extends State<_MinimalHistoryContent> {
             ),
           )
         else
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: SizedBox(
-              width: 611,
-              child: Column(
-                children: [
-                  Container(
-                    height: 31,
-                    decoration: BoxDecoration(
-                      color: gc.bgRaised,
-                      border: Border(bottom: BorderSide(color: gc.border)),
-                    ),
-                    child: Row(children: [
-                      _sortHeader(_MinimalHistorySort.date, 'Date', 80, gc),
-                      _sortHeader(_MinimalHistorySort.exercise, 'Exercise', 178, gc),
-                      _sortHeader(_MinimalHistorySort.set, 'Set', 38, gc, right: true),
-                      _sortHeader(_MinimalHistorySort.weight, 'kg', 54, gc, right: true),
-                      _sortHeader(_MinimalHistorySort.reps, 'Reps', 47, gc, right: true),
-                      _sortHeader(_MinimalHistorySort.volume, 'Vol', 65, gc, right: true),
-                      _sortHeader(_MinimalHistorySort.oneRm, '1RM', 65, gc, right: true),
-                      _sortHeader(_MinimalHistorySort.muscle, 'Muscle', 84, gc),
-                    ]),
+          SizedBox(
+            height: tableHeight,
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: SizedBox(
+                width: 611,
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
+                  child: Column(
+                    children: [
+                      Container(
+                        height: 31,
+                        decoration: BoxDecoration(
+                          color: gc.bgRaised,
+                          border: Border(bottom: BorderSide(color: gc.border)),
+                        ),
+                        child: Row(children: [
+                          _sortHeader(_MinimalHistorySort.date, 'Date', 80, gc),
+                          _sortHeader(_MinimalHistorySort.exercise, 'Exercise', 178, gc),
+                          _sortHeader(_MinimalHistorySort.set, 'Set', 38, gc, right: true),
+                          _sortHeader(_MinimalHistorySort.weight, 'Kg', 54, gc, right: true),
+                          _sortHeader(_MinimalHistorySort.reps, 'Reps', 47, gc, right: true),
+                          _sortHeader(_MinimalHistorySort.volume, 'Volume', 65, gc, right: true),
+                          _sortHeader(_MinimalHistorySort.oneRm, '1RM', 65, gc, right: true),
+                          _sortHeader(_MinimalHistorySort.muscle, 'Muscle', 84, gc),
+                        ]),
+                      ),
+                      for (final row in visible) _historyTableRow(row, gc),
+                    ],
                   ),
-                  for (final row in visible) _historyTableRow(row, gc),
-                ],
+                ),
               ),
             ),
           ),
@@ -482,6 +584,7 @@ class _MinimalHistoryContentState extends State<_MinimalHistoryContent> {
   Widget _sortHeader(_MinimalHistorySort column, String label, double width, GymColors gc, {bool right = false}) {
     final active = _sort == column;
     return InkWell(
+      key: ValueKey('minimal-history-sort-${column.name}'),
       onTap: () => setState(() {
         if (_sort == column) {
           _descending = !_descending;
@@ -518,7 +621,7 @@ class _MinimalHistoryContentState extends State<_MinimalHistoryContent> {
   }
 
   Widget _historyTableRow(_MinimalHistorySetRow row, GymColors gc) {
-    final date = intl.DateFormat('dd MMM yy').format(row.session.day);
+    final date = intl.DateFormat('d MMM').format(row.session.day);
     final type = switch (row.set.kind) {
       SetKind.normal => '',
       SetKind.warmup => 'W',
@@ -568,6 +671,15 @@ class _MinimalHistoryContentState extends State<_MinimalHistoryContent> {
 
   String _metric(double value) =>
       value == value.roundToDouble() ? value.toStringAsFixed(0) : value.toStringAsFixed(1);
+}
+
+class _MinimalHistoryExerciseGroup {
+  _MinimalHistoryExerciseGroup(this.id, this.name, this.muscle);
+
+  final String id;
+  final String name;
+  final String muscle;
+  final List<LoggedSet> sets = [];
 }
 
 class _MinimalHistorySetRow {
