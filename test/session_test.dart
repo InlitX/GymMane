@@ -15,6 +15,20 @@ void main() {
 
   strengthTests();
 
+  test('discarding a live workout clears it without filing history', () {
+    fit.startWorkout();
+    fit.toggleMuscle('chest');
+    fit.trainContinue();
+    fit.startSession();
+    fit.toggleSet(0, 0);
+
+    fit.discardSession();
+
+    expect(fit.session, isNull);
+    expect(fit.sessions, isEmpty);
+    expect(fit.route, 'home');
+  });
+
   test('a leg day proposes a session, not the whole catalogue', () {
     fit.startWorkout();
     fit.toggleMuscle('quads');

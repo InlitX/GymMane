@@ -27,7 +27,7 @@ Rebuild the reference's compact phone experience in the existing Flutter app usi
 | 0 | Reference audit and baseline | Complete | `Sample.html` boundary and reference inventory documented |
 | 1 | Minimal shell and navigation | Complete | PR #8 merged |
 | 2 | Today screen | Complete | PR #9 merged; CI run #43506289411 passed |
-| 3 | Live workout | **Next** | Match toolbar, timer, totals, compact exercise groups, set table and rest dock |
+| 3 | Live workout | **In progress (PR #11)** | Compact toolbar, set table, exercise-group actions, flat rest dock and discard confirmation implemented; CI and phone QA still required |
 | 4 | Exercise library | Planned | Search, muscle filters, Name / Muscle / 1RM rows |
 | 5 | Exercise details | Planned | Ten metrics, range controls, 1RM/volume charts, PR history and session table |
 | 6 | History | Planned | Latest-40 list, List/Table, eight-column table, search/sort and Excel |
@@ -39,8 +39,9 @@ Rebuild the reference's compact phone experience in the existing Flutter app usi
 ## Current state and next action
 
 - **Latest merged UI work:** PR #9, Stage 2 Today screen, merge commit `f0ed1cf4a5626ee0806cd7bee87c225d361439f9`.
-- **Next implementation:** Stage 3 — Live workout.
-- **Prerequisite:** merge PR #10 after its updated CI passes. PR #10 is being synchronized with the newer `main`; keep the newer `.github/workflows/build-apk.yml` from PR #9.
+- **Latest merged repository baseline:** PR #10 handoff/roadmap and conflict-resolution work, merge commit `7fbc49522965e638a110e9988c4fe53b29a11301`.
+- **Current implementation:** Stage 3 — Live workout, PR #11, branch `feature/sample-html-parity-stage-3-live-workout`.
+- **Prerequisite completed:** PR #10 was merged after its updated Actions run #43510832870 passed. The newer single-job `.github/workflows/build-apk.yml` remains authoritative.
 - **Do not restart Stage 2.** Reopen it only for a confirmed regression or mismatch. Its final screenshot/manual parity check belongs in Stage 10.
 
 ## Build and release
@@ -52,7 +53,7 @@ The current workflow (merged in PR #9) runs analysis, tests, a single APK build 
 - PR #9 CI run #43506289411: analysis, tests, one-APK build and artifact upload succeeded.
 - Main push run #43508196293: completed successfully, including the Release publish steps.
 - Verified the [rolling release](https://github.com/HackerXMindset/GymMinimal/releases/tag/minimal-mode-preview) now contains exactly one APK asset named `GymMinimal.apk`.
-- PR #10 conflict is resolved and GitHub reports it mergeable; updated PR Actions run #43510557866 was still in progress at the last check.
+- PR #10 merged as `7fbc49522965e638a110e9988c4fe53b29a11301`; its updated PR Actions run #43510832870 passed. Main push run #43514552958 must be checked for final release publishing.
 - A persistent release keystore has not been confirmed. Do not assume seamless in-place upgrades between separately built APKs until stable signing is configured and tested.
 
 ## Documents and source map

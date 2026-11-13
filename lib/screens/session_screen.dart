@@ -361,21 +361,24 @@ class SessionScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.fromLTRB(12, 8, 12, 6),
               child: Column(children: [
-                s.manual ? _manualBar(context, gc, s) : _liveBar(gc, locked),
-                Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-                  if (fit.minimalShowSettingsButton)
-                    IconButton(
-                      tooltip: 'Minimal settings',
-                      visualDensity: VisualDensity.compact,
-                      onPressed: fit.goMinimalSettingsTab,
-                      icon: Icon(PhosphorIconsRegular.gearSix, size: 18, color: gc.textSecondary),
+                if (s.manual) ...[
+                  _manualBar(context, gc, s),
+                  Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+                    if (fit.minimalShowSettingsButton)
+                      IconButton(
+                        tooltip: 'Minimal settings',
+                        visualDensity: VisualDensity.compact,
+                        onPressed: fit.goMinimalSettingsTab,
+                        icon: Icon(PhosphorIconsRegular.gearSix, size: 18, color: gc.textSecondary),
+                      ),
+                    TextButton(
+                      onPressed: locked ? null : fit.finishSession,
+                      child: Text(t.finishSession,
+                          style: AppTheme.f(12, weight: FontWeight.w800, color: locked ? gc.textTertiary : gc.accent)),
                     ),
-                  TextButton(
-                    onPressed: locked ? null : fit.finishSession,
-                    child: Text(t.finishSession,
-                        style: AppTheme.f(12, weight: FontWeight.w800, color: locked ? gc.textTertiary : gc.accent)),
-                  ),
-                ]),
+                  ]),
+                ] else
+                  _minimalToolbar(context, gc, locked),
               ]),
             ),
             Expanded(
@@ -404,13 +407,151 @@ class SessionScreen extends StatelessWidget {
             child: fit.holding && fit.holdEx >= 0
                 ? KeyedSubtree(key: const ValueKey('hold'), child: _ticking(() => _holdDock(gc)))
                 : s.restRemaining != null
-                    ? KeyedSubtree(key: const ValueKey('rest'), child: _restDock(context, gc, s))
+                    ? KeyedSubtree(key: const ValueKey('rest'), child: _minimalRestDock(context, gc, s))
                     : const SizedBox(key: ValueKey('none'), width: double.infinity),
           ),
         ),
       ]),
     );
   }
+
+  Widget _minimalToolbar(BuildContext context, GymColors gc, bool locked) {
+    return Row(
+      children: [
+        if (locked)
+          Flexible(child: _lockedChip(gc))
+        else
+          _stepOutButton(gc),
+        const SizedBox(width: 6),
+        Container(
+          width: 6,
+          height: 6,
+          decoration: BoxDecoration(
+            color: fit.sessionPaused ? gc.textTertiary : gc.ember,
+            shape: BoxShape.circle,
+          ),
+        ),
+        const SizedBox(width: 7),
+        Expanded(
+          child: _ticking(() => RollingText(
+                fit.elapsedLabel,
+                style: AppTheme.f(14, weight: FontWeight.w700,
+                    color: fit.sessionPaused ? gc.textSecondary : gc.text),
+              )),
+        ),
+        if (fit.minimalShowSettingsButton)
+          IconButton(
+            tooltip: 'Minimal settings',
+            visualDensity: VisualDensity.compact,
+            constraints: const BoxConstraints(minWidth: 32, minHeight: 36),
+            padding: EdgeInsets.zero,
+            onPressed: fit.goMinimalSettingsTab,
+            icon: Icon(PhosphorIconsRegular.gearSix, size: 17, color: gc.textSecondary),
+          ),
+        if (!locked)
+          IconButton(
+            tooltip: t.lockWorkout,
+            visualDensity: VisualDensity.compact,
+            constraints: const BoxConstraints(minWidth: 30, minHeight: 36),
+            padding: EdgeInsets.zero,
+            onPressed: () => _setLock(true),
+            icon: Icon(PhosphorIconsRegular.fingerprint, size: 16, color: gc.textSecondary),
+          ),
+        IconButton(
+          tooltip: fit.sessionPaused ? t.resumeWorkout : t.pauseWorkout,
+          visualDensity: VisualDensity.compact,
+          constraints: const BoxConstraints(minWidth: 32, minHeight: 36),
+          padding: EdgeInsets.zero,
+          onPressed: locked ? null : fit.toggleSessionPause,
+          icon: Icon(
+            fit.sessionPaused ? PhosphorIconsFill.play : PhosphorIconsFill.pause,
+            size: 15,
+            color: locked ? gc.textTertiary : gc.text,
+          ),
+        ),
+        TextButton(
+          onPressed: locked ? null : fit.finishSession,
+          style: TextButton.styleFrom(
+            visualDensity: VisualDensity.compact,
+            minimumSize: const Size(0, 34),
+            padding: const EdgeInsets.symmetric(horizontal: 5),
+            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          ),
+          child: Text(t.finishSession,
+              style: AppTheme.f(11.5, weight: FontWeight.w800,
+                  color: locked ? gc.textTertiary : gc.accent)),
+        ),
+      ],
+    );
+  }
+
+  Widget _minimalRestDock(BuildContext context, GymColors gc, WorkoutSession s) => Dismissible(
+        key: const ValueKey('minimal-rest-dock'),
+        resizeDuration: null,
+        onDismissed: (_) {
+          HapticFeedback.lightImpact();
+          fit.skipRest();
+        },
+        child: _ticking(() {
+          final left = s.restRemaining ?? 0;
+          return Container(
+            height: 48,
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            decoration: BoxDecoration(
+              color: gc.bgRaised,
+              border: Border(
+                top: BorderSide(color: gc.border),
+                bottom: BorderSide(color: gc.border),
+              ),
+            ),
+            child: Row(children: [
+              Text(t.liveResting,
+                  style: AppTheme.f(11, weight: FontWeight.w600, color: gc.textSecondary)),
+              const SizedBox(width: 10),
+              Expanded(
+                child: GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTap: () => _editRest(context, s),
+                  child: Center(
+                    child: RollingText(clockLabel(left),
+                        style: AppTheme.f(16, weight: FontWeight.w800, color: gc.accent)),
+                  ),
+                ),
+              ),
+              TextButton(
+                onPressed: () => fit.nudgeRest(-15),
+                style: TextButton.styleFrom(
+                  visualDensity: VisualDensity.compact,
+                  minimumSize: const Size(30, 32),
+                  padding: const EdgeInsets.symmetric(horizontal: 4),
+                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                ),
+                child: Text('−15', style: AppTheme.f(11, weight: FontWeight.w700, color: gc.textSecondary)),
+              ),
+              TextButton(
+                onPressed: () => fit.nudgeRest(15),
+                style: TextButton.styleFrom(
+                  visualDensity: VisualDensity.compact,
+                  minimumSize: const Size(30, 32),
+                  padding: const EdgeInsets.symmetric(horizontal: 4),
+                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                ),
+                child: Text('+15', style: AppTheme.f(11, weight: FontWeight.w700, color: gc.textSecondary)),
+              ),
+              TextButton(
+                onPressed: fit.skipRest,
+                style: TextButton.styleFrom(
+                  visualDensity: VisualDensity.compact,
+                  minimumSize: const Size(36, 32),
+                  padding: const EdgeInsets.symmetric(horizontal: 5),
+                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                ),
+                child: Text(t.skipShort, style: AppTheme.f(11, weight: FontWeight.w800, color: gc.accent)),
+              ),
+            ]),
+          );
+        }),
+      );
 
   Widget _minimalActive(BuildContext context, GymColors gc, WorkoutSession s, bool locked) {
     final first = s.exercises.isEmpty ? null : s.exercises.first;
@@ -445,21 +586,38 @@ class SessionScreen extends StatelessWidget {
         for (var i = 0; i < s.exercises.length; i++)
           _minimalExercise(context, gc, s, i, locked,
               sharedHeader: sameColumns, showPrevious: fit.minimalShowPrevious),
-        const SizedBox(height: 10),
+        const SizedBox(height: 4),
         Row(children: [
           Expanded(
             child: _guard(
               locked,
-              GhostButton(
-                label: t.addExercise,
-                icon: PhosphorIconsRegular.plus,
-                onTap: () => showAddToSessionSheet(context),
+              TextButton.icon(
+                onPressed: () => showAddToSessionSheet(context),
+                icon: Icon(PhosphorIconsRegular.plus, size: 15),
+                label: Text(t.addExercise,
+                    style: AppTheme.f(12, weight: FontWeight.w700, color: gc.textSecondary)),
+                style: TextButton.styleFrom(
+                  visualDensity: VisualDensity.compact,
+                  padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                  minimumSize: const Size(0, 32),
+                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                ),
               ),
             ),
           ),
+          TextButton(
+            onPressed: locked ? null : () => _confirmDiscard(context),
+            style: TextButton.styleFrom(
+              visualDensity: VisualDensity.compact,
+              minimumSize: const Size(0, 32),
+              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+            ),
+            child: Text(t.discard,
+                style: AppTheme.f(11.5, weight: FontWeight.w600,
+                    color: locked ? gc.textTertiary : gc.textSecondary)),
+          ),
         ]),
-        const SizedBox(height: 8),
-        _guard(locked, PrimaryButton(label: t.finishSession, onTap: fit.finishSession, height: 46)),
       ],
     );
   }
@@ -500,10 +658,11 @@ class SessionScreen extends StatelessWidget {
     final linkedIn = i > 0 && s.exercises[i - 1].linkedNext;
     final linked = linkedIn || (ex.linkedNext && i < s.exercises.length - 1);
     final done = ex.sets.isNotEmpty && ex.sets.every((st) => st.done);
+    final doneSets = ex.sets.where((st) => st.done).length;
     return Column(children: [
       ExpansionTile(
         key: PageStorageKey('minimal-exercise-$i-${ex.id}'),
-        initiallyExpanded: false,
+        initiallyExpanded: true,
         tilePadding: const EdgeInsets.symmetric(horizontal: 4),
         childrenPadding: const EdgeInsets.fromLTRB(0, 0, 0, 8),
         backgroundColor: Colors.transparent,
@@ -529,7 +688,7 @@ class SessionScreen extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: AppTheme.f(13, weight: FontWeight.w700, color: done ? gc.sage : gc.text)),
               const SizedBox(height: 2),
-              Text('${muscleLabel(ex.primary)}${linked ? '  ·  ${t.superset}' : ''}',
+              Text('${muscleLabel(ex.primary)}${linked ? '  ·  ${t.superset}' : ''}  ·  $doneSets/${ex.sets.length}',
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: AppTheme.f(10.5, weight: FontWeight.w500, color: linked ? gc.brass : gc.textTertiary)),
@@ -539,17 +698,37 @@ class SessionScreen extends StatelessWidget {
             IconButton(
               tooltip: t.howTo,
               visualDensity: VisualDensity.compact,
-              constraints: const BoxConstraints(minWidth: 36, minHeight: 40),
+              constraints: const BoxConstraints(minWidth: 30, minHeight: 34),
               padding: EdgeInsets.zero,
               onPressed: () => showExercisePreview(context, def),
-              icon: Text('?', style: AppTheme.f(16, weight: FontWeight.w700, color: gc.textSecondary)),
+              icon: Text('?', style: AppTheme.f(15, weight: FontWeight.w700, color: gc.textSecondary)),
             ),
+          if (fit.minimalShowNotes)
+            IconButton(
+              tooltip: t.addNote,
+              visualDensity: VisualDensity.compact,
+              constraints: const BoxConstraints(minWidth: 30, minHeight: 34),
+              padding: EdgeInsets.zero,
+              onPressed: locked ? null : () => showWorkoutNoteEditor(context, ex.id),
+              icon: Icon(PhosphorIconsRegular.notePencil, size: 15, color: gc.textSecondary),
+            ),
+          _guard(
+            locked,
+            IconButton(
+              tooltip: t.addSet,
+              visualDensity: VisualDensity.compact,
+              constraints: const BoxConstraints(minWidth: 30, minHeight: 34),
+              padding: EdgeInsets.zero,
+              onPressed: () => fit.addSet(i),
+              icon: Icon(PhosphorIconsRegular.plus, size: 16, color: gc.textSecondary),
+            ),
+          ),
           _guard(
             locked,
             IconButton(
               tooltip: t.moreOptions,
               visualDensity: VisualDensity.compact,
-              constraints: const BoxConstraints(minWidth: 36, minHeight: 40),
+              constraints: const BoxConstraints(minWidth: 30, minHeight: 34),
               padding: EdgeInsets.zero,
               onPressed: () => _listExerciseMenu(context, i),
               icon: Icon(PhosphorIconsBold.dotsThree, size: 18, color: gc.textSecondary),
@@ -590,24 +769,7 @@ class SessionScreen extends StatelessWidget {
               _setRow(gc, i, j, ex.sets[j], repsOnly, locked,
                   list: showPrevious, prev: showPrevious && j < prev.length ? prev[j] : null),
             ),
-          Align(
-            alignment: AlignmentDirectional.centerStart,
-            child: _guard(
-              locked,
-              TextButton.icon(
-                onPressed: () => fit.addSet(i),
-                icon: Icon(PhosphorIconsRegular.plus, size: 14),
-                label: Text(t.addSet, style: AppTheme.f(11.5, weight: FontWeight.w700)),
-                style: TextButton.styleFrom(
-                  visualDensity: VisualDensity.compact,
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                  foregroundColor: gc.textSecondary,
-                  minimumSize: const Size(0, 32),
-                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                ),
-              ),
-            ),
-          ),
+
         ],
       ),
       Divider(height: 1, thickness: 0.7, color: gc.border.withValues(alpha: 0.7)),
@@ -911,16 +1073,21 @@ class SessionScreen extends StatelessWidget {
           behavior: HitTestBehavior.opaque,
           onTap: () => onEdit(context),
           child: SizedBox(
-            height: 44,
+            height: fit.minimalMode ? _minimalSetRowHeight : 44,
             child: Center(
               child: Container(
-                height: 34,
+                height: fit.minimalMode ? _minimalSetRowHeight - 5 : 34,
                 alignment: Alignment.center,
-                padding: const EdgeInsets.symmetric(horizontal: 6),
-                decoration: BoxDecoration(color: gc.bgRaised2, borderRadius: BorderRadius.circular(10)),
+                padding: EdgeInsets.symmetric(horizontal: fit.minimalMode ? 4 : 6),
+                decoration: BoxDecoration(
+                  color: gc.bgRaised2,
+                  borderRadius: BorderRadius.circular(fit.minimalMode ? 6 : 10),
+                ),
                 child: FittedBox(
                   fit: BoxFit.scaleDown,
-                  child: RollingText(value, style: AppTheme.f(15, weight: FontWeight.w700, color: gc.text)),
+                  child: RollingText(value,
+                      style: AppTheme.f(fit.minimalMode ? 12.5 : 15,
+                          weight: FontWeight.w700, color: gc.text)),
                 ),
               ),
             ),
@@ -935,11 +1102,13 @@ class SessionScreen extends StatelessWidget {
   }
 
   Widget _prevCell(GymColors gc, int exIdx, int j, LoggedSet? prev, bool locked) {
+    final compact = fit.minimalMode;
     final text = Text(
       prev == null ? '—' : _prevLabel(prev, exIdx),
       maxLines: 1,
       textAlign: TextAlign.center,
-      style: AppTheme.f(12.5, weight: FontWeight.w600, color: gc.textTertiary),
+      style: AppTheme.f(compact ? 10.5 : 12.5,
+          weight: FontWeight.w600, color: gc.textTertiary),
     );
     if (prev == null || locked) return Center(child: FittedBox(fit: BoxFit.scaleDown, child: text));
     return Semantics(
@@ -952,11 +1121,11 @@ class SessionScreen extends StatelessWidget {
           fit.copyPreviousSet(exIdx, j);
         },
         child: SizedBox(
-          height: 44,
+          height: compact ? _minimalSetRowHeight : 44,
           child: Center(
             child: Container(
-              height: 28,
-              padding: const EdgeInsets.symmetric(horizontal: 6),
+              height: compact ? _minimalSetRowHeight - 5 : 28,
+              padding: EdgeInsets.symmetric(horizontal: compact ? 3 : 6),
               alignment: Alignment.center,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8),
@@ -968,7 +1137,9 @@ class SessionScreen extends StatelessWidget {
                   Icon(PhosphorIconsBold.arrowBendDownRight, size: 10, color: gc.textSecondary),
                   const SizedBox(width: 3),
                   Text(_prevLabel(prev, exIdx),
-                      maxLines: 1, style: AppTheme.f(12.5, weight: FontWeight.w600, color: gc.textSecondary)),
+                      maxLines: 1,
+                      style: AppTheme.f(compact ? 10.5 : 12.5,
+                          weight: FontWeight.w600, color: gc.textSecondary)),
                 ]),
               ),
             ),
@@ -992,12 +1163,12 @@ class SessionScreen extends StatelessWidget {
         behavior: HitTestBehavior.opaque,
         onTap: live ? fit.stopHold : () => fit.startHoldAt(exIdx, j),
         child: SizedBox(
-          width: 44,
-          height: 44,
+          width: fit.minimalMode ? 28 : 44,
+          height: fit.minimalMode ? _minimalSetRowHeight : 44,
           child: Center(
             child: Container(
-              width: 30,
-              height: 30,
+              width: fit.minimalMode ? 18 : 30,
+              height: fit.minimalMode ? 18 : 30,
               decoration: BoxDecoration(color: live ? gc.bgRaised2 : gc.ember, shape: BoxShape.circle),
               child: Icon(live ? PhosphorIconsFill.stop : PhosphorIconsFill.play,
                   size: 13, color: live ? gc.text : gc.onEmber),
@@ -1444,6 +1615,16 @@ class SessionScreen extends StatelessWidget {
     );
   }
 
+  Future<void> _confirmDiscard(BuildContext context) async {
+    final ok = await askConfirm(
+      context,
+      title: t.discardTitle,
+      body: t.discardBody,
+      confirmLabel: t.discard,
+    );
+    if (ok && fit.session != null) fit.discardSession();
+  }
+
   Future<void> _confirmDrop(BuildContext context, int exIdx, String name) async {
     final ok = await askConfirm(
       context,
@@ -1464,8 +1645,16 @@ class SessionScreen extends StatelessWidget {
   static const _prevFlex = 6;
   static const _cellFlex = 5;
 
+  double get _minimalSetRowHeight => switch (fit.minimalRowHeight) {
+        'roomy' => 34.0,
+        'tight' => 24.0,
+        _ => 29.0,
+      };
+
   Widget _setsHeader(GymColors gc, String mode, bool repsOnly, bool sided, {bool list = false, String? exId}) {
-    final s = AppTheme.f(11, weight: FontWeight.w600, color: gc.textSecondary, letterSpacing: 0.4);
+    final compact = fit.minimalMode;
+    final s = AppTheme.f(compact ? 9.5 : 11,
+        weight: FontWeight.w600, color: gc.textSecondary, letterSpacing: compact ? 0.3 : 0.4);
 
     Widget label(String t) => FittedBox(
           fit: BoxFit.scaleDown,
@@ -1473,9 +1662,9 @@ class SessionScreen extends StatelessWidget {
           child: Text(t, maxLines: 1, softWrap: false, style: s),
         );
     final effort = _showsEffort(mode);
-    final gap = effort ? _tightGap : _gap;
+    final gap = compact ? 6.0 : (effort ? _tightGap : _gap);
     return Row(children: [
-      SizedBox(width: _numCol, child: label(t.setCol)),
+      SizedBox(width: compact ? 22 : _numCol, child: label(t.setCol)),
       if (list) ...[
         SizedBox(width: gap),
         Expanded(flex: _prevFlex, child: label(t.previousCol)),
@@ -1490,7 +1679,7 @@ class SessionScreen extends StatelessWidget {
         SizedBox(width: _effortCol, child: label(fit.usesRir ? 'RIR' : 'RPE')),
       ],
       SizedBox(width: gap),
-      const SizedBox(width: _checkCol),
+      SizedBox(width: compact ? 28 : _checkCol),
     ]);
   }
 
@@ -1848,20 +2037,22 @@ class SessionScreen extends StatelessWidget {
 
   Widget _setRowBody(GymColors gc, int exIdx, int j, SessionSet st, bool repsOnly, bool locked, String mode,
       {bool list = false, LoggedSet? prev}) {
+    final compact = fit.minimalMode;
     final effort = _showsEffort(mode);
-    final gap = effort ? _tightGap : _gap;
+    final gap = compact ? 6.0 : (effort ? _tightGap : _gap);
+    final rowHeight = compact ? _minimalSetRowHeight : 44.0;
     return Container(
-      margin: const EdgeInsets.only(bottom: 2),
+      margin: EdgeInsets.only(bottom: compact ? 1 : 2),
       padding: EdgeInsets.symmetric(
-        horizontal: list ? 8 : _rowPad,
+        horizontal: list ? (compact ? 4 : 8) : _rowPad,
         vertical: list
-            ? (fit.minimalMode
+            ? (compact ? 0.0 : (fit.minimalMode
                 ? switch (fit.minimalRowHeight) {
                     'roomy' => 6.0,
                     'tight' => 1.0,
                     _ => 3.0,
                   }
-                : 4.0)
+                : 4.0))
             : 10.0,
       ),
       decoration: BoxDecoration(
@@ -1870,7 +2061,8 @@ class SessionScreen extends StatelessWidget {
       ),
       child: Row(children: [
         SizedBox(
-          width: _numCol,
+          width: compact ? 22 : _numCol,
+          height: rowHeight,
           child: Builder(
             builder: (ctx) => Semantics(
               button: true,
@@ -1907,20 +2099,20 @@ class SessionScreen extends StatelessWidget {
             behavior: HitTestBehavior.opaque,
             onTap: () => list ? fit.toggleSetAt(exIdx, j) : fit.toggleSet(exIdx, j),
             child: SizedBox(
-              width: 44,
-              height: 44,
+              width: compact ? 28 : 44,
+              height: rowHeight,
               child: Center(
                 child: Stack(clipBehavior: Clip.none, children: [
                   Container(
-                    width: 28,
-                    height: 28,
+                    width: compact ? 16 : 28,
+                    height: compact ? 16 : 28,
                     decoration: BoxDecoration(
                       color: st.done ? gc.sage : Colors.transparent,
                       shape: BoxShape.circle,
                       border: Border.all(color: st.done || st.half ? gc.sage : gc.textTertiary, width: 2),
                     ),
                     child: st.done
-                        ? Center(child: SvgPathIcon(Ic.checkBold, size: 14, color: Colors.white))
+                        ? Center(child: SvgPathIcon(Ic.checkBold, size: compact ? 9 : 14, color: Colors.white))
                         : st.half
                             ? Padding(
                                 padding: const EdgeInsets.all(2),
@@ -1966,12 +2158,12 @@ class SessionScreen extends StatelessWidget {
           behavior: HitTestBehavior.opaque,
           onTap: locked ? null : () => _editEffort(ctx, exIdx, j, rpe),
           child: SizedBox(
-            height: 44,
+            height: fit.minimalMode ? _minimalSetRowHeight : 44,
             child: Center(
               child: AnimatedContainer(
                 duration: const Duration(milliseconds: 220),
                 curve: Curves.easeOutCubic,
-                height: 30,
+                height: fit.minimalMode ? _minimalSetRowHeight - 6 : 30,
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
                   color: rpe == null ? Colors.transparent : gc.bgRaised2,
@@ -1983,7 +2175,7 @@ class SessionScreen extends StatelessWidget {
                 ),
                 child: Text(
                   rpe == null ? '–' : fmt(fit.usesRir ? 10 - rpe : rpe),
-                  style: AppTheme.f(14,
+                  style: AppTheme.f(fit.minimalMode ? 11.5 : 14,
                       weight: FontWeight.w700, color: rpe == null ? gc.textTertiary : gc.text),
                 ),
               ),
@@ -2084,7 +2276,8 @@ class SessionScreen extends StatelessWidget {
       child: Text(text,
           maxLines: 1,
           softWrap: false,
-          style: AppTheme.f(16, weight: FontWeight.w700, color: _kindColor(gc, st.kind))),
+          style: AppTheme.f(fit.minimalMode ? 12 : 16,
+              weight: FontWeight.w700, color: _kindColor(gc, st.kind))),
     );
     if (st.note.trim().isEmpty) return label;
     return Row(mainAxisSize: MainAxisSize.min, children: [
