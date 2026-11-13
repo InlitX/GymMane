@@ -575,6 +575,7 @@ mixin RoutinesState on FitCore, LibraryState {
     made.plan.addAll({for (final e in source.plan.entries) e.key: [...e.value]});
     made.rest.addAll(source.rest);
     made.alts.addAll({for (final e in source.alts.entries) e.key: [...e.value]});
+    made.exerciseNotes.addAll(source.exerciseNotes);
     made.group = source.group;
     made.color = source.color;
     _persist();
@@ -648,6 +649,7 @@ mixin RoutinesState on FitCore, LibraryState {
       r.rest.remove(exId);
       r.chained.remove(exId);
       r.alts.remove(exId);
+      r.exerciseNotes.remove(exId);
     } else {
       r.exerciseIds.add(exId);
     }
@@ -704,6 +706,7 @@ mixin RoutinesState on FitCore, LibraryState {
     if (plan != null) r.plan[to] = [for (final p in plan) PlannedSet(kind: p.kind)];
     final rest = r.rest.remove(from);
     if (rest != null) r.rest[to] = rest;
+    r.exerciseNotes.remove(from);
     if (r.chained.remove(from)) r.chained.add(to);
     final alts = r.alts.remove(from);
     if (alts != null) {
@@ -745,6 +748,7 @@ mixin RoutinesState on FitCore, LibraryState {
     final rest = r.rest[exId];
     final chained = r.chained.contains(exId);
     final alts = r.alts[exId];
+    final note = r.exerciseNotes[exId];
     toggleRoutineExercise(routineId, exId);
     return () {
       final back = _routine(routineId);
@@ -755,6 +759,7 @@ mixin RoutinesState on FitCore, LibraryState {
       if (rest != null) back.rest[exId] = rest;
       if (chained) back.chained.add(exId);
       if (alts != null) back.alts[exId] = alts;
+      if (note != null) back.exerciseNotes[exId] = note;
       _persist();
       notifyListeners();
     };
@@ -773,6 +778,22 @@ mixin RoutinesState on FitCore, LibraryState {
 
   int? routineRest(String? routineId, String exId) =>
       routineId == null ? null : _routine(routineId)?.rest[exId];
+
+  String? routineExerciseNote(String? routineId, String exId) =>
+      routineId == null ? null : _routine(routineId)?.exerciseNotes[exId];
+
+  void setRoutineExerciseNote(String routineId, String exId, String text) {
+    final r = _routine(routineId);
+    if (r == null || !r.exerciseIds.contains(exId)) return;
+    final note = text.trim();
+    if (note.isEmpty) {
+      r.exerciseNotes.remove(exId);
+    } else {
+      r.exerciseNotes[exId] = note;
+    }
+    _persist();
+    notifyListeners();
+  }
 
   void setRoutineRest(String routineId, String exId, int? seconds) {
     final r = _routine(routineId);

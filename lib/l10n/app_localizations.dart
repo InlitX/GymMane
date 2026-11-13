@@ -9512,6 +9512,24 @@ abstract class AppLocalizations {
   /// **'Add as a copy'**
   String get importAsCopy;
 
+  /// No description provided for @routineExerciseNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Routine note'**
+  String get routineExerciseNote;
+
+  /// No description provided for @importRoutineNotes.
+  ///
+  /// In en, this message translates to:
+  /// **'Add missing routine notes'**
+  String get importRoutineNotes;
+
+  /// No description provided for @routineNotesAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'Routine notes added'**
+  String get routineNotesAdded;
+
   /// No description provided for @importOwned.
   ///
   /// In en, this message translates to:

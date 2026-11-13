@@ -5324,6 +5324,15 @@ class AppLocalizationsUr extends AppLocalizations {
   String get importAsCopy => 'نقل کے طور پر شامل کرو';
 
   @override
+  String get routineExerciseNote => 'Routine note';
+
+  @override
+  String get importRoutineNotes => 'Add missing routine notes';
+
+  @override
+  String get routineNotesAdded => 'Routine notes added';
+
+  @override
   String get importOwned => 'پہلے سے تمہاری';
 
   @override

@@ -5362,6 +5362,15 @@ class AppLocalizationsBn extends AppLocalizations {
   String get importAsCopy => 'কপি হিসেবে যোগ করো';
 
   @override
+  String get routineExerciseNote => 'Routine note';
+
+  @override
+  String get importRoutineNotes => 'Add missing routine notes';
+
+  @override
+  String get routineNotesAdded => 'Routine notes added';
+
+  @override
   String get importOwned => 'আগেই তোমার';
 
   @override

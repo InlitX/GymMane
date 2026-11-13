@@ -72,6 +72,8 @@ Future<String?> askText(
   required String title,
   String initial = '',
   String hint = '',
+  bool allowEmpty = false,
+  int maxLines = 1,
 }) async {
   final gc = context.gc;
   final controller = TextEditingController(text: initial)
@@ -84,6 +86,7 @@ Future<String?> askText(
       content: TextField(
         controller: controller,
         autofocus: true,
+        maxLines: maxLines,
         textCapitalization: TextCapitalization.sentences,
         style: AppTheme.s(15, color: gc.text),
         cursorColor: gc.accent,
@@ -102,8 +105,8 @@ Future<String?> askText(
     ),
   );
   Future<void>.delayed(const Duration(milliseconds: 600), controller.dispose);
-  final text = raw?.trim() ?? '';
-  return text.isEmpty ? null : text;
+  final text = raw?.trim();
+  return text == '' && !allowEmpty ? null : text;
 }
 
 Future<double?> askNumber(

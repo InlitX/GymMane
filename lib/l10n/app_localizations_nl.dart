@@ -5379,6 +5379,15 @@ class AppLocalizationsNl extends AppLocalizations {
   String get importAsCopy => 'Als kopie toevoegen';
 
   @override
+  String get routineExerciseNote => 'Routine note';
+
+  @override
+  String get importRoutineNotes => 'Add missing routine notes';
+
+  @override
+  String get routineNotesAdded => 'Routine notes added';
+
+  @override
   String get importOwned => 'Heb je al';
 
   @override

@@ -5370,6 +5370,15 @@ class AppLocalizationsPt extends AppLocalizations {
   String get importAsCopy => 'Adicionar como cópia';
 
   @override
+  String get routineExerciseNote => 'Routine note';
+
+  @override
+  String get importRoutineNotes => 'Add missing routine notes';
+
+  @override
+  String get routineNotesAdded => 'Routine notes added';
+
+  @override
   String get importOwned => 'Você já tem';
 
   @override

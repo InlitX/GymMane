@@ -28,6 +28,7 @@ class PlanItem {
     this.mode = '',
     this.secondary = const [],
     this.ladder = const [],
+    this.loggingNote = '',
     this.sec,
     this.km,
   });
@@ -47,6 +48,7 @@ class PlanItem {
   final List<String> steps;
   final String mode;
   final List<String> ladder;
+  final String loggingNote;
   final int? sec;
   final double? km;
 }
@@ -338,6 +340,10 @@ List<PlanItem> _items(Object? raw, bool lb) {
         final List list => [for (final s in list.whereType<String>()) if (s.trim().isNotEmpty) s.trim()],
         _ => const [],
       },
+      loggingNote: switch (_value(entry, ['loggingnote'])) {
+        final String note => note.trim(),
+        _ => '',
+      },
       sec: _seconds(_value(entry, _timeKeys)),
       km: _double(_value(entry, _distanceKeys)),
     ));
@@ -398,6 +404,7 @@ List<PlanItem> _mergeRepeats(List<PlanItem> items) {
       mode: first.mode,
       secondary: first.secondary,
       ladder: first.ladder,
+      loggingNote: first.loggingNote.isEmpty ? item.loggingNote : first.loggingNote,
       sec: first.sec ?? item.sec,
       km: first.km ?? item.km,
     );

@@ -17,15 +17,20 @@ class WorkoutNoteStrip extends StatelessWidget {
   final String exerciseId;
   final bool onDark;
 
+  static String? _routineNote(String exerciseId) =>
+      fit.routineExerciseNote(fit.session?.routineId, exerciseId);
+
   static bool offers(String exerciseId) =>
+      _routineNote(exerciseId) != null ||
       fit.workoutNotesFor(exerciseId).isNotEmpty ||
       (exerciseId.isNotEmpty && fit.notesFor(exerciseId).isEmpty && fit.exerciseHistory(exerciseId).length < 3);
 
   @override
   Widget build(BuildContext context) {
     final notes = fit.workoutNotesFor(exerciseId);
+    final routineNote = _routineNote(exerciseId);
     final gc = context.gc;
-    if (notes.isEmpty) {
+    if (notes.isEmpty && routineNote == null) {
       if (!offers(exerciseId)) return const SizedBox.shrink();
       return Semantics(
         button: true,
@@ -69,21 +74,10 @@ class WorkoutNoteStrip extends StatelessWidget {
             borderRadius: BorderRadius.circular(12),
           ),
           child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            if (routineNote != null) _noteLine(gc, routineNote, PhosphorIconsFill.pushPin),
             for (var i = 0; i < notes.length; i++) ...[
-              if (i > 0) const SizedBox(height: 6),
-              Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 1.5),
-                  child: Icon(_iconOf(notes[i]), size: 13, color: gc.accent),
-                ),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: Text(notes[i].text.trim().replaceAll(RegExp(r'\s*\n\s*'), ' · '),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: AppTheme.f(12.5, weight: FontWeight.w600, color: gc.textSecondary, height: 1.3)),
-                ),
-              ]),
+              if (i > 0 || routineNote != null) const SizedBox(height: 6),
+              _noteLine(gc, notes[i].text, _iconOf(notes[i])),
             ],
           ]),
         ),
@@ -91,6 +85,25 @@ class WorkoutNoteStrip extends StatelessWidget {
     );
   }
 }
+
+Widget _noteLine(GymColors gc, String text, IconData icon) => Row(
+  crossAxisAlignment: CrossAxisAlignment.start,
+  children: [
+    Padding(
+      padding: const EdgeInsets.only(top: 1.5),
+      child: Icon(icon, size: 13, color: gc.accent),
+    ),
+    const SizedBox(width: 8),
+    Expanded(
+      child: Text(
+        text.trim().replaceAll(RegExp(r'\s*\n\s*'), ' · '),
+        maxLines: 2,
+        overflow: TextOverflow.ellipsis,
+        style: AppTheme.f(12.5, weight: FontWeight.w600, color: gc.textSecondary, height: 1.3),
+      ),
+    ),
+  ],
+);
 
 IconData _iconOf(GymNote n) => n.pinned ? PhosphorIconsFill.pushPin : PhosphorIconsFill.arrowBendDownRight;
 
@@ -127,9 +140,16 @@ Future<void> showWorkoutNotesSheet(BuildContext context, String exerciseId) => s
         builder: (sheet, _) {
           final gc = sheet.gc;
           final notes = fit.workoutNotesFor(exerciseId);
+          final routineNote = WorkoutNoteStrip._routineNote(exerciseId);
           return _sheetBox(sheet, [
             SheetTitle(t.workoutNotesTitle, subtitle: _exerciseTitle(exerciseId)),
             const SizedBox(height: 16),
+            if (routineNote != null) ...[
+              Text(t.routineExerciseNote, style: AppTheme.f(11, weight: FontWeight.w700, color: gc.accent)),
+              const SizedBox(height: 6),
+              Text(routineNote, style: AppTheme.f(14.5, weight: FontWeight.w500, color: gc.text, height: 1.4)),
+              const SizedBox(height: 16),
+            ],
             for (final n in notes) ...[
               Container(
                 padding: const EdgeInsets.fromLTRB(14, 12, 8, 12),

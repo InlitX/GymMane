@@ -5394,6 +5394,15 @@ class AppLocalizationsFr extends AppLocalizations {
   String get importAsCopy => 'Ajouter en copie';
 
   @override
+  String get routineExerciseNote => 'Routine note';
+
+  @override
+  String get importRoutineNotes => 'Add missing routine notes';
+
+  @override
+  String get routineNotesAdded => 'Routine notes added';
+
+  @override
   String get importOwned => 'Déjà là';
 
   @override
