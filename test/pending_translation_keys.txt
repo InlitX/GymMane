@@ -12,3 +12,10 @@ sidesReps
 progSchemeTitle
 groupMoveUp
 groupMoveDown
+reportExportZip
+reportSummaryEmpty
+reportZipHint
+reportWeighIns
+reportSyncedSleep
+reportSessionDetails
+reportZipFailed

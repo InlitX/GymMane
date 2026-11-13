@@ -4,10 +4,12 @@ import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 import '../l10n/l10n.dart';
 import '../services/plan_pdf.dart';
+import '../services/report_zip.dart';
 import '../state/fit_state.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
 import 'glass.dart';
+import 'liquid_notch.dart';
 import 'ui_kit.dart';
 
 void showReportSheet(BuildContext context) {
@@ -69,6 +71,25 @@ class _ReportSheetState extends State<ReportSheet> {
     if (mounted) setState(() => _busy = false);
   }
 
+  Future<void> _shareZip(RangeReport report) async {
+    if (_busy) return;
+    setState(() => _busy = true);
+    try {
+      final sections = await showAppSheet<Set<ReportSection>>(
+        context: context,
+        isScrollControlled: true,
+        backgroundColor: Colors.transparent,
+        builder: (_) => _ReportZipSheet(report: report),
+      );
+      if (!mounted || sections == null) return;
+      await shareReportZip(report, sections);
+    } catch (_) {
+      if (mounted) showNotchToast(context, t.reportZipFailed);
+    } finally {
+      if (mounted) setState(() => _busy = false);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final gc = context.gc;
@@ -106,7 +127,7 @@ class _ReportSheetState extends State<ReportSheet> {
         child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.stretch, children: [
           const SheetHandle(),
           const SizedBox(height: 16),
-          SheetTitle(t.reportTitle, subtitle: t.reportHint),
+          SheetTitle(t.reportTitle, subtitle: t.reportPickRange),
           const SizedBox(height: 16),
           Center(
             child: SegToggle([
@@ -147,7 +168,7 @@ class _ReportSheetState extends State<ReportSheet> {
           if (r.empty)
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 18),
-              child: Text(t.reportEmpty,
+              child: Text(t.reportSummaryEmpty,
                   textAlign: TextAlign.center, style: AppTheme.s(13, color: gc.textSecondary, height: 1.4)),
             )
           else ...[
@@ -183,8 +204,91 @@ class _ReportSheetState extends State<ReportSheet> {
               onTap: () => _share(pdf: false),
             ),
           ],
+          const SizedBox(height: 10),
+          GhostButton(
+            label: t.reportExportZip,
+            icon: PhosphorIconsRegular.fileZip,
+            onTap: () => _shareZip(r),
+          ),
           const SizedBox(height: 4),
         ]),
+      ),
+    );
+  }
+}
+
+class _ReportZipSheet extends StatefulWidget {
+  const _ReportZipSheet({required this.report});
+
+  final RangeReport report;
+
+  @override
+  State<_ReportZipSheet> createState() => _ReportZipSheetState();
+}
+
+class _ReportZipSheetState extends State<_ReportZipSheet> {
+  final _sections = {ReportSection.workouts, ReportSection.nutrition};
+
+  String _label(ReportSection section) => switch (section) {
+    ReportSection.workouts => titleCase(t.reportWorkouts),
+    ReportSection.nutrition => t.nutrition,
+    ReportSection.steps => t.homeCardSteps,
+    ReportSection.supplements => titleCase(t.supplementsLabel),
+    ReportSection.weighIns => t.reportWeighIns,
+    ReportSection.sleep => t.reportSyncedSleep,
+    ReportSection.sessions => t.reportSessionDetails,
+  };
+
+  @override
+  Widget build(BuildContext context) {
+    final gc = context.gc;
+    return Container(
+      padding: sheetPad(context),
+      constraints: BoxConstraints(maxHeight: MediaQuery.sizeOf(context).height * 0.88),
+      decoration: sheetDecoration(gc),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Flexible(
+            child: SingleChildScrollView(
+              child: Material(
+                type: MaterialType.transparency,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    const SheetHandle(),
+                    const SizedBox(height: 16),
+                    SheetTitle(t.reportExportZip, subtitle: reportRangeLabel(widget.report)),
+                    const SizedBox(height: 8),
+                    Text(t.reportZipHint, style: AppTheme.f(13, color: gc.textSecondary, height: 1.4)),
+                    const SizedBox(height: 8),
+                    for (final section in ReportSection.values)
+                      CheckboxListTile(
+                        dense: true,
+                        contentPadding: EdgeInsets.zero,
+                        controlAffinity: ListTileControlAffinity.leading,
+                        title: Text(_label(section)),
+                        value: _sections.contains(section),
+                        onChanged: (on) => setState(() {
+                          if (on == true) {
+                            _sections.add(section);
+                          } else {
+                            _sections.remove(section);
+                          }
+                        }),
+                      ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 12),
+          FilledButton(
+            onPressed: _sections.isEmpty ? null : () => Navigator.of(context).pop(_sections),
+            child: Text(t.reportExportZip),
+          ),
+        ],
       ),
     );
   }

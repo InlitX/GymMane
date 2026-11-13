@@ -6433,6 +6433,28 @@ class AppLocalizationsEs extends AppLocalizations {
   String get reportShareCsv => 'Exportar CSV';
 
   @override
+  String get reportExportZip => 'Exportar informe ZIP';
+
+  @override
+  String get reportSummaryEmpty => 'No hay entrenamientos, comidas ni pesajes que resumir en estas fechas.';
+
+  @override
+  String get reportZipHint =>
+      'Elige qué incluir. Si faltan pasos o datos de sueño sincronizados, se dejan en blanco.';
+
+  @override
+  String get reportWeighIns => 'Registros de peso';
+
+  @override
+  String get reportSyncedSleep => 'Sueño sincronizado';
+
+  @override
+  String get reportSessionDetails => 'Detalles de las sesiones';
+
+  @override
+  String get reportZipFailed => 'No se pudo exportar el informe ZIP.';
+
+  @override
   String get reportShareCsvBoth => 'Exportar CSV (entrenos y nutrición)';
 
   @override

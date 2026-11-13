@@ -6357,6 +6357,27 @@ class AppLocalizationsUr extends AppLocalizations {
   String get reportShareCsv => 'CSV ایکسپورٹ کرو';
 
   @override
+  String get reportExportZip => 'Export report ZIP';
+
+  @override
+  String get reportSummaryEmpty => 'No workouts, food, or weigh-ins to summarize for these dates.';
+
+  @override
+  String get reportZipHint => 'Choose what to include. Missing steps or synced sleep are left blank.';
+
+  @override
+  String get reportWeighIns => 'Weigh-ins';
+
+  @override
+  String get reportSyncedSleep => 'Synced sleep';
+
+  @override
+  String get reportSessionDetails => 'Workout session details';
+
+  @override
+  String get reportZipFailed => 'Could not export the report ZIP.';
+
+  @override
   String get reportShareCsvBoth => 'CSV ایکسپورٹ کرو (ورزشیں اور غذائیت)';
 
   @override
