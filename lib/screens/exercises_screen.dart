@@ -412,7 +412,7 @@ class _ExercisesScreenState extends State<ExercisesScreen> {
     );
   }
 
-  W  Widget _empty(GymColors gc) {
+  Widget _empty(GymColors gc) {
     final compact = fit.minimalMode;
     final noFavs = fit.exFavouritesOnly && fit.favouriteCount == 0;
     return Padding(
