@@ -41,6 +41,7 @@ class ProgressScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (fit.minimalMode) return const _MinimalProgressScreen();
     final gc = context.gc;
     final change = fit.volumeChangePct;
     final split = fit.muscleSplit;
@@ -3268,6 +3269,387 @@ class _BalanceCardState extends State<_BalanceCard> {
           );
         }),
       ]),
+    );
+  }
+}
+
+GymColors _minimalProgressColors(GymColors base) => base.copyWith(
+      pageBg: const Color(0xFF0E0E0D),
+      bg: const Color(0xFF141413),
+      bgRaised: const Color(0xFF1B1B1A),
+      bgRaised2: const Color(0xFF222221),
+      border: const Color(0xFF2C2C2A),
+      navBg: const Color(0xEE141413),
+      text: const Color(0xFFE9E7E2),
+      textSecondary: const Color(0xFF8D8A84),
+      textTertiary: const Color(0xFF5F5D58),
+      ember: const Color(0xFFC8A45F),
+      emberDeep: const Color(0xFFA88647),
+      onEmber: const Color(0xFF141413),
+      emberSoft: const Color(0x35C8A45F),
+      accent: const Color(0xFFC8A45F),
+      accentSoft: const Color(0x35C8A45F),
+      brass: const Color(0xFFC8A45F),
+      sage: const Color(0xFFC8A45F),
+      sageSoft: const Color(0x35C8A45F),
+      mutedFill: const Color(0xFF222221),
+      heatEmpty: const Color(0xFF222221),
+    );
+
+class _MinimalProgressScreen extends StatefulWidget {
+  const _MinimalProgressScreen();
+
+  @override
+  State<_MinimalProgressScreen> createState() => _MinimalProgressScreenState();
+}
+
+class _MinimalProgressScreenState extends State<_MinimalProgressScreen> {
+  int _rangeWeeks = 12;
+  String? _exerciseId;
+
+  DateTime? _lastRecordDate(PersonalRecord record) {
+    var best = 0.0;
+    DateTime? date;
+    for (final entry in fit.exerciseHistory(record.id).reversed) {
+      var current = 0.0;
+      for (final set in entry.ex.workingSets) {
+        final score = record.kind == PrKind.weight && fit.isAssisted(record.id)
+            ? fit.liftScore(record.id, set)
+            : record.kind.score(set);
+        current = math.max(current, score);
+      }
+      if (current > best + 0.0001) {
+        best = current;
+        date = entry.date;
+      }
+    }
+    return date;
+  }
+
+  String _ageLabel(DateTime? date) {
+    if (date == null) return '—';
+    final now = DateUtils.dateOnly(DateTime.now());
+    final day = DateUtils.dateOnly(date);
+    final age = now.difference(day).inDays;
+    return age == 0 ? 'Today' : '${age}d ago';
+  }
+
+  Widget _sectionLabel(GymColors gc, String label, {Widget? trailing}) => Padding(
+        padding: const EdgeInsets.only(bottom: 8),
+        child: Row(children: [
+          Expanded(
+            child: Text(
+              label.toUpperCase(),
+              style: AppTheme.f(10, weight: FontWeight.w800, color: gc.textTertiary, letterSpacing: 1.25),
+            ),
+          ),
+          if (trailing != null) trailing,
+        ]),
+      );
+
+  Widget _metric(GymColors gc, String label, String value, {String? note}) => Expanded(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8),
+          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Text(label.toUpperCase(),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: AppTheme.f(9, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 0.9)),
+            const SizedBox(height: 3),
+            Text(value,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: AppTheme.f(18, weight: FontWeight.w800, color: gc.text, height: 1.05)),
+            if (note != null) ...[
+              const SizedBox(height: 2),
+              Text(note,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: AppTheme.f(10, weight: FontWeight.w500, color: gc.textTertiary)),
+            ],
+          ]),
+        ),
+      );
+
+  Widget _flatSection(GymColors gc, String label, List<Widget> children, {Widget? trailing}) => Container(
+        padding: const EdgeInsets.symmetric(vertical: 12),
+        decoration: BoxDecoration(border: Border(bottom: BorderSide(color: gc.border))),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+          _sectionLabel(gc, label, trailing: trailing),
+          ...children,
+        ]),
+      );
+
+  Widget _rangeChip(GymColors gc, int weeks) {
+    final selected = _rangeWeeks == weeks;
+    final label = weeks == 0 ? 'All' : '${weeks}W';
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: () => setState(() => _rangeWeeks = weeks),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 5),
+        decoration: BoxDecoration(
+          color: selected ? gc.accentSoft : Colors.transparent,
+          border: Border.all(color: selected ? gc.accent : gc.border),
+          borderRadius: BorderRadius.circular(5),
+        ),
+        child: Text(label,
+            style: AppTheme.f(10, weight: FontWeight.w700, color: selected ? gc.accent : gc.textSecondary)),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final gc = _minimalProgressColors(context.gc);
+    final theme = Theme.of(context).copyWith(extensions: [gc]);
+    final sessions = fit.sessions;
+    final volumeChange = fit.volumeChangePct;
+    final trackedNames = <String, String>{};
+    for (final session in sessions) {
+      for (final exercise in session.exercises) {
+        trackedNames[exercise.id] = exercise.name;
+      }
+    }
+    final exerciseIds = trackedNames.keys.toList()
+      ..sort((a, b) => trackedNames[a]!.compareTo(trackedNames[b]!));
+    if (_exerciseId == null || !exerciseIds.contains(_exerciseId)) {
+      _exerciseId = fit.activeStrengthId != null && exerciseIds.contains(fit.activeStrengthId)
+          ? fit.activeStrengthId
+          : (exerciseIds.isEmpty ? null : exerciseIds.first);
+    }
+    final id = _exerciseId;
+    final trend = id == null ? const <({DateTime date, double value})>[] : fit.exerciseTrend(
+      id,
+      days: _rangeWeeks == 0 ? 0 : _rangeWeeks * 7,
+    );
+    final muscleSets = fit.muscleSetsOver(30).entries.toList()
+      ..sort((a, b) => b.value.compareTo(a.value));
+    final maxMuscleSets = muscleSets.isEmpty ? 0.0 : muscleSets.first.value;
+    final records = fit.personalRecords;
+    final lifted = fit.liftedSpanOf(fit.totalVolumeKg);
+    final volume = fit.volumeValue(fit.volume30dKg);
+    final heatLevels = fit.heatmapWeeksFor(16);
+    final heatStart = fit.heatmapWeekDate(0, weeks: 16);
+
+    return Theme(
+      data: theme,
+      child: ColoredBox(
+        color: gc.bg,
+        child: SafeArea(
+          bottom: false,
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.fromLTRB(14, 10, 14, 104),
+            child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+              Row(children: [
+                Expanded(
+                  child: Text(t.progressTitle,
+                      style: AppTheme.f(20, weight: FontWeight.w800, color: gc.text)),
+                ),
+                IconButton(
+                  tooltip: sentenceCase(t.historyTitle),
+                  visualDensity: VisualDensity.compact,
+                  onPressed: () => fit.goHistory(),
+                  icon: Icon(PhosphorIconsRegular.clockCounterClockwise, size: 17, color: gc.textSecondary),
+                ),
+                IconButton(
+                  tooltip: t.reportTitle,
+                  visualDensity: VisualDensity.compact,
+                  onPressed: () => showReportSheet(context),
+                  icon: Icon(PhosphorIconsRegular.fileText, size: 17, color: gc.textSecondary),
+                ),
+                IconButton(
+                  tooltip: sentenceCase(t.share),
+                  visualDensity: VisualDensity.compact,
+                  onPressed: () => showShareSheet(context),
+                  icon: Icon(PhosphorIconsRegular.export, size: 17, color: gc.textSecondary),
+                ),
+              ]),
+              const SizedBox(height: 8),
+              Row(children: [
+                _metric(gc, t.tileVolume30, volume, note: fit.volumeUnit),
+                Container(width: 1, height: 42, color: gc.border),
+                _metric(gc, t.allTimeSessions, groupedInt(fit.totalSessions)),
+                Container(width: 1, height: 42, color: gc.border),
+                _metric(gc, t.allTimeSets, groupedInt(fit.totalSets)),
+              ]),
+              Row(children: [
+                _metric(gc, t.allTimeTime, fit.totalTime.inHours > 0
+                    ? '${fit.totalTime.inHours}h'
+                    : '${fit.totalTime.inMinutes}m'),
+                Container(width: 1, height: 42, color: gc.border),
+                _metric(gc, t.allTimeLifted, lifted.$1, note: lifted.$2),
+                Container(width: 1, height: 42, color: gc.border),
+                _metric(gc, '30d change', volumeChange == null ? '—' : '${volumeChange > 0 ? '+' : ''}${volumeChange}%',
+                    note: t.tileVolume30),
+              ]),
+              _flatSection(gc, 'Weekly volume · 30 days', [
+                if (fit.volumeChartPoints.length > 1)
+                  Sparkline(
+                    values: [for (final v in fit.volumeChartPoints) fit.toDisplayWeight(v) / 1000],
+                    height: 58,
+                    color: gc.accent,
+                    scale: fmt,
+                  )
+                else
+                  Text(t.noHistory, style: AppTheme.f(11.5, color: gc.textTertiary)),
+              ]),
+              _flatSection(
+                gc,
+                t.personalRecords,
+                [
+                  if (records.isEmpty)
+                    Text(t.noHistory, style: AppTheme.f(11.5, color: gc.textTertiary))
+                  else
+                    for (final record in records.take(7))
+                      Builder(builder: (context) {
+                        final date = _lastRecordDate(record);
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 5),
+                          child: Row(children: [
+                            Expanded(
+                              child: Text(t.catalogName(record.id, record.name),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: AppTheme.f(11.5, weight: FontWeight.w600, color: gc.text)),
+                            ),
+                            const SizedBox(width: 8),
+                            Text(fit.recordLabel(record),
+                                style: AppTheme.f(11.5, weight: FontWeight.w800, color: gc.accent)),
+                            const SizedBox(width: 8),
+                            SizedBox(
+                              width: 56,
+                              child: Text(_ageLabel(date),
+                                  textAlign: TextAlign.end,
+                                  style: AppTheme.f(9.5, weight: FontWeight.w600, color: gc.textTertiary)),
+                            ),
+                          ]),
+                        );
+                      }),
+                ],
+              ),
+              _flatSection(
+                gc,
+                'Estimated strength trend',
+                [
+                  if (exerciseIds.isEmpty)
+                    Text(t.noHistory, style: AppTheme.f(11.5, color: gc.textTertiary))
+                  else ...[
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      decoration: BoxDecoration(border: Border.all(color: gc.border), borderRadius: BorderRadius.circular(5)),
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton<String>(
+                          value: id,
+                          isExpanded: true,
+                          isDense: true,
+                          dropdownColor: gc.bgRaised,
+                          style: AppTheme.f(11.5, weight: FontWeight.w600, color: gc.text),
+                          items: [
+                            for (final exerciseId in exerciseIds)
+                              DropdownMenuItem(
+                                value: exerciseId,
+                                child: Text(t.catalogName(exerciseId, trackedNames[exerciseId]!),
+                                    maxLines: 1, overflow: TextOverflow.ellipsis),
+                              ),
+                          ],
+                          onChanged: (value) {
+                            if (value == null) return;
+                            setState(() => _exerciseId = value);
+                            fit.setStrengthExercise(value);
+                          },
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 9),
+                    Row(children: [
+                      _rangeChip(gc, 4),
+                      const SizedBox(width: 5),
+                      _rangeChip(gc, 8),
+                      const SizedBox(width: 5),
+                      _rangeChip(gc, 12),
+                      const SizedBox(width: 5),
+                      _rangeChip(gc, 0),
+                    ]),
+                    const SizedBox(height: 8),
+                    if (trend.length > 1)
+                      TrendChart(
+                        values: [for (final point in trend) point.value],
+                        height: 76,
+                        scale: (v) => fit.isRepsOnly(id!) ? '${v.round()}' : fit.weightLabel(v),
+                      )
+                    else
+                      Text(t.noHistory, style: AppTheme.f(11.5, color: gc.textTertiary)),
+                    if (trend.isNotEmpty) ...[
+                      const SizedBox(height: 5),
+                      Text('${trend.length} sessions',
+                          style: AppTheme.f(9.5, weight: FontWeight.w600, color: gc.textTertiary)),
+                    ],
+                  ],
+                ],
+              ),
+              _flatSection(gc, t.consistency, [
+                Heatmap(
+                  levels: heatLevels,
+                  firstDay: heatStart,
+                  cellSize: 10,
+                  weekdays: false,
+                  onTapDay: (index) {
+                    final day = heatStart.add(Duration(days: index));
+                    fit.goHistory(month: day);
+                  },
+                ),
+                const SizedBox(height: 5),
+                Row(children: [
+                  Icon(PhosphorIconsFill.fire, size: 12, color: gc.accent),
+                  const SizedBox(width: 5),
+                  Text(t.streakDays(fit.currentStreak),
+                      style: AppTheme.f(10, weight: FontWeight.w600, color: gc.textSecondary)),
+                  const Spacer(),
+                  Text(t.weekOfGoal(fit.daysDoneThisWeek, fit.weeklyTarget),
+                      style: AppTheme.f(9.5, weight: FontWeight.w500, color: gc.textTertiary)),
+                ]),
+              ]),
+              _flatSection(gc, 'Sets per muscle · 30 days', [
+                if (muscleSets.isEmpty)
+                  Text(t.noHistory, style: AppTheme.f(11.5, color: gc.textTertiary))
+                else
+                  for (final item in muscleSets.take(8))
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 4),
+                      child: Row(children: [
+                        SizedBox(
+                          width: 78,
+                          child: Text(t.muscle(item.key),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: AppTheme.f(10.5, weight: FontWeight.w600, color: gc.textSecondary)),
+                        ),
+                        Expanded(
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(2),
+                            child: LinearProgressIndicator(
+                              value: maxMuscleSets <= 0 ? 0 : (item.value / maxMuscleSets).clamp(0.0, 1.0),
+                              minHeight: 5,
+                              backgroundColor: gc.bgRaised2,
+                              color: gc.accent,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        SizedBox(
+                          width: 25,
+                          child: Text(item.value.toStringAsFixed(item.value % 1 == 0 ? 0 : 1),
+                              textAlign: TextAlign.end,
+                              style: AppTheme.f(10, weight: FontWeight.w700, color: gc.text)),
+                        ),
+                      ]),
+                    ),
+              ]),
+            ]),
+          ),
+        ),
+      ),
     );
   }
 }
