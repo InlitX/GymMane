@@ -381,4 +381,48 @@ void main() {
       fit.clearExFilters();
     });
   });
+
+  group('Minimal exercise table parity', () {
+    setUp(() async {
+      SharedPreferences.setMockInitialValues({});
+      await Store.instance.init();
+      fit.resetAllData();
+      fit.onboarded = true;
+      fit.setUnits('kg');
+      fit.setMinimalMode(true);
+      fit.route = 'exercises';
+      setAppLanguage('en');
+    });
+
+    testWidgets('shows the Name / Muscle / 1RM table without phone-width overflow', (tester) async {
+      tester.view.physicalSize = const Size(360, 800);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.reset);
+
+      final bench = fit.matchExerciseByName('Barbell Bench Press')!;
+      fit.sessions.add(LoggedSession(DateTime.now(), 600, [
+        LoggedExercise(bench.id, bench.name, bench.primary, [LoggedSet(5, 100)]),
+      ]));
+
+      await tester.pumpWidget(const GymManeApp());
+      await tester.pumpAndSettle();
+
+      expect(find.text('116.7'), findsOneWidget);
+      expect(find.text('Name'), findsOneWidget);
+      expect(find.text('Muscle'), findsOneWidget);
+      expect(find.text('1RM'), findsOneWidget);
+      expect(find.text('All'), findsOneWidget);
+      expect(tester.takeException(), isNull);
+    });
+
+    test('the All chip clears the selected muscle without clearing the search', () {
+      fit.setExSearch('press');
+      fit.setMuscleFilter('chest');
+      final selected = fit.exMuscleFilter!;
+      fit.setMuscleFilter(selected);
+      expect(fit.exMuscleFilter, isNull);
+      expect(fit.exSearch, 'press');
+    });
+  });
+
 }

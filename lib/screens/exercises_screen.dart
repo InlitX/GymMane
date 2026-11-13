@@ -102,9 +102,14 @@ class _ExercisesScreenState extends State<ExercisesScreen> {
               key: const PageStorageKey('exercises'),
               controller: _scroll,
               padding: EdgeInsets.fromLTRB(compact ? 14 : 20, contentTop, compact ? 14 : 20, 110),
-              itemCount: list.isEmpty ? 1 : list.length,
+              itemCount: list.isEmpty ? 1 : list.length + (compact ? 1 : 0),
               itemBuilder: (context, i) {
                 if (list.isEmpty) return _empty(gc);
+                if (compact) {
+                  if (i == 0) return _minimalTableHeader(gc);
+                  final ex = list[i - 1];
+                  return _row(gc, ex, first: i == 1, last: i == list.length);
+                }
                 final ex = list[i];
                 final first = i == 0 || list[i - 1].primary != ex.primary;
                 final last = i == list.length - 1 || list[i + 1].primary != ex.primary;
@@ -112,9 +117,9 @@ class _ExercisesScreenState extends State<ExercisesScreen> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     if (first) ...[
-                      SizedBox(height: i == 0 ? 2 : (compact ? 14 : 22)),
+                      SizedBox(height: i == 0 ? 2 : 22),
                       Padding(
-                        padding: EdgeInsets.fromLTRB(4, 0, 0, compact ? 5 : 8),
+                        padding: const EdgeInsets.fromLTRB(4, 0, 0, 8),
                         child: Row(children: [
                           Text(muscleLabel(ex.primary).toUpperCase(),
                               style: AppTheme.f(10.5,
@@ -348,6 +353,35 @@ class _ExercisesScreenState extends State<ExercisesScreen> {
   }
 
   Widget _quickChips(BuildContext context, GymColors gc) {
+    if (fit.minimalMode) {
+      final selected = fit.exMuscleFilter;
+      final allSelected = selected == null && fit.exZoneFilter == null;
+      Widget musclePill(String label, bool active, VoidCallback onTap) => Pill(
+            label: label,
+            bg: active ? gc.ember : gc.bgRaised2,
+            fg: active ? gc.onEmber : gc.textSecondary,
+            onTap: onTap,
+            hPad: 12,
+            vPad: 6,
+            fontSize: 11.5,
+          );
+      return SingleChildScrollView(
+        key: const PageStorageKey('minimal-exercise-muscle-filters'),
+        scrollDirection: Axis.horizontal,
+        clipBehavior: Clip.none,
+        child: Row(children: [
+          musclePill('All', allSelected, () {
+            if (fit.exMuscleFilter != null) fit.setMuscleFilter(fit.exMuscleFilter!);
+            if (fit.exZoneFilter != null) fit.setZoneFilter(null);
+          }),
+          for (final muscle in kFilterMuscles) ...[
+            const SizedBox(width: 7),
+            musclePill(muscleLabel(muscle), selected == muscle,
+                () => fit.setMuscleFilter(muscle)),
+          ],
+        ]),
+      );
+    }
     final sheetOn = _sheetFilters;
     final zoneOn = fit.exZoneFilter != null || fit.exMuscleFilter != null;
     final anyOn = sheetOn > 0 || zoneOn || fit.exFavouritesOnly;
@@ -518,13 +552,38 @@ class _ExercisesScreenState extends State<ExercisesScreen> {
     });
   }
 
+  Widget _minimalTableHeader(GymColors gc) => Padding(
+        padding: const EdgeInsets.fromLTRB(5, 7, 5, 6),
+        child: Row(children: [
+          Expanded(
+            child: Text(titleCase(t.nameLabel),
+                style: AppTheme.f(10, weight: FontWeight.w700,
+                    color: gc.textSecondary, letterSpacing: 0.35)),
+          ),
+          SizedBox(
+            width: 78,
+            child: Text(titleCase(t.muscleFilter),
+                style: AppTheme.f(10, weight: FontWeight.w700,
+                    color: gc.textSecondary, letterSpacing: 0.35)),
+          ),
+          SizedBox(
+            width: 54,
+            child: Text('1RM',
+                textAlign: TextAlign.end,
+                style: AppTheme.f(10, weight: FontWeight.w700,
+                    color: gc.textSecondary, letterSpacing: 0.35)),
+          ),
+        ]),
+      );
+
   Widget _row(GymColors gc, Exercise ex, {required bool first, required bool last}) {
     final fav = fit.favorites[ex.id] ?? false;
     if (fit.minimalMode) {
+      final best = fit.bestLift(ex.id);
       final vertical = switch (fit.minimalRowHeight) {
-        'roomy' => 9.0,
-        'tight' => 3.0,
-        _ => 6.0,
+        'roomy' => 10.0,
+        'tight' => 4.0,
+        _ => 7.0,
       };
       return Column(children: [
         Pressable(
@@ -534,45 +593,34 @@ class _ExercisesScreenState extends State<ExercisesScreen> {
             padding: EdgeInsets.symmetric(horizontal: 5, vertical: vertical),
             child: Row(children: [
               Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(exerciseName(ex),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: AppTheme.f(13, weight: FontWeight.w700, color: gc.text)),
-                    const SizedBox(height: 2),
-                    Text('${muscleLabel(ex.primary)} · ${t.equipment(ex.equipment)}',
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: AppTheme.f(10.5, weight: FontWeight.w500, color: gc.textTertiary)),
-                  ],
-                ),
+                child: Text(exerciseName(ex),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: AppTheme.f(12.5, weight: FontWeight.w600, color: gc.text)),
               ),
-              if (fit.minimalShowExerciseIcons) ...[
-                const SizedBox(width: 6),
-                SizedBox(
-                  width: 28,
-                  height: 28,
-                  child: ExerciseMedia(ex: ex, height: 28, radius: 5, live: false),
-                ),
-              ],
-              const SizedBox(width: 4),
-              GestureDetector(
-                behavior: HitTestBehavior.opaque,
-                onTap: () => fit.toggleFavorite(ex.id),
-                child: Padding(
-                  padding: const EdgeInsets.all(8),
-                  child: _star(gc, fav),
-                ),
+              SizedBox(
+                width: 78,
+                child: Text(muscleLabel(ex.primary),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: AppTheme.f(10.5, weight: FontWeight.w500, color: gc.textSecondary)),
+              ),
+              SizedBox(
+                width: 54,
+                child: Text(best > 0 ? fit.weightValue(best) : '–',
+                    textAlign: TextAlign.end,
+                    maxLines: 1,
+                    style: AppTheme.f(11, weight: FontWeight.w600,
+                        color: best > 0 ? gc.text : gc.textTertiary)),
               ),
             ]),
           ),
         ),
-        if (!last)
-          Divider(height: 1, thickness: 0.7, color: gc.border.withValues(alpha: 0.8)),
+        if (!last) Divider(height: 1, thickness: 0.7, color: gc.border.withValues(alpha: 0.8)),
       ]);
     }
+    // The Minimal table is intentionally limited to the three reference columns.
+
     return Container(
       decoration: BoxDecoration(
         color: gc.bgRaised,

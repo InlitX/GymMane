@@ -20,15 +20,15 @@ Rebuild the reference's compact phone experience in the existing Flutter app usi
 
 ## Progress
 
-**3 of 11 stages implemented and merged (27%).** Eight stages remain. Final cross-screen visual verification is consolidated in Stage 10.
+**4 of 11 stages implemented and merged (36%).** Seven stages remain. Stage 4 is now in progress. Final cross-screen visual verification is consolidated in Stage 10.
 
 | Stage | Area | Status | Last change / next step |
 |---|---|---|---|
 | 0 | Reference audit and baseline | Complete | `Sample.html` boundary and reference inventory documented |
 | 1 | Minimal shell and navigation | Complete | PR #8 merged |
 | 2 | Today screen | Complete | PR #9 merged; CI run #43506289411 passed |
-| 3 | Live workout | **In progress (PR #11)** | Compact toolbar, set table, exercise-group actions, flat rest dock and discard confirmation implemented; CI and phone QA still required |
-| 4 | Exercise library | Planned | Search, muscle filters, Name / Muscle / 1RM rows |
+| 3 | Live workout | Complete | PR #11 merged; CI run #43515792250 passed analysis, tests and one-APK build |
+| 4 | Exercise library | **In progress (PR #12)** | Minimal Name / Muscle / 1RM table, All/muscle chips and real historical 1RM values |
 | 5 | Exercise details | Planned | Ten metrics, range controls, 1RM/volume charts, PR history and session table |
 | 6 | History | Planned | Latest-40 list, List/Table, eight-column table, search/sort and Excel |
 | 7 | Stats dashboard | Planned | Weekly volume, exercise 1RM, days-since-PR, 16-week heatmap, muscle sets |
@@ -38,10 +38,10 @@ Rebuild the reference's compact phone experience in the existing Flutter app usi
 
 ## Current state and next action
 
-- **Latest merged UI work:** PR #9, Stage 2 Today screen, merge commit `f0ed1cf4a5626ee0806cd7bee87c225d361439f9`.
-- **Latest merged repository baseline:** PR #10 handoff/roadmap and conflict-resolution work, merge commit `7fbc49522965e638a110e9988c4fe53b29a11301`.
-- **Current implementation:** Stage 3 — Live workout, PR #11, branch `feature/sample-html-parity-stage-3-live-workout`.
-- **Prerequisite completed:** PR #10 was merged after its updated Actions run #43510832870 passed. The newer single-job `.github/workflows/build-apk.yml` remains authoritative.
+- **Latest merged UI work:** PR #11, Stage 3 Live Workout, merge commit `7b9a8e3ea4492b56d3391f640c708062991c6297`.
+- **Latest merged repository baseline:** PR #11 Stage 3 merge commit `7b9a8e3ea4492b56d3391f640c708062991c6297`.
+- **Current implementation:** Stage 4 — Exercise library, PR #12, branch `feature/sample-html-parity-stage-4-exercise-library`.
+- **Stage 3 gate passed:** PR #11 Actions run #43515792250 passed analysis, full tests and the single-APK build; PR #11 is merged. The post-merge main run #43518506146 passed analysis and tests and was building the APK at this snapshot.
 - **Do not restart Stage 2.** Reopen it only for a confirmed regression or mismatch. Its final screenshot/manual parity check belongs in Stage 10.
 
 ## Build and release
@@ -53,7 +53,7 @@ The current workflow (merged in PR #9) runs analysis, tests, a single APK build 
 - PR #9 CI run #43506289411: analysis, tests, one-APK build and artifact upload succeeded.
 - Main push run #43508196293: completed successfully, including the Release publish steps.
 - Verified the [rolling release](https://github.com/HackerXMindset/GymMinimal/releases/tag/minimal-mode-preview) now contains exactly one APK asset named `GymMinimal.apk`.
-- PR #10 merged as `7fbc49522965e638a110e9988c4fe53b29a11301`; its updated PR Actions run #43510832870 passed. Main push run #43514552958 must be checked for final release publishing.
+- PR #11 Stage 3 run #43515792250 passed analysis, full tests and the single-APK build. Post-merge main run #43518506146: analysis and tests passed; APK build/release steps were still running at this snapshot.
 - A persistent release keystore has not been confirmed. Do not assume seamless in-place upgrades between separately built APKs until stable signing is configured and tested.
 
 ## Documents and source map

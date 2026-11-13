@@ -6,11 +6,11 @@
 
 **Snapshot date:** 2026-11-14  
 **Repository:** `HackerXMindset/GymMinimal`  
-**Latest merged baseline:** PR #10 documentation/conflict-resolution merge commit `7fbc49522965e638a110e9988c4fe53b29a11301`.  
-**Latest merged UI stage:** Stage 2 — Today screen (PR #9, merged).  
-**Current UI stage:** Stage 3 — Live workout (in progress; PR #11).  
-**Progress at this snapshot:** Stages 0, 1 and 2 are implemented and merged; 8 of 11 total stages remain.  
-**Verified Stage 2 CI:** Actions run #43506289411 passed analysis, tests, one-APK build and artifact upload.  
+**Latest merged baseline:** PR #11 Stage 3 merge commit `7b9a8e3ea4492b56d3391f640c708062991c6297`.  
+**Latest merged UI stage:** Stage 3 — Live Workout (PR #11, merged).  
+**Current UI stage:** Stage 4 — Exercise Library (in progress; PR #12).  
+**Progress at this snapshot:** Stages 0–3 are implemented and merged; 7 of 11 total stages remain.  
+**Verified Stage 3 CI:** Actions run #43515792250 passed analysis, full tests, one-APK build and artifact upload.  
 **Verified release:** main run #43508196293 succeeded; the rolling preview release contains exactly one `GymMinimal.apk`.
 
 ---
@@ -328,7 +328,7 @@ PR #8 is recorded as merged in the roadmap. Do not redo the shell without a demo
 
 Do not reimplement Stage 2 unless a regression or a specific mismatch is found. The next implementation stage is Stage 3.
 
-### Stage 3 — Live workout (IN PROGRESS — PR #11)
+### Stage 3 — Live workout (COMPLETE — PR #11 merged)
 
 **Primary file:** `lib/screens/session_screen.dart`; model/state: `live_session.dart`, workout state.
 
@@ -340,11 +340,10 @@ Do not reimplement Stage 2 unless a regression or a specific mismatch is found. 
 - [x] Flat Minimal rest dock with timer editing, −15, +15 and Skip.
 - [x] Duplicate Finish removed; Discard requires confirmation and uses the existing state discard method.
 - [x] Regression test added to ensure discarding an active session does not create a history entry.
-- [ ] PR #11 Flutter analysis, full tests and one-APK build must pass.
-- [ ] Verify narrow phone width, optional Previous on/off, and all supported set types on device.
-- [ ] Attach/review phone screenshot and check Standard workout regression before merge.
+- [x] PR #11 Actions run #43515792250 passed Flutter analysis, full tests and one-APK build; PR #11 merged.
+- [ ] Final narrow-phone screenshot/manual parity and Standard workout regression are part of Stage 10 QA.
 
-The items above describe implemented code, not a completed stage. Do not start Stage 4 until PR #11 passes its full gate and is merged.
+The Stage 3 implementation and CI gate are complete. The final physical-device visual audit remains tracked in Stage 10.
 
 **Implementation outline**
 1. Trace the existing Minimal active-session branch before changing it. It already exists; improve it rather than creating a second workout flow.
@@ -363,9 +362,18 @@ The items above describe implemented code, not a completed stage. Do not start S
 - [ ] Standard workout UI and completion flow are unchanged.
 - [ ] Tests, analysis and one-APK CI build pass; screenshot/manual review recorded.
 
-### Stage 4 — Exercise library
+### Stage 4 — Exercise library (IN PROGRESS — PR #12)
 
 **Primary file:** `lib/screens/exercises_screen.dart`.
+
+**Current implementation in PR #12**
+- [x] Minimal-only All/muscle filter chips; Standard quick filters remain unchanged.
+- [x] Compact Name / Muscle / 1RM table, with rows sourced from the real exercise catalogue.
+- [x] 1RM values use `fit.bestLift` and existing display-unit conversion; no-history values show an em dash.
+- [x] Existing search, custom exercise creation and exercise-detail navigation are preserved.
+- [x] Added a 360×800 widget test and a real-history 1RM assertion.
+- [ ] PR #12 analysis, full tests and one-APK build must pass.
+- [ ] Standard library regression and final visual parity review remain to be checked.
 
 **Implementation outline**
 1. Trace existing search, selected muscle, custom exercise creation and exercise-detail navigation.
@@ -641,17 +649,17 @@ Update this record at the end of every stage PR:
 
 | Field | Current value |
 |---|---|
-| Current stage | Stage 3 — Live workout |
-| Stage state | In progress — PR #11 open; code implemented, CI and device review pending |
-| Last known base | `main` commit `7fbc49522965e638a110e9988c4fe53b29a11301` (PR #10 merge) |
-| Current prerequisite | PR #10 merged; its updated Actions run #43510832870 passed |
-| Last completed UI stage | Stage 2 — Today screen (PR #9 merged) |
+| Current stage | Stage 4 — Exercise library |
+| Stage state | In progress — PR #12 open; Minimal table and muscle chips implemented, CI pending |
+| Last known base | `main` commit `7b9a8e3ea4492b56d3391f640c708062991c6297` (PR #11 merge) |
+| Current prerequisite | Stage 3 PR #11 merged; Actions run #43515792250 passed analysis, full tests and one-APK build |
+| Last completed UI stage | Stage 3 — Live Workout (PR #11 merged) |
 | Current owner | Unassigned / whoever takes the next stage |
-| Current branch | `feature/sample-html-parity-stage-3-live-workout` |
-| Current PR | [PR #11](https://github.com/HackerXMindset/GymMinimal/pull/11) |
-| Last verified test commit | PR #10 head `d0dedd8cbd0fec6dfa5f115cc300b3970e0a7771`; Actions run #43510832870 passed |
-| Known blocker | PR #11 CI has not yet passed; no physical-device screenshot/manual review is attached yet. |
-| Next concrete action | Check the newest PR #11 run, fix any analysis/test/build failures, perform phone-width and Standard-mode review, then merge only when all gates pass |
+| Current branch | `feature/sample-html-parity-stage-4-exercise-library` |
+| Current PR | [PR #12](https://github.com/HackerXMindset/GymMinimal/pull/12) |
+| Last verified test commit | Stage 3 PR #11 head `ceba4b53b8d2484bdb4c599fd63dddc8216bc1b4`; Actions run #43515792250 passed |
+| Known blocker | PR #12 CI is pending; physical-device screenshot/manual review is not available yet. |
+| Next concrete action | Verify PR #12 analysis, full tests and single-APK build; fix all failures before merging and starting Stage 5 |
 
 For each future handoff, replace these values with the real current stage and live commit/PR/test state. Keep completed stages' PR references in the roadmap changelog. If a stage is partially done, state exactly which acceptance boxes passed, which failed, and the next unfinished item. Do not simply write "mostly done".
 
