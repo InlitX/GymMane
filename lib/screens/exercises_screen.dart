@@ -59,23 +59,49 @@ class _ExercisesScreenState extends State<ExercisesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final gc = context.gc;
+    final base = context.gc;
+    final compact = fit.minimalMode;
+    final gc = compact
+        ? base.copyWith(
+            pageBg: const Color(0xFF0E0E0D),
+            bg: const Color(0xFF141413),
+            bgRaised: const Color(0xFF1B1B1A),
+            bgRaised2: const Color(0xFF222221),
+            border: const Color(0xFF2C2C2A),
+            navBg: const Color(0xEE141413),
+            text: const Color(0xFFE9E7E2),
+            textSecondary: const Color(0xFF8D8A84),
+            textTertiary: const Color(0xFF5F5D58),
+            ember: const Color(0xFFC8A45F),
+            emberDeep: const Color(0xFFA88647),
+            onEmber: const Color(0xFF141413),
+            emberSoft: const Color(0x35C8A45F),
+            accent: const Color(0xFFC8A45F),
+            accentSoft: const Color(0x35C8A45F),
+            brass: const Color(0xFFC8A45F),
+            sage: const Color(0xFFC8A45F),
+            sageSoft: const Color(0x35C8A45F),
+            mutedFill: const Color(0xFF222221),
+            heatEmpty: const Color(0xFF222221),
+          )
+        : base;
     final list = fit.exercisesFiltered;
-
     final pad = MediaQuery.paddingOf(context).top;
-    final searchTop = pad + 12 + 50 + 14;
-    final chipsTop = searchTop + 48 + 10;
-    final contentTop = chipsTop + 34 + 12;
+    final searchTop = pad + (compact ? 8 + 30 + 8 : 12 + 50 + 14);
+    final chipsTop = searchTop + (compact ? 42 + 8 : 48 + 10);
+    final contentTop = chipsTop + (compact ? 30 + 8 : 34 + 12);
 
-    return Stack(children: [
-              if (DesktopScope.of(context) && list.isNotEmpty)
+    return ColoredBox(
+      color: compact ? gc.bg : Colors.transparent,
+      child: Stack(children: [
+              if (DesktopScope.of(context) && list.isNotEmpty && !compact)
                 Positioned.fill(child: _grid(gc, list, contentTop))
               else
               Positioned.fill(
                 child: ListView.builder(
               key: const PageStorageKey('exercises'),
               controller: _scroll,
-              padding: EdgeInsets.fromLTRB(20, contentTop, 20, 110),
+              padding: EdgeInsets.fromLTRB(compact ? 14 : 20, contentTop, compact ? 14 : 20, 110),
               itemCount: list.isEmpty ? 1 : list.length,
               itemBuilder: (context, i) {
                 if (list.isEmpty) return _empty(gc);
@@ -86,9 +112,9 @@ class _ExercisesScreenState extends State<ExercisesScreen> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     if (first) ...[
-                      SizedBox(height: i == 0 ? 2 : 22),
+                      SizedBox(height: i == 0 ? 2 : (compact ? 14 : 22)),
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(4, 0, 0, 8),
+                        padding: EdgeInsets.fromLTRB(4, 0, 0, compact ? 5 : 8),
                         child: Row(children: [
                           Text(muscleLabel(ex.primary).toUpperCase(),
                               style: AppTheme.f(10.5,
@@ -138,7 +164,8 @@ class _ExercisesScreenState extends State<ExercisesScreen> {
                   ),
                 ),
               ),
-            ]);
+            ]),
+    );
   }
 
   double get _fold {
@@ -163,6 +190,10 @@ class _ExercisesScreenState extends State<ExercisesScreen> {
   }
 
   Widget _header(BuildContext context, GymColors gc, int count, double pad, double searchTop, double chipsTop) {
+    final compact = fit.minimalMode;
+    final inset = compact ? 14.0 : 20.0;
+    final topInset = compact ? 8.0 : 12.0;
+    final searchBaseHeight = compact ? 42.0 : 48.0;
     final blur = EdgeBlur(height: pad + 70, sigma: 14);
     return LayoutBuilder(builder: (context, box) {
       final w = box.maxWidth;
@@ -171,11 +202,11 @@ class _ExercisesScreenState extends State<ExercisesScreen> {
         builder: (context, _) {
           final p = _fold;
           final y = _scroll.hasClients ? _scroll.offset : 0.0;
-          final plusX = w - 20 - _btn;
-          final searchX = 20 + (plusX - 8 - _btn - 20) * p;
-          final searchY = searchTop + (pad + 12 - searchTop) * p;
-          final searchW = (w - 40) + (_btn - (w - 40)) * p;
-          final searchH = 48 + (_btn - 48) * p;
+          final plusX = w - inset - _btn;
+          final searchX = inset + (plusX - 8 - _btn - inset) * p;
+          final searchY = searchTop + (pad + topInset - searchTop) * p;
+          final searchW = (w - 2 * inset) + (_btn - (w - 2 * inset)) * p;
+          final searchH = searchBaseHeight + (_btn - searchBaseHeight) * p;
           final filterX = plusX - 2 * (_btn + 8);
           final active = _activeFilters;
           return Stack(
@@ -191,24 +222,27 @@ class _ExercisesScreenState extends State<ExercisesScreen> {
                   child: Opacity(
                     opacity: (1 - p * 1.6).clamp(0.0, 1.0),
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      padding: EdgeInsets.symmetric(horizontal: inset),
                       child: _quickChips(context, gc),
                     ),
                   ),
                 ),
               ),
               Positioned(
-                left: 20,
-                right: 20 + _btn + 12 + (_btn + 8) * 2 * p,
-                top: pad + 12 + 6 * p,
+                left: inset,
+                right: inset + _btn + 12 + (_btn + 8) * 2 * p,
+                top: pad + topInset + (compact ? 0 : 6) * p,
                 child: IgnorePointer(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Transform.scale(
-                        scale: 1 - 0.2 * p,
+                        scale: 1 - (compact ? 0.08 : 0.2) * p,
                         alignment: Alignment.topLeft,
-                        child: ScreenTitle(t.exercises),
+                        child: compact
+                            ? Text(t.exercises,
+                                style: AppTheme.f(22, weight: FontWeight.w800, color: gc.text, letterSpacing: -0.5))
+                            : ScreenTitle(t.exercises),
                       ),
                       Opacity(
                         opacity: (1 - p * 2).clamp(0.0, 1.0),
@@ -224,7 +258,7 @@ class _ExercisesScreenState extends State<ExercisesScreen> {
               ),
               Positioned(
                 left: plusX,
-                top: pad + 12,
+                top: pad + topInset,
                 child: RoundAction(
                   size: _btn,
                   label: t.newExercise,
@@ -235,7 +269,7 @@ class _ExercisesScreenState extends State<ExercisesScreen> {
               if (p > 0.4)
                 Positioned(
                   left: filterX,
-                  top: pad + 12,
+                  top: pad + topInset,
                   child: Opacity(
                     opacity: ((p - 0.4) / 0.6).clamp(0.0, 1.0),
                     child: Transform.scale(
@@ -379,38 +413,53 @@ class _ExercisesScreenState extends State<ExercisesScreen> {
   }
 
   Widget _empty(GymColors gc) {
+    final compact = fit.minimalMode;
     final noFavs = fit.exFavouritesOnly && fit.favouriteCount == 0;
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 60, horizontal: 20),
+      padding: EdgeInsets.symmetric(
+        vertical: compact ? 36 : 60,
+        horizontal: compact ? 8 : 20,
+      ),
       child: Column(
         children: [
           if (noFavs)
             _star(gc, false)
           else
-            SvgPathIcon(const [IconPath('M11 11m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0', strokeWidth: 1.5), IconPath('M21 21l-4.35-4.35', strokeWidth: 1.5)], size: 40, color: gc.textTertiary),
-          const SizedBox(height: 10),
-          Text(noFavs ? t.noFavouritesYet : t.noExercisesFound,
-              style: AppTheme.f(15.5, weight: FontWeight.w700, color: gc.text)),
+            SvgPathIcon(
+              const [
+                IconPath('M11 11m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0', strokeWidth: 1.5),
+                IconPath('M21 21l-4.35-4.35', strokeWidth: 1.5),
+              ],
+              size: compact ? 32 : 40,
+              color: gc.textTertiary,
+            ),
+          SizedBox(height: compact ? 8 : 10),
+          Text(
+            noFavs ? t.noFavouritesYet : t.noExercisesFound,
+            style: AppTheme.f(compact ? 14.5 : 15.5, weight: FontWeight.w700, color: gc.text),
+          ),
           const SizedBox(height: 4),
-          Text(noFavs ? t.noFavouritesHint : t.noExercisesHint,
-              textAlign: TextAlign.center,
-              style: AppTheme.f(13, weight: FontWeight.w500, color: gc.textSecondary)),
-          const SizedBox(height: 16),
+          Text(
+            noFavs ? t.noFavouritesHint : t.noExercisesHint,
+            textAlign: TextAlign.center,
+            style: AppTheme.f(compact ? 12 : 13, weight: FontWeight.w500, color: gc.textSecondary),
+          ),
+          SizedBox(height: compact ? 12 : 16),
           GestureDetector(
             behavior: HitTestBehavior.opaque,
             onTap: _clearAll,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-              child: Text(t.clearFilters,
-                  style: AppTheme.f(13, weight: FontWeight.w600, color: gc.accent)),
+              child: Text(
+                t.clearFilters,
+                style: AppTheme.f(13, weight: FontWeight.w600, color: gc.accent),
+              ),
             ),
           ),
         ],
       ),
     );
-  }
-
-  static int _groupSize(List<Exercise> list, int from) {
+  }static int _groupSize(List<Exercise> list, int from) {
     var n = 0;
     while (from + n < list.length && list[from + n].primary == list[from].primary) {
       n++;
@@ -471,6 +520,59 @@ class _ExercisesScreenState extends State<ExercisesScreen> {
 
   Widget _row(GymColors gc, Exercise ex, {required bool first, required bool last}) {
     final fav = fit.favorites[ex.id] ?? false;
+    if (fit.minimalMode) {
+      final vertical = switch (fit.minimalRowHeight) {
+        'roomy' => 9.0,
+        'tight' => 3.0,
+        _ => 6.0,
+      };
+      return Column(children: [
+        Pressable(
+          onTap: () => fit.openExercise(ex.id),
+          scale: 1,
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 5, vertical: vertical),
+            child: Row(children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(exerciseName(ex),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: AppTheme.f(13, weight: FontWeight.w700, color: gc.text)),
+                    const SizedBox(height: 2),
+                    Text('${muscleLabel(ex.primary)} · ${t.equipment(ex.equipment)}',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: AppTheme.f(10.5, weight: FontWeight.w500, color: gc.textTertiary)),
+                  ],
+                ),
+              ),
+              if (fit.minimalShowExerciseIcons) ...[
+                const SizedBox(width: 6),
+                SizedBox(
+                  width: 28,
+                  height: 28,
+                  child: ExerciseMedia(ex: ex, height: 28, radius: 5, live: false),
+                ),
+              ],
+              const SizedBox(width: 4),
+              GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: () => fit.toggleFavorite(ex.id),
+                child: Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: _star(gc, fav),
+                ),
+              ),
+            ]),
+          ),
+        ),
+        if (!last)
+          Divider(height: 1, thickness: 0.7, color: gc.border.withValues(alpha: 0.8)),
+      ]);
+    }
     return Container(
       decoration: BoxDecoration(
         color: gc.bgRaised,
