@@ -80,7 +80,7 @@ jobs:
         run: |
           if gh release view "$RELEASE_TAG" >/dev/null 2>&1; then
             mapfile -t old_apks < <(gh release view "$RELEASE_TAG" --json assets --jq '.assets[].name | select(endswith(".apk"))')
-            for asset in "\${old_apks[@]}"; do
+            for asset in "${old_apks[@]}"; do
               gh release delete-asset "$RELEASE_TAG" "$asset" --yes
             done
           fi
