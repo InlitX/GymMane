@@ -241,6 +241,12 @@ mixin StatsState on FitCore, ToolsState, LibraryState, SettingsState, TimelineSt
     pushRoute('history');
   }
 
+  void goHistoryTab() {
+    final now = DateTime.now();
+    historyMonth = DateTime(now.year, now.month);
+    _setRoute('history', reset: true);
+  }
+
   bool get historyAtLatest {
     final now = DateTime.now();
     return !historyMonth.isBefore(DateTime(now.year, now.month));
