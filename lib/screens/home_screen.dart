@@ -35,6 +35,7 @@ class HomeScreen extends StatelessWidget {
     final gc = context.gc;
     final recommended = fit.recommendedExercises(8);
     final routines = fit.routinesByLastDone;
+    if (fit.minimalMode) return _minimalToday(context, gc, routines);
     if (DesktopScope.of(context)) return _desktop(context, gc, routines, recommended);
 
     return RiseScope(
@@ -63,6 +64,299 @@ class HomeScreen extends StatelessWidget {
         ),
       ),
       ),
+    );
+  }
+
+
+  Widget _minimalToday(BuildContext context, GymColors base, List<Routine> routines) {
+    final gc = base.copyWith(
+      pageBg: const Color(0xFF0E0E0D),
+      bg: const Color(0xFF141413),
+      bgRaised: const Color(0xFF1B1B1A),
+      bgRaised2: const Color(0xFF222221),
+      border: const Color(0xFF2C2C2A),
+      navBg: const Color(0xEE141413),
+      text: const Color(0xFFE9E7E2),
+      textSecondary: const Color(0xFF8D8A84),
+      textTertiary: const Color(0xFF5F5D58),
+      ember: const Color(0xFFC8A45F),
+      emberDeep: const Color(0xFFA88647),
+      onEmber: const Color(0xFF141413),
+      emberSoft: const Color(0x35C8A45F),
+      accent: const Color(0xFFC8A45F),
+      accentSoft: const Color(0x35C8A45F),
+      brass: const Color(0xFFC8A45F),
+      sage: const Color(0xFFC8A45F),
+      sageSoft: const Color(0x35C8A45F),
+      mutedFill: const Color(0xFF222221),
+      heatEmpty: const Color(0xFF222221),
+    );
+    final active = fit.session != null && !fit.session!.complete;
+    final recent = [...fit.sessions]..sort((a, b) => b.date.compareTo(a.date));
+    final last = recent.isEmpty ? null : recent.first;
+
+    return ColoredBox(
+      color: gc.bg,
+      child: SafeArea(
+        bottom: false,
+        child: Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 760),
+            child: ListView(
+              key: const PageStorageKey('minimal-today'),
+              padding: const EdgeInsets.fromLTRB(16, 14, 16, 116),
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(t.today.toUpperCase(),
+                              style: AppTheme.f(10,
+                                  weight: FontWeight.w700,
+                                  color: gc.textTertiary,
+                                  letterSpacing: 1.3)),
+                          const SizedBox(height: 3),
+                          Text(t.longDate(DateTime.now()),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: AppTheme.f(23,
+                                  weight: FontWeight.w800,
+                                  color: gc.text,
+                                  letterSpacing: -0.4)),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
+                      decoration: BoxDecoration(
+                        color: gc.bgRaised,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Row(mainAxisSize: MainAxisSize.min, children: [
+                        Icon(PhosphorIconsFill.flame, size: 14, color: gc.accent),
+                        const SizedBox(width: 5),
+                        Text(fit.currentStreak.toString(),
+                            style: AppTheme.f(13, weight: FontWeight.w800, color: gc.text)),
+                      ]),
+                    ),
+                    const SizedBox(width: 4),
+                    IconButton(
+                      tooltip: t.moreOptions,
+                      visualDensity: VisualDensity.compact,
+                      onPressed: () => fit.pushRoute('preferences/training'),
+                      icon: Icon(PhosphorIconsRegular.gearSix, size: 19, color: gc.textSecondary),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16),
+                Row(
+                  children: [
+                    for (var i = 0; i < 7; i++)
+                      Expanded(child: _weekDay(context, gc, i)),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                Divider(height: 1, thickness: 0.7, color: gc.border),
+                const SizedBox(height: 14),
+                if (active) ...[
+                  _minimalTodayAction(
+                    gc,
+                    label: t.keepTraining,
+                    detail: fit.session!.name?.isNotEmpty == true
+                        ? fit.session!.name!
+                        : t.inProgress,
+                    icon: PhosphorIconsFill.play,
+                    primary: true,
+                    onTap: fit.stepBackIntoSession,
+                  ),
+                  const SizedBox(height: 8),
+                ],
+                _minimalTodayAction(
+                  gc,
+                  label: sentenceCase(t.startWorkout),
+                  detail: t.firstSessionHint,
+                  icon: PhosphorIconsRegular.plus,
+                  primary: !active,
+                  onTap: fit.startPicking,
+                ),
+                const SizedBox(height: 26),
+                _minimalSectionHeading(gc, t.routines, onTap: fit.goRoutines),
+                const SizedBox(height: 4),
+                if (routines.isEmpty)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 14),
+                    child: Text(t.routineCount(0),
+                        style: AppTheme.f(12, weight: FontWeight.w500, color: gc.textTertiary)),
+                  )
+                else
+                  for (var i = 0; i < routines.length; i++)
+                    _minimalRoutineRow(context, gc, routines[i], last: i == routines.length - 1),
+                const SizedBox(height: 24),
+                _minimalSectionHeading(gc, t.historyTitle, onTap: fit.goHistory),
+                const SizedBox(height: 4),
+                if (last == null)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 14),
+                    child: Text(t.historyEmpty,
+                        style: AppTheme.f(12, weight: FontWeight.w500, color: gc.textTertiary)),
+                  )
+                else
+                  _minimalRecentRow(gc, last),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _minimalTodayAction(
+    GymColors gc, {
+    required String label,
+    required String detail,
+    required IconData icon,
+    required bool primary,
+    required VoidCallback onTap,
+  }) {
+    final foreground = primary ? gc.onEmber : gc.text;
+    return Material(
+      color: primary ? gc.ember : gc.bgRaised,
+      borderRadius: BorderRadius.circular(7),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(7),
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 13, vertical: 11),
+          child: Row(children: [
+            Icon(icon, size: 17, color: primary ? foreground : gc.accent),
+            const SizedBox(width: 11),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(label,
+                      style: AppTheme.f(13, weight: FontWeight.w800, color: foreground)),
+                  const SizedBox(height: 2),
+                  Text(detail,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: AppTheme.f(10.5,
+                          weight: FontWeight.w500,
+                          color: primary ? foreground.withValues(alpha: 0.72) : gc.textTertiary)),
+                ],
+              ),
+            ),
+            Icon(PhosphorIconsBold.arrowRight, size: 15, color: foreground),
+          ]),
+        ),
+      ),
+    );
+  }
+
+  Widget _minimalSectionHeading(GymColors gc, String label, {VoidCallback? onTap}) {
+    return Row(children: [
+      Expanded(
+        child: Text(label.toUpperCase(),
+            style: AppTheme.f(10,
+                weight: FontWeight.w800, color: gc.textTertiary, letterSpacing: 1.1)),
+      ),
+      if (onTap != null)
+        TextButton(
+          onPressed: onTap,
+          style: TextButton.styleFrom(
+            foregroundColor: gc.accent,
+            visualDensity: VisualDensity.compact,
+            padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 4),
+            minimumSize: const Size(0, 28),
+            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          ),
+          child: Text(t.healthSeeAll,
+              style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.accent)),
+        ),
+    ]);
+  }
+
+  Widget _minimalRoutineRow(BuildContext context, GymColors gc, Routine routine, {required bool last}) {
+    final completed = fit.lastDoneOf(routine.id);
+    final ago = completed == null
+        ? null
+        : DateTime.now().difference(DateTime(completed.year, completed.month, completed.day)).inDays;
+    final detail = [
+      t.exerciseCount(routine.exerciseIds.length),
+      if (ago != null) t.lastDoneAgo(ago),
+      if (routine.group.isNotEmpty) routine.group,
+    ].join('  ·  ');
+    return Column(children: [
+      Row(children: [
+        Expanded(
+          child: InkWell(
+            onTap: () => fit.openRoutine(routine.id),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(fit.routineTitle(routine),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: AppTheme.f(13, weight: FontWeight.w700, color: gc.text)),
+                  const SizedBox(height: 3),
+                  Text(detail,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: AppTheme.f(10.5, weight: FontWeight.w500, color: gc.textTertiary)),
+                ],
+              ),
+            ),
+          ),
+        ),
+        IconButton(
+          tooltip: t.startWorkout,
+          visualDensity: VisualDensity.compact,
+          onPressed: routine.exerciseIds.isEmpty ? null : () => fit.startRoutine(routine),
+          icon: Icon(PhosphorIconsFill.playCircle, size: 21, color: gc.accent),
+        ),
+      ]),
+      if (!last) Divider(height: 1, thickness: 0.7, color: gc.border),
+    ]);
+  }
+
+  Widget _minimalRecentRow(GymColors gc, LoggedSession session) {
+    final name = session.name?.trim().isNotEmpty == true ? session.name!.trim() : t.historyTitle;
+    final exercises = session.exercises
+        .take(3)
+        .map((e) => t.catalogName(e.id, e.name))
+        .join(', ');
+    final detail = [
+      t.longDate(session.date),
+      t.exerciseCount(session.exercises.length),
+      session.setCount.toString() + ' ' + t.setsCaps.toLowerCase(),
+      fit.volumeLabel(session.volume),
+    ].join('  ·  ');
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Text(name,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: AppTheme.f(13, weight: FontWeight.w700, color: gc.text)),
+        const SizedBox(height: 4),
+        Text(detail,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: AppTheme.f(10.5, weight: FontWeight.w500, color: gc.textTertiary)),
+        if (exercises.isNotEmpty) ...[
+          const SizedBox(height: 5),
+          Text(exercises,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: AppTheme.f(11, weight: FontWeight.w500, color: gc.textSecondary)),
+        ],
+      ]),
     );
   }
 
