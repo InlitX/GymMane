@@ -247,10 +247,11 @@ class _MonthCard extends StatelessWidget {
 }
 
 class WorkoutHistoryCard extends StatelessWidget {
-  const WorkoutHistoryCard({super.key, required this.session, this.records = 0});
+  const WorkoutHistoryCard({super.key, required this.session, this.records = 0, this.minimal = false});
 
   final LoggedSession session;
   final int records;
+  final bool minimal;
 
   @override
   Widget build(BuildContext context) {
@@ -269,36 +270,36 @@ class WorkoutHistoryCard extends StatelessWidget {
       scale: 0.98,
       onTap: () => showDaySheet(context, s.day),
       child: Container(
-        padding: const EdgeInsets.fromLTRB(14, 14, 16, 14),
-        decoration: BoxDecoration(color: gc.bgRaised, borderRadius: BorderRadius.circular(20)),
+        padding: EdgeInsets.fromLTRB(minimal ? 10 : 14, minimal ? 10 : 14, minimal ? 12 : 16, minimal ? 10 : 14),
+        decoration: BoxDecoration(color: gc.bgRaised, borderRadius: BorderRadius.circular(minimal ? 13 : 20)),
         child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
           Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Container(
-              width: 46,
-              padding: const EdgeInsets.symmetric(vertical: 6),
-              decoration: BoxDecoration(color: gc.bgRaised2, borderRadius: BorderRadius.circular(12)),
+              width: minimal ? 40 : 46,
+              padding: EdgeInsets.symmetric(vertical: minimal ? 4 : 6),
+              decoration: BoxDecoration(color: gc.bgRaised2, borderRadius: BorderRadius.circular(minimal ? 9 : 12)),
               child: Column(children: [
                 Text(t.weekdayShort(s.day.weekday).toUpperCase(),
                     style: AppTheme.f(9, weight: FontWeight.w800, color: gc.accent, letterSpacing: 0.8)),
-                Text('${s.day.day}', style: AppTheme.f(19, weight: FontWeight.w800, color: gc.text, height: 1.15)),
+                Text('${s.day.day}', style: AppTheme.f(minimal ? 17 : 19, weight: FontWeight.w800, color: gc.text, height: 1.15)),
               ]),
             ),
-            const SizedBox(width: 12),
+            SizedBox(width: minimal ? 9 : 12),
             Expanded(
               child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                 Text(fit.sessionHeading(s),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: AppTheme.f(16, weight: FontWeight.w800, color: gc.text)),
+                    style: AppTheme.f(minimal ? 14 : 16, weight: FontWeight.w800, color: gc.text)),
                 const SizedBox(height: 2),
-                Text(meta, style: AppTheme.f(12, weight: FontWeight.w600, color: gc.textSecondary)),
-                const SizedBox(height: 6),
+                Text(meta, style: AppTheme.f(minimal ? 11 : 12, weight: FontWeight.w600, color: gc.textSecondary)),
+                SizedBox(height: minimal ? 4 : 6),
                 Text(
                     [t.exerciseCount(s.exercises.length), t.setCount(s.setCount), if (s.volume > 0) fit.volumeLabel(s.volume)]
                         .join(' · '),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: AppTheme.f(11.5, weight: FontWeight.w600, color: gc.textTertiary)),
+                    style: AppTheme.f(minimal ? 10.5 : 11.5, weight: FontWeight.w600, color: gc.textTertiary)),
               ]),
             ),
             if (records > 0) ...[
@@ -314,10 +315,10 @@ class WorkoutHistoryCard extends StatelessWidget {
               ),
             ],
           ]),
-          const SizedBox(height: 12),
+          SizedBox(height: minimal ? 8 : 12),
           Container(height: 1, color: gc.border),
-          const SizedBox(height: 10),
-          for (final e in shown) _line(gc, e),
+          SizedBox(height: minimal ? 7 : 10),
+          for (final e in shown) _line(gc, e, compact: minimal),
           if (s.exercises.length > shown.length)
             Padding(
               padding: const EdgeInsets.only(top: 2),
@@ -329,21 +330,21 @@ class WorkoutHistoryCard extends StatelessWidget {
     );
   }
 
-  Widget _line(GymColors gc, LoggedExercise e) {
+  Widget _line(GymColors gc, LoggedExercise e, {bool compact = false}) {
     final top = fit.topSetOf(e);
     return Padding(
-      padding: const EdgeInsets.only(bottom: 6),
+      padding: EdgeInsets.only(bottom: compact ? 4 : 6),
       child: Row(children: [
         SizedBox(
           width: 30,
           child: Text('${e.workingSets.length}×',
-              style: AppTheme.f(12.5, weight: FontWeight.w700, color: gc.textTertiary)),
+              style: AppTheme.f(compact ? 11 : 12.5, weight: FontWeight.w700, color: gc.textTertiary)),
         ),
         Expanded(
           child: Text(t.catalogName(e.id, e.name),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: AppTheme.f(13, weight: FontWeight.w600, color: gc.text)),
+              style: AppTheme.f(compact ? 11.5 : 13, weight: FontWeight.w600, color: gc.text)),
         ),
         if (e.workingSets.any(fit.recordSets.contains)) ...[
           const SizedBox(width: 8),
@@ -351,7 +352,7 @@ class WorkoutHistoryCard extends StatelessWidget {
         ],
         if (top != null) ...[
           const SizedBox(width: 8),
-          Text(fit.loggedSetLabel(top), style: AppTheme.f(12.5, weight: FontWeight.w700, color: gc.textSecondary)),
+          Text(fit.loggedSetLabel(top), style: AppTheme.f(compact ? 11 : 12.5, weight: FontWeight.w700, color: gc.textSecondary)),
         ],
       ]),
     );
