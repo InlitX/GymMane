@@ -10,7 +10,8 @@
 **Latest merged UI stage:** Stage 2 — Today screen (PR #9, merged).  
 **Current UI stage:** Stage 3 — Live workout (next; not started).  
 **Progress at this snapshot:** Stages 0, 1 and 2 are implemented and merged; 8 of 11 total stages remain.  
-**Verified Stage 2 CI:** Actions run #43506289411 passed analysis, tests, one-APK build and artifact upload.
+**Verified Stage 2 CI:** Actions run #43506289411 passed analysis, tests, one-APK build and artifact upload.  
+**Verified release:** main run #43508196293 succeeded; the rolling preview release contains exactly one `GymMinimal.apk`.
 
 ---
 
@@ -581,7 +582,7 @@ A stage is done only when all are true:
 
 Workflow file: `.github/workflows/build-apk.yml`.
 
-**Use the current version on `main` as the source of truth.** PR #9 already merged the newer workflow, so PR #10 must not reintroduce its older two-job/re-download version.
+**Use the current version on `main` as the source of truth.** PR #9 merged the single-job workflow; PR #10 preserves that version.
 
 The current workflow uses one job:
 
@@ -605,7 +606,7 @@ Do not infer release success from a green PR build alone. After a merge to `main
 - Download/install the APK and launch it.
 - Record the release URL and tested commit in the roadmap.
 
-**Current observation:** main-branch run #43508196293 was still in progress at this snapshot. The previously visible release asset was `GymMane-arm64-v8a.apk`; do not mark the release verified until the run finishes and the release page is checked again.
+**Verified on 2026-11-14:** main-branch run #43508196293 completed successfully. The [rolling preview release](https://github.com/HackerXMindset/GymMinimal/releases/tag/minimal-mode-preview) contains exactly one APK asset, `GymMinimal.apk`.
 
 ## 9. Takeover protocol — how to resume at any stage
 
@@ -635,7 +636,7 @@ Update this record at the end of every stage PR:
 | Current branch | None for Stage 3 yet |
 | Current PR | None for Stage 3 yet |
 | Last verified test commit | PR #9 head `7d63ee96922f0861a38dc93f14ca3e1e2ba6a2ee`; Actions run #43506289411 passed |
-| Known blocker | PR #10's updated head must receive a fresh green Actions run before merge; main release run #43508196293 was still in progress at snapshot time |
+| Known blocker | PR #10's updated head still needs its latest Actions run to pass; run #43510557866 was in progress at snapshot time. Main release publishing is now verified. |
 | Next concrete action | Verify/merge PR #10, then create a Stage 3 branch from the latest `main` and implement the Minimal live-workout layout |
 
 For each future handoff, replace these values with the real current stage and live commit/PR/test state. Keep completed stages' PR references in the roadmap changelog. If a stage is partially done, state exactly which acceptance boxes passed, which failed, and the next unfinished item. Do not simply write "mostly done".

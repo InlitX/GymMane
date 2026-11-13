@@ -6,7 +6,7 @@
 
 **Working method:** One focused stage per branch and pull request. Reuse real Flutter state/models/services; do not copy the HTML prototype's sample data or browser implementation. Run Flutter analysis, relevant tests and the one-APK build on every PR. Only mark a stage complete after its UI and interactions have been checked against the HTML reference. A successful merge to `main` should publish the same tested `GymMinimal.apk` artifact to the rolling GitHub preview release.
 
-**Snapshot:** 2026-11-14. PR #9 has merged Stage 2 (Today) into `main` at `f0ed1cf4a5626ee0806cd7bee87c225d361439f9`. Its PR workflow run #43506289411 passed analysis, tests, the single-APK build and artifact upload. PR #10 is being synchronized with this newer `main`; verify the live PR and Actions status before merging.
+**Snapshot:** 2026-11-14. PR #9 has merged Stage 2 (Today) into `main` at `f0ed1cf4a5626ee0806cd7bee87c225d361439f9`. Its PR workflow run #43506289411 passed analysis, tests, the single-APK build and artifact upload. PR #10 now includes this `main` commit and preserves its newer workflow. The conflict is resolved; PR #10's updated Actions run must pass before merge.
 
 ## Overall progress
 
@@ -194,10 +194,12 @@ The authoritative workflow is the version already merged to `main` by PR #9: `.g
 - [x] Run Flutter analysis and tests before the APK build.
 - [x] Upload one `gymminimal-apk` Actions artifact on PR builds.
 - [x] On a push to `main` or manual workflow dispatch, publish the APK produced by that same workflow job; do not run a second Flutter build.
-- [ ] Confirm the current main-branch run #43508196293 completes successfully.
-- [ ] Verify the rolling GitHub Release contains exactly one APK asset named `GymMinimal.apk`.
+- [x] Main-branch run #43508196293 completed successfully, including the release-publishing steps.
+- [x] Verified the rolling GitHub Release contains exactly one APK asset named `GymMinimal.apk`.
 
 **Pipeline design:** the build, test, artifact upload and conditional Release publishing steps are in one job. Release steps run only for main pushes or workflow dispatch; PR runs stop after uploading the artifact. This is the newer `main` implementation and is intentionally retained when resolving PR #10.
+
+**Verified release:** [GymMinimal — Minimal Mode preview](https://github.com/HackerXMindset/GymMinimal/releases/tag/minimal-mode-preview). The asset list contained exactly one APK: `GymMinimal.apk`.
 
 **Signing caveat:** no persistent private release keystore is currently established. Do not promise seamless in-place upgrades across separately built CI APKs until a stable private signing key is configured and tested. Never commit signing credentials.
 
@@ -207,11 +209,14 @@ The authoritative workflow is the version already merged to `main` by PR #9: `.g
 |---|---|
 | PR #8 | Merged — Minimal shell/navigation |
 | PR #9 | Merged — Stage 2 Today screen and single-APK workflow |
-| PR #10 | Open — project handoff/roadmap documentation; synchronized with newer `main` |
+| PR #10 | Open — project handoff/roadmap documentation; conflict resolved |
 | PR #10 branch | `fix/single-apk-release-and-parity-roadmap` |
-| Conflict resolution | Preserve the newer `main` workflow from PR #9; merge latest `main` into this branch and retain/update the documentation |
+| Conflict resolution | Merged current `main` into the PR branch at `f0ed1cf4a5626ee0806cd7bee87c225d361439f9`; kept the newer single-job workflow |
+| Conflict-resolving branch commit | `35b14f5f9369b3752c4efd2488878cba05397883` |
+| PR #10 mergeability | GitHub reported mergeable; no commits behind `main` |
+| Latest PR check | Run #43510557866 was in progress at this snapshot; verify the newest run before merge |
 | Current UI stage | Stage 3 — Live workout |
-| Next action | Verify the updated PR #10 Actions run, merge the documentation, then branch Stage 3 from the latest `main` |
+| Next action | Wait for the latest PR #10 Actions check to pass, merge it, then branch Stage 3 from latest `main` |
 
 ## Change log
 
@@ -223,6 +228,7 @@ The authoritative workflow is the version already merged to `main` by PR #9: `.g
 | 2026-11-14 | Expanded handoff guide: source hierarchy, code map, all screen contracts, test/release process and takeover record. |
 | 2026-11-14 | PR #9 merged Stage 2 Today and the single-job APK release workflow; Actions run #43506289411 passed. |
 | 2026-11-14 | PR #10 conflict resolution: retain PR #9's newer workflow, sync the handoff/roadmap with merged Stage 2, and make Stage 3 the next implementation stage. |
+| 2026-11-14 | Main run #43508196293 passed and published the rolling release with exactly one `GymMinimal.apk` asset. |
 
 ## How to continue
 

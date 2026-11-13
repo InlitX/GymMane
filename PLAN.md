@@ -50,8 +50,9 @@ Workflow: [`.github/workflows/build-apk.yml`](.github/workflows/build-apk.yml).
 The current workflow (merged in PR #9) runs analysis, tests, a single APK build and artifact upload in one job. On a push to `main` or manual dispatch, that same job conditionally publishes the already-built APK to the rolling `minimal-mode-preview` release. There is no second Flutter build or separate release-job rebuild.
 
 - PR #9 CI run #43506289411: analysis, tests, one-APK build and artifact upload succeeded.
-- Main push run #43508196293: still in progress at the last check.
-- Release page had an older `GymMane-arm64-v8a.apk` asset at the last check. Verify it is replaced with exactly one `GymMinimal.apk` before calling release publishing complete.
+- Main push run #43508196293: completed successfully, including the Release publish steps.
+- Verified the [rolling release](https://github.com/HackerXMindset/GymMinimal/releases/tag/minimal-mode-preview) now contains exactly one APK asset named `GymMinimal.apk`.
+- PR #10 conflict is resolved and GitHub reports it mergeable; updated PR Actions run #43510557866 was still in progress at the last check.
 - A persistent release keystore has not been confirmed. Do not assume seamless in-place upgrades between separately built APKs until stable signing is configured and tested.
 
 ## Documents and source map
