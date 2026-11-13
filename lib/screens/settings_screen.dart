@@ -26,6 +26,7 @@ import '../services/notif_sound.dart';
 import '../services/rest_alarm.dart';
 import '../services/sqlite_reader.dart';
 import '../services/workout_import.dart';
+import '../services/workout_history_xlsx.dart';
 import '../state/fit_state.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
@@ -834,6 +835,8 @@ class SettingsScreen extends StatelessWidget {
           const SizedBox(height: 12),
           _linkGroup(gc, [
               (PhosphorIconsRegular.fileCsv, t.exportCsv, () => _exportCsv(context)),
+              (PhosphorIconsRegular.fileText, 'Export Excel (.xlsx)', () => _exportXlsx(context)),
+              (PhosphorIconsRegular.fileText, 'Export JSON', () => _exportJson(context)),
               (PhosphorIconsRegular.fileText, t.reportTitle, () => showReportSheet(context)),
               (PhosphorIconsRegular.fileZip, t.exportBackup, () => _exportBackup(context)),
               (PhosphorIconsRegular.downloadSimple, t.importBackup, () => _importBackup(context)),
@@ -1300,6 +1303,38 @@ class SettingsScreen extends StatelessWidget {
     final stamp = DateTime.now().toIso8601String().split('T').first;
     await shareFile('gymmane-workouts-$stamp.csv', utf8Bytes(fit.exportCsv()),
         mime: 'text/csv', subject: 'GymMane workouts');
+  }
+
+  Future<void> _exportXlsx(BuildContext context) async {
+    if (fit.sessions.isEmpty) {
+      _snack(context, t.nothingToExport);
+      return;
+    }
+    final stamp = DateTime.now().toIso8601String().split('T').first;
+    try {
+      await shareFile(
+        'gymmane-history-$stamp.xlsx',
+        workoutHistoryXlsx(fit.sessions),
+        mime: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        subject: 'GymMane workout history',
+      );
+    } catch (_) {
+      if (context.mounted) _snack(context, t.minimalHistoryExportError);
+    }
+  }
+
+  Future<void> _exportJson(BuildContext context) async {
+    final stamp = DateTime.now().toIso8601String().split('T').first;
+    try {
+      await shareFile(
+        'gymmane-backup-$stamp.json',
+        utf8Bytes(fit.exportJson()),
+        mime: 'application/json',
+        subject: 'GymMane JSON export',
+      );
+    } catch (_) {
+      if (context.mounted) _snack(context, t.backupFailed);
+    }
   }
 
   Future<void> _clearWorkouts(BuildContext context) async {
