@@ -325,3 +325,152 @@ extension GymL10n on AppLocalizations {
 }
 
 String _capitalize(String s) => s.isEmpty ? s : s[0].toUpperCase() + s.substring(1);
+
+
+/// Labels used only by the compact workout-history table.
+extension MinimalHistoryL10n on AppLocalizations {
+  String get minimalHistoryExportError => _minimalHistoryLabel(0);
+  String get minimalHistoryExportExcel => _minimalHistoryLabel(1);
+  String get minimalHistoryFilterHint => _minimalHistoryLabel(2);
+  String get minimalHistorySortHint => _minimalHistoryLabel(3);
+
+  String _minimalHistoryLabel(int index) {
+    const english = [
+      'Could not export workout history.',
+      'Export Excel',
+      'Filter by exercise, muscle or date',
+      'Tap a heading to sort',
+    ];
+    const labels = <String, List<String>>{
+      'ar': [
+        'تعذر تصدير سجل التمارين.',
+        'تصدير Excel',
+        'تصفية حسب التمرين أو العضلة أو التاريخ',
+        'اضغط على عنوان العمود للفرز',
+      ],
+      'bn': [
+        'ওয়ার্কআউটের ইতিহাস রপ্তানি করা যায়নি।',
+        'Excel রপ্তানি',
+        'ব্যায়াম, পেশি বা তারিখ দিয়ে ফিল্টার করুন',
+        'সাজাতে শিরোনামে ট্যাপ করুন',
+      ],
+      'de': [
+        'Der Trainingsverlauf konnte nicht exportiert werden.',
+        'Nach Excel exportieren',
+        'Nach Übung, Muskel oder Datum filtern',
+        'Zum Sortieren auf eine Überschrift tippen',
+      ],
+      'es': [
+        'No se pudo exportar el historial de entrenamientos.',
+        'Exportar a Excel',
+        'Filtrar por ejercicio, músculo o fecha',
+        'Toca un encabezado para ordenar',
+      ],
+      'fa': [
+        'صادر کردن تاریخچه تمرین ممکن نشد.',
+        'خروجی Excel',
+        'فیلتر بر اساس حرکت، عضله یا تاریخ',
+        'برای مرتب‌سازی روی عنوان ستون بزنید',
+      ],
+      'fr': [
+        'Impossible d’exporter l’historique des séances.',
+        'Exporter vers Excel',
+        'Filtrer par exercice, muscle ou date',
+        'Touchez un en-tête pour trier',
+      ],
+      'hi': [
+        'वर्कआउट इतिहास एक्सपोर्ट नहीं हो सका।',
+        'Excel में एक्सपोर्ट करें',
+        'एक्सरसाइज़, मसल या तारीख से फ़िल्टर करें',
+        'क्रमबद्ध करने के लिए शीर्षक टैप करें',
+      ],
+      'id': [
+        'Riwayat latihan tidak dapat diekspor.',
+        'Ekspor Excel',
+        'Filter berdasarkan latihan, otot, atau tanggal',
+        'Ketuk judul kolom untuk mengurutkan',
+      ],
+      'it': [
+        'Impossibile esportare la cronologia degli allenamenti.',
+        'Esporta in Excel',
+        'Filtra per esercizio, muscolo o data',
+        'Tocca un’intestazione per ordinare',
+      ],
+      'ja': [
+        'トレーニング履歴をエクスポートできませんでした。',
+        'Excelにエクスポート',
+        '種目・筋肉・日付で絞り込む',
+        '並べ替えるには見出しをタップ',
+      ],
+      'ko': [
+        '운동 기록을 내보내지 못했습니다.',
+        'Excel로 내보내기',
+        '운동, 근육 또는 날짜로 필터링',
+        '정렬하려면 머리글을 탭하세요',
+      ],
+      'nl': [
+        'De trainingsgeschiedenis kon niet worden geëxporteerd.',
+        'Exporteren naar Excel',
+        'Filter op oefening, spier of datum',
+        'Tik op een kop om te sorteren',
+      ],
+      'pl': [
+        'Nie udało się wyeksportować historii treningów.',
+        'Eksportuj do Excela',
+        'Filtruj według ćwiczenia, mięśnia lub daty',
+        'Dotknij nagłówka, aby sortować',
+      ],
+      'pt': [
+        'Não foi possível exportar o histórico de treinos.',
+        'Exportar para Excel',
+        'Filtrar por exercício, músculo ou data',
+        'Toque num cabeçalho para ordenar',
+      ],
+      'ru': [
+        'Не удалось экспортировать историю тренировок.',
+        'Экспорт в Excel',
+        'Фильтр по упражнению, мышце или дате',
+        'Нажмите на заголовок для сортировки',
+      ],
+      'tr': [
+        'Antrenman geçmişi dışa aktarılamadı.',
+        'Excel’e aktar',
+        'Egzersiz, kas veya tarihe göre filtrele',
+        'Sıralamak için başlığa dokun',
+      ],
+      'uk': [
+        'Не вдалося експортувати історію тренувань.',
+        'Експортувати в Excel',
+        'Фільтр за вправою, м’язом або датою',
+        'Торкніться заголовка, щоб відсортувати',
+      ],
+      'ur': [
+        'ورزش کی سرگزشت برآمد نہیں ہو سکی۔',
+        'Excel میں برآمد کریں',
+        'ورزش، پٹھے یا تاریخ کے لحاظ سے فلٹر کریں',
+        'ترتیب دینے کے لیے سرخی پر ٹیپ کریں',
+      ],
+      'vi': [
+        'Không thể xuất lịch sử tập luyện.',
+        'Xuất Excel',
+        'Lọc theo bài tập, nhóm cơ hoặc ngày',
+        'Nhấn vào tiêu đề để sắp xếp',
+      ],
+      'zh': [
+        '无法导出训练记录。',
+        '导出为 Excel',
+        '按动作、肌肉或日期筛选',
+        '点击表头进行排序',
+      ],
+      'zh_Hant': [
+        '無法匯出訓練紀錄。',
+        '匯出為 Excel',
+        '依動作、肌肉或日期篩選',
+        '點選欄位標題即可排序',
+      ],
+    };
+    final locale = localeName.toLowerCase();
+    final language = locale.startsWith('zh_hant') ? 'zh_Hant' : locale.split('_').first;
+    return labels[language]?[index] ?? english[index];
+  }
+}
