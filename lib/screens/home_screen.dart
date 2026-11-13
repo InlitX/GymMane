@@ -35,6 +35,7 @@ class HomeScreen extends StatelessWidget {
     final gc = context.gc;
     final recommended = fit.recommendedExercises(8);
     final routines = fit.routinesByLastDone;
+    if (fit.minimalMode) return _minimalHome(context, gc, routines);
     if (DesktopScope.of(context)) return _desktop(context, gc, routines, recommended);
 
     return RiseScope(
@@ -62,6 +63,162 @@ class HomeScreen extends StatelessWidget {
           ]),
         ),
       ),
+      ),
+    );
+  }
+
+
+  Widget _minimalHome(BuildContext context, GymColors gc, List<Routine> routines) {
+    final now = DateTime.now();
+    final dates = List<DateTime>.generate(7, fit.dateForWeekday);
+    final recent = [...fit.sessions]..sort((a, b) => b.date.compareTo(a.date));
+    final active = fit.isSessionActive;
+    final today = fit.todayRoutine;
+    final hasToday = today != null && today.exerciseIds.isNotEmpty;
+
+    Widget sectionTitle(String title, {VoidCallback? onTap}) => Padding(
+          padding: const EdgeInsets.fromLTRB(2, 18, 2, 7),
+          child: Row(children: [
+            Expanded(child: Text(title.toUpperCase(),
+                style: AppTheme.f(10, weight: FontWeight.w800, color: gc.textTertiary, letterSpacing: 1.0))),
+            if (onTap != null)
+              TextButton(
+                onPressed: onTap,
+                style: TextButton.styleFrom(
+                  visualDensity: VisualDensity.compact,
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  minimumSize: const Size(0, 28),
+                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                ),
+                child: Text(t.healthSeeAll, style: AppTheme.f(11, weight: FontWeight.w700, color: gc.accent)),
+              ),
+          ]),
+        );
+
+    Widget routineRow(Routine routine, {bool highlighted = false}) => Container(
+          decoration: BoxDecoration(
+            color: highlighted ? gc.emberSoft : Colors.transparent,
+            border: Border(bottom: BorderSide(color: gc.border)),
+          ),
+          child: Row(children: [
+            Expanded(
+              child: Pressable(
+                onTap: () => fit.startRoutine(routine),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 4),
+                  child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                    Text(fit.routineTitle(routine),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: AppTheme.f(13, weight: FontWeight.w700, color: gc.text)),
+                    const SizedBox(height: 2),
+                    Text(t.exerciseCount(routine.exerciseIds.length),
+                        style: AppTheme.f(10.5, weight: FontWeight.w500, color: gc.textSecondary)),
+                  ]),
+                ),
+              ),
+            ),
+            IconButton(
+              tooltip: t.startWorkout,
+              visualDensity: VisualDensity.compact,
+              onPressed: () => fit.startRoutine(routine),
+              icon: Icon(PhosphorIconsRegular.play, size: 17, color: gc.accent),
+            ),
+            IconButton(
+              tooltip: t.moreOptions,
+              visualDensity: VisualDensity.compact,
+              onPressed: () => showRoutineMenu(context, routine),
+              icon: Icon(PhosphorIconsRegular.dotsThree, size: 17, color: gc.textTertiary),
+            ),
+          ]),
+        );
+
+    return SafeArea(
+      bottom: false,
+      child: SingleChildScrollView(
+        key: const PageStorageKey('home-minimal'),
+        padding: const EdgeInsets.fromLTRB(14, 12, 14, 112),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+          Text(t.today.toUpperCase(),
+              style: AppTheme.f(10, weight: FontWeight.w800, color: gc.textTertiary, letterSpacing: 1.1)),
+          const SizedBox(height: 3),
+          Text(t.longDate(now),
+              style: AppTheme.f(23, weight: FontWeight.w800, color: gc.text, height: 1.15)),
+          const SizedBox(height: 14),
+          Row(
+            children: [
+              for (var i = 0; i < dates.length; i++) ...[
+                if (i > 0) const SizedBox(width: 5),
+                Expanded(
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(vertical: 7),
+                    decoration: BoxDecoration(
+                      color: i == fit.todayIndex ? gc.emberSoft : gc.bgRaised,
+                      border: Border.all(color: i == fit.todayIndex ? gc.ember.withValues(alpha: 0.55) : gc.border),
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    child: Column(children: [
+                      Text(t.weekdayShort(dates[i].weekday),
+                          style: AppTheme.f(8.5, weight: FontWeight.w700,
+                              color: i == fit.todayIndex ? gc.accent : gc.textTertiary)),
+                      const SizedBox(height: 2),
+                      Text('${dates[i].day}',
+                          style: AppTheme.f(12, weight: FontWeight.w800,
+                              color: i == fit.todayIndex ? gc.text : gc.textSecondary)),
+                    ]),
+                  ),
+                ),
+              ],
+            ],
+          ),
+          const SizedBox(height: 14),
+          Row(children: [
+            Expanded(
+              child: FilledButton.icon(
+                onPressed: active ? fit.stepBackIntoSession : () => showStartSheet(context),
+                icon: Icon(active ? PhosphorIconsRegular.play : PhosphorIconsRegular.plus, size: 16),
+                label: Text(active ? t.keepTraining : t.startWorkout,
+                    maxLines: 1, overflow: TextOverflow.ellipsis),
+                style: FilledButton.styleFrom(
+                  backgroundColor: gc.ember,
+                  foregroundColor: gc.onEmber,
+                  padding: const EdgeInsets.symmetric(vertical: 11, horizontal: 10),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                  textStyle: AppTheme.f(12, weight: FontWeight.w800),
+                ),
+              ),
+            ),
+            if (hasToday && !active) ...[
+              const SizedBox(width: 8),
+              Expanded(
+                child: OutlinedButton(
+                  onPressed: () => fit.startRoutine(today),
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: gc.text,
+                    side: BorderSide(color: gc.border),
+                    padding: const EdgeInsets.symmetric(vertical: 11, horizontal: 8),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                  ),
+                  child: Text(fit.routineTitle(today), maxLines: 1, overflow: TextOverflow.ellipsis,
+                      style: AppTheme.f(11, weight: FontWeight.w700)),
+                ),
+              ),
+            ],
+          ]),
+          if (hasToday) ...[
+            sectionTitle(t.todaysRoutine),
+            routineRow(today, highlighted: true),
+          ],
+          if (routines.isNotEmpty) ...[
+            sectionTitle(t.routines, onTap: fit.goRoutines),
+            for (final routine in routines) routineRow(routine),
+          ],
+          if (recent.isNotEmpty) ...[
+            sectionTitle(t.historyTitle, onTap: fit.goHistory),
+            for (final session in recent.take(3))
+              WorkoutHistoryCard(session: session, minimal: true),
+          ],
+        ]),
       ),
     );
   }
