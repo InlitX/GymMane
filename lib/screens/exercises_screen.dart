@@ -596,7 +596,7 @@ class _ExercisesScreenState extends State<ExercisesScreen> {
                 child: Text(exerciseName(ex),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: AppTheme.f(12.5, weight: FontWeight.w650, color: gc.text)),
+                    style: AppTheme.f(12.5, weight: FontWeight.w600, color: gc.text)),
               ),
               SizedBox(
                 width: 78,

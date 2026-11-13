@@ -399,9 +399,15 @@ void main() {
       tester.view.devicePixelRatio = 1;
       addTearDown(tester.view.reset);
 
+      final bench = fit.matchExerciseByName('Barbell Bench Press')!;
+      fit.sessions.add(LoggedSession(DateTime.now(), 600, [
+        LoggedExercise(bench.id, bench.name, bench.primary, [LoggedSet(5, 100)]),
+      ]));
+
       await tester.pumpWidget(const GymManeApp());
       await tester.pumpAndSettle();
 
+      expect(find.text('116.7'), findsOneWidget);
       expect(find.text('Name'), findsOneWidget);
       expect(find.text('Muscle'), findsOneWidget);
       expect(find.text('1RM'), findsOneWidget);
