@@ -219,7 +219,7 @@ class HomeScreen extends StatelessWidget {
           if (routines.isEmpty)
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 4),
-              child: Text('No routines yet',
+              child: Text(t.noRoutines,
                   style: AppTheme.f(11, weight: FontWeight.w500, color: gc.textSecondary)),
             )
           else
@@ -228,7 +228,7 @@ class HomeScreen extends StatelessWidget {
           if (last == null)
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
-              child: Text('No workouts yet',
+              child: Text(t.noHistory,
                   style: AppTheme.f(11, weight: FontWeight.w500, color: gc.textSecondary)),
             )
           else
