@@ -13,6 +13,8 @@ enum ImportFormat {
   lyfta,
   fitbod,
   liftosaur,
+  stronglifts,
+  jefit,
   fitnotes,
   gymmane,
   openGym,
@@ -216,8 +218,12 @@ const _dateCols = ['date', 'fecha', 'start_time', 'time'];
 
 ImportFormat detectFormat(String csv) {
   if (_backupOf(csv) != null) return ImportFormat.openGym;
+  if (_isJefit(csv)) return ImportFormat.jefit;
   final cols = _header(csv);
   if (cols.isEmpty) return ImportFormat.unknown;
+  if (cols.contains('date (yyyy/mm/dd)') && cols.contains('exercise') && cols.any(_slRepsCol.hasMatch)) {
+    return ImportFormat.stronglifts;
+  }
   if (cols.contains('exercise_title') && cols.contains('start_time')) return ImportFormat.hevy;
   if (cols.contains('workout datetime') && cols.contains('is warmup set?')) return ImportFormat.liftosaur;
   if (cols.contains('exercise name') && cols.contains('set order')) return ImportFormat.strong;
@@ -255,6 +261,7 @@ ImportFormat detectFormat(String csv) {
 
 bool needsUnitChoice(String csv) {
   final format = detectFormat(csv);
+  if (format == ImportFormat.jefit) return true;
   final cols = _header(csv);
   if (format.isWeights) {
     if (_pick(cols, _weightKgCols) != null || _pick(cols, _weightLbCols) != null) return false;
@@ -265,6 +272,169 @@ bool needsUnitChoice(String csv) {
   if (_pick(cols, fmt.unit ?? const []) != null) return false;
   if (_pick(cols, fmt.weightKg) != null || _pick(cols, fmt.weightLb) != null) return false;
   return _pick(cols, fmt.weightPlain ?? const []) != null;
+}
+
+final _slRepsCol = RegExp(r'^set (\d+) \(reps\)$');
+
+String _cell(List<String> row, int i) => i < 0 || i >= row.length ? '' : row[i].trim();
+
+(int, int)? _clock(String s) {
+  final m = RegExp(r'^(\d{1,2}):(\d{2})\s*([ap])?\.?\s*m?\.?$', caseSensitive: false).firstMatch(s.trim());
+  if (m == null) return null;
+  var h = int.parse(m.group(1)!);
+  final min = int.parse(m.group(2)!);
+  final half = m.group(3)?.toLowerCase();
+  if (half != null) h = h % 12 + (half == 'p' ? 12 : 0);
+  return h < 24 && min < 60 ? (h, min) : null;
+}
+
+ImportResult _parseStrongLifts(String csv) {
+  final rows = _rows(csv, _delimiter(csv));
+  if (rows.length < 2) return ImportResult(ImportFormat.stronglifts, const []);
+  final head = rows.first.map(_norm).toList();
+  final date = head.indexOf('date (yyyy/mm/dd)');
+  final number = head.indexOf('workout');
+  final exercise = head.indexOf('exercise');
+  final start = head.indexOf('start time (h:mm)');
+  final end = head.indexOf('end time (h:mm)');
+  final notes = head.indexOf('notes');
+  final pairs = <(int, int, bool)>[];
+  for (var i = 0; i < head.length; i++) {
+    final m = _slRepsCol.firstMatch(head[i]);
+    if (m == null) continue;
+    final kg = head.indexOf('set ${m.group(1)} (kg)');
+    final lb = head.indexOf('set ${m.group(1)} (lb)');
+    if (kg >= 0) {
+      pairs.add((i, kg, false));
+    } else if (lb >= 0) {
+      pairs.add((i, lb, true));
+    }
+  }
+  final sessions = <String, ParsedSession>{};
+  for (final row in rows.skip(1)) {
+    final day = RegExp(r'^(\d{4})[/-](\d{1,2})[/-](\d{1,2})$').firstMatch(_cell(row, date));
+    final name = _cell(row, exercise);
+    if (day == null || name.isEmpty) continue;
+    final from = _clock(_cell(row, start));
+    final to = _clock(_cell(row, end));
+    final session = sessions.putIfAbsent('${_cell(row, date)}#${_cell(row, number)}', () {
+      final when = DateTime(int.parse(day.group(1)!), int.parse(day.group(2)!), int.parse(day.group(3)!),
+          from?.$1 ?? 0, from?.$2 ?? 0);
+      var seconds = 0;
+      if (from != null && to != null) {
+        final minutes = (to.$1 * 60 + to.$2) - (from.$1 * 60 + from.$2);
+        if (minutes > 0) seconds = minutes * 60;
+      }
+      return ParsedSession(when, seconds);
+    });
+    final parsed = ParsedExercise(name, null);
+    final note = _setNote(_cell(row, notes));
+    for (final (repsCol, weightCol, lb) in pairs) {
+      final reps = double.tryParse(_cell(row, repsCol).replaceAll(',', '.'))?.round() ?? 0;
+      if (reps <= 0) continue;
+      final weight = double.tryParse(_cell(row, weightCol).replaceAll(',', '.')) ?? 0;
+      parsed.sets.add(ParsedSet(reps, lb ? weight / _lbPerKg : weight, note: parsed.sets.isEmpty ? note : ''));
+    }
+    if (parsed.sets.isNotEmpty) session.exercises.add(parsed);
+  }
+  return ImportResult(ImportFormat.stronglifts, [
+    for (final s in sessions.values)
+      if (s.exercises.isNotEmpty) s,
+  ]);
+}
+
+bool _isJefit(String text) =>
+    RegExp(r'^\s*###\s*EXERCISE LOGS\s*###\s*$', multiLine: true, caseSensitive: false).hasMatch(text);
+
+Map<String, List<List<String>>> _jefitSections(String text) {
+  final lines = <String, List<String>>{};
+  List<String>? current;
+  for (final line in text.replaceFirst('﻿', '').split(RegExp(r'\r?\n'))) {
+    final m = RegExp(r'^\s*###\s*(.*?)\s*###\s*$').firstMatch(line);
+    if (m != null) {
+      current = lines.putIfAbsent(m.group(1)!.toLowerCase(), () => []);
+      continue;
+    }
+    if (current != null && line.trim().isNotEmpty) current.add(line);
+  }
+  return {
+    for (final e in lines.entries)
+      if (e.value.isNotEmpty) e.key: _rows(e.value.join('\n'), ','),
+  };
+}
+
+ImportResult _parseJefit(String text, bool isLb) {
+  final sections = _jefitSections(text);
+  final logs = sections['exercise logs'];
+  if (logs == null || logs.length < 2) return ImportResult(ImportFormat.jefit, const []);
+  final head = logs.first.map(_norm).toList();
+  final sessionCol = head.indexOf('belongsession');
+  final nameCol = head.indexOf('ename');
+  final dateCol = head.indexOf('mydate');
+  final logsCol = head.indexOf('logs');
+  if (nameCol < 0 || dateCol < 0 || logsCol < 0) return ImportResult(ImportFormat.jefit, const []);
+  final starts = <String, (DateTime, int)>{};
+  final info = sections['workout sessions'];
+  if (info != null && info.length > 1) {
+    final h = info.first.map(_norm).toList();
+    final id = h.indexOf('_id');
+    final st = h.indexOf('starttime');
+    final total = h.indexOf('total_time');
+    if (id >= 0 && st >= 0) {
+      for (final row in info.skip(1)) {
+        final seconds = int.tryParse(_cell(row, st));
+        if (seconds == null || seconds <= 0) continue;
+        starts[_cell(row, id)] =
+            (DateTime.fromMillisecondsSinceEpoch(seconds * 1000), int.tryParse(_cell(row, total)) ?? 0);
+      }
+    }
+  }
+  final sessions = <String, ParsedSession>{};
+  final setPattern = RegExp(r'^\s*(\d+(?:\.\d+)?)?\s*x\s*(\d+)\s*$', caseSensitive: false);
+  for (final row in logs.skip(1)) {
+    final d = RegExp(r'^(\d{4})-(\d{2})-(\d{2})$').firstMatch(_cell(row, dateCol));
+    final name = _cell(row, nameCol);
+    if (d == null || name.isEmpty) continue;
+    final day = DateTime(int.parse(d.group(1)!), int.parse(d.group(2)!), int.parse(d.group(3)!));
+    final id = sessionCol >= 0 ? _cell(row, sessionCol) : '';
+    final start = starts[id];
+    final sameDay = start != null && _dayId(start.$1) == _dayId(day);
+    final session = sessions.putIfAbsent(
+        id.isEmpty ? _dayId(day) : id, () => ParsedSession(sameDay ? start.$1 : day, sameDay ? start.$2 : 0));
+    final parsed = ParsedExercise(name, null);
+    for (final part in _cell(row, logsCol).split(',')) {
+      final m = setPattern.firstMatch(part);
+      if (m == null) continue;
+      final reps = int.parse(m.group(2)!);
+      if (reps <= 0) continue;
+      final weight = double.tryParse(m.group(1) ?? '') ?? 0;
+      parsed.sets.add(ParsedSet(reps, isLb ? weight / _lbPerKg : weight));
+    }
+    if (parsed.sets.isNotEmpty) session.exercises.add(parsed);
+  }
+  return ImportResult(ImportFormat.jefit, [
+    for (final s in sessions.values)
+      if (s.exercises.isNotEmpty) s,
+  ]);
+}
+
+String? openGymBackupFromZip(List<int> bytes) {
+  Archive archive;
+  try {
+    archive = ZipDecoder().decodeBytes(bytes);
+  } catch (_) {
+    return null;
+  }
+  for (final file in archive.files) {
+    if (!file.isFile || file.name.split('/').last != 'opengym-backup.json') continue;
+    try {
+      final text = utf8.decode(file.content as List<int>, allowMalformed: true);
+      return _backupOf(text) == null ? null : text;
+    } catch (_) {
+      return null;
+    }
+  }
+  return null;
 }
 
 String? weightCsvFromZip(List<int> bytes) {
@@ -334,6 +504,8 @@ List<ParsedWeight> parseWeights(String csv, {bool isLb = false}) {
 ImportResult parseImport(String csv, {bool isLb = false}) {
   final format = detectFormat(csv);
   if (format == ImportFormat.openGym) return _parseOpenGym(_backupOf(csv)!);
+  if (format == ImportFormat.stronglifts) return _parseStrongLifts(csv);
+  if (format == ImportFormat.jefit) return _parseJefit(csv, isLb);
   if (format.isWeights) {
     return ImportResult(format, const [], weights: parseWeights(csv, isLb: isLb));
   }

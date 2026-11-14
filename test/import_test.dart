@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:archive/archive.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:gymmane/services/workout_import.dart';
 import 'package:gymmane/state/fit_state.dart';
@@ -200,6 +203,66 @@ void main() {
     });
   });
 
+  group('StrongLifts', () {
+    const csv = 'Date (yyyy/mm/dd),Workout,Workout Name,Exercise,Start Time (h:mm),End Time (h:mm),Notes,'
+        'Set 1 (Reps),Set 1 (KG),Set 2 (Reps),Set 2 (KG),Set 3 (Reps),Set 3 (KG)\n'
+        '2024/03/05,1,Workout A,Squat,6:30 PM,7:15 PM,felt strong,5,100,5,100,3,100\n'
+        '2024/03/05,1,Workout A,Bench Press,6:30 PM,7:15 PM,,5,60,5,60,0,60\n'
+        '2024/03/07,1,Workout B,Deadlift,7:00 AM,,,5,140,,,,\n';
+
+    test('una fila por ejercicio con sus series en columnas', () {
+      expect(detectFormat(csv), ImportFormat.stronglifts);
+      expect(needsUnitChoice(csv), isFalse);
+      final r = parseImport(csv);
+      expect(r.sessions.length, 2);
+      final a = r.sessions.first;
+      expect(a.date, DateTime(2024, 3, 5, 18, 30));
+      expect(a.durationSec, 45 * 60);
+      expect(a.exercises.first.name, 'Squat');
+      expect(a.exercises.first.sets.length, 3);
+      expect(a.exercises.first.sets.first.note, 'felt strong');
+      expect(a.exercises[1].sets.length, 2, reason: 'la serie con 0 reps no se hizo');
+      expect(r.sessions.last.date, DateTime(2024, 3, 7, 7));
+      expect(r.sessions.last.exercises.single.sets.single.weightKg, 140);
+    });
+
+    test('pasa a kg las columnas en libras', () {
+      const lb = 'Date (yyyy/mm/dd),Workout,Exercise,Set 1 (Reps),Set 1 (LB)\n2024/03/05,1,Squat,5,225\n';
+      expect(parseImport(lb).sessions.single.exercises.single.sets.single.weightKg, closeTo(102.06, 0.05));
+    });
+  });
+
+  group('JEFIT', () {
+    const text = '### WORKOUT SESSIONS ###\n'
+        '_id,starttime,total_time\n'
+        '7,1709661600,3600\n'
+        '\n'
+        '### EXERCISE LOGS ###\n'
+        '_id,belongsession,ename,mydate,logs\n'
+        '1,7,Barbell Bench Press,2024-03-05,"60x10,65x8,65x6"\n'
+        '2,7,Pull Up,2024-03-05,"0x12,0x10"\n'
+        '3,,Barbell Squat,2024-03-07,"100x5"\n';
+
+    test('lee las secciones y las series peso x reps', () {
+      expect(detectFormat(text), ImportFormat.jefit);
+      expect(needsUnitChoice(text), isTrue, reason: 'JEFIT no dice la unidad');
+      final r = parseImport(text);
+      expect(r.sessions.length, 2);
+      final s = r.sessions.first;
+      expect(s.date, DateTime.fromMillisecondsSinceEpoch(1709661600 * 1000));
+      expect(s.durationSec, 3600);
+      expect(s.exercises.first.sets.map((e) => e.reps), [10, 8, 6]);
+      expect(s.exercises.first.sets.last.weightKg, 65);
+      expect(s.exercises.last.sets.first.weightKg, 0);
+      expect(r.sessions.last.date, DateTime(2024, 3, 7));
+    });
+
+    test('convierte a kg si el usuario dice que eran libras', () {
+      final r = parseImport(text, isLb: true);
+      expect(r.sessions.first.exercises.first.sets.first.weightKg, closeTo(27.22, 0.05));
+    });
+  });
+
   group('openGym', () {
     test('reconoce el backup y lo parsea', () {
       expect(detectFormat(_openGym), ImportFormat.openGym);
@@ -223,6 +286,18 @@ void main() {
       expect(r.sessions.single.exercises.single.sets.single.weightKg, closeTo(99.79, 0.05));
       expect(r.sessions.single.durationSec, 0);
       expect(r.weights.single.kg, closeTo(81.65, 0.05));
+    });
+
+    test('saca el backup del zip con fotos y vídeos de openGym', () {
+      final data = utf8.encode(_openGym);
+      final zip = ZipEncoder().encode(Archive()
+        ..addFile(ArchiveFile('README.txt', 4, utf8.encode('hola')))
+        ..addFile(ArchiveFile('media/abc.jpg', 3, [1, 2, 3]))
+        ..addFile(ArchiveFile('opengym-backup.json', data.length, data)));
+      final raw = openGymBackupFromZip(zip)!;
+      expect(detectFormat(raw), ImportFormat.openGym);
+      expect(parseImport(raw).sessions.single.exercises.length, 3);
+      expect(openGymBackupFromZip(ZipEncoder().encode(Archive()..addFile(ArchiveFile('weight.csv', 3, [1, 2, 3])))), isNull);
     });
 
     test('no confunde un backup de GymMane con uno de openGym', () {

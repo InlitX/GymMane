@@ -1402,8 +1402,11 @@ class SettingsScreen extends StatelessWidget {
                       ('Hevy', 'workout_data.csv'),
                       ('Strong', 'strong.csv'),
                       ('Lyfta', 'LyftaExport.csv'),
+                      ('Liftosaur', '.csv'),
+                      ('JEFIT', '.csv'),
+                      ('StrongLifts', '.csv'),
                       ('FitNotes', '.fitnotes'),
-                      ('openGym', 'opengym-backup.json'),
+                      ('openGym', '.json · .zip'),
                       ('CSV', ''),
                     ].indexed) ...[
                       if (i > 0) Divider(height: 1, thickness: 1, indent: 16, endIndent: 16, color: gc.border),
@@ -1500,7 +1503,7 @@ class SettingsScreen extends StatelessWidget {
     String? raw;
     try {
       if (bytes.length > 2 && bytes[0] == 0x50 && bytes[1] == 0x4B) {
-        raw = weightCsvFromZip(bytes);
+        raw = openGymBackupFromZip(bytes) ?? weightCsvFromZip(bytes);
         if (raw == null) {
           _snack(context, t.importZipNoWeights);
           return;

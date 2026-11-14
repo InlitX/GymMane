@@ -6,7 +6,7 @@ import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
 import 'ui_kit.dart';
 
-const kImportApps = ['Hevy', 'Strong', 'FitNotes', 'Lyfta', 'openGym', 'CSV'];
+const kImportApps = ['Hevy', 'Strong', 'FitNotes', 'Lyfta', 'Liftosaur', 'JEFIT', 'StrongLifts', 'openGym', 'CSV'];
 
 class ImportCard extends StatelessWidget {
   const ImportCard({super.key, required this.onTap});
@@ -76,10 +76,10 @@ class AppMarquee extends StatefulWidget {
 class _AppMarqueeState extends State<AppMarquee> with SingleTickerProviderStateMixin {
   static const _tile = 104.0;
   static const _gap = 10.0;
-  static const _period = (_tile + _gap) * 6;
+  static final _period = (_tile + _gap) * kImportApps.length;
 
   late final AnimationController _ctrl =
-      AnimationController(vsync: this, duration: const Duration(seconds: 15));
+      AnimationController(vsync: this, duration: Duration(milliseconds: 2500 * kImportApps.length));
 
   @override
   void didChangeDependencies() {
@@ -112,9 +112,13 @@ class _AppMarqueeState extends State<AppMarquee> with SingleTickerProviderStateM
                 height: 46,
                 alignment: Alignment.center,
                 decoration: BoxDecoration(color: gc.bgRaised2, borderRadius: BorderRadius.circular(15)),
-                child: Text(name,
-                    maxLines: 1,
-                    style: AppTheme.f(15, weight: FontWeight.w800, color: gc.text, letterSpacing: -0.2)),
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Text(name,
+                      maxLines: 1,
+                      style: AppTheme.f(15, weight: FontWeight.w800, color: gc.text, letterSpacing: -0.2)),
+                ),
               ),
             ),
       ],
