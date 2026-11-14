@@ -61,7 +61,8 @@ void main() {
 
     test('con historia de más de un año llega hasta el primer entreno', () {
       fit.setHeatmapRange('year');
-      final old = DateTime.now().subtract(const Duration(days: 500));
+      final now = DateTime.now();
+      final old = DateTime(now.year, now.month, now.day - 500, 12);
       fit.sessions.add(LoggedSession(old, 1800, [
         LoggedExercise('x', 'X', 'chest', [LoggedSet(8, 50)]),
       ]));
