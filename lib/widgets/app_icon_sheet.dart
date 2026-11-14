@@ -102,7 +102,6 @@ class _Group extends StatelessWidget {
   final List<AppIconStyle> styles;
   final String current;
 
-  static const _edge = 20.0;
   static const _tile = 84.0;
 
   @override
@@ -115,28 +114,95 @@ class _Group extends StatelessWidget {
           padding: const EdgeInsetsDirectional.only(start: 4, bottom: 12),
           child: SectionLabel(label),
         ),
-        LayoutBuilder(builder: (context, box) {
-          final wide = box.maxWidth + _edge * 2;
-          return SizedBox(
-            height: _tile + 8 + 8 + names + 6,
-            child: OverflowBox(
-              maxWidth: wide,
-              minWidth: wide,
-              child: ListView.separated(
-                scrollDirection: Axis.horizontal,
-                clipBehavior: Clip.none,
-                padding: const EdgeInsetsDirectional.only(start: _edge, end: _edge),
-                itemCount: styles.length,
-                separatorBuilder: (_, _) => const SizedBox(width: 12),
-                itemBuilder: (_, i) => SizedBox(
-                  width: _tile + 8,
-                  child: _Tile(style: styles[i], on: styles[i].id == current),
-                ),
-              ),
+        SizedBox(
+          height: _tile + 8 + 8 + names + 6,
+          child: _FadedStrip(
+            itemCount: styles.length,
+            itemBuilder: (_, i) => SizedBox(
+              width: _tile + 8,
+              child: _Tile(style: styles[i], on: styles[i].id == current),
             ),
-          );
-        }),
+          ),
+        ),
       ],
+    );
+  }
+}
+
+class _FadedStrip extends StatefulWidget {
+  const _FadedStrip({required this.itemCount, required this.itemBuilder});
+
+  final int itemCount;
+  final IndexedWidgetBuilder itemBuilder;
+
+  @override
+  State<_FadedStrip> createState() => _FadedStripState();
+}
+
+class _FadedStripState extends State<_FadedStrip> {
+  static const _fade = 22.0;
+  final _scroll = ScrollController();
+  double _start = 0;
+  double _end = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _scroll.addListener(_update);
+    WidgetsBinding.instance.addPostFrameCallback((_) => _update());
+  }
+
+  @override
+  void dispose() {
+    _scroll.dispose();
+    super.dispose();
+  }
+
+  void _update() {
+    if (!mounted || !_scroll.hasClients) return;
+    final p = _scroll.position;
+    final start = (p.pixels / _fade).clamp(0.0, 1.0);
+    final end = ((p.maxScrollExtent - p.pixels) / _fade).clamp(0.0, 1.0);
+    if (start == _start && end == _end) return;
+    setState(() {
+      _start = start;
+      _end = end;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final rtl = Directionality.of(context) == TextDirection.rtl;
+    return ShaderMask(
+      blendMode: BlendMode.dstIn,
+      shaderCallback: (rect) {
+        final edge = (_fade / rect.width).clamp(0.0, 0.5);
+        final left = rtl ? _end : _start;
+        final right = rtl ? _start : _end;
+        return LinearGradient(
+          colors: [
+            Colors.white.withValues(alpha: 1 - left),
+            Colors.white,
+            Colors.white,
+            Colors.white.withValues(alpha: 1 - right),
+          ],
+          stops: [0, edge, 1 - edge, 1],
+        ).createShader(rect);
+      },
+      child: NotificationListener<ScrollMetricsNotification>(
+        onNotification: (_) {
+          _update();
+          return false;
+        },
+        child: ListView.separated(
+          controller: _scroll,
+          scrollDirection: Axis.horizontal,
+          padding: const EdgeInsetsDirectional.only(end: 6),
+          itemCount: widget.itemCount,
+          separatorBuilder: (_, _) => const SizedBox(width: 12),
+          itemBuilder: widget.itemBuilder,
+        ),
+      ),
     );
   }
 }
