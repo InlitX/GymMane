@@ -60,6 +60,7 @@ mixin SettingsState on FitCore, ToolsState, LibraryState {
   bool muscleTune = true;
 
   bool voiceCoach = false;
+  bool nfcTag = false;
   int deloadEvery = 0;
   DateTime? deloadFrom;
   static const deloadChoices = [0, 4, 5, 6, 8];
@@ -85,6 +86,13 @@ mixin SettingsState on FitCore, ToolsState, LibraryState {
     if (!deloadChoices.contains(weeks) || weeks == deloadEvery) return;
     deloadEvery = weeks;
     deloadFrom = weeks > 0 ? DateTime.now() : null;
+    _persist();
+    notifyListeners();
+  }
+
+  void setNfcTag(bool on) {
+    if (nfcTag == on) return;
+    nfcTag = on;
     _persist();
     notifyListeners();
   }

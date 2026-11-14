@@ -48,6 +48,7 @@ import '../services/supplement_reminder.dart';
 import '../state/fit_state.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
+import '../widgets/nfc_sheet.dart';
 import '../widgets/app_background.dart';
 import '../widgets/award_celebration.dart';
 import '../widgets/dialogs.dart';
@@ -144,6 +145,10 @@ class _AppShellState extends State<AppShell> with WidgetsBindingObserver, Single
   }
 
   void _openFromWidget(String route) {
+    if (route == 'nfc/today') {
+      if (mounted) openTodayFromTag(context);
+      return;
+    }
     if (!mounted || !fit.onboarded || fit.isSessionActive) return;
     if (route == 'play') {
       playWorkout(context);

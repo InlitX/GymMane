@@ -29,6 +29,10 @@ import '../services/workout_import.dart';
 import '../state/fit_state.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
+import '../services/app_icon.dart';
+import '../services/nfc_tags.dart';
+import '../widgets/app_icon_sheet.dart';
+import '../widgets/nfc_sheet.dart';
 import '../widgets/auto_backup_sheet.dart';
 import '../widgets/body_rulers.dart';
 import '../widgets/dialogs.dart';
@@ -212,6 +216,24 @@ class SettingsScreen extends StatelessWidget {
                       ]),
                     ),
                   ),
+                  if (AppIcon.available)
+                    GestureDetector(
+                      behavior: HitTestBehavior.opaque,
+                      onTap: () => showAppIconSheet(context),
+                      child: _prefRow(
+                        gc,
+                        PhosphorIconsRegular.appWindow,
+                        t.appIcon,
+                        Row(mainAxisSize: MainAxisSize.min, children: [
+                          ValueListenableBuilder<String>(
+                            valueListenable: AppIcon.current,
+                            builder: (_, _, _) => AppIconThumb(AppIcon.style, size: 26),
+                          ),
+                          const SizedBox(width: 8),
+                          Icon(PhosphorIconsRegular.caretRight, size: 15, color: gc.textTertiary),
+                        ]),
+                      ),
+                    ),
 
             GestureDetector(
               behavior: HitTestBehavior.opaque,
@@ -464,6 +486,23 @@ class SettingsScreen extends StatelessWidget {
                         hint: t.voiceSettingHint,
                         badge: BetaTag(t.sectionBeta, small: true)),
                   ),
+                  if (NfcTags.available)
+                    GestureDetector(
+                      behavior: HitTestBehavior.opaque,
+                      onTap: () => showNfcSheet(context),
+                      child: _prefRow(
+                        gc,
+                        PhosphorIconsRegular.contactlessPayment,
+                        t.nfcRow,
+                        Row(mainAxisSize: MainAxisSize.min, children: [
+                          Text(fit.nfcTag ? t.nfcOn : t.nfcOff,
+                              style: AppTheme.f(13, weight: FontWeight.w600, color: gc.textSecondary)),
+                          const SizedBox(width: 6),
+                          Icon(PhosphorIconsRegular.caretRight, size: 15, color: gc.textTertiary),
+                        ]),
+                        hint: t.nfcRowHint,
+                      ),
+                    ),
           ]),
           _subhead(gc, t.routines),
           _card(gc, [
@@ -840,6 +879,7 @@ class SettingsScreen extends StatelessWidget {
         (t.heatRangeSetting, PhosphorIconsRegular.calendarDots),
         (t.heatmapLabelsSetting, PhosphorIconsRegular.gridNine),
         (t.background, PhosphorIconsRegular.image),
+        if (AppIcon.available) (t.appIcon, PhosphorIconsRegular.appWindow),
         (t.perfSetting, PhosphorIconsRegular.lightning),
         (t.textSizeSetting, PhosphorIconsRegular.textAa),
       ]),
@@ -853,6 +893,7 @@ class SettingsScreen extends StatelessWidget {
         (t.autoProgressSetting, PhosphorIconsRegular.trendUp),
         (t.deloadSetting, PhosphorIconsRegular.feather),
         (t.voiceSetting, PhosphorIconsRegular.waveform),
+        if (NfcTags.available) (t.nfcRow, PhosphorIconsRegular.contactlessPayment),
         (t.autoAdvance, PhosphorIconsRegular.skipForward),
         (t.countdownSetting, PhosphorIconsRegular.timer),
         (t.keepScreenOn, PhosphorIconsRegular.sun),
