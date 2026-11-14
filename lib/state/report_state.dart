@@ -4,6 +4,8 @@ typedef ReportLift = ({String id, String name, int sessions, int sets, double vo
 typedef ReportRecord = ({String id, String name, double kg, DateTime date});
 typedef ReportFood = ({int days, double kcal, double protein, double carbs, double fat, int waterMl});
 
+enum ReportSection { workouts, nutrition, supplements, weighIns, sessions }
+
 class RangeReport {
   RangeReport({
     required this.from,
@@ -172,14 +174,110 @@ mixin ReportState on FitCore, ToolsState, LibraryState, SettingsState, TimelineS
   }
 
   String reportWorkoutsCsv(RangeReport r) {
+    return Store.instance.exportCsv(_reportSessions(r).toList());
+  }
+
+  bool _inReport(RangeReport r, DateTime date) {
+    final day = _dayKey(date);
+    return !day.isBefore(r.from) && !day.isAfter(r.to);
+  }
+
+  Iterable<LoggedSession> _reportSessions(RangeReport r) {
     final end = shiftDays(r.to, 1);
-    return Store.instance
-        .exportCsv([for (final s in sessions) if (!s.day.isBefore(r.from) && s.day.isBefore(end)) s]);
+    return sessions.where((s) => !s.day.isBefore(r.from) && s.day.isBefore(end));
+  }
+
+  Iterable<DateTime> _reportDates(RangeReport r) sync* {
+    for (var d = r.from; !d.isAfter(r.to); d = shiftDays(d, 1)) {
+      yield d;
+    }
+  }
+
+  Set<ReportSection> reportCsvSections(RangeReport r) {
+    final names = _supplementNames;
+    return {
+      if (_reportSessions(r).any((s) => s.exercises.any((e) => e.sets.isNotEmpty))) ReportSection.workouts,
+      if (nutritionBeta && (r.food != null || _reportDates(r).any((d) => waterOn(d) != 0)))
+        ReportSection.nutrition,
+      if (_reportDates(r).any((d) => takenOn(d).any(names.containsKey))) ReportSection.supplements,
+      if (r.weightFrom != null) ReportSection.weighIns,
+      if (r.sessions > 0) ReportSection.sessions,
+    };
+  }
+
+  String reportSectionCsv(RangeReport r, ReportSection section) => switch (section) {
+    ReportSection.workouts => reportWorkoutsCsv(r),
+    ReportSection.nutrition => reportNutritionCsv(r),
+    ReportSection.supplements => _reportSupplementsCsv(r),
+    ReportSection.weighIns => _reportWeighInsCsv(r),
+    ReportSection.sessions => _reportSessionsCsv(r),
+  };
+
+  Map<String, String> get _supplementNames => {for (final s in supplements) s.id: s.name};
+
+  String _reportSupplementsCsv(RangeReport r) {
+    final names = _supplementNames;
+    return _reportCsv('date,supplement', [
+      for (final day in _reportDates(r))
+        for (final id in takenOn(day))
+          if (names[id] case final name?) [NutritionState._dk(day), name],
+    ]);
+  }
+
+  String _reportWeighInsCsv(RangeReport r) {
+    final weights = bodyweight.where((w) => _inReport(r, w.date)).toList()
+      ..sort((a, b) => a.date.compareTo(b.date));
+    return _reportCsv('date,recorded_at,weight_kg', [
+      for (final w in weights) [NutritionState._dk(w.date), w.date.toIso8601String(), w.kg],
+    ]);
+  }
+
+  String _reportSessionsCsv(RangeReport r) {
+    final picked = _reportSessions(r).toList()..sort((a, b) => a.date.compareTo(b.date));
+    return _reportCsv(
+      'date,started_at,ended_at,name,duration_s,exercises,working_sets,volume_kg,'
+      'hr_avg_bpm,hr_max_bpm,sleep_rating_1_5,energy_rating_1_5,deload',
+      [
+        for (final s in picked)
+          [
+            NutritionState._dk(s.day),
+            s.day.toIso8601String(),
+            s.date.toIso8601String(),
+            sessionTitle(s),
+            s.durationSec,
+            s.exercises.length,
+            s.setCount,
+            s.volume,
+            s.hrAvg,
+            s.hrMax,
+            s.sleep,
+            s.energy,
+            s.deload,
+          ],
+      ],
+    );
+  }
+
+  static final _csvFormula = RegExp(r'^\s*[=+@-]|^[\t\r\n]');
+  static final _csvQuoted = RegExp(r'[",\r\n]');
+
+  static String _reportCsv(String header, Iterable<List<Object?>> rows) {
+    String cell(Object? value) {
+      var text = value?.toString() ?? '';
+      if (value is String && _csvFormula.hasMatch(text)) text = "'$text";
+      return _csvQuoted.hasMatch(text) ? '"${text.replaceAll('"', '""')}"' : text;
+    }
+
+    final csv = StringBuffer()..writeln(header);
+    for (final row in rows) {
+      csv.writeln(row.map(cell).join(','));
+    }
+    return csv.toString();
   }
 
   String reportNutritionCsv(RangeReport r) {
     final rows = StringBuffer('date,kcal,protein_g,carbs_g,fat_g,fiber_g,water_ml,foods\n');
-    for (var d = r.from; !d.isAfter(r.to); d = shiftDays(d, 1)) {
+    for (final d in _reportDates(r)) {
       final list = entriesOn(d);
       final water = waterOn(d);
       if (list.isEmpty && water == 0) continue;

@@ -6422,6 +6422,15 @@ class AppLocalizationsTr extends AppLocalizations {
   String get reportShareCsv => 'CSV dışa aktar';
 
   @override
+  String get reportChooseCsv => 'Choose which CSV files to share.';
+
+  @override
+  String get reportWeighIns => 'Weigh-ins';
+
+  @override
+  String get reportSessionDetails => 'Workout session details';
+
+  @override
   String get reportShareCsvBoth => 'CSV dışa aktar (antrenmanlar ve beslenme)';
 
   @override

@@ -6435,6 +6435,15 @@ class AppLocalizationsPt extends AppLocalizations {
   String get reportShareCsv => 'Exportar CSV';
 
   @override
+  String get reportChooseCsv => 'Choose which CSV files to share.';
+
+  @override
+  String get reportWeighIns => 'Weigh-ins';
+
+  @override
+  String get reportSessionDetails => 'Workout session details';
+
+  @override
   String get reportShareCsvBoth => 'Exportar CSV (treinos e nutrição)';
 
   @override

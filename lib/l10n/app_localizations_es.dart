@@ -6442,6 +6442,15 @@ class AppLocalizationsEs extends AppLocalizations {
   String get reportShareCsv => 'Exportar CSV';
 
   @override
+  String get reportChooseCsv => 'Elige qué archivos CSV compartir.';
+
+  @override
+  String get reportWeighIns => 'Registros de peso';
+
+  @override
+  String get reportSessionDetails => 'Detalles de las sesiones';
+
+  @override
   String get reportShareCsvBoth => 'Exportar CSV (entrenos y nutrición)';
 
   @override

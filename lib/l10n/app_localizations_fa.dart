@@ -6361,6 +6361,15 @@ class AppLocalizationsFa extends AppLocalizations {
   String get reportShareCsv => 'خروجی CSV';
 
   @override
+  String get reportChooseCsv => 'Choose which CSV files to share.';
+
+  @override
+  String get reportWeighIns => 'Weigh-ins';
+
+  @override
+  String get reportSessionDetails => 'Workout session details';
+
+  @override
   String get reportShareCsvBoth => 'خروجی CSV (تمرین‌ها و تغذیه)';
 
   @override

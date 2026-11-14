@@ -6218,6 +6218,15 @@ class AppLocalizationsJa extends AppLocalizations {
   String get reportShareCsv => 'CSVを書き出す';
 
   @override
+  String get reportChooseCsv => 'Choose which CSV files to share.';
+
+  @override
+  String get reportWeighIns => 'Weigh-ins';
+
+  @override
+  String get reportSessionDetails => 'Workout session details';
+
+  @override
   String get reportShareCsvBoth => 'CSVを書き出す（トレーニングと栄養）';
 
   @override

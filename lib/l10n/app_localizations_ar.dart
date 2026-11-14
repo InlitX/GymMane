@@ -6460,6 +6460,15 @@ class AppLocalizationsAr extends AppLocalizations {
   String get reportShareCsv => 'تصدير CSV';
 
   @override
+  String get reportChooseCsv => 'Choose which CSV files to share.';
+
+  @override
+  String get reportWeighIns => 'Weigh-ins';
+
+  @override
+  String get reportSessionDetails => 'Workout session details';
+
+  @override
   String get reportShareCsvBoth => 'تصدير CSV (التمارين والتغذية)';
 
   @override

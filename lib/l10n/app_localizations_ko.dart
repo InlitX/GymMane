@@ -6229,6 +6229,15 @@ class AppLocalizationsKo extends AppLocalizations {
   String get reportShareCsv => 'CSV 내보내기';
 
   @override
+  String get reportChooseCsv => 'Choose which CSV files to share.';
+
+  @override
+  String get reportWeighIns => 'Weigh-ins';
+
+  @override
+  String get reportSessionDetails => 'Workout session details';
+
+  @override
   String get reportShareCsvBoth => 'CSV 내보내기 (운동과 영양)';
 
   @override

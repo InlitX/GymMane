@@ -11378,6 +11378,24 @@ abstract class AppLocalizations {
   /// **'Export CSV'**
   String get reportShareCsv;
 
+  /// No description provided for @reportChooseCsv.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose which CSV files to share.'**
+  String get reportChooseCsv;
+
+  /// No description provided for @reportWeighIns.
+  ///
+  /// In en, this message translates to:
+  /// **'Weigh-ins'**
+  String get reportWeighIns;
+
+  /// No description provided for @reportSessionDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Workout session details'**
+  String get reportSessionDetails;
+
   /// No description provided for @reportShareCsvBoth.
   ///
   /// In en, this message translates to:

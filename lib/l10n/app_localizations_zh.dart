@@ -6162,6 +6162,15 @@ class AppLocalizationsZh extends AppLocalizations {
   String get reportShareCsv => '导出 CSV';
 
   @override
+  String get reportChooseCsv => 'Choose which CSV files to share.';
+
+  @override
+  String get reportWeighIns => 'Weigh-ins';
+
+  @override
+  String get reportSessionDetails => 'Workout session details';
+
+  @override
   String get reportShareCsvBoth => '导出 CSV（训练与营养）';
 
   @override

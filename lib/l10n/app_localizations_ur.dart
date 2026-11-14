@@ -6366,6 +6366,15 @@ class AppLocalizationsUr extends AppLocalizations {
   String get reportShareCsv => 'CSV ایکسپورٹ کرو';
 
   @override
+  String get reportChooseCsv => 'Choose which CSV files to share.';
+
+  @override
+  String get reportWeighIns => 'Weigh-ins';
+
+  @override
+  String get reportSessionDetails => 'Workout session details';
+
+  @override
   String get reportShareCsvBoth => 'CSV ایکسپورٹ کرو (ورزشیں اور غذائیت)';
 
   @override

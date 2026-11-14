@@ -6632,6 +6632,15 @@ class AppLocalizationsRu extends AppLocalizations {
   String get reportShareCsv => 'Экспорт CSV';
 
   @override
+  String get reportChooseCsv => 'Choose which CSV files to share.';
+
+  @override
+  String get reportWeighIns => 'Weigh-ins';
+
+  @override
+  String get reportSessionDetails => 'Workout session details';
+
+  @override
   String get reportShareCsvBoth => 'Экспорт CSV (тренировки и питание)';
 
   @override

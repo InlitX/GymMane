@@ -15,3 +15,6 @@ groupMoveDown
 routineExerciseNote
 importRoutineNotes
 routineNotesAdded
+reportChooseCsv
+reportWeighIns
+reportSessionDetails
