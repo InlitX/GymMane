@@ -61,6 +61,28 @@ void main() {
     expect(fit.toJson().containsKey('collapsedGroups'), isFalse);
   });
 
+  test('un grupo nuevo no hace desaparecer el anterior aunque se quede vacío', () {
+    routineIn('Otra', 'Legs');
+    final ppl = routineIn('PPL', 'Push');
+    fit.setRoutineGroup(ppl, 'Pull');
+    expect(fit.routineGroups, ['Legs', 'Push', 'Pull']);
+    expect(fit.routinesInGroup('Push'), isEmpty);
+    fit.moveGroup('Push', -1);
+    expect(fit.routineGroups, ['Push', 'Legs', 'Pull']);
+    fit.persistNow();
+    fit.loadFromStore();
+    expect(fit.routineGroups, ['Push', 'Legs', 'Pull']);
+    fit.renameGroup('Push', 'Empuje');
+    expect(fit.routineGroups, ['Empuje', 'Legs', 'Pull']);
+    fit.renameGroup('Empuje', '');
+    expect(fit.routineGroups, ['Legs', 'Pull']);
+    fit.setRoutineGroup(ppl, 'Push');
+    fit.deleteGroup('Pull');
+    expect(fit.routineGroups, ['Legs', 'Push']);
+    fit.deleteRoutine(ppl);
+    expect(fit.routineGroups, ['Legs', 'Push']);
+  });
+
   test('borrar el grupo borra sus rutinas, su plan y nada más', () {
     final a = routineIn('A', '5x5');
     routineIn('B', '5x5');
