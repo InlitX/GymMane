@@ -62,6 +62,19 @@ void main() {
     }
   });
 
+  test('a name copied with its translation in brackets maps to the same exercise', () {
+    const copied = {
+      'Dumbbell Fly (Aperturas con mancuernas)': 'Dumbbell Fly',
+      'Barbell Deadlift (Peso muerto con barra)': 'Barbell Deadlift',
+      'Cable Pulldown (Jalón al pecho en polea)': 'Cable Pulldown',
+      'Scapular Pull-up (Dominadas escapulares)': 'Scapular Pull-up',
+      'Cable Pull Through (With Rope) (Pull through en polea con cuerda)': 'Cable Pull Through (With Rope)',
+    };
+    for (final entry in copied.entries) {
+      expect(matchExercise(entry.key, kExercises)?.name, entry.value, reason: entry.key);
+    }
+  });
+
   test('a half-typed name still narrows down to the exercise', () {
     expect(_search('lat pulld').map((e) => e.name), contains('Cable Pulldown'));
     expect(_search('db bench').map((e) => e.name), contains('Dumbbell Bench Press'));

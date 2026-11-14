@@ -163,7 +163,23 @@ String? guessMuscle(String name) {
   return null;
 }
 
+final _labelled = RegExp(r'^(.+?)\s*\(([^()]+)\)\s*$');
+
 Exercise? matchExercise(String name, Iterable<Exercise> pool) {
+  final whole = _matchExact(name, pool);
+  if (whole != null) return whole;
+  final parts = _labelled.firstMatch(name.trim());
+  if (parts != null) {
+    final outer = parts.group(1)!, inner = parts.group(2)!;
+    final hit = _matchExact(outer, pool) ?? _matchExact(inner, pool);
+    if (hit != null) return hit;
+  }
+  final loose = _matchLoose(name, pool);
+  if (loose != null || parts == null) return loose;
+  return matchExercise(parts.group(1)!, pool) ?? matchExercise(parts.group(2)!, pool);
+}
+
+Exercise? _matchExact(String name, Iterable<Exercise> pool) {
   final key = searchKey(name);
   if (key.isEmpty) return null;
 
@@ -187,7 +203,12 @@ Exercise? matchExercise(String name, Iterable<Exercise> pool) {
     final label = exerciseName(e);
     if (label != e.name && _keyOf(label) == key) return e;
   }
+  return null;
+}
 
+Exercise? _matchLoose(String name, Iterable<Exercise> pool) {
+  final key = searchKey(name);
+  if (key.isEmpty) return null;
   final q = key.split(' ').toSet();
   final qMeaning = q.difference(_equipment);
   if (qMeaning.isEmpty) return null;
