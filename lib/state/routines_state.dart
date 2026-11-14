@@ -133,6 +133,17 @@ mixin RoutinesState on FitCore, LibraryState {
 
   final Set<String> collapsedGroups = {};
 
+  final List<String> groupNames = [];
+
+  void _syncGroupNames() {
+    final order = routineGroups;
+    final rest = [for (final g in groupNames) if (!order.contains(g)) g];
+    groupNames
+      ..clear()
+      ..addAll(order)
+      ..addAll(rest);
+  }
+
   void toggleGroupCollapsed(String group) {
     if (!collapsedGroups.remove(group)) collapsedGroups.add(group);
     _persist();
@@ -145,6 +156,11 @@ mixin RoutinesState on FitCore, LibraryState {
     final to = from + by;
     if (from < 0 || to < 0 || to >= order.length) return;
     order.insert(to, order.removeAt(from));
+    final hidden = [for (final g in groupNames) if (!order.contains(g)) g];
+    groupNames
+      ..clear()
+      ..addAll(order)
+      ..addAll(hidden);
     final rank = {for (var i = 0; i < order.length; i++) order[i]: i};
     final grouped = [for (final r in routines) if (rank.containsKey(r.group)) r]
       ..sort((a, b) => rank[a.group]!.compareTo(rank[b.group]!));
@@ -541,6 +557,20 @@ mixin RoutinesState on FitCore, LibraryState {
     for (final r in activeRoutines) {
       if (r.group.isNotEmpty && !out.contains(r.group)) out.add(r.group);
     }
+    final used = {for (final r in routines) r.group};
+    for (var i = 0; i < groupNames.length; i++) {
+      final g = groupNames[i];
+      if (g.isEmpty || used.contains(g) || out.contains(g)) continue;
+      var at = 0;
+      for (var k = i - 1; k >= 0; k--) {
+        final p = out.indexOf(groupNames[k]);
+        if (p >= 0) {
+          at = p + 1;
+          break;
+        }
+      }
+      out.insert(at, g);
+    }
     return out;
   }
 
@@ -550,7 +580,9 @@ mixin RoutinesState on FitCore, LibraryState {
   void setRoutineGroup(String id, String group) {
     final r = _routine(id);
     if (r == null) return;
+    _syncGroupNames();
     r.group = group.trim();
+    if (r.group.isNotEmpty && !groupNames.contains(r.group)) groupNames.add(r.group);
     _persist();
     notifyListeners();
   }
@@ -585,6 +617,13 @@ mixin RoutinesState on FitCore, LibraryState {
 
   void renameGroup(String from, String to) {
     final name = to.trim();
+    _syncGroupNames();
+    final at = groupNames.indexOf(from);
+    if (name.isEmpty || groupNames.contains(name)) {
+      groupNames.remove(from);
+    } else if (at >= 0) {
+      groupNames[at] = name;
+    }
     for (final r in routines) {
       if (r.group == from) r.group = name;
     }
@@ -594,6 +633,8 @@ mixin RoutinesState on FitCore, LibraryState {
   }
 
   void deleteGroup(String group) {
+    _syncGroupNames();
+    groupNames.remove(group);
     for (final id in [for (final r in routinesInGroup(group)) r.id]) {
       _dropRoutine(id);
     }
@@ -602,6 +643,7 @@ mixin RoutinesState on FitCore, LibraryState {
   }
 
   void deleteRoutine(String id) {
+    _syncGroupNames();
     _dropRoutine(id);
     _persist();
     notifyListeners();
