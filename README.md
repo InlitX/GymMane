@@ -120,7 +120,7 @@ Tap the muscles you want to train, log your sets and watch your numbers go up.
 - Use **your own photo, GIF or video** for any exercise
 - **Places**: tell it your kit and it only suggests what fits
 - A **training journal** with photos and video
-- Six **calculators** and five **widgets**
+- Twelve **calculators**, five **widgets** and an **NFC sticker** that opens today's workout
 
 </td>
 <td width="50%" valign="top">
@@ -128,7 +128,7 @@ Tap the muscles you want to train, log your sets and watch your numbers go up.
 ### Your data
 
 - **CSV** export and a full **ZIP backup**
-- Import from **Hevy**, **Strong**, **Lyfta**, **FitNotes** or **openGym**
+- Import from **Hevy**, **Strong**, **Lyfta**, **Liftosaur**, **JEFIT**, **StrongLifts**, **FitNotes** or **openGym**
 - **Health Connect** in and out, and workouts to **Strava** as a `.fit` file
 - No account, no ads, no analytics, no **internet permission**
 - **22 languages**, light and dark, kg or lb
