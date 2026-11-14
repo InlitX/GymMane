@@ -14,15 +14,17 @@ Future<Uint8List> buildReportPdf(RangeReport r, {DateTime? now}) async {
       kicker: t.reportKicker);
 }
 
-Future<void> shareReport(RangeReport r, {required bool pdf, required bool csv}) async {
+Future<void> shareReport(RangeReport r, {bool pdf = false, Set<ReportSection> csv = const {}}) async {
   try {
     final stamp = '${_isoDay(r.from)}_${_isoDay(r.to)}';
     final files = <ShareItem>[
       if (pdf) ShareItem('gymmane-report-$stamp.pdf', await buildReportPdf(r), mime: 'application/pdf'),
-      if (csv && r.sessions > 0)
-        ShareItem('gymmane-workouts-$stamp.csv', utf8Bytes(fit.reportWorkoutsCsv(r)), mime: 'text/csv'),
-      if (csv && r.food != null)
-        ShareItem('gymmane-nutrition-$stamp.csv', utf8Bytes(fit.reportNutritionCsv(r)), mime: 'text/csv'),
+      for (final section in csv)
+        ShareItem(
+          'gymmane-${section == ReportSection.weighIns ? 'weigh-ins' : section.name}-$stamp.csv',
+          utf8Bytes(fit.reportSectionCsv(r, section)),
+          mime: 'text/csv',
+        ),
     ];
     await shareFiles(files, subject: '${sentenceCase(t.reportKicker)} · ${reportRangeLabel(r)}');
   } catch (_) {}

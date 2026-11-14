@@ -9512,6 +9512,24 @@ abstract class AppLocalizations {
   /// **'Add as a copy'**
   String get importAsCopy;
 
+  /// No description provided for @routineExerciseNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Routine note'**
+  String get routineExerciseNote;
+
+  /// No description provided for @importRoutineNotes.
+  ///
+  /// In en, this message translates to:
+  /// **'Add missing routine notes'**
+  String get importRoutineNotes;
+
+  /// No description provided for @routineNotesAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'Routine notes added'**
+  String get routineNotesAdded;
+
   /// No description provided for @importOwned.
   ///
   /// In en, this message translates to:
@@ -11360,23 +11378,11 @@ abstract class AppLocalizations {
   /// **'Export CSV'**
   String get reportShareCsv;
 
-  /// No description provided for @reportExportZip.
+  /// No description provided for @reportChooseCsv.
   ///
   /// In en, this message translates to:
-  /// **'Export report ZIP'**
-  String get reportExportZip;
-
-  /// No description provided for @reportSummaryEmpty.
-  ///
-  /// In en, this message translates to:
-  /// **'No workouts, food, or weigh-ins to summarize for these dates.'**
-  String get reportSummaryEmpty;
-
-  /// No description provided for @reportZipHint.
-  ///
-  /// In en, this message translates to:
-  /// **'Choose what to include. Missing steps or synced sleep are left blank.'**
-  String get reportZipHint;
+  /// **'Choose which CSV files to share.'**
+  String get reportChooseCsv;
 
   /// No description provided for @reportWeighIns.
   ///
@@ -11384,23 +11390,11 @@ abstract class AppLocalizations {
   /// **'Weigh-ins'**
   String get reportWeighIns;
 
-  /// No description provided for @reportSyncedSleep.
-  ///
-  /// In en, this message translates to:
-  /// **'Synced sleep'**
-  String get reportSyncedSleep;
-
   /// No description provided for @reportSessionDetails.
   ///
   /// In en, this message translates to:
   /// **'Workout session details'**
   String get reportSessionDetails;
-
-  /// No description provided for @reportZipFailed.
-  ///
-  /// In en, this message translates to:
-  /// **'Could not export the report ZIP.'**
-  String get reportZipFailed;
 
   /// No description provided for @reportShareCsvBoth.
   ///

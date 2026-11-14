@@ -1086,7 +1086,7 @@ class PrimaryButton extends StatelessWidget {
     this.icon,
   });
   final String label;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
   final Color? bg;
   final Color? fg;
   final double height;

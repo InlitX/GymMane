@@ -5314,6 +5314,15 @@ class AppLocalizationsFa extends AppLocalizations {
   String get importAsCopy => 'افزودن به‌عنوان کپی';
 
   @override
+  String get routineExerciseNote => 'Routine note';
+
+  @override
+  String get importRoutineNotes => 'Add missing routine notes';
+
+  @override
+  String get routineNotesAdded => 'Routine notes added';
+
+  @override
   String get importOwned => 'دارید';
 
   @override
@@ -6352,25 +6361,13 @@ class AppLocalizationsFa extends AppLocalizations {
   String get reportShareCsv => 'خروجی CSV';
 
   @override
-  String get reportExportZip => 'Export report ZIP';
-
-  @override
-  String get reportSummaryEmpty => 'No workouts, food, or weigh-ins to summarize for these dates.';
-
-  @override
-  String get reportZipHint => 'Choose what to include. Missing steps or synced sleep are left blank.';
+  String get reportChooseCsv => 'Choose which CSV files to share.';
 
   @override
   String get reportWeighIns => 'Weigh-ins';
 
   @override
-  String get reportSyncedSleep => 'Synced sleep';
-
-  @override
   String get reportSessionDetails => 'Workout session details';
-
-  @override
-  String get reportZipFailed => 'Could not export the report ZIP.';
 
   @override
   String get reportShareCsvBoth => 'خروجی CSV (تمرین‌ها و تغذیه)';

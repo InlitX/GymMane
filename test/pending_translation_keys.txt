@@ -12,10 +12,9 @@ sidesReps
 progSchemeTitle
 groupMoveUp
 groupMoveDown
-reportExportZip
-reportSummaryEmpty
-reportZipHint
+routineExerciseNote
+importRoutineNotes
+routineNotesAdded
+reportChooseCsv
 reportWeighIns
-reportSyncedSleep
 reportSessionDetails
-reportZipFailed

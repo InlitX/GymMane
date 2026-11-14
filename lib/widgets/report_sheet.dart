@@ -4,12 +4,10 @@ import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 import '../l10n/l10n.dart';
 import '../services/plan_pdf.dart';
-import '../services/report_zip.dart';
 import '../state/fit_state.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
 import 'glass.dart';
-import 'liquid_notch.dart';
 import 'ui_kit.dart';
 
 void showReportSheet(BuildContext context) {
@@ -63,28 +61,21 @@ class _ReportSheetState extends State<ReportSheet> {
     });
   }
 
-  Future<void> _share({required bool pdf}) async {
-    if (_busy) return;
-    setState(() => _busy = true);
-    HapticFeedback.mediumImpact();
-    await shareReport(fit.rangeReport(_range.start, _range.end), pdf: pdf, csv: !pdf);
-    if (mounted) setState(() => _busy = false);
-  }
-
-  Future<void> _shareZip(RangeReport report) async {
+  Future<void> _share(RangeReport report, {bool pdf = false, Set<ReportSection> csv = const {}}) async {
     if (_busy) return;
     setState(() => _busy = true);
     try {
-      final sections = await showAppSheet<Set<ReportSection>>(
-        context: context,
-        isScrollControlled: true,
-        backgroundColor: Colors.transparent,
-        builder: (_) => _ReportZipSheet(report: report),
-      );
-      if (!mounted || sections == null) return;
-      await shareReportZip(report, sections);
-    } catch (_) {
-      if (mounted) showNotchToast(context, t.reportZipFailed);
+      HapticFeedback.mediumImpact();
+      final selected = !pdf && csv.length > 1
+          ? await showAppSheet<Set<ReportSection>>(
+              context: context,
+              isScrollControlled: true,
+              backgroundColor: Colors.transparent,
+              builder: (_) => _ReportCsvSheet(report: report, sections: csv),
+            )
+          : csv;
+      if (!mounted || selected == null) return;
+      await shareReport(report, pdf: pdf, csv: selected);
     } finally {
       if (mounted) setState(() => _busy = false);
     }
@@ -119,6 +110,7 @@ class _ReportSheetState extends State<ReportSheet> {
           ]),
         );
     final food = r.food;
+    final sections = fit.reportCsvSections(r);
     return Container(
       padding: sheetPad(context),
       constraints: BoxConstraints(maxHeight: MediaQuery.sizeOf(context).height * 0.88),
@@ -127,7 +119,7 @@ class _ReportSheetState extends State<ReportSheet> {
         child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.stretch, children: [
           const SheetHandle(),
           const SizedBox(height: 16),
-          SheetTitle(t.reportTitle, subtitle: t.reportPickRange),
+          SheetTitle(t.reportTitle, subtitle: t.reportHint),
           const SizedBox(height: 16),
           Center(
             child: SegToggle([
@@ -165,13 +157,13 @@ class _ReportSheetState extends State<ReportSheet> {
             ),
           ),
           const SizedBox(height: 12),
-          if (r.empty)
+          if (r.empty && sections.isEmpty)
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 18),
-              child: Text(t.reportSummaryEmpty,
+              child: Text(t.reportEmpty,
                   textAlign: TextAlign.center, style: AppTheme.s(13, color: gc.textSecondary, height: 1.4)),
             )
-          else ...[
+          else if (!r.empty) ...[
             Row(children: [
               stat(t.reportWorkouts, '${r.sessions}'),
               const SizedBox(width: 8),
@@ -195,21 +187,17 @@ class _ReportSheetState extends State<ReportSheet> {
             AnimatedOpacity(
               duration: const Duration(milliseconds: 160),
               opacity: _busy ? 0.5 : 1,
-              child: PrimaryButton(label: t.reportSharePdf, height: 52, onTap: () => _share(pdf: true)),
-            ),
-            const SizedBox(height: 10),
-            GhostButton(
-              label: food != null && r.sessions > 0 ? t.reportShareCsvBoth : t.reportShareCsv,
-              icon: PhosphorIconsRegular.fileCsv,
-              onTap: () => _share(pdf: false),
+              child: PrimaryButton(label: t.reportSharePdf, height: 52, onTap: () => _share(r, pdf: true)),
             ),
           ],
-          const SizedBox(height: 10),
-          GhostButton(
-            label: t.reportExportZip,
-            icon: PhosphorIconsRegular.fileZip,
-            onTap: () => _shareZip(r),
-          ),
+          if (sections.isNotEmpty) ...[
+            const SizedBox(height: 10),
+            GhostButton(
+              label: t.reportShareCsv,
+              icon: PhosphorIconsRegular.fileCsv,
+              onTap: () => _share(r, csv: sections),
+            ),
+          ],
           const SizedBox(height: 4),
         ]),
       ),
@@ -217,79 +205,60 @@ class _ReportSheetState extends State<ReportSheet> {
   }
 }
 
-class _ReportZipSheet extends StatefulWidget {
-  const _ReportZipSheet({required this.report});
+class _ReportCsvSheet extends StatefulWidget {
+  const _ReportCsvSheet({required this.report, required this.sections});
 
   final RangeReport report;
+  final Set<ReportSection> sections;
 
   @override
-  State<_ReportZipSheet> createState() => _ReportZipSheetState();
+  State<_ReportCsvSheet> createState() => _ReportCsvSheetState();
 }
 
-class _ReportZipSheetState extends State<_ReportZipSheet> {
-  final _sections = {ReportSection.workouts, ReportSection.nutrition};
+class _ReportCsvSheetState extends State<_ReportCsvSheet> {
+  late final _selected = widget.sections.intersection({ReportSection.workouts, ReportSection.nutrition});
 
   String _label(ReportSection section) => switch (section) {
     ReportSection.workouts => titleCase(t.reportWorkouts),
     ReportSection.nutrition => t.nutrition,
-    ReportSection.steps => t.homeCardSteps,
     ReportSection.supplements => titleCase(t.supplementsLabel),
     ReportSection.weighIns => t.reportWeighIns,
-    ReportSection.sleep => t.reportSyncedSleep,
     ReportSection.sessions => t.reportSessionDetails,
   };
 
   @override
   Widget build(BuildContext context) {
     final gc = context.gc;
-    return Container(
-      padding: sheetPad(context),
-      constraints: BoxConstraints(maxHeight: MediaQuery.sizeOf(context).height * 0.88),
-      decoration: sheetDecoration(gc),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Flexible(
-            child: SingleChildScrollView(
-              child: Material(
-                type: MaterialType.transparency,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    const SheetHandle(),
-                    const SizedBox(height: 16),
-                    SheetTitle(t.reportExportZip, subtitle: reportRangeLabel(widget.report)),
-                    const SizedBox(height: 8),
-                    Text(t.reportZipHint, style: AppTheme.f(13, color: gc.textSecondary, height: 1.4)),
-                    const SizedBox(height: 8),
-                    for (final section in ReportSection.values)
-                      CheckboxListTile(
-                        dense: true,
-                        contentPadding: EdgeInsets.zero,
-                        controlAffinity: ListTileControlAffinity.leading,
-                        title: Text(_label(section)),
-                        value: _sections.contains(section),
-                        onChanged: (on) => setState(() {
-                          if (on == true) {
-                            _sections.add(section);
-                          } else {
-                            _sections.remove(section);
-                          }
-                        }),
-                      ),
-                  ],
-                ),
+    return AppSheet(
+      children: [
+        SheetTitle(t.reportShareCsv, subtitle: reportRangeLabel(widget.report)),
+        const SizedBox(height: 10),
+        Text(t.reportChooseCsv, style: AppTheme.f(13, color: gc.textSecondary, height: 1.4)),
+        const SizedBox(height: 12),
+        OptionGroup([
+          for (final section in widget.sections)
+            OptionItem(
+              _label(section),
+              trailing: Semantics(
+                toggled: _selected.contains(section),
+                child: TinySwitch(on: _selected.contains(section)),
               ),
+              onTap: () {
+                HapticFeedback.selectionClick();
+                setState(() {
+                  if (!_selected.remove(section)) _selected.add(section);
+                });
+              },
             ),
-          ),
-          const SizedBox(height: 12),
-          FilledButton(
-            onPressed: _sections.isEmpty ? null : () => Navigator.of(context).pop(_sections),
-            child: Text(t.reportExportZip),
-          ),
-        ],
-      ),
+        ]),
+        const SizedBox(height: 16),
+        PrimaryButton(
+          label: t.reportShareCsv,
+          bg: _selected.isEmpty ? gc.bgRaised2 : null,
+          fg: _selected.isEmpty ? gc.textTertiary : null,
+          onTap: _selected.isEmpty ? null : () => Navigator.of(context).pop(_selected),
+        ),
+      ],
     );
   }
 }

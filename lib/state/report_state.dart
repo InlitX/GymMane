@@ -4,7 +4,7 @@ typedef ReportLift = ({String id, String name, int sessions, int sets, double vo
 typedef ReportRecord = ({String id, String name, double kg, DateTime date});
 typedef ReportFood = ({int days, double kcal, double protein, double carbs, double fat, int waterMl});
 
-enum ReportSection { workouts, nutrition, steps, supplements, weighIns, sleep, sessions }
+enum ReportSection { workouts, nutrition, supplements, weighIns, sessions }
 
 class RangeReport {
   RangeReport({
@@ -48,17 +48,7 @@ class RangeReport {
   bool get empty => sessions == 0 && food == null && weightFrom == null;
 }
 
-mixin ReportState
-    on
-        FitCore,
-        ToolsState,
-        LibraryState,
-        SettingsState,
-        TimelineState,
-        StatsState,
-        StepsState,
-        HealthState,
-        NutritionState {
+mixin ReportState on FitCore, ToolsState, LibraryState, SettingsState, TimelineState, StatsState, NutritionState {
   RangeReport rangeReport(DateTime from, DateTime to) {
     final a = _dayKey(from), b = _dayKey(to);
     final end = shiftDays(b, 1);
@@ -203,27 +193,34 @@ mixin ReportState
     }
   }
 
+  Set<ReportSection> reportCsvSections(RangeReport r) {
+    final names = _supplementNames;
+    return {
+      if (_reportSessions(r).any((s) => s.exercises.any((e) => e.sets.isNotEmpty))) ReportSection.workouts,
+      if (nutritionBeta && (r.food != null || _reportDates(r).any((d) => waterOn(d) != 0)))
+        ReportSection.nutrition,
+      if (_reportDates(r).any((d) => takenOn(d).any(names.containsKey))) ReportSection.supplements,
+      if (r.weightFrom != null) ReportSection.weighIns,
+      if (r.sessions > 0) ReportSection.sessions,
+    };
+  }
+
   String reportSectionCsv(RangeReport r, ReportSection section) => switch (section) {
     ReportSection.workouts => reportWorkoutsCsv(r),
     ReportSection.nutrition => reportNutritionCsv(r),
-    ReportSection.steps => _reportCsv('date,steps', [
-      for (final day in _reportDates(r)) [HealthMetrics.dayKey(day), stepsByDay[HealthMetrics.dayKey(day)]],
-    ]),
     ReportSection.supplements => _reportSupplementsCsv(r),
     ReportSection.weighIns => _reportWeighInsCsv(r),
-    ReportSection.sleep => _reportCsv('date,sleep_minutes', [
-      for (final day in _reportDates(r))
-        [HealthMetrics.dayKey(day), healthOnDay(HealthMetric.sleep, day)?.firstOrNull],
-    ]),
     ReportSection.sessions => _reportSessionsCsv(r),
   };
 
+  Map<String, String> get _supplementNames => {for (final s in supplements) s.id: s.name};
+
   String _reportSupplementsCsv(RangeReport r) {
-    final names = {for (final s in supplements) s.id: s.name};
+    final names = _supplementNames;
     return _reportCsv('date,supplement', [
       for (final day in _reportDates(r))
         for (final id in takenOn(day))
-          if (names[id] case final name?) [HealthMetrics.dayKey(day), name],
+          if (names[id] case final name?) [NutritionState._dk(day), name],
     ]);
   }
 
@@ -231,7 +228,7 @@ mixin ReportState
     final weights = bodyweight.where((w) => _inReport(r, w.date)).toList()
       ..sort((a, b) => a.date.compareTo(b.date));
     return _reportCsv('date,recorded_at,weight_kg', [
-      for (final w in weights) [HealthMetrics.dayKey(w.date), w.date.toIso8601String(), w.kg],
+      for (final w in weights) [NutritionState._dk(w.date), w.date.toIso8601String(), w.kg],
     ]);
   }
 
@@ -243,7 +240,7 @@ mixin ReportState
       [
         for (final s in picked)
           [
-            HealthMetrics.dayKey(s.day),
+            NutritionState._dk(s.day),
             s.day.toIso8601String(),
             s.date.toIso8601String(),
             sessionTitle(s),
