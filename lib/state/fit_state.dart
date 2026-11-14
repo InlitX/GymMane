@@ -434,6 +434,9 @@ class FitState extends FitCore
     collapsedGroups
       ..clear()
       ..addAll(((data['collapsedGroups'] as List?) ?? const []).whereType<String>());
+    groupNames
+      ..clear()
+      ..addAll(((data['groupNames'] as List?) ?? const []).whereType<String>().where((g) => g.trim().isNotEmpty));
     exerciseUnits.clear();
     ((data['exUnits'] as Map?) ?? const {}).forEach((k, v) {
       if (k is String && (v == 'kg' || v == 'lb')) exerciseUnits[k] = v as String;
@@ -646,6 +649,7 @@ class FitState extends FitCore
         if (exerciseUnits.isNotEmpty) 'exUnits': exerciseUnits,
         if (exerciseDistance.isNotEmpty) 'exDist': exerciseDistance,
         if (collapsedGroups.isNotEmpty) 'collapsedGroups': collapsedGroups.toList(),
+        if (groupNames.isNotEmpty) 'groupNames': groupNames,
         'progress': progressStep,
         if (holdStep.isNotEmpty) 'holdStep': holdStep,
         if (progressRules.isNotEmpty)
@@ -764,6 +768,7 @@ class FitState extends FitCore
     exerciseUnits.clear();
     exerciseDistance.clear();
     collapsedGroups.clear();
+    groupNames.clear();
     progressStep.clear();
     holdStep.clear();
     progressRules.clear();
