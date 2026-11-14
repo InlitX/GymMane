@@ -3527,178 +3527,175 @@ class AppLocalizationsUr extends AppLocalizations {
   String get exerciseSettings => 'اس ورزش کی ترتیبات';
 
   @override
-  String get exerciseSettingsHint => 'Rest, progression, warm-up and more';
+  String get exerciseSettingsHint => 'آرام، پیش رفت، وارم اپ اور مزید';
 
   @override
-  String get appIcon => 'App icon';
+  String get appIcon => 'ایپ کا آئیکن';
 
   @override
-  String get appIconHint => 'How GymMane looks on your home screen';
+  String get appIconHint => 'GymMane آپ کی ہوم اسکرین پر کیسا دکھتا ہے';
 
   @override
-  String get appIconColors => 'Colors';
+  String get appIconColors => 'رنگ';
 
   @override
-  String get appIconDesigns => 'Designs';
+  String get appIconDesigns => 'ڈیزائن';
 
   @override
-  String get appIconNote => 'Your home screen may take a few seconds to show the change.';
+  String get appIconNote => 'ہوم اسکرین کو تبدیلی دکھانے میں چند سیکنڈ لگ سکتے ہیں۔';
 
   @override
-  String get appIconDefault => 'Original';
+  String get appIconDefault => 'اصل';
 
   @override
-  String get appIconLight => 'Light';
+  String get appIconLight => 'ہلکا';
 
   @override
-  String get appIconSand => 'Sand';
+  String get appIconSand => 'ریت';
 
   @override
-  String get appIconGraphite => 'Graphite';
+  String get appIconGraphite => 'گریفائٹ';
 
   @override
-  String get appIconSage => 'Sage';
+  String get appIconSage => 'سیج';
 
   @override
-  String get appIconNight => 'Night';
+  String get appIconNight => 'رات';
 
   @override
   String get appIconMaterial => 'Material';
 
   @override
-  String get appIconMedal => 'Medal';
+  String get appIconMedal => 'تمغہ';
 
   @override
-  String get appIconGlass => 'Glass';
+  String get appIconGlass => 'شیشہ';
 
   @override
-  String get appIconStopwatch => 'Stopwatch';
+  String get appIconStopwatch => 'اسٹاپ واچ';
 
   @override
-  String get appIconMarble => 'Marble';
+  String get appIconMarble => 'سنگِ مرمر';
 
   @override
-  String get nfcRow => 'NFC sticker';
+  String get nfcRow => 'NFC اسٹیکر';
 
   @override
-  String get nfcRowHint => 'Tap your phone on it to see today\'s workout';
+  String get nfcRowHint => 'فون قریب لاؤ اور آج کی ورزش دیکھو';
 
   @override
-  String get nfcTitle => 'NFC sticker';
+  String get nfcTitle => 'NFC اسٹیکر';
 
   @override
-  String get nfcSubtitle => 'One sticker for every day of the week';
+  String get nfcSubtitle => 'پورے ہفتے کے لیے ایک اسٹیکر';
 
   @override
-  String get nfcPoint1 => 'Today\'s workout, ready';
+  String get nfcPoint1 => 'آج کی ورزش، تیار';
 
   @override
   String get nfcPoint1Body =>
-      'Tap your phone on it and today\'s routine opens with its exercises. You start it when you are ready.';
+      'فون قریب لاؤ اور آج کی روٹین اپنی مشقوں کے ساتھ کھل جائے گی۔ تیار ہونے پر خود شروع کرو۔';
 
   @override
-  String get nfcPoint2 => 'On rest days, it tells you';
+  String get nfcPoint2 => 'آرام کے دن یہ بتا دیتا ہے';
 
   @override
-  String get nfcPoint2Body => 'If today is a rest day you will see it, and you can still train if you want.';
+  String get nfcPoint2Body => 'اگر آج آرام کا دن ہے تو نظر آئے گا، اور چاہو تو پھر بھی ٹریننگ کر سکتے ہو۔';
 
   @override
-  String get nfcPoint3 => 'Write it once';
+  String get nfcPoint3 => 'ایک بار لکھا جاتا ہے';
 
   @override
-  String get nfcPoint3Body =>
-      'Change your plan whenever you like: the sticker always opens what is planned for today.';
+  String get nfcPoint3Body => 'جب چاہو پلان بدلو: اسٹیکر ہمیشہ اسی دن کا طے شدہ کھولتا ہے۔';
 
   @override
-  String get nfcUse => 'Use the sticker';
+  String get nfcUse => 'اسٹیکر استعمال کرو';
 
   @override
-  String get nfcUseHint => 'When it is off, tapping the sticker does nothing';
+  String get nfcUseHint => 'بند ہونے پر اسٹیکر قریب لانے سے کچھ نہیں ہوتا';
 
   @override
-  String get nfcWrite => 'Write a sticker';
+  String get nfcWrite => 'اسٹیکر لکھو';
 
   @override
-  String get nfcOn => 'On';
+  String get nfcOn => 'آن';
 
   @override
-  String get nfcOff => 'Off';
+  String get nfcOff => 'بند';
 
   @override
-  String get todayRestBody => 'Resting is part of the plan. Your muscles grow while you recover.';
+  String get todayRestBody => 'آرام بھی پلان کا حصہ ہے۔ ریکوری کے دوران پٹھے بڑھتے ہیں۔';
 
   @override
-  String get todayNotNow => 'Not now';
+  String get todayNotNow => 'ابھی نہیں';
 
   @override
-  String get nfcWaitTitle => 'Hold the sticker to your phone';
+  String get nfcWaitTitle => 'اسٹیکر فون کے قریب لاؤ';
 
   @override
-  String get nfcWaitBody => 'Hold it against the back of your phone, near the camera, until it buzzes.';
+  String get nfcWaitBody => 'اسے فون کی پشت پر، کیمرے کے پاس، تھرتھراہٹ تک لگائے رکھو۔';
 
   @override
-  String get nfcTip =>
-      'Any NTAG213, 215 or 216 sticker works. They are the most common and cost very little.';
+  String get nfcTip => 'کوئی بھی NTAG213، 215 یا 216 اسٹیکر چل جاتا ہے۔ یہ سب سے عام ہیں اور بہت سستے ہیں۔';
 
   @override
-  String get nfcDoneTitle => 'Sticker ready';
+  String get nfcDoneTitle => 'اسٹیکر تیار ہے';
 
   @override
-  String get nfcDoneBody => 'Stick it where you will see it when you arrive: your gym bag, bottle or locker.';
+  String get nfcDoneBody => 'ایسی جگہ چپکاؤ جہاں پہنچتے ہی نظر آئے: جم بیگ، بوتل یا لاکر۔';
 
   @override
-  String get nfcOffTitle => 'NFC is off';
+  String get nfcOffTitle => 'NFC بند ہے';
 
   @override
-  String get nfcOffBody => 'Turn on NFC in your phone settings to write the sticker.';
+  String get nfcOffBody => 'اسٹیکر لکھنے کے لیے فون کی ترتیبات میں NFC آن کرو۔';
 
   @override
-  String get nfcOpenSettings => 'Open settings';
+  String get nfcOpenSettings => 'ترتیبات کھولو';
 
   @override
-  String get nfcFailTitle => 'Couldn\'t write it';
+  String get nfcFailTitle => 'لکھا نہیں جا سکا';
 
   @override
-  String get nfcErrLocked => 'This sticker is locked and cannot be written.';
+  String get nfcErrLocked => 'یہ اسٹیکر لاک ہے، اس پر لکھا نہیں جا سکتا۔';
 
   @override
-  String get nfcErrSmall => 'It doesn\'t fit on this sticker. Use an NTAG213 or bigger.';
+  String get nfcErrSmall => 'یہ اس اسٹیکر میں نہیں سماتا۔ NTAG213 یا بڑا استعمال کرو۔';
 
   @override
-  String get nfcErrLost => 'The sticker moved before it was done. Hold it still and try again.';
+  String get nfcErrLost => 'مکمل ہونے سے پہلے اسٹیکر ہل گیا۔ اسے ساکن رکھو اور دوبارہ کوشش کرو۔';
 
   @override
-  String get nfcErrUnsupported => 'This sticker isn\'t supported. Use an NTAG213, 215 or 216.';
+  String get nfcErrUnsupported => 'یہ اسٹیکر سپورٹ نہیں ہوتا۔ NTAG213، 215 یا 216 استعمال کرو۔';
 
   @override
-  String get nfcRetry => 'Try again';
+  String get nfcRetry => 'دوبارہ کوشش کرو';
 
   @override
-  String get raceTitle => 'Against your last session';
+  String get raceTitle => 'پچھلے سیشن کے مقابلے میں';
 
   @override
   String raceSince(String date) {
-    return 'Compared with $date';
+    return '$date کے مقابلے میں';
   }
 
   @override
-  String get raceAhead => 'You\'re ahead';
+  String get raceAhead => 'آگے چل رہے ہو';
 
   @override
-  String get raceBehind => 'Still catching up';
+  String get raceBehind => 'ابھی پیچھے سے آ رہے ہو';
 
   @override
-  String get raceEven => 'Neck and neck';
+  String get raceEven => 'برابر';
 
   @override
-  String get raceToday => 'Today';
+  String get raceToday => 'آج';
 
   @override
-  String get raceThen => 'Then';
+  String get raceThen => 'تب';
 
   @override
-  String get raceHint =>
-      'Only the same sets are compared: if you have done 2, against your first 2 that day.';
+  String get raceHint => 'صرف ایک جیسے سیٹ موازنہ ہوتے ہیں: اگر 2 کر لیے تو اس دن کے پہلے 2 سے۔';
 
   @override
   String get placeActiveNow => 'تم یہاں ہو';
@@ -5498,13 +5495,13 @@ class AppLocalizationsUr extends AppLocalizations {
   String get importAsCopy => 'نقل کے طور پر شامل کرو';
 
   @override
-  String get routineExerciseNote => 'Routine note';
+  String get routineExerciseNote => 'روٹین کا نوٹ';
 
   @override
-  String get importRoutineNotes => 'Add missing routine notes';
+  String get importRoutineNotes => 'روٹین کے رہ جانے والے نوٹس شامل کرو';
 
   @override
-  String get routineNotesAdded => 'Routine notes added';
+  String get routineNotesAdded => 'روٹین کے نوٹس شامل ہو گئے';
 
   @override
   String get importOwned => 'پہلے سے تمہاری';
@@ -6540,13 +6537,13 @@ class AppLocalizationsUr extends AppLocalizations {
   String get reportShareCsv => 'CSV ایکسپورٹ کرو';
 
   @override
-  String get reportChooseCsv => 'Choose which CSV files to share.';
+  String get reportChooseCsv => 'منتخب کرو کون سی CSV فائلیں شیئر کرنی ہیں۔';
 
   @override
-  String get reportWeighIns => 'Weigh-ins';
+  String get reportWeighIns => 'وزن کے اندراج';
 
   @override
-  String get reportSessionDetails => 'Workout session details';
+  String get reportSessionDetails => 'سیشن کی تفصیلات';
 
   @override
   String get reportShareCsvBoth => 'CSV ایکسپورٹ کرو (ورزشیں اور غذائیت)';

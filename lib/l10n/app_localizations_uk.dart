@@ -3567,178 +3567,179 @@ class AppLocalizationsUk extends AppLocalizations {
   String get exerciseSettings => 'Налаштування вправи';
 
   @override
-  String get exerciseSettingsHint => 'Rest, progression, warm-up and more';
+  String get exerciseSettingsHint => 'Відпочинок, прогресія, розминка та інше';
 
   @override
-  String get appIcon => 'App icon';
+  String get appIcon => 'Значок застосунку';
 
   @override
-  String get appIconHint => 'How GymMane looks on your home screen';
+  String get appIconHint => 'Як GymMane виглядає на головному екрані';
 
   @override
-  String get appIconColors => 'Colors';
+  String get appIconColors => 'Кольори';
 
   @override
-  String get appIconDesigns => 'Designs';
+  String get appIconDesigns => 'Дизайни';
 
   @override
-  String get appIconNote => 'Your home screen may take a few seconds to show the change.';
+  String get appIconNote => 'Головному екрану може знадобитися кілька секунд, щоб показати зміну.';
 
   @override
-  String get appIconDefault => 'Original';
+  String get appIconDefault => 'Оригінал';
 
   @override
-  String get appIconLight => 'Light';
+  String get appIconLight => 'Світлий';
 
   @override
-  String get appIconSand => 'Sand';
+  String get appIconSand => 'Пісок';
 
   @override
-  String get appIconGraphite => 'Graphite';
+  String get appIconGraphite => 'Графіт';
 
   @override
-  String get appIconSage => 'Sage';
+  String get appIconSage => 'Шавлія';
 
   @override
-  String get appIconNight => 'Night';
+  String get appIconNight => 'Ніч';
 
   @override
   String get appIconMaterial => 'Material';
 
   @override
-  String get appIconMedal => 'Medal';
+  String get appIconMedal => 'Медаль';
 
   @override
-  String get appIconGlass => 'Glass';
+  String get appIconGlass => 'Скло';
 
   @override
-  String get appIconStopwatch => 'Stopwatch';
+  String get appIconStopwatch => 'Секундомір';
 
   @override
-  String get appIconMarble => 'Marble';
+  String get appIconMarble => 'Мармур';
 
   @override
-  String get nfcRow => 'NFC sticker';
+  String get nfcRow => 'NFC-мітка';
 
   @override
-  String get nfcRowHint => 'Tap your phone on it to see today\'s workout';
+  String get nfcRowHint => 'Піднесіть телефон і побачите тренування на сьогодні';
 
   @override
-  String get nfcTitle => 'NFC sticker';
+  String get nfcTitle => 'NFC-мітка';
 
   @override
-  String get nfcSubtitle => 'One sticker for every day of the week';
+  String get nfcSubtitle => 'Одна мітка на весь тиждень';
 
   @override
-  String get nfcPoint1 => 'Today\'s workout, ready';
+  String get nfcPoint1 => 'Сьогоднішнє тренування готове';
 
   @override
   String get nfcPoint1Body =>
-      'Tap your phone on it and today\'s routine opens with its exercises. You start it when you are ready.';
+      'Піднесіть телефон, і відкриється програма на сьогодні з вправами. Починаєте, коли будете готові.';
 
   @override
-  String get nfcPoint2 => 'On rest days, it tells you';
+  String get nfcPoint2 => 'У день відпочинку вона підкаже';
 
   @override
-  String get nfcPoint2Body => 'If today is a rest day you will see it, and you can still train if you want.';
+  String get nfcPoint2Body =>
+      'Якщо сьогодні день відпочинку, ви це побачите, і все одно зможете потренуватися.';
 
   @override
-  String get nfcPoint3 => 'Write it once';
+  String get nfcPoint3 => 'Записується один раз';
 
   @override
   String get nfcPoint3Body =>
-      'Change your plan whenever you like: the sticker always opens what is planned for today.';
+      'Змінюйте план коли завгодно: мітка завжди відкриває те, що заплановано на цей день.';
 
   @override
-  String get nfcUse => 'Use the sticker';
+  String get nfcUse => 'Використовувати мітку';
 
   @override
-  String get nfcUseHint => 'When it is off, tapping the sticker does nothing';
+  String get nfcUseHint => 'Якщо вимкнено, мітка нічого не робить';
 
   @override
-  String get nfcWrite => 'Write a sticker';
+  String get nfcWrite => 'Записати мітку';
 
   @override
-  String get nfcOn => 'On';
+  String get nfcOn => 'Увімк.';
 
   @override
-  String get nfcOff => 'Off';
+  String get nfcOff => 'Вимк.';
 
   @override
-  String get todayRestBody => 'Resting is part of the plan. Your muscles grow while you recover.';
+  String get todayRestBody => 'Відпочинок теж частина плану. М’язи ростуть, поки ви відновлюєтеся.';
 
   @override
-  String get todayNotNow => 'Not now';
+  String get todayNotNow => 'Не зараз';
 
   @override
-  String get nfcWaitTitle => 'Hold the sticker to your phone';
+  String get nfcWaitTitle => 'Піднесіть мітку до телефона';
 
   @override
-  String get nfcWaitBody => 'Hold it against the back of your phone, near the camera, until it buzzes.';
+  String get nfcWaitBody => 'Прикладіть її до задньої сторони телефона, біля камери, доки він не завібрує.';
 
   @override
   String get nfcTip =>
-      'Any NTAG213, 215 or 216 sticker works. They are the most common and cost very little.';
+      'Підійде будь-яка мітка NTAG213, 215 або 216. Вони найпоширеніші й коштують дуже мало.';
 
   @override
-  String get nfcDoneTitle => 'Sticker ready';
+  String get nfcDoneTitle => 'Мітка готова';
 
   @override
-  String get nfcDoneBody => 'Stick it where you will see it when you arrive: your gym bag, bottle or locker.';
+  String get nfcDoneBody => 'Приклейте її там, де побачите, коли прийдете: на сумку, пляшку чи шафку.';
 
   @override
-  String get nfcOffTitle => 'NFC is off';
+  String get nfcOffTitle => 'NFC вимкнено';
 
   @override
-  String get nfcOffBody => 'Turn on NFC in your phone settings to write the sticker.';
+  String get nfcOffBody => 'Увімкніть NFC у налаштуваннях телефона, щоб записати мітку.';
 
   @override
-  String get nfcOpenSettings => 'Open settings';
+  String get nfcOpenSettings => 'Відкрити налаштування';
 
   @override
-  String get nfcFailTitle => 'Couldn\'t write it';
+  String get nfcFailTitle => 'Не вдалося записати';
 
   @override
-  String get nfcErrLocked => 'This sticker is locked and cannot be written.';
+  String get nfcErrLocked => 'Ця мітка заблокована, на неї не можна записати.';
 
   @override
-  String get nfcErrSmall => 'It doesn\'t fit on this sticker. Use an NTAG213 or bigger.';
+  String get nfcErrSmall => 'Не вміщується на цю мітку. Використайте NTAG213 або більшу.';
 
   @override
-  String get nfcErrLost => 'The sticker moved before it was done. Hold it still and try again.';
+  String get nfcErrLost => 'Мітка зсунулася завчасно. Тримайте її нерухомо й спробуйте ще раз.';
 
   @override
-  String get nfcErrUnsupported => 'This sticker isn\'t supported. Use an NTAG213, 215 or 216.';
+  String get nfcErrUnsupported => 'Ця мітка не підтримується. Використайте NTAG213, 215 або 216.';
 
   @override
-  String get nfcRetry => 'Try again';
+  String get nfcRetry => 'Спробувати ще раз';
 
   @override
-  String get raceTitle => 'Against your last session';
+  String get raceTitle => 'Проти минулого тренування';
 
   @override
   String raceSince(String date) {
-    return 'Compared with $date';
+    return 'Порівняно з $date';
   }
 
   @override
-  String get raceAhead => 'You\'re ahead';
+  String get raceAhead => 'Ви попереду';
 
   @override
-  String get raceBehind => 'Still catching up';
+  String get raceBehind => 'Ще наздоганяєте';
 
   @override
-  String get raceEven => 'Neck and neck';
+  String get raceEven => 'Нарівні';
 
   @override
-  String get raceToday => 'Today';
+  String get raceToday => 'Сьогодні';
 
   @override
-  String get raceThen => 'Then';
+  String get raceThen => 'Тоді';
 
   @override
   String get raceHint =>
-      'Only the same sets are compared: if you have done 2, against your first 2 that day.';
+      'Порівнюються лише однакові підходи: якщо ви зробили 2, то з вашими першими 2 того дня.';
 
   @override
   String get placeActiveNow => 'Ви тут';
@@ -5606,13 +5607,13 @@ class AppLocalizationsUk extends AppLocalizations {
   String get importAsCopy => 'Додати копію';
 
   @override
-  String get routineExerciseNote => 'Routine note';
+  String get routineExerciseNote => 'Нотатка програми';
 
   @override
-  String get importRoutineNotes => 'Add missing routine notes';
+  String get importRoutineNotes => 'Додати відсутні нотатки програми';
 
   @override
-  String get routineNotesAdded => 'Routine notes added';
+  String get routineNotesAdded => 'Нотатки програми додано';
 
   @override
   String get importOwned => 'Уже є';
@@ -6698,13 +6699,13 @@ class AppLocalizationsUk extends AppLocalizations {
   String get reportShareCsv => 'Експорт CSV';
 
   @override
-  String get reportChooseCsv => 'Choose which CSV files to share.';
+  String get reportChooseCsv => 'Виберіть, якими CSV-файлами поділитися.';
 
   @override
-  String get reportWeighIns => 'Weigh-ins';
+  String get reportWeighIns => 'Зважування';
 
   @override
-  String get reportSessionDetails => 'Workout session details';
+  String get reportSessionDetails => 'Подробиці тренувань';
 
   @override
   String get reportShareCsvBoth => 'Експорт CSV (тренування й харчування)';

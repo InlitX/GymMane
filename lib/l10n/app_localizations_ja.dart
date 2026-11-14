@@ -3448,178 +3448,174 @@ class AppLocalizationsJa extends AppLocalizations {
   String get exerciseSettings => 'この種目の設定';
 
   @override
-  String get exerciseSettingsHint => 'Rest, progression, warm-up and more';
+  String get exerciseSettingsHint => '休憩、漸進、ウォームアップなど';
 
   @override
-  String get appIcon => 'App icon';
+  String get appIcon => 'アプリアイコン';
 
   @override
-  String get appIconHint => 'How GymMane looks on your home screen';
+  String get appIconHint => 'ホーム画面での GymMane の見た目';
 
   @override
-  String get appIconColors => 'Colors';
+  String get appIconColors => 'カラー';
 
   @override
-  String get appIconDesigns => 'Designs';
+  String get appIconDesigns => 'デザイン';
 
   @override
-  String get appIconNote => 'Your home screen may take a few seconds to show the change.';
+  String get appIconNote => 'ホーム画面に反映されるまで数秒かかることがあります。';
 
   @override
-  String get appIconDefault => 'Original';
+  String get appIconDefault => 'オリジナル';
 
   @override
-  String get appIconLight => 'Light';
+  String get appIconLight => 'ライト';
 
   @override
-  String get appIconSand => 'Sand';
+  String get appIconSand => 'サンド';
 
   @override
-  String get appIconGraphite => 'Graphite';
+  String get appIconGraphite => 'グラファイト';
 
   @override
-  String get appIconSage => 'Sage';
+  String get appIconSage => 'セージ';
 
   @override
-  String get appIconNight => 'Night';
+  String get appIconNight => 'ナイト';
 
   @override
   String get appIconMaterial => 'Material';
 
   @override
-  String get appIconMedal => 'Medal';
+  String get appIconMedal => 'メダル';
 
   @override
-  String get appIconGlass => 'Glass';
+  String get appIconGlass => 'ガラス';
 
   @override
-  String get appIconStopwatch => 'Stopwatch';
+  String get appIconStopwatch => 'ストップウォッチ';
 
   @override
-  String get appIconMarble => 'Marble';
+  String get appIconMarble => '大理石';
 
   @override
-  String get nfcRow => 'NFC sticker';
+  String get nfcRow => 'NFC ステッカー';
 
   @override
-  String get nfcRowHint => 'Tap your phone on it to see today\'s workout';
+  String get nfcRowHint => 'スマホをかざして今日のトレーニングを表示';
 
   @override
-  String get nfcTitle => 'NFC sticker';
+  String get nfcTitle => 'NFC ステッカー';
 
   @override
-  String get nfcSubtitle => 'One sticker for every day of the week';
+  String get nfcSubtitle => '一週間ずっと使えるステッカー';
 
   @override
-  String get nfcPoint1 => 'Today\'s workout, ready';
+  String get nfcPoint1 => '今日のトレーニングをすぐに';
 
   @override
-  String get nfcPoint1Body =>
-      'Tap your phone on it and today\'s routine opens with its exercises. You start it when you are ready.';
+  String get nfcPoint1Body => 'スマホをかざすと、今日のルーティンが種目つきで開きます。始めるのは準備ができてから。';
 
   @override
-  String get nfcPoint2 => 'On rest days, it tells you';
+  String get nfcPoint2 => '休養日はそれを伝えます';
 
   @override
-  String get nfcPoint2Body => 'If today is a rest day you will see it, and you can still train if you want.';
+  String get nfcPoint2Body => '今日が休養日ならそう表示され、それでもトレーニングできます。';
 
   @override
-  String get nfcPoint3 => 'Write it once';
+  String get nfcPoint3 => '書き込みは一度だけ';
 
   @override
-  String get nfcPoint3Body =>
-      'Change your plan whenever you like: the sticker always opens what is planned for today.';
+  String get nfcPoint3Body => 'プランはいつでも変えられます。ステッカーは常にその日の予定を開きます。';
 
   @override
-  String get nfcUse => 'Use the sticker';
+  String get nfcUse => 'ステッカーを使う';
 
   @override
-  String get nfcUseHint => 'When it is off, tapping the sticker does nothing';
+  String get nfcUseHint => 'オフのときは、ステッカーにかざしても何も起きません';
 
   @override
-  String get nfcWrite => 'Write a sticker';
+  String get nfcWrite => 'ステッカーに書き込む';
 
   @override
-  String get nfcOn => 'On';
+  String get nfcOn => 'オン';
 
   @override
-  String get nfcOff => 'Off';
+  String get nfcOff => 'オフ';
 
   @override
-  String get todayRestBody => 'Resting is part of the plan. Your muscles grow while you recover.';
+  String get todayRestBody => '休むのもプランのうち。回復している間に筋肉は育ちます。';
 
   @override
-  String get todayNotNow => 'Not now';
+  String get todayNotNow => '今はしない';
 
   @override
-  String get nfcWaitTitle => 'Hold the sticker to your phone';
+  String get nfcWaitTitle => 'ステッカーをスマホに当ててください';
 
   @override
-  String get nfcWaitBody => 'Hold it against the back of your phone, near the camera, until it buzzes.';
+  String get nfcWaitBody => 'スマホの背面、カメラの近くに当てて、振動するまで待ってください。';
 
   @override
-  String get nfcTip =>
-      'Any NTAG213, 215 or 216 sticker works. They are the most common and cost very little.';
+  String get nfcTip => 'NTAG213、215、216 のステッカーならどれでも使えます。最も一般的でとても安価です。';
 
   @override
-  String get nfcDoneTitle => 'Sticker ready';
+  String get nfcDoneTitle => 'ステッカーの準備完了';
 
   @override
-  String get nfcDoneBody => 'Stick it where you will see it when you arrive: your gym bag, bottle or locker.';
+  String get nfcDoneBody => '着いたときに目に入る場所に貼りましょう。ジムバッグ、ボトル、ロッカーなど。';
 
   @override
-  String get nfcOffTitle => 'NFC is off';
+  String get nfcOffTitle => 'NFC がオフです';
 
   @override
-  String get nfcOffBody => 'Turn on NFC in your phone settings to write the sticker.';
+  String get nfcOffBody => 'ステッカーに書き込むには、スマホの設定で NFC をオンにしてください。';
 
   @override
-  String get nfcOpenSettings => 'Open settings';
+  String get nfcOpenSettings => '設定を開く';
 
   @override
-  String get nfcFailTitle => 'Couldn\'t write it';
+  String get nfcFailTitle => '書き込めませんでした';
 
   @override
-  String get nfcErrLocked => 'This sticker is locked and cannot be written.';
+  String get nfcErrLocked => 'このステッカーはロックされていて書き込めません。';
 
   @override
-  String get nfcErrSmall => 'It doesn\'t fit on this sticker. Use an NTAG213 or bigger.';
+  String get nfcErrSmall => 'このステッカーには入りません。NTAG213 以上を使ってください。';
 
   @override
-  String get nfcErrLost => 'The sticker moved before it was done. Hold it still and try again.';
+  String get nfcErrLost => '終わる前にステッカーが動きました。動かさずにもう一度お試しください。';
 
   @override
-  String get nfcErrUnsupported => 'This sticker isn\'t supported. Use an NTAG213, 215 or 216.';
+  String get nfcErrUnsupported => 'このステッカーには対応していません。NTAG213、215、216 を使ってください。';
 
   @override
-  String get nfcRetry => 'Try again';
+  String get nfcRetry => 'もう一度試す';
 
   @override
-  String get raceTitle => 'Against your last session';
+  String get raceTitle => '前回のセッションと比べて';
 
   @override
   String raceSince(String date) {
-    return 'Compared with $date';
+    return '$date と比較';
   }
 
   @override
-  String get raceAhead => 'You\'re ahead';
+  String get raceAhead => 'リードしています';
 
   @override
-  String get raceBehind => 'Still catching up';
+  String get raceBehind => 'まだ追いかけ中';
 
   @override
-  String get raceEven => 'Neck and neck';
+  String get raceEven => '互角';
 
   @override
-  String get raceToday => 'Today';
+  String get raceToday => '今日';
 
   @override
-  String get raceThen => 'Then';
+  String get raceThen => 'その日';
 
   @override
-  String get raceHint =>
-      'Only the same sets are compared: if you have done 2, against your first 2 that day.';
+  String get raceHint => '同じセットだけを比べます。2 セット終えたなら、その日の最初の 2 セットと比べます。';
 
   @override
   String get placeActiveNow => '現在地';
@@ -5376,13 +5372,13 @@ class AppLocalizationsJa extends AppLocalizations {
   String get importAsCopy => 'コピーとして追加';
 
   @override
-  String get routineExerciseNote => 'Routine note';
+  String get routineExerciseNote => 'ルーティンのメモ';
 
   @override
-  String get importRoutineNotes => 'Add missing routine notes';
+  String get importRoutineNotes => '足りないルーティンのメモを追加';
 
   @override
-  String get routineNotesAdded => 'Routine notes added';
+  String get routineNotesAdded => 'ルーティンのメモを追加しました';
 
   @override
   String get importOwned => '追加済み';
@@ -6392,13 +6388,13 @@ class AppLocalizationsJa extends AppLocalizations {
   String get reportShareCsv => 'CSVを書き出す';
 
   @override
-  String get reportChooseCsv => 'Choose which CSV files to share.';
+  String get reportChooseCsv => '共有する CSV ファイルを選んでください。';
 
   @override
-  String get reportWeighIns => 'Weigh-ins';
+  String get reportWeighIns => '体重の記録';
 
   @override
-  String get reportSessionDetails => 'Workout session details';
+  String get reportSessionDetails => 'セッションの詳細';
 
   @override
   String get reportShareCsvBoth => 'CSVを書き出す（トレーニングと栄養）';

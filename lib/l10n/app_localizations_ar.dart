@@ -3541,178 +3541,174 @@ class AppLocalizationsAr extends AppLocalizations {
   String get exerciseSettings => 'إعدادات هذا التمرين';
 
   @override
-  String get exerciseSettingsHint => 'Rest, progression, warm-up and more';
+  String get exerciseSettingsHint => 'الراحة والتدرّج والإحماء والمزيد';
 
   @override
-  String get appIcon => 'App icon';
+  String get appIcon => 'أيقونة التطبيق';
 
   @override
-  String get appIconHint => 'How GymMane looks on your home screen';
+  String get appIconHint => 'كيف يظهر GymMane على شاشتك الرئيسية';
 
   @override
-  String get appIconColors => 'Colors';
+  String get appIconColors => 'الألوان';
 
   @override
-  String get appIconDesigns => 'Designs';
+  String get appIconDesigns => 'التصاميم';
 
   @override
-  String get appIconNote => 'Your home screen may take a few seconds to show the change.';
+  String get appIconNote => 'قد تحتاج الشاشة الرئيسية بضع ثوانٍ لإظهار التغيير.';
 
   @override
-  String get appIconDefault => 'Original';
+  String get appIconDefault => 'الأصلية';
 
   @override
-  String get appIconLight => 'Light';
+  String get appIconLight => 'فاتحة';
 
   @override
-  String get appIconSand => 'Sand';
+  String get appIconSand => 'رملي';
 
   @override
-  String get appIconGraphite => 'Graphite';
+  String get appIconGraphite => 'جرافيت';
 
   @override
-  String get appIconSage => 'Sage';
+  String get appIconSage => 'مريمية';
 
   @override
-  String get appIconNight => 'Night';
+  String get appIconNight => 'ليل';
 
   @override
   String get appIconMaterial => 'Material';
 
   @override
-  String get appIconMedal => 'Medal';
+  String get appIconMedal => 'ميدالية';
 
   @override
-  String get appIconGlass => 'Glass';
+  String get appIconGlass => 'زجاج';
 
   @override
-  String get appIconStopwatch => 'Stopwatch';
+  String get appIconStopwatch => 'ساعة إيقاف';
 
   @override
-  String get appIconMarble => 'Marble';
+  String get appIconMarble => 'رخام';
 
   @override
-  String get nfcRow => 'NFC sticker';
+  String get nfcRow => 'ملصق NFC';
 
   @override
-  String get nfcRowHint => 'Tap your phone on it to see today\'s workout';
+  String get nfcRowHint => 'قرّب هاتفك لترى تمرين اليوم';
 
   @override
-  String get nfcTitle => 'NFC sticker';
+  String get nfcTitle => 'ملصق NFC';
 
   @override
-  String get nfcSubtitle => 'One sticker for every day of the week';
+  String get nfcSubtitle => 'ملصق واحد لكل أيام الأسبوع';
 
   @override
-  String get nfcPoint1 => 'Today\'s workout, ready';
+  String get nfcPoint1 => 'تمرين اليوم جاهز';
 
   @override
-  String get nfcPoint1Body =>
-      'Tap your phone on it and today\'s routine opens with its exercises. You start it when you are ready.';
+  String get nfcPoint1Body => 'قرّب هاتفك فيُفتح روتين اليوم مع تمارينه. تبدأه أنت متى كنت مستعدًا.';
 
   @override
-  String get nfcPoint2 => 'On rest days, it tells you';
+  String get nfcPoint2 => 'في أيام الراحة يخبرك';
 
   @override
-  String get nfcPoint2Body => 'If today is a rest day you will see it, and you can still train if you want.';
+  String get nfcPoint2Body => 'إذا كان اليوم يوم راحة فسترى ذلك، ويمكنك التمرّن على أي حال إن أردت.';
 
   @override
-  String get nfcPoint3 => 'Write it once';
+  String get nfcPoint3 => 'يُكتب مرة واحدة';
 
   @override
-  String get nfcPoint3Body =>
-      'Change your plan whenever you like: the sticker always opens what is planned for today.';
+  String get nfcPoint3Body => 'غيّر خطتك متى شئت: الملصق يفتح دائمًا ما هو مقرّر لذلك اليوم.';
 
   @override
-  String get nfcUse => 'Use the sticker';
+  String get nfcUse => 'استخدام الملصق';
 
   @override
-  String get nfcUseHint => 'When it is off, tapping the sticker does nothing';
+  String get nfcUseHint => 'عند إطفائه، لا يفعل تقريب الملصق شيئًا';
 
   @override
-  String get nfcWrite => 'Write a sticker';
+  String get nfcWrite => 'كتابة ملصق';
 
   @override
-  String get nfcOn => 'On';
+  String get nfcOn => 'مفعّل';
 
   @override
-  String get nfcOff => 'Off';
+  String get nfcOff => 'مطفأ';
 
   @override
-  String get todayRestBody => 'Resting is part of the plan. Your muscles grow while you recover.';
+  String get todayRestBody => 'الراحة جزء من الخطة. عضلاتك تنمو وأنت تتعافى.';
 
   @override
-  String get todayNotNow => 'Not now';
+  String get todayNotNow => 'ليس الآن';
 
   @override
-  String get nfcWaitTitle => 'Hold the sticker to your phone';
+  String get nfcWaitTitle => 'قرّب الملصق من هاتفك';
 
   @override
-  String get nfcWaitBody => 'Hold it against the back of your phone, near the camera, until it buzzes.';
+  String get nfcWaitBody => 'ضعه على ظهر الهاتف قرب الكاميرا حتى يهتز.';
 
   @override
-  String get nfcTip =>
-      'Any NTAG213, 215 or 216 sticker works. They are the most common and cost very little.';
+  String get nfcTip => 'يصلح أي ملصق NTAG213 أو 215 أو 216. إنها الأكثر شيوعًا وثمنها زهيد جدًا.';
 
   @override
-  String get nfcDoneTitle => 'Sticker ready';
+  String get nfcDoneTitle => 'الملصق جاهز';
 
   @override
-  String get nfcDoneBody => 'Stick it where you will see it when you arrive: your gym bag, bottle or locker.';
+  String get nfcDoneBody => 'ألصقه حيث تراه عند وصولك: حقيبة النادي أو القارورة أو الخزانة.';
 
   @override
-  String get nfcOffTitle => 'NFC is off';
+  String get nfcOffTitle => 'NFC مطفأ';
 
   @override
-  String get nfcOffBody => 'Turn on NFC in your phone settings to write the sticker.';
+  String get nfcOffBody => 'شغّل NFC من إعدادات الهاتف لكتابة الملصق.';
 
   @override
-  String get nfcOpenSettings => 'Open settings';
+  String get nfcOpenSettings => 'فتح الإعدادات';
 
   @override
-  String get nfcFailTitle => 'Couldn\'t write it';
+  String get nfcFailTitle => 'تعذّرت الكتابة';
 
   @override
-  String get nfcErrLocked => 'This sticker is locked and cannot be written.';
+  String get nfcErrLocked => 'هذا الملصق مقفل ولا يمكن الكتابة عليه.';
 
   @override
-  String get nfcErrSmall => 'It doesn\'t fit on this sticker. Use an NTAG213 or bigger.';
+  String get nfcErrSmall => 'لا يتّسع على هذا الملصق. استخدم NTAG213 أو أكبر.';
 
   @override
-  String get nfcErrLost => 'The sticker moved before it was done. Hold it still and try again.';
+  String get nfcErrLost => 'تحرّك الملصق قبل الانتهاء. أبقه ثابتًا وحاول مرة أخرى.';
 
   @override
-  String get nfcErrUnsupported => 'This sticker isn\'t supported. Use an NTAG213, 215 or 216.';
+  String get nfcErrUnsupported => 'هذا الملصق غير مدعوم. استخدم NTAG213 أو 215 أو 216.';
 
   @override
-  String get nfcRetry => 'Try again';
+  String get nfcRetry => 'حاول مرة أخرى';
 
   @override
-  String get raceTitle => 'Against your last session';
+  String get raceTitle => 'مقابل جلستك الأخيرة';
 
   @override
   String raceSince(String date) {
-    return 'Compared with $date';
+    return 'مقارنةً بـ $date';
   }
 
   @override
-  String get raceAhead => 'You\'re ahead';
+  String get raceAhead => 'أنت متقدّم';
 
   @override
-  String get raceBehind => 'Still catching up';
+  String get raceBehind => 'ما زلت تلحق';
 
   @override
-  String get raceEven => 'Neck and neck';
+  String get raceEven => 'متعادلان';
 
   @override
-  String get raceToday => 'Today';
+  String get raceToday => 'اليوم';
 
   @override
-  String get raceThen => 'Then';
+  String get raceThen => 'آنذاك';
 
   @override
-  String get raceHint =>
-      'Only the same sets are compared: if you have done 2, against your first 2 that day.';
+  String get raceHint => 'تُقارن المجموعات نفسها فقط: إذا أنهيت 2، فمع أول 2 لك في ذلك اليوم.';
 
   @override
   String get placeActiveNow => 'أنت هنا';
@@ -5565,13 +5561,13 @@ class AppLocalizationsAr extends AppLocalizations {
   String get importAsCopy => 'أضف كنسخة';
 
   @override
-  String get routineExerciseNote => 'Routine note';
+  String get routineExerciseNote => 'ملاحظة الروتين';
 
   @override
-  String get importRoutineNotes => 'Add missing routine notes';
+  String get importRoutineNotes => 'إضافة ملاحظات الروتين الناقصة';
 
   @override
-  String get routineNotesAdded => 'Routine notes added';
+  String get routineNotesAdded => 'أُضيفت ملاحظات الروتين';
 
   @override
   String get importOwned => 'لديك';
@@ -6634,13 +6630,13 @@ class AppLocalizationsAr extends AppLocalizations {
   String get reportShareCsv => 'تصدير CSV';
 
   @override
-  String get reportChooseCsv => 'Choose which CSV files to share.';
+  String get reportChooseCsv => 'اختر ملفات CSV التي تريد مشاركتها.';
 
   @override
-  String get reportWeighIns => 'Weigh-ins';
+  String get reportWeighIns => 'أوزان مسجّلة';
 
   @override
-  String get reportSessionDetails => 'Workout session details';
+  String get reportSessionDetails => 'تفاصيل الجلسات';
 
   @override
   String get reportShareCsvBoth => 'تصدير CSV (التمارين والتغذية)';

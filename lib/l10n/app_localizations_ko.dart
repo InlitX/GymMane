@@ -3459,178 +3459,174 @@ class AppLocalizationsKo extends AppLocalizations {
   String get exerciseSettings => '이 운동의 설정';
 
   @override
-  String get exerciseSettingsHint => 'Rest, progression, warm-up and more';
+  String get exerciseSettingsHint => '휴식, 점진, 워밍업 등';
 
   @override
-  String get appIcon => 'App icon';
+  String get appIcon => '앱 아이콘';
 
   @override
-  String get appIconHint => 'How GymMane looks on your home screen';
+  String get appIconHint => '홈 화면에서 GymMane이 보이는 모습';
 
   @override
-  String get appIconColors => 'Colors';
+  String get appIconColors => '색상';
 
   @override
-  String get appIconDesigns => 'Designs';
+  String get appIconDesigns => '디자인';
 
   @override
-  String get appIconNote => 'Your home screen may take a few seconds to show the change.';
+  String get appIconNote => '홈 화면에 변경 사항이 보이기까지 몇 초 걸릴 수 있어요.';
 
   @override
-  String get appIconDefault => 'Original';
+  String get appIconDefault => '기본';
 
   @override
-  String get appIconLight => 'Light';
+  String get appIconLight => '라이트';
 
   @override
-  String get appIconSand => 'Sand';
+  String get appIconSand => '샌드';
 
   @override
-  String get appIconGraphite => 'Graphite';
+  String get appIconGraphite => '그래파이트';
 
   @override
-  String get appIconSage => 'Sage';
+  String get appIconSage => '세이지';
 
   @override
-  String get appIconNight => 'Night';
+  String get appIconNight => '나이트';
 
   @override
   String get appIconMaterial => 'Material';
 
   @override
-  String get appIconMedal => 'Medal';
+  String get appIconMedal => '메달';
 
   @override
-  String get appIconGlass => 'Glass';
+  String get appIconGlass => '유리';
 
   @override
-  String get appIconStopwatch => 'Stopwatch';
+  String get appIconStopwatch => '스톱워치';
 
   @override
-  String get appIconMarble => 'Marble';
+  String get appIconMarble => '대리석';
 
   @override
-  String get nfcRow => 'NFC sticker';
+  String get nfcRow => 'NFC 스티커';
 
   @override
-  String get nfcRowHint => 'Tap your phone on it to see today\'s workout';
+  String get nfcRowHint => '휴대폰을 대고 오늘의 운동 보기';
 
   @override
-  String get nfcTitle => 'NFC sticker';
+  String get nfcTitle => 'NFC 스티커';
 
   @override
-  String get nfcSubtitle => 'One sticker for every day of the week';
+  String get nfcSubtitle => '일주일 내내 쓰는 스티커 하나';
 
   @override
-  String get nfcPoint1 => 'Today\'s workout, ready';
+  String get nfcPoint1 => '오늘의 운동, 바로 준비';
 
   @override
-  String get nfcPoint1Body =>
-      'Tap your phone on it and today\'s routine opens with its exercises. You start it when you are ready.';
+  String get nfcPoint1Body => '휴대폰을 대면 오늘의 루틴이 운동과 함께 열려요. 준비되면 직접 시작하세요.';
 
   @override
-  String get nfcPoint2 => 'On rest days, it tells you';
+  String get nfcPoint2 => '휴식일이면 알려 줘요';
 
   @override
-  String get nfcPoint2Body => 'If today is a rest day you will see it, and you can still train if you want.';
+  String get nfcPoint2Body => '오늘이 휴식일이면 그렇게 보이고, 원하면 그래도 운동할 수 있어요.';
 
   @override
-  String get nfcPoint3 => 'Write it once';
+  String get nfcPoint3 => '한 번만 쓰면 돼요';
 
   @override
-  String get nfcPoint3Body =>
-      'Change your plan whenever you like: the sticker always opens what is planned for today.';
+  String get nfcPoint3Body => '계획은 언제든 바꾸세요. 스티커는 항상 그날 예정된 운동을 열어요.';
 
   @override
-  String get nfcUse => 'Use the sticker';
+  String get nfcUse => '스티커 사용';
 
   @override
-  String get nfcUseHint => 'When it is off, tapping the sticker does nothing';
+  String get nfcUseHint => '꺼져 있으면 스티커에 대도 아무 일도 없어요';
 
   @override
-  String get nfcWrite => 'Write a sticker';
+  String get nfcWrite => '스티커 쓰기';
 
   @override
-  String get nfcOn => 'On';
+  String get nfcOn => '켜짐';
 
   @override
-  String get nfcOff => 'Off';
+  String get nfcOff => '꺼짐';
 
   @override
-  String get todayRestBody => 'Resting is part of the plan. Your muscles grow while you recover.';
+  String get todayRestBody => '쉬는 것도 계획의 일부예요. 회복하는 동안 근육이 자라요.';
 
   @override
-  String get todayNotNow => 'Not now';
+  String get todayNotNow => '나중에';
 
   @override
-  String get nfcWaitTitle => 'Hold the sticker to your phone';
+  String get nfcWaitTitle => '스티커를 휴대폰에 대세요';
 
   @override
-  String get nfcWaitBody => 'Hold it against the back of your phone, near the camera, until it buzzes.';
+  String get nfcWaitBody => '휴대폰 뒷면, 카메라 근처에 대고 진동할 때까지 기다리세요.';
 
   @override
-  String get nfcTip =>
-      'Any NTAG213, 215 or 216 sticker works. They are the most common and cost very little.';
+  String get nfcTip => 'NTAG213, 215, 216 스티커면 무엇이든 돼요. 가장 흔하고 아주 저렴해요.';
 
   @override
-  String get nfcDoneTitle => 'Sticker ready';
+  String get nfcDoneTitle => '스티커 준비 완료';
 
   @override
-  String get nfcDoneBody => 'Stick it where you will see it when you arrive: your gym bag, bottle or locker.';
+  String get nfcDoneBody => '도착했을 때 보이는 곳에 붙이세요. 운동 가방, 물병, 사물함 같은 곳이요.';
 
   @override
-  String get nfcOffTitle => 'NFC is off';
+  String get nfcOffTitle => 'NFC가 꺼져 있어요';
 
   @override
-  String get nfcOffBody => 'Turn on NFC in your phone settings to write the sticker.';
+  String get nfcOffBody => '스티커를 쓰려면 휴대폰 설정에서 NFC를 켜세요.';
 
   @override
-  String get nfcOpenSettings => 'Open settings';
+  String get nfcOpenSettings => '설정 열기';
 
   @override
-  String get nfcFailTitle => 'Couldn\'t write it';
+  String get nfcFailTitle => '쓰지 못했어요';
 
   @override
-  String get nfcErrLocked => 'This sticker is locked and cannot be written.';
+  String get nfcErrLocked => '이 스티커는 잠겨 있어서 쓸 수 없어요.';
 
   @override
-  String get nfcErrSmall => 'It doesn\'t fit on this sticker. Use an NTAG213 or bigger.';
+  String get nfcErrSmall => '이 스티커에는 들어가지 않아요. NTAG213 이상을 사용하세요.';
 
   @override
-  String get nfcErrLost => 'The sticker moved before it was done. Hold it still and try again.';
+  String get nfcErrLost => '끝나기 전에 스티커가 움직였어요. 움직이지 말고 다시 시도하세요.';
 
   @override
-  String get nfcErrUnsupported => 'This sticker isn\'t supported. Use an NTAG213, 215 or 216.';
+  String get nfcErrUnsupported => '지원하지 않는 스티커예요. NTAG213, 215, 216을 사용하세요.';
 
   @override
-  String get nfcRetry => 'Try again';
+  String get nfcRetry => '다시 시도';
 
   @override
-  String get raceTitle => 'Against your last session';
+  String get raceTitle => '지난 세션과 비교';
 
   @override
   String raceSince(String date) {
-    return 'Compared with $date';
+    return '$date와 비교';
   }
 
   @override
-  String get raceAhead => 'You\'re ahead';
+  String get raceAhead => '앞서고 있어요';
 
   @override
-  String get raceBehind => 'Still catching up';
+  String get raceBehind => '아직 따라잡는 중';
 
   @override
-  String get raceEven => 'Neck and neck';
+  String get raceEven => '막상막하';
 
   @override
-  String get raceToday => 'Today';
+  String get raceToday => '오늘';
 
   @override
-  String get raceThen => 'Then';
+  String get raceThen => '그날';
 
   @override
-  String get raceHint =>
-      'Only the same sets are compared: if you have done 2, against your first 2 that day.';
+  String get raceHint => '같은 세트만 비교해요. 2세트를 했다면 그날의 첫 2세트와 비교해요.';
 
   @override
   String get placeActiveNow => '지금 여기';
@@ -5387,13 +5383,13 @@ class AppLocalizationsKo extends AppLocalizations {
   String get importAsCopy => '사본으로 추가';
 
   @override
-  String get routineExerciseNote => 'Routine note';
+  String get routineExerciseNote => '루틴 메모';
 
   @override
-  String get importRoutineNotes => 'Add missing routine notes';
+  String get importRoutineNotes => '빠진 루틴 메모 추가';
 
   @override
-  String get routineNotesAdded => 'Routine notes added';
+  String get routineNotesAdded => '루틴 메모를 추가했어요';
 
   @override
   String get importOwned => '이미 있음';
@@ -6403,13 +6399,13 @@ class AppLocalizationsKo extends AppLocalizations {
   String get reportShareCsv => 'CSV 내보내기';
 
   @override
-  String get reportChooseCsv => 'Choose which CSV files to share.';
+  String get reportChooseCsv => '공유할 CSV 파일을 고르세요.';
 
   @override
-  String get reportWeighIns => 'Weigh-ins';
+  String get reportWeighIns => '체중 기록';
 
   @override
-  String get reportSessionDetails => 'Workout session details';
+  String get reportSessionDetails => '세션 상세';
 
   @override
   String get reportShareCsvBoth => 'CSV 내보내기 (운동과 영양)';

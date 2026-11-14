@@ -3403,178 +3403,174 @@ class AppLocalizationsZh extends AppLocalizations {
   String get exerciseSettings => '此动作的设置';
 
   @override
-  String get exerciseSettingsHint => 'Rest, progression, warm-up and more';
+  String get exerciseSettingsHint => '休息、渐进、热身等';
 
   @override
-  String get appIcon => 'App icon';
+  String get appIcon => '应用图标';
 
   @override
-  String get appIconHint => 'How GymMane looks on your home screen';
+  String get appIconHint => 'GymMane 在主屏幕上的样子';
 
   @override
-  String get appIconColors => 'Colors';
+  String get appIconColors => '颜色';
 
   @override
-  String get appIconDesigns => 'Designs';
+  String get appIconDesigns => '设计';
 
   @override
-  String get appIconNote => 'Your home screen may take a few seconds to show the change.';
+  String get appIconNote => '主屏幕可能需要几秒钟才会显示变化。';
 
   @override
-  String get appIconDefault => 'Original';
+  String get appIconDefault => '原版';
 
   @override
-  String get appIconLight => 'Light';
+  String get appIconLight => '浅色';
 
   @override
-  String get appIconSand => 'Sand';
+  String get appIconSand => '沙色';
 
   @override
-  String get appIconGraphite => 'Graphite';
+  String get appIconGraphite => '石墨';
 
   @override
-  String get appIconSage => 'Sage';
+  String get appIconSage => '鼠尾草';
 
   @override
-  String get appIconNight => 'Night';
+  String get appIconNight => '夜色';
 
   @override
   String get appIconMaterial => 'Material';
 
   @override
-  String get appIconMedal => 'Medal';
+  String get appIconMedal => '奖牌';
 
   @override
-  String get appIconGlass => 'Glass';
+  String get appIconGlass => '玻璃';
 
   @override
-  String get appIconStopwatch => 'Stopwatch';
+  String get appIconStopwatch => '秒表';
 
   @override
-  String get appIconMarble => 'Marble';
+  String get appIconMarble => '大理石';
 
   @override
-  String get nfcRow => 'NFC sticker';
+  String get nfcRow => 'NFC 贴纸';
 
   @override
-  String get nfcRowHint => 'Tap your phone on it to see today\'s workout';
+  String get nfcRowHint => '手机靠近即可查看今天的训练';
 
   @override
-  String get nfcTitle => 'NFC sticker';
+  String get nfcTitle => 'NFC 贴纸';
 
   @override
-  String get nfcSubtitle => 'One sticker for every day of the week';
+  String get nfcSubtitle => '一张贴纸管一整周';
 
   @override
-  String get nfcPoint1 => 'Today\'s workout, ready';
+  String get nfcPoint1 => '今天的训练，马上就绪';
 
   @override
-  String get nfcPoint1Body =>
-      'Tap your phone on it and today\'s routine opens with its exercises. You start it when you are ready.';
+  String get nfcPoint1Body => '把手机靠近，今天的训练计划就会连同动作一起打开。准备好了再开始。';
 
   @override
-  String get nfcPoint2 => 'On rest days, it tells you';
+  String get nfcPoint2 => '休息日会告诉你';
 
   @override
-  String get nfcPoint2Body => 'If today is a rest day you will see it, and you can still train if you want.';
+  String get nfcPoint2Body => '如果今天是休息日你会看到，想练也照样可以练。';
 
   @override
-  String get nfcPoint3 => 'Write it once';
+  String get nfcPoint3 => '只需写入一次';
 
   @override
-  String get nfcPoint3Body =>
-      'Change your plan whenever you like: the sticker always opens what is planned for today.';
+  String get nfcPoint3Body => '随时修改计划：贴纸总会打开当天安排的内容。';
 
   @override
-  String get nfcUse => 'Use the sticker';
+  String get nfcUse => '使用贴纸';
 
   @override
-  String get nfcUseHint => 'When it is off, tapping the sticker does nothing';
+  String get nfcUseHint => '关闭时，靠近贴纸不会有任何反应';
 
   @override
-  String get nfcWrite => 'Write a sticker';
+  String get nfcWrite => '写入贴纸';
 
   @override
-  String get nfcOn => 'On';
+  String get nfcOn => '开启';
 
   @override
-  String get nfcOff => 'Off';
+  String get nfcOff => '关闭';
 
   @override
-  String get todayRestBody => 'Resting is part of the plan. Your muscles grow while you recover.';
+  String get todayRestBody => '休息也是计划的一部分。肌肉在你恢复时生长。';
 
   @override
-  String get todayNotNow => 'Not now';
+  String get todayNotNow => '以后再说';
 
   @override
-  String get nfcWaitTitle => 'Hold the sticker to your phone';
+  String get nfcWaitTitle => '把贴纸靠近手机';
 
   @override
-  String get nfcWaitBody => 'Hold it against the back of your phone, near the camera, until it buzzes.';
+  String get nfcWaitBody => '贴在手机背面靠近摄像头的位置，直到手机振动。';
 
   @override
-  String get nfcTip =>
-      'Any NTAG213, 215 or 216 sticker works. They are the most common and cost very little.';
+  String get nfcTip => '任何 NTAG213、215 或 216 贴纸都可以。它们最常见，价格也很便宜。';
 
   @override
-  String get nfcDoneTitle => 'Sticker ready';
+  String get nfcDoneTitle => '贴纸已就绪';
 
   @override
-  String get nfcDoneBody => 'Stick it where you will see it when you arrive: your gym bag, bottle or locker.';
+  String get nfcDoneBody => '贴在你到达时能看到的地方：健身包、水瓶或储物柜。';
 
   @override
-  String get nfcOffTitle => 'NFC is off';
+  String get nfcOffTitle => 'NFC 已关闭';
 
   @override
-  String get nfcOffBody => 'Turn on NFC in your phone settings to write the sticker.';
+  String get nfcOffBody => '请在手机设置中打开 NFC 以写入贴纸。';
 
   @override
-  String get nfcOpenSettings => 'Open settings';
+  String get nfcOpenSettings => '打开设置';
 
   @override
-  String get nfcFailTitle => 'Couldn\'t write it';
+  String get nfcFailTitle => '无法写入';
 
   @override
-  String get nfcErrLocked => 'This sticker is locked and cannot be written.';
+  String get nfcErrLocked => '这张贴纸已锁定，无法写入。';
 
   @override
-  String get nfcErrSmall => 'It doesn\'t fit on this sticker. Use an NTAG213 or bigger.';
+  String get nfcErrSmall => '这张贴纸放不下。请使用 NTAG213 或更大的贴纸。';
 
   @override
-  String get nfcErrLost => 'The sticker moved before it was done. Hold it still and try again.';
+  String get nfcErrLost => '贴纸在完成前移动了。请保持不动再试一次。';
 
   @override
-  String get nfcErrUnsupported => 'This sticker isn\'t supported. Use an NTAG213, 215 or 216.';
+  String get nfcErrUnsupported => '不支持这张贴纸。请使用 NTAG213、215 或 216。';
 
   @override
-  String get nfcRetry => 'Try again';
+  String get nfcRetry => '再试一次';
 
   @override
-  String get raceTitle => 'Against your last session';
+  String get raceTitle => '与上次训练相比';
 
   @override
   String raceSince(String date) {
-    return 'Compared with $date';
+    return '与 $date 相比';
   }
 
   @override
-  String get raceAhead => 'You\'re ahead';
+  String get raceAhead => '你领先了';
 
   @override
-  String get raceBehind => 'Still catching up';
+  String get raceBehind => '还在追赶';
 
   @override
-  String get raceEven => 'Neck and neck';
+  String get raceEven => '不相上下';
 
   @override
-  String get raceToday => 'Today';
+  String get raceToday => '今天';
 
   @override
-  String get raceThen => 'Then';
+  String get raceThen => '当时';
 
   @override
-  String get raceHint =>
-      'Only the same sets are compared: if you have done 2, against your first 2 that day.';
+  String get raceHint => '只比较相同的组：如果你做了 2 组，就和那天的前 2 组比较。';
 
   @override
   String get placeActiveNow => '你在这里';
@@ -5324,13 +5320,13 @@ class AppLocalizationsZh extends AppLocalizations {
   String get importAsCopy => '添加为副本';
 
   @override
-  String get routineExerciseNote => 'Routine note';
+  String get routineExerciseNote => '训练计划备注';
 
   @override
-  String get importRoutineNotes => 'Add missing routine notes';
+  String get importRoutineNotes => '添加缺少的训练计划备注';
 
   @override
-  String get routineNotesAdded => 'Routine notes added';
+  String get routineNotesAdded => '已添加训练计划备注';
 
   @override
   String get importOwned => '已拥有';
@@ -6336,13 +6332,13 @@ class AppLocalizationsZh extends AppLocalizations {
   String get reportShareCsv => '导出 CSV';
 
   @override
-  String get reportChooseCsv => 'Choose which CSV files to share.';
+  String get reportChooseCsv => '选择要分享的 CSV 文件。';
 
   @override
-  String get reportWeighIns => 'Weigh-ins';
+  String get reportWeighIns => '体重记录';
 
   @override
-  String get reportSessionDetails => 'Workout session details';
+  String get reportSessionDetails => '训练详情';
 
   @override
   String get reportShareCsvBoth => '导出 CSV（训练与营养）';
@@ -11063,6 +11059,176 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get exerciseSettings => '此動作的設定';
 
   @override
+  String get exerciseSettingsHint => '休息、漸進、熱身等';
+
+  @override
+  String get appIcon => '應用程式圖示';
+
+  @override
+  String get appIconHint => 'GymMane 在主畫面上的樣子';
+
+  @override
+  String get appIconColors => '顏色';
+
+  @override
+  String get appIconDesigns => '設計';
+
+  @override
+  String get appIconNote => '主畫面可能需要幾秒鐘才會顯示變更。';
+
+  @override
+  String get appIconDefault => '原版';
+
+  @override
+  String get appIconLight => '淺色';
+
+  @override
+  String get appIconSand => '沙色';
+
+  @override
+  String get appIconGraphite => '石墨';
+
+  @override
+  String get appIconSage => '鼠尾草';
+
+  @override
+  String get appIconNight => '夜色';
+
+  @override
+  String get appIconMaterial => 'Material';
+
+  @override
+  String get appIconMedal => '獎牌';
+
+  @override
+  String get appIconGlass => '玻璃';
+
+  @override
+  String get appIconStopwatch => '碼錶';
+
+  @override
+  String get appIconMarble => '大理石';
+
+  @override
+  String get nfcRow => 'NFC 貼紙';
+
+  @override
+  String get nfcRowHint => '手機靠近即可查看今天的訓練';
+
+  @override
+  String get nfcTitle => 'NFC 貼紙';
+
+  @override
+  String get nfcSubtitle => '一張貼紙管一整週';
+
+  @override
+  String get nfcPoint1 => '今天的訓練，馬上就緒';
+
+  @override
+  String get nfcPoint1Body => '把手機靠近，今天的訓練計畫就會連同動作一起開啟。準備好了再開始。';
+
+  @override
+  String get nfcPoint2 => '休息日會告訴你';
+
+  @override
+  String get nfcPoint2Body => '如果今天是休息日你會看到，想練也照樣可以練。';
+
+  @override
+  String get nfcPoint3 => '只需寫入一次';
+
+  @override
+  String get nfcPoint3Body => '隨時修改計畫：貼紙總會開啟當天安排的內容。';
+
+  @override
+  String get nfcUse => '使用貼紙';
+
+  @override
+  String get nfcUseHint => '關閉時，靠近貼紙不會有任何反應';
+
+  @override
+  String get nfcWrite => '寫入貼紙';
+
+  @override
+  String get nfcOn => '開啟';
+
+  @override
+  String get nfcOff => '關閉';
+
+  @override
+  String get todayRestBody => '休息也是計畫的一部分。肌肉在你恢復時生長。';
+
+  @override
+  String get todayNotNow => '以後再說';
+
+  @override
+  String get nfcWaitTitle => '把貼紙靠近手機';
+
+  @override
+  String get nfcWaitBody => '貼在手機背面靠近相機的位置，直到手機震動。';
+
+  @override
+  String get nfcTip => '任何 NTAG213、215 或 216 貼紙都可以。它們最常見，價格也很便宜。';
+
+  @override
+  String get nfcDoneTitle => '貼紙已就緒';
+
+  @override
+  String get nfcDoneBody => '貼在你抵達時看得到的地方：健身包、水瓶或置物櫃。';
+
+  @override
+  String get nfcOffTitle => 'NFC 已關閉';
+
+  @override
+  String get nfcOffBody => '請在手機設定中開啟 NFC 以寫入貼紙。';
+
+  @override
+  String get nfcOpenSettings => '開啟設定';
+
+  @override
+  String get nfcFailTitle => '無法寫入';
+
+  @override
+  String get nfcErrLocked => '這張貼紙已鎖定，無法寫入。';
+
+  @override
+  String get nfcErrSmall => '這張貼紙放不下。請使用 NTAG213 或更大的貼紙。';
+
+  @override
+  String get nfcErrLost => '貼紙在完成前移動了。請保持不動再試一次。';
+
+  @override
+  String get nfcErrUnsupported => '不支援這張貼紙。請使用 NTAG213、215 或 216。';
+
+  @override
+  String get nfcRetry => '再試一次';
+
+  @override
+  String get raceTitle => '與上次訓練相比';
+
+  @override
+  String raceSince(String date) {
+    return '與 $date 相比';
+  }
+
+  @override
+  String get raceAhead => '你領先了';
+
+  @override
+  String get raceBehind => '還在追趕';
+
+  @override
+  String get raceEven => '不相上下';
+
+  @override
+  String get raceToday => '今天';
+
+  @override
+  String get raceThen => '當時';
+
+  @override
+  String get raceHint => '只比較相同的組：如果你做了 2 組，就和那天的前 2 組比較。';
+
+  @override
   String get placeActiveNow => '你在這裡';
 
   @override
@@ -12810,6 +12976,15 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get importAsCopy => '新增為副本';
 
   @override
+  String get routineExerciseNote => '訓練計畫備註';
+
+  @override
+  String get importRoutineNotes => '新增缺少的訓練計畫備註';
+
+  @override
+  String get routineNotesAdded => '已新增訓練計畫備註';
+
+  @override
   String get importOwned => '已擁有';
 
   @override
@@ -13811,6 +13986,15 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get reportShareCsv => '匯出 CSV';
+
+  @override
+  String get reportChooseCsv => '選擇要分享的 CSV 檔案。';
+
+  @override
+  String get reportWeighIns => '體重紀錄';
+
+  @override
+  String get reportSessionDetails => '訓練詳情';
 
   @override
   String get reportShareCsvBoth => '匯出 CSV（訓練與營養）';

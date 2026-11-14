@@ -3484,178 +3484,175 @@ class AppLocalizationsVi extends AppLocalizations {
   String get exerciseSettings => 'Cài đặt cho bài tập này';
 
   @override
-  String get exerciseSettingsHint => 'Rest, progression, warm-up and more';
+  String get exerciseSettingsHint => 'Nghỉ, tăng tiến, khởi động và hơn nữa';
 
   @override
-  String get appIcon => 'App icon';
+  String get appIcon => 'Biểu tượng ứng dụng';
 
   @override
-  String get appIconHint => 'How GymMane looks on your home screen';
+  String get appIconHint => 'GymMane trông thế nào trên màn hình chính';
 
   @override
-  String get appIconColors => 'Colors';
+  String get appIconColors => 'Màu sắc';
 
   @override
-  String get appIconDesigns => 'Designs';
+  String get appIconDesigns => 'Thiết kế';
 
   @override
-  String get appIconNote => 'Your home screen may take a few seconds to show the change.';
+  String get appIconNote => 'Màn hình chính có thể mất vài giây để hiện thay đổi.';
 
   @override
-  String get appIconDefault => 'Original';
+  String get appIconDefault => 'Gốc';
 
   @override
-  String get appIconLight => 'Light';
+  String get appIconLight => 'Sáng';
 
   @override
-  String get appIconSand => 'Sand';
+  String get appIconSand => 'Cát';
 
   @override
-  String get appIconGraphite => 'Graphite';
+  String get appIconGraphite => 'Than chì';
 
   @override
-  String get appIconSage => 'Sage';
+  String get appIconSage => 'Xô thơm';
 
   @override
-  String get appIconNight => 'Night';
+  String get appIconNight => 'Đêm';
 
   @override
   String get appIconMaterial => 'Material';
 
   @override
-  String get appIconMedal => 'Medal';
+  String get appIconMedal => 'Huy chương';
 
   @override
-  String get appIconGlass => 'Glass';
+  String get appIconGlass => 'Kính';
 
   @override
-  String get appIconStopwatch => 'Stopwatch';
+  String get appIconStopwatch => 'Đồng hồ bấm giờ';
 
   @override
-  String get appIconMarble => 'Marble';
+  String get appIconMarble => 'Đá cẩm thạch';
 
   @override
-  String get nfcRow => 'NFC sticker';
+  String get nfcRow => 'Nhãn NFC';
 
   @override
-  String get nfcRowHint => 'Tap your phone on it to see today\'s workout';
+  String get nfcRowHint => 'Chạm điện thoại vào để xem buổi tập hôm nay';
 
   @override
-  String get nfcTitle => 'NFC sticker';
+  String get nfcTitle => 'Nhãn NFC';
 
   @override
-  String get nfcSubtitle => 'One sticker for every day of the week';
+  String get nfcSubtitle => 'Một nhãn cho cả tuần';
 
   @override
-  String get nfcPoint1 => 'Today\'s workout, ready';
+  String get nfcPoint1 => 'Buổi tập hôm nay, sẵn sàng';
 
   @override
   String get nfcPoint1Body =>
-      'Tap your phone on it and today\'s routine opens with its exercises. You start it when you are ready.';
+      'Chạm điện thoại vào và giáo án hôm nay mở ra cùng các bài tập. Bạn bắt đầu khi đã sẵn sàng.';
 
   @override
-  String get nfcPoint2 => 'On rest days, it tells you';
+  String get nfcPoint2 => 'Ngày nghỉ, nó sẽ báo';
 
   @override
-  String get nfcPoint2Body => 'If today is a rest day you will see it, and you can still train if you want.';
+  String get nfcPoint2Body => 'Nếu hôm nay là ngày nghỉ bạn sẽ thấy, và vẫn có thể tập nếu muốn.';
 
   @override
-  String get nfcPoint3 => 'Write it once';
+  String get nfcPoint3 => 'Chỉ ghi một lần';
 
   @override
-  String get nfcPoint3Body =>
-      'Change your plan whenever you like: the sticker always opens what is planned for today.';
+  String get nfcPoint3Body => 'Đổi kế hoạch bất cứ lúc nào: nhãn luôn mở đúng buổi đã lên lịch cho ngày đó.';
 
   @override
-  String get nfcUse => 'Use the sticker';
+  String get nfcUse => 'Dùng nhãn';
 
   @override
-  String get nfcUseHint => 'When it is off, tapping the sticker does nothing';
+  String get nfcUseHint => 'Khi tắt, chạm vào nhãn sẽ không có gì xảy ra';
 
   @override
-  String get nfcWrite => 'Write a sticker';
+  String get nfcWrite => 'Ghi nhãn';
 
   @override
-  String get nfcOn => 'On';
+  String get nfcOn => 'Bật';
 
   @override
-  String get nfcOff => 'Off';
+  String get nfcOff => 'Tắt';
 
   @override
-  String get todayRestBody => 'Resting is part of the plan. Your muscles grow while you recover.';
+  String get todayRestBody => 'Nghỉ ngơi cũng là một phần của kế hoạch. Cơ bắp phát triển khi bạn hồi phục.';
 
   @override
-  String get todayNotNow => 'Not now';
+  String get todayNotNow => 'Để sau';
 
   @override
-  String get nfcWaitTitle => 'Hold the sticker to your phone';
+  String get nfcWaitTitle => 'Áp nhãn vào điện thoại';
 
   @override
-  String get nfcWaitBody => 'Hold it against the back of your phone, near the camera, until it buzzes.';
+  String get nfcWaitBody => 'Áp vào mặt sau điện thoại, gần camera, cho đến khi rung.';
 
   @override
-  String get nfcTip =>
-      'Any NTAG213, 215 or 216 sticker works. They are the most common and cost very little.';
+  String get nfcTip => 'Nhãn NTAG213, 215 hoặc 216 nào cũng được. Đây là loại phổ biến nhất và rất rẻ.';
 
   @override
-  String get nfcDoneTitle => 'Sticker ready';
+  String get nfcDoneTitle => 'Nhãn đã sẵn sàng';
 
   @override
-  String get nfcDoneBody => 'Stick it where you will see it when you arrive: your gym bag, bottle or locker.';
+  String get nfcDoneBody => 'Dán ở chỗ bạn thấy khi đến: túi tập, bình nước hoặc tủ đồ.';
 
   @override
-  String get nfcOffTitle => 'NFC is off';
+  String get nfcOffTitle => 'NFC đang tắt';
 
   @override
-  String get nfcOffBody => 'Turn on NFC in your phone settings to write the sticker.';
+  String get nfcOffBody => 'Bật NFC trong cài đặt điện thoại để ghi nhãn.';
 
   @override
-  String get nfcOpenSettings => 'Open settings';
+  String get nfcOpenSettings => 'Mở cài đặt';
 
   @override
-  String get nfcFailTitle => 'Couldn\'t write it';
+  String get nfcFailTitle => 'Không ghi được';
 
   @override
-  String get nfcErrLocked => 'This sticker is locked and cannot be written.';
+  String get nfcErrLocked => 'Nhãn này đã bị khóa, không thể ghi.';
 
   @override
-  String get nfcErrSmall => 'It doesn\'t fit on this sticker. Use an NTAG213 or bigger.';
+  String get nfcErrSmall => 'Không vừa nhãn này. Dùng NTAG213 hoặc lớn hơn.';
 
   @override
-  String get nfcErrLost => 'The sticker moved before it was done. Hold it still and try again.';
+  String get nfcErrLost => 'Nhãn bị xê dịch trước khi xong. Giữ yên và thử lại.';
 
   @override
-  String get nfcErrUnsupported => 'This sticker isn\'t supported. Use an NTAG213, 215 or 216.';
+  String get nfcErrUnsupported => 'Nhãn này không được hỗ trợ. Dùng NTAG213, 215 hoặc 216.';
 
   @override
-  String get nfcRetry => 'Try again';
+  String get nfcRetry => 'Thử lại';
 
   @override
-  String get raceTitle => 'Against your last session';
+  String get raceTitle => 'So với buổi tập trước';
 
   @override
   String raceSince(String date) {
-    return 'Compared with $date';
+    return 'So với $date';
   }
 
   @override
-  String get raceAhead => 'You\'re ahead';
+  String get raceAhead => 'Bạn đang dẫn trước';
 
   @override
-  String get raceBehind => 'Still catching up';
+  String get raceBehind => 'Vẫn đang đuổi theo';
 
   @override
-  String get raceEven => 'Neck and neck';
+  String get raceEven => 'Ngang ngửa';
 
   @override
-  String get raceToday => 'Today';
+  String get raceToday => 'Hôm nay';
 
   @override
-  String get raceThen => 'Then';
+  String get raceThen => 'Hôm đó';
 
   @override
-  String get raceHint =>
-      'Only the same sets are compared: if you have done 2, against your first 2 that day.';
+  String get raceHint => 'Chỉ so các hiệp giống nhau: nếu bạn đã tập 2 hiệp, so với 2 hiệp đầu của hôm đó.';
 
   @override
   String get placeActiveNow => 'Bạn đang ở đây';
@@ -5430,13 +5427,13 @@ class AppLocalizationsVi extends AppLocalizations {
   String get importAsCopy => 'Thêm dưới dạng bản sao';
 
   @override
-  String get routineExerciseNote => 'Routine note';
+  String get routineExerciseNote => 'Ghi chú giáo án';
 
   @override
-  String get importRoutineNotes => 'Add missing routine notes';
+  String get importRoutineNotes => 'Thêm các ghi chú giáo án còn thiếu';
 
   @override
-  String get routineNotesAdded => 'Routine notes added';
+  String get routineNotesAdded => 'Đã thêm ghi chú giáo án';
 
   @override
   String get importOwned => 'Đã có';
@@ -6471,13 +6468,13 @@ class AppLocalizationsVi extends AppLocalizations {
   String get reportShareCsv => 'Xuất CSV';
 
   @override
-  String get reportChooseCsv => 'Choose which CSV files to share.';
+  String get reportChooseCsv => 'Chọn tệp CSV muốn chia sẻ.';
 
   @override
-  String get reportWeighIns => 'Weigh-ins';
+  String get reportWeighIns => 'Lần cân';
 
   @override
-  String get reportSessionDetails => 'Workout session details';
+  String get reportSessionDetails => 'Chi tiết các buổi tập';
 
   @override
   String get reportShareCsvBoth => 'Xuất CSV (buổi tập và dinh dưỡng)';
