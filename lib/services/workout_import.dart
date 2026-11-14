@@ -12,6 +12,7 @@ enum ImportFormat {
   strong,
   lyfta,
   fitbod,
+  liftosaur,
   fitnotes,
   gymmane,
   openGym,
@@ -84,6 +85,7 @@ class _Fmt {
     this.durationSec,
     this.setType,
     this.warmupFlag,
+    this.unit,
   });
 
   final List<String> date;
@@ -99,7 +101,8 @@ class _Fmt {
   final List<String>? durationSec;
   final List<String>? setType;
   final List<String>? warmupFlag;
-  List<String> get rpe => const ['rpe'];
+  final List<String>? unit;
+  List<String> get rpe => const ['rpe', 'completed rpe'];
   List<String> get setSec => const ['duration_seconds', 'seconds', 'duration (s)', 'time (s)', 'set duration'];
   List<String> get setClock => const ['time', 'set time'];
   List<String> get km => const ['distance_km', 'distance (km)', 'km'];
@@ -151,6 +154,17 @@ const _formats = <ImportFormat, _Fmt>{
     weightKg: ['weight(kg)', 'weight (kg)'],
     weightLb: ['weight(lbs)', 'weight(lb)', 'weight (lbs)'],
     warmupFlag: ['iswarmup'],
+  ),
+  ImportFormat.liftosaur: _Fmt(
+    date: ['workout datetime'],
+    group: ['day name'],
+    exercise: ['exercise'],
+    reps: ['completed reps'],
+    weightKg: [],
+    weightLb: [],
+    weightPlain: ['completed weight value'],
+    unit: ['completed weight unit'],
+    warmupFlag: ['is warmup set?'],
   ),
   ImportFormat.fitnotes: _Fmt(
     date: ['date'],
@@ -205,6 +219,7 @@ ImportFormat detectFormat(String csv) {
   final cols = _header(csv);
   if (cols.isEmpty) return ImportFormat.unknown;
   if (cols.contains('exercise_title') && cols.contains('start_time')) return ImportFormat.hevy;
+  if (cols.contains('workout datetime') && cols.contains('is warmup set?')) return ImportFormat.liftosaur;
   if (cols.contains('exercise name') && cols.contains('set order')) return ImportFormat.strong;
   if (cols.contains('exercise') &&
       cols.contains('set type') &&
@@ -247,6 +262,7 @@ bool needsUnitChoice(String csv) {
   }
   final fmt = _formats[format];
   if (fmt == null) return false;
+  if (_pick(cols, fmt.unit ?? const []) != null) return false;
   if (_pick(cols, fmt.weightKg) != null || _pick(cols, fmt.weightLb) != null) return false;
   return _pick(cols, fmt.weightPlain ?? const []) != null;
 }
@@ -360,7 +376,8 @@ ImportResult parseImport(String csv, {bool isLb = false}) {
     if (_norm(cell(row, fmt.setOrder)).startsWith('rest')) continue;
     if (_norm(cell(row, fmt.setType)).startsWith('warmup') ||
         _norm(cell(row, fmt.setType)).startsWith('warm_up') ||
-        _norm(cell(row, fmt.warmupFlag)) == 'true') {
+        _norm(cell(row, fmt.warmupFlag)) == 'true' ||
+        _norm(cell(row, fmt.warmupFlag)) == '1') {
       continue;
     }
 
@@ -373,7 +390,7 @@ ImportResult parseImport(String csv, {bool isLb = false}) {
       kg: kgCol == null ? '' : cell(row, [kgCol]),
       lb: lbCol == null ? '' : cell(row, [lbCol]),
       plain: plainCol == null ? '' : cell(row, [plainCol]),
-      plainIsLb: isLb,
+      plainIsLb: fmt.unit == null ? isLb : _norm(cell(row, fmt.unit)).startsWith('lb'),
     );
 
     final group = cell(row, fmt.group);
