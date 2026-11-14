@@ -1,0 +1,3 @@
+"NSCameraUsageDescription" = "GymMane używa aparatu do zdjęć postępów.";
+"NSPhotoLibraryUsageDescription" = "GymMane otwiera bibliotekę zdjęć, aby wybrać zdjęcia postępów, multimedia ćwiczeń i tła.";
+"NSPhotoLibraryAddUsageDescription" = "GymMane zapisuje udostępniane karty w bibliotece zdjęć.";

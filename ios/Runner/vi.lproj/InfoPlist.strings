@@ -1,0 +1,3 @@
+"NSCameraUsageDescription" = "GymMane dùng camera để chụp ảnh tiến độ của bạn.";
+"NSPhotoLibraryUsageDescription" = "GymMane mở thư viện ảnh để chọn ảnh tiến độ, media bài tập và hình nền.";
+"NSPhotoLibraryAddUsageDescription" = "GymMane lưu các thẻ bạn chia sẻ vào thư viện ảnh.";

@@ -1,0 +1,17 @@
+"widget_activity_name" = "Aktivitas";
+"widget_activity_desc" = "Latihanmu beberapa bulan terakhir dan streak-mu.";
+"widget_stats_name" = "Statistik";
+"widget_stats_desc" = "Streak, sesi minggu ini, dan target mingguan.";
+"widget_body_name" = "Peta otot";
+"widget_body_desc" = "Otot yang kamu latih dalam 7 hari terakhir.";
+"widget_today_name" = "Hari ini";
+"widget_today_desc" = "Apakah latihan hari ini sudah selesai atau belum.";
+"widget_open_app" = "Buka GymMane sekali untuk mengisi widget ini";
+"widget_week_name" = "Minggu ini";
+"widget_week_desc" = "Hari-hari kamu latihan minggu ini dan target mingguanmu.";
+"widget_water_name" = "Air";
+"widget_water_desc" = "Air minummu hari ini. Ketuk bagian bawah untuk menambah segelas.";
+"widget_protein_name" = "Protein";
+"widget_protein_desc" = "Proteinmu hari ini. Ketuk bagian bawah untuk menambah shake.";
+"widget_kcal_name" = "Kalori";
+"widget_kcal_desc" = "Kalori dan makro hari ini.";

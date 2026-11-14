@@ -1,0 +1,17 @@
+"widget_activity_name" = "एक्टिविटी";
+"widget_activity_desc" = "पिछले कुछ महीनों की आपकी ट्रेनिंग और स्ट्रीक।";
+"widget_stats_name" = "आँकड़े";
+"widget_stats_desc" = "स्ट्रीक, इस हफ़्ते के सेशन और हफ़्ते का लक्ष्य।";
+"widget_body_name" = "मसल मैप";
+"widget_body_desc" = "पिछले 7 दिनों में जिन मांसपेशियों की ट्रेनिंग हुई।";
+"widget_today_name" = "आज";
+"widget_today_desc" = "आज का वर्कआउट हुआ या नहीं।";
+"widget_open_app" = "इस विजेट को भरने के लिए GymMane एक बार खोलें";
+"widget_week_name" = "इस हफ़्ते";
+"widget_week_desc" = "इस हफ़्ते जिन दिनों ट्रेनिंग की और हफ़्ते का लक्ष्य।";
+"widget_water_name" = "पानी";
+"widget_water_desc" = "आज का पानी। एक गिलास जोड़ने के लिए नीचे टैप करें।";
+"widget_protein_name" = "प्रोटीन";
+"widget_protein_desc" = "आज का प्रोटीन। शेक जोड़ने के लिए नीचे टैप करें।";
+"widget_kcal_name" = "कैलोरी";
+"widget_kcal_desc" = "आज की कैलोरी और मैक्रो।";

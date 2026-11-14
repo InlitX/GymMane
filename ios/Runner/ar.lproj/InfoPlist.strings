@@ -1,0 +1,3 @@
+"NSCameraUsageDescription" = "يستخدم GymMane الكاميرا لالتقاط صور تقدّمك.";
+"NSPhotoLibraryUsageDescription" = "يفتح GymMane مكتبة الصور لاختيار صور التقدّم ووسائط التمارين والخلفيات.";
+"NSPhotoLibraryAddUsageDescription" = "يحفظ GymMane البطاقات التي تشاركها في مكتبة الصور.";

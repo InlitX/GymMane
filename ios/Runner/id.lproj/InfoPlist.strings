@@ -1,0 +1,3 @@
+"NSCameraUsageDescription" = "GymMane memakai kamera untuk foto progresmu.";
+"NSPhotoLibraryUsageDescription" = "GymMane membuka galeri foto untuk memilih foto progres, media latihan, dan latar.";
+"NSPhotoLibraryAddUsageDescription" = "GymMane menyimpan kartu yang kamu bagikan ke galeri foto.";

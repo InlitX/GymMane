@@ -1,0 +1,17 @@
+"widget_activity_name" = "অ্যাক্টিভিটি";
+"widget_activity_desc" = "গত কয়েক মাসের ট্রেনিং আর তোমার স্ট্রিক।";
+"widget_stats_name" = "পরিসংখ্যান";
+"widget_stats_desc" = "স্ট্রিক, এই সপ্তাহের সেশন আর সাপ্তাহিক লক্ষ্য।";
+"widget_body_name" = "পেশির মানচিত্র";
+"widget_body_desc" = "গত 7 দিনে যে পেশিগুলোর ট্রেনিং করেছ।";
+"widget_today_name" = "আজ";
+"widget_today_desc" = "আজকের ওয়ার্কআউট হয়েছে কি না।";
+"widget_open_app" = "এই উইজেট ভরতে একবার GymMane খোলো";
+"widget_week_name" = "এই সপ্তাহ";
+"widget_week_desc" = "এই সপ্তাহে যেদিন ট্রেনিং করেছ আর সাপ্তাহিক লক্ষ্য।";
+"widget_water_name" = "পানি";
+"widget_water_desc" = "আজকের পানি। এক গ্লাস যোগ করতে নিচে ট্যাপ করো।";
+"widget_protein_name" = "প্রোটিন";
+"widget_protein_desc" = "আজকের প্রোটিন। শেক যোগ করতে নিচে ট্যাপ করো।";
+"widget_kcal_name" = "ক্যালরি";
+"widget_kcal_desc" = "আজকের ক্যালরি আর ম্যাক্রো।";

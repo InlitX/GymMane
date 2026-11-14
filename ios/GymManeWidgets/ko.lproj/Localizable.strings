@@ -1,0 +1,17 @@
+"widget_activity_name" = "활동";
+"widget_activity_desc" = "최근 몇 달간의 운동과 연속 기록.";
+"widget_stats_name" = "통계";
+"widget_stats_desc" = "연속 기록, 이번 주 세션과 주간 목표.";
+"widget_body_name" = "근육 지도";
+"widget_body_desc" = "지난 7일 동안 운동한 근육.";
+"widget_today_name" = "오늘";
+"widget_today_desc" = "오늘 운동을 했는지 안 했는지.";
+"widget_open_app" = "위젯을 채우려면 GymMane을 한 번 여세요";
+"widget_week_name" = "이번 주";
+"widget_week_desc" = "이번 주에 운동한 날과 주간 목표.";
+"widget_water_name" = "물";
+"widget_water_desc" = "오늘 마신 물. 아래를 탭하면 한 잔을 추가해요.";
+"widget_protein_name" = "단백질";
+"widget_protein_desc" = "오늘의 단백질. 아래를 탭하면 셰이크를 추가해요.";
+"widget_kcal_name" = "칼로리";
+"widget_kcal_desc" = "오늘의 칼로리와 탄단지.";

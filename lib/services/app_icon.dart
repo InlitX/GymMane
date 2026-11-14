@@ -37,7 +37,7 @@ class AppIcon {
   static AppIconStyle get style => styles.firstWhere((s) => s.id == current.value, orElse: () => styles.first);
 
   static Future<void> load() async {
-    if (kIsWeb || !Platform.isAndroid) return;
+    if (kIsWeb || !(Platform.isAndroid || Platform.isIOS)) return;
     try {
       current.value = await _channel.invokeMethod<String>('current') ?? 'default';
       available = true;

@@ -1,0 +1,17 @@
+"widget_activity_name" = "النشاط";
+"widget_activity_desc" = "آخر أشهر من تمارينك وسلسلتك.";
+"widget_stats_name" = "الإحصاءات";
+"widget_stats_desc" = "السلسلة وجلسات هذا الأسبوع والهدف الأسبوعي.";
+"widget_body_name" = "خريطة العضلات";
+"widget_body_desc" = "العضلات التي درّبتها في آخر 7 أيام.";
+"widget_today_name" = "اليوم";
+"widget_today_desc" = "هل أنهيت تمرين اليوم أم لا.";
+"widget_open_app" = "افتح GymMane مرة واحدة لملء هذه الأداة";
+"widget_week_name" = "هذا الأسبوع";
+"widget_week_desc" = "الأيام التي تمرّنت فيها هذا الأسبوع وهدفك الأسبوعي.";
+"widget_water_name" = "الماء";
+"widget_water_desc" = "ماؤك اليوم. اضغط الأسفل لإضافة كوب.";
+"widget_protein_name" = "البروتين";
+"widget_protein_desc" = "بروتينك اليوم. اضغط الأسفل لإضافة مشروبك.";
+"widget_kcal_name" = "السعرات الحرارية";
+"widget_kcal_desc" = "سعرات اليوم ومغذياته الكبرى.";

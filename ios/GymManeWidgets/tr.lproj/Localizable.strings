@@ -1,0 +1,17 @@
+"widget_activity_name" = "Aktivite";
+"widget_activity_desc" = "Son aylardaki antrenmanların ve serin.";
+"widget_stats_name" = "İstatistikler";
+"widget_stats_desc" = "Seri, bu haftaki antrenmanlar ve haftalık hedef.";
+"widget_body_name" = "Kas haritası";
+"widget_body_desc" = "Son 7 günde çalıştırdığın kaslar.";
+"widget_today_name" = "Bugün";
+"widget_today_desc" = "Bugünün antrenmanı yapıldı mı, yapılmadı mı.";
+"widget_open_app" = "Bu widget'ı doldurmak için GymMane'i bir kez aç";
+"widget_week_name" = "Bu hafta";
+"widget_week_desc" = "Bu hafta antrenman yaptığın günler ve haftalık hedefin.";
+"widget_water_name" = "Su";
+"widget_water_desc" = "Bugünkü suyun. Bardak eklemek için alta dokun.";
+"widget_protein_name" = "Protein";
+"widget_protein_desc" = "Bugünkü proteinin. Shake'ini eklemek için alta dokun.";
+"widget_kcal_name" = "Kalori";
+"widget_kcal_desc" = "Bugünün kalorileri ve makroları.";

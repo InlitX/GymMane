@@ -1,0 +1,17 @@
+"widget_activity_name" = "Activiteit";
+"widget_activity_desc" = "Je laatste maanden training en je reeks.";
+"widget_stats_name" = "Statistieken";
+"widget_stats_desc" = "Reeks, sessies deze week en weekdoel.";
+"widget_body_name" = "Spierkaart";
+"widget_body_desc" = "De spieren die je de afgelopen 7 dagen hebt getraind.";
+"widget_today_name" = "Vandaag";
+"widget_today_desc" = "Of de training van vandaag gedaan is of niet.";
+"widget_open_app" = "Open GymMane één keer om deze widget te vullen";
+"widget_week_name" = "Deze week";
+"widget_week_desc" = "De dagen dat je deze week hebt getraind en je weekdoel.";
+"widget_water_name" = "Water";
+"widget_water_desc" = "Je water van vandaag. Tik onderaan om een glas toe te voegen.";
+"widget_protein_name" = "Eiwit";
+"widget_protein_desc" = "Je eiwit van vandaag. Tik onderaan om je shake toe te voegen.";
+"widget_kcal_name" = "Calorieën";
+"widget_kcal_desc" = "De calorieën en macro’s van vandaag.";

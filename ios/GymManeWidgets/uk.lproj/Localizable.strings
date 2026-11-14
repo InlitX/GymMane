@@ -1,0 +1,17 @@
+"widget_activity_name" = "Активність";
+"widget_activity_desc" = "Твої останні місяці тренувань і серія.";
+"widget_stats_name" = "Статистика";
+"widget_stats_desc" = "Серія, тренування цього тижня і тижнева ціль.";
+"widget_body_name" = "Карта м’язів";
+"widget_body_desc" = "М’язи, які ти тренував за останні 7 днів.";
+"widget_today_name" = "Сьогодні";
+"widget_today_desc" = "Чи зроблене сьогоднішнє тренування.";
+"widget_open_app" = "Відкрий GymMane один раз, щоб заповнити цей віджет";
+"widget_week_name" = "Цей тиждень";
+"widget_week_desc" = "Дні, коли ти тренувався цього тижня, і тижнева ціль.";
+"widget_water_name" = "Вода";
+"widget_water_desc" = "Твоя вода сьогодні. Торкнися знизу, щоб додати склянку.";
+"widget_protein_name" = "Білок";
+"widget_protein_desc" = "Твій білок сьогодні. Торкнися знизу, щоб додати шейк.";
+"widget_kcal_name" = "Калорії";
+"widget_kcal_desc" = "Калорії та макроси за сьогодні.";

@@ -1,0 +1,17 @@
+"widget_activity_name" = "Hoạt động";
+"widget_activity_desc" = "Những tháng tập gần đây và chuỗi ngày của bạn.";
+"widget_stats_name" = "Thống kê";
+"widget_stats_desc" = "Chuỗi ngày, số buổi tuần này và mục tiêu tuần.";
+"widget_body_name" = "Bản đồ cơ";
+"widget_body_desc" = "Các nhóm cơ bạn đã tập trong 7 ngày qua.";
+"widget_today_name" = "Hôm nay";
+"widget_today_desc" = "Buổi tập hôm nay đã xong hay chưa.";
+"widget_open_app" = "Mở GymMane một lần để hiện widget này";
+"widget_week_name" = "Tuần này";
+"widget_week_desc" = "Những ngày bạn đã tập trong tuần và mục tiêu tuần.";
+"widget_water_name" = "Nước";
+"widget_water_desc" = "Lượng nước hôm nay. Chạm phía dưới để thêm một ly.";
+"widget_protein_name" = "Đạm";
+"widget_protein_desc" = "Lượng đạm hôm nay. Chạm phía dưới để thêm ly shake.";
+"widget_kcal_name" = "Calo";
+"widget_kcal_desc" = "Calo và macro hôm nay.";

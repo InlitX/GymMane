@@ -1,0 +1,17 @@
+"widget_activity_name" = "活動";
+"widget_activity_desc" = "最近幾個月的訓練與連續紀錄。";
+"widget_stats_name" = "統計";
+"widget_stats_desc" = "連續紀錄、本週訓練次數與每週目標。";
+"widget_body_name" = "肌肉地圖";
+"widget_body_desc" = "過去 7 天練過的肌肉。";
+"widget_today_name" = "今天";
+"widget_today_desc" = "今天的訓練是否已完成。";
+"widget_open_app" = "開啟 GymMane 一次即可顯示此小工具";
+"widget_week_name" = "本週";
+"widget_week_desc" = "本週有訓練的日子與每週目標。";
+"widget_water_name" = "喝水";
+"widget_water_desc" = "今天的飲水量。點底部加一杯。";
+"widget_protein_name" = "蛋白質";
+"widget_protein_desc" = "今天的蛋白質。點底部加入你的奶昔。";
+"widget_kcal_name" = "卡路里";
+"widget_kcal_desc" = "今天的卡路里與三大營養素。";

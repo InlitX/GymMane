@@ -1,0 +1,3 @@
+"NSCameraUsageDescription" = "GymMane は進捗写真の撮影にカメラを使います。";
+"NSPhotoLibraryUsageDescription" = "GymMane は進捗写真、種目のメディア、背景を選ぶために写真ライブラリを開きます。";
+"NSPhotoLibraryAddUsageDescription" = "GymMane は共有したカードを写真ライブラリに保存します。";

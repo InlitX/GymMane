@@ -1,0 +1,17 @@
+"widget_activity_name" = "アクティビティ";
+"widget_activity_desc" = "ここ数か月のトレーニングと連続記録。";
+"widget_stats_name" = "統計";
+"widget_stats_desc" = "連続記録、今週のセッション数と週の目標。";
+"widget_body_name" = "筋肉マップ";
+"widget_body_desc" = "この 7 日間に鍛えた筋肉。";
+"widget_today_name" = "今日";
+"widget_today_desc" = "今日のトレーニングが終わったかどうか。";
+"widget_open_app" = "GymMane を一度開くとこのウィジェットに表示されます";
+"widget_week_name" = "今週";
+"widget_week_desc" = "今週トレーニングした日と週の目標。";
+"widget_water_name" = "水分";
+"widget_water_desc" = "今日の水分。下をタップするとコップ 1 杯を追加します。";
+"widget_protein_name" = "たんぱく質";
+"widget_protein_desc" = "今日のたんぱく質。下をタップするとシェイクを追加します。";
+"widget_kcal_name" = "カロリー";
+"widget_kcal_desc" = "今日のカロリーとマクロ。";

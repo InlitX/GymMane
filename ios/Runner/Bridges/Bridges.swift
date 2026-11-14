@@ -9,5 +9,6 @@ enum Bridges {
     VoiceBridge.register(with: messenger)
     IncomingBridge.register(with: messenger)
     HealthBridge.register(with: messenger)
+    AppIconBridge.register(with: messenger)
   }
 }
