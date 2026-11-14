@@ -1,0 +1,12 @@
+GymMane 2.3.0
+
+• Pegatina NFC: acerca el móvil y se abre el entreno de hoy
+• Elige el icono de la app, con iconos temáticos
+• Compite con tu última sesión
+• Una ficha de ejercicio más limpia
+• Rellena un alimento nuevo con IA
+• Notas por ejercicio en las rutinas
+• Importa desde Liftosaur, JEFIT y StrongLifts
+• Elige qué archivos CSV exportar
+
+Y mucho más. Instálala y descúbrelo.

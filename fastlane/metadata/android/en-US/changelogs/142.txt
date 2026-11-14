@@ -1,0 +1,12 @@
+GymMane 2.3.0
+
+• NFC sticker: tap your phone and today's workout opens
+• Choose your app icon, with themed icons
+• Race against your last session
+• A tidier exercise page
+• Fill in a new food with AI
+• Notes for each exercise in a routine
+• Import from Liftosaur, JEFIT and StrongLifts
+• Pick which CSV files to export
+
+And a lot more. Install it and find out.
