@@ -60,6 +60,7 @@ flutter:
     - assets/badges/
     - assets/data/
     - assets/food/
+    - assets/icon/variants/
 
   shaders:
     - assets/shaders/medal.frag
