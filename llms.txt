@@ -14,7 +14,7 @@
 - Progress photos with before/after, body measurements, muscle-map timeline
 - Nutrition tracker (beta): calories, macros, water, supplements, meal plans, fasting; sleep, energy, steps
 - Imports Hevy, Strong, Lyfta, FitNotes, openGym and any CSV; exports to Strava (.fit) and Health Connect
-- Five widgets, six calculators, 17 languages, dark and light themes
+- Five widgets, twelve calculators, 22 languages, dark and light themes, an NFC sticker that opens today's workout
 
 ## Links
 - Source: https://github.com/InlitX/GymMane
