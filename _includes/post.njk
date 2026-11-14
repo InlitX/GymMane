@@ -25,6 +25,46 @@ date_shown: true
 {{ content | withIds | safe }}
     </div>
 
+    <section class="talk" id="comments">
+      <h2><span data-l="es">Comentarios</span><span data-l="en">Comments</span></h2>
+      <p class="talk__hint"><span data-l="es">Entra con GitHub para comentar o reaccionar. Todo se guarda como una discusión en GitHub.</span><span data-l="en">Sign in with GitHub to comment or react. Everything is saved as a GitHub discussion.</span></p>
+      {% if site.giscus.categoryId %}
+      <meta name="giscus:backlink" content="{{ site.url }}{{ page.url }}" />
+      <div class="giscus"></div>
+      <script>
+        (function () {
+          var s = document.createElement('script');
+          var cfg = {
+            repo: {{ site.giscus.repo | dump | safe }},
+            'repo-id': {{ site.giscus.repoId | dump | safe }},
+            category: {{ site.giscus.category | dump | safe }},
+            'category-id': {{ site.giscus.categoryId | dump | safe }},
+            mapping: 'specific',
+            term: {{ title_en | dump | safe }},
+            strict: '1',
+            'reactions-enabled': '1',
+            'emit-metadata': '0',
+            'input-position': 'top',
+            theme: 'transparent_dark',
+            lang: document.documentElement.lang === 'en' ? 'en' : 'es',
+            loading: 'lazy'
+          };
+          s.src = 'https://giscus.app/client.js';
+          Object.keys(cfg).forEach(function (k) { s.setAttribute('data-' + k, cfg[k]); });
+          s.crossOrigin = 'anonymous';
+          s.async = true;
+          var meta = document.querySelector("meta[name='description']");
+          var own = meta.content;
+          meta.content = {{ desc_en | dump | safe }};
+          s.addEventListener('load', function () { setTimeout(function () { meta.content = own; }, 1500); });
+          document.currentScript.parentNode.appendChild(s);
+        })();
+      </script>
+      {% else %}
+      <p class="talk__off"><span data-l="es">Los comentarios aún no están activados.</span><span data-l="en">Comments are not switched on yet.</span></p>
+      {% endif %}
+    </section>
+
     {% for post in collections.posts %}{% if post.url != page.url %}
     <a class="next-post" href="{{ post.url }}">
       <span class="next-post__k"><span data-l="es">Siguiente</span><span data-l="en">Next</span></span>

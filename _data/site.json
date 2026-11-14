@@ -3,5 +3,11 @@
   "url": "https://inlitx.github.io/GymMane",
   "repo": "https://github.com/InlitX/GymMane",
   "kofi": "https://ko-fi.com/inlitx",
-  "fdroid": "https://f-droid.org/packages/com.gymmane.app/"
+  "fdroid": "https://f-droid.org/packages/com.gymmane.app/",
+  "giscus": {
+    "repo": "InlitX/GymMane",
+    "repoId": "R_kgDOTuqgnA",
+    "category": "blog",
+    "categoryId": "DIC_kwDOTuqgnM4DLJTY"
+  }
 }

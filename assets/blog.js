@@ -33,6 +33,8 @@
       lang = b.dataset.lang;
       try { localStorage.setItem('gm-lang', lang); } catch (e) {}
       apply();
+      var frame = document.querySelector('iframe.giscus-frame');
+      if (frame) frame.contentWindow.postMessage({ giscus: { setConfig: { lang: lang } } }, 'https://giscus.app');
     });
   });
 
