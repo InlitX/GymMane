@@ -584,7 +584,7 @@ class _NfcSheetState extends State<_NfcSheet> with WidgetsBindingObserver {
   }
 
   void _onWritten(String outcome) {
-    if (!mounted || _step != _Step.waiting) return;
+    if (!mounted || (_step != _Step.waiting && _step != _Step.failed)) return;
     if (outcome == 'ok') {
       HapticFeedback.mediumImpact();
       fit.setNfcTag(true);
@@ -612,34 +612,58 @@ class _NfcSheetState extends State<_NfcSheet> with WidgetsBindingObserver {
       padding: sheetPad(context),
       constraints: BoxConstraints(maxHeight: MediaQuery.sizeOf(context).height * 0.92),
       decoration: sheetDecoration(gc),
-      child: SingleChildScrollView(
-        child: AnimatedSize(
-          duration: const Duration(milliseconds: 280),
-          curve: Curves.easeOutCubic,
-          alignment: Alignment.topCenter,
-          child: AnimatedSwitcher(
-            duration: const Duration(milliseconds: 220),
-            layoutBuilder: (current, previous) => Stack(
-              alignment: Alignment.topCenter,
-              children: [
-                ...previous.map((w) => Positioned(left: 0, right: 0, top: 0, child: w)),
-                ?current,
-              ],
-            ),
-            child: KeyedSubtree(
-              key: ValueKey(intro),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  const SheetHandle(),
-                  const SizedBox(height: 16),
-                  if (intro) ..._intro(context, gc) else ..._writing(context, gc),
-                ],
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          const SheetHandle(),
+          const SizedBox(height: 16),
+          Flexible(
+            child: SingleChildScrollView(
+              child: AnimatedSize(
+                duration: const Duration(milliseconds: 420),
+                curve: Curves.easeInOutCubic,
+                alignment: Alignment.topCenter,
+                child: AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 420),
+                  layoutBuilder: (current, previous) => Stack(
+                    alignment: Alignment.topCenter,
+                    children: [
+                      ...previous.map((w) => Positioned(left: 0, right: 0, top: 0, child: w)),
+                      ?current,
+                    ],
+                  ),
+                  transitionBuilder: (child, anim) {
+                    final incoming = child.key == ValueKey(intro);
+                    final v = CurvedAnimation(
+                      parent: anim,
+                      curve: incoming
+                          ? const Interval(0.4, 1, curve: Curves.easeOutCubic)
+                          : const Interval(0.6, 1, curve: Curves.easeInCubic),
+                    );
+                    return AnimatedBuilder(
+                      animation: v,
+                      builder: (context, child) => Opacity(
+                        opacity: v.value,
+                        child: Transform.translate(
+                          offset: Offset(0, (1 - v.value) * (incoming ? 14 : -8)),
+                          child: child,
+                        ),
+                      ),
+                      child: child,
+                    );
+                  },
+                  child: Column(
+                    key: ValueKey(intro),
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: intro ? _intro(context, gc) : _writing(context, gc),
+                  ),
+                ),
               ),
             ),
           ),
-        ),
+        ],
       ),
     );
   }

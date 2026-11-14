@@ -118,10 +118,23 @@ object NfcBridge {
         main.post { channel?.invokeMethod("written", outcome) }
     }
 
+    private fun holds(tag: Tag, bytes: ByteArray): Boolean {
+        val ndef = Ndef.get(tag) ?: return false
+        return try {
+            ndef.connect()
+            ndef.ndefMessage?.toByteArray()?.contentEquals(bytes) == true
+        } catch (_: Exception) {
+            false
+        } finally {
+            runCatching { ndef.close() }
+        }
+    }
+
     private fun write(tag: Tag, message: NdefMessage): String {
         val bytes = message.toByteArray()
+        if (holds(tag, bytes)) return "ok"
         Ndef.get(tag)?.let { ndef ->
-            return try {
+            val outcome = try {
                 ndef.connect()
                 when {
                     !ndef.isWritable -> "locked"
@@ -137,9 +150,10 @@ object NfcBridge {
             } finally {
                 runCatching { ndef.close() }
             }
+            return if (outcome == "lost" && holds(tag, bytes)) "ok" else outcome
         }
         NdefFormatable.get(tag)?.let { blank ->
-            return try {
+            val outcome = try {
                 blank.connect()
                 blank.format(message)
                 "ok"
@@ -148,6 +162,7 @@ object NfcBridge {
             } finally {
                 runCatching { blank.close() }
             }
+            return if (outcome == "lost" && holds(tag, bytes)) "ok" else outcome
         }
         return "unsupported"
     }
