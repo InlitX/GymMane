@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../widgets/race_sheet.dart';
 import '../widgets/body_map.dart';
 import 'package:flutter/services.dart';
 import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
@@ -945,6 +946,10 @@ class SessionScreen extends StatelessWidget {
                     Text('  ·  ', style: AppTheme.f(12, weight: FontWeight.w600, color: gc.textTertiary)),
                     RollingText('${fit.weightValue(fit.sessionVolumeKg)} ${fit.units}',
                         style: AppTheme.f(12, weight: FontWeight.w700, color: gc.text, letterSpacing: 0.2)),
+                  ],
+                  if (fit.raceDelta case final delta?) ...[
+                    const SizedBox(width: 8),
+                    RaceChip(delta: delta, onTap: locked ? null : () => showRaceSheet(context)),
                   ],
                 ]),
               ),

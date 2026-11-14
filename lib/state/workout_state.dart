@@ -901,6 +901,57 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
     return kg;
   }
 
+  LoggedSession? get raceSession {
+    final s = session;
+    if (s == null || s.complete || s.manual) return null;
+    final ids = {for (final e in s.exercises) e.id};
+    LoggedSession? best;
+    for (final p in sessions) {
+      if (p.deload) continue;
+      if (s.routineId != null) {
+        if (p.routineId != s.routineId) continue;
+      } else {
+        final shared = p.exercises.where((e) => ids.contains(e.id)).length;
+        if (shared == 0 || shared * 2 < ids.length) continue;
+      }
+      if (best == null || p.date.isAfter(best.date)) best = p;
+    }
+    return best;
+  }
+
+  List<({String id, String name, double now, double then})> get raceRows {
+    final s = session;
+    final last = raceSession;
+    if (s == null || last == null) return const [];
+    final rows = <({String id, String name, double now, double then})>[];
+    for (final e in s.exercises) {
+      final done = [for (final x in e.sets) if (x.done && x.counts) x];
+      if (done.isEmpty) continue;
+      final before = [
+        for (final p in last.exercises)
+          if (p.id == e.id) ...p.workingSets,
+      ];
+      if (before.isEmpty) continue;
+      var now = 0.0;
+      var then = 0.0;
+      for (var i = 0; i < done.length; i++) {
+        now += done[i].weakReps * done[i].weight;
+        if (i < before.length) then += before[i].volume;
+      }
+      if (now <= 0 && then <= 0) continue;
+      rows.add((id: e.id, name: e.name, now: now, then: then));
+    }
+    return rows;
+  }
+
+  double? get raceDelta {
+    final rows = raceRows;
+    final then = rows.fold(0.0, (a, r) => a + r.then);
+    if (then <= 0) return null;
+    final now = rows.fold(0.0, (a, r) => a + r.now);
+    return (now - then) / then;
+  }
+
   List<int> chainAt(int exIdx) {
     final s = session;
     if (s == null || exIdx < 0 || exIdx >= s.exercises.length) return const [];
