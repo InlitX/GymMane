@@ -463,4 +463,40 @@ void main() {
       expect(p, contains('leave the key out otherwise'));
     });
   });
+
+  group('alimento con IA', () {
+    test('lee la respuesta con el formato pedido y los valores por 100 g', () {
+      final pick = parseFoodAi('Aquí tienes:\n```json\n{"gymmane": "gymmane-food", "v": 1, "food": {"name": "Yogur griego Hacendado", "serving_name": "1 tarrina", "grams": 125, "liquid": false, "per100": {"kcal": 97, "protein": 6.5, "carbs": 3.4, "fat": 6.4, "sugar": 3.4, "saturated": 4.2, "sodium": 40}}}\n```');
+      expect(pick, isNotNull);
+      final f = pick!.food;
+      expect(f.name, 'Yogur griego Hacendado');
+      expect(pick.serving, '1 tarrina');
+      expect(pick.liquid, isFalse);
+      expect(f.grams, 125);
+      expect(f.per100, isTrue);
+      expect([f.kcal, f.protein, f.carbs, f.fat, f.sugar, f.sat, f.sodium], [97, 6.5, 3.4, 6.4, 3.4, 4.2, 40]);
+    });
+
+    test('pasa la sal a sodio y entiende bebidas', () {
+      final pick = parseFoodAi('{"producto": {"nombre": "Bebida de avena", "racion": "1 vaso", "ml": 250, "bebida": true, "per100ml": {"calorias": 46, "proteinas": 0.4, "hidratos": 7.6, "grasas": 1.5, "sal": 0.1}}}');
+      expect(pick, isNotNull);
+      expect(pick!.liquid, isTrue);
+      expect(pick.serving, '1 vaso');
+      expect(pick.food.grams, 250);
+      expect(pick.food.sodium, closeTo(40, 0.001));
+    });
+
+    test('sin valores no rellena nada', () {
+      expect(parseFoodAi('Mándame la etiqueta, una foto, un enlace o el nombre del alimento.'), isNull);
+      expect(parseFoodAi('{"food": {"name": "Pan"}}'), isNull);
+    });
+
+    test('la petición pide un solo alimento por 100 g en el idioma de la app y su ejemplo se lee bien', () {
+      final p = buildFoodAiPrompt('Spanish');
+      expect(p, contains('ONE food'));
+      expect(p, contains('"per100"'));
+      expect(p, contains('in Spanish'));
+      expect(parseFoodAi(p), isNotNull);
+    });
+  });
 }

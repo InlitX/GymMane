@@ -695,3 +695,225 @@ class _MealAiSheetState extends State<_MealAiSheet> {
     ]);
   }
 }
+
+Future<AiFoodPick?> showFoodAiSheet(BuildContext context) =>
+    _sheet<AiFoodPick?>(context, (_) => const _FoodAiSheet());
+
+class _FoodAiSheet extends StatefulWidget {
+  const _FoodAiSheet();
+
+  @override
+  State<_FoodAiSheet> createState() => _FoodAiSheetState();
+}
+
+class _FoodAiSheetState extends State<_FoodAiSheet> {
+  final _answer = TextEditingController();
+  int _step = 0;
+  bool _showText = false;
+  bool _failed = false;
+
+  String get _prompt => buildFoodAiPrompt(languageNameOf(appLanguage));
+
+  @override
+  void dispose() {
+    _answer.dispose();
+    super.dispose();
+  }
+
+  Future<void> _copy() async {
+    await Clipboard.setData(ClipboardData(text: _prompt));
+    if (!mounted) return;
+    HapticFeedback.lightImpact();
+    showNotchToast(context, t.mealAiCopied,
+        subtitle: t.mealAiCopiedHint, icon: PhosphorIconsFill.copy, accent: context.gc.sage);
+    setState(() => _step = 1);
+  }
+
+  Future<void> _paste() async {
+    final data = await Clipboard.getData(Clipboard.kTextPlain);
+    final text = data?.text;
+    if (text == null || text.trim().isEmpty || !mounted) return;
+    _answer.text = text;
+    _fill();
+  }
+
+  Future<void> _file() async {
+    final text = await pickTextFile();
+    if (text == null || !mounted) return;
+    _answer.text = text;
+    _fill();
+  }
+
+  void _fill() {
+    final raw = _answer.text;
+    if (raw.trim().isEmpty) return;
+    FocusScope.of(context).unfocus();
+    final pick = parseFoodAi(raw);
+    if (pick == null) {
+      HapticFeedback.heavyImpact();
+      setState(() => _failed = true);
+      return;
+    }
+    HapticFeedback.selectionClick();
+    Navigator.of(context).pop(pick);
+  }
+
+  Future<void> _copyFix() async {
+    await Clipboard.setData(const ClipboardData(text: mealAiRetrySentence));
+    if (!mounted) return;
+    showNotchToast(context, t.copiedDone, icon: PhosphorIconsFill.copy, accent: context.gc.sage);
+  }
+
+  Widget _chipButton(GymColors gc, IconData icon, String label, VoidCallback onTap, {Color? bg}) => Pressable(
+        onTap: onTap,
+        scale: 0.95,
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+          decoration: BoxDecoration(color: bg ?? gc.bgRaised2, borderRadius: BorderRadius.circular(100)),
+          child: Row(mainAxisSize: MainAxisSize.min, children: [
+            Icon(icon, size: 15, color: gc.text),
+            const SizedBox(width: 7),
+            Text(label, style: AppTheme.f(12.5, weight: FontWeight.w700, color: gc.text)),
+          ]),
+        ),
+      );
+
+  Widget _askPage(GymColors gc) {
+    return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+      Text(t.foodAiHow, style: AppTheme.s(13.5, color: gc.textSecondary, height: 1.45)),
+      const SizedBox(height: 10),
+      Text(t.foodAiCheck, style: AppTheme.s(13.5, color: gc.textSecondary, height: 1.45)),
+      const SizedBox(height: 20),
+      PrimaryButton(label: t.mealAiCopy, onTap: _copy),
+      const SizedBox(height: 4),
+      Pressable(
+        onTap: () => setState(() => _showText = !_showText),
+        scale: 0.97,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 12),
+          child: Center(
+            child: Text(_showText ? t.mealAiHideText : t.mealAiShowText,
+                style: AppTheme.f(12.5, weight: FontWeight.w700, color: gc.accent)),
+          ),
+        ),
+      ),
+      AnimatedSize(
+        duration: const Duration(milliseconds: 260),
+        curve: Curves.easeOutCubic,
+        alignment: Alignment.topCenter,
+        child: _showText
+            ? Container(
+                padding: const EdgeInsets.all(14),
+                decoration: BoxDecoration(color: gc.bgRaised2, borderRadius: BorderRadius.circular(16)),
+                child: Ltr(
+                  child: SelectableText(_prompt,
+                      style: TextStyle(fontFamily: 'monospace', fontSize: 11, color: gc.textSecondary, height: 1.4)),
+                ),
+              )
+            : const SizedBox(width: double.infinity),
+      ),
+    ]);
+  }
+
+  Widget _pastePage(GymColors gc) {
+    final empty = _answer.text.trim().isEmpty;
+    return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+      TextField(
+        controller: _answer,
+        minLines: 5,
+        maxLines: 9,
+        keyboardType: TextInputType.multiline,
+        onChanged: (_) => setState(() => _failed = false),
+        style: AppTheme.f(12.5, weight: FontWeight.w500, color: gc.text, height: 1.35),
+        cursorColor: gc.accent,
+        decoration: InputDecoration(
+          hintText: t.mealAiPasteHint,
+          hintStyle: AppTheme.f(14, weight: FontWeight.w500, color: gc.textTertiary),
+          filled: true,
+          fillColor: gc.bgRaised2,
+          contentPadding: const EdgeInsets.all(16),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: BorderSide.none),
+        ),
+      ),
+      const SizedBox(height: 10),
+      Row(children: [
+        _chipButton(gc, PhosphorIconsRegular.clipboardText, t.pasteAction, _paste),
+        const SizedBox(width: 8),
+        _chipButton(gc, PhosphorIconsRegular.fileArrowUp, t.chooseFile, _file),
+      ]),
+      const SizedBox(height: 16),
+      PrimaryButton(
+        label: t.foodAiFill,
+        bg: empty ? gc.bgRaised2 : gc.ember,
+        fg: empty ? gc.textTertiary : gc.onEmber,
+        onTap: _fill,
+      ),
+      AnimatedSize(
+        duration: const Duration(milliseconds: 220),
+        curve: Curves.easeOutCubic,
+        alignment: Alignment.topCenter,
+        child: !_failed
+            ? const SizedBox(width: double.infinity)
+            : Padding(
+                padding: const EdgeInsets.only(top: 22),
+                child: Container(
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: gc.bgRaised2,
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(color: gc.warn.withValues(alpha: 0.55)),
+                  ),
+                  child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                    Text(t.mealAiUnreadable, style: AppTheme.f(14, weight: FontWeight.w700, color: gc.text)),
+                    const SizedBox(height: 6),
+                    Text(t.mealAiUnreadableHint,
+                        style: AppTheme.f(12.5, weight: FontWeight.w500, color: gc.textSecondary, height: 1.45)),
+                    const SizedBox(height: 12),
+                    _chipButton(gc, PhosphorIconsRegular.copy, t.mealAiCopyFix, _copyFix, bg: gc.bgRaised),
+                  ]),
+                ),
+              ),
+      ),
+    ]);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final gc = context.gc;
+    return _sheetFrame(context, [
+      SheetTitle(t.foodAiTitle, subtitle: t.mealAiSubtitle),
+      const SizedBox(height: 10),
+      Center(child: BetaTag(t.sectionBeta, small: true)),
+      const SizedBox(height: 16),
+      Center(
+        child: SegToggle([
+          SegOption('1 · ${t.mealAiStepAsk}', _step == 0, () => setState(() => _step = 0)),
+          SegOption('2 · ${t.mealAiStepPaste}', _step == 1, () => setState(() => _step = 1)),
+        ], hPad: 18, vPad: 9, fontSize: 13),
+      ),
+      const SizedBox(height: 20),
+      AnimatedSize(
+        duration: const Duration(milliseconds: 340),
+        curve: Curves.easeOutCubic,
+        alignment: Alignment.topCenter,
+        child: AnimatedSwitcher(
+          duration: const Duration(milliseconds: 240),
+          switchInCurve: Curves.easeOutCubic,
+          switchOutCurve: Curves.easeInCubic,
+          layoutBuilder: (current, previous) => Stack(
+            alignment: Alignment.topCenter,
+            children: [
+              for (final p in previous) Positioned(top: 0, left: 0, right: 0, child: p),
+              ?current,
+            ],
+          ),
+          transitionBuilder: (child, a) => FadeTransition(opacity: a, child: child),
+          child: KeyedSubtree(
+            key: ValueKey(_step),
+            child: _step == 0 ? _askPage(gc) : _pastePage(gc),
+          ),
+        ),
+      ),
+    ]);
+  }
+}
