@@ -3552,6 +3552,180 @@ class AppLocalizationsTr extends AppLocalizations {
   String get exerciseSettings => 'Bu egzersizin ayarları';
 
   @override
+  String get exerciseSettingsHint => 'Rest, progression, warm-up and more';
+
+  @override
+  String get appIcon => 'App icon';
+
+  @override
+  String get appIconHint => 'How GymMane looks on your home screen';
+
+  @override
+  String get appIconColors => 'Colors';
+
+  @override
+  String get appIconDesigns => 'Designs';
+
+  @override
+  String get appIconNote => 'Your home screen may take a few seconds to show the change.';
+
+  @override
+  String get appIconDefault => 'Original';
+
+  @override
+  String get appIconLight => 'Light';
+
+  @override
+  String get appIconSand => 'Sand';
+
+  @override
+  String get appIconGraphite => 'Graphite';
+
+  @override
+  String get appIconSage => 'Sage';
+
+  @override
+  String get appIconNight => 'Night';
+
+  @override
+  String get appIconMaterial => 'Material';
+
+  @override
+  String get appIconMedal => 'Medal';
+
+  @override
+  String get appIconGlass => 'Glass';
+
+  @override
+  String get appIconStopwatch => 'Stopwatch';
+
+  @override
+  String get appIconMarble => 'Marble';
+
+  @override
+  String get nfcRow => 'NFC sticker';
+
+  @override
+  String get nfcRowHint => 'Tap your phone on it to see today\'s workout';
+
+  @override
+  String get nfcTitle => 'NFC sticker';
+
+  @override
+  String get nfcSubtitle => 'One sticker for every day of the week';
+
+  @override
+  String get nfcPoint1 => 'Today\'s workout, ready';
+
+  @override
+  String get nfcPoint1Body =>
+      'Tap your phone on it and today\'s routine opens with its exercises. You start it when you are ready.';
+
+  @override
+  String get nfcPoint2 => 'On rest days, it tells you';
+
+  @override
+  String get nfcPoint2Body => 'If today is a rest day you will see it, and you can still train if you want.';
+
+  @override
+  String get nfcPoint3 => 'Write it once';
+
+  @override
+  String get nfcPoint3Body =>
+      'Change your plan whenever you like: the sticker always opens what is planned for today.';
+
+  @override
+  String get nfcUse => 'Use the sticker';
+
+  @override
+  String get nfcUseHint => 'When it is off, tapping the sticker does nothing';
+
+  @override
+  String get nfcWrite => 'Write a sticker';
+
+  @override
+  String get nfcOn => 'On';
+
+  @override
+  String get nfcOff => 'Off';
+
+  @override
+  String get todayRestBody => 'Resting is part of the plan. Your muscles grow while you recover.';
+
+  @override
+  String get todayNotNow => 'Not now';
+
+  @override
+  String get nfcWaitTitle => 'Hold the sticker to your phone';
+
+  @override
+  String get nfcWaitBody => 'Hold it against the back of your phone, near the camera, until it buzzes.';
+
+  @override
+  String get nfcTip =>
+      'Any NTAG213, 215 or 216 sticker works. They are the most common and cost very little.';
+
+  @override
+  String get nfcDoneTitle => 'Sticker ready';
+
+  @override
+  String get nfcDoneBody => 'Stick it where you will see it when you arrive: your gym bag, bottle or locker.';
+
+  @override
+  String get nfcOffTitle => 'NFC is off';
+
+  @override
+  String get nfcOffBody => 'Turn on NFC in your phone settings to write the sticker.';
+
+  @override
+  String get nfcOpenSettings => 'Open settings';
+
+  @override
+  String get nfcFailTitle => 'Couldn\'t write it';
+
+  @override
+  String get nfcErrLocked => 'This sticker is locked and cannot be written.';
+
+  @override
+  String get nfcErrSmall => 'It doesn\'t fit on this sticker. Use an NTAG213 or bigger.';
+
+  @override
+  String get nfcErrLost => 'The sticker moved before it was done. Hold it still and try again.';
+
+  @override
+  String get nfcErrUnsupported => 'This sticker isn\'t supported. Use an NTAG213, 215 or 216.';
+
+  @override
+  String get nfcRetry => 'Try again';
+
+  @override
+  String get raceTitle => 'Against your last session';
+
+  @override
+  String raceSince(String date) {
+    return 'Compared with $date';
+  }
+
+  @override
+  String get raceAhead => 'You\'re ahead';
+
+  @override
+  String get raceBehind => 'Still catching up';
+
+  @override
+  String get raceEven => 'Neck and neck';
+
+  @override
+  String get raceToday => 'Today';
+
+  @override
+  String get raceThen => 'Then';
+
+  @override
+  String get raceHint =>
+      'Only the same sets are compared: if you have done 2, against your first 2 that day.';
+
+  @override
   String get placeActiveNow => 'Buradasın';
 
   @override
@@ -7774,4 +7948,29 @@ class AppLocalizationsTr extends AppLocalizations {
   String exerciseCopyName(String name) {
     return '$name (kopya)';
   }
+
+  @override
+  String get foodAiRow => 'Fill in with an AI';
+
+  @override
+  String get foodAiRowHint => 'From a label, a screenshot or a link';
+
+  @override
+  String get foodAiTitle => 'Food with AI';
+
+  @override
+  String get foodAiHow =>
+      'Copy the request and paste it into any chatbot together with a photo of the nutrition label, a screenshot of the product or a link to it. Then paste its answer here.';
+
+  @override
+  String get foodAiCheck => 'The form fills itself in. Check the values against the label before saving.';
+
+  @override
+  String get foodAiFill => 'Fill in the food';
+
+  @override
+  String get foodAiFilled => 'Food filled in';
+
+  @override
+  String get foodAiFilledHint => 'Check the values before saving';
 }

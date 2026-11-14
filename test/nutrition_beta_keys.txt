@@ -338,3 +338,11 @@ mealAiWholeDay
 cholesterolLabel
 mealAiFlagMatched
 mealAiNotSame
+foodAiRow
+foodAiRowHint
+foodAiTitle
+foodAiHow
+foodAiCheck
+foodAiFill
+foodAiFilled
+foodAiFilledHint

@@ -6374,6 +6374,342 @@ abstract class AppLocalizations {
   /// **'Settings for this exercise'**
   String get exerciseSettings;
 
+  /// No description provided for @exerciseSettingsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Rest, progression, warm-up and more'**
+  String get exerciseSettingsHint;
+
+  /// No description provided for @appIcon.
+  ///
+  /// In en, this message translates to:
+  /// **'App icon'**
+  String get appIcon;
+
+  /// No description provided for @appIconHint.
+  ///
+  /// In en, this message translates to:
+  /// **'How GymMane looks on your home screen'**
+  String get appIconHint;
+
+  /// No description provided for @appIconColors.
+  ///
+  /// In en, this message translates to:
+  /// **'Colors'**
+  String get appIconColors;
+
+  /// No description provided for @appIconDesigns.
+  ///
+  /// In en, this message translates to:
+  /// **'Designs'**
+  String get appIconDesigns;
+
+  /// No description provided for @appIconNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Your home screen may take a few seconds to show the change.'**
+  String get appIconNote;
+
+  /// No description provided for @appIconDefault.
+  ///
+  /// In en, this message translates to:
+  /// **'Original'**
+  String get appIconDefault;
+
+  /// No description provided for @appIconLight.
+  ///
+  /// In en, this message translates to:
+  /// **'Light'**
+  String get appIconLight;
+
+  /// No description provided for @appIconSand.
+  ///
+  /// In en, this message translates to:
+  /// **'Sand'**
+  String get appIconSand;
+
+  /// No description provided for @appIconGraphite.
+  ///
+  /// In en, this message translates to:
+  /// **'Graphite'**
+  String get appIconGraphite;
+
+  /// No description provided for @appIconSage.
+  ///
+  /// In en, this message translates to:
+  /// **'Sage'**
+  String get appIconSage;
+
+  /// No description provided for @appIconNight.
+  ///
+  /// In en, this message translates to:
+  /// **'Night'**
+  String get appIconNight;
+
+  /// No description provided for @appIconMaterial.
+  ///
+  /// In en, this message translates to:
+  /// **'Material'**
+  String get appIconMaterial;
+
+  /// No description provided for @appIconMedal.
+  ///
+  /// In en, this message translates to:
+  /// **'Medal'**
+  String get appIconMedal;
+
+  /// No description provided for @appIconGlass.
+  ///
+  /// In en, this message translates to:
+  /// **'Glass'**
+  String get appIconGlass;
+
+  /// No description provided for @appIconStopwatch.
+  ///
+  /// In en, this message translates to:
+  /// **'Stopwatch'**
+  String get appIconStopwatch;
+
+  /// No description provided for @appIconMarble.
+  ///
+  /// In en, this message translates to:
+  /// **'Marble'**
+  String get appIconMarble;
+
+  /// No description provided for @nfcRow.
+  ///
+  /// In en, this message translates to:
+  /// **'NFC sticker'**
+  String get nfcRow;
+
+  /// No description provided for @nfcRowHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap your phone on it to see today\'s workout'**
+  String get nfcRowHint;
+
+  /// No description provided for @nfcTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'NFC sticker'**
+  String get nfcTitle;
+
+  /// No description provided for @nfcSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'One sticker for every day of the week'**
+  String get nfcSubtitle;
+
+  /// No description provided for @nfcPoint1.
+  ///
+  /// In en, this message translates to:
+  /// **'Today\'s workout, ready'**
+  String get nfcPoint1;
+
+  /// No description provided for @nfcPoint1Body.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap your phone on it and today\'s routine opens with its exercises. You start it when you are ready.'**
+  String get nfcPoint1Body;
+
+  /// No description provided for @nfcPoint2.
+  ///
+  /// In en, this message translates to:
+  /// **'On rest days, it tells you'**
+  String get nfcPoint2;
+
+  /// No description provided for @nfcPoint2Body.
+  ///
+  /// In en, this message translates to:
+  /// **'If today is a rest day you will see it, and you can still train if you want.'**
+  String get nfcPoint2Body;
+
+  /// No description provided for @nfcPoint3.
+  ///
+  /// In en, this message translates to:
+  /// **'Write it once'**
+  String get nfcPoint3;
+
+  /// No description provided for @nfcPoint3Body.
+  ///
+  /// In en, this message translates to:
+  /// **'Change your plan whenever you like: the sticker always opens what is planned for today.'**
+  String get nfcPoint3Body;
+
+  /// No description provided for @nfcUse.
+  ///
+  /// In en, this message translates to:
+  /// **'Use the sticker'**
+  String get nfcUse;
+
+  /// No description provided for @nfcUseHint.
+  ///
+  /// In en, this message translates to:
+  /// **'When it is off, tapping the sticker does nothing'**
+  String get nfcUseHint;
+
+  /// No description provided for @nfcWrite.
+  ///
+  /// In en, this message translates to:
+  /// **'Write a sticker'**
+  String get nfcWrite;
+
+  /// No description provided for @nfcOn.
+  ///
+  /// In en, this message translates to:
+  /// **'On'**
+  String get nfcOn;
+
+  /// No description provided for @nfcOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Off'**
+  String get nfcOff;
+
+  /// No description provided for @todayRestBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Resting is part of the plan. Your muscles grow while you recover.'**
+  String get todayRestBody;
+
+  /// No description provided for @todayNotNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Not now'**
+  String get todayNotNow;
+
+  /// No description provided for @nfcWaitTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Hold the sticker to your phone'**
+  String get nfcWaitTitle;
+
+  /// No description provided for @nfcWaitBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Hold it against the back of your phone, near the camera, until it buzzes.'**
+  String get nfcWaitBody;
+
+  /// No description provided for @nfcTip.
+  ///
+  /// In en, this message translates to:
+  /// **'Any NTAG213, 215 or 216 sticker works. They are the most common and cost very little.'**
+  String get nfcTip;
+
+  /// No description provided for @nfcDoneTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sticker ready'**
+  String get nfcDoneTitle;
+
+  /// No description provided for @nfcDoneBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Stick it where you will see it when you arrive: your gym bag, bottle or locker.'**
+  String get nfcDoneBody;
+
+  /// No description provided for @nfcOffTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'NFC is off'**
+  String get nfcOffTitle;
+
+  /// No description provided for @nfcOffBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn on NFC in your phone settings to write the sticker.'**
+  String get nfcOffBody;
+
+  /// No description provided for @nfcOpenSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Open settings'**
+  String get nfcOpenSettings;
+
+  /// No description provided for @nfcFailTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t write it'**
+  String get nfcFailTitle;
+
+  /// No description provided for @nfcErrLocked.
+  ///
+  /// In en, this message translates to:
+  /// **'This sticker is locked and cannot be written.'**
+  String get nfcErrLocked;
+
+  /// No description provided for @nfcErrSmall.
+  ///
+  /// In en, this message translates to:
+  /// **'It doesn\'t fit on this sticker. Use an NTAG213 or bigger.'**
+  String get nfcErrSmall;
+
+  /// No description provided for @nfcErrLost.
+  ///
+  /// In en, this message translates to:
+  /// **'The sticker moved before it was done. Hold it still and try again.'**
+  String get nfcErrLost;
+
+  /// No description provided for @nfcErrUnsupported.
+  ///
+  /// In en, this message translates to:
+  /// **'This sticker isn\'t supported. Use an NTAG213, 215 or 216.'**
+  String get nfcErrUnsupported;
+
+  /// No description provided for @nfcRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Try again'**
+  String get nfcRetry;
+
+  /// No description provided for @raceTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Against your last session'**
+  String get raceTitle;
+
+  /// No description provided for @raceSince.
+  ///
+  /// In en, this message translates to:
+  /// **'Compared with {date}'**
+  String raceSince(String date);
+
+  /// No description provided for @raceAhead.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re ahead'**
+  String get raceAhead;
+
+  /// No description provided for @raceBehind.
+  ///
+  /// In en, this message translates to:
+  /// **'Still catching up'**
+  String get raceBehind;
+
+  /// No description provided for @raceEven.
+  ///
+  /// In en, this message translates to:
+  /// **'Neck and neck'**
+  String get raceEven;
+
+  /// No description provided for @raceToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get raceToday;
+
+  /// No description provided for @raceThen.
+  ///
+  /// In en, this message translates to:
+  /// **'Then'**
+  String get raceThen;
+
+  /// No description provided for @raceHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Only the same sets are compared: if you have done 2, against your first 2 that day.'**
+  String get raceHint;
+
   /// No description provided for @placeActiveNow.
   ///
   /// In en, this message translates to:
@@ -13585,6 +13921,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{name} (copy)'**
   String exerciseCopyName(String name);
+
+  /// No description provided for @foodAiRow.
+  ///
+  /// In en, this message translates to:
+  /// **'Fill in with an AI'**
+  String get foodAiRow;
+
+  /// No description provided for @foodAiRowHint.
+  ///
+  /// In en, this message translates to:
+  /// **'From a label, a screenshot or a link'**
+  String get foodAiRowHint;
+
+  /// No description provided for @foodAiTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Food with AI'**
+  String get foodAiTitle;
+
+  /// No description provided for @foodAiHow.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy the request and paste it into any chatbot together with a photo of the nutrition label, a screenshot of the product or a link to it. Then paste its answer here.'**
+  String get foodAiHow;
+
+  /// No description provided for @foodAiCheck.
+  ///
+  /// In en, this message translates to:
+  /// **'The form fills itself in. Check the values against the label before saving.'**
+  String get foodAiCheck;
+
+  /// No description provided for @foodAiFill.
+  ///
+  /// In en, this message translates to:
+  /// **'Fill in the food'**
+  String get foodAiFill;
+
+  /// No description provided for @foodAiFilled.
+  ///
+  /// In en, this message translates to:
+  /// **'Food filled in'**
+  String get foodAiFilled;
+
+  /// No description provided for @foodAiFilledHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Check the values before saving'**
+  String get foodAiFilledHint;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

@@ -3547,6 +3547,177 @@ class AppLocalizationsEs extends AppLocalizations {
   String get exerciseSettings => 'Ajustes de este ejercicio';
 
   @override
+  String get exerciseSettingsHint => 'Descanso, progresión, calentamiento y más';
+
+  @override
+  String get appIcon => 'Icono de la app';
+
+  @override
+  String get appIconHint => 'Cómo se ve GymMane en tu pantalla de inicio';
+
+  @override
+  String get appIconColors => 'Colores';
+
+  @override
+  String get appIconDesigns => 'Diseños';
+
+  @override
+  String get appIconNote => 'Tu pantalla de inicio puede tardar unos segundos en mostrar el cambio.';
+
+  @override
+  String get appIconDefault => 'Original';
+
+  @override
+  String get appIconLight => 'Claro';
+
+  @override
+  String get appIconSand => 'Arena';
+
+  @override
+  String get appIconGraphite => 'Grafito';
+
+  @override
+  String get appIconSage => 'Salvia';
+
+  @override
+  String get appIconNight => 'Noche';
+
+  @override
+  String get appIconMaterial => 'Material';
+
+  @override
+  String get appIconMedal => 'Medalla';
+
+  @override
+  String get appIconGlass => 'Cristal';
+
+  @override
+  String get appIconStopwatch => 'Cronómetro';
+
+  @override
+  String get appIconMarble => 'Mármol';
+
+  @override
+  String get nfcRow => 'Pegatina NFC';
+
+  @override
+  String get nfcRowHint => 'Acerca el móvil y ves el entreno de hoy';
+
+  @override
+  String get nfcTitle => 'Pegatina NFC';
+
+  @override
+  String get nfcSubtitle => 'Una pegatina para toda la semana';
+
+  @override
+  String get nfcPoint1 => 'El entreno de hoy, listo';
+
+  @override
+  String get nfcPoint1Body =>
+      'Acercas el móvil y se abre la rutina que toca hoy con sus ejercicios. La empiezas tú cuando estés listo.';
+
+  @override
+  String get nfcPoint2 => 'Si es descanso, te lo dice';
+
+  @override
+  String get nfcPoint2Body => 'Si hoy toca descansar lo verás, y puedes entrenar igualmente si quieres.';
+
+  @override
+  String get nfcPoint3 => 'Se graba una vez';
+
+  @override
+  String get nfcPoint3Body => 'Cambia tu plan cuando quieras: la pegatina siempre abre lo que toca ese día.';
+
+  @override
+  String get nfcUse => 'Usar la pegatina';
+
+  @override
+  String get nfcUseHint => 'Si está apagado, acercar la pegatina no hace nada';
+
+  @override
+  String get nfcWrite => 'Grabar una pegatina';
+
+  @override
+  String get nfcOn => 'Activada';
+
+  @override
+  String get nfcOff => 'Apagada';
+
+  @override
+  String get todayRestBody => 'Descansar también es parte del plan. El músculo crece mientras te recuperas.';
+
+  @override
+  String get todayNotNow => 'Ahora no';
+
+  @override
+  String get nfcWaitTitle => 'Acerca la pegatina al móvil';
+
+  @override
+  String get nfcWaitBody => 'Ponla en la parte de atrás del móvil, cerca de la cámara, hasta que vibre.';
+
+  @override
+  String get nfcTip => 'Sirve cualquier pegatina NTAG213, 215 o 216. Son las más comunes y cuestan muy poco.';
+
+  @override
+  String get nfcDoneTitle => 'Pegatina lista';
+
+  @override
+  String get nfcDoneBody => 'Pégala donde la veas al llegar: la bolsa, la botella o la taquilla.';
+
+  @override
+  String get nfcOffTitle => 'El NFC está apagado';
+
+  @override
+  String get nfcOffBody => 'Activa el NFC en los ajustes del móvil para grabar la pegatina.';
+
+  @override
+  String get nfcOpenSettings => 'Abrir ajustes';
+
+  @override
+  String get nfcFailTitle => 'No se pudo grabar';
+
+  @override
+  String get nfcErrLocked => 'Esta pegatina está bloqueada y no se puede grabar.';
+
+  @override
+  String get nfcErrSmall => 'No cabe en esta pegatina. Usa una NTAG213 o mayor.';
+
+  @override
+  String get nfcErrLost => 'La pegatina se movió antes de acabar. Déjala quieta y prueba otra vez.';
+
+  @override
+  String get nfcErrUnsupported => 'Esta pegatina no es compatible. Usa una NTAG213, 215 o 216.';
+
+  @override
+  String get nfcRetry => 'Probar otra vez';
+
+  @override
+  String get raceTitle => 'Frente a tu última sesión';
+
+  @override
+  String raceSince(String date) {
+    return 'Comparado con el $date';
+  }
+
+  @override
+  String get raceAhead => 'Vas por delante';
+
+  @override
+  String get raceBehind => 'Aún por alcanzar';
+
+  @override
+  String get raceEven => 'Vas igual';
+
+  @override
+  String get raceToday => 'Hoy';
+
+  @override
+  String get raceThen => 'Entonces';
+
+  @override
+  String get raceHint => 'Se comparan las mismas series: si llevas 2, con tus 2 primeras de aquel día.';
+
+  @override
   String get placeActiveNow => 'Estás aquí';
 
   @override
@@ -5377,13 +5548,13 @@ class AppLocalizationsEs extends AppLocalizations {
   String get importAsCopy => 'Añadir como copia';
 
   @override
-  String get routineExerciseNote => 'Routine note';
+  String get routineExerciseNote => 'Nota de la rutina';
 
   @override
-  String get importRoutineNotes => 'Add missing routine notes';
+  String get importRoutineNotes => 'Añadir las notas de rutina que falten';
 
   @override
-  String get routineNotesAdded => 'Routine notes added';
+  String get routineNotesAdded => 'Notas de rutina añadidas';
 
   @override
   String get importOwned => 'Ya la tienes';
@@ -7794,4 +7965,30 @@ class AppLocalizationsEs extends AppLocalizations {
   String exerciseCopyName(String name) {
     return '$name (copia)';
   }
+
+  @override
+  String get foodAiRow => 'Rellenar con una IA';
+
+  @override
+  String get foodAiRowHint => 'Desde una etiqueta, una captura o un enlace';
+
+  @override
+  String get foodAiTitle => 'Alimento con IA';
+
+  @override
+  String get foodAiHow =>
+      'Copia la petición y pégala en cualquier chatbot junto con una foto de la etiqueta, una captura del producto o un enlace. Luego pega aquí su respuesta.';
+
+  @override
+  String get foodAiCheck =>
+      'El formulario se rellena solo. Revisa los valores con la etiqueta antes de guardar.';
+
+  @override
+  String get foodAiFill => 'Rellenar el alimento';
+
+  @override
+  String get foodAiFilled => 'Alimento rellenado';
+
+  @override
+  String get foodAiFilledHint => 'Revisa los valores antes de guardar';
 }
