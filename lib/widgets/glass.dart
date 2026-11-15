@@ -222,6 +222,8 @@ class _GlassDialogRoute<T> extends DialogRoute<T> with _GlassCount<T> {
 }
 
 
+final ValueNotifier<double?> edgeBlurRaster = ValueNotifier(null);
+
 class EdgeBlur extends StatefulWidget {
   const EdgeBlur({super.key, required this.height, this.top = true, this.sigma = 16, this.shade = 1});
 
@@ -245,6 +247,7 @@ class _EdgeBlurState extends State<EdgeBlur> {
   @override
   void initState() {
     super.initState();
+    edgeBlurRaster.addListener(_rerender);
     if (_program != null || !ui.ImageFilter.isShaderFilterSupported) return;
     (_loading ??= ui.FragmentProgram.fromAsset('assets/shaders/edge_fade.frag')).then((p) {
       _program = p;
@@ -252,8 +255,13 @@ class _EdgeBlurState extends State<EdgeBlur> {
     }, onError: (_) {});
   }
 
+  void _rerender() {
+    if (mounted) setState(() {});
+  }
+
   @override
   void dispose() {
+    edgeBlurRaster.removeListener(_rerender);
     _dropShaders();
     super.dispose();
   }
@@ -300,7 +308,7 @@ class _EdgeBlurState extends State<EdgeBlur> {
             if (!blurEffects)
               const SizedBox.shrink()
             else if (program != null)
-              for (final f in _layers(program, MediaQuery.devicePixelRatioOf(context)))
+              for (final f in _layers(program, edgeBlurRaster.value ?? MediaQuery.devicePixelRatioOf(context)))
                 Positioned.fill(
                   child: ClipRect(child: BackdropFilter(filter: f, child: const SizedBox.expand())),
                 )
