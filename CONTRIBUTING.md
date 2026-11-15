@@ -14,6 +14,23 @@
 - **Translations:** edit the `.arb` file of your language and send a pull
   request, see [TRANSLATING.md](TRANSLATING.md).
 
+## Working on an issue
+
+Comment on the issue to use these commands:
+
+| Command | What it does |
+|---|---|
+| `/claim` | Ask to work on the issue. |
+| `/unclaim` | Step back so someone else can take it. |
+
+**Nobody is assigned until the maintainer approves the issue** with `/approved`,
+no matter how many claims or comments it has. Once it is approved, the first
+person who claimed it is assigned automatically, and later claims on an approved,
+unassigned issue are assigned straight away. If an issue is not approved, it
+won't be worked on.
+
+GymMane is made by a student, so reviews can take a while. Thanks for your patience!
+
 ## Two rules that never bend
 
 1. **No accounts, no logins, no remote user data.** Ever.
