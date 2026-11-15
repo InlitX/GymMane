@@ -10349,7 +10349,7 @@ abstract class AppLocalizations {
   /// No description provided for @settingsSearch.
   ///
   /// In en, this message translates to:
-  /// **'Search settings'**
+  /// **'Search settings or ask'**
   String get settingsSearch;
 
   /// No description provided for @settingsNoResults.
@@ -13969,6 +13969,396 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Check the values before saving'**
   String get foodAiFilledHint;
+
+  /// No description provided for @fastAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a past fast'**
+  String get fastAdd;
+
+  /// No description provided for @fastAddTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a fast'**
+  String get fastAddTitle;
+
+  /// No description provided for @fastEditTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit fast'**
+  String get fastEditTitle;
+
+  /// No description provided for @fastStartRow.
+  ///
+  /// In en, this message translates to:
+  /// **'Start'**
+  String get fastStartRow;
+
+  /// No description provided for @fastEndRow.
+  ///
+  /// In en, this message translates to:
+  /// **'End'**
+  String get fastEndRow;
+
+  /// No description provided for @fastEndedAt.
+  ///
+  /// In en, this message translates to:
+  /// **'When did you end it?'**
+  String get fastEndedAt;
+
+  /// No description provided for @fastLasted.
+  ///
+  /// In en, this message translates to:
+  /// **'Lasted {time}'**
+  String fastLasted(String time);
+
+  /// No description provided for @fastErrFuture.
+  ///
+  /// In en, this message translates to:
+  /// **'The end can\'t be later than now'**
+  String get fastErrFuture;
+
+  /// No description provided for @fastErrOrder.
+  ///
+  /// In en, this message translates to:
+  /// **'The end has to come after the start'**
+  String get fastErrOrder;
+
+  /// No description provided for @fastErrShort.
+  ///
+  /// In en, this message translates to:
+  /// **'A fast lasts at least 10 minutes'**
+  String get fastErrShort;
+
+  /// No description provided for @fastErrOverlap.
+  ///
+  /// In en, this message translates to:
+  /// **'It overlaps another fast'**
+  String get fastErrOverlap;
+
+  /// No description provided for @fastSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Fast saved'**
+  String get fastSaved;
+
+  /// No description provided for @fastAdjust.
+  ///
+  /// In en, this message translates to:
+  /// **'Adjust'**
+  String get fastAdjust;
+
+  /// No description provided for @keepCounting.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep counting'**
+  String get keepCounting;
+
+  /// No description provided for @keepCountingHint.
+  ///
+  /// In en, this message translates to:
+  /// **'It beeps at your time and keeps going until you stop it'**
+  String get keepCountingHint;
+
+  /// No description provided for @holdOvertime.
+  ///
+  /// In en, this message translates to:
+  /// **'Extra time'**
+  String get holdOvertime;
+
+  /// No description provided for @pairSetting.
+  ///
+  /// In en, this message translates to:
+  /// **'Pair of dumbbells'**
+  String get pairSetting;
+
+  /// No description provided for @pairSettingHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Log the weight of one. Volume counts both.'**
+  String get pairSettingHint;
+
+  /// No description provided for @helpCommon.
+  ///
+  /// In en, this message translates to:
+  /// **'Common questions'**
+  String get helpCommon;
+
+  /// No description provided for @helpQuestions.
+  ///
+  /// In en, this message translates to:
+  /// **'Questions'**
+  String get helpQuestions;
+
+  /// No description provided for @helpNoResults.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing matches that. Try another word'**
+  String get helpNoResults;
+
+  /// No description provided for @helpLbQ.
+  ///
+  /// In en, this message translates to:
+  /// **'Can I use lb for just one exercise?'**
+  String get helpLbQ;
+
+  /// No description provided for @helpLbA.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes. During the workout, open the exercise’s ⋯ menu and pick “{option}”.'**
+  String helpLbA(String option);
+
+  /// No description provided for @helpSupersetQ.
+  ///
+  /// In en, this message translates to:
+  /// **'How do I make a superset?'**
+  String get helpSupersetQ;
+
+  /// No description provided for @helpSupersetA.
+  ///
+  /// In en, this message translates to:
+  /// **'In the routine editor, tap the link between two exercises to chain them.'**
+  String get helpSupersetA;
+
+  /// No description provided for @helpRangeQ.
+  ///
+  /// In en, this message translates to:
+  /// **'How do I set a rep range like 8-12?'**
+  String get helpRangeQ;
+
+  /// No description provided for @helpRangeA.
+  ///
+  /// In en, this message translates to:
+  /// **'In the routine editor, long press the reps.'**
+  String get helpRangeA;
+
+  /// No description provided for @helpRestQ.
+  ///
+  /// In en, this message translates to:
+  /// **'Can each exercise have its own rest?'**
+  String get helpRestQ;
+
+  /// No description provided for @helpRestA.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes: open the exercise › {settings} › {rest}. Your default rest is in Settings › {section}.'**
+  String helpRestA(String settings, String rest, String section);
+
+  /// No description provided for @helpSidesQ.
+  ///
+  /// In en, this message translates to:
+  /// **'How do I log left and right separately?'**
+  String get helpSidesQ;
+
+  /// No description provided for @helpSidesA.
+  ///
+  /// In en, this message translates to:
+  /// **'Open the exercise › {settings} › {sides}.'**
+  String helpSidesA(String settings, String sides);
+
+  /// No description provided for @helpPairQ.
+  ///
+  /// In en, this message translates to:
+  /// **'Dumbbells: do I log one or both?'**
+  String get helpPairQ;
+
+  /// No description provided for @helpPairA.
+  ///
+  /// In en, this message translates to:
+  /// **'One. Turn on “{pair}” in the exercise’s settings and the volume counts both.'**
+  String helpPairA(String pair);
+
+  /// No description provided for @helpKeepQ.
+  ///
+  /// In en, this message translates to:
+  /// **'Can a timed set keep going past the time?'**
+  String get helpKeepQ;
+
+  /// No description provided for @helpKeepA.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes: turn on “{keep}” in the exercise’s settings. It beeps at your time and keeps counting until you stop it.'**
+  String helpKeepA(String keep);
+
+  /// No description provided for @helpDayOffQ.
+  ///
+  /// In en, this message translates to:
+  /// **'How do I mark a rest, sick or travel day?'**
+  String get helpDayOffQ;
+
+  /// No description provided for @helpDayOffA.
+  ///
+  /// In en, this message translates to:
+  /// **'On Home, long press the day in your week. Your streak and the reminder leave it alone.'**
+  String get helpDayOffA;
+
+  /// No description provided for @helpImportQ.
+  ///
+  /// In en, this message translates to:
+  /// **'Can I bring my workouts from Hevy, Strong or another app?'**
+  String get helpImportQ;
+
+  /// No description provided for @helpImportA.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes: Settings › {section} › {row}. It also reads FitNotes, Fitbod, JEFIT, StrongLifts, Liftosaur and Lyfta.'**
+  String helpImportA(String section, String row);
+
+  /// No description provided for @helpPhoneQ.
+  ///
+  /// In en, this message translates to:
+  /// **'How do I move my data to a new phone?'**
+  String get helpPhoneQ;
+
+  /// No description provided for @helpPhoneA.
+  ///
+  /// In en, this message translates to:
+  /// **'Export a copy in Settings › {section} and open it on the new phone with “{import}”.'**
+  String helpPhoneA(String section, String import);
+
+  /// No description provided for @helpSlowQ.
+  ///
+  /// In en, this message translates to:
+  /// **'The app feels slow on my phone'**
+  String get helpSlowQ;
+
+  /// No description provided for @helpSlowA.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings › {section} › {perf} › {lite}. It turns off blur, the heaviest part.'**
+  String helpSlowA(String section, String perf, String lite);
+
+  /// No description provided for @helpPlatesQ.
+  ///
+  /// In en, this message translates to:
+  /// **'How many plates go on the bar?'**
+  String get helpPlatesQ;
+
+  /// No description provided for @helpPlatesA.
+  ///
+  /// In en, this message translates to:
+  /// **'Use “{tool}” in Tools. Your gym’s plates and bar are set in “{places}”.'**
+  String helpPlatesA(String tool, String places);
+
+  /// No description provided for @helpRaceQ.
+  ///
+  /// In en, this message translates to:
+  /// **'How do I compare with my last workout?'**
+  String get helpRaceQ;
+
+  /// No description provided for @helpRaceA.
+  ///
+  /// In en, this message translates to:
+  /// **'During the workout, tap the pill at the top: “{race}”.'**
+  String helpRaceA(String race);
+
+  /// No description provided for @helpFastQ.
+  ///
+  /// In en, this message translates to:
+  /// **'I forgot to end my fast'**
+  String get helpFastQ;
+
+  /// No description provided for @helpFastA.
+  ///
+  /// In en, this message translates to:
+  /// **'End it and tap “{adjust}” on the notice, or tap the fast in the fasting sheet to change its times.'**
+  String helpFastA(String adjust);
+
+  /// No description provided for @helpGo.
+  ///
+  /// In en, this message translates to:
+  /// **'Show me'**
+  String get helpGo;
+
+  /// No description provided for @helpHomeOrderQ.
+  ///
+  /// In en, this message translates to:
+  /// **'Can I change the order of Home?'**
+  String get helpHomeOrderQ;
+
+  /// No description provided for @helpHomeOrderA.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes: Settings › {section} › “{row}”. Hold and drag the sections, or turn off the ones you don’t use.'**
+  String helpHomeOrderA(String section, String row);
+
+  /// No description provided for @helpCustomQ.
+  ///
+  /// In en, this message translates to:
+  /// **'Can I create my own exercise?'**
+  String get helpCustomQ;
+
+  /// No description provided for @helpCustomA.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes: in Exercises, tap “{button}”. You pick its name, muscles and equipment, and it works like any other.'**
+  String helpCustomA(String button);
+
+  /// No description provided for @helpWarmupQ.
+  ///
+  /// In en, this message translates to:
+  /// **'Can the app add warm-up sets for me?'**
+  String get helpWarmupQ;
+
+  /// No description provided for @helpWarmupA.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes: open the exercise › {settings} › “{warm}”. To work them out by hand, use “{tool}” in Tools.'**
+  String helpWarmupA(String settings, String warm, String tool);
+
+  /// No description provided for @helpPassQ.
+  ///
+  /// In en, this message translates to:
+  /// **'Can I keep my gym membership card in the app?'**
+  String get helpPassQ;
+
+  /// No description provided for @helpPassA.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes: “{row}” in Settings › {section}. It shows the barcode or QR code to scan at the door.'**
+  String helpPassA(String row, String section);
+
+  /// No description provided for @helpStepsQ.
+  ///
+  /// In en, this message translates to:
+  /// **'Why don’t I see my steps?'**
+  String get helpStepsQ;
+
+  /// No description provided for @helpStepsA.
+  ///
+  /// In en, this message translates to:
+  /// **'Steps are read from Health Connect, which comes with Android 14 and later. On older phones it isn’t available. If you have it, turn on “{row}” in Settings › {section}.'**
+  String helpStepsA(String row, String section);
+
+  /// No description provided for @helpNfcQ.
+  ///
+  /// In en, this message translates to:
+  /// **'Can I start my workout by tapping my phone?'**
+  String get helpNfcQ;
+
+  /// No description provided for @helpNfcA.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes, with an NFC sticker: “{row}” in Settings › {section}. Stick it at the gym and tapping it opens today’s workout.'**
+  String helpNfcA(String row, String section);
+
+  /// No description provided for @helpCleanQ.
+  ///
+  /// In en, this message translates to:
+  /// **'How do I make the Nutrition screen cleaner?'**
+  String get helpCleanQ;
+
+  /// No description provided for @helpCleanA.
+  ///
+  /// In en, this message translates to:
+  /// **'In Nutrition, tap the sliders button at the top (“{button}”) and turn off whatever you don’t track.'**
+  String helpCleanA(String button);
+
+  /// No description provided for @alsoWorksMuscles.
+  ///
+  /// In en, this message translates to:
+  /// **'Also works {muscles}'**
+  String alsoWorksMuscles(String muscles);
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

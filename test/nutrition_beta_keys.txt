@@ -346,3 +346,16 @@ foodAiCheck
 foodAiFill
 foodAiFilled
 foodAiFilledHint
+fastAdd
+fastAddTitle
+fastEditTitle
+fastStartRow
+fastEndRow
+fastEndedAt
+fastLasted
+fastErrFuture
+fastErrOrder
+fastErrShort
+fastErrOverlap
+fastSaved
+fastAdjust
