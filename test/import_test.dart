@@ -261,6 +261,27 @@ void main() {
       final r = parseImport(text, isLb: true);
       expect(r.sessions.first.exercises.first.sets.first.weightKg, closeTo(27.22, 0.05));
     });
+
+    test('recognises section headings with decorative hashes', () {
+      const csv = '''
+    ### WORKOUT SESSIONS #################################
+    _id,starttime,total_time
+    7,1709661600,3600
+
+    ### EXERCISE LOGS ####################################
+    _id,belongsession,ename,mydate,logs
+    1,7,Barbell Bench Press,2024-03-05,"60x10,65x8"
+    ''';
+
+      expect(detectFormat(csv), ImportFormat.jefit);
+
+      final result = parseImport(csv);
+
+      expect(result.sessions, hasLength(1));
+      expect(result.sessions.first.exercises, hasLength(1));
+      expect(result.sessions.first.exercises.first.name, 'Barbell Bench Press');
+      expect(result.sessions.first.exercises.first.sets, hasLength(2));
+    });
   });
 
   group('openGym', () {

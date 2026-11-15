@@ -344,13 +344,13 @@ ImportResult _parseStrongLifts(String csv) {
 }
 
 bool _isJefit(String text) =>
-    RegExp(r'^\s*###\s*EXERCISE LOGS\s*###\s*$', multiLine: true, caseSensitive: false).hasMatch(text);
+    RegExp(r'^\s*###\s*EXERCISE LOGS\s*#+\s*$', multiLine: true, caseSensitive: false).hasMatch(text);
 
 Map<String, List<List<String>>> _jefitSections(String text) {
   final lines = <String, List<String>>{};
   List<String>? current;
   for (final line in text.replaceFirst('﻿', '').split(RegExp(r'\r?\n'))) {
-    final m = RegExp(r'^\s*###\s*(.*?)\s*###\s*$').firstMatch(line);
+    final m = RegExp(r'^\s*###\s*(.*?)\s*#+\s*$').firstMatch(line);
     if (m != null) {
       current = lines.putIfAbsent(m.group(1)!.toLowerCase(), () => []);
       continue;
