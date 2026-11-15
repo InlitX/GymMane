@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:gymmane/l10n/app_localizations.dart';
+import 'package:gymmane/l10n/l10n.dart';
+import 'package:gymmane/screens/help_topics.dart';
+import 'package:gymmane/screens/settings_screen.dart';
 import 'package:gymmane/services/local_store.dart';
 import 'package:gymmane/services/rest_alarm.dart';
 import 'package:gymmane/state/fit_state.dart';
@@ -167,5 +169,53 @@ void main() {
       expect(coffee, greaterThan(0), reason: '$locale');
       expect(star, greaterThan(coffee), reason: '$locale: la estrella va después del café');
     }
+  });
+
+  group('guía en el buscador', () {
+    setUp(() async {
+      SharedPreferences.setMockInitialValues({});
+      await Store.instance.init();
+      fit.resetAllData();
+      fit.onboarded = true;
+      fit.nutritionBeta = true;
+    });
+
+    for (final lang in ['en', 'es']) {
+      test('cada respuesta que lleva a Ajustes apunta a una fila que existe ($lang)', () {
+        setAppLanguage(lang);
+        final rows = const SettingsScreen().searchRows.toSet();
+        final topics = helpTopics();
+        expect(topics.map((h) => h.id).toSet().length, topics.length, reason: 'ids repetidos');
+        for (final h in topics) {
+          if (h.section == null) continue;
+          if (h.row == null) {
+            expect(rows.any((r) => r.$1 == h.section), isTrue, reason: '${h.id} lleva a ${h.section}');
+            continue;
+          }
+          expect(rows.contains((h.section!, h.row!)), isTrue, reason: '${h.id} lleva a ${h.section} › ${h.row}');
+        }
+        for (final id in kHelpCommon.where((id) => id != 'steps')) {
+          expect(topics.any((h) => h.id == id), isTrue, reason: 'frecuente sin entrada: $id');
+        }
+        for (final h in topics) {
+          expect(h.answer.contains('{'), isFalse, reason: '${h.id} con hueco sin rellenar');
+        }
+      });
+    }
+
+    test('se encuentra preguntando con palabras sueltas, sin tildes ni orden', () {
+      setAppLanguage('es');
+      final topics = helpTopics();
+      List<String> find(String q) => [for (final h in topics) if (h.matches(q)) h.id];
+      expect(find('superserie'), contains('superset'));
+      expect(find('movil nuevo'), contains('phone'));
+      expect(find('lenta'), contains('slow'));
+      expect(find('lyfta'), contains('import'));
+      expect(find('hevy'), contains('import'));
+      expect(find('8-12'), contains('range'));
+      expect(find('mancuernas'), contains('pair'));
+      expect(find('x'), isEmpty);
+      setAppLanguage('en');
+    });
   });
 }
