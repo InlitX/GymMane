@@ -186,7 +186,20 @@ class _FastingCardState extends State<_FastingCard> {
                 fg: reached ? null : gc.text,
                 onTap: () {
                   HapticFeedback.mediumImpact();
-                  fit.endFast();
+                  final saved = fit.endFast();
+                  if (saved == null) return;
+                  showNotchToast(
+                    context,
+                    t.fastSaved,
+                    subtitle: _span(saved.length),
+                    icon: PhosphorIconsFill.hourglassMedium,
+                    accent: saved.reached ? gc.sage : gc.brass,
+                    action: t.fastAdjust,
+                    onTap: () {
+                      final kept = fit.fasts.where((r) => identical(r, saved));
+                      if (kept.isNotEmpty) showFastEditor(context, record: kept.first);
+                    },
+                  );
                 },
               ),
             ),
@@ -260,7 +273,13 @@ Future<void> showFastingSheet(BuildContext context) => _sheet<void>(context, (co
               for (final r in recent)
                 Padding(
                   padding: const EdgeInsets.only(bottom: 6),
-                  child: Container(
+                  child: Pressable(
+                    scale: 0.98,
+                    onTap: () {
+                      HapticFeedback.selectionClick();
+                      showFastEditor(context, record: r);
+                    },
+                    child: Container(
                     padding: const EdgeInsets.fromLTRB(14, 10, 6, 10),
                     decoration: BoxDecoration(color: gc.bgRaised2, borderRadius: BorderRadius.circular(16)),
                     child: Row(children: [
@@ -280,11 +299,18 @@ Future<void> showFastingSheet(BuildContext context) => _sheet<void>(context, (co
                         child: Icon(PhosphorIconsRegular.trash, size: 15, color: gc.textTertiary),
                       ),
                     ]),
+                    ),
                   ),
                 ),
             ],
+            const SizedBox(height: 14),
+            GhostButton(
+              label: t.fastAdd,
+              icon: PhosphorIconsRegular.plus,
+              onTap: () => showFastEditor(context),
+            ),
             if (fit.fasting) ...[
-              const SizedBox(height: 14),
+              const SizedBox(height: 8),
               GhostButton(
                 label: t.fastCancel,
                 icon: PhosphorIconsRegular.x,
@@ -309,3 +335,164 @@ Widget _fastStat(GymColors gc, String label, String value) => Container(
         FitText(value, style: AppTheme.f(16, weight: FontWeight.w800, color: gc.text)),
       ]),
     );
+
+Future<void> showFastEditor(BuildContext context, {FastRecord? record}) =>
+    _sheet<void>(context, (_) => _FastEditSheet(record: record));
+
+class _FastEditSheet extends StatefulWidget {
+  const _FastEditSheet({this.record});
+
+  final FastRecord? record;
+
+  @override
+  State<_FastEditSheet> createState() => _FastEditSheetState();
+}
+
+class _FastEditSheetState extends State<_FastEditSheet> {
+  late DateTime _end = widget.record?.end ?? _now();
+  late DateTime _start = widget.record?.start ?? _end.subtract(Duration(hours: fit.fastGoalHours));
+
+  static DateTime _now() {
+    final n = DateTime.now();
+    return DateTime(n.year, n.month, n.day, n.hour, n.minute);
+  }
+
+  String _dayName(DateTime d) {
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    final day = DateTime(d.year, d.month, d.day);
+    if (day == today) return t.nutritionToday;
+    if (day == shiftDays(today, -1)) return t.nutritionYesterday;
+    return t.shortDate(d);
+  }
+
+  Future<DateTime?> _pickDay(DateTime at) async {
+    final now = DateTime.now();
+    final floor = DateTime(now.year, now.month, now.day).subtract(const Duration(days: 90));
+    final picked = await showDatePicker(
+      context: context,
+      initialDate: at,
+      firstDate: at.isBefore(floor) ? at : floor,
+      lastDate: now,
+    );
+    if (picked == null) return null;
+    return DateTime(picked.year, picked.month, picked.day, at.hour, at.minute);
+  }
+
+  Future<DateTime?> _pickTime(DateTime at, String help) async {
+    final picked = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.fromDateTime(at),
+      initialEntryMode: TimePickerEntryMode.inputOnly,
+      helpText: help,
+    );
+    if (picked == null) return null;
+    return DateTime(at.year, at.month, at.day, picked.hour, picked.minute);
+  }
+
+  Widget _when(GymColors gc, DateTime at, String help, ValueChanged<DateTime> set) {
+    Widget part(String text, IconData icon, Future<DateTime?> Function() pick) => GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onTap: () async {
+            HapticFeedback.selectionClick();
+            final v = await pick();
+            if (v != null && mounted) setState(() => set(v));
+          },
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 12),
+            child: Row(mainAxisSize: MainAxisSize.min, children: [
+              Text(text, style: AppTheme.f(14, weight: FontWeight.w800, color: gc.accent)),
+              const SizedBox(width: 6),
+              Icon(icon, size: 15, color: gc.accent),
+            ]),
+          ),
+        );
+    return Row(mainAxisSize: MainAxisSize.min, children: [
+      part(_dayName(at), PhosphorIconsBold.calendarBlank, () => _pickDay(at)),
+      Ltr(child: part(t.clockTime(at), PhosphorIconsBold.clock, () => _pickTime(at, help))),
+    ]);
+  }
+
+  Widget _row(GymColors gc, String label, Widget control) => Container(
+        constraints: const BoxConstraints(minHeight: 56),
+        padding: const EdgeInsetsDirectional.only(start: 16, end: 8),
+        decoration: BoxDecoration(color: gc.bgRaised2, borderRadius: BorderRadius.circular(22)),
+        child: Row(children: [
+          Expanded(
+            child: Text(label,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: AppTheme.f(14.5, weight: FontWeight.w600, color: gc.text)),
+          ),
+          const SizedBox(width: 8),
+          control,
+        ]),
+      );
+
+  String? _problemText(String? p) => switch (p) {
+        'future' => t.fastErrFuture,
+        'order' => t.fastErrOrder,
+        'short' => t.fastErrShort,
+        'overlap' => t.fastErrOverlap,
+        _ => null,
+      };
+
+  @override
+  Widget build(BuildContext context) {
+    final gc = context.gc;
+    final problem = fit.fastProblem(_start, _end, editing: widget.record);
+    final goal = widget.record?.goalHours ?? fit.fastGoalHours;
+    final length = _end.difference(_start);
+    final reached = problem == null && length.inMinutes >= goal * 60;
+    return _sheetFrame(context, [
+      SheetTitle(widget.record == null ? t.fastAddTitle : t.fastEditTitle),
+      const SizedBox(height: 16),
+      _row(gc, t.fastStartRow, _when(gc, _start, t.fastStartedAt, (v) => _start = v)),
+      const SizedBox(height: 8),
+      _row(gc, t.fastEndRow, _when(gc, _end, t.fastEndedAt, (v) => _end = v)),
+      const SizedBox(height: 14),
+      AnimatedSwitcher(
+        duration: const Duration(milliseconds: 180),
+        child: Row(
+          key: ValueKey(problem ?? '${length.inMinutes}'),
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              problem != null
+                  ? PhosphorIconsRegular.warningCircle
+                  : reached
+                      ? PhosphorIconsBold.check
+                      : PhosphorIconsRegular.hourglassMedium,
+              size: 14,
+              color: problem != null ? gc.danger : (reached ? gc.sage : gc.textTertiary),
+            ),
+            const SizedBox(width: 6),
+            Flexible(
+              child: Text(
+                _problemText(problem) ?? t.fastLasted(_span(length)),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.center,
+                style: AppTheme.f(12.5, weight: FontWeight.w600, color: problem != null ? gc.danger : gc.textSecondary),
+              ),
+            ),
+          ],
+        ),
+      ),
+      const SizedBox(height: 16),
+      PrimaryButton(
+        label: t.save,
+        onTap: () {
+          if (problem != null) {
+            HapticFeedback.heavyImpact();
+            return;
+          }
+          HapticFeedback.mediumImpact();
+          fit.saveFast(_start, _end, replacing: widget.record);
+          Navigator.of(context).pop();
+        },
+      ),
+      const SizedBox(height: 6),
+    ]);
+  }
+}

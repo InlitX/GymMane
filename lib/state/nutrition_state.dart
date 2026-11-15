@@ -1760,19 +1760,49 @@ mixin NutritionState on FitCore, ToolsState, StatsState {
     startFast(at: at);
   }
 
-  void endFast() {
+  FastRecord? endFast() {
     final start = fastStart;
-    if (start == null) return;
+    if (start == null) return null;
     final end = DateTime.now();
+    FastRecord? saved;
     if (end.difference(start).inMinutes >= 10) {
-      fasts.add(FastRecord(start, end, fastGoalHours));
-      fasts.sort((a, b) => a.start.compareTo(b.start));
-      if (fasts.length > 200) fasts.removeRange(0, fasts.length - 200);
+      saved = FastRecord(start, end, fastGoalHours);
+      _keepFast(saved);
     }
     fastStart = null;
     _syncFast();
     _persist();
     notifyListeners();
+    return saved;
+  }
+
+  void _keepFast(FastRecord r) {
+    fasts.add(r);
+    fasts.sort((a, b) => a.start.compareTo(b.start));
+    if (fasts.length > 200) fasts.removeRange(0, fasts.length - 200);
+  }
+
+  String? fastProblem(DateTime start, DateTime end, {FastRecord? editing}) {
+    if (end.isAfter(DateTime.now().add(const Duration(minutes: 1)))) return 'future';
+    if (!end.isAfter(start)) return 'order';
+    if (end.difference(start).inMinutes < 10) return 'short';
+    final live = fastStart;
+    if (live != null && end.isAfter(live)) return 'overlap';
+    for (final r in fasts) {
+      if (identical(r, editing)) continue;
+      if (start.isBefore(r.end) && end.isAfter(r.start)) return 'overlap';
+    }
+    return null;
+  }
+
+  FastRecord? saveFast(DateTime start, DateTime end, {FastRecord? replacing}) {
+    if (fastProblem(start, end, editing: replacing) != null) return null;
+    if (replacing != null && !fasts.remove(replacing)) return null;
+    final r = FastRecord(start, end, replacing?.goalHours ?? fastGoalHours);
+    _keepFast(r);
+    _persist();
+    notifyListeners();
+    return r;
   }
 
   void cancelFast() {

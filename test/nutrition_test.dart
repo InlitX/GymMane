@@ -1059,6 +1059,47 @@ void main() {
       expect(fit.fastGoalHours, 18);
     });
 
+    test('un ayuno terminado tarde se ajusta a la hora real', () {
+      fit.setFastGoal(16);
+      fit.startFast(at: DateTime.now().subtract(const Duration(hours: 20)));
+      final saved = fit.endFast()!;
+      final realEnd = saved.start.add(const Duration(hours: 16, minutes: 30));
+      expect(fit.saveFast(saved.start, realEnd, replacing: saved), isNotNull);
+      expect(fit.fasts.single.end, realEnd);
+      expect(fit.fasts.single.reached, true);
+      expect(fit.fasts.single.goalHours, 16);
+    });
+
+    test('se puede añadir un ayuno olvidado y se guarda en su sitio', () {
+      final now = DateTime.now();
+      fit.startFast(at: now.subtract(const Duration(hours: 2)));
+      fit.endFast();
+      final start = now.subtract(const Duration(days: 2, hours: 18));
+      final end = now.subtract(const Duration(days: 2));
+      expect(fit.saveFast(start, end), isNotNull);
+      expect(fit.fasts.first.start, start, reason: 'ordenado por inicio');
+      final saved = fit.nutritionJson();
+      fit.fasts.clear();
+      fit.loadNutrition(saved);
+      expect(fit.fasts.length, 2);
+    });
+
+    test('no se guardan ayunos imposibles', () {
+      final now = DateTime.now();
+      final a = fit.saveFast(now.subtract(const Duration(hours: 30)), now.subtract(const Duration(hours: 14)))!;
+      expect(fit.fastProblem(now.subtract(const Duration(hours: 2)), now.add(const Duration(hours: 3))), 'future');
+      expect(fit.fastProblem(now.subtract(const Duration(hours: 2)), now.subtract(const Duration(hours: 3))), 'order');
+      expect(fit.fastProblem(now.subtract(const Duration(minutes: 5)), now), 'short');
+      expect(fit.fastProblem(now.subtract(const Duration(hours: 20)), now.subtract(const Duration(hours: 10))), 'overlap');
+      expect(fit.fastProblem(a.start, a.end.add(const Duration(hours: 1)), editing: a), isNull,
+          reason: 'al editar no choca consigo mismo');
+      fit.startFast(at: now.subtract(const Duration(hours: 4)));
+      expect(fit.fastProblem(now.subtract(const Duration(hours: 8)), now.subtract(const Duration(hours: 3))), 'overlap',
+          reason: 'tampoco con el ayuno en curso');
+      expect(fit.saveFast(now.subtract(const Duration(hours: 8)), now.subtract(const Duration(hours: 3))), isNull);
+      expect(fit.fasts.length, 1);
+    });
+
     test('cancelar no deja rastro en el historial', () {
       fit.startFast(at: DateTime.now().subtract(const Duration(hours: 5)));
       fit.cancelFast();
