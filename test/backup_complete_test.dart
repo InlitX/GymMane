@@ -84,6 +84,8 @@ void main() {
     fit.setExerciseRest(bench.id, 180);
     fit.toggleProgress(bench.id);
     fit.toggleAutoWarmup(squat.id);
+    fit.toggleKeepCounting('plank-hold');
+    fit.togglePaired(fit.matchExerciseByName('Dumbbell Fly')!.id);
     fit.toggleCheckin(0);
 
     final place = fit.addPlace('Casa', equipment: {'Barbell', 'Dumbbell'});
@@ -227,6 +229,8 @@ void main() {
     expect(fit.restFor(bench.id), 180);
     expect(fit.hasProgress(bench.id), isTrue);
     expect(fit.warmsUp(squat.id), isTrue);
+    expect(fit.keepsCounting('plank-hold'), isTrue);
+    expect(fit.isPaired(fit.matchExerciseByName('Dumbbell Fly')!.id), isTrue);
     expect(fit.checkins, isNotEmpty);
   });
 

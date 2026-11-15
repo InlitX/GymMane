@@ -16,6 +16,8 @@ double? rpePercent(int reps, double? rpe) {
   return i < _rpeTable.length ? _rpeTable[i] : null;
 }
 
+final Set<String> pairedDumbbells = {};
+
 class LoggedSet {
   LoggedSet(this.reps, this.weight,
       {this.kind = SetKind.normal, this.rpe, this.sec, this.km, this.note = '', this.left, this.right});
@@ -91,7 +93,7 @@ class LoggedExercise {
 
   List<LoggedSet> get workingSets => sets.where((s) => s.counts).toList();
 
-  double get volume => workingSets.fold(0.0, (s, x) => s + x.volume);
+  double get volume => workingSets.fold(0.0, (s, x) => s + x.volume) * (pairedDumbbells.contains(id) ? 2 : 1);
   double get topWeight {
     final w = workingSets;
     return w.isEmpty ? 0 : w.map((s) => s.weight).reduce((a, b) => a > b ? a : b);

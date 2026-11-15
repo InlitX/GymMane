@@ -461,6 +461,12 @@ class FitState extends FitCore
     eachSideOff
       ..clear()
       ..addAll(((data['eachSideOff'] as List?) ?? const []).cast<String>());
+    keepCounting
+      ..clear()
+      ..addAll(((data['keepCounting'] as List?) ?? const []).cast<String>());
+    pairOn
+      ..clear()
+      ..addAll(((data['pairOn'] as List?) ?? const []).cast<String>());
     assistedOn
       ..clear()
       ..addAll(((data['assisted'] as List?) ?? const []).cast<String>());
@@ -661,6 +667,8 @@ class FitState extends FitCore
         'repsOnlyOff': repsOnlyOff.toList(),
         'eachSide': eachSide.toList(),
         'eachSideOff': eachSideOff.toList(),
+        if (keepCounting.isNotEmpty) 'keepCounting': keepCounting.toList(),
+        if (pairOn.isNotEmpty) 'pairOn': pairOn.toList(),
         if (assistedOn.isNotEmpty) 'assisted': assistedOn.toList(),
         if (assistedOff.isNotEmpty) 'assistedOff': assistedOff.toList(),
         'sessions': _stored('sessions', sessions, (s) => s.toJson(), parts: _sessionParts),
@@ -764,6 +772,8 @@ class FitState extends FitCore
     repsOnlyOff.clear();
     eachSide.clear();
     eachSideOff.clear();
+    keepCounting.clear();
+    pairOn.clear();
     assistedOn.clear();
     assistedOff.clear();
     exerciseRest.clear();

@@ -455,6 +455,25 @@ mixin LibraryState on FitCore {
     notifyListeners();
   }
 
+  bool canPair(String id) =>
+      modeOf(id).isEmpty && !isRepsOnly(id) && exerciseById(id)?.equipment == 'Dumbbell';
+
+  bool isPaired(String id) => pairOn.contains(id);
+
+  void togglePaired(String id) {
+    if (!pairOn.remove(id)) pairOn.add(id);
+    _persist();
+    notifyListeners();
+  }
+
+  bool keepsCounting(String id) => runsClock(id) && keepCounting.contains(id);
+
+  void toggleKeepCounting(String id) {
+    if (!keepCounting.remove(id)) keepCounting.add(id);
+    _persist();
+    notifyListeners();
+  }
+
   static const _assistedByDefault = {'kiJ4Z2K', '7OeHptV', 'PAgTVaK'};
 
   bool _assistedName(String id) {
