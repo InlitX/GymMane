@@ -37,4 +37,37 @@ void main() {
 
     fit.route = 'home';
   });
+
+  testWidgets('step 2 filters by muscle and keeps secondary exercises apart', (tester) async {
+    fit.onboarded = true;
+    fit.selectedMuscles
+      ..clear()
+      ..addAll(['triceps', 'forearm']);
+    fit.trainContinue();
+    fit.route = 'train';
+
+    final muscles = ['triceps', 'forearm'];
+    final suggested = fit.allExercises.where((e) => fit.sessionPicks.contains(e.id)).toList();
+    final direct = fit.getFilteredExercises(muscles).where((e) => muscles.contains(e.primary) && fit.suggests(e.id));
+    if (direct.length >= suggested.length) {
+      expect(suggested.every((e) => muscles.contains(e.primary)), true);
+    }
+
+    await tester.pumpWidget(const GymManeApp());
+    await tester.pumpAndSettle();
+
+    expect(find.text('Triceps'), findsWidgets);
+    expect(find.text('Forearm'), findsWidgets);
+    expect(find.textContaining('ALSO WORKS'), findsOneWidget);
+
+    await tester.tap(find.text('Triceps').first);
+    await tester.pumpAndSettle();
+    expect(find.text('ALSO WORKS TRICEPS'), findsOneWidget);
+
+    await tester.tap(find.text('Triceps').first);
+    await tester.pumpAndSettle();
+    expect(find.text('ALSO WORKS TRICEPS, FOREARM'), findsOneWidget);
+
+    fit.route = 'home';
+  });
 }

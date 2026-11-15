@@ -26,6 +26,7 @@ class _TrainScreenState extends State<TrainScreen> {
   final TextEditingController _searchCtrl = TextEditingController();
   String _q = '';
   String? _gear;
+  String? _muscle;
 
   void _clearSearch() {
     _searchCtrl.clear();
@@ -193,14 +194,23 @@ class _TrainScreenState extends State<TrainScreen> {
     final searching = _q.trim().isNotEmpty;
 
     final all = searching ? fit.trainSearchResults(_q) : fit.reviewExercises();
+    final focus = searching || fit.trainKind != null ? const <String>[] : fit.selectedMuscles;
+    bool hits(Exercise e, String m) => e.primary == m || e.secondary.contains(m);
+    final musclesHere = focus.length > 1 ? [for (final m in focus) if (all.any((e) => hits(e, m))) m] : const <String>[];
+    final muscle = musclesHere.contains(_muscle) ? _muscle : null;
+    final targets = muscle == null ? focus : [muscle];
+    final mine = muscle == null ? all : all.where((e) => hits(e, muscle)).toList();
     final gearHere = <String>[
       for (final e in kFilterEquipment)
-        if (all.any((x) => x.equipment == e)) e,
+        if (mine.any((x) => x.equipment == e)) e,
     ];
     final gear = gearHere.contains(_gear) ? _gear : null;
-    final exercises = gear == null ? all : all.where((e) => e.equipment == gear).toList();
+    final exercises = gear == null ? mine : mine.where((e) => e.equipment == gear).toList();
+    bool side(Exercise e) => !targets.contains(e.primary) && e.secondary.any(targets.contains);
     final seeded = searching ? const <Exercise>[] : exercises.where((e) => fit.pickSeed.contains(e.id)).toList();
-    final others = searching ? exercises : exercises.where((e) => !fit.pickSeed.contains(e.id)).toList();
+    final rest = searching ? exercises : exercises.where((e) => !fit.pickSeed.contains(e.id)).toList();
+    final others = rest.where((e) => !side(e)).toList();
+    final secondary = rest.where(side).toList();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -227,17 +237,31 @@ class _TrainScreenState extends State<TrainScreen> {
         const SizedBox(height: 14),
         _searchRow(context, gc),
         const SizedBox(height: 12),
+        if (musclesHere.length > 1) ...[
+          SingleChildScrollView(
+            key: const PageStorageKey('h-train_screen-muscles'),
+            scrollDirection: Axis.horizontal,
+            clipBehavior: Clip.none,
+            child: Row(children: [
+              for (final m in musclesHere)
+                _gearChip(gc, t.muscle(m), muscle == m, () => _muscle = muscle == m ? null : m),
+            ]),
+          ),
+          const SizedBox(height: 8),
+        ],
         if (gearHere.length > 1) ...[
           SingleChildScrollView(
             key: const PageStorageKey('h-train_screen-232'),
             scrollDirection: Axis.horizontal,
+            clipBehavior: Clip.none,
             child: Row(children: [
-              _gearChip(gc, t.allExercisesShort, gear == null, null),
-              for (final e in gearHere) _gearChip(gc, t.equipment(e), gear == e, e),
+              _gearChip(gc, t.allExercisesShort, gear == null, () => _gear = null),
+              for (final e in gearHere) _gearChip(gc, t.equipment(e), gear == e, () => _gear = e),
             ]),
           ),
           const SizedBox(height: 14),
-        ],
+        ] else if (musclesHere.length > 1)
+          const SizedBox(height: 6),
         if (!searching && all.isNotEmpty) ...[
           Text(t.pickedHint(all.length),
               style: AppTheme.f(12, weight: FontWeight.w500, color: gc.textTertiary)),
@@ -261,6 +285,14 @@ class _TrainScreenState extends State<TrainScreen> {
             _pickRow(context, gc, ex),
             const SizedBox(height: 10),
           ],
+          if (secondary.isNotEmpty) ...[
+            if (seeded.isNotEmpty || others.isNotEmpty) const SizedBox(height: 10),
+            _sectionLabel(gc, t.alsoWorksMuscles(targets.map(t.muscle).join(', '))),
+            for (final ex in secondary) ...[
+              _pickRow(context, gc, ex),
+              const SizedBox(height: 10),
+            ],
+          ],
         ],
       ],
     );
@@ -272,13 +304,13 @@ class _TrainScreenState extends State<TrainScreen> {
             style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.4)),
       );
 
-  Widget _gearChip(GymColors gc, String label, bool on, String? value) => Padding(
+  Widget _gearChip(GymColors gc, String label, bool on, VoidCallback pick) => Padding(
         padding: const EdgeInsetsDirectional.only(end: 8),
         child: Pill(
           label: label,
           bg: on ? gc.ember : gc.bgRaised2,
           fg: on ? gc.onEmber : gc.textSecondary,
-          onTap: () => setState(() => _gear = value),
+          onTap: () => setState(pick),
           hPad: 12,
           vPad: 6,
           fontSize: 12,
