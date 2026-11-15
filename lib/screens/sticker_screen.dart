@@ -402,16 +402,25 @@ class _Sticker extends StatelessWidget {
     );
   }
 
-  Widget _mark({double size = 12}) => Row(mainAxisSize: MainAxisSize.min, children: [
-        Image.asset(
-          'assets/img/runner.png',
-          height: size + 5,
-          color: color.withValues(alpha: 0.9),
-          colorBlendMode: BlendMode.srcIn,
-        ),
-        const SizedBox(width: 5),
-        Text('GymMane', style: _s(size, FontWeight.w900, alpha: 0.9, spacing: 0.2)),
-      ]);
+  Color _brand(GymColors gc) {
+    if (!_light) return Color.lerp(gc.accent, Colors.black, 0.45)!;
+    final warm = color.toARGB32() == gc.accent.toARGB32() || color.toARGB32() == gc.brass.toARGB32();
+    return warm ? Colors.white : gc.accent;
+  }
+
+  Widget _mark({double size = 12}) => Builder(builder: (context) {
+        final brand = _brand(context.gc);
+        return Row(mainAxisSize: MainAxisSize.min, children: [
+          Image.asset(
+            'assets/img/runner.png',
+            height: size + 5,
+            color: brand,
+            colorBlendMode: BlendMode.srcIn,
+          ),
+          const SizedBox(width: 5),
+          Text('GymMane', style: _s(size, FontWeight.w900, spacing: 0.2).copyWith(color: brand)),
+        ]);
+      });
 
   Widget _kicker(String text) =>
       Text(text.toUpperCase(), style: _s(10.5, FontWeight.w800, alpha: 0.75, spacing: 2.2));
