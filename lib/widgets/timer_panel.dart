@@ -25,6 +25,7 @@ class TimerPanel extends StatelessWidget {
     this.onMinus,
     this.onPlus,
     this.color,
+    this.clock,
   });
 
   final String label;
@@ -39,6 +40,7 @@ class TimerPanel extends StatelessWidget {
   final VoidCallback? onMinus;
   final VoidCallback? onPlus;
   final Color? color;
+  final String? clock;
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +49,7 @@ class TimerPanel extends StatelessWidget {
     final left = total <= 0 ? 0.0 : (remaining / total).clamp(0.0, 1.0);
     return Semantics(
       button: true,
-      label: '$label ${clockLabel(remaining)}',
+      label: '$label ${clock ?? clockLabel(remaining)}',
       hint: hint,
       child: GestureDetector(
         behavior: HitTestBehavior.opaque,
@@ -100,8 +102,8 @@ class TimerPanel extends StatelessWidget {
                       const SizedBox(width: 10),
                       Column(
                         children: [
-                          RollingText(clockLabel(remaining),
-                              countsDown: true,
+                          RollingText(clock ?? clockLabel(remaining),
+                              countsDown: clock == null,
                               style: AppTheme.f(36, weight: FontWeight.w800, color: gc.text, height: 1.05)),
                           const SizedBox(height: 4),
                           ConstrainedBox(

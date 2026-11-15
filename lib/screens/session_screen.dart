@@ -793,10 +793,13 @@ class SessionScreen extends StatelessWidget {
 
   Widget _holdDock(GymColors gc) {
     final lead = fit.holdLead;
-    final left = lead > 0 ? lead : fit.holdRemaining ?? 0;
+    final over = fit.holdOvertime;
+    final left = over ? 0 : (lead > 0 ? lead : fit.holdRemaining ?? 0);
     final total = lead > 0 ? WorkoutState.holdLeadIn : (fit.holdTotal <= 0 ? 1 : fit.holdTotal);
     final ex = fit.session?.exercises[fit.holdEx];
-    final label = lead > 0
+    final label = over
+        ? t.holdOvertime
+        : lead > 0
         ? (fit.switchingSides ? t.switchSides : t.getReady)
         : fit.holdSides > 1
             ? t.sideOfTwo('${fit.holdSide + 1}')
@@ -817,7 +820,8 @@ class SessionScreen extends StatelessWidget {
               FitText(
                   [label.toUpperCase(), if (ex != null) t.catalogName(ex.id, ex.name)].join(' · '),
                   style: AppTheme.f(9.5, weight: FontWeight.w800, color: gc.ember, letterSpacing: 1)),
-              RollingText(clockLabel(left), style: AppTheme.f(24, weight: FontWeight.w800, color: gc.text, height: 1.1)),
+              RollingText(over ? '+${clockLabel(fit.holdExtra)}' : clockLabel(left),
+                  style: AppTheme.f(24, weight: FontWeight.w800, color: gc.text, height: 1.1)),
             ]),
           ),
           _dockButton(gc, fit.holdPaused ? t.finishHoldNow : t.stopLabel,
@@ -1992,16 +1996,20 @@ class SessionScreen extends StatelessWidget {
   Widget _holdPanel(GymColors gc) {
     final count = fit.sessionSetCount;
     final lead = fit.holdLead;
+    final over = fit.holdOvertime;
     return TimerPanel(
-      label: lead > 0
+      label: over
+          ? t.holdOvertime
+          : lead > 0
           ? (fit.switchingSides ? t.switchSides : t.getReady)
           : fit.modeOf(fit.session?.exercises[fit.holdEx].id ?? '') == 'cardio'
               ? t.kindCardio
               : fit.holdSides > 1
                   ? t.sideOfTwo('${fit.holdSide + 1}')
                   : t.holdLabel,
-      remaining: lead > 0 ? lead : fit.holdRemaining ?? 0,
+      remaining: over ? fit.holdTotal : (lead > 0 ? lead : fit.holdRemaining ?? 0),
       total: lead > 0 ? WorkoutState.holdLeadIn : fit.holdTotal,
+      clock: over ? '+${clockLabel(fit.holdExtra)}' : null,
       elapsed: fit.elapsedLabel,
       elapsedLabel: t.elapsedCaps,
       sets: '${count.done}/${count.total}',
@@ -2066,7 +2074,9 @@ class SessionScreen extends StatelessWidget {
         return _ticking(() => PrimaryButton(
               label: fit.holdPaused
                   ? t.finishHoldNow
-                  : '${t.stopLabel} · ${durationLabel(fit.holdRemaining ?? 0)}',
+                  : fit.holdOvertime
+                      ? '${t.stopLabel} · +${durationLabel(fit.holdExtra)}'
+                      : '${t.stopLabel} · ${durationLabel(fit.holdRemaining ?? 0)}',
               onTap: fit.holdPaused ? fit.completeHold : fit.stopHold,
               height: 52,
             ));

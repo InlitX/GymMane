@@ -1083,7 +1083,7 @@ class WearSession extends StatelessWidget {
                     ? t.sideOfTwo('${fit.holdSide + 1}')
                     : t.timeCol),
             style: AppTheme.f(11.5, weight: FontWeight.w700, color: gc.textSecondary)),
-        Text(lead > 0 ? '$lead' : durationLabel(left),
+        Text(lead > 0 ? '$lead' : (fit.holdOvertime ? '+${durationLabel(fit.holdExtra)}' : durationLabel(left)),
             style: AppTheme.f(32, weight: FontWeight.w800, color: lead > 0 ? gc.accent : gc.text, height: 1.1)),
       ]),
     );

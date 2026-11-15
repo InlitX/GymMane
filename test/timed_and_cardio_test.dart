@@ -204,6 +204,48 @@ void main() {
       fit.skipRest();
     });
 
+    test('#390 seguir contando: suena, sigue y guarda el tiempo real al parar', () async {
+      fit.toggleKeepCounting('plank-hold');
+      fit.startRoutine(routineOf(['plank-hold']));
+      fit.endCountdown();
+      final set = fit.session!.exercises.first.sets.first;
+      final planned = fit.holdTotal;
+      fit.startHold(0, 0);
+      await endSide();
+      expect(fit.holding, isTrue);
+      expect(fit.holdOvertime, isTrue);
+      expect(set.done, isFalse);
+      fit.holdOverFrom = DateTime.now().subtract(const Duration(seconds: 40));
+      expect(fit.holdExtra, inInclusiveRange(39, 41));
+      fit.toggleHoldPause();
+      final paused = fit.holdExtra;
+      await Future<void>.delayed(const Duration(milliseconds: 1100));
+      expect(fit.holdExtra, paused, reason: 'en pausa no corre');
+      fit.toggleHoldPause();
+      fit.stopHold();
+      expect(fit.holding, isFalse);
+      expect(fit.holdOvertime, isFalse);
+      expect(set.done, isTrue);
+      expect(set.sec, inInclusiveRange(planned + 39, planned + 41));
+      fit.skipRest();
+    });
+
+    test('#390 sin el ajuste, o por lados, para al llegar como siempre', () async {
+      fit.toggleKeepCounting('side-plank-hold');
+      fit.startRoutine(routineOf(['plank-hold', 'side-plank-hold']));
+      fit.endCountdown();
+      fit.startHold(0, 0);
+      await endSide();
+      expect(fit.holding, isFalse);
+      fit.skipRest();
+      fit.startHold(1, 0);
+      await endSide();
+      await endSide();
+      expect(fit.holdOvertime, isFalse);
+      expect(fit.session!.exercises[1].sets.first.done, isTrue);
+      fit.skipRest();
+    });
+
     test('pararlo deja todo como al principio', () {
       fit.startRoutine(routineOf(['side-plank-hold']));
       fit.endCountdown();
