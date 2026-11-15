@@ -427,6 +427,7 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
           fit.isEachSide(ex.id),
           () => fit.toggleEachSide(ex.id),
         ),
+        if (!fit.isEachSide(ex.id)) _keepCountingRow(gc, ex.id),
         _holdProgressRow(gc, ex.id),
       ] else if (mode.isEmpty)
         _switchRow(
@@ -437,6 +438,7 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
           fit.isSidedReps(ex.id),
           () => fit.toggleSidedReps(ex.id),
         ),
+      if (mode == 'cardio') _keepCountingRow(gc, ex.id),
       _restRow(gc, ex.id),
       if (ex.equipment == 'Barbell' || ex.equipment == 'Machine') _barRow(gc, ex),
       if ((ex.equipment == 'Machine' || ex.equipment == 'Cable') && mode.isEmpty && !repsOnly)
@@ -458,6 +460,15 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
           fit.isAssisted(ex.id),
           () => fit.toggleAssisted(ex.id),
         ),
+        if (fit.canPair(ex.id))
+          _switchRow(
+            gc,
+            PhosphorIconsRegular.barbell,
+            t.pairSetting,
+            t.pairSettingHint,
+            fit.isPaired(ex.id),
+            () => fit.togglePaired(ex.id),
+          ),
         _progressRow(context, gc, ex.id),
         _switchRow(
           gc,
@@ -472,37 +483,68 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
   }
 
   Widget _settingsRow(BuildContext context, GymColors gc, Exercise ex) {
+    final mode = fit.modeOf(ex.id);
+    final values = [
+      (t.restTimer, fit.restFor(ex.id) == 0 ? t.restOff : clockLabel(fit.restFor(ex.id))),
+      if (mode.isEmpty)
+        (t.progression, progressKindName(fit.progressRule(ex.id).kind))
+      else
+        (t.exerciseTypeLabel, _modeName(mode)),
+    ];
     return Semantics(
       button: true,
+      label: t.exerciseSettings,
       child: Pressable(
         onTap: () => _openSettings(context, ex.id),
         scale: 0.98,
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 13),
+          padding: const EdgeInsets.fromLTRB(16, 14, 14, 14),
           decoration: BoxDecoration(
             color: gc.bgRaised,
             borderRadius: BorderRadius.circular(20),
           ),
-          child: Row(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              _rowIcon(gc, PhosphorIconsRegular.slidersHorizontal, false),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(t.exerciseSettings,
+              Row(
+                children: [
+                  _rowIcon(gc, PhosphorIconsRegular.slidersHorizontal, true),
+                  Expanded(
+                    child: Text(t.exerciseSettings,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: AppTheme.f(14.5, weight: FontWeight.w500, color: gc.text)),
-                    const SizedBox(height: 3),
-                    Text(t.exerciseSettingsHint,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: AppTheme.f(11.5, weight: FontWeight.w500, color: gc.textSecondary)),
-                  ],
-                ),
+                        style: AppTheme.f(14.5, weight: FontWeight.w600, color: gc.text)),
+                  ),
+                  const SizedBox(width: 12),
+                  Icon(PhosphorIconsRegular.caretRight, size: 15, color: gc.textTertiary),
+                ],
               ),
-              Icon(PhosphorIconsRegular.caretRight, size: 15, color: gc.textTertiary),
+              const SizedBox(height: 12),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  for (var i = 0; i < values.length; i++) ...[
+                    if (i > 0) const SizedBox(width: 12),
+                    Expanded(
+                      child: Container(
+                        padding: const EdgeInsets.fromLTRB(12, 10, 10, 10),
+                        decoration: BoxDecoration(color: gc.bgRaised2, borderRadius: BorderRadius.circular(12)),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            _cardLabel(gc, values[i].$1),
+                            const SizedBox(height: 4),
+                            Text(values[i].$2,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: AppTheme.f(13.5, weight: FontWeight.w700, color: gc.text)),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ],
+              ),
             ],
           ),
         ),
@@ -792,14 +834,20 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(t.addToRoutine, style: AppTheme.f(14.5, weight: FontWeight.w500, color: gc.text)),
+                    Text(t.addToRoutine, style: AppTheme.f(14.5, weight: FontWeight.w600, color: gc.text)),
                     const SizedBox(height: 3),
                     Text(t.inRoutines(n),
                         style: AppTheme.f(11.5, weight: FontWeight.w500, color: gc.textSecondary)),
                   ],
                 ),
               ),
-              Icon(PhosphorIconsRegular.plus, size: 16, color: gc.textTertiary),
+              const SizedBox(width: 12),
+              Container(
+                width: 32,
+                height: 32,
+                decoration: BoxDecoration(color: gc.text, shape: BoxShape.circle),
+                child: Icon(PhosphorIconsBold.plus, size: 14, color: gc.bg),
+              ),
             ],
           ),
         ),
@@ -1527,6 +1575,15 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
       ),
     );
   }
+
+  Widget _keepCountingRow(GymColors gc, String id) => _switchRow(
+        gc,
+        PhosphorIconsRegular.timer,
+        t.keepCounting,
+        t.keepCountingHint,
+        fit.keepsCounting(id),
+        () => fit.toggleKeepCounting(id),
+      );
 
   Widget _switchRow(GymColors gc, IconData icon, String title, String hint, bool on,
       VoidCallback onTap) {
