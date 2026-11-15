@@ -465,6 +465,9 @@ const Map<String, String> kExerciseNameZh = {
   'bench-leg-raise': '平凳举腿',
   'hack-squat-machine': '器械哈克深蹲',
   'straight-arm-pulldown': '直臂下压',
+  'handgrip': '握力器',
+  'cable-rear-delt-row': '绳索后束划船',
+  'bayesian-cable-curl': '贝叶斯绳索弯举',
 };
 
 const Map<String, List<String>> kExerciseStepsZh = {
@@ -3088,5 +3091,26 @@ const Map<String, List<String>> kExerciseStepsZh = {
     '肩膀前移超过双手，并保持这个前倾角度。',
     '胸口下降贴近地面，髋部不要塌。',
     '保持同样的前倾角度撑起身体。',
+  ],
+  'handgrip': [
+    '单手握住握力器：一个手柄贴住掌心，手指扣住另一个手柄。',
+    '保持手腕伸直，手臂放松垂在身体一侧。',
+    '用力握紧，直到两个手柄碰在一起。',
+    '停顿片刻，然后慢慢有控制地张开手。',
+    '做完所有次数后换手。',
+  ],
+  'cable-rear-delt-row': [
+    '把滑轮调到胸口高度，挂上绳索。',
+    '面向器械站立，双手各握绳索一端，手臂伸直。',
+    '把绳索拉向胸口，同时把手肘向两侧抬到肩膀高度。',
+    '最后夹紧肩胛骨，双手在胸前分开。',
+    '慢慢伸直手臂回到起始位置。',
+  ],
+  'bayesian-cable-curl': [
+    '把滑轮调到最低位置，挂上单手把手。',
+    '背对器械站立，向前迈一步，手臂伸直、略在身体后方握住把手。',
+    '保持肘部不动，把把手弯举向肩膀。',
+    '在顶部收紧肱二头肌。',
+    '慢慢放下，直到手臂再次伸直并回到身体后方，然后换手。',
   ],
 };

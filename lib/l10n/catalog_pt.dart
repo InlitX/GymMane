@@ -465,6 +465,9 @@ const Map<String, String> kExerciseNamePt = {
   'decline-chest-press-machine': 'Supino declinado na máquina',
   'incline-chest-press-machine': 'Supino inclinado na máquina',
   'reverse-grip-bench-press': 'Supino com pegada supinada (invertida) com barra',
+  'handgrip': 'Handgrip',
+  'cable-rear-delt-row': 'Remada posterior na polia',
+  'bayesian-cable-curl': 'Rosca bayesiana na polia',
 };
 
 const Map<String, List<String>> kExerciseStepsPt = {
@@ -3677,5 +3680,26 @@ const Map<String, List<String>> kExerciseStepsPt = {
     'Retire a barra do suporte e mantenha-a acima da parte inferior do peito.',
     'Abaixe a barra lentamente até a parte inferior do peito.',
     'Empurre a barra de volta para cima até estender os braços.',
+  ],
+  'handgrip': [
+    'Segure um handgrip com uma mão: um cabo contra a palma e os dedos em volta do outro.',
+    'Mantenha o punho reto e o braço relaxado ao lado do corpo.',
+    'Aperte até os dois cabos se tocarem.',
+    'Segure um instante e abra a mão devagar, com controle.',
+    'Faça todas as repetições e troque de mão.',
+  ],
+  'cable-rear-delt-row': [
+    'Coloque a polia na altura do peito e prenda uma corda.',
+    'Em pé, de frente para a máquina, segure uma ponta da corda em cada mão com os braços estendidos.',
+    'Puxe a corda em direção ao peito, levantando os cotovelos para os lados na altura dos ombros.',
+    'No final, junte as escápulas, com as mãos afastadas na frente do peito.',
+    'Estenda os braços devagar até voltar ao início.',
+  ],
+  'bayesian-cable-curl': [
+    'Coloque a polia na posição mais baixa e prenda uma pegada simples.',
+    'De costas para a máquina, dê um passo à frente e segure a pegada com o braço estendido e um pouco atrás do corpo.',
+    'Sem mexer o cotovelo, suba a pegada em direção ao ombro.',
+    'Contraia o bíceps no alto.',
+    'Desça devagar até o braço ficar estendido e atrás do corpo de novo, e troque de braço.',
   ],
 };

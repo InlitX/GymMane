@@ -446,6 +446,9 @@ const Map<String, String> kExerciseNameIt = {
   'bench-leg-raise': 'Sollevamento gambe su panca',
   'hack-squat-machine': 'Hack squat alla macchina',
   'straight-arm-pulldown': 'Pulldown a braccia tese',
+  'handgrip': 'Handgrip',
+  'cable-rear-delt-row': 'Rematore deltoidi posteriori al cavo',
+  'bayesian-cable-curl': 'Curl bayesiano al cavo',
 };
 
 const Map<String, List<String>> kExerciseStepsIt = {
@@ -2971,5 +2974,26 @@ const Map<String, List<String>> kExerciseStepsIt = {
     'Porta le spalle in avanti oltre le mani e mantieni questa inclinazione.',
     'Abbassa il petto a terra senza lasciare cadere il bacino.',
     'Spingi per risalire mantenendo la stessa inclinazione in avanti.',
+  ],
+  'handgrip': [
+    "Tieni un handgrip in una mano: un manico contro il palmo e le dita attorno all'altro.",
+    'Tieni il polso dritto e il braccio rilassato lungo il fianco.',
+    'Stringi finché i due manici si toccano.',
+    'Mantieni un attimo, poi apri la mano lentamente e con controllo.',
+    'Fai tutte le ripetizioni, poi cambia mano.',
+  ],
+  'cable-rear-delt-row': [
+    "Regola la puleggia all'altezza del petto e aggancia una corda.",
+    "In piedi di fronte alla macchina, tieni un'estremità della corda in ogni mano con le braccia tese.",
+    "Tira la corda verso il petto sollevando i gomiti lateralmente all'altezza delle spalle.",
+    'Alla fine stringi le scapole, con le mani separate davanti al petto.',
+    "Distendi lentamente le braccia fino a tornare all'inizio.",
+  ],
+  'bayesian-cable-curl': [
+    'Regola la puleggia nella posizione più bassa e aggancia una maniglia singola.',
+    'Dai le spalle alla macchina, fai un passo avanti e tieni la maniglia con il braccio teso e un po’ dietro il corpo.',
+    'Tieni fermo il gomito e porta la maniglia verso la spalla.',
+    'Contrai il bicipite in alto.',
+    'Scendi lentamente finché il braccio torna teso e dietro il corpo, poi cambia braccio.',
   ],
 };

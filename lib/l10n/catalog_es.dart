@@ -465,6 +465,9 @@ const Map<String, String> kExerciseNameEs = {
   'bench-leg-raise': 'Elevación de piernas en banco',
   'hack-squat-machine': 'Sentadilla hack en máquina',
   'straight-arm-pulldown': 'Jalón con brazos rectos',
+  'handgrip': 'Ejercitador de agarre',
+  'cable-rear-delt-row': 'Remo posterior en polea',
+  'bayesian-cable-curl': 'Curl bayesiano en polea',
 };
 
 const Map<String, List<String>> kExerciseStepsEs = {
@@ -3677,5 +3680,26 @@ const Map<String, List<String>> kExerciseStepsEs = {
     'Inclínate un poco hacia delante desde la cadera y aprieta el abdomen.',
     'Baja la barra en arco hasta los muslos sin doblar los brazos.',
     'Deja subir la barra despacio hasta la altura de los ojos.',
+  ],
+  'handgrip': [
+    'Sujeta un handgrip con una mano: un mango contra la palma y los dedos alrededor del otro.',
+    'Mantén la muñeca recta y el brazo relajado junto al cuerpo.',
+    'Aprieta hasta que los dos mangos se toquen.',
+    'Aguanta un momento y abre la mano despacio y con control.',
+    'Haz todas las repeticiones y cambia de mano.',
+  ],
+  'cable-rear-delt-row': [
+    'Pon la polea a la altura del pecho y engancha una cuerda.',
+    'De pie frente a la máquina, sujeta un extremo de la cuerda con cada mano y los brazos estirados.',
+    'Tira de la cuerda hacia el pecho levantando los codos hacia los lados a la altura de los hombros.',
+    'Al final junta las escápulas, con las manos separadas delante del pecho.',
+    'Estira los brazos despacio hasta volver al inicio.',
+  ],
+  'bayesian-cable-curl': [
+    'Pon la polea en la posición más baja y engancha un agarre simple.',
+    'De espaldas a la máquina, da un paso adelante y sujeta el agarre con el brazo estirado y un poco por detrás del cuerpo.',
+    'Sin mover el codo, sube el agarre hacia el hombro.',
+    'Aprieta el bíceps arriba.',
+    'Baja despacio hasta que el brazo quede estirado y por detrás otra vez, y cambia de brazo.',
   ],
 };
