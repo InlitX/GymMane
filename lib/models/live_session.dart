@@ -2,7 +2,10 @@ import 'workout.dart';
 
 class SessionSet {
   SessionSet(this.reps, this.weight, this.done,
-      {this.kind = SetKind.normal, this.rpe, this.sec, this.km, this.rest, this.note = '', this.repsR, this.goal});
+      {this.kind = SetKind.normal, this.rpe, this.sec, this.km, this.rest, this.note = '', this.repsR,
+      this.goal, this.volumeMultiplier, this.preserveLegacyVolume = false});
+  int? volumeMultiplier;
+  final bool preserveLegacyVolume;
   int reps;
   int? repsR;
   String? goal;
@@ -26,11 +29,19 @@ class SessionSet {
   LoggedSet get logged => LoggedSet(weakReps, weight,
       kind: kind, rpe: rpe, sec: sec, km: km, note: note.trim(), left: repsR == null ? null : reps, right: repsR);
 
-  SessionSet copy({bool done = false}) =>
-      SessionSet(reps, weight, done, kind: kind, rpe: rpe, sec: sec, km: km, repsR: repsR, goal: goal);
+  LoggedSet loggedForVolume(bool paired) => LoggedSet(weakReps, weight,
+      kind: kind, rpe: rpe, sec: sec, km: km, note: note.trim(),
+      left: repsR == null ? null : reps, right: repsR,
+      volumeMultiplier: preserveLegacyVolume ? null : volumeMultiplier ?? (paired ? 2 : 1));
+
+  SessionSet copy({bool done = false}) => SessionSet(reps, weight, done,
+      kind: kind, rpe: rpe, sec: sec, km: km, repsR: repsR, goal: goal,
+      volumeMultiplier: volumeMultiplier, preserveLegacyVolume: preserveLegacyVolume);
 
   Map<String, dynamic> toJson() => {
         'r': reps,
+        if (volumeMultiplier != null) 'vm': volumeMultiplier,
+        if (preserveLegacyVolume) 'lv': true,
         if (repsR != null) 'rr': repsR,
         if (goal != null) 'g': goal,
         'w': weight,
@@ -55,6 +66,8 @@ class SessionSet {
         note: j['n'] as String? ?? '',
         repsR: (j['rr'] as num?)?.toInt(),
         goal: j['g'] as String?,
+        volumeMultiplier: (j['vm'] as num?)?.toInt(),
+        preserveLegacyVolume: j['lv'] == true,
       )..half = j['h'] as bool? ?? false;
 }
 

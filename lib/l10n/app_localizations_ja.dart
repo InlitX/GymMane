@@ -7760,10 +7760,31 @@ class AppLocalizationsJa extends AppLocalizations {
   String get holdOvertime => 'Extra time';
 
   @override
+  String weightPerDumbbellCol(String unit) {
+    return '$unit/DB';
+  }
+
+  @override
+  String weightPerSideCol(String unit) {
+    return '$unit/SIDE';
+  }
+
+  @override
+  String weightPerDumbbellTitle(String unit) {
+    return 'Weight per dumbbell ($unit)';
+  }
+
+  @override
+  String weightPerSideTitle(String unit) {
+    return 'Load moved by one side ($unit)';
+  }
+
+  @override
   String get pairSetting => 'Pair of dumbbells';
 
   @override
-  String get pairSettingHint => 'Log the weight of one. Volume counts both.';
+  String get pairSettingHint =>
+      'Enter the weight of one dumbbell. New sets count both dumbbells. With separate left/right reps, each side is counted once. Existing workouts stay unchanged.';
 
   @override
   String get helpCommon => 'Common questions';
@@ -7815,7 +7836,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String helpPairA(String pair) {
-    return 'One. Turn on “$pair” in the exercise’s settings and the volume counts both.';
+    return 'One. Turn on “$pair” in the exercise’s settings for new sets to count both. With separate left/right reps, volume adds both sides without doubling again. Existing workouts stay unchanged.';
   }
 
   @override

@@ -13157,7 +13157,7 @@ abstract class AppLocalizations {
   /// No description provided for @eachSideRepsHint.
   ///
   /// In en, this message translates to:
-  /// **'Log the left and right reps separately. Progression follows the weaker side.'**
+  /// **'Enter the load moved by one side and log left and right reps separately. New sets count both sides for volume, without an extra pair multiplier. Progression follows the weaker side.'**
   String get eachSideRepsHint;
 
   /// No description provided for @repsLeftCol.
@@ -14066,6 +14066,30 @@ abstract class AppLocalizations {
   /// **'Extra time'**
   String get holdOvertime;
 
+  /// No description provided for @weightPerDumbbellCol.
+  ///
+  /// In en, this message translates to:
+  /// **'{unit}/DB'**
+  String weightPerDumbbellCol(String unit);
+
+  /// No description provided for @weightPerSideCol.
+  ///
+  /// In en, this message translates to:
+  /// **'{unit}/SIDE'**
+  String weightPerSideCol(String unit);
+
+  /// No description provided for @weightPerDumbbellTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Weight per dumbbell ({unit})'**
+  String weightPerDumbbellTitle(String unit);
+
+  /// No description provided for @weightPerSideTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Load moved by one side ({unit})'**
+  String weightPerSideTitle(String unit);
+
   /// No description provided for @pairSetting.
   ///
   /// In en, this message translates to:
@@ -14075,7 +14099,7 @@ abstract class AppLocalizations {
   /// No description provided for @pairSettingHint.
   ///
   /// In en, this message translates to:
-  /// **'Log the weight of one. Volume counts both.'**
+  /// **'Enter the weight of one dumbbell. New sets count both dumbbells. With separate left/right reps, each side is counted once. Existing workouts stay unchanged.'**
   String get pairSettingHint;
 
   /// No description provided for @helpCommon.
@@ -14165,7 +14189,7 @@ abstract class AppLocalizations {
   /// No description provided for @helpPairA.
   ///
   /// In en, this message translates to:
-  /// **'One. Turn on “{pair}” in the exercise’s settings and the volume counts both.'**
+  /// **'One. Turn on “{pair}” in the exercise’s settings for new sets to count both. With separate left/right reps, volume adds both sides without doubling again. Existing workouts stay unchanged.'**
   String helpPairA(String pair);
 
   /// No description provided for @helpKeepQ.

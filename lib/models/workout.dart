@@ -16,11 +16,13 @@ double? rpePercent(int reps, double? rpe) {
   return i < _rpeTable.length ? _rpeTable[i] : null;
 }
 
-final Set<String> pairedDumbbells = {};
+final Set<String> legacyPairedDumbbells = {};
 
 class LoggedSet {
   LoggedSet(this.reps, this.weight,
-      {this.kind = SetKind.normal, this.rpe, this.sec, this.km, this.note = '', this.left, this.right});
+      {this.kind = SetKind.normal, this.rpe, this.sec, this.km, this.note = '', this.left, this.right,
+      this.volumeMultiplier});
+  final int? volumeMultiplier;
   final int reps;
   final int? left;
   final int? right;
@@ -34,7 +36,11 @@ class LoggedSet {
   bool get counts => kind != SetKind.warmup;
   bool get sided => left != null && right != null;
   double? get rir => rpe == null ? null : 10 - rpe!;
-  double get volume => counts ? reps * weight : 0;
+  double get volume {
+    if (!counts) return 0;
+    if (volumeMultiplier == null) return reps * weight;
+    return weight * (sided ? left! + right! : reps * volumeMultiplier!);
+  }
 
   double get oneRm {
     if (!counts || reps <= 0) return 0;
@@ -45,6 +51,7 @@ class LoggedSet {
   Map<String, dynamic> toJson() => {
         'r': reps,
         'w': weight,
+        if (volumeMultiplier != null) 'vm': volumeMultiplier,
         if (sided) 'rl': left,
         if (sided) 'rr': right,
         if (kind != SetKind.normal) 'k': kind.index,
@@ -63,6 +70,7 @@ class LoggedSet {
         note: j['n'] as String? ?? '',
         left: (j['rl'] as num?)?.toInt(),
         right: (j['rr'] as num?)?.toInt(),
+        volumeMultiplier: (j['vm'] as num?)?.toInt(),
       );
 }
 
@@ -93,7 +101,10 @@ class LoggedExercise {
 
   List<LoggedSet> get workingSets => sets.where((s) => s.counts).toList();
 
-  double get volume => workingSets.fold(0.0, (s, x) => s + x.volume) * (pairedDumbbells.contains(id) ? 2 : 1);
+  double volumeOf(LoggedSet set) =>
+      set.volume * (set.volumeMultiplier == null && legacyPairedDumbbells.contains(id) ? 2 : 1);
+
+  double get volume => workingSets.fold(0.0, (s, x) => s + volumeOf(x));
   double get topWeight {
     final w = workingSets;
     return w.isEmpty ? 0 : w.map((s) => s.weight).reduce((a, b) => a > b ? a : b);

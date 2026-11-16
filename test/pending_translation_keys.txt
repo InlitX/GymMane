@@ -18,3 +18,7 @@ routineNotesAdded
 reportChooseCsv
 reportWeighIns
 reportSessionDetails
+weightPerDumbbellCol
+weightPerSideCol
+weightPerDumbbellTitle
+weightPerSideTitle

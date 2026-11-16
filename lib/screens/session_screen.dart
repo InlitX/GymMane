@@ -1178,7 +1178,8 @@ class SessionScreen extends StatelessWidget {
         Expanded(flex: _prevFlex, child: label(t.previousCol)),
       ],
       for (final h in _headers(mode, repsOnly, sided, exId == null ? fit.units : fit.unitsFor(exId),
-          exId == null ? fit.distanceUnit : fit.distanceUnitFor(exId))) ...[
+          exId == null ? fit.distanceUnit : fit.distanceUnitFor(exId),
+          paired: exId != null && fit.isPaired(exId))) ...[
         SizedBox(width: gap),
         Expanded(flex: _cellFlex, child: label(h)),
       ],
@@ -1456,7 +1457,11 @@ class SessionScreen extends StatelessWidget {
           26,
           onEdit: (context) => _ruler(
             context,
-            title: t.weightTitle(fit.unitsFor(exId).toUpperCase()),
+            title: fit.isSidedReps(exId)
+                ? t.weightPerSideTitle(fit.unitsFor(exId).toUpperCase())
+                : fit.isPaired(exId)
+                    ? t.weightPerDumbbellTitle(fit.unitsFor(exId).toUpperCase())
+                    : t.weightTitle(fit.unitsFor(exId).toUpperCase()),
             value: fit.toShownFor(exId, st.weight),
             max: fit.isLbFor(exId) ? 1540 : 700,
             step: fit.rulerStepFor(exId),
@@ -1517,12 +1522,18 @@ class SessionScreen extends StatelessWidget {
     };
   }
 
-  List<String> _headers(String mode, bool repsOnly, bool sided, String unit, String dist) => switch (mode) {
+  List<String> _headers(String mode, bool repsOnly, bool sided, String unit, String dist,
+      {bool paired = false}) => switch (mode) {
         'cardio' => [t.distanceCol(dist.toUpperCase()), t.timeCol],
         'time' => [sided ? t.timePerSideCol : t.timeCol, if (!repsOnly) t.weightCol(unit.toUpperCase())],
         _ => [
             if (sided) ...[t.repsLeftCol, t.repsRightCol] else t.repsCol,
-            if (!repsOnly) t.weightCol(unit.toUpperCase()),
+            if (!repsOnly)
+              sided
+                  ? t.weightPerSideCol(unit.toUpperCase())
+                  : paired
+                      ? t.weightPerDumbbellCol(unit.toUpperCase())
+                      : t.weightCol(unit.toUpperCase()),
           ],
       };
 
