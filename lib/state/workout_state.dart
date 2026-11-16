@@ -898,9 +898,9 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
   double get sessionVolumeKg {
     var kg = 0.0;
     for (final e in session?.exercises ?? const <SessionExercise>[]) {
-      final logged = LoggedExercise(e.id, e.name, e.primary, const []);
+      final times = isPaired(e.id) ? 2 : 1;
       for (final st in e.sets) {
-        if (st.done && st.counts) kg += logged.volumeOf(st.loggedForVolume(isPaired(e.id)));
+        if (st.done && st.counts) kg += st.logged.volume * (st.repsR == null ? times : 1);
       }
     }
     return kg;
@@ -934,15 +934,14 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
       if (done.isEmpty) continue;
       final before = [
         for (final p in last.exercises)
-          if (p.id == e.id) ...p.workingSets.map(p.volumeOf),
+          if (p.id == e.id) ...p.workingSets,
       ];
       if (before.isEmpty) continue;
       var now = 0.0;
       var then = 0.0;
       for (var i = 0; i < done.length; i++) {
-        now += LoggedExercise(e.id, e.name, e.primary, const [])
-            .volumeOf(done[i].loggedForVolume(isPaired(e.id)));
-        if (i < before.length) then += before[i];
+        now += done[i].logged.volume;
+        if (i < before.length) then += before[i].volume;
       }
       if (now <= 0 && then <= 0) continue;
       rows.add((id: e.id, name: e.name, now: now, then: then));
@@ -1912,7 +1911,7 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
         if (st.counts) working.add(st);
       }
     }
-    s.summaryVolume = sessionVolumeKg.round();
+    s.summaryVolume = working.fold<double>(0, (sum, st) => sum + st.logged.volume).round();
     s.summarySets = working.length;
     s.summaryDuration = s.manual ? _elapsedBefore : sessionElapsed;
     s.complete = true;
@@ -1922,11 +1921,7 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
     if (done.isNotEmpty) {
       final logged = <LoggedExercise>[];
       for (final e in s.exercises) {
-        final doneSets = e.sets.where((st) => st.done).map((st) {
-          final logged = st.loggedForVolume(isPaired(e.id));
-          st.volumeMultiplier = logged.volumeMultiplier;
-          return logged;
-        }).toList();
+        final doneSets = e.sets.where((st) => st.done).map((st) => st.logged).toList();
         if (doneSets.isNotEmpty) {
           logged.add(LoggedExercise(e.id, e.name, e.primary, doneSets, incline: lastIncline(e.id)));
         }
@@ -2390,10 +2385,7 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
               e.primary,
               e.sets
                   .map((x) => SessionSet(x.sided ? x.left! : x.reps, x.weight, true,
-                      kind: x.kind, rpe: x.rpe, sec: x.sec, km: x.km, note: x.note, repsR: x.right,
-                      volumeMultiplier: x.volumeMultiplier,
-                      preserveLegacyVolume: x.volumeMultiplier == null,
-                    ))
+                      kind: x.kind, rpe: x.rpe, sec: x.sec, km: x.km, note: x.note, repsR: x.right))
                   .toList()))
           .toList();
     _restTimer?.cancel();

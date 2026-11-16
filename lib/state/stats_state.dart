@@ -477,7 +477,6 @@ mixin StatsState on FitCore, ToolsState, LibraryState, SettingsState, TimelineSt
     e.sets[i] = LoggedSet(
       reps ?? old.reps,
       weight ?? old.weight,
-      volumeMultiplier: old.volumeMultiplier,
       kind: old.kind,
       rpe: old.rpe,
       sec: sec ?? old.sec,
@@ -608,8 +607,7 @@ mixin StatsState on FitCore, ToolsState, LibraryState, SettingsState, TimelineSt
 
   void addLoggedSet(LoggedExercise e) {
     final last = e.sets.isNotEmpty ? e.sets.last : LoggedSet(10, isRepsOnly(e.id) ? 0 : 20);
-    e.sets.add(LoggedSet(last.reps, last.weight, sec: last.sec, km: last.km, left: last.left, right: last.right,
-        volumeMultiplier: last.volumeMultiplier));
+    e.sets.add(LoggedSet(last.reps, last.weight, sec: last.sec, km: last.km, left: last.left, right: last.right));
     persistNow();
     _refreshWidgets();
     notifyListeners();

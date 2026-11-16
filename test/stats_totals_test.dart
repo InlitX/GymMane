@@ -235,15 +235,15 @@ void main() {
   });
 
   group('#369 par de mancuernas', () {
-    test('pair settings do not reinterpret existing workouts', () {
+    test('el volumen cuenta las dos, también en lo ya hecho, y se puede quitar', () {
       final fly = fit.matchExerciseByName('Dumbbell Fly')!.id;
       fit.sessions.add(LoggedSession(DateTime.now().subtract(const Duration(hours: 2)), 1800,
           [LoggedExercise(fly, 'Fly', 'chest', [LoggedSet(10, 24), LoggedSet(5, 30, kind: SetKind.warmup)])]));
       expect(fit.canPair(fly), isTrue);
       expect(fit.totalVolumeKg, 240);
       fit.togglePaired(fly);
-      expect(fit.totalVolumeKg, 240);
-      expect(fit.volumeThisWeekKg, 240);
+      expect(fit.totalVolumeKg, 480);
+      expect(fit.volumeThisWeekKg, 480);
       expect(fit.personalRecords.single.best, 24, reason: 'el récord sigue siendo el de una mancuerna');
       fit.togglePaired(fly);
       expect(fit.totalVolumeKg, 240);

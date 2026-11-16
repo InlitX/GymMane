@@ -7541,7 +7541,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get eachSideRepsHint =>
-      'Introduce la carga movida por un lado y registra las repeticiones de izquierda y derecha por separado. Las series nuevas suman ambos lados sin duplicar el par. La progresión sigue al lado más débil.';
+      'Apunta las reps de la izquierda y la derecha por separado. La progresión sigue al lado más flojo.';
 
   @override
   String get repsLeftCol => 'REPS I';
@@ -8043,31 +8043,10 @@ class AppLocalizationsEs extends AppLocalizations {
   String get holdOvertime => 'Tiempo extra';
 
   @override
-  String weightPerDumbbellCol(String unit) {
-    return '$unit/MANC.';
-  }
-
-  @override
-  String weightPerSideCol(String unit) {
-    return '$unit/LADO';
-  }
-
-  @override
-  String weightPerDumbbellTitle(String unit) {
-    return 'Peso por mancuerna ($unit)';
-  }
-
-  @override
-  String weightPerSideTitle(String unit) {
-    return 'Carga movida por un lado ($unit)';
-  }
-
-  @override
   String get pairSetting => 'Par de mancuernas';
 
   @override
-  String get pairSettingHint =>
-      'Introduce el peso de una mancuerna. Las series nuevas cuentan las dos. Con repeticiones separadas, cada lado se cuenta una sola vez. Los entrenos anteriores no cambian.';
+  String get pairSettingHint => 'Apunta el peso de una. El volumen cuenta las dos.';
 
   @override
   String get helpCommon => 'Preguntas frecuentes';
@@ -8120,7 +8099,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String helpPairA(String pair) {
-    return 'Una. Activa «$pair» en los ajustes del ejercicio para contar ambas en las series nuevas. Con repeticiones separadas, el volumen suma ambos lados sin volver a duplicarlos. Los entrenos anteriores no cambian.';
+    return 'El de una. Activa «$pair» en los ajustes del ejercicio y el volumen cuenta las dos.';
   }
 
   @override

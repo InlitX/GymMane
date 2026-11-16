@@ -89,7 +89,7 @@ abstract class FitCore extends ChangeNotifier {
 
   final Set<String> eachSideOff = {};
   final Set<String> keepCounting = {};
-  final Set<String> pairOn = {};
+  final Set<String> pairOn = pairedDumbbells;
   final Set<String> assistedOn = {};
   final Set<String> assistedOff = {};
 
