@@ -10,11 +10,13 @@ import '../l10n/l10n.dart';
 import '../models/live_session.dart';
 import '../models/workout.dart';
 import '../services/screen_awake.dart';
+import '../services/watch_link.dart';
 import '../state/fit_state.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
 import '../widgets/timer_panel.dart';
 import '../widgets/ui_kit.dart' show sentenceCase;
+import 'wear_sync.dart';
 
 class WearRotary {
   WearRotary._();
@@ -153,6 +155,7 @@ class _WearShellState extends State<WearShell> with WidgetsBindingObserver {
     }
     if (state == AppLifecycleState.resumed) {
       fit.syncRest();
+      unawaited(WearSync.instance.sync());
       _wake();
     }
   }
@@ -511,20 +514,30 @@ class _WeekRing extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final pct = goal <= 0 ? 0.0 : (done / goal).clamp(0.0, 1.0);
-    return SizedBox(
-      width: 80,
-      height: 80,
-      child: CustomPaint(
-        painter: _RingPainter(track: gc.bgRaised2, fill: gc.accent, pct: pct),
-        child: Center(
-          child: Column(mainAxisSize: MainAxisSize.min, children: [
-            Text('$done/$goal', style: AppTheme.f(20, weight: FontWeight.w800, color: gc.text)),
-            Text(t.thisWeek,
-                style: AppTheme.f(9, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 0.8)),
-          ]),
+    return Column(mainAxisSize: MainAxisSize.min, children: [
+      SizedBox(
+        width: 76,
+        height: 76,
+        child: CustomPaint(
+          painter: _RingPainter(track: gc.bgRaised2, fill: gc.accent, pct: pct),
+          child: Center(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 14),
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text('$done/$goal', style: AppTheme.f(21, weight: FontWeight.w800, color: gc.text)),
+              ),
+            ),
+          ),
         ),
       ),
-    );
+      const SizedBox(height: 5),
+      Text(t.thisWeekTitle,
+          textAlign: TextAlign.center,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: AppTheme.f(11.5, weight: FontWeight.w600, color: gc.textSecondary)),
+    ]);
   }
 }
 
@@ -792,6 +805,63 @@ class WearSettings extends StatelessWidget {
             ]),
           ),
         ),
+      ),
+      const SizedBox(height: 14),
+      _label(gc, t.wearSyncTitle),
+      ListenableBuilder(
+        listenable: Listenable.merge([WearSync.instance, WatchLink.instance]),
+        builder: (context, _) {
+          final sync = WearSync.instance;
+          final link = WatchLink.instance;
+          final at = sync.pulledAt;
+          final status = sync.busy || link.busy
+              ? t.wearSyncSearching
+              : !link.enabled && link.granted
+              ? t.wearSyncBluetoothOff
+              : link.lastOk == false
+                  ? t.wearSyncNotFound
+                  : at == null
+                      ? t.wearSyncNever
+                      : t.wearSyncLast('${t.shortDate(at)} · ${t.clockTime(at)}');
+          return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+            Center(
+              child: Text(status,
+                  textAlign: TextAlign.center,
+                  maxLines: 3,
+                  style: AppTheme.f(12.5, weight: FontWeight.w700, color: gc.text, height: 1.25)),
+            ),
+            if (sync.waiting > 0) ...[
+              const SizedBox(height: 4),
+              Center(
+                child: Text(t.wearSyncWaiting(sync.waiting),
+                    textAlign: TextAlign.center,
+                    maxLines: 3,
+                    style: AppTheme.f(11.5, weight: FontWeight.w600, color: gc.accent, height: 1.25)),
+              ),
+            ],
+            const SizedBox(height: 8),
+            if (link.available && !link.granted)
+              WearButton(
+                label: t.wearSyncAllow,
+                icon: PhosphorIconsBold.bluetooth,
+                onTap: () => unawaited(link.askPermission().then((ok) {
+                  if (ok) unawaited(sync.sync(manual: true));
+                })),
+              )
+            else
+              WearButton(
+                label: t.wearSyncNow,
+                icon: PhosphorIconsBold.arrowsClockwise,
+                onTap: sync.busy || link.busy ? null : () => unawaited(sync.sync(manual: true)),
+              ),
+            const SizedBox(height: 6),
+            Center(
+              child: Text(t.wearSyncHow,
+                  textAlign: TextAlign.center,
+                  style: AppTheme.f(11, weight: FontWeight.w500, color: gc.textTertiary, height: 1.3)),
+            ),
+          ]);
+        },
       ),
     ]);
   }

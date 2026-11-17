@@ -1,11 +1,18 @@
+import 'dart:convert';
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:gymmane/catalog/program_templates.dart';
 import 'package:gymmane/l10n/l10n.dart';
+import 'package:gymmane/services/local_store.dart';
+import 'package:gymmane/services/watch_link.dart';
 import 'package:gymmane/state/fit_state.dart';
 import 'package:gymmane/wear/wear_app.dart';
 import 'package:gymmane/wear/wear_shell.dart';
+import 'package:gymmane/wear/wear_sync.dart';
 import 'package:gymmane/widgets/ui_kit.dart' show sentenceCase;
+import 'package:sync/sync.dart';
 
 void _reset() {
   fit.saveAndExit();
@@ -212,5 +219,129 @@ void main() {
     expect(fit.routines, hasLength(1));
     expect(fit.weeklyPlan.values.toSet(), {fit.routines.single.id});
     expect(fit.weeklyPlan.keys, containsAll([1, 3, 5]));
+  });
+
+  group('datos entre el móvil y el reloj', () {
+    Map<String, dynamic> session(String d) => {
+          'd': d,
+          'dur': 1800,
+          'ex': [
+            {
+              'id': 'EIeI8Vf',
+              'n': 'Bench',
+              's': [
+                {'r': 8, 'w': 60},
+              ],
+            },
+          ],
+        };
+
+    test('el reloj copia lo del móvil, guarda sus entrenos y no carga con fotos ni notas', () {
+      final watch = {
+        'units': 'lb',
+        'keepAwake': false,
+        'routines': [
+          {'id': 'old', 'name': 'Borrada en el móvil'},
+        ],
+        'sessions': [session('2026-11-10T10:00:00.000'), session('2026-11-12T10:00:00.000')],
+      };
+      final phone = {
+        'units': 'kg',
+        'keepAwake': true,
+        'profile': {'name': 'Ana', 'photo': 'AAAA', 'banner': 'BBBB', 'goal': 4},
+        'routines': [
+          {'id': 'r1', 'name': 'Push'},
+        ],
+        'sessions': [session('2026-11-10T10:00:00.000'), session('2026-11-11T10:00:00.000')],
+        'notes': [
+          {'id': 'n1'},
+        ],
+        'nutrition': {'x': 1},
+        'noteMedia': {'a.jpg': 'media/notes/a.jpg'},
+      };
+      final out = mirrorPhone(watch, phone);
+      expect(out['units'], 'kg');
+      expect(out['keepAwake'], false, reason: 'la pantalla encendida es cosa del reloj');
+      expect((out['routines'] as List).map((r) => (r as Map)['id']), ['r1'], reason: 'lo borrado en el móvil se va');
+      expect((out['sessions'] as List).map(sessionKey),
+          ['2026-11-10T10:00:00.000', '2026-11-11T10:00:00.000', '2026-11-12T10:00:00.000']);
+      expect(out['profile'], {'name': 'Ana', 'goal': 4});
+      expect(out.containsKey('notes'), isFalse);
+      expect(out.containsKey('nutrition'), isFalse);
+      expect(out.containsKey('noteMedia'), isFalse);
+      expect(out['onboarded'], true);
+    });
+
+    test('al móvil solo van los entrenos hechos en el reloj', () {
+      final watch = {
+        'units': 'kg',
+        'routines': [
+          {'id': 'r1'},
+        ],
+        'sessions': [session('2026-11-10T10:00:00.000'), session('2026-11-12T10:00:00.000')],
+      };
+      final out = watchExport(watch, ['2026-11-12T10:00:00.000']);
+      expect(out.keys, ['sessions']);
+      expect((out['sessions'] as List).map(sessionKey), ['2026-11-12T10:00:00.000']);
+    });
+
+    test('el móvil junta el entreno del reloj sin tocar nada más', () {
+      final phone = {
+        'units': 'kg',
+        'routines': [
+          {'id': 'r1', 'name': 'Push'},
+        ],
+        'sessions': [session('2026-11-10T10:00:00.000')],
+      };
+      final fromWatch = watchExport({
+        'sessions': [session('2026-11-10T10:00:00.000'), session('2026-11-12T10:00:00.000')],
+      }, ['2026-11-12T10:00:00.000']);
+      for (final newer in [true, false]) {
+        final merged = mergeStates(phone, fromWatch, incomingNewer: newer);
+        expect((merged['sessions'] as List).map(sessionKey), ['2026-11-10T10:00:00.000', '2026-11-12T10:00:00.000']);
+        expect(merged['units'], 'kg');
+        expect((merged['routines'] as List).single, {'id': 'r1', 'name': 'Push'});
+      }
+    });
+
+    test('lo que el reloj copia del móvil se puede cargar', () {
+      _reset();
+      final id = _push();
+      fit.persistNow();
+      final phone = fit.toJson();
+      fit.routines.clear();
+      final next = mirrorPhone(fit.toJson(), jsonDecode(jsonEncode(Store.finite(phone))) as Map<String, dynamic>);
+      expect(fit.tryApplyBackup(next), isTrue);
+      expect(fit.routines.single.id, id);
+      expect(fit.onboarded, isTrue);
+    });
+
+    test('lo que viaja por Bluetooth va comprimido, sin fotos ni notas, y llega igual', () {
+      final phone = {
+        'units': 'kg',
+        'profile': {'name': 'Ana', 'photo': 'AAAA'},
+        'routines': [
+          {'id': 'r1', 'name': 'Push'},
+        ],
+        'sessions': [for (var i = 1; i <= 9; i++) session('2026-11-0${i}T10:00:00.000')],
+        'notes': [
+          {'id': 'n1'},
+        ],
+        'noteMedia': {'a': 'b'},
+        'live': {'x': 1},
+      };
+      final message = {'role': 'phone', 'state': slimForWatch(phone)};
+      final bytes = packLink(message);
+      expect(bytes.length, lessThan(utf8.encode(jsonEncode(message)).length));
+      final back = unpackLink(bytes)!;
+      expect(back['role'], 'phone');
+      final state = back['state'] as Map<String, dynamic>;
+      expect(state['profile'], {'name': 'Ana'});
+      expect(state.containsKey('notes'), isFalse);
+      expect(state.containsKey('noteMedia'), isFalse);
+      expect(state.containsKey('live'), isFalse);
+      expect((state['sessions'] as List).length, 9);
+      expect(unpackLink(Uint8List.fromList([1, 2, 3])), isNull);
+    });
   });
 }

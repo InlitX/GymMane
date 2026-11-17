@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -17,8 +19,11 @@ import 'services/graphics_mode.dart';
 import 'services/rest_alarm.dart';
 import 'services/screen_awake.dart';
 import 'state/fit_state.dart';
+import 'services/quick_tiles.dart';
+import 'services/watch_phone.dart';
 import 'wear/wear_app.dart';
 import 'wear/wear_surfaces.dart';
+import 'wear/wear_sync.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -51,15 +56,20 @@ Future<void> main() async {
 
   if (watch) {
     WearSurfaces.watch();
+    unawaited(WearSync.instance.init());
     runApp(const WearApp());
+    GraphicsMode.watchFirstFrame();
     return;
   }
 
   fit.onWidgetsShouldUpdate = HomeWidgetBridge.update;
   NutritionWidgets.watch(HomeWidgetBridge.update);
   AutoBackup.instance.init();
+  unawaited(WatchPhone.init());
+  unawaited(QuickTiles.init());
   runApp(const GymManeApp());
 
+  GraphicsMode.watchFirstFrame();
   WidgetsBinding.instance.addPostFrameCallback((_) => HomeWidgetBridge.update());
 }
 
