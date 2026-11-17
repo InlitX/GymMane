@@ -351,6 +351,21 @@ void main() {
       expect(records.contains(dominated), isFalse, reason: 'menos reps con el mismo peso no es récord');
     });
 
+    test('#400 repetir peso y reps no es récord aunque antes llevara RPE y ahora no', () {
+      final raise = fit.matchExerciseByName('Dumbbell Lateral Raise')!.id;
+      final again = LoggedSet(8, 20);
+      final fewer = LoggedSet(6, 20);
+      final more = LoggedSet(10, 20);
+      fit.sessions.addAll([
+        day(3, raise, [LoggedSet(8, 20, rpe: 10), LoggedSet(8, 20, rpe: 10)]),
+        day(1, raise, [again, fewer, more]),
+      ]);
+      final records = fit.recordSets;
+      expect(records.contains(again), isFalse, reason: 'ya había hecho 20 kg × 8');
+      expect(records.contains(fewer), isFalse);
+      expect(records.contains(more), isTrue, reason: '20 kg × 10 es nuevo');
+    });
+
     test('en el entreno la serie hecha que bate la marca lleva trofeo', () {
       final bench = fit.matchExerciseByName('Barbell Bench Press')!.id;
       fit.sessions.add(day(3, bench, [LoggedSet(8, 80)]));

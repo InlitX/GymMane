@@ -294,6 +294,7 @@ mixin StatsState on FitCore, ToolsState, LibraryState, SettingsState, TimelineSt
 
   bool _beats(String id, LoggedSet st, _Best? best) {
     if (best == null || !st.counts || st.reps <= 0 && (st.sec ?? 0) <= 0 && (st.km ?? 0) <= 0) return false;
+    if (_onLadder(id, st) && best.front.any((p) => p.$1 >= st.reps && p.$2 >= st.weight - 1e-9)) return false;
     if (_setScore(id, st) > best.score + 1e-9) return true;
     if (isAssisted(id) || st.weight <= 0) return false;
     if (st.weight > best.weight + 1e-9 || st.weight * st.reps > best.volume + 1e-9) return true;
@@ -310,11 +311,11 @@ mixin StatsState on FitCore, ToolsState, LibraryState, SettingsState, TimelineSt
 
   _Best _raise(String id, LoggedSet st, _Best? best) {
     var front = best?.front ?? const <(int, double)>[];
-    if (_onLadder(id, st)) {
+    if (_onLadder(id, st) && !front.any((p) => p.$1 >= st.reps && p.$2 >= st.weight - 1e-9)) {
       front = [
         for (final p in front)
           if (!(st.reps >= p.$1 && st.weight >= p.$2 - 1e-9)) p,
-        if (!front.any((p) => p.$1 >= st.reps && p.$2 >= st.weight - 1e-9)) (st.reps, st.weight),
+        (st.reps, st.weight),
       ];
     }
     return (

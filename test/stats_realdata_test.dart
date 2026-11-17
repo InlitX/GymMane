@@ -49,7 +49,7 @@ void main() {
     final end = now.subtract(Duration(days: endDaysAgo));
     double sum = 0;
     for (final s in (raw['sessions'] as List)) {
-      final d = DateTime.parse(s['d'] as String);
+      final d = DateTime.parse(s['d'] as String).subtract(Duration(seconds: (s['dur'] as num?)?.toInt() ?? 0));
       if (d.isAfter(start) && !d.isAfter(end)) {
         for (final e in (s['ex'] as List)) {
           for (final st in (e['s'] as List)) {
