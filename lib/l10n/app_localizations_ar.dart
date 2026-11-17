@@ -7950,6 +7950,43 @@ class AppLocalizationsAr extends AppLocalizations {
   String get webPhoneGuide => 'طريقة الإعداد';
 
   @override
+  String get webSignOut => 'تسجيل الخروج';
+
+  @override
+  String get wearSyncTitle => 'الهاتف';
+
+  @override
+  String get wearSyncNever => 'لم تتم المزامنة بعد';
+
+  @override
+  String wearSyncLast(String when) {
+    return 'تمت المزامنة $when';
+  }
+
+  @override
+  String wearSyncWaiting(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n تمارين تنتظر الإرسال إلى الهاتف',
+      one: 'تمرين واحد ينتظر الإرسال إلى الهاتف',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get wearSyncNow => 'زامِن الآن';
+
+  @override
+  String get wearSyncHow => 'على الهاتف، فعّل الإعدادات › ساعة Wear OS وافتح GymMane على الجهازين.';
+
+  @override
+  String get routinesOrder => 'إعادة ترتيب الروتينات';
+
+  @override
+  String get routinesOrderHint => 'اسحب لتغيير ترتيب ظهورها.';
+
+  @override
   String get webPhoneOff => 'مزامنة الهاتف متوقفة على هذا الخادم';
 
   @override
@@ -8108,197 +8145,389 @@ class AppLocalizationsAr extends AppLocalizations {
   String get fastAdjust => 'Adjust';
 
   @override
-  String get keepCounting => 'Keep counting';
+  String get keepCounting => 'واصل العدّ';
 
   @override
-  String get keepCountingHint => 'It beeps at your time and keeps going until you stop it';
+  String get keepCountingHint => 'ينبّه عند وقتك ويستمر حتى توقفه';
 
   @override
-  String get holdOvertime => 'Extra time';
+  String get holdOvertime => 'وقت إضافي';
 
   @override
-  String get pairSetting => 'Pair of dumbbells';
+  String get pairSetting => 'زوج دمبل';
 
   @override
-  String get pairSettingHint => 'Log the weight of one. Volume counts both.';
+  String get pairSettingHint => 'سجّل وزن واحد فقط. الحجم يحسب الاثنين.';
 
   @override
-  String get helpCommon => 'Common questions';
+  String get helpCommon => 'أسئلة شائعة';
 
   @override
-  String get helpQuestions => 'Questions';
+  String get helpQuestions => 'أسئلة';
 
   @override
-  String get helpNoResults => 'Nothing matches that. Try another word';
+  String get helpNoResults => 'لا شيء يطابق ذلك. جرّب كلمة أخرى';
 
   @override
-  String get helpLbQ => 'Can I use lb for just one exercise?';
+  String get helpLbQ => 'هل يمكنني استخدام الرطل لتمرين واحد فقط؟';
 
   @override
   String helpLbA(String option) {
-    return 'Yes. During the workout, open the exercise’s ⋯ menu and pick “$option”.';
+    return 'نعم. أثناء التمرين، افتح قائمة ⋯ الخاصة بالتمرين واختر «$option».';
   }
 
   @override
-  String get helpSupersetQ => 'How do I make a superset?';
+  String get helpSupersetQ => 'كيف أعمل سوبرسِت؟';
 
   @override
-  String get helpSupersetA => 'In the routine editor, tap the link between two exercises to chain them.';
+  String get helpSupersetA => 'في محرر الروتين، اضغط على الرابط بين تمرينين لربطهما.';
 
   @override
-  String get helpRangeQ => 'How do I set a rep range like 8-12?';
+  String get helpRangeQ => 'كيف أحدد نطاق تكرارات مثل 8-12؟';
 
   @override
-  String get helpRangeA => 'In the routine editor, long press the reps.';
+  String get helpRangeA => 'في محرر الروتين، اضغط مطولًا على التكرارات.';
 
   @override
-  String get helpRestQ => 'Can each exercise have its own rest?';
+  String get helpRestQ => 'هل يمكن أن يكون لكل تمرين راحته الخاصة؟';
 
   @override
   String helpRestA(String settings, String rest, String section) {
-    return 'Yes: open the exercise › $settings › $rest. Your default rest is in Settings › $section.';
+    return 'نعم: افتح التمرين › $settings › $rest. الراحة الافتراضية في الإعدادات › $section.';
   }
 
   @override
-  String get helpSidesQ => 'How do I log left and right separately?';
+  String get helpSidesQ => 'كيف أسجّل اليسار واليمين كلًّا على حدة؟';
 
   @override
   String helpSidesA(String settings, String sides) {
-    return 'Open the exercise › $settings › $sides.';
+    return 'افتح التمرين › $settings › $sides.';
   }
 
   @override
-  String get helpPairQ => 'Dumbbells: do I log one or both?';
+  String get helpPairQ => 'الدمبل: أسجّل واحدًا أم الاثنين؟';
 
   @override
   String helpPairA(String pair) {
-    return 'One. Turn on “$pair” in the exercise’s settings and the volume counts both.';
+    return 'واحدًا. فعّل «$pair» في إعدادات التمرين وسيحسب الحجم الاثنين.';
   }
 
   @override
-  String get helpKeepQ => 'Can a timed set keep going past the time?';
+  String get helpKeepQ => 'هل يمكن لمجموعة موقوتة أن تتجاوز الوقت؟';
 
   @override
   String helpKeepA(String keep) {
-    return 'Yes: turn on “$keep” in the exercise’s settings. It beeps at your time and keeps counting until you stop it.';
+    return 'نعم: فعّل «$keep» في إعدادات التمرين. ينبّه عند وقتك ويواصل العدّ حتى توقفه.';
   }
 
   @override
-  String get helpDayOffQ => 'How do I mark a rest, sick or travel day?';
+  String get helpDayOffQ => 'كيف أحدد يوم راحة أو مرض أو سفر؟';
 
   @override
-  String get helpDayOffA =>
-      'On Home, long press the day in your week. Your streak and the reminder leave it alone.';
+  String get helpDayOffA => 'في الرئيسية، اضغط مطولًا على اليوم في أسبوعك. السلسلة والتذكير لن يمسّاه.';
 
   @override
-  String get helpImportQ => 'Can I bring my workouts from Hevy, Strong or another app?';
+  String get helpImportQ => 'هل يمكنني جلب تماريني من Hevy أو Strong أو تطبيق آخر؟';
 
   @override
   String helpImportA(String section, String row) {
-    return 'Yes: Settings › $section › $row. It also reads FitNotes, Fitbod, JEFIT, StrongLifts, Liftosaur and Lyfta.';
+    return 'نعم: الإعدادات › $section › $row. يقرأ أيضًا FitNotes وFitbod وJEFIT وStrongLifts وLiftosaur وLyfta.';
   }
 
   @override
-  String get helpPhoneQ => 'How do I move my data to a new phone?';
+  String get helpPhoneQ => 'كيف أنقل بياناتي إلى هاتف جديد؟';
 
   @override
   String helpPhoneA(String section, String import) {
-    return 'Export a copy in Settings › $section and open it on the new phone with “$import”.';
+    return 'صدّر نسخة من الإعدادات › $section وافتحها على الهاتف الجديد عبر «$import».';
   }
 
   @override
-  String get helpSlowQ => 'The app feels slow on my phone';
+  String get helpSlowQ => 'التطبيق بطيء على هاتفي';
 
   @override
   String helpSlowA(String section, String perf, String lite) {
-    return 'Settings › $section › $perf › $lite. It turns off blur, the heaviest part.';
+    return 'الإعدادات › $section › $perf › $lite. يوقف التمويه، وهو الجزء الأثقل.';
   }
 
   @override
-  String get helpPlatesQ => 'How many plates go on the bar?';
+  String get helpPlatesQ => 'كم قرصًا أضع على البار؟';
 
   @override
   String helpPlatesA(String tool, String places) {
-    return 'Use “$tool” in Tools. Your gym’s plates and bar are set in “$places”.';
+    return 'استخدم «$tool» في الأدوات. أقراص صالتك والبار تُضبط في «$places».';
   }
 
   @override
-  String get helpRaceQ => 'How do I compare with my last workout?';
+  String get helpRaceQ => 'كيف أقارن نفسي بآخر تمرين؟';
 
   @override
   String helpRaceA(String race) {
-    return 'During the workout, tap the pill at the top: “$race”.';
+    return 'أثناء التمرين، اضغط على الشارة في الأعلى: «$race».';
   }
 
   @override
-  String get helpFastQ => 'I forgot to end my fast';
+  String get helpFastQ => 'نسيت إنهاء صيامي';
 
   @override
   String helpFastA(String adjust) {
-    return 'End it and tap “$adjust” on the notice, or tap the fast in the fasting sheet to change its times.';
+    return 'أنهِه واضغط «$adjust» في الإشعار، أو اضغط على الصيام في لوحة الصيام لتغيير أوقاته.';
   }
 
   @override
-  String get helpGo => 'Show me';
+  String get helpGo => 'أرِني';
 
   @override
-  String get helpHomeOrderQ => 'Can I change the order of Home?';
+  String get helpHomeOrderQ => 'هل يمكنني تغيير ترتيب الرئيسية؟';
 
   @override
   String helpHomeOrderA(String section, String row) {
-    return 'Yes: Settings › $section › “$row”. Hold and drag the sections, or turn off the ones you don’t use.';
+    return 'نعم: الإعدادات › $section › «$row». اضغط مطولًا واسحب الأقسام، أو أوقف ما لا تستخدمه.';
   }
 
   @override
-  String get helpCustomQ => 'Can I create my own exercise?';
+  String get helpCustomQ => 'هل يمكنني إنشاء تمرين خاص بي؟';
 
   @override
   String helpCustomA(String button) {
-    return 'Yes: in Exercises, tap “$button”. You pick its name, muscles and equipment, and it works like any other.';
+    return 'نعم: في التمارين اضغط «$button». تختار الاسم والعضلات والمعدات، ويعمل مثل أي تمرين آخر.';
   }
 
   @override
-  String get helpWarmupQ => 'Can the app add warm-up sets for me?';
+  String get helpWarmupQ => 'هل يضيف التطبيق مجموعات الإحماء عني؟';
 
   @override
   String helpWarmupA(String settings, String warm, String tool) {
-    return 'Yes: open the exercise › $settings › “$warm”. To work them out by hand, use “$tool” in Tools.';
+    return 'نعم: افتح التمرين › $settings › «$warm». لحسابها يدويًا استخدم «$tool» في الأدوات.';
   }
 
   @override
-  String get helpPassQ => 'Can I keep my gym membership card in the app?';
+  String get helpPassQ => 'هل يمكنني حفظ بطاقة الصالة في التطبيق؟';
 
   @override
   String helpPassA(String row, String section) {
-    return 'Yes: “$row” in Settings › $section. It shows the barcode or QR code to scan at the door.';
+    return 'نعم: «$row» في الإعدادات › $section. تعرض الباركود أو رمز QR للمسح عند الباب.';
   }
 
   @override
-  String get helpStepsQ => 'Why don’t I see my steps?';
+  String get helpStepsQ => 'لماذا لا أرى خطواتي؟';
 
   @override
   String helpStepsA(String row, String section) {
-    return 'Steps are read from Health Connect, which comes with Android 14 and later. On older phones it isn’t available. If you have it, turn on “$row” in Settings › $section.';
+    return 'تُقرأ الخطوات من Health Connect الموجود في Android 14 وما بعده. لا يتوفر في الهواتف الأقدم. إن كان لديك، فعّل «$row» في الإعدادات › $section.';
   }
 
   @override
-  String get helpNfcQ => 'Can I start my workout by tapping my phone?';
+  String get helpNfcQ => 'هل يمكنني بدء التمرين بلمس هاتفي؟';
 
   @override
   String helpNfcA(String row, String section) {
-    return 'Yes, with an NFC sticker: “$row” in Settings › $section. Stick it at the gym and tapping it opens today’s workout.';
+    return 'نعم، بملصق NFC: «$row» في الإعدادات › $section. ألصقه في الصالة ولمسه يفتح تمرين اليوم.';
   }
 
   @override
-  String get helpCleanQ => 'How do I make the Nutrition screen cleaner?';
+  String get helpCleanQ => 'كيف أجعل شاشة التغذية أبسط؟';
 
   @override
   String helpCleanA(String button) {
-    return 'In Nutrition, tap the sliders button at the top (“$button”) and turn off whatever you don’t track.';
+    return 'في التغذية، اضغط زر المنزلقات في الأعلى («$button») وأوقف ما لا تتابعه.';
   }
 
   @override
   String alsoWorksMuscles(String muscles) {
-    return 'Also works $muscles';
+    return 'يعمل أيضًا على $muscles';
   }
+
+  @override
+  String get wearSyncAllow => 'السماح بالبلوتوث';
+
+  @override
+  String get wearSyncSearching => 'جارٍ البحث عن الهاتف…';
+
+  @override
+  String get wearSyncNotFound => 'لم يُعثر على الهاتف';
+
+  @override
+  String get wearSyncBluetoothOff => 'البلوتوث مغلق';
+
+  @override
+  String get watchRow => 'ساعة Wear OS';
+
+  @override
+  String get watchTitle => 'ساعة Wear OS';
+
+  @override
+  String get watchSubtitle => 'روتيناتك على معصمك، وتمارينك تعود إلى هاتفك';
+
+  @override
+  String get watchPoint1 => 'ثبّت GymMane على الساعة';
+
+  @override
+  String get watchPoint1Body => 'إنه التطبيق نفسه الموجود على الهاتف. اضغط لرؤية دليل التثبيت.';
+
+  @override
+  String get watchPoint2 => 'افتح GymMane على الجهازين';
+
+  @override
+  String get watchPoint2Body => 'يتزامنان وحدهما عبر البلوتوث الذي يربط الهاتف والساعة أصلًا. بلا إنترنت.';
+
+  @override
+  String get watchPoint3 => 'تمرّن بالساعة';
+
+  @override
+  String get watchPoint3Body =>
+      'ما تفعله على الساعة يصل إلى الهاتف في المرة القادمة التي يكون فيها الاثنان مفتوحين.';
+
+  @override
+  String get watchUse => 'المزامنة مع الساعة';
+
+  @override
+  String get watchUseHint => 'فقط إن كانت لديك ساعة. يطلب إذن البلوتوث';
+
+  @override
+  String get watchTurnOnBluetooth => 'شغّل البلوتوث';
+
+  @override
+  String get watchSyncNow => 'زامِن الآن';
+
+  @override
+  String get watchSearching => 'جارٍ البحث عن الساعة…';
+
+  @override
+  String get watchSearchingHint => 'افتح GymMane على الساعة إن لم يكن مفتوحًا.';
+
+  @override
+  String get watchBluetoothOff => 'البلوتوث مغلق.';
+
+  @override
+  String get watchNotFound => 'لم يُعثر على الساعة. افتح GymMane عليها وحاول مجددًا.';
+
+  @override
+  String get watchNever => 'لم تتم المزامنة بعد.';
+
+  @override
+  String watchLast(String when) {
+    return 'تمت المزامنة $when.';
+  }
+
+  @override
+  String watchLastWith(String name, String when) {
+    return 'تمت المزامنة مع $name $when.';
+  }
+
+  @override
+  String get watchTip => 'تجريبي: لم يُجرَّب على كل الساعات بعد. إن لم يعمل، أخبرنا على GitHub.';
+
+  @override
+  String get mineralsTracker => 'Iron and potassium';
+
+  @override
+  String get ironLabel => 'Iron';
+
+  @override
+  String get potassiumLabel => 'Potassium';
+
+  @override
+  String mineralsCoverage(int known, int total) {
+    return '$known of $total foods today have iron and potassium';
+  }
+
+  @override
+  String get mineralsHint =>
+      'Few foods in the list come with iron and potassium, so the total only counts the ones that do. Add them to your own foods or with the AI.';
+
+  @override
+  String get qsRow => 'مربعات الإعدادات السريعة';
+
+  @override
+  String get qsRowHint => 'تمرين اليوم أو بطاقة النادي، من اللوحة العلوية';
+
+  @override
+  String get qsTitle => 'مربعات الإعدادات السريعة';
+
+  @override
+  String get qsSubtitle => 'اسحب الإعدادات السريعة للأسفل وادخل بلمسة واحدة دون البحث عن التطبيق';
+
+  @override
+  String get qsToday => 'تمرين اليوم';
+
+  @override
+  String get qsTodayHint => 'مثل ملصق NFC: يفتح ما هو مقرر لليوم';
+
+  @override
+  String get qsPass => 'بطاقة النادي';
+
+  @override
+  String qsPassHint(String name) {
+    return 'يفتح $name لتمريرها عند المدخل';
+  }
+
+  @override
+  String get qsPassNone => 'أضف بطاقة النادي أولًا';
+
+  @override
+  String get qsRest => 'يوم راحة';
+
+  @override
+  String get qsAdd => 'إضافة';
+
+  @override
+  String get qsAdded => 'تمت الإضافة';
+
+  @override
+  String get qsManual => 'اسحب الإعدادات السريعة للأسفل، واضغط على القلم، واسحب مربع GymMane إلى مربعاتك.';
+
+  @override
+  String get qsPassUse => 'الفتح من الإعدادات السريعة';
+
+  @override
+  String get qsPassUseHint => 'مربع الإعدادات السريعة يفتح هذه البطاقة';
+
+  @override
+  String get measureAbdomen => 'البطن';
+
+  @override
+  String get bfNeckBelow => 'الرقبة (أسفل تفاحة آدم)';
+
+  @override
+  String get bfAbdomen => 'البطن (عند السرة)';
+
+  @override
+  String get bfWaistNarrow => 'الخصر (أضيق نقطة)';
+
+  @override
+  String get bfHipWide => 'الورك (أعرض نقطة)';
+
+  @override
+  String get measureBp => 'ضغط الدم';
+
+  @override
+  String get measureLeft => 'اليسار';
+
+  @override
+  String get measureRight => 'اليمين';
+
+  @override
+  String get measureLeftShort => 'ي';
+
+  @override
+  String get measureRightShort => 'م';
+
+  @override
+  String get measureOneValue => 'قيمة واحدة';
+
+  @override
+  String get measureNoteHint => 'ملاحظة (اختيارية)';
+
+  @override
+  String get bpHigh => 'الانقباضي';
+
+  @override
+  String get bpLow => 'الانبساطي';
+
+  @override
+  String get bpPulse => 'النبض';
+
+  @override
+  String get bpPulseAdd => '+ النبض';
 }

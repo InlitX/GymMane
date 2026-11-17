@@ -13778,6 +13778,60 @@ abstract class AppLocalizations {
   /// **'How to set it up'**
   String get webPhoneGuide;
 
+  /// No description provided for @webSignOut.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign out'**
+  String get webSignOut;
+
+  /// No description provided for @wearSyncTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone'**
+  String get wearSyncTitle;
+
+  /// No description provided for @wearSyncNever.
+  ///
+  /// In en, this message translates to:
+  /// **'Not synced yet'**
+  String get wearSyncNever;
+
+  /// No description provided for @wearSyncLast.
+  ///
+  /// In en, this message translates to:
+  /// **'Synced {when}'**
+  String wearSyncLast(String when);
+
+  /// No description provided for @wearSyncWaiting.
+  ///
+  /// In en, this message translates to:
+  /// **'{n, plural, =1{1 workout waiting to go to the phone} other{{n} workouts waiting to go to the phone}}'**
+  String wearSyncWaiting(int n);
+
+  /// No description provided for @wearSyncNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Sync now'**
+  String get wearSyncNow;
+
+  /// No description provided for @wearSyncHow.
+  ///
+  /// In en, this message translates to:
+  /// **'On your phone, turn on Settings › Wear OS watch and open GymMane on both.'**
+  String get wearSyncHow;
+
+  /// No description provided for @routinesOrder.
+  ///
+  /// In en, this message translates to:
+  /// **'Reorder routines'**
+  String get routinesOrder;
+
+  /// No description provided for @routinesOrderHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Drag to change the order they show in.'**
+  String get routinesOrderHint;
+
   /// No description provided for @webPhoneOff.
   ///
   /// In en, this message translates to:
@@ -14359,6 +14413,372 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Also works {muscles}'**
   String alsoWorksMuscles(String muscles);
+
+  /// No description provided for @wearSyncAllow.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow Bluetooth'**
+  String get wearSyncAllow;
+
+  /// No description provided for @wearSyncSearching.
+  ///
+  /// In en, this message translates to:
+  /// **'Looking for the phone…'**
+  String get wearSyncSearching;
+
+  /// No description provided for @wearSyncNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone not found'**
+  String get wearSyncNotFound;
+
+  /// No description provided for @wearSyncBluetoothOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Bluetooth is off'**
+  String get wearSyncBluetoothOff;
+
+  /// No description provided for @watchRow.
+  ///
+  /// In en, this message translates to:
+  /// **'Wear OS watch'**
+  String get watchRow;
+
+  /// No description provided for @watchTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Wear OS watch'**
+  String get watchTitle;
+
+  /// No description provided for @watchSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your routines on your wrist, your workouts back on your phone'**
+  String get watchSubtitle;
+
+  /// No description provided for @watchPoint1.
+  ///
+  /// In en, this message translates to:
+  /// **'Install GymMane on the watch'**
+  String get watchPoint1;
+
+  /// No description provided for @watchPoint1Body.
+  ///
+  /// In en, this message translates to:
+  /// **'It\'s the same app as on the phone. Tap to see the install guide.'**
+  String get watchPoint1Body;
+
+  /// No description provided for @watchPoint2.
+  ///
+  /// In en, this message translates to:
+  /// **'Open GymMane on both'**
+  String get watchPoint2;
+
+  /// No description provided for @watchPoint2Body.
+  ///
+  /// In en, this message translates to:
+  /// **'They sync on their own over the Bluetooth that already links phone and watch. No internet.'**
+  String get watchPoint2Body;
+
+  /// No description provided for @watchPoint3.
+  ///
+  /// In en, this message translates to:
+  /// **'Train with the watch'**
+  String get watchPoint3;
+
+  /// No description provided for @watchPoint3Body.
+  ///
+  /// In en, this message translates to:
+  /// **'What you do on the watch reaches the phone the next time both are open.'**
+  String get watchPoint3Body;
+
+  /// No description provided for @watchUse.
+  ///
+  /// In en, this message translates to:
+  /// **'Sync with the watch'**
+  String get watchUse;
+
+  /// No description provided for @watchUseHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Only if you have a watch. It asks to use Bluetooth'**
+  String get watchUseHint;
+
+  /// No description provided for @watchTurnOnBluetooth.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn on Bluetooth'**
+  String get watchTurnOnBluetooth;
+
+  /// No description provided for @watchSyncNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Sync now'**
+  String get watchSyncNow;
+
+  /// No description provided for @watchSearching.
+  ///
+  /// In en, this message translates to:
+  /// **'Looking for the watch…'**
+  String get watchSearching;
+
+  /// No description provided for @watchSearchingHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Open GymMane on the watch if it isn\'t open yet.'**
+  String get watchSearchingHint;
+
+  /// No description provided for @watchBluetoothOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Bluetooth is off.'**
+  String get watchBluetoothOff;
+
+  /// No description provided for @watchNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t find the watch. Open GymMane on it and try again.'**
+  String get watchNotFound;
+
+  /// No description provided for @watchNever.
+  ///
+  /// In en, this message translates to:
+  /// **'Not synced yet.'**
+  String get watchNever;
+
+  /// No description provided for @watchLast.
+  ///
+  /// In en, this message translates to:
+  /// **'Synced {when}.'**
+  String watchLast(String when);
+
+  /// No description provided for @watchLastWith.
+  ///
+  /// In en, this message translates to:
+  /// **'Synced with {name} {when}.'**
+  String watchLastWith(String name, String when);
+
+  /// No description provided for @watchTip.
+  ///
+  /// In en, this message translates to:
+  /// **'Beta: not tested on every watch yet. If it fails, tell us on GitHub.'**
+  String get watchTip;
+
+  /// No description provided for @mineralsTracker.
+  ///
+  /// In en, this message translates to:
+  /// **'Iron and potassium'**
+  String get mineralsTracker;
+
+  /// No description provided for @ironLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Iron'**
+  String get ironLabel;
+
+  /// No description provided for @potassiumLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Potassium'**
+  String get potassiumLabel;
+
+  /// No description provided for @mineralsCoverage.
+  ///
+  /// In en, this message translates to:
+  /// **'{known} of {total} foods today have iron and potassium'**
+  String mineralsCoverage(int known, int total);
+
+  /// No description provided for @mineralsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Few foods in the list come with iron and potassium, so the total only counts the ones that do. Add them to your own foods or with the AI.'**
+  String get mineralsHint;
+
+  /// No description provided for @qsRow.
+  ///
+  /// In en, this message translates to:
+  /// **'Quick Settings tiles'**
+  String get qsRow;
+
+  /// No description provided for @qsRowHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Today\'s workout or your gym pass, from the top panel'**
+  String get qsRowHint;
+
+  /// No description provided for @qsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Quick Settings tiles'**
+  String get qsTitle;
+
+  /// No description provided for @qsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Pull down Quick Settings and get there in one tap, without looking for the app'**
+  String get qsSubtitle;
+
+  /// No description provided for @qsToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Today\'s workout'**
+  String get qsToday;
+
+  /// No description provided for @qsTodayHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Like the NFC sticker: opens what\'s planned for today'**
+  String get qsTodayHint;
+
+  /// No description provided for @qsPass.
+  ///
+  /// In en, this message translates to:
+  /// **'Gym pass'**
+  String get qsPass;
+
+  /// No description provided for @qsPassHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Opens {name} so you can scan it at the door'**
+  String qsPassHint(String name);
+
+  /// No description provided for @qsPassNone.
+  ///
+  /// In en, this message translates to:
+  /// **'Add your gym pass first'**
+  String get qsPassNone;
+
+  /// No description provided for @qsRest.
+  ///
+  /// In en, this message translates to:
+  /// **'Rest day'**
+  String get qsRest;
+
+  /// No description provided for @qsAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add'**
+  String get qsAdd;
+
+  /// No description provided for @qsAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'Added'**
+  String get qsAdded;
+
+  /// No description provided for @qsManual.
+  ///
+  /// In en, this message translates to:
+  /// **'Pull down Quick Settings, tap the pencil and drag the GymMane tile into yours.'**
+  String get qsManual;
+
+  /// No description provided for @qsPassUse.
+  ///
+  /// In en, this message translates to:
+  /// **'Open from Quick Settings'**
+  String get qsPassUse;
+
+  /// No description provided for @qsPassUseHint.
+  ///
+  /// In en, this message translates to:
+  /// **'The Quick Settings tile opens this pass'**
+  String get qsPassUseHint;
+
+  /// No description provided for @measureAbdomen.
+  ///
+  /// In en, this message translates to:
+  /// **'Abdomen'**
+  String get measureAbdomen;
+
+  /// No description provided for @bfNeckBelow.
+  ///
+  /// In en, this message translates to:
+  /// **'Neck (below the Adam\'s apple)'**
+  String get bfNeckBelow;
+
+  /// No description provided for @bfAbdomen.
+  ///
+  /// In en, this message translates to:
+  /// **'Abdomen (at the navel)'**
+  String get bfAbdomen;
+
+  /// No description provided for @bfWaistNarrow.
+  ///
+  /// In en, this message translates to:
+  /// **'Waist (narrowest point)'**
+  String get bfWaistNarrow;
+
+  /// No description provided for @bfHipWide.
+  ///
+  /// In en, this message translates to:
+  /// **'Hip (widest point)'**
+  String get bfHipWide;
+
+  /// No description provided for @measureBp.
+  ///
+  /// In en, this message translates to:
+  /// **'Blood pressure'**
+  String get measureBp;
+
+  /// No description provided for @measureLeft.
+  ///
+  /// In en, this message translates to:
+  /// **'Left'**
+  String get measureLeft;
+
+  /// No description provided for @measureRight.
+  ///
+  /// In en, this message translates to:
+  /// **'Right'**
+  String get measureRight;
+
+  /// No description provided for @measureLeftShort.
+  ///
+  /// In en, this message translates to:
+  /// **'L'**
+  String get measureLeftShort;
+
+  /// No description provided for @measureRightShort.
+  ///
+  /// In en, this message translates to:
+  /// **'R'**
+  String get measureRightShort;
+
+  /// No description provided for @measureOneValue.
+  ///
+  /// In en, this message translates to:
+  /// **'One value'**
+  String get measureOneValue;
+
+  /// No description provided for @measureNoteHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Note (optional)'**
+  String get measureNoteHint;
+
+  /// No description provided for @bpHigh.
+  ///
+  /// In en, this message translates to:
+  /// **'Systolic'**
+  String get bpHigh;
+
+  /// No description provided for @bpLow.
+  ///
+  /// In en, this message translates to:
+  /// **'Diastolic'**
+  String get bpLow;
+
+  /// No description provided for @bpPulse.
+  ///
+  /// In en, this message translates to:
+  /// **'Pulse'**
+  String get bpPulse;
+
+  /// No description provided for @bpPulseAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'+ Pulse'**
+  String get bpPulseAdd;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

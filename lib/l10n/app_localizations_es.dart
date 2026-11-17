@@ -7877,6 +7877,43 @@ class AppLocalizationsEs extends AppLocalizations {
   String get webPhoneGuide => 'Cómo montarlo';
 
   @override
+  String get webSignOut => 'Cerrar sesión';
+
+  @override
+  String get wearSyncTitle => 'Móvil';
+
+  @override
+  String get wearSyncNever => 'Aún sin sincronizar';
+
+  @override
+  String wearSyncLast(String when) {
+    return 'Sincronizado el $when';
+  }
+
+  @override
+  String wearSyncWaiting(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n entrenos esperando para ir al móvil',
+      one: '1 entreno esperando para ir al móvil',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get wearSyncNow => 'Sincronizar ahora';
+
+  @override
+  String get wearSyncHow => 'En el móvil, activa Ajustes › Reloj Wear OS y abre GymMane en los dos.';
+
+  @override
+  String get routinesOrder => 'Ordenar rutinas';
+
+  @override
+  String get routinesOrderHint => 'Arrastra para cambiar el orden en que salen.';
+
+  @override
   String get webPhoneOff => 'La sincronización con el móvil está apagada en este servidor';
 
   @override
@@ -8227,4 +8264,199 @@ class AppLocalizationsEs extends AppLocalizations {
   String alsoWorksMuscles(String muscles) {
     return 'También trabajan $muscles';
   }
+
+  @override
+  String get wearSyncAllow => 'Permitir Bluetooth';
+
+  @override
+  String get wearSyncSearching => 'Buscando el móvil…';
+
+  @override
+  String get wearSyncNotFound => 'No se encontró el móvil';
+
+  @override
+  String get wearSyncBluetoothOff => 'El Bluetooth está apagado';
+
+  @override
+  String get watchRow => 'Reloj Wear OS';
+
+  @override
+  String get watchTitle => 'Reloj Wear OS';
+
+  @override
+  String get watchSubtitle => 'Tus rutinas en la muñeca y tus entrenos de vuelta en el móvil';
+
+  @override
+  String get watchPoint1 => 'Instala GymMane en el reloj';
+
+  @override
+  String get watchPoint1Body => 'Es la misma app del móvil. Toca para ver la guía de instalación.';
+
+  @override
+  String get watchPoint2 => 'Abre GymMane en los dos';
+
+  @override
+  String get watchPoint2Body =>
+      'Se sincronizan solos por el Bluetooth que ya une el móvil y el reloj. Sin Internet.';
+
+  @override
+  String get watchPoint3 => 'Entrena con el reloj';
+
+  @override
+  String get watchPoint3Body =>
+      'Lo que hagas en el reloj llega al móvil la próxima vez que estén abiertos los dos.';
+
+  @override
+  String get watchUse => 'Sincronizar con el reloj';
+
+  @override
+  String get watchUseHint => 'Solo si tienes reloj. Pide permiso para usar el Bluetooth';
+
+  @override
+  String get watchTurnOnBluetooth => 'Activar Bluetooth';
+
+  @override
+  String get watchSyncNow => 'Sincronizar ahora';
+
+  @override
+  String get watchSearching => 'Buscando el reloj…';
+
+  @override
+  String get watchSearchingHint => 'Abre GymMane en el reloj si aún no lo está.';
+
+  @override
+  String get watchBluetoothOff => 'El Bluetooth está apagado.';
+
+  @override
+  String get watchNotFound => 'No se encontró el reloj. Abre GymMane en él y vuelve a probar.';
+
+  @override
+  String get watchNever => 'Aún no se ha sincronizado.';
+
+  @override
+  String watchLast(String when) {
+    return 'Sincronizado el $when.';
+  }
+
+  @override
+  String watchLastWith(String name, String when) {
+    return 'Sincronizado con $name el $when.';
+  }
+
+  @override
+  String get watchTip => 'Beta: aún no se ha probado en todos los relojes. Si falla, cuéntalo en GitHub.';
+
+  @override
+  String get mineralsTracker => 'Hierro y potasio';
+
+  @override
+  String get ironLabel => 'Hierro';
+
+  @override
+  String get potassiumLabel => 'Potasio';
+
+  @override
+  String mineralsCoverage(int known, int total) {
+    return '$known de $total alimentos de hoy traen hierro y potasio';
+  }
+
+  @override
+  String get mineralsHint =>
+      'Pocos alimentos de la lista traen hierro y potasio, así que el total solo cuenta los que sí. Añádelos en tus alimentos o con la IA.';
+
+  @override
+  String get qsRow => 'Accesos en el panel';
+
+  @override
+  String get qsRowHint => 'El entreno de hoy o tu pase del gimnasio, desde el panel de arriba';
+
+  @override
+  String get qsTitle => 'Accesos en el panel';
+
+  @override
+  String get qsSubtitle => 'Baja el panel de ajustes rápidos y entra de un toque, sin buscar la app';
+
+  @override
+  String get qsToday => 'Entreno de hoy';
+
+  @override
+  String get qsTodayHint => 'Como la pegatina NFC: abre lo que toca hoy';
+
+  @override
+  String get qsPass => 'Pase del gimnasio';
+
+  @override
+  String qsPassHint(String name) {
+    return 'Abre $name para pasarla por el lector';
+  }
+
+  @override
+  String get qsPassNone => 'Primero añade tu pase del gimnasio';
+
+  @override
+  String get qsRest => 'Descanso';
+
+  @override
+  String get qsAdd => 'Añadir';
+
+  @override
+  String get qsAdded => 'Añadido';
+
+  @override
+  String get qsManual =>
+      'Baja el panel de ajustes rápidos, toca el lápiz y arrastra el acceso de GymMane a los tuyos.';
+
+  @override
+  String get qsPassUse => 'Abrir desde el panel';
+
+  @override
+  String get qsPassUseHint => 'El acceso del panel de ajustes rápidos abre este pase';
+
+  @override
+  String get measureAbdomen => 'Abdomen';
+
+  @override
+  String get bfNeckBelow => 'Cuello (bajo la nuez)';
+
+  @override
+  String get bfAbdomen => 'Abdomen (a la altura del ombligo)';
+
+  @override
+  String get bfWaistNarrow => 'Cintura (parte más estrecha)';
+
+  @override
+  String get bfHipWide => 'Cadera (parte más ancha)';
+
+  @override
+  String get measureBp => 'Tensión arterial';
+
+  @override
+  String get measureLeft => 'Izquierda';
+
+  @override
+  String get measureRight => 'Derecha';
+
+  @override
+  String get measureLeftShort => 'Izq.';
+
+  @override
+  String get measureRightShort => 'Der.';
+
+  @override
+  String get measureOneValue => 'Un valor';
+
+  @override
+  String get measureNoteHint => 'Nota (opcional)';
+
+  @override
+  String get bpHigh => 'Alta';
+
+  @override
+  String get bpLow => 'Baja';
+
+  @override
+  String get bpPulse => 'Pulso';
+
+  @override
+  String get bpPulseAdd => '+ Pulso';
 }

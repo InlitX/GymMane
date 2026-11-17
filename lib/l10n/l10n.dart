@@ -238,6 +238,8 @@ extension GymL10n on AppLocalizations {
         'arm' => measureArm,
         'forearm' => measureForearm,
         'waist' => measureWaist,
+        'abdomen' => measureAbdomen,
+        'bp' => measureBp,
         'hips' => measureHips,
         'thigh' => measureThigh,
         'calf' => measureCalf,

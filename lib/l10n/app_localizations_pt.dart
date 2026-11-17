@@ -7896,6 +7896,43 @@ class AppLocalizationsPt extends AppLocalizations {
   String get webPhoneGuide => 'Como configurar';
 
   @override
+  String get webSignOut => 'Sair';
+
+  @override
+  String get wearSyncTitle => 'Celular';
+
+  @override
+  String get wearSyncNever => 'Ainda não sincronizado';
+
+  @override
+  String wearSyncLast(String when) {
+    return 'Sincronizado em $when';
+  }
+
+  @override
+  String wearSyncWaiting(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n treinos esperando para ir ao celular',
+      one: '1 treino esperando para ir ao celular',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get wearSyncNow => 'Sincronizar agora';
+
+  @override
+  String get wearSyncHow => 'No celular, ative Configurações › Relógio Wear OS e abra o GymMane nos dois.';
+
+  @override
+  String get routinesOrder => 'Reordenar rotinas';
+
+  @override
+  String get routinesOrderHint => 'Arraste para mudar a ordem em que aparecem.';
+
+  @override
   String get webPhoneOff => 'A sincronização com o celular está desligada neste servidor';
 
   @override
@@ -8051,197 +8088,392 @@ class AppLocalizationsPt extends AppLocalizations {
   String get fastAdjust => 'Adjust';
 
   @override
-  String get keepCounting => 'Keep counting';
+  String get keepCounting => 'Continuar contando';
 
   @override
-  String get keepCountingHint => 'It beeps at your time and keeps going until you stop it';
+  String get keepCountingHint => 'Apita no seu tempo e continua até você parar';
 
   @override
-  String get holdOvertime => 'Extra time';
+  String get holdOvertime => 'Tempo extra';
 
   @override
-  String get pairSetting => 'Pair of dumbbells';
+  String get pairSetting => 'Par de halteres';
 
   @override
-  String get pairSettingHint => 'Log the weight of one. Volume counts both.';
+  String get pairSettingHint => 'Registre o peso de um. O volume conta os dois.';
 
   @override
-  String get helpCommon => 'Common questions';
+  String get helpCommon => 'Perguntas frequentes';
 
   @override
-  String get helpQuestions => 'Questions';
+  String get helpQuestions => 'Perguntas';
 
   @override
-  String get helpNoResults => 'Nothing matches that. Try another word';
+  String get helpNoResults => 'Nada corresponde. Tente outra palavra';
 
   @override
-  String get helpLbQ => 'Can I use lb for just one exercise?';
+  String get helpLbQ => 'Posso usar lb em só um exercício?';
 
   @override
   String helpLbA(String option) {
-    return 'Yes. During the workout, open the exercise’s ⋯ menu and pick “$option”.';
+    return 'Sim. Durante o treino, abra o menu ⋯ do exercício e escolha “$option”.';
   }
 
   @override
-  String get helpSupersetQ => 'How do I make a superset?';
+  String get helpSupersetQ => 'Como faço um superset?';
 
   @override
-  String get helpSupersetA => 'In the routine editor, tap the link between two exercises to chain them.';
+  String get helpSupersetA => 'No editor da rotina, toque no elo entre dois exercícios para encadeá-los.';
 
   @override
-  String get helpRangeQ => 'How do I set a rep range like 8-12?';
+  String get helpRangeQ => 'Como defino uma faixa de repetições como 8-12?';
 
   @override
-  String get helpRangeA => 'In the routine editor, long press the reps.';
+  String get helpRangeA => 'No editor da rotina, mantenha pressionadas as repetições.';
 
   @override
-  String get helpRestQ => 'Can each exercise have its own rest?';
+  String get helpRestQ => 'Cada exercício pode ter seu próprio descanso?';
 
   @override
   String helpRestA(String settings, String rest, String section) {
-    return 'Yes: open the exercise › $settings › $rest. Your default rest is in Settings › $section.';
+    return 'Sim: abra o exercício › $settings › $rest. Seu descanso padrão fica em Configurações › $section.';
   }
 
   @override
-  String get helpSidesQ => 'How do I log left and right separately?';
+  String get helpSidesQ => 'Como registro esquerda e direita separadamente?';
 
   @override
   String helpSidesA(String settings, String sides) {
-    return 'Open the exercise › $settings › $sides.';
+    return 'Abra o exercício › $settings › $sides.';
   }
 
   @override
-  String get helpPairQ => 'Dumbbells: do I log one or both?';
+  String get helpPairQ => 'Halteres: registro um ou os dois?';
 
   @override
   String helpPairA(String pair) {
-    return 'One. Turn on “$pair” in the exercise’s settings and the volume counts both.';
+    return 'Um. Ative “$pair” nas configurações do exercício e o volume conta os dois.';
   }
 
   @override
-  String get helpKeepQ => 'Can a timed set keep going past the time?';
+  String get helpKeepQ => 'Uma série por tempo pode passar do tempo?';
 
   @override
   String helpKeepA(String keep) {
-    return 'Yes: turn on “$keep” in the exercise’s settings. It beeps at your time and keeps counting until you stop it.';
+    return 'Sim: ative “$keep” nas configurações do exercício. Apita no seu tempo e continua contando até você parar.';
   }
 
   @override
-  String get helpDayOffQ => 'How do I mark a rest, sick or travel day?';
+  String get helpDayOffQ => 'Como marco um dia de descanso, doença ou viagem?';
 
   @override
   String get helpDayOffA =>
-      'On Home, long press the day in your week. Your streak and the reminder leave it alone.';
+      'No Início, mantenha pressionado o dia na sua semana. A sequência e o lembrete o deixam em paz.';
 
   @override
-  String get helpImportQ => 'Can I bring my workouts from Hevy, Strong or another app?';
+  String get helpImportQ => 'Posso trazer meus treinos do Hevy, Strong ou outro app?';
 
   @override
   String helpImportA(String section, String row) {
-    return 'Yes: Settings › $section › $row. It also reads FitNotes, Fitbod, JEFIT, StrongLifts, Liftosaur and Lyfta.';
+    return 'Sim: Configurações › $section › $row. Também lê FitNotes, Fitbod, JEFIT, StrongLifts, Liftosaur e Lyfta.';
   }
 
   @override
-  String get helpPhoneQ => 'How do I move my data to a new phone?';
+  String get helpPhoneQ => 'Como passo meus dados para um celular novo?';
 
   @override
   String helpPhoneA(String section, String import) {
-    return 'Export a copy in Settings › $section and open it on the new phone with “$import”.';
+    return 'Exporte uma cópia em Configurações › $section e abra-a no celular novo com “$import”.';
   }
 
   @override
-  String get helpSlowQ => 'The app feels slow on my phone';
+  String get helpSlowQ => 'O app está lento no meu celular';
 
   @override
   String helpSlowA(String section, String perf, String lite) {
-    return 'Settings › $section › $perf › $lite. It turns off blur, the heaviest part.';
+    return 'Configurações › $section › $perf › $lite. Desliga o desfoque, a parte mais pesada.';
   }
 
   @override
-  String get helpPlatesQ => 'How many plates go on the bar?';
+  String get helpPlatesQ => 'Quantas anilhas vão na barra?';
 
   @override
   String helpPlatesA(String tool, String places) {
-    return 'Use “$tool” in Tools. Your gym’s plates and bar are set in “$places”.';
+    return 'Use “$tool” em Ferramentas. As anilhas e a barra da sua academia ficam em “$places”.';
   }
 
   @override
-  String get helpRaceQ => 'How do I compare with my last workout?';
+  String get helpRaceQ => 'Como me comparo com meu último treino?';
 
   @override
   String helpRaceA(String race) {
-    return 'During the workout, tap the pill at the top: “$race”.';
+    return 'Durante o treino, toque na pílula no topo: “$race”.';
   }
 
   @override
-  String get helpFastQ => 'I forgot to end my fast';
+  String get helpFastQ => 'Esqueci de terminar meu jejum';
 
   @override
   String helpFastA(String adjust) {
-    return 'End it and tap “$adjust” on the notice, or tap the fast in the fasting sheet to change its times.';
+    return 'Termine-o e toque em “$adjust” no aviso, ou toque no jejum na folha de jejum para mudar os horários.';
   }
 
   @override
-  String get helpGo => 'Show me';
+  String get helpGo => 'Mostrar';
 
   @override
-  String get helpHomeOrderQ => 'Can I change the order of Home?';
+  String get helpHomeOrderQ => 'Posso mudar a ordem do Início?';
 
   @override
   String helpHomeOrderA(String section, String row) {
-    return 'Yes: Settings › $section › “$row”. Hold and drag the sections, or turn off the ones you don’t use.';
+    return 'Sim: Configurações › $section › “$row”. Segure e arraste as seções, ou desligue as que você não usa.';
   }
 
   @override
-  String get helpCustomQ => 'Can I create my own exercise?';
+  String get helpCustomQ => 'Posso criar meu próprio exercício?';
 
   @override
   String helpCustomA(String button) {
-    return 'Yes: in Exercises, tap “$button”. You pick its name, muscles and equipment, and it works like any other.';
+    return 'Sim: em Exercícios, toque em “$button”. Você escolhe nome, músculos e equipamento, e ele funciona como qualquer outro.';
   }
 
   @override
-  String get helpWarmupQ => 'Can the app add warm-up sets for me?';
+  String get helpWarmupQ => 'O app pode adicionar séries de aquecimento?';
 
   @override
   String helpWarmupA(String settings, String warm, String tool) {
-    return 'Yes: open the exercise › $settings › “$warm”. To work them out by hand, use “$tool” in Tools.';
+    return 'Sim: abra o exercício › $settings › “$warm”. Para calcular à mão, use “$tool” em Ferramentas.';
   }
 
   @override
-  String get helpPassQ => 'Can I keep my gym membership card in the app?';
+  String get helpPassQ => 'Posso guardar o cartão da academia no app?';
 
   @override
   String helpPassA(String row, String section) {
-    return 'Yes: “$row” in Settings › $section. It shows the barcode or QR code to scan at the door.';
+    return 'Sim: “$row” em Configurações › $section. Mostra o código de barras ou QR para escanear na entrada.';
   }
 
   @override
-  String get helpStepsQ => 'Why don’t I see my steps?';
+  String get helpStepsQ => 'Por que não vejo meus passos?';
 
   @override
   String helpStepsA(String row, String section) {
-    return 'Steps are read from Health Connect, which comes with Android 14 and later. On older phones it isn’t available. If you have it, turn on “$row” in Settings › $section.';
+    return 'Os passos vêm do Health Connect, que vem com o Android 14 ou mais novo. Em celulares mais antigos não está disponível. Se você tiver, ative “$row” em Configurações › $section.';
   }
 
   @override
-  String get helpNfcQ => 'Can I start my workout by tapping my phone?';
+  String get helpNfcQ => 'Posso começar o treino tocando o celular?';
 
   @override
   String helpNfcA(String row, String section) {
-    return 'Yes, with an NFC sticker: “$row” in Settings › $section. Stick it at the gym and tapping it opens today’s workout.';
+    return 'Sim, com um adesivo NFC: “$row” em Configurações › $section. Cole na academia e tocar nele abre o treino de hoje.';
   }
 
   @override
-  String get helpCleanQ => 'How do I make the Nutrition screen cleaner?';
+  String get helpCleanQ => 'Como deixo a tela de Nutrição mais limpa?';
 
   @override
   String helpCleanA(String button) {
-    return 'In Nutrition, tap the sliders button at the top (“$button”) and turn off whatever you don’t track.';
+    return 'Em Nutrição, toque no botão de controles no topo (“$button”) e desligue o que você não acompanha.';
   }
 
   @override
   String alsoWorksMuscles(String muscles) {
-    return 'Also works $muscles';
+    return 'Também trabalha $muscles';
   }
+
+  @override
+  String get wearSyncAllow => 'Permitir Bluetooth';
+
+  @override
+  String get wearSyncSearching => 'Procurando o celular…';
+
+  @override
+  String get wearSyncNotFound => 'Celular não encontrado';
+
+  @override
+  String get wearSyncBluetoothOff => 'O Bluetooth está desligado';
+
+  @override
+  String get watchRow => 'Relógio Wear OS';
+
+  @override
+  String get watchTitle => 'Relógio Wear OS';
+
+  @override
+  String get watchSubtitle => 'Suas rotinas no pulso e seus treinos de volta no celular';
+
+  @override
+  String get watchPoint1 => 'Instale o GymMane no relógio';
+
+  @override
+  String get watchPoint1Body => 'É o mesmo app do celular. Toque para ver o guia de instalação.';
+
+  @override
+  String get watchPoint2 => 'Abra o GymMane nos dois';
+
+  @override
+  String get watchPoint2Body =>
+      'Eles sincronizam sozinhos pelo Bluetooth que já liga o celular e o relógio. Sem Internet.';
+
+  @override
+  String get watchPoint3 => 'Treine com o relógio';
+
+  @override
+  String get watchPoint3Body =>
+      'O que você faz no relógio chega ao celular na próxima vez que os dois estiverem abertos.';
+
+  @override
+  String get watchUse => 'Sincronizar com o relógio';
+
+  @override
+  String get watchUseHint => 'Só se você tiver relógio. Pede permissão para usar o Bluetooth';
+
+  @override
+  String get watchTurnOnBluetooth => 'Ativar Bluetooth';
+
+  @override
+  String get watchSyncNow => 'Sincronizar agora';
+
+  @override
+  String get watchSearching => 'Procurando o relógio…';
+
+  @override
+  String get watchSearchingHint => 'Abra o GymMane no relógio se ainda não estiver aberto.';
+
+  @override
+  String get watchBluetoothOff => 'O Bluetooth está desligado.';
+
+  @override
+  String get watchNotFound => 'Relógio não encontrado. Abra o GymMane nele e tente de novo.';
+
+  @override
+  String get watchNever => 'Ainda não sincronizado.';
+
+  @override
+  String watchLast(String when) {
+    return 'Sincronizado em $when.';
+  }
+
+  @override
+  String watchLastWith(String name, String when) {
+    return 'Sincronizado com $name em $when.';
+  }
+
+  @override
+  String get watchTip => 'Beta: ainda não testado em todos os relógios. Se falhar, conte no GitHub.';
+
+  @override
+  String get mineralsTracker => 'Iron and potassium';
+
+  @override
+  String get ironLabel => 'Iron';
+
+  @override
+  String get potassiumLabel => 'Potassium';
+
+  @override
+  String mineralsCoverage(int known, int total) {
+    return '$known of $total foods today have iron and potassium';
+  }
+
+  @override
+  String get mineralsHint =>
+      'Few foods in the list come with iron and potassium, so the total only counts the ones that do. Add them to your own foods or with the AI.';
+
+  @override
+  String get qsRow => 'Blocos nas configurações rápidas';
+
+  @override
+  String get qsRowHint => 'O treino de hoje ou o seu passe da academia, pelo painel de cima';
+
+  @override
+  String get qsTitle => 'Blocos nas configurações rápidas';
+
+  @override
+  String get qsSubtitle => 'Puxe as configurações rápidas e chegue com um toque, sem procurar o app';
+
+  @override
+  String get qsToday => 'Treino de hoje';
+
+  @override
+  String get qsTodayHint => 'Como o adesivo NFC: abre o que está planejado para hoje';
+
+  @override
+  String get qsPass => 'Passe da academia';
+
+  @override
+  String qsPassHint(String name) {
+    return 'Abre $name para passar na catraca';
+  }
+
+  @override
+  String get qsPassNone => 'Adicione primeiro o seu passe da academia';
+
+  @override
+  String get qsRest => 'Dia de descanso';
+
+  @override
+  String get qsAdd => 'Adicionar';
+
+  @override
+  String get qsAdded => 'Adicionado';
+
+  @override
+  String get qsManual =>
+      'Puxe as configurações rápidas, toque no lápis e arraste o bloco do GymMane para os seus.';
+
+  @override
+  String get qsPassUse => 'Abrir pelas configurações rápidas';
+
+  @override
+  String get qsPassUseHint => 'O bloco das configurações rápidas abre este passe';
+
+  @override
+  String get measureAbdomen => 'Abdômen';
+
+  @override
+  String get bfNeckBelow => 'Pescoço (abaixo do pomo de Adão)';
+
+  @override
+  String get bfAbdomen => 'Abdômen (na altura do umbigo)';
+
+  @override
+  String get bfWaistNarrow => 'Cintura (parte mais estreita)';
+
+  @override
+  String get bfHipWide => 'Quadril (parte mais larga)';
+
+  @override
+  String get measureBp => 'Pressão arterial';
+
+  @override
+  String get measureLeft => 'Esquerda';
+
+  @override
+  String get measureRight => 'Direita';
+
+  @override
+  String get measureLeftShort => 'E';
+
+  @override
+  String get measureRightShort => 'D';
+
+  @override
+  String get measureOneValue => 'Um valor';
+
+  @override
+  String get measureNoteHint => 'Nota (opcional)';
+
+  @override
+  String get bpHigh => 'Sistólica';
+
+  @override
+  String get bpLow => 'Diastólica';
+
+  @override
+  String get bpPulse => 'Pulso';
+
+  @override
+  String get bpPulseAdd => '+ Pulso';
 }

@@ -7832,6 +7832,43 @@ class AppLocalizationsEn extends AppLocalizations {
   String get webPhoneGuide => 'How to set it up';
 
   @override
+  String get webSignOut => 'Sign out';
+
+  @override
+  String get wearSyncTitle => 'Phone';
+
+  @override
+  String get wearSyncNever => 'Not synced yet';
+
+  @override
+  String wearSyncLast(String when) {
+    return 'Synced $when';
+  }
+
+  @override
+  String wearSyncWaiting(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n workouts waiting to go to the phone',
+      one: '1 workout waiting to go to the phone',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get wearSyncNow => 'Sync now';
+
+  @override
+  String get wearSyncHow => 'On your phone, turn on Settings › Wear OS watch and open GymMane on both.';
+
+  @override
+  String get routinesOrder => 'Reorder routines';
+
+  @override
+  String get routinesOrderHint => 'Drag to change the order they show in.';
+
+  @override
   String get webPhoneOff => 'Phone sync is off on this server';
 
   @override
@@ -8181,4 +8218,197 @@ class AppLocalizationsEn extends AppLocalizations {
   String alsoWorksMuscles(String muscles) {
     return 'Also works $muscles';
   }
+
+  @override
+  String get wearSyncAllow => 'Allow Bluetooth';
+
+  @override
+  String get wearSyncSearching => 'Looking for the phone…';
+
+  @override
+  String get wearSyncNotFound => 'Phone not found';
+
+  @override
+  String get wearSyncBluetoothOff => 'Bluetooth is off';
+
+  @override
+  String get watchRow => 'Wear OS watch';
+
+  @override
+  String get watchTitle => 'Wear OS watch';
+
+  @override
+  String get watchSubtitle => 'Your routines on your wrist, your workouts back on your phone';
+
+  @override
+  String get watchPoint1 => 'Install GymMane on the watch';
+
+  @override
+  String get watchPoint1Body => 'It\'s the same app as on the phone. Tap to see the install guide.';
+
+  @override
+  String get watchPoint2 => 'Open GymMane on both';
+
+  @override
+  String get watchPoint2Body =>
+      'They sync on their own over the Bluetooth that already links phone and watch. No internet.';
+
+  @override
+  String get watchPoint3 => 'Train with the watch';
+
+  @override
+  String get watchPoint3Body => 'What you do on the watch reaches the phone the next time both are open.';
+
+  @override
+  String get watchUse => 'Sync with the watch';
+
+  @override
+  String get watchUseHint => 'Only if you have a watch. It asks to use Bluetooth';
+
+  @override
+  String get watchTurnOnBluetooth => 'Turn on Bluetooth';
+
+  @override
+  String get watchSyncNow => 'Sync now';
+
+  @override
+  String get watchSearching => 'Looking for the watch…';
+
+  @override
+  String get watchSearchingHint => 'Open GymMane on the watch if it isn\'t open yet.';
+
+  @override
+  String get watchBluetoothOff => 'Bluetooth is off.';
+
+  @override
+  String get watchNotFound => 'Couldn\'t find the watch. Open GymMane on it and try again.';
+
+  @override
+  String get watchNever => 'Not synced yet.';
+
+  @override
+  String watchLast(String when) {
+    return 'Synced $when.';
+  }
+
+  @override
+  String watchLastWith(String name, String when) {
+    return 'Synced with $name $when.';
+  }
+
+  @override
+  String get watchTip => 'Beta: not tested on every watch yet. If it fails, tell us on GitHub.';
+
+  @override
+  String get mineralsTracker => 'Iron and potassium';
+
+  @override
+  String get ironLabel => 'Iron';
+
+  @override
+  String get potassiumLabel => 'Potassium';
+
+  @override
+  String mineralsCoverage(int known, int total) {
+    return '$known of $total foods today have iron and potassium';
+  }
+
+  @override
+  String get mineralsHint =>
+      'Few foods in the list come with iron and potassium, so the total only counts the ones that do. Add them to your own foods or with the AI.';
+
+  @override
+  String get qsRow => 'Quick Settings tiles';
+
+  @override
+  String get qsRowHint => 'Today\'s workout or your gym pass, from the top panel';
+
+  @override
+  String get qsTitle => 'Quick Settings tiles';
+
+  @override
+  String get qsSubtitle => 'Pull down Quick Settings and get there in one tap, without looking for the app';
+
+  @override
+  String get qsToday => 'Today\'s workout';
+
+  @override
+  String get qsTodayHint => 'Like the NFC sticker: opens what\'s planned for today';
+
+  @override
+  String get qsPass => 'Gym pass';
+
+  @override
+  String qsPassHint(String name) {
+    return 'Opens $name so you can scan it at the door';
+  }
+
+  @override
+  String get qsPassNone => 'Add your gym pass first';
+
+  @override
+  String get qsRest => 'Rest day';
+
+  @override
+  String get qsAdd => 'Add';
+
+  @override
+  String get qsAdded => 'Added';
+
+  @override
+  String get qsManual => 'Pull down Quick Settings, tap the pencil and drag the GymMane tile into yours.';
+
+  @override
+  String get qsPassUse => 'Open from Quick Settings';
+
+  @override
+  String get qsPassUseHint => 'The Quick Settings tile opens this pass';
+
+  @override
+  String get measureAbdomen => 'Abdomen';
+
+  @override
+  String get bfNeckBelow => 'Neck (below the Adam\'s apple)';
+
+  @override
+  String get bfAbdomen => 'Abdomen (at the navel)';
+
+  @override
+  String get bfWaistNarrow => 'Waist (narrowest point)';
+
+  @override
+  String get bfHipWide => 'Hip (widest point)';
+
+  @override
+  String get measureBp => 'Blood pressure';
+
+  @override
+  String get measureLeft => 'Left';
+
+  @override
+  String get measureRight => 'Right';
+
+  @override
+  String get measureLeftShort => 'L';
+
+  @override
+  String get measureRightShort => 'R';
+
+  @override
+  String get measureOneValue => 'One value';
+
+  @override
+  String get measureNoteHint => 'Note (optional)';
+
+  @override
+  String get bpHigh => 'Systolic';
+
+  @override
+  String get bpLow => 'Diastolic';
+
+  @override
+  String get bpPulse => 'Pulse';
+
+  @override
+  String get bpPulseAdd => '+ Pulse';
 }
