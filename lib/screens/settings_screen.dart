@@ -31,9 +31,13 @@ import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
 import '../services/app_icon.dart';
 import '../services/nfc_tags.dart';
+import '../services/quick_tiles.dart';
+import '../services/watch_link.dart';
 import 'help_topics.dart';
 import '../widgets/app_icon_sheet.dart';
 import '../widgets/nfc_sheet.dart';
+import '../widgets/quick_tiles_sheet.dart';
+import '../widgets/watch_sheet.dart';
 import '../widgets/auto_backup_sheet.dart';
 import '../widgets/body_rulers.dart';
 import '../widgets/dialogs.dart';
@@ -504,6 +508,18 @@ class SettingsScreen extends StatelessWidget {
                         hint: t.nfcRowHint,
                       ),
                     ),
+                  if (QuickTiles.available)
+                    GestureDetector(
+                      behavior: HitTestBehavior.opaque,
+                      onTap: () => showQuickTilesSheet(context),
+                      child: _prefRow(
+                        gc,
+                        PhosphorIconsRegular.squaresFour,
+                        t.qsRow,
+                        Icon(PhosphorIconsRegular.caretRight, size: 15, color: gc.textTertiary),
+                        hint: t.qsRowHint,
+                      ),
+                    ),
           ]),
           _subhead(gc, t.routines),
           _card(gc, [
@@ -804,10 +820,11 @@ class SettingsScreen extends StatelessWidget {
               (PhosphorIconsRegular.downloadSimple, t.importBackup, () => _importBackup(context)),
               if (AutoBackup.instance.supported)
                 (PhosphorIconsRegular.clockCounterClockwise, t.autoBackup, () => showAutoBackupSheet(context)),
+              if (WatchLink.instance.available) (PhosphorIconsRegular.watch, t.watchRow, () => showWatchSheet(context)),
               (PhosphorIconsRegular.export, t.stravaRow, () => showStravaSheet(context)),
               (PhosphorIconsRegular.barbell, t.clearWorkouts, () => _clearWorkouts(context)),
               (PhosphorIconsRegular.trash, t.resetData, () => _resetAll(context)),
-          ], danger: AutoBackup.instance.supported ? 6 : 5),
+          ], danger: (AutoBackup.instance.supported ? 6 : 5) + (WatchLink.instance.available ? 1 : 0)),
         ];
       default:
         return [
@@ -900,6 +917,7 @@ class SettingsScreen extends StatelessWidget {
         (t.deloadSetting, PhosphorIconsRegular.feather),
         (t.voiceSetting, PhosphorIconsRegular.waveform),
         if (NfcTags.available) (t.nfcRow, PhosphorIconsRegular.contactlessPayment),
+        if (QuickTiles.available) (t.qsRow, PhosphorIconsRegular.squaresFour),
         (t.autoAdvance, PhosphorIconsRegular.skipForward),
         (t.countdownSetting, PhosphorIconsRegular.timer),
         (t.keepScreenOn, PhosphorIconsRegular.sun),
@@ -947,6 +965,7 @@ class SettingsScreen extends StatelessWidget {
         (t.exportBackup, PhosphorIconsRegular.fileZip),
         (t.importBackup, PhosphorIconsRegular.downloadSimple),
         (t.autoBackup, PhosphorIconsRegular.clockCounterClockwise),
+        if (WatchLink.instance.available) (t.watchRow, PhosphorIconsRegular.watch),
         (t.importFromApp, PhosphorIconsRegular.arrowSquareIn),
         (t.stravaRow, PhosphorIconsRegular.export),
         (t.clearWorkouts, PhosphorIconsRegular.barbell),

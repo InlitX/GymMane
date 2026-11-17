@@ -30,6 +30,7 @@ class MainActivity : FlutterActivity() {
 
     override fun getFlutterShellArgs(): FlutterShellArgs {
         val args = super.getFlutterShellArgs()
+        GraphicsMode.starting(this)
         if (GraphicsMode.compat(this)) args.add(GraphicsMode.DISABLE_IMPELLER)
         return args
     }
@@ -43,6 +44,10 @@ class MainActivity : FlutterActivity() {
                 "state" -> result.success(
                     mapOf("compat" to GraphicsMode.compat(this), "detected" to GraphicsMode.detected(this)),
                 )
+                "ready" -> {
+                    GraphicsMode.ready(this)
+                    result.success(null)
+                }
                 "set" -> {
                     result.success(null)
                     val on = call.argument<Boolean>("compat") ?: false
@@ -174,6 +179,8 @@ class MainActivity : FlutterActivity() {
         NfcBridge.attach(this, MethodChannel(messenger, NfcBridge.CHANNEL))
         VoiceBridge.attach(this, MethodChannel(messenger, VoiceBridge.CHANNEL))
         WearSurfaces.attach(this, MethodChannel(messenger, WearSurfaces.CHANNEL))
+        WatchLinkBridge.attach(this, MethodChannel(messenger, WatchLinkBridge.CHANNEL))
+        QuickTiles.attach(this, MethodChannel(messenger, QuickTiles.CHANNEL))
     }
 
     private fun currentDisplay(): android.view.Display? =
@@ -270,6 +277,7 @@ class MainActivity : FlutterActivity() {
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         if (HealthBridge.onPermissionResult(requestCode, grantResults)) return
+        if (WatchLinkBridge.onPermissionResult(requestCode, grantResults)) return
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
@@ -294,6 +302,7 @@ class MainActivity : FlutterActivity() {
         rotaryChannel = null
         openChannel = null
         NfcBridge.detach(this)
+        WatchLinkBridge.detach()
         LiveNotifier.dart = null
         HealthBridge.channel = null
         if (isFinishing) LiveNotifier.cancel(this)

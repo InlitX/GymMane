@@ -10,6 +10,7 @@ import '../models/gym_pass.dart';
 import '../services/media_store.dart';
 import '../services/pass_scan.dart';
 import '../services/screen_awake.dart';
+import '../services/quick_tiles.dart';
 import '../state/fit_state.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
@@ -642,6 +643,42 @@ class _PassEditorState extends State<_PassEditor> {
                     style: AppTheme.f(13, weight: FontWeight.w700, color: gc.textSecondary)),
               ),
             ),
+            if (widget.pass != null && fit.gymPasses.length > 1 && QuickTiles.available) ...[
+              const SizedBox(height: 8),
+              AnimatedBuilder(
+                animation: fit,
+                builder: (context, _) {
+                  final on = fit.quickPass?.id == widget.pass!.id;
+                  return Semantics(
+                    toggled: on,
+                    child: Pressable(
+                      onTap: () {
+                        HapticFeedback.selectionClick();
+                        if (!on) fit.setQuickPass(widget.pass!.id);
+                      },
+                      child: Container(
+                        constraints: const BoxConstraints(minHeight: 58),
+                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                        decoration: BoxDecoration(color: gc.bgRaised2, borderRadius: BorderRadius.circular(20)),
+                        child: Row(children: [
+                          Expanded(
+                            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                              Text(t.qsPassUse, style: AppTheme.f(14.5, weight: FontWeight.w600, color: gc.text)),
+                              const SizedBox(height: 3),
+                              Text(t.qsPassUseHint,
+                                  style: AppTheme.f(11.5,
+                                      weight: FontWeight.w500, color: gc.textSecondary, height: 1.3)),
+                            ]),
+                          ),
+                          const SizedBox(width: 12),
+                          TinySwitch(on: on),
+                        ]),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ],
             const SizedBox(height: 18),
             AnimatedOpacity(
               duration: const Duration(milliseconds: 200),

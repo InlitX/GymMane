@@ -2,4 +2,6 @@
 <resources>
     <string name="shortcut_start_short">Start workout</string>
     <string name="shortcut_start_long">Start workout</string>
+    <string name="qs_today">Today\'s workout</string>
+    <string name="qs_pass">Gym pass</string>
 </resources>

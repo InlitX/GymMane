@@ -29,8 +29,8 @@ void showNfcSheet(BuildContext context) {
 
 DateTime? _lastTag;
 
-void openTodayFromTag(BuildContext context) {
-  if (!fit.nfcTag || !fit.onboarded || _TodaySheetState.open != null) return;
+void openTodayFromTag(BuildContext context, {bool tag = true}) {
+  if ((tag && !fit.nfcTag) || !fit.onboarded || _TodaySheetState.open != null) return;
   final now = DateTime.now();
   final last = _lastTag;
   if (last != null && now.difference(last) < const Duration(milliseconds: 1500)) return;

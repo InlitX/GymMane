@@ -3,6 +3,19 @@ part of 'fit_state.dart';
 mixin GymPassState on FitCore {
   final List<GymPass> gymPasses = [];
   String lastPassId = '';
+  String quickPassId = '';
+
+  GymPass? get quickPass {
+    if (gymPasses.isEmpty) return null;
+    return gymPasses.firstWhere((p) => p.id == quickPassId, orElse: () => gymPasses.first);
+  }
+
+  void setQuickPass(String id) {
+    if (quickPassId == id) return;
+    quickPassId = id;
+    _persist();
+    notifyListeners();
+  }
 
   GymPass? get lastPass {
     if (gymPasses.isEmpty) return null;
@@ -73,5 +86,6 @@ mixin GymPassState on FitCore {
           .where((p) => p.code.isNotEmpty));
     }
     lastPassId = data['lastPass'] as String? ?? '';
+    quickPassId = data['quickPass'] as String? ?? '';
   }
 }

@@ -2,4 +2,6 @@
 <resources>
     <string name="shortcut_start_short">Empezar entreno</string>
     <string name="shortcut_start_long">Empezar entreno</string>
+    <string name="qs_today">Entreno de hoy</string>
+    <string name="qs_pass">Pase del gimnasio</string>
 </resources>

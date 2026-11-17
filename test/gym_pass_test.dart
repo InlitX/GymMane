@@ -137,4 +137,20 @@ void main() {
     expect((turned.width, turned.height), (200, 400));
     expect(await cropToPng(image, const Rect.fromLTRB(0.5, 0.5, 0.5, 0.5)), isNull);
   });
+  test('the Quick Settings tile opens the chosen pass and remembers it (#403)', () async {
+    SharedPreferences.setMockInitialValues({});
+    await Store.instance.init();
+    fit.resetAllData();
+    expect(fit.quickPass, isNull);
+    final gym = fit.addGymPass(name: 'Gym', code: '123');
+    final pool = fit.addGymPass(name: 'Pool', code: '456');
+    expect(fit.quickPass!.id, gym);
+    fit.setQuickPass(pool);
+    expect(fit.quickPass!.id, pool);
+    fit.persistNow();
+    fit.loadFromStore();
+    expect(fit.quickPass!.id, pool);
+    fit.removeGymPass(pool);
+    expect(fit.quickPass!.id, gym);
+  });
 }
