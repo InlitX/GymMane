@@ -168,7 +168,7 @@ class _NutritionScreenState extends State<NutritionScreen> {
     final planned = on(Tracker.plans) ? fit.planOn(fit.nutritionDay) : null;
     final todayPlan = planned != null && planned.items.isNotEmpty ? planned : null;
     final detail = <Widget>[
-      if (on(Tracker.animal) || on(Tracker.fiber) || on(Tracker.sugarSodium)) _DetailGrid(),
+      if (on(Tracker.animal) || on(Tracker.fiber) || on(Tracker.sugarSodium) || on(Tracker.minerals)) _DetailGrid(),
       if (on(Tracker.quality)) _QualityCard(),
       if (on(Tracker.fats)) _FatTypesCard(),
       if (on(Tracker.week)) _WeekTile(),
@@ -566,7 +566,7 @@ Widget _macroSummary(BuildContext context, Macros m) {
         cell(t.macroCarbs, '${_g(m.carbs)} g', gc.carbs),
         cell(t.macroFat, '${_g(m.fat)} g', gc.fat),
       ]),
-      if (m.hasExtras) ...[
+      if (m.hasExtras || (fit.trackerOn(Tracker.minerals) && m.hasMinerals)) ...[
         const SizedBox(height: 10),
         Text(_extrasLine(m), style: AppTheme.f(11.5, weight: FontWeight.w600, color: gc.textSecondary)),
       ],

@@ -70,6 +70,8 @@ mixin NutritionState on FitCore, ToolsState, StatsState {
       fiber: (kcal * 14 / 1000).round().clamp(15, 60),
       sugar: nutritionGoals.sugar,
       sodium: nutritionGoals.sodium,
+      iron: nutritionGoals.iron,
+      potassium: nutritionGoals.potassium,
     );
   }
 
@@ -106,7 +108,23 @@ mixin NutritionState on FitCore, ToolsState, StatsState {
     final rest = restGoals;
     if (rest == null || isTrainingDay(day)) return activeGoals;
     final a = activeGoals;
-    return rest.copyWith(waterMl: a.waterMl, glassMl: a.glassMl, fiber: a.fiber, sugar: a.sugar, sodium: a.sodium);
+    return rest.copyWith(
+        waterMl: a.waterMl,
+        glassMl: a.glassMl,
+        fiber: a.fiber,
+        sugar: a.sugar,
+        sodium: a.sodium,
+        iron: a.iron,
+        potassium: a.potassium);
+  }
+
+  int ironGoal(NutritionGoals g) => g.iron > 0 ? g.iron : (profile.sex == 'female' ? 18 : 8);
+
+  int potassiumGoal(NutritionGoals g) => g.potassium > 0 ? g.potassium : (profile.sex == 'female' ? 2600 : 3400);
+
+  ({int known, int total}) mineralsCoverage(DateTime day) {
+    final items = entriesOn(day).where((e) => e.total.kcal > 0).toList();
+    return (known: items.where((e) => e.total.hasMinerals).length, total: items.length);
   }
 
   static const double _liftMet = 5;

@@ -48,6 +48,7 @@ Future<void> showTrackersSheet(BuildContext context) => _sheet<void>(context, (c
           toggle(Tracker.fats, PhosphorIconsRegular.drop, gc.fat, t.fatTypes),
           toggle(Tracker.fiber, PhosphorIconsRegular.leaf, gc.sage, t.fiberLabel),
           toggle(Tracker.sugarSodium, PhosphorIconsRegular.cube, gc.carbs, t.sugarSodium),
+          toggle(Tracker.minerals, PhosphorIconsRegular.atom, gc.danger, t.mineralsTracker),
         ]),
         label(t.trackersCards),
         ToolGroup([
@@ -297,7 +298,7 @@ Future<void> showGoalsSheet(BuildContext context) => _sheet<void>(context, (cont
         Text(t.addBurnedHint, textAlign: TextAlign.center, style: AppTheme.s(11.5, color: gc.textTertiary, height: 1.4)),
         const SizedBox(height: 12),
         ToolGroup(_waterRows(context)),
-        if (fit.trackerOn(Tracker.fiber) || fit.trackerOn(Tracker.sugarSodium)) ...[
+        if (fit.trackerOn(Tracker.fiber) || fit.trackerOn(Tracker.sugarSodium) || fit.trackerOn(Tracker.minerals)) ...[
           const SizedBox(height: 12),
           ToolGroup([
             if (fit.trackerOn(Tracker.fiber))
@@ -316,7 +317,24 @@ Future<void> showGoalsSheet(BuildContext context) => _sheet<void>(context, (cont
                   () => edit('${t.sodiumLimitLabel} (mg)', g.sodium,
                       (v) => fit.setNutritionGoals(g.copyWith(sodium: v.clamp(200, 20000))))),
             ],
+            if (fit.trackerOn(Tracker.minerals)) ...[
+              row(t.ironLabel, '${fit.ironGoal(g)} mg',
+                  () => fit.setNutritionGoals(g.copyWith(iron: (fit.ironGoal(g) - 1).clamp(1, 200))),
+                  () => fit.setNutritionGoals(g.copyWith(iron: (fit.ironGoal(g) + 1).clamp(1, 200))),
+                  () => edit('${t.ironLabel} (mg)', fit.ironGoal(g),
+                      (v) => fit.setNutritionGoals(g.copyWith(iron: v.clamp(1, 200))))),
+              row(t.potassiumLabel, '${fmt(fit.potassiumGoal(g) / 1000)} g',
+                  () => fit.setNutritionGoals(g.copyWith(potassium: (fit.potassiumGoal(g) - 100).clamp(500, 20000))),
+                  () => fit.setNutritionGoals(g.copyWith(potassium: (fit.potassiumGoal(g) + 100).clamp(500, 20000))),
+                  () => edit('${t.potassiumLabel} (mg)', fit.potassiumGoal(g),
+                      (v) => fit.setNutritionGoals(g.copyWith(potassium: v.clamp(500, 20000))))),
+            ],
           ]),
+          if (fit.trackerOn(Tracker.minerals)) ...[
+            const SizedBox(height: 8),
+            Text(t.mineralsHint,
+                textAlign: TextAlign.center, style: AppTheme.s(11.5, color: gc.textTertiary, height: 1.4)),
+          ],
         ],
         const SizedBox(height: 16),
         GhostButton(label: t.goalsFromProfile, icon: PhosphorIconsBold.sparkle, onTap: fit.useSuggestedGoals),

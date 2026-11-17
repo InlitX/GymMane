@@ -459,7 +459,7 @@ void main() {
 
     test('el prompt pide los campos opcionales sin hacerlos obligatorios', () {
       final p = buildMealAiPrompt(brief);
-      expect(p, contains('"sodium" and "cholesterol" in milligrams'));
+      expect(p, contains('"sodium", "cholesterol", "iron" and "potassium" in milligrams'));
       expect(p, contains('leave the key out otherwise'));
     });
   });
@@ -484,6 +484,13 @@ void main() {
       expect(pick.serving, '1 vaso');
       expect(pick.food.grams, 250);
       expect(pick.food.sodium, closeTo(40, 0.001));
+    });
+
+    test('#394 lee hierro y potasio y los pasa de 100 g a la ración', () {
+      final pick = parseFoodAi('{"food": {"name": "Lentejas", "grams": 200, "per100": {"kcal": 116, "protein": 9, "carbs": 20, "fat": 0.4, "iron": 3.3, "potassium": 369}}}');
+      expect(pick, isNotNull);
+      expect([pick!.food.iron, pick.food.potassium], [3.3, 369]);
+      expect(buildFoodAiPrompt('Spanish'), contains('"iron" and "potassium" in milligrams'));
     });
 
     test('sin valores no rellena nada', () {

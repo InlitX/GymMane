@@ -359,3 +359,8 @@ fastErrShort
 fastErrOverlap
 fastSaved
 fastAdjust
+mineralsTracker
+ironLabel
+potassiumLabel
+mineralsCoverage
+mineralsHint

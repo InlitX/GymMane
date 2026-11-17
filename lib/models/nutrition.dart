@@ -64,6 +64,8 @@ class Macros {
     this.trans = 0,
     this.mono = 0,
     this.poly = 0,
+    this.iron = 0,
+    this.potassium = 0,
     this.aminoProtein = 0,
     this.amino = const [],
   });
@@ -81,6 +83,8 @@ class Macros {
   final double trans;
   final double mono;
   final double poly;
+  final double iron;
+  final double potassium;
   final double aminoProtein;
   final List<double> amino;
 
@@ -106,6 +110,8 @@ class Macros {
         trans: trans + o.trans,
         mono: mono + o.mono,
         poly: poly + o.poly,
+        iron: iron + o.iron,
+        potassium: potassium + o.potassium,
         aminoProtein: aminoProtein + o.aminoProtein,
         amino: _addAmino(amino, o.amino),
       );
@@ -124,6 +130,8 @@ class Macros {
         trans: trans * k,
         mono: mono * k,
         poly: poly * k,
+        iron: iron * k,
+        potassium: potassium * k,
         aminoProtein: aminoProtein * k,
         amino: [for (final a in amino) a * k],
       );
@@ -133,6 +141,8 @@ class Macros {
   bool get hasExtras => fiber > 0 || sugar > 0 || sodium > 0 || chol > 0;
 
   bool get hasFatTypes => sat > 0 || trans > 0 || mono > 0 || poly > 0;
+
+  bool get hasMinerals => iron > 0 || potassium > 0;
 
   double get plant => (protein - animal).clamp(0, double.infinity).toDouble();
 
@@ -169,6 +179,8 @@ class Macros {
         if (trans > 0) 'tf': trans,
         if (mono > 0) 'mu': mono,
         if (poly > 0) 'po': poly,
+        if (iron > 0) 'fe': iron,
+        if (potassium > 0) 'ka': potassium,
         if (aminoProtein > 0 && amino.length == Amino.values.length) ...{
           'ap': aminoProtein,
           'aa': [for (final a in amino) (a * 1000).round() / 1000],
@@ -192,6 +204,8 @@ class Macros {
       trans: _num(j?['tf']),
       mono: _num(j?['mu']),
       poly: _num(j?['po']),
+      iron: _num(j?['fe']),
+      potassium: _num(j?['ka']),
       aminoProtein: ok ? _num(j?['ap']) : 0,
       amino: ok ? aa : const [],
     );
@@ -646,6 +660,8 @@ class NutritionGoals {
     this.fiber = 30,
     this.sugar = 50,
     this.sodium = 2300,
+    this.iron = 0,
+    this.potassium = 0,
   });
 
   final int kcal;
@@ -657,6 +673,8 @@ class NutritionGoals {
   final int fiber;
   final int sugar;
   final int sodium;
+  final int iron;
+  final int potassium;
 
   int get satLimit => (kcal * 0.1 / 9).round();
 
@@ -670,6 +688,8 @@ class NutritionGoals {
     int? fiber,
     int? sugar,
     int? sodium,
+    int? iron,
+    int? potassium,
   }) =>
       NutritionGoals(
         kcal: kcal ?? this.kcal,
@@ -681,10 +701,23 @@ class NutritionGoals {
         fiber: fiber ?? this.fiber,
         sugar: sugar ?? this.sugar,
         sodium: sodium ?? this.sodium,
+        iron: iron ?? this.iron,
+        potassium: potassium ?? this.potassium,
       );
 
-  Map<String, dynamic> toJson() =>
-      {'k': kcal, 'p': protein, 'c': carbs, 'f': fat, 'w': waterMl, 'g': glassMl, 'fi': fiber, 'su': sugar, 'na': sodium};
+  Map<String, dynamic> toJson() => {
+        'k': kcal,
+        'p': protein,
+        'c': carbs,
+        'f': fat,
+        'w': waterMl,
+        'g': glassMl,
+        'fi': fiber,
+        'su': sugar,
+        'na': sodium,
+        if (iron > 0) 'fe': iron,
+        if (potassium > 0) 'ka': potassium,
+      };
 
   factory NutritionGoals.fromJson(Map<String, dynamic>? j) {
     const d = NutritionGoals();
@@ -703,6 +736,8 @@ class NutritionGoals {
       fiber: read('fi', d.fiber, 200),
       sugar: read('su', d.sugar, 500),
       sodium: read('na', d.sodium, 20000),
+      iron: read('fe', 0, 200),
+      potassium: read('ka', 0, 20000),
     );
   }
 }
@@ -807,6 +842,7 @@ enum Tracker {
   quality,
   fats,
   sugarSodium,
+  minerals,
   water,
   shake,
   supplements,
@@ -824,5 +860,6 @@ const kTrackersOffByDefault = {
   Tracker.quality,
   Tracker.fats,
   Tracker.sugarSodium,
+  Tracker.minerals,
   Tracker.fasting,
 };

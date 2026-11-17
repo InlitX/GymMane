@@ -1141,4 +1141,42 @@ void main() {
       expect(fit.activeSupplements, isEmpty);
     });
   });
+
+  group('#394 hierro y potasio', () {
+    test('viene apagado y no se enciende solo al cargar ajustes viejos', () {
+      expect(fit.trackerOn(Tracker.minerals), isFalse);
+      final old = fit.toJson();
+      final n = Map<String, dynamic>.from(old['nutrition'] as Map);
+      n['trackers'] = [for (final t in Tracker.values) if (t != Tracker.minerals && fit.trackerOn(t)) t.name];
+      old['nutrition'] = n;
+      expect(fit.tryApplyBackup(old), isTrue);
+      expect(fit.trackerOn(Tracker.minerals), isFalse);
+    });
+
+    test('se guardan, se suman y cuentan cuántos alimentos del día los traen', () {
+      const lentils = Macros(kcal: 230, protein: 18, carbs: 40, fat: 1, iron: 6.6, potassium: 738);
+      expect(Macros.fromJson(lentils.toJson()).iron, 6.6);
+      expect(Macros.fromJson(lentils.toJson()).potassium, 738);
+      expect(Macros.fromJson(whey.toJson()).hasMinerals, isFalse);
+      fit.logFood(fit.saveFood(name: 'Lentejas', serving: '1 plato', macros: lentils));
+      fit.logFood(fit.saveFood(name: 'Whey', serving: '30 g', macros: whey), servings: 2);
+      final day = DateTime.now();
+      expect(fit.totalOn(day).iron, closeTo(6.6, 0.001));
+      expect(fit.totalOn(day).potassium, 738);
+      final c = fit.mineralsCoverage(day);
+      expect((c.known, c.total), (1, 2));
+    });
+
+    test('las metas salen del perfil hasta que pones las tuyas, y viajan en la copia', () {
+      fit.updateProfile(sex: 'female');
+      expect(fit.ironGoal(fit.nutritionGoals), 18);
+      fit.updateProfile(sex: 'male');
+      expect(fit.ironGoal(fit.nutritionGoals), 8);
+      expect(fit.potassiumGoal(fit.nutritionGoals), 3400);
+      fit.setNutritionGoals(fit.nutritionGoals.copyWith(iron: 12, potassium: 4000));
+      final g = NutritionGoals.fromJson(fit.nutritionGoals.toJson());
+      expect((g.iron, g.potassium), (12, 4000));
+      expect(NutritionGoals.fromJson(const NutritionGoals().toJson()).iron, 0);
+    });
+  });
 }

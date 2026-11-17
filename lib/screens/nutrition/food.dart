@@ -947,6 +947,8 @@ class _ValueRows extends StatelessWidget {
         if (per.sugar > 0) row(t.sugarLabel, '${_g(per.sugar)} g', gc.warn),
         if (per.sodium > 0) row(t.sodiumLabel, '${per.sodium.round()} mg', gc.info),
         if (per.chol > 0) row(t.cholesterolLabel, '${per.chol.round()} mg', gc.textSecondary),
+        if (per.iron > 0) row(t.ironLabel, '${fmt((per.iron * 10).round() / 10)} mg', gc.danger),
+        if (per.potassium > 0) row(t.potassiumLabel, '${per.potassium.round()} mg', gc.sage),
       ]),
     );
   }
@@ -1455,6 +1457,8 @@ class _EntryValuesSheetState extends State<_EntryValuesSheet> {
             sugar: old.sugar,
             sodium: old.sodium,
             chol: old.chol,
+            iron: old.iron,
+            potassium: old.potassium,
             animal: old.protein <= 0 ? 0 : old.animal / old.protein * m.protein,
             sat: old.sat,
             trans: old.trans,
@@ -1600,6 +1604,8 @@ Macros _macrosOf(
   TextEditingController? trans,
   TextEditingController? mono,
   TextEditingController? poly,
+  TextEditingController? iron,
+  TextEditingController? potassium,
 }) {
   final protein = _read(p), carbs = _read(c), fat = _read(f);
   var kcal = fit.kcalFromShown(_read(k));
@@ -1617,6 +1623,8 @@ Macros _macrosOf(
     trans: trans == null ? 0 : _read(trans),
     mono: mono == null ? 0 : _read(mono),
     poly: poly == null ? 0 : _read(poly),
+    iron: iron == null ? 0 : _read(iron),
+    potassium: potassium == null ? 0 : _read(potassium),
   );
 }
 
@@ -1755,8 +1763,10 @@ Future<FoodItem?> showFoodEditor(
   Meal? meal,
   bool asShake = false,
   String name = '',
+  AiFoodPick? pick,
 }) =>
-    _sheet<FoodItem?>(context, (_) => _FoodEditor(food: food, from: from, meal: meal, asShake: asShake, name: name));
+    _sheet<FoodItem?>(
+        context, (_) => _FoodEditor(food: food, from: from, meal: meal, asShake: asShake, name: name, pick: pick));
 
 class _PhotoChoice extends StatelessWidget {
   const _PhotoChoice({
@@ -1807,13 +1817,14 @@ class _PhotoChoice extends StatelessWidget {
 }
 
 class _FoodEditor extends StatefulWidget {
-  const _FoodEditor({this.food, this.from, this.meal, this.asShake = false, this.name = ''});
+  const _FoodEditor({this.food, this.from, this.meal, this.asShake = false, this.name = '', this.pick});
 
   final FoodItem? food;
   final FoodItem? from;
   final Meal? meal;
   final bool asShake;
   final String name;
+  final AiFoodPick? pick;
 
   @override
   State<_FoodEditor> createState() => _FoodEditorState();
@@ -1953,7 +1964,12 @@ class _FoodEditorState extends State<_FoodEditor> with _StickerDrafts {
   late final _trans = TextEditingController(text: _seed(_base?.macros.trans ?? 0));
   late final _mono = TextEditingController(text: _seed(_base?.macros.mono ?? 0));
   late final _poly = TextEditingController(text: _seed(_base?.macros.poly ?? 0));
-  late bool _extras = (_base?.macros.hasExtras ?? false) || (_base?.macros.hasFatTypes ?? false);
+  late final _fe = TextEditingController(text: _seed(_base?.macros.iron ?? 0));
+  late final _ka = TextEditingController(text: _seed(_base?.macros.potassium ?? 0));
+  late final bool _minerals = fit.trackerOn(Tracker.minerals) || (_base?.macros.hasMinerals ?? false);
+  late bool _extras = (_base?.macros.hasExtras ?? false) ||
+      (_base?.macros.hasFatTypes ?? false) ||
+      (_base?.macros.hasMinerals ?? false);
   late bool _shake = widget.asShake || (widget.food != null && fit.isShakeFood(widget.food!.id));
   late int _water = _base?.water ?? 0;
   late double _animalShare = _shareOf(_base?.macros);
@@ -1974,8 +1990,15 @@ class _FoodEditorState extends State<_FoodEditor> with _StickerDrafts {
       photo != null && photo.isNotEmpty && !isAssetPhoto(photo) && photo != widget.food?.photo;
 
   @override
+  void initState() {
+    super.initState();
+    final pick = widget.pick;
+    if (pick != null) _take(pick);
+  }
+
+  @override
   void dispose() {
-    for (final c in [_name, _serving, _grams, _kcal, _p, _c, _f, _fi, _su, _na, _chol, _sat, _trans, _mono, _poly]) {
+    for (final c in [_name, _serving, _grams, _kcal, _p, _c, _f, _fi, _su, _na, _chol, _sat, _trans, _mono, _poly, _fe, _ka]) {
       c.dispose();
     }
     _dropDrafts();
@@ -1991,7 +2014,16 @@ class _FoodEditorState extends State<_FoodEditor> with _StickerDrafts {
     var grams = (_read(_grams) * _k).clamp(0, 5000).toDouble();
     if (_per100 && grams <= 0) grams = 100;
     final typed = _macrosOf(_kcal, _p, _c, _f,
-        fiber: _fi, sugar: _su, sodium: _na, chol: _chol, sat: _sat, trans: _trans, mono: _mono, poly: _poly);
+        fiber: _fi,
+        sugar: _su,
+        sodium: _na,
+        chol: _chol,
+        sat: _sat,
+        trans: _trans,
+        mono: _mono,
+        poly: _poly,
+        iron: _fe,
+        potassium: _ka);
     final saved = fit.saveFood(
       id: widget.food?.id,
       name: name,
@@ -2019,32 +2051,36 @@ class _FoodEditorState extends State<_FoodEditor> with _StickerDrafts {
   Future<void> _fromAi() async {
     final pick = await showFoodAiSheet(context);
     if (pick == null || !mounted) return;
-    final f = pick.food;
-    String v(double? x) => _seed(x ?? 0);
-    setState(() {
-      _liquid = pick.liquid;
-      if (f.name.isNotEmpty) _name.text = f.name;
-      if (pick.serving.isNotEmpty) _serving.text = pick.serving;
-      final g = f.grams;
-      _grams.text = g == null || g <= 0 ? '' : _seed(g / _k);
-      _per100 = f.per100 || g == null;
-      _kcal.text = f.kcal == null ? '' : _seed(fit.energyOf(f.kcal!).toDouble());
-      _p.text = v(f.protein);
-      _c.text = v(f.carbs);
-      _f.text = v(f.fat);
-      _fi.text = v(f.fiber);
-      _su.text = v(f.sugar);
-      _na.text = v(f.sodium);
-      _chol.text = v(f.chol);
-      _sat.text = v(f.sat);
-      _trans.text = v(f.trans);
-      _mono.text = v(f.mono);
-      _poly.text = v(f.poly);
-      final extra = [f.fiber, f.sugar, f.sodium, f.chol, f.sat, f.trans, f.mono, f.poly];
-      if (extra.any((x) => (x ?? 0) > 0)) _extras = true;
-    });
+    setState(() => _take(pick));
     showNotchToast(context, t.foodAiFilled,
         subtitle: t.foodAiFilledHint, icon: PhosphorIconsFill.checkCircle, accent: context.gc.sage);
+  }
+
+  void _take(AiFoodPick pick) {
+    final f = pick.food;
+    String v(double? x) => _seed(x ?? 0);
+    _liquid = pick.liquid;
+    if (f.name.isNotEmpty) _name.text = f.name;
+    if (pick.serving.isNotEmpty) _serving.text = pick.serving;
+    final g = f.grams;
+    _grams.text = g == null || g <= 0 ? '' : _seed(g / _k);
+    _per100 = f.per100 || g == null;
+    _kcal.text = f.kcal == null ? '' : _seed(fit.energyOf(f.kcal!).toDouble());
+    _p.text = v(f.protein);
+    _c.text = v(f.carbs);
+    _f.text = v(f.fat);
+    _fi.text = v(f.fiber);
+    _su.text = v(f.sugar);
+    _na.text = v(f.sodium);
+    _chol.text = v(f.chol);
+    _sat.text = v(f.sat);
+    _trans.text = v(f.trans);
+    _mono.text = v(f.mono);
+    _poly.text = v(f.poly);
+    _fe.text = v(f.iron);
+    _ka.text = v(f.potassium);
+    final extra = [f.fiber, f.sugar, f.sodium, f.chol, f.sat, f.trans, f.mono, f.poly, f.iron, f.potassium];
+    if (extra.any((x) => (x ?? 0) > 0)) _extras = true;
   }
 
   void _setPer100(bool on) {
@@ -2053,7 +2089,7 @@ class _FoodEditorState extends State<_FoodEditor> with _StickerDrafts {
     final grams = _read(_grams) * _k;
     if (grams > 0) {
       final k = on ? 100 / grams : grams / 100;
-      for (final c in [_kcal, _p, _c, _f, _fi, _su, _na, _chol, _sat, _trans, _mono, _poly]) {
+      for (final c in [_kcal, _p, _c, _f, _fi, _su, _na, _chol, _sat, _trans, _mono, _poly, _fe, _ka]) {
         final v = _read(c);
         if (v > 0) c.text = _seed(v * k);
       }
@@ -2136,6 +2172,8 @@ class _FoodEditorState extends State<_FoodEditor> with _StickerDrafts {
       sugar: m.sugar,
       sodium: m.sodium,
       chol: m.chol,
+      iron: m.iron,
+      potassium: m.potassium,
       animal: m.protein * _animalShare,
       sat: m.sat,
       trans: m.trans,
@@ -2159,6 +2197,8 @@ class _FoodEditorState extends State<_FoodEditor> with _StickerDrafts {
       sugar: m.sugar,
       sodium: m.sodium,
       chol: m.chol,
+      iron: m.iron,
+      potassium: m.potassium,
       animal: old.animal * k,
       sat: m.sat,
       trans: m.trans,
@@ -2312,7 +2352,17 @@ class _FoodEditorState extends State<_FoodEditor> with _StickerDrafts {
                 label: t.cholesterolLabel.toUpperCase(), controller: _chol, color: gc.textSecondary, suffix: 'mg'),
           ),
           const SizedBox(width: 8),
-          const Spacer(flex: 2),
+          if (_minerals) ...[
+            Expanded(
+              child: _NumberField(label: t.ironLabel.toUpperCase(), controller: _fe, color: gc.danger, suffix: 'mg'),
+            ),
+            const SizedBox(width: 8),
+            Expanded(
+              child:
+                  _NumberField(label: t.potassiumLabel.toUpperCase(), controller: _ka, color: gc.sage, suffix: 'mg'),
+            ),
+          ] else
+            const Spacer(flex: 2),
         ]),
         const SizedBox(height: 14),
         Text(t.fatTypes.toUpperCase(),
