@@ -1,24 +1,80 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'dart:math';
 import 'dart:typed_data';
+
+import 'package:crypto/crypto.dart';
 
 import 'config.dart';
 import 'media_store.dart';
 import 'phone_sync.dart';
+import 'pages.dart';
 import 'state_store.dart';
 
-const serverVersion = '1.0.0';
+const serverVersion = '1.1.0';
 
-class GymManeServer {
-  GymManeServer(this.config)
-      : store = StateStore(config.dataDir, keepDays: config.keepDays),
-        media = MediaFiles('${config.dataDir}/media');
+class Space {
+  Space({required this.person, required this.dataDir, required this.syncDir, required this.password, required int keepDays})
+      : store = StateStore(dataDir, keepDays: keepDays),
+        media = MediaFiles('$dataDir/media');
 
-  final Config config;
+  final Person? person;
+  final String dataDir;
+  final String? syncDir;
+  final String? password;
   final StateStore store;
   final MediaFiles media;
   PhoneSync? sync;
+  String? _token;
+
+  String get base => person == null ? '/' : '/${person!.name}/';
+
+  String get cookie => person == null ? 'gymmane' : 'gymmane-${person!.name}';
+
+  String? get token => _token;
+
+  static const maxFails = 20;
+  static const failWindow = Duration(minutes: 10);
+  final List<DateTime> _fails = [];
+
+  bool get locked {
+    final since = DateTime.now().subtract(failWindow);
+    _fails.removeWhere((at) => at.isBefore(since));
+    return _fails.length >= maxFails;
+  }
+
+  void failed() => _fails.add(DateTime.now());
+
+  Future<void> start() async {
+    await store.open();
+    await media.open();
+    final pass = password;
+    if (pass != null) {
+      final file = File('$dataDir/login.key');
+      List<int> key;
+      try {
+        key = base64.decode((await file.readAsString()).trim());
+      } catch (_) {
+        final random = Random.secure();
+        key = List<int>.generate(32, (_) => random.nextInt(256));
+        await file.writeAsString(base64.encode(key), flush: true);
+      }
+      _token = base64Url.encode(Hmac(sha256, key).convert(utf8.encode(pass)).bytes).replaceAll('=', '');
+    }
+    final dir = syncDir;
+    if (dir != null) {
+      sync = PhoneSync(syncDir: dir, dataDir: dataDir, store: store, media: media);
+      await sync!.start();
+    }
+  }
+}
+
+class GymManeServer {
+  GymManeServer(this.config);
+
+  final Config config;
+  final List<Space> spaces = [];
   HttpServer? _http;
 
   static const _maxState = 64 * 1024 * 1024;
@@ -26,13 +82,21 @@ class GymManeServer {
 
   int get port => _http?.port ?? config.port;
 
+  bool get shared => config.people.isNotEmpty;
+
+  Space? spaceOf(String name) {
+    for (final s in spaces) {
+      if (s.person?.name == name) return s;
+    }
+    return null;
+  }
+
   Future<void> start() async {
-    await store.open();
-    await media.open();
-    final dir = config.syncDir;
-    if (dir != null) {
-      sync = PhoneSync(syncDir: dir, dataDir: config.dataDir, store: store, media: media);
-      await sync!.start();
+    spaces
+      ..clear()
+      ..addAll(await _layout());
+    for (final s in spaces) {
+      await s.start();
     }
     final http = await HttpServer.bind(config.host, config.port, shared: true);
     http.autoCompress = true;
@@ -42,8 +106,52 @@ class GymManeServer {
   }
 
   Future<void> stop() async {
-    sync?.stop();
+    for (final s in spaces) {
+      s.sync?.stop();
+    }
     await _http?.close(force: true);
+  }
+
+  Future<List<Space>> _layout() async {
+    if (!shared) {
+      return [
+        Space(
+            person: null,
+            dataDir: config.dataDir,
+            syncDir: config.syncDir,
+            password: config.password,
+            keepDays: config.keepDays),
+      ];
+    }
+    final taken = {'api', 'index.html'};
+    final web = Directory(config.webDir);
+    if (await web.exists()) {
+      await for (final e in web.list()) {
+        taken.add(e.uri.pathSegments.lastWhere((p) => p.isNotEmpty).toLowerCase());
+      }
+    }
+    for (final p in config.people) {
+      if (taken.contains(p.name)) {
+        throw FormatException('"${p.label}" cannot be a name in GYMMANE_PEOPLE, pick another one.');
+      }
+    }
+    await Directory(config.dataDir).create(recursive: true);
+    final mark = File('${config.dataDir}/owner.txt');
+    var owner = await mark.exists() ? (await mark.readAsString()).trim() : '';
+    if (owner.isEmpty) {
+      owner = config.people.first.name;
+      await mark.writeAsString(owner, flush: true);
+    }
+    Space at(Person p, String dir, String? sync) => Space(
+        person: p, dataDir: dir, syncDir: sync, password: p.password ?? config.password, keepDays: config.keepDays);
+    return [
+      for (final p in config.people)
+        if (p.name == owner)
+          at(p, config.dataDir, config.syncDir)
+        else
+          at(p, '${config.dataDir}/people/${p.name}',
+              config.syncDir == null ? null : '${config.dataDir}/people/${p.name}/sync'),
+    ];
   }
 
   Future<void> _handle(HttpRequest req) async {
@@ -52,19 +160,12 @@ class GymManeServer {
       ..set('x-content-type-options', 'nosniff')
       ..set('referrer-policy', 'no-referrer');
     try {
-      if (!_authorized(req)) {
-        res.statusCode = HttpStatus.unauthorized;
-        res.headers.set('www-authenticate', 'Basic realm="GymMane", charset="UTF-8"');
-        res.write('Sign in to open GymMane.');
+      final path = req.uri.path;
+      if (shared) {
+        await _route(req, path);
         return;
       }
-      final path = req.uri.path;
-      if (path.startsWith('/api/')) {
-        res.headers.set('cache-control', 'no-store');
-        await _api(req, path.substring(5));
-      } else {
-        await _static(req, path);
-      }
+      await _serve(req, spaces.first, path);
     } catch (e) {
       try {
         res.statusCode = HttpStatus.internalServerError;
@@ -77,15 +178,129 @@ class GymManeServer {
     }
   }
 
-  bool _authorized(HttpRequest req) {
-    final password = config.password;
+  Future<void> _route(HttpRequest req, String path) async {
+    final res = req.response;
+    final parts = path.split('/').where((p) => p.isNotEmpty).toList();
+    final space = parts.isEmpty ? null : spaceOf(parts.first.toLowerCase());
+    if (space == null) {
+      if (path == '/api/health') return _json(res, {'ok': true});
+      if (parts.isNotEmpty && parts.first != 'api' && parts.last.contains('.') && parts.last != 'index.html') {
+        return _static(req, path, null);
+      }
+      if (parts.isNotEmpty) {
+        res.statusCode = HttpStatus.found;
+        res.headers.set(HttpHeaders.locationHeader, '/');
+        return;
+      }
+      if (req.method != 'GET' && req.method != 'HEAD') {
+        res.statusCode = HttpStatus.methodNotAllowed;
+        return;
+      }
+      res.headers
+        ..contentType = ContentType.html
+        ..set('cache-control', 'no-cache');
+      if (req.method == 'GET') res.write(pickerPage([for (final s in spaces) s.person!]));
+      return;
+    }
+    final cut = path.indexOf('/', 1);
+    final rest = cut < 0 ? '' : path.substring(cut);
+    if (rest.isEmpty) {
+      res.statusCode = HttpStatus.movedPermanently;
+      res.headers.set(HttpHeaders.locationHeader, '${space.base}${req.uri.hasQuery ? '?${req.uri.query}' : ''}');
+      return;
+    }
+    await _serve(req, space, rest);
+  }
+
+  Future<void> _serve(HttpRequest req, Space space, String rest) async {
+    final res = req.response;
+    if (rest == '/api/health') return _json(res, {'ok': true});
+    if (rest == '/login' && req.method == 'POST') return _login(req, space);
+    if (rest == '/logout') {
+      _setCookie(req, space, '', 0);
+      res.statusCode = HttpStatus.seeOther;
+      res.headers
+        ..set('cache-control', 'no-store')
+        ..set(HttpHeaders.locationHeader, shared ? '/' : space.base);
+      return;
+    }
+    if (!_authorized(req, space)) {
+      if (rest.startsWith('/api/')) return _json(res, {'error': 'sign in'}, status: HttpStatus.unauthorized);
+      final last = rest.substring(rest.lastIndexOf('/') + 1);
+      if (last.contains('.') && last != 'index.html') return _static(req, rest, space);
+      if (req.method != 'GET' && req.method != 'HEAD') {
+        res.statusCode = HttpStatus.unauthorized;
+        return;
+      }
+      return _loginPage(res, space);
+    }
+    if (rest.startsWith('/api/')) {
+      res.headers.set('cache-control', 'no-store');
+      return _api(req, space, rest.substring(5));
+    }
+    await _static(req, rest, space);
+  }
+
+  void _loginPage(HttpResponse res, Space space, {bool wrong = false}) {
+    final wait = space.locked;
+    res.statusCode = wait ? HttpStatus.tooManyRequests : (wrong ? HttpStatus.unauthorized : HttpStatus.ok);
+    res.headers
+      ..contentType = ContentType.html
+      ..set('cache-control', 'no-store');
+    res.write(loginPage(
+        action: '${space.base}login', person: space.person, wrong: wrong && !wait, wait: wait, shared: shared));
+  }
+
+  Future<void> _login(HttpRequest req, Space space) async {
+    final res = req.response;
+    final bytes = await _body(req, 8192);
+    var given = '';
+    try {
+      given = Uri.splitQueryString(utf8.decode(bytes ?? const []))['password'] ?? '';
+    } catch (_) {}
+    final pass = space.password;
+    if (pass != null && space.locked) return _loginPage(res, space);
+    if (pass != null && !_same(given, pass)) {
+      space.failed();
+      await Future<void>.delayed(const Duration(milliseconds: 800));
+      return _loginPage(res, space, wrong: true);
+    }
+    if (pass != null) _setCookie(req, space, space.token!, 400 * 24 * 3600);
+    res.statusCode = HttpStatus.seeOther;
+    res.headers
+      ..set('cache-control', 'no-store')
+      ..set(HttpHeaders.locationHeader, space.base);
+  }
+
+  void _setCookie(HttpRequest req, Space space, String value, int maxAge) {
+    final secure = req.requestedUri.scheme == 'https' ||
+        (req.headers.value('x-forwarded-proto') ?? '').toLowerCase().startsWith('https');
+    req.response.headers.add(
+        'set-cookie',
+        '${space.cookie}=$value; Path=${space.base}; Max-Age=$maxAge; HttpOnly; SameSite=Lax'
+            '${secure ? '; Secure' : ''}');
+  }
+
+  bool _authorized(HttpRequest req, Space space) {
+    final password = space.password;
     if (password == null) return true;
+    final token = space.token;
+    for (final line in req.headers[HttpHeaders.cookieHeader] ?? const <String>[]) {
+      for (final part in line.split(';')) {
+        final eq = part.indexOf('=');
+        if (eq < 0 || part.substring(0, eq).trim() != space.cookie) continue;
+        if (token != null && _same(part.substring(eq + 1).trim(), token)) return true;
+      }
+    }
     final header = req.headers.value(HttpHeaders.authorizationHeader) ?? '';
     if (!header.toLowerCase().startsWith('basic ')) return false;
     try {
       final decoded = utf8.decode(base64.decode(header.substring(6).trim()));
       final given = decoded.contains(':') ? decoded.substring(decoded.indexOf(':') + 1) : decoded;
-      return _same(given, password);
+      if (space.locked) return false;
+      if (_same(given, password)) return true;
+      space.failed();
+      return false;
     } catch (_) {
       return false;
     }
@@ -116,9 +331,12 @@ class GymManeServer {
     return out.takeBytes();
   }
 
-  Future<void> _api(HttpRequest req, String route) async {
+  Future<void> _api(HttpRequest req, Space space, String route) async {
     final res = req.response;
     final method = req.method;
+    final store = space.store;
+    final media = space.media;
+    final sync = space.sync;
     if (route == 'health') return _json(res, {'ok': true});
     if (route == 'info' && method == 'GET') {
       final now = store.current;
@@ -128,7 +346,8 @@ class GymManeServer {
         'rev': now.rev,
         if (now.savedAt != null) 'savedAt': now.savedAt!.toIso8601String(),
         'source': now.source,
-        'auth': config.password != null,
+        'auth': space.password != null,
+        if (space.person != null) 'person': space.person!.display,
         'sync': sync?.info ?? {'enabled': false},
       });
     }
@@ -218,7 +437,7 @@ class GymManeServer {
     'frag': 'application/octet-stream',
   };
 
-  Future<void> _static(HttpRequest req, String path) async {
+  Future<void> _static(HttpRequest req, String path, Space? space) async {
     final res = req.response;
     if (req.method != 'GET' && req.method != 'HEAD') {
       res.statusCode = HttpStatus.methodNotAllowed;
@@ -253,19 +472,34 @@ class GymManeServer {
     final modified = stat.modified.toUtc();
     final since = req.headers.ifModifiedSince;
     final entry = name == 'index.html' || name == 'flutter_bootstrap.js' || name == 'flutter_service_worker.js';
+    final person = space?.person;
+    final own = person != null &&
+        (name == 'index.html' || name == 'manifest.json') &&
+        file.path == '$root${Platform.pathSeparator}$name';
     res.headers
       ..set('content-type', _types[ext] ?? 'application/octet-stream')
-      ..set('cache-control', entry ? 'no-cache' : 'public, max-age=3600')
+      ..set('cache-control', entry || own ? 'no-cache' : 'public, max-age=3600')
       ..set('cross-origin-opener-policy', 'same-origin')
       ..set('cross-origin-embedder-policy', 'require-corp')
       ..set('cross-origin-resource-policy', 'same-origin')
-      ..set(HttpHeaders.varyHeader, 'accept-encoding')
-      ..set(HttpHeaders.lastModifiedHeader, HttpDate.format(modified));
+      ..set(HttpHeaders.varyHeader, 'accept-encoding');
+    final accepts = req.headers[HttpHeaders.acceptEncodingHeader]?.join(',').contains('gzip') ?? false;
+    if (own) {
+      final text = await file.readAsString();
+      var bytes = utf8.encode(name == 'index.html' ? personalPage(text, person) : personalManifest(text, person));
+      if (accepts) {
+        bytes = Uint8List.fromList(gzip.encode(bytes));
+        res.headers.set(HttpHeaders.contentEncodingHeader, 'gzip');
+      }
+      res.contentLength = bytes.length;
+      if (req.method == 'GET') res.add(bytes);
+      return;
+    }
+    res.headers.set(HttpHeaders.lastModifiedHeader, HttpDate.format(modified));
     if (since != null && !modified.isAfter(since.add(const Duration(seconds: 1)))) {
       res.statusCode = HttpStatus.notModified;
       return;
     }
-    final accepts = req.headers[HttpHeaders.acceptEncodingHeader]?.join(',').contains('gzip') ?? false;
     if (accepts && _packable.contains(ext) && stat.size > 1024) {
       final packed = await _packed(file, modified);
       res.headers.set(HttpHeaders.contentEncodingHeader, 'gzip');

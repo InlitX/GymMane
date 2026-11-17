@@ -24,6 +24,10 @@ class ServerLink extends ChangeNotifier {
 
   bool get busy => _sending || _pending != null;
 
+  static String? get person => kIsWeb ? net.personName : null;
+
+  void signOut() => net.signOut();
+
   Future<void> connect() async {
     if (!kIsWeb || !net.transportAvailable) return;
     final r = await net.send('GET', 'api/state');

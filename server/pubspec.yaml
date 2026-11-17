@@ -8,6 +8,7 @@ environment:
 
 dependencies:
   archive: ^4.0.9
+  crypto: ^3.0.6
   sync:
     path: ../packages/sync
 

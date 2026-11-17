@@ -177,13 +177,29 @@ class _ServerCardState extends State<ServerCard> {
             ]),
           ],
           const SizedBox(height: 6),
-          Align(
-            alignment: AlignmentDirectional.centerStart,
-            child: TextButton(
-              onPressed: () => launchUrl(Uri.parse(_guideUrl), mode: LaunchMode.externalApplication),
-              child: Text(t.webPhoneGuide, style: AppTheme.f(13, weight: FontWeight.w700, color: gc.accent)),
+          Row(children: [
+            Flexible(
+              child: TextButton(
+                onPressed: () => launchUrl(Uri.parse(_guideUrl), mode: LaunchMode.externalApplication),
+                child: Text(t.webPhoneGuide,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: AppTheme.f(13, weight: FontWeight.w700, color: gc.accent)),
+              ),
             ),
-          ),
+            if (_info?['auth'] == true) ...[
+              const Spacer(),
+              Flexible(
+                child: TextButton(
+                  onPressed: link.signOut,
+                  child: Text(t.webSignOut,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: AppTheme.f(13, weight: FontWeight.w700, color: gc.textSecondary)),
+                ),
+              ),
+            ],
+          ]),
         ]),
       ),
     );

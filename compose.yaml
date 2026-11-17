@@ -11,6 +11,7 @@ services:
       - ./gymmane-data:/data
     environment:
       GYMMANE_PASSWORD: ${GYMMANE_PASSWORD:-}
+      GYMMANE_PEOPLE: ${GYMMANE_PEOPLE:-}
       GYMMANE_SYNC: ${GYMMANE_SYNC:-}
       GYMMANE_KEEP_DAYS: ${GYMMANE_KEEP_DAYS:-}
 
@@ -31,3 +32,4 @@ services:
     volumes:
       - ./syncthing:/var/syncthing
       - ./gymmane-data/sync:/var/syncthing/GymMane
+      - ./gymmane-data:/var/syncthing/data

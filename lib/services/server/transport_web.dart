@@ -7,7 +7,13 @@ import 'transport.dart';
 
 bool get transportAvailable => true;
 
-String _url(String path) => Uri.base.resolve(path).toString();
+String _url(String path) => Uri.parse(web.document.baseURI).resolve(path).toString();
+
+String? get personName {
+  final tag = web.document.querySelector('meta[name="gymmane-person"]');
+  final name = tag?.getAttribute('content')?.trim();
+  return name == null || name.isEmpty ? null : name;
+}
 
 String mediaUrl(String name) => _url('api/media/${Uri.encodeComponent(name)}');
 
@@ -27,6 +33,7 @@ Future<Reply> send(String method, String path, {Uint8List? body, Map<String, Str
           ),
         )
         .toDart;
+    if (res.status == 401) web.window.location.reload();
     final buffer = await res.arrayBuffer().toDart;
     return Reply(res.status, buffer.toDart.asUint8List(), {
       'x-gymmane-rev': res.headers.get('x-gymmane-rev') ?? '',
@@ -37,6 +44,8 @@ Future<Reply> send(String method, String path, {Uint8List? body, Map<String, Str
     return const Reply.failed();
   }
 }
+
+void signOut() => web.window.location.assign(_url('logout'));
 
 void onPageVisible(void Function() callback) {
   web.document.addEventListener(

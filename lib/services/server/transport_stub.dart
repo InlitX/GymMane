@@ -9,6 +9,10 @@ Future<Reply> send(String method, String path, {Uint8List? body, Map<String, Str
 
 String mediaUrl(String name) => '';
 
+String? get personName => null;
+
+void signOut() {}
+
 void onPageVisible(void Function() callback) {}
 
 void beforeLeave(void Function() callback) {}

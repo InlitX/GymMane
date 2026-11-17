@@ -13,6 +13,7 @@ Environment:
   GYMMANE_DATA       folder for your data (default ./data next to the server)
   GYMMANE_WEB        folder with the web app (default ./web next to the server)
   GYMMANE_PASSWORD   ask for this password in the browser (optional)
+  GYMMANE_PEOPLE     several people, each with their own data: "Ana, Pablo" or "Ana:pass1, Pablo:pass2"
   GYMMANE_SYNC       folder shared with your phone through Syncthing (default DATA/sync, "off" to disable)
   GYMMANE_KEEP_DAYS  daily copies of your data to keep (default 30)
 
@@ -22,13 +23,29 @@ Environment:
   if (args.contains('--health')) {
     exit(await _healthy(Config.fromEnvironment()) ? 0 : 1);
   }
-  final config = Config.fromEnvironment();
+  final Config config;
+  try {
+    config = Config.fromEnvironment();
+  } on FormatException catch (e) {
+    stderr.writeln('GYMMANE_PEOPLE: ${e.message}');
+    exit(1);
+  }
   final server = GymManeServer(config);
   try {
     await server.start();
+  } on FormatException catch (e) {
+    stderr.writeln('GYMMANE_PEOPLE: ${e.message}');
+    exit(1);
   } on FileSystemException catch (e) {
     stderr.writeln('GymMane cannot write to ${e.path ?? config.dataDir}.');
-    stderr.writeln('Give the user that runs GymMane write access to that folder, or set GYMMANE_DATA to another one.');
+    if (File('/.dockerenv').existsSync() || config.dataDir == '/data') {
+      stderr.writeln('The folder you mounted on /data belongs to another user. Either:');
+      stderr.writeln('  - give it to the user GymMane runs as: chown -R 1000:1000 <that folder>');
+      stderr.writeln('  - or run GymMane as the folder owner: --user <uid>:<gid> (in compose, user: "<uid>:<gid>")');
+      stderr.writeln('  - or use a Docker volume instead of a folder: -v gymmane-data:/data');
+    } else {
+      stderr.writeln('Give the user that runs GymMane write access to that folder, or set GYMMANE_DATA to another one.');
+    }
     exit(1);
   } on SocketException catch (e) {
     stderr.writeln('GymMane cannot listen on port ${config.port}: ${e.osError?.message ?? e.message}');
@@ -40,9 +57,19 @@ Environment:
   for (final ip in await _lanAddresses()) {
     stdout.writeln('         http://$ip:${server.port}');
   }
-  stdout.writeln('  Data:  ${Directory(config.dataDir).absolute.path}');
-  if (config.syncDir != null) stdout.writeln('  Phone: ${Directory(config.syncDir!).absolute.path}');
-  if (config.password != null) stdout.writeln('  Password required.');
+  if (server.shared) {
+    for (final s in server.spaces) {
+      stdout.writeln('  ${s.person!.display}:');
+      stdout.writeln('    Open:  http://localhost:${server.port}${s.base}');
+      stdout.writeln('    Data:  ${Directory(s.dataDir).absolute.path}');
+      if (s.syncDir != null) stdout.writeln('    Phone: ${Directory(s.syncDir!).absolute.path}');
+      stdout.writeln(s.password != null ? '    Password required.' : '    No password.');
+    }
+  } else {
+    stdout.writeln('  Data:  ${Directory(config.dataDir).absolute.path}');
+    if (config.syncDir != null) stdout.writeln('  Phone: ${Directory(config.syncDir!).absolute.path}');
+    if (config.password != null) stdout.writeln('  Password required.');
+  }
 
   for (final signal in [ProcessSignal.sigint, if (!Platform.isWindows) ProcessSignal.sigterm]) {
     signal.watch().listen((_) async {

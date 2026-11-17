@@ -14,6 +14,8 @@ class Store {
   SharedPreferences? _prefs;
 
   Future<void> init() async {
+    final person = ServerLink.person;
+    if (_prefs == null && person != null) SharedPreferences.setPrefix('flutter.$person.');
     _prefs ??= await SharedPreferences.getInstance();
     if (kIsWeb) await ServerLink.instance.connect();
   }
