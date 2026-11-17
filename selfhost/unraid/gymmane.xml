@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<Container version="2">
+  <Name>GymMane</Name>
+  <Repository>ghcr.io/inlitx/gymmane:latest</Repository>
+  <Registry>https://github.com/InlitX/GymMane/pkgs/container/gymmane</Registry>
+  <Network>bridge</Network>
+  <Privileged>false</Privileged>
+  <Support>https://github.com/InlitX/GymMane/issues</Support>
+  <Project>https://github.com/InlitX/GymMane</Project>
+  <Overview>Your gym log on your own server. Log workouts, routines, progress and nutrition from any browser at home. No account, no cloud: everything stays in your appdata folder. The GymMane phone app (Android, F-Droid) can share data with it through Syncthing. Guide: https://github.com/InlitX/GymMane/blob/main/SELFHOST.md</Overview>
+  <Category>Productivity: Tools:Utilities</Category>
+  <WebUI>http://[IP]:[PORT:8080]/</WebUI>
+  <TemplateURL>https://raw.githubusercontent.com/InlitX/GymMane/main/selfhost/unraid/gymmane.xml</TemplateURL>
+  <Icon>https://raw.githubusercontent.com/InlitX/GymMane/main/fastlane/metadata/android/en-US/images/icon.png</Icon>
+  <ExtraParams>--user 0:0</ExtraParams>
+  <Config Name="Web page port" Target="8080" Default="8080" Mode="tcp" Description="Port to open GymMane on." Type="Port" Display="always" Required="true" Mask="false">8080</Config>
+  <Config Name="Data" Target="/data" Default="/mnt/user/appdata/gymmane" Mode="rw" Description="Your workouts, photos and daily copies. Back up this folder and you have everything." Type="Path" Display="always" Required="true" Mask="false">/mnt/user/appdata/gymmane</Config>
+  <Config Name="Password" Target="GYMMANE_PASSWORD" Default="" Mode="" Description="Password to open GymMane, 8 or more characters. Leave it empty for no password." Type="Variable" Display="always" Required="false" Mask="true"></Config>
+  <Config Name="People" Target="GYMMANE_PEOPLE" Default="" Mode="" Description="Several people, each with their own data: names separated by commas, like Ana, Pablo. Leave it empty if it is just you." Type="Variable" Display="always" Required="false" Mask="false"></Config>
+  <Config Name="Days of daily copies" Target="GYMMANE_KEEP_DAYS" Default="30" Mode="" Description="How many daily copies of your data to keep in the history folder." Type="Variable" Display="advanced" Required="false" Mask="false">30</Config>
+</Container>

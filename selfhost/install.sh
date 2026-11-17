@@ -28,6 +28,7 @@ for arg in "$@"; do
       echo "  sh install.sh --uninstall  remove GymMane (your data is kept)"
       echo ""
       echo "Environment: GYMMANE_PORT, GYMMANE_PASSWORD (empty = no password), GYMMANE_HOME,"
+      echo "             GYMMANE_PEOPLE (\"Ana, Pablo\": one GymMane each, on the same address),"
       echo "             GYMMANE_ARCHIVE (a release .tar.gz already downloaded, for --binary)"
       exit 0 ;;
     *) echo "Unknown option: $arg (try --help)"; exit 1 ;;
@@ -244,7 +245,11 @@ fetch() {
 
 env_value() {
   [ -f "$HOME_DIR/.env" ] || return 0
-  grep "^$1=" "$HOME_DIR/.env" | head -n1 | cut -d= -f2- || true
+  grep "^$1=" "$HOME_DIR/.env" | head -n1 | cut -d= -f2- | sed -e 's/^"//' -e 's/"$//' || true
+}
+
+names_only() {
+  printf '%s' "$1" | sed -e 's/:[^,]*//g' -e 's/ *, */, /g' -e 's/^ *//' -e 's/ *$//'
 }
 
 random_password() {
@@ -485,6 +490,29 @@ else
   PASS=""
 fi
 
+if [ "${GYMMANE_PEOPLE+set}" = set ]; then
+  PEOPLE="$GYMMANE_PEOPLE"
+elif [ "$ACTION" = update ]; then
+  PEOPLE=$(env_value GYMMANE_PEOPLE)
+elif [ "$TTY" = 1 ]; then
+  if yes_no "Will more than one person use it, each with their own data?" n; then
+    while :; do
+      ask "Their names, separated by commas (Ana, Pablo)" ""
+      case "$REPLY" in
+        *'"'*|*"'"*|*'\'*) note "Names without quotes or backslashes." ;;
+        *[A-Za-z0-9]*) PEOPLE=$REPLY; break ;;
+        *) note "Type at least one name." ;;
+      esac
+    done
+  else
+    PEOPLE=""
+  fi
+else
+  PEOPLE=""
+fi
+case "$PEOPLE" in *'"'*) die "GYMMANE_PEOPLE cannot have quotes in it." ;; esac
+WHO=$(names_only "$PEOPLE")
+
 if [ "$MODE" = docker ] && [ -z "$SYNC" ]; then
   if yes_no "Also run Syncthing, to share data with the phone app?" n; then SYNC=1; else SYNC=0; fi
 fi
@@ -520,7 +548,7 @@ else
 fi
 
 if [ -n "$PASS" ]; then PW_TEXT="yes"; else PW_TEXT="no, open to your network"; fi
-box_fit "$HOME_DIR" "$HOW"
+box_fit "$HOME_DIR" "$HOW" "$(names_only "$PEOPLE")"
 [ "$TTY" = 0 ] || say ""
 box_top
 if [ "$ACTION" = update ]; then box_row "Ready to update" "${B}Ready to update${R}"
@@ -530,6 +558,7 @@ box_pair "Folder" "$HOME_DIR"
 box_pair "Runs with" "$HOW"
 box_pair "Port" "$PORT"
 box_pair "Password" "$PW_TEXT"
+if [ -n "$WHO" ]; then box_pair "People" "$WHO"; else box_pair "People" "just you"; fi
 if [ "$MODE" = docker ]; then
   if [ "$SYNC" = 1 ]; then box_pair "Syncthing" "yes"; else box_pair "Syncthing" "no"; fi
 fi
@@ -542,7 +571,7 @@ fi
 mkdir -p "$HOME_DIR"
 EXTRA=""
 if [ -f "$HOME_DIR/.env" ]; then
-  EXTRA=$(grep -E '^GYMMANE_' "$HOME_DIR/.env" | grep -vE '^GYMMANE_(PASSWORD|PORT|DATA|WEB|SYNCTHING)=' || true)
+  EXTRA=$(grep -E '^GYMMANE_' "$HOME_DIR/.env" | grep -vE '^GYMMANE_(PASSWORD|PORT|DATA|WEB|SYNCTHING|PEOPLE)=' || true)
 fi
 
 if [ "$ROOT" = 1 ]; then OWNER="${SUDO_UID:-1000}"; GROUP="${SUDO_GID:-$OWNER}"
@@ -552,6 +581,7 @@ write_env() {
   {
     say "GYMMANE_PASSWORD=$PASS"
     say "GYMMANE_PORT=$PORT"
+    [ -z "$PEOPLE" ] || say "GYMMANE_PEOPLE=\"$PEOPLE\""
     if [ "$MODE" = binary ]; then
       say "GYMMANE_DATA=$DATA_DIR"
       say "GYMMANE_WEB=$HOME_DIR/web"
@@ -683,6 +713,8 @@ LINKS="http://localhost:$PORT"
 for ip in $IPS; do LINKS="$LINKS http://$ip:$PORT"; done
 BOXW=52
 for l in $LINKS; do box_fit "$l"; done
+ONCE="Once it runs, open it from any device on your network:"
+[ "${#ONCE}" -le "$BOXW" ] || BOXW=${#ONCE}
 if [ "$GENERATED" = 1 ]; then box_fit "$PASS  (any user name works)"; fi
 
 say ""
@@ -697,6 +729,10 @@ else
   box_row "Once it runs, open it from any device on your network:" "${D}Once it runs, open it from any device on your network:${R}"
 fi
 for l in $LINKS; do box_row "  $l" "  ${A}${B}$l${R}"; done
+if [ -n "$WHO" ]; then
+  box_row ""
+  box_row "Each person picks their name on that page." "${D}Each person picks their name on that page.${R}"
+fi
 if [ -n "$PASS" ]; then
   box_row ""
   if [ "$GENERATED" = 1 ]; then

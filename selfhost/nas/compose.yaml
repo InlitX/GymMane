@@ -1,0 +1,56 @@
+name: gymmane
+
+services:
+  gymmane:
+    image: ghcr.io/inlitx/gymmane:latest
+    container_name: gymmane
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    volumes:
+      - gymmane-data:/data
+    environment:
+      GYMMANE_PASSWORD: ""
+      GYMMANE_PEOPLE: ""
+    x-casaos:
+      ports:
+        - container: "8080"
+          description:
+            en_us: Web page of GymMane
+      volumes:
+        - container: /data
+          description:
+            en_us: Your workouts, photos and daily copies
+      envs:
+        - container: GYMMANE_PASSWORD
+          description:
+            en_us: Password to open GymMane, 8 or more characters. Empty means no password
+        - container: GYMMANE_PEOPLE
+          description:
+            en_us: "Several people, each with their own data: names separated by commas"
+
+volumes:
+  gymmane-data:
+
+x-casaos:
+  architectures:
+    - amd64
+    - arm64
+  main: gymmane
+  author: InlitX
+  developer: InlitX
+  category: Health
+  icon: https://raw.githubusercontent.com/InlitX/GymMane/main/fastlane/metadata/android/en-US/images/icon.png
+  screenshot_link:
+    - https://raw.githubusercontent.com/InlitX/GymMane/main/docs/screenshots/01-home.png
+    - https://raw.githubusercontent.com/InlitX/GymMane/main/docs/screenshots/02-progress.png
+    - https://raw.githubusercontent.com/InlitX/GymMane/main/docs/screenshots/04-session.png
+  title:
+    en_us: GymMane
+  tagline:
+    en_us: Your gym log on your own server
+  description:
+    en_us: Log workouts, routines, progress and nutrition from any browser at home. No account, no cloud, your data stays on this machine. The GymMane phone app can share data with it through Syncthing.
+  port_map: "8080"
+  scheme: http
+  index: /

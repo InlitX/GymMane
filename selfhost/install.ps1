@@ -89,10 +89,12 @@ function Install-GymMane {
 
   function EnvValue($key) {
     if (-not (Test-Path $envFile)) { return $null }
-    $line = Get-Content $envFile | Where-Object { $_ -like "$key=*" } | Select-Object -First 1
+    $line = Get-Content $envFile -Encoding UTF8 | Where-Object { $_ -like "$key=*" } | Select-Object -First 1
     if ($null -eq $line) { return $null }
-    return $line.Substring($key.Length + 1)
+    return $line.Substring($key.Length + 1).Trim('"')
   }
+
+  function NamesOnly($text) { return (($text -replace ':[^,]*', '') -split ',' | ForEach-Object { $_.Trim() } | Where-Object { $_ }) -join ', ' }
 
   function ValidPassword($p) { return $p.Length -ge 8 -and $p -match '^[A-Za-z0-9._@%+=!?~^:,/-]+$' }
 
@@ -218,11 +220,29 @@ function Install-GymMane {
     $pass = ''
   }
 
+  if ($null -ne $env:GYMMANE_PEOPLE) {
+    $people = $env:GYMMANE_PEOPLE.Trim()
+  } elseif ($update) {
+    $people = "$(EnvValue 'GYMMANE_PEOPLE')"
+  } elseif (-not $quiet -and (YesNo 'Will more than one person use it, each with their own data?' $false)) {
+    $people = ''
+    while (-not $people) {
+      $n = Ask 'Their names, separated by commas (Ana, Pablo)' ''
+      if ($n -match '["\\]') { Note 'Names without quotes or backslashes.' }
+      elseif ($n -match '[\p{L}\p{N}]') { $people = $n }
+      else { Note 'Type at least one name.' }
+    }
+  } else {
+    $people = ''
+  }
+  if ($people -match '"') { throw 'GYMMANE_PEOPLE cannot have quotes in it.' }
+  $who = NamesOnly $people
+
   $openPort = $false
   if ($admin) { $openPort = YesNo "Open port $port in Windows Firewall so other devices can reach it?" $true }
 
   $starts = if ($admin) { 'starts with Windows' } else { 'starts when you log in' }
-  BoxFit @($home_, $starts)
+  BoxFit @($home_, $starts, $who)
   Line ''
   BoxTop
   if ($update) { BoxRow 'Ready to update' "${B}Ready to update$R" } else { BoxRow 'Ready to install' "${B}Ready to install$R" }
@@ -231,13 +251,14 @@ function Install-GymMane {
   BoxPair 'Runs with' $starts
   BoxPair 'Port' $port
   BoxPair 'Password' $(if ($pass) { 'yes' } else { 'no, open to your network' })
+  BoxPair 'People' $(if ($who) { $who } else { 'just you' })
   BoxBottom
   Line ''
   if (-not (YesNo 'Go ahead?' $true)) { Line ''; return }
 
   $extra = @()
   if (Test-Path $envFile) {
-    $extra = @(Get-Content $envFile | Where-Object { $_ -match '^GYMMANE_' -and $_ -notmatch '^GYMMANE_(PASSWORD|PORT|DATA|WEB)=' })
+    $extra = @(Get-Content $envFile -Encoding UTF8 | Where-Object { $_ -match '^GYMMANE_' -and $_ -notmatch '^GYMMANE_(PASSWORD|PORT|DATA|WEB|PEOPLE)=' })
   }
 
   Step 'Installing GymMane'
@@ -268,11 +289,12 @@ function Install-GymMane {
     Remove-Item -Recurse -Force $tmp -ErrorAction SilentlyContinue
   }
 
-  Set-Content -Path $envFile -Value (@("GYMMANE_PASSWORD=$pass", "GYMMANE_PORT=$port") + $extra) -Encoding ascii
+  [IO.File]::WriteAllLines($envFile, [string[]](@("GYMMANE_PASSWORD=$pass", "GYMMANE_PORT=$port") + $(if ($people) { @("GYMMANE_PEOPLE=$people") } else { @() }) + $extra), (New-Object Text.UTF8Encoding $false))
   Ok "Saved the settings in $envFile"
   $run = Join-Path $home_ 'run.cmd'
   Set-Content -Path $run -Encoding ascii -Value @(
     '@echo off',
+    'chcp 65001 >nul',
     "cd /d `"$home_`"",
     "set GYMMANE_DATA=$data",
     "set GYMMANE_WEB=$home_\web",
@@ -323,6 +345,10 @@ function Install-GymMane {
   BoxRow ''
   BoxRow 'Open it from any device on your network:' "${D}Open it from any device on your network:$R"
   foreach ($l in $links) { BoxRow "  $l" "  $A$B$l$R" }
+  if ($who) {
+    BoxRow ''
+    BoxRow 'Each person picks their name on that page.' "${D}Each person picks their name on that page.$R"
+  }
   if ($pass) {
     BoxRow ''
     if ($generated) {
