@@ -70,6 +70,10 @@ class _MeasureReminder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return AnimatedBuilder(animation: fit, builder: (context, _) => _body(context));
+  }
+
+  Widget _body(BuildContext context) {
     final gc = context.gc;
     final current = fit.measureEveryDays;
     final custom = current > 0 && !_kMeasureEvery.contains(current);
