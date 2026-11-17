@@ -23,6 +23,8 @@ Toca los músculos que quieres entrenar, apunta tus series y mira cómo suben tu
 
 <p>
   <a href="https://trendshift.io/repositories/107197?utm_source=repository-badge&amp;utm_medium=badge&amp;utm_campaign=badge-repository-107197" target="_blank" rel="noopener noreferrer"><img src="https://trendshift.io/api/badge/repositories/107197" alt="InlitX%2FGymMane | Trendshift" width="250" height="55"/></a>
+  <br/>
+  <a href="https://ko-fi.com/inlitx"><img src="https://ko-fi.com/img/githubbutton_sm.svg" alt="Support me on Ko-fi" height="34" /></a>
 </p>
 
 <a href="https://f-droid.org/packages/com.gymmane.app/"><img alt="Get it on F-Droid" src="../badges/get-it-on-fdroid.png" height="60" /></a>
@@ -167,9 +169,23 @@ sabes qué APK elegir, coge el `arm64-v8a`.
 | Plataforma | Estado |
 |---|---|
 | Android 7.0+ | Disponible |
-| Wear OS 3+ | En desarrollo |
+| Web, en tu propio servidor | Disponible, ver [SELFHOST.md](../../SELFHOST.md) |
+| Wear OS 3+ | Beta, ver [WEAR.md](../../WEAR.md) |
 | iOS 15+ | En desarrollo |
-| Escritorio | Planeado |
+
+### En tu propio servidor
+
+La app entera también funciona en el navegador desde tu propio servidor, adaptada a pantallas
+grandes, con tus datos en una carpeta de esa máquina:
+
+```sh
+curl -fsSLO https://raw.githubusercontent.com/InlitX/GymMane/main/compose.yaml
+docker compose up -d
+```
+
+¿Sin Docker? Hay instaladores de una línea para Linux, macOS, Windows y Proxmox VE, una plantilla
+para Unraid y un compose para pegar en Synology, QNAP, TrueNAS, CasaOS o Portainer. Todo, también
+sincronizar con el móvil por Syncthing, está en [SELFHOST.md](../../SELFHOST.md).
 
 ## Privacidad
 

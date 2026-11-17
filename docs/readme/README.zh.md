@@ -23,6 +23,8 @@
 
 <p>
   <a href="https://trendshift.io/repositories/107197?utm_source=repository-badge&amp;utm_medium=badge&amp;utm_campaign=badge-repository-107197" target="_blank" rel="noopener noreferrer"><img src="https://trendshift.io/api/badge/repositories/107197" alt="InlitX%2FGymMane | Trendshift" width="250" height="55"/></a>
+  <br/>
+  <a href="https://ko-fi.com/inlitx"><img src="https://ko-fi.com/img/githubbutton_sm.svg" alt="Support me on Ko-fi" height="34" /></a>
 </p>
 
 <a href="https://f-droid.org/packages/com.gymmane.app/"><img alt="Get it on F-Droid" src="../badges/get-it-on-fdroid.png" height="60" /></a>
@@ -161,9 +163,22 @@
 | 平台 | 状态 |
 |---|---|
 | Android 7.0+ | 已支持 |
-| Wear OS 3+ | 开发中 |
+| 网页版（自托管） | 已支持，见 [SELFHOST.md](../../SELFHOST.md) |
+| Wear OS 3+ | 测试版，见 [WEAR.md](../../WEAR.md) |
 | iOS 15+ | 开发中 |
-| 桌面端 | 计划中 |
+
+### 自托管
+
+完整的应用也能从你自己的服务器在浏览器里运行，专为大屏幕排版，数据保存在那台机器的一个文件夹里：
+
+```sh
+curl -fsSLO https://raw.githubusercontent.com/InlitX/GymMane/main/compose.yaml
+docker compose up -d
+```
+
+不用 Docker？我们为 Linux、macOS、Windows 和 Proxmox VE 提供一行命令的安装脚本，为 Unraid 提供模板，
+还有可以直接粘贴到 Synology、QNAP、TrueNAS、CasaOS 或 Portainer 的 compose 文件。全部内容，包括通过
+Syncthing 与手机同步，见 [SELFHOST.md](../../SELFHOST.md)。
 
 ## 隐私
 

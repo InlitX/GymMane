@@ -23,6 +23,8 @@ Tap the muscles you want to train, log your sets and watch your numbers go up.
 
 <p>
   <a href="https://trendshift.io/repositories/107197?utm_source=repository-badge&amp;utm_medium=badge&amp;utm_campaign=badge-repository-107197" target="_blank" rel="noopener noreferrer"><img src="https://trendshift.io/api/badge/repositories/107197" alt="InlitX%2FGymMane | Trendshift" width="250" height="55"/></a>
+  <br/>
+  <a href="https://ko-fi.com/inlitx"><img src="https://ko-fi.com/img/githubbutton_sm.svg" alt="Support me on Ko-fi" height="34" /></a>
 </p>
 
 <a href="https://f-droid.org/packages/com.gymmane.app/"><img alt="Get it on F-Droid" src="docs/badges/get-it-on-fdroid.png" height="60" /></a>
@@ -155,9 +157,9 @@ which APK? Take `arm64-v8a`.
 | Platform | Status |
 |---|---|
 | Android 7.0+ | Supported |
-| Wear OS 3+ | In progress |
+| Web, self-hosted | Supported, see [SELFHOST.md](SELFHOST.md) |
+| Wear OS 3+ | Beta, see [WEAR.md](WEAR.md) |
 | iOS 15+ | In progress |
-| Web, self-hosted | Supported |
 
 ### Self-hosted
 
@@ -169,9 +171,10 @@ curl -fsSLO https://raw.githubusercontent.com/InlitX/GymMane/main/compose.yaml
 docker compose up -d
 ```
 
-No Docker? There's a one-line installer for Linux and macOS and a zip for
-Windows. Everything, including syncing with the phone through Syncthing, is in
-[SELFHOST.md](SELFHOST.md).
+No Docker? There are one-line installers for Linux, macOS, Windows and
+Proxmox VE, a template for Unraid and a compose file you can paste into
+Synology, QNAP, TrueNAS, CasaOS or Portainer. Everything, including syncing
+with the phone through Syncthing, is in [SELFHOST.md](SELFHOST.md).
 
 ## Privacy
 
