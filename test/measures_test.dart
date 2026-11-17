@@ -134,4 +134,46 @@ void main() {
     fit.setMeasureEvery(0);
     expect(fit.nextMeasureDue, isNull);
   });
+  test('a note and both sides are kept, and the average drives the trend (#410)', () {
+    fit.toggleSidedMeasure('arm');
+    expect(fit.isSidedMeasure('arm'), isTrue);
+    expect(fit.canSide('waist'), isFalse);
+    fit.addMeasure('arm', 0, left: 36, right: 37, note: 'morning, pumped');
+    final m = fit.latestMeasure('arm')!;
+    expect(m.left, 36);
+    expect(m.right, 37);
+    expect(m.value, closeTo(36.5, 0.001));
+    expect(m.note, 'morning, pumped');
+    expect(fit.measureEntryLabel(m), contains('36'));
+    expect(fit.measureEntryLabel(m), contains('37'));
+  });
+
+  test('blood pressure keeps the whole reading, the pulse and several a day', () {
+    final morning = DateTime.now().subtract(const Duration(hours: 3));
+    fit.addPressure(128, 84, pulse: 66, note: 'after coffee', date: morning);
+    fit.addPressure(118, 76);
+    expect(fit.measureHistory('bp'), hasLength(2));
+    final first = fit.measureHistory('bp').last;
+    expect(fit.measureHeadline(first), '128/84');
+    expect(fit.measureEntryLabel(first), contains('66'));
+    expect(fit.measureUnit('bp'), 'mmHg');
+    expect(fit.measureChange('bp'), isNull);
+    fit.setUnits('lb');
+    expect(fit.measureHeadline(fit.latestMeasure('bp')!), '118/76');
+  });
+
+  test('notes, sides and blood pressure survive a reload', () {
+    fit.toggleSidedMeasure('thigh');
+    fit.addMeasure('thigh', 0, left: 58, right: 57.5, note: 'n');
+    fit.addPressure(120, 80, pulse: 70);
+    fit.persistNow();
+    fit.loadFromStore();
+    expect(fit.isSidedMeasure('thigh'), isTrue);
+    final th = fit.latestMeasure('thigh')!;
+    expect(th.right, 57.5);
+    expect(th.note, 'n');
+    final bp = fit.latestMeasure('bp')!;
+    expect(bp.low, 80);
+    expect(bp.pulse, 70);
+  });
 }

@@ -4,7 +4,21 @@ const double _cmPerInch = 2.54;
 
 mixin MeasuresState on FitCore {
   final List<CustomMeasure> customMeasures = [];
+  final Set<String> sidedMeasures = {};
   int measureEveryDays = 0;
+
+  bool isPressure(String key) => key == 'bp';
+
+  bool canSide(String key) => kSidedMeasureKeys.contains(key);
+
+  bool isSidedMeasure(String key) => canSide(key) && sidedMeasures.contains(key);
+
+  void toggleSidedMeasure(String key) {
+    if (!canSide(key)) return;
+    if (!sidedMeasures.remove(key)) sidedMeasures.add(key);
+    _persist();
+    notifyListeners();
+  }
 
   bool get isInches => units == 'lb';
 
@@ -27,11 +41,11 @@ mixin MeasuresState on FitCore {
 
   bool isPercent(String key) => key == 'bodyfat';
 
-  double toDisplayMeasure(String key, double raw) =>
-      isPercent(key) || isFreeMeasure(key) || !isInches ? raw : raw / _cmPerInch;
+  bool _plain(String key) => isPercent(key) || isPressure(key) || isFreeMeasure(key) || !isInches;
 
-  double fromDisplayMeasure(String key, double shown) =>
-      isPercent(key) || isFreeMeasure(key) || !isInches ? shown : shown * _cmPerInch;
+  double toDisplayMeasure(String key, double raw) => _plain(key) ? raw : raw / _cmPerInch;
+
+  double fromDisplayMeasure(String key, double shown) => _plain(key) ? shown : shown * _cmPerInch;
 
   double toDisplayCm(double cm) => isInches ? cm / _cmPerInch : cm;
 
@@ -53,6 +67,7 @@ mixin MeasuresState on FitCore {
 
   String measureUnit(String key) {
     if (isPercent(key)) return '%';
+    if (isPressure(key)) return 'mmHg';
     final c = customMeasure(key);
     if (c != null && !c.length) return c.unit;
     return lengthUnit;
@@ -65,11 +80,28 @@ mixin MeasuresState on FitCore {
     return unit.isEmpty ? measureValue(key, raw) : '${measureValue(key, raw)} $unit';
   }
 
+  String measureHeadline(BodyMeasure m) =>
+      isPressure(m.key) && m.low != null ? '${m.value.round()}/${m.low!.round()}' : measureValue(m.key, m.value);
+
+  String measureEntryLabel(BodyMeasure m) {
+    final unit = measureUnit(m.key);
+    if (isPressure(m.key)) {
+      final bp = '${measureHeadline(m)} $unit';
+      return m.pulse == null ? bp : '$bp · ${m.pulse} ${t.healthBpm}';
+    }
+    if (m.sided) {
+      return '${t.measureLeftShort} ${measureValue(m.key, m.left!)} · ${t.measureRightShort} ${measureValue(m.key, m.right!)} $unit';
+    }
+    return measureLabel(m.key, m.value);
+  }
+
   List<BodyMeasure> measureHistory(String key) {
     final out = measures.where((m) => m.key == key).toList()
       ..sort((a, b) => b.date.compareTo(a.date));
     return out;
   }
+
+  double lastGirth(String key) => latestMeasure(key)?.value ?? 0;
 
   BodyMeasure? latestMeasure(String key) {
     final h = measureHistory(key);
@@ -77,6 +109,7 @@ mixin MeasuresState on FitCore {
   }
 
   double? measureChange(String key) {
+    if (isPressure(key)) return null;
     final h = measureHistory(key);
     if (h.length < 2) return null;
     return _round1(toDisplayMeasure(key, h.first.value) - toDisplayMeasure(key, h[1].value));
@@ -90,12 +123,28 @@ mixin MeasuresState on FitCore {
 
   bool get hasMeasures => measures.isNotEmpty;
 
-  void addMeasure(String key, double shown, {DateTime? date}) {
-    if (!allMeasureKeys.contains(key) || shown <= 0) return;
+  void addMeasure(String key, double shown, {DateTime? date, String note = '', double? left, double? right}) {
+    if (!allMeasureKeys.contains(key) || isPressure(key)) return;
+    final both = left != null && right != null && left > 0 && right > 0;
+    if (!both && shown <= 0) return;
     final when = date ?? DateTime.now();
-    final raw = isFreeMeasure(key) ? (shown * 100).round() / 100 : _round1(fromDisplayMeasure(key, shown));
+    double raw(double v) => isFreeMeasure(key) ? (v * 100).round() / 100 : _round1(fromDisplayMeasure(key, v));
+    final l = both ? raw(left) : null;
+    final r = both ? raw(right) : null;
+    final value = both ? _round1((l! + r!) / 2) : raw(shown);
     measures.removeWhere((m) => m.key == key && _dayKey(m.date) == _dayKey(when));
-    measures.add(BodyMeasure(when, key, raw));
+    measures.add(BodyMeasure(when, key, value, note: _cut(note.trim(), 200), left: l, right: r));
+    _syncMeasureReminder();
+    _persist();
+    notifyListeners();
+  }
+
+  void addPressure(int high, int low, {int? pulse, String note = '', DateTime? date}) {
+    if (high <= 0 || low <= 0) return;
+    final when = date ?? DateTime.now();
+    measures.removeWhere((m) => m.key == 'bp' && m.date.difference(when).inMinutes.abs() < 1);
+    measures.add(BodyMeasure(when, 'bp', high.toDouble(),
+        low: low.toDouble(), pulse: pulse != null && pulse > 0 ? pulse : null, note: _cut(note.trim(), 200)));
     _syncMeasureReminder();
     _persist();
     notifyListeners();
@@ -188,11 +237,15 @@ mixin MeasuresState on FitCore {
           if (e is Map) ?CustomMeasure.fromJson(e.cast<String, dynamic>()),
       ]);
     measureEveryDays = ((data['measureEvery'] as num?)?.toInt() ?? 0).clamp(0, 365);
+    sidedMeasures
+      ..clear()
+      ..addAll([for (final k in (data['measureSides'] as List?) ?? const []) if (k is String && canSide(k)) k]);
   }
 
   Map<String, dynamic> customMeasuresJson() => {
         if (customMeasures.isNotEmpty) 'customMeasures': customMeasures.map((c) => c.toJson()).toList(),
         if (measureEveryDays > 0) 'measureEvery': measureEveryDays,
+        if (sidedMeasures.isNotEmpty) 'measureSides': sidedMeasures.toList(),
       };
 
   void goMeasures() => pushRoute('measures');

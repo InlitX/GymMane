@@ -161,14 +161,26 @@ class ToolDetailScreen extends StatelessWidget {
           _macros(gc),
         ];
       case 'bf':
+        final male = fit.bfSex == 'male';
+        final girth = male ? t.bfAbdomen : t.bfWaistNarrow;
         return [
+          ToolRow(
+            label: t.sexLabel,
+            control: SegToggle([
+              SegOption(t.male, male, () => fit.setBfSex('male')),
+              SegOption(t.female, !male, () => fit.setBfSex('female')),
+            ]),
+          ),
+          const SizedBox(height: 10),
           ToolRow(label: t.heightLabel, control: StepperControl(value: fit.heightLabel(fit.bfHeight), onDec: () => fit.bumpBfHeight(-fit.heightStep), onInc: () => fit.bumpBfHeight(fit.heightStep), onEdit: () => _editNumber(context, title: t.heightLabel, current: fit.toDisplayCm(fit.bfHeight), decimal: true, apply: (v) => fit.bumpBfHeight(fit.fromDisplayCm(v) - fit.bfHeight)))),
           const SizedBox(height: 10),
-          ToolRow(label: t.neck, control: StepperControl(value: fit.cmLabel(fit.bfNeck), onDec: () => fit.bumpBfNeck(-fit.girthStep), onInc: () => fit.bumpBfNeck(fit.girthStep), onEdit: () => _editNumber(context, title: t.neck, current: fit.toDisplayCm(fit.bfNeck), decimal: true, apply: (v) => fit.bumpBfNeck(fit.fromDisplayCm(v) - fit.bfNeck)))),
+          ToolRow(label: t.bfNeckBelow, control: StepperControl(value: fit.cmLabel(fit.bfNeck), onDec: () => fit.bumpBfNeck(-fit.girthStep), onInc: () => fit.bumpBfNeck(fit.girthStep), onEdit: () => _editNumber(context, title: t.bfNeckBelow, current: fit.toDisplayCm(fit.bfNeck), decimal: true, apply: (v) => fit.bumpBfNeck(fit.fromDisplayCm(v) - fit.bfNeck)))),
           const SizedBox(height: 10),
-          ToolRow(label: t.waist, control: StepperControl(value: fit.cmLabel(fit.bfWaist), onDec: () => fit.bumpBfWaist(-fit.girthStep), onInc: () => fit.bumpBfWaist(fit.girthStep), onEdit: () => _editNumber(context, title: t.waist, current: fit.toDisplayCm(fit.bfWaist), decimal: true, apply: (v) => fit.bumpBfWaist(fit.fromDisplayCm(v) - fit.bfWaist)))),
-          const SizedBox(height: 10),
-          ToolRow(label: t.hip, control: StepperControl(value: fit.cmLabel(fit.bfHip), onDec: () => fit.bumpBfHip(-fit.girthStep), onInc: () => fit.bumpBfHip(fit.girthStep), onEdit: () => _editNumber(context, title: t.hip, current: fit.toDisplayCm(fit.bfHip), decimal: true, apply: (v) => fit.bumpBfHip(fit.fromDisplayCm(v) - fit.bfHip)))),
+          ToolRow(label: girth, control: StepperControl(value: fit.cmLabel(fit.bfWaist), onDec: () => fit.bumpBfWaist(-fit.girthStep), onInc: () => fit.bumpBfWaist(fit.girthStep), onEdit: () => _editNumber(context, title: girth, current: fit.toDisplayCm(fit.bfWaist), decimal: true, apply: (v) => fit.bumpBfWaist(fit.fromDisplayCm(v) - fit.bfWaist)))),
+          if (!male) ...[
+            const SizedBox(height: 10),
+            ToolRow(label: t.bfHipWide, control: StepperControl(value: fit.cmLabel(fit.bfHip), onDec: () => fit.bumpBfHip(-fit.girthStep), onInc: () => fit.bumpBfHip(fit.girthStep), onEdit: () => _editNumber(context, title: t.bfHipWide, current: fit.toDisplayCm(fit.bfHip), decimal: true, apply: (v) => fit.bumpBfHip(fit.fromDisplayCm(v) - fit.bfHip)))),
+          ],
         ];
       case 'plate':
         return [

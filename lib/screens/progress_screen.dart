@@ -901,7 +901,7 @@ class ProgressScreen extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               style: AppTheme.s(10.5, weight: FontWeight.w600, color: gc.textTertiary)),
           const SizedBox(height: 3),
-          Text(fit.measureLabel(key, latest.value),
+          Text(fit.isPressure(key) ? '${fit.measureHeadline(latest)} ${fit.measureUnit(key)}' : fit.measureLabel(key, latest.value),
               style: AppTheme.d(15, weight: FontWeight.w700, color: gc.text)),
         ],
       ),

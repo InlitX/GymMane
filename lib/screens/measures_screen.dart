@@ -169,7 +169,7 @@ class _MeasureRow extends StatelessWidget {
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          Text(fit.measureValue(measureKey, latest.value),
+                          Text(fit.measureHeadline(latest),
                               style: AppTheme.d(26, weight: FontWeight.w700, color: gc.text)),
                           const SizedBox(width: 4),
                           Padding(
@@ -231,6 +231,18 @@ class _MeasureSheet extends StatefulWidget {
   State<_MeasureSheet> createState() => _MeasureSheetState();
 }
 
+class _Field {
+  _Field(this.label, this.value, this.lo, this.hi, this.step, this.major, {this.on = true});
+
+  final String label;
+  double value;
+  double lo;
+  double hi;
+  final double step;
+  final int major;
+  bool on;
+}
+
 class _MeasureSheetState extends State<_MeasureSheet> {
   static const _rangesCm = {
     'neck': (15.0, 80.0, 38.0),
@@ -239,14 +251,19 @@ class _MeasureSheetState extends State<_MeasureSheet> {
     'arm': (10.0, 80.0, 34.0),
     'forearm': (10.0, 60.0, 28.0),
     'waist': (30.0, 200.0, 84.0),
+    'abdomen': (30.0, 200.0, 88.0),
     'hips': (40.0, 200.0, 98.0),
     'thigh': (20.0, 120.0, 56.0),
     'calf': (15.0, 80.0, 38.0),
   };
 
+  final _note = TextEditingController();
+
   String get _key => widget.measureKey;
   bool get _pct => fit.isPercent(_key);
   bool get _free => fit.isFreeMeasure(_key);
+  bool get _bp => fit.isPressure(_key);
+  bool get _sided => fit.isSidedMeasure(_key);
   double get _step => _free ? _freeStep : (_pct ? 0.5 : (fit.isInches ? 0.25 : 0.5));
   int get _major => _free ? 10 : (_pct ? 10 : (fit.isInches ? 4 : 10));
 
@@ -262,21 +279,43 @@ class _MeasureSheetState extends State<_MeasureSheet> {
     return (_snap(fit.toDisplayCm(r.$1)), _snap(fit.toDisplayCm(r.$2)));
   }
 
-  late (double, double) _range = _around(_value);
-
   double get _typedMax => _free ? 99999 : (_pct ? 100 : _snap(fit.toDisplayCm(400)));
 
   double _snap(double v) => (v / _step).round() * _step;
 
-  late double _value = () {
-    final latest = fit.latestMeasure(_key);
-    if (latest != null) return _snap(fit.toDisplayMeasure(_key, latest.value));
+  double _start(double? raw) {
+    if (raw != null && raw > 0) return _snap(fit.toDisplayMeasure(_key, raw));
     if (_free) return 50.0;
     if (_pct) return 20.0;
     return _snap(fit.toDisplayCm((_rangesCm[_key] ?? (10.0, 200.0, 50.0)).$3));
-  }();
+  }
 
-  String _show(double v) => decimalText(v.toStringAsFixed(_step < 0.25 ? 1 : (_step < 0.5 ? 2 : 1)));
+  _Field _length(String label, double value) {
+    final (lo, hi) = _around(value);
+    return _Field(label, value, lo, hi, _step, _major);
+  }
+
+  late final BodyMeasure? _latest = fit.latestMeasure(_key);
+
+  late final _Field _single = _length('', _start(_latest?.value));
+  late final List<_Field> _sides = [
+    _length(t.measureLeft, _start(_latest?.left ?? _latest?.value)),
+    _length(t.measureRight, _start(_latest?.right ?? _latest?.value)),
+  ];
+  late final List<_Field> _pressure = [
+    _Field(t.bpHigh, _latest?.value ?? 120, 60, 250, 1, 10),
+    _Field(t.bpLow, _latest?.low ?? 80, 30, 160, 1, 10),
+    _Field(t.bpPulse, (_latest?.pulse ?? 70).toDouble(), 30, 220, 1, 10, on: _latest?.pulse != null),
+  ];
+
+  int _active = 0;
+
+  List<_Field> get _fields => _bp ? _pressure : (_sided ? _sides : [_single]);
+
+  _Field get _field => _fields[_active.clamp(0, _fields.length - 1)];
+
+  String _show(double v) =>
+      _bp ? '${v.round()}' : decimalText(v.toStringAsFixed(_step < 0.25 ? 1 : (_step < 0.5 ? 2 : 1)));
 
   (double, double) _around(double v) {
     final (lo, hi) = _baseRange;
@@ -285,6 +324,12 @@ class _MeasureSheetState extends State<_MeasureSheet> {
       return (0, top);
     }
     return (math.min(lo, v), math.max(hi, v));
+  }
+
+  @override
+  void dispose() {
+    _note.dispose();
+    super.dispose();
   }
 
   Future<void> _rename() async {
@@ -307,27 +352,149 @@ class _MeasureSheetState extends State<_MeasureSheet> {
   }
 
   void _save() {
-    if (_value <= 0) return;
-    fit.addMeasure(_key, _value);
+    final note = _note.text;
+    if (_bp) {
+      final pulse = _pressure[2];
+      fit.addPressure(_pressure[0].value.round(), _pressure[1].value.round(),
+          pulse: pulse.on ? pulse.value.round() : null, note: note);
+    } else if (_sided) {
+      fit.addMeasure(_key, 0, left: _sides[0].value, right: _sides[1].value, note: note);
+    } else {
+      if (_single.value <= 0) return;
+      fit.addMeasure(_key, _single.value, note: note);
+    }
     Navigator.of(context).pop();
   }
 
   Future<void> _type() async {
-    final typed = await askNumber(context, title: fit.measureTitle(_key), initial: _show(_value), decimal: true);
-    if (typed == null || !mounted) return;
-    if (typed <= 0) return;
-    final v = math.max(_step, _snap(typed.clamp(_step, _typedMax)));
+    final f = _field;
+    final typed = await askNumber(context,
+        title: f.label.isEmpty ? fit.measureTitle(_key) : f.label, initial: _show(f.value), decimal: !_bp);
+    if (typed == null || !mounted || typed <= 0) return;
     setState(() {
-      _value = v;
-      _range = _around(v);
+      if (_bp) {
+        f.value = typed.round().clamp(f.lo, f.hi).toDouble();
+      } else {
+        f.value = math.max(_step, _snap(typed.clamp(_step, _typedMax)));
+        final (lo, hi) = _around(f.value);
+        f.lo = lo;
+        f.hi = hi;
+      }
+      f.on = true;
     });
   }
+
+  void _pick(int i) {
+    HapticFeedback.selectionClick();
+    setState(() {
+      _active = i;
+      _fields[i].on = true;
+    });
+  }
+
+  void _setSided(bool on) {
+    if (on == _sided) return;
+    setState(() {
+      fit.toggleSidedMeasure(_key);
+      _active = 0;
+    });
+  }
+
+  Widget _bigValue(GymColors gc) => Center(
+        child: Ltr(
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.baseline,
+            textBaseline: TextBaseline.alphabetic,
+            children: [
+              RollingText(_show(_single.value),
+                  style: AppTheme.f(54, weight: FontWeight.w800, color: gc.text, height: 1.1)),
+              const SizedBox(width: 6),
+              Text(fit.measureUnit(_key), style: AppTheme.f(18, weight: FontWeight.w700, color: gc.textSecondary)),
+            ],
+          ),
+        ),
+      );
+
+  Widget _tile(GymColors gc, int i) {
+    final f = _fields[i];
+    final on = i == _active;
+    final unit = _bp ? '' : fit.measureUnit(_key);
+    final value = unit.isEmpty ? _show(f.value) : '${_show(f.value)} $unit';
+    return Semantics(
+      button: true,
+      selected: on,
+      label: f.label,
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: () => _pick(i),
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 180),
+          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
+          decoration: BoxDecoration(
+            color: on ? gc.bgRaised2 : Colors.transparent,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: on ? gc.accent.withValues(alpha: 0.5) : gc.border.withValues(alpha: 0.6)),
+          ),
+          child: Column(children: [
+            Text(f.label.toUpperCase(),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.2)),
+            const SizedBox(height: 4),
+            SizedBox(
+              height: 32,
+              child: Center(
+                child: f.on
+                    ? Ltr(
+                        child: FitText(value,
+                            style: AppTheme.f(26, weight: FontWeight.w800, color: on ? gc.text : gc.textSecondary)),
+                      )
+                    : Text(t.bpPulseAdd, style: AppTheme.f(14, weight: FontWeight.w700, color: gc.accent)),
+              ),
+            ),
+          ]),
+        ),
+      ),
+    );
+  }
+
+  Widget _noteField(GymColors gc) => Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 2),
+        decoration: BoxDecoration(color: gc.bgRaised2, borderRadius: BorderRadius.circular(16)),
+        child: TextField(
+          controller: _note,
+          maxLength: 200,
+          textCapitalization: TextCapitalization.sentences,
+          cursorColor: gc.accent,
+          style: AppTheme.f(14.5, weight: FontWeight.w600, color: gc.text),
+          decoration: InputDecoration(
+            border: InputBorder.none,
+            hintText: t.measureNoteHint,
+            hintStyle: AppTheme.f(14.5, weight: FontWeight.w500, color: gc.textTertiary),
+            counterText: '',
+          ),
+        ),
+      );
+
+  Widget _iconButton(GymColors gc, IconData icon, String label, VoidCallback onTap, double size) => Semantics(
+        button: true,
+        label: label,
+        child: GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onTap: onTap,
+          child: Padding(
+            padding: const EdgeInsets.all(8),
+            child: Icon(icon, size: size, color: gc.textSecondary),
+          ),
+        ),
+      );
 
   @override
   Widget build(BuildContext context) {
     final gc = context.gc;
     final history = fit.measureHistory(_key);
-    final (lo, hi) = _range;
+    final f = _field;
 
     return Container(
       decoration: sheetDecoration(gc),
@@ -338,95 +505,85 @@ class _MeasureSheetState extends State<_MeasureSheet> {
           mainAxisSize: MainAxisSize.min,
           children: [
             SheetHandle(margin: const EdgeInsets.symmetric(vertical: 12)),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(20, 4, 20, 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Row(children: [
-                    Expanded(
-                      child: Text(fit.measureTitle(_key),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: AppTheme.f(17, weight: FontWeight.w800, color: gc.text)),
-                    ),
-                    if (fit.isCustomMeasure(_key))
-                      Semantics(
-                        button: true,
-                        label: t.measureRename,
-                        child: GestureDetector(
-                          behavior: HitTestBehavior.opaque,
-                          onTap: _rename,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8),
-                            child: Icon(PhosphorIconsRegular.pencilSimple, size: 19, color: gc.textSecondary),
-                          ),
-                        ),
+            Flexible(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.fromLTRB(20, 4, 20, 20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Row(children: [
+                      Expanded(
+                        child: Text(fit.measureTitle(_key),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: AppTheme.f(17, weight: FontWeight.w800, color: gc.text)),
                       ),
-                    Semantics(
-                      button: true,
-                      label: fit.measureTitle(_key),
-                      child: GestureDetector(
-                        behavior: HitTestBehavior.opaque,
-                        onTap: _type,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8),
-                          child: Icon(PhosphorIconsRegular.keyboard, size: 20, color: gc.textSecondary),
-                        ),
-                      ),
-                    ),
-                  ]),
-                  const SizedBox(height: 6),
-                  Center(
-                    child: Ltr(child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.baseline,
-                      textBaseline: TextBaseline.alphabetic,
-                      children: [
-                        RollingText(_show(_value),
-                            style: AppTheme.f(54, weight: FontWeight.w800, color: gc.text, height: 1.1)),
-                        const SizedBox(width: 6),
-                        Text(fit.measureUnit(_key),
-                            style: AppTheme.f(18, weight: FontWeight.w700, color: gc.textSecondary)),
-                      ],
-                    )),
-                  ),
-                  const SizedBox(height: 14),
-                  RulerPicker(
-                    value: _value.clamp(lo, hi),
-                    min: lo,
-                    max: hi,
-                    step: _step,
-                    majorEvery: _major,
-                    label: (v) => '${v.round()}',
-                    onChanged: (v) => setState(() => _value = v),
-                  ),
-                  const SizedBox(height: 18),
-                  PrimaryButton(label: t.save, onTap: _save, height: 52),
-                  if (history.isNotEmpty) ...[
-                    const SizedBox(height: 22),
-                    Text(t.measureHistory,
-                        style: AppTheme.d(12,
-                            weight: FontWeight.w600, color: gc.textSecondary, letterSpacing: 2)),
-                    const SizedBox(height: 10),
-                    for (final m in history.take(6)) _historyRow(gc, m),
-                  ],
-                  if (fit.isCustomMeasure(_key)) ...[
-                    const SizedBox(height: 10),
-                    GestureDetector(
-                      behavior: HitTestBehavior.opaque,
-                      onTap: _delete,
-                      child: SizedBox(
-                        height: 44,
-                        child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                          Icon(PhosphorIconsRegular.trash, size: 16, color: gc.danger),
-                          const SizedBox(width: 8),
-                          Text(t.measureDelete, style: AppTheme.f(14, weight: FontWeight.w600, color: gc.danger)),
+                      if (fit.isCustomMeasure(_key))
+                        _iconButton(gc, PhosphorIconsRegular.pencilSimple, t.measureRename, _rename, 19),
+                      _iconButton(gc, PhosphorIconsRegular.keyboard, fit.measureTitle(_key), _type, 20),
+                    ]),
+                    if (fit.canSide(_key)) ...[
+                      const SizedBox(height: 8),
+                      Align(
+                        alignment: AlignmentDirectional.centerStart,
+                        child: SegToggle([
+                          SegOption(t.measureOneValue, !_sided, () => _setSided(false)),
+                          SegOption(t.eachSide, _sided, () => _setSided(true)),
                         ]),
                       ),
+                    ],
+                    const SizedBox(height: 10),
+                    if (_fields.length == 1)
+                      _bigValue(gc)
+                    else
+                      Row(children: [
+                        for (var i = 0; i < _fields.length; i++) ...[
+                          if (i > 0) const SizedBox(width: 8),
+                          Expanded(child: _tile(gc, i)),
+                        ],
+                      ]),
+                    const SizedBox(height: 14),
+                    RulerPicker(
+                      key: ValueKey('${_fields.length}-$_active'),
+                      value: f.value.clamp(f.lo, f.hi),
+                      min: f.lo,
+                      max: f.hi,
+                      step: f.step,
+                      majorEvery: f.major,
+                      label: (v) => '${v.round()}',
+                      onChanged: (v) => setState(() {
+                        f.value = v;
+                        f.on = true;
+                      }),
                     ),
+                    const SizedBox(height: 14),
+                    _noteField(gc),
+                    const SizedBox(height: 14),
+                    PrimaryButton(label: t.save, onTap: _save, height: 52),
+                    if (history.isNotEmpty) ...[
+                      const SizedBox(height: 22),
+                      Text(t.measureHistory,
+                          style: AppTheme.d(12, weight: FontWeight.w600, color: gc.textSecondary, letterSpacing: 2)),
+                      const SizedBox(height: 10),
+                      for (final m in history.take(8)) _historyRow(gc, m),
+                    ],
+                    if (fit.isCustomMeasure(_key)) ...[
+                      const SizedBox(height: 10),
+                      GestureDetector(
+                        behavior: HitTestBehavior.opaque,
+                        onTap: _delete,
+                        child: SizedBox(
+                          height: 44,
+                          child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                            Icon(PhosphorIconsRegular.trash, size: 16, color: gc.danger),
+                            const SizedBox(width: 8),
+                            Text(t.measureDelete, style: AppTheme.f(14, weight: FontWeight.w600, color: gc.danger)),
+                          ]),
+                        ),
+                      ),
+                    ],
                   ],
-                ],
+                ),
               ),
             ),
           ],
@@ -438,12 +595,20 @@ class _MeasureSheetState extends State<_MeasureSheet> {
   Widget _historyRow(GymColors gc, BodyMeasure m) => Padding(
         padding: const EdgeInsets.symmetric(vertical: 7),
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
-              child: Text(t.shortDateYear(m.date), style: AppTheme.s(12.5, color: gc.textSecondary)),
+              child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                Text('${t.shortDateYear(m.date)} · ${t.clockTime(m.date)}',
+                    style: AppTheme.s(12.5, color: gc.textSecondary)),
+                if (m.note.isNotEmpty) ...[
+                  const SizedBox(height: 3),
+                  Text(m.note, style: AppTheme.s(12.5, color: gc.textTertiary, height: 1.35)),
+                ],
+              ]),
             ),
-            Text(fit.measureLabel(m.key, m.value),
-                style: AppTheme.s(13.5, weight: FontWeight.w600, color: gc.text)),
+            const SizedBox(width: 10),
+            Ltr(child: Text(fit.measureEntryLabel(m), style: AppTheme.s(13.5, weight: FontWeight.w600, color: gc.text))),
             const SizedBox(width: 8),
             Semantics(
               button: true,

@@ -63,6 +63,17 @@ mixin ToolsState on FitCore {
 
   double bestLift(String id) => 0;
 
+  double lastGirth(String key) => 0;
+
+  void _seedBf() {
+    final neck = lastGirth('neck');
+    final waist = lastGirth(bfSex == 'male' ? 'abdomen' : 'waist');
+    final hips = lastGirth('hips');
+    if (neck > 0) bfNeck = _clamp(neck, 20, 60);
+    if (waist > 0) bfWaist = _clamp(waist, 40, 200);
+    if (hips > 0) bfHip = _clamp(hips, 40, 200);
+  }
+
   void _seedDots() {
     if (_dotsSeeded) return;
     _dotsSeeded = true;
@@ -76,12 +87,14 @@ mixin ToolsState on FitCore {
 
   void openTool(String id) {
     if (id == 'dots' || id == 'wilks') _seedDots();
+    if (id == 'bf') _seedBf();
     activeToolId = id;
     pushRoute('tools-detail');
   }
 
   void selectTool(String id) {
     if (id == 'dots' || id == 'wilks') _seedDots();
+    if (id == 'bf') _seedBf();
     activeToolId = id;
     notifyListeners();
   }
@@ -271,7 +284,11 @@ mixin ToolsState on FitCore {
 
   void bumpBfHip(double d) { bfHip = _clamp(bfHip + d, 40, 200); notifyListeners(); }
 
-  void setBfSex(String s) { bfSex = s; notifyListeners(); }
+  void setBfSex(String s) {
+    bfSex = s;
+    _seedBf();
+    notifyListeners();
+  }
 
   void bumpPlateTarget(double d) { plateTarget = _clamp(plateTarget + d, 0, null); notifyListeners(); }
 

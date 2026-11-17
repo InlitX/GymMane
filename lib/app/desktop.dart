@@ -14,7 +14,10 @@ class DesktopScope extends InheritedWidget {
   static const readingWidth = 760.0;
   static const flowWidth = 1600.0;
 
-  static bool wideFor(double width) => kIsWeb && width >= minWidth;
+  @visibleForTesting
+  static bool forceWide = false;
+
+  static bool wideFor(double width) => (kIsWeb || forceWide) && width >= minWidth;
 
   static bool of(BuildContext context) =>
       context.dependOnInheritedWidgetOfExactType<DesktopScope>()?.wide ?? false;
