@@ -1121,6 +1121,11 @@ class RoutinesScreen extends StatelessWidget {
                   Navigator.pop(sheet);
                   fit.moveGroup(name, 1);
                 }),
+              if (count > 1)
+                OptionItem(t.routinesOrder, icon: PhosphorIconsRegular.arrowsDownUp, onTap: () {
+                  Navigator.pop(sheet);
+                  showRoutineOrderSheet(context, name);
+                }),
               OptionItem(t.groupRename, icon: PhosphorIconsRegular.pencilSimple, onTap: () async {
                 Navigator.pop(sheet);
                 final next = await askText(context, title: t.groupRename, initial: name, hint: t.groupNameHint);
@@ -1386,6 +1391,11 @@ void showRoutineMenu(BuildContext context, Routine r) {
               Navigator.pop(sheet);
               fit.duplicateRoutine(r.id);
             }),
+            if (!r.archived && fit.routinesInGroup(r.group).length > 1)
+              OptionItem(t.routinesOrder, icon: PhosphorIconsRegular.arrowsDownUp, onTap: () {
+                Navigator.pop(sheet);
+                showRoutineOrderSheet(context, r.group);
+              }),
             OptionItem(r.archived ? t.restoreExercise : t.archiveRoutine,
                 icon: r.archived ? PhosphorIconsRegular.arrowUUpLeft : PhosphorIconsRegular.archive, onTap: () {
               Navigator.pop(sheet);
@@ -1415,6 +1425,61 @@ void showRoutineMenu(BuildContext context, Routine r) {
           ]),
         ],
       ),
+    ),
+  );
+}
+
+void showRoutineOrderSheet(BuildContext context, String group) {
+  final gc = context.gc;
+  showAppSheet<void>(
+    context: context,
+    isScrollControlled: true,
+    backgroundColor: Colors.transparent,
+    builder: (sheet) => AnimatedBuilder(
+      animation: fit,
+      builder: (sheet, _) {
+        final list = fit.routinesInGroup(group);
+        return AppSheet(children: [
+          SheetTitle(t.routinesOrder, subtitle: t.routinesOrderHint),
+          const SizedBox(height: 16),
+          ReorderableListView(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            buildDefaultDragHandles: false,
+            proxyDecorator: (child, _, _) => Material(color: Colors.transparent, child: child),
+            onReorder: (from, to) {
+              HapticFeedback.selectionClick();
+              fit.reorderRoutines(group, from, to > from ? to - 1 : to);
+            },
+            children: [
+              for (final (i, r) in list.indexed)
+                Container(
+                  key: ValueKey(r.id),
+                  margin: const EdgeInsets.only(bottom: 8),
+                  constraints: const BoxConstraints(minHeight: 52),
+                  padding: const EdgeInsetsDirectional.fromSTEB(16, 8, 4, 8),
+                  decoration: BoxDecoration(color: gc.bgRaised2, borderRadius: BorderRadius.circular(16)),
+                  child: Row(children: [
+                    Expanded(
+                      child: Text(fit.routineTitle(r),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: AppTheme.f(14, weight: FontWeight.w700, color: gc.text)),
+                    ),
+                    ReorderableDragStartListener(
+                      index: i,
+                      child: SizedBox(
+                        width: 48,
+                        height: 44,
+                        child: Icon(PhosphorIconsRegular.dotsSixVertical, size: 18, color: gc.textTertiary),
+                      ),
+                    ),
+                  ]),
+                ),
+            ],
+          ),
+        ]);
+      },
     ),
   );
 }

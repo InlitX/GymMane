@@ -125,6 +125,13 @@ mixin RoutinesState on FitCore, LibraryState {
     return last;
   }
 
+  int? daysSinceDone(String routineId) {
+    final last = lastDoneOf(routineId);
+    if (last == null) return null;
+    final now = DateTime.now();
+    return DateTime(now.year, now.month, now.day).difference(DateTime(last.year, last.month, last.day)).inDays;
+  }
+
   List<Routine> get activeRoutines => [for (final r in routines) if (!r.archived) r];
 
   List<Routine> get archivedRoutines => [for (final r in routines) if (r.archived) r];
@@ -613,6 +620,21 @@ mixin RoutinesState on FitCore, LibraryState {
     _persist();
     notifyListeners();
     return copy;
+  }
+
+  void reorderRoutines(String group, int from, int to) {
+    final slots = [
+      for (var i = 0; i < routines.length; i++)
+        if (routines[i].group == group && !routines[i].archived) i,
+    ];
+    if (from < 0 || from >= slots.length || to < 0 || to >= slots.length || from == to) return;
+    final items = [for (final i in slots) routines[i]];
+    items.insert(to, items.removeAt(from));
+    for (var k = 0; k < slots.length; k++) {
+      routines[slots[k]] = items[k];
+    }
+    _persist();
+    notifyListeners();
   }
 
   void renameGroup(String from, String to) {

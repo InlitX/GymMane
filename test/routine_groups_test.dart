@@ -96,4 +96,20 @@ void main() {
     expect(fit.weeklyPlan[3], c);
     expect(fit.sessions.length, 1);
   });
+
+  test('#401 ordenar rutinas solo mueve las de su grupo y deja las demás en su sitio', () {
+    routineIn('A', 'PPL');
+    routineIn('X', '');
+    routineIn('B', 'PPL');
+    routineIn('C', 'PPL');
+    routineIn('Y', '');
+    fit.reorderRoutines('PPL', 2, 0);
+    expect(fit.routinesInGroup('PPL').map((r) => r.name), ['C', 'A', 'B']);
+    expect(fit.routinesInGroup('').map((r) => r.name), ['X', 'Y']);
+    fit.reorderRoutines('', 0, 1);
+    expect(fit.routinesInGroup('').map((r) => r.name), ['Y', 'X']);
+    fit.reorderRoutines('PPL', 5, 0);
+    expect(fit.routinesInGroup('PPL').map((r) => r.name), ['C', 'A', 'B']);
+    expect(fit.routines.map((r) => r.name), ['C', 'Y', 'A', 'B', 'X']);
+  });
 }

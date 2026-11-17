@@ -45,11 +45,7 @@ class RoutineFolder extends StatelessWidget {
     final back = Color.lerp(hue, Colors.black, dark ? 0.42 : 0.18)!;
     final front = Color.lerp(gc.bgRaised2, hue, dark ? 0.14 : 0.3)!;
     final ink = Color.lerp(hue, Colors.black, 0.35)!;
-    final last = lastDone ? fit.lastDoneOf(r.id) : null;
-    final now = DateTime.now();
-    final ago = last == null
-        ? null
-        : DateTime(now.year, now.month, now.day).difference(DateTime(last.year, last.month, last.day)).inDays;
+    final ago = lastDone ? fit.daysSinceDone(r.id) : null;
 
     return Pressable(
       onTap: () => fit.openRoutine(r.id),

@@ -926,6 +926,10 @@ class _RoutineEditScreenState extends State<RoutineEditScreen> {
                     const SizedBox(height: 8),
                     _progressRow(sheet, gc, ex),
                   ],
+                  if (mode.isEmpty || mode == 'time') ...[
+                    const SizedBox(height: 8),
+                    _sidesRow(gc, ex, mode),
+                  ],
                   const SizedBox(height: 8),
                   _altsRow(sheet, gc, routine, ex),
                   if (fit.modeOf(ex.id).isEmpty) ...[
@@ -939,6 +943,35 @@ class _RoutineEditScreenState extends State<RoutineEditScreen> {
             ),
           );
         },
+      ),
+    );
+  }
+
+  Widget _sidesRow(GymColors gc, Exercise ex, String mode) {
+    final timed = mode == 'time';
+    final on = timed ? fit.isEachSide(ex.id) : fit.isSidedReps(ex.id);
+    return Pressable(
+      scale: 0.98,
+      onTap: () => timed ? fit.toggleEachSide(ex.id) : fit.toggleSidedReps(ex.id),
+      child: Container(
+        padding: const EdgeInsets.fromLTRB(16, 12, 12, 12),
+        decoration: BoxDecoration(color: gc.bgRaised2, borderRadius: BorderRadius.circular(18)),
+        child: Row(children: [
+          Icon(PhosphorIconsRegular.arrowsLeftRight, size: 19, color: on ? gc.text : gc.textSecondary),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Text(t.eachSide, style: AppTheme.f(14, weight: FontWeight.w600, color: gc.text)),
+              const SizedBox(height: 3),
+              Text(timed ? t.eachSideHint : t.eachSideRepsHint,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: AppTheme.f(11.5, weight: FontWeight.w500, color: gc.textSecondary, height: 1.3)),
+            ]),
+          ),
+          const SizedBox(width: 10),
+          TinySwitch(on: on),
+        ]),
       ),
     );
   }
@@ -1327,19 +1360,12 @@ class _RoutineEditScreenState extends State<RoutineEditScreen> {
   }
 
   void _pickGroup(Routine routine) {
-    final gc = context.gc;
     showAppSheet<void>(
       context: context,
+      isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      builder: (sheet) => Container(
-        padding: sheetPad(sheet),
-        decoration: sheetDecoration(gc),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+      builder: (sheet) => AppSheet(
           children: [
-            const SheetHandle(),
-            const SizedBox(height: 16),
             SheetTitle(t.routineGroup),
             const SizedBox(height: 14),
             OptionGroup([
@@ -1371,7 +1397,6 @@ class _RoutineEditScreenState extends State<RoutineEditScreen> {
               },
             ),
           ],
-        ),
       ),
     );
   }

@@ -83,6 +83,11 @@ class StartSheet extends StatelessWidget {
     );
   }
 
+  String _detail(Routine r) {
+    final ago = fit.daysSinceDone(r.id);
+    return [t.exerciseCount(r.exerciseIds.length), if (ago != null) t.lastDoneAgo(ago)].join(' · ');
+  }
+
   Widget _label(GymColors gc, String text) => Padding(
         padding: const EdgeInsets.only(left: 4, bottom: 8),
         child: Text(text.toUpperCase(),
@@ -113,7 +118,9 @@ class StartSheet extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     style: AppTheme.f(18, weight: FontWeight.w700, color: gc.text)),
                 const SizedBox(height: 2),
-                Text(t.exerciseCount(r.exerciseIds.length),
+                Text(_detail(r),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                     style: AppTheme.f(12.5, weight: FontWeight.w500, color: gc.textSecondary)),
               ],
             ),
@@ -147,7 +154,9 @@ class StartSheet extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     style: AppTheme.f(14.5, weight: FontWeight.w600, color: gc.text)),
                 const SizedBox(height: 2),
-                Text(t.exerciseCount(r.exerciseIds.length),
+                Text(_detail(r),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                     style: AppTheme.f(11.5, weight: FontWeight.w500, color: gc.textTertiary)),
               ],
             ),
