@@ -34,7 +34,7 @@ class LoggedSet {
   bool get counts => kind != SetKind.warmup;
   bool get sided => left != null && right != null;
   double? get rir => rpe == null ? null : 10 - rpe!;
-  double get volume => counts ? reps * weight : 0;
+  double get volume => counts ? (sided ? left! + right! : reps) * weight : 0;
 
   double get oneRm {
     if (!counts || reps <= 0) return 0;
@@ -93,7 +93,8 @@ class LoggedExercise {
 
   List<LoggedSet> get workingSets => sets.where((s) => s.counts).toList();
 
-  double get volume => workingSets.fold(0.0, (s, x) => s + x.volume) * (pairedDumbbells.contains(id) ? 2 : 1);
+  double get volume => workingSets.fold(0.0,
+      (s, x) => s + x.volume * (!x.sided && pairedDumbbells.contains(id) ? 2 : 1));
   double get topWeight {
     final w = workingSets;
     return w.isEmpty ? 0 : w.map((s) => s.weight).reduce((a, b) => a > b ? a : b);

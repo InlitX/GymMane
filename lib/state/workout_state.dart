@@ -901,7 +901,7 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
     for (final e in session?.exercises ?? const <SessionExercise>[]) {
       final times = isPaired(e.id) ? 2 : 1;
       for (final st in e.sets) {
-        if (st.done && st.counts) kg += st.weakReps * st.weight * times;
+        if (st.done && st.counts) kg += st.logged.volume * (st.repsR == null ? times : 1);
       }
     }
     return kg;
@@ -941,7 +941,7 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
       var now = 0.0;
       var then = 0.0;
       for (var i = 0; i < done.length; i++) {
-        now += done[i].weakReps * done[i].weight;
+        now += done[i].logged.volume;
         if (i < before.length) then += before[i].volume;
       }
       if (now <= 0 && then <= 0) continue;
@@ -1916,7 +1916,7 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
         if (st.counts) working.add(st);
       }
     }
-    s.summaryVolume = working.fold<double>(0, (sum, st) => sum + st.weakReps * st.weight).round();
+    s.summaryVolume = working.fold<double>(0, (sum, st) => sum + st.logged.volume).round();
     s.summarySets = working.length;
     s.summaryDuration = s.manual ? _elapsedBefore : sessionElapsed;
     s.complete = true;
