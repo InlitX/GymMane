@@ -7,6 +7,7 @@ import '../l10n/l10n.dart';
 import '../state/fit_state.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
+import '../widgets/keyboard_guard.dart';
 import 'app_shell.dart';
 import 'desktop.dart';
 
@@ -64,7 +65,7 @@ class _GymManeAppState extends State<GymManeApp> {
               textScaler: TextScaler.linear(system * fit.textFactor),
               disableAnimations: media.disableAnimations || fit.calmMotion,
             ),
-            child: kIsWeb ? _WebFrame(child: child!) : _ButtonNavScrim(child: child!),
+            child: kIsWeb ? _WebFrame(child: child!) : KeyboardGuard(child: _ButtonNavScrim(child: child!)),
           );
         },
         home: const AppShell(),

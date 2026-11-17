@@ -43,7 +43,10 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProviderStateMixin {
   bool _busy = false;
-  static const _reach = 210.0;
+  double get _reach {
+    final h = MediaQuery.sizeOf(context).height / 873;
+    return (210 * h * h).clamp(110.0, 210.0);
+  }
   final _scroll = ScrollController();
   final _pull = ValueNotifier<double>(0);
   late final AnimationController _back;

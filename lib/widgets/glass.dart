@@ -110,7 +110,8 @@ class _GlassSheetRoute<T> extends ModalBottomSheetRoute<T> with _GlassCount<T> {
   @override
   Widget buildPage(BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
     final page = super.buildPage(context, animation, secondaryAnimation);
-    return floating ? Padding(padding: const EdgeInsets.only(top: 28, bottom: 28), child: page) : page;
+    return _KeyboardLift(
+        child: floating ? Padding(padding: const EdgeInsets.only(top: 28, bottom: 28), child: page) : page);
   }
 
   @override
@@ -133,6 +134,24 @@ class _GlassSheetRoute<T> extends ModalBottomSheetRoute<T> with _GlassCount<T> {
           ),
         );
       },
+    );
+  }
+}
+
+class _KeyboardLift extends StatelessWidget {
+  const _KeyboardLift({required this.child});
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    final media = MediaQuery.of(context);
+    return Padding(
+      padding: EdgeInsets.only(bottom: media.viewInsets.bottom),
+      child: MediaQuery(
+        data: media.copyWith(viewInsets: media.viewInsets.copyWith(bottom: 0)),
+        child: child,
+      ),
     );
   }
 }

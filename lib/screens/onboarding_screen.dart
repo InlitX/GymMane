@@ -19,6 +19,7 @@ import '../widgets/app_background.dart';
 import '../widgets/body_rulers.dart';
 import '../widgets/body_map.dart';
 import '../widgets/entrance.dart';
+import '../widgets/keyboard_guard.dart';
 import '../widgets/photo_source_sheet.dart';
 import '../widgets/rolling_text.dart';
 import '../widgets/speed_panel.dart';
@@ -87,12 +88,27 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   }
 
   void _go(int i) {
+    FocusManager.instance.primaryFocus?.unfocus();
     _page.animateToPage(i, duration: const Duration(milliseconds: 340), curve: Curves.easeOutCubic);
   }
 
-  void _onPage(int i) => _at.value = i;
+  void _onPage(int i) {
+    FocusManager.instance.primaryFocus?.unfocus();
+    _at.value = i;
+  }
 
-  void _finish() {
+  bool _finishing = false;
+
+  Future<void> _finish() async {
+    if (_finishing) return;
+    _finishing = true;
+    if (keyboardInUse) {
+      FocusManager.instance.primaryFocus?.unfocus();
+      await SystemChannels.textInput.invokeMethod<void>('TextInput.hide');
+      for (var i = 0; i < 10 && mounted && MediaQuery.viewInsetsOf(context).bottom > 0; i++) {
+        await Future<void>.delayed(const Duration(milliseconds: 50));
+      }
+    }
     final typed = _name.text.trim();
     if (typed.isNotEmpty) fit.updateProfile(name: typed);
     String? first;

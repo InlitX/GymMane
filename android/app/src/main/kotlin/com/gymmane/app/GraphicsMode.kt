@@ -1,11 +1,14 @@
 package com.gymmane.app
 
 import android.app.Activity
+import android.app.ActivityManager
+import android.app.ApplicationExitInfo
 import android.content.Context
 import android.content.Intent
 import android.opengl.EGL14
 import android.opengl.EGLConfig
 import android.opengl.GLES20
+import android.os.Build
 import kotlin.system.exitProcess
 
 object GraphicsMode {
@@ -13,7 +16,45 @@ object GraphicsMode {
     private const val PREFS = "gymmane_graphics"
     private const val KEY_MODE = "mode"
     private const val KEY_GPU = "gpu"
-    private val badGpus = Regex("Mali-G(31|51|52|71|72|76)\\b")
+    private const val KEY_LAUNCH = "launchAt"
+    private const val KEY_REACHED = "reached"
+    private const val KEY_STRIKES = "strikes"
+    private const val KEY_STUCK = "stuck"
+    private const val EARLY_MS = 20_000L
+    private val badGpus = Regex("Mali-G(31|51|52|71|72|76)\\b|PowerVR Rogue GE8\\d{3}")
+
+    fun judgeLastLaunch(context: Context) {
+        val p = prefs(context)
+        val launchAt = p.getLong(KEY_LAUNCH, 0L)
+        if (launchAt == 0L) return
+        val failed = !p.getBoolean(KEY_REACHED, false) || diedEarly(context, launchAt)
+        val strikes = if (failed) p.getInt(KEY_STRIKES, 0) + 1 else 0
+        val edit = p.edit().putLong(KEY_LAUNCH, 0L).putInt(KEY_STRIKES, strikes)
+        if (strikes >= 2) edit.putBoolean(KEY_STUCK, true)
+        edit.commit()
+    }
+
+    fun starting(context: Context) {
+        judgeLastLaunch(context)
+        prefs(context).edit().putLong(KEY_LAUNCH, System.currentTimeMillis()).putBoolean(KEY_REACHED, false).commit()
+    }
+
+    fun ready(context: Context) {
+        prefs(context).edit().putBoolean(KEY_REACHED, true).apply()
+    }
+
+    private fun diedEarly(context: Context, launchAt: Long): Boolean {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) return false
+        return try {
+            val manager = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+            manager.getHistoricalProcessExitReasons(context.packageName, 0, 3).any {
+                (it.reason == ApplicationExitInfo.REASON_CRASH_NATIVE || it.reason == ApplicationExitInfo.REASON_ANR) &&
+                    it.timestamp in launchAt..(launchAt + EARLY_MS)
+            }
+        } catch (e: Throwable) {
+            false
+        }
+    }
 
     fun mode(context: Context): String =
         prefs(context).getString(KEY_MODE, "auto") ?: "auto"
@@ -26,7 +67,8 @@ object GraphicsMode {
         return name
     }
 
-    fun detected(context: Context): Boolean = badGpus.containsMatchIn(gpu(context))
+    fun detected(context: Context): Boolean =
+        badGpus.containsMatchIn(gpu(context)) || prefs(context).getBoolean(KEY_STUCK, false)
 
     fun compat(context: Context): Boolean = when (mode(context)) {
         "compat" -> true

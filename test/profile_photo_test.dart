@@ -98,4 +98,17 @@ void main() {
     await tester.pump();
     expect(photo, findsNothing);
   });
+
+  testWidgets('la foto cambia al momento aunque quien la pinta no se reconstruya', (tester) async {
+    await tester.pumpWidget(MaterialApp(
+      theme: AppTheme.dark,
+      home: const Scaffold(body: Center(child: ProfileAvatar())),
+    ));
+    expect(defaultPhoto, findsOneWidget);
+    fit.setProfilePhoto(_png);
+    fit.persistNow();
+    await tester.pump();
+    expect(photo, findsOneWidget);
+    expect(defaultPhoto, findsNothing);
+  });
 }

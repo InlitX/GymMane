@@ -6,6 +6,7 @@ import io.flutter.FlutterInjector
 class GymManeApplication : Application() {
     override fun onCreate() {
         super.onCreate()
+        GraphicsMode.judgeLastLaunch(this)
         if (!GraphicsMode.compat(this)) return
         try {
             val loader = FlutterInjector.instance().flutterLoader()

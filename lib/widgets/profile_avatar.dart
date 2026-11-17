@@ -13,7 +13,9 @@ class ProfileAvatar extends StatelessWidget {
   final double size;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) => ListenableBuilder(listenable: fit, builder: (context, _) => _avatar(context));
+
+  Widget _avatar(BuildContext context) {
     final gc = context.gc;
     final bytes = fit.profilePhoto;
     return Container(
