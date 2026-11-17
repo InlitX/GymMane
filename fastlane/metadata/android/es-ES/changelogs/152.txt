@@ -1,0 +1,11 @@
+GymMane 2.4.0
+
+• App para relojes Wear OS (beta), sincronizada por Bluetooth
+• Accesos en el panel: el entreno de hoy y tu pase del gimnasio
+• Tensión arterial, notas e izquierda/derecha en las medidas
+• Edita ayunos pasados y añade los que olvidaste
+• Las series por tiempo pueden seguir contando
+• Reordena tus rutinas
+• Self-host en Proxmox, Unraid o un NAS
+
+Y mucho más. Instálala y descúbrelo.

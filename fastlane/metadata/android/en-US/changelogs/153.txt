@@ -1,0 +1,11 @@
+GymMane 2.4.0
+
+• Wear OS watch app (beta), synced over Bluetooth
+• Quick Settings tiles: today's workout and your gym pass
+• Blood pressure, notes and left/right in measurements
+• Edit past fasts and add the ones you forgot
+• Timed sets can keep counting past your target
+• Reorder your routines
+• Self-host on Proxmox, Unraid or a NAS
+
+And a lot more. Install it and find out.
