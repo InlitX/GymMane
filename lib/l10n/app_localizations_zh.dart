@@ -2134,6 +2134,12 @@ class AppLocalizationsZh extends AppLocalizations {
   String get supersetHint => '相连的动作之间不休息，直接进入下一个。';
 
   @override
+  String get jumpSet => 'Jump set';
+
+  @override
+  String get jumpSetHint => 'Rest after each chained exercise too, then move on to the next one.';
+
+  @override
   String get aiRoutine => '用 AI 生成计划';
 
   @override

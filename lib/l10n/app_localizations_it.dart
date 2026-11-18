@@ -2217,6 +2217,12 @@ class AppLocalizationsIt extends AppLocalizations {
   String get supersetHint => 'Nessun riposo tra gli esercizi concatenati: passi dritto al prossimo.';
 
   @override
+  String get jumpSet => 'Jump set';
+
+  @override
+  String get jumpSetHint => 'Riposi anche dopo ogni esercizio concatenato, poi passi al prossimo.';
+
+  @override
   String get aiRoutine => 'Scheda con l\'IA';
 
   @override
@@ -2806,7 +2812,7 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get planFormatNotes =>
-      'Usa i nomi degli esercizi esattamente come nella lista. \"sets\", \"reps\", \"weight\" (nell\'unità indicata), \"rest\" in secondi e \"days\" sono facoltativi. \"superset\": true collega un esercizio al successivo. Per più settimane, raggruppa le routine dentro \"weeks\" come nel secondo esempio.';
+      'Usa i nomi degli esercizi esattamente come nella lista. \"sets\", \"reps\", \"weight\" (nell\'unità indicata), \"rest\" in secondi e \"days\" sono facoltativi. \"superset\": true collega un esercizio al successivo, \"jumpset\": true fa lo stesso con un riposo in mezzo. Per più settimane, raggruppa le routine dentro \"weeks\" come nel secondo esempio.';
 
   @override
   String get planSets => 'Pianifica le serie';

@@ -2168,6 +2168,12 @@ class AppLocalizationsVi extends AppLocalizations {
   String get supersetHint => 'Không nghỉ giữa các bài được nối, bạn chuyển thẳng sang bài tiếp theo.';
 
   @override
+  String get jumpSet => 'Jump set';
+
+  @override
+  String get jumpSetHint => 'Rest after each chained exercise too, then move on to the next one.';
+
+  @override
   String get aiRoutine => 'Giáo án tập với AI';
 
   @override

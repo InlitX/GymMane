@@ -2153,6 +2153,12 @@ class AppLocalizationsJa extends AppLocalizations {
   String get supersetHint => '連結した種目の間は休憩なし、そのまま次へ進みます。';
 
   @override
+  String get jumpSet => 'Jump set';
+
+  @override
+  String get jumpSetHint => 'Rest after each chained exercise too, then move on to the next one.';
+
+  @override
   String get aiRoutine => 'AIでルーティン作成';
 
   @override

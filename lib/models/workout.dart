@@ -269,6 +269,7 @@ class Routine {
   Routine(this.id, this.name, this.exerciseIds,
       {Map<String, int>? sets,
       Set<String>? chained,
+      Set<String>? jumped,
       Map<String, List<PlannedSet>>? plan,
       Map<String, int>? rest,
       List<List<String>>? ladders,
@@ -279,6 +280,7 @@ class Routine {
       this.archived = false})
       : sets = sets ?? {},
         chained = chained ?? {},
+        jumped = jumped ?? {},
         plan = plan ?? {},
         rest = rest ?? {},
         ladders = ladders ?? [],
@@ -292,6 +294,7 @@ class Routine {
   final List<String> exerciseIds;
   final Map<String, int> sets;
   final Set<String> chained;
+  final Set<String> jumped;
   final Map<String, List<PlannedSet>> plan;
   final Map<String, int> rest;
   final List<List<String>> ladders;
@@ -308,6 +311,7 @@ class Routine {
         if (rest.isNotEmpty) 'r': rest,
         if (sets.isNotEmpty) 's': sets,
         if (chained.isNotEmpty) 'c': chained.toList(),
+        if (jumped.isNotEmpty) 'j': jumped.toList(),
         if (group.isNotEmpty) 'g': group,
         if (color >= 0) 'k': color,
         if (archived) 'a': true,
@@ -321,6 +325,7 @@ class Routine {
         sets: ((j['s'] as Map?) ?? const {})
             .map((k, v) => MapEntry(k as String, (v as num).toInt())),
         chained: ((j['c'] as List?) ?? const []).cast<String>().toSet(),
+        jumped: ((j['j'] as List?) ?? const []).cast<String>().toSet(),
         plan: ((j['p'] as Map?) ?? const {}).map((k, v) => MapEntry(
               k as String,
               (v as List).map((s) => PlannedSet.fromJson((s as Map).cast<String, dynamic>())).toList(),

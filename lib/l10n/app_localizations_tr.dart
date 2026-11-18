@@ -2228,6 +2228,12 @@ class AppLocalizationsTr extends AppLocalizations {
   String get supersetHint => 'Bağlı egzersizler arasında dinlenme yok, doğrudan sonrakine geçersin.';
 
   @override
+  String get jumpSet => 'Jump set';
+
+  @override
+  String get jumpSetHint => 'Rest after each chained exercise too, then move on to the next one.';
+
+  @override
   String get aiRoutine => 'Yapay zekâ ile program';
 
   @override

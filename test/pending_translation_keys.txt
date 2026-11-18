@@ -18,3 +18,5 @@ routineNotesAdded
 reportChooseCsv
 reportWeighIns
 reportSessionDetails
+jumpSet
+jumpSetHint

@@ -1246,7 +1246,8 @@ class FitState extends FitCore
           } else if (item.sets != null) {
             setRoutineSetCount(id, ex.id, item.sets!);
           }
-          if (item.superset) toggleChain(id, ex.id);
+          if (item.superset && ex != picked.last.$1) toggleChain(id, ex.id);
+          if (item.jump && ex != picked.last.$1) toggleJump(id, ex.id);
           if (item.ladder.isNotEmpty) {
             final steps = [
               for (final name in item.ladder) ?_planExercise(PlanItem(name, null))?.id,
@@ -1337,6 +1338,7 @@ class FitState extends FitCore
                           },
                       ],
                     if (chainsToNext(r, id)) 'superset': true,
+                    if (jumpsToNext(r, id)) 'jumpset': true,
                     if (ladderIn(r, id) case final steps?)
                       'progression': [for (final s in steps) ?exerciseById(s)?.name],
                     'rest': ?(routineRest(r.id, id) ?? (hasCustomRest(id) ? restFor(id) : null)),

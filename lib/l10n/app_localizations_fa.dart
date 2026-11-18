@@ -2208,6 +2208,12 @@ class AppLocalizationsFa extends AppLocalizations {
   String get supersetHint => 'بین حرکات سوپرست استراحت نیست، مستقیم می‌روی سراغ بعدی.';
 
   @override
+  String get jumpSet => 'Jump set';
+
+  @override
+  String get jumpSetHint => 'Rest after each chained exercise too, then move on to the next one.';
+
+  @override
   String get aiRoutine => 'روتین با AI';
 
   @override

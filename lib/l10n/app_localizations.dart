@@ -4076,6 +4076,18 @@ abstract class AppLocalizations {
   /// **'No rest between chained exercises, you go straight to the next one.'**
   String get supersetHint;
 
+  /// No description provided for @jumpSet.
+  ///
+  /// In en, this message translates to:
+  /// **'Jump set'**
+  String get jumpSet;
+
+  /// No description provided for @jumpSetHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Rest after each chained exercise too, then move on to the next one.'**
+  String get jumpSetHint;
+
   /// No description provided for @aiRoutine.
   ///
   /// In en, this message translates to:
@@ -5117,7 +5129,7 @@ abstract class AppLocalizations {
   /// No description provided for @planFormatNotes.
   ///
   /// In en, this message translates to:
-  /// **'Use the exercise names exactly as they appear in the list. \"sets\", \"reps\" (a number or a range like \"8-12\"), \"weight\" (in the unit given), \"rest\" in seconds and \"days\" are optional. For exercises marked cardio or time in the list, use \"time\" (seconds, or like \"30:00\") and \"distance\" (in km) instead of \"reps\"; to give each set its own values, list them in \"plan\", one entry per set with its own \"reps\" and \"weight\" (add \"type\": \"warmup\" for warm-up sets). \"superset\": true links an exercise with the next one. For several weeks, group the routines inside \"weeks\" like the second example.'**
+  /// **'Use the exercise names exactly as they appear in the list. \"sets\", \"reps\" (a number or a range like \"8-12\"), \"weight\" (in the unit given), \"rest\" in seconds and \"days\" are optional. For exercises marked cardio or time in the list, use \"time\" (seconds, or like \"30:00\") and \"distance\" (in km) instead of \"reps\"; to give each set its own values, list them in \"plan\", one entry per set with its own \"reps\" and \"weight\" (add \"type\": \"warmup\" for warm-up sets). \"superset\": true links an exercise with the next one, \"jumpset\": true does the same with a rest in between. For several weeks, group the routines inside \"weeks\" like the second example.'**
   String get planFormatNotes;
 
   /// No description provided for @planSets.

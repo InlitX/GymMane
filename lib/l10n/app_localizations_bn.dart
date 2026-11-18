@@ -2225,6 +2225,12 @@ class AppLocalizationsBn extends AppLocalizations {
   String get supersetHint => 'জোড়া ব্যায়ামের মাঝে বিশ্রাম নেই, সরাসরি পরেরটায়।';
 
   @override
+  String get jumpSet => 'Jump set';
+
+  @override
+  String get jumpSetHint => 'Rest after each chained exercise too, then move on to the next one.';
+
+  @override
   String get aiRoutine => 'AI দিয়ে রুটিন';
 
   @override
