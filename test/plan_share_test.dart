@@ -119,6 +119,25 @@ void main() {
       expect(again.single.items.first.plan.first.repsMax, 12);
     });
 
+    test('el tipo de serie puesto en el ejercicio llega a sus series de trabajo', () {
+      fit.importPlan('{"name":"X","exercises":[{"name":"Barbell Bench Press","sets":3,"reps":10,"weight":60,"type":"drop"}]}');
+      final routine = fit.routines.single;
+      final sets = fit.plannedSets(routine, routine.exerciseIds.single);
+      expect(sets.map((s) => s.kind).toList(), [SetKind.drop, SetKind.drop, SetKind.drop]);
+      expect(sets.map((s) => s.weightKg).toList(), [60, 60, 60]);
+      final again = parsePlan(fit.exportPlanJson(fit.routines));
+      expect(again.single.items.single.plan.map((p) => p.kind).toList(), [2, 2, 2]);
+    });
+
+    test('una serie del plan conserva su propio tipo y el resto toma el del ejercicio', () {
+      fit.importPlan('{"name":"X","exercises":[{"name":"Barbell Bench Press","sets":3,"reps":8,"type":"restpause",'
+          '"plan":[{"reps":12,"weight":30,"type":"warmup"},{"reps":8}]}]}');
+      final routine = fit.routines.single;
+      final sets = fit.plannedSets(routine, routine.exerciseIds.single);
+      expect(sets.map((s) => s.kind).toList(), [SetKind.warmup, SetKind.normal, SetKind.restPause, SetKind.restPause]);
+      expect(sets.map((s) => s.reps).toList(), [12, 8, 8, 8]);
+    });
+
     test('un ejercicio solo con tiempo no se pierde como si no tuviera datos', () {
       fit.importPlan('{"name":"X","exercises":[{"name":"Treadmill Run","time":600}]}');
       final routine = fit.routines.single;
