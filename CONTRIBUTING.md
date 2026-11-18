@@ -97,3 +97,10 @@ flutter test test/session_test.dart # one file
 - Say what changed and why, and add a screenshot for anything visual.
 - By contributing you agree your work ships under the project's
   [GPL-3.0 license](LICENSE).
+
+## Using AI tools
+
+You can use AI, just use it responsibly. If you made something with it, please
+review it before sending anything.
+
+Pull requests with an AI or an agent as co-author will never be accepted.
