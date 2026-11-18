@@ -2806,7 +2806,7 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get planFormatNotes =>
-      'Usa i nomi degli esercizi esattamente come nella lista. \"sets\", \"reps\", \"weight\" (nell\'unità indicata), \"rest\" in secondi e \"days\" sono facoltativi. \"superset\": true collega un esercizio al successivo. Per più settimane, raggruppa le routine dentro \"weeks\" come nel secondo esempio.';
+      'Usa i nomi degli esercizi esattamente come nella lista. \"sets\", \"reps\" (un numero o un intervallo come \"8-12\"), \"weight\" (nell\'unità indicata), \"rest\" in secondi e \"days\" sono facoltativi. Per gli esercizi segnati cardio o a tempo nella lista, usa \"time\" (secondi, o come \"30:00\") e \"distance\" (in km) al posto di \"reps\"; per dare a ogni serie i suoi valori, elencale in \"plan\", una voce per serie con le sue \"reps\" e il suo \"weight\". \"type\" indica il tipo di serie: \"warmup\", \"drop\", \"failure\", \"restpause\" o \"cluster\"; sull\'esercizio vale per tutte le sue serie di lavoro, dentro \"plan\" solo per quella serie. \"superset\": true collega un esercizio al successivo. Per più settimane, raggruppa le routine dentro \"weeks\" come nel secondo esempio.';
 
   @override
   String get planSets => 'Pianifica le serie';

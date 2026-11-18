@@ -2805,7 +2805,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get planFormatNotes =>
-      'Use the exercise names exactly as they appear in the list. \"sets\", \"reps\" (a number or a range like \"8-12\"), \"weight\" (in the unit given), \"rest\" in seconds and \"days\" are optional. For exercises marked cardio or time in the list, use \"time\" (seconds, or like \"30:00\") and \"distance\" (in km) instead of \"reps\"; to give each set its own values, list them in \"plan\", one entry per set with its own \"reps\" and \"weight\" (add \"type\": \"warmup\" for warm-up sets). \"superset\": true links an exercise with the next one. For several weeks, group the routines inside \"weeks\" like the second example.';
+      'Use the exercise names exactly as they appear in the list. \"sets\", \"reps\" (a number or a range like \"8-12\"), \"weight\" (in the unit given), \"rest\" in seconds and \"days\" are optional. For exercises marked cardio or time in the list, use \"time\" (seconds, or like \"30:00\") and \"distance\" (in km) instead of \"reps\"; to give each set its own values, list them in \"plan\", one entry per set with its own \"reps\" and \"weight\". \"type\" marks the kind of set: \"warmup\", \"drop\", \"failure\", \"restpause\" or \"cluster\"; on the exercise it applies to all its working sets, inside \"plan\" to that set only. \"superset\": true links an exercise with the next one. For several weeks, group the routines inside \"weeks\" like the second example.';
 
   @override
   String get planSets => 'Plan sets';

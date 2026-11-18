@@ -1298,7 +1298,14 @@ class FitState extends FitCore
     return [
       ...explicit,
       for (var i = working; i < wanted.clamp(0, 20); i++)
-        PlannedSet(reps: item.reps, repsMax: item.repsMax, weightKg: item.weightKg, sec: item.sec, km: item.km),
+        PlannedSet(
+          reps: item.reps,
+          repsMax: item.repsMax,
+          weightKg: item.weightKg,
+          kind: setKindFrom(item.kind),
+          sec: item.sec,
+          km: item.km,
+        ),
     ];
   }
 
