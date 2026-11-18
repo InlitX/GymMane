@@ -31,6 +31,7 @@ class PlanItem {
     this.loggingNote = '',
     this.sec,
     this.km,
+    this.kind = 0,
   });
   final String name;
   final int? sets;
@@ -51,6 +52,7 @@ class PlanItem {
   final String loggingNote;
   final int? sec;
   final double? km;
+  final int kind;
 }
 
 class PlanRoutine {
@@ -346,6 +348,7 @@ List<PlanItem> _items(Object? raw, bool lb) {
       },
       sec: _seconds(_value(entry, _timeKeys)),
       km: _double(_value(entry, _distanceKeys)),
+      kind: _kind(_value(entry, ['type', 'kind', 'settype', 'tipo'])),
     ));
   }
   return _mergeRepeats(out);
@@ -365,12 +368,26 @@ List<PlanSet> _expanded(PlanItem item) {
           km: p.km ?? item.km,
         ),
       for (var i = working; i < (item.sets ?? working); i++)
-        PlanSet(reps: item.reps, repsMax: item.repsMax, weightKg: item.weightKg, sec: item.sec, km: item.km),
+        PlanSet(
+          reps: item.reps,
+          repsMax: item.repsMax,
+          weightKg: item.weightKg,
+          kind: item.kind,
+          sec: item.sec,
+          km: item.km,
+        ),
     ];
   }
   return [
     for (var i = 0; i < (item.sets ?? 1); i++)
-      PlanSet(reps: item.reps, repsMax: item.repsMax, weightKg: item.weightKg, sec: item.sec, km: item.km),
+      PlanSet(
+        reps: item.reps,
+        repsMax: item.repsMax,
+        weightKg: item.weightKg,
+        kind: item.kind,
+        sec: item.sec,
+        km: item.km,
+      ),
   ];
 }
 
@@ -407,6 +424,7 @@ List<PlanItem> _mergeRepeats(List<PlanItem> items) {
       loggingNote: first.loggingNote.isEmpty ? item.loggingNote : first.loggingNote,
       sec: first.sec ?? item.sec,
       km: first.km ?? item.km,
+      kind: first.kind,
     );
   }
   return out;
