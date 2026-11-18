@@ -167,6 +167,51 @@ void main() {
       expect(fit.session!.currentIndex, 0);
     });
 
+    test('en un jump set descansa también entre los encadenados', () {
+      final pair = chainedPair();
+      fit.toggleJump(pair.routine.id, pair.a);
+      expect(fit.jumpsToNext(pair.routine, pair.a), isTrue);
+      fit.startRoutine(pair.routine);
+      expect(fit.inJumpSet, isTrue);
+
+      fit.toggleSet(0, 0);
+      expect(fit.session!.currentIndex, 1);
+      expect(fit.session!.restRemaining, isNotNull);
+    });
+
+    test('el jump set se guarda, se lee y cae al separar la cadena', () {
+      final pair = chainedPair();
+      fit.toggleJump(pair.routine.id, pair.a);
+      final saved = fit.toJson();
+      fit.resetAllData();
+      fit.applyBackup(saved);
+      final r = fit.routines.single;
+      expect(r.jumped, {pair.a});
+      fit.toggleChain(r.id, pair.a);
+      expect(r.jumped, isEmpty);
+    });
+
+    test('el jump set es del eslabón que se cruza, no de toda la cadena', () {
+      final r = routineWith([bench(), fit.matchExerciseByName('Barbell Squat')!.id, fit.allExercises[5].id]);
+      final ids = r.exerciseIds;
+      fit.toggleChain(r.id, ids[0]);
+      fit.toggleChain(r.id, ids[1]);
+      fit.toggleJump(r.id, ids[1]);
+      fit.startRoutine(r);
+      final s = fit.session!;
+      expect(fit.inJumpSet, isFalse, reason: 'A → B va sin descanso');
+      s.currentIndex = 1;
+      expect(fit.inJumpSet, isTrue, reason: 'B → C descansa');
+
+      fit.toggleSessionLink(1);
+      expect(s.exercises[1].jumpNext, isFalse, reason: 'separar la cadena apaga el jump');
+      fit.toggleSessionJump(1);
+      expect(s.exercises[1].jumpNext, isFalse, reason: 'sin cadena no hay jump');
+
+      fit.removeSessionExercise(2);
+      expect(s.exercises[1].linkedNext, isFalse, reason: 'el último no enlaza con nada');
+    });
+
     test('sin encadenar sigue el comportamiento de siempre', () async {
       final squat = fit.matchExerciseByName('Barbell Squat')!.id;
       final r = routineWith([bench(), squat]);

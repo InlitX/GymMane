@@ -2167,6 +2167,15 @@ class AppLocalizationsId extends AppLocalizations {
   String get supersetHint => 'Tanpa istirahat di antara gerakan yang dirangkai, langsung ke berikutnya.';
 
   @override
+  String get jumpSet => 'Jump set';
+
+  @override
+  String get jumpSetHint => 'Rest after each chained exercise too, then move on to the next one.';
+
+  @override
+  String get jumpSetLink => 'Make it a jump set';
+
+  @override
   String get aiRoutine => 'Rutinitas dengan AI';
 
   @override
