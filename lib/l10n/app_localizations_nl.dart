@@ -2226,6 +2226,15 @@ class AppLocalizationsNl extends AppLocalizations {
   String get supersetHint => 'Geen rust tussen gekoppelde oefeningen, je gaat meteen door naar de volgende.';
 
   @override
+  String get jumpSet => 'Jump set';
+
+  @override
+  String get jumpSetHint => 'Rest after each chained exercise too, then move on to the next one.';
+
+  @override
+  String get jumpSetLink => 'Make it a jump set';
+
+  @override
   String get aiRoutine => 'Routine met AI';
 
   @override

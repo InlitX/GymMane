@@ -211,6 +211,7 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
         plan: {for (final ex in exs) ex.id: routineSets(r, ex.id)},
         planned: {for (final ex in exs) if (hasPlan(r, ex.id)) ex.id: plannedSets(r, ex.id)},
         chained: {for (final ex in exs) if (chainsToNext(r, ex.id)) ex.id},
+        jumped: {for (final ex in exs) if (jumpsToNext(r, ex.id)) ex.id},
         routineId: r.id,
         on: on);
   }
@@ -534,6 +535,7 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
       {Map<String, int>? plan,
       Map<String, List<PlannedSet>> planned = const {},
       Set<String> chained = const {},
+      Set<String> jumped = const {},
       String? routineId,
       DateTime? on}) {
     final s = WorkoutSession()..routineId = routineId;
@@ -549,6 +551,7 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
               ex.primary,
               _openingSets(ex.id, count: plan?[ex.id], planned: planned[ex.id]),
               linkedNext: chained.contains(ex.id),
+              jumpNext: jumped.contains(ex.id),
             ))
         .toList();
     if (deloadWeek && !s.manual) _lighten(s);
@@ -808,13 +811,13 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
     _persist();
     notifyListeners();
     if (!st.done) return;
-    final chain = chainAt(exIdx);
-    if (chain.length > 1) {
-      _advanceChain(chain, exIdx);
-      return;
-    }
     final sets = session!.exercises[exIdx].sets;
     final mini = setIdx + 1 < sets.length && const [SetKind.restPause, SetKind.cluster].contains(sets[setIdx + 1].kind);
+    final chain = chainAt(exIdx);
+    if (chain.length > 1) {
+      _advanceChain(chain, exIdx, mini: mini, rest: st.rest);
+      return;
+    }
     startRest(mini: mini, seconds: st.rest ?? (mini ? null : _changeRestAfter(exIdx)));
     if (autoAdvance || sessionLocked) _advanceWhenDone(exIdx);
   }
@@ -873,6 +876,15 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
     final s = session;
     if (s == null || exIdx < 0 || exIdx >= s.exercises.length - 1) return;
     s.exercises[exIdx].linkedNext = !s.exercises[exIdx].linkedNext;
+    if (!s.exercises[exIdx].linkedNext) s.exercises[exIdx].jumpNext = false;
+    _persist();
+    notifyListeners();
+  }
+
+  void toggleSessionJump(int exIdx) {
+    final s = session;
+    if (s == null || exIdx < 0 || exIdx >= s.exercises.length - 1 || !s.exercises[exIdx].linkedNext) return;
+    s.exercises[exIdx].jumpNext = !s.exercises[exIdx].jumpNext;
     _persist();
     notifyListeners();
   }
@@ -975,10 +987,18 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
 
   bool get inSuperset => chainAt(session?.currentIndex ?? -1).length > 1;
 
-  void _advanceChain(List<int> chain, int exIdx) {
+  bool get inJumpSet {
+    final s = session;
+    if (s == null || s.currentIndex >= s.exercises.length - 1) return false;
+    final ex = s.exercises[s.currentIndex];
+    return ex.linkedNext && ex.jumpNext;
+  }
+
+  void _advanceChain(List<int> chain, int exIdx, {bool mini = false, int? rest}) {
     final s = session!;
     final after = chain.where((i) => i > exIdx && s.exercises[i].hasUndone).toList();
     if (after.isNotEmpty) {
+      if (s.exercises[exIdx].jumpNext) startRest(mini: mini, seconds: rest);
       s.currentIndex = after.first;
       _persist();
       notifyListeners();
@@ -1612,6 +1632,10 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
     notifyListeners();
   }
 
+  SessionExercise _unchain(SessionExercise ex) => ex
+    ..linkedNext = false
+    ..jumpNext = false;
+
   void reorderSessionExercise(int from, int to) {
     final s = session;
     if (s == null || from < 0 || from >= s.exercises.length) return;
@@ -1619,10 +1643,10 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
     to = to.clamp(0, s.exercises.length - 1);
     if (to == from) return;
     final current = s.exercises[s.currentIndex];
-    if (from > 0) s.exercises[from - 1].linkedNext = false;
-    final moved = s.exercises.removeAt(from)..linkedNext = false;
+    if (from > 0) _unchain(s.exercises[from - 1]);
+    final moved = _unchain(s.exercises.removeAt(from));
     s.exercises.insert(to, moved);
-    if (to > 0) s.exercises[to - 1].linkedNext = false;
+    if (to > 0) _unchain(s.exercises[to - 1]);
     s.currentIndex = s.exercises.indexOf(current);
     _persist();
     notifyListeners();
@@ -1775,6 +1799,7 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
       discardSession();
       return;
     }
+    _unchain(s.exercises.last);
     s.currentIndex = s.currentIndex.clamp(0, s.exercises.length - 1);
     persistNow();
     notifyListeners();
@@ -1841,10 +1866,11 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
     final next = SessionExercise(to.id, to.name, to.primary,
         started ? _withSides(toId, _workingOpeners(toId, count: count)) : _openingSets(toId, count: count),
         linkedNext: from.linkedNext,
+        jumpNext: from.jumpNext,
         swappedFrom: from.swappedFrom ?? from.id);
     if (started) {
       from.sets.removeWhere((st) => !st.done);
-      from.linkedNext = false;
+      _unchain(from);
       s.exercises.insert(exIdx + 1, next);
       s.currentIndex = exIdx + 1;
     } else {
@@ -2049,6 +2075,7 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
     for (final ex in exs) {
       toggleRoutineExercise(id, ex.id);
       if (ex.linkedNext) toggleChain(id, ex.id);
+      if (ex.jumpNext) toggleJump(id, ex.id);
       _planFromSession(id, ex);
     }
     session!.routineId = id;

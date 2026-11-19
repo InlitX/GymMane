@@ -138,6 +138,17 @@ void main() {
       expect(sets.map((s) => s.reps).toList(), [12, 8, 8, 8]);
     });
 
+    test('jumpset encadena con descanso y hace ida y vuelta', () {
+      fit.importPlan('{"name":"X","exercises":[{"name":"Barbell Bench Press","jumpset":true},{"name":"Barbell Bent Over Row"}]}');
+      final r = fit.routines.single;
+      expect(fit.chainsToNext(r, r.exerciseIds[0]), isTrue);
+      expect(fit.jumpsToNext(r, r.exerciseIds[0]), isTrue);
+      final again = parsePlan(fit.exportPlanJson(fit.routines));
+      expect(again.single.items.first.jump, isTrue);
+      expect(again.single.items.first.superset, isTrue);
+      expect(fit.chainsToNext(r, r.exerciseIds[1]), isFalse, reason: 'el último no enlaza con nada');
+    });
+
     test('un ejercicio solo con tiempo no se pierde como si no tuviera datos', () {
       fit.importPlan('{"name":"X","exercises":[{"name":"Treadmill Run","time":600}]}');
       final routine = fit.routines.single;

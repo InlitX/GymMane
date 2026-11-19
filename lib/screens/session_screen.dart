@@ -567,6 +567,15 @@ class SessionScreen extends StatelessWidget {
                     showNotchToast(context, t.superset,
                         subtitle: t.supersetHint, icon: PhosphorIconsFill.link, accent: gc.brass);
                   }),
+                if (i < s.exercises.length - 1 && ex.linkedNext)
+                  OptionItem(t.jumpSet, icon: PhosphorIconsRegular.arrowsClockwise, selected: ex.jumpNext, onTap: () {
+                    Navigator.pop(sheet);
+                    fit.toggleSessionJump(i);
+                    if (!s.exercises[i].jumpNext) return;
+                    HapticFeedback.selectionClick();
+                    showNotchToast(context, t.jumpSet,
+                        subtitle: t.jumpSetHint, icon: PhosphorIconsFill.arrowsLeftRight, accent: gc.brass);
+                  }),
                 OptionItem(t.lightSession,
                     icon: PhosphorIconsRegular.feather,
                     selected: s.deload,
@@ -853,9 +862,10 @@ class SessionScreen extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
             decoration: BoxDecoration(color: gc.bgRaised2, borderRadius: BorderRadius.circular(100)),
             child: Row(mainAxisSize: MainAxisSize.min, children: [
-              Icon(PhosphorIconsRegular.link, size: 11, color: gc.brass),
+              Icon(fit.inJumpSet ? PhosphorIconsRegular.arrowsLeftRight : PhosphorIconsRegular.link,
+                  size: 11, color: gc.brass),
               const SizedBox(width: 5),
-              Text(t.superset,
+              Text(fit.inJumpSet ? t.jumpSet : t.superset,
                   style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.brass, letterSpacing: 0.5)),
             ]),
           ),
@@ -2916,7 +2926,8 @@ class _ExerciseStageState extends State<_ExerciseStage> {
     final ex = fit.currentExercise;
     if (ex == null) return;
     final gc = context.gc;
-    final where = fit.inSuperset ? '${t.superset} · ${fit.sessionProgressLabel}' : fit.sessionProgressLabel;
+    final kind = fit.inJumpSet ? t.jumpSet : t.superset;
+    final where = fit.inSuperset ? '$kind · ${fit.sessionProgressLabel}' : fit.sessionProgressLabel;
     HapticFeedback.mediumImpact();
     showNotchToast(context, t.catalogName(ex.id, ex.name),
         subtitle: where,
