@@ -655,6 +655,15 @@ List<(Object?, bool)> _candidates(String text, String open) {
   return out;
 }
 
+enum MealAiTrouble { noData, cut, unknown }
+
+MealAiTrouble diagnoseMealAi(String raw) {
+  int count(String chars) => raw.split('').where(chars.contains).length;
+  final open = count('{[');
+  if (open == 0) return MealAiTrouble.noData;
+  return count('}]') < open ? MealAiTrouble.cut : MealAiTrouble.unknown;
+}
+
 AiReply parseMealAi(String raw) {
   final text = _clean(raw);
   var best = const AiReply([]);

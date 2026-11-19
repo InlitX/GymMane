@@ -506,4 +506,19 @@ void main() {
       expect(parseFoodAi(p), isNotNull);
     });
   });
+
+  group('por qué no se ha podido leer', () {
+    test('solo texto, sin datos: la IA se ha negado o ha contestado en frase', () {
+      expect(diagnoseMealAi('Lo siento, no puedo ver la foto. ¿Me describes el plato?'), MealAiTrouble.noData);
+    });
+
+    test('un JSON a medias es una respuesta cortada', () {
+      expect(diagnoseMealAi('```json {"gymmane": "meal", "options": [{"items": [{"name": "Arroz", "grams": 150'),
+          MealAiTrouble.cut);
+    });
+
+    test('con datos completos pero raros, el aviso de siempre', () {
+      expect(diagnoseMealAi('{"hola": 1}'), MealAiTrouble.unknown);
+    });
+  });
 }

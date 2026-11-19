@@ -364,3 +364,7 @@ ironLabel
 potassiumLabel
 mineralsCoverage
 mineralsHint
+mealAiNoData
+mealAiNoDataHint
+mealAiCutOff
+mealAiCutOffHint

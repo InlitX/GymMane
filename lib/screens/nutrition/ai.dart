@@ -25,6 +25,18 @@ String _aiTagLabel(String id) => switch (id) {
       _ => t.mealAiTagCheap,
     };
 
+String _troubleTitle(MealAiTrouble trouble) => switch (trouble) {
+      MealAiTrouble.noData => t.mealAiNoData,
+      MealAiTrouble.cut => t.mealAiCutOff,
+      MealAiTrouble.unknown => t.mealAiUnreadable,
+    };
+
+String _troubleHint(MealAiTrouble trouble) => switch (trouble) {
+      MealAiTrouble.noData => t.mealAiNoDataHint,
+      MealAiTrouble.cut => t.mealAiCutOffHint,
+      MealAiTrouble.unknown => t.mealAiUnreadableHint,
+    };
+
 class _MealAiSheet extends StatefulWidget {
   const _MealAiSheet({required this.meal, this.onPick});
 
@@ -446,9 +458,9 @@ class _MealAiSheetState extends State<_MealAiSheet> {
           border: Border.all(color: gc.warn.withValues(alpha: 0.55)),
         ),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Text(t.mealAiUnreadable, style: AppTheme.f(14, weight: FontWeight.w700, color: gc.text)),
+          Text(_troubleTitle(diagnoseMealAi(_answer.text)), style: AppTheme.f(14, weight: FontWeight.w700, color: gc.text)),
           const SizedBox(height: 6),
-          Text(t.mealAiUnreadableHint,
+          Text(_troubleHint(diagnoseMealAi(_answer.text)),
               style: AppTheme.f(12.5, weight: FontWeight.w500, color: gc.textSecondary, height: 1.45)),
           const SizedBox(height: 12),
           _chipButton(gc, PhosphorIconsRegular.copy, t.mealAiCopyFix, _copyFix, bg: gc.bgRaised),
@@ -864,9 +876,10 @@ class _FoodAiSheetState extends State<_FoodAiSheet> {
                     border: Border.all(color: gc.warn.withValues(alpha: 0.55)),
                   ),
                   child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                    Text(t.mealAiUnreadable, style: AppTheme.f(14, weight: FontWeight.w700, color: gc.text)),
+                    Text(_troubleTitle(diagnoseMealAi(_answer.text)),
+                        style: AppTheme.f(14, weight: FontWeight.w700, color: gc.text)),
                     const SizedBox(height: 6),
-                    Text(t.mealAiUnreadableHint,
+                    Text(_troubleHint(diagnoseMealAi(_answer.text)),
                         style: AppTheme.f(12.5, weight: FontWeight.w500, color: gc.textSecondary, height: 1.45)),
                     const SizedBox(height: 12),
                     _chipButton(gc, PhosphorIconsRegular.copy, t.mealAiCopyFix, _copyFix, bg: gc.bgRaised),
