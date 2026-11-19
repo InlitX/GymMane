@@ -252,13 +252,33 @@ mixin HealthState on FitCore {
         if (hcSeenWeights.isNotEmpty) 'seen': [...hcSeenWeights.toList()..sort()].reversed.take(400).toList(),
       };
 
-  List<double>? healthOnDay(HealthMetric m, DateTime day) => healthByDay[m]?[HealthMetrics.dayKey(day)];
+  Iterable<BodyMeasure> get _handPressure => measures.where((m) => m.key == 'bp' && m.low != null);
+
+  List<double>? healthOnDay(HealthMetric m, DateTime day) {
+    final key = HealthMetrics.dayKey(day);
+    final synced = healthByDay[m]?[key];
+    if (m != HealthMetric.bloodPressure) return synced;
+    final readings = [
+      for (final b in _handPressure)
+        if (HealthMetrics.dayKey(b.date) == key) [b.value, b.low!],
+      if (synced != null && synced.length > 1) synced,
+    ];
+    if (readings.isEmpty) return synced;
+    return [
+      for (var i = 0; i < 2; i++) readings.fold(0.0, (s, r) => s + r[i]) / readings.length,
+    ];
+  }
 
   ({DateTime day, List<double> values})? healthLatest(HealthMetric m) {
-    final days = healthByDay[m];
-    if (days == null || days.isEmpty) return null;
-    final key = days.keys.reduce((a, b) => a.compareTo(b) >= 0 ? a : b);
-    return (day: DateTime.parse(key), values: days[key]!);
+    final keys = {
+      ...?healthByDay[m]?.keys,
+      if (m == HealthMetric.bloodPressure)
+        for (final b in _handPressure) HealthMetrics.dayKey(b.date),
+    };
+    if (keys.isEmpty) return null;
+    final key = keys.reduce((a, b) => a.compareTo(b) >= 0 ? a : b);
+    final day = DateTime.parse(key);
+    return (day: day, values: healthOnDay(m, day)!);
   }
 
   List<DateTime> healthLastDays(int n) {

@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 import '../l10n/l10n.dart';
+import '../screens/measures_screen.dart' show showMeasureSheet;
 import '../services/health_metrics.dart';
 import '../services/health_steps.dart';
 import '../state/fit_state.dart';
@@ -768,10 +769,21 @@ void showHealthDetail(BuildContext context, HealthMetric metric) {
             ],
           ]),
           const SizedBox(height: 10),
-          Text(health(t.healthFrom),
+          Text(health(pressure && fit.measures.any((m) => m.key == 'bp') ? t.healthFromYours : t.healthFrom),
               textAlign: TextAlign.center,
               style: AppTheme.f(11.5, weight: FontWeight.w500, color: gc.textTertiary)),
           const SizedBox(height: 16),
+          if (pressure) ...[
+            GhostButton(
+              label: t.healthAddReading,
+              icon: PhosphorIconsBold.plus,
+              onTap: () {
+                Navigator.of(sheet).pop();
+                showMeasureSheet(context, 'bp');
+              },
+            ),
+            const SizedBox(height: 10),
+          ],
           PrimaryButton(label: t.done, onTap: () => Navigator.of(sheet).pop()),
         ],
       ),
