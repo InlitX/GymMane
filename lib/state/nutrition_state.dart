@@ -394,6 +394,36 @@ mixin NutritionState on FitCore, ToolsState, StatsState {
     return null;
   }
 
+  String mealLabel(Meal m) {
+    final custom = slotOf(m)?.name ?? '';
+    if (custom.isNotEmpty) return custom;
+    return switch (m) {
+      Meal.breakfast => t.mealBreakfast,
+      Meal.lunch => t.mealLunch,
+      Meal.dinner => t.mealDinner,
+      Meal.snacks => t.mealSnacks,
+      _ => t.mealOther,
+    };
+  }
+
+  String amountLabel(double grams, bool liquid) {
+    final unit = liquid ? 'ml' : 'g';
+    if (!isLb) return '${fmt(grams.round().toDouble())} $unit';
+    final oz = liquid ? 29.5735 : 28.3495;
+    return '${fmt((grams / oz * 10).round() / 10)} ${liquid ? 'fl oz' : 'oz'}';
+  }
+
+  String servingLabel(FoodEntry e) {
+    if (e.grams > 0) {
+      return e.cooked > 0
+          ? '${amountLabel(e.shownGrams, e.liquid)} · ${t.cookedLabel.toLowerCase()}'
+          : amountLabel(e.totalGrams, e.liquid);
+    }
+    final serving = foodById(e.foodId)?.serving ?? '';
+    if (serving.isEmpty) return e.servings == 1 ? '' : '${fmt(e.servings)} ×';
+    return '${e.servings == 1 ? '' : '${fmt(e.servings)} × '}$serving';
+  }
+
   List<Meal> get mealsShown {
     final out = [for (final s in mealSlots) s.meal];
     for (final e in entriesOn(nutritionDay)) {

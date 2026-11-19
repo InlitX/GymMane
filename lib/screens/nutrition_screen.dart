@@ -12,6 +12,7 @@ import '../l10n/l10n.dart';
 import '../models/nutrition.dart';
 import '../services/food_library.dart';
 import '../services/meal_ai.dart';
+import '../services/report_content.dart' show dayHasMore, dayMarkdown;
 import '../services/media_store.dart';
 import '../services/sticker_cutout.dart';
 import '../state/fit_state.dart';
@@ -48,17 +49,7 @@ String mealInSentence(Meal m) {
   return name.toLowerCase();
 }
 
-String mealName(Meal m) {
-  final custom = fit.slotOf(m)?.name ?? '';
-  if (custom.isNotEmpty) return custom;
-  return switch (m) {
-    Meal.breakfast => t.mealBreakfast,
-    Meal.lunch => t.mealLunch,
-    Meal.dinner => t.mealDinner,
-    Meal.snacks => t.mealSnacks,
-    _ => t.mealOther,
-  };
-}
+String mealName(Meal m) => fit.mealLabel(m);
 
 IconData _mealIcon(Meal m) => switch (m) {
       Meal.breakfast => PhosphorIconsRegular.coffee,
@@ -79,9 +70,7 @@ double _snapAmt(double grams, bool liquid) =>
 
 String _amtUnit(bool liquid) => fit.isLb ? (liquid ? 'fl oz' : 'oz') : _unitOf(liquid);
 
-String _amount(double grams, bool liquid) => fit.isLb
-    ? '${fmt((grams / _ozOf(liquid) * 10).round() / 10)} ${_amtUnit(liquid)}'
-    : '${fmt(grams.round().toDouble())} ${_unitOf(liquid)}';
+String _amount(double grams, bool liquid) => fit.amountLabel(grams, liquid);
 
 String _energy(num kcal) => ltr('${fit.energyOf(kcal)} ${fit.energyUnit}');
 
@@ -95,12 +84,48 @@ String portionName(PortionKind k, [int n = 1]) => switch (k) {
       PortionKind.glass => t.portionGlass(n),
     };
 
-String _servingLine(FoodEntry e, FoodItem? food) {
-  if (e.grams > 0) return e.cooked > 0 ? '${_amount(e.shownGrams, e.liquid)} · ${t.cookedLabel.toLowerCase()}' : _amount(e.totalGrams, e.liquid);
-  final serving = food?.serving ?? '';
-  final x = e.servings == 1 ? '' : '${fmt(e.servings)} × ';
-  if (serving.isEmpty) return e.servings == 1 ? '' : '${fmt(e.servings)} ×';
-  return '$x$serving';
+String _servingLine(FoodEntry e, FoodItem? food) => fit.servingLabel(e);
+
+Future<void> _copyDay(BuildContext context) async {
+  final gc = context.gc;
+  final day = fit.nutritionDay;
+  final food = fit.entriesOn(day).isNotEmpty || fit.waterOn(day) > 0;
+  final more = dayHasMore(day);
+  if (!food && !more) {
+    showNotchToast(context, t.nothingLogged, icon: PhosphorIconsRegular.copy, accent: gc.textSecondary);
+    return;
+  }
+  final full = food && more
+      ? await _sheet<bool>(
+          context,
+          (sheet) => _sheetFrame(sheet, [
+            SheetTitle(t.nutritionCopyDay),
+            const SizedBox(height: 16),
+            OptionGroup([
+              OptionItem(t.nutritionCopyFood,
+                  icon: PhosphorIconsRegular.forkKnife,
+                  detail: t.nutritionCopyFoodHint,
+                  onTap: () => Navigator.of(sheet).pop(false)),
+              OptionItem(t.nutritionCopyAll,
+                  icon: PhosphorIconsRegular.calendarDots,
+                  detail: t.nutritionCopyAllHint,
+                  onTap: () => Navigator.of(sheet).pop(true)),
+            ]),
+          ]))
+      : more;
+  if (full == null || !context.mounted) return;
+  HapticFeedback.lightImpact();
+  await Clipboard.setData(ClipboardData(text: dayMarkdown(day, full: full)));
+  if (!context.mounted) return;
+  showNotchToast(context, t.copiedDone, subtitle: _dayName(day), icon: PhosphorIconsRegular.copy, accent: gc.accent);
+}
+
+String _dayName(DateTime day) {
+  final now = DateTime.now();
+  final today = DateTime(now.year, now.month, now.day);
+  if (day == today) return t.nutritionToday;
+  if (day == shiftDays(today, -1)) return t.nutritionYesterday;
+  return t.longDate(day);
 }
 
 class NutritionScreen extends StatefulWidget {
@@ -180,6 +205,12 @@ class _NutritionScreenState extends State<NutritionScreen> {
       onBack: fit.backFromNutrition,
       badge: BetaTag(t.sectionBeta),
       actions: [
+        RoundAction(
+          label: t.nutritionCopyDay,
+          onTap: () => _copyDay(context),
+          child: Icon(PhosphorIconsRegular.copy, size: 17, color: gc.textSecondary),
+        ),
+        const SizedBox(width: 8),
         RoundAction(
           label: t.trackersTitle,
           onTap: () => showTrackersSheet(context),
