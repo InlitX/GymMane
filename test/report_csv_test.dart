@@ -201,15 +201,16 @@ void main() {
       FoodEntry(id: 'f', at: today, meal: Meal.breakfast, name: 'Food', per: const Macros(kcal: 200)),
     );
     await showReport(tester);
-    await tester.tap(find.byType(GhostButton));
+    await tester.ensureVisible(find.widgetWithText(GhostButton, t.reportShareCsv));
+    await tester.tap(find.widgetWithText(GhostButton, t.reportShareCsv));
     await tester.pumpAndSettle();
     final picker = find.byType(AppSheet);
     final rows = find.descendant(of: picker, matching: find.byType(TinySwitch));
     expect(tester.widgetList<TinySwitch>(rows).map((w) => w.on), [true, true, false, false]);
     expect(find.text(titleCase(t.supplementsLabel)), findsNothing);
 
-    await tester.tap(find.text(titleCase(t.reportWorkouts)));
-    await tester.tap(find.text(t.nutrition));
+    await tester.tap(find.descendant(of: picker, matching: find.text(titleCase(t.reportWorkouts))));
+    await tester.tap(find.descendant(of: picker, matching: find.text(t.nutrition)));
     await tester.pumpAndSettle();
     final action = find.descendant(of: picker, matching: find.byType(PrimaryButton));
     expect(tester.widget<PrimaryButton>(action).onTap, isNull);
@@ -235,7 +236,7 @@ void main() {
         await share.pending!.future.timeout(const Duration(seconds: 5));
       }),
     );
-    expect(find.byType(OptionGroup), findsNothing);
+    expect(find.byType(AppSheet), findsNothing);
     expect(paths!.single, startsWith('gymmane-supplements-'));
     await tester.pumpAndSettle();
   });

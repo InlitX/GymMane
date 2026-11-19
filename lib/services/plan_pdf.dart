@@ -10,12 +10,14 @@ import 'package:flutter/services.dart' show rootBundle;
 
 import '../l10n/l10n.dart';
 import '../models/exercise.dart';
+import '../models/report_doc.dart';
 import '../models/workout.dart';
 import '../state/fit_state.dart';
 import '../widgets/exercise_art.dart';
 import '../widgets/routine_folder.dart';
 import '../widgets/ui_kit.dart';
 import 'file_share.dart';
+import 'report_content.dart';
 
 part 'report_pdf.dart';
 
@@ -55,7 +57,7 @@ Future<Uint8List> buildPlanPdf(List<Routine> routines, {bool week = false, DateT
   final arts = <String, ExerciseArtData>{};
   for (final r in routines) {
     for (final id in r.exerciseIds) {
-      final slug = fit.exerciseById(id)?.art ?? '';
+      final slug = fit.exerciseById(slotExercise(id))?.art ?? '';
       if (slug.isEmpty || arts.containsKey(slug)) continue;
       try {
         arts[slug] = await loadExerciseArt(slug, still: true);
@@ -239,7 +241,9 @@ class _PlanDoc {
       final planned = fit.plannedSets(r, id).where((p) => p.kind != SetKind.warmup);
       final work = planned.map((p) => p.sec ?? 0).fold<int>(0, math.max);
       sec += sets * (work > 0 ? work : 40);
-      if (!fit.chainsToNext(r, id)) sec += math.max(0, sets - 1) * (fit.routineRest(r.id, id) ?? fit.restFor(id)) + 90;
+      if (!fit.chainsToNext(r, id)) {
+        sec += math.max(0, sets - 1) * (fit.routineRest(r.id, id) ?? fit.restFor(slotExercise(id))) + 90;
+      }
     }
     return ((sec / 60) / 5).round() * 5;
   }
@@ -354,14 +358,14 @@ class _PlanDoc {
     _tableHead();
     final ids = r.exerciseIds;
     for (var i = 0; i < ids.length; i++) {
-      final ex = fit.exerciseById(ids[i]);
+      final ex = fit.exerciseById(slotExercise(ids[i]));
       if (ex == null) continue;
-      final row = _rowHeight(r, ex);
+      final row = _rowHeight(r, ex, ids[i]);
       _room(row, onBreak: () {
         _routineHead(r, days, again: true);
         _tableHead();
       });
-      _row(r, ex, i, row);
+      _row(r, ex, ids[i], i, row);
     }
     _chainFrom = null;
     _y += 24;
@@ -407,8 +411,8 @@ class _PlanDoc {
     _y += 1;
   }
 
-  String _detail(Routine r, Exercise ex) {
-    final warm = fit.plannedSets(r, ex.id).where((p) => p.kind == SetKind.warmup).length;
+  String _detail(Routine r, Exercise ex, String slot) {
+    final warm = fit.plannedSets(r, slot).where((p) => p.kind == SetKind.warmup).length;
     return [
       t.muscle(ex.primary),
       if (fit.isEachSide(ex.id)) t.eachSide,
@@ -416,14 +420,14 @@ class _PlanDoc {
     ].join(' · ');
   }
 
-  double _rowHeight(Routine r, Exercise ex) {
+  double _rowHeight(Routine r, Exercise ex, String slot) {
     final name = _measure(exerciseName(ex), _st(11.5, weight: FontWeight.w800), _cSets - _cName - 8, maxLines: 2);
-    final detail = _measure(_detail(r, ex), _st(9, color: _sub), _cSets - _cName - 8);
+    final detail = _measure(_detail(r, ex, slot), _st(9, color: _sub), _cSets - _cName - 8);
     return math.max(46.0, name.height + detail.height + 18);
   }
 
-  (String, String) _amounts(Routine r, Exercise ex) {
-    final planned = fit.plannedSets(r, ex.id).where((p) => p.kind != SetKind.warmup).toList();
+  (String, String) _amounts(Routine r, Exercise ex, String slot) {
+    final planned = fit.plannedSets(r, slot).where((p) => p.kind != SetKind.warmup).toList();
     String spread(List<String> v) {
       if (v.isEmpty) return '—';
       final unique = v.toSet();
@@ -453,7 +457,7 @@ class _PlanDoc {
     return (reps, weight);
   }
 
-  void _row(Routine r, Exercise ex, int index, double height) {
+  void _row(Routine r, Exercise ex, String slot, int index, double height) {
     final top = _y;
     final mid = top + height / 2;
     if (index.isOdd) _rect(_margin + _cName - 8, top, _contentW - _cName + 8, height, _zebra, radius: 8);
@@ -468,18 +472,18 @@ class _PlanDoc {
     }
     final nameW = _cSets - _cName - 8;
     final name = _measure(exerciseName(ex), _st(11.5, weight: FontWeight.w800), nameW, maxLines: 2);
-    final detail = _measure(_detail(r, ex), _st(9, color: _sub), nameW);
+    final detail = _measure(_detail(r, ex, slot), _st(9, color: _sub), nameW);
     final ny = mid - (name.height + detail.height + 2) / 2;
     final nx = _x(_margin + _cName, nameW);
     _add((c) {
       name.paint(c, Offset(nx, ny));
       detail.paint(c, Offset(nx, ny + name.height + 2));
     });
-    final (reps, weight) = _amounts(r, ex);
-    final chained = fit.chainsToNext(r, ex.id);
-    final rest = fit.routineRest(r.id, ex.id) ?? fit.restFor(ex.id);
+    final (reps, weight) = _amounts(r, ex, slot);
+    final chained = fit.chainsToNext(r, slot);
+    final rest = fit.routineRest(r.id, slot) ?? fit.restFor(ex.id);
     final value = _st(11, weight: FontWeight.w800);
-    final count = fit.routineSets(r, ex.id);
+    final count = fit.routineSets(r, slot);
     _text('$count', _st(13, weight: FontWeight.w900), _margin + _cSets, mid - 13, _wSets, align: TextAlign.center);
     final dots = math.min(count, 6);
     const dot = 4.6, step = 6.4;

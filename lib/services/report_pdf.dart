@@ -1,24 +1,32 @@
 part of 'plan_pdf.dart';
 
-String reportRangeLabel(RangeReport r) => r.from.year == r.to.year
-    ? '${t.shortDate(r.from)} – ${t.shortDateYear(r.to)}'
-    : '${t.shortDateYear(r.from)} – ${t.shortDateYear(r.to)}';
-
-Future<Uint8List> buildReportPdf(RangeReport r, {DateTime? now}) async {
+Future<Uint8List> buildReportPdf(RangeReport r, {ReportKind kind = ReportKind.summary, DateTime? now}) async {
+  final at = now ?? DateTime.now();
   final runner = await _loadImage('assets/img/runner.png');
   final doc = _ReportDoc(runner, rtl: kRtlLanguages.contains(appLanguage));
-  doc.layReport(r, now ?? DateTime.now());
+  doc.layBlocks(reportBlocks(r, kind, now: at));
   final pages = await _rasterize(doc);
   runner.dispose();
-  return _writePdf(pages, '${sentenceCase(t.reportKicker)} · ${reportRangeLabel(r)}', now ?? DateTime.now(),
-      kicker: t.reportKicker);
+  final kicker = reportKicker(kind);
+  return _writePdf(pages, '${sentenceCase(kicker)} · ${reportRangeLabel(r)}', at, kicker: kicker);
 }
 
-Future<void> shareReport(RangeReport r, {bool pdf = false, Set<ReportSection> csv = const {}}) async {
+String reportFileStem(RangeReport r, ReportKind kind) {
+  final stamp = '${_isoDay(r.from)}_${_isoDay(r.to)}';
+  return switch (kind) {
+    ReportKind.summary => 'gymmane-report-$stamp',
+    ReportKind.training => 'gymmane-training-$stamp',
+    ReportKind.nutrition => 'gymmane-nutrition-$stamp',
+    ReportKind.full => 'gymmane-full-report-$stamp',
+  };
+}
+
+Future<void> shareReport(RangeReport r,
+    {ReportKind kind = ReportKind.summary, bool pdf = false, Set<ReportSection> csv = const {}}) async {
   try {
     final stamp = '${_isoDay(r.from)}_${_isoDay(r.to)}';
     final files = <ShareItem>[
-      if (pdf) ShareItem('gymmane-report-$stamp.pdf', await buildReportPdf(r), mime: 'application/pdf'),
+      if (pdf) ShareItem('${reportFileStem(r, kind)}.pdf', await buildReportPdf(r, kind: kind), mime: 'application/pdf'),
       for (final section in csv)
         ShareItem(
           'gymmane-${section == ReportSection.weighIns ? 'weigh-ins' : section.name}-$stamp.csv',
@@ -26,7 +34,7 @@ Future<void> shareReport(RangeReport r, {bool pdf = false, Set<ReportSection> cs
           mime: 'text/csv',
         ),
     ];
-    await shareFiles(files, subject: '${sentenceCase(t.reportKicker)} · ${reportRangeLabel(r)}');
+    await shareFiles(files, subject: '${sentenceCase(reportKicker(kind))} · ${reportRangeLabel(r)}');
   } catch (_) {}
 }
 
@@ -35,156 +43,74 @@ String _isoDay(DateTime d) => '${d.year}-${_two(d.month)}-${_two(d.day)}';
 class _ReportDoc extends _PlanDoc {
   _ReportDoc(ui.Image runner, {required bool rtl}) : super(runner, const {}, rtl: rtl);
 
-  void layReport(RangeReport r, DateTime now) {
+  void layBlocks(List<ReportBlock> blocks) {
     _newPage();
-    final logo = Rect.fromLTWH(_x(_margin, 26), _y, 26, 26);
-    _add((c) => _logo(c, logo));
-    _text('GymMane', _st(14, weight: FontWeight.w900), _margin + 34, _y + 4, 140);
-    final who = [if (fit.profile.name.trim().isNotEmpty) fit.profile.name.trim(), t.shortDateYear(now)].join(' · ');
-    _text(who, _st(9, color: _faint), _pageW - _margin - 220, _y + 8, 220, align: TextAlign.end);
-    _y += 50;
-    _y += _text(t.reportKicker, _st(8.5, weight: FontWeight.w800, color: _accent, spacing: 1.8), _margin, _y, _contentW);
-    _y += 4;
-    _y += _text(reportRangeLabel(r), _st(28, weight: FontWeight.w900, height: 1.1), _margin, _y, _contentW, maxLines: 2);
-    _y += 2;
-    _y += _text(t.reportDays(r.days), _st(11, color: _sub), _margin, _y, _contentW);
-    _y += 16;
-
-    String pct(num now, num before) {
-      if (before <= 0) return '';
-      final p = ((now / before - 1) * 100).round();
-      return '${p >= 0 ? '+' : ''}$p %';
-    }
-
-    final prev = r.prev;
-    _stats([
-      ('${r.sessions}', t.reportWorkouts, prev == null ? '' : pct(r.sessions, prev.sessions)),
-      ('${r.sets}', t.setsCaps, prev == null ? '' : pct(r.sets, prev.sets)),
-      (fit.volumeLabel(r.volume), t.volume, prev == null ? '' : pct(r.volume, prev.volume)),
-      (decimalText(r.perWeek.toStringAsFixed(1)), t.reportPerWeek, ''),
-      if (r.minutes > 0) (decimalText((r.minutes / 60).toStringAsFixed(r.minutes < 600 ? 1 : 0)), t.reportHours, ''),
-    ]);
-    if (prev != null) {
-      _y += _text(t.reportVsPrev, _st(8.5, color: _faint), _margin, _y, _contentW);
-      _y += 10;
-    }
-
-    if (r.records.isNotEmpty) {
-      _section(t.reportRecords);
-      for (final rec in r.records.take(12)) {
-        _room(20);
-        _text(rec.name, _st(11, weight: FontWeight.w800), _margin, _y, _contentW - 200);
-        _text(fit.weightLabel(rec.kg), _st(11, weight: FontWeight.w900, color: _accent), _pageW - _margin - 190, _y, 90,
-            align: TextAlign.end, ltr: true);
-        _text(t.shortDate(rec.date), _st(9.5, color: _sub), _pageW - _margin - 90, _y + 1, 90, align: TextAlign.end);
-        _y += 18;
-        _rect(_margin, _y - 3, _contentW, 0.6, _line);
+    for (final b in blocks) {
+      switch (b) {
+        case RepHeader():
+          _head(b);
+        case RepStats():
+          _stats(b.stats);
+        case RepNote():
+          _flow(b.text, _st(8.5, color: _faint), _margin, _contentW, maxLines: 3);
+          _y += 10;
+        case RepSection():
+          _section(b.title);
+        case RepPairs():
+          _pairs(b.rows);
+        case RepTable():
+          _table(b);
+        case RepBars():
+          _bars(b.bars);
+        case RepDay():
+          _day(b);
+        case RepSub():
+          _subhead(b);
+        case RepGroup():
+          _group(b);
       }
-      _y += 10;
-    }
-
-    if (r.lifts.isNotEmpty) {
-      _section(t.reportLifts);
-      const cS = 250.0, cT = 310.0, cB = 370.0, cC = 450.0;
-      final head = _st(7.5, weight: FontWeight.w800, color: _faint, spacing: 0.8);
-      void tableHead() {
-        _text(t.exercisesCaps, head, _margin, _y, cS - 8);
-        _text(t.reportSessionsCol, head, _margin + cS, _y, 56, align: TextAlign.center);
-        _text(t.setsCaps, head, _margin + cT, _y, 56, align: TextAlign.center);
-        _text(t.reportBestCol, head, _margin + cB, _y, 76, align: TextAlign.center);
-        _text(t.reportChangeCol, head, _margin + cC, _y, _contentW - cC, align: TextAlign.center);
-        _y += 14;
-        _rect(_margin, _y, _contentW, 0.8, _line);
-        _y += 5;
-      }
-
-      tableHead();
-      var i = 0;
-      for (final l in r.lifts.take(25)) {
-        _room(22, onBreak: tableHead);
-        if (i.isOdd) _rect(_margin, _y - 4, _contentW, 22, _zebra, radius: 4);
-        final body = _st(10.5, weight: FontWeight.w700);
-        _text(l.name, _st(10.5, weight: FontWeight.w800), _margin + 4, _y, cS - 12);
-        _text('${l.sessions}', body, _margin + cS, _y, 56, align: TextAlign.center, ltr: true);
-        _text('${l.sets}', body, _margin + cT, _y, 56, align: TextAlign.center, ltr: true);
-        _text(l.best > 0 ? fit.weightLabel(l.best) : '–', body, _margin + cB, _y, 76, align: TextAlign.center, ltr: true);
-        final ch = l.change;
-        _text(
-          ch == null ? '–' : '${ch >= 0 ? '+' : ''}${ch.round()} %',
-          _st(10.5, weight: FontWeight.w800, color: ch == null ? _faint : (ch >= 0 ? _accent : _sub)),
-          _margin + cC,
-          _y,
-          _contentW - cC,
-          align: TextAlign.center,
-          ltr: true,
-        );
-        _y += 22;
-        i++;
-      }
-      _y += 6;
-      _y += _text(t.reportBestHint, _st(8.5, color: _faint), _margin, _y, _contentW, maxLines: 2);
-      _y += 12;
-    }
-
-    if (r.muscles.isNotEmpty) {
-      _section(t.reportMuscles);
-      final top = r.muscles.take(10).toList();
-      final max = top.first.sets;
-      for (final m in top) {
-        _room(18);
-        _text(t.muscle(m.muscle), _st(10.5, weight: FontWeight.w700), _margin, _y, 140);
-        final barW = _contentW - 200;
-        _rect(_margin + 150, _y + 4, barW, 6, _soft, radius: 3);
-        _rect(_margin + 150, _y + 4, math.max(6, barW * m.sets / max), 6, _accent, radius: 3);
-        _text(decimalText(m.sets.toStringAsFixed(m.sets % 1 == 0 ? 0 : 1)), _st(10, weight: FontWeight.w800),
-            _pageW - _margin - 40, _y, 40, align: TextAlign.end, ltr: true);
-        _y += 18;
-      }
-      _y += 10;
-    }
-
-    final body = <(String, String)>[
-      if (r.weightFrom != null)
-        (
-          t.bodyweightLabel,
-          r.weightTo == null
-              ? fit.weightLabel(r.weightFrom!)
-              : '${fit.weightLabel(r.weightFrom!)} → ${fit.weightLabel(r.weightTo!)}'
-                  '  (${r.weightTo! >= r.weightFrom! ? '+' : '−'}${fit.weightLabel((r.weightTo! - r.weightFrom!).abs())})',
-        ),
-      if (r.sleep != null) (t.checkInSleep, '${decimalText(r.sleep!.toStringAsFixed(1))} / 5'),
-      if (r.energy != null) (t.checkInEnergy, '${decimalText(r.energy!.toStringAsFixed(1))} / 5'),
-    ];
-    if (body.isNotEmpty) {
-      _section(t.reportBody);
-      _pairs(body);
-    }
-
-    final food = r.food;
-    if (food != null) {
-      _section(t.reportFood(food.days));
-      _pairs([
-        (sentenceCase(t.kcalLabel), '${fit.energyOf(food.kcal)} ${fit.energyUnit}'),
-        (sentenceCase(t.macroProtein), '${food.protein.round()} g'),
-        (sentenceCase(t.macroCarbs), '${food.carbs.round()} g'),
-        (sentenceCase(t.macroFat), '${food.fat.round()} g'),
-        if (food.waterMl > 0) (sentenceCase(t.waterLabel), fit.waterLabel(food.waterMl)),
-      ]);
     }
   }
 
-  void _stats(List<(String, String, String)> stats) {
+  double _flow(String text, TextStyle style, double left, double width, {int maxLines = 1, double after = 0}) {
+    final h = _measure(text, style, width, maxLines: maxLines).height;
+    _room(h + after);
+    _text(text, style, left, _y, width, maxLines: maxLines);
+    _y += h + after;
+    return h;
+  }
+
+  void _head(RepHeader h) {
+    final logo = Rect.fromLTWH(_x(_margin, 26), _y, 26, 26);
+    _add((c) => _logo(c, logo));
+    _text('GymMane', _st(14, weight: FontWeight.w900), _margin + 34, _y + 4, 140);
+    _text(h.who, _st(9, color: _faint), _pageW - _margin - 220, _y + 8, 220, align: TextAlign.end);
+    _y += 50;
+    _y += _text(h.kicker, _st(8.5, weight: FontWeight.w800, color: _accent, spacing: 1.8), _margin, _y, _contentW);
+    _y += 4;
+    _y += _text(h.title, _st(28, weight: FontWeight.w900, height: 1.1), _margin, _y, _contentW, maxLines: 2);
+    _y += 2;
+    _y += _text(h.subtitle, _st(11, color: _sub), _margin, _y, _contentW);
+    if (h.about.isNotEmpty) {
+      _y += 2;
+      _y += _text(h.about, _st(9.5, color: _faint), _margin, _y, _contentW, maxLines: 2);
+    }
+    _y += 16;
+  }
+
+  void _stats(List<RepStat> stats) {
     const gap = 8.0, h = 60.0;
     _room(h + 10);
     final w = (_contentW - gap * (stats.length - 1)) / stats.length;
     for (var i = 0; i < stats.length; i++) {
+      final s = stats[i];
       final left = _margin + i * (w + gap);
       _rect(left, _y, w, h, _soft, radius: 12);
-      _text(stats[i].$1, _st(17, weight: FontWeight.w900), left + 10, _y + 9, w - 20,
+      _text(s.value, _st(17, weight: FontWeight.w900), left + 10, _y + 9, w - 20,
           ltr: true, align: rtl ? TextAlign.right : TextAlign.left);
-      _text(stats[i].$2, _st(7, weight: FontWeight.w800, color: _faint, spacing: 1), left + 10, _y + 32, w - 20);
-      if (stats[i].$3.isNotEmpty) {
-        _text(stats[i].$3, _st(8, weight: FontWeight.w800, color: stats[i].$3.startsWith('-') ? _sub : _accent),
+      _text(s.label, _st(7, weight: FontWeight.w800, color: _faint, spacing: 1), left + 10, _y + 32, w - 20);
+      if (s.delta.isNotEmpty) {
+        _text(s.delta, _st(8, weight: FontWeight.w800, color: s.delta.startsWith('-') ? _sub : _accent),
             left + 10, _y + 44, w - 20, ltr: true, align: rtl ? TextAlign.right : TextAlign.left);
       }
     }
@@ -199,13 +125,128 @@ class _ReportDoc extends _PlanDoc {
   }
 
   void _pairs(List<(String, String)> rows) {
+    const key = 220.0;
     for (final (k, v) in rows) {
-      _room(20);
-      _text(k, _st(10.5, color: _sub), _margin, _y, 180);
-      _text(v, _st(11, weight: FontWeight.w800), _margin + 180, _y, _contentW - 180, align: TextAlign.end);
-      _y += 18;
+      final h = math.max(18.0, _measure(k, _st(10.5, color: _sub), key - 8, maxLines: 2).height + 4);
+      _room(h + 2);
+      _text(k, _st(10.5, color: _sub), _margin, _y, key - 8, maxLines: 2);
+      _text(v, _st(11, weight: FontWeight.w800), _margin + key, _y, _contentW - key, align: TextAlign.end);
+      _y += h;
       _rect(_margin, _y - 3, _contentW, 0.6, _line);
     }
     _y += 12;
+  }
+
+  void _table(RepTable tb) {
+    final total = tb.widths.fold(0.0, (s, w) => s + w);
+    final widths = [for (final w in tb.widths) w / total * _contentW];
+    final lefts = <double>[];
+    var at = _margin;
+    for (final w in widths) {
+      lefts.add(at);
+      at += w;
+    }
+    TextAlign alignOf(int i) => i == 0 ? TextAlign.start : (tb.head == null ? TextAlign.end : TextAlign.center);
+    Color colorOf(int i, String v) {
+      if (i == tb.accentCol) return _accent;
+      if (i != tb.signCol) return _ink;
+      if (v == '–') return _faint;
+      return v.startsWith('-') || v.startsWith('−') ? _sub : _accent;
+    }
+
+    final head = tb.head;
+    void tableHead() {
+      if (head == null) return;
+      final st = _st(7.5, weight: FontWeight.w800, color: _faint, spacing: 0.8);
+      for (var i = 0; i < head.length; i++) {
+        _text(head[i], st, lefts[i] + (i == 0 ? 0 : 2), _y, widths[i] - (i == 0 ? 8 : 4), align: alignOf(i));
+      }
+      _y += 14;
+      _rect(_margin, _y, _contentW, 0.8, _line);
+      _y += 5;
+    }
+
+    _room(head == null ? 20 : 44);
+    tableHead();
+    for (final (n, row) in tb.rows.indexed) {
+      if (head == null) {
+        _room(20);
+        for (var i = 0; i < row.length && i < widths.length; i++) {
+          final st = i == 0
+              ? _st(11, weight: FontWeight.w800)
+              : i == tb.accentCol
+                  ? _st(11, weight: FontWeight.w900, color: _accent)
+                  : _st(9.5, color: _sub);
+          _text(row[i], st, lefts[i], _y + (i == 0 || i == tb.accentCol ? 0 : 1), widths[i] - 8,
+              align: alignOf(i), ltr: i > 0);
+        }
+        _y += 18;
+        _rect(_margin, _y - 3, _contentW, 0.6, _line);
+        continue;
+      }
+      _room(22, onBreak: tableHead);
+      if (n.isOdd) _rect(_margin, _y - 4, _contentW, 22, _zebra, radius: 4);
+      for (var i = 0; i < row.length && i < widths.length; i++) {
+        final st = _st(10.5, weight: i == 0 || i == tb.signCol ? FontWeight.w800 : FontWeight.w700, color: colorOf(i, row[i]));
+        _text(row[i], st, lefts[i] + (i == 0 ? 4 : 2), _y, widths[i] - (i == 0 ? 12 : 4), align: alignOf(i), ltr: i > 0);
+      }
+      _y += 22;
+    }
+    _y += head == null ? 10 : 6;
+  }
+
+  void _bars(List<(String, double, String)> bars) {
+    if (bars.isEmpty) return;
+    final max = bars.map((b) => b.$2).reduce(math.max);
+    for (final (label, value, shown) in bars) {
+      _room(18);
+      _text(label, _st(10.5, weight: FontWeight.w700), _margin, _y, 140);
+      final barW = _contentW - 200;
+      _rect(_margin + 150, _y + 4, barW, 6, _soft, radius: 3);
+      _rect(_margin + 150, _y + 4, math.max(6, max <= 0 ? 6 : barW * value / max), 6, _accent, radius: 3);
+      _text(shown, _st(10, weight: FontWeight.w800), _pageW - _margin - 40, _y, 40, align: TextAlign.end, ltr: true);
+      _y += 18;
+    }
+    _y += 10;
+  }
+
+  void _day(RepDay d) {
+    _room(132);
+    _y += 12;
+    _rect(_margin, _y, _contentW, 0.8, _line);
+    _y += 10;
+    _y += _text(d.title, _st(13.5, weight: FontWeight.w900), _margin, _y, _contentW);
+    if (d.subtitle.isNotEmpty) {
+      _y += 2;
+      _y += _text(d.subtitle, _st(9.5, color: _sub), _margin, _y, _contentW, maxLines: 2);
+    }
+    _y += 8;
+  }
+
+  void _subhead(RepSub s) {
+    _room(84);
+    _y += 4;
+    _y += _text(s.title.toUpperCase(), _st(8, weight: FontWeight.w800, color: _accent, spacing: 1.2), _margin, _y, _contentW);
+    if (s.trailing.isNotEmpty) {
+      _y += 1;
+      _y += _text(s.trailing, _st(9, color: _sub), _margin, _y, _contentW, maxLines: 2);
+    }
+    _y += 6;
+  }
+
+  void _group(RepGroup g) {
+    if (g.title.isNotEmpty) {
+      _room(32);
+      _text(g.title, _st(10.5, weight: FontWeight.w800), _margin, _y, _contentW - 130);
+      if (g.trailing.isNotEmpty) {
+        _text(g.trailing, _st(9.5, weight: FontWeight.w700, color: _sub), _pageW - _margin - 124, _y + 1, 124,
+            align: TextAlign.end);
+      }
+      _y += 16;
+    }
+    for (final line in g.lines) {
+      _flow(line, _st(9.5, weight: FontWeight.w600), _margin + 12, _contentW - 12, maxLines: 3, after: 3);
+    }
+    _y += 7;
   }
 }
