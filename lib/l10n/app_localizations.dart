@@ -14779,6 +14779,708 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'+ Pulse'**
   String get bpPulseAdd;
+
+  /// No description provided for @autoHold.
+  ///
+  /// In en, this message translates to:
+  /// **'Chain timed sets'**
+  String get autoHold;
+
+  /// No description provided for @autoHoldHint.
+  ///
+  /// In en, this message translates to:
+  /// **'After the rest, the next timed set starts on its own'**
+  String get autoHoldHint;
+
+  /// No description provided for @recoveryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Recovery'**
+  String get recoveryTitle;
+
+  /// No description provided for @recoverySettingHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Sauna, cold and breathing, kept apart from your lifting'**
+  String get recoverySettingHint;
+
+  /// No description provided for @recoveryKindSauna.
+  ///
+  /// In en, this message translates to:
+  /// **'Sauna'**
+  String get recoveryKindSauna;
+
+  /// No description provided for @recoveryKindCold.
+  ///
+  /// In en, this message translates to:
+  /// **'Cold plunge'**
+  String get recoveryKindCold;
+
+  /// No description provided for @recoveryKindContrast.
+  ///
+  /// In en, this message translates to:
+  /// **'Contrast'**
+  String get recoveryKindContrast;
+
+  /// No description provided for @recoveryKindBreath.
+  ///
+  /// In en, this message translates to:
+  /// **'Breathing'**
+  String get recoveryKindBreath;
+
+  /// No description provided for @recoveryDescSauna.
+  ///
+  /// In en, this message translates to:
+  /// **'Time, heat and rounds'**
+  String get recoveryDescSauna;
+
+  /// No description provided for @recoveryDescCold.
+  ///
+  /// In en, this message translates to:
+  /// **'Ice bath or cold shower'**
+  String get recoveryDescCold;
+
+  /// No description provided for @recoveryDescContrast.
+  ///
+  /// In en, this message translates to:
+  /// **'Hot and cold, round after round'**
+  String get recoveryDescContrast;
+
+  /// No description provided for @recoveryDescBreath.
+  ///
+  /// In en, this message translates to:
+  /// **'Guided, to slow everything down'**
+  String get recoveryDescBreath;
+
+  /// No description provided for @recoveryThisWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'This week'**
+  String get recoveryThisWeek;
+
+  /// No description provided for @recoveryHeat.
+  ///
+  /// In en, this message translates to:
+  /// **'Heat'**
+  String get recoveryHeat;
+
+  /// No description provided for @recoveryCold.
+  ///
+  /// In en, this message translates to:
+  /// **'Cold'**
+  String get recoveryCold;
+
+  /// No description provided for @recoveryLog.
+  ///
+  /// In en, this message translates to:
+  /// **'Log'**
+  String get recoveryLog;
+
+  /// No description provided for @recoveryRecent.
+  ///
+  /// In en, this message translates to:
+  /// **'Latest'**
+  String get recoveryRecent;
+
+  /// No description provided for @recoveryEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing yet. Log a sauna, a cold plunge or a few minutes of breathing: it stays apart from your workouts.'**
+  String get recoveryEmpty;
+
+  /// No description provided for @recoveryMinutes.
+  ///
+  /// In en, this message translates to:
+  /// **'Minutes'**
+  String get recoveryMinutes;
+
+  /// No description provided for @recoveryTemp.
+  ///
+  /// In en, this message translates to:
+  /// **'Temperature'**
+  String get recoveryTemp;
+
+  /// No description provided for @recoveryRounds.
+  ///
+  /// In en, this message translates to:
+  /// **'Rounds'**
+  String get recoveryRounds;
+
+  /// No description provided for @recoveryAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add'**
+  String get recoveryAdd;
+
+  /// No description provided for @recoveryNoteHint.
+  ///
+  /// In en, this message translates to:
+  /// **'How did it feel? (optional)'**
+  String get recoveryNoteHint;
+
+  /// No description provided for @recoveryTimer.
+  ///
+  /// In en, this message translates to:
+  /// **'Time it'**
+  String get recoveryTimer;
+
+  /// No description provided for @recoveryTimerStop.
+  ///
+  /// In en, this message translates to:
+  /// **'Stop'**
+  String get recoveryTimerStop;
+
+  /// No description provided for @recoveryDeleteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete this entry?'**
+  String get recoveryDeleteTitle;
+
+  /// No description provided for @recoveryRoundsCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{n, plural, =1{1 round} other{{n} rounds}}'**
+  String recoveryRoundsCount(int n);
+
+  /// No description provided for @recoveryHomeDetail.
+  ///
+  /// In en, this message translates to:
+  /// **'{min} min this week'**
+  String recoveryHomeDetail(int min);
+
+  /// No description provided for @breathIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Breathe in'**
+  String get breathIn;
+
+  /// No description provided for @breathHold.
+  ///
+  /// In en, this message translates to:
+  /// **'Hold'**
+  String get breathHold;
+
+  /// No description provided for @breathOut.
+  ///
+  /// In en, this message translates to:
+  /// **'Breathe out'**
+  String get breathOut;
+
+  /// No description provided for @breathRest.
+  ///
+  /// In en, this message translates to:
+  /// **'Rest'**
+  String get breathRest;
+
+  /// No description provided for @breathBox.
+  ///
+  /// In en, this message translates to:
+  /// **'Box'**
+  String get breathBox;
+
+  /// No description provided for @breathRelax.
+  ///
+  /// In en, this message translates to:
+  /// **'Relax'**
+  String get breathRelax;
+
+  /// No description provided for @breathEven.
+  ///
+  /// In en, this message translates to:
+  /// **'Even'**
+  String get breathEven;
+
+  /// No description provided for @breathStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Start'**
+  String get breathStart;
+
+  /// No description provided for @breathAgain.
+  ///
+  /// In en, this message translates to:
+  /// **'Again'**
+  String get breathAgain;
+
+  /// No description provided for @breathDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get breathDone;
+
+  /// No description provided for @mealAiNoData.
+  ///
+  /// In en, this message translates to:
+  /// **'The AI answered in words, with no data'**
+  String get mealAiNoData;
+
+  /// No description provided for @mealAiNoDataHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Paste the whole request again. Some assistants refuse when they can’t see the photo or the meal isn’t clear: describe it in one sentence.'**
+  String get mealAiNoDataHint;
+
+  /// No description provided for @mealAiCutOff.
+  ///
+  /// In en, this message translates to:
+  /// **'The answer got cut off'**
+  String get mealAiCutOff;
+
+  /// No description provided for @mealAiCutOffHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask it to send the rest, or to answer with fewer foods.'**
+  String get mealAiCutOffHint;
+
+  /// No description provided for @recoveryGoal.
+  ///
+  /// In en, this message translates to:
+  /// **'Goal'**
+  String get recoveryGoal;
+
+  /// No description provided for @recoveryRest.
+  ///
+  /// In en, this message translates to:
+  /// **'Rest'**
+  String get recoveryRest;
+
+  /// No description provided for @recoveryStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Start timer'**
+  String get recoveryStart;
+
+  /// No description provided for @recoveryJustLog.
+  ///
+  /// In en, this message translates to:
+  /// **'Log without the timer'**
+  String get recoveryJustLog;
+
+  /// No description provided for @recoveryRoundOf.
+  ///
+  /// In en, this message translates to:
+  /// **'Round {n} of {total}'**
+  String recoveryRoundOf(int n, int total);
+
+  /// No description provided for @recoveryPause.
+  ///
+  /// In en, this message translates to:
+  /// **'Pause'**
+  String get recoveryPause;
+
+  /// No description provided for @recoveryResume.
+  ///
+  /// In en, this message translates to:
+  /// **'Resume'**
+  String get recoveryResume;
+
+  /// No description provided for @recoveryNext.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get recoveryNext;
+
+  /// No description provided for @recoveryFinish.
+  ///
+  /// In en, this message translates to:
+  /// **'Finish'**
+  String get recoveryFinish;
+
+  /// No description provided for @recoveryOvertime.
+  ///
+  /// In en, this message translates to:
+  /// **'Extra'**
+  String get recoveryOvertime;
+
+  /// No description provided for @recoveryFeel.
+  ///
+  /// In en, this message translates to:
+  /// **'How did it feel?'**
+  String get recoveryFeel;
+
+  /// No description provided for @recoveryFeelLow.
+  ///
+  /// In en, this message translates to:
+  /// **'Worse'**
+  String get recoveryFeelLow;
+
+  /// No description provided for @recoveryFeelHigh.
+  ///
+  /// In en, this message translates to:
+  /// **'Better'**
+  String get recoveryFeelHigh;
+
+  /// No description provided for @recoveryGoalHeat.
+  ///
+  /// In en, this message translates to:
+  /// **'Heat goal (minutes a week)'**
+  String get recoveryGoalHeat;
+
+  /// No description provided for @recoveryGoalCold.
+  ///
+  /// In en, this message translates to:
+  /// **'Cold goal (minutes a week)'**
+  String get recoveryGoalCold;
+
+  /// No description provided for @recoveryOfGoal.
+  ///
+  /// In en, this message translates to:
+  /// **'of {min} min this week'**
+  String recoveryOfGoal(int min);
+
+  /// No description provided for @recoveryBestCold.
+  ///
+  /// In en, this message translates to:
+  /// **'Longest cold: {time}'**
+  String recoveryBestCold(String time);
+
+  /// No description provided for @recoveryBestHold.
+  ///
+  /// In en, this message translates to:
+  /// **'Longest hold: {time}'**
+  String recoveryBestHold(String time);
+
+  /// No description provided for @recoveryMobility.
+  ///
+  /// In en, this message translates to:
+  /// **'Mobility and stretching'**
+  String get recoveryMobility;
+
+  /// No description provided for @recoveryMobilityHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Open the stretches in the library'**
+  String get recoveryMobilityHint;
+
+  /// No description provided for @recoveryTipTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Before you start'**
+  String get recoveryTipTitle;
+
+  /// No description provided for @recoveryTipBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Drink water, get out if you feel dizzy and never do intense cold alone. If you have a heart or blood pressure condition, ask your doctor first.'**
+  String get recoveryTipBody;
+
+  /// No description provided for @recoveryTipOk.
+  ///
+  /// In en, this message translates to:
+  /// **'Got it'**
+  String get recoveryTipOk;
+
+  /// No description provided for @breathRetention.
+  ///
+  /// In en, this message translates to:
+  /// **'Retention'**
+  String get breathRetention;
+
+  /// No description provided for @breathRetentionHow.
+  ///
+  /// In en, this message translates to:
+  /// **'{breaths} deep breaths, then breathe out and hold as long as is comfortable. {rounds} rounds.'**
+  String breathRetentionHow(int breaths, int rounds);
+
+  /// No description provided for @breathRetentionSafe.
+  ///
+  /// In en, this message translates to:
+  /// **'Sit or lie down, never in water or while driving.'**
+  String get breathRetentionSafe;
+
+  /// No description provided for @breathFast.
+  ///
+  /// In en, this message translates to:
+  /// **'Breathe deep'**
+  String get breathFast;
+
+  /// No description provided for @breathHoldOut.
+  ///
+  /// In en, this message translates to:
+  /// **'Breathe out and hold'**
+  String get breathHoldOut;
+
+  /// No description provided for @breathRelease.
+  ///
+  /// In en, this message translates to:
+  /// **'Breathe'**
+  String get breathRelease;
+
+  /// No description provided for @breathRecover.
+  ///
+  /// In en, this message translates to:
+  /// **'Breathe in and hold'**
+  String get breathRecover;
+
+  /// No description provided for @bodyLoadSetting.
+  ///
+  /// In en, this message translates to:
+  /// **'Count your body weight'**
+  String get bodyLoadSetting;
+
+  /// No description provided for @bodyLoadSettingHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Volume uses your body weight that day plus the added weight (minus the help on assisted ones). Records still use the added weight.'**
+  String get bodyLoadSettingHint;
+
+  /// No description provided for @lengthUnitsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Body measurements'**
+  String get lengthUnitsLabel;
+
+  /// No description provided for @workoutFullView.
+  ///
+  /// In en, this message translates to:
+  /// **'Full view'**
+  String get workoutFullView;
+
+  /// No description provided for @routineRepeatTag.
+  ///
+  /// In en, this message translates to:
+  /// **'Block {n} of {total}'**
+  String routineRepeatTag(int n, int total);
+
+  /// No description provided for @routineAddAgain.
+  ///
+  /// In en, this message translates to:
+  /// **'Add again'**
+  String get routineAddAgain;
+
+  /// No description provided for @routineAddAgainHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Do it again later in this workout, with its own sets'**
+  String get routineAddAgainHint;
+
+  /// No description provided for @routineAddedAgain.
+  ///
+  /// In en, this message translates to:
+  /// **'Added again at the end'**
+  String get routineAddedAgain;
+
+  /// No description provided for @routineAddedAgainHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Drag it to where you do it'**
+  String get routineAddedAgainHint;
+
+  /// No description provided for @restGlowSetting.
+  ///
+  /// In en, this message translates to:
+  /// **'Light at the end of rest'**
+  String get restGlowSetting;
+
+  /// No description provided for @restGlowHint.
+  ///
+  /// In en, this message translates to:
+  /// **'The edges of the screen glow when rest is over, so you notice it even if you cannot hear the beep'**
+  String get restGlowHint;
+
+  /// No description provided for @bodyweightRatio.
+  ///
+  /// In en, this message translates to:
+  /// **'Your estimated 1RM is {x}× your body weight'**
+  String bodyweightRatio(String x);
+
+  /// No description provided for @healthAddReading.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a reading'**
+  String get healthAddReading;
+
+  /// No description provided for @healthFromYours.
+  ///
+  /// In en, this message translates to:
+  /// **'From Health Connect and your own readings · last 30 days'**
+  String get healthFromYours;
+
+  /// No description provided for @reportKindSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'Summary'**
+  String get reportKindSummary;
+
+  /// No description provided for @reportKindSummaryHint.
+  ///
+  /// In en, this message translates to:
+  /// **'The period at a glance: totals, records and averages'**
+  String get reportKindSummaryHint;
+
+  /// No description provided for @reportKindTraining.
+  ///
+  /// In en, this message translates to:
+  /// **'Training'**
+  String get reportKindTraining;
+
+  /// No description provided for @reportKindTrainingHint.
+  ///
+  /// In en, this message translates to:
+  /// **'For your coach: every workout with its sets, RPE and notes'**
+  String get reportKindTrainingHint;
+
+  /// No description provided for @reportKindNutrition.
+  ///
+  /// In en, this message translates to:
+  /// **'Nutrition'**
+  String get reportKindNutrition;
+
+  /// No description provided for @reportKindNutritionHint.
+  ///
+  /// In en, this message translates to:
+  /// **'For your nutritionist: goals, daily totals and every meal'**
+  String get reportKindNutritionHint;
+
+  /// No description provided for @reportKindFull.
+  ///
+  /// In en, this message translates to:
+  /// **'Everything'**
+  String get reportKindFull;
+
+  /// No description provided for @reportKindFullHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Training, nutrition, body and health, day by day'**
+  String get reportKindFullHint;
+
+  /// No description provided for @reportKindFullNoFoodHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Training, body and health, day by day'**
+  String get reportKindFullNoFoodHint;
+
+  /// No description provided for @reportKickerTraining.
+  ///
+  /// In en, this message translates to:
+  /// **'DETAILED TRAINING REPORT'**
+  String get reportKickerTraining;
+
+  /// No description provided for @reportKickerNutrition.
+  ///
+  /// In en, this message translates to:
+  /// **'NUTRITION REPORT'**
+  String get reportKickerNutrition;
+
+  /// No description provided for @reportKickerFull.
+  ///
+  /// In en, this message translates to:
+  /// **'COMPLETE REPORT'**
+  String get reportKickerFull;
+
+  /// No description provided for @reportWorkoutLog.
+  ///
+  /// In en, this message translates to:
+  /// **'Workout log'**
+  String get reportWorkoutLog;
+
+  /// No description provided for @reportFoodLog.
+  ///
+  /// In en, this message translates to:
+  /// **'Food log'**
+  String get reportFoodLog;
+
+  /// No description provided for @reportDayByDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Day by day'**
+  String get reportDayByDay;
+
+  /// No description provided for @reportGoalsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily goal'**
+  String get reportGoalsLabel;
+
+  /// No description provided for @reportGoalsRest.
+  ///
+  /// In en, this message translates to:
+  /// **'Goal on rest days'**
+  String get reportGoalsRest;
+
+  /// No description provided for @reportKcalOnTarget.
+  ///
+  /// In en, this message translates to:
+  /// **'Days within 10 % of the calorie goal'**
+  String get reportKcalOnTarget;
+
+  /// No description provided for @reportProteinMet.
+  ///
+  /// In en, this message translates to:
+  /// **'Days reaching the protein goal'**
+  String get reportProteinMet;
+
+  /// No description provided for @reportDailyTotals.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily totals'**
+  String get reportDailyTotals;
+
+  /// No description provided for @reportDateCol.
+  ///
+  /// In en, this message translates to:
+  /// **'DATE'**
+  String get reportDateCol;
+
+  /// No description provided for @reportReadings.
+  ///
+  /// In en, this message translates to:
+  /// **'{n, plural, one{1 reading} other{{n} readings}}'**
+  String reportReadings(int n);
+
+  /// No description provided for @reportHealthAvg.
+  ///
+  /// In en, this message translates to:
+  /// **'Health · daily average'**
+  String get reportHealthAvg;
+
+  /// No description provided for @reportBodyHealth.
+  ///
+  /// In en, this message translates to:
+  /// **'Body and health'**
+  String get reportBodyHealth;
+
+  /// No description provided for @reportCopyMarkdown.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy as Markdown'**
+  String get reportCopyMarkdown;
+
+  /// No description provided for @reportDetailCap.
+  ///
+  /// In en, this message translates to:
+  /// **'Detailed reports cover up to {n} days, ending on the last day you chose.'**
+  String reportDetailCap(int n);
+
+  /// No description provided for @nutritionCopyDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy the day'**
+  String get nutritionCopyDay;
+
+  /// No description provided for @nutritionCopyFood.
+  ///
+  /// In en, this message translates to:
+  /// **'Food only'**
+  String get nutritionCopyFood;
+
+  /// No description provided for @nutritionCopyFoodHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Meals, foods, calories and macros'**
+  String get nutritionCopyFoodHint;
+
+  /// No description provided for @nutritionCopyAll.
+  ///
+  /// In en, this message translates to:
+  /// **'The whole day'**
+  String get nutritionCopyAll;
+
+  /// No description provided for @nutritionCopyAllHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Also your workout, weight and health data'**
+  String get nutritionCopyAllHint;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

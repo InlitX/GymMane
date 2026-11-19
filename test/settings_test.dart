@@ -19,6 +19,17 @@ void main() {
       fit.onboarded = true;
     });
 
+    test('la luz al acabar el descanso viene apagada y se recuerda', () {
+      expect(fit.restGlow, isFalse);
+      fit.toggleRestGlow();
+      fit.persistNow();
+      fit.loadFromStore();
+      expect(fit.restGlow, isTrue);
+      expect(fit.toJson()['restGlow'], isTrue);
+      fit.resetAllData();
+      expect(fit.restGlow, isFalse);
+    });
+
     test('es un tema oscuro aparte y se recuerda', () {
       fit.setThemePref('amoled');
       expect(fit.dark, isTrue);

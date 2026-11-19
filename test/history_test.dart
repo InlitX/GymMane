@@ -249,6 +249,15 @@ void main() {
       expect(fit.summaryFirstTime, isTrue);
     });
 
+    test('#414 cada ejercicio se compara con lo suyo: tiempo con tiempo, reps con reps', () {
+      final id = startOne();
+      before([LoggedExercise(id, id, 'chest', [LoggedSet(0, 0, sec: 60)])]);
+      fit.setSessionSeconds(0, 0, 90);
+      fit.toggleSet(0, 0);
+      fit.finishSession();
+      expect(fit.summaryVsLast, 50);
+    });
+
     test('nada que comparar (solo tiempo) no enseña tarjeta', () {
       final id = startOne();
       before([LoggedExercise(id, id, 'chest', [LoggedSet(0, 0, sec: 60)])]);
@@ -426,6 +435,47 @@ void main() {
         await tester.pump(const Duration(milliseconds: 100));
       }
       expect(find.byType(TrendChart), findsOneWidget);
+    });
+  });
+
+  group('#429 entreno a pantalla completa', () {
+    setUp(() async {
+      SharedPreferences.setMockInitialValues({});
+      await Store.instance.init();
+      fit.resetAllData();
+      fit.onboarded = true;
+    });
+
+    testWidgets('enseña cada serie con su RPE, su tipo y su nota, y vuelve atrás', (tester) async {
+      tester.view.physicalSize = const Size(1080, 2400);
+      tester.view.devicePixelRatio = 2.75;
+      addTearDown(tester.view.reset);
+      setAppLanguage('es');
+      final bench = fit.matchExerciseByName('Barbell Bench Press')!;
+      final s = LoggedSession(DateTime.now().subtract(const Duration(days: 1)), 3000, [
+        LoggedExercise(bench.id, bench.name, bench.primary, [
+          LoggedSet(10, 40, kind: SetKind.warmup),
+          LoggedSet(8, 60, rpe: 8, note: 'Codo bien'),
+        ]),
+      ]);
+      fit.sessions.add(s);
+      fit.refreshAwards(silent: true);
+      fit.pendingAwards.clear();
+      fit.resetRoute('history');
+      fit.openWorkout(s);
+      await tester.pumpWidget(const GymManeApp());
+      for (var i = 0; i < 20; i++) {
+        await tester.pump(const Duration(milliseconds: 100));
+      }
+      expect(fit.route, 'workout');
+      expect(find.text(t.catalogName(bench.id, bench.name)), findsOneWidget);
+      expect(find.text(fit.effortTag(8)), findsOneWidget);
+      expect(find.text('Codo bien'), findsOneWidget);
+      expect(find.text('W'), findsOneWidget);
+      fit.handleBack();
+      expect(fit.route, 'history');
+      await tester.pumpWidget(const SizedBox());
+      await tester.pump(const Duration(seconds: 1));
     });
   });
 }

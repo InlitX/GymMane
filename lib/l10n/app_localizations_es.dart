@@ -8459,4 +8459,384 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get bpPulseAdd => '+ Pulso';
+
+  @override
+  String get autoHold => 'Encadenar series por tiempo';
+
+  @override
+  String get autoHoldHint => 'Tras el descanso, la siguiente serie por tiempo empieza sola';
+
+  @override
+  String get recoveryTitle => 'Recuperación';
+
+  @override
+  String get recoverySettingHint => 'Sauna, frío y respiración, aparte de tu entreno';
+
+  @override
+  String get recoveryKindSauna => 'Sauna';
+
+  @override
+  String get recoveryKindCold => 'Frío';
+
+  @override
+  String get recoveryKindContrast => 'Contraste';
+
+  @override
+  String get recoveryKindBreath => 'Respiración';
+
+  @override
+  String get recoveryDescSauna => 'Tiempo, calor y rondas';
+
+  @override
+  String get recoveryDescCold => 'Baño de hielo o ducha fría';
+
+  @override
+  String get recoveryDescContrast => 'Calor y frío, ronda tras ronda';
+
+  @override
+  String get recoveryDescBreath => 'Guiada, para bajar el ritmo';
+
+  @override
+  String get recoveryThisWeek => 'Esta semana';
+
+  @override
+  String get recoveryHeat => 'Calor';
+
+  @override
+  String get recoveryCold => 'Frío';
+
+  @override
+  String get recoveryLog => 'Registrar';
+
+  @override
+  String get recoveryRecent => 'Últimas';
+
+  @override
+  String get recoveryEmpty =>
+      'Aún nada. Apunta una sauna, un baño frío o unos minutos de respiración: queda aparte de tus entrenos.';
+
+  @override
+  String get recoveryMinutes => 'Minutos';
+
+  @override
+  String get recoveryTemp => 'Temperatura';
+
+  @override
+  String get recoveryRounds => 'Rondas';
+
+  @override
+  String get recoveryAdd => 'Añadir';
+
+  @override
+  String get recoveryNoteHint => '¿Qué tal? (opcional)';
+
+  @override
+  String get recoveryTimer => 'Cronometrar';
+
+  @override
+  String get recoveryTimerStop => 'Parar';
+
+  @override
+  String get recoveryDeleteTitle => '¿Borrar este registro?';
+
+  @override
+  String recoveryRoundsCount(int n) {
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n rondas', one: '1 ronda');
+    return '$_temp0';
+  }
+
+  @override
+  String recoveryHomeDetail(int min) {
+    return '$min min esta semana';
+  }
+
+  @override
+  String get breathIn => 'Inspira';
+
+  @override
+  String get breathHold => 'Aguanta';
+
+  @override
+  String get breathOut => 'Suelta';
+
+  @override
+  String get breathRest => 'Pausa';
+
+  @override
+  String get breathBox => 'Caja';
+
+  @override
+  String get breathRelax => 'Relajante';
+
+  @override
+  String get breathEven => 'Coherente';
+
+  @override
+  String get breathStart => 'Empezar';
+
+  @override
+  String get breathAgain => 'Otra vez';
+
+  @override
+  String get breathDone => 'Hecho';
+
+  @override
+  String get mealAiNoData => 'La IA contestó con texto, sin datos';
+
+  @override
+  String get mealAiNoDataHint =>
+      'Vuelve a pegar la petición entera. Algunas IA se niegan si no ven la foto o la comida no está clara: descríbela en una frase.';
+
+  @override
+  String get mealAiCutOff => 'La respuesta llegó cortada';
+
+  @override
+  String get mealAiCutOffHint => 'Pídele que envíe el resto o que conteste con menos alimentos.';
+
+  @override
+  String get recoveryGoal => 'Meta';
+
+  @override
+  String get recoveryRest => 'Descanso';
+
+  @override
+  String get recoveryStart => 'Empezar temporizador';
+
+  @override
+  String get recoveryJustLog => 'Apuntar sin temporizador';
+
+  @override
+  String recoveryRoundOf(int n, int total) {
+    return 'Ronda $n de $total';
+  }
+
+  @override
+  String get recoveryPause => 'Pausa';
+
+  @override
+  String get recoveryResume => 'Seguir';
+
+  @override
+  String get recoveryNext => 'Siguiente';
+
+  @override
+  String get recoveryFinish => 'Terminar';
+
+  @override
+  String get recoveryOvertime => 'De más';
+
+  @override
+  String get recoveryFeel => '¿Qué tal te sentó?';
+
+  @override
+  String get recoveryFeelLow => 'Peor';
+
+  @override
+  String get recoveryFeelHigh => 'Mejor';
+
+  @override
+  String get recoveryGoalHeat => 'Meta de calor (minutos a la semana)';
+
+  @override
+  String get recoveryGoalCold => 'Meta de frío (minutos a la semana)';
+
+  @override
+  String recoveryOfGoal(int min) {
+    return 'de $min min esta semana';
+  }
+
+  @override
+  String recoveryBestCold(String time) {
+    return 'Frío más largo: $time';
+  }
+
+  @override
+  String recoveryBestHold(String time) {
+    return 'Retención más larga: $time';
+  }
+
+  @override
+  String get recoveryMobility => 'Movilidad y estiramientos';
+
+  @override
+  String get recoveryMobilityHint => 'Abre los estiramientos del catálogo';
+
+  @override
+  String get recoveryTipTitle => 'Antes de empezar';
+
+  @override
+  String get recoveryTipBody =>
+      'Bebe agua, sal si te mareas y nunca hagas frío intenso a solas. Si tienes algún problema de corazón o de tensión, pregunta antes a tu médico.';
+
+  @override
+  String get recoveryTipOk => 'Entendido';
+
+  @override
+  String get breathRetention => 'Retención';
+
+  @override
+  String breathRetentionHow(int breaths, int rounds) {
+    return '$breaths respiraciones hondas, luego suelta el aire y aguanta lo que te resulte cómodo. $rounds rondas.';
+  }
+
+  @override
+  String get breathRetentionSafe => 'Sentado o tumbado, nunca en el agua ni conduciendo.';
+
+  @override
+  String get breathFast => 'Respira hondo';
+
+  @override
+  String get breathHoldOut => 'Suelta el aire y aguanta';
+
+  @override
+  String get breathRelease => 'Respirar';
+
+  @override
+  String get breathRecover => 'Inspira y aguanta';
+
+  @override
+  String get bodyLoadSetting => 'Contar tu peso corporal';
+
+  @override
+  String get bodyLoadSettingHint =>
+      'El volumen usa tu peso de ese día más el lastre (menos la ayuda en los asistidos). Los récords siguen con el lastre.';
+
+  @override
+  String get lengthUnitsLabel => 'Medidas del cuerpo';
+
+  @override
+  String get workoutFullView => 'Ver completo';
+
+  @override
+  String routineRepeatTag(int n, int total) {
+    return 'Bloque $n de $total';
+  }
+
+  @override
+  String get routineAddAgain => 'Añadir otra vez';
+
+  @override
+  String get routineAddAgainHint => 'Para hacerlo otra vez más tarde en este entreno, con sus propias series';
+
+  @override
+  String get routineAddedAgain => 'Añadido otra vez al final';
+
+  @override
+  String get routineAddedAgainHint => 'Arrástralo a donde lo hagas';
+
+  @override
+  String get restGlowSetting => 'Luz al acabar el descanso';
+
+  @override
+  String get restGlowHint =>
+      'Los bordes de la pantalla se iluminan al acabar el descanso, para verlo aunque no oigas el pitido';
+
+  @override
+  String bodyweightRatio(String x) {
+    return 'Tu 1RM estimado es $x veces tu peso';
+  }
+
+  @override
+  String get healthAddReading => 'Añadir una lectura';
+
+  @override
+  String get healthFromYours => 'De Health Connect y tus lecturas · últimos 30 días';
+
+  @override
+  String get reportKindSummary => 'Resumen';
+
+  @override
+  String get reportKindSummaryHint => 'El periodo de un vistazo: totales, récords y medias';
+
+  @override
+  String get reportKindTraining => 'Entrenamiento';
+
+  @override
+  String get reportKindTrainingHint => 'Para tu entrenador: cada entreno con sus series, RPE y notas';
+
+  @override
+  String get reportKindNutrition => 'Nutrición';
+
+  @override
+  String get reportKindNutritionHint => 'Para tu nutricionista: objetivos, totales por día y cada comida';
+
+  @override
+  String get reportKindFull => 'Todo';
+
+  @override
+  String get reportKindFullHint => 'Entreno, nutrición, cuerpo y salud, día a día';
+
+  @override
+  String get reportKindFullNoFoodHint => 'Entreno, cuerpo y salud, día a día';
+
+  @override
+  String get reportKickerTraining => 'INFORME DE ENTRENAMIENTO DETALLADO';
+
+  @override
+  String get reportKickerNutrition => 'INFORME DE NUTRICIÓN';
+
+  @override
+  String get reportKickerFull => 'INFORME COMPLETO';
+
+  @override
+  String get reportWorkoutLog => 'Registro de entrenos';
+
+  @override
+  String get reportFoodLog => 'Registro de comidas';
+
+  @override
+  String get reportDayByDay => 'Día a día';
+
+  @override
+  String get reportGoalsLabel => 'Objetivo diario';
+
+  @override
+  String get reportGoalsRest => 'Objetivo en días de descanso';
+
+  @override
+  String get reportKcalOnTarget => 'Días a menos del 10 % del objetivo de calorías';
+
+  @override
+  String get reportProteinMet => 'Días que llegan a la proteína';
+
+  @override
+  String get reportDailyTotals => 'Totales por día';
+
+  @override
+  String get reportDateCol => 'FECHA';
+
+  @override
+  String reportReadings(int n) {
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n lecturas', one: '1 lectura');
+    return '$_temp0';
+  }
+
+  @override
+  String get reportHealthAvg => 'Salud · media diaria';
+
+  @override
+  String get reportBodyHealth => 'Cuerpo y salud';
+
+  @override
+  String get reportCopyMarkdown => 'Copiar en Markdown';
+
+  @override
+  String reportDetailCap(int n) {
+    return 'Los informes detallados abarcan hasta $n días, hasta el último día que elegiste.';
+  }
+
+  @override
+  String get nutritionCopyDay => 'Copiar el día';
+
+  @override
+  String get nutritionCopyFood => 'Solo la comida';
+
+  @override
+  String get nutritionCopyFoodHint => 'Comidas, alimentos, calorías y macros';
+
+  @override
+  String get nutritionCopyAll => 'Todo el día';
+
+  @override
+  String get nutritionCopyAllHint => 'También el entreno, el peso y tus datos de salud';
 }

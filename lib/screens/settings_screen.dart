@@ -178,6 +178,10 @@ class SettingsScreen extends StatelessWidget {
                     SegOption('kg', fit.units == 'kg', () => fit.setUnits('kg')),
                     SegOption('lb', fit.units == 'lb', () => fit.setUnits('lb')),
                   ])),
+                  _prefRow(gc, PhosphorIconsRegular.ruler, t.lengthUnitsLabel, SegToggle([
+                    SegOption('cm', !fit.isInches, () => fit.setLengthUnits('cm')),
+                    SegOption('in', fit.isInches, () => fit.setLengthUnits('in')),
+                  ])),
                   _choiceRow(
                     context,
                     gc,
@@ -458,6 +462,12 @@ class SettingsScreen extends StatelessWidget {
                   ),
                   GestureDetector(
                     behavior: HitTestBehavior.opaque,
+                    onTap: fit.toggleAutoHold,
+                    child: _prefRow(gc, PhosphorIconsRegular.hourglassMedium, t.autoHold,
+                        TinySwitch(on: fit.autoHold), hint: t.autoHoldHint),
+                  ),
+                  GestureDetector(
+                    behavior: HitTestBehavior.opaque,
                     onTap: fit.toggleStartCountdown,
                     child: _prefRow(gc, PhosphorIconsRegular.timer, t.countdownSetting,
                         TinySwitch(on: fit.startCountdown), hint: t.countdownHint),
@@ -686,6 +696,12 @@ class SettingsScreen extends StatelessWidget {
                   ),
                   GestureDetector(
                     behavior: HitTestBehavior.opaque,
+                    onTap: fit.toggleRestGlow,
+                    child: _prefRow(gc, PhosphorIconsRegular.sunDim, t.restGlowSetting,
+                        TinySwitch(on: fit.restGlow), hint: t.restGlowHint),
+                  ),
+                  GestureDetector(
+                    behavior: HitTestBehavior.opaque,
                     onTap: fit.toggleToastSound,
                     child: _prefRow(gc, PhosphorIconsRegular.bellSimple, t.toastSoundSetting,
                         TinySwitch(on: fit.toastSound), hint: t.toastSoundHint),
@@ -751,6 +767,14 @@ class SettingsScreen extends StatelessWidget {
                     child: _prefRow(gc, PhosphorIconsRegular.forkKnife, t.nutritionBeta,
                         TinySwitch(on: fit.nutritionBeta),
                         hint: t.nutritionBetaHint,
+                        badge: BetaTag(t.sectionBeta, small: true)),
+                  ),
+                  GestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    onTap: () => fit.setRecoveryOn(!fit.recoveryOn),
+                    child: _prefRow(gc, PhosphorIconsRegular.thermometerSimple, t.recoveryTitle,
+                        TinySwitch(on: fit.recoveryOn),
+                        hint: t.recoverySettingHint,
                         badge: BetaTag(t.sectionBeta, small: true)),
                   ),
 
@@ -919,6 +943,7 @@ class SettingsScreen extends StatelessWidget {
         if (NfcTags.available) (t.nfcRow, PhosphorIconsRegular.contactlessPayment),
         if (QuickTiles.available) (t.qsRow, PhosphorIconsRegular.squaresFour),
         (t.autoAdvance, PhosphorIconsRegular.skipForward),
+        (t.autoHold, PhosphorIconsRegular.hourglassMedium),
         (t.countdownSetting, PhosphorIconsRegular.timer),
         (t.keepScreenOn, PhosphorIconsRegular.sun),
         (t.checkInSetting, PhosphorIconsRegular.moon),
@@ -936,6 +961,7 @@ class SettingsScreen extends StatelessWidget {
         (t.notifSoundSetting, PhosphorIconsRegular.musicNotes),
         (t.alarmSound, PhosphorIconsRegular.speakerHigh),
         (t.alarmStyleTitle, PhosphorIconsRegular.vibrate),
+        (t.restGlowSetting, PhosphorIconsRegular.sunDim),
         (t.toastSoundSetting, PhosphorIconsRegular.bellSimple),
       ]),
       _Category('home', PhosphorIconsRegular.house, _sectionTitle('home'), [
@@ -958,6 +984,7 @@ class SettingsScreen extends StatelessWidget {
         ]),
       _Category('beta', PhosphorIconsRegular.flask, _sectionTitle('beta'), [
         (t.nutritionBeta, PhosphorIconsRegular.forkKnife),
+        (t.recoveryTitle, PhosphorIconsRegular.thermometerSimple),
       ]),
       _Category('data', PhosphorIconsRegular.database, _sectionTitle('data'), [
         (t.exportCsv, PhosphorIconsRegular.fileCsv),

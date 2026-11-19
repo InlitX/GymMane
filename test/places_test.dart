@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:gymmane/app/gymmane_app.dart';
+import 'package:gymmane/catalog/program_templates.dart';
 import 'package:gymmane/l10n/l10n.dart';
 import 'package:gymmane/screens/places_screen.dart';
 import 'package:gymmane/services/local_store.dart';
@@ -81,6 +82,19 @@ void main() {
 
     expect(fit.exNoGearOnly, false);
     expect(fit.activePlaceId, id, reason: 'el sitio es un modo, no un filtro de la lista');
+  });
+
+  test('a program template swaps what the place cannot do for something it can', () {
+    fit.resetAllData();
+    final id = fit.addPlace('Casa', equipment: {'Dumbbell'});
+    fit.setActivePlace(id);
+    fit.applyTemplate(kProgramTemplates.firstWhere((x) => x.id == 'stronglifts'));
+    final used = {for (final r in fit.routines) ...r.exerciseIds};
+    expect(used, isNotEmpty);
+    for (final ex in used.map(fit.exerciseById)) {
+      expect(fit.fitsHere(ex!) || fit.alternativesHere(ex, 1).isEmpty, true, reason: ex.name);
+    }
+    expect(used.map(fit.exerciseById).any((e) => e!.equipment == 'Barbell'), false);
   });
 
   test('the workout picker only suggests what the place can do', () {

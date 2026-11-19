@@ -120,6 +120,39 @@ void main() {
       expect(fit.session!.exercises.first.sets.first.sec, inInclusiveRange(18, 20));
     });
 
+    test('con «Encadenar series por tiempo», tras el descanso arranca la siguiente sola', () {
+      final plank = fit.matchExerciseByName('Plank')!.id;
+      fit.startRoutine(routineOf([plank]));
+      fit.endCountdown();
+      fit.setExerciseMode(plank, 'time');
+      for (final st in fit.session!.exercises.first.sets) {
+        st.sec = 30;
+      }
+      expect(fit.session!.exercises.first.sets.length, greaterThan(1));
+      fit.toggleAutoHold();
+      fit.startHold(0, 0);
+      fit.completeHold();
+      expect(fit.session!.exercises.first.sets.first.done, isTrue);
+      expect(fit.holding, isFalse, reason: 'primero descansa');
+      fit.session!.restEndsAt = DateTime.now().subtract(const Duration(seconds: 1));
+      fit.restElapsed();
+      expect(fit.holding, isTrue);
+      expect(fit.holdSet, 1);
+      fit.stopHold();
+    });
+
+    test('sin el ajuste, tras el descanso no arranca nada', () {
+      final plank = fit.matchExerciseByName('Plank')!.id;
+      fit.startRoutine(routineOf([plank]));
+      fit.endCountdown();
+      fit.setExerciseMode(plank, 'time');
+      fit.startHold(0, 0);
+      fit.completeHold();
+      fit.session!.restEndsAt = DateTime.now().subtract(const Duration(seconds: 1));
+      fit.restElapsed();
+      expect(fit.holding, isFalse);
+    });
+
     test('a un segundo del final cuenta como completo', () {
       final plank = fit.matchExerciseByName('Plank')!.id;
       fit.startRoutine(routineOf([plank]));
