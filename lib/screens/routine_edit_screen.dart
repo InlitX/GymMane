@@ -560,6 +560,9 @@ class _RoutineEditScreenState extends State<RoutineEditScreen> {
     final linksNext = fit.chainsToNext(routine, slot);
     final fromPrev = index > 0 && fit.chainsToNext(routine, routine.exerciseIds[index - 1]);
     final inChain = linksNext || fromPrev;
+    final inJump = linksNext
+        ? fit.jumpsToNext(routine, slot)
+        : fromPrev && fit.jumpsToNext(routine, routine.exerciseIds[index - 1]);
     final plan = fit.plannedSets(routine, slot);
     final anyChain = [
       for (var i = 0; i < routine.exerciseIds.length - 1; i++) fit.chainsToNext(routine, routine.exerciseIds[i]),
@@ -590,7 +593,7 @@ class _RoutineEditScreenState extends State<RoutineEditScreen> {
                   width: 12,
                   child: inChain ? _rail(gc, top: !fromPrev, bottom: !linksNext) : null,
                 ),
-              Expanded(child: _chosenCard(gc, routine, slot, ex, index, inChain, plan, linksNext)),
+              Expanded(child: _chosenCard(gc, routine, slot, ex, index, inChain, inJump, plan, linksNext)),
             ],
           ),
         ),
@@ -599,10 +602,11 @@ class _RoutineEditScreenState extends State<RoutineEditScreen> {
     );
   }
 
-  Widget _chosenCard(GymColors gc, Routine routine, String slot, Exercise ex, int index, bool inChain,
+  Widget _chosenCard(GymColors gc, Routine routine, String slot, Exercise ex, int index, bool inChain, bool inJump,
       List<PlannedSet> plan, bool linksNext) {
     final repeat = fit.routineRepeat(routine, slot);
     final chained = routine.chained.contains(slot);
+    final jumps = chained && routine.jumped.contains(slot);
     return Container(
       margin: EdgeInsets.only(bottom: linksNext ? 4 : 0),
       padding: const EdgeInsets.all(8),
@@ -655,7 +659,7 @@ class _RoutineEditScreenState extends State<RoutineEditScreen> {
               ),
               if (inChain) ...[
                 const SizedBox(height: 2),
-                Text(t.superset.toUpperCase(),
+                Text((inJump ? t.jumpSet : t.superset).toUpperCase(),
                     style: AppTheme.f(9.5, weight: FontWeight.w700, color: gc.brass, letterSpacing: 1)),
               ],
               if (repeat.of > 1) ...[
@@ -696,14 +700,22 @@ class _RoutineEditScreenState extends State<RoutineEditScreen> {
         if (index < routine.exerciseIds.length - 1)
           Semantics(
             button: true,
-            toggled: chained,
-            label: t.supersetLink,
+            label: jumps ? t.supersetUnlink : chained ? t.jumpSetLink : t.supersetLink,
             child: GestureDetector(
               behavior: HitTestBehavior.opaque,
               onTap: () {
-                fit.toggleChain(_id, slot);
-                if (!routine.chained.contains(slot)) return;
+                if (jumps) {
+                  fit.toggleChain(_id, slot);
+                  return;
+                }
                 HapticFeedback.selectionClick();
+                if (chained) {
+                  fit.toggleJump(_id, slot);
+                  showNotchToast(context, t.jumpSet,
+                      subtitle: t.jumpSetHint, icon: PhosphorIconsFill.arrowsClockwise, accent: gc.brass);
+                  return;
+                }
+                fit.toggleChain(_id, slot);
                 showNotchToast(context, t.superset,
                     subtitle: t.supersetHint, icon: PhosphorIconsFill.link, accent: gc.brass);
               },
@@ -718,10 +730,14 @@ class _RoutineEditScreenState extends State<RoutineEditScreen> {
                       child: FadeTransition(opacity: a, child: child),
                     ),
                     child: Icon(
-                      chained ? PhosphorIconsFill.link : PhosphorIconsRegular.link,
-                      key: ValueKey(chained),
+                      jumps
+                          ? PhosphorIconsFill.arrowsClockwise
+                          : chained
+                              ? PhosphorIconsFill.link
+                              : PhosphorIconsRegular.link,
+                      key: ValueKey(jumps ? 2 : chained ? 1 : 0),
                       size: 17,
-                      color: chained ? gc.ember : gc.textTertiary,
+                      color: jumps ? gc.brass : chained ? gc.ember : gc.textTertiary,
                     ),
                   ),
                 ),

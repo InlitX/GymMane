@@ -59,12 +59,14 @@ class SessionSet {
 }
 
 class SessionExercise {
-  SessionExercise(this.id, this.name, this.primary, this.sets, {this.linkedNext = false, this.swappedFrom, this.slot});
+  SessionExercise(this.id, this.name, this.primary, this.sets,
+      {this.linkedNext = false, this.jumpNext = false, this.swappedFrom, this.slot});
   final String id;
   final String name;
   final String primary;
   final List<SessionSet> sets;
   bool linkedNext;
+  bool jumpNext;
   final String? swappedFrom;
   String? slot;
 
@@ -78,6 +80,7 @@ class SessionExercise {
         'p': primary,
         's': sets.map((s) => s.toJson()).toList(),
         if (linkedNext) 'l': true,
+        if (jumpNext) 'j': true,
         if (swappedFrom != null) 'sw': swappedFrom,
         if (slot != null) 'sl': slot,
       };
@@ -87,6 +90,7 @@ class SessionExercise {
         j['p'] as String,
         (j['s'] as List).map((e) => SessionSet.fromJson((e as Map).cast<String, dynamic>())).toList(),
         linkedNext: j['l'] as bool? ?? false,
+        jumpNext: j['j'] as bool? ?? false,
         swappedFrom: j['sw'] as String?,
         slot: j['sl'] as String?,
       );

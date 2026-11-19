@@ -72,10 +72,13 @@ Future<T?> showAppSheet<T>({
 }) {
   final nav = Navigator.of(context);
   final desk = DesktopScope.wideFor(MediaQuery.sizeOf(context).width);
-  final inner = enableDrag && isDismissible ? (BuildContext c) => _PullToClose(child: builder(c)) : builder;
+  final cap = isScrollControlled ? null : 9 / 16;
+  Widget lifted(BuildContext c) =>
+      desk ? builder(c) : _KeyboardLift(capRatio: cap, child: Builder(builder: builder));
+  final WidgetBuilder inner = enableDrag && isDismissible ? (c) => _PullToClose(child: lifted(c)) : lifted;
   return nav.push(_GlassSheetRoute<T>(
     builder: desk ? (c) => ClipRRect(borderRadius: BorderRadius.circular(28), child: inner(c)) : inner,
-    isScrollControlled: isScrollControlled,
+    isScrollControlled: desk ? isScrollControlled : true,
     backgroundColor: backgroundColor,
     shape: desk ? RoundedRectangleBorder(borderRadius: BorderRadius.circular(28)) : shape,
     floating: desk,
@@ -110,8 +113,9 @@ class _GlassSheetRoute<T> extends ModalBottomSheetRoute<T> with _GlassCount<T> {
   @override
   Widget buildPage(BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
     final page = super.buildPage(context, animation, secondaryAnimation);
-    return _KeyboardLift(
-        child: floating ? Padding(padding: const EdgeInsets.only(top: 28, bottom: 28), child: page) : page);
+    return floating
+        ? _KeyboardLift(child: Padding(padding: const EdgeInsets.only(top: 28, bottom: 28), child: page))
+        : page;
   }
 
   @override
@@ -139,20 +143,26 @@ class _GlassSheetRoute<T> extends ModalBottomSheetRoute<T> with _GlassCount<T> {
 }
 
 class _KeyboardLift extends StatelessWidget {
-  const _KeyboardLift({required this.child});
+  const _KeyboardLift({required this.child, this.capRatio});
 
   final Widget child;
+  final double? capRatio;
 
   @override
   Widget build(BuildContext context) {
     final media = MediaQuery.of(context);
-    return Padding(
-      padding: EdgeInsets.only(bottom: media.viewInsets.bottom),
-      child: MediaQuery(
-        data: media.copyWith(viewInsets: media.viewInsets.copyWith(bottom: 0)),
-        child: child,
-      ),
-    );
+    final ratio = capRatio;
+    Widget lift(double? maxHeight) => Padding(
+          padding: EdgeInsets.only(bottom: media.viewInsets.bottom),
+          child: MediaQuery(
+            data: media.copyWith(viewInsets: media.viewInsets.copyWith(bottom: 0)),
+            child: maxHeight == null
+                ? child
+                : ConstrainedBox(constraints: BoxConstraints(maxHeight: maxHeight), child: child),
+          ),
+        );
+    if (ratio == null) return lift(null);
+    return LayoutBuilder(builder: (context, box) => lift(box.maxHeight * ratio));
   }
 }
 

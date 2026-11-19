@@ -131,3 +131,6 @@ nutritionCopyFood
 nutritionCopyFoodHint
 nutritionCopyAll
 nutritionCopyAllHint
+jumpSet
+jumpSetHint
+jumpSetLink

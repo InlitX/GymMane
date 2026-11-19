@@ -2217,6 +2217,15 @@ class AppLocalizationsIt extends AppLocalizations {
   String get supersetHint => 'Nessun riposo tra gli esercizi concatenati: passi dritto al prossimo.';
 
   @override
+  String get jumpSet => 'Jump set';
+
+  @override
+  String get jumpSetHint => 'Riposi anche dopo ogni esercizio concatenato, poi passi al prossimo.';
+
+  @override
+  String get jumpSetLink => 'Rendilo un jump set';
+
+  @override
   String get aiRoutine => 'Scheda con l\'IA';
 
   @override
@@ -2806,7 +2815,7 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get planFormatNotes =>
-      'Usa i nomi degli esercizi esattamente come nella lista. \"sets\", \"reps\", \"weight\" (nell\'unità indicata), \"rest\" in secondi e \"days\" sono facoltativi. \"superset\": true collega un esercizio al successivo. Per più settimane, raggruppa le routine dentro \"weeks\" come nel secondo esempio.';
+      'Usa i nomi degli esercizi esattamente come nella lista. \"sets\", \"reps\" (un numero o un intervallo come \"8-12\"), \"weight\" (nell\'unità indicata), \"rest\" in secondi e \"days\" sono facoltativi. Per gli esercizi segnati cardio o a tempo nella lista, usa \"time\" (secondi, o come \"30:00\") e \"distance\" (in km) al posto di \"reps\"; per dare a ogni serie i suoi valori, elencale in \"plan\", una voce per serie con le sue \"reps\" e il suo \"weight\". \"type\" indica il tipo di serie: \"warmup\", \"drop\", \"failure\", \"restpause\" o \"cluster\"; sull\'esercizio vale per tutte le sue serie di lavoro, dentro \"plan\" solo per quella serie. \"superset\": true collega un esercizio al successivo, \"jumpset\": true fa lo stesso con un riposo in mezzo. Per più settimane, raggruppa le routine dentro \"weeks\" come nel secondo esempio.';
 
   @override
   String get planSets => 'Pianifica le serie';
@@ -8110,7 +8119,8 @@ class AppLocalizationsIt extends AppLocalizations {
   String get helpSupersetQ => 'Come faccio una superserie?';
 
   @override
-  String get helpSupersetA => 'Nell’editor della routine tocca il collegamento tra due esercizi per unirli.';
+  String get helpSupersetA =>
+      'Nell’editor della routine tocca il collegamento tra due esercizi per unirli. Toccalo di nuovo per farne un jump set, con il riposo tra i due.';
 
   @override
   String get helpRangeQ => 'Come imposto un intervallo di ripetizioni come 8-12?';

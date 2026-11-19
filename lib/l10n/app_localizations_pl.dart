@@ -2221,6 +2221,15 @@ class AppLocalizationsPl extends AppLocalizations {
       'Bez odpoczynku między połączonymi ćwiczeniami, przechodzisz od razu do następnego.';
 
   @override
+  String get jumpSet => 'Jump set';
+
+  @override
+  String get jumpSetHint => 'Rest after each chained exercise too, then move on to the next one.';
+
+  @override
+  String get jumpSetLink => 'Make it a jump set';
+
+  @override
   String get aiRoutine => 'Plan z AI';
 
   @override

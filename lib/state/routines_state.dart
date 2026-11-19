@@ -608,6 +608,7 @@ mixin RoutinesState on FitCore, LibraryState {
     made.exerciseIds.addAll(source.exerciseIds);
     made.sets.addAll(source.sets);
     made.chained.addAll(source.chained);
+    made.jumped.addAll(source.jumped);
     made.ladders.addAll([for (final l in source.ladders) [...l]]);
     made.plan.addAll({for (final e in source.plan.entries) e.key: [...e.value]});
     made.rest.addAll(source.rest);
@@ -791,6 +792,7 @@ mixin RoutinesState on FitCore, LibraryState {
     if (rest != null) r.rest[slot] = rest;
     r.exerciseNotes.remove(from);
     if (r.chained.remove(from)) r.chained.add(slot);
+    if (r.jumped.remove(from)) r.jumped.add(slot);
     final alts = r.alts.remove(from);
     if (alts != null) {
       final kept = [for (final a in alts) if (a != to) a];
@@ -831,6 +833,7 @@ mixin RoutinesState on FitCore, LibraryState {
     final plan = r.plan[exId];
     final rest = r.rest[exId];
     final chained = r.chained.contains(exId);
+    final jumped = r.jumped.contains(exId);
     final alts = r.alts[exId];
     final note = r.exerciseNotes[exId];
     r.dropSlot(exId);
@@ -844,6 +847,7 @@ mixin RoutinesState on FitCore, LibraryState {
       if (plan != null) back.plan[exId] = plan;
       if (rest != null) back.rest[exId] = rest;
       if (chained) back.chained.add(exId);
+      if (jumped) back.jumped.add(exId);
       if (alts != null) back.alts[exId] = alts;
       if (note != null) back.exerciseNotes[exId] = note;
       _persist();
@@ -924,7 +928,21 @@ mixin RoutinesState on FitCore, LibraryState {
   void toggleChain(String routineId, String exId) {
     final r = _routine(routineId);
     if (r == null) return;
-    if (!r.chained.remove(exId)) r.chained.add(exId);
+    if (r.chained.remove(exId)) {
+      r.jumped.remove(exId);
+    } else {
+      r.chained.add(exId);
+    }
+    _persist();
+    notifyListeners();
+  }
+
+  bool jumpsToNext(Routine r, String exId) => chainsToNext(r, exId) && r.jumped.contains(exId);
+
+  void toggleJump(String routineId, String exId) {
+    final r = _routine(routineId);
+    if (r == null || !r.chained.contains(exId)) return;
+    if (!r.jumped.remove(exId)) r.jumped.add(exId);
     _persist();
     notifyListeners();
   }
