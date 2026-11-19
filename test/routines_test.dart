@@ -3,6 +3,7 @@ import 'package:gymmane/catalog/program_templates.dart';
 import 'package:gymmane/l10n/l10n.dart';
 import 'package:gymmane/models/workout.dart';
 import 'package:gymmane/services/local_store.dart';
+import 'package:gymmane/services/plan_share.dart';
 import 'package:gymmane/state/fit_state.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -408,6 +409,282 @@ void main() {
       expect(fit.routines.single.name, '');
       fit.renameRoutine(id, 'Nuevo');
       expect(fit.routines.single.name, 'Nuevo');
+    });
+  });
+
+  group('#378 el mismo ejercicio varias veces', () {
+    setUp(() async {
+      SharedPreferences.setMockInitialValues({});
+      await Store.instance.init();
+      fit.resetAllData();
+      fit.setUnits('kg');
+    });
+
+    tearDown(() {
+      if (fit.session != null) fit.saveAndExit();
+    });
+
+    String idOf(String name) => fit.matchExerciseByName(name)!.id;
+    String bench() => idOf('Barbell Bench Press');
+    String ext() => idOf('Leg Extension');
+    String curl() => idOf('Lying Leg Curl');
+
+    Routine blocks() {
+      final id = fit.createRoutine('Bloques');
+      fit.toggleRoutineExercise(id, bench());
+      fit.toggleRoutineExercise(id, ext());
+      fit.addRoutineSlot(id, bench(), like: bench());
+      fit.toggleRoutineExercise(id, curl());
+      return fit.routineById(id)!;
+    }
+
+    test('se añade otra vez con su propio hueco y el primero no cambia', () {
+      final r = blocks();
+      expect(r.exerciseIds, [bench(), ext(), '${bench()}#2', curl()]);
+      expect(fit.routineExercises(r).map((e) => e.id), [bench(), ext(), bench(), curl()]);
+      expect(fit.routineHas(r.id, bench()), isTrue);
+      expect(fit.routineCountOf(r.id, bench()), 2);
+      expect(fit.routineRepeat(r, bench()), (n: 1, of: 2));
+      expect(fit.routineRepeat(r, '${bench()}#2'), (n: 2, of: 2));
+      expect(fit.routineRepeat(r, ext()), (n: 1, of: 1));
+    });
+
+    test('cada hueco guarda sus series, plan, descanso y nota por separado', () {
+      final r = blocks();
+      final second = '${bench()}#2';
+      fit.setRoutineSetCount(r.id, bench(), 4);
+      fit.setPlannedSets(r.id, second, const [PlannedSet(reps: 12, weightKg: 50), PlannedSet(reps: 12, weightKg: 50)]);
+      fit.setRoutineRest(r.id, bench(), 180);
+      fit.setRoutineRest(r.id, second, 60);
+      fit.setRoutineExerciseNote(r.id, second, 'Más ligero');
+      expect(fit.routineSets(r, bench()), 4);
+      expect(fit.routineSets(r, second), 2);
+      expect(fit.hasPlan(r, bench()), isFalse);
+      expect(fit.routineRest(r.id, bench()), 180);
+      expect(fit.routineRest(r.id, second), 60);
+      expect(fit.routineExerciseNote(r.id, bench()), isNull);
+      expect(fit.routineExerciseNote(r.id, second), 'Más ligero');
+    });
+
+    test('añadir otra vez copia series, plan, descanso y alternativas, pero no la superserie ni la nota', () {
+      final id = fit.createRoutine('Copia');
+      fit.toggleRoutineExercise(id, bench());
+      fit.toggleRoutineExercise(id, ext());
+      fit.setPlannedSets(id, bench(), const [PlannedSet(reps: 5, weightKg: 100)]);
+      fit.setRoutineRest(id, bench(), 200);
+      fit.toggleRoutineAlt(id, bench(), idOf('Dumbbell Bench Press'));
+      fit.toggleChain(id, bench());
+      fit.setRoutineExerciseNote(id, bench(), 'Pausa abajo');
+      final slot = fit.addRoutineSlot(id, bench(), like: bench());
+      final r = fit.routineById(id)!;
+      expect(slot, '${bench()}#2');
+      expect(r.exerciseIds.last, slot);
+      expect(fit.plannedSets(r, slot).single.weightKg, 100);
+      expect(fit.routineRest(id, slot), 200);
+      expect(fit.routineAlts(id, slot), [idOf('Dumbbell Bench Press')]);
+      expect(fit.chainsToNext(r, slot), isFalse);
+      expect(fit.routineExerciseNote(id, slot), isNull);
+    });
+
+    test('tocarlo en la lista quita la última vez, no la primera', () {
+      final r = blocks();
+      fit.setRoutineSetCount(r.id, bench(), 5);
+      fit.toggleRoutineExercise(r.id, bench());
+      expect(r.exerciseIds, [bench(), ext(), curl()]);
+      expect(fit.routineSets(r, bench()), 5);
+      fit.toggleRoutineExercise(r.id, bench());
+      expect(fit.routineHas(r.id, bench()), isFalse);
+    });
+
+    test('quitar el segundo y deshacer lo deja en su sitio con sus datos', () {
+      final r = blocks();
+      final second = '${bench()}#2';
+      fit.setRoutineSetCount(r.id, second, 6);
+      final undo = fit.removeRoutineExercise(r.id, second)!;
+      expect(r.exerciseIds, [bench(), ext(), curl()]);
+      undo();
+      expect(r.exerciseIds, [bench(), ext(), second, curl()]);
+      expect(fit.routineSets(r, second), 6);
+    });
+
+    test('el entreno tiene los dos bloques, cada uno con sus series y su descanso', () {
+      final r = blocks();
+      final second = '${bench()}#2';
+      fit.setRoutineSetCount(r.id, bench(), 4);
+      fit.setRoutineSetCount(r.id, second, 2);
+      fit.setRoutineRest(r.id, second, 45);
+      fit.toggleChain(r.id, second);
+      fit.startRoutine(r);
+      final ex = fit.session!.exercises;
+      expect(ex.map((e) => e.id), [bench(), ext(), bench(), curl()]);
+      expect(ex.map((e) => e.routineSlot), [bench(), ext(), second, curl()]);
+      expect(ex[0].sets.where((s) => s.counts).length, 4);
+      expect(ex[2].sets.where((s) => s.counts).length, 2);
+      expect(ex[0].linkedNext, isFalse);
+      expect(ex[2].linkedNext, isTrue);
+      expect(fit.normalRestAfter(2, 0), 45);
+      expect(fit.nthInSession(ex[0]), 0);
+      expect(fit.nthInSession(ex[2]), 1);
+      expect(fit.sessionEditedRoutine, isFalse);
+    });
+
+    test('cada bloque empieza con lo que hiciste en ese mismo bloque la vez anterior', () {
+      final r = blocks();
+      fit.sessions.add(LoggedSession(DateTime.now().subtract(const Duration(days: 3)), 3600, [
+        LoggedExercise(bench(), 'Bench', 'chest', [LoggedSet(5, 100), LoggedSet(5, 100), LoggedSet(5, 100)]),
+        LoggedExercise(ext(), 'Ext', 'quads', [LoggedSet(12, 40)]),
+        LoggedExercise(bench(), 'Bench', 'chest', [LoggedSet(10, 70), LoggedSet(10, 70), LoggedSet(10, 70)]),
+      ], routineId: r.id));
+      expect(fit.lastSetsFor(bench()).first.weight, 100);
+      expect(fit.lastSetsFor(bench(), 1).first.weight, 70);
+      expect(fit.lastSetsFor(bench(), 5).first.weight, 100);
+      fit.startRoutine(r);
+      final ex = fit.session!.exercises;
+      expect(ex[0].sets.where((s) => s.counts).first.weight, 100);
+      expect(ex[2].sets.where((s) => s.counts).first.weight, 70);
+      expect(ex[2].sets.where((s) => s.counts).first.reps, 10);
+    });
+
+    test('al acabar se guardan los dos bloques y el segundo no cuenta como récord si no supera al primero', () {
+      final r = blocks();
+      fit.sessions.add(LoggedSession(DateTime.now().subtract(const Duration(days: 3)), 3600, [
+        LoggedExercise(bench(), 'Bench', 'chest', [LoggedSet(5, 80)]),
+      ]));
+      fit.startRoutine(r);
+      fit.endCountdown();
+      final ex = fit.session!.exercises;
+      for (final i in [0, 2]) {
+        for (var k = 0; k < ex[i].sets.length; k++) {
+          if (!ex[i].sets[k].counts) continue;
+          fit.setSessionWeight(i, k, 100);
+          fit.setSessionReps(i, k, 5);
+          fit.toggleSet(i, k);
+        }
+      }
+      fit.finishSession();
+      final logged = fit.filedSession!;
+      expect(logged.exercises.map((e) => e.id), [bench(), bench()]);
+      expect(fit.summaryRecords.length, 1);
+      expect(identical(fit.summaryRecords.single.$1, logged.exercises.first), isTrue);
+    });
+
+    test('cambiar el segundo bloque por otro ejercicio y guardar solo toca ese hueco', () {
+      final r = blocks();
+      final second = '${bench()}#2';
+      fit.setRoutineSetCount(r.id, bench(), 5);
+      fit.startRoutine(r);
+      final db = idOf('Dumbbell Bench Press');
+      fit.swapSessionExercise(2, db);
+      expect(fit.session!.exercises[2].routineSlot, second);
+      expect(fit.sessionEditedRoutine, isTrue);
+      final changes = fit.sessionRoutineChanges;
+      expect(changes.added.map((e) => e.id), [db]);
+      expect(changes.removed.map((e) => e.id), [bench()]);
+      fit.saveSessionIntoRoutine();
+      expect(r.exerciseIds, [bench(), ext(), db, curl()]);
+      expect(fit.routineSets(r, bench()), 5);
+      expect(fit.sessionEditedRoutine, isFalse);
+    });
+
+    test('quitar un bloque del entreno y guardar quita solo ese', () {
+      final r = blocks();
+      final second = '${bench()}#2';
+      fit.setRoutineRest(r.id, second, 30);
+      fit.startRoutine(r);
+      fit.removeSessionExercise(0);
+      expect(fit.sessionRoutineChanges.removed.map((e) => e.id), [bench()]);
+      fit.saveSessionIntoRoutine();
+      expect(r.exerciseIds, [ext(), second, curl()]);
+      expect(fit.routineRest(r.id, second), 30);
+    });
+
+    test('cambiar series de un bloque en el entreno y guardar cambia solo ese bloque', () {
+      final r = blocks();
+      final second = '${bench()}#2';
+      fit.setRoutineSetCount(r.id, bench(), 3);
+      fit.setRoutineSetCount(r.id, second, 3);
+      fit.startRoutine(r);
+      fit.session!.exercises[2].sets.removeLast();
+      final sets = fit.sessionRoutineChanges.sets;
+      expect(sets.single.slot, second);
+      fit.saveSessionIntoRoutine();
+      expect(fit.routineSets(r, bench()), 3);
+      expect(fit.routineSets(r, second), 2);
+    });
+
+    test('guardar como rutina nueva respeta los bloques repetidos', () {
+      final r = blocks();
+      fit.toggleChain(r.id, '${bench()}#2');
+      fit.startRoutine(r);
+      final made = fit.saveSessionAsRoutine('Copia');
+      final copy = fit.routineById(made)!;
+      expect(copy.exerciseIds, [bench(), ext(), '${bench()}#2', curl()]);
+      expect(fit.chainsToNext(copy, '${bench()}#2'), isTrue);
+      expect(fit.session!.exercises[2].routineSlot, '${bench()}#2');
+      expect(fit.sessionEditedRoutine, isFalse);
+    });
+
+    test('la copia de seguridad y duplicar la rutina conservan los huecos', () {
+      final r = blocks();
+      final second = '${bench()}#2';
+      fit.setRoutineSetCount(r.id, second, 7);
+      final copy = fit.routineById(fit.duplicateRoutine(r.id))!;
+      expect(copy.exerciseIds, r.exerciseIds);
+      expect(fit.routineSets(copy, second), 7);
+      final back = Routine.fromJson(r.toJson());
+      expect(back.exerciseIds, r.exerciseIds);
+      expect(back.sets[second], 7);
+      final json = fit.exportJson();
+      fit.resetAllData();
+      expect(fit.importJson(json), isTrue);
+      final again = fit.routines.firstWhere((x) => x.name == 'Bloques');
+      expect(again.exerciseIds, [bench(), ext(), second, curl()]);
+      expect(fit.routineSets(again, second), 7);
+    });
+
+    test('una lista con el mismo id repetido se arregla al cargarla', () {
+      final r = Routine.fromJson({
+        'id': 'r1',
+        'n': 'Vieja',
+        'ex': ['a', 'b', 'a', 'a#2', ''],
+      });
+      expect(r.exerciseIds, ['a', 'b', 'a#2', 'a#3']);
+    });
+
+    test('borrar un ejercicio propio lo quita de todos sus huecos', () {
+      final own = fit.addCustomExercise(name: 'Mi press', primary: 'chest', equipment: 'Barbell');
+      final id = fit.createRoutine('Propio');
+      fit.toggleRoutineExercise(id, own);
+      fit.toggleRoutineExercise(id, ext());
+      fit.addRoutineSlot(id, own);
+      fit.deleteCustomExercise(own);
+      expect(fit.routineById(id)!.exerciseIds, [ext()]);
+    });
+
+    test('exportar e importar el plan mantiene los bloques separados', () {
+      final r = blocks();
+      fit.setRoutineSetCount(r.id, bench(), 4);
+      fit.setRoutineSetCount(r.id, '${bench()}#2', 2);
+      final json = fit.exportPlanJson([r]);
+      final plans = parsePlan(json);
+      expect(plans.single.items.map((i) => i.id), [bench(), ext(), bench(), curl()]);
+      fit.resetAllData();
+      final done = fit.applyPlan(plans);
+      expect(done.routines, 1);
+      final made = fit.routines.single;
+      expect(made.exerciseIds, [bench(), ext(), '${bench()}#2', curl()]);
+      expect(fit.routineSets(made, bench()), 4);
+      expect(fit.routineSets(made, '${bench()}#2'), 2);
+      expect(fit.ownsPlan(plans.single), isTrue);
+    });
+
+    test('dos filas seguidas del mismo ejercicio en un plan siguen siendo uno', () {
+      final plans = parsePlan('{"routines":[{"name":"A","exercises":['
+          '{"name":"Barbell Bench Press","sets":1,"reps":10,"plan":[{"type":"warmup","reps":10}]},'
+          '{"name":"Barbell Bench Press","sets":3,"reps":5},'
+          '{"name":"Leg Extension","sets":3},'
+          '{"name":"Barbell Bench Press","sets":2}]}]}');
+      expect(plans.single.items.length, 3);
     });
   });
 }

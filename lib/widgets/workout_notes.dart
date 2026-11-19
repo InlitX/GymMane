@@ -12,26 +12,27 @@ import 'glass.dart';
 import 'ui_kit.dart';
 
 class WorkoutNoteStrip extends StatelessWidget {
-  const WorkoutNoteStrip({super.key, required this.exerciseId, this.onDark = false});
+  const WorkoutNoteStrip({super.key, required this.exerciseId, this.slot, this.onDark = false});
 
   final String exerciseId;
+  final String? slot;
   final bool onDark;
 
-  static String? _routineNote(String exerciseId) =>
-      fit.routineExerciseNote(fit.session?.routineId, exerciseId);
+  static String? _routineNote(String exerciseId, [String? slot]) =>
+      fit.routineExerciseNote(fit.session?.routineId, slot ?? exerciseId);
 
-  static bool offers(String exerciseId) =>
-      _routineNote(exerciseId) != null ||
+  static bool offers(String exerciseId, {String? slot}) =>
+      _routineNote(exerciseId, slot) != null ||
       fit.workoutNotesFor(exerciseId).isNotEmpty ||
       (exerciseId.isNotEmpty && fit.notesFor(exerciseId).isEmpty && fit.exerciseHistory(exerciseId).length < 3);
 
   @override
   Widget build(BuildContext context) {
     final notes = fit.workoutNotesFor(exerciseId);
-    final routineNote = _routineNote(exerciseId);
+    final routineNote = _routineNote(exerciseId, slot);
     final gc = context.gc;
     if (notes.isEmpty && routineNote == null) {
-      if (!offers(exerciseId)) return const SizedBox.shrink();
+      if (!offers(exerciseId, slot: slot)) return const SizedBox.shrink();
       return Semantics(
         button: true,
         label: t.workoutNoteAdd,
@@ -65,7 +66,7 @@ class WorkoutNoteStrip extends StatelessWidget {
       label: t.workoutNotesTitle,
       child: Pressable(
         scale: 0.98,
-        onTap: () => showWorkoutNotesSheet(context, exerciseId),
+        onTap: () => showWorkoutNotesSheet(context, exerciseId, slot: slot),
         child: Container(
           width: double.infinity,
           padding: const EdgeInsets.fromLTRB(10, 8, 12, 8),
@@ -131,7 +132,7 @@ String _exerciseTitle(String id) {
   return ex == null ? '' : t.catalogName(ex.id, ex.name);
 }
 
-Future<void> showWorkoutNotesSheet(BuildContext context, String exerciseId) => showAppSheet<void>(
+Future<void> showWorkoutNotesSheet(BuildContext context, String exerciseId, {String? slot}) => showAppSheet<void>(
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
@@ -140,7 +141,7 @@ Future<void> showWorkoutNotesSheet(BuildContext context, String exerciseId) => s
         builder: (sheet, _) {
           final gc = sheet.gc;
           final notes = fit.workoutNotesFor(exerciseId);
-          final routineNote = WorkoutNoteStrip._routineNote(exerciseId);
+          final routineNote = WorkoutNoteStrip._routineNote(exerciseId, slot);
           return _sheetBox(sheet, [
             SheetTitle(t.workoutNotesTitle, subtitle: _exerciseTitle(exerciseId)),
             const SizedBox(height: 16),
@@ -347,13 +348,14 @@ class _WorkoutNoteEditorState extends State<_WorkoutNoteEditor> {
 }
 
 class LastSetNotes extends StatelessWidget {
-  const LastSetNotes({super.key, required this.exerciseId});
+  const LastSetNotes({super.key, required this.exerciseId, this.nth = 0});
 
   final String exerciseId;
+  final int nth;
 
   @override
   Widget build(BuildContext context) {
-    final notes = fit.lastSetNotes(exerciseId);
+    final notes = fit.lastSetNotes(exerciseId, nth);
     if (notes.isEmpty) return const SizedBox.shrink();
     final gc = context.gc;
     return Container(

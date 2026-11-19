@@ -376,15 +376,13 @@ List<PlanSet> _expanded(PlanItem item) {
 
 List<PlanItem> _mergeRepeats(List<PlanItem> items) {
   String key(PlanItem i) => (i.id ?? i.name).trim().toLowerCase();
-  final seen = <String, int>{};
   final out = <PlanItem>[];
   for (final item in items) {
-    final at = seen[key(item)];
-    if (at == null) {
-      seen[key(item)] = out.length;
+    if (out.isEmpty || key(out.last) != key(item)) {
       out.add(item);
       continue;
     }
+    final at = out.length - 1;
     final first = out[at];
     final plan = [..._expanded(first), ..._expanded(item)];
     out[at] = PlanItem(
