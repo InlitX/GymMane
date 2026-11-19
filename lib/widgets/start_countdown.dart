@@ -88,7 +88,7 @@ class _StartCountdownState extends State<StartCountdown> with TickerProviderStat
           final veil = Curves.easeOut.transform(_veil.value);
           final b = _beat.value;
           final pop = Curves.easeOutBack.transform((b / 0.45).clamp(0.0, 1.0));
-          final fade = b < 0.7 ? 1.0 : 1 - Curves.easeIn.transform((b - 0.7) / 0.3);
+          final fade = b < 0.7 ? 1.0 : 1 - Curves.easeIn.transform(((b - 0.7) / 0.3).clamp(0.0, 1.0));
           return Stack(
             fit: StackFit.expand,
             children: [

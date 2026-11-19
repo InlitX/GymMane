@@ -6733,7 +6733,7 @@ const List<Exercise> kExercises = [
     secondary: [],
     equipment: 'Bodyweight',
     difficulty: 'Beginner',
-    art: 'cat-cow-stretch',
+    art: '',
     steps: [
       'Kneel with your palms flat on the floor and your fingers pointing forward.',
       'Rock your weight gently forward and back to open the front of your wrists.',
