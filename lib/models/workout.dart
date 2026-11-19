@@ -346,6 +346,7 @@ class Routine {
     plan.remove(slot);
     rest.remove(slot);
     chained.remove(slot);
+    jumped.remove(slot);
     alts.remove(slot);
     exerciseNotes.remove(slot);
   }
