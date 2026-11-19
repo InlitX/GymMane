@@ -1,5 +1,3 @@
-import 'dart:ui' as ui;
-
 import 'package:flutter/material.dart';
 import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
@@ -841,8 +839,17 @@ class LookShowcase extends StatelessWidget {
     for (var i = 0; i < 7 * 16; i++) const [0, 2, 0, 3, 1, 4, 0, 0, 2, 3, 0, 1, 4, 2][(i * 5 + i ~/ 7) % 14],
   ];
 
-  static Widget _blob(Color c, double size) =>
-      Container(width: size, height: size, decoration: BoxDecoration(color: c, shape: BoxShape.circle));
+  static Widget _blob(Color c, double size) => Container(
+        width: size + 56,
+        height: size + 56,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          gradient: RadialGradient(
+            colors: [c, c.withValues(alpha: c.a * 0.75), c.withValues(alpha: 0)],
+            stops: const [0, 0.38, 1],
+          ),
+        ),
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -960,15 +967,8 @@ class LookShowcase extends StatelessWidget {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(24),
         child: Stack(children: [
-          Positioned.fill(
-            child: ImageFiltered(
-              imageFilter: ui.ImageFilter.blur(sigmaX: 14, sigmaY: 14),
-              child: Stack(children: [
-                Positioned(left: 20, top: 18, child: _blob(gc.accent, 70)),
-                Positioned(right: 16, bottom: 10, child: _blob(gc.info, 60)),
-              ]),
-            ),
-          ),
+          Positioned(left: -8, top: -10, child: _blob(gc.accent, 70)),
+          Positioned(right: -12, bottom: -18, child: _blob(gc.info, 60)),
           Positioned(
             left: 14,
             right: 14,
