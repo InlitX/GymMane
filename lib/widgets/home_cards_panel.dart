@@ -110,6 +110,7 @@ String _blockLabel(String id) => switch (id) {
       'activity' => titleCase(t.activityLabel),
       'recommended' => t.homeCardRecommended,
       'folders' => t.homeOrderFolders,
+      'recovery' => titleCase(t.recoveryTitle),
       _ => titleCase(t.nutrition),
     };
 
@@ -117,7 +118,7 @@ void _showOrderSheet(BuildContext context) {
   final gc = context.gc;
   var order = [
     for (final id in fit.homeOrderShown)
-      if ((id != 'nutrition' || fit.nutritionBeta) && (id != 'steps' || (fit.stepsOn && fit.stepsAvailable))) id,
+      if ((id != 'nutrition' || fit.nutritionBeta) && (id != 'recovery' || fit.recoveryOn) && (id != 'steps' || (fit.stepsOn && fit.stepsAvailable))) id,
   ];
   showAppSheet<void>(
     context: context,
@@ -340,6 +341,19 @@ class _HomeSketch extends StatelessWidget {
             ])),
       ),
     };
+    extra['recovery'] = (
+      fit.recoveryOn,
+      _box(30,
+          pad: const EdgeInsets.fromLTRB(9, 7, 9, 7),
+          child: Row(children: [
+            _bar(26, 6, gc.text.withValues(alpha: 0.6)),
+            const Spacer(),
+            for (final c in [gc.accent, gc.info, gc.text.withValues(alpha: 0.35)]) ...[
+              const SizedBox(width: 3),
+              Container(width: 7, height: 7, decoration: BoxDecoration(color: c, shape: BoxShape.circle)),
+            ],
+          ])),
+    );
     final byId = <String, (bool, Widget)>{
       'weekdays': blocks[1],
       'steps': blocks[2],
