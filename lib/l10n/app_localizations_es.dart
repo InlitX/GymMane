@@ -2219,13 +2219,14 @@ class AppLocalizationsEs extends AppLocalizations {
   String get supersetHint => 'Sin descanso entre los ejercicios encadenados: pasas directo al siguiente.';
 
   @override
-  String get jumpSet => 'Jump set';
+  String get jumpSet => 'Series alternas';
 
   @override
-  String get jumpSetHint => 'Rest after each chained exercise too, then move on to the next one.';
+  String get jumpSetHint =>
+      'Descansas también después de cada ejercicio encadenado y luego pasas al siguiente.';
 
   @override
-  String get jumpSetLink => 'Make it a jump set';
+  String get jumpSetLink => 'Convertir en series alternas';
 
   @override
   String get aiRoutine => 'Rutina con IA';

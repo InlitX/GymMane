@@ -2694,5 +2694,9 @@
   "nutritionCopyFood": "Solo la comida",
   "nutritionCopyFoodHint": "Comidas, alimentos, calorías y macros",
   "nutritionCopyAll": "Todo el día",
-  "nutritionCopyAllHint": "También el entreno, el peso y tus datos de salud"
+  "nutritionCopyAllHint": "También el entreno, el peso y tus datos de salud",
+
+  "jumpSet": "Series alternas",
+  "jumpSetHint": "Descansas también después de cada ejercicio encadenado y luego pasas al siguiente.",
+  "jumpSetLink": "Convertir en series alternas"
 }
