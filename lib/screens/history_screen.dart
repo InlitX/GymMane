@@ -267,7 +267,7 @@ class WorkoutHistoryCard extends StatelessWidget {
     final shown = s.exercises.take(4).toList();
     return Pressable(
       scale: 0.98,
-      onTap: () => showDaySheet(context, s.day),
+      onTap: () => fit.openWorkout(s),
       child: Container(
         padding: const EdgeInsets.fromLTRB(14, 14, 16, 14),
         decoration: BoxDecoration(color: gc.bgRaised, borderRadius: BorderRadius.circular(20)),

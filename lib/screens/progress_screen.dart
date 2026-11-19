@@ -2269,6 +2269,22 @@ class _DaySheet extends StatelessWidget {
                     Icon(PhosphorIconsRegular.pencilSimple, size: 13, color: gc.textTertiary),
                   ]),
                 ),
+                Semantics(
+                  button: true,
+                  label: t.workoutFullView,
+                  child: GestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    onTap: () {
+                      Navigator.of(context).pop();
+                      fit.openWorkout(s);
+                    },
+                    child: SizedBox(
+                      width: 40,
+                      height: 36,
+                      child: Icon(PhosphorIconsRegular.arrowsOut, size: 16, color: gc.textSecondary),
+                    ),
+                  ),
+                ),
                 if (fit.askCheckIn || s.sleep != null || s.energy != null) ...[
                   const SizedBox(width: 8),
                   _checkInPill(context, gc, s),
