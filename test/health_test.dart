@@ -56,6 +56,16 @@ void main() {
       expect(days.containsKey(key(1)), isFalse);
     });
 
+    test('#426 la misma noche de dos fuentes no se suma dos veces', () {
+      final days = HealthMetrics.byDay(HealthMetric.sleep, [
+        [at(0, 7), 418],
+        [at(0, 7), 418],
+        [at(0, 6), 340],
+        [at(0, 16), 30],
+      ]);
+      expect(days[key(0)], [448]);
+    });
+
     test('los totales diarios se quedan tal cual', () {
       final days = HealthMetrics.byDay(HealthMetric.floors, [
         [at(1, 0), 12],

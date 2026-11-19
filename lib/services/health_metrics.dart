@@ -1,5 +1,5 @@
 
-import 'package:flutter/services.dart';
+import 'package:flutter/services.dart';
 import 'host.dart';
 
 enum HealthGroup { heart, vitals, sleep, activity }
@@ -149,7 +149,25 @@ class HealthMetrics {
     }
   }
 
+  static List<List<double>> mergeSleep(List<List<double>> rows) {
+    final spans = [
+      for (final r in rows)
+        if (r[1] > 0) [r[0] - r[1] * 60000, r[0]],
+    ]..sort((a, b) => a[0].compareTo(b[0]));
+    final merged = <List<double>>[];
+    for (final s in spans) {
+      final last = merged.isEmpty ? null : merged.last;
+      if (last != null && s[0] <= last[1]) {
+        if (s[1] > last[1]) last[1] = s[1];
+      } else {
+        merged.add([...s]);
+      }
+    }
+    return [for (final m in merged) [m[1], (m[1] - m[0]) / 60000]];
+  }
+
   static Map<String, List<double>> byDay(HealthMetric metric, List<List<double>> rows) {
+    if (metric == HealthMetric.sleep) rows = mergeSleep(rows);
     final sums = <String, List<double>>{};
     final counts = <String, int>{};
     for (final r in rows) {
