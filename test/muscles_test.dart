@@ -101,6 +101,20 @@ void main() {
       final treadmill = fit.allExercises.firstWhere((e) => fit.kindOf(e) == 'cardio');
       expect(fit.countsForMuscles(treadmill.id), isFalse);
     });
+
+    test('#371 los estiramientos no suman series al músculo ni a la semana', () {
+      final stretch = kStretchIds.first;
+      final ex = fit.exerciseById(stretch)!;
+      fit.sessions.add(
+        LoggedSession(DateTime.now(), 1200, [
+          LoggedExercise(stretch, ex.name, ex.primary, [LoggedSet(1, 0, sec: 60), LoggedSet(1, 0, sec: 60)]),
+          LoggedExercise(bench(), 'Bench Press', 'chest', [LoggedSet(8, 60), LoggedSet(8, 60)]),
+        ]),
+      );
+      expect(fit.countsForMuscles(stretch), isFalse);
+      expect(fit.muscleSetsOver(7)[ex.primary] ?? 0, ex.primary == 'chest' ? 2 : 0);
+      expect(fit.weekSetCount, 2);
+    });
   });
 
   group('recovery', () {
