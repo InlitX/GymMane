@@ -449,6 +449,27 @@ void main() {
       expect(fit.routineRepeat(r, ext()), (n: 1, of: 1));
     });
 
+    test('las series alternas van por hueco: solo enlaza el bloque que toca', () {
+      final r = blocks();
+      final second = '${bench()}#2';
+      fit.toggleChain(r.id, second);
+      fit.toggleJump(r.id, second);
+      expect(fit.jumpsToNext(r, second), isTrue);
+      expect(fit.jumpsToNext(r, bench()), isFalse);
+      expect(fit.chainsToNext(r, bench()), isFalse);
+      fit.startRoutine(r);
+      fit.endCountdown();
+      final exs = fit.session!.exercises;
+      expect([for (final e in exs) e.jumpNext], [false, false, true, false]);
+      expect([for (final e in exs) e.linkedNext], [false, false, true, false]);
+      fit.saveAndExit();
+      final copy = Routine.fromJson(fit.routineById(r.id)!.toJson());
+      expect(copy.jumped, {second});
+      fit.removeRoutineExercise(r.id, second);
+      expect(fit.routineById(r.id)!.jumped, isEmpty);
+      expect(fit.routineById(r.id)!.chained, isEmpty);
+    });
+
     test('cada hueco guarda sus series, plan, descanso y nota por separado', () {
       final r = blocks();
       final second = '${bench()}#2';
