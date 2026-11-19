@@ -201,6 +201,17 @@ void main() {
     LoggedSession logged(DateTime at, List<LoggedSet> sets, {String id = bench}) =>
         LoggedSession(at, 1800, [LoggedExercise(id, 'Barbell Bench Press', 'chest', sets)]);
 
+    test('el 1RM estimado se compara con tu peso corporal', () {
+      fit.sessions.add(logged(DateTime.now(), [LoggedSet(1, 100)]));
+      fit.profile.weightKg = 0;
+      expect(fit.strengthToWeight(bench, fit.exerciseRecord(bench)), isNull);
+      fit.addBodyweight(80);
+      expect(fit.strengthToWeight(bench, fit.exerciseRecord(bench)), 1.29);
+      final pull = fit.matchExerciseByName('Weighted Pull-up')!.id;
+      fit.sessions.add(logged(DateTime.now(), [LoggedSet(1, 20)], id: pull));
+      expect(fit.strengthToWeight(pull, fit.exerciseRecord(pull)), isNull);
+    });
+
     test('el objetivo mide el mejor peso y se guarda con su fecha', () {
       fit.sessions.add(logged(DateTime.now(), [LoggedSet(5, 100), LoggedSet(3, 110)]));
       final due = DateTime.now().add(const Duration(days: 30));
@@ -228,6 +239,17 @@ void main() {
       expect(text, contains('70 kg × 6'));
       expect(text, contains('30 min'));
       expect(text.split('\n').last, contains('14'));
+    });
+
+    test('#429 el texto copiado lleva el RPE, el tipo de serie y la nota', () {
+      final s = logged(DateTime(2026, 9, 29, 18), [
+        LoggedSet(10, 40, kind: SetKind.warmup),
+        LoggedSet(8, 60, rpe: 8, note: 'Codo bien'),
+      ]);
+      final lines = fit.workoutText(s).split('\n');
+      expect(lines, contains('  1. 40 kg × 10 (${t.setTypeWarmup})'));
+      expect(lines, contains('  2. 60 kg × 8 ${fit.effortTag(8)}'));
+      expect(lines, contains('     Codo bien'));
     });
 
     test('el porcentaje del máximo da un peso que se puede cargar', () {
@@ -275,6 +297,23 @@ void main() {
 
       doWorkout(50);
       expect(fit.summaryPrs, 0, reason: 'se compara con TODO lo anterior, no con la última vez');
+      fit.saveAndExit();
+    });
+
+    test('#414 more reps with the same weight is a record on the finish screen too', () {
+      final id = fit.allExercises.firstWhere((e) => e.primary == 'chest').id;
+      logSession(id, 80);
+      fit.startWorkout();
+      fit.toggleMuscle('chest');
+      fit.trainContinue();
+      fit.startSession();
+      fit.setSessionWeight(0, 0, 80);
+      fit.setSessionReps(0, 0, 7);
+      fit.toggleSet(0, 0);
+      expect(fit.liveSetIsRecord(0, 0), isTrue);
+      fit.finishSession();
+      expect(fit.summaryPrs, 1);
+      expect(fit.summaryRecords.single.$2.reps, 7);
       fit.saveAndExit();
     });
 

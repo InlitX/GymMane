@@ -92,6 +92,8 @@ abstract class FitCore extends ChangeNotifier {
   final Set<String> pairOn = pairedDumbbells;
   final Set<String> assistedOn = {};
   final Set<String> assistedOff = {};
+  final Set<String> bodyOn = {};
+  final Set<String> bodyOff = {};
 
   final Set<String> noSuggest = {};
 
@@ -178,6 +180,7 @@ abstract class FitCore extends ChangeNotifier {
   double? get placeBarKg => null;
 
   String units = 'kg';
+  String lengthUnits = '';
   double stepKg = 2.5;
   double stepLb = 5;
   int weekStartDay = DateTime.monday;
@@ -318,6 +321,14 @@ abstract class FitCore extends ChangeNotifier {
 
   void setUnits(String u) {
     units = u;
+    _persist();
+    notifyListeners();
+  }
+
+  static String _lengthFrom(Object? raw) => raw == 'cm' || raw == 'in' ? raw as String : '';
+
+  void setLengthUnits(String u) {
+    lengthUnits = _lengthFrom(u);
     _persist();
     notifyListeners();
   }

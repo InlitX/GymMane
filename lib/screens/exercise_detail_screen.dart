@@ -239,6 +239,11 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
                   ),
                 ],
               ),
+              if (fit.strengthToWeight(ex.id, pr) case final ratio?) ...[
+                const SizedBox(height: 10),
+                Text(t.bodyweightRatio(fmt(ratio)),
+                    style: AppTheme.f(12.5, weight: FontWeight.w600, color: gc.textSecondary)),
+              ],
               if (history.length > 1) _bests(gc, ex.id, pr.kind),
               if (pr.kind == PrKind.weight && oneRm.length > 2) ...[
                 const SizedBox(height: 16),
@@ -451,6 +456,15 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
         fit.suggests(ex.id),
         () => fit.toggleSuggest(ex.id),
       ),
+      if (fit.canCarryBody(ex.id))
+        _switchRow(
+          gc,
+          PhosphorIconsRegular.personSimple,
+          t.bodyLoadSetting,
+          t.bodyLoadSettingHint,
+          fit.carriesBody(ex.id),
+          () => fit.toggleCarriesBody(ex.id),
+        ),
       if (!repsOnly && mode.isEmpty) ...[
         _switchRow(
           gc,

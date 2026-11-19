@@ -7,7 +7,25 @@ void main() {
     fit.sessions.clear();
     fit.setUnits('kg');
   });
-  tearDown(() => fit.setUnits('kg'));
+  tearDown(() {
+    fit.setUnits('kg');
+    fit.setLengthUnits('');
+  });
+
+  test('#428 las medidas van en cm o pulgadas aparte del peso', () {
+    fit.setUnits('kg');
+    expect(fit.heightLabel(178), '178 cm');
+    fit.setLengthUnits('in');
+    expect(fit.weightLabel(60), '60 kg');
+    expect(fit.heightLabel(178), '5′ 10″');
+    expect(fit.lengthUnit, 'in');
+    expect(fit.toJson()['lengthUnits'], 'in');
+    fit.setUnits('lb');
+    fit.setLengthUnits('cm');
+    expect(fit.lengthUnit, 'cm');
+    fit.setLengthUnits('');
+    expect(fit.lengthUnit, 'in');
+  });
 
   void startSession() {
     fit.startWorkout();

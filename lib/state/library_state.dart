@@ -338,8 +338,9 @@ mixin LibraryState on FitCore {
     customExercises.removeWhere((e) => e.id == id);
     modeOverride.remove(id);
     for (final r in routines) {
-      r.exerciseIds.remove(id);
-      r.exerciseNotes.remove(id);
+      for (final slot in r.slotsOf(id)) {
+        r.dropSlot(slot);
+      }
     }
     favorites.remove(id);
     _persist();
@@ -502,6 +503,69 @@ mixin LibraryState on FitCore {
     if (on != _assistedDefault(id)) (on ? assistedOn : assistedOff).add(id);
     _persist();
     notifyListeners();
+  }
+
+  static const _wholeBody = {
+    '9WTm7dq', 'lBDjFxJ', 'T2mxWqc', 'X6C6i5Y', 'Gk1r408', 'HMzLjXx', 'bZq4bwK', 'rNG1dip', 'rNG5pul',
+    'rNG6chi', 'rNGemus', 'neutral-grip-pull-up', 'negative-pull-up', 'commando-pull-up', 'l-sit-pull-up',
+    'towel-pull-up', 'negative-dip', ..._assistedByDefault,
+  };
+
+  bool canCarryBody(String id) {
+    if (modeOf(id).isNotEmpty) return false;
+    final eq = exerciseById(id)?.equipment;
+    return _wholeBody.contains(id) || isAssisted(id) || eq == 'Bodyweight' || eq == 'Weighted' || eq == 'Rings';
+  }
+
+  bool carriesBody(String id) {
+    if (modeOf(id).isNotEmpty) return false;
+    if (bodyOn.contains(id)) return true;
+    if (bodyOff.contains(id)) return false;
+    return _wholeBody.contains(id);
+  }
+
+  void toggleCarriesBody(String id) {
+    final on = !carriesBody(id);
+    bodyOn.remove(id);
+    bodyOff.remove(id);
+    if (on != _wholeBody.contains(id)) (on ? bodyOn : bodyOff).add(id);
+    _bodyCache = null;
+    _persist();
+    notifyListeners();
+  }
+
+  List<BodyweightEntry>? _bodyCache;
+  int _bodyCacheOf = -1;
+
+  double bodyweightKgOn(DateTime day) {
+    final key = bodyweight.isEmpty
+        ? 0
+        : Object.hash(bodyweight.length, identityHashCode(bodyweight.first), identityHashCode(bodyweight.last));
+    if (_bodyCache == null || _bodyCacheOf != key) {
+      _bodyCache = [...bodyweight]..sort((a, b) => a.date.compareTo(b.date));
+      _bodyCacheOf = key;
+    }
+    final list = _bodyCache!;
+    var lo = 0, hi = list.length - 1, found = -1;
+    while (lo <= hi) {
+      final mid = (lo + hi) >> 1;
+      if (list[mid].date.isAfter(day)) {
+        hi = mid - 1;
+      } else {
+        found = mid;
+        lo = mid + 1;
+      }
+    }
+    if (found >= 0) return list[found].kg;
+    if (list.isNotEmpty) return list.first.kg;
+    return profile.weightKg > 0 ? profile.weightKg : 0;
+  }
+
+  double loadOf(String id, double weight, DateTime day) {
+    if (!carriesBody(id)) return weight;
+    final body = bodyweightKgOn(day);
+    if (body <= 0) return weight;
+    return isAssisted(id) ? math.max(0.0, body - weight) : body + weight;
   }
 
   void toggleRepsOnly(String id) {

@@ -20,7 +20,7 @@ mixin MeasuresState on FitCore {
     notifyListeners();
   }
 
-  bool get isInches => units == 'lb';
+  bool get isInches => lengthUnits.isEmpty ? units == 'lb' : lengthUnits == 'in';
 
   String get lengthUnit => isInches ? 'in' : 'cm';
 
