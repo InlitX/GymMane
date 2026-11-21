@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:gymmane/l10n/l10n.dart';
+import 'package:gymmane/models/live_session.dart';
 import 'package:gymmane/models/note.dart';
 import 'package:gymmane/models/workout.dart';
 import 'package:gymmane/services/local_store.dart';
@@ -484,6 +485,35 @@ void main() {
       fit.startRoutine(routineOf(['Barbell Squat']));
       expect(fit.session, same(session));
       expect(fit.route, 'session');
+    });
+  });
+  group('#445 entreno olvidado', () {
+    setUp(() async {
+      SharedPreferences.setMockInitialValues({});
+      await Store.instance.init();
+      fit.resetAllData();
+      fit.onboarded = true;
+    });
+
+    test('la última serie guarda su hora y se puede acabar ahí', () {
+      final ex = fit.allExercises.first;
+      fit.session = WorkoutSession()..exercises = [SessionExercise(ex.id, ex.name, ex.primary, [SessionSet(10, 20, false), SessionSet(10, 20, false)])];
+      fit.toggleSet(0, 0);
+      final s = fit.session!;
+      expect(s.lastDoneAt, isNotNull);
+      expect(s.lastDoneElapsed, isNotNull);
+      final again = WorkoutSession.fromJson(jsonDecode(jsonEncode(s.toJson())) as Map<String, dynamic>);
+      expect(again.lastDoneElapsed, s.lastDoneElapsed);
+      fit.finishSession();
+      expect(fit.forgotEndAt, isNull);
+      s.lastDoneElapsed = 1200;
+      s.summaryDuration = 1200 + 45 * 60;
+      fit.setSessionDuration(fit.filedSession!, s.summaryDuration!);
+      expect(fit.forgotEndAt, isNotNull);
+      fit.endAtLastSet();
+      expect(fit.filedSession!.durationSec, 1260);
+      expect(s.summaryDuration, 1260);
+      expect(fit.forgotEndAt, isNull);
     });
   });
 }

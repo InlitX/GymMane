@@ -835,6 +835,11 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
     }
     st.half = false;
     st.done = !st.done;
+    if (st.done) {
+      session!
+        ..lastDoneAt = DateTime.now()
+        ..lastDoneElapsed = sessionElapsed;
+    }
     _persist();
     notifyListeners();
     if (!st.done) return;
@@ -2539,6 +2544,28 @@ mixin WorkoutState on FitCore, SettingsState, LibraryState, PlacesState, StatsSt
     persistNow();
     _refreshWidgets();
     notifyListeners();
+  }
+
+  static const forgotGap = 30 * 60;
+
+  DateTime? get forgotEndAt {
+    final s = session;
+    final filed = _filed;
+    if (s == null || !s.complete || s.manual || filed == null) return null;
+    final at = s.lastDoneAt, mark = s.lastDoneElapsed;
+    if (at == null || mark == null) return null;
+    if ((s.summaryDuration ?? 0) - mark < forgotGap) return null;
+    return at;
+  }
+
+  void endAtLastSet() {
+    final s = session;
+    final filed = _filed;
+    final mark = s?.lastDoneElapsed;
+    if (s == null || filed == null || mark == null || forgotEndAt == null) return;
+    final trimmed = mark + 60;
+    s.summaryDuration = trimmed;
+    setSessionDuration(filed, trimmed);
   }
 
   String get summaryDurationLabel {

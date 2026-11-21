@@ -2186,6 +2186,17 @@ class SessionScreen extends StatelessWidget {
                 Expanded(child: _countUp(vol, (v) => _sumCard(gc, t.volume, fit.volumeLabel(v)))),
               ]),
             ),
+            AnimatedSize(
+              duration: const Duration(milliseconds: 280),
+              curve: Curves.easeOutCubic,
+              alignment: Alignment.topCenter,
+              child: fit.forgotEndAt == null
+                  ? const SizedBox(width: double.infinity)
+                  : Padding(
+                      padding: const EdgeInsets.only(top: 10),
+                      child: Rise(index: 2, child: _forgotCard(gc, fit.forgotEndAt!)),
+                    ),
+            ),
             if (vsLast != null || fit.summaryFirstTime) ...[
               const SizedBox(height: 10),
               Rise(
@@ -2529,6 +2540,40 @@ class SessionScreen extends StatelessWidget {
         ),
         Text('${up ? '+' : ''}$pct%',
             style: AppTheme.f(16, weight: FontWeight.w700, color: up ? gc.sage : gc.textSecondary)),
+      ]),
+    );
+  }
+
+  Widget _forgotCard(GymColors gc, DateTime at) {
+    final time = t.clockTime(at);
+    return SoftCard(
+      radius: 22,
+      padding: const EdgeInsets.fromLTRB(16, 14, 16, 14),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+        Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 1),
+            child: Icon(PhosphorIconsRegular.clockCounterClockwise, size: 18, color: gc.accent),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Text(t.forgotEndTitle, style: AppTheme.f(15, weight: FontWeight.w800, color: gc.text)),
+              const SizedBox(height: 3),
+              Text(t.forgotEndBody(time),
+                  style: AppTheme.f(12.5, weight: FontWeight.w500, color: gc.textSecondary, height: 1.35)),
+            ]),
+          ),
+        ]),
+        const SizedBox(height: 12),
+        PrimaryButton(
+          label: t.forgotEndAction(time),
+          height: 44,
+          onTap: () {
+            HapticFeedback.selectionClick();
+            fit.endAtLastSet();
+          },
+        ),
       ]),
     );
   }

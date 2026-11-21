@@ -114,6 +114,8 @@ class WorkoutSession {
   int? summaryVolume;
   int? summarySets;
   int? summaryDuration;
+  DateTime? lastDoneAt;
+  int? lastDoneElapsed;
 
   int? get restRemaining {
     final frozen = restFrozen;
@@ -146,6 +148,8 @@ class WorkoutSession {
         'sv': summaryVolume,
         'ss': summarySets,
         'sd': summaryDuration,
+        if (lastDoneAt != null) 'ld': lastDoneAt!.toIso8601String(),
+        if (lastDoneElapsed != null) 'le': lastDoneElapsed,
       };
 
   factory WorkoutSession.fromJson(Map<String, dynamic> j) => WorkoutSession()
@@ -164,5 +168,7 @@ class WorkoutSession {
     ..restSwitch = j['rsw'] as bool? ?? false
     ..summaryVolume = (j['sv'] as num?)?.toInt()
     ..summarySets = (j['ss'] as num?)?.toInt()
-    ..summaryDuration = (j['sd'] as num?)?.toInt();
+    ..summaryDuration = (j['sd'] as num?)?.toInt()
+    ..lastDoneAt = DateTime.tryParse((j['ld'] as String?) ?? '')
+    ..lastDoneElapsed = (j['le'] as num?)?.toInt();
 }
