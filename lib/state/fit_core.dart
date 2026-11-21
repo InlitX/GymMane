@@ -94,6 +94,7 @@ abstract class FitCore extends ChangeNotifier {
   final Set<String> assistedOff = {};
   final Set<String> bodyOn = {};
   final Set<String> bodyOff = {};
+  final Map<String, int> bodyShare = {};
 
   final Set<String> noSuggest = {};
 
@@ -106,6 +107,11 @@ abstract class FitCore extends ChangeNotifier {
   final Map<String, List<int>> levelShown = {};
 
   final Map<String, ({double target, DateTime? due})> exerciseGoals = {};
+
+  final Map<String, int> muscleGoals = {};
+
+  int muscleGoalAll = 12;
+  int recoverySpeed = 1;
 
   final Map<String, Map<int, int>> videoMarks = {};
 

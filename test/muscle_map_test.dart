@@ -67,4 +67,50 @@ void main() {
     expect(fit.muscleSetsThisWeek['chest'], 6);
     expect(fit.muscleHeatThisWeek['chest'], closeTo(0.5, 0.001), reason: 'objetivo semanal entero');
   });
+
+  group('#433 metas de series por músculo', () {
+    setUp(() {
+      fit.muscleGoals.clear();
+      fit.muscleGoalAll = 12;
+    });
+    tearDown(() {
+      fit.muscleGoals.clear();
+      fit.muscleGoalAll = 12;
+    });
+
+    test('una meta propia cambia el calor y el aviso solo de ese músculo', () {
+      fit.sessions
+        ..add(session(1, 'x1', 'quads', 6))
+        ..add(session(1, 'x2', 'calves', 6));
+      fit.setMuscleGoal('quads', 6);
+      expect(fit.muscleHeatOver(7)['quads'], 1.0);
+      expect(fit.muscleHeatOver(7)['calves'], closeTo(0.5, 0.001));
+      expect(fit.muscleTargetFor(30, 'quads'), closeTo(6 * 30 / 7, 0.001), reason: 'al mes escala igual');
+    });
+
+    test('cambiar el nivel de todos respeta las metas propias y borra las que quedan iguales', () {
+      fit.setMuscleGoal('chest', 18);
+      fit.setMuscleGoal('back', 14);
+      fit.setMuscleGoalAll(14);
+      expect(fit.muscleGoalWeek('chest'), 18);
+      expect(fit.muscleGoalCustom('back'), isFalse);
+      expect(fit.muscleGoalWeek('quads'), 14);
+      fit.setMuscleGoal('chest', null);
+      expect(fit.muscleGoalWeek('chest'), 14);
+    });
+
+    test('un músculo que no entrenas no sale como olvidado ni en la lista', () {
+      fit.sessions.add(session(1, 'x1', 'chest', 12));
+      for (final m in ['back', 'quads', 'calves', 'forearm']) {
+        fit.setMuscleGoal(m, 0);
+      }
+      final behind = fit.neglectedMuscles(7);
+      expect(behind, isNot(contains('forearm')));
+      expect(behind, isNot(contains('calves')));
+      final rows = fit.muscleProgress(7);
+      expect(rows.map((r) => r.id), isNot(contains('forearm')));
+      expect(rows.first.id, 'chest', reason: 'lo más cerca de su meta va primero');
+      expect(rows.first.target, 12);
+    });
+  });
 }

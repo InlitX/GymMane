@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:gymmane/catalog/exercise_catalog.dart';
 import 'package:gymmane/l10n/l10n.dart';
@@ -170,6 +171,54 @@ void main() {
       expect(fit.muscleRecovery(now: now.add(Duration(hours: mid)))['chest'], greaterThanOrEqualTo(0.5));
       expect(fit.muscleRecovery(now: now.add(Duration(hours: ready)))['chest'], greaterThanOrEqualTo(0.8));
       expect(fit.hoursUntilRecovery('quads', 0.8, now: now), isNull);
+    });
+
+    test('una serie ligera para tu nivel cansa menos que una pesada', () {
+      final now = DateTime(2026, 9, 18, 18);
+      final bench = idOf('Barbell Bench Press');
+      LoggedSession day(DateTime at, double kg) => LoggedSession(at, 3600, [
+            LoggedExercise(bench, 'Bench', 'chest', [for (var i = 0; i < 4; i++) LoggedSet(10, kg)]),
+          ]);
+      fit.sessions.add(day(now.subtract(const Duration(days: 20)), 80));
+      fit.sessions.add(day(now.subtract(const Duration(hours: 1)), 10));
+      final light = fit.muscleRecovery(now: now)['chest']!;
+      fit.sessions
+        ..removeLast()
+        ..add(day(now.subtract(const Duration(hours: 1)), 80));
+      final heavy = fit.muscleRecovery(now: now)['chest']!;
+      expect(light, greaterThan(heavy));
+    });
+
+    test('más reps, menos reserva y recuperación lenta cansan más y duran más', () {
+      final now = DateTime(2026, 9, 18, 18);
+      final bench = idOf('Barbell Bench Press');
+      LoggedSession day(int reps, double rpe) => LoggedSession(now.subtract(const Duration(hours: 1)), 3600, [
+            LoggedExercise(bench, 'Bench', 'chest', [for (var i = 0; i < 4; i++) LoggedSet(reps, 60, rpe: rpe)]),
+          ]);
+      double chest() => fit.muscleRecovery(now: now)['chest']!;
+      fit.sessions.add(day(5, 10));
+      final heavy = chest();
+      fit.sessions
+        ..clear()
+        ..add(day(12, 10));
+      final long = chest();
+      expect(long, lessThan(heavy));
+      fit.sessions
+        ..clear()
+        ..add(day(12, 7));
+      expect(chest(), greaterThan(long));
+      final normal = fit.hoursUntilRecovered('chest', now: now)!;
+      fit.setRecoverySpeed(2);
+      final slow = fit.hoursUntilRecovered('chest', now: now)!;
+      expect(slow, greaterThan(normal));
+      expect(fit.muscleRecovery(now: now.add(Duration(hours: slow)))['chest'], greaterThanOrEqualTo(0.8));
+      expect(fit.muscleRecovery(now: now.add(Duration(hours: slow - 1)))['chest'], lessThan(0.8));
+      final saved = jsonEncode(fit.toJson());
+      fit.resetAllData();
+      expect(fit.recoverySpeed, 1);
+      expect(fit.importJson(saved), isTrue);
+      expect(fit.recoverySpeed, 2);
+      fit.setRecoverySpeed(1);
     });
   });
 
