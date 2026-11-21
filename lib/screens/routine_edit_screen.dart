@@ -1435,7 +1435,7 @@ class _RoutineEditScreenState extends State<RoutineEditScreen> {
       backgroundColor: Colors.transparent,
       builder: (sheet) => AppSheet(
           children: [
-            SheetTitle(t.routineGroup),
+            SheetTitle(t.routineGroup, subtitle: t.routineGroupHint),
             const SizedBox(height: 14),
             OptionGroup([
               OptionItem(
