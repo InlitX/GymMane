@@ -468,6 +468,8 @@ const Map<String, String> kExerciseNameEs = {
   'handgrip': 'Ejercitador de agarre',
   'cable-rear-delt-row': 'Remo posterior en polea',
   'bayesian-cable-curl': 'Curl bayesiano en polea',
+  'landmine-rotation': 'Rotación landmine',
+  'incline-hammer-curl': 'Curl martillo inclinado con mancuernas',
 };
 
 const Map<String, List<String>> kExerciseStepsEs = {
@@ -3701,5 +3703,19 @@ const Map<String, List<String>> kExerciseStepsEs = {
     'Sin mover el codo, sube el agarre hacia el hombro.',
     'Aprieta el bíceps arriba.',
     'Baja despacio hasta que el brazo quede estirado y por detrás otra vez, y cambia de brazo.',
+  ],
+  'landmine-rotation': [
+    'Encaja un extremo de la barra en un landmine o en una esquina y ponte de frente, con los pies a la anchura de los hombros.',
+    'Sujeta el otro extremo con las dos manos delante de la cara, con los brazos casi estirados.',
+    'Gira el tronco y la cadera para bajar la barra en arco hasta una cadera.',
+    'Súbela de nuevo por el centro y bájala hasta la otra cadera.',
+    'Mantén los brazos largos: el giro sale del tronco, no de los brazos.',
+  ],
+  'incline-hammer-curl': [
+    'Pon el banco a unos 45 grados y siéntate apoyado con una mancuerna en cada mano.',
+    'Deja los brazos colgando rectos, con las palmas mirándose.',
+    'Sube las mancuernas con los pulgares hacia arriba, sin mover los codos.',
+    'Aprieta arriba sin dejar que los codos se vayan hacia delante.',
+    'Baja despacio hasta estirar del todo los brazos.',
   ],
 };

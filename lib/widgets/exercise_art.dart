@@ -11,9 +11,7 @@ import '../catalog/exercise_catalog.dart' show kSportIcons;
 import '../theme/app_colors.dart';
 import 'shimmer.dart';
 
-const Map<String, IconData> _drawingPending = {'wrist-prep': PhosphorIconsRegular.hand};
-
-IconData? sportIcon(String id) => _drawingPending[id] ?? switch (kSportIcons[id]) {
+IconData? sportIcon(String id) => switch (kSportIcons[id]) {
       'soccerBall' => PhosphorIconsRegular.soccerBall,
       'basketball' => PhosphorIconsRegular.basketball,
       'volleyball' => PhosphorIconsRegular.volleyball,
