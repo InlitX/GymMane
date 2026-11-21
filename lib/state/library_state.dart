@@ -534,6 +534,27 @@ mixin LibraryState on FitCore {
     notifyListeners();
   }
 
+  int bodyShareDefault(String id) {
+    if (_wholeBody.contains(id) || isAssisted(id)) return 100;
+    final name = (exerciseById(id)?.name ?? '').toLowerCase();
+    return name.contains('push-up') || name.contains('push up') || name.contains('pushup') ? 65 : 100;
+  }
+
+  int bodyShareOf(String id) => bodyShare[id] ?? bodyShareDefault(id);
+
+  bool hasOwnBodyShare(String id) => bodyShare.containsKey(id);
+
+  void setBodyShare(String id, int? percent) {
+    final v = percent?.clamp(5, 100);
+    if (v == null || v == bodyShareDefault(id)) {
+      bodyShare.remove(id);
+    } else {
+      bodyShare[id] = v;
+    }
+    _persist();
+    notifyListeners();
+  }
+
   List<BodyweightEntry>? _bodyCache;
   int _bodyCacheOf = -1;
 
@@ -563,7 +584,7 @@ mixin LibraryState on FitCore {
 
   double loadOf(String id, double weight, DateTime day) {
     if (!carriesBody(id)) return weight;
-    final body = bodyweightKgOn(day);
+    final body = bodyweightKgOn(day) * bodyShareOf(id) / 100;
     if (body <= 0) return weight;
     return isAssisted(id) ? math.max(0.0, body - weight) : body + weight;
   }

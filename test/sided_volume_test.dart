@@ -131,6 +131,32 @@ void main() {
       expect(fit.filedSession!.volume, 850);
     });
 
+    test('parte del peso corporal por ejercicio, con lastre y en la copia', () {
+      fit.addBodyweight(80);
+      final push = id('Push-up');
+      final pull = id('Pull-up');
+      expect(fit.bodyShareOf(push), 65);
+      expect(fit.bodyShareOf(pull), 100);
+      fit.toggleCarriesBody(push);
+      fit.setBodyShare(push, 65);
+      expect(fit.hasOwnBodyShare(push), isFalse);
+      LoggedExercise ex(String i, double kg) => LoggedExercise(i, 'x', 'chest', [LoggedSet(10, kg)]);
+      expect(ex(push, 0).volume, closeTo(520, 0.001));
+      expect(ex(push, 10).volume, closeTo(620, 0.001));
+      fit.setBodyShare(pull, 50);
+      expect(ex(pull, 0).volume, closeTo(400, 0.001));
+      fit.setBodyShare(pull, 100);
+      expect(fit.hasOwnBodyShare(pull), isFalse);
+      fit.setBodyShare(push, 300);
+      expect(fit.bodyShareOf(push), 100);
+      fit.setBodyShare(push, 70);
+      final saved = jsonEncode(fit.toJson());
+      fit.resetAllData();
+      expect(fit.bodyShareOf(push), 65);
+      expect(fit.importJson(saved), isTrue);
+      expect(fit.bodyShareOf(push), 70);
+    });
+
     test('sin peso apuntado no se inventa ninguno', () {
       fit.profile.weightKg = 0;
       final ex = LoggedExercise(id('Pull-up'), 'Pull-up', 'lats', [LoggedSet(10, 0)]);
