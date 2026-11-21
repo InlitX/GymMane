@@ -42,13 +42,11 @@ class HomeScreen extends StatelessWidget {
       id: 'home',
       child: SafeArea(
       bottom: false,
-      child: SingleChildScrollView(
+      child: ListView(
         key: const PageStorageKey('home'),
         clipBehavior: Clip.none,
         padding: const EdgeInsets.fromLTRB(20, 14, 20, 116),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: riseAll([
+        children: riseAll([
             _topBar(gc),
             const SizedBox(height: 20),
             if (fit.showFocus || fit.todayRoutine?.exerciseIds.isNotEmpty == true) ...[
@@ -61,7 +59,6 @@ class HomeScreen extends StatelessWidget {
             ],
             ..._homeBlocks(context, gc, routines, recommended),
           ]),
-        ),
       ),
       ),
     );

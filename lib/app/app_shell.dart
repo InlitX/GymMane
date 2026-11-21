@@ -204,7 +204,11 @@ class _AppShellState extends State<AppShell> with WidgetsBindingObserver, Single
       if (food != null) {
         fit.setNutritionBeta(true);
         if (fit.route != 'nutrition') fit.goNutrition();
-        showFoodEditor(context, pick: food);
+        if (isQuickFood(text)) {
+          showQuickAddSheet(context, fit.openMeal, pick: food);
+        } else {
+          showFoodEditor(context, pick: food);
+        }
         return;
       }
       if (fit.isMealPlanText(text)) {
@@ -778,7 +782,25 @@ class _CollapsedBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final top = MediaQuery.viewPaddingOf(context).top;
-    final blur = EdgeBlur(height: top + 64, sigma: 14);
+    final height = top + 88;
+    final bg = context.gc.bg;
+    final blur = Stack(children: [
+      EdgeBlur(height: height, sigma: 14),
+      SizedBox(
+        height: height,
+        width: double.infinity,
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [bg.withValues(alpha: 0.9), bg.withValues(alpha: 0.82), bg.withValues(alpha: 0)],
+              stops: [0, (top + 50) / height, 1],
+            ),
+          ),
+        ),
+      ),
+    ]);
     return AnimatedBuilder(
       animation: progress,
       builder: (context, _) {
