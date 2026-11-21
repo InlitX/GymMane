@@ -426,11 +426,17 @@ class _MealCard extends StatelessWidget {
                 style: AppTheme.f(12, weight: FontWeight.w600, color: gc.textTertiary),
               ),
               const SizedBox(height: 10),
-              Wrap(spacing: 6, runSpacing: 6, children: [
-                _MacroPill(t.proteinLetter, total.protein, gc.protein),
-                _MacroPill(t.carbsLetter, total.carbs, gc.carbs),
-                _MacroPill(t.fatLetter, total.fat, gc.fat),
-              ]),
+              FittedBox(
+                fit: BoxFit.scaleDown,
+                alignment: AlignmentDirectional.centerStart,
+                child: Row(mainAxisSize: MainAxisSize.min, children: [
+                  _MacroPill(t.proteinLetter, total.protein, gc.protein),
+                  const SizedBox(width: 6),
+                  _MacroPill(t.carbsLetter, total.carbs, gc.carbs),
+                  const SizedBox(width: 6),
+                  _MacroPill(t.fatLetter, total.fat, gc.fat),
+                ]),
+              ),
             ]),
           ),
           if (!compact)

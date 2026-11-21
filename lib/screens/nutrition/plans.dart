@@ -48,8 +48,10 @@ class _PlansSection extends StatelessWidget {
     final plans = fit.activeMealPlans;
     final archived = fit.archivedPlanList;
     return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-      _PlanWeek(),
-      const SizedBox(height: 12),
+      if (plans.isNotEmpty || archived.isNotEmpty) ...[
+        _PlanWeek(),
+        const SizedBox(height: 12),
+      ],
       if (plans.isEmpty)
         Pressable(
           onTap: () => showNewPlanSheet(context),

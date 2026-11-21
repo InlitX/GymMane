@@ -31,6 +31,7 @@ import '../widgets/cutout_editor.dart';
 import '../widgets/ruler_picker.dart';
 import '../widgets/ui_kit.dart';
 import '../services/file_share.dart';
+import '../services/community_apps.dart';
 import 'plan_import_sheet.dart' show pickTextFile;
 import 'progress_screen.dart' show showBodyweightSheet;
 
@@ -42,6 +43,7 @@ part 'nutrition/food.dart';
 part 'nutrition/plans.dart';
 part 'nutrition/ai.dart';
 part 'nutrition/fasting.dart';
+part 'nutrition/supp_progress.dart';
 
 String mealInSentence(Meal m) {
   final name = mealName(m);
@@ -305,7 +307,7 @@ class _NutritionScreenState extends State<NutritionScreen> {
             if (on(Tracker.foods)) ...[
               const SizedBox(height: 14),
               _FoodShelf(),
-              const SizedBox(height: 16),
+              const SizedBox(height: 6),
               _Folders(),
             ],
             if (todayPlan != null) ...[
@@ -407,48 +409,121 @@ List<(String, String)> _plateOf(Iterable<FoodEntry> items) => [
 Widget _kicker(GymColors gc, String text) =>
     Text(text, style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.4));
 
-class _WeekStrip extends StatelessWidget {
+class _WeekStrip extends StatefulWidget {
   const _WeekStrip();
+
+  @override
+  State<_WeekStrip> createState() => _WeekStripState();
+}
+
+class _WeekStripState extends State<_WeekStrip> {
+  static const _back = 1040;
+
+  late final PageController _pages = PageController(initialPage: _pageOf(fit.nutritionDay));
+  bool _moving = false;
+
+  DateTime get _today {
+    final now = DateTime.now();
+    return DateTime(now.year, now.month, now.day);
+  }
+
+  DateTime _startOf(DateTime day) => shiftDays(day, -((day.weekday - fit.weekStartDay + 7) % 7));
+
+  int _pageOf(DateTime day) => _back + _startOf(day).difference(_startOf(_today)).inDays ~/ 7;
+
+  DateTime _weekAt(int page) => shiftDays(_startOf(_today), (page - _back) * 7);
+
+  int get _lastPage => _pageOf(shiftDays(_today, NutritionState.kNutritionDaysAhead));
+
+  @override
+  void dispose() {
+    _pages.dispose();
+    super.dispose();
+  }
+
+  bool _settled(ScrollNotification n) {
+    if (n is ScrollStartNotification && n.dragDetails != null) _moving = true;
+    if (n is! ScrollEndNotification || !_moving) return false;
+    _moving = false;
+    final page = (_pages.page ?? _pages.initialPage.toDouble()).round();
+    final shift = page - _pageOf(fit.nutritionDay);
+    if (shift != 0) {
+      HapticFeedback.selectionClick();
+      fit.setNutritionDay(shiftDays(fit.nutritionDay, shift * 7));
+    }
+    return false;
+  }
+
+  void _follow() {
+    if (_moving || !_pages.hasClients) return;
+    final want = _pageOf(fit.nutritionDay);
+    final at = _pages.page?.round() ?? want;
+    if (at == want) return;
+    if ((at - want).abs() > 1) {
+      _pages.jumpToPage(want);
+    } else {
+      _pages.animateToPage(want, duration: const Duration(milliseconds: 320), curve: Curves.easeOutCubic);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) _follow();
+    });
+    final last = shiftDays(_today, NutritionState.kNutritionDaysAhead);
+    return SizedBox(
+      height: 62,
+      child: NotificationListener<ScrollNotification>(
+        onNotification: _settled,
+        child: PageView.builder(
+          controller: _pages,
+          itemCount: _lastPage + 1,
+          clipBehavior: Clip.none,
+          itemBuilder: (context, page) {
+            final start = _weekAt(page);
+            return _WeekRow(days: [for (var i = 0; i < 7; i++) shiftDays(start, i)], today: _today, last: last);
+          },
+        ),
+      ),
+    );
+  }
+}
+
+class _WeekRow extends StatelessWidget {
+  const _WeekRow({required this.days, required this.today, required this.last});
+
+  final List<DateTime> days;
+  final DateTime today;
+  final DateTime last;
 
   @override
   Widget build(BuildContext context) {
     final gc = context.gc;
-    final now = DateTime.now();
-    final today = DateTime(now.year, now.month, now.day);
-    final days = fit.nutritionWeek;
-    final last = shiftDays(today, NutritionState.kNutritionDaysAhead);
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      onHorizontalDragEnd: (d) {
-        final v = d.primaryVelocity ?? 0;
-        if (v > 200) fit.setNutritionDay(shiftDays(fit.nutritionDay, -7));
-        if (v < -200 && days.last.isBefore(last)) fit.setNutritionDay(shiftDays(fit.nutritionDay, 7));
-      },
-      child: Row(
-        children: [
-          for (final d in days)
-            Expanded(
-              child: GestureDetector(
-                behavior: HitTestBehavior.opaque,
-                onTap: d.isAfter(last) ? null : () => fit.setNutritionDay(d),
-                child: Column(children: [
-                  SizedBox(
-                    height: 17,
-                    child: Text(
-                      d == today ? t.nutritionToday : t.weekdayInitial(d.weekday),
-                      maxLines: 1,
-                      style: d == today
-                          ? AppTheme.f(12.5, weight: FontWeight.w800, color: gc.text)
-                          : AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 0.6),
-                    ),
+    return Row(
+      children: [
+        for (final d in days)
+          Expanded(
+            child: GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onTap: d.isAfter(last) ? null : () => fit.setNutritionDay(d),
+              child: Column(children: [
+                SizedBox(
+                  height: 17,
+                  child: Text(
+                    d == today ? t.nutritionToday : t.weekdayInitial(d.weekday),
+                    maxLines: 1,
+                    style: d == today
+                        ? AppTheme.f(12.5, weight: FontWeight.w800, color: gc.text)
+                        : AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 0.6),
                   ),
-                  const SizedBox(height: 7),
-                  _DayDot(day: d, selected: d == fit.nutritionDay, future: d.isAfter(today)),
-                ]),
-              ),
+                ),
+                const SizedBox(height: 7),
+                _DayDot(day: d, selected: d == fit.nutritionDay, future: d.isAfter(today)),
+              ]),
             ),
-        ],
-      ),
+          ),
+      ],
     );
   }
 }
