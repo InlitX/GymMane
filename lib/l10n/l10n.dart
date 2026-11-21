@@ -9,6 +9,7 @@ import 'app_localizations.dart';
 import 'catalog_es.dart';
 import 'catalog_it.dart';
 import 'catalog_pt.dart';
+import 'catalog_vi.dart';
 import 'catalog_zh.dart';
 
 export 'app_localizations.dart';
@@ -36,7 +37,7 @@ String groupedInt(int n) {
 }
 
 const Map<String, Map<String, String>> _catalogNames = {'es': kExerciseNameEs, 'it': kExerciseNameIt, 'pt': kExerciseNamePt, 'zh': kExerciseNameZh};
-const Map<String, Map<String, List<String>>> _catalogSteps = {'es': kExerciseStepsEs, 'it': kExerciseStepsIt, 'pt': kExerciseStepsPt, 'zh': kExerciseStepsZh};
+const Map<String, Map<String, List<String>>> _catalogSteps = {'es': kExerciseStepsEs, 'it': kExerciseStepsIt, 'pt': kExerciseStepsPt, 'vi': kExerciseStepsVi, 'zh': kExerciseStepsZh};
 
 String appLanguage = 'en';
 AppLocalizations t = lookupAppLocalizations(const Locale('en'));

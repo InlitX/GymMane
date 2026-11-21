@@ -2168,13 +2168,13 @@ class AppLocalizationsVi extends AppLocalizations {
   String get supersetHint => 'Không nghỉ giữa các bài được nối, bạn chuyển thẳng sang bài tiếp theo.';
 
   @override
-  String get jumpSet => 'Hiệp nhảy';
+  String get jumpSet => 'Jump set';
 
   @override
-  String get jumpSetHint => 'Nghỉ cả sau mỗi bài được nối, rồi chuyển sang bài tiếp theo.';
+  String get jumpSetHint => 'Nghỉ sau mỗi bài tập nối tiếp, rồi mới chuyển sang bài kế tiếp.';
 
   @override
-  String get jumpSetLink => 'Biến thành hiệp nhảy';
+  String get jumpSetLink => 'Đặt làm jump set';
 
   @override
   String get aiRoutine => 'Giáo án tập với AI';
@@ -7849,85 +7849,85 @@ class AppLocalizationsVi extends AppLocalizations {
   }
 
   @override
-  String get foodAiRow => 'Fill in with an AI';
+  String get foodAiRow => 'Điền bằng AI';
 
   @override
-  String get foodAiRowHint => 'From a label, a screenshot or a link';
+  String get foodAiRowHint => 'Từ nhãn dinh dưỡng, ảnh chụp màn hình hoặc liên kết';
 
   @override
-  String get foodAiTitle => 'Food with AI';
+  String get foodAiTitle => 'Thực phẩm với AI';
 
   @override
   String get foodAiHow =>
-      'Copy the request and paste it into any chatbot together with a photo of the nutrition label, a screenshot of the product or a link to it. Then paste its answer here.';
+      'Sao chép yêu cầu và dán vào bất kỳ chatbot nào kèm ảnh nhãn dinh dưỡng, ảnh chụp sản phẩm hoặc liên kết. Sau đó dán câu trả lời vào đây.';
 
   @override
-  String get foodAiCheck => 'The form fills itself in. Check the values against the label before saving.';
+  String get foodAiCheck => 'Biểu mẫu sẽ tự động điền. Hãy kiểm tra lại giá trị theo nhãn trước khi lưu.';
 
   @override
-  String get foodAiFill => 'Fill in the food';
+  String get foodAiFill => 'Điền thông tin thực phẩm';
 
   @override
-  String get foodAiFilled => 'Food filled in';
+  String get foodAiFilled => 'Đã điền thực phẩm';
 
   @override
-  String get foodAiFilledHint => 'Check the values before saving';
+  String get foodAiFilledHint => 'Kiểm tra lại giá trị trước khi lưu';
 
   @override
-  String get fastAdd => 'Add a past fast';
+  String get fastAdd => 'Thêm lần nhịn ăn trước đây';
 
   @override
-  String get fastAddTitle => 'Add a fast';
+  String get fastAddTitle => 'Thêm lần nhịn ăn';
 
   @override
-  String get fastEditTitle => 'Edit fast';
+  String get fastEditTitle => 'Chỉnh sửa nhịn ăn';
 
   @override
-  String get fastStartRow => 'Start';
+  String get fastStartRow => 'Bắt đầu';
 
   @override
-  String get fastEndRow => 'End';
+  String get fastEndRow => 'Kết thúc';
 
   @override
-  String get fastEndedAt => 'When did you end it?';
+  String get fastEndedAt => 'Bạn kết thúc lúc nào?';
 
   @override
   String fastLasted(String time) {
-    return 'Lasted $time';
+    return 'Kéo dài $time';
   }
 
   @override
-  String get fastErrFuture => 'The end can\'t be later than now';
+  String get fastErrFuture => 'Thời gian kết thúc không thể sau hiện tại';
 
   @override
-  String get fastErrOrder => 'The end has to come after the start';
+  String get fastErrOrder => 'Thời gian kết thúc phải sau thời gian bắt đầu';
 
   @override
-  String get fastErrShort => 'A fast lasts at least 10 minutes';
+  String get fastErrShort => 'Một lần nhịn ăn kéo dài ít nhất 10 phút';
 
   @override
-  String get fastErrOverlap => 'It overlaps another fast';
+  String get fastErrOverlap => 'Bị trùng với một lần nhịn ăn khác';
 
   @override
-  String get fastSaved => 'Fast saved';
+  String get fastSaved => 'Đã lưu lần nhịn ăn';
 
   @override
-  String get fastAdjust => 'Adjust';
+  String get fastAdjust => 'Điều chỉnh';
 
   @override
-  String get keepCounting => 'Đếm tiếp';
+  String get keepCounting => 'Tiếp tục đếm';
 
   @override
-  String get keepCountingHint => 'Kêu khi đến giờ và chạy tiếp cho tới khi bạn dừng';
+  String get keepCountingHint => 'Phát tiếng bíp khi hết giờ và tiếp tục đếm đến khi bạn dừng';
 
   @override
-  String get holdOvertime => 'Quá giờ';
+  String get holdOvertime => 'Thời gian thêm';
 
   @override
   String get pairSetting => 'Cặp tạ đơn';
 
   @override
-  String get pairSettingHint => 'Ghi mức tạ của một quả. Khối lượng tính cả hai.';
+  String get pairSettingHint => 'Ghi mức tạ một bên. Tổng khối lượng tính cả hai tay.';
 
   @override
   String get helpCommon => 'Câu hỏi thường gặp';
@@ -7936,42 +7936,43 @@ class AppLocalizationsVi extends AppLocalizations {
   String get helpQuestions => 'Câu hỏi';
 
   @override
-  String get helpNoResults => 'Không có kết quả. Thử từ khác';
+  String get helpNoResults => 'Không có kết quả phù hợp. Thử từ khóa khác';
 
   @override
-  String get helpLbQ => 'Có dùng lb cho riêng một bài được không?';
+  String get helpLbQ => 'Tôi có thể dùng đơn vị lb cho riêng một bài tập không?';
 
   @override
   String helpLbA(String option) {
-    return 'Được. Trong buổi tập, mở menu ⋯ của bài và chọn “$option”.';
+    return 'Có. Trong lúc tập, mở menu ⋯ của bài tập và chọn “$option”.';
   }
 
   @override
-  String get helpSupersetQ => 'Làm superset thế nào?';
+  String get helpSupersetQ => 'Làm sao để tạo superset?';
 
   @override
-  String get helpSupersetA => 'Trong trình sửa giáo án, chạm vào liên kết giữa hai bài để nối chúng.';
+  String get helpSupersetA =>
+      'Trong trình chỉnh sửa bài tập mẫu, chạm vào biểu tượng liên kết giữa hai bài để ghép chuỗi.';
 
   @override
-  String get helpRangeQ => 'Đặt khoảng số lần như 8-12 thế nào?';
+  String get helpRangeQ => 'Làm sao để đặt khoảng rep như 8-12?';
 
   @override
-  String get helpRangeA => 'Trong trình sửa giáo án, nhấn giữ số lần.';
+  String get helpRangeA => 'Trong trình chỉnh sửa bài tập mẫu, nhấn giữ vào số rep.';
 
   @override
-  String get helpRestQ => 'Mỗi bài có thể có thời gian nghỉ riêng không?';
+  String get helpRestQ => 'Mỗi bài tập có thể có thời gian nghỉ riêng không?';
 
   @override
   String helpRestA(String settings, String rest, String section) {
-    return 'Có: mở bài › $settings › $rest. Thời gian nghỉ mặc định ở Cài đặt › $section.';
+    return 'Có: mở bài tập › $settings › $rest. Thời gian nghỉ mặc định nằm ở Cài đặt › $section.';
   }
 
   @override
-  String get helpSidesQ => 'Ghi riêng bên trái và bên phải thế nào?';
+  String get helpSidesQ => 'Làm sao để ghi riêng tay/chân trái và phải?';
 
   @override
   String helpSidesA(String settings, String sides) {
-    return 'Mở bài › $settings › $sides.';
+    return 'Mở bài tập › $settings › $sides.';
   }
 
   @override
@@ -7979,133 +7980,134 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String helpPairA(String pair) {
-    return 'Một quả. Bật “$pair” trong cài đặt của bài và khối lượng sẽ tính cả hai.';
+    return 'Một quả. Bật “$pair” trong cài đặt bài tập, tổng khối lượng sẽ tự tính cả hai.';
   }
 
   @override
-  String get helpKeepQ => 'Hiệp theo thời gian có chạy quá giờ được không?';
+  String get helpKeepQ => 'Hiệp tính giờ có thể đếm tiếp sau khi hết giờ không?';
 
   @override
   String helpKeepA(String keep) {
-    return 'Được: bật “$keep” trong cài đặt của bài. Nó kêu khi đến giờ và đếm tiếp cho tới khi bạn dừng.';
+    return 'Có: bật “$keep” trong cài đặt bài tập. Máy sẽ kêu bíp khi hết giờ và đếm tiếp cho đến khi bạn dừng.';
   }
 
   @override
-  String get helpDayOffQ => 'Đánh dấu ngày nghỉ, ốm hay đi xa thế nào?';
+  String get helpDayOffQ => 'Làm sao để đánh dấu ngày nghỉ, ốm hoặc đi công tác?';
 
   @override
-  String get helpDayOffA => 'Ở Trang chủ, nhấn giữ ngày đó trong tuần. Chuỗi ngày và lời nhắc sẽ bỏ qua nó.';
+  String get helpDayOffA =>
+      'Ở Trang chủ, nhấn giữ vào ngày đó trong tuần. Chuỗi ngày tập và nhắc nhở sẽ bỏ qua ngày đó.';
 
   @override
-  String get helpImportQ => 'Có chuyển buổi tập từ Hevy, Strong hay ứng dụng khác được không?';
+  String get helpImportQ => 'Tôi có thể nhập lịch sử tập từ Hevy, Strong hoặc app khác không?';
 
   @override
   String helpImportA(String section, String row) {
-    return 'Có: Cài đặt › $section › $row. Còn đọc được FitNotes, Fitbod, JEFIT, StrongLifts, Liftosaur và Lyfta.';
+    return 'Có: Cài đặt › $section › $row. App cũng đọc được dữ liệu từ FitNotes, Fitbod, JEFIT, StrongLifts, Liftosaur và Lyfta.';
   }
 
   @override
-  String get helpPhoneQ => 'Chuyển dữ liệu sang điện thoại mới thế nào?';
+  String get helpPhoneQ => 'Làm sao để chuyển dữ liệu sang điện thoại mới?';
 
   @override
   String helpPhoneA(String section, String import) {
-    return 'Xuất một bản sao ở Cài đặt › $section rồi mở nó trên điện thoại mới bằng “$import”.';
+    return 'Xuất bản sao lưu trong Cài đặt › $section và mở trên điện thoại mới bằng “$import”.';
   }
 
   @override
-  String get helpSlowQ => 'Ứng dụng chạy chậm trên điện thoại tôi';
+  String get helpSlowQ => 'Ứng dụng chạy hơi chậm trên máy của tôi';
 
   @override
   String helpSlowA(String section, String perf, String lite) {
-    return 'Cài đặt › $section › $perf › $lite. Tắt hiệu ứng mờ, phần nặng nhất.';
+    return 'Cài đặt › $section › $perf › $lite. Tùy chọn này tắt hiệu ứng làm mờ, phần nặng nhất.';
   }
 
   @override
-  String get helpPlatesQ => 'Lắp bao nhiêu bánh tạ lên đòn?';
+  String get helpPlatesQ => 'Cần lắp bao nhiêu bánh tạ lên đòn?';
 
   @override
   String helpPlatesA(String tool, String places) {
-    return 'Dùng “$tool” trong Công cụ. Bánh tạ và đòn ở phòng tập của bạn đặt trong “$places”.';
+    return 'Dùng “$tool” trong Công cụ. Bánh tạ và thanh đòn của phòng tập được cài trong “$places”.';
   }
 
   @override
-  String get helpRaceQ => 'So với buổi tập trước thế nào?';
+  String get helpRaceQ => 'Làm sao để so sánh với buổi tập trước?';
 
   @override
   String helpRaceA(String race) {
-    return 'Trong buổi tập, chạm viên thuốc ở trên cùng: “$race”.';
+    return 'Trong lúc tập, chạm vào thẻ ở trên cùng: “$race”.';
   }
 
   @override
-  String get helpFastQ => 'Tôi quên kết thúc nhịn ăn';
+  String get helpFastQ => 'Tôi quên bấm kết thúc nhịn ăn';
 
   @override
   String helpFastA(String adjust) {
-    return 'Kết thúc nó rồi chạm “$adjust” trên thông báo, hoặc chạm lần nhịn ăn trong bảng nhịn ăn để đổi giờ.';
+    return 'Hãy kết thúc rồi chạm “$adjust” trên thông báo, hoặc chạm vào lần nhịn ăn trong bảng theo dõi để sửa giờ.';
   }
 
   @override
-  String get helpGo => 'Chỉ cho tôi';
+  String get helpGo => 'Xem thử';
 
   @override
-  String get helpHomeOrderQ => 'Đổi thứ tự Trang chủ được không?';
+  String get helpHomeOrderQ => 'Tôi có thể đổi thứ tự trên Trang chủ không?';
 
   @override
   String helpHomeOrderA(String section, String row) {
-    return 'Được: Cài đặt › $section › “$row”. Giữ và kéo các mục, hoặc tắt những mục bạn không dùng.';
+    return 'Có: Cài đặt › $section › “$row”. Nhấn giữ và kéo các mục, hoặc tắt những mục bạn không dùng.';
   }
 
   @override
-  String get helpCustomQ => 'Tự tạo bài tập được không?';
+  String get helpCustomQ => 'Tôi có thể tự tạo bài tập riêng không?';
 
   @override
   String helpCustomA(String button) {
-    return 'Được: trong Bài tập, chạm “$button”. Bạn chọn tên, cơ và dụng cụ, và nó hoạt động như mọi bài khác.';
+    return 'Có: trong mục Bài tập, chạm “$button”. Bạn chọn tên, nhóm cơ và dụng cụ, rồi dùng như mọi bài khác.';
   }
 
   @override
-  String get helpWarmupQ => 'Ứng dụng có tự thêm hiệp khởi động không?';
+  String get helpWarmupQ => 'Ứng dụng có tự thêm hiệp khởi động cho tôi không?';
 
   @override
   String helpWarmupA(String settings, String warm, String tool) {
-    return 'Có: mở bài › $settings › “$warm”. Muốn tự tính, dùng “$tool” trong Công cụ.';
+    return 'Có: mở bài tập › $settings › “$warm”. Để tự tính thủ công, dùng “$tool” trong Công cụ.';
   }
 
   @override
-  String get helpPassQ => 'Có lưu thẻ phòng tập trong ứng dụng được không?';
+  String get helpPassQ => 'Tôi có thể lưu thẻ thành viên phòng gym trong app không?';
 
   @override
   String helpPassA(String row, String section) {
-    return 'Có: “$row” trong Cài đặt › $section. Nó hiện mã vạch hoặc mã QR để quét ở cửa.';
+    return 'Có: “$row” trong Cài đặt › $section. App sẽ hiển thị mã vạch hoặc mã QR để quét ở cửa.';
   }
 
   @override
-  String get helpStepsQ => 'Sao tôi không thấy số bước?';
+  String get helpStepsQ => 'Tại sao tôi không thấy số bước chân?';
 
   @override
   String helpStepsA(String row, String section) {
-    return 'Số bước lấy từ Health Connect, có sẵn từ Android 14 trở lên. Điện thoại cũ hơn thì không có. Nếu có, bật “$row” trong Cài đặt › $section.';
+    return 'Số bước chân được đọc từ Health Connect, có sẵn từ Android 14 trở lên. Máy đời cũ hơn sẽ không có. Nếu máy hỗ trợ, hãy bật “$row” trong Cài đặt › $section.';
   }
 
   @override
-  String get helpNfcQ => 'Có bắt đầu buổi tập bằng cách chạm điện thoại được không?';
+  String get helpNfcQ => 'Có thể chạm điện thoại để bắt đầu tập không?';
 
   @override
   String helpNfcA(String row, String section) {
-    return 'Có, với nhãn NFC: “$row” trong Cài đặt › $section. Dán ở phòng tập, chạm vào là mở buổi tập hôm nay.';
+    return 'Có, với thẻ dán NFC: “$row” trong Cài đặt › $section. Dán thẻ ở phòng tập và chạm điện thoại để mở buổi tập hôm nay.';
   }
 
   @override
-  String get helpCleanQ => 'Làm màn hình Dinh dưỡng gọn hơn thế nào?';
+  String get helpCleanQ => 'Làm sao để màn hình Dinh dưỡng gọn gàng hơn?';
 
   @override
   String helpCleanA(String button) {
-    return 'Trong Dinh dưỡng, chạm nút thanh trượt ở trên (“$button”) và tắt những gì bạn không theo dõi.';
+    return 'Trong mục Dinh dưỡng, chạm nút thanh trượt ở góc trên (“$button”) và tắt những mục bạn không theo dõi.';
   }
 
   @override
   String alsoWorksMuscles(String muscles) {
-    return 'Cũng tập $muscles';
+    return 'Cũng tác động vào $muscles';
   }
 
   @override
@@ -8189,22 +8191,22 @@ class AppLocalizationsVi extends AppLocalizations {
   String get watchTip => 'Beta: chưa thử trên mọi đồng hồ. Nếu lỗi, hãy báo trên GitHub.';
 
   @override
-  String get mineralsTracker => 'Iron and potassium';
+  String get mineralsTracker => 'Sắt và kali';
 
   @override
-  String get ironLabel => 'Iron';
+  String get ironLabel => 'Sắt';
 
   @override
-  String get potassiumLabel => 'Potassium';
+  String get potassiumLabel => 'Kali';
 
   @override
   String mineralsCoverage(int known, int total) {
-    return '$known of $total foods today have iron and potassium';
+    return '$known/$total món ăn hôm nay có dữ liệu sắt và kali';
   }
 
   @override
   String get mineralsHint =>
-      'Few foods in the list come with iron and potassium, so the total only counts the ones that do. Add them to your own foods or with the AI.';
+      'Chỉ một số món trong danh sách có sẵn dữ liệu sắt và kali, nên tổng số chỉ tính những món có thông tin. Bạn có thể tự thêm vào món ăn của mình hoặc dùng AI.';
 
   @override
   String get qsRow => 'Ô trong Cài đặt nhanh';
@@ -8302,16 +8304,16 @@ class AppLocalizationsVi extends AppLocalizations {
   String get bpPulseAdd => '+ Nhịp tim';
 
   @override
-  String get autoHold => 'Nối các hiệp tính giờ';
+  String get autoHold => 'Tự nối hiệp đếm giờ';
 
   @override
-  String get autoHoldHint => 'Sau khi nghỉ, hiệp tính giờ tiếp theo tự bắt đầu';
+  String get autoHoldHint => 'Sau khi hết giờ nghỉ, hiệp đếm giờ tiếp theo sẽ tự động bắt đầu';
 
   @override
   String get recoveryTitle => 'Phục hồi';
 
   @override
-  String get recoverySettingHint => 'Xông hơi, lạnh và hít thở, tách khỏi tập tạ';
+  String get recoverySettingHint => 'Xông hơi, ngâm lạnh và hít thở, tách riêng khỏi các buổi tập tạ';
 
   @override
   String get recoveryKindSauna => 'Xông hơi';
@@ -8320,41 +8322,41 @@ class AppLocalizationsVi extends AppLocalizations {
   String get recoveryKindCold => 'Ngâm lạnh';
 
   @override
-  String get recoveryKindContrast => 'Nóng lạnh';
+  String get recoveryKindContrast => 'Nóng lạnh xen kẽ';
 
   @override
   String get recoveryKindBreath => 'Hít thở';
 
   @override
-  String get recoveryDescSauna => 'Thời gian, nhiệt độ và số lượt';
+  String get recoveryDescSauna => 'Thời gian, nhiệt độ và số hiệp';
 
   @override
-  String get recoveryDescCold => 'Bồn nước đá hoặc tắm lạnh';
+  String get recoveryDescCold => 'Tắm nước đá hoặc vòi sen lạnh';
 
   @override
-  String get recoveryDescContrast => 'Nóng và lạnh, lượt này đến lượt khác';
+  String get recoveryDescContrast => 'Nóng và lạnh luân phiên từng hiệp';
 
   @override
-  String get recoveryDescBreath => 'Có hướng dẫn, để mọi thứ chậm lại';
+  String get recoveryDescBreath => 'Có hướng dẫn nhịp để thư giãn sâu';
 
   @override
   String get recoveryThisWeek => 'Tuần này';
 
   @override
-  String get recoveryHeat => 'Nóng';
+  String get recoveryHeat => 'Nhiệt nóng';
 
   @override
-  String get recoveryCold => 'Lạnh';
+  String get recoveryCold => 'Ngâm lạnh';
 
   @override
   String get recoveryLog => 'Ghi lại';
 
   @override
-  String get recoveryRecent => 'Gần đây';
+  String get recoveryRecent => 'Gần nhất';
 
   @override
   String get recoveryEmpty =>
-      'Chưa có gì. Ghi lại một lần xông hơi, ngâm lạnh hay vài phút hít thở: nó được tách riêng khỏi buổi tập của bạn.';
+      'Chưa có dữ liệu. Hãy ghi lại buổi xông hơi, ngâm lạnh hoặc vài phút tập thở: mọi thứ được tách riêng khỏi lịch tập của bạn.';
 
   @override
   String get recoveryMinutes => 'Phút';
@@ -8363,13 +8365,13 @@ class AppLocalizationsVi extends AppLocalizations {
   String get recoveryTemp => 'Nhiệt độ';
 
   @override
-  String get recoveryRounds => 'Lượt';
+  String get recoveryRounds => 'Số hiệp';
 
   @override
   String get recoveryAdd => 'Thêm';
 
   @override
-  String get recoveryNoteHint => 'Cảm thấy thế nào? (không bắt buộc)';
+  String get recoveryNoteHint => 'Cảm giác thế nào? (tùy chọn)';
 
   @override
   String get recoveryTimer => 'Bấm giờ';
@@ -8378,11 +8380,11 @@ class AppLocalizationsVi extends AppLocalizations {
   String get recoveryTimerStop => 'Dừng';
 
   @override
-  String get recoveryDeleteTitle => 'Xoá mục này?';
+  String get recoveryDeleteTitle => 'Xóa mục này?';
 
   @override
   String recoveryRoundsCount(int n) {
-    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n lượt', one: '1 lượt');
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n hiệp', one: '1 hiệp');
     return '$_temp0';
   }
 
@@ -8395,7 +8397,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get breathIn => 'Hít vào';
 
   @override
-  String get breathHold => 'Giữ';
+  String get breathHold => 'Nín thở';
 
   @override
   String get breathOut => 'Thở ra';
@@ -8404,35 +8406,35 @@ class AppLocalizationsVi extends AppLocalizations {
   String get breathRest => 'Nghỉ';
 
   @override
-  String get breathBox => 'Hộp';
+  String get breathBox => 'Thở vuông';
 
   @override
   String get breathRelax => 'Thư giãn';
 
   @override
-  String get breathEven => 'Đều';
+  String get breathEven => 'Đều nhịp';
 
   @override
   String get breathStart => 'Bắt đầu';
 
   @override
-  String get breathAgain => 'Lần nữa';
+  String get breathAgain => 'Lặp lại';
 
   @override
   String get breathDone => 'Xong';
 
   @override
-  String get mealAiNoData => 'The AI answered in words, with no data';
+  String get mealAiNoData => 'AI chỉ trả lời bằng chữ, không có dữ liệu';
 
   @override
   String get mealAiNoDataHint =>
-      'Paste the whole request again. Some assistants refuse when they can’t see the photo or the meal isn’t clear: describe it in one sentence.';
+      'Hãy dán lại toàn bộ yêu cầu. Một số trợ lý từ chối khi không thấy rõ ảnh hoặc món ăn: hãy mô tả món ăn bằng một câu ngắn.';
 
   @override
-  String get mealAiCutOff => 'The answer got cut off';
+  String get mealAiCutOff => 'Câu trả lời bị cắt giữa chừng';
 
   @override
-  String get mealAiCutOffHint => 'Ask it to send the rest, or to answer with fewer foods.';
+  String get mealAiCutOffHint => 'Hãy yêu cầu AI gửi nốt phần còn lại, hoặc trả lời với ít món ăn hơn.';
 
   @override
   String get recoveryGoal => 'Mục tiêu';
@@ -8441,14 +8443,14 @@ class AppLocalizationsVi extends AppLocalizations {
   String get recoveryRest => 'Nghỉ';
 
   @override
-  String get recoveryStart => 'Bật hẹn giờ';
+  String get recoveryStart => 'Bắt đầu bấm giờ';
 
   @override
-  String get recoveryJustLog => 'Ghi lại không hẹn giờ';
+  String get recoveryJustLog => 'Chỉ ghi lại, không bấm giờ';
 
   @override
   String recoveryRoundOf(int n, int total) {
-    return 'Lượt $n / $total';
+    return 'Hiệp $n / $total';
   }
 
   @override
@@ -8458,28 +8460,28 @@ class AppLocalizationsVi extends AppLocalizations {
   String get recoveryResume => 'Tiếp tục';
 
   @override
-  String get recoveryNext => 'Tiếp';
+  String get recoveryNext => 'Tiếp theo';
 
   @override
-  String get recoveryFinish => 'Kết thúc';
+  String get recoveryFinish => 'Hoàn thành';
 
   @override
   String get recoveryOvertime => 'Thêm giờ';
 
   @override
-  String get recoveryFeel => 'Cảm thấy thế nào?';
+  String get recoveryFeel => 'Bạn cảm thấy thế nào?';
 
   @override
-  String get recoveryFeelLow => 'Tệ hơn';
+  String get recoveryFeelLow => 'Kém hơn';
 
   @override
   String get recoveryFeelHigh => 'Tốt hơn';
 
   @override
-  String get recoveryGoalHeat => 'Mục tiêu nóng (phút mỗi tuần)';
+  String get recoveryGoalHeat => 'Mục tiêu xông nóng (phút/tuần)';
 
   @override
-  String get recoveryGoalCold => 'Mục tiêu lạnh (phút mỗi tuần)';
+  String get recoveryGoalCold => 'Mục tiêu ngâm lạnh (phút/tuần)';
 
   @override
   String recoveryOfGoal(int min) {
@@ -8488,12 +8490,12 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String recoveryBestCold(String time) {
-    return 'Lạnh lâu nhất: $time';
+    return 'Ngâm lạnh lâu nhất: $time';
   }
 
   @override
   String recoveryBestHold(String time) {
-    return 'Giữ hơi lâu nhất: $time';
+    return 'Nín thở lâu nhất: $time';
   }
 
   @override
@@ -8507,108 +8509,109 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get recoveryTipBody =>
-      'Uống nước, ra ngoài nếu thấy chóng mặt và đừng bao giờ ngâm lạnh mạnh một mình. Nếu bạn có bệnh tim hoặc huyết áp, hãy hỏi bác sĩ trước.';
+      'Uống đủ nước, bước ra ngay nếu thấy chóng mặt và không bao giờ ngâm lạnh sâu một mình. Nếu bạn có bệnh tim mạch hoặc huyết áp, hãy hỏi ý kiến bác sĩ trước.';
 
   @override
   String get recoveryTipOk => 'Đã hiểu';
 
   @override
-  String get breathRetention => 'Nín thở';
+  String get breathRetention => 'Giữ hơi';
 
   @override
   String breathRetentionHow(int breaths, int rounds) {
-    return '$breaths hơi thở sâu, rồi thở ra và giữ lâu nhất có thể mà vẫn thoải mái. $rounds lượt.';
+    return 'Hít sâu $breaths nhịp, sau đó thở ra và nín thở lâu nhất ở mức thoải mái. $rounds hiệp.';
   }
 
   @override
-  String get breathRetentionSafe => 'Ngồi hoặc nằm, không bao giờ trong nước hay khi lái xe.';
+  String get breathRetentionSafe =>
+      'Ngồi hoặc nằm xuống, tuyệt đối không tập dưới nước hoặc khi đang lái xe.';
 
   @override
-  String get breathFast => 'Thở sâu';
+  String get breathFast => 'Hít thở sâu';
 
   @override
-  String get breathHoldOut => 'Thở ra và giữ';
+  String get breathHoldOut => 'Thở ra và giữ hơi';
 
   @override
-  String get breathRelease => 'Thở';
+  String get breathRelease => 'Thở bình thường';
 
   @override
-  String get breathRecover => 'Hít vào và giữ';
+  String get breathRecover => 'Hít vào và giữ hơi';
 
   @override
-  String get bodyLoadSetting => 'Tính cân nặng cơ thể';
+  String get bodyLoadSetting => 'Tính cả trọng lượng cơ thể';
 
   @override
   String get bodyLoadSettingHint =>
-      'Khối lượng dùng cân nặng của bạn hôm đó cộng mức tạ thêm (trừ phần hỗ trợ ở bài có hỗ trợ). Kỷ lục vẫn dùng mức tạ thêm.';
+      'Tổng khối lượng (volume) sẽ tính trọng lượng cơ thể ngày hôm đó cộng thêm tạ đeo thêm (hoặc trừ lực hỗ trợ). Kỷ lục vẫn tính theo mức tạ đeo thêm.';
 
   @override
   String get lengthUnitsLabel => 'Số đo cơ thể';
 
   @override
-  String get workoutFullView => 'Xem đầy đủ';
+  String get workoutFullView => 'Xem chi tiết';
 
   @override
   String routineRepeatTag(int n, int total) {
-    return 'Khối $n / $total';
+    return 'Lượt $n / $total';
   }
 
   @override
   String get routineAddAgain => 'Thêm lần nữa';
 
   @override
-  String get routineAddAgainHint => 'Tập lại sau trong buổi này, với các hiệp riêng';
+  String get routineAddAgainHint => 'Tập lại bài này ở phần sau của buổi tập, với các hiệp riêng';
 
   @override
-  String get routineAddedAgain => 'Đã thêm lần nữa ở cuối';
+  String get routineAddedAgain => 'Đã thêm vào cuối buổi tập';
 
   @override
-  String get routineAddedAgainHint => 'Kéo đến chỗ bạn tập nó';
+  String get routineAddedAgainHint => 'Kéo bài tập đến vị trí bạn muốn tập';
 
   @override
-  String get restGlowSetting => 'Ánh sáng khi hết nghỉ';
+  String get restGlowSetting => 'Sáng viền màn hình khi hết giờ nghỉ';
 
   @override
   String get restGlowHint =>
-      'Viền màn hình sáng lên khi hết giờ nghỉ, để bạn nhận ra dù không nghe tiếng bíp';
+      'Viền màn hình sẽ phát sáng khi kết thúc thời gian nghỉ để bạn nhận biết ngay cả khi không nghe thấy tiếng chuông';
 
   @override
   String bodyweightRatio(String x) {
-    return '1RM ước tính của bạn bằng $x× cân nặng';
+    return '1RM ước tính của bạn bằng $x× trọng lượng cơ thể';
   }
 
   @override
-  String get healthAddReading => 'Thêm số đo';
+  String get healthAddReading => 'Thêm chỉ số';
 
   @override
-  String get healthFromYours => 'Từ Health Connect và số đo của bạn · 30 ngày qua';
+  String get healthFromYours => 'Từ Health Connect và các lần đo của bạn · 30 ngày qua';
 
   @override
   String get reportKindSummary => 'Tóm tắt';
 
   @override
-  String get reportKindSummaryHint => 'Cả giai đoạn trong nháy mắt: tổng, kỷ lục và trung bình';
+  String get reportKindSummaryHint => 'Tổng quan giai đoạn: tổng số, kỷ lục và mức trung bình';
 
   @override
   String get reportKindTraining => 'Tập luyện';
 
   @override
-  String get reportKindTrainingHint => 'Cho huấn luyện viên: mỗi buổi tập với hiệp, RPE và ghi chú';
+  String get reportKindTrainingHint => 'Dành cho HLV: mọi buổi tập kèm số hiệp, RPE và ghi chú';
 
   @override
   String get reportKindNutrition => 'Dinh dưỡng';
 
   @override
-  String get reportKindNutritionHint => 'Cho chuyên gia dinh dưỡng: mục tiêu, tổng mỗi ngày và mọi bữa ăn';
+  String get reportKindNutritionHint => 'Dành cho chuyên gia dinh dưỡng: mục tiêu, tổng ngày và từng bữa ăn';
 
   @override
-  String get reportKindFull => 'Tất cả';
+  String get reportKindFull => 'Toàn bộ';
 
   @override
-  String get reportKindFullHint => 'Tập luyện, dinh dưỡng, cơ thể và sức khoẻ, từng ngày';
+  String get reportKindFullHint => 'Tập luyện, dinh dưỡng, cơ thể và sức khỏe theo từng ngày';
 
   @override
-  String get reportKindFullNoFoodHint => 'Tập luyện, cơ thể và sức khoẻ, từng ngày';
+  String get reportKindFullNoFoodHint => 'Tập luyện, cơ thể và sức khỏe theo từng ngày';
 
   @override
   String get reportKickerTraining => 'BÁO CÁO TẬP LUYỆN CHI TIẾT';
@@ -8617,69 +8620,69 @@ class AppLocalizationsVi extends AppLocalizations {
   String get reportKickerNutrition => 'BÁO CÁO DINH DƯỠNG';
 
   @override
-  String get reportKickerFull => 'BÁO CÁO ĐẦY ĐỦ';
+  String get reportKickerFull => 'BÁO CÁO TOÀN DIỆN';
 
   @override
-  String get reportWorkoutLog => 'Nhật ký tập';
+  String get reportWorkoutLog => 'Nhật ký tập luyện';
 
   @override
   String get reportFoodLog => 'Nhật ký ăn uống';
 
   @override
-  String get reportDayByDay => 'Từng ngày';
+  String get reportDayByDay => 'Chi tiết từng ngày';
 
   @override
-  String get reportGoalsLabel => 'Mục tiêu mỗi ngày';
+  String get reportGoalsLabel => 'Mục tiêu hàng ngày';
 
   @override
   String get reportGoalsRest => 'Mục tiêu ngày nghỉ';
 
   @override
-  String get reportKcalOnTarget => 'Số ngày trong khoảng 10 % mục tiêu calo';
+  String get reportKcalOnTarget => 'Số ngày đạt trong khoảng 10% mục tiêu calo';
 
   @override
-  String get reportProteinMet => 'Số ngày đạt mục tiêu đạm';
+  String get reportProteinMet => 'Số ngày đạt mục tiêu đạm (protein)';
 
   @override
-  String get reportDailyTotals => 'Tổng mỗi ngày';
+  String get reportDailyTotals => 'Tổng hợp theo ngày';
 
   @override
   String get reportDateCol => 'NGÀY';
 
   @override
   String reportReadings(int n) {
-    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n số đo', one: '1 số đo');
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n lần đo', one: '1 lần đo');
     return '$_temp0';
   }
 
   @override
-  String get reportHealthAvg => 'Sức khoẻ · trung bình mỗi ngày';
+  String get reportHealthAvg => 'Sức khỏe · trung bình ngày';
 
   @override
-  String get reportBodyHealth => 'Cơ thể và sức khoẻ';
+  String get reportBodyHealth => 'Cơ thể và sức khỏe';
 
   @override
   String get reportCopyMarkdown => 'Sao chép dạng Markdown';
 
   @override
   String reportDetailCap(int n) {
-    return 'Báo cáo chi tiết bao gồm tối đa $n ngày, kết thúc vào ngày cuối bạn chọn.';
+    return 'Báo cáo chi tiết bao gồm tối đa $n ngày, tính đến ngày cuối cùng bạn chọn.';
   }
 
   @override
-  String get nutritionCopyDay => 'Sao chép ngày';
+  String get nutritionCopyDay => 'Sao chép dữ liệu ngày';
 
   @override
-  String get nutritionCopyFood => 'Chỉ đồ ăn';
+  String get nutritionCopyFood => 'Chỉ bữa ăn';
 
   @override
-  String get nutritionCopyFoodHint => 'Bữa ăn, món ăn, calo và macro';
+  String get nutritionCopyFoodHint => 'Các bữa ăn, thực phẩm, calo và dinh dưỡng đa lượng';
 
   @override
-  String get nutritionCopyAll => 'Cả ngày';
+  String get nutritionCopyAll => 'Toàn bộ trong ngày';
 
   @override
-  String get nutritionCopyAllHint => 'Cả buổi tập, cân nặng và dữ liệu sức khoẻ';
+  String get nutritionCopyAllHint => 'Bao gồm cả buổi tập, cân nặng và dữ liệu sức khỏe';
 
   @override
   String get routineGroupHint => 'Nhóm là một thư mục để sắp xếp các giáo án. Bài tập vẫn nằm trong giáo án.';
