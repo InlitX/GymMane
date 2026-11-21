@@ -55,7 +55,7 @@ mixin SettingsState on FitCore, ToolsState, LibraryState {
   String textSize = 'normal';
   bool calmMotion = false;
   bool fineOn = false;
-  bool highRefresh = false;
+  bool highRefresh = true;
   double maxRefresh = 60;
   bool showMiniBody = true;
   bool askCheckIn = true;
@@ -507,7 +507,7 @@ mixin SettingsState on FitCore, ToolsState, LibraryState {
   String get perfLevel {
     final refresh = highRefresh && canHighRefresh;
     if (!blurOn && !fineOn && !refresh && calmMotion) return 'lite';
-    if (blurOn && !fineOn && !refresh && !calmMotion) return 'balanced';
+    if (blurOn && !fineOn && (refresh || !canHighRefresh) && !calmMotion) return 'balanced';
     if (blurOn && fineOn && (refresh || !canHighRefresh) && !calmMotion) return 'max';
     return 'custom';
   }
@@ -520,7 +520,7 @@ mixin SettingsState on FitCore, ToolsState, LibraryState {
     calmMotion = level == 'lite';
     fineOn = max;
     fineEffects = max;
-    highRefresh = max;
+    highRefresh = level != 'lite';
     DeviceKind.setHighRefresh(highRefresh);
     _persist();
     notifyListeners();

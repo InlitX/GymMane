@@ -373,4 +373,24 @@ void main() {
     expect(fit.textSize, 'large');
     expect(fit.hcWrite, isTrue);
   });
+
+  test('#433 y Ramadán: vuelven las metas de series por músculo y el modo Ramadán', () async {
+    await seedTwoYears();
+    fit.setMuscleGoalAll(16);
+    fit.setMuscleGoal('calves', 0);
+    fit.setMuscleGoal('chest', 20);
+    fit.setRamadan(true);
+    fit.setRamadanTimes(suhoor: 4 * 60 + 50, iftar: 19 * 60 + 5);
+
+    final zip = await buildBackupZip();
+    fit.resetAllData();
+    expect(fit.muscleGoalAll, 12);
+    expect(await restoreBackupZip(zip), isTrue);
+
+    expect(fit.muscleGoalAll, 16);
+    expect(fit.muscleGoalWeek('calves'), 0);
+    expect(fit.muscleGoalWeek('chest'), 20);
+    expect(fit.ramadan, isTrue);
+    expect((fit.suhoorMinute, fit.iftarMinute), (4 * 60 + 50, 19 * 60 + 5));
+  });
 }

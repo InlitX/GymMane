@@ -130,10 +130,15 @@ void main() {
       fit.loadFromStore();
       expect(fit.perfLevel, 'max');
       fit.setFine(false);
+      expect(fit.perfLevel, 'balanced');
+      fit.setHighRefresh(false);
       expect(fit.perfLevel, 'custom');
       fit.setPerfLevel('lite');
       expect((fit.blurOn, fit.fineOn, fit.highRefresh, fit.calmMotion), (false, false, false, true));
       expect(fit.perfLevel, 'lite');
+      fit.setPerfLevel('balanced');
+      expect(fit.highRefresh, isTrue, reason: '#427 Equilibrado ya no deja la pantalla a 60 Hz en móviles de 120');
+      expect(fit.perfLevel, 'balanced');
       fit.maxRefresh = 60;
       fit.setPerfLevel('max');
       fit.setHighRefresh(false);

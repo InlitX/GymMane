@@ -268,6 +268,14 @@ class FitState extends FitCore
         return MapEntry(k as String,
             (target: (g['t'] as num).toDouble(), due: due == null ? null : DateTime.fromMillisecondsSinceEpoch(due)));
       }));
+    muscleGoalAll = ((data['muscleGoal'] as num?)?.toInt() ?? 12).clamp(1, StatsState.muscleGoalMax);
+    recoverySpeed = ((data['recoverySpeed'] as num?)?.toInt() ?? 1).clamp(0, 2);
+    muscleGoals
+      ..clear()
+      ..addAll({
+        for (final MapEntry(:key, :value) in ((data['muscleGoals'] as Map?) ?? const {}).entries)
+          if (key is String && value is num) key: value.toInt().clamp(0, StatsState.muscleGoalMax),
+      });
     levelShown
       ..clear()
       ..addAll(((data['levelShown'] as Map?) ?? const {})
@@ -330,7 +338,7 @@ class FitState extends FitCore
     calmMotion = data['calm'] as bool? ?? false;
     fineOn = data['fine'] as bool? ?? false;
     fineEffects = fineOn;
-    highRefresh = data['hz'] as bool? ?? false;
+    highRefresh = data['hz'] as bool? ?? !(calmMotion && !blurOn);
     if (highRefresh) DeviceKind.setHighRefresh(true);
     showMiniBody = data['miniBody'] as bool? ?? true;
     askCheckIn = data['checkIn'] as bool? ?? true;
@@ -489,6 +497,14 @@ class FitState extends FitCore
     bodyOff
       ..clear()
       ..addAll(((data['bodyOff'] as List?) ?? const []).cast<String>());
+    bodyShare.clear();
+    final share = data['bodyShare'];
+    if (share is Map) {
+      for (final e in share.entries) {
+        final v = e.value;
+        if (e.key is String && v is num && v >= 1 && v <= 100) bodyShare[e.key as String] = v.round();
+      }
+    }
   }
 
   void _loadShots(Map<String, dynamic> data, {Map<String, String>? restored}) {
@@ -612,7 +628,7 @@ class FitState extends FitCore
         if (textSize != 'normal') 'textSize': textSize,
         if (calmMotion) 'calm': true,
         if (fineOn) 'fine': true,
-        if (highRefresh) 'hz': true,
+        'hz': highRefresh,
         if (!showMiniBody) 'miniBody': false,
         if (!askCheckIn) 'checkIn': false,
         if (!muscleTune) 'mTune': false,
@@ -639,6 +655,9 @@ class FitState extends FitCore
         'levelSeen': Map.of(levelSeen),
         'levelShown': Map.of(levelShown),
         'goals': exerciseGoals.map((k, g) => MapEntry(k, {'t': g.target, if (g.due != null) 'd': g.due!.millisecondsSinceEpoch})),
+        if (muscleGoalAll != 12) 'muscleGoal': muscleGoalAll,
+        if (recoverySpeed != 1) 'recoverySpeed': recoverySpeed,
+        if (muscleGoals.isNotEmpty) 'muscleGoals': Map.of(muscleGoals),
         'barKg': exerciseBar,
         if (weightStacks.isNotEmpty) 'stacks': weightStacks,
         if (plateBar != null) 'plateBar': plateBar,
@@ -693,6 +712,7 @@ class FitState extends FitCore
         if (assistedOff.isNotEmpty) 'assistedOff': assistedOff.toList(),
         if (bodyOn.isNotEmpty) 'bodyOn': bodyOn.toList(),
         if (bodyOff.isNotEmpty) 'bodyOff': bodyOff.toList(),
+        if (bodyShare.isNotEmpty) 'bodyShare': Map.of(bodyShare),
         'sessions': _stored('sessions', sessions, (s) => s.toJson(), parts: _sessionParts),
         'bodyweight': bodyweight.map((b) => b.toJson()).toList(),
         'measures': measures.map((m) => m.toJson()).toList(),
@@ -721,6 +741,11 @@ class FitState extends FitCore
         s.durationSec,
         s.routineId,
         s.name,
+        s.hrAvg,
+        s.hrMax,
+        s.sleep,
+        s.energy,
+        s.deload,
         for (final e in s.exercises) ...[e, e.incline, e.kcal, e.sets.length, ...e.sets],
       ];
 
@@ -803,6 +828,7 @@ class FitState extends FitCore
     assistedOff.clear();
     bodyOn.clear();
     bodyOff.clear();
+    bodyShare.clear();
     exerciseRest.clear();
     exerciseUnits.clear();
     exerciseDistance.clear();
@@ -818,6 +844,9 @@ class FitState extends FitCore
     levelSeen.clear();
     levelShown.clear();
     exerciseGoals.clear();
+    muscleGoals.clear();
+    muscleGoalAll = 12;
+    recoverySpeed = 1;
     videoMarks.clear();
     exerciseBar.clear();
     weightStacks.clear();
@@ -840,8 +869,8 @@ class FitState extends FitCore
     calmMotion = false;
     fineOn = false;
     fineEffects = false;
-    if (highRefresh) DeviceKind.setHighRefresh(false);
-    highRefresh = false;
+    if (!highRefresh) DeviceKind.setHighRefresh(true);
+    highRefresh = true;
     showWeekStats = true;
     showRoutineRow = true;
     homeOrder = List.of(kHomeBlocks);

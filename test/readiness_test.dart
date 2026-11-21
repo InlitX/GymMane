@@ -38,6 +38,18 @@ void main() {
     expect(LoggedSession.fromJson(s.toJson()).sleep, isNull);
   });
 
+  test('sueño y energía puestos después de guardar el entreno no se pierden al recargar', () {
+    final s = bench(1, 100);
+    fit.persistNow();
+    fit.rateSession(s, sleep: true, value: 4);
+    fit.rateSession(s, sleep: false, value: 2);
+    fit.persistNow();
+    fit.loadFromStore();
+    final back = fit.sessions.single;
+    expect(back.sleep, 4);
+    expect(back.energy, 2);
+  });
+
   test('sin días buenos y malos suficientes no se inventa nada', () {
     final s = bench(1, 100);
     fit.rateSession(s, sleep: true, value: 1);

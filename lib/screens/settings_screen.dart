@@ -20,6 +20,7 @@ import '../services/graphics_mode.dart';
 import '../services/alarm_store.dart';
 import '../services/auto_backup.dart';
 import '../services/backup_zip.dart';
+import '../services/fit_file.dart';
 import '../services/fitnotes_backup.dart';
 import '../services/home_widget_bridge.dart';
 import '../services/notif_sound.dart';
@@ -825,7 +826,16 @@ class SettingsScreen extends StatelessWidget {
               (PhosphorIconsRegular.person, t.addBodyWidget, () => _addWidget(context, 'BodyWidgetProvider')),
               (PhosphorIconsRegular.checkCircle, t.addTodayWidget, () => _addWidget(context, 'TodayWidgetProvider')),
               (PhosphorIconsRegular.calendarCheck, t.addWeekWidget, () => _addWidget(context, 'WeekWidgetProvider')),
-          ], hints: [t.widgetHintActivity, t.widgetHintStats, t.widgetHintBody, t.widgetHintToday, t.widgetHintWeek]),
+              if (!kIsWeb && Platform.isAndroid)
+                (PhosphorIconsRegular.listBullets, t.addMusclesWidget, () => _addWidget(context, 'MusclesWidgetProvider')),
+          ], hints: [
+            t.widgetHintActivity,
+            t.widgetHintStats,
+            t.widgetHintBody,
+            t.widgetHintToday,
+            t.widgetHintWeek,
+            if (!kIsWeb && Platform.isAndroid) t.widgetHintMuscles,
+          ]),
           const SizedBox(height: 22),
           const WidgetShowcase(),
         ];
@@ -1213,7 +1223,7 @@ class SettingsScreen extends StatelessWidget {
                   detail: switch (l) {
                     'lite' => t.perfLiteHint,
                     'balanced' => t.perfBalancedHint,
-                    _ => fit.canHighRefresh ? t.perfMaxHint(hz) : t.perfMaxHintNoHz,
+                    _ => t.perfMaxHintNoHz,
                   },
                   selected: level == l,
                   onTap: () {
@@ -1459,6 +1469,7 @@ class SettingsScreen extends StatelessWidget {
                       ('StrongLifts', '.csv'),
                       ('FitNotes', '.fitnotes'),
                       ('openGym', '.json · .zip'),
+                      ('Garmin', '.fit · .zip'),
                       ('CSV', ''),
                     ].indexed) ...[
                       if (i > 0) Divider(height: 1, thickness: 1, indent: 16, endIndent: 16, color: gc.border),
@@ -1528,15 +1539,30 @@ class SettingsScreen extends StatelessWidget {
 
   Future<void> _importFromApp(BuildContext context) async {
     Uint8List? bytes;
+    final fits = <Uint8List>[];
     try {
-      final result = await FilePicker.platform.pickFiles(withData: true);
-      if (result == null) return;
-      final picked = result.files.single;
-      bytes = picked.bytes ?? (picked.path == null ? null : await File(picked.path!).readAsBytes());
+      final result = await FilePicker.platform.pickFiles(withData: true, allowMultiple: true);
+      if (result == null || result.files.isEmpty) return;
+      for (final picked in result.files) {
+        final read = picked.bytes ?? (picked.path == null ? null : await File(picked.path!).readAsBytes());
+        if (read == null) continue;
+        if (looksLikeFit(read)) {
+          fits.add(read);
+        } else {
+          bytes ??= read;
+        }
+      }
     } catch (_) {
       bytes = null;
     }
     if (!context.mounted) return;
+    if (bytes != null && fits.isEmpty && bytes.length > 2 && bytes[0] == 0x50 && bytes[1] == 0x4B) {
+      fits.addAll(fitFilesFromZip(bytes));
+    }
+    if (fits.isNotEmpty) {
+      _applyImport(context, parseFitFiles(fits, unknownName: t.recapCardLift));
+      return;
+    }
     if (bytes == null) {
       _snack(context, t.importReadFailed);
       return;
