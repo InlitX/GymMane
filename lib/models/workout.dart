@@ -468,3 +468,5 @@ class MonthRecap {
 
   bool get empty => workouts == 0;
 }
+
+enum TrendKind { oneRm, top, reps, volume, sets, time, distance }

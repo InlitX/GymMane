@@ -6,6 +6,7 @@ import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 import '../l10n/l10n.dart';
 import '../screens/measures_screen.dart' show showMeasureSheet;
+import '../screens/trend_screen.dart';
 import '../services/health_metrics.dart';
 import '../services/health_steps.dart';
 import '../state/fit_state.dart';
@@ -654,6 +655,43 @@ Widget _pickRow(GymColors gc, HealthMetric m) {
   );
 }
 
+String _trendNumber(HealthMetric m, double v) => switch (m) {
+      HealthMetric.sleep => healthNumber(m, v * 60),
+      HealthMetric.distance => fmt((v * 100).round() / 100),
+      HealthMetric.spo2 || HealthMetric.respiration || HealthMetric.temperature => fmt((v * 10).round() / 10),
+      _ => '${v.round()}',
+    };
+
+void openHealthTrend(BuildContext context, HealthMetric metric) {
+  final gc = context.gc;
+  final days = fit.healthLastDays(HealthState.healthDays);
+  final metrics = [
+    for (final m in fit.healthMetrics)
+      if (days.where((d) => fit.healthOnDay(m, d) != null).length >= 2 || m == metric) m,
+  ];
+  openTrendScreen(
+    context,
+    title: t.healthTitle,
+    subtitle: health(t.healthFrom),
+    initial: metrics.indexOf(metric).clamp(0, metrics.length - 1),
+    ranges: const [7, 30],
+    series: [
+      for (final m in metrics)
+        TrendSeries(
+          name: healthName(m),
+          unit: healthUnit(m),
+          points: [
+            for (final d in days)
+              if (fit.healthOnDay(m, d)?.first case final v?) (date: d, value: healthShown(m, v)),
+          ],
+          format: (v) => _trendNumber(m, v),
+          judged: false,
+          color: healthTone(gc, m.group),
+        ),
+    ],
+  );
+}
+
 void showHealthDetail(BuildContext context, HealthMetric metric) {
   final gc = context.gc;
   final tone = healthTone(gc, metric.group);
@@ -712,9 +750,27 @@ void showHealthDetail(BuildContext context, HealthMetric metric) {
               style: AppTheme.f(12.5, weight: FontWeight.w500, color: gc.textTertiary)),
           const SizedBox(height: 20),
           Padding(
-            padding: const EdgeInsets.only(left: 4, bottom: 8),
-            child: Text(t.healthLast7.toUpperCase(),
-                style: AppTheme.f(10, weight: FontWeight.w600, color: gc.textTertiary, letterSpacing: 0.9)),
+            padding: const EdgeInsetsDirectional.only(start: 4, bottom: 8),
+            child: Row(children: [
+              Expanded(
+                child: Text(t.healthLast7.toUpperCase(),
+                    style: AppTheme.f(10, weight: FontWeight.w600, color: gc.textTertiary, letterSpacing: 0.9)),
+              ),
+              if (month.length >= 2)
+                Pressable(
+                  scale: 0.95,
+                  onTap: () => openHealthTrend(context, metric),
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 6),
+                    decoration: BoxDecoration(color: gc.bgRaised2, borderRadius: BorderRadius.circular(100)),
+                    child: Row(mainAxisSize: MainAxisSize.min, children: [
+                      Icon(PhosphorIconsBold.arrowsOutSimple, size: 12, color: gc.text),
+                      const SizedBox(width: 5),
+                      Text(t.trendFullView, style: AppTheme.f(11.5, weight: FontWeight.w700, color: gc.text)),
+                    ]),
+                  ),
+                ),
+            ]),
           ),
           SoftCard(
             radius: 22,

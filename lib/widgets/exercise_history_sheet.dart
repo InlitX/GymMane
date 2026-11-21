@@ -5,6 +5,7 @@ import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 import '../l10n/l10n.dart';
 import '../models/exercise.dart';
 import '../models/workout.dart';
+import '../screens/trend_screen.dart';
 import '../state/fit_state.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
@@ -220,6 +221,11 @@ class _ExerciseHistorySheetState extends State<ExerciseHistorySheet> {
         ],
       );
 
+  void _full() {
+    final ex = fit.exerciseById(_id);
+    openTrendScreen(context, title: ex == null ? '' : exerciseName(ex), series: exerciseTrendSeries(_id));
+  }
+
   Widget _trend(GymColors gc) {
     final points = fit.exerciseTrend(_id, days: _range, relative: _relative);
     final values = [
@@ -299,10 +305,24 @@ class _ExerciseHistorySheetState extends State<ExerciseHistorySheet> {
                     ]),
                   ),
                 ),
+              const SizedBox(width: 8),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 2),
+                child: RoundAction(
+                  label: t.trendFullView,
+                  size: 34,
+                  onTap: _full,
+                  child: Icon(PhosphorIconsBold.arrowsOutSimple, size: 14, color: gc.text),
+                ),
+              ),
             ]),
             const SizedBox(height: 12),
             if (values.length >= 2)
-              TrendChart(values: values, height: 120, scale: (v) => _plain ? '${v.round()}' : fmt(v))
+              GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: _full,
+                child: TrendChart(values: values, height: 120, scale: (v) => _plain ? '${v.round()}' : fmt(v)),
+              )
             else
               SizedBox(
                 height: 120,

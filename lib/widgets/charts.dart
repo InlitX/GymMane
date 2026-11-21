@@ -176,6 +176,42 @@ class _VolumePainter extends CustomPainter {
   bool shouldRepaint(_VolumePainter o) => o.gc != gc || o.points != points;
 }
 
+Path smoothPath(List<Offset> pts) {
+  final line = Path()..moveTo(pts.first.dx, pts.first.dy);
+  final n = pts.length;
+  if (n < 2) return line;
+  final slope = [
+    for (var i = 0; i < n - 1; i++)
+      (pts[i + 1].dx - pts[i].dx).abs() < 1e-6 ? 0.0 : (pts[i + 1].dy - pts[i].dy) / (pts[i + 1].dx - pts[i].dx),
+  ];
+  final tangent = List<double>.filled(n, 0);
+  tangent[0] = slope.first;
+  tangent[n - 1] = slope.last;
+  for (var i = 1; i < n - 1; i++) {
+    tangent[i] = slope[i - 1] * slope[i] <= 0 ? 0 : (slope[i - 1] + slope[i]) / 2;
+  }
+  for (var i = 0; i < n - 1; i++) {
+    if (slope[i] == 0) {
+      tangent[i] = 0;
+      tangent[i + 1] = 0;
+      continue;
+    }
+    final a = tangent[i] / slope[i], b = tangent[i + 1] / slope[i];
+    final h = a * a + b * b;
+    if (h > 9) {
+      final k = 3 / math.sqrt(h);
+      tangent[i] = k * a * slope[i];
+      tangent[i + 1] = k * b * slope[i];
+    }
+  }
+  for (var i = 0; i < n - 1; i++) {
+    final dx = (pts[i + 1].dx - pts[i].dx) / 3;
+    line.cubicTo(pts[i].dx + dx, pts[i].dy + tangent[i] * dx, pts[i + 1].dx - dx,
+        pts[i + 1].dy - tangent[i + 1] * dx, pts[i + 1].dx, pts[i + 1].dy);
+  }
+  return line;
+}
+
 (double, double) niceBounds(List<double> values) {
   var lo = values.reduce(math.min), hi = values.reduce(math.max);
   if ((hi - lo).abs() < 1e-9) {
@@ -376,34 +412,7 @@ class _TrendPainter extends CustomPainter {
           size.height * (0.88 - (values[i] - minV) / range * 0.76),
         ),
     ];
-    final n = pts.length;
-    final slope = [for (var i = 0; i < n - 1; i++) (pts[i + 1].dy - pts[i].dy) / (pts[i + 1].dx - pts[i].dx)];
-    final tangent = List<double>.filled(n, 0);
-    tangent[0] = slope.first;
-    tangent[n - 1] = slope.last;
-    for (var i = 1; i < n - 1; i++) {
-      tangent[i] = slope[i - 1] * slope[i] <= 0 ? 0 : (slope[i - 1] + slope[i]) / 2;
-    }
-    for (var i = 0; i < n - 1; i++) {
-      if (slope[i] == 0) {
-        tangent[i] = 0;
-        tangent[i + 1] = 0;
-        continue;
-      }
-      final a = tangent[i] / slope[i], b = tangent[i + 1] / slope[i];
-      final h = a * a + b * b;
-      if (h > 9) {
-        final k = 3 / math.sqrt(h);
-        tangent[i] = k * a * slope[i];
-        tangent[i + 1] = k * b * slope[i];
-      }
-    }
-    final line = Path()..moveTo(pts.first.dx, pts.first.dy);
-    for (var i = 0; i < n - 1; i++) {
-      final dx = (pts[i + 1].dx - pts[i].dx) / 3;
-      line.cubicTo(pts[i].dx + dx, pts[i].dy + tangent[i] * dx, pts[i + 1].dx - dx,
-          pts[i + 1].dy - tangent[i + 1] * dx, pts[i + 1].dx, pts[i + 1].dy);
-    }
+    final line = smoothPath(pts);
     final area = Path.from(line)
       ..lineTo(pts.last.dx, size.height)
       ..lineTo(pts.first.dx, size.height)
