@@ -1628,13 +1628,63 @@ Macros _macrosOf(
   );
 }
 
-Future<void> showQuickAddSheet(BuildContext context, Meal meal) =>
-    _sheet<void>(context, (_) => _QuickAddSheet(meal: meal));
+Future<void> showQuickAddSheet(BuildContext context, Meal meal, {AiFoodPick? pick}) =>
+    _sheet<void>(context, (_) => _QuickAddSheet(meal: meal, pick: pick));
+
+Future<void> showScannerInfo(BuildContext context) => _sheet<void>(context, (sheet) {
+      final gc = sheet.gc;
+      return _sheetFrame(sheet, [
+        Center(
+          child: Container(
+            width: 64,
+            height: 64,
+            decoration: BoxDecoration(color: gc.bgRaised2, shape: BoxShape.circle),
+            child: Icon(PhosphorIconsRegular.barcode, size: 30, color: gc.text),
+          ),
+        ),
+        const SizedBox(height: 14),
+        SheetTitle(t.scannerTitle, subtitle: t.scannerKicker),
+        const SizedBox(height: 16),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 4),
+          decoration: BoxDecoration(color: gc.bgRaised2, borderRadius: BorderRadius.circular(18)),
+          child: Column(children: [
+            for (final (i, (icon, text)) in [
+              (PhosphorIconsRegular.barcode, t.scannerBody),
+              (PhosphorIconsRegular.globeSimple, t.scannerBody2),
+            ].indexed) ...[
+              if (i > 0) Divider(height: 1, thickness: 1, color: gc.border.withValues(alpha: 0.6)),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 12),
+                child: Row(children: [
+                  Icon(icon, size: 18, color: gc.textSecondary),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Text(text, style: AppTheme.f(13.5, weight: FontWeight.w600, color: gc.text, height: 1.35)),
+                  ),
+                ]),
+              ),
+            ],
+          ]),
+        ),
+        const SizedBox(height: 22),
+        PrimaryButton(
+          label: t.scannerGet,
+          onTap: () async {
+            Navigator.of(sheet).pop();
+            await launchUrl(Uri.parse(CommunityApps.scannerPage), mode: LaunchMode.externalApplication);
+          },
+        ),
+        const SizedBox(height: 10),
+        GhostButton(label: t.todayNotNow, icon: PhosphorIconsRegular.x, onTap: () => Navigator.of(sheet).pop()),
+      ]);
+    });
 
 class _QuickAddSheet extends StatefulWidget {
-  const _QuickAddSheet({required this.meal});
+  const _QuickAddSheet({required this.meal, this.pick});
 
   final Meal meal;
+  final AiFoodPick? pick;
 
   @override
   State<_QuickAddSheet> createState() => _QuickAddSheetState();
@@ -1649,6 +1699,22 @@ class _QuickAddSheetState extends State<_QuickAddSheet> {
   final _amount = TextEditingController();
   late Meal _meal = widget.meal;
   bool _per100 = false;
+
+  @override
+  void initState() {
+    super.initState();
+    final f = widget.pick?.food;
+    if (f == null) return;
+    String v(double? x) => _seed(x ?? 0);
+    _name.text = f.name;
+    final g = f.grams;
+    _per100 = f.per100 || g == null;
+    _kcal.text = f.kcal == null ? '' : _seed(fit.energyOf(f.kcal!).toDouble());
+    _p.text = v(f.protein);
+    _c.text = v(f.carbs);
+    _f.text = v(f.fat);
+    if (_per100 && g != null && g > 0) _amount.text = _seed(g / (fit.isLb ? _ozOf(false) : 1));
+  }
 
   @override
   void dispose() {
@@ -2048,6 +2114,17 @@ class _FoodEditorState extends State<_FoodEditor> with _StickerDrafts {
     if (meal != null) showLogFoodSheet(context, saved, meal);
   }
 
+  Future<void> _scan() async {
+    HapticFeedback.selectionClick();
+    final nav = Navigator.of(context);
+    final outer = nav.context;
+    if (await CommunityApps.openScanner()) {
+      if (mounted) nav.pop();
+      return;
+    }
+    if (outer.mounted) showScannerInfo(outer);
+  }
+
   Future<void> _fromAi() async {
     final pick = await showFoodAiSheet(context);
     if (pick == null || !mounted) return;
@@ -2264,6 +2341,20 @@ class _FoodEditorState extends State<_FoodEditor> with _StickerDrafts {
           badge: BetaTag(t.sectionBeta, small: true),
           onTap: _fromAi,
         ),
+        if (CommunityApps.canScan) ...[
+          const SizedBox(height: 8),
+          _FoodRow(
+            leading: Container(
+              width: 38,
+              height: 38,
+              decoration: BoxDecoration(color: gc.bgRaised, shape: BoxShape.circle),
+              child: Icon(PhosphorIconsRegular.barcode, size: 18, color: gc.text),
+            ),
+            title: t.scanRow,
+            detail: t.scanRowHint,
+            onTap: _scan,
+          ),
+        ],
         const SizedBox(height: 12),
       ],
       Center(

@@ -1168,6 +1168,8 @@ Map? _foodNode(Object? v, int depth) {
   return null;
 }
 
+bool isQuickFood(String raw) => RegExp(r'"mode"\s*:\s*"quick"').hasMatch(raw);
+
 AiFoodPick? parseFoodAi(String raw) {
   final text = _clean(raw);
   for (final (v, _) in [..._candidates(text, '{'), ..._candidates(text, '[')]) {
