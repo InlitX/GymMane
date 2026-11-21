@@ -1,0 +1,11 @@
+GymMane 2.5.0
+
+• Tendencia a pantalla completa en cada ejercicio y métrica de salud
+• Tus propias series por músculo, y un widget de la semana
+• Importa archivos .fit de Garmin
+• El mismo ejercicio varias veces en una rutina
+• Informes para tu entrenador, en PDF o Markdown
+• Recuperación (beta): sauna, frío y respiración
+• Más fluida a 120 Hz
+
+Y mucho más. Instálala y descúbrelo.

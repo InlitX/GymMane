@@ -1,0 +1,11 @@
+GymMane 2.5.0
+
+• Full page trends for every exercise and health metric
+• Your own set targets per muscle, and a widget for the week
+• Import Garmin .fit files
+• Same exercise more than once in a routine
+• Reports for your coach, as PDF or Markdown
+• Recovery (beta): sauna, cold and breathing
+• Smoother at 120 Hz
+
+And a lot more. Install it and find out.
