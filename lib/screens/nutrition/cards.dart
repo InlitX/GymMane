@@ -1022,6 +1022,24 @@ class _SupplementsCardState extends State<_SupplementsCard> {
           if (due.isNotEmpty)
             Text('$done/${due.length}',
                 style: AppTheme.f(13, weight: FontWeight.w800, color: done == due.length ? gc.sage : gc.textSecondary)),
+          if (list.isNotEmpty || archived.isNotEmpty)
+            Semantics(
+              button: true,
+              label: t.suppProgressTitle,
+              child: GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: () => showSuppProgress(context),
+                child: Padding(
+                  padding: const EdgeInsetsDirectional.only(start: 10),
+                  child: Container(
+                    width: 30,
+                    height: 30,
+                    decoration: BoxDecoration(color: gc.bgRaised2, shape: BoxShape.circle),
+                    child: Icon(PhosphorIconsRegular.calendarCheck, size: 15, color: gc.text),
+                  ),
+                ),
+              ),
+            ),
         ]),
         const SizedBox(height: 10),
         if (list.isEmpty) ...[
@@ -1312,11 +1330,18 @@ Future<void> showSupplementInfo(BuildContext context, Supplement supp) => _sheet
           ]),
         ),
         const SizedBox(height: 18),
-        Row(children: [
-          Expanded(child: _kicker(gc, t.suppHistory.toUpperCase())),
-          if (due.isNotEmpty)
-            Text(t.suppTakenOf(done, due.length), style: AppTheme.f(12, weight: FontWeight.w800, color: gc.textSecondary)),
-        ]),
+        GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onTap: () => showSuppProgress(context, id: s.id),
+          child: Row(children: [
+            Expanded(child: _kicker(gc, t.suppHistory.toUpperCase())),
+            if (due.isNotEmpty)
+              Text(t.suppTakenOf(done, due.length), style: AppTheme.f(12, weight: FontWeight.w800, color: gc.textSecondary)),
+            const SizedBox(width: 10),
+            Text(t.healthSeeAll, style: AppTheme.f(12, weight: FontWeight.w800, color: gc.accent)),
+            Icon(PhosphorIconsBold.caretRight, size: 11, color: gc.accent),
+          ]),
+        ),
         const SizedBox(height: 10),
         Row(children: [
           for (final d in days)
