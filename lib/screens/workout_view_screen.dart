@@ -14,6 +14,7 @@ import '../widgets/set_kind.dart';
 import '../widgets/sheet_page.dart';
 import '../widgets/ui_kit.dart';
 import 'progress_screen.dart';
+import 'sticker_screen.dart';
 
 class WorkoutViewScreen extends StatelessWidget {
   const WorkoutViewScreen({super.key});
@@ -26,7 +27,7 @@ class WorkoutViewScreen extends StatelessWidget {
       return SheetPage(title: sentenceCase(t.historyTitle), onBack: fit.popRoute);
     }
     final records = fit.recordSets;
-    final broke = [for (final e in s.exercises) ...e.workingSets.where(records.contains)].length;
+    final broke = fit.recordsIn(s);
     return RiseScope(
       id: 'workout-view',
       once: false,
@@ -42,6 +43,11 @@ class WorkoutViewScreen extends StatelessWidget {
               showNotchToast(context, t.copiedDone, icon: PhosphorIconsRegular.copy, accent: gc.accent);
             },
             child: Icon(PhosphorIconsRegular.copy, size: 17, color: gc.text),
+          ),
+          RoundAction(
+            label: t.stickerOpen,
+            onTap: () => showStickerEditor(context, s, prs: broke),
+            child: Icon(PhosphorIconsRegular.imageSquare, size: 17, color: gc.text),
           ),
           RoundAction(
             label: t.editEntry,
