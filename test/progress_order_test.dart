@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:gymmane/app/gymmane_app.dart';
 import 'package:gymmane/catalog/exercise_catalog.dart';
@@ -36,6 +37,13 @@ void main() {
     }
   }
 
+  Future<void> pumpTall(WidgetTester tester) async {
+    tester.view.physicalSize = const Size(1170, 12000);
+    tester.view.devicePixelRatio = 3;
+    addTearDown(tester.view.reset);
+    await tester.pumpWidget(const GymManeApp());
+  }
+
   Future<double> yOf(WidgetTester tester, String text) async {
     final finder = find.text(text);
     expect(finder, findsWidgets, reason: 'no se encontró "$text"');
@@ -45,7 +53,7 @@ void main() {
   testWidgets('the numbers come first, then the grid, then the body', (tester) async {
     logSessions();
     fit.route = 'progress';
-    await tester.pumpWidget(const GymManeApp());
+    await pumpTall(tester);
     await tester.pumpAndSettle();
 
     final volume = await yOf(tester, t.tileVolume30.toUpperCase());
@@ -59,7 +67,7 @@ void main() {
   testWidgets('a card with nothing in it is not drawn at all', (tester) async {
     logSessions();
     fit.route = 'progress';
-    await tester.pumpWidget(const GymManeApp());
+    await pumpTall(tester);
     await tester.pumpAndSettle();
 
     expect(find.text(t.measures), findsNothing, reason: 'sin medidas, no hay tarjeta de medidas');
@@ -72,7 +80,7 @@ void main() {
     fit.addMeasure('chest', 100);
     fit.persistNow();
     fit.route = 'progress';
-    await tester.pumpWidget(const GymManeApp());
+    await pumpTall(tester);
     await tester.pumpAndSettle();
 
     expect(find.text(t.measures), findsWidgets);
@@ -82,7 +90,7 @@ void main() {
 
   testWidgets('a fresh install leads with what to fill in and still shows the empty grid', (tester) async {
     fit.route = 'progress';
-    await tester.pumpWidget(const GymManeApp());
+    await pumpTall(tester);
     await tester.pumpAndSettle();
 
     final setup = await yOf(tester, t.setupTitle);

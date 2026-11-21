@@ -8,6 +8,7 @@ import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 import '../app/desktop.dart';
 import '../l10n/l10n.dart';
 import '../models/progress_shot.dart';
+import '../models/exercise.dart' show exerciseName;
 import '../models/workout.dart';
 import '../services/food_library.dart' show foldText;
 import '../services/media_store.dart';
@@ -34,7 +35,10 @@ import '../widgets/set_kind.dart';
 import '../widgets/ui_kit.dart';
 import 'session_photos.dart';
 import 'share_sheet.dart';
+import 'sticker_screen.dart';
 import 'start_sheet.dart';
+import 'trend_screen.dart';
+import '../widgets/muscle_goals_sheet.dart';
 
 class ProgressScreen extends StatelessWidget {
   const ProgressScreen({super.key});
@@ -87,12 +91,10 @@ class ProgressScreen extends StatelessWidget {
       id: 'progress',
       child: SafeArea(
       bottom: false,
-      child: SingleChildScrollView(
+      child: ListView(
         clipBehavior: Clip.none,
         padding: const EdgeInsets.fromLTRB(20, 12, 20, 110),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: riseAll([
+        children: riseAll([
             Row(
               children: [
                 Expanded(
@@ -130,7 +132,6 @@ class ProgressScreen extends StatelessWidget {
               _setupCard(context, gc),
             ],
           ]),
-        ),
       ),
       ),
     );
@@ -1183,11 +1184,15 @@ class _BodyweightSheetState extends State<_BodyweightSheet> {
                 ),
                 const SizedBox(height: 16),
                 if (shown.length >= 2)
-                  TrendChart(
-                    values: [for (final e in shown) fit.toDisplayWeight(e.kg)],
-                    height: 130,
-                    color: gc.info,
-                    scale: fmt,
+                  GestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    onTap: () => openBodyweightTrend(context),
+                    child: TrendChart(
+                      values: [for (final e in shown) fit.toDisplayWeight(e.kg)],
+                      height: 130,
+                      color: gc.info,
+                      scale: fmt,
+                    ),
                   )
                 else
                   Padding(
@@ -1400,14 +1405,17 @@ class _MuscleMapCardState extends State<_MuscleMapCard> {
                     style: AppTheme.s(13, color: gc.textSecondary),
                   ),
           ),
-          if (sets.isNotEmpty) ..._muscleList(gc, sets, heat),
+          if (sets.isNotEmpty) ..._muscleList(gc, heat),
         ],
       ),
     );
   }
 
-  List<Widget> _muscleList(GymColors gc, Map<String, double> sets, Map<String, double> heat) {
-    final ids = sets.keys.toList()..sort((a, b) => sets[b]!.compareTo(sets[a]!));
+  List<Widget> _muscleList(GymColors gc, Map<String, double> heat) {
+    final rows = fit.muscleProgress(_days);
+    final goals = rows.where((r) => r.target > 0).toList();
+    final met = goals.where((r) => r.sets >= r.target - 0.01).length;
+    String n(double v) => fmt((v * 2).round() / 2);
     return [
       const SizedBox(height: 10),
       Divider(height: 1, thickness: 1, color: gc.border),
@@ -1415,11 +1423,20 @@ class _MuscleMapCardState extends State<_MuscleMapCard> {
         behavior: HitTestBehavior.opaque,
         onTap: () => setState(() => _list = !_list),
         child: SizedBox(
-          height: 44,
+          height: 50,
           child: Row(children: [
             Expanded(
-              child: Text(t.muscleSetsList,
-                  style: AppTheme.f(13.5, weight: FontWeight.w600, color: gc.text)),
+              child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.center, children: [
+                Text(t.muscleSetsList,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: AppTheme.f(13.5, weight: FontWeight.w600, color: gc.text)),
+                if (goals.isNotEmpty)
+                  Text(t.muscleGoalsMet(met, goals.length),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: AppTheme.f(11.5, weight: FontWeight.w500, color: gc.textTertiary)),
+              ]),
             ),
             AnimatedRotation(
               turns: _list ? 0.5 : 0,
@@ -1436,7 +1453,7 @@ class _MuscleMapCardState extends State<_MuscleMapCard> {
         child: !_list
             ? const SizedBox(width: double.infinity)
             : Column(children: [
-                for (final id in ids)
+                for (final (:id, :sets, :target) in rows)
                   GestureDetector(
                     behavior: HitTestBehavior.opaque,
                     onTap: () => setState(() => _focus = _focus == id ? null : id),
@@ -1455,11 +1472,11 @@ class _MuscleMapCardState extends State<_MuscleMapCard> {
                                   weight: _focus == id ? FontWeight.w800 : FontWeight.w600, color: gc.text)),
                         ),
                         SizedBox(
-                          width: 64,
+                          width: 56,
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(100),
                             child: LinearProgressIndicator(
-                              value: heat[id] ?? 0,
+                              value: target <= 0 ? 0 : (sets / target).clamp(0.0, 1.0),
                               minHeight: 5,
                               color: heatColor(gc, heat[id] ?? 0),
                               backgroundColor: gc.bgRaised2,
@@ -1467,10 +1484,24 @@ class _MuscleMapCardState extends State<_MuscleMapCard> {
                           ),
                         ),
                         SizedBox(
-                          width: 44,
-                          child: Text(fmt((sets[id]! * 2).round() / 2),
-                              textAlign: TextAlign.end,
-                              style: AppTheme.f(16, weight: FontWeight.w800, color: gc.text)),
+                          width: 66,
+                          child: FittedBox(
+                            fit: BoxFit.scaleDown,
+                            alignment: AlignmentDirectional.centerEnd,
+                            child: Ltr(
+                              child: Text.rich(
+                                TextSpan(children: [
+                                  TextSpan(
+                                      text: n(sets),
+                                      style: AppTheme.f(16, weight: FontWeight.w800, color: gc.text)),
+                                  if (target > 0)
+                                    TextSpan(
+                                        text: ' / ${n(target)}',
+                                        style: AppTheme.f(12, weight: FontWeight.w600, color: gc.textTertiary)),
+                                ]),
+                              ),
+                            ),
+                          ),
                         ),
                       ]),
                     ),
@@ -1483,10 +1514,30 @@ class _MuscleMapCardState extends State<_MuscleMapCard> {
   Widget _header(GymColors gc) => Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(t.muscleMap,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.4)),
+          Row(children: [
+            Expanded(
+              child: Text(t.muscleMap,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: AppTheme.f(10.5, weight: FontWeight.w700, color: gc.textTertiary, letterSpacing: 1.4)),
+            ),
+            Pressable(
+              scale: 0.94,
+              onTap: () => _days == 0 ? showMuscleRecoverySheet(context) : showMuscleGoalsSheet(context),
+              child: Container(
+                height: 30,
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                decoration: BoxDecoration(color: gc.bgRaised2, borderRadius: BorderRadius.circular(15)),
+                child: Row(mainAxisSize: MainAxisSize.min, children: [
+                  Icon(_days == 0 ? PhosphorIconsRegular.slidersHorizontal : PhosphorIconsRegular.target,
+                      size: 14, color: gc.text),
+                  const SizedBox(width: 5),
+                  Text(_days == 0 ? t.recoveryAdjust : t.muscleGoalsEdit,
+                      style: AppTheme.f(12.5, weight: FontWeight.w700, color: gc.text)),
+                ]),
+              ),
+            ),
+          ]),
           const SizedBox(height: 10),
           Align(
             alignment: AlignmentDirectional.centerStart,
@@ -1866,7 +1917,12 @@ class _StrengthCard extends StatelessWidget {
         _relative(gc, rel),
       ],
       const SizedBox(height: 12),
-      TrendChart(values: [for (final v in series) fit.toDisplayWeight(v)], height: 96, scale: fmt),
+      GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: () => openTrendScreen(context,
+            title: fit.exerciseById(id) == null ? '' : exerciseName(fit.exerciseById(id)!), series: exerciseTrendSeries(id)),
+        child: TrendChart(values: [for (final v in series) fit.toDisplayWeight(v)], height: 96, scale: fmt),
+      ),
       const SizedBox(height: 8),
       Row(
         children: [
@@ -2203,13 +2259,21 @@ class _DaySheet extends StatelessWidget {
                 Expanded(child: _stat(gc, t.setsCaps, '${s.sets}')),
                 const SizedBox(width: 10),
                 Expanded(child: _stat(gc, t.volume, fit.volumeLabel(s.volume))),
-                if (s.durationSec > 0) ...[
+                if (s.durationSec > 0 || fit.sessionsOn(date).length == 1) ...[
                   const SizedBox(width: 10),
-                  Expanded(child: _stat(gc, t.timeCaps, '${s.durationSec ~/ 60}m')),
+                  Expanded(
+                    child: _stat(
+                      gc,
+                      t.timeCaps,
+                      s.durationSec > 0 ? '${s.durationSec ~/ 60}m' : '–',
+                      hint: t.editDuration,
+                      onTap: fit.sessionsOn(date).length == 1 ? () => _editDuration(context, fit.sessionsOn(date).single) : null,
+                    ),
+                  ),
                 ],
               ]),
               const SizedBox(height: 16),
-              Text(t.tapToEdit, style: AppTheme.s(11, color: gc.textTertiary)),
+              Text(t.dayTapHint, style: AppTheme.s(11.5, color: gc.textTertiary)),
               const SizedBox(height: 10),
               for (final logged in fit.sessionsOn(date)) ...[
                 _sessionHeader(context, gc, logged),
@@ -2241,65 +2305,104 @@ class _DaySheet extends StatelessWidget {
 
   Widget _sessionHeader(BuildContext context, GymColors gc, LoggedSession s) {
     final title = fit.sessionTitle(s);
+    Widget icon(String label, IconData glyph, VoidCallback onTap) => Semantics(
+          button: true,
+          label: label,
+          child: GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onTap: onTap,
+            child: SizedBox(width: 40, height: 40, child: Icon(glyph, size: 18, color: gc.textSecondary)),
+          ),
+        );
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Semantics(
-          button: true,
-          label: t.sessionName,
-          child: GestureDetector(
-            behavior: HitTestBehavior.opaque,
-            onTap: () => _renameSession(context, s),
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 6),
-              child: Row(children: [
-                Expanded(
-                  child: Row(children: [
-                    Flexible(
-                      child: Text(
-                        title ?? t.nameWorkout,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: title == null
-                            ? AppTheme.f(13, weight: FontWeight.w600, color: gc.textTertiary)
-                            : AppTheme.f(16, weight: FontWeight.w700, color: gc.text),
-                      ),
-                    ),
-                    const SizedBox(width: 6),
-                    Icon(PhosphorIconsRegular.pencilSimple, size: 13, color: gc.textTertiary),
-                  ]),
-                ),
-                Semantics(
-                  button: true,
-                  label: t.workoutFullView,
-                  child: GestureDetector(
-                    behavior: HitTestBehavior.opaque,
-                    onTap: () {
-                      Navigator.of(context).pop();
-                      fit.openWorkout(s);
-                    },
-                    child: SizedBox(
-                      width: 40,
-                      height: 36,
-                      child: Icon(PhosphorIconsRegular.arrowsOut, size: 16, color: gc.textSecondary),
+        Row(children: [
+          Expanded(
+            child: Semantics(
+              button: true,
+              label: t.sessionName,
+              child: GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: () => _renameSession(context, s),
+                child: Row(children: [
+                  Flexible(
+                    child: Text(
+                      title ?? t.nameWorkout,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: title == null
+                          ? AppTheme.f(15, weight: FontWeight.w600, color: gc.textTertiary)
+                          : AppTheme.f(16, weight: FontWeight.w700, color: gc.text),
                     ),
                   ),
-                ),
-                if (fit.askCheckIn || s.sleep != null || s.energy != null) ...[
-                  const SizedBox(width: 8),
-                  _checkInPill(context, gc, s),
-                ],
-              ]),
+                  const SizedBox(width: 6),
+                  Icon(PhosphorIconsRegular.pencilSimple, size: 13, color: gc.textTertiary),
+                ]),
+              ),
             ),
           ),
-        ),
-        _sessionMeta(context, gc, s),
+          if (fit.askCheckIn || s.sleep != null || s.energy != null) ...[
+            const SizedBox(width: 8),
+            _checkInPill(context, gc, s),
+            const SizedBox(width: 4),
+          ],
+          icon(t.moreOptions, PhosphorIconsRegular.dotsThree, () => _sessionMenu(context, s)),
+          icon(t.workoutFullView, PhosphorIconsRegular.arrowsOut, () {
+            Navigator.of(context).pop();
+            fit.openWorkout(s);
+          }),
+        ]),
+        if (fit.sessionsOn(date).length > 1) _sessionMeta(gc, s) else const SizedBox(height: 8),
         if (fit.momentsOf(s).isNotEmpty)
           Padding(
-            padding: const EdgeInsets.only(top: 4, bottom: 10),
+            padding: const EdgeInsets.only(top: 2, bottom: 12),
             child: SessionPhotos(s, framed: false),
           ),
       ],
+    );
+  }
+
+  void _sessionMenu(BuildContext context, LoggedSession s) {
+    final gc = context.gc;
+    void go(BuildContext sheet, VoidCallback f) {
+      Navigator.pop(sheet);
+      f();
+    }
+
+    showAppSheet<void>(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (sheet) => Container(
+        padding: sheetPad(sheet),
+        decoration: sheetDecoration(gc),
+        child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+          const SheetHandle(),
+          const SizedBox(height: 16),
+          SheetTitle(fit.sessionTitle(s) ?? t.longDate(s.day)),
+          const SizedBox(height: 14),
+          OptionGroup([
+            if (!fit.isSessionActive)
+              OptionItem(t.continueWorkout,
+                  icon: PhosphorIconsRegular.play, onTap: () => go(sheet, () => _confirmResume(context, s))),
+            OptionItem(t.stickerOpen,
+                icon: PhosphorIconsRegular.imageSquare,
+                onTap: () => go(sheet, () => showStickerEditor(context, s, prs: fit.recordsIn(s)))),
+            OptionItem(t.copyWorkout, icon: PhosphorIconsRegular.copy, onTap: () {
+              go(sheet, () {
+                Clipboard.setData(ClipboardData(text: fit.workoutText(s)));
+                showNotchToast(context, t.copiedDone, icon: PhosphorIconsRegular.copy, accent: gc.accent);
+              });
+            }),
+            OptionItem(t.editDuration,
+                icon: PhosphorIconsRegular.timer, onTap: () => go(sheet, () => _editDuration(context, s))),
+            OptionItem(t.deleteWorkout,
+                icon: PhosphorIconsRegular.trash,
+                danger: true,
+                onTap: () => go(sheet, () => _confirmDeleteWorkout(context, s))),
+          ]),
+        ]),
+      ),
     );
   }
 
@@ -2355,94 +2458,18 @@ class _DaySheet extends StatelessWidget {
     if (name != null && name != current) fit.renameSession(s, name);
   }
 
-  Widget _sessionMeta(BuildContext context, GymColors gc, LoggedSession s) {
+  Widget _sessionMeta(GymColors gc, LoggedSession s) {
+    final parts = [
+      t.setCount(s.setCount),
+      if (s.volume > 0) fit.volumeLabel(s.volume),
+      if (s.durationSec > 0) '${(s.durationSec / 60).round()} min',
+    ];
     return Padding(
-      padding: const EdgeInsets.only(bottom: 10),
-      child: Row(
-        children: [
-          Expanded(
-            child: Row(children: [
-              Flexible(
-                child: Text(
-                  '${t.setCount(s.setCount)} · ${fit.volumeLabel(s.volume)}',
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: AppTheme.s(11, weight: FontWeight.w600, color: gc.textTertiary, letterSpacing: 1),
-                ),
-              ),
-              const SizedBox(width: 8),
-              Semantics(
-                button: true,
-                label: t.editDuration,
-                child: GestureDetector(
-                  behavior: HitTestBehavior.opaque,
-                  onTap: () => _editDuration(context, s),
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                    decoration: BoxDecoration(
-                      color: gc.bgRaised2,
-                      borderRadius: BorderRadius.circular(100),
-                    ),
-                    child: Row(mainAxisSize: MainAxisSize.min, children: [
-                      Icon(PhosphorIconsRegular.timer, size: 12, color: gc.textSecondary),
-                      const SizedBox(width: 5),
-                      Text(s.durationSec > 0 ? '${(s.durationSec / 60).round()} min' : '– min',
-                          style: AppTheme.s(11, weight: FontWeight.w700, color: gc.textSecondary)),
-                    ]),
-                  ),
-                ),
-              ),
-            ]),
-          ),
-          Semantics(
-            button: true,
-            label: t.copyWorkout,
-            child: GestureDetector(
-              behavior: HitTestBehavior.opaque,
-              onTap: () {
-                Clipboard.setData(ClipboardData(text: fit.workoutText(s)));
-                showNotchToast(context, t.copiedDone, icon: PhosphorIconsRegular.copy, accent: gc.accent);
-              },
-              child: SizedBox(
-                width: 40,
-                height: 36,
-                child: Icon(PhosphorIconsRegular.copy, size: 16, color: gc.textTertiary),
-              ),
-            ),
-          ),
-          Semantics(
-            button: true,
-            label: t.deleteWorkout,
-            child: GestureDetector(
-              behavior: HitTestBehavior.opaque,
-              onTap: () => _confirmDeleteWorkout(context, s),
-              child: SizedBox(
-                width: 40,
-                height: 36,
-                child: Icon(PhosphorIconsRegular.trash, size: 16, color: gc.textTertiary),
-              ),
-            ),
-          ),
-          if (!fit.isSessionActive)
-            GestureDetector(
-              behavior: HitTestBehavior.opaque,
-              onTap: () => _confirmResume(context, s),
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
-                decoration: BoxDecoration(
-                  color: gc.emberSoft,
-                  borderRadius: BorderRadius.circular(100),
-                ),
-                child: Row(mainAxisSize: MainAxisSize.min, children: [
-                  Icon(PhosphorIconsFill.play, size: 11, color: gc.ember),
-                  const SizedBox(width: 6),
-                  Text(t.continueWorkout,
-                      style: AppTheme.d(11, weight: FontWeight.w700, color: gc.ember, letterSpacing: 1)),
-                ]),
-              ),
-            ),
-        ],
-      ),
+      padding: const EdgeInsets.only(bottom: 12),
+      child: Text(parts.join(' · '),
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+          style: AppTheme.s(12.5, weight: FontWeight.w600, color: gc.textSecondary)),
     );
   }
 
@@ -2489,8 +2516,14 @@ class _DaySheet extends StatelessWidget {
     final kcal = fit.cardioKcal(s, e);
     final records = fit.recordSets;
     final broke = [for (final st in e.workingSets) if (records.contains(st)) st];
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 10),
+    return Semantics(
+      button: true,
+      label: '${t.editEntry} ${t.catalogName(e.id, e.name)}',
+      child: GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: () => showEditLoggedSheet(context, s, e),
+      child: Padding(
+      padding: const EdgeInsets.only(bottom: 12),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -2546,66 +2579,47 @@ class _DaySheet extends StatelessWidget {
               ],
             ),
           ),
-          Semantics(
-            button: true,
-            label: '${t.editEntry} ${t.catalogName(e.id, e.name)}',
-            child: GestureDetector(
-              behavior: HitTestBehavior.opaque,
-              onTap: () => showEditLoggedSheet(context, s, e),
-              child: SizedBox(
-                width: 40,
-                height: 44,
-                child: Icon(PhosphorIconsRegular.pencilSimple, size: 16, color: gc.textTertiary),
-              ),
-            ),
-          ),
-          if (s.exercises.length > 1)
-          Semantics(
-            button: true,
-            label: '${t.deleteCaps} ${t.catalogName(e.id, e.name)}',
-            child: GestureDetector(
-              behavior: HitTestBehavior.opaque,
-              onTap: () => _confirmDelete(context, s, e),
-              child: SizedBox(
-                width: 40,
-                height: 44,
-                child: Icon(PhosphorIconsRegular.trash, size: 16, color: gc.textTertiary),
-              ),
-            ),
+          Padding(
+            padding: const EdgeInsetsDirectional.only(start: 8, top: 2),
+            child: Icon(PhosphorIconsRegular.caretRight, size: 14, color: gc.textTertiary),
           ),
         ],
+      ),
+      ),
       ),
     );
   }
 
-  Future<void> _confirmDelete(BuildContext context, LoggedSession s, LoggedExercise e) async {
-    final ok = await askConfirm(
-      context,
-      title: t.deleteEntry,
-      body: t.deleteEntryBody(t.catalogName(e.id, e.name)),
-      confirmLabel: t.delete,
-    );
-    if (ok) fit.deleteLoggedExercise(s, e);
-  }
-
-  Widget _stat(GymColors gc, String label, String value) {
+  Widget _stat(GymColors gc, String label, String value, {VoidCallback? onTap, String? hint}) {
     Widget fit1(Widget child) =>
         FittedBox(fit: BoxFit.scaleDown, alignment: Alignment.centerLeft, child: child);
-    return SoftCard(
+    final card = SoftCard(
       radius: 16,
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          fit1(Text(label,
-              maxLines: 1,
-              softWrap: false,
-              style: AppTheme.s(9, weight: FontWeight.w600, color: gc.textSecondary, letterSpacing: 1))),
+          fit1(Row(mainAxisSize: MainAxisSize.min, children: [
+            Text(label,
+                maxLines: 1,
+                softWrap: false,
+                style: AppTheme.s(9, weight: FontWeight.w600, color: gc.textSecondary, letterSpacing: 1)),
+            if (onTap != null) ...[
+              const SizedBox(width: 4),
+              Icon(PhosphorIconsRegular.pencilSimple, size: 10, color: gc.textSecondary),
+            ],
+          ])),
           const SizedBox(height: 4),
           fit1(Text(value,
               maxLines: 1, softWrap: false, style: AppTheme.d(17, weight: FontWeight.w700, color: gc.text))),
         ],
       ),
+    );
+    if (onTap == null) return card;
+    return Semantics(
+      button: true,
+      label: hint,
+      child: Pressable(scale: 0.96, onTap: onTap, child: card),
     );
   }
 }
@@ -2764,6 +2778,29 @@ void showEditLoggedSheet(BuildContext context, LoggedSession s, LoggedExercise e
                   ],
                   const SizedBox(height: 16),
                   PrimaryButton(label: t.done, onTap: () => Navigator.pop(sheetCtx), height: 52),
+                  if (s.exercises.length > 1) ...[
+                    const SizedBox(height: 6),
+                    GestureDetector(
+                      behavior: HitTestBehavior.opaque,
+                      onTap: () async {
+                        final ok = await askConfirm(
+                          sheetCtx,
+                          title: t.deleteEntry,
+                          body: t.deleteEntryBody(t.catalogName(e.id, e.name)),
+                          confirmLabel: t.delete,
+                          danger: true,
+                        );
+                        if (ok) fit.deleteLoggedExercise(s, e);
+                      },
+                      child: SizedBox(
+                        height: 44,
+                        child: Center(
+                          child: Text(t.dropExerciseAction,
+                              style: AppTheme.f(14, weight: FontWeight.w700, color: gc.danger)),
+                        ),
+                      ),
+                    ),
+                  ],
                 ],
               ),
             ),
@@ -3286,4 +3323,18 @@ class _BalanceCardState extends State<_BalanceCard> {
       ]),
     );
   }
+}
+
+void openBodyweightTrend(BuildContext context) {
+  final list = [...fit.bodyweight]..sort((a, b) => a.date.compareTo(b.date));
+  openTrendScreen(context, title: titleCase(t.bodyweight), series: [
+    TrendSeries(
+      name: titleCase(t.bodyweight),
+      unit: fit.units,
+      points: [for (final e in list) (date: e.date, value: fit.toDisplayWeight(e.kg))],
+      format: (v) => fmt((v * 10).round() / 10),
+      judged: false,
+      color: context.gc.info,
+    ),
+  ]);
 }
