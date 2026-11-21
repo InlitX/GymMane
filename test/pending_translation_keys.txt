@@ -134,3 +134,4 @@ nutritionCopyAllHint
 jumpSet
 jumpSetHint
 jumpSetLink
+routineGroupHint

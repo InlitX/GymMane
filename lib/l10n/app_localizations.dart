@@ -15499,6 +15499,552 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Also your workout, weight and health data'**
   String get nutritionCopyAllHint;
+
+  /// No description provided for @routineGroupHint.
+  ///
+  /// In en, this message translates to:
+  /// **'A group is a folder to sort your routines. The exercises stay with the routine.'**
+  String get routineGroupHint;
+
+  /// No description provided for @ramadanSuhoor.
+  ///
+  /// In en, this message translates to:
+  /// **'Suhoor'**
+  String get ramadanSuhoor;
+
+  /// No description provided for @ramadanIftar.
+  ///
+  /// In en, this message translates to:
+  /// **'Iftar'**
+  String get ramadanIftar;
+
+  /// No description provided for @ramadanMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Ramadan mode'**
+  String get ramadanMode;
+
+  /// No description provided for @ramadanModeHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Fast from suhoor to iftar every day, count your fasts and the days to make up. Breakfast and dinner become Suhoor and Iftar.'**
+  String get ramadanModeHint;
+
+  /// No description provided for @ramadanTimesHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Use your city\'s times and adjust them every few days.'**
+  String get ramadanTimesHint;
+
+  /// No description provided for @ramadanDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Ramadan · day {n}'**
+  String ramadanDay(int n);
+
+  /// No description provided for @ramadanUntilIftar.
+  ///
+  /// In en, this message translates to:
+  /// **'Until iftar'**
+  String get ramadanUntilIftar;
+
+  /// No description provided for @ramadanEatWindow.
+  ///
+  /// In en, this message translates to:
+  /// **'You can eat'**
+  String get ramadanEatWindow;
+
+  /// No description provided for @ramadanIftarAt.
+  ///
+  /// In en, this message translates to:
+  /// **'Iftar at {time}'**
+  String ramadanIftarAt(String time);
+
+  /// No description provided for @ramadanSuhoorUntil.
+  ///
+  /// In en, this message translates to:
+  /// **'Suhoor until {time}'**
+  String ramadanSuhoorUntil(String time);
+
+  /// No description provided for @ramadanSkippedToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Not fasting today'**
+  String get ramadanSkippedToday;
+
+  /// No description provided for @ramadanSkippedHint.
+  ///
+  /// In en, this message translates to:
+  /// **'It counts as a day to make up'**
+  String get ramadanSkippedHint;
+
+  /// No description provided for @ramadanFasted.
+  ///
+  /// In en, this message translates to:
+  /// **'{n, plural, =1{1 fast} other{{n} fasts}}'**
+  String ramadanFasted(int n);
+
+  /// No description provided for @ramadanOwed.
+  ///
+  /// In en, this message translates to:
+  /// **'{n} to make up'**
+  String ramadanOwed(int n);
+
+  /// No description provided for @ramadanSkip.
+  ///
+  /// In en, this message translates to:
+  /// **'Not fasting today'**
+  String get ramadanSkip;
+
+  /// No description provided for @ramadanSkipUndo.
+  ///
+  /// In en, this message translates to:
+  /// **'Fasting today'**
+  String get ramadanSkipUndo;
+
+  /// No description provided for @ramadanRestart.
+  ///
+  /// In en, this message translates to:
+  /// **'Start a new Ramadan'**
+  String get ramadanRestart;
+
+  /// No description provided for @ramadanRestartBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Your fasts and days to make up go back to zero.'**
+  String get ramadanRestartBody;
+
+  /// No description provided for @trendFullView.
+  ///
+  /// In en, this message translates to:
+  /// **'Full view'**
+  String get trendFullView;
+
+  /// No description provided for @trendTop.
+  ///
+  /// In en, this message translates to:
+  /// **'Heaviest set'**
+  String get trendTop;
+
+  /// No description provided for @trendTopAssisted.
+  ///
+  /// In en, this message translates to:
+  /// **'Least assistance'**
+  String get trendTopAssisted;
+
+  /// No description provided for @trendReps.
+  ///
+  /// In en, this message translates to:
+  /// **'Most reps'**
+  String get trendReps;
+
+  /// No description provided for @trendVolume.
+  ///
+  /// In en, this message translates to:
+  /// **'Volume'**
+  String get trendVolume;
+
+  /// No description provided for @trendTotalReps.
+  ///
+  /// In en, this message translates to:
+  /// **'Total reps'**
+  String get trendTotalReps;
+
+  /// No description provided for @trendSlope.
+  ///
+  /// In en, this message translates to:
+  /// **'Trend'**
+  String get trendSlope;
+
+  /// No description provided for @trendFlat.
+  ///
+  /// In en, this message translates to:
+  /// **'Steady'**
+  String get trendFlat;
+
+  /// No description provided for @trendUpMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'Up about {v} a month'**
+  String trendUpMonth(String v);
+
+  /// No description provided for @trendDownMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'Down about {v} a month'**
+  String trendDownMonth(String v);
+
+  /// No description provided for @trendUpWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Up about {v} a week'**
+  String trendUpWeek(String v);
+
+  /// No description provided for @trendDownWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Down about {v} a week'**
+  String trendDownWeek(String v);
+
+  /// No description provided for @trendFlatLine.
+  ///
+  /// In en, this message translates to:
+  /// **'Steady over this period'**
+  String get trendFlatLine;
+
+  /// No description provided for @trendPerMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'{v}/mo'**
+  String trendPerMonth(String v);
+
+  /// No description provided for @trendPerWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'{v}/wk'**
+  String trendPerWeek(String v);
+
+  /// No description provided for @trendLineHint.
+  ///
+  /// In en, this message translates to:
+  /// **'The dashed line is your trend. Drag across the chart to see each day.'**
+  String get trendLineHint;
+
+  /// No description provided for @trendNeedMore.
+  ///
+  /// In en, this message translates to:
+  /// **'Log it a couple more times in this period to see a trend.'**
+  String get trendNeedMore;
+
+  /// No description provided for @muscleGoalsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'How many hard sets you want for each muscle. Pick a level for all of them, then fine-tune any muscle.'**
+  String get muscleGoalsHint;
+
+  /// No description provided for @muscleGoalsAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All muscles'**
+  String get muscleGoalsAll;
+
+  /// No description provided for @muscleLevelKeep.
+  ///
+  /// In en, this message translates to:
+  /// **'Maintain'**
+  String get muscleLevelKeep;
+
+  /// No description provided for @muscleLevelLight.
+  ///
+  /// In en, this message translates to:
+  /// **'Light'**
+  String get muscleLevelLight;
+
+  /// No description provided for @muscleLevelStandard.
+  ///
+  /// In en, this message translates to:
+  /// **'Standard'**
+  String get muscleLevelStandard;
+
+  /// No description provided for @muscleLevelHigh.
+  ///
+  /// In en, this message translates to:
+  /// **'High'**
+  String get muscleLevelHigh;
+
+  /// No description provided for @muscleLevelMax.
+  ///
+  /// In en, this message translates to:
+  /// **'Very high'**
+  String get muscleLevelMax;
+
+  /// No description provided for @muscleGoalsWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Per week'**
+  String get muscleGoalsWeek;
+
+  /// No description provided for @muscleGoalsMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'Per month'**
+  String get muscleGoalsMonth;
+
+  /// No description provided for @muscleGoalOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Not training it'**
+  String get muscleGoalOff;
+
+  /// No description provided for @muscleGoalReset.
+  ///
+  /// In en, this message translates to:
+  /// **'Same as all'**
+  String get muscleGoalReset;
+
+  /// No description provided for @muscleGoalsEdit.
+  ///
+  /// In en, this message translates to:
+  /// **'Goals'**
+  String get muscleGoalsEdit;
+
+  /// No description provided for @muscleOfGoal.
+  ///
+  /// In en, this message translates to:
+  /// **'{done} of {goal}'**
+  String muscleOfGoal(String done, String goal);
+
+  /// No description provided for @muscleGoalsMet.
+  ///
+  /// In en, this message translates to:
+  /// **'{n} of {total} muscles on target'**
+  String muscleGoalsMet(int n, int total);
+
+  /// No description provided for @addMusclesWidget.
+  ///
+  /// In en, this message translates to:
+  /// **'Add sets per muscle widget'**
+  String get addMusclesWidget;
+
+  /// No description provided for @widgetHintMuscles.
+  ///
+  /// In en, this message translates to:
+  /// **'Your sets this week for each muscle, as a list'**
+  String get widgetHintMuscles;
+
+  /// No description provided for @bodyShareSetting.
+  ///
+  /// In en, this message translates to:
+  /// **'Share of body weight'**
+  String get bodyShareSetting;
+
+  /// No description provided for @bodyShareHint.
+  ///
+  /// In en, this message translates to:
+  /// **'How much of your weight you move. Push-ups are about 65 %, pull-ups and squats 100 %.'**
+  String get bodyShareHint;
+
+  /// No description provided for @bodyShareCustom.
+  ///
+  /// In en, this message translates to:
+  /// **'Your own · tap to go back to {percent} %'**
+  String bodyShareCustom(int percent);
+
+  /// No description provided for @recoveryAdjust.
+  ///
+  /// In en, this message translates to:
+  /// **'Adjust'**
+  String get recoveryAdjust;
+
+  /// No description provided for @recoverySpeedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your recovery'**
+  String get recoverySpeedTitle;
+
+  /// No description provided for @recoverySpeedHint.
+  ///
+  /// In en, this message translates to:
+  /// **'If the map says a muscle is ready and it still feels sore, pick Slow.'**
+  String get recoverySpeedHint;
+
+  /// No description provided for @recoverySpeedLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'How fast you recover'**
+  String get recoverySpeedLabel;
+
+  /// No description provided for @recoverySpeedFast.
+  ///
+  /// In en, this message translates to:
+  /// **'Fast'**
+  String get recoverySpeedFast;
+
+  /// No description provided for @recoverySpeedNormal.
+  ///
+  /// In en, this message translates to:
+  /// **'Normal'**
+  String get recoverySpeedNormal;
+
+  /// No description provided for @recoverySpeedSlow.
+  ///
+  /// In en, this message translates to:
+  /// **'Slow'**
+  String get recoverySpeedSlow;
+
+  /// No description provided for @recoveryHowItWorks.
+  ///
+  /// In en, this message translates to:
+  /// **'It counts every set with its reps, how heavy it was for you (compared with your best on that exercise) and the effort you log: a set to failure tires more than one with 3 reps in reserve, and a long session takes longer to clear.'**
+  String get recoveryHowItWorks;
+
+  /// No description provided for @trendChange.
+  ///
+  /// In en, this message translates to:
+  /// **'Change in this period'**
+  String get trendChange;
+
+  /// No description provided for @trendCount.
+  ///
+  /// In en, this message translates to:
+  /// **'Entries'**
+  String get trendCount;
+
+  /// No description provided for @trendLow.
+  ///
+  /// In en, this message translates to:
+  /// **'Lowest'**
+  String get trendLow;
+
+  /// No description provided for @dayTapHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap an exercise or the time to fix it.'**
+  String get dayTapHint;
+
+  /// No description provided for @forgotEndTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Forgot to finish?'**
+  String get forgotEndTitle;
+
+  /// No description provided for @forgotEndBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Your last set was at {time}. If you stopped there, end the workout at that time so the duration is right.'**
+  String forgotEndBody(String time);
+
+  /// No description provided for @forgotEndAction.
+  ///
+  /// In en, this message translates to:
+  /// **'End at {time}'**
+  String forgotEndAction(String time);
+
+  /// No description provided for @suppProgressTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Supplement streak'**
+  String get suppProgressTitle;
+
+  /// No description provided for @suppProgressAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All supplements'**
+  String get suppProgressAll;
+
+  /// No description provided for @suppStreakNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Streak'**
+  String get suppStreakNow;
+
+  /// No description provided for @suppStreakBest.
+  ///
+  /// In en, this message translates to:
+  /// **'Best streak'**
+  String get suppStreakBest;
+
+  /// No description provided for @suppThisMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'This month'**
+  String get suppThisMonth;
+
+  /// No description provided for @suppDaysN.
+  ///
+  /// In en, this message translates to:
+  /// **'{n, plural, =1{1 day} other{{n} days}}'**
+  String suppDaysN(int n);
+
+  /// No description provided for @suppLegendAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All taken'**
+  String get suppLegendAll;
+
+  /// No description provided for @suppLegendSome.
+  ///
+  /// In en, this message translates to:
+  /// **'Some'**
+  String get suppLegendSome;
+
+  /// No description provided for @suppLegendNone.
+  ///
+  /// In en, this message translates to:
+  /// **'Missed'**
+  String get suppLegendNone;
+
+  /// No description provided for @suppEachOne.
+  ///
+  /// In en, this message translates to:
+  /// **'Each one, last 30 days'**
+  String get suppEachOne;
+
+  /// No description provided for @suppSince.
+  ///
+  /// In en, this message translates to:
+  /// **'Taking it since'**
+  String get suppSince;
+
+  /// No description provided for @suppTotalTakes.
+  ///
+  /// In en, this message translates to:
+  /// **'Times taken'**
+  String get suppTotalTakes;
+
+  /// No description provided for @suppLast30.
+  ///
+  /// In en, this message translates to:
+  /// **'Last 30 days'**
+  String get suppLast30;
+
+  /// No description provided for @suppNotDueYet.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing due yet'**
+  String get suppNotDueYet;
+
+  /// No description provided for @scanRow.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan a barcode'**
+  String get scanRow;
+
+  /// No description provided for @scanRowHint.
+  ///
+  /// In en, this message translates to:
+  /// **'With GymMane Scanner'**
+  String get scanRowHint;
+
+  /// No description provided for @scannerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'GymMane Scanner'**
+  String get scannerTitle;
+
+  /// No description provided for @scannerKicker.
+  ///
+  /// In en, this message translates to:
+  /// **'Community app · not part of GymMane'**
+  String get scannerKicker;
+
+  /// No description provided for @scannerBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan a barcode and it sends you the food, ready to check.'**
+  String get scannerBody;
+
+  /// No description provided for @scannerBody2.
+  ///
+  /// In en, this message translates to:
+  /// **'It looks products up online, so it lives in its own app.'**
+  String get scannerBody2;
+
+  /// No description provided for @scannerGet.
+  ///
+  /// In en, this message translates to:
+  /// **'Get GymMane Scanner'**
+  String get scannerGet;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
