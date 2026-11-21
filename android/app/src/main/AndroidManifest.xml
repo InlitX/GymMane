@@ -341,6 +341,16 @@
                 android:resource="@xml/body_widget_info" />
         </receiver>
         <receiver
+            android:name=".MusclesWidgetProvider"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/muscles_widget_info" />
+        </receiver>
+        <receiver
             android:name=".TodayWidgetProvider"
             android:exported="true">
             <intent-filter>
@@ -431,6 +441,7 @@
             android:value="2" />
     </application>
     <queries>
+        <package android:name="de.gymmane.scanner"/>
         <intent>
             <action android:name="android.intent.action.PROCESS_TEXT"/>
             <data android:mimeType="text/plain"/>

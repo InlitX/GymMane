@@ -52,6 +52,19 @@ void main() {
             gc: gc, done: false, planned: true, streak: 3, size: Size(155, 155), framed: false));
   });
 
+  testWidgets('the sets per muscle widget draws full, empty and with a long list', (tester) async {
+    for (final gc in [GymColors.dark, GymColors.light]) {
+      await draw(tester, MusclesWidgetView(gc: gc, rows: const []));
+      await draw(
+          tester,
+          MusclesWidgetView(gc: gc, rows: [
+            for (final (i, id) in ['chest', 'back', 'quads', 'shoulders', 'biceps', 'triceps', 'abdomen', 'obliques',
+                'glutes', 'hamstrings', 'calves', 'forearm', 'trapezius', 'lowerback', 'chest'].indexed)
+              (id: id, sets: 22.5 - i * 1.5, target: i.isEven ? 12.0 : 0.0),
+          ]));
+    }
+  });
+
   testWidgets('the muscle map widget survives an empty history', (tester) async {
     await draw(tester,
         const BodyWidgetView(gc: GymColors.dark, days: 7, intensity: {}));

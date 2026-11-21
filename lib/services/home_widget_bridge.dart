@@ -18,6 +18,7 @@ class HomeWidgetBridge {
   static const heatmapKey = 'heatmap_img';
   static const statsKey = 'stats_img';
   static const bodyKey = 'body_img';
+  static const musclesKey = 'muscles_img';
   static const todayKey = 'today_img';
   static const todayPlanKey = 'today_plan_img';
   static const todayRestKey = 'today_rest_img';
@@ -86,6 +87,7 @@ class HomeWidgetBridge {
       final bodySize = _ios ? const Size(320, 336) : const Size(320, 220);
       final todaySize = _ios ? const Size(155, 155) : const Size(120, 120);
       const weekSize = Size(320, 150);
+      const musclesSize = Size(320, 220);
       final week = [for (var i = 0; i < 7; i++) fit.isDayDone(i) && !fit.isDayPartial(i)];
       final levels = fit.heatmapWeeksFor(26);
       final heat = fit.muscleHeatOver(bodyDays);
@@ -129,6 +131,13 @@ class HomeWidgetBridge {
                 framed: framed,
               ),
         ),
+        if (!_ios)
+          (
+            'MusclesWidgetProvider',
+            musclesKey,
+            musclesSize,
+            (gc) => MusclesWidgetView(gc: gc, rows: fit.muscleProgress(7), size: musclesSize, framed: framed),
+          ),
         (
           'TodayWidgetProvider',
           todayKey,
@@ -222,6 +231,7 @@ class HomeWidgetBridge {
         if (wants(android)) await _reload(android, ios);
       }
       if (!_ios) {
+        if (wants('MusclesWidgetProvider')) await _reload('MusclesWidgetProvider', 'MusclesWidgetProvider');
         for (final android in NutritionWidgets.providers) {
           if (wants(android)) await _reload(android, android);
         }

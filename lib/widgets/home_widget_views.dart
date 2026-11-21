@@ -506,6 +506,119 @@ class BodyWidgetView extends StatelessWidget {
   }
 }
 
+class MusclesWidgetView extends StatelessWidget {
+  const MusclesWidgetView({
+    super.key,
+    required this.gc,
+    required this.rows,
+    this.size = const Size(320, 220),
+    this.framed = true,
+  });
+
+  final GymColors gc;
+  final List<({String id, double sets, double target})> rows;
+  final Size size;
+  final bool framed;
+
+  static String _n(double v) => fmt((v * 2).round() / 2);
+
+  @override
+  Widget build(BuildContext context) {
+    const pad = 16.0;
+    final shown = rows.take(14).toList();
+    final half = (shown.length / 2).ceil();
+    Widget row(({String id, double sets, double target}) r) {
+      final pct = r.target <= 0 ? 0.0 : (r.sets / r.target).clamp(0.0, 1.0);
+      final done = r.target > 0 && r.sets >= r.target - 0.01;
+      return Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+        Row(children: [
+          Expanded(
+            child: Text(t.muscle(r.id),
+                maxLines: 1,
+                overflow: TextOverflow.clip,
+                softWrap: false,
+                style: TextStyle(fontFamily: _kBody, fontSize: 11.5, fontWeight: FontWeight.w700, color: gc.text)),
+          ),
+          const SizedBox(width: 4),
+          Text.rich(
+            TextSpan(children: [
+              TextSpan(
+                  text: _n(r.sets),
+                  style: TextStyle(fontFamily: _kDisplay, fontSize: 11.5, fontWeight: FontWeight.w800, color: gc.text)),
+              if (r.target > 0)
+                TextSpan(
+                    text: '/${_n(r.target)}',
+                    style: TextStyle(fontFamily: _kBody, fontSize: 10, fontWeight: FontWeight.w600, color: gc.textTertiary)),
+            ]),
+            textDirection: TextDirection.ltr,
+          ),
+        ]),
+        const SizedBox(height: 3),
+        ClipRRect(
+          borderRadius: BorderRadius.circular(100),
+          child: SizedBox(
+            height: 3,
+            child: Stack(children: [
+              Positioned.fill(child: ColoredBox(color: gc.bgRaised2)),
+              FractionallySizedBox(
+                widthFactor: pct,
+                heightFactor: 1,
+                alignment: AlignmentDirectional.centerStart,
+                child: ColoredBox(color: done ? gc.sage : gc.text),
+              ),
+            ]),
+          ),
+        ),
+      ]);
+    }
+
+    Widget column(Iterable<({String id, double sets, double target})> list) => Column(children: [
+          for (final r in list) Expanded(child: row(r)),
+          for (var i = list.length; i < half; i++) const Expanded(child: SizedBox()),
+        ]);
+
+    return Container(
+      width: size.width,
+      height: size.height,
+      padding: const EdgeInsets.all(pad),
+      decoration: _card(gc, framed, 24),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          SizedBox(
+            height: 20,
+            child: Row(children: [
+              Expanded(
+                child: Text(t.muscleSetsList,
+                    maxLines: 1,
+                    overflow: TextOverflow.clip,
+                    softWrap: false,
+                    style: TextStyle(fontFamily: _kDisplay, fontSize: 15, fontWeight: FontWeight.w800, color: gc.text)),
+              ),
+              Text(titleCase(t.weekTab),
+                  style: TextStyle(fontFamily: _kBody, fontSize: 10.5, color: gc.textSecondary)),
+            ]),
+          ),
+          const SizedBox(height: 8),
+          Expanded(
+            child: shown.isEmpty
+                ? Center(
+                    child: Text(t.muscleMapEmpty,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontFamily: _kBody, fontSize: 12, color: gc.textSecondary)),
+                  )
+                : Row(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+                    Expanded(child: column(shown.take(half))),
+                    const SizedBox(width: 16),
+                    Expanded(child: column(shown.skip(half))),
+                  ]),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 class VesselWidgetGeometry {
   const VesselWidgetGeometry._();
 
