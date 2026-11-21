@@ -148,6 +148,10 @@ and dishes, water, supplements with dose and stock, meal plans and meal prep.
 food, with nothing sent from the app. No scanner and no online database. Don't
 need it? Turn it off in **Settings › Beta**.
 
+Want to scan barcodes? [GymMane Scanner](https://github.com/KingMezzo/GymMane-Scanner)
+is a separate community app (MIT) that looks the product up and sends it to
+GymMane as a new food.
+
 ## Download
 
 Get it from F-Droid, IzzyOnDroid, OpenAPK, Obtainium or the

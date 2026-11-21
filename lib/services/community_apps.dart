@@ -8,7 +8,7 @@ class CommunityApps {
   static const scannerPackage = 'de.gymmane.scanner';
   static const scannerPage = 'https://github.com/KingMezzo/GymMane-Scanner/releases/latest';
 
-  static const scannerListed = false;
+  static const scannerListed = true;
 
   static bool get canScan => scannerListed && !kIsWeb && defaultTargetPlatform == TargetPlatform.android;
 
