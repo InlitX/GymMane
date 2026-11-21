@@ -36,7 +36,7 @@ class _FastingCardState extends State<_FastingCard> {
   void initState() {
     super.initState();
     _tick = Timer.periodic(const Duration(seconds: 20), (_) {
-      if (mounted && fit.fasting) setState(() {});
+      if (mounted && (fit.fasting || fit.ramadan)) setState(() {});
     });
   }
 
@@ -53,6 +53,7 @@ class _FastingCardState extends State<_FastingCard> {
 
   @override
   Widget build(BuildContext context) {
+    if (fit.ramadan) return _ramadan(context);
     final gc = context.gc;
     final start = fit.fastStart;
     final goal = Duration(hours: fit.fastGoalHours);
@@ -209,6 +210,186 @@ class _FastingCardState extends State<_FastingCard> {
   }
 }
 
+extension on _FastingCardState {
+  Widget _ramadan(BuildContext context) {
+    final gc = context.gc;
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    final suhoor = fit.ramadanAt(today, fit.suhoorMinute);
+    final iftar = fit.ramadanAt(today, fit.iftarMinute);
+    final skipped = fit.ramadanSkippedOn(today);
+    final fasting = !skipped && !now.isBefore(suhoor) && now.isBefore(iftar);
+    final nextSuhoor = now.isBefore(suhoor) ? suhoor : fit.ramadanAt(shiftDays(today, 1), fit.suhoorMinute);
+    final count = fit.ramadanCount;
+    final total = iftar.difference(suhoor);
+    final progress = !fasting || total.inSeconds <= 0 ? 0.0 : (now.difference(suhoor).inSeconds / total.inSeconds).clamp(0.0, 1.0);
+    final String label, big, line;
+    if (skipped) {
+      label = t.ramadanSkippedHint;
+      big = t.ramadanSkippedToday;
+      line = t.ramadanSuhoorUntil(t.clockTime(nextSuhoor));
+    } else if (fasting) {
+      label = t.ramadanUntilIftar;
+      big = _span(iftar.difference(now));
+      line = t.ramadanIftarAt(t.clockTime(iftar));
+    } else {
+      label = t.ramadanEatWindow;
+      big = _span(nextSuhoor.difference(now));
+      line = t.ramadanSuhoorUntil(t.clockTime(nextSuhoor));
+    }
+    final tally = [t.ramadanFasted(count.fasted), if (count.owed > 0) t.ramadanOwed(count.owed)].join(' · ');
+    return SoftCard(
+      radius: 26,
+      padding: const EdgeInsets.fromLTRB(16, 14, 14, 14),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+        Row(children: [
+          Icon(PhosphorIconsRegular.moonStars, size: 16, color: fasting ? gc.brass : gc.textSecondary),
+          const SizedBox(width: 8),
+          Expanded(child: _kicker(gc, t.ramadanDay(fit.ramadanDay).toUpperCase())),
+          _roundIcon(PhosphorIconsBold.dotsThree, gc.textSecondary, () => showFastingSheet(context), label: t.fastOptions),
+        ]),
+        const SizedBox(height: 10),
+        Row(children: [
+          SizedBox(
+            width: 74,
+            height: 74,
+            child: TweenAnimationBuilder<double>(
+              tween: Tween(end: progress),
+              duration: const Duration(milliseconds: 520),
+              curve: Curves.easeOutCubic,
+              builder: (_, v, _) => CustomPaint(
+                painter: _FastRing(v, track: gc.bgRaised2, color: gc.brass),
+                child: Center(
+                  child: Icon(
+                    fasting ? PhosphorIconsRegular.moonStars : PhosphorIconsRegular.forkKnife,
+                    size: 22,
+                    color: fasting ? gc.brass : gc.textTertiary,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(width: 14),
+          Expanded(
+            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Text(label, style: AppTheme.f(11.5, weight: FontWeight.w600, color: gc.textSecondary)),
+              const SizedBox(height: 2),
+              FitText(big, style: AppTheme.d(26, weight: FontWeight.w800, color: gc.text, height: 1.15)),
+              const SizedBox(height: 2),
+              Text(line,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: AppTheme.s(12, color: gc.textSecondary, height: 1.3)),
+            ]),
+          ),
+        ]),
+        const SizedBox(height: 14),
+        Row(children: [
+          Expanded(
+            child: Text(tally,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: AppTheme.f(12.5, weight: FontWeight.w600, color: gc.textSecondary)),
+          ),
+          const SizedBox(width: 8),
+          _Chip(
+            label: skipped ? t.ramadanSkipUndo : t.ramadanSkip,
+            icon: skipped ? PhosphorIconsBold.moonStars : PhosphorIconsBold.x,
+            onTap: () {
+              HapticFeedback.selectionClick();
+              fit.toggleRamadanSkip(today);
+            },
+          ),
+        ]),
+      ]),
+    );
+  }
+}
+
+Future<int?> _pickMinute(BuildContext context, int minute, String help) async {
+  final picked = await showTimePicker(
+    context: context,
+    initialTime: TimeOfDay(hour: minute ~/ 60, minute: minute % 60),
+    initialEntryMode: TimePickerEntryMode.inputOnly,
+    helpText: help,
+  );
+  return picked == null ? null : picked.hour * 60 + picked.minute;
+}
+
+Widget _ramadanSection(BuildContext context) {
+  final gc = context.gc;
+  final today = DateTime.now();
+  Widget time(String label, int minute, ValueChanged<int> set) => Expanded(
+        child: Pressable(
+          scale: 0.97,
+          onTap: () async {
+            HapticFeedback.selectionClick();
+            final v = await _pickMinute(context, minute, label);
+            if (v != null) set(v);
+          },
+          child: Container(
+            padding: const EdgeInsets.fromLTRB(14, 10, 12, 10),
+            decoration: BoxDecoration(color: gc.bgRaised2, borderRadius: BorderRadius.circular(16)),
+            child: Row(children: [
+              Expanded(
+                child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                  FitText(label, style: AppTheme.f(10.5, weight: FontWeight.w600, color: gc.textSecondary)),
+                  const SizedBox(height: 2),
+                  Ltr(child: FitText(t.clockTime(fit.ramadanAt(today, minute)), style: AppTheme.f(16, weight: FontWeight.w800, color: gc.text))),
+                ]),
+              ),
+              Icon(PhosphorIconsRegular.pencilSimple, size: 14, color: gc.textTertiary),
+            ]),
+          ),
+        ),
+      );
+  return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+    OptionGroup([
+      OptionItem(
+        t.ramadanMode,
+        icon: PhosphorIconsRegular.moonStars,
+        detail: t.ramadanModeHint,
+        trailing: TinySwitch(on: fit.ramadan),
+        onTap: () {
+          HapticFeedback.selectionClick();
+          fit.setRamadan(!fit.ramadan);
+        },
+      ),
+    ]),
+    AnimatedSize(
+      duration: const Duration(milliseconds: 220),
+      curve: Curves.easeOutCubic,
+      alignment: Alignment.topCenter,
+      child: !fit.ramadan
+          ? const SizedBox(width: double.infinity)
+          : Padding(
+              padding: const EdgeInsets.only(top: 10),
+              child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+                Row(children: [
+                  time(t.ramadanSuhoor, fit.suhoorMinute, (v) => fit.setRamadanTimes(suhoor: v)),
+                  const SizedBox(width: 8),
+                  time(t.ramadanIftar, fit.iftarMinute, (v) => fit.setRamadanTimes(iftar: v)),
+                ]),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(4, 8, 4, 0),
+                  child: Text(t.ramadanTimesHint, style: AppTheme.s(11.5, color: gc.textTertiary, height: 1.35)),
+                ),
+                const SizedBox(height: 10),
+                GhostButton(
+                  label: t.ramadanRestart,
+                  icon: PhosphorIconsRegular.arrowCounterClockwise,
+                  onTap: () async {
+                    final ok = await askConfirm(context,
+                        title: t.ramadanRestart, body: t.ramadanRestartBody, confirmLabel: t.ramadanRestart);
+                    if (ok) fit.restartRamadan();
+                  },
+                ),
+              ]),
+            ),
+    ),
+  ]);
+}
+
 class _FastRing extends CustomPainter {
   _FastRing(this.value, {required this.track, required this.color});
   final double value;
@@ -245,6 +426,14 @@ Future<void> showFastingSheet(BuildContext context) => _sheet<void>(context, (co
         builder: (context, _) {
           final week = fit.fastWeek;
           final recent = fit.fasts.reversed.take(10).toList();
+          if (fit.ramadan) {
+            return _sheetFrame(context, [
+              SheetTitle(t.fastOptions),
+              const SizedBox(height: 16),
+              _ramadanSection(context),
+              const SizedBox(height: 6),
+            ]);
+          }
           return _sheetFrame(context, [
             SheetTitle(t.fastPlan, subtitle: t.fastPlanHint),
             const SizedBox(height: 16),
@@ -303,6 +492,8 @@ Future<void> showFastingSheet(BuildContext context) => _sheet<void>(context, (co
                   ),
                 ),
             ],
+            const SizedBox(height: 22),
+            _ramadanSection(context),
             const SizedBox(height: 14),
             GhostButton(
               label: t.fastAdd,

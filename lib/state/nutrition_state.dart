@@ -397,6 +397,10 @@ mixin NutritionState on FitCore, ToolsState, StatsState {
   String mealLabel(Meal m) {
     final custom = slotOf(m)?.name ?? '';
     if (custom.isNotEmpty) return custom;
+    if (ramadan && nutritionBeta && trackerOn(Tracker.fasting)) {
+      if (m == Meal.breakfast) return t.ramadanSuhoor;
+      if (m == Meal.dinner) return t.ramadanIftar;
+    }
     return switch (m) {
       Meal.breakfast => t.mealBreakfast,
       Meal.lunch => t.mealLunch,
@@ -1594,6 +1598,90 @@ mixin NutritionState on FitCore, ToolsState, StatsState {
 
   List<Supplement> supplementsDueOn(DateTime day) => [for (final s in activeSupplements) if (s.dueOn(day)) s];
 
+  DateTime? suppStart(Supplement s) {
+    DateTime? first;
+    for (final e in supplementsTaken.entries) {
+      if (!e.value.contains(s.id)) continue;
+      final d = DateTime.tryParse(e.key);
+      if (d != null && (first == null || d.isBefore(first))) first = d;
+    }
+    final from = s.from;
+    if (from == null) return first == null ? null : _dayKey(first);
+    if (first == null) return _dayKey(from);
+    return _dayKey(first.isBefore(from) ? first : from);
+  }
+
+  List<Supplement> _suppScope(String? id) =>
+      [for (final s in supplements) if (id == null ? !archivedSupps.contains(s.id) : s.id == id) s];
+
+  Map<Supplement, DateTime> _suppStarts(String? id) => {
+        for (final s in _suppScope(id))
+          if (suppStart(s) case final DateTime d) s: d,
+      };
+
+  ({int due, int taken}) _suppDay(DateTime d, Map<Supplement, DateTime> starts) {
+    final taken = takenOn(d);
+    var due = 0, done = 0;
+    for (final e in starts.entries) {
+      if (d.isBefore(e.value) || !e.key.dueOn(d)) continue;
+      due++;
+      if (taken.contains(e.key.id)) done++;
+    }
+    return (due: due, taken: done);
+  }
+
+  ({int due, int taken}) suppDayCount(DateTime day, {String? id}) => _suppDay(_dayKey(day), _suppStarts(id));
+
+  ({int current, int best}) suppStreak({String? id, DateTime? today}) {
+    final now = _dayKey(today ?? DateTime.now());
+    final starts = _suppStarts(id);
+    if (starts.isEmpty) return (current: 0, best: 0);
+    var run = 0, best = 0;
+    for (var d = starts.values.reduce((a, b) => a.isBefore(b) ? a : b); !d.isAfter(now); d = shiftDays(d, 1)) {
+      final c = _suppDay(d, starts);
+      if (c.due == 0) continue;
+      if (c.taken >= c.due) {
+        run++;
+        if (run > best) best = run;
+      } else if (d != now) {
+        run = 0;
+      }
+    }
+    return (current: run, best: best);
+  }
+
+  ({int due, int taken}) suppAdherence({String? id, int days = 30, DateTime? today}) {
+    final now = _dayKey(today ?? DateTime.now());
+    final starts = _suppStarts(id);
+    var due = 0, taken = 0;
+    for (var i = 0; i < days; i++) {
+      final c = _suppDay(shiftDays(now, -i), starts);
+      due += c.due;
+      taken += c.taken;
+    }
+    return (due: due, taken: taken);
+  }
+
+  ({int due, int taken}) suppMonth(DateTime month, {String? id, DateTime? today}) {
+    final now = _dayKey(today ?? DateTime.now());
+    final starts = _suppStarts(id);
+    var due = 0, taken = 0;
+    for (var d = DateTime(month.year, month.month, 1); d.month == month.month && !d.isAfter(now); d = shiftDays(d, 1)) {
+      final c = _suppDay(d, starts);
+      due += c.due;
+      taken += c.taken;
+    }
+    return (due: due, taken: taken);
+  }
+
+  List<({int due, int taken})> suppMonthDays(DateTime month, {String? id}) {
+    final starts = _suppStarts(id);
+    final count = DateTime(month.year, month.month + 1, 0).day;
+    return [for (var i = 1; i <= count; i++) _suppDay(DateTime(month.year, month.month, i), starts)];
+  }
+
+  int suppTakenTotal(String id) => supplementsTaken.values.where((v) => v.contains(id)).length;
+
   void removeSupplement(String id) {
     final gone = supplements.where((s) => s.id == id).firstOrNull;
     if (gone != null && gone.photo.isNotEmpty && !isAssetPhoto(gone.photo)) MediaStore.delete(gone.photo);
@@ -1876,6 +1964,71 @@ mixin NutritionState on FitCore, ToolsState, StatsState {
     notifyListeners();
   }
 
+  bool ramadan = false;
+  int suhoorMinute = 5 * 60;
+  int iftarMinute = 18 * 60 + 30;
+  DateTime? ramadanFrom;
+  final Set<DateTime> ramadanSkipped = {};
+
+  void setRamadan(bool on) {
+    if (ramadan == on) return;
+    ramadan = on;
+    if (on) {
+      ramadanFrom ??= _dayKey(DateTime.now());
+      fastStart = null;
+      _syncFast();
+    }
+    _persist();
+    notifyListeners();
+  }
+
+  void setRamadanTimes({int? suhoor, int? iftar}) {
+    if (suhoor != null) suhoorMinute = suhoor.clamp(0, 24 * 60 - 1);
+    if (iftar != null) iftarMinute = iftar.clamp(0, 24 * 60 - 1);
+    _persist();
+    notifyListeners();
+  }
+
+  void restartRamadan() {
+    ramadanFrom = _dayKey(DateTime.now());
+    ramadanSkipped.clear();
+    _persist();
+    notifyListeners();
+  }
+
+  DateTime ramadanAt(DateTime day, int minute) => DateTime(day.year, day.month, day.day, minute ~/ 60, minute % 60);
+
+  bool ramadanSkippedOn(DateTime day) => ramadanSkipped.contains(_dayKey(day));
+
+  void toggleRamadanSkip(DateTime day) {
+    final key = _dayKey(day);
+    if (!ramadanSkipped.remove(key)) ramadanSkipped.add(key);
+    _persist();
+    notifyListeners();
+  }
+
+  int get ramadanDay {
+    final from = ramadanFrom;
+    if (from == null) return 1;
+    return _dayKey(DateTime.now()).difference(from).inDays + 1;
+  }
+
+  ({int fasted, int owed}) get ramadanCount {
+    final from = ramadanFrom;
+    if (from == null) return (fasted: 0, owed: 0);
+    final now = DateTime.now();
+    final today = _dayKey(now);
+    var fasted = 0, owed = 0;
+    for (var d = from; !d.isAfter(today); d = shiftDays(d, 1)) {
+      if (ramadanSkipped.contains(d)) {
+        owed++;
+      } else if (d.isBefore(today) || !now.isBefore(ramadanAt(d, iftarMinute))) {
+        fasted++;
+      }
+    }
+    return (fasted: fasted, owed: owed);
+  }
+
   int get fastStreak {
     var n = 0;
     for (final r in fasts.reversed) {
@@ -1942,6 +2095,14 @@ mixin NutritionState on FitCore, ToolsState, StatsState {
             'h': fastGoalHours,
             if (fastStart != null) 'on': fastStart!.toIso8601String(),
             if (fasts.isNotEmpty) 'log': fasts.map((r) => r.toJson()).toList(),
+          },
+        if (ramadan || ramadanFrom != null)
+          'ramadan': {
+            'on': ramadan,
+            's': suhoorMinute,
+            'i': iftarMinute,
+            if (ramadanFrom != null) 'from': ramadanFrom!.toIso8601String(),
+            if (ramadanSkipped.isNotEmpty) 'skip': [for (final d in ramadanSkipped) d.toIso8601String()],
           },
       };
 
@@ -2070,6 +2231,19 @@ mixin NutritionState on FitCore, ToolsState, StatsState {
           if (e is Map) FastRecord.fromJson(e.cast<String, dynamic>()),
       ].nonNulls)
       ..sort((a, b) => a.start.compareTo(b.start));
+    final rm = j?['ramadan'];
+    final ram = rm is Map ? rm.cast<String, dynamic>() : const <String, dynamic>{};
+    ramadan = ram['on'] == true;
+    suhoorMinute = ((ram['s'] as num?)?.toInt() ?? 5 * 60).clamp(0, 24 * 60 - 1);
+    iftarMinute = ((ram['i'] as num?)?.toInt() ?? 18 * 60 + 30).clamp(0, 24 * 60 - 1);
+    final from = DateTime.tryParse(ram['from'] as String? ?? '');
+    ramadanFrom = from == null ? null : _dayKey(from);
+    ramadanSkipped
+      ..clear()
+      ..addAll([
+        for (final d in (ram['skip'] as List?) ?? const [])
+          if (d is String && DateTime.tryParse(d) != null) _dayKey(DateTime.parse(d)),
+      ]);
     nutritionDay = _dayKey(DateTime.now());
     _nutritionSetOn = nutritionDay;
     syncSupplementReminder();
