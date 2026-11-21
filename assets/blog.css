@@ -106,8 +106,17 @@ html { scroll-padding-top: 88px; }
 }
 .copy:hover { color: var(--text); border-color: var(--border-hi); }
 .copy.ok { color: var(--sage); border-color: var(--sage); }
+.dlbox { position: relative; margin: 22px 0 26px; }
+.prose .dlbox .shot { margin: 0; }
+.prose .save {
+  position: absolute; top: 10px; right: 10px; font-size: 12px; font-weight: 600; color: var(--dim);
+  padding: 4px 10px; border: 1px solid var(--border); border-radius: 8px; background: var(--raised2);
+  text-decoration: none; transition: color .2s, border-color .2s;
+}
+.prose .save:hover { color: var(--text); border-color: var(--border-hi); }
 .note { margin: 22px 0; padding: 16px 18px; border-left: 2px solid var(--clay); background: var(--clay-soft); border-radius: 0 12px 12px 0; }
 .note p { color: var(--text); font-size: 15.5px; margin: 0; }
+.note p + p { margin-top: 10px; }
 .facts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; margin: 28px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
 .fact { padding: 18px 18px 18px 0; }
 .fact + .fact { padding-left: 18px; border-left: 1px solid var(--border); }

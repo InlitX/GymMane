@@ -8,6 +8,7 @@
   }
 
   var COPY = { es: ['Copiar', 'Copiado'], en: ['Copy', 'Copied'] };
+  var SAVE = { es: 'Descargar', en: 'Download' };
 
   function apply() {
     var root = document.documentElement;
@@ -25,6 +26,9 @@
     });
     document.querySelectorAll('.copy').forEach(function (b) {
       if (!b.classList.contains('ok')) b.textContent = COPY[lang][0];
+    });
+    document.querySelectorAll('.save').forEach(function (b) {
+      b.textContent = SAVE[lang];
     });
   }
 
@@ -57,6 +61,18 @@
     pre.parentNode.insertBefore(box, pre);
     box.appendChild(pre);
     box.appendChild(btn);
+  });
+
+  document.querySelectorAll('.prose img.dl').forEach(function (img) {
+    var box = document.createElement('div');
+    box.className = 'dlbox';
+    var a = document.createElement('a');
+    a.className = 'save';
+    a.href = img.getAttribute('src');
+    a.setAttribute('download', '');
+    img.parentNode.insertBefore(box, img);
+    box.appendChild(img);
+    box.appendChild(a);
   });
 
   var y = document.getElementById('y');
