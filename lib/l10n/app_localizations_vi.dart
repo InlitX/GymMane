@@ -2168,13 +2168,13 @@ class AppLocalizationsVi extends AppLocalizations {
   String get supersetHint => 'Không nghỉ giữa các bài được nối, bạn chuyển thẳng sang bài tiếp theo.';
 
   @override
-  String get jumpSet => 'Jump set';
+  String get jumpSet => 'Hiệp nhảy';
 
   @override
-  String get jumpSetHint => 'Rest after each chained exercise too, then move on to the next one.';
+  String get jumpSetHint => 'Nghỉ cả sau mỗi bài được nối, rồi chuyển sang bài tiếp theo.';
 
   @override
-  String get jumpSetLink => 'Make it a jump set';
+  String get jumpSetLink => 'Biến thành hiệp nhảy';
 
   @override
   String get aiRoutine => 'Giáo án tập với AI';
@@ -8302,124 +8302,124 @@ class AppLocalizationsVi extends AppLocalizations {
   String get bpPulseAdd => '+ Nhịp tim';
 
   @override
-  String get autoHold => 'Chain timed sets';
+  String get autoHold => 'Nối các hiệp tính giờ';
 
   @override
-  String get autoHoldHint => 'After the rest, the next timed set starts on its own';
+  String get autoHoldHint => 'Sau khi nghỉ, hiệp tính giờ tiếp theo tự bắt đầu';
 
   @override
-  String get recoveryTitle => 'Recovery';
+  String get recoveryTitle => 'Phục hồi';
 
   @override
-  String get recoverySettingHint => 'Sauna, cold and breathing, kept apart from your lifting';
+  String get recoverySettingHint => 'Xông hơi, lạnh và hít thở, tách khỏi tập tạ';
 
   @override
-  String get recoveryKindSauna => 'Sauna';
+  String get recoveryKindSauna => 'Xông hơi';
 
   @override
-  String get recoveryKindCold => 'Cold plunge';
+  String get recoveryKindCold => 'Ngâm lạnh';
 
   @override
-  String get recoveryKindContrast => 'Contrast';
+  String get recoveryKindContrast => 'Nóng lạnh';
 
   @override
-  String get recoveryKindBreath => 'Breathing';
+  String get recoveryKindBreath => 'Hít thở';
 
   @override
-  String get recoveryDescSauna => 'Time, heat and rounds';
+  String get recoveryDescSauna => 'Thời gian, nhiệt độ và số lượt';
 
   @override
-  String get recoveryDescCold => 'Ice bath or cold shower';
+  String get recoveryDescCold => 'Bồn nước đá hoặc tắm lạnh';
 
   @override
-  String get recoveryDescContrast => 'Hot and cold, round after round';
+  String get recoveryDescContrast => 'Nóng và lạnh, lượt này đến lượt khác';
 
   @override
-  String get recoveryDescBreath => 'Guided, to slow everything down';
+  String get recoveryDescBreath => 'Có hướng dẫn, để mọi thứ chậm lại';
 
   @override
-  String get recoveryThisWeek => 'This week';
+  String get recoveryThisWeek => 'Tuần này';
 
   @override
-  String get recoveryHeat => 'Heat';
+  String get recoveryHeat => 'Nóng';
 
   @override
-  String get recoveryCold => 'Cold';
+  String get recoveryCold => 'Lạnh';
 
   @override
-  String get recoveryLog => 'Log';
+  String get recoveryLog => 'Ghi lại';
 
   @override
-  String get recoveryRecent => 'Latest';
+  String get recoveryRecent => 'Gần đây';
 
   @override
   String get recoveryEmpty =>
-      'Nothing yet. Log a sauna, a cold plunge or a few minutes of breathing: it stays apart from your workouts.';
+      'Chưa có gì. Ghi lại một lần xông hơi, ngâm lạnh hay vài phút hít thở: nó được tách riêng khỏi buổi tập của bạn.';
 
   @override
-  String get recoveryMinutes => 'Minutes';
+  String get recoveryMinutes => 'Phút';
 
   @override
-  String get recoveryTemp => 'Temperature';
+  String get recoveryTemp => 'Nhiệt độ';
 
   @override
-  String get recoveryRounds => 'Rounds';
+  String get recoveryRounds => 'Lượt';
 
   @override
-  String get recoveryAdd => 'Add';
+  String get recoveryAdd => 'Thêm';
 
   @override
-  String get recoveryNoteHint => 'How did it feel? (optional)';
+  String get recoveryNoteHint => 'Cảm thấy thế nào? (không bắt buộc)';
 
   @override
-  String get recoveryTimer => 'Time it';
+  String get recoveryTimer => 'Bấm giờ';
 
   @override
-  String get recoveryTimerStop => 'Stop';
+  String get recoveryTimerStop => 'Dừng';
 
   @override
-  String get recoveryDeleteTitle => 'Delete this entry?';
+  String get recoveryDeleteTitle => 'Xoá mục này?';
 
   @override
   String recoveryRoundsCount(int n) {
-    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n rounds', one: '1 round');
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n lượt', one: '1 lượt');
     return '$_temp0';
   }
 
   @override
   String recoveryHomeDetail(int min) {
-    return '$min min this week';
+    return '$min phút tuần này';
   }
 
   @override
-  String get breathIn => 'Breathe in';
+  String get breathIn => 'Hít vào';
 
   @override
-  String get breathHold => 'Hold';
+  String get breathHold => 'Giữ';
 
   @override
-  String get breathOut => 'Breathe out';
+  String get breathOut => 'Thở ra';
 
   @override
-  String get breathRest => 'Rest';
+  String get breathRest => 'Nghỉ';
 
   @override
-  String get breathBox => 'Box';
+  String get breathBox => 'Hộp';
 
   @override
-  String get breathRelax => 'Relax';
+  String get breathRelax => 'Thư giãn';
 
   @override
-  String get breathEven => 'Even';
+  String get breathEven => 'Đều';
 
   @override
-  String get breathStart => 'Start';
+  String get breathStart => 'Bắt đầu';
 
   @override
-  String get breathAgain => 'Again';
+  String get breathAgain => 'Lần nữa';
 
   @override
-  String get breathDone => 'Done';
+  String get breathDone => 'Xong';
 
   @override
   String get mealAiNoData => 'The AI answered in words, with no data';
@@ -8435,255 +8435,254 @@ class AppLocalizationsVi extends AppLocalizations {
   String get mealAiCutOffHint => 'Ask it to send the rest, or to answer with fewer foods.';
 
   @override
-  String get recoveryGoal => 'Goal';
+  String get recoveryGoal => 'Mục tiêu';
 
   @override
-  String get recoveryRest => 'Rest';
+  String get recoveryRest => 'Nghỉ';
 
   @override
-  String get recoveryStart => 'Start timer';
+  String get recoveryStart => 'Bật hẹn giờ';
 
   @override
-  String get recoveryJustLog => 'Log without the timer';
+  String get recoveryJustLog => 'Ghi lại không hẹn giờ';
 
   @override
   String recoveryRoundOf(int n, int total) {
-    return 'Round $n of $total';
+    return 'Lượt $n / $total';
   }
 
   @override
-  String get recoveryPause => 'Pause';
+  String get recoveryPause => 'Tạm dừng';
 
   @override
-  String get recoveryResume => 'Resume';
+  String get recoveryResume => 'Tiếp tục';
 
   @override
-  String get recoveryNext => 'Next';
+  String get recoveryNext => 'Tiếp';
 
   @override
-  String get recoveryFinish => 'Finish';
+  String get recoveryFinish => 'Kết thúc';
 
   @override
-  String get recoveryOvertime => 'Extra';
+  String get recoveryOvertime => 'Thêm giờ';
 
   @override
-  String get recoveryFeel => 'How did it feel?';
+  String get recoveryFeel => 'Cảm thấy thế nào?';
 
   @override
-  String get recoveryFeelLow => 'Worse';
+  String get recoveryFeelLow => 'Tệ hơn';
 
   @override
-  String get recoveryFeelHigh => 'Better';
+  String get recoveryFeelHigh => 'Tốt hơn';
 
   @override
-  String get recoveryGoalHeat => 'Heat goal (minutes a week)';
+  String get recoveryGoalHeat => 'Mục tiêu nóng (phút mỗi tuần)';
 
   @override
-  String get recoveryGoalCold => 'Cold goal (minutes a week)';
+  String get recoveryGoalCold => 'Mục tiêu lạnh (phút mỗi tuần)';
 
   @override
   String recoveryOfGoal(int min) {
-    return 'of $min min this week';
+    return 'trên $min phút tuần này';
   }
 
   @override
   String recoveryBestCold(String time) {
-    return 'Longest cold: $time';
+    return 'Lạnh lâu nhất: $time';
   }
 
   @override
   String recoveryBestHold(String time) {
-    return 'Longest hold: $time';
+    return 'Giữ hơi lâu nhất: $time';
   }
 
   @override
-  String get recoveryMobility => 'Mobility and stretching';
+  String get recoveryMobility => 'Linh hoạt và giãn cơ';
 
   @override
-  String get recoveryMobilityHint => 'Open the stretches in the library';
+  String get recoveryMobilityHint => 'Mở các bài giãn cơ trong thư viện';
 
   @override
-  String get recoveryTipTitle => 'Before you start';
+  String get recoveryTipTitle => 'Trước khi bắt đầu';
 
   @override
   String get recoveryTipBody =>
-      'Drink water, get out if you feel dizzy and never do intense cold alone. If you have a heart or blood pressure condition, ask your doctor first.';
+      'Uống nước, ra ngoài nếu thấy chóng mặt và đừng bao giờ ngâm lạnh mạnh một mình. Nếu bạn có bệnh tim hoặc huyết áp, hãy hỏi bác sĩ trước.';
 
   @override
-  String get recoveryTipOk => 'Got it';
+  String get recoveryTipOk => 'Đã hiểu';
 
   @override
-  String get breathRetention => 'Retention';
+  String get breathRetention => 'Nín thở';
 
   @override
   String breathRetentionHow(int breaths, int rounds) {
-    return '$breaths deep breaths, then breathe out and hold as long as is comfortable. $rounds rounds.';
+    return '$breaths hơi thở sâu, rồi thở ra và giữ lâu nhất có thể mà vẫn thoải mái. $rounds lượt.';
   }
 
   @override
-  String get breathRetentionSafe => 'Sit or lie down, never in water or while driving.';
+  String get breathRetentionSafe => 'Ngồi hoặc nằm, không bao giờ trong nước hay khi lái xe.';
 
   @override
-  String get breathFast => 'Breathe deep';
+  String get breathFast => 'Thở sâu';
 
   @override
-  String get breathHoldOut => 'Breathe out and hold';
+  String get breathHoldOut => 'Thở ra và giữ';
 
   @override
-  String get breathRelease => 'Breathe';
+  String get breathRelease => 'Thở';
 
   @override
-  String get breathRecover => 'Breathe in and hold';
+  String get breathRecover => 'Hít vào và giữ';
 
   @override
-  String get bodyLoadSetting => 'Count your body weight';
+  String get bodyLoadSetting => 'Tính cân nặng cơ thể';
 
   @override
   String get bodyLoadSettingHint =>
-      'Volume uses your body weight that day plus the added weight (minus the help on assisted ones). Records still use the added weight.';
+      'Khối lượng dùng cân nặng của bạn hôm đó cộng mức tạ thêm (trừ phần hỗ trợ ở bài có hỗ trợ). Kỷ lục vẫn dùng mức tạ thêm.';
 
   @override
-  String get lengthUnitsLabel => 'Body measurements';
+  String get lengthUnitsLabel => 'Số đo cơ thể';
 
   @override
-  String get workoutFullView => 'Full view';
+  String get workoutFullView => 'Xem đầy đủ';
 
   @override
   String routineRepeatTag(int n, int total) {
-    return 'Block $n of $total';
+    return 'Khối $n / $total';
   }
 
   @override
-  String get routineAddAgain => 'Add again';
+  String get routineAddAgain => 'Thêm lần nữa';
 
   @override
-  String get routineAddAgainHint => 'Do it again later in this workout, with its own sets';
+  String get routineAddAgainHint => 'Tập lại sau trong buổi này, với các hiệp riêng';
 
   @override
-  String get routineAddedAgain => 'Added again at the end';
+  String get routineAddedAgain => 'Đã thêm lần nữa ở cuối';
 
   @override
-  String get routineAddedAgainHint => 'Drag it to where you do it';
+  String get routineAddedAgainHint => 'Kéo đến chỗ bạn tập nó';
 
   @override
-  String get restGlowSetting => 'Light at the end of rest';
+  String get restGlowSetting => 'Ánh sáng khi hết nghỉ';
 
   @override
   String get restGlowHint =>
-      'The edges of the screen glow when rest is over, so you notice it even if you cannot hear the beep';
+      'Viền màn hình sáng lên khi hết giờ nghỉ, để bạn nhận ra dù không nghe tiếng bíp';
 
   @override
   String bodyweightRatio(String x) {
-    return 'Your estimated 1RM is $x× your body weight';
+    return '1RM ước tính của bạn bằng $x× cân nặng';
   }
 
   @override
-  String get healthAddReading => 'Add a reading';
+  String get healthAddReading => 'Thêm số đo';
 
   @override
-  String get healthFromYours => 'From Health Connect and your own readings · last 30 days';
+  String get healthFromYours => 'Từ Health Connect và số đo của bạn · 30 ngày qua';
 
   @override
-  String get reportKindSummary => 'Summary';
+  String get reportKindSummary => 'Tóm tắt';
 
   @override
-  String get reportKindSummaryHint => 'The period at a glance: totals, records and averages';
+  String get reportKindSummaryHint => 'Cả giai đoạn trong nháy mắt: tổng, kỷ lục và trung bình';
 
   @override
-  String get reportKindTraining => 'Training';
+  String get reportKindTraining => 'Tập luyện';
 
   @override
-  String get reportKindTrainingHint => 'For your coach: every workout with its sets, RPE and notes';
+  String get reportKindTrainingHint => 'Cho huấn luyện viên: mỗi buổi tập với hiệp, RPE và ghi chú';
 
   @override
-  String get reportKindNutrition => 'Nutrition';
+  String get reportKindNutrition => 'Dinh dưỡng';
 
   @override
-  String get reportKindNutritionHint => 'For your nutritionist: goals, daily totals and every meal';
+  String get reportKindNutritionHint => 'Cho chuyên gia dinh dưỡng: mục tiêu, tổng mỗi ngày và mọi bữa ăn';
 
   @override
-  String get reportKindFull => 'Everything';
+  String get reportKindFull => 'Tất cả';
 
   @override
-  String get reportKindFullHint => 'Training, nutrition, body and health, day by day';
+  String get reportKindFullHint => 'Tập luyện, dinh dưỡng, cơ thể và sức khoẻ, từng ngày';
 
   @override
-  String get reportKindFullNoFoodHint => 'Training, body and health, day by day';
+  String get reportKindFullNoFoodHint => 'Tập luyện, cơ thể và sức khoẻ, từng ngày';
 
   @override
-  String get reportKickerTraining => 'DETAILED TRAINING REPORT';
+  String get reportKickerTraining => 'BÁO CÁO TẬP LUYỆN CHI TIẾT';
 
   @override
-  String get reportKickerNutrition => 'NUTRITION REPORT';
+  String get reportKickerNutrition => 'BÁO CÁO DINH DƯỠNG';
 
   @override
-  String get reportKickerFull => 'COMPLETE REPORT';
+  String get reportKickerFull => 'BÁO CÁO ĐẦY ĐỦ';
 
   @override
-  String get reportWorkoutLog => 'Workout log';
+  String get reportWorkoutLog => 'Nhật ký tập';
 
   @override
-  String get reportFoodLog => 'Food log';
+  String get reportFoodLog => 'Nhật ký ăn uống';
 
   @override
-  String get reportDayByDay => 'Day by day';
+  String get reportDayByDay => 'Từng ngày';
 
   @override
-  String get reportGoalsLabel => 'Daily goal';
+  String get reportGoalsLabel => 'Mục tiêu mỗi ngày';
 
   @override
-  String get reportGoalsRest => 'Goal on rest days';
+  String get reportGoalsRest => 'Mục tiêu ngày nghỉ';
 
   @override
-  String get reportKcalOnTarget => 'Days within 10 % of the calorie goal';
+  String get reportKcalOnTarget => 'Số ngày trong khoảng 10 % mục tiêu calo';
 
   @override
-  String get reportProteinMet => 'Days reaching the protein goal';
+  String get reportProteinMet => 'Số ngày đạt mục tiêu đạm';
 
   @override
-  String get reportDailyTotals => 'Daily totals';
+  String get reportDailyTotals => 'Tổng mỗi ngày';
 
   @override
-  String get reportDateCol => 'DATE';
+  String get reportDateCol => 'NGÀY';
 
   @override
   String reportReadings(int n) {
-    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n readings', one: '1 reading');
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n số đo', one: '1 số đo');
     return '$_temp0';
   }
 
   @override
-  String get reportHealthAvg => 'Health · daily average';
+  String get reportHealthAvg => 'Sức khoẻ · trung bình mỗi ngày';
 
   @override
-  String get reportBodyHealth => 'Body and health';
+  String get reportBodyHealth => 'Cơ thể và sức khoẻ';
 
   @override
-  String get reportCopyMarkdown => 'Copy as Markdown';
+  String get reportCopyMarkdown => 'Sao chép dạng Markdown';
 
   @override
   String reportDetailCap(int n) {
-    return 'Detailed reports cover up to $n days, ending on the last day you chose.';
+    return 'Báo cáo chi tiết bao gồm tối đa $n ngày, kết thúc vào ngày cuối bạn chọn.';
   }
 
   @override
-  String get nutritionCopyDay => 'Copy the day';
+  String get nutritionCopyDay => 'Sao chép ngày';
 
   @override
-  String get nutritionCopyFood => 'Food only';
+  String get nutritionCopyFood => 'Chỉ đồ ăn';
 
   @override
-  String get nutritionCopyFoodHint => 'Meals, foods, calories and macros';
+  String get nutritionCopyFoodHint => 'Bữa ăn, món ăn, calo và macro';
 
   @override
-  String get nutritionCopyAll => 'The whole day';
+  String get nutritionCopyAll => 'Cả ngày';
 
   @override
-  String get nutritionCopyAllHint => 'Also your workout, weight and health data';
+  String get nutritionCopyAllHint => 'Cả buổi tập, cân nặng và dữ liệu sức khoẻ';
 
   @override
-  String get routineGroupHint =>
-      'A group is a folder to sort your routines. The exercises stay with the routine.';
+  String get routineGroupHint => 'Nhóm là một thư mục để sắp xếp các giáo án. Bài tập vẫn nằm trong giáo án.';
 
   @override
   String get ramadanSuhoor => 'Suhoor';
@@ -8752,181 +8751,180 @@ class AppLocalizationsVi extends AppLocalizations {
   String get ramadanRestartBody => 'Your fasts and days to make up go back to zero.';
 
   @override
-  String get trendFullView => 'Full view';
+  String get trendFullView => 'Xem đầy đủ';
 
   @override
-  String get trendTop => 'Heaviest set';
+  String get trendTop => 'Hiệp nặng nhất';
 
   @override
-  String get trendTopAssisted => 'Least assistance';
+  String get trendTopAssisted => 'Ít hỗ trợ nhất';
 
   @override
-  String get trendReps => 'Most reps';
+  String get trendReps => 'Nhiều lần lặp nhất';
 
   @override
-  String get trendVolume => 'Volume';
+  String get trendVolume => 'Khối lượng';
 
   @override
-  String get trendTotalReps => 'Total reps';
+  String get trendTotalReps => 'Tổng số lần lặp';
 
   @override
-  String get trendSlope => 'Trend';
+  String get trendSlope => 'Xu hướng';
 
   @override
-  String get trendFlat => 'Steady';
+  String get trendFlat => 'Ổn định';
 
   @override
   String trendUpMonth(String v) {
-    return 'Up about $v a month';
+    return 'Tăng khoảng $v mỗi tháng';
   }
 
   @override
   String trendDownMonth(String v) {
-    return 'Down about $v a month';
+    return 'Giảm khoảng $v mỗi tháng';
   }
 
   @override
   String trendUpWeek(String v) {
-    return 'Up about $v a week';
+    return 'Tăng khoảng $v mỗi tuần';
   }
 
   @override
   String trendDownWeek(String v) {
-    return 'Down about $v a week';
+    return 'Giảm khoảng $v mỗi tuần';
   }
 
   @override
-  String get trendFlatLine => 'Steady over this period';
+  String get trendFlatLine => 'Ổn định trong giai đoạn này';
 
   @override
   String trendPerMonth(String v) {
-    return '$v/mo';
+    return '$v/tháng';
   }
 
   @override
   String trendPerWeek(String v) {
-    return '$v/wk';
+    return '$v/tuần';
   }
 
   @override
-  String get trendLineHint => 'The dashed line is your trend. Drag across the chart to see each day.';
+  String get trendLineHint => 'Đường nét đứt là xu hướng của bạn. Kéo trên biểu đồ để xem từng ngày.';
 
   @override
-  String get trendNeedMore => 'Log it a couple more times in this period to see a trend.';
+  String get trendNeedMore => 'Ghi thêm vài lần trong giai đoạn này để thấy xu hướng.';
 
   @override
   String get muscleGoalsHint =>
-      'How many hard sets you want for each muscle. Pick a level for all of them, then fine-tune any muscle.';
+      'Bạn muốn bao nhiêu hiệp nặng cho mỗi nhóm cơ. Chọn một mức cho tất cả, rồi chỉnh từng nhóm cơ.';
 
   @override
-  String get muscleGoalsAll => 'All muscles';
+  String get muscleGoalsAll => 'Tất cả nhóm cơ';
 
   @override
-  String get muscleLevelKeep => 'Maintain';
+  String get muscleLevelKeep => 'Duy trì';
 
   @override
-  String get muscleLevelLight => 'Light';
+  String get muscleLevelLight => 'Nhẹ';
 
   @override
-  String get muscleLevelStandard => 'Standard';
+  String get muscleLevelStandard => 'Tiêu chuẩn';
 
   @override
-  String get muscleLevelHigh => 'High';
+  String get muscleLevelHigh => 'Cao';
 
   @override
-  String get muscleLevelMax => 'Very high';
+  String get muscleLevelMax => 'Rất cao';
 
   @override
-  String get muscleGoalsWeek => 'Per week';
+  String get muscleGoalsWeek => 'Mỗi tuần';
 
   @override
-  String get muscleGoalsMonth => 'Per month';
+  String get muscleGoalsMonth => 'Mỗi tháng';
 
   @override
-  String get muscleGoalOff => 'Not training it';
+  String get muscleGoalOff => 'Không tập';
 
   @override
-  String get muscleGoalReset => 'Same as all';
+  String get muscleGoalReset => 'Giống tất cả';
 
   @override
-  String get muscleGoalsEdit => 'Goals';
+  String get muscleGoalsEdit => 'Mục tiêu';
 
   @override
   String muscleOfGoal(String done, String goal) {
-    return '$done of $goal';
+    return '$done / $goal';
   }
 
   @override
   String muscleGoalsMet(int n, int total) {
-    return '$n of $total muscles on target';
+    return '$n / $total nhóm cơ đạt mục tiêu';
   }
 
   @override
-  String get addMusclesWidget => 'Add sets per muscle widget';
+  String get addMusclesWidget => 'Thêm widget hiệp theo nhóm cơ';
 
   @override
-  String get widgetHintMuscles => 'Your sets this week for each muscle, as a list';
+  String get widgetHintMuscles => 'Số hiệp tuần này của từng nhóm cơ, dạng danh sách';
 
   @override
-  String get bodyShareSetting => 'Share of body weight';
+  String get bodyShareSetting => 'Tỷ lệ cân nặng cơ thể';
 
   @override
-  String get bodyShareHint =>
-      'How much of your weight you move. Push-ups are about 65 %, pull-ups and squats 100 %.';
+  String get bodyShareHint => 'Bạn nâng bao nhiêu phần cân nặng. Hít đất khoảng 65 %, kéo xà và squat 100 %.';
 
   @override
   String bodyShareCustom(int percent) {
-    return 'Your own · tap to go back to $percent %';
+    return 'Giá trị riêng · chạm để về $percent %';
   }
 
   @override
-  String get recoveryAdjust => 'Adjust';
+  String get recoveryAdjust => 'Điều chỉnh';
 
   @override
-  String get recoverySpeedTitle => 'Your recovery';
+  String get recoverySpeedTitle => 'Khả năng phục hồi';
 
   @override
-  String get recoverySpeedHint => 'If the map says a muscle is ready and it still feels sore, pick Slow.';
+  String get recoverySpeedHint => 'Nếu bản đồ nói cơ đã sẵn sàng mà vẫn còn đau, hãy chọn Chậm.';
 
   @override
-  String get recoverySpeedLabel => 'How fast you recover';
+  String get recoverySpeedLabel => 'Bạn phục hồi nhanh thế nào';
 
   @override
-  String get recoverySpeedFast => 'Fast';
+  String get recoverySpeedFast => 'Nhanh';
 
   @override
-  String get recoverySpeedNormal => 'Normal';
+  String get recoverySpeedNormal => 'Bình thường';
 
   @override
-  String get recoverySpeedSlow => 'Slow';
+  String get recoverySpeedSlow => 'Chậm';
 
   @override
   String get recoveryHowItWorks =>
-      'It counts every set with its reps, how heavy it was for you (compared with your best on that exercise) and the effort you log: a set to failure tires more than one with 3 reps in reserve, and a long session takes longer to clear.';
+      'Nó tính mỗi hiệp với số lần lặp, mức nặng với bạn (so với kỷ lục của bạn ở bài đó) và mức gắng sức bạn ghi: hiệp đến kiệt sức mệt hơn hiệp còn 3 lần dự trữ, và buổi tập dài cần lâu hơn để hồi lại.';
 
   @override
-  String get trendChange => 'Change in this period';
+  String get trendChange => 'Thay đổi trong giai đoạn';
 
   @override
-  String get trendCount => 'Entries';
+  String get trendCount => 'Mục';
 
   @override
-  String get trendLow => 'Lowest';
+  String get trendLow => 'Thấp nhất';
 
   @override
-  String get dayTapHint => 'Tap an exercise or the time to fix it.';
+  String get dayTapHint => 'Chạm vào bài tập hoặc thời gian để sửa.';
 
   @override
-  String get forgotEndTitle => 'Forgot to finish?';
+  String get forgotEndTitle => 'Quên kết thúc?';
 
   @override
   String forgotEndBody(String time) {
-    return 'Your last set was at $time. If you stopped there, end the workout at that time so the duration is right.';
+    return 'Hiệp cuối của bạn lúc $time. Nếu bạn dừng ở đó, hãy kết thúc buổi tập vào giờ đó để thời lượng đúng.';
   }
 
   @override
   String forgotEndAction(String time) {
-    return 'End at $time';
+    return 'Kết thúc lúc $time';
   }
 
   @override

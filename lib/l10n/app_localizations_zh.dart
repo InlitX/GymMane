@@ -2134,13 +2134,13 @@ class AppLocalizationsZh extends AppLocalizations {
   String get supersetHint => '相连的动作之间不休息，直接进入下一个。';
 
   @override
-  String get jumpSet => 'Jump set';
+  String get jumpSet => '跳组';
 
   @override
-  String get jumpSetHint => 'Rest after each chained exercise too, then move on to the next one.';
+  String get jumpSetHint => '每个串联动作之后也休息，然后再做下一个。';
 
   @override
-  String get jumpSetLink => 'Make it a jump set';
+  String get jumpSetLink => '设为跳组';
 
   @override
   String get aiRoutine => '用 AI 生成计划';
@@ -8111,124 +8111,123 @@ class AppLocalizationsZh extends AppLocalizations {
   String get bpPulseAdd => '+ 脉搏';
 
   @override
-  String get autoHold => 'Chain timed sets';
+  String get autoHold => '计时组连续进行';
 
   @override
-  String get autoHoldHint => 'After the rest, the next timed set starts on its own';
+  String get autoHoldHint => '休息结束后，下一个计时组自动开始';
 
   @override
-  String get recoveryTitle => 'Recovery';
+  String get recoveryTitle => '恢复';
 
   @override
-  String get recoverySettingHint => 'Sauna, cold and breathing, kept apart from your lifting';
+  String get recoverySettingHint => '桑拿、冷水和呼吸，与力量训练分开';
 
   @override
-  String get recoveryKindSauna => 'Sauna';
+  String get recoveryKindSauna => '桑拿';
 
   @override
-  String get recoveryKindCold => 'Cold plunge';
+  String get recoveryKindCold => '冷水浴';
 
   @override
-  String get recoveryKindContrast => 'Contrast';
+  String get recoveryKindContrast => '冷热交替';
 
   @override
-  String get recoveryKindBreath => 'Breathing';
+  String get recoveryKindBreath => '呼吸';
 
   @override
-  String get recoveryDescSauna => 'Time, heat and rounds';
+  String get recoveryDescSauna => '时间、温度和轮数';
 
   @override
-  String get recoveryDescCold => 'Ice bath or cold shower';
+  String get recoveryDescCold => '冰浴或冷水淋浴';
 
   @override
-  String get recoveryDescContrast => 'Hot and cold, round after round';
+  String get recoveryDescContrast => '冷热交替，一轮接一轮';
 
   @override
-  String get recoveryDescBreath => 'Guided, to slow everything down';
+  String get recoveryDescBreath => '有引导，让一切慢下来';
 
   @override
-  String get recoveryThisWeek => 'This week';
+  String get recoveryThisWeek => '本周';
 
   @override
-  String get recoveryHeat => 'Heat';
+  String get recoveryHeat => '热';
 
   @override
-  String get recoveryCold => 'Cold';
+  String get recoveryCold => '冷';
 
   @override
-  String get recoveryLog => 'Log';
+  String get recoveryLog => '记录';
 
   @override
-  String get recoveryRecent => 'Latest';
+  String get recoveryRecent => '最近';
 
   @override
-  String get recoveryEmpty =>
-      'Nothing yet. Log a sauna, a cold plunge or a few minutes of breathing: it stays apart from your workouts.';
+  String get recoveryEmpty => '还没有记录。记录一次桑拿、冷水浴或几分钟呼吸练习：它与训练分开保存。';
 
   @override
-  String get recoveryMinutes => 'Minutes';
+  String get recoveryMinutes => '分钟';
 
   @override
-  String get recoveryTemp => 'Temperature';
+  String get recoveryTemp => '温度';
 
   @override
-  String get recoveryRounds => 'Rounds';
+  String get recoveryRounds => '轮数';
 
   @override
-  String get recoveryAdd => 'Add';
+  String get recoveryAdd => '添加';
 
   @override
-  String get recoveryNoteHint => 'How did it feel? (optional)';
+  String get recoveryNoteHint => '感觉如何？（可选）';
 
   @override
-  String get recoveryTimer => 'Time it';
+  String get recoveryTimer => '计时';
 
   @override
-  String get recoveryTimerStop => 'Stop';
+  String get recoveryTimerStop => '停止';
 
   @override
-  String get recoveryDeleteTitle => 'Delete this entry?';
+  String get recoveryDeleteTitle => '删除这条记录？';
 
   @override
   String recoveryRoundsCount(int n) {
-    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n rounds', one: '1 round');
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n 轮', one: '1 轮');
     return '$_temp0';
   }
 
   @override
   String recoveryHomeDetail(int min) {
-    return '$min min this week';
+    return '本周 $min 分钟';
   }
 
   @override
-  String get breathIn => 'Breathe in';
+  String get breathIn => '吸气';
 
   @override
-  String get breathHold => 'Hold';
+  String get breathHold => '屏住';
 
   @override
-  String get breathOut => 'Breathe out';
+  String get breathOut => '呼气';
 
   @override
-  String get breathRest => 'Rest';
+  String get breathRest => '休息';
 
   @override
-  String get breathBox => 'Box';
+  String get breathBox => '方块';
 
   @override
-  String get breathRelax => 'Relax';
+  String get breathRelax => '放松';
 
   @override
-  String get breathEven => 'Even';
+  String get breathEven => '均匀';
 
   @override
-  String get breathStart => 'Start';
+  String get breathStart => '开始';
 
   @override
-  String get breathAgain => 'Again';
+  String get breathAgain => '再来';
 
   @override
-  String get breathDone => 'Done';
+  String get breathDone => '完成';
 
   @override
   String get mealAiNoData => 'The AI answered in words, with no data';
@@ -8244,255 +8243,251 @@ class AppLocalizationsZh extends AppLocalizations {
   String get mealAiCutOffHint => 'Ask it to send the rest, or to answer with fewer foods.';
 
   @override
-  String get recoveryGoal => 'Goal';
+  String get recoveryGoal => '目标';
 
   @override
-  String get recoveryRest => 'Rest';
+  String get recoveryRest => '休息';
 
   @override
-  String get recoveryStart => 'Start timer';
+  String get recoveryStart => '开始计时';
 
   @override
-  String get recoveryJustLog => 'Log without the timer';
+  String get recoveryJustLog => '不计时直接记录';
 
   @override
   String recoveryRoundOf(int n, int total) {
-    return 'Round $n of $total';
+    return '第 $n 轮，共 $total 轮';
   }
 
   @override
-  String get recoveryPause => 'Pause';
+  String get recoveryPause => '暂停';
 
   @override
-  String get recoveryResume => 'Resume';
+  String get recoveryResume => '继续';
 
   @override
-  String get recoveryNext => 'Next';
+  String get recoveryNext => '下一步';
 
   @override
-  String get recoveryFinish => 'Finish';
+  String get recoveryFinish => '结束';
 
   @override
-  String get recoveryOvertime => 'Extra';
+  String get recoveryOvertime => '超时';
 
   @override
-  String get recoveryFeel => 'How did it feel?';
+  String get recoveryFeel => '感觉如何？';
 
   @override
-  String get recoveryFeelLow => 'Worse';
+  String get recoveryFeelLow => '更差';
 
   @override
-  String get recoveryFeelHigh => 'Better';
+  String get recoveryFeelHigh => '更好';
 
   @override
-  String get recoveryGoalHeat => 'Heat goal (minutes a week)';
+  String get recoveryGoalHeat => '热的目标（每周分钟）';
 
   @override
-  String get recoveryGoalCold => 'Cold goal (minutes a week)';
+  String get recoveryGoalCold => '冷的目标（每周分钟）';
 
   @override
   String recoveryOfGoal(int min) {
-    return 'of $min min this week';
+    return '本周目标 $min 分钟';
   }
 
   @override
   String recoveryBestCold(String time) {
-    return 'Longest cold: $time';
+    return '最长冷水：$time';
   }
 
   @override
   String recoveryBestHold(String time) {
-    return 'Longest hold: $time';
+    return '最长屏息：$time';
   }
 
   @override
-  String get recoveryMobility => 'Mobility and stretching';
+  String get recoveryMobility => '灵活性与拉伸';
 
   @override
-  String get recoveryMobilityHint => 'Open the stretches in the library';
+  String get recoveryMobilityHint => '在动作库中打开拉伸';
 
   @override
-  String get recoveryTipTitle => 'Before you start';
+  String get recoveryTipTitle => '开始之前';
 
   @override
-  String get recoveryTipBody =>
-      'Drink water, get out if you feel dizzy and never do intense cold alone. If you have a heart or blood pressure condition, ask your doctor first.';
+  String get recoveryTipBody => '多喝水，感到头晕就出来，不要独自进行高强度冷水。如果有心脏或血压问题，请先咨询医生。';
 
   @override
-  String get recoveryTipOk => 'Got it';
+  String get recoveryTipOk => '知道了';
 
   @override
-  String get breathRetention => 'Retention';
+  String get breathRetention => '屏息';
 
   @override
   String breathRetentionHow(int breaths, int rounds) {
-    return '$breaths deep breaths, then breathe out and hold as long as is comfortable. $rounds rounds.';
+    return '深呼吸 $breaths 次，然后呼气并在舒适的范围内屏住。$rounds 轮。';
   }
 
   @override
-  String get breathRetentionSafe => 'Sit or lie down, never in water or while driving.';
+  String get breathRetentionSafe => '坐着或躺着进行，绝不要在水中或开车时进行。';
 
   @override
-  String get breathFast => 'Breathe deep';
+  String get breathFast => '深呼吸';
 
   @override
-  String get breathHoldOut => 'Breathe out and hold';
+  String get breathHoldOut => '呼气并屏住';
 
   @override
-  String get breathRelease => 'Breathe';
+  String get breathRelease => '呼吸';
 
   @override
-  String get breathRecover => 'Breathe in and hold';
+  String get breathRecover => '吸气并屏住';
 
   @override
-  String get bodyLoadSetting => 'Count your body weight';
+  String get bodyLoadSetting => '计入体重';
 
   @override
-  String get bodyLoadSettingHint =>
-      'Volume uses your body weight that day plus the added weight (minus the help on assisted ones). Records still use the added weight.';
+  String get bodyLoadSettingHint => '训练量使用你当天的体重加上额外负重（辅助动作减去辅助）。纪录仍按额外负重计算。';
 
   @override
-  String get lengthUnitsLabel => 'Body measurements';
+  String get lengthUnitsLabel => '身体围度';
 
   @override
-  String get workoutFullView => 'Full view';
+  String get workoutFullView => '完整视图';
 
   @override
   String routineRepeatTag(int n, int total) {
-    return 'Block $n of $total';
+    return '第 $n 块，共 $total 块';
   }
 
   @override
-  String get routineAddAgain => 'Add again';
+  String get routineAddAgain => '再次添加';
 
   @override
-  String get routineAddAgainHint => 'Do it again later in this workout, with its own sets';
+  String get routineAddAgainHint => '在本次训练稍后再做一次，有自己的组';
 
   @override
-  String get routineAddedAgain => 'Added again at the end';
+  String get routineAddedAgain => '已再次添加到末尾';
 
   @override
-  String get routineAddedAgainHint => 'Drag it to where you do it';
+  String get routineAddedAgainHint => '拖到你做它的位置';
 
   @override
-  String get restGlowSetting => 'Light at the end of rest';
+  String get restGlowSetting => '休息结束时亮光';
 
   @override
-  String get restGlowHint =>
-      'The edges of the screen glow when rest is over, so you notice it even if you cannot hear the beep';
+  String get restGlowHint => '休息结束时屏幕边缘会发光，即使听不到提示音也能注意到';
 
   @override
   String bodyweightRatio(String x) {
-    return 'Your estimated 1RM is $x× your body weight';
+    return '你的预估 1RM 是体重的 $x×';
   }
 
   @override
-  String get healthAddReading => 'Add a reading';
+  String get healthAddReading => '添加读数';
 
   @override
-  String get healthFromYours => 'From Health Connect and your own readings · last 30 days';
+  String get healthFromYours => '来自 Health Connect 和你自己的读数 · 最近 30 天';
 
   @override
-  String get reportKindSummary => 'Summary';
+  String get reportKindSummary => '概览';
 
   @override
-  String get reportKindSummaryHint => 'The period at a glance: totals, records and averages';
+  String get reportKindSummaryHint => '一眼看清这段时间：总计、纪录和平均值';
 
   @override
-  String get reportKindTraining => 'Training';
+  String get reportKindTraining => '训练';
 
   @override
-  String get reportKindTrainingHint => 'For your coach: every workout with its sets, RPE and notes';
+  String get reportKindTrainingHint => '给教练：每次训练及其组数、RPE 和备注';
 
   @override
-  String get reportKindNutrition => 'Nutrition';
+  String get reportKindNutrition => '营养';
 
   @override
-  String get reportKindNutritionHint => 'For your nutritionist: goals, daily totals and every meal';
+  String get reportKindNutritionHint => '给营养师：目标、每日总计和每一餐';
 
   @override
-  String get reportKindFull => 'Everything';
+  String get reportKindFull => '全部';
 
   @override
-  String get reportKindFullHint => 'Training, nutrition, body and health, day by day';
+  String get reportKindFullHint => '训练、营养、身体和健康，逐日记录';
 
   @override
-  String get reportKindFullNoFoodHint => 'Training, body and health, day by day';
+  String get reportKindFullNoFoodHint => '训练、身体和健康，逐日记录';
 
   @override
-  String get reportKickerTraining => 'DETAILED TRAINING REPORT';
+  String get reportKickerTraining => '详细训练报告';
 
   @override
-  String get reportKickerNutrition => 'NUTRITION REPORT';
+  String get reportKickerNutrition => '营养报告';
 
   @override
-  String get reportKickerFull => 'COMPLETE REPORT';
+  String get reportKickerFull => '完整报告';
 
   @override
-  String get reportWorkoutLog => 'Workout log';
+  String get reportWorkoutLog => '训练日志';
 
   @override
-  String get reportFoodLog => 'Food log';
+  String get reportFoodLog => '饮食日志';
 
   @override
-  String get reportDayByDay => 'Day by day';
+  String get reportDayByDay => '逐日';
 
   @override
-  String get reportGoalsLabel => 'Daily goal';
+  String get reportGoalsLabel => '每日目标';
 
   @override
-  String get reportGoalsRest => 'Goal on rest days';
+  String get reportGoalsRest => '休息日目标';
 
   @override
-  String get reportKcalOnTarget => 'Days within 10 % of the calorie goal';
+  String get reportKcalOnTarget => '热量在目标 10 % 以内的天数';
 
   @override
-  String get reportProteinMet => 'Days reaching the protein goal';
+  String get reportProteinMet => '达到蛋白质目标的天数';
 
   @override
-  String get reportDailyTotals => 'Daily totals';
+  String get reportDailyTotals => '每日总计';
 
   @override
-  String get reportDateCol => 'DATE';
+  String get reportDateCol => '日期';
 
   @override
   String reportReadings(int n) {
-    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n readings', one: '1 reading');
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n 次读数', one: '1 次读数');
     return '$_temp0';
   }
 
   @override
-  String get reportHealthAvg => 'Health · daily average';
+  String get reportHealthAvg => '健康 · 每日平均';
 
   @override
-  String get reportBodyHealth => 'Body and health';
+  String get reportBodyHealth => '身体与健康';
 
   @override
-  String get reportCopyMarkdown => 'Copy as Markdown';
+  String get reportCopyMarkdown => '复制为 Markdown';
 
   @override
   String reportDetailCap(int n) {
-    return 'Detailed reports cover up to $n days, ending on the last day you chose.';
+    return '详细报告最多涵盖 $n 天，截至你选择的最后一天。';
   }
 
   @override
-  String get nutritionCopyDay => 'Copy the day';
+  String get nutritionCopyDay => '复制这一天';
 
   @override
-  String get nutritionCopyFood => 'Food only';
+  String get nutritionCopyFood => '仅饮食';
 
   @override
-  String get nutritionCopyFoodHint => 'Meals, foods, calories and macros';
+  String get nutritionCopyFoodHint => '餐次、食物、热量和宏量营养素';
 
   @override
-  String get nutritionCopyAll => 'The whole day';
+  String get nutritionCopyAll => '整天';
 
   @override
-  String get nutritionCopyAllHint => 'Also your workout, weight and health data';
+  String get nutritionCopyAllHint => '还包括训练、体重和健康数据';
 
   @override
-  String get routineGroupHint =>
-      'A group is a folder to sort your routines. The exercises stay with the routine.';
+  String get routineGroupHint => '分组是整理训练计划的文件夹。动作仍保留在计划中。';
 
   @override
   String get ramadanSuhoor => 'Suhoor';
@@ -8561,181 +8556,179 @@ class AppLocalizationsZh extends AppLocalizations {
   String get ramadanRestartBody => 'Your fasts and days to make up go back to zero.';
 
   @override
-  String get trendFullView => 'Full view';
+  String get trendFullView => '完整视图';
 
   @override
-  String get trendTop => 'Heaviest set';
+  String get trendTop => '最重的一组';
 
   @override
-  String get trendTopAssisted => 'Least assistance';
+  String get trendTopAssisted => '辅助最少';
 
   @override
-  String get trendReps => 'Most reps';
+  String get trendReps => '次数最多';
 
   @override
-  String get trendVolume => 'Volume';
+  String get trendVolume => '训练量';
 
   @override
-  String get trendTotalReps => 'Total reps';
+  String get trendTotalReps => '总次数';
 
   @override
-  String get trendSlope => 'Trend';
+  String get trendSlope => '趋势';
 
   @override
-  String get trendFlat => 'Steady';
+  String get trendFlat => '平稳';
 
   @override
   String trendUpMonth(String v) {
-    return 'Up about $v a month';
+    return '每月约增加 $v';
   }
 
   @override
   String trendDownMonth(String v) {
-    return 'Down about $v a month';
+    return '每月约减少 $v';
   }
 
   @override
   String trendUpWeek(String v) {
-    return 'Up about $v a week';
+    return '每周约增加 $v';
   }
 
   @override
   String trendDownWeek(String v) {
-    return 'Down about $v a week';
+    return '每周约减少 $v';
   }
 
   @override
-  String get trendFlatLine => 'Steady over this period';
+  String get trendFlatLine => '这段时间保持平稳';
 
   @override
   String trendPerMonth(String v) {
-    return '$v/mo';
+    return '$v/月';
   }
 
   @override
   String trendPerWeek(String v) {
-    return '$v/wk';
+    return '$v/周';
   }
 
   @override
-  String get trendLineHint => 'The dashed line is your trend. Drag across the chart to see each day.';
+  String get trendLineHint => '虚线是你的趋势。在图表上滑动可查看每一天。';
 
   @override
-  String get trendNeedMore => 'Log it a couple more times in this period to see a trend.';
+  String get trendNeedMore => '在这段时间再多记录几次才能看到趋势。';
 
   @override
-  String get muscleGoalsHint =>
-      'How many hard sets you want for each muscle. Pick a level for all of them, then fine-tune any muscle.';
+  String get muscleGoalsHint => '你希望每块肌肉做多少个高强度组。先为所有肌肉选一个等级，再逐个微调。';
 
   @override
-  String get muscleGoalsAll => 'All muscles';
+  String get muscleGoalsAll => '所有肌肉';
 
   @override
-  String get muscleLevelKeep => 'Maintain';
+  String get muscleLevelKeep => '维持';
 
   @override
-  String get muscleLevelLight => 'Light';
+  String get muscleLevelLight => '轻量';
 
   @override
-  String get muscleLevelStandard => 'Standard';
+  String get muscleLevelStandard => '标准';
 
   @override
-  String get muscleLevelHigh => 'High';
+  String get muscleLevelHigh => '较高';
 
   @override
-  String get muscleLevelMax => 'Very high';
+  String get muscleLevelMax => '很高';
 
   @override
-  String get muscleGoalsWeek => 'Per week';
+  String get muscleGoalsWeek => '每周';
 
   @override
-  String get muscleGoalsMonth => 'Per month';
+  String get muscleGoalsMonth => '每月';
 
   @override
-  String get muscleGoalOff => 'Not training it';
+  String get muscleGoalOff => '不练';
 
   @override
-  String get muscleGoalReset => 'Same as all';
+  String get muscleGoalReset => '与全部相同';
 
   @override
-  String get muscleGoalsEdit => 'Goals';
+  String get muscleGoalsEdit => '目标';
 
   @override
   String muscleOfGoal(String done, String goal) {
-    return '$done of $goal';
+    return '$done/$goal';
   }
 
   @override
   String muscleGoalsMet(int n, int total) {
-    return '$n of $total muscles on target';
+    return '$total 块肌肉中 $n 块达标';
   }
 
   @override
-  String get addMusclesWidget => 'Add sets per muscle widget';
+  String get addMusclesWidget => '添加各肌肉组数小组件';
 
   @override
-  String get widgetHintMuscles => 'Your sets this week for each muscle, as a list';
+  String get widgetHintMuscles => '本周每块肌肉的组数，以列表显示';
 
   @override
-  String get bodyShareSetting => 'Share of body weight';
+  String get bodyShareSetting => '体重占比';
 
   @override
-  String get bodyShareHint =>
-      'How much of your weight you move. Push-ups are about 65 %, pull-ups and squats 100 %.';
+  String get bodyShareHint => '你移动了多少体重。俯卧撑约 65 %，引体向上和深蹲 100 %。';
 
   @override
   String bodyShareCustom(int percent) {
-    return 'Your own · tap to go back to $percent %';
+    return '自定义值 · 点按恢复为 $percent %';
   }
 
   @override
-  String get recoveryAdjust => 'Adjust';
+  String get recoveryAdjust => '调整';
 
   @override
-  String get recoverySpeedTitle => 'Your recovery';
+  String get recoverySpeedTitle => '你的恢复';
 
   @override
-  String get recoverySpeedHint => 'If the map says a muscle is ready and it still feels sore, pick Slow.';
+  String get recoverySpeedHint => '如果图上显示肌肉已恢复但仍然酸痛，请选择慢。';
 
   @override
-  String get recoverySpeedLabel => 'How fast you recover';
+  String get recoverySpeedLabel => '你恢复得多快';
 
   @override
-  String get recoverySpeedFast => 'Fast';
+  String get recoverySpeedFast => '快';
 
   @override
-  String get recoverySpeedNormal => 'Normal';
+  String get recoverySpeedNormal => '正常';
 
   @override
-  String get recoverySpeedSlow => 'Slow';
+  String get recoverySpeedSlow => '慢';
 
   @override
   String get recoveryHowItWorks =>
-      'It counts every set with its reps, how heavy it was for you (compared with your best on that exercise) and the effort you log: a set to failure tires more than one with 3 reps in reserve, and a long session takes longer to clear.';
+      '它会计算每组的次数、这组对你有多重（与你该动作的最佳成绩相比）以及你记录的用力程度：做到力竭的一组比保留 3 次余力的一组更累，长时间的训练也需要更久才能恢复。';
 
   @override
-  String get trendChange => 'Change in this period';
+  String get trendChange => '这段时间的变化';
 
   @override
-  String get trendCount => 'Entries';
+  String get trendCount => '记录数';
 
   @override
-  String get trendLow => 'Lowest';
+  String get trendLow => '最低';
 
   @override
-  String get dayTapHint => 'Tap an exercise or the time to fix it.';
+  String get dayTapHint => '点按动作或时间即可修改。';
 
   @override
-  String get forgotEndTitle => 'Forgot to finish?';
+  String get forgotEndTitle => '忘记结束了？';
 
   @override
   String forgotEndBody(String time) {
-    return 'Your last set was at $time. If you stopped there, end the workout at that time so the duration is right.';
+    return '你的最后一组在 $time。如果你在那时就停了，请在那个时间结束训练，这样时长才正确。';
   }
 
   @override
   String forgotEndAction(String time) {
-    return 'End at $time';
+    return '在 $time 结束';
   }
 
   @override
@@ -10936,6 +10929,15 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get supersetHint => '連接的動作之間不休息，直接進入下一個動作。';
+
+  @override
+  String get jumpSet => '跳組';
+
+  @override
+  String get jumpSetHint => '每個串聯動作之後也休息，然後再做下一個。';
+
+  @override
+  String get jumpSetLink => '設為跳組';
 
   @override
   String get aiRoutine => 'AI 課表';
@@ -16834,4 +16836,546 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get bpPulseAdd => '+ 脈搏';
+
+  @override
+  String get autoHold => '計時組連續進行';
+
+  @override
+  String get autoHoldHint => '休息結束後，下一個計時組自動開始';
+
+  @override
+  String get recoveryTitle => '恢復';
+
+  @override
+  String get recoverySettingHint => '桑拿、冷水和呼吸，與重量訓練分開';
+
+  @override
+  String get recoveryKindSauna => '桑拿';
+
+  @override
+  String get recoveryKindCold => '冷水浴';
+
+  @override
+  String get recoveryKindContrast => '冷熱交替';
+
+  @override
+  String get recoveryKindBreath => '呼吸';
+
+  @override
+  String get recoveryDescSauna => '時間、溫度和輪數';
+
+  @override
+  String get recoveryDescCold => '冰浴或冷水淋浴';
+
+  @override
+  String get recoveryDescContrast => '冷熱交替，一輪接一輪';
+
+  @override
+  String get recoveryDescBreath => '有引導，讓一切慢下來';
+
+  @override
+  String get recoveryThisWeek => '本週';
+
+  @override
+  String get recoveryHeat => '熱';
+
+  @override
+  String get recoveryCold => '冷';
+
+  @override
+  String get recoveryLog => '記錄';
+
+  @override
+  String get recoveryRecent => '最近';
+
+  @override
+  String get recoveryEmpty => '還沒有記錄。記錄一次桑拿、冷水浴或幾分鐘呼吸練習：它與訓練分開保存。';
+
+  @override
+  String get recoveryMinutes => '分鐘';
+
+  @override
+  String get recoveryTemp => '溫度';
+
+  @override
+  String get recoveryRounds => '輪數';
+
+  @override
+  String get recoveryAdd => '新增';
+
+  @override
+  String get recoveryNoteHint => '感覺如何？（選填）';
+
+  @override
+  String get recoveryTimer => '計時';
+
+  @override
+  String get recoveryTimerStop => '停止';
+
+  @override
+  String get recoveryDeleteTitle => '刪除這筆記錄？';
+
+  @override
+  String recoveryRoundsCount(int n) {
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n 輪', one: '1 輪');
+    return '$_temp0';
+  }
+
+  @override
+  String recoveryHomeDetail(int min) {
+    return '本週 $min 分鐘';
+  }
+
+  @override
+  String get breathIn => '吸氣';
+
+  @override
+  String get breathHold => '屏住';
+
+  @override
+  String get breathOut => '呼氣';
+
+  @override
+  String get breathRest => '休息';
+
+  @override
+  String get breathBox => '方塊';
+
+  @override
+  String get breathRelax => '放鬆';
+
+  @override
+  String get breathEven => '均勻';
+
+  @override
+  String get breathStart => '開始';
+
+  @override
+  String get breathAgain => '再來';
+
+  @override
+  String get breathDone => '完成';
+
+  @override
+  String get recoveryGoal => '目標';
+
+  @override
+  String get recoveryRest => '休息';
+
+  @override
+  String get recoveryStart => '開始計時';
+
+  @override
+  String get recoveryJustLog => '不計時直接記錄';
+
+  @override
+  String recoveryRoundOf(int n, int total) {
+    return '第 $n 輪，共 $total 輪';
+  }
+
+  @override
+  String get recoveryPause => '暫停';
+
+  @override
+  String get recoveryResume => '繼續';
+
+  @override
+  String get recoveryNext => '下一步';
+
+  @override
+  String get recoveryFinish => '結束';
+
+  @override
+  String get recoveryOvertime => '超時';
+
+  @override
+  String get recoveryFeel => '感覺如何？';
+
+  @override
+  String get recoveryFeelLow => '更差';
+
+  @override
+  String get recoveryFeelHigh => '更好';
+
+  @override
+  String get recoveryGoalHeat => '熱的目標（每週分鐘）';
+
+  @override
+  String get recoveryGoalCold => '冷的目標（每週分鐘）';
+
+  @override
+  String recoveryOfGoal(int min) {
+    return '本週目標 $min 分鐘';
+  }
+
+  @override
+  String recoveryBestCold(String time) {
+    return '最長冷水：$time';
+  }
+
+  @override
+  String recoveryBestHold(String time) {
+    return '最長屏息：$time';
+  }
+
+  @override
+  String get recoveryMobility => '活動度與伸展';
+
+  @override
+  String get recoveryMobilityHint => '在動作庫中開啟伸展';
+
+  @override
+  String get recoveryTipTitle => '開始之前';
+
+  @override
+  String get recoveryTipBody => '多喝水，感到頭暈就出來，不要獨自進行高強度冷水。如果有心臟或血壓問題，請先諮詢醫師。';
+
+  @override
+  String get recoveryTipOk => '知道了';
+
+  @override
+  String get breathRetention => '屏息';
+
+  @override
+  String breathRetentionHow(int breaths, int rounds) {
+    return '深呼吸 $breaths 次，然後呼氣並在舒適的範圍內屏住。$rounds 輪。';
+  }
+
+  @override
+  String get breathRetentionSafe => '坐著或躺著進行，絕不要在水中或開車時進行。';
+
+  @override
+  String get breathFast => '深呼吸';
+
+  @override
+  String get breathHoldOut => '呼氣並屏住';
+
+  @override
+  String get breathRelease => '呼吸';
+
+  @override
+  String get breathRecover => '吸氣並屏住';
+
+  @override
+  String get bodyLoadSetting => '計入體重';
+
+  @override
+  String get bodyLoadSettingHint => '訓練量使用你當天的體重加上額外負重（輔助動作減去輔助）。紀錄仍按額外負重計算。';
+
+  @override
+  String get lengthUnitsLabel => '身體圍度';
+
+  @override
+  String get workoutFullView => '完整檢視';
+
+  @override
+  String routineRepeatTag(int n, int total) {
+    return '第 $n 塊，共 $total 塊';
+  }
+
+  @override
+  String get routineAddAgain => '再次新增';
+
+  @override
+  String get routineAddAgainHint => '在本次訓練稍後再做一次，有自己的組';
+
+  @override
+  String get routineAddedAgain => '已再次新增到最後';
+
+  @override
+  String get routineAddedAgainHint => '拖到你做它的位置';
+
+  @override
+  String get restGlowSetting => '休息結束時亮光';
+
+  @override
+  String get restGlowHint => '休息結束時螢幕邊緣會發光，即使聽不到提示音也能注意到';
+
+  @override
+  String bodyweightRatio(String x) {
+    return '你的預估 1RM 是體重的 $x×';
+  }
+
+  @override
+  String get healthAddReading => '新增讀數';
+
+  @override
+  String get healthFromYours => '來自 Health Connect 和你自己的讀數 · 最近 30 天';
+
+  @override
+  String get reportKindSummary => '概覽';
+
+  @override
+  String get reportKindSummaryHint => '一眼看清這段時間：總計、紀錄和平均值';
+
+  @override
+  String get reportKindTraining => '訓練';
+
+  @override
+  String get reportKindTrainingHint => '給教練：每次訓練及其組數、RPE 和備註';
+
+  @override
+  String get reportKindNutrition => '營養';
+
+  @override
+  String get reportKindNutritionHint => '給營養師：目標、每日總計和每一餐';
+
+  @override
+  String get reportKindFull => '全部';
+
+  @override
+  String get reportKindFullHint => '訓練、營養、身體和健康，逐日記錄';
+
+  @override
+  String get reportKindFullNoFoodHint => '訓練、身體和健康，逐日記錄';
+
+  @override
+  String get reportKickerTraining => '詳細訓練報告';
+
+  @override
+  String get reportKickerNutrition => '營養報告';
+
+  @override
+  String get reportKickerFull => '完整報告';
+
+  @override
+  String get reportWorkoutLog => '訓練日誌';
+
+  @override
+  String get reportFoodLog => '飲食日誌';
+
+  @override
+  String get reportDayByDay => '逐日';
+
+  @override
+  String get reportGoalsLabel => '每日目標';
+
+  @override
+  String get reportGoalsRest => '休息日目標';
+
+  @override
+  String get reportKcalOnTarget => '熱量在目標 10 % 以內的天數';
+
+  @override
+  String get reportProteinMet => '達到蛋白質目標的天數';
+
+  @override
+  String get reportDailyTotals => '每日總計';
+
+  @override
+  String get reportDateCol => '日期';
+
+  @override
+  String reportReadings(int n) {
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n 次讀數', one: '1 次讀數');
+    return '$_temp0';
+  }
+
+  @override
+  String get reportHealthAvg => '健康 · 每日平均';
+
+  @override
+  String get reportBodyHealth => '身體與健康';
+
+  @override
+  String get reportCopyMarkdown => '複製為 Markdown';
+
+  @override
+  String reportDetailCap(int n) {
+    return '詳細報告最多涵蓋 $n 天，截至你選擇的最後一天。';
+  }
+
+  @override
+  String get nutritionCopyDay => '複製這一天';
+
+  @override
+  String get nutritionCopyFood => '僅飲食';
+
+  @override
+  String get nutritionCopyFoodHint => '餐次、食物、熱量和巨量營養素';
+
+  @override
+  String get nutritionCopyAll => '整天';
+
+  @override
+  String get nutritionCopyAllHint => '還包括訓練、體重和健康資料';
+
+  @override
+  String get routineGroupHint => '分組是整理訓練計畫的資料夾。動作仍保留在計畫中。';
+
+  @override
+  String get trendFullView => '完整檢視';
+
+  @override
+  String get trendTop => '最重的一組';
+
+  @override
+  String get trendTopAssisted => '輔助最少';
+
+  @override
+  String get trendReps => '次數最多';
+
+  @override
+  String get trendVolume => '訓練量';
+
+  @override
+  String get trendTotalReps => '總次數';
+
+  @override
+  String get trendSlope => '趨勢';
+
+  @override
+  String get trendFlat => '平穩';
+
+  @override
+  String trendUpMonth(String v) {
+    return '每月約增加 $v';
+  }
+
+  @override
+  String trendDownMonth(String v) {
+    return '每月約減少 $v';
+  }
+
+  @override
+  String trendUpWeek(String v) {
+    return '每週約增加 $v';
+  }
+
+  @override
+  String trendDownWeek(String v) {
+    return '每週約減少 $v';
+  }
+
+  @override
+  String get trendFlatLine => '這段時間保持平穩';
+
+  @override
+  String trendPerMonth(String v) {
+    return '$v/月';
+  }
+
+  @override
+  String trendPerWeek(String v) {
+    return '$v/週';
+  }
+
+  @override
+  String get trendLineHint => '虛線是你的趨勢。在圖表上滑動可查看每一天。';
+
+  @override
+  String get trendNeedMore => '在這段時間再多記錄幾次才能看到趨勢。';
+
+  @override
+  String get muscleGoalsHint => '你希望每塊肌肉做多少個高強度組。先為所有肌肉選一個等級，再逐一微調。';
+
+  @override
+  String get muscleGoalsAll => '所有肌肉';
+
+  @override
+  String get muscleLevelKeep => '維持';
+
+  @override
+  String get muscleLevelLight => '輕量';
+
+  @override
+  String get muscleLevelStandard => '標準';
+
+  @override
+  String get muscleLevelHigh => '較高';
+
+  @override
+  String get muscleLevelMax => '很高';
+
+  @override
+  String get muscleGoalsWeek => '每週';
+
+  @override
+  String get muscleGoalsMonth => '每月';
+
+  @override
+  String get muscleGoalOff => '不練';
+
+  @override
+  String get muscleGoalReset => '與全部相同';
+
+  @override
+  String get muscleGoalsEdit => '目標';
+
+  @override
+  String muscleOfGoal(String done, String goal) {
+    return '$done/$goal';
+  }
+
+  @override
+  String muscleGoalsMet(int n, int total) {
+    return '$total 塊肌肉中 $n 塊達標';
+  }
+
+  @override
+  String get addMusclesWidget => '新增各肌肉組數小工具';
+
+  @override
+  String get widgetHintMuscles => '本週每塊肌肉的組數，以清單顯示';
+
+  @override
+  String get bodyShareSetting => '體重占比';
+
+  @override
+  String get bodyShareHint => '你移動了多少體重。伏地挺身約 65 %，引體向上和深蹲 100 %。';
+
+  @override
+  String bodyShareCustom(int percent) {
+    return '自訂值 · 點按恢復為 $percent %';
+  }
+
+  @override
+  String get recoveryAdjust => '調整';
+
+  @override
+  String get recoverySpeedTitle => '你的恢復';
+
+  @override
+  String get recoverySpeedHint => '如果圖上顯示肌肉已恢復但仍然痠痛，請選擇慢。';
+
+  @override
+  String get recoverySpeedLabel => '你恢復得多快';
+
+  @override
+  String get recoverySpeedFast => '快';
+
+  @override
+  String get recoverySpeedNormal => '正常';
+
+  @override
+  String get recoverySpeedSlow => '慢';
+
+  @override
+  String get recoveryHowItWorks =>
+      '它會計算每組的次數、這組對你有多重（與你該動作的最佳成績相比）以及你記錄的用力程度：做到力竭的一組比保留 3 次餘力的一組更累，長時間的訓練也需要更久才能恢復。';
+
+  @override
+  String get trendChange => '這段時間的變化';
+
+  @override
+  String get trendCount => '記錄數';
+
+  @override
+  String get trendLow => '最低';
+
+  @override
+  String get dayTapHint => '點按動作或時間即可修改。';
+
+  @override
+  String get forgotEndTitle => '忘記結束了？';
+
+  @override
+  String forgotEndBody(String time) {
+    return '你的最後一組在 $time。如果你在那時就停了，請在那個時間結束訓練，這樣時長才正確。';
+  }
+
+  @override
+  String forgotEndAction(String time) {
+    return '在 $time 結束';
+  }
 }
