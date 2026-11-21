@@ -1,5 +1,11 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter_test/flutter_test.dart';
+import 'package:gymmane/catalog/exercise_catalog.dart';
 import 'package:gymmane/l10n/app_localizations_vi.dart';
+import 'package:gymmane/l10n/catalog_vi.dart';
+import 'package:gymmane/l10n/l10n.dart';
 
 void main() {
   final vi = AppLocalizationsVi();
@@ -27,5 +33,24 @@ void main() {
   test('Vietnamese plurals use the single other form', () {
     expect(vi.portionUnit(1), '1 miếng');
     expect(vi.portionUnit(3), '3 miếng');
+  });
+
+  test('app_vi.arb covers 100% of app_en.arb keys', () {
+    final en = jsonDecode(File('lib/l10n/app_en.arb').readAsStringSync()) as Map<String, dynamic>;
+    final viMap = jsonDecode(File('lib/l10n/app_vi.arb').readAsStringSync()) as Map<String, dynamic>;
+    final enKeys = en.keys.where((k) => !k.startsWith('@')).toSet();
+    final viKeys = viMap.keys.where((k) => !k.startsWith('@')).toSet();
+    expect(enKeys.difference(viKeys), isEmpty);
+  });
+
+  test('every factory exercise has Vietnamese steps and keeps English name', () {
+    setAppLanguage('vi');
+    addTearDown(() => setAppLanguage('en'));
+    for (final e in kExercises) {
+      expect(kExerciseStepsVi.containsKey(e.id), isTrue, reason: 'Missing Vietnamese steps for ${e.id}');
+      final steps = t.catalogSteps(e.id, e.steps);
+      expect(steps.length, e.steps.length, reason: 'Step count mismatch for ${e.id}');
+      expect(t.catalogName(e.id, e.name), e.name);
+    }
   });
 }
