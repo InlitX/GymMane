@@ -18,6 +18,7 @@ enum ImportFormat {
   fitnotes,
   gymmane,
   openGym,
+  garmin,
   generic,
   hevyWeights,
   strongWeights,

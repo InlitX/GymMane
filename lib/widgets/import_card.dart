@@ -6,7 +6,7 @@ import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
 import 'ui_kit.dart';
 
-const kImportApps = ['Hevy', 'Strong', 'FitNotes', 'Lyfta', 'Liftosaur', 'JEFIT', 'StrongLifts', 'openGym', 'CSV'];
+const kImportApps = ['Hevy', 'Strong', 'FitNotes', 'Lyfta', 'Liftosaur', 'JEFIT', 'StrongLifts', 'openGym', 'Garmin', 'CSV'];
 
 class ImportCard extends StatelessWidget {
   const ImportCard({super.key, required this.onTap});
