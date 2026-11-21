@@ -474,20 +474,33 @@ class _WeekStripState extends State<_WeekStrip> {
     final last = shiftDays(_today, NutritionState.kNutritionDaysAhead);
     return SizedBox(
       height: 62,
-      child: NotificationListener<ScrollNotification>(
-        onNotification: _settled,
-        child: PageView.builder(
-          controller: _pages,
-          itemCount: _lastPage + 1,
-          clipBehavior: Clip.none,
-          itemBuilder: (context, page) {
-            final start = _weekAt(page);
-            return _WeekRow(days: [for (var i = 0; i < 7; i++) shiftDays(start, i)], today: _today, last: last);
-          },
+      child: ClipRect(
+        clipper: const _SidesOnly(),
+        child: NotificationListener<ScrollNotification>(
+          onNotification: _settled,
+          child: PageView.builder(
+            controller: _pages,
+            itemCount: _lastPage + 1,
+            clipBehavior: Clip.none,
+            itemBuilder: (context, page) {
+              final start = _weekAt(page);
+              return _WeekRow(days: [for (var i = 0; i < 7; i++) shiftDays(start, i)], today: _today, last: last);
+            },
+          ),
         ),
       ),
     );
   }
+}
+
+class _SidesOnly extends CustomClipper<Rect> {
+  const _SidesOnly();
+
+  @override
+  Rect getClip(Size size) => Rect.fromLTRB(0, -40, size.width, size.height + 40);
+
+  @override
+  bool shouldReclip(_SidesOnly oldClipper) => false;
 }
 
 class _WeekRow extends StatelessWidget {

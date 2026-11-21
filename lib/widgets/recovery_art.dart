@@ -29,7 +29,7 @@ class RecoveryPeek extends StatelessWidget {
   const RecoveryPeek({super.key});
 
   static const _items = [
-    ('towel', -132.0, 54.0, -0.06, 1.31, 22.0),
+    ('towel', -124.0, 50.0, -0.06, 1.31, 8.0),
     ('sauna', -66.0, 68.0, -0.05, 0.89, 6.0),
     ('heat', 4.0, 64.0, 0.06, 0.85, 10.0),
     ('cold', 72.0, 64.0, -0.06, 0.86, 6.0),
