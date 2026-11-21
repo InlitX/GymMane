@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:gymmane/models/workout.dart';
 import 'package:gymmane/services/local_store.dart';
+import 'package:gymmane/services/trend_math.dart';
 import 'package:gymmane/state/fit_state.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -252,6 +253,54 @@ void main() {
     test('solo se ofrece en mancuernas con peso', () {
       expect(fit.canPair(fit.matchExerciseByName('Bench Press')!.id), isFalse);
       expect(fit.canPair('plank-hold'), isFalse);
+    });
+  });
+
+  group('#433 tendencia', () {
+    final day0 = DateTime(2026, 1, 1);
+    List<({DateTime date, double value})> line(List<double> ys, {int every = 7}) => [
+          for (final (i, y) in ys.indexed) (date: day0.add(Duration(days: i * every)), value: y),
+        ];
+
+    test('la recta sale de los puntos y mide lo que sube por día', () {
+      final pts = line([100, 101, 102, 103, 104]);
+      final f = fitTrend(pts)!;
+      expect(f.slopePerDay, closeTo(1 / 7, 1e-9));
+      expect(f.at(day0), closeTo(100, 1e-9));
+      expect(trendIsFlat(f, pts), isFalse);
+    });
+
+    test('un valor que apenas cambia cuenta como estable y uno solo no da recta', () {
+      final pts = line([100, 100.5, 99.8, 100.2]);
+      expect(trendIsFlat(fitTrend(pts)!, pts), isTrue);
+      expect(fitTrend(line([100])), isNull);
+    });
+
+    test('el rango deja solo los días de dentro', () {
+      final now = DateTime(2026, 3, 1, 18);
+      final pts = [
+        (date: DateTime(2026, 1, 1), value: 1.0),
+        (date: DateTime(2026, 2, 1), value: 2.0),
+        (date: DateTime(2026, 2, 28), value: 3.0),
+      ];
+      expect(pointsSince(pts, 30, now).length, 2);
+      expect(pointsSince(pts, 0, now).length, 3);
+    });
+
+    test('cada ejercicio da las métricas que tienen sentido y sus valores', () {
+      final bench = fit.matchExerciseByName('Bench Press')!.id;
+      fit.sessions
+        ..add(LoggedSession(DateTime.now().subtract(const Duration(days: 8)), 1800,
+            [LoggedExercise(bench, 'Bench Press', 'chest', [LoggedSet(10, 60), LoggedSet(8, 70)])]))
+        ..add(LoggedSession(DateTime.now().subtract(const Duration(days: 1)), 1800, [
+            LoggedExercise(bench, 'Bench Press', 'chest',
+                [LoggedSet(5, 40, kind: SetKind.warmup), LoggedSet(6, 80), LoggedSet(6, 80), LoggedSet(5, 80)])
+          ]));
+      expect(fit.trendKindsFor(bench), [TrendKind.oneRm, TrendKind.top, TrendKind.reps, TrendKind.volume, TrendKind.sets]);
+      expect(fit.exerciseSeries(bench, TrendKind.top).map((p) => p.value), [70, 80]);
+      expect(fit.exerciseSeries(bench, TrendKind.sets).map((p) => p.value), [2, 3], reason: 'sin calentamiento');
+      expect(fit.exerciseSeries(bench, TrendKind.volume).last.value, 80 * 17);
+      expect(fit.exerciseSeries(bench, TrendKind.reps).map((p) => p.value), [10, 6]);
     });
   });
 }
