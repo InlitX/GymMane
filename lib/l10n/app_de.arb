@@ -1521,6 +1521,7 @@
   "momentsDays": "Tage mit Foto",
   "awardsPick": "Fürs Profil auswählen",
   "awardsPickHint": "Tipp die an, die du im Profil willst",
+
   "gymPassPicture": "Ein Foto des Codes speichern",
   "gymPassPictureHint": "Für Codes, die die App nicht lesen kann: zeigt dein Foto mit voller Helligkeit",
   "gymPassPictureFormat": "Foto",
@@ -1531,6 +1532,7 @@
   "rotatePhoto": "Drehen",
   "cardioNoSets": "Cardio zählt nicht zu deinen Wochensätzen pro Muskel",
   "estOneRm": "geschätztes 1RM",
+
   "newInWorkout": "Neu in diesem Training",
   "newInWorkoutHint": "Füg es mit den Sätzen von eben zu {routine} hinzu. Der Rest des Plans bleibt gleich.",
   "addedToRoutine": "Hinzugefügt",
@@ -1603,6 +1605,7 @@
   "healthLinkDenied": "Health Connect hat keine Erlaubnis gegeben",
   "healthOpenSettings": "Öffnen",
   "hrMaxShort": "max. {bpm}",
+
   "setNote": "Notiz zu diesem Satz",
   "setNoteHint": "Griff, ein Ziehen, ein Tipp, der geholfen hat…",
   "setNoteLast": "Letztes Mal: {note}",
@@ -1661,13 +1664,17 @@
   "circuitNoSteps": "Füg mindestens eine Übung hinzu",
   "circuitPrevious": "Zurück",
   "circuitUpNext": "Gleich kommt",
+
   "onbHello": "Hallo, {name}",
   "onbPlaceHero": "Übungen, die du machen kannst",
+
   "settingsRests": "Pausen",
   "settingsDuring": "Beim Training",
   "settingsLook": "Darstellung",
+
   "importCardTitle": "Bring deine Workouts hierher",
   "importCardBody": "Aus Hevy, Strong, FitNotes und mehr",
+
   "homeCardsTitle": "Karten auf Start",
   "homeCardsHint": "Was du einschaltest, erscheint auf Start",
   "homeCardFocus": "Heute",
@@ -1739,9 +1746,12 @@
   "reportSharePdf": "PDF teilen",
   "reportShareCsv": "CSV exportieren",
   "reportShareCsvBoth": "CSV exportieren (Trainings und Ernährung)",
+
   "newExerciseHint": "Nur der Name ist Pflicht. Der Rest hilft, du kannst ihn aber später ergänzen.",
+
   "supportThanksTitle": "Danke, dass du da bist 🤍",
   "supportThanksBody": "GymMane ist und bleibt kostenlos, ohne Werbung und ohne Haken.\n\nWenn es dir beim Training hilft, macht mir ein Kaffee den Tag ☕\nUnd wenn nicht, kein Problem: ein Stern auf GitHub auch ⭐",
+
   "recapPull": "Weiter ziehen, um deinen {month} zu sehen",
   "recapRelease": "Loslassen",
   "recapHi": "Hallo, {name}",
@@ -1817,6 +1827,7 @@
   "recapFoodWaterLabel": "Wasser/Tag",
   "recapFoodTimes": "{n, plural, =1{1 Tag} other{{n} Tage}}",
   "recapFoodStarKicker": "Dein Essen des Monats",
+
   "quickAddAmount": "Wie viel du hattest",
   "dishArchive": "Archivieren",
   "dishUnarchive": "Wiederherstellen",
@@ -2234,8 +2245,10 @@
   "webPhoneOffHow": "Zum Einschalten entferne GYMMANE_SYNC=off aus der .env-Datei des Servers und starte ihn neu.",
   "webPhoneDevices": "{n, plural, =0{Noch kein Handy synchronisiert} =1{1 Handy synchronisiert} other{{n} Handys synchronisiert}}",
   "webPhoneError": "Ordner konnte nicht gelesen werden: {error}",
+
   "duplicateExercise": "Duplizieren",
   "exerciseCopyName": "{name} (Kopie)",
+
   "appIcon": "App-Symbol",
   "appIconColors": "Farben",
   "appIconDefault": "Original",
@@ -2298,6 +2311,7 @@
   "routineNotesAdded": "Routinennotizen hinzugefügt",
   "todayNotNow": "Nicht jetzt",
   "todayRestBody": "Ausruhen gehört zum Plan. Deine Muskeln wachsen, während du dich erholst.",
+
   "webSignOut": "Abmelden",
   "wearSyncTitle": "Handy",
   "wearSyncNever": "Noch nicht synchronisiert",
@@ -2384,6 +2398,7 @@
   "watchLast": "Synchronisiert am {when}.",
   "watchLastWith": "Mit {name} synchronisiert am {when}.",
   "watchTip": "Beta: noch nicht auf jeder Uhr getestet. Wenn es nicht klappt, sag es uns auf GitHub.",
+
   "bfAbdomen": "Bauch (auf Nabelhöhe)",
   "bfHipWide": "Hüfte (breiteste Stelle)",
   "bfNeckBelow": "Hals (unter dem Kehlkopf)",
@@ -2415,6 +2430,7 @@
   "qsTitle": "Kacheln in den Schnelleinstellungen",
   "qsToday": "Heutiges Training",
   "qsTodayHint": "Wie der NFC-Sticker: öffnet, was heute ansteht",
+
   "jumpSet": "Sprungsatz",
   "jumpSetHint": "Pause auch nach jeder verketteten Übung, dann weiter zur nächsten.",
   "jumpSetLink": "Als Sprungsatz verbinden",
@@ -2583,6 +2599,7 @@
   "forgotEndTitle": "Vergessen zu beenden?",
   "forgotEndBody": "Dein letzter Satz war um {time}. Wenn du dort aufgehört hast, beende das Workout zu dieser Zeit, damit die Dauer stimmt.",
   "forgotEndAction": "Um {time} beenden",
+
   "foodAiRow": "Mit KI ausfüllen",
   "foodAiRowHint": "Anhand eines Etiketts, Screenshots oder Links",
   "foodAiTitle": "Lebensmittel mit KI",
@@ -2591,6 +2608,7 @@
   "foodAiFill": "Lebensmittel eintragen",
   "foodAiFilled": "Lebensmittel eingetragen",
   "foodAiFilledHint": "Überprüfe die Werte vor dem Speichern",
+
   "fastAdd": "Vergangenes Fasten hinzufügen",
   "fastAddTitle": "Fasten hinzufügen",
   "fastEditTitle": "Fasten bearbeiten",
@@ -2604,15 +2622,20 @@
   "fastErrOverlap": "Die Fastenzeit überschneidet sich mit einer anderen",
   "fastSaved": "Fastenzeit gespeichert",
   "fastAdjust": "Anpassen",
+
   "mineralsTracker": "Eisen und Kalium",
+
   "ironLabel": "Eisen",
   "potassiumLabel": "Kalium",
+
   "mineralsCoverage": "Für {known} von {total} Lebensmitteln sind heute Eisen- und Kaliumwerte vorhanden",
   "mineralsHint": "Nur für wenige Lebensmittel in der Liste sind Eisen- und Kaliumwerte hinterlegt. Deshalb werden bei der Gesamtsumme nur diese berücksichtigt. Ergänze die Werte bei deinen eigenen Lebensmitteln oder mithilfe der KI.",
+
   "mealAiNoData": "Die KI hat nur Text statt Daten ausgegeben",
   "mealAiNoDataHint": "Füge die gesamte Anfrage erneut ein. Manche Assistenten lehnen die Antwort ab, wenn sie das Foto nicht sehen können oder die Mahlzeit unklar ist. Beschreibe sie in einem Satz.",
   "mealAiCutOff": "Die Antwort wurde abgeschnitten",
   "mealAiCutOffHint": "Bitte die KI, den Rest zu senden oder mit weniger Lebensmitteln zu antworten.",
+
   "ramadanSuhoor": "Suhoor",
   "ramadanIftar": "Iftar",
   "ramadanMode": "Ramadan-Modus",
@@ -2631,6 +2654,7 @@
   "ramadanSkipUndo": "Heute fasten",
   "ramadanRestart": "Neuen Ramadan beginnen",
   "ramadanRestartBody": "Deine Fastentage und nachzuholenden Tage werden auf null zurückgesetzt.",
+
   "suppProgressTitle": "Supplement-Serie",
   "suppProgressAll": "Alle Supplements",
   "suppStreakNow": "Aktuelle Serie",
@@ -2645,6 +2669,7 @@
   "suppTotalTakes": "Anzahl der Einnahmen",
   "suppLast30": "Letzte 30 Tage",
   "suppNotDueYet": "Noch keine Einnahme fällig",
+
   "scanRow": "Barcode scannen",
   "scanRowHint": "Mit GymMane Scanner",
   "scannerTitle": "GymMane Scanner",
