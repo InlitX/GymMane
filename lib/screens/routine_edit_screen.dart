@@ -276,27 +276,7 @@ class _RoutineEditScreenState extends State<RoutineEditScreen> {
         Pressable(
           scale: 0.98,
           onTap: () => _pickGroup(routine),
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 13),
-            decoration: BoxDecoration(
-              color: gc.bgRaised,
-              borderRadius: BorderRadius.circular(18),
-            ),
-            child: Row(
-              children: [
-                Icon(PhosphorIconsRegular.folderSimple, size: 17, color: gc.textSecondary),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Text(t.routineGroup,
-                      style: AppTheme.f(13, weight: FontWeight.w600, color: gc.text)),
-                ),
-                Text(routine.group.isEmpty ? t.noGroup : routine.group,
-                    style: AppTheme.f(12.5, weight: FontWeight.w500, color: gc.textSecondary)),
-                const SizedBox(width: 6),
-                Icon(PhosphorIconsRegular.caretRight, size: 14, color: gc.textTertiary),
-              ],
-            ),
-          ),
+          child: _GroupCard(routine: routine),
         ),
         const SizedBox(height: 24),
         _label(gc, t.exercisesWithCount(count)),
@@ -1544,6 +1524,80 @@ class _RoutineEditScreenState extends State<RoutineEditScreen> {
         ),
       ),
     );
+  }
+}
+
+class _GroupCard extends StatelessWidget {
+  const _GroupCard({
+    required this.routine,
+  });
+
+  final Routine routine;
+
+  @override
+  Widget build(BuildContext context) {
+    final gc = context.gc;
+
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 13),
+      decoration: BoxDecoration(
+        color: gc.bgRaised,
+        borderRadius: BorderRadius.circular(18),
+      ),
+      child: Row(
+        children: [
+          Icon(PhosphorIconsRegular.folderSimple, size: 17,
+              color: gc.textSecondary),
+          const SizedBox(width: 12),
+          _buildGroupLabels(gc),
+          const SizedBox(width: 6),
+          Icon(PhosphorIconsRegular.caretRight, size: 14,
+              color: gc.textTertiary),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildGroupLabels(GymColors gc) {
+    final group = routine.group.isEmpty ? t.noGroup : routine.group;
+    if (group.length > 50) {
+      return Expanded(
+          child: Column(
+              crossAxisAlignment: .start,
+              spacing: 2,
+              children: [
+                Text(
+                    t.routineGroup,
+                    style: AppTheme.f(13, weight: FontWeight.w600, color: gc.text),
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                          group,
+                          maxLines: 1,
+                          overflow: .ellipsis,
+                          style: AppTheme.f(12.5, weight: FontWeight.w500, color: gc.textSecondary),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+          ),
+      );
+    }
+
+    return Expanded(child: Row(
+      children: [
+        Expanded(
+          child: Text(t.routineGroup,
+              style: AppTheme.f(13, weight: FontWeight.w600, color: gc.text)),
+        ),
+        Text(group,
+            style: AppTheme.f(
+                12.5, weight: FontWeight.w500, color: gc.textSecondary)),
+      ],
+    ));
   }
 }
 
